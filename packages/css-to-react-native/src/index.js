@@ -116,7 +116,7 @@ const transform = (css, options) => {
     }
 
     if (
-      rule.type == 'media' &&
+      rule.type === 'media' &&
       options != null &&
       options.parseMediaQueries === true
     ) {

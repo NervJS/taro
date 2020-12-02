@@ -38,7 +38,7 @@ function pxTransform (size) {
   return rateSize * deviceWidthDp / uiWidthPx
 }
 
-function getApp (taro) {
+function getApp () {
   return this._$app
 }
 

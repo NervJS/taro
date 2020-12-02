@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react'
 import { Text } from 'react-native'
 import RootSiblings from 'react-native-root-siblings'

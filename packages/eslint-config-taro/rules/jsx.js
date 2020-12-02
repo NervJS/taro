@@ -28,6 +28,7 @@ module.exports = {
     'jsx-quotes': ['error', 'prefer-single'],
 
     'react/sort-comp': ['warn'],
+    'react/jsx-uses-react': ['error'],
 
     // Prevent passing of children as props
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-children-prop.md

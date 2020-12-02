@@ -98,6 +98,10 @@ export default class Creator {
     if (filepath.endsWith('package.json.tmpl')) {
       filepath = filepath.replace('.tmpl', '')
     }
+    const basename = path.basename(filepath)
+    if (basename.startsWith('_')) {
+      filepath = path.join(path.dirname(filepath), basename.replace(/^_/, '.'))
+    }
     return filepath
   }
 

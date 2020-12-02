@@ -19,13 +19,13 @@ export default {
   'flex-grow': '',
   'flex-shrink': '',
   'flex-basis': 'I:',
-  'flex-direction': (value, declaration, addDeclaration) => {
+  'flex-direction': (value, _, __) => {
     if (~value.indexOf('row-reverse')) {
       return 'I:'
     }
   },
   'flex-wrap': '',
-  'justify-content': (value, declaration, addDeclaration) => {
+  'justify-content': (value, declaration, __) => {
     const content = ['flex-start', 'flex-end', 'center', 'space-between']
     if (value === 'space-around') {
       declaration.value = 'space-between'

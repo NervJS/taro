@@ -14,7 +14,7 @@ describe('interactive', function () {
         type={'ios'}
         visible={false}
         onClose={() => {}}
-        menus={['选项一', '选项二'].map((item, index) => {
+        menus={['选项一', '选项二'].map((item) => {
           return {
             type: 'default',
             label: item,
@@ -40,7 +40,7 @@ describe('interactive', function () {
         type={'ios'}
         visible
         onClose={() => {}}
-        menus={['选项一', '选项二'].map((item, index) => {
+        menus={['选项一', '选项二'].map((item) => {
           return {
             type: 'default',
             label: item,

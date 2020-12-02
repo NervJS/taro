@@ -17,7 +17,7 @@ import deprecatedPropType from './deprecatedPropType'
 const TransformMatrixPropType = function (
   props,
   propName,
-  componentName
+  _componentName
 ) {
   if (props[propName]) {
     return new Error(
@@ -30,7 +30,7 @@ const TransformMatrixPropType = function (
 const DecomposedMatrixPropType = function (
   props,
   propName,
-  componentName
+  _componentName
 ) {
   if (props[propName]) {
     return new Error(

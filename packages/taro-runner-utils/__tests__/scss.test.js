@@ -42,7 +42,7 @@ describe('getBundleContent', () => {
   }
 
   test('test sass resource path', async () => {
-    const data = sassResourcePath;
+    const data = sassResourcePath
     const res = await getBundleContent(data.resource)
     expect(res).toMatchSnapshot()
   })
@@ -53,7 +53,7 @@ describe('getBundleContent', () => {
   })
 
   test('test sass resource array', async () => {
-    const data = sassResourceArray;
+    const data = sassResourceArray
     const res = await getBundleContent(data.resource)
     expect(res).toMatchSnapshot()
   })
@@ -68,7 +68,7 @@ describe('getSassLoaderOption', () => {
   const buildConfig = {
     publicPath: '/',
     staticDirectory: 'static',
-    deviceRatio: { '640': 1.17, '750': 1, '828': 0.905 },
+    deviceRatio: { 640: 1.17, 750: 1, 828: 0.905 },
     designWidth: 750,
     outputRoot: 'dist',
     sass: {

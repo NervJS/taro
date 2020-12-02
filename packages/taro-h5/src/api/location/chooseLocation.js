@@ -2,13 +2,13 @@ import './style.css'
 
 function createLocaltionChooser (handler) {
   const html = `
-<div className='taro_chooselocation'>
-  <div className='taro_chooselocation_bar'>
-    <div className='taro_chooselocation_back' />
-    <p className='taro_chooselocation_title'>位置</p>
-    <button className='taro_chooselocation_submit'>完成</button>
+<div class='taro_chooselocation'>
+  <div class='taro_chooselocation_bar'>
+    <div class='taro_chooselocation_back'></div>
+    <p class='taro_chooselocation_title'>位置</p>
+    <button class='taro_chooselocation_submit'>完成</button>
   </div>
-  <iframe className='taro_chooselocation_frame' frameborder='0' src='https://apis.map.qq.com/tools/locpicker?search=1&type=1&key=${LOCATION_APIKEY}&referer=myapp' />
+  <iframe class='taro_chooselocation_frame' frameborder='0' src='https://apis.map.qq.com/tools/locpicker?search=1&type=1&key=${LOCATION_APIKEY}&referer=myapp'></iframe>
 </div>
 `
   const container = document.createElement('div')
@@ -82,15 +82,16 @@ const chooseLocation = ({ success, fail, complete } = {}) => {
     const choosenLocation = {}
     const onSuccess = res => {
       success && success(res)
-      complete && complete()
+      complete && complete(res)
       resolve(res)
     }
     const onError = res => {
       fail && fail(res)
-      complete && complete()
+      complete && complete(res)
       reject(res)
     }
 
+    // eslint-disable-next-line
     if (!LOCATION_APIKEY) {
       const errMsg = 'chooseLocation:fail LOCATION_APIKEY needed'
       console.warn('chooseLocation api 依赖腾讯地图定位api，需要在defineConstants中配置LOCATION_APIKEY')

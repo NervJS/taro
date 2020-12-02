@@ -1,13 +1,39 @@
 import { Shortcuts } from './shortcuts'
-import { toDashed, hasOwn, toCamelCase } from './utils'
-import { isBooleanStringLiteral } from './is'
 
-const styles = {
+type SelectEnvOptions = {
+  default?: Record<string, string>,
+  alipay?: Record<string, string>,
+  jd?: Record<string, string>,
+  qq?: Record<string, string>,
+  swan?: Record<string, string>,
+  tt?: Record<string, string>,
+  weapp?: Record<string, string>
+}
+
+function selectEnv (options: SelectEnvOptions): Record<string, any> {
+  let option
+  if (process.env.TARO_ENV === 'alipay') {
+    option = options.alipay
+  } else if (process.env.TARO_ENV === 'jd') {
+    option = options.jd
+  } else if (process.env.TARO_ENV === 'qq') {
+    option = options.qq
+  } else if (process.env.TARO_ENV === 'swan') {
+    option = options.swan
+  } else if (process.env.TARO_ENV === 'tt') {
+    option = options.tt
+  } else if (process.env.TARO_ENV === 'weapp') {
+    option = options.weapp
+  }
+  return option || options.default || Object.create(null)
+}
+
+export const styles = {
   style: `i.${Shortcuts.Style}`,
   class: `i.${Shortcuts.Class}`
 }
 
-const events = {
+export const events = {
   bindtap: 'eh'
 }
 
@@ -19,12 +45,13 @@ const touchEvents = {
   bindLongTap: ''
 }
 
-const alipayEvents = {
-  onTap: 'eh',
-  onTouchMove: 'eh',
-  onTouchEnd: 'eh',
-  onTouchCancel: 'eh',
-  onLongTap: 'eh'
+export const specialEvents = new Set([
+  'htouchmove',
+  'vtouchmove'
+])
+
+export function singleQuote (s: string) {
+  return `'${s}'`
 }
 
 const View = {
@@ -33,7 +60,10 @@ const View = {
   'hover-start-time': '50',
   'hover-stay-time': '400',
   animation: '',
+  bindAnimationStart: '',
+  bindAnimationIteration: '',
   bindAnimationEnd: '',
+  bindTransitionEnd: '',
   ...touchEvents
 }
 
@@ -47,12 +77,12 @@ const Map = {
   longitude: '',
   latitude: '',
   scale: '16',
-  markers: '',
+  markers: '[]',
   covers: '',
-  polyline: '',
-  circles: '',
+  polyline: '[]',
+  circles: '[]',
   controls: '',
-  'include-point': 'false',
+  'include-points': '[]',
   'show-location': '',
   polygons: '',
   subkey: '',
@@ -68,7 +98,6 @@ const Map = {
   'enable-rotate': 'false',
   'enable-satellite': 'false',
   'enable-traffic': 'false',
-  setting: '',
   bindMarkerTap: '',
   bindLabelTap: '',
   bindControlTap: '',
@@ -76,7 +105,15 @@ const Map = {
   bindUpdated: '',
   bindRegionChange: '',
   bindPoiTap: '',
-  ...touchEvents
+  ...touchEvents,
+  ...selectEnv({
+    alipay: {
+      setting: '{}'
+    },
+    default: {
+      setting: '[]'
+    }
+  })
 }
 
 const Progress = {
@@ -125,18 +162,21 @@ const Button = {
   'app-parameter': '',
   'show-message-card': 'false',
   bindGetUserInfo: '',
+  bindGetAuthorize: '',
   bindContact: '',
   bindGetPhoneNumber: '',
   bindError: '',
   bindOpenSetting: '',
   bindLaunchApp: '',
-  name: ''
-}
-
-if (process.env.TARO_ENV === 'qq') {
-  Button['app-packagename'] = ''
-  Button['app-bundleid'] = ''
-  Button['app-connect-id'] = ''
+  scope: '',
+  name: '',
+  ...selectEnv({
+    qq: {
+      'app-packagename': '',
+      'app-bundleid': '',
+      'app-connect-id': ''
+    }
+  })
 }
 
 const Checkbox = {
@@ -189,7 +229,7 @@ const Input = {
   focus: 'false',
   'confirm-type': singleQuote('done'),
   'confirm-hold': 'false',
-  cursor: '',
+  cursor: 'i.value.length',
   'selection-start': '-1',
   'selection-end': '-1',
   'adjust-position': 'true',
@@ -199,7 +239,16 @@ const Input = {
   bindBlur: '',
   bindConfirm: '',
   bindKeyboardHeightChange: '',
-  name: ''
+  name: '',
+  ...selectEnv({
+    alipay: {
+      'random-number': 'false',
+      controlled: 'false'
+    },
+    weapp: {
+      'always-embed': 'false'
+    }
+  })
 }
 
 const Label = {
@@ -317,6 +366,16 @@ const CoverView = {
   ...touchEvents
 }
 
+const MatchMedia = {
+  'min-width': '',
+  'max-width': '',
+  width: '',
+  'min-height': '',
+  'max-height': '',
+  height: '',
+  orientation: ''
+}
+
 const MovableArea = {
   'scale-area': 'false'
 }
@@ -356,15 +415,39 @@ const ScrollView = {
   'scroll-with-animation': 'false',
   'enable-back-to-top': 'false',
   'enable-flex': 'false',
-  'scroll-anchoring': ' false',
-  bindScrolltoUpper: '',
-  bindScrolltoLower: '',
+  'scroll-anchoring': 'false',
+  'refresher-enabled': 'false',
+  'refresher-threshold': '45',
+  'refresher-default-style': singleQuote('black'),
+  'refresher-background': singleQuote('#FFF'),
+  'refresher-triggered': 'false',
+  enhanced: 'false',
+  bounces: 'true',
+  'show-scrollbar': 'true',
+  'paging-enabled': 'false',
+  'fast-deceleration': 'false',
+  bindRefresherPulling: '',
+  bindRefresherRefresh: '',
+  bindRefresherRestore: '',
+  bindRefresherAbort: '',
+  bindScrollToUpper: '',
+  bindScrollToLower: '',
   bindScroll: '',
-  ...touchEvents
-}
-
-function singleQuote (s: string) {
-  return `'${s}'`
+  animation: '',
+  bindTransitionEnd: '',
+  bindAnimationStart: '',
+  bindAnimationIteration: '',
+  bindAnimationEnd: '',
+  bindDragStart: '',
+  bindDragging: '',
+  bindDragEnd: '',
+  ...touchEvents,
+  ...selectEnv({
+    alipay: {
+      'scroll-animation-duration': '',
+      'trap-scroll': 'false'
+    }
+  })
 }
 
 const Swiper = {
@@ -379,12 +462,20 @@ const Swiper = {
   vertical: 'false',
   'previous-margin': '\'0px\'',
   'next-margin': '\'0px\'',
+  'snap-to-edge': 'false',
   'display-multiple-items': '1',
   'skip-hidden-item-layout': 'false',
   'easing-function': singleQuote('default'),
   bindChange: '',
   bindTransition: '',
-  bindAnimationFinish: ''
+  bindAnimationFinish: '',
+  ...touchEvents,
+  ...selectEnv({
+    alipay: {
+      acceleration: 'false',
+      'disable-touch': 'false'
+    }
+  })
 }
 
 const SwiperItem = {
@@ -433,11 +524,6 @@ const Audio = {
   bindEnded: ''
 }
 
-const specialEvents = new Set([
-  'htouchmove',
-  'vtouchmove'
-])
-
 const Camera = {
   mode: singleQuote('normal'),
   'device-position': singleQuote('back'),
@@ -456,7 +542,8 @@ const Image = {
   'lazy-load': 'false',
   'show-menu-by-longpress': 'false',
   bindError: '',
-  bindLoad: ''
+  bindLoad: '',
+  ...touchEvents
 }
 
 const LivePlayer = {
@@ -472,9 +559,14 @@ const LivePlayer = {
   'sound-mode': singleQuote('speaker'),
   'auto-pause-if-navigate': 'true',
   'auto-pause-if-open-native': 'true',
+  'picture-in-picture-mode': '[]',
+  animation: '',
   bindStateChange: '',
   bindFullScreenChange: '',
-  bindNetStatus: ''
+  bindNetStatus: '',
+  bindAudioVolumeNotify: '',
+  bindEnterPictureInPicture: '',
+  bindLeavePictureInPicture: ''
 }
 
 const LivePusher = {
@@ -506,6 +598,7 @@ const LivePusher = {
   'audio-volume-type': singleQuote('voicecall'),
   'video-width': '360',
   'video-height': '640',
+  animation: '',
   bindStateChange: '',
   bindNetStatus: '',
   bindBgmStart: '',
@@ -542,6 +635,17 @@ const Video = {
   'vslide-gesture': 'false',
   'vslide-gesture-in-fullscreen': 'true',
   'ad-unit-id': '',
+  'poster-for-crawler': '',
+  'show-casting-button': 'false',
+  'picture-in-picture-mode': '[]',
+  // picture-in-picture-show-progress 属性先注释掉的原因如下：
+  // 该属性超过了 wxml 属性的长度限制，实际无法使用且导致编译报错。可等微信官方修复后再放开。
+  // 参考1：https://developers.weixin.qq.com/community/develop/doc/000a429beb87f0eac07acc0fc5b400
+  // 参考2: https://developers.weixin.qq.com/community/develop/doc/0006883619c48054286a4308258c00?_at=vyxqpllafi
+  // 'picture-in-picture-show-progress': 'false',
+  'enable-auto-rotation': 'false',
+  'show-screen-lock-button': 'false',
+  animation: '',
   bindPlay: '',
   bindPause: '',
   bindEnded: '',
@@ -550,7 +654,11 @@ const Video = {
   bindWaiting: '',
   bindError: '',
   bindProgress: '',
-  bindLoadedMetadata: ''
+  bindLoadedMetadata: '',
+  bindControlsToggle: '',
+  bindEnterPictureInPicture: '',
+  bindLeavePictureInPicture: '',
+  bindSeekComplete: ''
 }
 
 const Canvas = {
@@ -566,11 +674,24 @@ const Canvas = {
 }
 
 const Ad = {
-  'unit-id': '',
   'ad-intervals': '',
+  'ad-type': singleQuote('banner'),
+  'ad-theme': singleQuote('white'),
   bindLoad: '',
   bindError: '',
-  bindClose: ''
+  bindClose: '',
+  ...selectEnv({
+    swan: {
+      appid: '',
+      apid: '',
+      type: singleQuote('feed'),
+      updatetime: '',
+      bindStatus: ''
+    },
+    default: {
+      'unit-id': ''
+    }
+  })
 }
 
 const OfficialAccount = {
@@ -618,47 +739,17 @@ const PageMeta = {
 
 const Block = {}
 
-interface Components {
-  [key: string]: Record<string, string>;
+// For Vue，因为 slot 标签被 vue 占用了
+const SlotView = {
+  name: ''
 }
 
-export function createMiniComponents (components: Components, buildType: string) {
-  const result: Components = Object.create(null)
-  const isAlipay = buildType === 'alipay'
-
-  for (const key in components) {
-    if (hasOwn(components, key)) {
-      const component = components[key]
-      const compName = toDashed(key)
-      const newComp: Record<string, string> = Object.create(null)
-      for (let prop in component) {
-        if (hasOwn(component, prop)) {
-          let propValue = component[prop]
-          if (prop.startsWith('bind') || specialEvents.has(prop)) {
-            prop = isAlipay ? prop.replace('bind', 'on') : prop.toLowerCase()
-            if (buildType === 'weapp' && prop === 'bindlongtap') {
-              prop = 'bindlongpress'
-            }
-            propValue = 'eh'
-          } else if (propValue === '') {
-            propValue = `i.${toCamelCase(prop)}`
-          } else if (isBooleanStringLiteral(propValue)) {
-            propValue = `i.${toCamelCase(prop)} === undefined ? ${propValue} : i.${toCamelCase(prop)}`
-          } else {
-            propValue = `i.${toCamelCase(prop)} || ${propValue || singleQuote('')}`
-          }
-
-          newComp[prop] = propValue
-        }
-      }
-      if (compName !== 'block') {
-        Object.assign(newComp, styles, isAlipay ? alipayEvents : events)
-      }
-      result[compName] = newComp
-    }
-  }
-
-  return result
+// For React
+// Slot 和 SlotView 最终都会编译成 <view slot={{ i.name }} />
+// 因为 <slot name="{{ i.name }}" /> 适用性没有前者高（无法添加类和样式）
+// 不给 View 直接加 slot 属性的原因是性能损耗
+const Slot = {
+  name: ''
 }
 
 export const internalComponents = {
@@ -684,6 +775,7 @@ export const internalComponents = {
   CoverImage,
   Textarea,
   CoverView,
+  MatchMedia,
   MovableArea,
   MovableView,
   ScrollView,
@@ -705,15 +797,19 @@ export const internalComponents = {
   NavigationBar,
   PageMeta,
   Block,
-  Map
+  Map,
+  Slot,
+  SlotView
 }
 
 export const controlledComponent = new Set([
   'input',
   'checkbox',
+  'picker',
   'picker-view',
   'radio',
   'slider',
+  'switch',
   'textarea'
 ])
 

@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react'
 import ImagePicker from 'react-native-image-crop-picker'
 import { shouleBeObject } from '../utils'
@@ -40,7 +41,7 @@ export function chooseImage (options) {
 }
 
 function openCamera (options) {
-  const { success, fail, complete } = options
+  const { success, complete } = options
   return ImagePicker.openCamera({}).then(image => {
     const result = {
       tempFilePaths: [image.path],

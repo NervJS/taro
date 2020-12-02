@@ -3,7 +3,7 @@ import * as path from 'path'
 import { format as formatUrl } from 'url'
 import * as webpack from 'webpack'
 import * as WebpackDevServer from 'webpack-dev-server'
-import { recursiveMerge } from '@tarojs/runner-utils'
+import { recursiveMerge } from '@tarojs/helper'
 
 import buildConf from './config/build.conf'
 import devConf from './config/dev.conf'
@@ -13,26 +13,53 @@ import { addLeadingSlash, addTrailingSlash, formatOpenHost } from './util'
 import { bindDevLogger, bindProdLogger, printBuildError } from './util/logHelper'
 import { BuildConfig } from './util/types'
 import { makeConfig } from './util/chain'
+import { Compiler } from 'webpack-dev-server/node_modules/@types/webpack'
 
-const customizeChain = (chain, customizeFunc: Function) => {
+export const customizeChain = async (chain, modifyWebpackChainFunc: Function, customizeFunc?: Function) => {
+  if (modifyWebpackChainFunc instanceof Function) {
+    await modifyWebpackChainFunc(chain, webpack)
+  }
   if (customizeFunc instanceof Function) {
     customizeFunc(chain, webpack)
   }
 }
 
-const buildProd = (appPath: string, config: BuildConfig): Promise<void> => {
+const buildProd = async (appPath: string, config: BuildConfig): Promise<void> => {
+  const webpackChain = prodConf(appPath, config)
+  await customizeChain(webpackChain, config.modifyWebpackChain, config.webpackChain)
+  if (typeof config.onWebpackChainReady === 'function') {
+    config.onWebpackChainReady(webpackChain)
+  }
+  const webpackConfig = webpackChain.toConfig()
+  const compiler = webpack(webpackConfig)
+  const onBuildFinish = config.onBuildFinish
+  compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
+    if (typeof config.modifyBuildAssets === 'function') {
+      await config.modifyBuildAssets(compilation.assets)
+    }
+    callback()
+  })
   return new Promise((resolve, reject) => {
-    const webpackChain = prodConf(appPath, config)
-
-    customizeChain(webpackChain, config.webpackChain)
-    const webpackConfig = webpackChain.toConfig()
-    const compiler = webpack(webpackConfig)
     bindProdLogger(compiler)
 
-    compiler.run((err) => {
+    compiler.run((err, stats) => {
       if (err) {
         printBuildError(err)
+        if (typeof onBuildFinish === 'function') {
+          onBuildFinish({
+            error: err,
+            stats: null,
+            isWatch: false
+          })
+        }
         return reject(err)
+      }
+      if (typeof onBuildFinish === 'function') {
+        onBuildFinish({
+          error: err,
+          stats,
+          isWatch: false
+        })
       }
       resolve()
     })
@@ -48,7 +75,12 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
   const outputPath = path.join(appPath, conf.outputRoot as string)
   const customDevServerOption = config.devServer || {}
   const webpackChain = devConf(appPath, config)
-  customizeChain(webpackChain, config.webpackChain)
+  const onBuildFinish = config.onBuildFinish
+  await customizeChain(webpackChain, config.modifyWebpackChain, config.webpackChain)
+
+  if (typeof config.onWebpackChainReady === 'function') {
+    config.onWebpackChainReady(webpackChain)
+  }
 
   const devServerOptions = recursiveMerge<WebpackDevServer.Configuration>(
     {
@@ -64,6 +96,10 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
     baseDevServerOption,
     customDevServerOption
   )
+
+  if (devServerOptions.host === 'localhost') {
+    devServerOptions.useLocalIp = false
+  }
 
   const originalPort = devServerOptions.port
   const availablePort = await detectPort(originalPort)
@@ -93,14 +129,37 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
 
   const webpackConfig = webpackChain.toConfig()
   WebpackDevServer.addDevServerEntrypoints(webpackConfig, devServerOptions)
-  const compiler = webpack(webpackConfig)
+  const compiler = webpack(webpackConfig) as Compiler
   bindDevLogger(devUrl, compiler)
   const server = new WebpackDevServer(compiler, devServerOptions)
-
+  compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
+    if (typeof config.modifyBuildAssets === 'function') {
+      await config.modifyBuildAssets(compilation.assets)
+    }
+    callback()
+  })
+  compiler.hooks.done.tap('taroBuildDone', stats => {
+    if (typeof onBuildFinish === 'function') {
+      onBuildFinish({
+        error: null,
+        stats,
+        isWatch: true
+      })
+    }
+  })
+  compiler.hooks.failed.tap('taroBuildDone', error => {
+    if (typeof onBuildFinish === 'function') {
+      onBuildFinish({
+        error,
+        stats: null,
+        isWatch: true
+      })
+    }
+  })
   return new Promise((resolve, reject) => {
     server.listen(devServerOptions.port, (devServerOptions.host as string), err => {
       if (err) {
-        reject()
+        reject(err)
         return console.log(err)
       }
       resolve()

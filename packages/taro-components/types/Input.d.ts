@@ -44,7 +44,7 @@ interface InputProps extends StandardProps, FormItemProps {
    * @default 140
    * @supported weapp, h5, rn
    */
-  maxLength?: number
+  maxlength?: number
 
   /** 指定光标与键盘的距离，单位 px 。取 input 距离底部的距离和 cursor-spacing 指定的距离的最小值作为光标与键盘的距离
    * @default 0
@@ -104,6 +104,27 @@ interface InputProps extends StandardProps, FormItemProps {
    * @supported weapp
    */
   holdKeyboard?: boolean
+
+  /**
+   * 强制 input 处于同层状态，默认 focus 时 input 会切到非同层状态 (仅在 iOS 下生效)
+   * @default false
+   * @supported weapp
+   */
+  alwaysEmbed?: boolean
+
+  /**
+   * 当 type 为 number, digit, idcard 数字键盘是否随机排列
+   * @default false
+   * @supported alipay
+   */
+  randomNumber?: boolean
+
+  /**
+   * 是否为受控组件
+   * @default false
+   * @supported alipay
+   */
+  controlled?: boolean
 
   /** 当键盘输入时，触发input事件，event.detail = {value, cursor, keyCode}，处理函数可以直接 return 一个字符串，将替换输入框的内容。
    * @supported weapp, h5, rn
@@ -172,7 +193,7 @@ declare namespace InputProps {
  * @example
  * ```tsx
  * class App extends Component {
- * 
+ *
  *   render () {
  *     return (
  *         <View className='example-body'>
@@ -183,7 +204,7 @@ declare namespace InputProps {
  *             <Text>数字输入的 input</Text>
  *             <Input type='number' placeholder='这是一个数字输入框'/>
  *             <Text>密码输入的 input</Text>
- *             <Input type='password' password placeholder='这是一个密码输入框'/>
+ *             <Input type='text' password placeholder='这是一个密码输入框'/>
  *             <Text>带小数点的 input</Text>
  *             <Input type='digit' placeholder='带小数点的数字键盘'/>
  *             <Text>身份证输入的 input</Text>

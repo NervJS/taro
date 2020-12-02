@@ -1,5 +1,5 @@
-import { TaroElement, Style, document } from '@tarojs/runtime'
-import { isFunction, isString, isObject, isNumber } from '@tarojs/shared'
+import { TaroElement, Style, document, FormElement } from '@tarojs/runtime'
+import { isFunction, isString, isObject, isNumber, internalComponents, capitalize, toCamelCase } from '@tarojs/shared'
 import { CommonEvent } from '@tarojs/components'
 
 export type Props = Record<string, unknown>
@@ -18,19 +18,18 @@ export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props)
       setProperty(dom, i, null, oldProps[i])
     }
   }
-
+  const isFormElement = dom instanceof FormElement
   for (i in newProps) {
-    if (oldProps[i] !== newProps[i]) {
+    if (oldProps[i] !== newProps[i] || (isFormElement && i === 'value')) {
       setProperty(dom, i, newProps[i], oldProps[i])
     }
   }
 }
 
-const listeners: WeakMap<TaroElement, Record<string, Function>> = new WeakMap()
-
 function eventProxy (e: CommonEvent) {
   const el = document.getElementById(e.currentTarget.id)
-  listeners.get(el!)![e.type](e)
+  const handlers = el!.__handlers[e.type]
+  handlers[0](e)
 }
 
 function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: unknown) {
@@ -40,7 +39,9 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
     eventName = eventName.slice(0, -7)
   }
 
-  if (eventName === 'click') {
+  const compName = capitalize(toCamelCase(dom.tagName.toLowerCase()))
+
+  if (eventName === 'click' && compName in internalComponents) {
     eventName = 'tap'
   }
 
@@ -48,17 +49,14 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
     if (!oldValue) {
       dom.addEventListener(eventName, eventProxy, isCapture)
     }
-    let events = listeners.get(dom)
-    if (!events) {
-      listeners.set(dom, events = {})
+    if (eventName === 'regionchange') {
+      dom.__handlers.begin[0] = value
+      dom.__handlers.end[0] = value
+    } else {
+      dom.__handlers[eventName][0] = value
     }
-    events[eventName] = value
   } else {
     dom.removeEventListener(eventName, eventProxy)
-    const events = listeners.get(dom)
-    if (events) {
-      delete events[eventName]
-    }
   }
 }
 

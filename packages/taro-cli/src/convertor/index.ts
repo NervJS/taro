@@ -2,7 +2,6 @@ import * as fs from 'fs-extra'
 import * as path from 'path'
 
 import { AppConfig, TabBar } from '@tarojs/taro'
-import chalk from 'chalk'
 import * as prettier from 'prettier'
 import traverse, { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
@@ -10,35 +9,30 @@ import * as taroize from '@tarojs/taroize'
 import wxTransformer from '@tarojs/transformer-wx'
 import * as postcss from 'postcss'
 import * as unitTransform from 'postcss-taro-unit-transform'
-import * as inquirer from 'inquirer'
+// import * as inquirer from 'inquirer'
 
 import {
   printLog,
   promoteRelativePath,
   resolveScriptPath,
-  processStyleImports,
-  getPkgVersion,
+  CSS_IMPORT_REG,
   pascalCase,
-  emptyDirectory
-} from '../util'
-import {
-  BUILD_TYPES,
-  MINI_APP_FILES,
+  emptyDirectory,
   processTypeEnum,
   REG_TYPESCRIPT,
   REG_URL,
   REG_IMAGE,
-  IMINI_APP_FILE_TYPE
-} from '../util/constants'
+  chalk
+} from '@tarojs/helper'
 import { generateMinimalEscapeCode } from '../util/astConvert'
 import Creator from '../create/creator'
 import babylonConfig from '../config/babylon'
-import { IPrettierConfig } from '../util/types'
 import { analyzeImportUrl, incrementId } from './helper'
+import { getPkgVersion } from '../util'
 
 const template = require('babel-template')
 
-const prettierJSConfig: IPrettierConfig = {
+const prettierJSConfig: prettier.Options = {
   semi: false,
   singleQuote: true,
   parser: 'babel'
@@ -77,12 +71,37 @@ interface ITaroizeOptions {
   rootPath?: string
 }
 
+function processStyleImports (content: string, processFn: (a: string, b: string) => string) {
+  const style: string[] = []
+  const imports: string[] = []
+  const styleReg = new RegExp('.wxss')
+  content = content.replace(CSS_IMPORT_REG, (m, $1, $2) => {
+    if (styleReg.test($2)) {
+      style.push(m)
+      imports.push($2)
+      if (processFn) {
+        return processFn(m, $2)
+      }
+      return ''
+    }
+    if (processFn) {
+      return processFn(m, $2)
+    }
+    return m
+  })
+  return {
+    content,
+    style,
+    imports
+  }
+}
+
 export default class Convertor {
   root: string
   convertRoot: string
   convertDir: string
   importsDir: string
-  fileTypes: IMINI_APP_FILE_TYPE
+  fileTypes: any
   pages: Set<string>
   components: Set<IComponent>
   hadBeenCopyedFiles: Set<string>
@@ -100,7 +119,12 @@ export default class Convertor {
     this.convertRoot = path.join(this.root, 'taroConvert')
     this.convertDir = path.join(this.convertRoot, 'src')
     this.importsDir = path.join(this.convertDir, 'imports')
-    this.fileTypes = MINI_APP_FILES[BUILD_TYPES.WEAPP]
+    this.fileTypes = {
+      TEMPL: '.wxml',
+      STYLE: '.wxss',
+      CONFIG: '.json',
+      SCRIPT: '.js'
+    }
     this.pages = new Set<string>()
     this.components = new Set<IComponent>()
     this.hadBeenCopyedFiles = new Set<string>()
@@ -734,12 +758,12 @@ ${code}
   }
 
   async traverseStyle (filePath: string, style: string) {
-    const { imports, content } = processStyleImports(style, BUILD_TYPES.WEAPP, (str, stylePath) => {
+    const { imports, content } = processStyleImports(style, (str, stylePath) => {
       let relativePath = stylePath
       if (path.isAbsolute(relativePath)) {
         relativePath = promoteRelativePath(path.relative(filePath, path.join(this.root, stylePath)))
       }
-      return str.replace(stylePath, relativePath).replace(MINI_APP_FILES[BUILD_TYPES.WEAPP].STYLE, OUTPUT_STYLE_EXTNAME)
+      return str.replace(stylePath, relativePath).replace('.wxss', OUTPUT_STYLE_EXTNAME)
     })
     const styleDist = this.getDistFilePath(filePath, OUTPUT_STYLE_EXTNAME)
     const { css } = await this.styleUnitTransform(filePath, content)
@@ -838,17 +862,17 @@ ${code}
   }
 
   run () {
-    inquirer.prompt([{
-      type: 'list',
-      name: 'framework',
-      message: '你想转换为哪种框架？',
-      choices: ['react', 'vue'],
-      default: 'react'
-    }]).then(({ framework }) => {
-      this.framework = framework
-      this.generateEntry()
-      this.traversePages()
-      this.generateConfigFiles()
-    })
+    // inquirer.prompt([{
+    //   type: 'list',
+    //   name: 'framework',
+    //   message: '你想转换为哪种框架？',
+    //   choices: ['react', 'vue'],
+    //   default: 'react'
+    // }]).then(({ framework }) => {
+    this.framework = 'react'
+    this.generateEntry()
+    this.traversePages()
+    this.generateConfigFiles()
+    // })
   }
 }

@@ -27,12 +27,13 @@ class TaroProvider extends React.Component {
     Taro.setTabBarItem = this.setTabBarItem.bind(this)
   }
 
+  // eslint-disable-next-line react/no-deprecated
   componentWillMount () {
     this.navigationMethodInit()
     // didFocus
     this.didFocusSubscription = this.props.navigation.addListener(
       'didFocus',
-      payload => {
+      () => {
         // 页面进入后回退并不会调用 React 生命周期，需要在路由生命周期中绑定 this
         this.navigationMethodInit()
       }
@@ -46,8 +47,8 @@ class TaroProvider extends React.Component {
       Taro.stopPullDownRefresh = this.refreshProviderRef.current && this.refreshProviderRef.current.stopPullDownRefresh
       Taro.pageScrollTo = this.refreshProviderRef.current && this.refreshProviderRef.current.pageScrollTo
     } catch (e) {
-      console.log('this.refreshProviderRef: ')
-      console.log(this.refreshProviderRef)
+      console.warn('this.refreshProviderRef: ')
+      console.warn(this.refreshProviderRef)
       throw e
     }
   }
@@ -69,7 +70,7 @@ class TaroProvider extends React.Component {
     }
 
     const obj = queryString.parseUrl(url)
-    console.log(obj)
+    console.warn(obj)
     try {
       this.props.navigation.push(obj.url, obj.query)
     } catch (e) {
@@ -95,7 +96,7 @@ class TaroProvider extends React.Component {
     }
 
     const obj = queryString.parseUrl(url)
-    console.log(obj)
+    console.warn(obj)
     try {
       this.props.navigation.replace(obj.url, obj.query)
     } catch (e) {
@@ -121,7 +122,7 @@ class TaroProvider extends React.Component {
     }
 
     const obj = queryString.parseUrl(url)
-    console.log(obj)
+    console.warn(obj)
     try {
       this.props.navigation.navigate(obj.url, obj.query)
     } catch (e) {
@@ -168,24 +169,24 @@ class TaroProvider extends React.Component {
   wxReLaunch (options = {}) {
     const isObject = shouleBeObject(options)
     if (!isObject.res) {
-      const res = {errMsg: `reLaunch${isObject.msg}`}
+      const res = { errMsg: `reLaunch${isObject.msg}` }
       console.warn(res.errMsg)
       return Promise.reject(res)
     }
 
-    const res = {errMsg: 'reLaunch:ok'}
-    let {url, success, fail, complete} = options
+    const res = { errMsg: 'reLaunch:ok' }
+    const { url, success, fail, complete } = options
 
     const pages = this.wxGetCurrentPages()
     const length = pages.length
 
     try {
       if (length > 0) {
-        this.wxNavigateBack({delta: length})
+        this.wxNavigateBack({ delta: length })
       }
-      this.wxRedirectTo({url})
+      this.wxRedirectTo({ url })
     } catch (e) {
-      return errorHandler(fail, complete)({errMsg: e})
+      return errorHandler(fail, complete)({ errMsg: e })
     }
     return successHandler(success, complete)(res)
   }
@@ -207,7 +208,7 @@ class TaroProvider extends React.Component {
       console.warn(res.errMsg)
       return Promise.reject(res)
     }
-    console.log('not finished')
+    console.warn('not finished')
   }
 
   /**
@@ -247,7 +248,7 @@ class TaroProvider extends React.Component {
       global._taroTabBarIconConfig = _taroTabBarIconConfig
       this.props.navigation.setParams({ _taroTabBarIconConfig })
     } catch (e) {
-      console.log(e)
+      console.warn(e)
       return errorHandler(fail, complete)(res)
     }
     return successHandler(success, complete)(res)
@@ -285,7 +286,7 @@ class TaroProvider extends React.Component {
       global._taroTabBarIconConfig = _taroTabBarIconConfig
       this.props.navigation.setParams({ _taroTabBarIconConfig })
     } catch (e) {
-      console.log(e)
+      console.warn(e)
       return errorHandler(fail, complete)(res)
     }
     return successHandler(success, complete)(res)
@@ -321,7 +322,7 @@ class TaroProvider extends React.Component {
       global._taroTabBarIconConfig = _taroTabBarIconConfig
       this.props.navigation.setParams({ _taroTabBarIconConfig })
     } catch (e) {
-      console.log(e)
+      console.warn(e)
       return errorHandler(fail, complete)(res)
     }
     return successHandler(success, complete)(res)
@@ -356,7 +357,7 @@ class TaroProvider extends React.Component {
       global._taroTabBarIconConfig = _taroTabBarIconConfig
       this.props.navigation.setParams({ _taroTabBarIconConfig })
     } catch (e) {
-      console.log(e)
+      console.warn(e)
       return errorHandler(fail, complete)(res)
     }
     return successHandler(success, complete)(res)
@@ -392,7 +393,7 @@ class TaroProvider extends React.Component {
       global._taroTabBarIconConfig = _taroTabBarIconConfig
       this.props.navigation.setParams({ _taroTabBarIconConfig })
     } catch (e) {
-      console.log(e)
+      console.warn(e)
       return errorHandler(fail, complete)(res)
     }
     return successHandler(success, complete)(res)
@@ -436,7 +437,7 @@ class TaroProvider extends React.Component {
     try {
       this.props.navigation.setParams({ _tabBarVisible: true })
     } catch (e) {
-      console.log(e)
+      console.warn(e)
       return errorHandler(fail, complete)(res)
     }
     return successHandler(success, complete)(res)
@@ -480,7 +481,7 @@ class TaroProvider extends React.Component {
     try {
       this.props.navigation.setParams({ _tabBarVisible: false })
     } catch (e) {
-      console.log(e)
+      console.warn(e)
       return errorHandler(fail, complete)({ errMsg: e })
     }
 

@@ -1,11 +1,11 @@
 {
   "name": "@tarojs/components",
-  "version": "3.0.0-beta.4",
+  "version": "3.0.17",
   "description": "",
   "main:h5": "src/index.js",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
-  "typings": "types/index.d.ts",
+  "types": "types/index.d.ts",
   "sideEffects": [
     "*.scss",
     "*.css"
@@ -15,21 +15,19 @@
     "loader",
     "mini",
     "types",
-    "h5",
+    "dist-h5",
     "virtual-list"
   ],
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "scripts": {
-    "local-dev": "webpack-dev-server --config webpack.config.js --env development",
-    "dev": "webpack --config webpack.prod.config.js --watch",
-    "deploy": "webpack --config webpack.config.js",
-    "build": "stencil build --config stencil.config.ts",
-    "dev-stencil": "stencil build --config stencil.config.ts --watch",
+    "build-h5": "babel -d dist-h5 h5",
+    "build": "npm run build-h5 & stencil build --config stencil.config.ts",
+    "dev": "stencil build --config stencil.config.ts --watch",
     "test": "karmatic --files '__tests__/**.spec.js' --coverage false",
+    "test:ci": "karmatic --files '__tests__/**.spec.js' --coverage false",
     "test:debug": "karmatic debug --files '__tests__/**.spec.js' --coverage false",
-    "test:coverage": "karmatic --files '__tests__/**.spec.js'",
-    "test-update": "jest --updateSnapshot"
+    "test:coverage": "karmatic --files '__tests__/**.spec.js'"
   },
   "repository": {
     "type": "git",
@@ -39,8 +37,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@stencil/core": "^1.8.1",
-    "@tarojs/taro": "3.0.0-beta.4",
+    "@stencil/core": "~1.8.1",
+    "@tarojs/taro": "3.0.17",
     "better-scroll": "^1.14.1",
     "classnames": "^2.2.5",
     "intersection-observer": "^0.7.0",
@@ -50,8 +48,9 @@
     "weui": "^1.1.2"
   },
   "devDependencies": {
-    "@stencil/sass": "^1.1.1",
+    "@stencil/sass": "~1.1.1",
     "jquery": "^3.4.1",
+    "karmatic": "^2.1.0",
     "simulant": "^0.2.2",
     "workbox-build": "4.3.1"
   }

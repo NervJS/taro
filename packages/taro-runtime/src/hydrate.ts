@@ -2,11 +2,14 @@ import { isText } from './utils'
 import { TaroElement } from './dom/element'
 import { TaroText } from './dom/text'
 import { Shortcuts, toCamelCase } from '@tarojs/shared'
+import type { PageConfig } from '@tarojs/taro'
 
 export interface MpInstance {
+  config: PageConfig
   setData: (data: unknown, cb: () => void) => void;
   route?: string;
   __route__: string;
+  options?: Record<string, unknown>
 }
 
 interface MiniElementData {
@@ -54,7 +57,7 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
       prop !== 'style' &&
       prop !== 'id'
     ) {
-      data[process.env.FRAMEWORK === 'vue' ? toCamelCase(prop) : prop] = props[prop]
+      data[toCamelCase(prop)] = props[prop]
     }
   }
 
@@ -66,7 +69,7 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     data[Shortcuts.Class] = node.className
   }
 
-  if (node.cssText !== '') {
+  if (node.cssText !== '' && node.nodeName !== 'swiper-item') {
     data[Shortcuts.Style] = node.cssText
   }
 

@@ -8,7 +8,6 @@ export interface Option {
   [key: string]: any
 }
 
-
 export interface Chain {
   [key: string]: any
 }
@@ -17,4 +16,9 @@ export interface BuildConfig extends IProjectBaseConfig, IH5Config {
   isWatch: boolean;
   port?: number;
   entryFileName?: string;
+  modifyWebpackChain: Function;
+  modifyMiniConfigs: Function;
+  modifyBuildAssets: Function;
+  onWebpackChainReady: Function;
+  onBuildFinish: Function;
 }

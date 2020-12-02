@@ -416,13 +416,13 @@ function pxTransform (size) {
   if (!(designWidth in deviceRatio)) {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
   }
-  return parseInt(size, 10) / deviceRatio[designWidth] + 'rpx'
+  return (parseInt(size, 10) * deviceRatio[designWidth]) + 'rpx'
 }
 
 function generateSpecialApis (api, options) {
   let apiAlias = api
   if (api === 'showModal') {
-    options.cancelButtonText = options.cancelText
+    options.cancelButtonText = options.cancelText || '取消'
     options.confirmButtonText = options.confirmText || '确定'
     apiAlias = 'confirm'
     if (options.showCancel === false) {
@@ -469,4 +469,5 @@ export default function initNativeApi (taro) {
   taro.getApp = getApp
   taro.initPxTransform = initPxTransform.bind(taro)
   taro.pxTransform = pxTransform.bind(taro)
+  taro.env = my.env
 }

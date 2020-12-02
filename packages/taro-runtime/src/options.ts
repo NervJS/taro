@@ -1,8 +1,9 @@
 import { TaroText } from './dom/text'
 import { Text, Element } from './dom/html/parser'
 import { TaroElement } from './dom/element'
+import { Reconciler, CurrentReconciler } from './reconciler'
 
-interface Options {
+export interface Options {
   prerender: boolean
   debug: boolean
   html: {
@@ -11,7 +12,9 @@ interface Options {
     closingElements: Set<string>
     transformText?: (taroText: TaroText, text: Text) => TaroText
     transformElement?: (taroElement: TaroElement, element: Element) => TaroElement
-  }
+    renderHTMLTag: boolean
+  },
+  reconciler: (reconciler: Reconciler<any>) => void
 }
 
 export const options: Options = {
@@ -28,6 +31,10 @@ export const options: Options = {
     closingElements: new Set([
       'html', 'head', 'body', 'p', 'dt', 'dd', 'li', 'option',
       'thead', 'th', 'tbody', 'tr', 'td', 'tfoot', 'colgroup'
-    ])
+    ]),
+    renderHTMLTag: false
+  },
+  reconciler<T> (reconciler: Reconciler<T>) {
+    Object.assign(CurrentReconciler, reconciler)
   }
 }

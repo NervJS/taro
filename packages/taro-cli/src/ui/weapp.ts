@@ -1,22 +1,11 @@
-import chalk from 'chalk'
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import * as glob from 'glob'
 import * as wxTransformer from '@tarojs/transformer-wx'
 
-import { processTypeEnum, REG_TYPESCRIPT } from '../util/constants'
-import { printLog } from '../util'
-import { analyzeFiles, parseEntryAst, WEAPP_OUTPUT_NAME, copyFileToDist } from './common'
-import { IBuildData } from './ui.types'
+import { processTypeEnum, REG_TYPESCRIPT, printLog, chalk } from '@tarojs/helper'
 
-function copyAllInterfaceFiles (sourceDir, outputDir, buildData) {
-  const interfaceFiles = glob.sync(path.join(sourceDir, '**/*.d.ts'))
-  if (interfaceFiles && interfaceFiles.length) {
-    interfaceFiles.forEach(item => {
-      copyFileToDist(item, sourceDir, outputDir, buildData)
-    })
-  }
-}
+import { analyzeFiles, parseEntryAst, WEAPP_OUTPUT_NAME, copyFileToDist, copyAllInterfaceFiles } from './common'
+import { IBuildData } from './ui.types'
 
 export async function buildForWeapp (buildData: IBuildData) {
   const { appPath, entryFilePath, outputDirName, entryFileName, sourceDir } = buildData

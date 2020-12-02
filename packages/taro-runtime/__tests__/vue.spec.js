@@ -14,19 +14,19 @@ describe('vue', () => {
     const appDidShow = jest.fn()
     const appDidHide = jest.fn()
     const onLoad = jest.fn()
-    const onUnload = jest.fn()
-    const onShow = jest.fn()
-    const onHide = jest.fn()
-    const onPullDownRefresh = jest.fn()
-    const onReachBottom = jest.fn()
-    const onPageScroll = jest.fn()
-    const onShareAppMessage = jest.fn()
-    const onResize = jest.fn()
-    const onTabItemTap = jest.fn()
-    const onTitleClick = jest.fn()
-    const onOptionMenuClick = jest.fn()
-    const onPopMenuClick = jest.fn()
-    const onPullIntercept = jest.fn()
+    // const onUnload = jest.fn()
+    // const onShow = jest.fn()
+    // const onHide = jest.fn()
+    // const onPullDownRefresh = jest.fn()
+    // const onReachBottom = jest.fn()
+    // const onPageScroll = jest.fn()
+    // const onShareAppMessage = jest.fn()
+    // const onResize = jest.fn()
+    // const onTabItemTap = jest.fn()
+    // const onTitleClick = jest.fn()
+    // const onOptionMenuClick = jest.fn()
+    // const onPopMenuClick = jest.fn()
+    // const onPullIntercept = jest.fn()
 
     const App = new Vue({
       onShow () {
@@ -68,7 +68,6 @@ describe('vue', () => {
 
     it.skip('onLoad', () => {
       const obj = {}
-      debugger
       home.onLoad({})
       expect(onLoad).toBeCalledWith(obj)
     })

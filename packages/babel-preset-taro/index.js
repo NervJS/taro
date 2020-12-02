@@ -6,6 +6,8 @@ module.exports = (_, options = {}) => {
   const plugins = []
   const isReact = options.framework === 'react'
   const isNerv = options.framework === 'nerv'
+  const isVue = options.framework === 'vue'
+  const isVue3 = options.framework === 'vue3'
   const moduleName = options.framework.charAt(0).toUpperCase() + options.framework.slice(1)
 
   if (isNerv || isReact) {
@@ -20,10 +22,13 @@ module.exports = (_, options = {}) => {
     if (isNerv || isReact) {
       config.jsxPragma = moduleName
     }
+    if (isVue || isVue3) {
+      config.allExtensions = true
+    }
     presets.push([require('@babel/preset-typescript'), config])
   }
 
-  const runtimePath = path.dirname(require.resolve('@babel/runtime/package.json'))
+  const runtimePath = process.env.NODE_ENV === 'jest' || process.env.NODE_ENV === 'test' ? false : path.dirname(require.resolve('@babel/runtime/package.json'))
   const runtimeVersion = require('@babel/runtime/package.json').version
   const {
     loose = false,
@@ -116,6 +121,8 @@ module.exports = (_, options = {}) => {
       packageName: '@tarojs/taro',
       apis
     }])
+  } else {
+    plugins.push([require('babel-plugin-dynamic-import-node')])
   }
 
   return {

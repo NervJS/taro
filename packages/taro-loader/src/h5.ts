@@ -1,63 +1,72 @@
 import * as webpack from 'webpack'
 import { getOptions, stringifyRequest } from 'loader-utils'
-import { AppConfig, PageConfig } from '@tarojs/taro'
+import { AppConfig } from '@tarojs/taro'
 import { join, dirname } from 'path'
-import { importFramework, getFrameworkArgs } from './utils'
+import { frameworkMeta } from './utils'
 
-function genResource (path: string, pages: Map<string, PageConfig>, loaderContext: webpack.loader.LoaderContext) {
+function genResource (path: string, pages: Map<string, string>, loaderContext: webpack.loader.LoaderContext) {
   const stringify = (s: string): string => stringifyRequest(loaderContext, s)
   return `
   Object.assign({
       path: '${path}',
-      load: () => {
+      load: function() {
           return import(${stringify(join(loaderContext.context, path))})
       }
-  }, ${JSON.stringify(pages.get(path))} || {}),
+  }, require(${stringify(pages.get(path)!)}).default || {}),
 `
 }
 
 export default function (this: webpack.loader.LoaderContext) {
   const options = getOptions(this)
   const stringify = (s: string): string => stringifyRequest(this, s)
+  const {
+    importFrameworkStatement,
+    frameworkArgs,
+    creator,
+    importFrameworkName,
+    extraImportForWeb,
+    execBeforeCreateWebApp
+  } = frameworkMeta[options.framework]
   const config: AppConfig = options.config
-  const pages: Map<string, PageConfig> = options.pages
-  let tabBarCode = `const tabbarIconPath = []
-const tabbarSelectedIconPath = []
+  const pages: Map<string, string> = options.pages
+  let tabBarCode = `var tabbarIconPath = []
+var tabbarSelectedIconPath = []
 `
   if (config.tabBar) {
     const tabbarList = config.tabBar.list
     for (let i = 0; i < tabbarList.length; i++) {
       const t = tabbarList[i]
       if (t.iconPath) {
-        tabBarCode += `tabbarIconPath[${i}] = require(${stringify(join(dirname(this.resourcePath), t.iconPath))}).default\n`
+        const iconPath = stringify(join(dirname(this.resourcePath), t.iconPath))
+        tabBarCode += `tabbarIconPath[${i}] = typeof require(${iconPath}) === 'object' ? require(${iconPath}).default : require(${iconPath})\n`
       }
       if (t.selectedIconPath) {
-        tabBarCode += `tabbarSelectedIconPath[${i}] = require(${stringify(join(dirname(this.resourcePath), t.selectedIconPath))}).default\n`
+        const iconPath = stringify(join(dirname(this.resourcePath), t.selectedIconPath))
+        tabBarCode += `tabbarSelectedIconPath[${i}] = typeof require(${iconPath}) === 'object' ? require(${iconPath}).default : require(${iconPath})\n`
       }
     }
   }
 
-  const webComponents = `applyPolyfills().then(() => {
+  const webComponents = `applyPolyfills().then(function () {
   defineCustomElements(window)
 })
 `
-  const vue = `
-import '@tarojs/components/h5/vue'
-`
 
-  const code = `import Taro from '@tarojs/taro'
+  const code = `import { createRouter } from '@tarojs/taro'
 import component from ${stringify(join(dirname(this.resourcePath), options.filename))}
+import { ${creator}, window } from '@tarojs/runtime'
 import { defineCustomElements, applyPolyfills } from '@tarojs/components/loader'
-${importFramework(options.framework)}
+${importFrameworkStatement}
 import '@tarojs/components/dist/taro-components/taro-components.css'
-${options.framework === 'vue' ? vue : ''}
+${extraImportForWeb || ''}
 ${webComponents}
-const config = ${JSON.stringify(config)}
+var config = ${JSON.stringify(config)}
+window.__taroAppConfig = config
 ${config.tabBar ? tabBarCode : ''}
 if (config.tabBar) {
-  const tabbarList = config.tabBar.list
-  for (let i = 0; i < tabbarList.length; i++) {
-    const t = tabbarList[i]
+  var tabbarList = config.tabBar.list
+  for (var i = 0; i < tabbarList.length; i++) {
+    var t = tabbarList[i]
     if (t.iconPath) {
       t.iconPath = tabbarIconPath[i]
     }
@@ -69,7 +78,9 @@ if (config.tabBar) {
 config.routes = [
   ${config.pages?.map(path => genResource(path, pages, this)).join('')}
 ]
-Taro.createRouter(component, config, '${options.framework}', ${getFrameworkArgs(options.framework)})
+${execBeforeCreateWebApp || ''}
+var inst = ${creator}(component, ${frameworkArgs})
+createRouter(inst, config, ${importFrameworkName})
 `
 
   return code

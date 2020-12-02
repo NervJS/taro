@@ -1,4 +1,5 @@
-import { getSassLoaderOption, recursiveMerge, REG_SCRIPTS, REG_SASS, REG_LESS, REG_STYLUS, REG_STYLE, REG_MEDIA, REG_FONT, REG_IMAGE, REG_VUE } from '@tarojs/runner-utils'
+import { recursiveMerge, REG_SCRIPTS, REG_SASS_SASS, REG_SASS_SCSS, REG_LESS, REG_STYLUS, REG_STYLE, REG_MEDIA, REG_FONT, REG_IMAGE } from '@tarojs/helper'
+import { getSassLoaderOption } from '@tarojs/runner-utils'
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
 import * as sass from 'sass'
@@ -41,13 +42,16 @@ const defaultCSSCompressOption = {
   minifySelectors: false
 }
 const defaultMediaUrlLoaderOption = {
-  limit: 10240
+  limit: 10240,
+  esModule: false
 }
 const defaultFontUrlLoaderOption = {
-  limit: 10240
+  limit: 10240,
+  esModule: false
 }
 const defaultImageUrlLoaderOption = {
-  limit: 10240
+  limit: 10240,
+  esModule: false
 }
 const defaultCssModuleOption: PostcssOption.cssModules = {
   enable: false,
@@ -162,10 +166,6 @@ const getBabelLoader = pipe(
   mergeOption,
   partial(getLoader, 'babel-loader')
 )
-const getVueLoader = pipe(
-  mergeOption,
-  partial(getLoader, 'vue-loader')
-)
 
 const getUrlLoader = pipe(
   mergeOption,
@@ -266,8 +266,7 @@ export const getModule = (appPath: string, {
   mediaUrlLoaderOption,
   esnextModules = [] as (string | RegExp)[],
 
-  postcss,
-  framework
+  postcss
 }) => {
   const postcssOption: IPostcssOption = postcss || {}
 
@@ -331,9 +330,11 @@ export const getModule = (appPath: string, {
   const styleLoader = getStyleLoader([defaultStyleLoaderOption, styleLoaderOption])
   const topStyleLoader = getStyleLoader([defaultStyleLoaderOption, {
     insert: function insertAtTop (element) {
-      const parent = document.querySelector('head')
+      // eslint-disable-next-line no-var
+      var parent = document.querySelector('head')
       if (parent) {
-        const lastInsertedElement = (window as any)._lastElementInsertedByStyleLoader
+        // eslint-disable-next-line no-var
+        var lastInsertedElement = (window as any)._lastElementInsertedByStyleLoader
         if (!lastInsertedElement) {
           parent.insertBefore(element, parent.firstChild)
         } else if (lastInsertedElement.nextSibling) {
@@ -348,7 +349,7 @@ export const getModule = (appPath: string, {
 
   const extractCssLoader = getExtractCssLoader()
 
-  const lastStyleLoader = enableExtract && framework !== 'vue' ? extractCssLoader : styleLoader
+  const lastStyleLoader = enableExtract ? extractCssLoader : styleLoader
 
   /**
    * css-loader 1.0.0版本移除了minimize选项...升级需谨慎
@@ -400,7 +401,21 @@ export const getModule = (appPath: string, {
   const sassLoader = getSassLoader([
     {
       sourceMap: true,
-      implementation: sass
+      implementation: sass,
+      sassOptions: {
+        indentedSyntax: true,
+        outputStyle: 'expanded'
+      }
+    },
+    sassLoaderOption
+  ])
+  const scssLoader = getSassLoader([
+    {
+      sourceMap: true,
+      implementation: sass,
+      sassOptions: {
+        outputStyle: 'expanded'
+      }
     },
     sassLoaderOption
   ])
@@ -443,8 +458,12 @@ export const getModule = (appPath: string, {
     ]
   }
   rule.sass = {
-    test: REG_SASS,
+    test: REG_SASS_SASS,
     use: [resolveUrlLoader, sassLoader]
+  }
+  rule.scss = {
+    test: REG_SASS_SCSS,
+    use: [resolveUrlLoader, scssLoader]
   }
   rule.less = {
     test: REG_LESS,
@@ -454,41 +473,13 @@ export const getModule = (appPath: string, {
     test: REG_STYLUS,
     use: [stylusLoader]
   }
-  rule.vue = {
-    test: REG_VUE,
-    use: {
-      vueLoader: getVueLoader([{
-        transformAssetUrls: {
-          video: ['src', 'poster'],
-          'live-player': 'src',
-          audio: 'src',
-          source: 'src',
-          image: 'src',
-          'cover-image': 'src',
-          'taro-video': ['src', 'poster'],
-          'taro-live-player': 'src',
-          'taro-audio': 'src',
-          'taro-source': 'src',
-          'taro-image': 'src',
-          'taro-cover-image': 'src'
-        },
-        compilerOptions: {
-          modules: [{
-            preTransformNode (el) {
-              if (DEFAULT_Components.has(el.tag)) {
-                el.tag = 'taro-' + el.tag
-              }
-              return el
-            }
-          }]
-        }
-      }])
-    }
-  }
   rule.script = {
     test: REG_SCRIPTS,
+    exclude: [filename => /@tarojs\/components/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))],
     use: {
-      babelLoader: getBabelLoader([{}])
+      babelLoader: getBabelLoader([{
+        compact: false
+      }])
     }
   }
   rule.media = {
@@ -541,6 +532,6 @@ export const getOutput = (appPath: string, [{ outputRoot, publicPath, chunkDirec
   }
 }
 
-export const getDevtool = enableSourceMap => {
-  return enableSourceMap ? 'cheap-module-eval-source-map' : 'none'
+export const getDevtool = ({ enableSourceMap, sourceMapType = 'cheap-module-eval-source-map' }) => {
+  return enableSourceMap ? sourceMapType : 'none'
 }

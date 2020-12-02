@@ -1,77 +1,81 @@
 import * as webpack from 'webpack'
-import { BUILD_TYPES } from '@tarojs/runner-utils'
+import { META_TYPE } from '@tarojs/helper'
 
 import { IBuildConfig } from './utils/types'
 import { printBuildError, bindProdLogger, bindDevLogger } from './utils/logHelper'
 import buildConf from './webpack/build.conf'
 import { Prerender } from './prerender/prerender'
 import { isEmpty } from 'lodash'
+import { makeConfig } from './webpack/chain'
 
-const customizeChain = (chain, customizeFunc: Function) => {
+const customizeChain = async (chain, modifyWebpackChainFunc: Function, customizeFunc?: Function) => {
+  if (modifyWebpackChainFunc instanceof Function) {
+    await modifyWebpackChainFunc(chain, webpack)
+  }
   if (customizeFunc instanceof Function) {
-    customizeFunc(chain, webpack)
+    customizeFunc(chain, webpack, META_TYPE)
   }
 }
 
-export default function build (appPath: string, config: IBuildConfig, mainBuilder) {
-  const mode = config.isWatch ? 'development' : 'production'
-  return new Promise((resolve, reject) => {
-    const { buildAdapter } = config
-    if (buildAdapter === BUILD_TYPES.PLUGIN) {
-      config.buildAdapter = BUILD_TYPES.WEAPP
-      config.isBuildPlugin = true
-    }
-    const webpackChain = buildConf(appPath, mode, config)
+export default async function build (appPath: string, config: IBuildConfig): Promise<webpack.Stats> {
+  const mode = config.mode
 
-    customizeChain(webpackChain, config.webpackChain)
-    const webpackConfig = webpackChain.toConfig()
+  /** process config.sass options */
+  const newConfig = await makeConfig(config)
 
+  /** initialized chain */
+  const webpackChain = buildConf(appPath, mode, newConfig)
+
+  /** customized chain */
+  await customizeChain(webpackChain, newConfig.modifyWebpackChain, newConfig.webpackChain)
+
+  if (typeof newConfig.onWebpackChainReady === 'function') {
+    newConfig.onWebpackChainReady(webpackChain)
+  }
+
+  /** webpack config */
+  const webpackConfig: webpack.Configuration = webpackChain.toConfig()
+
+  return new Promise<webpack.Stats>((resolve, reject) => {
     const compiler = webpack(webpackConfig)
+    const onBuildFinish = newConfig.onBuildFinish
     let prerender: Prerender
-    if (config.isWatch) {
-      bindDevLogger(compiler, config.buildAdapter)
+
+    const onFinish = function (error, stats: webpack.Stats | null) {
+      if (typeof onBuildFinish !== 'function') return
+
+      onBuildFinish({
+        error,
+        stats,
+        isWatch: newConfig.isWatch
+      })
+    }
+
+    const callback = async (err: Error, stats: webpack.Stats) => {
+      if (err || stats.hasErrors()) {
+        const error = err ?? stats.toJson().errors
+        printBuildError(error)
+        onFinish(error, null)
+        return reject(error)
+      }
+
+      if (!isEmpty(newConfig.prerender)) {
+        prerender = prerender ?? new Prerender(newConfig, webpackConfig, stats, config.template.Adapter)
+        await prerender.render()
+      }
+      onFinish(null, stats)
+      resolve(stats)
+    }
+
+    if (newConfig.isWatch) {
+      bindDevLogger(compiler)
       compiler.watch({
         aggregateTimeout: 300,
         poll: undefined
-      }, (err, stats) => {
-        if (err) {
-          printBuildError(err)
-          return reject(err)
-        }
-
-        if (!isEmpty(config.prerender)) {
-          if (prerender == null) {
-            prerender = new Prerender(config, webpackConfig, stats)
-          }
-          prerender.render().then(() => {
-            mainBuilder.hooks.afterBuild.call(stats)
-            resolve()
-          })
-        } else {
-          mainBuilder.hooks.afterBuild.call(stats)
-          resolve()
-        }
-      })
+      }, callback)
     } else {
-      bindProdLogger(compiler, config.buildAdapter)
-      compiler.run((err, stats) => {
-        if (err) {
-          printBuildError(err)
-          return reject(err)
-        }
-        if (config.prerender) {
-          if (prerender == null) {
-            prerender = new Prerender(config, webpackConfig, stats)
-          }
-          prerender.render().then(() => {
-            mainBuilder.hooks.afterBuild.call(stats)
-            resolve()
-          })
-        } else {
-          mainBuilder.hooks.afterBuild.call(stats)
-          resolve()
-        }
-      })
+      bindProdLogger(compiler)
+      compiler.run(callback)
     }
   })
 }

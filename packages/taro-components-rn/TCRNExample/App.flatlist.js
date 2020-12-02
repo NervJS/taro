@@ -5,27 +5,22 @@ import {
   Block,
   ScrollView,
   View,
-  Text,
-  Button,
-  Image
+  Text
 } from '../dist'
 // import EXAudio from './example/EXAudio'
 import EXButton from './example/EXButton'
 import EXCheckbox from './example/EXCheckbox'
 import EXForm from './example/EXForm'
-import EXIcon from './example/EXIcon'
-import EXImage from './example/EXImage'
-import EXInput from './example/EXInput'
 // import EXMap from './example/EXMap'
-import EXPicker from './example/EXPicker'
-import EXProgress from './example/EXProgress'
-import EXRadio from './example/EXRadio'
-import EXRichText from './example/EXRichText'
-import EXSlider from './example/EXSlider'
-import EXSwiper from './example/EXSwiper'
-import EXSwitch from './example/EXSwitch'
-// import EXVideo from './example/EXVideo'
-import EXWebView from './example/EXWebView'
+// import EXPicker from './example/EXPicker'
+// import EXProgress from './example/EXProgress'
+// import EXRadio from './example/EXRadio'
+// import EXRichText from './example/EXRichText'
+// import EXSlider from './example/EXSlider'
+// import EXSwiper from './example/EXSwiper'
+// import EXSwitch from './example/EXSwitch'
+// // import EXVideo from './example/EXVideo'
+// import EXWebView from './example/EXWebView'
 
 export default class App extends Component {
   state = {

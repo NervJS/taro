@@ -1,6 +1,5 @@
 import * as FileSystem from 'expo-file-system'
 import { shouleBeObject } from '../utils'
-import { string } from 'prop-types'
 
 console.log(FileSystem.cacheDirectory, FileSystem.documentDirectory)
 
@@ -10,7 +9,7 @@ console.log(FileSystem.cacheDirectory, FileSystem.documentDirectory)
  * @param {string} opts.tempFilePath 需要保存的文件的临时路径
  */
 export async function saveFile (opts = {}) {
-  const res = <any>{ errMsg: 'removeSavedFile:ok' }
+  const res = { errMsg: 'removeSavedFile:ok' } as any
   const isObject = shouleBeObject(opts)
   if (!isObject.res) {
     res.errMsg = `removeSavedFile${isObject.msg}`
@@ -42,7 +41,7 @@ export async function saveFile (opts = {}) {
  * @param {string} opts.filePath 需要删除的文件路径
  */
 export function removeSavedFile (opts = {}) {
-  const res = <any>{ errMsg: 'removeSavedFile:ok' }
+  const res = { errMsg: 'removeSavedFile:ok' } as any
   const isObject = shouleBeObject(opts)
   if (!isObject.res) {
     res.errMsg = `removeSavedFile${isObject.msg}`
@@ -72,7 +71,7 @@ export function removeSavedFile (opts = {}) {
  * @param opts.filePath 文件路径，可通过 downloadFile 获得
  * @param opts.fileType 文件类型，指定文件类型打开文件
  */
-export function openDocument (opts = {}) {
+export function openDocument () {
   console.log('not finished')
 }
 
@@ -82,7 +81,7 @@ export function openDocument (opts = {}) {
  * @param {string} opts.filePath 文件路径
  */
 export async function getSavedFileList (opts = {}) {
-  const res = <any>{ errMsg: 'getSavedFileList:ok' }
+  const res = { errMsg: 'getSavedFileList:ok' } as any
   const isObject = shouleBeObject(opts)
   if (!isObject.res) {
     res.errMsg = `getFileInfo${isObject.msg}`
@@ -91,10 +90,10 @@ export async function getSavedFileList (opts = {}) {
   }
 
   const { success, fail, complete }: any = opts
-  const fileList = <any>[]
+  const fileList = [] as any[]
   try {
     const fileNameList = await FileSystem.readDirectoryAsync(FileSystem.cacheDirectory as string)
-    fileNameList.forEach(async (fileName, index) => {
+    fileNameList.forEach(async (fileName) => {
       const fileInfo = await FileSystem.getInfoAsync(FileSystem.cacheDirectory + fileName)
       if (fileInfo.isDirectory) {
         fileList.push({
@@ -121,7 +120,7 @@ export async function getSavedFileList (opts = {}) {
  * @param opts
  */
 export async function getSavedFileInfo (opts = {}) {
-  const res = <any>{ errMsg: 'getSavedFileInfo:ok' }
+  const res = { errMsg: 'getSavedFileInfo:ok' } as any
   const isObject = shouleBeObject(opts)
   if (!isObject.res) {
     res.errMsg = `getSavedFileInfo${isObject.msg}`
@@ -129,7 +128,7 @@ export async function getSavedFileInfo (opts = {}) {
     return Promise.reject(res)
   }
 
-  const { filePath, digestAlgorithm = 'md5', success, fail, complete }: any = opts
+  const { filePath, success, fail, complete }: any = opts
 
   try {
     const obj = await FileSystem.getInfoAsync(filePath, { md5: true })
@@ -157,7 +156,7 @@ export async function getSavedFileInfo (opts = {}) {
  * @param {string} [opts.digestAlgorithm] - 计算文件摘要的算法
  */
 export async function getFileInfo (opts = {}) {
-  const res = <any>{ errMsg: 'getFileInfo:ok' }
+  const res = { errMsg: 'getFileInfo:ok' } as any
   const isObject = shouleBeObject(opts)
   if (!isObject.res) {
     res.errMsg = `getFileInfo${isObject.msg}`
@@ -165,7 +164,7 @@ export async function getFileInfo (opts = {}) {
     return Promise.reject(res)
   }
 
-  const { filePath, digestAlgorithm = 'md5', success, fail, complete }: any = opts
+  const { filePath, success, fail, complete }: any = opts
 
   try {
     const obj = await FileSystem.getInfoAsync(filePath, { md5: true })

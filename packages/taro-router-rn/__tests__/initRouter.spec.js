@@ -4,7 +4,7 @@ import { shallow } from 'enzyme'
 import toJson from 'enzyme-to-json'
 
 class HomeScreen extends React.Component {
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = () => ({
     title: 'Welcome',
     gesturesEnabled: true,
     headerStyle: [{ backgroundColor: 'red' }]

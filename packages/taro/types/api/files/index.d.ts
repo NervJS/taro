@@ -24,7 +24,7 @@ declare namespace Taro {
     }
     interface SuccessCallbackResult extends General.CallbackResult {
       /** 存储后的文件路径 */
-      savedFilePath: number
+      savedFilePath: string
       /** 调用结果 */
       errMsg: string
     }
@@ -220,6 +220,11 @@ declare namespace Taro {
     interface Option {
       /** 要读取的文件路径 */
       filePath: string
+      /**
+       * 计算文件摘要的算法
+       * @default 'md5'
+       */
+      digestAlgorithm?: 'md5' | 'sha1'
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: General.CallbackResult) => void
       /** 接口调用失败的回调函数 */
@@ -237,6 +242,8 @@ declare namespace Taro {
     interface SuccessCallbackResult extends General.CallbackResult {
       /** 文件大小，以字节为单位 */
       size: number
+      /** 按照传入的 digestAlgorithm 计算得出的的文件摘要 */
+      digest: string
       /** 调用结果 */
       errMsg: string
     }
@@ -262,7 +269,7 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileSystemManager.html
    */
   function getFileSystemManager(): FileSystemManager
-  
+
   /** 文件管理器 */
   interface FileSystemManager {
     /** FileSystemManager.readdir 的同步版本

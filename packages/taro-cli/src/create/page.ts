@@ -1,11 +1,10 @@
 import * as path from 'path'
 import * as fs from 'fs-extra'
-import chalk from 'chalk'
+import { DEFAULT_TEMPLATE_SRC, TARO_CONFIG_FLODER, TARO_BASE_CONFIG, getUserHomeDir, chalk } from '@tarojs/helper'
+
 import Creator from './creator'
 import { createPage } from './init'
 import fetchTemplate from './fetchTemplate'
-import { DEFAULT_TEMPLATE_SRC, TARO_CONFIG_FLODER, TARO_BASE_CONFIG } from '../util/constants'
-import { getUserHomeDir } from '../util'
 
 export interface IPageConf {
   projectDir: string;
@@ -16,7 +15,7 @@ export interface IPageConf {
   css: 'none' | 'sass' | 'stylus' | 'less';
   typescript?: boolean;
   date?: string;
-  framework: 'react' | 'nerv' | 'vue'
+  framework: 'react' | 'nerv' | 'vue' | 'vue3'
 }
 
 export default class Page extends Creator {
@@ -41,11 +40,16 @@ export default class Page extends Creator {
 
   getPkgPath () {
     const projectDir = this.conf.projectDir as string
-    const pkgPath = path.join(projectDir, 'package.json')
-    if (fs.existsSync(pkgPath)) {
-      return pkgPath
+    let pkgPath = path.join(projectDir, 'package.json')
+    if (!fs.existsSync(pkgPath)) {
+      // 适配 云开发 项目
+      pkgPath = path.join(projectDir, 'client', 'package.json')
+      if (!fs.existsSync(pkgPath)) {
+        console.log(chalk.yellow('请在项目根目录下执行 taro create 命令!'))
+        process.exit(0)
+      }
     }
-    return path.join(projectDir, 'client', 'package.json')
+    return pkgPath
   }
 
   getTemplateInfo () {
@@ -55,8 +59,11 @@ export default class Page extends Creator {
       css: 'none',
       typescript: false
     }
+
+    // set template name
     templateInfo.template = templateInfo.name
     delete templateInfo.name
+
     this.conf = Object.assign(this.conf, templateInfo)
   }
 

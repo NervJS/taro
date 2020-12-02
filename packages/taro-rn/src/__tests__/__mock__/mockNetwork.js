@@ -13,13 +13,13 @@ export default class NetInfo {
   }
 
   fetch () {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       resolve(this.connectedStatus)
     })
   }
 
   getConnectionInfo () {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const res = {}
       res.type = this.connectionType
       res.effectiveType = this.effectiveConnectionType

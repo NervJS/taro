@@ -1,15 +1,16 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import chalk from 'chalk'
 import { exec } from 'child_process'
 import * as ora from 'ora'
+import { shouldUseYarn, shouldUseCnpm, chalk } from '@tarojs/helper'
+
+import { getAllFilesInFloder, getPkgVersion } from '../util'
 import { IProjectConf } from './project'
 import { IPageConf } from './page'
 import Creator from './creator'
-import * as helper from '../util'
 
 const CONFIG_DIR_NAME = 'config'
-const TEMPLATE_CREATOR = 'template_creator.js'
+export const TEMPLATE_CREATOR = 'template_creator.js'
 
 const styleExtMap = {
   sass: 'scss',
@@ -55,11 +56,12 @@ function createFiles (
     const fileRePath = file.replace(templatePath, '').replace(new RegExp(`\\${path.sep}`, 'g'), '/')
     let externalConfig: any = null
 
-    if (framework === 'vue' && file.endsWith('.jsx')) {
+    const isVueFramework = /^vue/.test(framework)
+    if (isVueFramework && file.endsWith('.jsx')) {
       return
     }
 
-    if (framework !== 'vue' && file.endsWith('.vue')) {
+    if (!isVueFramework && file.endsWith('.vue')) {
       return
     }
 
@@ -117,7 +119,9 @@ function createFiles (
 
     // 创建
     creater.template(template, fileRePath, path.join(projectPath, destRePath), config)
-    logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${path.join(projectName, destRePath)}`)}`)
+
+    const destinationPath = creater.destinationPath(path.join(projectPath, destRePath))
+    logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${destinationPath}`)}`)
   })
   return logs
 }
@@ -153,32 +157,18 @@ export async function createPage (creater: Creator, params: IPageConf, cb) {
 }
 
 export async function createApp (creater: Creator, params: IProjectConf, cb) {
-  const { projectName, projectDir, template, env, autoInstall = true, framework } = params
+  const { projectName, projectDir, template, autoInstall = true, framework } = params
   const logs: string[] = []
   // path
   const templatePath = creater.templatePath(template)
   const projectPath = path.join(projectDir, projectName)
 
-  // default 模板发布 npm 会滤掉 '.' 开头的文件，因此改为 '_' 开头，这里先改回来。
-  if (env !== 'test' && template === 'default') {
-    const files = await fs.readdir(templatePath)
-    const renames = files.map(file => {
-      const filePath = path.join(templatePath, file)
-      if (fs.statSync(filePath).isFile() && file.startsWith('_')) {
-        return fs.rename(filePath, path.join(templatePath, file.replace(/^_/, '.')))
-      }
-      return Promise.resolve()
-    })
-
-    await Promise.all(renames)
-  }
-
   // npm & yarn
-  const version = helper.getPkgVersion()
-  const shouldUseYarn = helper.shouldUseYarn()
-  const useNpmrc = !shouldUseYarn
+  const version = getPkgVersion()
+  const isShouldUseYarn = shouldUseYarn()
+  const useNpmrc = !isShouldUseYarn
   const yarnLockfilePath = path.join('yarn-lockfiles', `${version}-yarn.lock`)
-  const useYarnLock = shouldUseYarn && fs.existsSync(creater.templatePath(template, yarnLockfilePath))
+  const useYarnLock = isShouldUseYarn && fs.existsSync(creater.templatePath(template, yarnLockfilePath))
 
   if (useNpmrc) {
     creater.template(template, '.npmrc', path.join(projectPath, '.npmrc'))
@@ -190,7 +180,7 @@ export async function createApp (creater: Creator, params: IProjectConf, cb) {
   }
 
   // 遍历出模板中所有文件
-  const files = await helper.getAllFilesInFloder(templatePath, doNotCopyFiles)
+  const files = await getAllFilesInFloder(templatePath, doNotCopyFiles)
 
   // 引入模板编写者的自定义逻辑
   const handlerPath = path.join(templatePath, TEMPLATE_CREATOR)
@@ -242,9 +232,9 @@ export async function createApp (creater: Creator, params: IProjectConf, cb) {
     if (autoInstall) {
       // packages install
       let command: string
-      if (shouldUseYarn) {
+      if (isShouldUseYarn) {
         command = 'yarn install'
-      } else if (helper.shouldUseCnpm()) {
+      } else if (shouldUseCnpm()) {
         command = 'cnpm install'
       } else {
         command = 'npm install'

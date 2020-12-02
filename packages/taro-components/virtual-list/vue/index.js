@@ -107,12 +107,12 @@ function createListComponent ({
       },
 
       _callOnItemsRendered: memoizeOne(
-        (
+        function (
           overscanStartIndex,
           overscanStopIndex,
           visibleStartIndex,
           visibleStopIndex
-        ) => {
+        ) {
           return this.$props.onItemsRendered({
             overscanStartIndex,
             overscanStopIndex,
@@ -123,16 +123,17 @@ function createListComponent ({
       ),
 
       _callOnScroll: memoizeOne(
-        (
+        function (
           scrollDirection,
           scrollOffset,
           scrollUpdateWasRequested
-        ) =>
+        ) {
           this.$emit('scroll', {
             scrollDirection,
             scrollOffset,
             scrollUpdateWasRequested
           })
+        }
       ),
 
       _callPropsCallbacks () {
@@ -155,9 +156,9 @@ function createListComponent ({
         }
 
         this._callOnScroll(
-          scrollDirection,
-          scrollOffset,
-          scrollUpdateWasRequested
+          this.scrollDirection,
+          this.scrollOffset,
+          this.scrollUpdateWasRequested
         )
       },
 
@@ -442,8 +443,9 @@ function createListComponent ({
         this._instanceProps()
       )
 
+      const scrollViewName = process.env.TARO_ENV === 'h5' ? 'taro-scroll-view' : 'scroll-view'
       return h(
-        'scroll-view',
+        scrollViewName,
         {
           class: wclass,
           ref: this._outerRefSetter,

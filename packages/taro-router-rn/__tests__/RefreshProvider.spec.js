@@ -2,12 +2,9 @@ import { shallow } from 'enzyme/build/index'
 import toJson from 'enzyme-to-json'
 import React from 'react'
 import RefreshProvider from '../src/RefreshProvider'
+import { View } from 'react-native'
 
 class HomeScreen extends React.Component {
-  constructor (props) {
-    super(props)
-  }
-
   render () {
     return <View>Test</View>
   }
@@ -41,7 +38,7 @@ describe('RefreshProvider', function () {
     const wrapper = shallow(<RefreshProvider Taro={Taro}><HomeScreen /></RefreshProvider>)
     wrapper.setProps({ onPullDownRefresh: mockCallback })
 
-    function callback (data) {
+    function callback () {
       expect(wrapper.state().refreshing).toBe(true)
       done()
     }
@@ -53,7 +50,7 @@ describe('RefreshProvider', function () {
   it('should call stopPullDownRefresh success', function (done) {
     const wrapper = shallow(<RefreshProvider Taro={Taro}><HomeScreen /></RefreshProvider>)
 
-    function callback (data) {
+    function callback () {
       expect(wrapper.state().refreshing).toBe(false)
       done()
     }

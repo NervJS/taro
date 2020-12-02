@@ -209,7 +209,7 @@ function pxTransform (size) {
   if (!(designWidth in deviceRatio)) {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
   }
-  return parseInt(size, 10) / deviceRatio[designWidth] + 'rpx'
+  return (parseInt(size, 10) * deviceRatio[designWidth]) + 'rpx'
 }
 
 function canIUseWebp () {
@@ -251,5 +251,6 @@ export default function initNativeApi (taro) {
   taro.initPxTransform = initPxTransform.bind(taro)
   taro.pxTransform = pxTransform.bind(taro)
   taro.canIUseWebp = canIUseWebp
+  taro.env = jd.env
   jdCloud(taro)
 }

@@ -365,6 +365,6 @@ class InnerAudioContext {
  * @param {string} id - audio 组件的 id
  * @param {object} t - 在自定义组件下，当前组件实例的this，以操作组件内 audio 组件
  */
-export function createInnerAudioContext (id: string, t: object) {
+export function createInnerAudioContext () {
   return new InnerAudioContext()
 }

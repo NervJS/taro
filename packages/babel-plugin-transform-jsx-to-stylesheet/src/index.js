@@ -9,21 +9,6 @@ const cssSuffixs = ['.css', '.scss', '.sass', '.less', '.styl']
 let styleNames = [] // css module 写法中 import 的 Identifier
 
 module.exports = function ({ types: t, template }) {
-  const mergeStylesFunctionTemplate = template(`
-function ${MERGE_STYLES_FUNC_NAME}() {
-  var newTarget = {};
-
-  for (var index = 0; index < arguments.length; index++) {
-    var target = arguments[index];
-
-    for (var key in target) {
-      newTarget[key] = Object.assign(newTarget[key] || {}, target[key]);
-    }
-  }
-
-  return newTarget;
-}
-  `)
   const getClassNameFunctionTemplate = template(`
 function ${GET_CLS_NAME_FUNC_NAME}() {
   var className = [];
@@ -69,11 +54,9 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
   `)
 
   const getClassNameFunctionAst = getClassNameFunctionTemplate()
-  const mergeStylesFunctionAst = mergeStylesFunctionTemplate()
   const getStyleFunctionAst = getStyleFunctionTemplete()
 
   function getArrayExpression (value) {
-    let expression
     let str
 
     if (!value || value.value === '') {

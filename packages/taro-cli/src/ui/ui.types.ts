@@ -15,10 +15,14 @@ export interface IBuildData {
 export interface IH5BuildConfig extends IH5Config {
   env?: object,
   defineConstants?: object,
-  plugins?: object,
+  plugins?: any[],
   designWidth?: number,
   deviceRatio?: object,
   sourceRoot?: string,
   outputRoot?: string,
-  isWatch?: boolean
+  isWatch?: boolean,
+  babel?: object,
+  sass?: object,
+  csso?: object,
+  uglify?: object
 }

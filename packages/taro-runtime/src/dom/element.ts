@@ -1,11 +1,14 @@
 /* eslint-disable no-dupe-class-members */
-import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase, internalComponents, capitalize, hasOwn, isBooleanStringLiteral } from '@tarojs/shared'
+import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase } from '@tarojs/shared'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
 import { TaroEvent, eventSource } from './event'
 import { isElement } from '../utils'
 import { Style } from './style'
 import { PROPERTY_THRESHOLD } from '../constants'
+import { CurrentReconciler } from '../reconciler'
+import { treeToArray } from './tree'
+import { ClassList } from './class-list'
 
 interface Attributes {
   name: string;
@@ -37,6 +40,10 @@ export class TaroElement extends TaroNode {
 
   public set id (val: string) {
     this.setAttribute('id', val)
+  }
+
+  public get classList () {
+    return new ClassList(this.className, this)
   }
 
   public get className () {
@@ -71,7 +78,7 @@ export class TaroElement extends TaroNode {
     this.setAttribute('focus', false)
   }
 
-  public setAttribute (qualifiedName: string, value: string | boolean): void {
+  public setAttribute (qualifiedName: string, value: any): void {
     warn(
       isString(value) && value.length > PROPERTY_THRESHOLD,
       `元素 ${this.nodeName} 的 属性 ${qualifiedName} 的值数据量过大，可能会影响渲染性能。考虑降低图片转为 base64 的阈值或在 CSS 中使用 base64。`
@@ -98,8 +105,10 @@ export class TaroElement extends TaroNode {
       }
     }
 
+    CurrentReconciler.setAttribute?.(this, qualifiedName, value)
+
     this.enqueueUpdate({
-      path: `${this._path}.${process.env.FRAMEWORK === 'vue' ? toCamelCase(qualifiedName) : qualifiedName}`,
+      path: `${this._path}.${toCamelCase(qualifiedName)}`,
       value
     })
   }
@@ -107,19 +116,14 @@ export class TaroElement extends TaroNode {
   public removeAttribute (qualifiedName: string) {
     if (qualifiedName === 'style') {
       this.style.cssText = ''
-    } else if (process.env.FRAMEWORK === 'vue') {
-      const compName = capitalize(toCamelCase(this.tagName.toLowerCase()))
-      if (compName in internalComponents && hasOwn(internalComponents[compName], qualifiedName) && isBooleanStringLiteral(internalComponents[compName][qualifiedName])) {
-        // avoid attribute being removed because set false value in vue
-        this.setAttribute(qualifiedName, false)
-      } else {
-        delete this.props[qualifiedName]
-      }
     } else {
       delete this.props[qualifiedName]
     }
+
+    CurrentReconciler.removeAttribute?.(this, qualifiedName)
+
     this.enqueueUpdate({
-      path: `${this._path}.${process.env.FRAMEWORK === 'vue' ? toCamelCase(qualifiedName) : qualifiedName}`,
+      path: `${this._path}.${toCamelCase(qualifiedName)}`,
       value: ''
     })
   }
@@ -136,11 +140,18 @@ export class TaroElement extends TaroNode {
     return attrs.concat(style ? { name: 'style', value: style } : [])
   }
 
-  public get parentElement () {
-    if (this.parentNode instanceof TaroElement) {
-      return this.parentNode
-    }
-    return null
+  public getElementsByTagName (tagName: string): TaroElement[] {
+    return treeToArray(this, (el) => {
+      return el.nodeName === tagName || (tagName === '*' && this !== el)
+    })
+  }
+
+  public getElementsByClassName (className: string): TaroElement[] {
+    return treeToArray(this, (el) => {
+      const classList = el.classList
+      const classNames = className.trim().split(/\s+/)
+      return classNames.every(c => classList.has(c))
+    })
   }
 
   public dispatchEvent (event: TaroEvent) {

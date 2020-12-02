@@ -1,0 +1,44 @@
+{
+  "name": "@tarojs/service",
+  "version": "3.0.17",
+  "description": "Taro Service",
+  "main": "index.js",
+  "types": "types/index.d.ts",
+  "scripts": {
+    "build": "run-s clean prod",
+    "dev": "tsc -w",
+    "prod": "tsc",
+    "clean": "rimraf dist",
+    "prepack": "npm run build",
+    "test": "jest",
+    "test:dev": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "files": [
+    "index.js",
+    "dist",
+    "types",
+    "src"
+  ],
+  "keywords": [
+    "taro"
+  ],
+  "author": "luckyadam",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "homepage": "https://github.com/NervJS/taro#readme",
+  "dependencies": {
+    "@hapi/joi": "17.1.1",
+    "@tarojs/helper": "3.0.17",
+    "@tarojs/taro": "3.0.17",
+    "fs-extra": "8.1.0",
+    "lodash": "4.17.20",
+    "resolve": "1.15.1",
+    "tapable": "1.1.3"
+  }
+}

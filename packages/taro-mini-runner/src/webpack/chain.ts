@@ -9,43 +9,60 @@ import { partial, cloneDeep } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
 import * as TerserPlugin from 'terser-webpack-plugin'
 import * as webpack from 'webpack'
-import chalk from 'chalk'
 import { PostcssOption, ICopyOptions, IPostcssOption } from '@tarojs/taro/types/compile'
 import {
   recursiveMerge,
   isNodeModule,
   resolveMainFilePath,
-  REG_SASS,
+  REG_SASS_SASS,
+  REG_SASS_SCSS,
   REG_LESS,
   REG_STYLUS,
   REG_STYLE,
   REG_MEDIA,
   REG_FONT,
   REG_IMAGE,
-  BUILD_TYPES,
   REG_SCRIPTS,
-  REG_VUE,
   REG_CSS,
   REG_TEMPLATE,
-  MINI_APP_FILES
-} from '@tarojs/runner-utils'
+  chalk
+} from '@tarojs/helper'
+import { getSassLoaderOption } from '@tarojs/runner-utils'
 
 import { getPostcssPlugins } from './postcss.conf'
 
 import MiniPlugin from '../plugins/MiniPlugin'
-import { IOption } from '../utils/types'
-import { toCamelCase, internalComponents, capitalize } from '@tarojs/shared'
-import { componentConfig } from '../template/component'
+import { IOption, IBuildConfig } from '../utils/types'
 import defaultTerserOptions from '../config/terserOptions'
 
-const globalObjectMap = {
-  [BUILD_TYPES.WEAPP]: 'wx',
-  [BUILD_TYPES.ALIPAY]: 'my',
-  [BUILD_TYPES.SWAN]: 'swan',
-  [BUILD_TYPES.QQ]: 'qq',
-  [BUILD_TYPES.TT]: 'tt',
-  [BUILD_TYPES.JD]: 'jd',
-  [BUILD_TYPES.QUICKAPP]: 'global'
+interface IRule {
+  test?: any
+  exclude?: any[]
+  include?: any[]
+  use?: any
+  enforce?: 'pre' | 'post'
+  issuer?: any
+  loader?: any
+  loaders?: any
+  oneOf?: any
+  options?: any
+  query?: any
+  parser?: any
+  generator?: any
+  resource?: any
+  resourceQuery?: any
+  rules?: any
+  sideEffects?: boolean
+  type?: string
+  resolve?: any
+}
+
+export const makeConfig = async (buildConfig: IBuildConfig) => {
+  const sassLoaderOption = await getSassLoaderOption(buildConfig)
+  return {
+    ...buildConfig,
+    sassLoaderOption
+  }
 }
 
 const defaultCSSCompressOption = {
@@ -57,13 +74,16 @@ const defaultCSSCompressOption = {
 }
 
 const defaultMediaUrlLoaderOption = {
-  limit: 10240
+  limit: 10240,
+  esModule: false
 }
 const defaultFontUrlLoaderOption = {
-  limit: 10240
+  limit: 10240,
+  esModule: false
 }
 const defaultImageUrlLoaderOption = {
-  limit: 2046
+  limit: 2046,
+  esModule: false
 }
 const defaultCssModuleOption: PostcssOption.cssModules = {
   enable: false,
@@ -118,7 +138,6 @@ export const getStylusLoader = pipe(mergeOption, partial(getLoader, 'stylus-load
 export const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
 export const getFileLoader = pipe(mergeOption, partial(getLoader, 'file-loader'))
 export const getBabelLoader = pipe(mergeOption, partial(getLoader, 'babel-loader'))
-export const getVueLoader = pipe(mergeOption, partial(getLoader, 'vue-loader'))
 export const getMiniTemplateLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/miniTemplateLoader')))
 
 const getExtractCssLoader = () => {
@@ -175,8 +194,10 @@ export const getModule = (appPath: string, {
   designWidth,
   deviceRatio,
   buildAdapter,
+  isBuildQuickapp,
   // constantsReplaceList,
   enableSourceMap,
+  compile,
 
   cssLoaderOption,
   lessLoaderOption,
@@ -185,11 +206,9 @@ export const getModule = (appPath: string, {
   fontUrlLoaderOption,
   imageUrlLoaderOption,
   mediaUrlLoaderOption,
-  postcss
-
-  // babel
+  postcss,
+  fileType
 }) => {
-  const isQuickapp = buildAdapter === BUILD_TYPES.QUICKAPP
   const postcssOption: IPostcssOption = postcss || {}
 
   const cssModuleOptions: PostcssOption.cssModules = recursiveMerge({}, defaultCssModuleOption, postcssOption.cssModules)
@@ -230,7 +249,18 @@ export const getModule = (appPath: string, {
   const cssLoader = getCssLoader(cssOptions)
   const sassLoader = getSassLoader([{
     sourceMap: true,
-    implementation: sass
+    implementation: sass,
+    sassOptions: {
+      indentedSyntax: true,
+      outputStyle: 'expanded'
+    }
+  }, sassLoaderOption])
+  const scssLoader = getSassLoader([{
+    sourceMap: true,
+    implementation: sass,
+    sassOptions: {
+      outputStyle: 'expanded'
+    }
   }, sassLoaderOption])
 
   const postcssLoader = getPostcssLoader([
@@ -238,7 +268,7 @@ export const getModule = (appPath: string, {
     {
       ident: 'postcss',
       plugins: getPostcssPlugins(appPath, {
-        isQuickapp,
+        isBuildQuickapp,
         designWidth,
         deviceRatio,
         postcssOption
@@ -254,7 +284,7 @@ export const getModule = (appPath: string, {
     include?;
     use;
   }[] = [{
-    use: isQuickapp ? [
+    use: isBuildQuickapp ? [
       extractCssLoader,
       quickappStyleLoader,
       cssLoader,
@@ -305,10 +335,36 @@ export const getModule = (appPath: string, {
     return cssLoadersCopy
   }
 
-  const rule: any = {
+  const scriptRule: IRule = {
+    test: REG_SCRIPTS,
+    use: {
+      babelLoader: getBabelLoader([])
+    }
+  }
+
+  if (compile.exclude && compile.exclude.length) {
+    scriptRule.exclude = [
+      ...compile.exclude,
+      filename => /node_modules/.test(filename) && !(/taro/.test(filename))
+    ]
+  } else if (compile.include && compile.include.length) {
+    scriptRule.include = [
+      ...compile.include,
+      sourceDir,
+      filename => /taro/.test(filename)
+    ]
+  } else {
+    scriptRule.exclude = [filename => /node_modules/.test(filename) && !(/taro/.test(filename))]
+  }
+
+  const rule: Record<string, IRule> = {
     sass: {
-      test: REG_SASS,
+      test: REG_SASS_SASS,
       oneOf: addCssLoader(cssLoaders, sassLoader)
+    },
+    scss: {
+      test: REG_SASS_SCSS,
+      oneOf: addCssLoader(cssLoaders, scssLoader)
     },
     less: {
       test: REG_LESS,
@@ -322,52 +378,12 @@ export const getModule = (appPath: string, {
       test: REG_CSS,
       oneOf: cssLoaders
     },
-    vue: {
-      test: REG_VUE,
-      use: {
-        vueLoader: getVueLoader([{
-          optimizeSSR: false,
-          transformAssetUrls: {
-            video: ['src', 'poster'],
-            'live-player': 'src',
-            audio: 'src',
-            source: 'src',
-            image: 'src',
-            'cover-image': 'src'
-          },
-          compilerOptions: {
-            modules: [{
-              preTransformNode (el) {
-                const nodeName = el.tag
-                if (capitalize(toCamelCase(nodeName)) in internalComponents) {
-                  componentConfig.includes.add(nodeName)
-                }
-
-                const usingComponent = componentConfig.thirdPartyComponents.get(nodeName)
-                if (usingComponent != null) {
-                  el.attrsList
-                    .filter(a => !a.dynamic)
-                    .forEach(a => usingComponent.add(a.name.startsWith(':') ? a.name.slice(1) : a.name))
-                }
-
-                return el
-              }
-            }]
-          }
-        }])
-      }
-    },
-    script: {
-      test: REG_SCRIPTS,
-      use: {
-        babelLoader: getBabelLoader([])
-      }
-    },
+    script: scriptRule,
     template: {
       test: REG_TEMPLATE,
       use: [getFileLoader([{
         useRelativePath: true,
-        name: `[path][name]${MINI_APP_FILES[buildAdapter].TEMPL}`,
+        name: `[path][name]${fileType.templ}`,
         context: sourceDir
       }]), miniTemplateLoader]
     },
@@ -452,17 +468,17 @@ export const getEntry = ({
   }
 }
 
-export function getOutput (appPath: string, [{ outputRoot, publicPath, buildAdapter }, customOutput]) {
+export function getOutput (appPath: string, [{ outputRoot, publicPath, globalObject }, customOutput]) {
   return {
     path: path.join(appPath, outputRoot),
     publicPath,
     filename: '[name].js',
     chunkFilename: '[name].js',
-    globalObject: globalObjectMap[buildAdapter],
+    globalObject,
     ...customOutput
   }
 }
 
-export function getDevtool (enableSourceMap) {
-  return enableSourceMap ? 'source-map' : 'none'
+export function getDevtool (enableSourceMap, sourceMapType = 'cheap-module-source-map') {
+  return enableSourceMap ? sourceMapType : 'none'
 }

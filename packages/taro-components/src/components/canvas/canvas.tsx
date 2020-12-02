@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, ComponentInterface, Prop, State, Element, Event } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, Element, Event } from '@stencil/core'
 
 const LONG_TAP_DELAY = 500
 
@@ -9,30 +9,16 @@ const LONG_TAP_DELAY = 500
 })
 export class Canvas implements ComponentInterface {
   private timer: NodeJS.Timeout
-  // @Prop() type: '2d' | 'webgl'
-  @Prop() canvasId: string
 
-  @State() width = 300
-  @State() height = 150
+  @Prop() canvasId: string
 
   @Element() el: HTMLElement
 
   @Event({
     eventName: 'longtap'
   })
+
   onLongTap
-
-  componentDidLoad () {
-    const { width, height } = this.el.getBoundingClientRect()
-    this.width = width
-    this.height = height
-  }
-
-  componentDidUpdate () {
-    const { width, height } = this.el.getBoundingClientRect()
-    if (this.width !== width) this.width = width
-    if (this.height !== height) this.height = height
-  }
 
   onTouchStart = () => {
     this.timer = setTimeout(() => {
@@ -49,17 +35,15 @@ export class Canvas implements ComponentInterface {
   }
 
   render () {
-    const {
-      canvasId,
-      width,
-      height
-    } = this
+    const { canvasId } = this
 
     return (
       <canvas
         canvas-id={canvasId}
-        width={width}
-        height={height}
+        style={{
+          width: '100%',
+          height: '100%'
+        }}
         onTouchStart={this.onTouchStart}
         onTouchMove={this.onTouchMove}
         onTouchEnd={this.onTouchEnd}

@@ -1,24 +1,54 @@
-export function importFramework (framework: string) {
-  if (framework === 'vue') {
-    return `
+export const frameworkMeta: Record<string, {
+  importFrameworkStatement: string
+  frameworkArgs: string
+  creator: string
+  importFrameworkName: string
+  isNeedRawLoader?: boolean
+  extraImportForWeb?: string
+  execBeforeCreateWebApp?: string
+}> = {
+  vue: {
+    importFrameworkStatement: `
 import Vue from 'vue';
+`,
+    frameworkArgs: 'Vue, config',
+    creator: 'createVueApp',
+    importFrameworkName: 'Vue',
+    isNeedRawLoader: true,
+    extraImportForWeb: `
+require('@tarojs/components/dist-h5/vue')
 `
-  } else if (framework === 'nerv') {
-    return `
+  },
+  vue3: {
+    importFrameworkStatement: `
+import { h } from 'vue'
+`,
+    frameworkArgs: 'h, config',
+    creator: 'createVue3App',
+    importFrameworkName: 'h',
+    isNeedRawLoader: true,
+    extraImportForWeb: `
+import { initVue3Components } from '@tarojs/components/dist-h5/vue3'
+`,
+    execBeforeCreateWebApp: `
+initVue3Components(component)
+`
+  },
+  nerv: {
+    importFrameworkStatement: `
 import Nerv from 'nervjs';
-`
-  }
-  return `
-import * as React from 'react'  
+`,
+    frameworkArgs: 'Nerv, Nerv, config',
+    creator: 'createReactApp',
+    importFrameworkName: 'Nerv'
+  },
+  react: {
+    importFrameworkStatement: `
+import * as React from 'react'
 import ReactDOM from 'react-dom'
-`
-}
-
-export function getFrameworkArgs (framework: string) {
-  if (framework === 'vue') {
-    return 'Vue'
-  } else if (framework === 'nerv') {
-    return 'Nerv, Nerv'
+`,
+    frameworkArgs: 'React, ReactDOM, config',
+    creator: 'createReactApp',
+    importFrameworkName: 'React'
   }
-  return 'React, ReactDOM'
 }

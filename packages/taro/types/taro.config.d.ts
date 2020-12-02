@@ -71,6 +71,18 @@ declare namespace Taro {
      * @since 微信客户端 7.0.0
      */
     disableSwipeBack?: boolean
+    /**
+     * 是否启用分享给好友。
+     *
+     * @default false
+     */
+    enableShareAppMessage?: boolean
+    /**
+     * 是否启用分享到朋友圈。
+     *
+     * @default false
+     */
+    enableShareTimeline?: boolean
   }
 
   interface WindowConfig extends CommonPageConfig {
@@ -91,7 +103,7 @@ declare namespace Taro {
      * 是否允许向下拉拽
      * default: YES
      */
-    allowsBounceVertical?:  'YES' | 'NO'
+    allowsBounceVertical?: 'YES' | 'NO'
   }
 
   interface TarbarList {
@@ -303,6 +315,16 @@ declare namespace Taro {
      * @since 2.8.0
      */
     style?: 'v2'
+    /** 
+     * 配置 darkmode 为 true，即表示当前小程序已适配 DarkMode
+     * @since 2.11.0
+     */
+    darkmode?: boolean
+    /**
+     * 指定 darkmode 变量配置文件 theme.json 路径
+     * @since 2.11.0
+     */
+    themeLocation?: string
   }
 
   interface Config extends PageConfig, AppConfig {

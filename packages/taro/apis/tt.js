@@ -191,7 +191,7 @@ function pxTransform (size) {
   if (!(designWidth in deviceRatio)) {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
   }
-  return parseInt(size, 10) / deviceRatio[designWidth] + 'rpx'
+  return (parseInt(size, 10) * deviceRatio[designWidth]) + 'rpx'
 }
 
 export default function initNativeApi (taro) {
@@ -203,4 +203,5 @@ export default function initNativeApi (taro) {
   taro.getApp = getApp
   taro.initPxTransform = initPxTransform.bind(taro)
   taro.pxTransform = pxTransform.bind(taro)
+  taro.env = tt.env
 }

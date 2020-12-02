@@ -73,6 +73,10 @@ function unquote (str: string) {
 }
 
 function getTagName (tag: string) {
+  if (options.html.renderHTMLTag) {
+    return tag
+  }
+
   if (specialMiniElements[tag]) {
     return specialMiniElements[tag]
   } else if (isMiniElements(tag)) {
@@ -90,7 +94,9 @@ function splitEqual (str: string) {
   const sep = '='
   const idx = str.indexOf(sep)
   if (idx === -1) return [str]
-  return [str.slice(0, idx), str.slice(idx + sep.length)]
+  const key = str.slice(0, idx).trim()
+  const value = str.slice(idx + sep.length).trim()
+  return [key, value]
 }
 
 function format (children: ChildNode[]) {
@@ -111,12 +117,14 @@ function format (children: ChildNode[]) {
     }
 
     const el = document.createElement(getTagName(child.tagName))
-    el.className = child.tagName
+    if (!options.html.renderHTMLTag) {
+      el.className = child.tagName
+    }
     for (let i = 0; i < child.attributes.length; i++) {
       const attr = child.attributes[i]
       const [key, value] = splitEqual(attr)
       if (key === 'class') {
-        el.className += el.className
+        el.className += ' ' + unquote(value)
       } else if (key[0] === 'o' && key[1] === 'n') {
         continue
       } else {

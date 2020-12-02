@@ -3,10 +3,6 @@ import { View, Text } from 'react-native'
 import { styles } from '../styles'
 
 export default class Map extends React.Component {
-  constructor (props) {
-    super(props)
-  }
-
   render () {
     return (
       <View>

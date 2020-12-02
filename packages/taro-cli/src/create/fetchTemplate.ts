@@ -1,20 +1,29 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import chalk from 'chalk'
 import * as ora from 'ora'
 import * as AdmZip from 'adm-zip'
 import * as download from 'download-git-repo'
 import * as request from 'request'
+import { chalk } from '@tarojs/helper'
+import { TEMPLATE_CREATOR } from './init'
+
 import { getTemplateSourceType, readDirWithFileTypes } from '../util'
+
+export interface ITemplates {
+  name: string,
+  platforms?: string | string[]
+  desc?: string
+}
 
 const TEMP_DOWNLOAD_FLODER = 'taro-temp'
 
-export default function fetchTemplate (templateSource: string, templateRootPath: string, clone?: boolean): Promise<any> {
+export default function fetchTemplate (templateSource: string, templateRootPath: string, clone?: boolean): Promise<ITemplates[]> {
   const type = getTemplateSourceType(templateSource)
   const tempPath = path.join(templateRootPath, TEMP_DOWNLOAD_FLODER)
   let name: string
 
-  return new Promise(async (resolve, reject) => {
+  // eslint-disable-next-line no-async-promise-executor
+  return new Promise(async (resolve) => {
     // 下载文件的缓存目录
     if (fs.existsSync(tempPath)) await fs.remove(tempPath)
     await fs.mkdir(tempPath)
@@ -86,12 +95,40 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
         })
       )
       await fs.remove(tempPath)
-      return Promise.resolve(files)
+
+      const res: ITemplates[] = files.map(name => {
+        const creatorFile = path.join(templateRootPath, name, TEMPLATE_CREATOR)
+
+        if (!fs.existsSync(creatorFile)) return { name }
+
+        const { platforms = '', desc = '' } = require(creatorFile)
+
+        return {
+          name,
+          platforms,
+          desc
+        }
+      })
+      return Promise.resolve(res)
     } else {
       // 单模板
       await fs.move(templateFloder, path.join(templateRootPath, name), { overwrite: true })
       await fs.remove(tempPath)
-      return Promise.resolve([name])
+
+      let res: ITemplates = { name }
+      const creatorFile = path.join(templateRootPath, name, TEMPLATE_CREATOR)
+
+      if (fs.existsSync(creatorFile)) {
+        const { platforms = '', desc = '' } = require(creatorFile)
+
+        res = {
+          name,
+          platforms,
+          desc
+        }
+      }
+
+      return Promise.resolve([res])
     }
   })
 }

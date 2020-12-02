@@ -69,6 +69,14 @@ export default function createListComponent ({
       }))
       this._getItemStyle = void 0
 
+      this._getStyleValue = value => {
+        return typeof value === 'number'
+          ? value + 'px'
+          : value == null
+            ? ''
+            : value
+      }
+
       this._getItemStyle = index => {
         const {
           direction,
@@ -96,6 +104,12 @@ export default function createListComponent ({
             top: !isHorizontal ? offset : 0,
             height: !isHorizontal ? size : '100%',
             width: isHorizontal ? size : '100%'
+          }
+        }
+
+        for (const k in style) {
+          if (style.hasOwnProperty(k)) {
+            style[k] = this._getStyleValue(style[k])
           }
         }
 
@@ -332,7 +346,9 @@ export default function createListComponent ({
         ...rest
       } = this.props
       const {
-        isScrolling
+        isScrolling,
+        scrollOffset,
+        scrollUpdateWasRequested
       } = this.state // TODO Deprecate direction "horizontal"
 
       const isHorizontal = direction === 'horizontal' || layout === 'horizontal'
@@ -356,7 +372,7 @@ export default function createListComponent ({
       // So their actual sizes (if variable) are taken into consideration.
 
       const estimatedTotalSize = getEstimatedTotalSize(this.props, this._instanceProps)
-      return createElement(outerElementType || outerTagName || 'div', {
+      const outerElementProps = {
         ...rest,
         className,
         onScroll,
@@ -364,21 +380,29 @@ export default function createListComponent ({
         layout,
         style: {
           position: 'relative',
-          height,
-          width,
+          height: this._getStyleValue(height),
+          width: this._getStyleValue(width),
           overflow: 'auto',
           WebkitOverflowScrolling: 'touch',
           willChange: 'transform',
           direction,
           ...style
         }
-      }, createElement(innerElementType || innerTagName || 'div', {
+      }
+      if (scrollUpdateWasRequested) {
+        if (isHorizontal) {
+          outerElementProps.scrollLeft = scrollOffset
+        } else {
+          outerElementProps.scrollTop = scrollOffset
+        }
+      }
+      return createElement(outerElementType || outerTagName || 'div', outerElementProps, createElement(innerElementType || innerTagName || 'div', {
         children: items,
         ref: innerRef,
         style: {
-          height: isHorizontal ? '100%' : estimatedTotalSize,
-          pointerEvents: isScrolling ? 'none' : undefined,
-          width: isHorizontal ? estimatedTotalSize : '100%'
+          height: this._getStyleValue(isHorizontal ? '100%' : estimatedTotalSize),
+          pointerEvents: isScrolling ? 'none' : 'auto',
+          width: this._getStyleValue(isHorizontal ? estimatedTotalSize : '100%')
         }
       }))
     }

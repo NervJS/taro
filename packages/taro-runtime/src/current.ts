@@ -1,8 +1,11 @@
 import { AppInstance, PageInstance } from './dsl/instance'
 
 interface Router {
-  params: Record<string, unknown>
-  path: string
+  params: Record<string, unknown>,
+  path: string,
+  onReady: string,
+  onHide: string,
+  onShow: string
 }
 
 interface Current {
@@ -16,3 +19,5 @@ export const Current: Current = {
   router: null,
   page: null
 }
+
+export const getCurrentInstance = () => Current

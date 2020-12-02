@@ -1,9 +1,8 @@
 import * as React from 'react'
 import { ActivityIndicator } from 'react-native'
-import { Entypo, Foundation, MaterialIcons } from '@expo/vector-icons'
+import { Entypo, MaterialIcons } from '@expo/vector-icons'
 
 const ICON_COLOR = '#FFFFFF'
-const CENTER_ICON_SIZE = 36
 const BOTTOM_BAR_ICON_SIZE = 30
 
 export const PlayIcon = () =>

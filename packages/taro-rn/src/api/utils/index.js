@@ -56,8 +56,8 @@ export function errorHandler (fail, complete) {
 
 const protocolAndDomainRE = /^(?:\w+:)?\/\/(\S+)$/
 
-const localhostDomainRE = /^localhost[\:?\d]*(?:[^\:?\d]\S*)?$/
-const nonLocalhostDomainRE = /^[^\s\.]+\.\S{2,}$/
+const localhostDomainRE = /^localhost[:?\d]*(?:[^:?\d]\S*)?$/
+const nonLocalhostDomainRE = /^[^\s.]+\.\S{2,}$/
 
 /**
  * Loosely validate a URL `string`.

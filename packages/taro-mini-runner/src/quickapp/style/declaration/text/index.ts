@@ -1,5 +1,5 @@
 export default {
-  color: (value, declaration, addDeclaration) => {
+  color: (value) => {
     if (~value.indexOf('inherit')) {
       return 'I:'
     }
@@ -12,12 +12,12 @@ export default {
       return 'I:'
     }
   },
-  'text-decoration': (value, declaration, addDeclaration) => {
+  'text-decoration': (value) => {
     if (~['overline', 'blink'].indexOf(value)) {
       return 'I:'
     }
   },
-  'text-overflow': (value, declaration, addDeclaration) => {
+  'text-overflow': (value) => {
     // 在设置了行数的情况下生效
     if (!value) {
       return 'I:'

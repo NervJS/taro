@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import createComponent from './createComponent'
 import createFormsComponent from './createFormsComponent'
-import Picker from './components/picker.vue'
-import Text from './components/text.vue'
-import Image from './components/image.vue'
-import Icon from './components/icon.vue'
-import ScrollView from './components/scroll-view.vue'
+import Picker from './components/picker'
+import Text from './components/text'
+import Image from './components/image'
+import Icon from './components/icon'
+import ScrollView from './components/scroll-view'
 
 import { simpleComponents } from './simpleComponents'
 

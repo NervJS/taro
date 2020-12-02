@@ -16,6 +16,7 @@
     "build:h5": "taro build --type h5",
     "build:rn": "taro build --type rn",
     "build:qq": "taro build --type qq",
+    "build:jd": "taro build --type jd",
     "build:quickapp": "taro build --type quickapp",
     "dev:weapp": "npm run build:weapp -- --watch",
     "dev:swan": "npm run build:swan -- --watch",
@@ -24,6 +25,7 @@
     "dev:h5": "npm run build:h5 -- --watch",
     "dev:rn": "npm run build:rn -- --watch",
     "dev:qq": "npm run build:qq -- --watch",
+    "dev:jd": "npm run build:jd -- --watch",
     "dev:quickapp": "npm run build:quickapp -- --watch"
   },
   "browserslist": [
@@ -42,7 +44,8 @@
     "react": "^16.10.0"<%}%><% if (framework === 'nerv') {%>
     "nervjs": "^1.5.0"<%}%><% if (framework === 'vue') {%>
     "vue-template-compiler": "^2.5.0",
-    "vue": "^2.5.0"<%}%>
+    "vue": "^2.5.0"<%}%><% if (framework === 'vue3') {%>
+    "vue": "^3.0.0"<%}%>
   },
   "devDependencies": {
     "@types/webpack-env": "^1.13.6",<% if (framework === 'react' || framework === 'nerv') {%>
@@ -51,7 +54,11 @@
     "@babel/core": "^7.8.0",
     "@tarojs/webpack-runner": "<%= version %>",
     "babel-preset-taro": "<%= version %>",<% if (framework === 'vue') {%>
-    "eslint-plugin-vue": "^6.x",<%}%>
+    "vue-loader": "^15.9.2",
+    "eslint-plugin-vue": "^6.x",<%}%><% if (framework === 'vue3') {%>
+    "@vue/compiler-sfc": "^3.0.0",
+    "vue-loader": "^16.0.0-beta.8",
+    "eslint-plugin-vue": "^7.0.0",<%}%>
     "eslint-config-taro": "<%= version %>",
     "eslint": "^6.8.0",<% if (framework === 'react' || framework === 'nerv') {%>
     "eslint-plugin-react": "^7.8.2",

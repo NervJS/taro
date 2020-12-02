@@ -1,8 +1,11 @@
-import { AppConfig } from '@tarojs/taro'
 import { initTabbar } from './tabbar'
+import { setHistoryMode } from './history'
+import { RouterConfig } from './router'
 
-export function init (config: AppConfig) {
-  // eslint-disable-next-line no-unused-expressions
+export function init (config: RouterConfig) {
+  config.router.mode = config.router.mode || 'hash'
+  setHistoryMode(config.router.mode, config.router.basename)
+  Object.assign(routerConfig, config)
   document.getElementById('app')?.remove()
 
   const container = document.createElement('div')
@@ -23,3 +26,5 @@ export function init (config: AppConfig) {
 
   initTabbar(config)
 }
+
+export const routerConfig: RouterConfig = Object.create(null)

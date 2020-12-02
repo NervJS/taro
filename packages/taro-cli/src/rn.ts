@@ -2,17 +2,28 @@ import * as fs from 'fs-extra'
 import * as path from 'path'
 import { exec, spawn, spawnSync, execSync, SpawnSyncOptions } from 'child_process'
 import { performance } from 'perf_hooks'
-import * as chokidar from 'chokidar'
-import chalk from 'chalk'
 import * as _ from 'lodash'
 import * as klaw from 'klaw'
-import { TogglableOptions, ICommonPlugin, IOption } from '@tarojs/taro/types/compile'
+import { TogglableOptions, IOption } from '@tarojs/taro/types/compile'
+import {
+  PROJECT_CONFIG,
+  processTypeEnum,
+  REG_STYLE,
+  REG_SCRIPTS,
+  REG_TYPESCRIPT,
+  chalk,
+  chokidar,
+  resolveScriptPath,
+  printLog,
+  shouldUseYarn,
+  shouldUseCnpm,
+  SOURCE_DIR,
+  ENTRY
+} from '@tarojs/helper'
 
-import * as Util from './util'
-import CONFIG from './config'
+import { getPkgVersion } from './util'
 import * as StyleProcess from './rn/styleProcess'
 import { parseJSCode as transformJSCode } from './rn/transformJS'
-import { PROJECT_CONFIG, processTypeEnum, REG_STYLE, REG_SCRIPTS, REG_TYPESCRIPT, BUILD_TYPES } from './util/constants'
 import { convertToJDReact } from './jdreact/convert_to_jdreact'
 import { IBuildOptions } from './util/types'
 // import { Error } from 'tslint/lib/error'
@@ -52,7 +63,7 @@ class Compiler {
   sass: IOption
   less: IOption
   stylus: IOption
-  plugins: ICommonPlugin[]
+  plugins: any[]
   rnConfig
   hasJDReactOutput: boolean
   babelConfig: any
@@ -61,10 +72,10 @@ class Compiler {
 
   constructor (appPath) {
     this.appPath = appPath
-    this.projectConfig = require(path.join(appPath, PROJECT_CONFIG))(_.merge)
-    const sourceDirName = this.projectConfig.sourceRoot || CONFIG.SOURCE_DIR
+    this.projectConfig = require(resolveScriptPath(path.join(appPath, PROJECT_CONFIG)))(_.merge)
+    const sourceDirName = this.projectConfig.sourceRoot || SOURCE_DIR
     this.sourceDir = path.join(appPath, sourceDirName)
-    this.entryFilePath = Util.resolveScriptPath(path.join(this.sourceDir, CONFIG.ENTRY))
+    this.entryFilePath = resolveScriptPath(path.join(this.sourceDir, ENTRY))
     this.entryFileName = path.basename(this.entryFilePath)
     this.entryBaseName = path.basename(this.entryFilePath, path.extname(this.entryFileName))
     this.babel = this.projectConfig.babel
@@ -102,7 +113,7 @@ class Compiler {
     return Promise.all(styleFiles.map(async p => { // to css string
       const filePath = path.join(p)
       const fileExt = path.extname(filePath)
-      Util.printLog(processTypeEnum.COMPILE, _.camelCase(fileExt).toUpperCase(), filePath)
+      printLog(processTypeEnum.COMPILE, _.camelCase(fileExt).toUpperCase(), filePath)
       return StyleProcess.loadStyle({
         filePath,
         pluginsConfig: {
@@ -157,9 +168,9 @@ class Compiler {
     AppRegistry.registerComponent(appName, () => App);`
 
     fs.writeFileSync(path.join(this.tempPath, 'index.js'), indexJsStr)
-    Util.printLog(processTypeEnum.GENERATE, 'index.js', path.join(this.tempPath, 'index.js'))
+    printLog(processTypeEnum.GENERATE, 'index.js', path.join(this.tempPath, 'index.js'))
     fs.writeFileSync(path.join(this.tempPath, 'app.json'), JSON.stringify(appJsonObject, null, 2))
-    Util.printLog(processTypeEnum.GENERATE, 'app.json', path.join(this.tempPath, 'app.json'))
+    printLog(processTypeEnum.GENERATE, 'app.json', path.join(this.tempPath, 'app.json'))
     return Promise.resolve()
   }
 
@@ -180,7 +191,7 @@ class Compiler {
       if (REG_TYPESCRIPT.test(filePath)) {
         distPath = distPath.replace(/\.(tsx|ts)(\?.*)?$/, '.js')
       }
-      Util.printLog(processTypeEnum.COMPILE, _.camelCase(path.extname(filePath)).toUpperCase(), filePath)
+      printLog(processTypeEnum.COMPILE, _.camelCase(path.extname(filePath)).toUpperCase(), filePath)
       // transformJSCode
       const transformResult = transformJSCode({
         code, filePath, isEntryFile: this.isEntryFile(filePath), projectConfig: this.projectConfig
@@ -188,16 +199,16 @@ class Compiler {
       const jsCode = transformResult.code
       fs.ensureDirSync(distDirname)
       fs.writeFileSync(distPath, Buffer.from(jsCode))
-      Util.printLog(processTypeEnum.GENERATE, _.camelCase(path.extname(filePath)).toUpperCase(), distPath)
+      printLog(processTypeEnum.GENERATE, _.camelCase(path.extname(filePath)).toUpperCase(), distPath)
       // compileDepStyles
       const styleFiles = transformResult.styleFiles
       depTree[filePath] = styleFiles
       await this.compileDepStyles(filePath, styleFiles)
     } else {
       fs.ensureDirSync(distDirname)
-      Util.printLog(processTypeEnum.COPY, _.camelCase(path.extname(filePath)).toUpperCase(), filePath)
+      printLog(processTypeEnum.COPY, _.camelCase(path.extname(filePath)).toUpperCase(), filePath)
       fs.copySync(filePath, distPath)
-      Util.printLog(processTypeEnum.GENERATE, _.camelCase(path.extname(filePath)).toUpperCase(), distPath)
+      printLog(processTypeEnum.GENERATE, _.camelCase(path.extname(filePath)).toUpperCase(), distPath)
     }
   }
 
@@ -206,7 +217,7 @@ class Compiler {
    * @returns {Promise}
    */
   buildTemp () {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const filePaths: string[] = []
       klaw(this.sourceDir)
         .on('data', file => {
@@ -258,7 +269,7 @@ class Compiler {
     const t0 = performance.now()
     await callback(args)
     const t1 = performance.now()
-    Util.printLog(processTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
+    printLog(processTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
     console.log()
   }
 
@@ -277,12 +288,12 @@ class Compiler {
       })
       .on('add', filePath => {
         const relativePath = path.relative(this.appPath, filePath)
-        Util.printLog(processTypeEnum.CREATE, '添加文件', relativePath)
+        printLog(processTypeEnum.CREATE, '添加文件', relativePath)
         this.perfWrap(this.buildTemp.bind(this))
       })
       .on('change', filePath => {
         const relativePath = path.relative(this.appPath, filePath)
-        Util.printLog(processTypeEnum.MODIFY, '文件变动', relativePath)
+        printLog(processTypeEnum.MODIFY, '文件变动', relativePath)
         if (REG_SCRIPTS.test(filePath)) {
           this.perfWrap(this.processFile.bind(this), filePath)
         }
@@ -296,7 +307,7 @@ class Compiler {
       })
       .on('unlink', filePath => {
         const relativePath = path.relative(this.appPath, filePath)
-        Util.printLog(processTypeEnum.UNLINK, '删除文件', relativePath)
+        printLog(processTypeEnum.UNLINK, '删除文件', relativePath)
         this.perfWrap(this.buildTemp.bind(this))
       })
       .on('error', error => console.log(`Watcher error: ${error}`))
@@ -309,7 +320,7 @@ function hasRNDep (appPath) {
 }
 
 function updatePkgJson (appPath) {
-  const version = Util.getPkgVersion()
+  const version = getPkgVersion()
   const RNDep = `{
     "@tarojs/components-rn": "^${version}",
     "@tarojs/taro-rn": "^${version}",
@@ -321,13 +332,13 @@ function updatePkgJson (appPath) {
     "tslib": "^1.8.0"
   }
   `
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const pkgJson = require(path.join(appPath, 'package.json'))
     // 未安装 RN 依赖,则更新 pkgjson,并重新安装依赖
     if (!hasRNDep(appPath)) {
       pkgJson.dependencies = Object.assign({}, pkgJson.dependencies, JSON.parse(RNDep.replace(/(\r\n|\n|\r|\s+)/gm, '')))
       fs.writeFileSync(path.join(appPath, 'package.json'), JSON.stringify(pkgJson, null, 2))
-      Util.printLog(processTypeEnum.GENERATE, 'package.json', path.join(appPath, 'package.json'))
+      printLog(processTypeEnum.GENERATE, 'package.json', path.join(appPath, 'package.json'))
       installDep(appPath).then(() => {
         resolve()
       })
@@ -343,15 +354,15 @@ function installDep (path: string) {
     console.log(chalk.yellow('开始安装依赖~'))
     process.chdir(path)
     let command
-    if (Util.shouldUseYarn()) {
+    if (shouldUseYarn()) {
       command = 'yarn'
-    } else if (Util.shouldUseCnpm()) {
+    } else if (shouldUseCnpm()) {
       command = 'cnpm install'
     } else {
       command = 'npm install'
     }
     exec(command, (err, stdout, stderr) => {
-      if (err) reject()
+      if (err) reject(err)
       else {
         console.log(stdout)
         console.log(stderr)
@@ -365,7 +376,7 @@ export { Compiler }
 
 export async function build (appPath: string, buildConfig: IBuildOptions) {
   const { watch } = buildConfig
-  process.env.TARO_ENV = BUILD_TYPES.RN
+  process.env.TARO_ENV = 'rn'
   const compiler = new Compiler(appPath)
   fs.ensureDirSync(compiler.tempPath)
   const t0 = performance.now()
@@ -373,13 +384,9 @@ export async function build (appPath: string, buildConfig: IBuildOptions) {
   if (!hasRNDep(appPath)) {
     await updatePkgJson(appPath)
   }
-  try {
-    await compiler.buildTemp()
-  } catch (e) {
-    throw e
-  }
+  await compiler.buildTemp()
   const t1 = performance.now()
-  Util.printLog(processTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
+  printLog(processTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
 
   if (watch) {
     compiler.watchFiles()

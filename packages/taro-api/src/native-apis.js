@@ -7,6 +7,7 @@ const onAndSyncApis = {
   onBackgroundAudioPause: true,
   onBackgroundAudioStop: true,
   onNetworkStatusChange: true,
+  offNetworkStatusChange: true,
   onAccelerometerChange: true,
   onCompassChange: true,
   onBluetoothAdapterStateChange: true,
@@ -47,7 +48,17 @@ const onAndSyncApis = {
   onAudioInterruptionEnd: true,
   onAudioInterruptionBegin: true,
   onLocationChange: true,
-  offLocationChange: true
+  offLocationChange: true,
+
+  // 基础
+  onUnhandledRejection: true,
+  offUnhandledRejection: true,
+  onThemeChange: true,
+  offThemeChange: true,
+
+  // 界面
+  onKeyboardHeightChange: true,
+  offKeyboardHeightChange: true
 }
 const noPromiseApis = {
   // 媒体
@@ -96,6 +107,11 @@ const noPromiseApis = {
   onWindowResize: true,
   offWindowResize: true,
 
+  // 调试
+  setEnableDebug: true,
+  getRealtimeLogManager: true,
+  getLogManager: true,
+
   // 拓展接口
   arrayBufferToBase64: true,
   base64ToArrayBuffer: true,
@@ -103,6 +119,9 @@ const noPromiseApis = {
   getAccountInfoSync: true,
   getUpdateManager: true,
   createWorker: true,
+
+  getPerformance: true,
+  reportPerformance: true,
 
   // 广告
   createRewardedVideoAd: true,
@@ -133,6 +152,7 @@ const otherApis = {
   chooseVideo: true,
   saveVideoToPhotosAlbum: true,
   loadFontFace: true,
+  chooseMedia: true,
 
   // 文件
   saveFile: true,
@@ -206,6 +226,7 @@ const otherApis = {
   getConnectedWifi: true,
   startDeviceMotionListening: true,
   stopDeviceMotionListening: true,
+  getBatteryInfo: true,
 
   // 界面
   pageScrollTo: true,

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/react",
-  "version": "3.0.0-beta.4",
+  "version": "3.0.17",
   "description": "like react-dom, but for mini apps.",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-react#readme",
@@ -16,6 +16,7 @@
   },
   "scripts": {
     "test": "jest --collectCoverage",
+    "test:ci": "jest -i --coverage false",
     "build": "rollup -c",
     "dev": "rollup -c -w"
   },
@@ -23,7 +24,7 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/runtime": "3.0.0-beta.4",
+    "@tarojs/runtime": "3.0.17",
     "react-reconciler": "^0.23.0",
     "scheduler": "^0.17.0"
   },

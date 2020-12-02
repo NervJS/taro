@@ -54,6 +54,7 @@ type Props = {
   onTimeupdate?: Function,
   onWaiting?: Function,
   onError?: Function
+  isMuted?: boolean
 }
 
 class _Video extends React.Component<Props> {
@@ -78,6 +79,7 @@ class _Video extends React.Component<Props> {
       return
     }
 
+    // eslint-disable-next-line no-undef
     this.props.onTimeupdate(positionMillis)
 
     if (playbackStatus.isPlaying) {

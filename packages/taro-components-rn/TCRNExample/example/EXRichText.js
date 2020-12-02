@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, RichText } from '../../dist'
+import { RichText } from '../../dist'
 
 export default class EXRichText extends Component {
   richTextNodes = [{

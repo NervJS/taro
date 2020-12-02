@@ -5,10 +5,22 @@ import * as t from 'babel-types'
 import * as _ from 'lodash'
 import generate from 'babel-generator'
 import wxTransformer from '@tarojs/transformer-wx'
-import * as Util from '../util'
+import {
+  REG_STYLE,
+  REG_TYPESCRIPT,
+  REG_SCRIPTS,
+  resolveScriptPath,
+  resolveStylePath,
+  replaceAliasPath,
+  isAliasPath,
+  promoteRelativePath,
+  isNpmPkg,
+  generateEnvList,
+  generateConstantsList
+} from '@tarojs/helper'
+
 import babylonConfig from '../config/babylon'
 import { convertSourceStringToAstExpression as toAst, convertAstExpressionToVariable as toVar } from '../util/astConvert'
-import { REG_STYLE, REG_TYPESCRIPT, BUILD_TYPES, REG_SCRIPTS } from '../util/constants'
 
 const template = require('babel-template')
 
@@ -37,9 +49,10 @@ const PACKAGES = {
   '@tarojs/mobx-rn': '@tarojs/mobx-rn'
 }
 
-const additionalConstructorNode = toAst(`Taro._$app = this`)
+const additionalConstructorNode = toAst('Taro._$app = this')
 const superNode = t.expressionStatement(
   t.callExpression(
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     t.super(),
     [
@@ -59,7 +72,7 @@ function getInitPxTransformNode (projectConfig) {
   return initPxTransformNode
 }
 
-function getClassPropertyVisitor ({ filePath, pages, iconPaths, isEntryFile }) {
+function getClassPropertyVisitor ({ pages, iconPaths, isEntryFile }) {
   return astPath => {
     const node = astPath.node
     const key = node.key
@@ -196,11 +209,7 @@ const ClassDeclarationOrExpression = {
 
 export function parseJSCode ({ code, filePath, isEntryFile, projectConfig }) {
   let ast
-  try {
-    ast = getJSAst(code, filePath)
-  } catch (e) {
-    throw e
-  }
+  ast = getJSAst(code, filePath)
   const styleFiles: string[] = []
   const pages: string[] = [] // app.js 里面的config 配置里面的 pages
   const iconPaths: string[] = [] // app.js 里面的config 配置里面的需要引入的 iconPath
@@ -240,17 +249,17 @@ export function parseJSCode ({ code, filePath, isEntryFile, projectConfig }) {
       const valueExtname = path.extname(value)
       const specifiers = node.specifiers
       const pathAlias = projectConfig.alias || {}
-      if (Util.isAliasPath(value, pathAlias)) {
-        source.value = value = Util.replaceAliasPath(filePath, value, pathAlias)
+      if (isAliasPath(value, pathAlias)) {
+        source.value = value = replaceAliasPath(filePath, value, pathAlias)
       }
       // 引入的包为非 npm 包
-      if (!Util.isNpmPkg(value)) {
+      if (!isNpmPkg(value)) {
         // import 样式处理
         if (REG_STYLE.test(valueExtname)) {
           const stylePath = path.resolve(path.dirname(filePath), value)
           if (styleFiles.indexOf(stylePath) < 0) {
             // 样式条件文件编译 .rn.scss
-            const realStylePath = Util.resolveStylePath(stylePath)
+            const realStylePath = resolveStylePath(stylePath)
             styleFiles.push(realStylePath)
           }
         }
@@ -263,10 +272,10 @@ export function parseJSCode ({ code, filePath, isEntryFile, projectConfig }) {
             const absolutePath = path.resolve(filePath, '..', value)
             const dirname = path.dirname(absolutePath)
             const extname = path.extname(absolutePath)
-            const realFilePath = Util.resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)))
+            const realFilePath = resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)))
             const removeExtPath = realFilePath.replace(path.extname(realFilePath), '')
             node.source = t.stringLiteral(
-              Util.promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/')
+              promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/')
             )
           }
         }
@@ -337,7 +346,7 @@ export function parseJSCode ({ code, filePath, isEntryFile, projectConfig }) {
         source.value = PACKAGES['@tarojs/components-rn']
       }
     },
-    ClassProperty: getClassPropertyVisitor({ filePath, pages, iconPaths, isEntryFile }),
+    ClassProperty: getClassPropertyVisitor({ pages, iconPaths, isEntryFile }),
     ClassMethod: {
       enter (astPath: NodePath<t.ClassMethod>) {
         const node = astPath.node
@@ -387,7 +396,7 @@ export function parseJSCode ({ code, filePath, isEntryFile, projectConfig }) {
       }
     },
     JSXElement: {
-      exit (astPath: NodePath<t.JSXElement>) {
+      exit () {
         hasJSX = true
       }
     },
@@ -500,7 +509,7 @@ export function parseJSCode ({ code, filePath, isEntryFile, projectConfig }) {
           },
           CallExpression (astPath) {
             const node = astPath.node
-            const callee = node.callee as t.Identifier
+            const callee = node.callee as any
             const calleeName = callee.name
             const parentPath = astPath.parentPath
 
@@ -602,30 +611,26 @@ export function parseJSCode ({ code, filePath, isEntryFile, projectConfig }) {
       }
     }
   })
-  try {
-    const constantsReplaceList = Object.assign(
-      {
-        'process.env.TARO_ENV': BUILD_TYPES.RN
-      },
-      Util.generateEnvList(projectConfig.env || {}),
-      Util.generateConstantsList(projectConfig.defineConstants || {})
-    )
-    // TODO 使用 babel-plugin-transform-jsx-to-stylesheet 处理 JSX 里面样式的处理，删除无效的样式引入待优化
+  const constantsReplaceList = Object.assign(
+    {
+      'process.env.TARO_ENV': 'rn'
+    },
+    generateEnvList(projectConfig.env || {}),
+    generateConstantsList(projectConfig.defineConstants || {})
+  )
+  // TODO 使用 babel-plugin-transform-jsx-to-stylesheet 处理 JSX 里面样式的处理，删除无效的样式引入待优化
 
-    const plugins = [
-      [require('babel-plugin-transform-jsx-to-stylesheet'), {filePath}],
-      [require('babel-plugin-danger-remove-unused-import'), {ignore: ['@tarojs/taro', 'react', 'react-native', 'nervjs']}],
-      [require('babel-plugin-transform-define').default, constantsReplaceList]
-    ]
+  const plugins = [
+    [require('babel-plugin-transform-jsx-to-stylesheet'), { filePath }],
+    [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'react-native', 'nervjs'] }],
+    [require('babel-plugin-transform-define').default, constantsReplaceList]
+  ]
 
-    // const babelConfig = projectConfig.plugins.babel
-    // const plugins = babelConfig.plugins.concat(extraBabelPlugins)
-    const newBabelConfig = Object.assign({}, {plugins})
+  // const babelConfig = projectConfig.plugins.babel
+  // const plugins = babelConfig.plugins.concat(extraBabelPlugins)
+  const newBabelConfig = Object.assign({}, { plugins })
 
-    ast = babel.transformFromAst(ast, code, newBabelConfig).ast
-  } catch (e) {
-    throw e
-  }
+  ast = babel.transformFromAst(ast, code, newBabelConfig).ast
 
   return {
     code: unescape(generate(ast).code.replace(/\\u/g, '%u')),

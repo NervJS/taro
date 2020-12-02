@@ -62,6 +62,7 @@ type Props = {
   onFullscreenchange?: Function,
   onWaiting?: Function,
   onError?: Function
+  isMuted?: boolean
 }
 
 type State = {

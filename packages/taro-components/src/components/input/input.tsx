@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Element } from '@stencil/core'
-import { EventHandler, TaroEvent } from '@tarojs/components'
+import { EventHandler, TaroEvent } from '../../../types'
 
 function getTrueType (type: string, confirmType: string, password: boolean) {
   if (!type) {
@@ -106,15 +106,15 @@ export class Input implements ComponentInterface {
       }
 
       // 修复 IOS 光标跳转问题
-      if (!(['number', 'file'].indexOf(inputType) >= 0)) {
-        const pos = e.target.selectionEnd
-        setTimeout(
-          () => {
-            e.target.selectionStart = pos
-            e.target.selectionEnd = pos
-          }
-        )
-      }
+      // if (!(['number', 'file'].indexOf(inputType) >= 0)) {
+      //   const pos = e.target.selectionEnd
+      //   setTimeout(
+      //     () => {
+      //       e.target.selectionStart = pos
+      //       e.target.selectionEnd = pos
+      //     }
+      //   )
+      // }
 
       this.onInput.emit({
         value,

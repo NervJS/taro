@@ -5,6 +5,7 @@ import { UpdatePayload, UpdatePayloadValue } from './node'
 import { isFunction, Shortcuts } from '@tarojs/shared'
 import { perf } from '../perf'
 import { SET_DATA, PAGE_INIT } from '../constants'
+import { CurrentReconciler } from '../reconciler'
 
 export class TaroRootElement extends TaroElement {
   private pendingUpdate = false
@@ -74,6 +75,12 @@ export class TaroRootElement extends TaroElement {
         }
       }
 
+      CurrentReconciler.prepareUpdateData?.(data, this)
+
+      if (initRender) {
+        CurrentReconciler.appendInitialPage?.(data, this)
+      }
+
       if (isFunction(prerender)) {
         prerender(data)
       } else {
@@ -91,7 +98,7 @@ export class TaroRootElement extends TaroElement {
     }, 0)
   }
 
-  public enqueueUpdateCallbak (cb: Function, ctx?: Record<string, any>) {
+  public enqueueUpdateCallback (cb: Function, ctx?: Record<string, any>) {
     this.updateCallbacks.push(() => {
       ctx ? cb.call(ctx) : cb()
     })

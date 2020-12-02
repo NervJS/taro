@@ -8,6 +8,7 @@ const devServerConf: WebpackDevServer.Configuration = {
   },
   host: '0.0.0.0',
   hot: false,
+  useLocalIp: true,
   https: false,
   inline: true,
   open: true,

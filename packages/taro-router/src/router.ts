@@ -1,12 +1,14 @@
+/* eslint-disable dot-notation */
 import UniversalRouter, { Routes } from 'universal-router'
-import { AppConfig, PageConfig } from '@tarojs/taro'
 import { LocationListener, LocationState } from 'history'
-import { createReactApp, createPageConfig, Current, createVueApp, PageInstance, eventCenter } from '@tarojs/runtime'
+import { AppConfig, PageConfig } from '@tarojs/taro'
+import { createPageConfig, Current, PageInstance, eventCenter, CurrentReconciler, AppInstance, stringify, requestAnimationFrame } from '@tarojs/runtime'
 import { qs } from './qs'
 import { history } from './history'
 import { stacks } from './stack'
-import { init } from './init'
-import { createPullDownRefresh, R, V } from './pull-down'
+import { init, routerConfig } from './init'
+import { bindPageScroll } from './scroll'
+import { setRoutesAlias, addLeadingSlash } from './utils'
 
 export interface Route extends PageConfig {
   path: string
@@ -14,14 +16,13 @@ export interface Route extends PageConfig {
 }
 
 export interface RouterConfig extends AppConfig {
-  routes: Route[]
-}
-
-function addLeadingSlash (path?: string) {
-  if (path == null) {
-    return ''
+  routes: Route[],
+  router: {
+    mode: 'hash' | 'browser'
+    basename: string,
+    customRoutes?: Record<string, string>,
+    pathname: string
   }
-  return path.charAt(0) === '/' ? path : '/' + path
 }
 
 function hidePage (page: PageInstance | null) {
@@ -34,19 +35,17 @@ function hidePage (page: PageInstance | null) {
   }
 }
 
-function showPage (page: PageInstance | null) {
+function showPage (page: PageInstance | null, pageConfig: Route | undefined) {
   if (page != null) {
     page.onShow!()
-    stacks.push(page)
     const pageEl = document.getElementById(page.path!)
     if (pageEl) {
       pageEl.style.display = 'block'
     } else {
       page.onLoad(qs())
-      requestAnimationFrame(() => {
-        page.onReady!()
-      })
+      pageOnReady(pageEl, page, false)
     }
+    bindPageScroll(page, pageConfig || {})
   }
 }
 
@@ -58,7 +57,21 @@ function unloadPage (page: PageInstance | null) {
   }
 }
 
-function loadPage (page: PageInstance | null) {
+function pageOnReady (pageEl: Element | null, page: PageInstance, onLoad = true) {
+  if (pageEl && !pageEl?.['__isReady']) {
+    const el = pageEl.firstElementChild
+    // eslint-disable-next-line no-unused-expressions
+    el?.['componentOnReady']?.().then(() => {
+      requestAnimationFrame(() => {
+        page.onReady!()
+        pageEl!['__isReady'] = true
+      })
+    })
+    onLoad && (pageEl['__page'] = page)
+  }
+}
+
+function loadPage (page: PageInstance | null, pageConfig: Route | undefined) {
   if (page !== null) {
     let pageEl = document.getElementById(page.path!)
     if (pageEl) {
@@ -69,40 +82,44 @@ function loadPage (page: PageInstance | null) {
         page.onReady!()
       })
       pageEl = document.getElementById(page.path!)
-      // eslint-disable-next-line dot-notation
-      pageEl && (pageEl['__page'] = page)
+      pageOnReady(pageEl, page)
     }
     page.onShow!()
+    bindPageScroll(page, pageConfig || {})
     stacks.push(page)
   }
 }
 
 export function createRouter (
-  App,
+  app: AppInstance,
   config: RouterConfig,
-  type: 'react' | 'vue' | 'nerv',
-  framework: R | V,
-  reactdom
+  framework
 ) {
   init(config)
 
   const routes: Routes = []
+  const alias = config.router.customRoutes ?? {}
 
+  setRoutesAlias(alias)
   for (let i = 0; i < config.routes.length; i++) {
     const route = config.routes[i]
+    const path = addLeadingSlash(route.path)
     routes.push({
-      path: addLeadingSlash(route.path),
+      path: alias[path] || path,
       action: route.load
     })
   }
 
   const router = new UniversalRouter(routes)
-  const app = type === 'vue' ? createVueApp(App, framework as V) : createReactApp(App, framework as R, reactdom)
   app.onLaunch!()
 
   const render: LocationListener<LocationState> = async (location, action) => {
+    routerConfig.router.pathname = location.pathname
     const element = await router.resolve(location.pathname)
-    const pageConfig = config.routes.find(r => addLeadingSlash(r.path) === location.pathname)
+    const pageConfig = config.routes.find(r => {
+      const path = addLeadingSlash(r.path)
+      return path === location.pathname || alias[path] === location.pathname
+    })
     let enablePullDownRefresh = false
 
     eventCenter.trigger('__taroRouterChange', {
@@ -120,9 +137,9 @@ export function createRouter (
 
     if (action === 'POP') {
       unloadPage(Current.page)
-      const prev = stacks.find(s => s.path === location.pathname)
+      const prev = stacks.find(s => s.path === location.pathname + stringify(qs()))
       if (prev) {
-        showPage(prev)
+        showPage(prev, pageConfig)
       } else {
         shouldLoad = true
       }
@@ -136,16 +153,21 @@ export function createRouter (
 
     if (shouldLoad) {
       const el = element.default ?? element
+      const config = { ...pageConfig }
+      delete config['path']
+      delete config['load']
       const page = createPageConfig(
-        enablePullDownRefresh ? createPullDownRefresh(el, type, location.pathname, framework) : el,
-        location.pathname
+        enablePullDownRefresh ? CurrentReconciler.createPullDownComponent?.(el, location.pathname, framework) : el,
+        location.pathname + stringify(qs()),
+        {},
+        config
       )
-      loadPage(page)
+      loadPage(page, pageConfig)
     }
   }
 
   if (history.location.pathname === '/') {
-    history.replace(config.pages![0])
+    history.replace(routes[0].path as string)
   }
 
   render(history.location, 'PUSH')

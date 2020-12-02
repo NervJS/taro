@@ -7,7 +7,7 @@ const GITHUB = 'https://github.com/'
 
 export function getGithubRepoLatestReleaseVersion (repoName: string) {
   const latestReleaseApi = `${GITHUB_API}repos/${repoName}/releases/latest`
-  const p = new Promise((resolve, reject) => {
+  const p = new Promise((resolve) => {
     request(
       {
         url: latestReleaseApi,

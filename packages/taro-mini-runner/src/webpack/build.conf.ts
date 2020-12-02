@@ -1,5 +1,5 @@
 import * as path from 'path'
-import { BUILD_TYPES, MINI_APP_FILES, FRAMEWORK_MAP, taroJsComponents } from '@tarojs/runner-utils'
+import { PLATFORMS, FRAMEWORK_MAP, taroJsComponents } from '@tarojs/helper'
 
 import { IBuildConfig } from '../utils/types'
 import {
@@ -18,24 +18,36 @@ import {
   getEntry
 } from './chain'
 import getBaseConf from './base.conf'
-import { Targets } from '../plugins/MiniPlugin'
+import { createTarget } from '../plugins/MiniPlugin'
+import { customVueChain } from './vue'
+import { customVue3Chain } from './vue3'
 
 export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const chain = getBaseConf(appPath)
   const {
-    buildAdapter = BUILD_TYPES.WEAPP,
+    buildAdapter = PLATFORMS.WEAPP,
     alias = {},
     entry = {},
     output = {},
+    fileType = {
+      style: '.wxss',
+      config: '.json',
+      script: '.js',
+      templ: '.wxml'
+    },
+    globalObject = 'wx',
     outputRoot = 'dist',
     sourceRoot = 'src',
 
     designWidth = 750,
     deviceRatio,
     enableSourceMap = process.env.NODE_ENV !== 'production',
+    sourceMapType,
+    debugReact = false,
     baseLevel = 16,
     framework = 'nerv',
     prerender,
+    minifyXML = {},
 
     defineConstants = {},
     env = {},
@@ -50,12 +62,17 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
 
     postcss = {},
     nodeModulesPath,
+    isBuildQuickapp = false,
+    template,
     quickappJSON,
 
     csso,
     terser,
     commonChunks,
-    addChunkPages
+    addChunkPages,
+
+    modifyMiniConfigs,
+    modifyBuildAssets
   } = config
 
   let { copy } = config
@@ -64,7 +81,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const minimizer: any[] = []
   const sourceDir = path.join(appPath, sourceRoot)
   const outputDir = path.join(appPath, outputRoot)
-  const taroBaseReg = /@tarojs[\/][a-z]+/
+  const taroBaseReg = /@tarojs[\\/][a-z]+/
   if (config.isBuildPlugin) {
     const patterns = copy ? copy.patterns : []
     patterns.push({
@@ -80,15 +97,16 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   if (copy) {
     plugin.copyWebpackPlugin = getCopyWebpackPlugin({ copy, appPath })
   }
-  if (framework === FRAMEWORK_MAP.VUE) {
-    const VueLoaderPlugin = require('vue-loader/lib/plugin')
-    plugin.vueLoaderPlugin = {
-      plugin: new VueLoaderPlugin()
-    }
-  }
   alias[taroJsComponents + '$'] = `${taroJsComponents}/mini`
   if (framework === 'react') {
     alias['react-dom'] = '@tarojs/react'
+    if (process.env.NODE_ENV !== 'production' && !debugReact) {
+      alias['react-reconciler'] = 'react-reconciler/cjs/react-reconciler.production.min.js'
+      // eslint-disable-next-line dot-notation
+      alias['react'] = 'react/cjs/react.production.min.js'
+      // eslint-disable-next-line dot-notation
+      alias['scheduler'] = 'scheduler/cjs/scheduler.production.min.js'
+    }
   }
   if (framework === 'nerv') {
     alias['react-dom'] = 'nervjs'
@@ -103,7 +121,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     entry,
     isBuildPlugin: config.isBuildPlugin
   })
-  const defaultCommonChunks = !!config.isBuildPlugin
+  const defaultCommonChunks = config.isBuildPlugin
     ? ['plugin/runtime', 'plugin/vendors', 'plugin/taro', 'plugin/common']
     : ['runtime', 'vendors', 'taro', 'common']
   let customCommonChunks = defaultCommonChunks
@@ -116,9 +134,11 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   plugin.miniPlugin = getMiniPlugin({
     sourceDir,
     outputDir,
-    buildAdapter,
     constantsReplaceList,
     nodeModulesPath,
+    isBuildQuickapp,
+    template,
+    fileType,
     quickappJSON,
     designWidth,
     pluginConfig: entryRes!.pluginConfig,
@@ -127,12 +147,15 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     baseLevel,
     framework,
     prerender,
-    addChunkPages
+    addChunkPages,
+    modifyMiniConfigs,
+    modifyBuildAssets,
+    minifyXML
   })
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
-    filename: `[name]${MINI_APP_FILES[buildAdapter].STYLE}`,
-    chunkFilename: `[name]${MINI_APP_FILES[buildAdapter].STYLE}`
+    filename: `[name]${fileType.style}`,
+    chunkFilename: `[name]${fileType.style}`
   }, miniCssExtractPluginOption])
 
   plugin.providerPlugin = getProviderPlugin({
@@ -163,23 +186,27 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
 
   chain.merge({
     mode,
-    devtool: getDevtool(enableSourceMap),
+    devtool: getDevtool(enableSourceMap, sourceMapType),
     entry: entryRes!.entry,
     output: getOutput(appPath, [{
       outputRoot,
       publicPath: '/',
-      buildAdapter
+      globalObject
     }, output]),
-    target: Targets[buildAdapter],
+    target: createTarget({
+      framework
+    }),
     resolve: { alias },
     module: getModule(appPath, {
       sourceDir,
 
       buildAdapter,
+      isBuildQuickapp,
       // constantsReplaceList,
       designWidth,
       deviceRatio,
       enableSourceMap,
+      compile: config.compile || {},
 
       cssLoaderOption,
       lessLoaderOption,
@@ -189,8 +216,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       imageUrlLoaderOption,
       mediaUrlLoaderOption,
 
-      postcss
-      // babel
+      postcss,
+      fileType
     }),
     plugin,
     optimization: {
@@ -205,12 +232,12 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
         minSize: 0,
         cacheGroups: {
           common: {
-            name: !!config.isBuildPlugin ? 'plugin/common' : 'common',
+            name: config.isBuildPlugin ? 'plugin/common' : 'common',
             minChunks: 2,
             priority: 1
           },
           vendors: {
-            name: !!config.isBuildPlugin ? 'plugin/vendors' : 'vendors',
+            name: config.isBuildPlugin ? 'plugin/vendors' : 'vendors',
             minChunks: 2,
             test: module => {
               return /[\\/]node_modules[\\/]/.test(module.resource)
@@ -218,7 +245,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
             priority: 10
           },
           taro: {
-            name: !!config.isBuildPlugin ? 'plugin/taro' : 'taro',
+            name: config.isBuildPlugin ? 'plugin/taro' : 'taro',
             test: module => {
               return taroBaseReg.test(module.context)
             },
@@ -228,5 +255,16 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       }
     }
   })
+
+  switch (framework) {
+    case FRAMEWORK_MAP.VUE:
+      customVueChain(chain)
+      break
+    case FRAMEWORK_MAP.VUE3:
+      customVue3Chain(chain)
+      break
+    default:
+  }
+
   return chain
 }

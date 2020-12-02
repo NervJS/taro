@@ -7,6 +7,8 @@ import { Shortcuts, ensure } from '@tarojs/shared'
 import { hydrate, HydratedData } from '../hydrate'
 import { TaroElement } from './element'
 import { setInnerHTML } from './html/html'
+import { CurrentReconciler } from '../reconciler'
+import { document } from '../bom/document'
 
 const nodeId = incrementId()
 
@@ -16,6 +18,7 @@ export interface UpdatePayload {
 }
 
 export type UpdatePayloadValue = string | boolean | HydratedData
+export type DataTree = Record<string, UpdatePayloadValue | ReturnType<HydratedData>>
 
 export class TaroNode extends TaroEventTarget {
   public nodeType: NodeType
@@ -53,6 +56,14 @@ export class TaroNode extends TaroEventTarget {
       return this.parentNode._root
     }
 
+    return null
+  }
+
+  public get parentElement (): TaroElement | null {
+    const parentNode = this.parentNode
+    if (parentNode != null && parentNode.nodeType === NodeType.ELEMENT_NODE) {
+      return parentNode as TaroElement
+    }
     return null
   }
 
@@ -100,7 +111,14 @@ export class TaroNode extends TaroEventTarget {
       }
     }
 
+    CurrentReconciler.insertBefore?.(this, newChild, refChild)
+
     this.enqueueUpdate(payload)
+
+    if (!eventSource.has(newChild.uid)) {
+      eventSource.set(newChild.uid, newChild)
+    }
+
     return newChild
   }
 
@@ -108,6 +126,7 @@ export class TaroNode extends TaroEventTarget {
 
   public appendChild (child: TaroNode) {
     this.insertBefore(child)
+    CurrentReconciler.appendChild?.(this, child)
   }
 
   public replaceChild (newChild: TaroNode, oldChild: TaroNode) {
@@ -116,6 +135,7 @@ export class TaroNode extends TaroEventTarget {
       oldChild.remove(true)
       return oldChild
     }
+    CurrentReconciler.removeChild?.(this, newChild, oldChild)
   }
 
   public removeChild<T extends TaroNode> (child: T, isReplace?: boolean): T {
@@ -129,6 +149,8 @@ export class TaroNode extends TaroEventTarget {
     }
     child.parentNode = null
     eventSource.delete(child.uid)
+    // @TODO: eventSource memory overflow
+    // child._empty()
     return child
   }
 
@@ -160,14 +182,30 @@ export class TaroNode extends TaroEventTarget {
   }
 
   /**
+   * like jQuery's $.empty()
+   */
+  private _empty () {
+    while (this.childNodes.length > 0) {
+      const child = this.childNodes[0]
+      child.parentNode = null
+      eventSource.delete(child.uid)
+      this.childNodes.shift()
+    }
+  }
+
+  /**
    * @textContent 目前只能置空子元素
    * @TODO 等待完整 innerHTML 实现
    */
   public set textContent (text: string) {
+    this._empty()
     if (text === '') {
-      while (this.childNodes.length > 0) {
-        this.childNodes[0].remove()
-      }
+      this.enqueueUpdate({
+        path: `${this._path}.${Shortcuts.Childnodes}`,
+        value: () => []
+      })
+    } else {
+      this.appendChild(document.createTextNode(text))
     }
   }
 
@@ -184,5 +222,34 @@ export class TaroNode extends TaroEventTarget {
     ensure(index !== -1, 'The node to be replaced is not a child of this node.')
 
     return index
+  }
+
+  public cloneNode (isDeep = false) {
+    const constructor: any = this.constructor
+    let newNode
+
+    if (this.nodeType === NodeType.ELEMENT_NODE) {
+      newNode = new constructor(this.nodeType, this.nodeName)
+    } else if (this.nodeType === NodeType.TEXT_NODE) {
+      newNode = new constructor('')
+    }
+
+    for (const key in this) {
+      const value: any = this[key]
+      if (['props', 'dataset'].includes(key) && typeof value === 'object') {
+        newNode[key] = { ...value }
+      } else if (key === '_value') {
+        newNode[key] = value
+      } else if (key === 'style') {
+        newNode.style._value = { ...value._value }
+        newNode.style._usedStyleProp = new Set(Array.from(value._usedStyleProp))
+      }
+    }
+
+    if (isDeep) {
+      newNode.childNodes = this.childNodes.map(node => node.cloneNode(true))
+    }
+
+    return newNode
   }
 }

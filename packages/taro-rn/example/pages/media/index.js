@@ -4,7 +4,6 @@ import { styles } from '../styles'
 import { chooseImage, chooseVideo, getImageInfo, saveImageToPhotosAlbum } from '../../../dist/api/media'
 import { getRecorderManager } from '../../../dist/api/media/record'
 import { createInnerAudioContext } from '../../../dist/api/media/audio'
-import { createVideoContext } from '../../../dist/api/media/video'
 import { Video } from 'expo-av'
 import Map from './Map'
 
@@ -24,10 +23,10 @@ function handleChooseImage (type) {
   chooseImage({
     count: 2,
     sourceType: [type],
-    success (res) {
+    success () {
       console.log('success')
     },
-    fail (res) {
+    fail () {
       console.log('fail')
     }
   }).then(res => console.log(res)).catch(e => console.log(e))
@@ -37,10 +36,10 @@ function handleChooseVideo (type) {
   console.log('chooseVideo')
   chooseVideo({
     sourceType: [type],
-    success (res) {
+    success () {
       console.log('success')
     },
-    fail (res) {
+    fail () {
       console.log('fail')
     }
   }).then(res => console.log(res)).catch(e => console.log(e))

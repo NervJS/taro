@@ -2,7 +2,7 @@ const postcss = require('postcss')
 
 module.exports = postcss.plugin('postcss-taro-unit-transform', plugin)
 
-function plugin (opts) {
+function plugin () {
   return function (root) {
     root.walkDecls(function (decl) {
       let value = decl.value

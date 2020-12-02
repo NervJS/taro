@@ -65,7 +65,7 @@ export interface ICopyOptions {
 
 interface IBabelOptions {
   sourceMap: boolean,
-  presets: string[],
+  presets: any[],
   plugins: any[]
 }
 
@@ -114,11 +114,16 @@ export interface ICompileOption {
 
 export interface IMiniAppConfig {
   appOutput?: boolean,
-  enableSourceMap: boolean,
+  enableSourceMap?: boolean,
+  sourceMapType?: string,
+  debugReact?: boolean,
+  minifyXML?: {
+    collapseWhitespace?: boolean
+  },
 
-  webpackChain: (chain: any, webpack: any, PARSE_AST_TYPE: any) => void,
-  entry: webpack.Entry,
-  output: webpack.Output,
+  webpackChain?: (chain: any, webpack: any, PARSE_AST_TYPE: any) => void,
+  entry?: webpack.Entry,
+  output?: webpack.Output,
   postcss?: IPostcssOption,
   cssLoaderOption?: IOption,
   sassLoaderOption?: IOption,
@@ -153,33 +158,33 @@ export interface IH5RouterConfig {
 }
 
 export interface IH5Config {
-  publicPath: string,
-  staticDirectory: string,
-  chunkDirectory: string,
+  publicPath?: string,
+  staticDirectory?: string,
+  chunkDirectory?: string,
 
-  webpack: ((webpackConfig: webpack.Configuration, webpack) => webpack.Configuration) | webpack.Configuration
+  webpack?: ((webpackConfig: webpack.Configuration, webpack) => webpack.Configuration) | webpack.Configuration
 
-  webpackChain: (chain: any, webpack: any) => void,
+  webpackChain?: (chain: any, webpack: any) => void,
 
-  entry: webpack.Entry,
-  output: webpack.Output,
+  entry?: webpack.Entry,
+  output?: webpack.Output,
   router?: IH5RouterConfig,
-  devServer: webpackDevServer.Configuration,
-  enableSourceMap: boolean,
+  devServer?: webpackDevServer.Configuration,
+  enableSourceMap?: boolean,
   sourceMapType?: 'none' | 'eval' | 'cheap-eval-source-map' | 'cheap-module-eval-source-map' | 'eval-source-map' | 'cheap-source-map' | 'cheap-module-source-map' | 'inline-cheap-source-map' | 'inline-cheap-module-source-map' | 'source-map' | 'inline-source-map' | 'hidden-source-map' | 'nosources-source-map',
-  enableExtract: boolean,
-  transformOnly: boolean,
+  enableExtract?: boolean,
+  transformOnly?: boolean,
 
-  cssLoaderOption: IOption,
-  styleLoaderOption: IOption,
-  sassLoaderOption: IOption,
-  lessLoaderOption: IOption,
-  stylusLoaderOption: IOption,
-  mediaUrlLoaderOption: IOption,
-  fontUrlLoaderOption: IOption,
-  imageUrlLoaderOption: IOption,
-  miniCssExtractPluginOption: IOption,
-  esnextModules: string[],
+  cssLoaderOption?: IOption,
+  styleLoaderOption?: IOption,
+  sassLoaderOption?: IOption,
+  lessLoaderOption?: IOption,
+  stylusLoaderOption?: IOption,
+  mediaUrlLoaderOption?: IOption,
+  fontUrlLoaderOption?: IOption,
+  imageUrlLoaderOption?: IOption,
+  miniCssExtractPluginOption?: IOption,
+  esnextModules?: string[],
 
   postcss?: IPostcssOption
 }
@@ -342,9 +347,7 @@ export interface IManifestConfig extends ITaroManifestConfig {
   display?: IDisplayConfig
 }
 
-export interface ICommonPlugin {
-  apply: (obj: object) => any
-}
+export type PluginItem = string | [string, object]
 
 export interface IProjectBaseConfig {
   projectName?: string,
@@ -363,7 +366,8 @@ export interface IProjectBaseConfig {
   terser?: TogglableOptions,
   uglify?: TogglableOptions,
   sass?: ISassOptions,
-  plugins?: ICommonPlugin[],
+  plugins?: PluginItem[],
+  presets?: PluginItem[]
   baseLevel?: number,
   framework?: string
 }
@@ -371,8 +375,9 @@ export interface IProjectBaseConfig {
 export interface IProjectConfig extends IProjectBaseConfig {
   ui?: {
     extraWatchFiles?: any[]
-  },
-  mini?: IMiniAppConfig,
+  }
+  mini?: IMiniAppConfig
   h5?: IH5Config
   rn?: IH5Config
+  [key: string]: any
 }

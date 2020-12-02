@@ -1,16 +1,14 @@
 import * as path from 'path'
 import * as fs from 'fs-extra'
 import * as wxTransformer from '@tarojs/transformer-wx'
-import chalk from 'chalk'
+import { processTypeEnum, REG_TYPESCRIPT, printLog, resolveScriptPath, chalk } from '@tarojs/helper'
 
-import { processTypeEnum, REG_TYPESCRIPT } from '../util/constants'
 import { Compiler as RNCompiler } from '../rn'
 import { analyzeFiles, analyzeStyleFilesImport, copyFileToDist, RN_OUTPUT_NAME, parseEntryAst } from './common'
-import { printLog, resolveScriptPath } from '../util'
 import { IBuildData } from './ui.types'
 
 export async function buildForRN (uiIndex = 'index', buildData) {
-  const {appPath} = buildData
+  const { appPath } = buildData
   const compiler = new RNCompiler(appPath)
   console.log()
   console.log(chalk.green('开始编译 RN 端组件库！'))
@@ -20,9 +18,10 @@ export async function buildForRN (uiIndex = 'index', buildData) {
 
 export async function buildRNLib (uiIndex, buildData: IBuildData) {
   try {
-    const { appPath, outputDirName, rnTempPath } = buildData
+    const { appPath, outputDirName, sourceDir, rnTempPath } = buildData
     const outputDir = path.join(appPath, outputDirName, RN_OUTPUT_NAME)
-    const tempEntryFilePath = resolveScriptPath(path.join(rnTempPath, uiIndex))
+    const tempEntryFilePath = resolveScriptPath(path.join(sourceDir, uiIndex))
+    const baseEntryFilePath = resolveScriptPath(path.join(rnTempPath, uiIndex)) // base by rn_temp
     const outputEntryFilePath = path.join(outputDir, path.basename(tempEntryFilePath))
     const code = fs.readFileSync(tempEntryFilePath).toString()
     const transformResult = wxTransformer({
@@ -32,8 +31,9 @@ export async function buildRNLib (uiIndex, buildData: IBuildData) {
       isNormal: true,
       isTyped: REG_TYPESCRIPT.test(tempEntryFilePath)
     })
-    const {styleFiles, components, code: generateCode} = parseEntryAst(transformResult.ast, tempEntryFilePath)
+    const { styleFiles, components, code: generateCode } = parseEntryAst(transformResult.ast, baseEntryFilePath)
     const relativePath = path.relative(appPath, tempEntryFilePath)
+    tempEntryFilePath.replace(path.extname(tempEntryFilePath), '.js')
     printLog(processTypeEnum.COPY, '发现文件', relativePath)
     fs.ensureDirSync(path.dirname(outputEntryFilePath))
     fs.writeFileSync(outputEntryFilePath, generateCode)

@@ -148,7 +148,7 @@ describe('Button', () => {
         return (
           <Button
             ref={ref}
-            size="fuck"
+            size="fork"
             hoverStartTime={hoverStartTime}
             hoverStayTime={hoverStayTime}
             onClick={() => {

@@ -1,4 +1,3 @@
-import * as Joi from 'joi'
 import * as _ from 'lodash/fp'
 import joi2desc from './joi2desc'
 import configSchema from './configSchema'
@@ -20,12 +19,12 @@ function buildReport (configPath, errors) {
     _.get('details')
   )(errors)
   return {
-    desc: `检查 Taro 配置 (${configPath})`,
+    desc: `检查 Taro 配置 (${configPath})，请到文档查看详情：https://nervjs.github.io/taro/docs/next/config-detail。`,
     lines: errorLines
   }
 }
 
 export default async function ({ configPath, projectConfig }) {
-  const { error } = Joi.validate(projectConfig, configSchema, { abortEarly: false })
+  const { error } = configSchema.validate(projectConfig, { abortEarly: false })
   return buildReport(configPath, error)
 }

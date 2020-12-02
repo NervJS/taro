@@ -1,3 +1,5 @@
+// @TODO: fix this eslint
+/* eslint-disable eqeqeq */
 /**
  * Modified based on https://github.com/expo/videoplayer
  *

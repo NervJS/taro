@@ -1,16 +1,16 @@
 import { ComponentType } from 'react'
-import { StandardProps, CommonEventFunction } from './common'
+import { StandardProps, CommonEventFunction, BaseEventOrigFunction } from './common'
 
 interface ScrollViewProps extends StandardProps {
   /** 允许横向滚动
-   * @default fasle
+   * @default false
    * @supported weapp, swan, alipay, tt, h5, rn
    * @rn 二选一
    */
   scrollX?: boolean
 
   /** 允许纵向滚动
-   * @default fasle
+   * @default false
    * @supported weapp, swan, alipay, tt, h5, rn
    * @rn 二选一
    */
@@ -45,31 +45,31 @@ interface ScrollViewProps extends StandardProps {
 
   /** 在设置滚动条位置时使用动画过渡
    * @supported weapp, swan, alipay, tt, h5, rn
-   * @default fasle
+   * @default false
    */
   scrollWithAnimation?: boolean
 
   /** iOS 点击顶部状态栏、安卓双击标题栏时，滚动条返回顶部，只支持竖向
    * @supported weapp, alipay, rn
-   * @default fasle
+   * @default false
    */
   enableBackToTop?: boolean
 
   /** 启用 flexbox 布局。开启后，当前节点声明了 `display: flex` 就会成为 flex container，并作用于其孩子节点。
    * @supported weapp
-   * @default fasle
+   * @default false
    */
   enableFlex?: boolean
 
   /** 开启 scroll anchoring 特性，即控制滚动位置不随内容变化而抖动，仅在 iOS 下生效，安卓下可参考 CSS `overflow-anchor` 属性。
    * @supported weapp
-   * @default fasle
+   * @default false
    */
   scrollAnchoring?: boolean
 
   /** 开启自定义下拉刷新
    * @supported weapp
-   * @default fasle
+   * @default false
    */
   refresherEnabled?: boolean
 
@@ -93,45 +93,90 @@ interface ScrollViewProps extends StandardProps {
 
   /** 设置当前下拉刷新状态，true 表示下拉刷新已经被触发，false 表示下拉刷新未被触发
    * @supported weapp
-   * @default fasle
+   * @default false
    */
   refresherTriggered?: boolean
+
+  /** 启用 scroll-view 增强特性
+   * @supported weapp 2.12.0+
+   * @default false
+   */
+  enhanced?: boolean
+
+  /** iOS 下 scroll-view 边界弹性控制 (同时开启 enhanced 属性后生效)
+   * @supported weapp 2.12.0+
+   * @default true
+   */
+  bounces?: boolean
+
+  /** 滚动条显隐控制 (同时开启 enhanced 属性后生效)
+   * @supported weapp 2.12.0+
+   * @default true
+   */
+  showScrollbar?: boolean
+
+  /** 分页滑动效果 (同时开启 enhanced 属性后生效)
+   * @supported weapp 2.12.0+
+   * @default false
+   */
+  pagingEnabled?: boolean
+
+  /** boolean	false	滑动减速速率控制 (同时开启 enhanced 属性后生效)
+   * @supported weapp 2.12.0+
+   * @default false
+   */
+  fastDeceleration?: boolean
 
   /** 滚动到顶部/左边，会触发 scrolltoupper 事件
    * @supported weapp, swan, alipay, tt, h5, rn
    */
-  onScrollToUpper?: (event: CommonEventFunction) => any
+  onScrollToUpper?: CommonEventFunction
 
   /** 滚动到底部/右边，会触发 scrolltolower 事件
    * @supported weapp, swan, alipay, tt, h5, rn
    */
-  onScrollToLower?: (event: CommonEventFunction) => any
+  onScrollToLower?: CommonEventFunction
 
   /** 滚动时触发
    * `event.detail = {scrollLeft, scrollTop, scrollHeight, scrollWidth, deltaX, deltaY}`
    * @supported weapp, swan, alipay, tt, h5, rn
    */
-  onScroll?: (event: CommonEventFunction<ScrollViewProps.onScrollDetail>) => any
+  onScroll?: BaseEventOrigFunction<ScrollViewProps.onScrollDetail>
 
   /** 自定义下拉刷新控件被下拉
    * @supported weapp
    */
-  onRefresherPulling?: (event: CommonEventFunction) => any
+  onRefresherPulling?: CommonEventFunction
 
   /** 自定义下拉刷新被触发
    * @supported weapp
    */
-  onRefresherRefresh?: (event: CommonEventFunction) => any
+  onRefresherRefresh?: CommonEventFunction
 
   /** 自定义下拉刷新被复位
    * @supported weapp
    */
-  onRefresherRestore?: (event: CommonEventFunction) => any
+  onRefresherRestore?: CommonEventFunction
 
   /** 自定义下拉刷新被中止
    * @supported weapp
    */
-  onRefresherAbort?: (event: CommonEventFunction) => any
+  onRefresherAbort?: CommonEventFunction
+
+  /** 滑动开始事件 (同时开启 enhanced 属性后生效)
+   * @supported weapp 2.12.0+
+   */
+  onDragStart?: CommonEventFunction
+
+  /** 滑动事件 (同时开启 enhanced 属性后生效)
+   * @supported weapp 2.12.0+
+   */
+  onDragging?: CommonEventFunction
+
+  /** 滑动结束事件 (同时开启 enhanced 属性后生效)
+   * @supported weapp 2.12.0+
+   */
+  onDragEnd?: CommonEventFunction
 }
 
 declare namespace ScrollViewProps {

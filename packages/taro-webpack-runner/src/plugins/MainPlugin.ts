@@ -1,15 +1,13 @@
 import * as path from 'path'
-
 import { defaults } from 'lodash'
-import { AppConfig, Config as IConfig } from '@tarojs/taro'
+import { AppConfig } from '@tarojs/taro'
 import {
   readConfig,
   resolveMainFilePath,
   isEmptyObject,
   FRAMEWORK_MAP,
-  VUE_EXT,
-  SCRIPT_EXT
-} from '@tarojs/runner-utils'
+  FRAMEWORK_EXT_MAP
+} from '@tarojs/helper'
 
 const PLUGIN_NAME = 'MainPlugin'
 
@@ -21,19 +19,14 @@ interface IMainPluginOptions {
   framework: FRAMEWORK_MAP
 }
 
-interface IConfigObject {
-  content: IConfig,
-  path: string
-}
-
 export default class MainPlugin {
   options: IMainPluginOptions
   appEntry: string
   appConfig: AppConfig
   sourceDir: string
   outputDir: string
-  pagesConfigList: Map<string, IConfigObject>
-  pages: Set<{name: string, path: string}>
+  pagesConfigList = new Map<string, string>()
+  pages = new Set<{name: string, path: string}>()
 
   constructor (options = {}) {
     this.options = defaults(options || {}, {
@@ -45,8 +38,6 @@ export default class MainPlugin {
     })
     this.sourceDir = this.options.sourceDir
     this.outputDir = this.options.outputDir
-    this.pagesConfigList = new Map<string, IConfigObject>()
-    this.pages = new Set()
   }
 
   tryAsync = fn => async (arg, callback) => {
@@ -73,18 +64,21 @@ export default class MainPlugin {
       })
     )
 
-    compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation) => {
+    compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
       compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (loaderContext, module: any) => {
-        const { framework } = this.options
+        const { framework, entryFileName } = this.options
         const { dir, name } = path.parse(module.resource)
         if (path.join(dir, name) === this.appEntry) {
           module.loaders.unshift({
             loader: '@tarojs/taro-loader/lib/h5',
             options: {
               framework,
-              filename: this.options.entryFileName,
+              filename: entryFileName,
               pages: this.pagesConfigList,
-              config: this.appConfig
+              config: {
+                router: this.options.routerConfig,
+                ...this.appConfig
+              }
             }
           })
         }
@@ -120,10 +114,9 @@ export default class MainPlugin {
     const { framework } = this.options
 
     this.pages = new Set([
-      ...this.pages,
       ...appPages.map(item => ({
         name: item,
-        path: resolveMainFilePath(path.join(this.options.sourceDir, item), framework === FRAMEWORK_MAP.VUE ? VUE_EXT : SCRIPT_EXT)
+        path: resolveMainFilePath(path.join(this.options.sourceDir, item), FRAMEWORK_EXT_MAP[framework])
       }))
     ])
     this.getSubPackages()
@@ -147,11 +140,13 @@ export default class MainPlugin {
               }
             })
             if (!hasPageIn) {
-              const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, pageItem), framework === FRAMEWORK_MAP.VUE ? VUE_EXT : SCRIPT_EXT)
+              const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, pageItem), FRAMEWORK_EXT_MAP[framework])
               this.pages.add({
                 name: pageItem,
                 path: pagePath
               })
+              // eslint-disable-next-line no-unused-expressions
+              this.appConfig.pages?.push(pageItem)
             }
           })
         }
@@ -163,8 +158,7 @@ export default class MainPlugin {
     const pages = this.pages
     pages.forEach(({ name, path }) => {
       const pageConfigPath = this.getConfigFilePath(path)
-      const pageConfg = readConfig(pageConfigPath)
-      this.pagesConfigList.set(name, pageConfg)
+      this.pagesConfigList.set(name, pageConfigPath)
     })
   }
 
