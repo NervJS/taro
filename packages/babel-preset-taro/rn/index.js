@@ -29,7 +29,6 @@ function getRNConfig () {
   if (config.rn) {
     rnConfig = config.rn
   } else {
-    console.warn('缺少RN基本配置')
     rnConfig = {}
   }
   return rnConfig
