@@ -355,7 +355,17 @@ function processApis (taro) {
         if (key === 'getStorageSync') {
           const arg1 = args[0]
           if (arg1 != null) {
-            return my[key]({ key: arg1 }).data || my[key]({ key: arg1 }).APDataStorage || ''
+            const { data, APDataStorage } = my[key]({ key: arg1 })
+
+            if (data === null) {
+              if (APDataStorage === null) {
+                return ''
+              } else {
+                return APDataStorage
+              }
+            } else {
+              return data
+            }
           }
           return console.log('getStorageSync 传入参数错误')
         }
