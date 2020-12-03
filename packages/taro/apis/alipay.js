@@ -355,17 +355,17 @@ function processApis (taro) {
         if (key === 'getStorageSync') {
           const arg1 = args[0]
           if (arg1 != null) {
-            const { data, APDataStorage } = my[key]({ key: arg1 })
+            const res = my[key]({ key: arg1 })
 
-            if (data === null) {
-              if (APDataStorage === null) {
-                return ''
-              } else {
-                return APDataStorage
-              }
-            } else {
-              return data
+            // 支付宝小程序遗留bug：值可能在data或APDataStorage字段下
+            let data = null
+            if (res.hasOwnProperty('data')) {
+              data = res.data
+            } else if (res.hasOwnProperty('APDataStorage')) {
+              data = res.APDataStorage
             }
+
+            return data === null ? '' : data
           }
           return console.log('getStorageSync 传入参数错误')
         }
