@@ -231,13 +231,13 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
       enumerable: true,
       writable: true,
       value (options) {
-        const app = ref.current
         Current.router = {
           params: options?.query,
           ...options
         }
         // eslint-disable-next-line react/no-render-return-value
         wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById('app'))
+        const app = ref.current
         if (app != null && isFunction(app.onLaunch)) {
           app.onLaunch(options)
         }
