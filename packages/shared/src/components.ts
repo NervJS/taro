@@ -174,7 +174,16 @@ const Button = {
     qq: {
       'app-packagename': '',
       'app-bundleid': '',
-      'app-connect-id': ''
+      'app-connect-id': '',
+      'group-id': '',
+      'public-id': '',
+      'share-type': '27',
+      'share-mode': '[\'qq\', \'qzone\']',
+      'aria-label': '',
+      'open-id': '',
+      'share-message-friend-info': '',
+      bindAddFriend: '',
+      bindAddGroupApp: ''
     }
   })
 }
