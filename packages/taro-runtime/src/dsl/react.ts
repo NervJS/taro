@@ -5,7 +5,7 @@ import { isFunction, ensure, EMPTY_OBJ } from '@tarojs/shared'
 import { Current } from '../current'
 import { AppInstance, ReactPageComponent, PageProps, Instance, ReactAppInstance } from './instance'
 import { document } from '../bom/document'
-import { injectPageInstance } from './common'
+import { injectPageInstance, getPageInstance } from './common'
 import { isBrowser } from '../env'
 import { options } from '../options'
 import { Reconciler } from '../reconciler'
@@ -50,8 +50,17 @@ export function connectReactPage (
       // React 16 uncaught error 会导致整个应用 crash，
       // 目前把错误缩小到页面
       componentDidCatch (error: Error, info: React.ErrorInfo) {
-        console.warn(error)
-        console.error(info.componentStack)
+        if (isFunction(component.prototype.componentDidCatch)) {
+          let pageInstance = getPageInstance(id);
+          if (pageInstance) {
+            component.prototype.componentDidCatch.call(pageInstance, error, info);
+          } else {
+            component.prototype.componentDidCatch(error, info);
+          }
+        } else { 
+          console.warn(error)
+          console.error(info.componentStack)
+        }
       }
 
       render () {
