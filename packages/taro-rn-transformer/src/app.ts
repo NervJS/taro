@@ -2,7 +2,7 @@ import * as path from 'path'
 import * as fs from 'fs'
 import { isEmptyObject } from '@tarojs/helper'
 import { camelCase } from 'lodash'
-import { getConfigContent, getConfigFilePath } from './utils'
+import { getConfigContent, getConfigFilePath, getStyleCode } from './utils'
 import { TransformEntry, AppConfig, globalAny } from './types/index'
 
 function getPagesResource (config: AppConfig, basePath: string, pathPrefix: string) {
@@ -69,6 +69,47 @@ function getAppConfig (appPath: string) {
   return appConfig
 }
 
+function getAppContent (fileName: string) {
+  let code = ''
+  if (!fs.existsSync(fileName)) return code
+  try {
+    code = fs.readFileSync(fileName, 'utf-8').toString()
+  } catch (error) {
+    code = ''
+  }
+  return code
+}
+
+function getCommonStyle (appPath: string, basePath: string) {
+  let styles: Record<string, string>[] = []
+  // 读取入口文件的内容
+  const jsExt: string[] = ['tsx', 'ts', 'jsx', 'js']
+  let codeStr = ''
+  // 先读带rn后缀的
+  for (let i = 0; i < jsExt.length; i++) {
+    const rnfilePath = `${appPath}.rn.${jsExt[i]}`
+    const rnFileContent: string = getAppContent(rnfilePath)
+    if (!rnFileContent) {
+      codeStr = rnFileContent
+      break
+    }
+  }
+  // 不带rn后缀的
+  if (!codeStr) {
+    for (let i = 0; i < jsExt.length; i++) {
+      const filePath = `${appPath}.${jsExt[i]}`
+      const fileContent: string = getAppContent(filePath)
+      if (fileContent) {
+        codeStr = fileContent
+        break
+      }
+    }
+  }
+  if (!codeStr) return styles
+  styles = getStyleCode(codeStr, basePath)
+  return styles
+}
+
 export default function generateEntry ({
   filename,
   projectRoot,
@@ -92,13 +133,15 @@ export default function generateEntry ({
   const importPageList = pages.importPages.join(';')
   const importPageConfig = pages.importConfigs.join(';')
   const routeList = pages.screenPages
+  const appComponentPath = `./${sourceDir}/${entryName}`
 
   // 所有页面存一下，用于判断是否页面文件
   globalAny.__taroAppPages = pages.screenPages.map(item => sourceDir + item)
 
-  // TODO transform 引用文件问题,默认为App
-  const appComponentPath = `./${sourceDir}/${entryName}`
-  //
+  // app入口公共样式文件读取
+  const styles: Record<string, string>[] = getCommonStyle(appPath, basePath)
+  globalAny.__taroCommonStyle = styles
+
   const code = `import 'react-native/Libraries/polyfills/error-guard'
   import { AppRegistry } from 'react-native'
   import { createReactNativeApp } from '@tarojs/runtime-rn'
