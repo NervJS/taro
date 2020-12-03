@@ -151,9 +151,9 @@ export function navigate (option: NavigateOption | NavigateBackOption, method: N
 
   return new Promise((resolve, reject) => {
     if (errMsg) {
-      fail && fail(errMsg)
-      complete && complete(errMsg)
-      reject(errMsg)
+      fail && fail({ errMsg })
+      complete && complete({ errMsg })
+      reject({ errMsg })
     } else {
       const msg: any = {
         errMsg: `${method}:ok`
@@ -163,7 +163,7 @@ export function navigate (option: NavigateOption | NavigateBackOption, method: N
       }
       success && success(msg)
       complete && complete(msg)
-      resolve()
+      resolve(msg)
     }
   })
 }
