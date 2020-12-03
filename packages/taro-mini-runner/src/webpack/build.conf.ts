@@ -71,7 +71,9 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     terser,
     commonChunks,
     addChunkPages,
-    optimizeMainPackage = false,
+    optimizeMainPackage = {
+      enable: false
+    },
 
     modifyMiniConfigs,
     modifyBuildAssets
@@ -134,8 +136,10 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   }
   plugin.definePlugin = getDefinePlugin([constantsReplaceList])
   /** 需要在miniPlugin前，否则无法获取entry地址 */
-  if (optimizeMainPackage) {
-    plugin.miniSplitChunksPlugin = getMiniSplitChunksPlugin()
+  if (optimizeMainPackage.enable) {
+    plugin.miniSplitChunksPlugin = getMiniSplitChunksPlugin({
+      exclude: optimizeMainPackage.exclude
+    })
   }
   plugin.miniPlugin = getMiniPlugin({
     sourceDir,
@@ -156,8 +160,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     addChunkPages,
     modifyMiniConfigs,
     modifyBuildAssets,
-    minifyXML,
-    optimizeMainPackage
+    minifyXML
   })
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{

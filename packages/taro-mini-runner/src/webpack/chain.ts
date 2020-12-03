@@ -186,8 +186,8 @@ export const getMiniPlugin = args => {
   return partial(getPlugin, MiniPlugin)([args])
 }
 
-export const getMiniSplitChunksPlugin = () => {
-  return partial(getPlugin, MiniSplitChunksPlugin)([])
+export const getMiniSplitChunksPlugin = (args) => {
+  return partial(getPlugin, MiniSplitChunksPlugin)([args])
 }
 
 export const getProviderPlugin = args => {

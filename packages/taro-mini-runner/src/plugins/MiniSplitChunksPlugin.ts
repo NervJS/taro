@@ -7,11 +7,20 @@ import * as SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
 import { ConcatSource } from 'webpack-sources'
 import { AppConfig, SubPackage } from '@tarojs/taro'
 import { resolveMainFilePath, readConfig, promoteRelativePath } from '@tarojs/helper'
+import { isString, isFunction, isArray } from '@tarojs/shared'
 
 const PLUGIN_NAME = 'MiniSplitChunkPlugin'
 const SUB_COMMON_DIR = 'sub-common'
 const SUB_VENDORS_NAME = 'vendors'
 const CSS_MINI_EXTRACT = 'css/mini-extract'
+
+interface MiniSplitChunksPluginOption {
+  exclude?: Array<string | ExcludeFunctionItem>
+}
+
+interface ExcludeFunctionItem {
+  (module: webpack.compilation.Module): boolean
+}
 
 interface DepInfo {
   resource: string
@@ -25,18 +34,20 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   subPackagesVendors: webpack.compilation.Chunk[]
   context: string
   distPath: string
+  exclude: Array<string | ExcludeFunctionItem>
   isDevMode: boolean
   subPackages: SubPackage[]
   subRoots: string[]
   subRootRegExps: RegExp[]
 
-  constructor () {
+  constructor (options: MiniSplitChunksPluginOption) {
     super()
     this.options = null
     this.subCommonDeps = new Map()
     this.chunkSubCommons = new Map()
     this.subPackagesVendors = []
     this.distPath = ''
+    this.exclude = options.exclude || []
   }
 
   apply (compiler: any) {
@@ -77,20 +88,23 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
           const modules: webpack.compilation.Module[] = Array.from(subChunk.modulesIterable)
 
           modules.map((module: any) => {
-            const chunks: webpack.compilation.Chunk[] = Array.from(module.chunksIterable)
+            if (!module.resource) {
+              return
+            }
 
+            if (module.type === CSS_MINI_EXTRACT) {
+              return
+            }
+
+            if (this.hasExclude() && this.isExcludeModule(module)) {
+              return
+            }
+
+            const chunks: webpack.compilation.Chunk[] = Array.from(module.chunksIterable)
             /**
              * 找出没有被主包引用，且被多个分包引用的module，并记录下来
              */
             if (!this.hasMainChunk(chunks) && this.isSubsDep(chunks)) {
-              if (!module.resource) {
-                return
-              }
-
-              if (module.type === CSS_MINI_EXTRACT) {
-                return
-              }
-
               const depPath = module.resource.replace(new RegExp(`${this.context}(.*)`), '$1')
               let depName = ''
 
@@ -364,6 +378,14 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
             return false
           }
 
+          if (!module.resource) {
+            return false
+          }
+
+          if (this.hasExclude() && this.isExcludeModule(module)) {
+            return false
+          }
+
           return chunks.every(chunk => new RegExp(`^${subRoot}/`).test(chunk.name))
         },
         name: `${subRoot}/${SUB_VENDORS_NAME}`,
@@ -390,6 +412,27 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
       }
     })
     return subCommonCacheGroup
+  }
+
+  hasExclude (): boolean {
+    return isArray(this.exclude) && this.exclude.length > 0
+  }
+
+  isExcludeModule (module: any): boolean {
+    const moduleResource = module.resource
+
+    for (let i = 0; i < this.exclude.length; i++) {
+      const excludeItem = this.exclude[i]
+
+      if (isString(excludeItem) && excludeItem === moduleResource) {
+        return true
+      }
+
+      if (isFunction(excludeItem) && excludeItem(module)) {
+        return true
+      }
+    }
+    return false
   }
 
   setChunkSubCommons (subCommonDeps: Map<string, DepInfo>) {
