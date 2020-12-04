@@ -64,7 +64,6 @@ const voidElements = new Set([
   'switch',
   'audio',
   'live-pusher',
-  'video',
   'ad',
   'official-account',
   'open-data',
