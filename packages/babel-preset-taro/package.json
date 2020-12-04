@@ -39,7 +39,7 @@
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "babel-plugin-global-define": "^1.0.3",
     "babel-plugin-module-resolver": "^3.2.0",
-    "babel-plugin-rn-platform-specific-extensions": "^0.3.0",
+    "babel-plugin-rn-platform-specific-extensions": "^1.0.0",
     "babel-plugin-transform-imports": "^2.0.0",
     "babel-plugin-transform-react-jsx-to-rn-stylesheet": "3.2.0-canary.1",
     "babel-plugin-transform-taroapi": "3.2.0-canary.1",

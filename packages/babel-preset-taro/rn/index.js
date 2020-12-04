@@ -3,6 +3,7 @@ const reactNativeBabelPreset = require('metro-react-native-babel-preset')
 const helper = require('@tarojs/helper')
 const { merge } = require('lodash')
 const fs = require('fs')
+const path = require('path')
 /**
  *
  * 获取项目级配置
@@ -132,11 +133,16 @@ module.exports = (_, options = {}) => {
   const presets = []
   const plugins = []
   const extensions = [].concat(helper.JS_EXT, helper.TS_EXT, helper.CSS_EXT)
+  const omitExtensions = options.ts ? ['.tsx', '.ts', '.jsx', '.js'] : ['.jsx', '.js', '.tsx', '.ts']
+  const entryFilePath = 'node_modules/metro/src/node-haste/DependencyGraph/assets/empty-module.js'
+  const projectRoot = process.cwd()
   presets.push(reactNativeBabelPreset(_, options))
   plugins.push(
     require('babel-plugin-transform-react-jsx-to-rn-stylesheet'),
     [require('babel-plugin-rn-platform-specific-extensions'), {
-      extensions: extensions
+      extensions: extensions,
+      omitExtensions: omitExtensions,
+      include: [{ [path.resolve(projectRoot, entryFilePath)]: path.resolve(projectRoot, 'index.js') }]
     }],
     [require('babel-plugin-transform-imports'), {
       '^@tarojs/components(-rn)?$': {
