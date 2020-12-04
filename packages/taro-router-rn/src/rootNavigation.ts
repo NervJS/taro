@@ -5,7 +5,7 @@ import { parseUrl } from 'query-string'
 import { StackActions, NavigationContainerRef } from '@react-navigation/native'
 import { getTabBarPages } from './utils/index'
 import { CallbackResult, BaseOption } from './utils/types'
-import { getOpenerEventChannel } from './getOpenerEventChannel'
+// import { getOpenerEventChannel } from './getOpenerEventChannel'
 
 type NavigateMethod = 'navigateTo' | 'redirectTo' | 'navigateBack' | 'switchTab' | 'reLaunch'
 
@@ -100,9 +100,9 @@ export function navigate (option: NavigateOption | NavigateBackOption, method: N
       const msg: any = {
         errMsg: `${method}:ok`
       }
-      if (method === 'navigateTo') {
-        msg.eventChannel = getOpenerEventChannel()
-      }
+      // if (method === 'navigateTo') {
+      //   msg.eventChannel = getOpenerEventChannel()
+      // }
       success && success(msg)
       complete && complete(msg)
       resolve(msg)
