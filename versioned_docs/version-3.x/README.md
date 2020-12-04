@@ -40,7 +40,9 @@ Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用
 
 <a href="https://nervjs.github.io/taro-user-cases/"><img src="https://raw.githubusercontent.com/NervJS/taro-user-cases/master/user-cases.jpg" /></a>
 
-[查看更多的案例，请点击](./showcase)
+import Link from '@docusaurus/Link';
+
+<Link to="/showcase">查看更多的案例，请点击</Link>
 
 [我们正在征集更多优秀案例，欢迎点击提交](https://github.com/NervJS/taro/issues/244)
 
