@@ -43,7 +43,7 @@ export default (ctx: IPluginContext) => {
 
       // 生成 project.config.json
       ctx.generateProjectConfig({
-        srcConfigName: 'project.config.json',
+        srcConfigName: config.projectConfigName || 'project.config.json',
         distConfigName: 'project.config.json'
       })
 
