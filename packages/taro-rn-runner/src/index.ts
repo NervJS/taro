@@ -43,6 +43,7 @@ export default async function build (appPath: string, config: any): Promise<any>
     minify: process.env.NODE_ENV === 'production' || !config.isWatch,
     dev: config.isWatch
   }
+  metroConfig.resetCache = config.resetCache
   metroConfig.reporter = new TerminalReporter(config.entry, metroConfig.cacheStores[0])
   if (config.isWatch) {
     if (!metroConfig.server || (metroConfig.server.useGlobalHotkey === undefined)) {

@@ -16,7 +16,9 @@ export default (ctx: IPluginContext) => {
       '--ui-index [uiIndexPath]': 'Index file for build Taro UI library',
       '--plugin [typeName]': 'Build Taro plugin project, weapp',
       '-p, --port [port]': 'Specified port',
-      '--release': 'Release quickapp'
+      '--release': 'Release quickapp',
+      '--platform': 'Specific React-Native build target: android / ios, android is default value',
+      '--reset-cache': 'Clear transform cache just for React-Native'
     },
     async fn (opts) {
       const { platform, config } = opts

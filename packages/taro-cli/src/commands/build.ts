@@ -12,7 +12,8 @@ export default function build (kernel: Kernel, {
   component,
   envHasBeenSet = false,
   plugin,
-  isHelp
+  isHelp,
+  resetCache
 }: {
   platform: string,
   isWatch: boolean,
@@ -25,7 +26,8 @@ export default function build (kernel: Kernel, {
   component?: string
   envHasBeenSet?: boolean
   plugin?: string | boolean
-  isHelp?: boolean
+  isHelp?: boolean,
+  resetCache?: boolean
 }) {
   if (plugin) {
     if (typeof plugin === 'boolean') {
@@ -62,7 +64,8 @@ export default function build (kernel: Kernel, {
       component,
       envHasBeenSet,
       plugin,
-      isHelp
+      isHelp,
+      resetCache
     }
   })
 }
