@@ -116,6 +116,11 @@ function getAlias () {
 const nativeApis = require('./nativeApis')
 
 module.exports = (_, options = {}) => {
+  const {
+    loose = false,
+    decoratorsBeforeExport,
+    decoratorsLegacy
+  } = options
   if (options.framework && options.framework !== 'react') {
     throw new Error(`Value "${options.framework}" of option "framework" is not supported for React-Native`)
   }
@@ -154,6 +159,14 @@ module.exports = (_, options = {}) => {
     }]
   )
 
+  // 添加两个默认 plugin, 与小程序/h5保持一致. todo: 3.1后采用拓展的方式
+  plugins.push(
+    [require('@babel/plugin-proposal-decorators'), {
+      decoratorsBeforeExport,
+      legacy: decoratorsLegacy !== false
+    }],
+    [require('@babel/plugin-proposal-class-properties'), { loose }]
+  )
   return {
     presets,
     plugins

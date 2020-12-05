@@ -34,7 +34,7 @@ export function setNavigationBarTitle (option: NavigateBarTitleOption): Promise<
     msg = error
     return errorHandler(fail, complete)({ errMsg: msg })
   }
-  msg = 'setNavigateBarTitle:ok'
+  msg = 'setNavigationBarTitle:ok'
   return successHandler(success, complete)({ errMsg: msg })
 }
 
@@ -58,7 +58,7 @@ export function setNavigationBarColor (option: NavigateBarColorOption): Promise<
     msg = error
     return errorHandler(fail, complete)({ errMsg: msg })
   }
-  msg = 'setNavigateBarColor:ok'
+  msg = 'setNavigationBarColor:ok'
   return successHandler(success, complete)({ errMsg: msg })
 }
 
