@@ -24,7 +24,8 @@ export default class CLI {
       alias: {
         version: ['v'],
         help: ['h'],
-        port: ['p']
+        port: ['p'],
+        resetCache: ['reset-cache']
       },
       boolean: ['version', 'help']
     })
@@ -50,7 +51,8 @@ export default class CLI {
             page: args.page,
             component: args.component,
             plugin: args.plugin,
-            isHelp: args.h
+            isHelp: args.h,
+            resetCache: !!args.resetCache
           })
           break
         }
