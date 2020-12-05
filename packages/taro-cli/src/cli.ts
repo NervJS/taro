@@ -23,7 +23,8 @@ export default class CLI {
     const args = minimist(process.argv.slice(2), {
       alias: {
         version: ['v'],
-        help: ['h']
+        help: ['h'],
+        port: ['p']
       },
       boolean: ['version', 'help']
     })
@@ -85,6 +86,7 @@ export default class CLI {
         console.log('Options:')
         console.log('  -v, --version       output the version number')
         console.log('  -h, --help          output usage information')
+        console.log('  -p, --port          port number for connect device')
         console.log()
         console.log('Commands:')
         console.log('  init [projectName]  Init a project with default templete')
