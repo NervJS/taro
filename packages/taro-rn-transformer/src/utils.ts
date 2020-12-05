@@ -18,7 +18,15 @@ export function getConfigContent (path: string) {
 }
 
 export function getStyleCode (code: string, basePath: string) {
-  const ast = parser.parse(code, { sourceType: 'module' })
+  const ast = parser.parse(code, {
+    sourceType: 'module',
+    plugins: [
+      'jsx',
+      'typescript',
+      'classProperties',
+      'decorators-legacy'
+    ]
+  })
 
   const styleTypes = RN_CSS_EXT
   const styleSource: Record<string, string>[] = []
