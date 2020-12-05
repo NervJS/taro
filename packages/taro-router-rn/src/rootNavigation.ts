@@ -95,7 +95,7 @@ export function navigate (option: NavigateOption | NavigateBackOption, method: N
     if (errMsg) {
       fail && fail({ errMsg })
       complete && complete({ errMsg })
-      reject({ errMsg })
+      reject(new Error(errMsg))
     } else {
       const msg: any = {
         errMsg: `${method}:ok`
