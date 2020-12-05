@@ -118,7 +118,6 @@ const nativeApis = require('./nativeApis')
 
 module.exports = (_, options = {}) => {
   const {
-    loose = false,
     decoratorsBeforeExport,
     decoratorsLegacy
   } = options
@@ -165,13 +164,12 @@ module.exports = (_, options = {}) => {
     }]
   )
 
-  // 添加两个默认 plugin, 与小程序/h5保持一致. todo: 3.1后采用拓展的方式
+  // 添加一个默认 plugin, 与小程序/h5保持一致. todo: 3.1后采用拓展的方式
   plugins.push(
     [require('@babel/plugin-proposal-decorators'), {
       decoratorsBeforeExport,
       legacy: decoratorsLegacy !== false
-    }],
-    [require('@babel/plugin-proposal-class-properties'), { loose }]
+    }]
   )
   return {
     presets,
