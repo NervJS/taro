@@ -148,7 +148,7 @@ export default function generateEntry ({
   import { createPageConfig } from '@tarojs/runtime-rn'
   import Component from '${appComponentPath}'
   ${importPageList}
-  ${process.env.NODE_ENV === 'development' ? `import '${appComponentPath}.config.ts';${importPageConfig};` : ''}
+  ${process.env.NODE_ENV === 'development' ? `import '${appComponentPath}.config';${importPageConfig};` : ''}
 
   var config = ${JSON.stringify({ appConfig: appConfig })}
   global.__taroAppConfig = config
