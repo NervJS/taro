@@ -15,7 +15,7 @@ export default (ctx: IPluginContext) => {
       '--ui': 'Build Taro UI library',
       '--ui-index [uiIndexPath]': 'Index file for build Taro UI library',
       '--plugin [typeName]': 'Build Taro plugin project, weapp',
-      '--port [port]': 'Specified port',
+      '-p, --port [port]': 'Specified port',
       '--release': 'Release quickapp'
     },
     async fn (opts) {

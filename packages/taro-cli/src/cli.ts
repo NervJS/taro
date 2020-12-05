@@ -23,7 +23,8 @@ export default class CLI {
     const args = minimist(process.argv.slice(2), {
       alias: {
         version: ['v'],
-        help: ['h']
+        help: ['h'],
+        port: ['p']
       },
       boolean: ['version', 'help']
     })
