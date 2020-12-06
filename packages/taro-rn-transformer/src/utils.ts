@@ -1,4 +1,5 @@
 import * as nodePath from 'path'
+import * as fs from 'fs'
 import * as parser from '@babel/parser'
 import traverse from '@babel/traverse'
 import { readConfig, resolveMainFilePath } from '@tarojs/helper'
@@ -59,5 +60,47 @@ export function isPageFile (file: string, sourceDir: string) {
   if ((/node_modules/.test(file)) || file.indexOf(sourceDir) === -1) return false
   const pagesList = globalAny.__taroAppPages || []
   const filePath = file.split('.')[0]
-  return pagesList.includes(filePath) || filePath === `${sourceDir}/app`
+  const filename = nodePath.basename(file).replace(nodePath.extname(file), '')
+  return pagesList.includes(filePath) && !(filename.endsWith('.config'))
+}
+
+export function getFileContent (fileName: string) {
+  let code = ''
+  if (!fs.existsSync(fileName)) return code
+  try {
+    code = fs.readFileSync(fileName, 'utf-8').toString()
+  } catch (error) {
+    code = ''
+  }
+  return code
+}
+
+export function getCommonStyle (appPath: string, basePath: string) {
+  let styles: Record<string, string>[] = []
+  // 读取入口文件的内容
+  const jsExt: string[] = ['tsx', 'ts', 'jsx', 'js']
+  let codeStr = ''
+  // 先读带rn后缀的
+  for (let i = 0; i < jsExt.length; i++) {
+    const rnfilePath = `${appPath}.rn.${jsExt[i]}`
+    const rnFileContent: string = getFileContent(rnfilePath)
+    if (!rnFileContent) {
+      codeStr = rnFileContent
+      break
+    }
+  }
+  // 不带rn后缀的
+  if (!codeStr) {
+    for (let i = 0; i < jsExt.length; i++) {
+      const filePath = `${appPath}.${jsExt[i]}`
+      const fileContent: string = getFileContent(filePath)
+      if (fileContent) {
+        codeStr = fileContent
+        break
+      }
+    }
+  }
+  if (!codeStr) return styles
+  styles = getStyleCode(codeStr, basePath)
+  return styles
 }

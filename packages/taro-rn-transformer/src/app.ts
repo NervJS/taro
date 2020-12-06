@@ -1,25 +1,16 @@
 import * as path from 'path'
 import * as fs from 'fs'
-import { isEmptyObject } from '@tarojs/helper'
 import { camelCase } from 'lodash'
-import { getConfigContent, getConfigFilePath, getStyleCode } from './utils'
+import { isEmptyObject } from '@tarojs/helper'
+import { getConfigContent, getConfigFilePath, getCommonStyle } from './utils'
 import { TransformEntry, AppConfig, globalAny } from './types/index'
 
-function getPagesResource (config: AppConfig, basePath: string, pathPrefix: string) {
+function getPagesResource (appPath: string, basePath: string, pathPrefix: string) {
   const importPages: string[] = []
   const screenPages: string[] = []
   const importConfigs: string[] = []
-  const pages = config.pages || []
-  if (!config.pages) return { screenPages, importPages, importConfigs }
-  // 分包路由，也需要处理
-  const subPackages = config.subPackages || config.subpackages || []
-  subPackages.forEach(item => {
-    const subRoot = item.root.endsWith('/') ? item.root : `${item.root}/`
-    const subPages = item.pages
-    subPages.forEach(itm => {
-      pages.push(subRoot + itm)
-    })
-  })
+  const pages = getAppPages(appPath)
+
   pages.forEach(item => {
     const pagePath = item.startsWith('/') ? item : `/${item}`
     const screenName = camelCase(pagePath)
@@ -69,45 +60,20 @@ function getAppConfig (appPath: string) {
   return appConfig
 }
 
-function getAppContent (fileName: string) {
-  let code = ''
-  if (!fs.existsSync(fileName)) return code
-  try {
-    code = fs.readFileSync(fileName, 'utf-8').toString()
-  } catch (error) {
-    code = ''
-  }
-  return code
-}
-
-function getCommonStyle (appPath: string, basePath: string) {
-  let styles: Record<string, string>[] = []
-  // 读取入口文件的内容
-  const jsExt: string[] = ['tsx', 'ts', 'jsx', 'js']
-  let codeStr = ''
-  // 先读带rn后缀的
-  for (let i = 0; i < jsExt.length; i++) {
-    const rnfilePath = `${appPath}.rn.${jsExt[i]}`
-    const rnFileContent: string = getAppContent(rnfilePath)
-    if (!rnFileContent) {
-      codeStr = rnFileContent
-      break
-    }
-  }
-  // 不带rn后缀的
-  if (!codeStr) {
-    for (let i = 0; i < jsExt.length; i++) {
-      const filePath = `${appPath}.${jsExt[i]}`
-      const fileContent: string = getAppContent(filePath)
-      if (fileContent) {
-        codeStr = fileContent
-        break
-      }
-    }
-  }
-  if (!codeStr) return styles
-  styles = getStyleCode(codeStr, basePath)
-  return styles
+export function getAppPages (appPath: string) {
+  const config = getAppConfig(appPath)
+  const pages = config?.pages || []
+  // 分包路由，也需要处理
+  const subPackages = config.subPackages || config.subpackages || []
+  subPackages.forEach(item => {
+    const subRoot = item.root.endsWith('/') ? item.root : `${item.root}/`
+    const subPages = item.pages
+    subPages.forEach(itm => {
+      pages.push(subRoot + itm)
+    })
+  })
+  pages.map(item => { return item.startsWith('/') ? item : `/${item}` })
+  return pages
 }
 
 export default function generateEntry ({
@@ -129,7 +95,7 @@ export default function generateEntry ({
   appConfig.deviceRatio = deviceRatio
 
   const pathPrefix = filePath.indexOf(sourceDir) > -1 ? '' : `/${sourceDir}`
-  const pages = getPagesResource(appConfig, basePath, pathPrefix)
+  const pages = getPagesResource(appPath, basePath, pathPrefix)
   const importPageList = pages.importPages.join(';')
   const importPageConfig = pages.importConfigs.join(';')
   const routeList = pages.screenPages
@@ -139,8 +105,7 @@ export default function generateEntry ({
   globalAny.__taroAppPages = pages.screenPages.map(item => sourceDir + item)
 
   // app入口公共样式文件读取
-  const styles: Record<string, string>[] = getCommonStyle(appPath, basePath)
-  globalAny.__taroCommonStyle = styles
+  globalAny.__taroCommonStyle = getCommonStyle(appPath, basePath)
 
   const code = `import 'react-native/Libraries/polyfills/error-guard'
   import { AppRegistry } from 'react-native'

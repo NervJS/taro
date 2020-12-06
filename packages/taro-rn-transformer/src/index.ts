@@ -1,19 +1,29 @@
-import appLoader from './app'
+import * as path from 'path'
+import appLoader, { getAppPages } from './app'
 import pageLoader from './page'
-import { TransformType } from './types/index'
-import { isPageFile } from './utils'
+import { TransformType, globalAny } from './types/index'
+import { isPageFile, getCommonStyle } from './utils'
 
 // eslint-disable-next-line import/no-commonjs
 module.exports.transform = function ({ src, filename, options }: TransformType) {
   let code = src
   const sourceDir = options?.sourceRoot || 'src'
+  const entryName = options?.entry || 'app'
+  if (!globalAny.__taroAppPages) {
+    const appPath = path.join(options.projectRoot, sourceDir, entryName)
+    const basePath = path.join(options.projectRoot, sourceDir)
+    const pages = getAppPages(appPath)
+    globalAny.__taroAppPages = pages.map(item => sourceDir + item)
+    globalAny.__taroCommonStyle = getCommonStyle(appPath, basePath)
+  }
+
   if (options.isEntryFile(filename)) {
     code = appLoader({
       filename: filename,
       projectRoot: options.projectRoot,
       sourceDir: sourceDir,
       appName: options.appName || 'taroDemo',
-      entryName: options?.entry || 'app',
+      entryName: entryName,
       designWidth: options?.designWidth || 750,
       deviceRatio: options?.deviceRatio || {
         640: 2.34 / 2,
