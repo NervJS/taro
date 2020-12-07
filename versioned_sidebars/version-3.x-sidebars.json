@@ -103,6 +103,10 @@
             {
               "type": "doc",
               "id": "version-3.x/react-native"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/react-native-remind"
             }
           ]
         }
