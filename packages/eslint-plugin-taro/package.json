@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-taro",
-  "version": "3.2.0-canary.1",
+  "version": "3.2.0-canary.2",
   "description": "Taro specific linting plugin for ESLint",
   "main": "index.js",
   "files": [

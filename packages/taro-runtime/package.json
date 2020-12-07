@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runtime",
-  "version": "3.2.0-canary.1",
+  "version": "3.2.0-canary.2",
   "description": "taro runtime for mini apps.",
   "main": "dist/runtime.esm.js",
   "module": "dist/runtime.esm.js",
