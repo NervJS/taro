@@ -57,10 +57,10 @@ export function showTabBar (options: TabBarOptions = {}): Promise<CallbackResult
     })
   } catch (error) {
     msg = error
-    return errorHandler(fail, complete)(msg)
+    return errorHandler(fail, complete)({ errMsg: msg })
   }
   msg = 'showTabBar:ok'
-  return successHandler(success, complete)(msg)
+  return successHandler(success, complete)({ errMsg: msg })
 }
 
 export function hideTabBar (options: TabBarOptions = {}): Promise<CallbackResult> {
@@ -94,7 +94,7 @@ export function showTabBarRedDot (options: TabBarRedDot): Promise<CallbackResult
     msg = error
     return errorHandler(fail, complete)({ errMsg: msg })
   }
-  msg = 'hideTabBarRedDot:ok'
+  msg = 'showTabBarRedDot:ok'
   return successHandler(success, complete)({ errMsg: msg })
 }
 

@@ -3,6 +3,7 @@ const reactNativeBabelPreset = require('metro-react-native-babel-preset')
 const helper = require('@tarojs/helper')
 const { merge } = require('lodash')
 const fs = require('fs')
+const path = require('path')
 /**
  *
  * 获取项目级配置
@@ -29,7 +30,6 @@ function getRNConfig () {
   if (config.rn) {
     rnConfig = config.rn
   } else {
-    console.warn('缺少RN基本配置')
     rnConfig = {}
   }
   return rnConfig
@@ -117,6 +117,10 @@ function getAlias () {
 const nativeApis = require('./nativeApis')
 
 module.exports = (_, options = {}) => {
+  const {
+    decoratorsBeforeExport,
+    decoratorsLegacy
+  } = options
   if (options.framework && options.framework !== 'react') {
     throw new Error(`Value "${options.framework}" of option "framework" is not supported for React-Native`)
   }
@@ -128,11 +132,16 @@ module.exports = (_, options = {}) => {
   const presets = []
   const plugins = []
   const extensions = [].concat(helper.JS_EXT, helper.TS_EXT, helper.CSS_EXT)
+  const omitExtensions = options.ts ? ['.tsx', '.ts', '.jsx', '.js'] : ['.jsx', '.js', '.tsx', '.ts']
+  const entryFilePath = 'node_modules/metro/src/node-haste/DependencyGraph/assets/empty-module.js'
+  const projectRoot = process.cwd()
   presets.push(reactNativeBabelPreset(_, options))
   plugins.push(
     require('babel-plugin-transform-react-jsx-to-rn-stylesheet'),
     [require('babel-plugin-rn-platform-specific-extensions'), {
-      extensions: extensions
+      extensions: extensions,
+      omitExtensions: omitExtensions,
+      include: [{ [path.resolve(projectRoot, entryFilePath)]: path.resolve(projectRoot, 'index.js') }]
     }],
     [require('babel-plugin-transform-imports'), {
       '^@tarojs/components(-rn)?$': {
@@ -155,6 +164,13 @@ module.exports = (_, options = {}) => {
     }]
   )
 
+  // 添加一个默认 plugin, 与小程序/h5保持一致. todo: 3.1后采用拓展的方式
+  plugins.push(
+    [require('@babel/plugin-proposal-decorators'), {
+      decoratorsBeforeExport,
+      legacy: decoratorsLegacy !== false
+    }]
+  )
   return {
     presets,
     plugins

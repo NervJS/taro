@@ -1,25 +1,16 @@
 import * as path from 'path'
 import * as fs from 'fs'
-import { isEmptyObject } from '@tarojs/helper'
 import { camelCase } from 'lodash'
-import { getConfigContent, getConfigFilePath } from './utils'
+import { isEmptyObject } from '@tarojs/helper'
+import { getConfigContent, getConfigFilePath, getCommonStyle } from './utils'
 import { TransformEntry, AppConfig, globalAny } from './types/index'
 
-function getPagesResource (config: AppConfig, basePath: string, pathPrefix: string) {
+function getPagesResource (appPath: string, basePath: string, pathPrefix: string) {
   const importPages: string[] = []
   const screenPages: string[] = []
   const importConfigs: string[] = []
-  const pages = config.pages || []
-  if (!config.pages) return { screenPages, importPages, importConfigs }
-  // 分包路由，也需要处理
-  const subPackages = config.subPackages || config.subpackages || []
-  subPackages.forEach(item => {
-    const subRoot = item.root.endsWith('/') ? item.root : `${item.root}/`
-    const subPages = item.pages
-    subPages.forEach(itm => {
-      pages.push(subRoot + itm)
-    })
-  })
+  const pages = getAppPages(appPath)
+
   pages.forEach(item => {
     const pagePath = item.startsWith('/') ? item : `/${item}`
     const screenName = camelCase(pagePath)
@@ -69,6 +60,22 @@ function getAppConfig (appPath: string) {
   return appConfig
 }
 
+export function getAppPages (appPath: string) {
+  const config = getAppConfig(appPath)
+  const pages = config?.pages || []
+  // 分包路由，也需要处理
+  const subPackages = config.subPackages || config.subpackages || []
+  subPackages.forEach(item => {
+    const subRoot = item.root.endsWith('/') ? item.root : `${item.root}/`
+    const subPages = item.pages
+    subPages.forEach(itm => {
+      pages.push(subRoot + itm)
+    })
+  })
+  pages.map(item => { return item.startsWith('/') ? item : `/${item}` })
+  return pages
+}
+
 export default function generateEntry ({
   filename,
   projectRoot,
@@ -88,24 +95,25 @@ export default function generateEntry ({
   appConfig.deviceRatio = deviceRatio
 
   const pathPrefix = filePath.indexOf(sourceDir) > -1 ? '' : `/${sourceDir}`
-  const pages = getPagesResource(appConfig, basePath, pathPrefix)
+  const pages = getPagesResource(appPath, basePath, pathPrefix)
   const importPageList = pages.importPages.join(';')
   const importPageConfig = pages.importConfigs.join(';')
   const routeList = pages.screenPages
+  const appComponentPath = `./${sourceDir}/${entryName}`
 
   // 所有页面存一下，用于判断是否页面文件
   globalAny.__taroAppPages = pages.screenPages.map(item => sourceDir + item)
 
-  // TODO transform 引用文件问题,默认为App
-  const appComponentPath = `./${sourceDir}/${entryName}`
-  //
+  // app入口公共样式文件读取
+  globalAny.__taroCommonStyle = getCommonStyle(appPath, basePath)
+
   const code = `import 'react-native/Libraries/polyfills/error-guard'
   import { AppRegistry } from 'react-native'
   import { createReactNativeApp } from '@tarojs/runtime-rn'
   import { createPageConfig } from '@tarojs/runtime-rn'
   import Component from '${appComponentPath}'
   ${importPageList}
-  ${process.env.NODE_ENV === 'development' ? `import '${appComponentPath}.config.ts';${importPageConfig};` : ''}
+  ${process.env.NODE_ENV === 'development' ? `import '${appComponentPath}.config';${importPageConfig};` : ''}
 
   var config = ${JSON.stringify({ appConfig: appConfig })}
   global.__taroAppConfig = config

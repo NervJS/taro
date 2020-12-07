@@ -23,7 +23,9 @@ export default class CLI {
     const args = minimist(process.argv.slice(2), {
       alias: {
         version: ['v'],
-        help: ['h']
+        help: ['h'],
+        port: ['p'],
+        resetCache: ['reset-cache']
       },
       boolean: ['version', 'help']
     })
@@ -49,7 +51,8 @@ export default class CLI {
             page: args.page,
             component: args.component,
             plugin: args.plugin,
-            isHelp: args.h
+            isHelp: args.h,
+            resetCache: !!args.resetCache
           })
           break
         }
