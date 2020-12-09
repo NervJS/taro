@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/mobx",
-  "version": "2.2.15",
+  "version": "2.2.16",
   "description": "mobx for taro",
   "keywords": [
     "mobx",
@@ -24,8 +24,8 @@
     "clear": "rimraf dist"
   },
   "dependencies": {
-    "@tarojs/mobx-common": "2.2.15",
-    "@tarojs/taro": "2.2.15"
+    "@tarojs/mobx-common": "2.2.16",
+    "@tarojs/taro": "2.2.16"
   },
   "devDependencies": {
     "rimraf": "^2.6.2",
