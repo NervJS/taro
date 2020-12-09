@@ -1,13 +1,13 @@
-
+import { AppInstance, PageInstance } from './instance'
 interface Router {
   params: Record<string, unknown>,
   path: string
 }
 
 interface Current {
-  app: any | null,
+  app: AppInstance | null,
   router: Router | null,
-  page: unknown
+  page: PageInstance | null
 }
 
 export const Current: Current = {

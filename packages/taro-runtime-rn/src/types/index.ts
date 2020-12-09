@@ -171,3 +171,29 @@ export interface RNAppConfig {
 }
 
 export type HooksMethods = 'componentDidShow' | 'componentDidHide' | 'onPullDownRefresh' | 'onReachBottom' | 'onPageScroll' | 'onResize' | 'onTabItemTap'
+
+export interface CallbackResult {
+  errMsg: string
+}
+
+export interface BaseOption {
+  success?: (res: CallbackResult) => void
+  fail?: (res: CallbackResult) => void
+  complete?: (res: CallbackResult) => void
+}
+
+export interface ScrollOption extends BaseOption{
+  selector?: string,
+  scrollTop?: number,
+  duration?: number
+}
+
+export interface TextStyleOption extends BaseOption{
+  textStyle: 'dark' | 'light'
+}
+
+export interface BackgroundOption extends BaseOption{
+  backgroundColor?: string
+}
+
+export type OptionsFunc = (res: CallbackResult) => void

@@ -1,5 +1,10 @@
 export {
-  createPageConfig
+  createPageConfig,
+  startPullDownRefresh,
+  stopPullDownRefresh,
+  pageScrollTo,
+  setBackgroundColor,
+  setBackgroundTextStyle
 } from './page'
 export {
   createReactNativeApp,
