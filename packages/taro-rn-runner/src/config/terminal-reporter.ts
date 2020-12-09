@@ -69,7 +69,7 @@ export class TerminalReporter {
             const deltaCalculator = deltaBundler._deltaCalculators.get(entryGraphVersion.graph)
             const isConfigurationModified = keys => {
               for (const k of keys) {
-                if (k.includes(`${this._entry}.config.`)) {
+                if (k.endsWith('.config')) {
                   return true
                 }
               }

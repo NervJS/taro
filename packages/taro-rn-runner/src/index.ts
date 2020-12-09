@@ -1,5 +1,7 @@
 import * as Metro from 'metro'
 import getMetroConfig from './config'
+import { getRNConfigEntry } from './config/config-holder'
+
 import { PLATFORMS } from '@tarojs/helper'
 import * as path from 'path'
 import * as fse from 'fs-extra'
@@ -38,6 +40,8 @@ export default async function build (appPath: string, config: any): Promise<any>
   process.env.TARO_ENV = PLATFORMS.RN
   // TODO:新增环境变量是否可以在metro构建过程中可以访问到？
   const metroConfig = await getMetroConfig(config)
+  const entry = getRNConfigEntry()
+
   const commonOptions = {
     platform: config.deviceType,
     minify: process.env.NODE_ENV === 'production' || !config.isWatch,
@@ -46,7 +50,7 @@ export default async function build (appPath: string, config: any): Promise<any>
   if (config.resetCache) {
     metroConfig.resetCache = config.resetCache
   }
-  metroConfig.reporter = new TerminalReporter(config.entry, metroConfig.cacheStores[0])
+  metroConfig.reporter = new TerminalReporter(entry, metroConfig.cacheStores[0])
   if (config.isWatch) {
     if (!metroConfig.server || (metroConfig.server.useGlobalHotkey === undefined)) {
       if (!metroConfig.server) {

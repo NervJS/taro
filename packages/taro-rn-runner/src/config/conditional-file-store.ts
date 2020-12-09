@@ -17,7 +17,7 @@ export default class ConditionalFileStore<T> {
     }
 
     for (const d of dependencies) {
-      if (d.name.includes(`${this.entryName}.config.`)) {
+      if (d.name.includes(`${this.entryName}.config`)) {
         return true
       }
     }
