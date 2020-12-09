@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-router-rn",
-  "version": "2.2.15",
+  "version": "2.2.16",
   "description": "taro-router-rn",
   "main": "./index.js",
   "files": [
