@@ -8,13 +8,15 @@ export class TerminalReporter {
   metroServerInstance: any
   _initialized: boolean
   _entry: string
+  _sourceRoot: string
 
-  constructor (entry: string, conditionalFileStore: any, metroServerInstance?: any) {
+  constructor (entry: string, sourceRoot: string, conditionalFileStore: any, metroServerInstance?: any) {
     this._reporter = new MetroTerminalReporter(new Terminal(process.stdout))
     this._conditionalFileStore = conditionalFileStore
     this.metroServerInstance = metroServerInstance
     this._initialized = false
     this._entry = entry
+    this._sourceRoot = sourceRoot
   }
 
   async update (args) {
@@ -69,7 +71,7 @@ export class TerminalReporter {
             const deltaCalculator = deltaBundler._deltaCalculators.get(entryGraphVersion.graph)
             const isConfigurationModified = keys => {
               for (const k of keys) {
-                if (k.endsWith('.config')) {
+                if (k.includes('.config') && k.includes(this._sourceRoot)) {
                   return true
                 }
               }
