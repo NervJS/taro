@@ -29,7 +29,12 @@ export {
   hideNavigationBarLoading,
   setTabBarStyle,
   getApp,
-  pxTransform
+  pxTransform,
+  startPullDownRefresh,
+  stopPullDownRefresh,
+  pageScrollTo,
+  setBackgroundColor,
+  setBackgroundTextStyle
 } from '@tarojs/runtime-rn'
 
 export * from './request'

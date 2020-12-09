@@ -2,11 +2,12 @@ import * as React from 'react'
 import { ScrollView, RefreshControl, AppState, View, Dimensions } from 'react-native'
 import { camelCase } from 'lodash'
 import { PageProvider } from '@tarojs/router-rn'
-import { isFunction, EMPTY_OBJ, isArray, incrementId } from './utils'
+import { isFunction, EMPTY_OBJ, isArray, incrementId, successHandler, errorHandler } from './utils'
 import { isClassComponent } from './app'
 import { Current } from './current'
 import { Instance, PageInstance } from './instance'
-import { PageConfig, HooksMethods } from './types/index'
+import { eventCenter } from './emmiter'
+import { PageConfig, HooksMethods, ScrollOption, BaseOption, BackgroundOption, TextStyleOption } from './types/index'
 
 const compId = incrementId()
 
@@ -178,9 +179,12 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
       constructor (props: any) {
         super(props)
+        const refreshStyle = globalAny?.__taroRefreshStyle ?? {}
         this.state = {
           refreshing: false, // 刷新指示器
-          appState: AppState.currentState
+          appState: AppState.currentState,
+          textColor: refreshStyle.textColor || '#ffffff',
+          backgroundColor: refreshStyle.backgroundColor || '#ffffff'
         }
         const { params = {} } = this.props.route
         Current.router = {
@@ -202,6 +206,9 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         this.unSubscribleTabPress = navigation.addListener('tabPress', () => this.onTabItemTap())
         this.unSubscribleFocus = navigation.addListener('focus', () => this.onFocusChange())
         this.unSubscribleBlur = navigation.addListener('blur', () => this.onBlurChange())
+        eventCenter.on('__taroPullDownRefresh', ({ path, refresh }) => this.pullDownRefresh(path, refresh), this)
+        eventCenter.on('__taroPageScrollTo', ({ path, scrollTop }) => this.pageToScroll({ path, scrollTop }), this)
+        eventCenter.on('__taroSetRefreshStyle', () => this.setRefreshStyle(), this)
       }
 
       componentWillUnmount () {
@@ -210,10 +217,33 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         this.unSubscribleTabPress()
         this.unSubscribleBlur()
         this.unSubscribleFocus()
+        eventCenter.off('__taroPullDownRefresh', ({ path, refresh }) => this.pullDownRefresh(path, refresh), this)
+        eventCenter.off('__taroPageScrollTo', ({ path, scrollTop }) => this.pageToScroll({ path, scrollTop }), this)
+        eventCenter.off('__taroSetRefreshStyle', () => this.setRefreshStyle(), this)
+      }
+
+      pullDownRefresh (path, refresh) {
+        if (path === pagePath) {
+          this.setState({ refreshing: refresh })
+        }
+      }
+
+      setRefreshStyle () {
+        const refreshStyle = globalAny?.__taroRefreshStyle ?? {}
+        this.setState({
+          textColor: refreshStyle.textColor || '#ffffff',
+          backgroundColor: refreshStyle.backgroundColor || '#ffffff'
+        })
+      }
+
+      pageToScroll ({ path = '', scrollTop = 0 }) {
+        if (path === pagePath) {
+          this.pageScrollView?.current?.scrollTo({ x: 0, y: scrollTop, animated: true })
+        }
       }
 
       onFocusChange () {
-        Current.page = getPageObject(pageId)
+        Current.page = getPageObject(pageId) || null
         const { params = {} } = this.props.route
         Current.router = {
           params: params,
@@ -333,9 +363,13 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       }
 
       refreshPullDown () {
-        const { refreshing } = this.state
+        const { refreshing, textColor, backgroundColor } = this.state
         return React.createElement(RefreshControl, {
           refreshing: refreshing,
+          enabled: true,
+          titleColor: textColor,
+          tintColor: textColor,
+          progressBackgroundColor: backgroundColor,
           onRefresh: () => this.onPullDownRefresh()
         }, null)
       }
@@ -374,4 +408,85 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
   Current.page = inst
 
   return pageComponet
+}
+
+export function startPullDownRefresh (options: BaseOption = {}) {
+  const currentPage = Current.page
+  const path = currentPage?.route
+  const { success, fail, complete } = options
+  let errMsg = 'startPullDownRefresh:ok'
+  try {
+    eventCenter.trigger('__taroPullDownRefresh', { path, refresh: true })
+    success && success({ errMsg })
+  } catch (error) {
+    errMsg = 'startPullDownRefresh:fail'
+    fail && fail({ errMsg })
+  } finally {
+    complete && complete({ errMsg })
+  }
+}
+
+export function stopPullDownRefresh (options: BaseOption = {}) {
+  const currentPage = Current.page
+  const path = currentPage?.route
+  const { success, fail, complete } = options
+  let errMsg = 'stopPullDownRefresh:ok'
+  try {
+    eventCenter.trigger('__taroPullDownRefresh', { path, refresh: false })
+    success && success({ errMsg })
+  } catch (error) {
+    errMsg = 'stopPullDownRefresh:fail'
+    fail && fail({ errMsg })
+  } finally {
+    complete && complete({ errMsg })
+  }
+}
+
+export function pageScrollTo (options: ScrollOption = {}) {
+  const currentPage = Current.page
+  const path = currentPage?.route
+  const { success, fail, complete, scrollTop = 0 } = options
+  let errMsg = 'pageScrollTo:ok'
+  try {
+    eventCenter.trigger('__taroPageScrollTo', { path, scrollTop })
+    success && success({ errMsg })
+  } catch (error) {
+    errMsg = 'pageScrollTo:fail'
+    fail && fail({ errMsg })
+  } finally {
+    complete && complete({ errMsg })
+  }
+}
+
+// 仅支持android
+export function setBackgroundColor (options: BackgroundOption) {
+  const { backgroundColor, success, fail, complete } = options
+  const errMsg = ' setBackgroundColor: ok'
+  const refreshStyle = globalAny.__taroRefreshStyle || {}
+  try {
+    refreshStyle.backgroundColor = backgroundColor
+    globalAny.__taroRefreshStyle = refreshStyle
+    eventCenter.trigger('__taroSetRefreshStyle')
+    return successHandler(success, complete)({ errMsg })
+  } catch (error) {
+    const errMsg = ' setBackgroundColor: error'
+    return errorHandler(fail, complete)({ errMsg })
+  }
+}
+
+// 仅支持ios
+export function setBackgroundTextStyle (options: TextStyleOption) {
+  const { textStyle, success, fail, complete } = options
+  const textColor = textStyle === 'dark' ? '#000000' : '#ffffff'
+  const errMsg = ' setBackgroundTextStyle: ok'
+  const refreshStyle = globalAny.__taroRefreshStyle || {}
+  try {
+    refreshStyle.textColor = textColor
+    globalAny.__taroRefreshStyle = refreshStyle
+    eventCenter.trigger('__taroSetRefreshStyle')
+    return successHandler(success, complete)({ errMsg })
+  } catch (error) {
+    const errMsg = ' setBackgroundTextStyle: error'
+    return errorHandler(fail, complete)({ errMsg })
+  }
 }
