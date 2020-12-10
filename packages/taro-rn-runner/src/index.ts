@@ -39,9 +39,9 @@ function concatOutputFileName (config: any): string {
 export default async function build (appPath: string, config: any): Promise<any> {
   process.env.TARO_ENV = PLATFORMS.RN
   // TODO:新增环境变量是否可以在metro构建过程中可以访问到？
-  const metroConfig = await getMetroConfig(config)
   const entry = getRNConfigEntry()
   config.entry = entry
+  const metroConfig = await getMetroConfig(config)
   const sourceRoot = config.sourceRoot || 'src'
 
   const commonOptions = {
