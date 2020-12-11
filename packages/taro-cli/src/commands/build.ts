@@ -13,6 +13,7 @@ export default function build (kernel: Kernel, {
   envHasBeenSet = false,
   plugin,
   isHelp,
+  deviceType,
   resetCache
 }: {
   platform: string,
@@ -27,6 +28,7 @@ export default function build (kernel: Kernel, {
   envHasBeenSet?: boolean
   plugin?: string | boolean
   isHelp?: boolean,
+  deviceType?: string,
   resetCache?: boolean
 }) {
   if (plugin) {
@@ -65,6 +67,7 @@ export default function build (kernel: Kernel, {
       envHasBeenSet,
       plugin,
       isHelp,
+      deviceType,
       resetCache
     }
   })
