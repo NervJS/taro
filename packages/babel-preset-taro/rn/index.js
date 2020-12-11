@@ -41,7 +41,7 @@ function getRNConfig () {
 function getEnv () {
   const config = getProjectConfig()
   const envConst = {
-    'process.env.TARO_ENV': 'RN'
+    'process.env.TARO_ENV': 'rn'
   }
   if (config.env) {
     Object.keys(config.env).forEach((key) => {
