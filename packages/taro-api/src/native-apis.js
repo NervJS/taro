@@ -7,6 +7,7 @@ const onAndSyncApis = {
   onBackgroundAudioPause: true,
   onBackgroundAudioStop: true,
   onNetworkStatusChange: true,
+  offNetworkStatusChange: true,
   onAccelerometerChange: true,
   onCompassChange: true,
   onBluetoothAdapterStateChange: true,
