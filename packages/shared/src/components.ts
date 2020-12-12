@@ -174,7 +174,16 @@ const Button = {
     qq: {
       'app-packagename': '',
       'app-bundleid': '',
-      'app-connect-id': ''
+      'app-connect-id': '',
+      'group-id': '',
+      'public-id': '',
+      'share-type': '27',
+      'share-mode': '[\'qq\', \'qzone\']',
+      'aria-label': '',
+      'open-id': '',
+      'share-message-friend-info': '',
+      bindAddFriend: '',
+      bindAddGroupApp: ''
     }
   })
 }
@@ -352,6 +361,7 @@ const Textarea = {
   'selection-end': '-1',
   'adjust-position': 'true',
   'hold-keyboard': 'false',
+  enableNative: 'false',
   bindFocus: '',
   bindBlur: '',
   bindLineChange: '',
@@ -674,13 +684,24 @@ const Canvas = {
 }
 
 const Ad = {
-  'unit-id': '',
   'ad-intervals': '',
   'ad-type': singleQuote('banner'),
   'ad-theme': singleQuote('white'),
   bindLoad: '',
   bindError: '',
-  bindClose: ''
+  bindClose: '',
+  ...selectEnv({
+    swan: {
+      appid: '',
+      apid: '',
+      type: singleQuote('feed'),
+      updatetime: '',
+      bindStatus: ''
+    },
+    default: {
+      'unit-id': ''
+    }
+  })
 }
 
 const OfficialAccount = {

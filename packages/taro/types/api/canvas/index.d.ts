@@ -51,7 +51,7 @@ declare namespace Taro {
       /** 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件实例 （canvas type="2d" 时使用该属性）。 */
       canvas?: CanvasProps
       /** 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件的 canvas-id */
-      canvasId: string
+      canvasId?: string
       /** 图片的质量，目前仅对 jpg 有效。取值范围为 (0, 1]，不在范围内时当作 1.0 处理。 */
       quality?: number
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */

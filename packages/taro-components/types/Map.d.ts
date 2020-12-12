@@ -433,7 +433,7 @@ declare namespace MapProps {
     /** 控件在地图的位置
      * @remarks 控件相对地图位置
      */
-    position: point
+    position: position
     /** 显示的图标
      * @remarks 项目目录下的图片路径，支持本地路径、代码包路径
      */
