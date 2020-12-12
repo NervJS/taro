@@ -167,7 +167,7 @@ export function createRouter (
   }
 
   if (history.location.pathname === '/') {
-    history.replace(routes[0].path as string)
+    history.replace(routes[0].path as string + history.location.search)
   }
 
   render(history.location, 'PUSH')

@@ -53,8 +53,12 @@ function _request (options) {
     url = generateRequestUrlWithParams(url, options.data)
   } else if (typeof options.data === 'object') {
     options.header = options.header || {}
-    options.header['Content-Type'] = options.header['Content-Type'] || options.header['content-type'] || 'application/json'
-    const contentType = options.header['Content-Type']
+
+    const keyOfContentType = Object.keys(options.header).find(item => item.toLowerCase() === 'content-type')
+    if (!keyOfContentType) {
+      options.header['Content-Type'] = 'application/json'
+    }
+    const contentType = options.header[keyOfContentType || 'Content-Type']
 
     if (contentType.indexOf('application/json') >= 0) {
       params.body = JSON.stringify(options.data)
