@@ -591,7 +591,7 @@ require(\\"./taro\\");
         };
         var controlledComponent = new Set([ \\"input\\", \\"checkbox\\", \\"picker\\", \\"picker-view\\", \\"radio\\", \\"slider\\", \\"switch\\", \\"textarea\\" ]);
         var focusComponents = new Set([ \\"input\\", \\"textarea\\" ]);
-        var voidElements = new Set([ \\"progress\\", \\"icon\\", \\"rich-text\\", \\"input\\", \\"textarea\\", \\"slider\\", \\"switch\\", \\"audio\\", \\"live-pusher\\", \\"video\\", \\"ad\\", \\"official-account\\", \\"open-data\\", \\"navigation-bar\\" ]);
+        var voidElements = new Set([ \\"progress\\", \\"icon\\", \\"rich-text\\", \\"input\\", \\"textarea\\", \\"slider\\", \\"switch\\", \\"audio\\", \\"live-pusher\\", \\"ad\\", \\"official-account\\", \\"open-data\\", \\"navigation-bar\\" ]);
         var nestElements = new Map([ [ \\"view\\", -1 ], [ \\"catch-view\\", -1 ], [ \\"cover-view\\", -1 ], [ \\"block\\", -1 ], [ \\"text\\", -1 ], [ \\"slot\\", 8 ], [ \\"slot-view\\", 8 ], [ \\"label\\", 6 ], [ \\"form\\", 4 ], [ \\"scroll-view\\", 4 ], [ \\"swiper\\", 4 ], [ \\"swiper-item\\", 4 ] ]);
         var EMPTY_OBJ = {};
         var EMPTY_ARR = [];

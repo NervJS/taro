@@ -595,7 +595,7 @@ require(\\"./taro\\");
         };
         var controlledComponent = new Set([ \\"input\\", \\"checkbox\\", \\"picker\\", \\"picker-view\\", \\"radio\\", \\"slider\\", \\"switch\\", \\"textarea\\" ]);
         var focusComponents = new Set([ \\"input\\", \\"textarea\\" ]);
-        var voidElements = new Set([ \\"progress\\", \\"icon\\", \\"rich-text\\", \\"input\\", \\"textarea\\", \\"slider\\", \\"switch\\", \\"audio\\", \\"live-pusher\\", \\"video\\", \\"ad\\", \\"official-account\\", \\"open-data\\", \\"navigation-bar\\" ]);
+        var voidElements = new Set([ \\"progress\\", \\"icon\\", \\"rich-text\\", \\"input\\", \\"textarea\\", \\"slider\\", \\"switch\\", \\"audio\\", \\"live-pusher\\", \\"ad\\", \\"official-account\\", \\"open-data\\", \\"navigation-bar\\" ]);
         var nestElements = new Map([ [ \\"view\\", -1 ], [ \\"catch-view\\", -1 ], [ \\"cover-view\\", -1 ], [ \\"block\\", -1 ], [ \\"text\\", -1 ], [ \\"slot\\", 8 ], [ \\"slot-view\\", 8 ], [ \\"label\\", 6 ], [ \\"form\\", 4 ], [ \\"scroll-view\\", 4 ], [ \\"swiper\\", 4 ], [ \\"swiper-item\\", 4 ] ]);
         var EMPTY_OBJ = {};
         var EMPTY_ARR = [];
@@ -1430,11 +1430,16 @@ require(\\"./taro\\");
                         if (key === \\"getStorageSync\\") {
                             var arg1 = args[0];
                             if (arg1 != null) {
-                                return my[key]({
+                                var res = my[key]({
                                     key: arg1
-                                }).data || my[key]({
-                                    key: arg1
-                                }).APDataStorage || \\"\\";
+                                });
+                                var data = null;
+                                if (res.hasOwnProperty(\\"data\\")) {
+                                    data = res.data;
+                                } else if (res.hasOwnProperty(\\"APDataStorage\\")) {
+                                    data = res.APDataStorage;
+                                }
+                                return data === null ? \\"\\" : data;
                             }
                             return console.error(\\"getStorageSync \\\\u4f20\\\\u5165\\\\u53c2\\\\u6570\\\\u9519\\\\u8bef\\");
                         }
