@@ -7,7 +7,7 @@ const PACKAGE_NAME = '@tarojs/plugin-platform-weapp'
 export default class Weapp extends TaroPlatformBase {
   platform = 'weapp'
   globalObject = 'wx'
-  projectConfigJson = 'project.config.json'
+  projectConfigJson: string = this.config.projectConfigName || 'project.config.json'
   runtimePath = `${PACKAGE_NAME}/dist/runtime`
   reactComponents = `${PACKAGE_NAME}/dist/components-react`
   fileType = {
