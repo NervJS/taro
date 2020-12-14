@@ -6,7 +6,7 @@ import { findDOM } from '../utils/index'
 */
 const createCanvasContext = (canvasId, inst) => {
   /** @type {HTMLCanvasElement} */
-  const canvas = findDOM(inst).querySelector(`canvas[canvas-id=${canvasId}]`)
+  const canvas = findDOM(inst).querySelector(`canvas[canvas-id="${canvasId}"]`)
 
   /** @type {CanvasRenderingContext2D} */
   const ctx = canvas.getContext('2d')

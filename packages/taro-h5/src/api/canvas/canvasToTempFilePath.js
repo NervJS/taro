@@ -23,7 +23,7 @@ import { findDOM } from '../utils/index'
  */
 const canvasToTempFilePath = ({ canvasId, fileType, quality, success, fail, complete }, inst) => {
   /** @type {HTMLCanvasElement} */
-  const canvas = findDOM(inst).querySelector(`[canvas-id=${canvasId}]`)
+  const canvas = findDOM(inst).querySelector(`canvas[canvas-id=${canvasId}]`)
 
   try {
     // /** @type {CanvasRenderingContext2D} */
