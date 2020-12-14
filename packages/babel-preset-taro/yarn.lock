@@ -1059,10 +1059,10 @@ babel-plugin-module-resolver@^3.2.0:
     reselect "^3.0.1"
     resolve "^1.4.0"
 
-babel-plugin-rn-platform-specific-extensions@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-rn-platform-specific-extensions/-/babel-plugin-rn-platform-specific-extensions-1.1.0.tgz#e7b671d78ee808c42f9c19d55b70aa8e83872740"
-  integrity sha512-FcjsKlFQ4Y9U3HCW7ypkE2J4rP1rnO0lEuTsQS724ogK4fJPUU3NzOc+D0pwDlB3k36mOW1ii0ChzvCSGvIrEw==
+babel-plugin-rn-platform-specific-extensions@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-rn-platform-specific-extensions/-/babel-plugin-rn-platform-specific-extensions-1.1.1.tgz#703d459854aa9d574e378e791ea166573bcbd314"
+  integrity sha512-qk4Wgd4ILVWOCzadFDnYvooQA0hqR8E1we1EodxSP1TnCReOnKPTvQOzpkcvEhnl0B9v/JgQ8mS7wur2MHhDvg==
   dependencies:
     "@babel/template" "^7.2.2"
     core-js "2"

@@ -109,7 +109,11 @@ function getAlias () {
   }
   alias['@tarojs/components'] = '@tarojs/components-rn'
   alias['@tarojs/taro'] = '@tarojs/taro-rn'
-  return alias
+  const newAlias = {} // fix windows path error. https://github.com/tleunen/babel-plugin-module-resolver/issues/242
+  Object.keys(alias).forEach(key => {
+    newAlias[key] = ([_, name]) => path.join(alias[key], name)
+  })
+  return newAlias
 }
 
 // taro-rn api 部分支持按需引入
