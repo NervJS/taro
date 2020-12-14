@@ -45,6 +45,7 @@ export declare const components: {
     Textarea: {
         'show-count': string;
         controlled: string;
+        enableNative: string;
     };
     MovableView: {
         bindChangeEnd: string;
@@ -71,6 +72,7 @@ export declare const components: {
     Video: {
         'poster-size': string;
         'mobilenet-hint-type': string;
+        enableNative: string;
         bindLoading: string;
         bindUserAction: string;
         bindStop: string;
