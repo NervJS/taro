@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-loader",
-  "version": "3.1.0-beta.3",
+  "version": "3.1.0-beta.4",
   "description": "> TODO: description",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-loader#readme",
@@ -34,6 +34,6 @@
     "access": "public"
   },
   "devDependencies": {
-    "@tarojs/taro": "3.1.0-beta.3"
+    "@tarojs/taro": "3.1.0-beta.4"
   }
 }
