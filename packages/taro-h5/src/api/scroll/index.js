@@ -31,7 +31,7 @@ export const pageScrollTo = ({ scrollTop, selector, duration = 300, success, fai
         el = window
       } else {
         // 有设置tabbar
-        el = document.querySelector('.taro-tabbar__panel')
+        el = document.querySelector('.taro-tabbar__panel') || window
       }
 
       if (!scrollFunc) {
