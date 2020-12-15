@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-rn",
-  "version": "3.2.0-canary.2",
+  "version": "3.2.0-canary.3",
   "description": "多端解决方案基础组件（RN）",
   "main": "./dist/index.js",
   "scripts": {
@@ -48,7 +48,7 @@
     "utility-types": "^3.4.1"
   },
   "devDependencies": {
-    "@tarojs/components": "3.2.0-canary.2",
+    "@tarojs/components": "3.2.0-canary.3",
     "@types/react-native": "^0.63.33",
     "@types/sinon": "^9.0.8",
     "cpy-cli": "^3.1.1",

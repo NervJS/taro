@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-loader",
-  "version": "3.2.0-canary.2",
+  "version": "3.2.0-canary.3",
   "description": "> TODO: description",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-loader#readme",
@@ -32,6 +32,6 @@
     "access": "public"
   },
   "devDependencies": {
-    "@tarojs/taro": "3.2.0-canary.2"
+    "@tarojs/taro": "3.2.0-canary.3"
   }
 }

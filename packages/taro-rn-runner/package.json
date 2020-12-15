@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-runner",
-  "version": "3.2.0-canary.2",
+  "version": "3.2.0-canary.3",
   "description": "ReactNative build tool for taro",
   "main": "index.js",
   "repository": {
@@ -30,11 +30,11 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
-    "@react-native-community/cli-server-api": "^4.13.1",
     "@react-native-community/cli": "^4.13.1",
-    "@tarojs/helper": "3.2.0-canary.2",
-    "@tarojs/rn-style-transformer": "3.2.0-canary.2",
-    "@tarojs/rn-transformer": "3.2.0-canary.2",
+    "@react-native-community/cli-server-api": "^4.13.1",
+    "@tarojs/helper": "3.2.0-canary.3",
+    "@tarojs/rn-style-transformer": "3.2.0-canary.3",
+    "@tarojs/rn-transformer": "3.2.0-canary.3",
     "fs-extra": "^9.0.1",
     "lodash": "^4.17.4",
     "metro": "^0.58.0",
