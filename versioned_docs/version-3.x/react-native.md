@@ -750,44 +750,44 @@ taro build --type rn --platform android
 
 然后 `.dist` 目录（如果你没有修改）下会生成转换后的 index.bundels.js 代码。
 
-### 配置 app.json
+### 配置 output
 
-在 config 目录配置，如：
+通过修改配置 `./config/index.js` 指定资源输出目录，如
 
 ```json
-rn: {
-  appJson: {
-      "name": "Your App Name",
-  }
-}
-```
-
-Taro 会读取 appJson 字段的内容且自动覆盖默认配置。
-
-### 构建 app
-首先使用命令将 Taro 代码打包成 jsbundle，命令如下：
-``` bash
-taro build --type rn --platform ios
-taro build --type rn --platform android
-```
-
-此外，可以通过修改配置 `./config/index.js` 指定资源输出目录，如：
-``` js
-const config = {
   rn: {
     output: {
-      android: 'androidbundle/index.bundle',
-      ios: 'iosbundle/main.bundle'
+      ios: '../taro-native-shell/ios/main.jsbundle',
+      iosAssetsDest: '../taro-native-shell/ios',
+      android: '../taro-native-shell/android/app/src/main/assets/index.android.bundle',
+      androidAssetsDest: '../taro-native-shell/android/app/src/main/res'
     },
-    ...
-  }
-  ...
 }
 ```
-然后，将 bundle 目录下的文件 copy 到 `taro-native-shell` 目录即可，亦可通过上述配置文件直接打包到 `taro-native-shell` 目录。
 
-接下来，按照 React Native 的文档按照不同的端分别打包对应的应用即可。
+Taro 会读取 output 字段的内容且自动覆盖默认配置。
 
+### 设置 xcode 相关参数
+
+> 设置 xcode 参数，以使 APP 直接加载 build 后的 bundle 文件。
+
+- 添加 bundle 文件及静态资源文件
+
+| ![添加静态文件](https://pic7.58cdn.com.cn/nowater/fangfe/n_v229d10b887c9f4eb28f4cd45ee972be09.png) | ![添加选项](https://pic1.58cdn.com.cn/nowater/fangfe/n_v28a29b61abe5c4c349de5b0212e9cda65.png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+|                                                              |                                                              |
+
+- 指定要加载的 bundle 文件
+
+![设置加载的bundle](https://pic8.58cdn.com.cn/nowater/fangfe/n_v2ba3230a12d6d4511bab918ee93333a26.png)
+
+![注释壳工程内置bundle](https://pic5.58cdn.com.cn/nowater/fangfe/n_v29bf1d35f8d6a4269932b42b7d0327101.png)
+
+- 检查以下设置是否均修改完成
+
+![检查设置](https://pic5.58cdn.com.cn/nowater/fangfe/n_v2f5839e05ac5a409db641edfb24c6f6ab.png)
+
+> 此时再次运行 `taro-native-shell` 则加载经 `build` 后的 `jsbundle`。
 #### iOS
 
 参考文档：[在设备上运行](https://reactnative.cn/docs/0.55/running-on-device/)
