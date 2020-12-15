@@ -1398,7 +1398,7 @@ module.exports = {
 
 `object`
 
-设置Metro打包生成bundle的输出路径
+设置Metro打包生成bundle的输出路径，默认 dist 目录下
 
 ```js
 module.exports = {
@@ -1406,8 +1406,10 @@ module.exports = {
   rn: {
     // ...
     output: {
-      android: 'androidbundle/index.bundle',
-      ios: 'iosbundle/main.bundle'
+      ios: '../taro-native-shell/ios/main.jsbundle',
+      iosAssetsDest: '../taro-native-shell/ios',
+      android: '../taro-native-shell/android/app/src/main/assets/index.android.bundle',
+      androidAssetsDest: '../taro-native-shell/android/app/src/main/res'
     },
   }
 }

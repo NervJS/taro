@@ -103,6 +103,10 @@
             {
               "type": "doc",
               "id": "version-3.2.0-canary.1/react-native"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/react-native-remind"
             }
           ]
         }

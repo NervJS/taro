@@ -36,6 +36,13 @@ function Showcase() {
         <p className="tip">如果你想要找的是开源的可参考代码案例，点击 <a href="https://nervjs.github.io/taro/docs/composition">Taro 资源合集</a></p>
         <p className="tip">提交案例，只需二维码和简单的信息，既展示你的作品，也给使用 Taro 的小伙伴信心，给 Taro 贡献者以鼓励，<a href="https://github.com/NervJS/taro-user-cases/edit/master/index.js">点击提交案例</a></p>
         <div className="app" id="app"></div>
+        <h2 id="pc">使用 Taro 搭建的系统：</h2>
+        <p className="tip"><a href="https://diy.seowhy.com/" target="_blank">搜外七巧板</a></p>
+        <p className="tip">
+          <a className="tip_a" href="https://diy.seowhy.com/" target="_blank">
+            <img width="200" src="https://diy.seowhy.com/custom/static/media/logo.0c372c72.png" />
+          </a>
+        </p>
       </div>
     </Layout>
   );
