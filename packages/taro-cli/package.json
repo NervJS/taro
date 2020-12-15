@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli",
-  "version": "3.2.0-canary.2",
+  "version": "3.2.0-canary.3",
   "description": "cli tool for taro",
   "main": "index.js",
   "scripts": {
@@ -44,11 +44,11 @@
   "license": "MIT",
   "dependencies": {
     "@hapi/joi": "17.1.1",
-    "@tarojs/helper": "3.2.0-canary.2",
-    "@tarojs/service": "3.2.0-canary.2",
-    "@tarojs/shared": "3.2.0-canary.2",
-    "@tarojs/taro": "3.2.0-canary.2",
-    "@tarojs/taroize": "3.2.0-canary.2",
+    "@tarojs/helper": "3.2.0-canary.3",
+    "@tarojs/service": "3.2.0-canary.3",
+    "@tarojs/shared": "3.2.0-canary.3",
+    "@tarojs/taro": "3.2.0-canary.3",
+    "@tarojs/taroize": "3.2.0-canary.3",
     "@tarojs/transformer-wx": "^2.0.4",
     "@types/request": "^2.48.1",
     "@typescript-eslint/parser": "^2.0.0",
@@ -76,11 +76,11 @@
     "ejs": "^2.6.1",
     "envinfo": "^6.0.1",
     "eslint": "^6.1.0",
-    "eslint-config-taro": "3.2.0-canary.2",
+    "eslint-config-taro": "3.2.0-canary.3",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-react": "^7.4.0",
     "eslint-plugin-react-hooks": "^1.6.1",
-    "eslint-plugin-taro": "3.2.0-canary.2",
+    "eslint-plugin-taro": "3.2.0-canary.3",
     "eslint-plugin-vue": "^6.2.2",
     "fbjs": "^1.0.0",
     "find-yarn-workspace-root": "1.2.1",
@@ -103,7 +103,7 @@
     "postcss-modules-resolve-imports": "^1.3.0",
     "postcss-modules-scope": "^1.1.0",
     "postcss-modules-values": "^1.3.0",
-    "postcss-pxtransform": "3.2.0-canary.2",
+    "postcss-pxtransform": "3.2.0-canary.3",
     "postcss-reporter": "^6.0.1",
     "postcss-taro-unit-transform": "1.2.15",
     "postcss-url": "^7.3.2",
@@ -124,7 +124,7 @@
     "xxhashjs": "^0.2.2"
   },
   "devDependencies": {
-    "@tarojs/mini-runner": "3.2.0-canary.2",
-    "@tarojs/webpack-runner": "3.2.0-canary.2"
+    "@tarojs/mini-runner": "3.2.0-canary.3",
+    "@tarojs/webpack-runner": "3.2.0-canary.3"
   }
 }

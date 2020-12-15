@@ -52,6 +52,7 @@ export default class CLI {
             component: args.component,
             plugin: args.plugin,
             isHelp: args.h,
+            deviceType: args.platform,
             resetCache: !!args.resetCache
           })
           break

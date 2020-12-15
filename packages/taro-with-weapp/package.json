@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/with-weapp",
-  "version": "3.2.0-canary.2",
+  "version": "3.2.0-canary.3",
   "description": "taroize 之后的运行时",
   "main": "index.js",
   "scripts": {
@@ -22,8 +22,8 @@
   "author": "yuche",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/runtime": "3.2.0-canary.2",
-    "@tarojs/taro": "3.2.0-canary.2",
+    "@tarojs/runtime": "3.2.0-canary.3",
+    "@tarojs/taro": "3.2.0-canary.3",
     "lodash": "^4.17.11"
   }
 }

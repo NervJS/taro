@@ -1,5 +1,7 @@
 import * as Metro from 'metro'
 import getMetroConfig from './config'
+import { getRNConfigEntry } from './config/config-holder'
+
 import { PLATFORMS } from '@tarojs/helper'
 import * as path from 'path'
 import * as fse from 'fs-extra'
@@ -9,6 +11,8 @@ import * as readline from 'readline'
 import { createDevServerMiddleware } from '@react-native-community/cli-server-api'
 import { TerminalReporter } from './config/terminal-reporter'
 import { getResolveDependencyFn } from 'metro/src/lib/transformHelpers'
+import * as Server from 'metro/src/Server'
+import saveAssets from '@react-native-community/cli/build/commands/bundle/saveAssets'
 import * as outputBundle from 'metro/src/shared/output/bundle'
 
 function concatOutputFileName (config: any): string {
@@ -26,7 +30,18 @@ function concatOutputFileName (config: any): string {
       console.error(`invalid value for 'rn.output' configuration: ${JSON.stringify(config.output)}`)
     }
   }
-  const res = path.join(config.outputRoot, output)
+  const res = path.isAbsolute(output) ? output : path.join(config.outputRoot, output)
+  fse.ensureDirSync(path.dirname(res))
+  return res
+}
+
+function concatOutputAssetsDest (config: any): string | undefined {
+  if (!config?.deviceType || !config?.output) {
+    return undefined
+  }
+  const assetDest = config.deviceType === 'ios' ? config.output.iosAssetsDest : config.output.androidAssetsDest
+  if (!assetDest) return undefined
+  const res = path.isAbsolute(assetDest) ? assetDest : path.join(config.outputRoot, assetDest)
   fse.ensureDirSync(path.dirname(res))
   return res
 }
@@ -37,7 +52,11 @@ function concatOutputFileName (config: any): string {
 export default async function build (appPath: string, config: any): Promise<any> {
   process.env.TARO_ENV = PLATFORMS.RN
   // TODO:新增环境变量是否可以在metro构建过程中可以访问到？
+  const entry = getRNConfigEntry()
+  config.entry = entry
   const metroConfig = await getMetroConfig(config)
+  const sourceRoot = config.sourceRoot || 'src'
+
   const commonOptions = {
     platform: config.deviceType,
     minify: process.env.NODE_ENV === 'production' || !config.isWatch,
@@ -46,7 +65,7 @@ export default async function build (appPath: string, config: any): Promise<any>
   if (config.resetCache) {
     metroConfig.resetCache = config.resetCache
   }
-  metroConfig.reporter = new TerminalReporter(config.entry, metroConfig.cacheStores[0])
+  metroConfig.reporter = new TerminalReporter(entry, sourceRoot, metroConfig.cacheStores[0])
   if (config.isWatch) {
     if (!metroConfig.server || (metroConfig.server.useGlobalHotkey === undefined)) {
       if (!metroConfig.server) {
@@ -110,8 +129,7 @@ export default async function build (appPath: string, config: any): Promise<any>
     const options = {
       ...commonOptions,
       entry: './index',
-      out: concatOutputFileName(config),
-      output: outputBundle
+      out: concatOutputFileName(config)
     }
     const savedBuildFunc = outputBundle.build
     outputBundle.build = async (packagerClient, requestOptions) => {
@@ -119,6 +137,31 @@ export default async function build (appPath: string, config: any): Promise<any>
       requestOptions.entryFile = resolutionFn(metroConfig.projectRoot, requestOptions.entryFile)
       return savedBuildFunc(packagerClient, requestOptions)
     }
-    return Metro.runBuild(metroConfig, options)
+
+    const server = new Server(metroConfig)
+
+    try {
+      const requestOptions = {
+        ...commonOptions,
+        entryFile: options.entry,
+        inlineSourceMap: false,
+        createModuleIdFactory: metroConfig.serializer.createModuleIdFactory
+      }
+      const bundle = await outputBundle.build(server, requestOptions)
+      const outputOptions = {
+        ...commonOptions,
+        bundleOutput: options.out
+      }
+      await outputBundle.save(bundle, outputOptions, console.log)
+
+      // Save the assets of the bundle
+      const outputAssets = await server.getAssets({
+        ...Server.DEFAULT_BUNDLE_OPTIONS,
+        ...requestOptions
+      })
+      return await saveAssets(outputAssets, options.platform, concatOutputAssetsDest(config))
+    } finally {
+      server.end()
+    }
   }
 }

@@ -41,7 +41,7 @@ function getRNConfig () {
 function getEnv () {
   const config = getProjectConfig()
   const envConst = {
-    'process.env.TARO_ENV': 'RN'
+    'process.env.TARO_ENV': 'rn'
   }
   if (config.env) {
     Object.keys(config.env).forEach((key) => {
@@ -109,7 +109,11 @@ function getAlias () {
   }
   alias['@tarojs/components'] = '@tarojs/components-rn'
   alias['@tarojs/taro'] = '@tarojs/taro-rn'
-  return alias
+  const newAlias = {} // fix windows path error. https://github.com/tleunen/babel-plugin-module-resolver/issues/242
+  Object.keys(alias).forEach(key => {
+    newAlias[key] = ([_, name]) => path.join(alias[key], name)
+  })
+  return newAlias
 }
 
 // taro-rn api 部分支持按需引入
@@ -138,6 +142,10 @@ module.exports = (_, options = {}) => {
   presets.push(reactNativeBabelPreset(_, options))
   plugins.push(
     require('babel-plugin-transform-react-jsx-to-rn-stylesheet'),
+    [require('babel-plugin-module-resolver'), {
+      alias: alias,
+      extensions: omitExtensions
+    }],
     [require('babel-plugin-rn-platform-specific-extensions'), {
       extensions: extensions,
       omitExtensions: omitExtensions,
@@ -158,10 +166,7 @@ module.exports = (_, options = {}) => {
         skipDefaultConversion: true
       }
     }],
-    [require('babel-plugin-global-define'), defineConstants],
-    [require('babel-plugin-module-resolver'), {
-      alias: alias
-    }]
+    [require('babel-plugin-global-define'), defineConstants]
   )
 
   // 添加一个默认 plugin, 与小程序/h5保持一致. todo: 3.1后采用拓展的方式
