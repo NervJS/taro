@@ -1,4 +1,4 @@
-import { successHandler, errorHandler } from './utils/index'
+import { successHandler, errorHandler, setTabConfig } from './utils/index'
 import { CallbackResult, TaroTabBarConfig, BaseOption } from './utils/types'
 import { navigationRef } from './rootNavigation'
 
@@ -47,10 +47,8 @@ function setTabBarItemConfig (index, obj) {
 export function showTabBar (options: TabBarOptions = {}): Promise<CallbackResult> {
   const { fail, success, complete, animation = true } = options
   let msg
-  const tabBarConfig = globalAny.__taroTabBarIconConfig
-  tabBarConfig.tabBarVisible = true
-  tabBarConfig.needAnimate = animation
-  globalAny.__taroTabBarIconConfig = tabBarConfig
+  setTabConfig('tabBarVisible', true)
+  setTabConfig('needAnimate', animation)
   try {
     navigationRef.current?.setOptions({
       tabBarVisible: true
@@ -66,13 +64,11 @@ export function showTabBar (options: TabBarOptions = {}): Promise<CallbackResult
 export function hideTabBar (options: TabBarOptions = {}): Promise<CallbackResult> {
   const { fail, success, complete, animation = true } = options
   let msg
-  const tabBarConfig = globalAny.__taroTabBarIconConfig
-  tabBarConfig.tabBarVisible = false
-  tabBarConfig.needAnimate = animation
-  globalAny.__taroTabBarIconConfig = tabBarConfig
+  setTabConfig('tabBarVisible', false)
+  setTabConfig('needAnimate', animation)
   try {
     navigationRef.current?.setOptions({
-      tabBarVisible: true
+      tabBarVisible: false
     })
   } catch (error) {
     msg = error
@@ -169,9 +165,7 @@ export function setTabBarItem (options: TabBarItem): Promise<CallbackResult> {
 export function setTabBarStyle (option: TabBarStyleOption): Promise<CallbackResult> {
   const { backgroundColor, borderStyle, color, selectedColor, fail, success, complete } = option
   let msg
-  const tabBarConfig = globalAny.__taroTabBarIconConfig
-  tabBarConfig.tabStyle = { backgroundColor, borderStyle, color, selectedColor }
-  globalAny.__taroTabBarIconConfig = tabBarConfig
+  setTabConfig('tabStyle', { backgroundColor, borderStyle, color, selectedColor })
   try {
     // 设置tabBarIcon 只是为了触发导航的tabbar的更新
     navigationRef.current?.setOptions({

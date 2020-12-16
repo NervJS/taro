@@ -17,7 +17,8 @@ export function createReactNativeApp (component: React.ComponentClass, config: R
     tabBar: config.appConfig.tabBar,
     pages: config.pageList,
     window: config.appConfig.window,
-    linkPrefix: config.appConfig.linkPrefix || []
+    linkPrefix: config.appConfig.linkPrefix || [],
+    rnConfig: config.appConfig.rn || {}
   }
 
   const ref = React.createRef<AppInstance>()

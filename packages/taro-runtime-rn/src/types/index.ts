@@ -129,7 +129,8 @@ export interface PageConfig extends CommonConfig {
    * default: false
    */
   disableScroll?: boolean
-  pagePath: string
+  pagePath: string,
+  rn?: any
 }
 
 export interface WindowConfig extends CommonConfig {
@@ -158,9 +159,10 @@ export interface AppConfig {
   tabBar?: TabBar,
   subPackages?: SubPackage[]
   subpackages?: SubPackage[],
-  linkPrefix?: string[],
   designWidth: number,
-  deviceRatio: Record<number, number>
+  deviceRatio: Record<number, number>,
+  linkPrefix: string[],
+  rn?: any
 }
 
 export interface RNAppConfig {

@@ -18,8 +18,11 @@ function getPagesResource (appPath: string, basePath: string, pathPrefix: string
     importPages.push(importScreen)
     screenPages.push(pagePath)
     const configFile = getConfigFilePath(path.join(basePath, pagePath))
+    const screenConfigName = `${screenName}Config`
     if (fs.existsSync(configFile)) {
-      importConfigs.push(`import '.${pathPrefix}${pagePath}.config'`)
+      importConfigs.push(`import ${screenConfigName} from '.${pathPrefix}${pagePath}.config'`)
+    } else {
+      importConfigs.push(`const ${screenConfigName} = {}`)
     }
   })
   return {
@@ -29,20 +32,10 @@ function getPagesResource (appPath: string, basePath: string, pathPrefix: string
   }
 }
 
-function getPageScreen (pagePath: string, basePath: string) {
-  const configPath = path.join(basePath, pagePath)
+function getPageScreen (pagePath: string) {
   const screen = camelCase(pagePath)
-  const pageConfig = getPageConfig(configPath)
-  pageConfig.pagePath = pagePath
-  const configString = JSON.stringify(pageConfig)
-
-  return `{name:'${screen}',pagePath:'${pagePath}',component:createPageConfig(${screen},${configString})}`
-}
-
-function getPageConfig (resourcePath: string) {
-  if (!resourcePath) return {}
-  const content = getConfigContent(resourcePath)
-  return content
+  const screenConfigName = `${screen}Config`
+  return `{name:'${screen}',pagePath:'${pagePath}',component:createPageConfig(${screen},{...${screenConfigName},pagePath:'${pagePath}'})}`
 }
 
 function getAppConfig (appPath: string) {
@@ -90,10 +83,10 @@ export default function generateEntry ({
   const basePath = path.join(projectRoot, sourceDir)
   const appPath = path.join(projectRoot, sourceDir, entryName)
 
-  const appConfig = getAppConfig(appPath)
-  appConfig.designWidth = designWidth
-  appConfig.deviceRatio = deviceRatio
-
+  const appConfig = {
+    designWidth,
+    deviceRatio
+  }
   const pathPrefix = filePath.indexOf(sourceDir) > -1 ? '' : `/${sourceDir}`
   const pages = getPagesResource(appPath, basePath, pathPrefix)
   const importPageList = pages.importPages.join(';')
@@ -109,15 +102,16 @@ export default function generateEntry ({
 
   const code = `import 'react-native/Libraries/polyfills/error-guard'
   import { AppRegistry } from 'react-native'
-  import { createReactNativeApp } from '@tarojs/runtime-rn'
-  import { createPageConfig } from '@tarojs/runtime-rn'
+  import { createReactNativeApp, createPageConfig } from '@tarojs/runtime-rn'
   import Component from '${appComponentPath}'
   ${importPageList}
-  ${process.env.NODE_ENV === 'development' ? `import '${appComponentPath}.config';${importPageConfig};` : ''}
+  ${`import AppComponentConfig from '${appComponentPath}.config';`}
+  ${importPageConfig}
 
-  var config = ${JSON.stringify({ appConfig: appConfig })}
+  const buildConfig = ${JSON.stringify(appConfig)}
+  const config = { appConfig: { ...buildConfig, ...AppComponentConfig } }
   global.__taroAppConfig = config
-  config['pageList'] = [${routeList.map(pageItem => getPageScreen(pageItem, basePath))}]
+  config['pageList'] = [${routeList.map(pageItem => getPageScreen(pageItem))}]
   AppRegistry.registerComponent('${appName}',() => createReactNativeApp(Component,config))
   `
   return code

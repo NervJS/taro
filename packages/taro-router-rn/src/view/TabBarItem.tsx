@@ -5,11 +5,32 @@ import {
   Text,
   Image,
   StyleSheet,
-  ImageSourcePropType
+  ImageSourcePropType,
+  ViewStyle,
+  TextStyle
 } from 'react-native'
 import Badge from './Badge'
 
-interface TabBarItemProps {
+export interface TabBarOptions {
+  activeTintColor: string,
+  inactiveTintColor: string,
+  activeBackgroundColor: string,
+  inactiveBackgroundColor: string,
+  tabStyle?: ViewStyle,
+  labelStyle?: TextStyle,
+  showLabel?: boolean,
+  allowFontScaling?: boolean,
+  keyboardHidesTabBar?: boolean,
+  safeAreaInsets?: Record<string, number>
+  style?: ViewStyle
+}
+
+export interface TabOptions {
+  tabBarVisible?: boolean,
+  tabBarBadge?: boolean,
+  tabBarBadgeStyle?: Record<string, any>,
+}
+interface TabBarItemProps extends TabBarOptions{
   badge: number | string,
   showRedDot: boolean,
   label: string,
@@ -17,6 +38,7 @@ interface TabBarItemProps {
   labelColor: string,
   iconSource: ImageSourcePropType
   size?: number,
+  userOptions?: TabOptions
 }
 
 export default class TabBarItem extends React.PureComponent<TabBarItemProps> {
@@ -29,10 +51,16 @@ export default class TabBarItem extends React.PureComponent<TabBarItemProps> {
       badge,
       size = 20,
       labelColor,
-      iconSource
+      iconSource,
+      userOptions,
+      tabStyle = {},
+      labelStyle = {},
+      allowFontScaling = true,
+      showLabel = true
     } = this.props
+    const tabBarBadgeStyle = userOptions?.tabBarBadgeStyle || {}
     return (
-      <View style={[styles.tabItem, styles.itemHorizontal]}>
+      <View style={[styles.tabItem, styles.itemHorizontal, tabStyle]}>
         <View style={styles.icon}>
           {!!iconSource && <Image style={{ width: size, height: size }} source={iconSource} />}
           {!!showRedDot && !badge && <View style={styles.redDot} />}
@@ -40,20 +68,23 @@ export default class TabBarItem extends React.PureComponent<TabBarItemProps> {
             visible={badge != null}
             style={[
               styles.badge,
-              horizontal ? styles.badgeHorizontal : styles.badgeVertical
+              horizontal ? styles.badgeHorizontal : styles.badgeVertical,
+              tabBarBadgeStyle
             ]}
             size={(size * 3) / 4}
           >{('' + badge).length >= 4 ? '...' : badge}</Badge>
           }
         </View>
-        <Text
+        {showLabel && <Text
           numberOfLines={1}
+          allowFontScaling={allowFontScaling}
           style={[
             styles.label,
-            { color: labelColor },
-            horizontal ? styles.labelBeside : styles.labelBeneath
+            horizontal ? styles.labelBeside : styles.labelBeneath,
+            labelStyle,
+            { color: labelColor }
           ]}
-        >{label}</Text>
+        >{label}</Text>}
       </View >
     )
   }

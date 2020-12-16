@@ -24,7 +24,7 @@ export default class Badge extends React.PureComponent<BadgeProps, BadgeState> {
     }
   }
 
-  UNSAFE_componentWillReceiveProps (nextProps:BadgeProps):void {
+  UNSAFE_componentWillReceiveProps (nextProps: BadgeProps): void {
     const { visible, opacity } = this.state
     const curVisible = nextProps.visible
     if (curVisible !== visible) {
