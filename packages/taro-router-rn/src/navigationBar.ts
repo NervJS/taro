@@ -41,12 +41,15 @@ export function setNavigationBarTitle (option: NavigateBarTitleOption): Promise<
 export function setNavigationBarColor (option: NavigateBarColorOption): Promise<CallbackResult> {
   const { backgroundColor, frontColor, fail, success, complete } = option
   let msg
-  const params = {
-    headerStyle: {
-      backgroundColor: backgroundColor
-    },
+  const options: any = navigationRef.current?.getCurrentOptions()
+  const defaultStyle = options?.headerStyle || {}
+  const headerStyle = Object.assign({}, defaultStyle, {
+    backgroundColor: backgroundColor
+  })
+  const params = Object.assign({}, options, {
+    headerStyle: headerStyle,
     headerTintColor: frontColor
-  }
+  })
   try {
     // 如果是tabbar，设置会不生效，设置setParams ,触发tab header更新
     if (isTabPage()) {

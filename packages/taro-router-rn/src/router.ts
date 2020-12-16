@@ -9,7 +9,7 @@ import { navigationRef } from './rootNavigation'
 import CustomTabBar from './view/TabBar'
 import HeadTitle from './view/HeadTitle'
 import BackButton from './view/BackButton'
-import { getTabItemConfig, getTabVisible } from './utils/index'
+import { getTabItemConfig, getTabVisible, setTabConfig } from './utils/index'
 
 interface WindowConfig {
   pageOrientation?: 'auto' | 'portrait' | 'landscape'
@@ -47,11 +47,19 @@ interface PageItem {
   pagePath: string
 }
 
+interface RNConfig{
+  linking?: string[],
+  screenOptions?: Record<string, any>,
+  tabBarOptions?: Record<string, any>,
+  options?: Record<string, any>
+}
+
 export interface RouterConfig {
   pages: PageItem[],
   tabBar?: ITabBar,
   window?: WindowConfig,
-  linkPrefix?: string[]
+  linkPrefix?: string[],
+  rnConfig?: RNConfig
 }
 
 export function createRouter (config: RouterConfig): React.ReactNode {
@@ -102,12 +110,17 @@ function getStackOptions (config: RouterConfig) {
   const headColor = windowOptions.navigationBarTextStyle || 'black'
   const bgColor = windowOptions.navigationBarBackgroundColor || '#ffffff'
   const headerTitleAlign: StackHeaderOptions['headerTitleAlign'] = 'center'
-  return {
+  const defaultOptions = {
     title: title,
     headerShown: windowOptions.navigationStyle !== 'custom',
     headerTitle: (props) => getHeaderView(title, headColor, props),
     headerStyle: {
-      backgroundColor: bgColor
+      backgroundColor: bgColor,
+      shadowOffset: { width: 0, height: 0 },
+      borderWidth: 0,
+      elevation: 0,
+      shadowOpacity: 1,
+      borderBottomWidth: 0
     },
     headerTintColor: headColor,
     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
@@ -119,6 +132,9 @@ function getStackOptions (config: RouterConfig) {
       return React.createElement(BackButton, { tintColor }, null)
     }
   }
+  const rnConfig = config.rnConfig || {}
+  const screenOptions = rnConfig?.screenOptions || {}
+  return Object.assign({}, defaultOptions, screenOptions)
 }
 
 function getTabItem (config: RouterConfig, tabName: string) {
@@ -141,9 +157,13 @@ function getTabItem (config: RouterConfig, tabName: string) {
 function createTabStack (config: RouterConfig, parentProps: any) {
   const Tab = createBottomTabNavigator()
   const tabBar = config.tabBar
+  const rnConfig = config.rnConfig
   const tabList: any = []
+  const userOptions: Record<string, any> = rnConfig?.options || {}
   tabBar?.list.forEach((item, index) => {
-    const tabItemOptions = Object.assign({}, { tabBarVisible: config.tabBar?.custom ? false : getTabVisible() }, getTabItemOptions(item, index))
+    const defaultOptions = Object.assign({}, { tabBarVisible: config.tabBar?.custom ? false : getTabVisible() }, getTabItemOptions(item, index))
+    const tabItemOptions = Object.assign({}, defaultOptions, userOptions)
+    setTabConfig('tabBarVisible', tabItemOptions.tabBarVisible)
     const path = item.pagePath.startsWith('/') ? item.pagePath : `/${item.pagePath}`
     const tabName = camelCase(path)
     const tabPage: PageItem = getTabItem(config, tabName) as PageItem
@@ -156,31 +176,33 @@ function createTabStack (config: RouterConfig, parentProps: any) {
     })
     tabList.push(tabNode)
   })
+
+  const userTabBarOptions = rnConfig?.tabBarOptions || {}
   // tabbarOptions
-  const tabBarOptions = {
+  const tabBarOptions = Object.assign({
     backBehavior: 'none',
     activeTintColor: tabBar?.selectedColor || '#3cc51f',
     inactiveTintColor: tabBar?.color || '#7A7E83',
     activeBackgroundColor: tabBar?.backgroundColor || '#ffffff',
     inactiveBackgroundColor: tabBar?.backgroundColor || '#ffffff',
     style: tabBar?.borderStyle ? { backgroundColor: tabBar.borderStyle } : {}
-  }
+  }, userTabBarOptions)
 
   return React.createElement(Tab.Navigator,
     {
       tabBarOptions: tabBarOptions,
-      tabBar: (props) => createTabBar(props),
+      tabBar: (props) => createTabBar(props, userOptions),
       children: tabList
     },
     tabList)
 }
 
-function createTabBar (props) {
-  return React.createElement(CustomTabBar, { ...props })
+function createTabBar (props, userOptions) {
+  return React.createElement(CustomTabBar, { ...props, userOptions })
 }
 
 function getLinkingConfig (config: RouterConfig) {
-  const prefixes = config.linkPrefix || []
+  const prefixes = config?.rnConfig?.linking || config.linkPrefix || []
 
   const screens: Record<string, string> = {}
   const pageList = getPageList(config)
@@ -265,7 +287,6 @@ function createStackNavigate (config: RouterConfig) {
     screenChild.push(screenNode)
   })
   const linking = getLinkingConfig(config)
-
   const stackNav = React.createElement(Stack.Navigator,
     { screenOptions: getStackOptions(config), children: screenChild }, screenChild)
   return React.createElement(NavigationContainer, { ref: navigationRef, linking: linking, children: stackNav }, stackNav)

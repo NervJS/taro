@@ -29,14 +29,21 @@ export class PageProvider extends React.Component<any> {
     const title = pageConfig.navigationBarTitleText || winOptions?.navigationBarTitleText || ''
     const color = pageConfig.navigationBarTextStyle || winOptions?.navigationBarTextStyle || 'black'
     const bgColor = pageConfig.navigationBarBackgroundColor || winOptions?.navigationBarBackgroundColor || '#ffffff'
-    const navBarParams = {
+    const rnConfig = pageConfig?.rn || {}
+    const screenOptions = rnConfig.screenOptions || {}
+    screenOptions.headerStyle = Object.assign({}, {
+      backgroundColor: bgColor,
+      shadowOffset: { width: 0, height: 0 },
+      borderWidth: 0,
+      elevation: 0,
+      shadowOpacity: 1,
+      borderBottomWidth: 0
+    }, screenOptions.headerStyle)
+    const navBarParams = Object.assign({
       title: title,
       headerShown: (pageConfig?.navigationStyle || winOptions?.navigationStyle) !== 'custom',
-      headerStyle: {
-        backgroundColor: bgColor
-      },
       headerTintColor: color
-    }
+    }, screenOptions)
     // 页面的config
     if (pageConfig) {
       if (this.isTabBarPage()) {

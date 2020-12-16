@@ -11,23 +11,23 @@ import {
   StyleSheet,
   Platform,
   Dimensions,
-  LayoutChangeEvent
+  LayoutChangeEvent,
+  Keyboard
 } from 'react-native'
 import { getTabVisible, getTabConfig, getTabItemConfig, getDefalutTabItem, isUrl } from '../utils/index'
 import { getInitSafeAreaInsets } from './tabBarUtils'
-import TabBarItem from './TabBarItem'
+import TabBarItem, { TabBarOptions, TabOptions } from './TabBarItem'
 
-interface TabBarProps {
+interface TabBarProps extends TabBarOptions {
   state: Record<string, any>,
   navigation: any,
   descriptors: Record<string, any>,
-  activeTintColor: string,
-  inactiveTintColor: string,
-  activeBackgroundColor:string
+  userOptions: TabOptions
 }
 
 interface TabBarState {
   visible: Animated.Value,
+  isKeyboardShown: boolean,
   tabVisible: boolean,
   layout: {
     height: number,
@@ -52,59 +52,107 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
   constructor (props: TabBarProps) {
     super(props)
     const { height = 0, width = 0 } = Dimensions.get('window')
-    const tabVisible = getTabVisible()
+    const { safeAreaInsets, userOptions = {} } = this.props
+    const { tabBarVisible = true } = userOptions
+    const tabVisible = tabBarVisible === false ? false : getTabVisible()
     this.state = {
       visible: new Animated.Value(tabVisible ? 1 : 0),
       tabVisible: tabVisible,
+      isKeyboardShown: false,
       layout: {
         width,
         height
       },
-      insets: getInitSafeAreaInsets()
+      insets: safeAreaInsets || getInitSafeAreaInsets()
     }
   }
 
-  UNSAFE_componentWillReceiveProps () :void {
-    const curVisible = getTabVisible()
-    const { tabVisible, visible } = this.state
-    if (curVisible !== tabVisible) {
-      if (getTabConfig('needAnimate')) {
-        if (curVisible) {
-          Animated.timing(visible, {
-            toValue: 1,
-            duration: 250,
-            useNativeDriver
-          }).start(({ finished }) => {
-            if (finished) {
-              this.setState({
-                tabVisible: true
-              })
-            }
-          })
-        } else {
-          this.setState({
-            tabVisible: false
-          })
-          Animated.timing(visible, {
-            toValue: 0,
-            duration: 200,
-            useNativeDriver
-          }).start()
-        }
+  componentDidMount () {
+    const { keyboardHidesTabBar = false } = this.props
+    if (keyboardHidesTabBar) {
+      if (Platform.OS === 'ios') {
+        Keyboard.addListener('keyboardWillShow', () => this.handleKeyboardShow())
+        Keyboard.addListener('keyboardWillHide', () => this.handleKeyboardHide())
       } else {
-        this.setState({
-          tabVisible: curVisible
-        })
+        Keyboard.addListener('keyboardDidShow', () => this.handleKeyboardShow())
+        Keyboard.addListener('keyboardDidHide', () => this.handleKeyboardHide())
       }
     }
   }
 
-  isLandscape ():boolean {
+  componentWillUnmount () {
+    const { keyboardHidesTabBar = false } = this.props
+    if (keyboardHidesTabBar) {
+      if (Platform.OS === 'ios') {
+        Keyboard.removeListener('keyboardWillShow', () => this.handleKeyboardShow())
+        Keyboard.removeListener('keyboardWillHide', () => this.handleKeyboardHide())
+      } else {
+        Keyboard.removeListener('keyboardDidShow', () => this.handleKeyboardShow())
+        Keyboard.removeListener('keyboardDidHide', () => this.handleKeyboardHide())
+      }
+    }
+  }
+
+  UNSAFE_componentWillReceiveProps (): void {
+    const curVisible = getTabVisible()
+    const { tabVisible } = this.state
+    if (curVisible !== tabVisible) {
+      this.setState({
+        tabVisible: curVisible
+      })
+      this.setTabBarHidden(curVisible)
+    }
+  }
+
+  handleKeyboardShow () {
+    this.setState({
+      isKeyboardShown: true,
+      tabVisible: false
+    })
+    this.setTabBarHidden(true)
+  }
+
+  handleKeyboardHide () {
+    this.setState({
+      isKeyboardShown: false,
+      tabVisible: getTabVisible()
+    })
+    this.setTabBarHidden(false)
+  }
+
+  setTabBarHidden (isHidden: boolean) {
+    if (!getTabConfig('needAnimate')) return
+    const { visible } = this.state
+    if (isHidden) {
+      this.setState({
+        tabVisible: false
+      })
+      Animated.timing(visible, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver
+      }).start()
+    } else {
+      Animated.timing(visible, {
+        toValue: 1,
+        duration: 250,
+        useNativeDriver
+      }).start(({ finished }) => {
+        if (finished) {
+          this.setState({
+            tabVisible: true
+          })
+        }
+      })
+    }
+  }
+
+  isLandscape (): boolean {
     const { height = 0, width = 0 } = Dimensions.get('window')
     return width > height
   }
 
-  getDefaultTabBarHeight () :number {
+  getDefaultTabBarHeight (): number {
     if (Platform.OS === 'ios' &&
       !Platform.isPad && this.isLandscape()) {
       return COMPACT_TABBAR_HEIGHT
@@ -113,7 +161,7 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
   }
 
   // 只有最简单的格式
-  buildLink (name:string, params:Record<string, any>):string {
+  buildLink (name: string, params: Record<string, any>): string {
     const keys = Object.keys(params).sort()
     let str = ''
     keys.forEach((v) => {
@@ -123,7 +171,7 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
     return str ? `${name}?${str}` : `${name}`
   }
 
-  handleLayout (e: LayoutChangeEvent):void {
+  handleLayout (e: LayoutChangeEvent): void {
     const { layout } = this.state
     const { height, width } = e.nativeEvent.layout
     if (layout.height !== height && layout.width !== width) {
@@ -136,20 +184,21 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
     }
   }
 
-  getTabBarStyle ():Record<string, string> {
-    const { activeTintColor, inactiveTintColor, activeBackgroundColor } = this.props
+  getTabBarStyle (): Record<string, string> {
+    const { activeTintColor, inactiveTintColor, style = {} } = this.props
     const tabStyle = getTabConfig('tabStyle') as TabBarStyle
     const { color = '', selectedColor = '', backgroundColor = '', borderStyle = '' } = tabStyle
+    const defaultBackground: any = style?.backgroundColor || 'rgb(255, 255, 255)'
     return {
-      backgroundColor: backgroundColor || activeBackgroundColor || 'rgb(255, 255, 255)',
+      backgroundColor: backgroundColor || defaultBackground,
       borderTopColor: borderStyle || 'rgb(216, 216, 216)',
       color: color || inactiveTintColor,
       selectedColor: selectedColor || activeTintColor
     }
   }
 
-  getTabIconSource (index:number, focused:boolean):any {
-    const item:any = getDefalutTabItem(index)
+  getTabIconSource (index: number, focused: boolean): any {
+    const item: any = getDefalutTabItem(index)
     const iconPath = getTabItemConfig(index, 'iconPath') ?? item?.iconPath
     const selectedIconPath = getTabItemConfig(index, 'selectedIconPath') ?? item?.selectedIconPath
     const path = focused ? selectedIconPath : iconPath
@@ -161,7 +210,7 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
   renderContent () {
     const { state, descriptors, navigation } = this.props
     const horizontal = true
-    const tabStyle = this.getTabBarStyle()
+    const tabSelfStyle = this.getTabBarStyle()
     return <View style={{ flexDirection: 'row', flex: 1 }} onLayout={() => this.handleLayout}>
       {state.routes.map((route, index) => {
         const focused = index === state.index
@@ -200,9 +249,8 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
 
         const badge = getTabItemConfig(index, 'tabBarBadge')
         const showRedDot = getTabItemConfig(index, 'showRedDot') || false
-        const actTintColor = tabStyle.selectedColor
-        const inActTintColor = tabStyle.color
-        const labelColor = focused ? actTintColor : inActTintColor
+
+        const labelColor = focused ? tabSelfStyle.selectedColor : tabSelfStyle.color
         const source = this.getTabIconSource(index, focused)
 
         if (Platform.OS === 'web') {
@@ -229,6 +277,7 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
                 labelColor={labelColor}
                 iconSource={source}
                 size={25}
+                {...this.props}
               />
             </Link>
           )
@@ -254,6 +303,7 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
                   labelColor={labelColor}
                   iconSource={source}
                   size={25}
+                  {...this.props}
                 />
               </View>
             </TouchableWithoutFeedback>
@@ -265,25 +315,32 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   render () {
-    const { insets, visible, layout, tabVisible } = this.state
+    const { insets, visible, layout, tabVisible, isKeyboardShown } = this.state
     const paddingBottom = Math.max(
       insets?.bottom - Platform.select({ ios: 4, default: 0 }), 5)
 
-    const tabStyle = this.getTabBarStyle()
+    const { style } = this.props
+
+    const tabBarStyle = this.getTabBarStyle()
     const needAnimate = getTabConfig('needAnimate')
+
+    const showTabBar = tabVisible !== false && !isKeyboardShown
     if (!needAnimate) {
       // eslint-disable-next-line multiline-ternary
-      return (!tabVisible ? null
+      return (!showTabBar ? null
         : (
           <View
             style={[
               styles.tabBar,
               {
-                backgroundColor: tabStyle.backgroundColor,
-                borderTopColor: tabStyle.borderTopColor,
                 height: this.getDefaultTabBarHeight() + paddingBottom,
                 paddingBottom,
                 paddingHorizontal: Math.max(insets.left, insets.right)
+              },
+              style,
+              {
+                backgroundColor: tabBarStyle.backgroundColor,
+                borderTopColor: tabBarStyle.borderTopColor
               }
             ]}
           >
@@ -296,8 +353,7 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
           style={[
             styles.tabBar,
             {
-              backgroundColor: tabStyle.backgroundColor,
-              borderTopColor: tabStyle.borderTopColor,
+
               height: this.getDefaultTabBarHeight() + paddingBottom,
               paddingBottom,
               paddingHorizontal: Math.max(insets.left, insets.right)
@@ -315,6 +371,11 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
                 }
               ],
               position: !tabVisible ? 'absolute' : (null as any)
+            },
+            style,
+            {
+              backgroundColor: tabBarStyle.backgroundColor,
+              borderTopColor: tabBarStyle.borderTopColor
             }
           ]}
           pointerEvents={!tabVisible ? 'none' : 'auto'}

@@ -74,6 +74,12 @@ export function getTabConfig (key: string): any {
   return _taroTabBarIconConfig[key]
 }
 
+export function setTabConfig (key: string, value: unknown) {
+  const tabBarConfig = globalAny.__taroTabBarIconConfig
+  tabBarConfig[key] = value
+  globalAny.__taroTabBarIconConfig = tabBarConfig
+}
+
 export function getTabVisible (): boolean {
   return getTabConfig('tabBarVisible')
 }
