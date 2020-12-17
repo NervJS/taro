@@ -7,7 +7,7 @@ export const componentConfig: {
   thirdPartyComponents: Map<Tagname, Attrs>
   includeAll: boolean
 } = {
-  includes: new Set(['view', 'scroll-view', 'image']),
+  includes: new Set(['view', 'catch-view', 'scroll-view', 'image']),
   exclude: new Set(),
   thirdPartyComponents: new Map(),
   includeAll: false

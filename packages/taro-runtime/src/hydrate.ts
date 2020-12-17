@@ -51,13 +51,18 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
   const { props, childNodes } = node
 
   for (const prop in props) {
+    const propInCamelCase = toCamelCase(prop)
     if (
       !prop.startsWith('data-') && // 在 node.dataset 的数据
       prop !== 'class' &&
       prop !== 'style' &&
-      prop !== 'id'
+      prop !== 'id' &&
+      propInCamelCase !== 'catchMove'
     ) {
-      data[toCamelCase(prop)] = props[prop]
+      data[propInCamelCase] = props[prop]
+    }
+    if (node.nodeName === 'view' && propInCamelCase === 'catchMove' && props[prop] !== 'false') {
+      data[Shortcuts.NodeName] = 'catch-view'
     }
   }
 

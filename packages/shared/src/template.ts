@@ -73,6 +73,7 @@ const voidElements = new Set([
 const nestElements = new Map([
   ['view', -1],
   ['cover-view', -1],
+  ['catch-view', -1],
   ['block', -1],
   ['text', -1],
   ['slot', 8],
@@ -110,7 +111,7 @@ export class BaseTemplate {
 
   private buildAttribute (attrs: Attributes, nodeName: string): string {
     return Object.keys(attrs)
-      .map(k => `${k}="${k.startsWith('bind') || k.startsWith('on') ? attrs[k] : `{${this.getAttrValue(attrs[k], k, nodeName)}}`}" `)
+      .map(k => `${k}="${k.startsWith('bind') || k.startsWith('on') || k.startsWith('catch') ? attrs[k] : `{${this.getAttrValue(attrs[k], k, nodeName)}}`}" `)
       .join('')
   }
 
@@ -158,6 +159,20 @@ export class BaseTemplate {
 
         if (compName === 'swiper-item') {
           delete newComp.style
+        }
+
+        if (compName === 'view') {
+          const reg = /^(bind|on)(touchmove|TouchMove)$/
+          const comp = { ...newComp }
+          Object.keys(comp).forEach(originKey => {
+            if (!reg.test(originKey)) return
+
+            const key = originKey.replace(reg, 'catch$2')
+            comp[key] = comp[originKey]
+            delete comp[originKey]
+          })
+
+          result['catch-view'] = comp
         }
 
         if (compName === 'slot' || compName === 'slot-view') {
@@ -258,7 +273,7 @@ export class BaseTemplate {
       children = this.modifyLoopContainer(children, comp.nodeName)
     }
 
-    const nodeName = comp.nodeName === 'slot' || comp.nodeName === 'slot-view' ? 'view' : comp.nodeName
+    const nodeName = comp.nodeName === 'slot' || comp.nodeName === 'slot-view' || comp.nodeName === 'catch-view' ? 'view' : comp.nodeName
 
     let res = `
 <template name="tmpl_${level}_${comp.nodeName}">
