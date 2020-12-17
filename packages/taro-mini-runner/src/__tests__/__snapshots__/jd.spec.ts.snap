@@ -1045,7 +1045,12 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_15_container\\">
-  <comp i=\\"{{i}}\\" />
+  <block jd:if=\\"{{i.nn === '#text'}}\\">
+    <template is=\\"tmpl_0_#text\\" data=\\"{{i:i}}\\" />
+  </block>
+  <block jd:else>
+    <comp i=\\"{{i}}\\" />
+  </block>
 </template>
 
 
