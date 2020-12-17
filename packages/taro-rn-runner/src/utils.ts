@@ -30,6 +30,8 @@ function getAlias () {
   if (config.alias) {
     alias = config.alias
   }
+  alias['@tarojs/components'] = '@tarojs/components-rn'
+  alias['@tarojs/taro'] = '@tarojs/taro-rn'
   return alias
 }
 
