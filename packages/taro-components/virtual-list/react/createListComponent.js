@@ -40,7 +40,6 @@ export default function createListComponent ({
   getStartIndexForOffset,
   getStopIndexForStartIndex,
   initInstanceProps,
-  shouldResetStyleCacheOnItemSizeChange,
   validateProps
 }) {
   let _class, _temp
@@ -64,7 +63,7 @@ export default function createListComponent ({
         sizeList: []
       }
       if (this.props.unlimitedSize) {
-        this.state.sizeList = new Array(this.props.itemCount).fill(this.props.itemSize)
+        this.state.sizeList = new Array(this.props.itemCount).fill(-1)
       }
       this.field = {
         scrollLeft: 0,
@@ -89,6 +88,15 @@ export default function createListComponent ({
         detail
       }))
 
+      this._getSize = void 0
+
+      this._getSize = (size) => {
+        if (typeof size === 'number' && size >= 0) {
+          return size
+        }
+        return this.props.itemSize
+      }
+
       this._getSizeUploadSync = void 0
 
       this._getSizeUploadSync = (index, isHorizontal) => {
@@ -99,11 +107,11 @@ export default function createListComponent ({
             const { sizeList } = this.state
             const size = isHorizontal ? width : height
             if (size !== sizeList[index]) {
-              sizeList[index] = size
+              sizeList[index] = this._getSize(size)
               this.setState({
                 sizeList: [...sizeList]
               }, () => {
-                resolve(size)
+                resolve(this._getSize(size))
               })
             }
           }
@@ -121,7 +129,8 @@ export default function createListComponent ({
 
       this._getSizeUpload = (index, isHorizontal) => {
         this._getSizeUploadSync(index, isHorizontal)
-        return this.state.sizeList[index] || 0
+        const { sizeList } = this.state
+        return this._getSize(sizeList[index])
       }
 
       this._getCountSize = void 0
@@ -130,8 +139,11 @@ export default function createListComponent ({
         if (!props.unlimitedSize) {
           return props.itemSize * count
         }
-        const sizes = this.state.sizeList.slice(0, count)
-        return sizes.reduce((p, a = 0) => p + a, 0)
+        const { sizeList } = this.state
+        const sizes = sizeList.slice(0, count)
+        return sizes.reduce((p, a) => {
+          return p + this._getSize(a)
+        }, 0)
       }
 
       this._getSizeCount = void 0
@@ -144,7 +156,9 @@ export default function createListComponent ({
           return Math.min(props.itemCount - 1, Math.floor(offset / props.itemSize))
         }
         let offsetSize = 0
-        const count = this.state.sizeList.reduce((p, a = 0) => {
+        const { sizeList } = this.state
+        const count = sizeList.reduce((p, a) => {
+          a = this._getSize(a)
           if (offsetSize < offset) {
             offsetSize += a
             return ++p
@@ -396,6 +410,7 @@ export default function createListComponent ({
         style,
         useIsScrolling,
         width,
+        renderBottom,
         ...rest
       } = this.props
       const {
@@ -410,19 +425,8 @@ export default function createListComponent ({
 
       const [startIndex, stopIndex] = this._getRangeToRender()
 
-      const estimatedTotalSize = getEstimatedTotalSize(this.props, this)
       const items = []
       if (itemCount > 0) {
-        const before = getItemOffset(this.props, startIndex, this)
-        const after = estimatedTotalSize - getItemOffset(this.props, stopIndex, this)
-        items.push(createElement(itemElementType || itemTagName || 'div', {
-          key: `${id}-before`,
-          id: `${id}-before`,
-          style: {
-            height: isHorizontal ? '100%' : this._getStyleValue(before),
-            width: !isHorizontal ? '100%' : this._getStyleValue(before)
-          }
-        }))
         for (let index = startIndex; index <= stopIndex; index++) {
           const key = itemKey(index, itemData)
           items.push(createElement(children, {
@@ -433,14 +437,6 @@ export default function createListComponent ({
             isScrolling: useIsScrolling ? isScrolling : undefined
           }))
         }
-        items.push(createElement(itemElementType || itemTagName || 'div', {
-          key: `${id}-after`,
-          id: `${id}-after`,
-          style: {
-            height: isHorizontal ? '100%' : this._getStyleValue(after),
-            width: !isHorizontal ? '100%' : this._getStyleValue(after)
-          }
-        }))
       }
       // Read this value AFTER items have been created,
       // So their actual sizes (if variable) are taken into consideration.
@@ -470,15 +466,23 @@ export default function createListComponent ({
           outerElementProps.scrollTop = scrollOffset
         }
       }
+      const pre = getItemOffset(this.props, startIndex, this)
       return createElement(outerElementType || outerTagName || 'div', outerElementProps,
+        createElement(itemElementType || itemTagName || 'div', {
+          key: `${id}-pre`,
+          id: `${id}-pre`,
+          style: {
+            height: isHorizontal ? '100%' : this._getStyleValue(pre),
+            width: !isHorizontal ? '100%' : this._getStyleValue(pre)
+          }
+        }),
         createElement(innerElementType || innerTagName || 'div', {
           ref: innerRef,
           style: {
-            height: this._getStyleValue(isHorizontal ? '100%' : estimatedTotalSize),
-            pointerEvents: isScrolling ? 'none' : 'auto',
-            width: this._getStyleValue(isHorizontal ? estimatedTotalSize : '100%')
+            pointerEvents: isScrolling ? 'none' : 'auto'
           }
-        }, items)
+        }, items),
+        renderBottom
       )
     }
 

@@ -34,13 +34,11 @@ createListComponent({
     return ref._getCountSize(props, props.itemCount)
   },
   getOffsetForIndexAndAlignment: (props, id, index, align, scrollOffset, ref) => {
-    const {
-      height,
-      width
-    } = props
+    const { height, width } = props
+    const { sizeList } = ref.state
     // TODO Deprecate direction "horizontal"
     const size = isHorizontalFunc(props) ? width : height
-    const itemSize = ref.state.sizeList[index] || 0
+    const itemSize = ref._getSize(sizeList[index])
     const lastItemOffset = Math.max(0, ref._getCountSize(props, props.itemCount) - size)
     const maxOffset = Math.min(lastItemOffset, ref._getCountSize(props, index))
     const minOffset = Math.max(0, ref._getCountSize(props, index) - size + itemSize)
@@ -87,7 +85,7 @@ createListComponent({
     }
   },
   getStartIndexForOffset (props, scrollOffset, ref) {
-    return ref._getSizeCount(props, scrollOffset)
+    return Math.max(0, ref._getSizeCount(props, scrollOffset) - 1)
   },
   getStopIndexForStartIndex (props, scrollOffset, startIndex, ref) {
     const {
@@ -115,7 +113,7 @@ createListComponent({
     const { itemCount, itemSize } = nextProps
     const { sizeList } = prevState
     if (itemCount > sizeList.length) {
-      const arr = new Array(itemCount - sizeList.length).fill(itemSize)
+      const arr = new Array(itemCount - sizeList.length).fill(-1)
       sizeList.push(...arr)
     } else if (itemCount < sizeList.length) {
       sizeList.length = itemCount

@@ -1,4 +1,4 @@
-import { Component, ComponentType, CSSProperties } from 'react'
+import { Component, ComponentType, CSSProperties, ReactNode } from 'react'
 import { StandardProps, BaseEventOrigFunction } from '../../types/common'
 import { ScrollViewProps } from '../../types/ScrollView'
 
@@ -19,6 +19,8 @@ interface VirtualListProps extends StandardProps {
   initialScrollOffset?: number
   /** 列表内部容器组件类型，默认值为 View。 */
   innerElementType?: ComponentType
+  /** 底部区域 */
+  renderBottom?: ReactNode
   /** 滚动方向。vertical 为垂直滚动，horizontal 为平行滚动。默认为 vertical。 */
   layout?: 'vertical' | 'horizontal'
   /** 列表滚动时调用函数 */
