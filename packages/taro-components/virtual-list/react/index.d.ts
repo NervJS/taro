@@ -80,9 +80,9 @@ interface VirtualListEvent<T> {
  *   return Array(100).fill(0).map((_, i) => i + offset);
  * }
  *
- * const Row = React.memo(({ index, style, data }) => {
+ * const Row = React.memo(({ id, index, style, data }) => {
  *   return (
- *     <View className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} style={style}>
+ *     <View id={id} className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} style={style}>
  *       Row {index}
  *     </View>
  *   );
