@@ -13,6 +13,8 @@ interface VirtualListProps extends StandardProps {
   itemData: any[]
   /** 列表单项的大小，垂直滚动时为高度，水平滚动时为宽度。 */
   itemSize: number
+  /** 解开高度列表单项大小限制，默认值使用: itemSize。 */
+  unlimitedSize?: boolean
   /** 初始滚动偏移值，水平滚动影响 scrollLeft，垂直滚动影响 scrollTop。 */
   initialScrollOffset?: number
   /** 列表内部容器组件类型，默认值为 View。 */
@@ -54,6 +56,15 @@ interface VirtualListEvent<T> {
   scrollOffset: number
   /** 当滚动是由 scrollTo() 或 scrollToItem() 调用时返回 true，否则返回 false */
   scrollUpdateWasRequested: boolean
+  /** 当前只有 React 支持 */
+  detail?: {
+    scrollLeft: number
+    scrollTop: number
+    scrollHeight: number
+    scrollWidth: number
+    clientWidth: number
+    clientHeight: number
+  }
 }
 
 /**
@@ -67,9 +78,9 @@ interface VirtualListEvent<T> {
  *   return Array(100).fill(0).map((_, i) => i + offset);
  * }
  *
- * const Row = React.memo(({ index, style, data }) => {
+ * const Row = React.memo(({ id, index, style, data }) => {
  *   return (
- *     <View className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} style={style}>
+ *     <View id={id} className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} style={style}>
  *       Row {index}
  *     </View>
  *   );
