@@ -816,8 +816,8 @@ declare namespace LocalJSX {
   }
   interface TaroRadioCore {
     'checked'?: boolean;
-    'id'?: string;
     'disabled'?: boolean;
+    'id'?: string;
     'name'?: string;
     'onRadiochange'?: (event: CustomEvent<any>) => void;
     'value'?: string;
