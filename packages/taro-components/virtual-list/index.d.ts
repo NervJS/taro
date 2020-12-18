@@ -32,6 +32,8 @@ interface VirtualListProps extends StandardProps {
   /** 是否注入 isScrolling 属性到 children 组件。这个参数一般用于实现滚动骨架屏（或其它 placeholder） 时比较有用。 */
   useIsScrolling?: boolean
   children?: ComponentType<{
+    /** 组件 ID */
+    id: string
     /** 单项的样式，样式必须传入组件的 style 中 */
     style?: CSSProperties
     /** 组件渲染的数据 */
