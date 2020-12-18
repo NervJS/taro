@@ -333,7 +333,12 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_9_container\\">
-  <comp i=\\"{{i}}\\" l=\\"{{l}}\\" />
+  <block wx:if=\\"{{i.nn === '#text'}}\\">
+    <template is=\\"tmpl_0_#text\\" data=\\"{{i:i}}\\" />
+  </block>
+  <block wx:else>
+    <comp i=\\"{{i}}\\" l=\\"{{l}}\\" />
+  </block>
 </template>
 
 
@@ -1707,7 +1712,12 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_15_container\\">
-  <comp i=\\"{{i}}\\" l=\\"{{l}}\\" />
+  <block qq:if=\\"{{i.nn === '#text'}}\\">
+    <template is=\\"tmpl_0_#text\\" data=\\"{{i:i}}\\" />
+  </block>
+  <block qq:else>
+    <comp i=\\"{{i}}\\" l=\\"{{l}}\\" />
+  </block>
 </template>
 
 

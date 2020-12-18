@@ -323,11 +323,12 @@ export class BaseTemplate {
   protected buildContainerTemplate (level: number, restart = false) {
     let tmpl = ''
     if (restart) {
-      if (!this.isSupportRecursive && this.supportXS) {
-        tmpl = '<comp i="{{i}}" l="{{l}}" />'
-      } else {
-        tmpl = '<comp i="{{i}}" />'
-      }
+      tmpl = `<block ${this.Adapter.if}="{{i.nn === '#text'}}">
+    <template is="tmpl_0_#text" data="{{i:i}}" />
+  </block>
+  <block ${this.Adapter.else}>
+    ${!this.isSupportRecursive && this.supportXS ? '<comp i="{{i}}" l="{{l}}" />' : '<comp i="{{i}}" />'}
+  </block>`
     } else {
       const xs = !this.isSupportRecursive
         ? `xs.a(${level}, i.${Shortcuts.NodeName}, l)`
