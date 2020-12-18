@@ -45,7 +45,7 @@ export class TaroNode extends TaroEventTarget {
         ? this.parentNode.childNodes.indexOf(this)
         : '[' + this.parentNode.childNodes.indexOf(this) + ']'
 
-      return `${this.parentNode._path}.${Shortcuts.Childnodes}.${index}`
+      return `${this.parentNode._path}.${Shortcuts.Childnodes}${index}`
     }
 
     return ''
