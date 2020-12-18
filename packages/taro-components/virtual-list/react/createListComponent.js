@@ -36,10 +36,12 @@ export function getRectSize (id, success = () => {}, fail = () => {}) {
 export default function createListComponent ({
   getItemOffset,
   getEstimatedTotalSize,
+  getItemSize,
   getOffsetForIndexAndAlignment,
   getStartIndexForOffset,
   getStopIndexForStartIndex,
   initInstanceProps,
+  shouldResetStyleCacheOnItemSizeChange,
   validateProps
 }) {
   let _class, _temp
@@ -174,6 +176,57 @@ export default function createListComponent ({
           : value == null
             ? ''
             : value
+      }
+
+      this._getItemStyle = void 0
+
+      this._getItemStyle = index => {
+        const {
+          direction,
+          itemSize,
+          layout
+        } = this.props
+
+        const itemStyleCache = this._getItemStyleCache(shouldResetStyleCacheOnItemSizeChange && itemSize, shouldResetStyleCacheOnItemSizeChange && layout, shouldResetStyleCacheOnItemSizeChange && direction)
+
+        let style
+
+        const offset = getItemOffset(this.props, index, this)
+        const size = getItemSize(this.props, index, this) // TODO Deprecate direction "horizontal"
+        const isHorizontal = isHorizontalFunc(this.props)
+        const isRtl = isRtlFunc(this.props)
+        if (itemStyleCache.hasOwnProperty(index)) {
+          style = itemStyleCache[index]
+          if (isHorizontal) {
+            style.width = size
+            if (isRtl) {
+              style.right = offset
+            } else {
+              style.left = offset
+            }
+          } else {
+            style.height = size
+            style.top = offset
+          }
+        } else {
+          const offsetHorizontal = isHorizontal ? offset : 0
+          itemStyleCache[index] = style = {
+            position: 'absolute',
+            left: !isRtl ? offsetHorizontal : undefined,
+            right: isRtl ? offsetHorizontal : undefined,
+            top: !isHorizontal ? offset : 0,
+            height: !isHorizontal ? size : '100%',
+            width: isHorizontal ? size : '100%'
+          }
+        }
+
+        for (const k in style) {
+          if (style.hasOwnProperty(k)) {
+            style[k] = this._getStyleValue(style[k])
+          }
+        }
+
+        return style
       }
 
       this._getItemStyleCache = void 0
@@ -410,6 +463,7 @@ export default function createListComponent ({
         style,
         useIsScrolling,
         width,
+        unlimitedSize,
         renderBottom,
         ...rest
       } = this.props
@@ -426,21 +480,35 @@ export default function createListComponent ({
       const [startIndex, stopIndex] = this._getRangeToRender()
 
       const items = []
+
       if (itemCount > 0) {
         for (let index = startIndex; index <= stopIndex; index++) {
           const key = itemKey(index, itemData)
-          items.push(createElement(children, {
-            key,
-            id: `${id}-${index}`,
-            data: itemData,
-            index,
-            isScrolling: useIsScrolling ? isScrolling : undefined
-          }))
+          if (unlimitedSize) {
+            items.push(createElement(children, {
+              key,
+              id: `${id}-${index}`,
+              data: itemData,
+              index,
+              isScrolling: useIsScrolling ? isScrolling : undefined
+            }))
+          } else {
+            const style = this._getItemStyle(index)
+            items.push(createElement(itemElementType || itemTagName || 'div', {
+              key, style
+            }, createElement(children, {
+              id: `${id}-${index}`,
+              data: itemData,
+              index,
+              isScrolling: useIsScrolling ? isScrolling : undefined
+            })))
+          }
         }
       }
       // Read this value AFTER items have been created,
       // So their actual sizes (if variable) are taken into consideration.
 
+      const estimatedTotalSize = getEstimatedTotalSize(this.props, this)
       const outerElementProps = {
         ...rest,
         id,
@@ -466,26 +534,43 @@ export default function createListComponent ({
           outerElementProps.scrollTop = scrollOffset
         }
       }
-      const pre = getItemOffset(this.props, startIndex, this)
-      return createElement(outerElementType || outerTagName || 'div', outerElementProps,
-        createElement(itemElementType || itemTagName || 'div', {
-          key: `${id}-pre`,
-          id: `${id}-pre`,
-          style: {
-            height: isHorizontal ? '100%' : this._getStyleValue(pre),
-            width: !isHorizontal ? '100%' : this._getStyleValue(pre)
-          }
-        }),
-        createElement(innerElementType || innerTagName || 'div', {
-          ref: innerRef,
-          key: `${id}-inner`,
-          id: `${id}-inner`,
-          style: {
-            pointerEvents: isScrolling ? 'none' : 'auto'
-          }
-        }, items),
-        renderBottom
-      )
+
+      if (unlimitedSize) {
+        const pre = getItemOffset(this.props, startIndex, this)
+        return createElement(outerElementType || outerTagName || 'div', outerElementProps,
+          createElement(itemElementType || itemTagName || 'div', {
+            key: `${id}-pre`,
+            id: `${id}-pre`,
+            style: {
+              height: isHorizontal ? '100%' : this._getStyleValue(pre),
+              width: !isHorizontal ? '100%' : this._getStyleValue(pre)
+            }
+          }),
+          createElement(innerElementType || innerTagName || 'div', {
+            ref: innerRef,
+            key: `${id}-inner`,
+            id: `${id}-inner`,
+            style: {
+              pointerEvents: isScrolling ? 'none' : 'auto'
+            }
+          }, items),
+          renderBottom
+        )
+      } else {
+        return createElement(outerElementType || outerTagName || 'div', outerElementProps,
+          createElement(innerElementType || innerTagName || 'div', {
+            ref: innerRef,
+            key: `${id}-inner`,
+            id: `${id}-inner`,
+            style: {
+              height: this._getStyleValue(isHorizontal ? '100%' : estimatedTotalSize),
+              pointerEvents: isScrolling ? 'none' : 'auto',
+              width: this._getStyleValue(isHorizontal ? estimatedTotalSize : '100%')
+            }
+          }, items),
+          renderBottom
+        )
+      }
     }
 
     _callPropsCallbacks () {
