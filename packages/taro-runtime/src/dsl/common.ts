@@ -180,12 +180,8 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       Current.page = null
       Current.router = null
       const path = getPath(id, this.options)
-
-      raf(() => {
-        eventCenter.trigger(getOnHideEventKey(id))
-      })
-
       safeExecute(path, 'onHide')
+      eventCenter.trigger(getOnHideEventKey(id))
     },
     onPullDownRefresh () {
       const path = getPath(id, this.options)
