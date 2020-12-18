@@ -36,7 +36,6 @@ export function getRectSize (id, success = () => {}, fail = () => {}) {
 export default function createListComponent ({
   getItemOffset,
   getEstimatedTotalSize,
-  getItemSize,
   getOffsetForIndexAndAlignment,
   getStartIndexForOffset,
   getStopIndexForStartIndex,
@@ -161,57 +160,6 @@ export default function createListComponent ({
           : value == null
             ? ''
             : value
-      }
-
-      this._getItemStyle = void 0
-
-      this._getItemStyle = index => {
-        const {
-          direction,
-          itemSize,
-          layout
-        } = this.props
-
-        const itemStyleCache = this._getItemStyleCache(shouldResetStyleCacheOnItemSizeChange && itemSize, shouldResetStyleCacheOnItemSizeChange && layout, shouldResetStyleCacheOnItemSizeChange && direction)
-
-        let style
-
-        const offset = getItemOffset(this.props, index, this)
-        const size = getItemSize(this.props, index, this) // TODO Deprecate direction "horizontal"
-        const isHorizontal = isHorizontalFunc(this.props)
-        const isRtl = isRtlFunc(this.props)
-        if (itemStyleCache.hasOwnProperty(index)) {
-          style = itemStyleCache[index]
-          if (isHorizontal) {
-            style.width = size
-            if (isRtl) {
-              style.right = offset
-            } else {
-              style.left = offset
-            }
-          } else {
-            style.height = size
-            style.top = offset
-          }
-        } else {
-          const offsetHorizontal = isHorizontal ? offset : 0
-          itemStyleCache[index] = style = {
-            position: 'absolute',
-            left: !isRtl ? offsetHorizontal : undefined,
-            right: isRtl ? offsetHorizontal : undefined,
-            top: !isHorizontal ? offset : 0,
-            height: !isHorizontal ? size : '100%',
-            width: isHorizontal ? size : '100%'
-          }
-        }
-
-        for (const k in style) {
-          if (style.hasOwnProperty(k)) {
-            style[k] = this._getStyleValue(style[k])
-          }
-        }
-
-        return style
       }
 
       this._getItemStyleCache = void 0
@@ -462,26 +410,41 @@ export default function createListComponent ({
 
       const [startIndex, stopIndex] = this._getRangeToRender()
 
+      const estimatedTotalSize = getEstimatedTotalSize(this.props, this)
       const items = []
-
       if (itemCount > 0) {
+        const before = getItemOffset(this.props, startIndex, this)
+        const after = estimatedTotalSize - getItemOffset(this.props, stopIndex, this)
+        items.push(createElement(itemElementType || itemTagName || 'div', {
+          key: `${id}-before`,
+          id: `${id}-before`,
+          style: {
+            height: isHorizontal ? '100%' : this._getStyleValue(before),
+            width: !isHorizontal ? '100%' : this._getStyleValue(before)
+          }
+        }))
         for (let index = startIndex; index <= stopIndex; index++) {
           const key = itemKey(index, itemData)
-          const style = this._getItemStyle(index)
-          items.push(createElement(itemElementType || itemTagName || 'div', {
-            key, style
-          }, createElement(children, {
+          items.push(createElement(children, {
+            key,
             id: `${id}-${index}`,
             data: itemData,
             index,
             isScrolling: useIsScrolling ? isScrolling : undefined
-          })))
+          }))
         }
+        items.push(createElement(itemElementType || itemTagName || 'div', {
+          key: `${id}-after`,
+          id: `${id}-after`,
+          style: {
+            height: isHorizontal ? '100%' : this._getStyleValue(after),
+            width: !isHorizontal ? '100%' : this._getStyleValue(after)
+          }
+        }))
       }
       // Read this value AFTER items have been created,
       // So their actual sizes (if variable) are taken into consideration.
 
-      const estimatedTotalSize = getEstimatedTotalSize(this.props, this)
       const outerElementProps = {
         ...rest,
         id,
