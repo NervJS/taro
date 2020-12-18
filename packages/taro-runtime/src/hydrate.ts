@@ -50,14 +50,38 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
   }
   const { props, childNodes } = node
 
+  if (!node.isAnyEventBinded()) {
+    if (node.nodeName === 'view') {
+      const isExtractProp = Object.keys(props).find(prop => {
+        return !(/[class|style|id]/.test(prop) || prop.startsWith('data-'))
+      })
+      if (isExtractProp) {
+        data[Shortcuts.NodeName] = 'static-view'
+      } else {
+        data[Shortcuts.NodeName] = 'pure-view'
+      }
+    }
+    if (node.nodeName === 'text') {
+      data[Shortcuts.NodeName] = 'static-text'
+    }
+    if (node.nodeName === 'image') {
+      data[Shortcuts.NodeName] = 'static-image'
+    }
+  }
+
   for (const prop in props) {
+    const propInCamelCase = toCamelCase(prop)
     if (
       !prop.startsWith('data-') && // 在 node.dataset 的数据
       prop !== 'class' &&
       prop !== 'style' &&
-      prop !== 'id'
+      prop !== 'id' &&
+      propInCamelCase !== 'catchMove'
     ) {
-      data[toCamelCase(prop)] = props[prop]
+      data[propInCamelCase] = props[prop]
+    }
+    if (node.nodeName === 'view' && propInCamelCase === 'catchMove' && props[prop] !== 'false') {
+      data[Shortcuts.NodeName] = 'catch-view'
     }
   }
 

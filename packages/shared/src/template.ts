@@ -73,8 +73,12 @@ const voidElements = new Set([
 const nestElements = new Map([
   ['view', -1],
   ['cover-view', -1],
+  ['catch-view', -1],
+  ['static-view', -1],
+  ['pure-view', -1],
   ['block', -1],
-  ['text', -1],
+  ['text', 6],
+  ['static-text', 6],
   ['slot', 8],
   ['slot-view', 8],
   ['label', 6],
@@ -110,7 +114,7 @@ export class BaseTemplate {
 
   private buildAttribute (attrs: Attributes, nodeName: string): string {
     return Object.keys(attrs)
-      .map(k => `${k}="${k.startsWith('bind') || k.startsWith('on') ? attrs[k] : `{${this.getAttrValue(attrs[k], k, nodeName)}}`}" `)
+      .map(k => `${k}="${k.startsWith('bind') || k.startsWith('on') || k.startsWith('catch') ? attrs[k] : `{${this.getAttrValue(attrs[k], k, nodeName)}}`}" `)
       .join('')
   }
 
@@ -158,6 +162,35 @@ export class BaseTemplate {
 
         if (compName === 'swiper-item') {
           delete newComp.style
+        }
+
+        if (compName === 'view') {
+          const reg = /^(bind|on)(touchmove|TouchMove)$/
+          const comp = { ...newComp }
+          Object.keys(comp).forEach(originKey => {
+            if (!reg.test(originKey)) return
+
+            const key = originKey.replace(reg, 'catch$2')
+            comp[key] = comp[originKey]
+            delete comp[originKey]
+          })
+
+          result['catch-view'] = comp
+        }
+
+        if (compName === 'view' || compName === 'text' || compName === 'image') {
+          const comp: Record<any, any> = {}
+          Object.keys(newComp).forEach(key => {
+            const value = newComp[key]
+            if (value !== 'eh') comp[key] = value
+          })
+          result[`static-${compName}`] = comp
+          if (compName === 'view') {
+            result['pure-view'] = {
+              style: comp.style,
+              class: comp.class
+            }
+          }
         }
 
         if (compName === 'slot' || compName === 'slot-view') {
@@ -258,7 +291,25 @@ export class BaseTemplate {
       children = this.modifyLoopContainer(children, comp.nodeName)
     }
 
-    const nodeName = comp.nodeName === 'slot' || comp.nodeName === 'slot-view' ? 'view' : comp.nodeName
+    let nodeName = ''
+    switch (comp.nodeName) {
+      case 'slot':
+      case 'slot-view':
+      case 'catch-view':
+      case 'static-view':
+      case 'pure-view':
+        nodeName = 'view'
+        break
+      case 'static-text':
+        nodeName = 'text'
+        break
+      case 'static-image':
+        nodeName = 'image'
+        break
+      default:
+        nodeName = comp.nodeName
+        break
+    }
 
     let res = `
 <template name="tmpl_${level}_${comp.nodeName}">
