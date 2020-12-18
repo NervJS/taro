@@ -478,6 +478,8 @@ export default function createListComponent ({
         }),
         createElement(innerElementType || innerTagName || 'div', {
           ref: innerRef,
+          key: `${id}-inner`,
+          id: `${id}-inner`,
           style: {
             pointerEvents: isScrolling ? 'none' : 'auto'
           }

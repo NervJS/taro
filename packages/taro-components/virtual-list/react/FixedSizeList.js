@@ -95,7 +95,7 @@ createListComponent({
       width
     } = props
     const size = isHorizontalFunc(props) ? width : height
-    const offset = ref._getCountSize(props, props.itemCount)
+    const offset = ref._getCountSize(props, itemCount)
     if (!props.unlimitedSize) {
       // TODO Deprecate direction "horizontal"
       const numVisibleItems = Math.ceil((size + scrollOffset - offset) / itemSize)
