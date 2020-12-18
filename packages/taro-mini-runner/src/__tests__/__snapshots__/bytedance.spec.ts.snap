@@ -92,12 +92,36 @@ require(\\"./taro\\");
   </view>
 </template>
 
+<template name=\\"tmpl_0_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
+      <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_0_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
+      <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_0_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_0_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
+      <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_0_text\\">
@@ -138,6 +162,14 @@ require(\\"./taro\\");
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_0_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
+      <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
 </template>
 
 <template name=\\"tmpl_0_image\\">

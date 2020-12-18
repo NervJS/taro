@@ -50,6 +50,25 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
   }
   const { props, childNodes } = node
 
+  if (!node.isAnyEventBinded()) {
+    if (node.nodeName === 'view') {
+      const isExtractProp = Object.keys(props).find(prop => {
+        return !(/[class|style|id]/.test(prop) || prop.startsWith('data-'))
+      })
+      if (isExtractProp) {
+        data[Shortcuts.NodeName] = 'static-view'
+      } else {
+        data[Shortcuts.NodeName] = 'pure-view'
+      }
+    }
+    if (node.nodeName === 'text') {
+      data[Shortcuts.NodeName] = 'static-text'
+    }
+    if (node.nodeName === 'image') {
+      data[Shortcuts.NodeName] = 'static-image'
+    }
+  }
+
   for (const prop in props) {
     const propInCamelCase = toCamelCase(prop)
     if (

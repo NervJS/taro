@@ -92,12 +92,36 @@ require(\\"./taro\\");
   </view>
 </template>
 
+<template name=\\"tmpl_0_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_1_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_0_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_1_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_0_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_1_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_0_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_1_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_0_text\\">
@@ -140,6 +164,14 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_0_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_1_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
+</template>
+
 <template name=\\"tmpl_0_image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
@@ -164,12 +196,36 @@ require(\\"./taro\\");
   </view>
 </template>
 
+<template name=\\"tmpl_1_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_2_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_1_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_2_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_1_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_2_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_1_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_2_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_1_text\\">
@@ -212,6 +268,14 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_1_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_2_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
+</template>
+
 <template name=\\"tmpl_1_image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
@@ -236,12 +300,36 @@ require(\\"./taro\\");
   </view>
 </template>
 
+<template name=\\"tmpl_2_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_3_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_2_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_3_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_2_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_3_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_2_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_3_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_2_text\\">
@@ -284,6 +372,14 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_2_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_3_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
+</template>
+
 <template name=\\"tmpl_2_image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
@@ -308,12 +404,36 @@ require(\\"./taro\\");
   </view>
 </template>
 
+<template name=\\"tmpl_3_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_4_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_3_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_4_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_3_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_4_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_3_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_4_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_3_text\\">
@@ -356,6 +476,14 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_3_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_4_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
+</template>
+
 <template name=\\"tmpl_3_image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
@@ -380,12 +508,36 @@ require(\\"./taro\\");
   </view>
 </template>
 
+<template name=\\"tmpl_4_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_5_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_4_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_5_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_4_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_5_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_4_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_5_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_4_text\\">
@@ -428,6 +580,14 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_4_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_5_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
+</template>
+
 <template name=\\"tmpl_4_image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
@@ -452,12 +612,36 @@ require(\\"./taro\\");
   </view>
 </template>
 
+<template name=\\"tmpl_5_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_6_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_5_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_6_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_5_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_6_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_5_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_6_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_5_text\\">
@@ -500,6 +684,14 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_5_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_6_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
+</template>
+
 <template name=\\"tmpl_5_image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
@@ -524,12 +716,36 @@ require(\\"./taro\\");
   </view>
 </template>
 
+<template name=\\"tmpl_6_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_7_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_6_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_7_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_6_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_7_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_6_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_7_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_6_text\\">
@@ -572,6 +788,14 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_6_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_7_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
+</template>
+
 <template name=\\"tmpl_6_image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
@@ -596,12 +820,36 @@ require(\\"./taro\\");
   </view>
 </template>
 
+<template name=\\"tmpl_7_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_8_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_7_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_8_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_7_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_8_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_7_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_8_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_7_text\\">
@@ -644,6 +892,14 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_7_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_8_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
+</template>
+
 <template name=\\"tmpl_7_image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
@@ -668,12 +924,36 @@ require(\\"./taro\\");
   </view>
 </template>
 
+<template name=\\"tmpl_8_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_9_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_8_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_9_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_8_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_9_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_8_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_9_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_8_text\\">
@@ -716,6 +996,14 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_8_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_9_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
+</template>
+
 <template name=\\"tmpl_8_image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
@@ -740,12 +1028,36 @@ require(\\"./taro\\");
   </view>
 </template>
 
+<template name=\\"tmpl_9_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_10_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_9_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_10_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_9_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_10_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_9_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_10_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_9_text\\">
@@ -788,6 +1100,14 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_9_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_10_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
+</template>
+
 <template name=\\"tmpl_9_image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
@@ -812,12 +1132,36 @@ require(\\"./taro\\");
   </view>
 </template>
 
+<template name=\\"tmpl_10_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_11_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_10_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_11_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_10_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_11_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_10_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_11_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_10_text\\">
@@ -860,6 +1204,14 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_10_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_11_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
+</template>
+
 <template name=\\"tmpl_10_image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
@@ -884,12 +1236,36 @@ require(\\"./taro\\");
   </view>
 </template>
 
+<template name=\\"tmpl_11_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_12_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_11_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_12_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_11_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_12_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_11_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_12_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_11_text\\">
@@ -932,6 +1308,14 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_11_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_12_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
+</template>
+
 <template name=\\"tmpl_11_image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
@@ -956,12 +1340,36 @@ require(\\"./taro\\");
   </view>
 </template>
 
+<template name=\\"tmpl_12_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_13_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_12_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_13_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_12_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_13_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_12_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_13_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_12_text\\">
@@ -1004,6 +1412,14 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_12_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_13_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
+</template>
+
 <template name=\\"tmpl_12_image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
@@ -1028,12 +1444,36 @@ require(\\"./taro\\");
   </view>
 </template>
 
+<template name=\\"tmpl_13_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_14_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_13_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_14_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_13_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_14_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_13_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_14_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_13_text\\">
@@ -1076,6 +1516,14 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_13_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_14_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
+</template>
+
 <template name=\\"tmpl_13_image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
@@ -1100,12 +1548,36 @@ require(\\"./taro\\");
   </view>
 </template>
 
+<template name=\\"tmpl_14_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_15_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_14_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_15_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_14_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_15_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_14_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_15_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_14_text\\">
@@ -1148,6 +1620,14 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_14_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_15_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
+</template>
+
 <template name=\\"tmpl_14_image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
@@ -1165,7 +1645,12 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_15_container\\">
-  <comp i=\\"{{i}}\\" />
+  <block jd:if=\\"{{i.nn === '#text'}}\\">
+    <template is=\\"tmpl_0_#text\\" data=\\"{{i:i}}\\" />
+  </block>
+  <block jd:else>
+    <comp i=\\"{{i}}\\" />
+  </block>
 </template>
 
 

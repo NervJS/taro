@@ -92,12 +92,36 @@ require(\\"./taro\\");
   </view>
 </template>
 
+<template name=\\"tmpl_0_static-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
+      <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_0_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
+      <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_0_view\\">
   <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" onAnimationStart=\\"eh\\" onAnimationIteration=\\"eh\\" onAnimationEnd=\\"eh\\" onTransitionEnd=\\"eh\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_0_static-text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
+      <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_0_text\\">
@@ -138,6 +162,14 @@ require(\\"./taro\\");
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_0_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{xs.b(i.mode,'scaleToFill')}}\\" webp=\\"{{xs.b(i.webp,false)}}\\" lazy-load=\\"{{xs.b(i.lazyLoad,false)}}\\" show-menu-by-longpress=\\"{{xs.b(i.showMenuByLongpress,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
+      <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
 </template>
 
 <template name=\\"tmpl_0_image\\">
