@@ -342,7 +342,15 @@ export class BaseTemplate {
       : this.dataKeymap('i:item')
 
     componentConfig.thirdPartyComponents.forEach((attrs, compName) => {
-      template += `
+      if (compName === 'custom-wrapper') {
+        template += `
+<template name="tmpl_${level}_${compName}">
+  <${compName} i="{{i}}" l="{{l}}" id="{{i.uid}}">
+  </${compName}>
+</template>
+  `
+      } else {
+        template += `
 <template name="tmpl_${level}_${compName}">
   <${compName} ${this.buildThirdPartyAttr(attrs)} id="{{i.uid}}">
     <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="uid">
@@ -351,6 +359,7 @@ export class BaseTemplate {
   </${compName}>
 </template>
   `
+      }
     })
 
     return template
@@ -415,6 +424,17 @@ export class BaseTemplate {
 
     return `<import src="./base${ext}" />
   <template is="tmpl_0_${Shortcuts.Container}" data="{{${data}}}" />`
+  }
+
+  public buildCsutomComponentTemplate = (ext: string) => {
+    const Adapter = this.Adapter
+    const data = !this.isSupportRecursive && this.supportXS
+      ? `${this.dataKeymap('i:item,l:\'\'')}`
+      : this.dataKeymap('i:item')
+    return `<import src="./base${ext}" />
+  <block wx:for="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="uid">
+    <template is="tmpl_0_container" data="{{${data}}}" />
+  </block>`
   }
 
   public buildXScript = () => {
