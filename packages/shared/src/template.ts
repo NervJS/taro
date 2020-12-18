@@ -426,7 +426,7 @@ export class BaseTemplate {
   <template is="tmpl_0_${Shortcuts.Container}" data="{{${data}}}" />`
   }
 
-  public buildCsutomComponentTemplate = (ext: string) => {
+  public buildCustomComponentTemplate = (ext: string) => {
     const Adapter = this.Adapter
     const data = !this.isSupportRecursive && this.supportXS
       ? `${this.dataKeymap('i:item,l:\'\'')}`

@@ -89,9 +89,11 @@ export class TaroRootElement extends TaroElement {
       } else {
         this.pendingUpdate = false
         const customWrapperUpdate: { ctx: any, data: object }[] = []
+        const normalUpdate: { ctx: any, data: object }[] = []
         if (!initRender) {
           for (const p in data) {
             const dataPathArr = p.split('.')
+            let hasCustomWrapper = false
             for (let i = dataPathArr.length; i > 0; i--) {
               const allPath = dataPathArr.slice(0, i).join('.')
               const getData = get(ctx.__data__, allPath)
@@ -100,6 +102,7 @@ export class TaroRootElement extends TaroElement {
                 const customWrapper = ctx.selectComponent(`#${customWrapperId}`)
                 const splitedPath = dataPathArr.slice(i).join('.')
                 if (customWrapper) {
+                  hasCustomWrapper = true
                   customWrapperUpdate.push({
                     ctx: ctx.selectComponent(`#${customWrapperId}`),
                     data: {
@@ -110,15 +113,25 @@ export class TaroRootElement extends TaroElement {
                 break
               }
             }
+            if (!hasCustomWrapper) {
+              normalUpdate.push({
+                ctx,
+                data: {
+                  [p]: data[p]
+                }
+              })
+            }
           }
         }
         const updateArrLen = customWrapperUpdate.length
         if (updateArrLen) {
           const eventId = `${this._path}_update_${incrementId()}`
           let executeTime = 0
+          const normalUpdateLen = normalUpdate.length
+          const newUpdate = customWrapperUpdate.concat(normalUpdate)
           eventCenter.once(eventId, () => {
             executeTime++
-            if (executeTime === updateArrLen) {
+            if (executeTime === updateArrLen + normalUpdateLen) {
               perf.stop(SET_DATA)
               if (!this.pendingFlush) {
                 this.flushUpdateCallback()
@@ -128,7 +141,7 @@ export class TaroRootElement extends TaroElement {
               }
             }
           }, eventCenter)
-          customWrapperUpdate.forEach(item => {
+          newUpdate.forEach(item => {
             item.ctx.setData(item.data, () => {
               eventCenter.trigger(eventId)
             })
