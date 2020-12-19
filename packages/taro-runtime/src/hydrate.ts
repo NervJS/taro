@@ -55,7 +55,7 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
   if (!node.isAnyEventBinded()) {
     if (node.nodeName === 'view') {
       const isExtractProp = Object.keys(props).find(prop => {
-        return !(/[class|style|id]/.test(prop) || prop.startsWith('data-'))
+        return !(/class|style|id/.test(prop) || prop.startsWith('data-'))
       })
       if (isExtractProp) {
         data[Shortcuts.NodeName] = 'static-view'
