@@ -1,4 +1,4 @@
-import { get } from 'lodash'
+import get from 'lodash-es/get'
 import { TaroElement } from './element'
 import { NodeType } from './node_types'
 import { MpInstance, HydratedData } from '../hydrate'
