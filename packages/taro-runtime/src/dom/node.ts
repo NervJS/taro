@@ -42,10 +42,10 @@ export class TaroNode extends TaroEventTarget {
   public get _path () {
     if (this.parentNode !== null) {
       const index = process.env.TARO_ENV === 'swan'
-        ? `.${this.parentNode.childNodes.indexOf(this)}`
+        ? `${this.parentNode.childNodes.indexOf(this)}`
         : '[' + this.parentNode.childNodes.indexOf(this) + ']'
 
-      return `${this.parentNode._path}.${Shortcuts.Childnodes}${index}`
+      return `${this.parentNode._path}.${Shortcuts.Childnodes}.${index}`
     }
 
     return ''
