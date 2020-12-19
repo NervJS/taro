@@ -463,7 +463,7 @@ export default function createListComponent ({
         style,
         useIsScrolling,
         width,
-        unlimitedSize,
+        position,
         renderBottom,
         ...rest
       } = this.props
@@ -484,7 +484,7 @@ export default function createListComponent ({
       if (itemCount > 0) {
         for (let index = startIndex; index <= stopIndex; index++) {
           const key = itemKey(index, itemData)
-          if (unlimitedSize) {
+          if (position === 'relative') {
             items.push(createElement(children, {
               key,
               id: `${id}-${index}`,
@@ -535,7 +535,7 @@ export default function createListComponent ({
         }
       }
 
-      if (unlimitedSize) {
+      if (position === 'relative') {
         const pre = getItemOffset(this.props, startIndex, this)
         return createElement(outerElementType || outerTagName || 'div', outerElementProps,
           createElement(itemElementType || itemTagName || 'div', {
