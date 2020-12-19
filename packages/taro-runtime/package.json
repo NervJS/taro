@@ -22,6 +22,6 @@
     "access": "public"
   },
   "dependencies": {
-    "lodash": "4.17.20"
+    "lodash-es": "4.17.15"
   }
 }
