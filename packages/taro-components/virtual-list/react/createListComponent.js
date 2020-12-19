@@ -464,6 +464,7 @@ export default function createListComponent ({
         useIsScrolling,
         width,
         position,
+        unlimitedSize,
         renderBottom,
         ...rest
       } = this.props
@@ -485,12 +486,18 @@ export default function createListComponent ({
         for (let index = startIndex; index <= stopIndex; index++) {
           const key = itemKey(index, itemData)
           if (position === 'relative') {
+            const size = getItemSize(this.props, index, this)
+            const style = unlimitedSize ? {} : {
+              height: this._getStyleValue(isHorizontal ? '100%' : size),
+              width: this._getStyleValue(isHorizontal ? size : '100%')
+            }
             items.push(createElement(children, {
               key,
               id: `${id}-${index}`,
               data: itemData,
               index,
-              isScrolling: useIsScrolling ? isScrolling : undefined
+              isScrolling: useIsScrolling ? isScrolling : undefined,
+              style
             }))
           } else {
             const style = this._getItemStyle(index)
