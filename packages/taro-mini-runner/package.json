@@ -45,7 +45,7 @@
     "@tarojs/taro-loader": "3.0.19",
     "babel-loader": "8.0.6",
     "babel-types": "^6.26.0",
-    "copy-webpack-plugin": "^5.0.3",
+    "copy-webpack-plugin": "5.1.2",
     "css": "2.2.4",
     "css-loader": "^3.0.0",
     "css-what": "3.3.0",
