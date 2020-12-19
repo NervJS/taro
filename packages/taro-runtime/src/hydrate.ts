@@ -10,6 +10,8 @@ export interface MpInstance {
   route?: string;
   __route__: string;
   options?: Record<string, unknown>
+  __data__: any,
+  selectComponent: (selector: string) => any
 }
 
 interface MiniElementData {

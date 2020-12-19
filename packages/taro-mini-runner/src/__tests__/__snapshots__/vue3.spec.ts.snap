@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`vue3 should build vue3 app 1`] = `13`;
+exports[`vue3 should build vue3 app 1`] = `16`;
 
 exports[`vue3 should build vue3 app 2`] = `
 "
@@ -13,7 +13,7 @@ require(\\"./taro\\");
 
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], {
     4: function(module, exports, __webpack_require__) {},
-    7: function(module, __webpack_exports__, __webpack_require__) {
+    8: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(0);
@@ -35,7 +35,7 @@ require(\\"./taro\\");
         taro_runtime[\\"window\\"].__taroAppConfig = config;
         var inst = App(Object(taro_runtime[\\"createVue3App\\"])(lib_src_app, vue[\\"h\\"], config));
     }
-}, [ [ 7, 0, 1, 2 ] ] ]);
+}, [ [ 8, 0, 1, 2 ] ] ]);
 
 
 
@@ -768,15 +768,34 @@ require(\\"./taro\\");
 }, [ [ 5, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\"}}
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
 /** filePath: dist/comp.wxml **/
 <import src=\\"./base.wxml\\" />
   <template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
 
-/** filePath: dist/pages/index/index.js **/
+/** filePath: dist/custom-wrapper.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
     6: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
+    }
+}, [ [ 6, 0, 1 ] ] ]);
+
+/** filePath: dist/custom-wrapper.json **/
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
+
+/** filePath: dist/custom-wrapper.wxml **/
+<import src=\\"./base.wxml\\" />
+  <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+    <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
+  </block>
+
+/** filePath: dist/pages/index/index.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
+    7: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(0);
@@ -862,10 +881,10 @@ require(\\"./taro\\");
         };
         var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index, \\"pages/index/index\\", {}, config || {}));
     }
-}, [ [ 6, 0, 1, 2 ] ] ]);
+}, [ [ 7, 0, 1, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\",\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
 
 /** filePath: dist/pages/index/index.wxml **/
 <import src=\\"../../base.wxml\\"/>

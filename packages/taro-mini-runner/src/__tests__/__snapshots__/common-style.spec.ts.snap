@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`common style should extract common styles 1`] = `18`;
+exports[`common style should extract common styles 1`] = `21`;
 
 exports[`common style should extract common styles 2`] = `
 "
@@ -15,7 +15,7 @@ require(\\"./taro\\");
 
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
     12: function(module, exports, __webpack_require__) {},
-    15: function(module, __webpack_exports__, __webpack_require__) {
+    16: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(1);
@@ -66,7 +66,7 @@ require(\\"./taro\\");
         taro_runtime[\\"window\\"].__taroAppConfig = config;
         var inst = App(Object(taro_runtime[\\"createReactApp\\"])(lib_src_app, react, taro_react[\\"a\\"], config));
     }
-}, [ [ 15, 0, 1, 3, 2 ] ] ]);
+}, [ [ 16, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -790,7 +790,7 @@ require(\\"./taro\\");
         __webpack_require__.r(__webpack_exports__);
         __webpack_exports__[\\"default\\"] = \\"react-mock\\";
     },
-    14: function(module, exports, __webpack_require__) {},
+    15: function(module, exports, __webpack_require__) {},
     7: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -802,7 +802,7 @@ require(\\"./taro\\");
         var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
         var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
-        var _index_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(14);
+        var _index_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(15);
         var _index_scss__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(_index_scss__WEBPACK_IMPORTED_MODULE_6__);
         var Index = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(Index, _Component);
@@ -838,15 +838,34 @@ require(\\"./taro\\");
 }, [ [ 13, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\"}}
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
 /** filePath: dist/comp.wxml **/
 <import src=\\"./base.wxml\\" />
   <template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
 
-/** filePath: dist/pages/about/index.js **/
+/** filePath: dist/custom-wrapper.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    17: function(module, __webpack_exports__, __webpack_require__) {
+    14: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
+    }
+}, [ [ 14, 0, 1 ] ] ]);
+
+/** filePath: dist/custom-wrapper.json **/
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
+
+/** filePath: dist/custom-wrapper.wxml **/
+<import src=\\"./base.wxml\\" />
+  <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+    <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
+  </block>
+
+/** filePath: dist/pages/about/index.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
+    18: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(1);
@@ -881,18 +900,18 @@ require(\\"./taro\\");
         };
         var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(about_Index, \\"pages/about/index\\", {}, config || {}));
     }
-}, [ [ 17, 0, 1, 3, 2 ] ] ]);
+}, [ [ 18, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/about/index.json **/
-{\\"navigationBarTitleText\\":\\"关于\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
+{\\"navigationBarTitleText\\":\\"关于\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\",\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
 
 /** filePath: dist/pages/about/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
   <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 
 /** filePath: dist/pages/index/index.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
-    16: function(module, __webpack_exports__, __webpack_require__) {
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
+    17: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(1);
@@ -927,10 +946,10 @@ require(\\"./taro\\");
         };
         var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {}, config || {}));
     }
-}, [ [ 16, 0, 1, 3, 2 ] ] ]);
+}, [ [ 17, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\",\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
 
 /** filePath: dist/pages/index/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
