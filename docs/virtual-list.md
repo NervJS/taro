@@ -65,9 +65,9 @@ export default class Index extends Component {
 实现无限滚动也非常简单，我们只需要在列表滚动到底部时，往列表尾部追加数据即可：
 
 ```jsx
-const Row = React.memo(({ index, style, data }) => {
+const Row = React.memo(({ id, index, style, data }) => {
   return (
-    <View className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} style={style}>
+    <View id={id} className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} style={style}>
       Row {index} : {data[index]}
     </View>
   );
