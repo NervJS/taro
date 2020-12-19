@@ -15,6 +15,8 @@ interface VirtualListProps extends StandardProps {
   itemSize: number
   /** 解开高度列表单项大小限制，默认值使用: itemSize (请注意，初始高度与实际高度差异过大会导致隐患)。 */
   unlimitedSize?: boolean
+  /** 布局方式，默认采用 "absolute" */
+  position?: 'absolute' | 'relative'
   /** 初始滚动偏移值，水平滚动影响 scrollLeft，垂直滚动影响 scrollTop。 */
   initialScrollOffset?: number
   /** 列表内部容器组件类型，默认值为 View。 */
