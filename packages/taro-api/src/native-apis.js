@@ -293,6 +293,8 @@ const otherApis = {
   // 支付宝小程序API
   getOpenUserInfo: true,
 
+  getPhoneNumber: true,
+
   // 百度小程序专有 API
   // 百度小程序 AI 相关
   ocrIdCard: true,

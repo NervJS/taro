@@ -18,7 +18,7 @@ import { findDOM } from '../utils/index'
  */
 const canvasGetImageData = ({ canvasId, success, fail, complete, x, y, width, height }, inst) => {
   /** @type {HTMLCanvasElement} */
-  const canvas = findDOM(inst).querySelector(`[canvasId=${canvasId}]`)
+  const canvas = findDOM(inst).querySelector(`canvas[canvas-id="${canvasId}"]`)
 
   try {
     const ctx = canvas.getContext('2d')

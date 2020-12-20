@@ -439,6 +439,7 @@ export default class TaroMiniPlugin {
   addEntries () {
     this.addEntry(this.appEntry, 'app', META_TYPE.ENTRY)
     this.addEntry(path.resolve(__dirname, '..', 'template/comp'), 'comp', META_TYPE.STATIC)
+    this.addEntry(path.resolve(__dirname, '..', 'template/custom-wrapper'), 'custom-wrapper', META_TYPE.STATIC)
     this.pages.forEach(item => {
       if (item.isNative) {
         this.addEntry(item.path, item.name, META_TYPE.NORMAL)
@@ -618,6 +619,7 @@ export default class TaroMiniPlugin {
   async generateMiniFiles (compilation: webpack.compilation.Compilation) {
     const baseTemplateName = 'base'
     const baseCompName = 'comp'
+    const customWrapperName = 'custom-wrapper'
     const { template, modifyBuildAssets, modifyMiniConfigs } = this.options
     if (typeof modifyMiniConfigs === 'function') {
       await modifyMiniConfigs(this.filesConfig)
@@ -628,7 +630,15 @@ export default class TaroMiniPlugin {
     this.generateConfigFile(compilation, baseCompName, {
       component: true,
       usingComponents: {
-        [baseCompName]: `./${baseCompName}`
+        [baseCompName]: `./${baseCompName}`,
+        [customWrapperName]: `./${customWrapperName}`
+      }
+    })
+    this.generateConfigFile(compilation, customWrapperName, {
+      component: true,
+      usingComponents: {
+        [baseCompName]: `./${baseCompName}`,
+        [customWrapperName]: `./${customWrapperName}`
       }
     })
     this.generateTemplateFile(compilation, baseTemplateName, template.buildTemplate, componentConfig)
@@ -636,6 +646,7 @@ export default class TaroMiniPlugin {
       // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
       this.generateTemplateFile(compilation, baseCompName, template.buildBaseComponentTemplate, this.options.fileType.templ)
     }
+    this.generateTemplateFile(compilation, customWrapperName, template.buildCustomComponentTemplate, this.options.fileType.templ)
     this.generateXSFile(compilation)
     this.components.forEach(component => {
       const importBaseTemplatePath = promoteRelativePath(path.relative(component.path, path.join(this.options.sourceDir, this.getTemplatePath(baseTemplateName))))
@@ -653,9 +664,11 @@ export default class TaroMiniPlugin {
       if (config) {
         if (!template.isSupportRecursive) {
           const importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(this.options.sourceDir, this.getTargetFilePath(baseCompName, ''))))
+          const importCustomWrapperPath = promoteRelativePath(path.relative(page.path, path.join(this.options.sourceDir, this.getTargetFilePath(customWrapperName, ''))))
           if (!page.isNative) {
             config.content.usingComponents = {
               [baseCompName]: importBaseCompPath,
+              [customWrapperName]: importCustomWrapperPath,
               ...config.content.usingComponents
             }
           }

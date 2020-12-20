@@ -3,6 +3,7 @@ import { getTimingFunc, easeInOut } from '../utils/index'
 /**
  * @typedef {object} PageScrollToParam pageScrollTo参数
  * @property {number} scrollTop 滚动到页面的目标位置，单位 px
+ * @property {string} selector 选择器, css selector
  * @property {number} [duration=300] 滚动动画的时长，单位 ms
  * @property {function} [success] 接口调用成功的回调函数
  * @property {function} [fail] 接口调用失败的回调函数
@@ -17,13 +18,21 @@ const FRAME_DURATION = 17
  * 将页面滚动到目标位置
  * @param {PageScrollToParam} object 参数
  */
-export const pageScrollTo = ({ scrollTop, duration = 300, success, fail, complete }) => {
+export const pageScrollTo = ({ scrollTop, selector, duration = 300, success, fail, complete }) => {
   return new Promise((resolve, reject) => {
     try {
-      if (scrollTop === undefined) {
-        throw Error('"scrollTop" is required')
+      if (!scrollTop && !selector) {
+        throw Error('"scrollTop" 或 "selector" 需要其之一')
       }
-      const el = document.querySelector('.taro-tabbar__panel') || window
+
+      let el
+      if (document.querySelector('.taro-tabbar__tabbar') === null) {
+        // 没设置tabbar
+        el = window
+      } else {
+        // 有设置tabbar
+        el = document.querySelector('.taro-tabbar__panel') || window
+      }
 
       if (!scrollFunc) {
         if (el === window) {
@@ -45,8 +54,11 @@ export const pageScrollTo = ({ scrollTop, duration = 300, success, fail, complet
         }
       }
 
+      if (scrollTop && selector) {
+        console.warn('"scrollTop" 或 "selector" 建议只设一个值，全部设置会忽略selector')
+      }
       const from = scrollFunc()
-      const to = scrollTop
+      const to = scrollTop || document.querySelector(selector).offsetTop
       const delta = to - from
 
       const frameCnt = duration / FRAME_DURATION
