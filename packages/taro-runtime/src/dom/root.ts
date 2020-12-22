@@ -96,7 +96,7 @@ export class TaroRootElement extends TaroElement {
             let hasCustomWrapper = false
             for (let i = dataPathArr.length; i > 0; i--) {
               const allPath = dataPathArr.slice(0, i).join('.')
-              const getData = get(ctx.__data__, allPath)
+              const getData = get(ctx.__data__ || ctx.data, allPath)
               if (getData && getData.nn && getData.nn === 'custom-wrapper') {
                 const customWrapperId = getData.uid
                 const customWrapper = ctx.selectComponent(`#${customWrapperId}`)
