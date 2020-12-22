@@ -1,9 +1,7 @@
 
 const reactNativeBabelPreset = require('metro-react-native-babel-preset')
-const helper = require('@tarojs/helper')
 const { merge } = require('lodash')
 const fs = require('fs')
-const path = require('path')
 /**
  *
  * 获取项目级配置
@@ -93,29 +91,6 @@ function getDefineConstants () {
   return getEnv()
 }
 
-/**
- * 配置别名
- * @returns {{}}
- */
-function getAlias () {
-  const config = getProjectConfig()
-  const rnconfig = getRNConfig()
-  let alias = {}
-  if (rnconfig.alias) {
-    alias = rnconfig.alias
-  }
-  if (config.alias) {
-    alias = config.alias
-  }
-  alias['@tarojs/components'] = '@tarojs/components-rn'
-  alias['@tarojs/taro'] = '@tarojs/taro-rn'
-  const newAlias = {} // fix windows path error. https://github.com/tleunen/babel-plugin-module-resolver/issues/242
-  Object.keys(alias).forEach(key => {
-    newAlias[key] = ([_, name]) => path.join(alias[key], name)
-  })
-  return newAlias
-}
-
 // taro-rn api 部分支持按需引入
 
 const nativeApis = require('./nativeApis')
@@ -131,26 +106,11 @@ module.exports = (_, options = {}) => {
 
   getEnv()
   const defineConstants = getDefineConstants()
-  const alias = getAlias()
-
   const presets = []
   const plugins = []
-  const extensions = [].concat(helper.JS_EXT, helper.TS_EXT, helper.CSS_EXT)
-  const omitExtensions = options.ts ? ['.tsx', '.ts', '.jsx', '.js'] : ['.jsx', '.js', '.tsx', '.ts']
-  const entryFilePath = 'node_modules/metro/src/node-haste/DependencyGraph/assets/empty-module.js'
-  const projectRoot = process.cwd()
   presets.push(reactNativeBabelPreset(_, options))
   plugins.push(
     require('babel-plugin-transform-react-jsx-to-rn-stylesheet'),
-    [require('babel-plugin-module-resolver'), {
-      alias: alias,
-      extensions: omitExtensions
-    }],
-    [require('babel-plugin-rn-platform-specific-extensions'), {
-      extensions: extensions,
-      omitExtensions: omitExtensions,
-      include: [{ [path.resolve(projectRoot, entryFilePath)]: path.resolve(projectRoot, 'index.js') }]
-    }],
     [require('babel-plugin-transform-imports'), {
       '^@tarojs/components(-rn)?$': {
         transform: '@tarojs/components-rn/dist/components/${member}'

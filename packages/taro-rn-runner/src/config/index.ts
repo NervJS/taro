@@ -5,6 +5,7 @@ import * as path from 'path'
 import * as MetroResolver from 'metro-resolver'
 import * as ModuleResolution from 'metro/src/node-haste/DependencyGraph/ModuleResolution'
 import ConditionalFileStore from './conditional-file-store'
+import { resolvePathFromAlias, isRelativePath, lookup } from '../utils'
 
 interface VersionInfo {
   major: number;
@@ -74,6 +75,40 @@ function searchReactNativeModule (moduleName: string, platform: string): string 
   return ''
 }
 
+/**
+ * 处理 alias 配置。https://webpack.js.org/configuration/resolve/#resolvealias
+ * @param moduleName import/require module name
+ * @returns newModuleName 返回新的模块名
+ */
+function resolveAliasFile (moduleName) {
+  return resolvePathFromAlias(moduleName)
+}
+
+/**
+ * 处理平台优先级文件
+ * @param moduleName import source
+ * @param platform 平台 ios/android
+ */
+function resolveExtFile ({ originModulePath }, moduleName, platform) {
+  // ignore node_modules
+  if (originModulePath.indexOf('node_modules') > -1) {
+    return moduleName
+  }
+  let modulePath = ''
+  const currentPath = path.dirname(originModulePath)
+  if (path.isAbsolute(moduleName)) {
+    modulePath = moduleName
+  } else if (isRelativePath(moduleName)) {
+    modulePath = path.resolve(currentPath, moduleName)
+  }
+
+  if (modulePath) {
+    // return the file path if it exists, otherwise return to the original path
+    return lookup(modulePath, platform)
+  }
+  return moduleName
+}
+
 function handleEntryFile (context, realModuleName, platform, moduleName) {
   if (moduleName === './index') {
     return {
@@ -90,6 +125,13 @@ function handleEntryFile (context, realModuleName, platform, moduleName) {
     // 通过Haste去查找软链接模块
     context.allowHaste = true
   }
+
+  // 处理 alias
+  moduleName = resolveAliasFile(moduleName)
+
+  // 处理后缀 .rn.ts
+  moduleName = resolveExtFile(context, moduleName, platform)
+
   let res = null
   const savedResolveRequest = context.resolveRequest
   context.resolveRequest = null

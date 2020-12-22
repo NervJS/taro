@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/service",
-  "version": "3.2.0-canary.3",
+  "version": "3.2.0-canary.4",
   "description": "Taro Service",
   "main": "index.js",
   "types": "types/index.d.ts",
@@ -34,8 +34,8 @@
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
     "@hapi/joi": "17.1.1",
-    "@tarojs/helper": "3.2.0-canary.3",
-    "@tarojs/taro": "3.2.0-canary.3",
+    "@tarojs/helper": "3.2.0-canary.4",
+    "@tarojs/taro": "3.2.0-canary.4",
     "fs-extra": "8.1.0",
     "lodash": "4.17.20",
     "resolve": "1.15.1",
