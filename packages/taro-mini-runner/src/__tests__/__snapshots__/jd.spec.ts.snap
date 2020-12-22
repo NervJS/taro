@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`jd should build jd app 1`] = `15`;
+exports[`jd should build jd app 1`] = `18`;
 
 exports[`jd should build jd app 2`] = `
 "
@@ -15,7 +15,7 @@ require(\\"./taro\\");
 
 (jd[\\"webpackJsonp\\"] = jd[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
     11: function(module, exports, __webpack_require__) {},
-    19: function(module, __webpack_exports__, __webpack_require__) {
+    20: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(1);
@@ -66,7 +66,7 @@ require(\\"./taro\\");
         taro_runtime[\\"window\\"].__taroAppConfig = config;
         var inst = App(Object(taro_runtime[\\"createReactApp\\"])(lib_src_app, react, taro_react[\\"a\\"], config));
     }
-}, [ [ 19, 0, 1, 3, 2 ] ] ]);
+}, [ [ 20, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -84,12 +84,44 @@ require(\\"./taro\\");
   </block>
 </template>
 
+<template name=\\"tmpl_0_catch-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_1_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_0_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_1_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_0_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_1_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_0_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_1_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_0_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_1_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_0_text\\">
@@ -117,11 +149,11 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_textarea_focus\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_0_textarea_blur\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_0_scroll-view\\">
@@ -130,6 +162,14 @@ require(\\"./taro\\");
       <template is=\\"tmpl_1_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_0_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_1_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
 </template>
 
 <template name=\\"tmpl_0_image\\">
@@ -148,12 +188,44 @@ require(\\"./taro\\");
   <template is=\\"{{'tmpl_0_' + i.nn}}\\" data=\\"{{i:i}}\\" />
 </template>
 
+<template name=\\"tmpl_1_catch-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_2_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_1_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_2_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_1_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_2_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_1_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_2_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_1_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_2_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_1_text\\">
@@ -181,11 +253,11 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_1_textarea_focus\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_1_textarea_blur\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_1_scroll-view\\">
@@ -194,6 +266,14 @@ require(\\"./taro\\");
       <template is=\\"tmpl_2_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_1_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_2_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
 </template>
 
 <template name=\\"tmpl_1_image\\">
@@ -212,12 +292,44 @@ require(\\"./taro\\");
   <template is=\\"{{'tmpl_1_' + i.nn}}\\" data=\\"{{i:i}}\\" />
 </template>
 
+<template name=\\"tmpl_2_catch-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_3_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_2_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_3_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_2_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_3_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_2_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_3_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_2_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_3_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_2_text\\">
@@ -245,11 +357,11 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_2_textarea_focus\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_2_textarea_blur\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_2_scroll-view\\">
@@ -258,6 +370,14 @@ require(\\"./taro\\");
       <template is=\\"tmpl_3_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_2_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_3_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
 </template>
 
 <template name=\\"tmpl_2_image\\">
@@ -276,12 +396,44 @@ require(\\"./taro\\");
   <template is=\\"{{'tmpl_2_' + i.nn}}\\" data=\\"{{i:i}}\\" />
 </template>
 
+<template name=\\"tmpl_3_catch-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_4_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_3_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_4_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_3_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_4_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_3_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_4_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_3_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_4_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_3_text\\">
@@ -309,11 +461,11 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_3_textarea_focus\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_3_textarea_blur\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_3_scroll-view\\">
@@ -322,6 +474,14 @@ require(\\"./taro\\");
       <template is=\\"tmpl_4_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_3_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_4_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
 </template>
 
 <template name=\\"tmpl_3_image\\">
@@ -340,12 +500,44 @@ require(\\"./taro\\");
   <template is=\\"{{'tmpl_3_' + i.nn}}\\" data=\\"{{i:i}}\\" />
 </template>
 
+<template name=\\"tmpl_4_catch-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_5_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_4_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_5_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_4_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_5_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_4_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_5_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_4_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_5_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_4_text\\">
@@ -373,11 +565,11 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_4_textarea_focus\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_4_textarea_blur\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_4_scroll-view\\">
@@ -386,6 +578,14 @@ require(\\"./taro\\");
       <template is=\\"tmpl_5_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_4_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_5_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
 </template>
 
 <template name=\\"tmpl_4_image\\">
@@ -404,12 +604,44 @@ require(\\"./taro\\");
   <template is=\\"{{'tmpl_4_' + i.nn}}\\" data=\\"{{i:i}}\\" />
 </template>
 
+<template name=\\"tmpl_5_catch-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_6_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_5_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_6_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_5_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_6_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_5_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_6_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_5_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_6_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_5_text\\">
@@ -437,11 +669,11 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_5_textarea_focus\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_5_textarea_blur\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_5_scroll-view\\">
@@ -450,6 +682,14 @@ require(\\"./taro\\");
       <template is=\\"tmpl_6_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_5_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_6_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
 </template>
 
 <template name=\\"tmpl_5_image\\">
@@ -468,12 +708,44 @@ require(\\"./taro\\");
   <template is=\\"{{'tmpl_5_' + i.nn}}\\" data=\\"{{i:i}}\\" />
 </template>
 
+<template name=\\"tmpl_6_catch-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_7_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_6_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_7_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_6_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_7_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_6_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_7_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_6_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_7_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_6_text\\">
@@ -501,11 +773,11 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_6_textarea_focus\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_6_textarea_blur\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_6_scroll-view\\">
@@ -514,6 +786,14 @@ require(\\"./taro\\");
       <template is=\\"tmpl_7_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_6_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_7_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
 </template>
 
 <template name=\\"tmpl_6_image\\">
@@ -532,12 +812,44 @@ require(\\"./taro\\");
   <template is=\\"{{'tmpl_6_' + i.nn}}\\" data=\\"{{i:i}}\\" />
 </template>
 
+<template name=\\"tmpl_7_catch-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_8_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_7_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_8_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_7_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_8_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_7_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_8_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_7_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_8_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_7_text\\">
@@ -565,11 +877,11 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_7_textarea_focus\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_7_textarea_blur\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_7_scroll-view\\">
@@ -578,6 +890,14 @@ require(\\"./taro\\");
       <template is=\\"tmpl_8_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_7_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_8_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
 </template>
 
 <template name=\\"tmpl_7_image\\">
@@ -596,12 +916,44 @@ require(\\"./taro\\");
   <template is=\\"{{'tmpl_7_' + i.nn}}\\" data=\\"{{i:i}}\\" />
 </template>
 
+<template name=\\"tmpl_8_catch-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_9_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_8_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_9_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_8_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_9_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_8_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_9_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_8_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_9_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_8_text\\">
@@ -629,11 +981,11 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_8_textarea_focus\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_8_textarea_blur\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_8_scroll-view\\">
@@ -642,6 +994,14 @@ require(\\"./taro\\");
       <template is=\\"tmpl_9_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_8_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_9_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
 </template>
 
 <template name=\\"tmpl_8_image\\">
@@ -660,12 +1020,44 @@ require(\\"./taro\\");
   <template is=\\"{{'tmpl_8_' + i.nn}}\\" data=\\"{{i:i}}\\" />
 </template>
 
+<template name=\\"tmpl_9_catch-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_10_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_9_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_10_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_9_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_10_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_9_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_10_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_9_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_10_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_9_text\\">
@@ -693,11 +1085,11 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_9_textarea_focus\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_9_textarea_blur\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_9_scroll-view\\">
@@ -706,6 +1098,14 @@ require(\\"./taro\\");
       <template is=\\"tmpl_10_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_9_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_10_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
 </template>
 
 <template name=\\"tmpl_9_image\\">
@@ -724,12 +1124,44 @@ require(\\"./taro\\");
   <template is=\\"{{'tmpl_9_' + i.nn}}\\" data=\\"{{i:i}}\\" />
 </template>
 
+<template name=\\"tmpl_10_catch-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_11_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_10_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_11_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_10_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_11_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_10_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_11_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_10_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_11_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_10_text\\">
@@ -757,11 +1189,11 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_10_textarea_focus\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_10_textarea_blur\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_10_scroll-view\\">
@@ -770,6 +1202,14 @@ require(\\"./taro\\");
       <template is=\\"tmpl_11_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_10_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_11_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
 </template>
 
 <template name=\\"tmpl_10_image\\">
@@ -788,12 +1228,44 @@ require(\\"./taro\\");
   <template is=\\"{{'tmpl_10_' + i.nn}}\\" data=\\"{{i:i}}\\" />
 </template>
 
+<template name=\\"tmpl_11_catch-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_12_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_11_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_12_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_11_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_12_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_11_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_12_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_11_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_12_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_11_text\\">
@@ -821,11 +1293,11 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_11_textarea_focus\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_11_textarea_blur\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_11_scroll-view\\">
@@ -834,6 +1306,14 @@ require(\\"./taro\\");
       <template is=\\"tmpl_12_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_11_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_12_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
 </template>
 
 <template name=\\"tmpl_11_image\\">
@@ -852,12 +1332,44 @@ require(\\"./taro\\");
   <template is=\\"{{'tmpl_11_' + i.nn}}\\" data=\\"{{i:i}}\\" />
 </template>
 
+<template name=\\"tmpl_12_catch-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_13_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_12_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_13_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_12_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_13_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_12_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_13_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_12_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_13_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_12_text\\">
@@ -885,11 +1397,11 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_12_textarea_focus\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_12_textarea_blur\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_12_scroll-view\\">
@@ -898,6 +1410,14 @@ require(\\"./taro\\");
       <template is=\\"tmpl_13_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_12_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_13_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
 </template>
 
 <template name=\\"tmpl_12_image\\">
@@ -916,12 +1436,44 @@ require(\\"./taro\\");
   <template is=\\"{{'tmpl_12_' + i.nn}}\\" data=\\"{{i:i}}\\" />
 </template>
 
+<template name=\\"tmpl_13_catch-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_14_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_13_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_14_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_13_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_14_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_13_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_14_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_13_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_14_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_13_text\\">
@@ -949,11 +1501,11 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_13_textarea_focus\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_13_textarea_blur\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_13_scroll-view\\">
@@ -962,6 +1514,14 @@ require(\\"./taro\\");
       <template is=\\"tmpl_14_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_13_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_14_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
 </template>
 
 <template name=\\"tmpl_13_image\\">
@@ -980,12 +1540,44 @@ require(\\"./taro\\");
   <template is=\\"{{'tmpl_13_' + i.nn}}\\" data=\\"{{i:i}}\\" />
 </template>
 
+<template name=\\"tmpl_14_catch-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_15_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_14_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_15_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_14_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_15_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_14_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
       <template is=\\"tmpl_15_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_14_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_15_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_14_text\\">
@@ -1013,11 +1605,11 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_14_textarea_focus\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_14_textarea_blur\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" show-confirm-bar=\\"{{i.showConfirmBar===undefined?true:i.showConfirmBar}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" adjust-position=\\"{{i.adjustPosition===undefined?true:i.adjustPosition}}\\" hold-keyboard=\\"{{i.holdKeyboard===undefined?false:i.holdKeyboard}}\\" enableNative=\\"{{i.enableNative===undefined?false:i.enableNative}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" bindkeyboardheightchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
 </template>
 
 <template name=\\"tmpl_14_scroll-view\\">
@@ -1026,6 +1618,14 @@ require(\\"./taro\\");
       <template is=\\"tmpl_15_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_14_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_15_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
 </template>
 
 <template name=\\"tmpl_14_image\\">
@@ -1045,7 +1645,12 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_15_container\\">
-  <comp i=\\"{{i}}\\" />
+  <block jd:if=\\"{{i.nn === '#text'}}\\">
+    <template is=\\"tmpl_0_#text\\" data=\\"{{i:i}}\\" />
+  </block>
+  <block jd:else>
+    <comp i=\\"{{i}}\\" />
+  </block>
 </template>
 
 
@@ -1067,23 +1672,42 @@ require(\\"./taro\\");
 }, [ [ 12, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\"}}
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
 /** filePath: dist/comp.jxml **/
 <import src=\\"./base.jxml\\" />
   <template is=\\"tmpl_0_container\\" data=\\"{{i:i}}\\" />
 
+/** filePath: dist/custom-wrapper.js **/
+(jd[\\"webpackJsonp\\"] = jd[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
+    13: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
+    }
+}, [ [ 13, 0, 1 ] ] ]);
+
+/** filePath: dist/custom-wrapper.json **/
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
+
+/** filePath: dist/custom-wrapper.jxml **/
+<import src=\\"./base.jxml\\" />
+  <block wx:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+    <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
+  </block>
+
 /** filePath: dist/pages/index/index.js **/
-(jd[\\"webpackJsonp\\"] = jd[\\"webpackJsonp\\"] || []).push([ [ 7 ], [ , , , , , , , function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(13);
-}, , , , , , function(module, exports, __webpack_require__) {
+(jd[\\"webpackJsonp\\"] = jd[\\"webpackJsonp\\"] || []).push([ [ 8 ], [ , , , , , , , function(module, exports, __webpack_require__) {
+    module.exports = __webpack_require__(14);
+}, , , , , , , function(module, exports, __webpack_require__) {
     var g = function() {
         return this;
     }() || Function(\\"return this\\")();
     var hadRuntime = g.regeneratorRuntime && Object.getOwnPropertyNames(g).indexOf(\\"regeneratorRuntime\\") >= 0;
     var oldRuntime = hadRuntime && g.regeneratorRuntime;
     g.regeneratorRuntime = undefined;
-    module.exports = __webpack_require__(14);
+    module.exports = __webpack_require__(15);
     if (hadRuntime) {
         g.regeneratorRuntime = oldRuntime;
     } else {
@@ -1095,7 +1719,7 @@ require(\\"./taro\\");
     }
 }, function(module, exports, __webpack_require__) {
     (function(module) {
-        var _typeof = __webpack_require__(16);
+        var _typeof = __webpack_require__(17);
         !function(global) {
             \\"use strict\\";
             var Op = Object.prototype;
@@ -1561,7 +2185,7 @@ require(\\"./taro\\");
         }(function() {
             return this;
         }() || Function(\\"return this\\")());
-    }).call(this, __webpack_require__(15)(module));
+    }).call(this, __webpack_require__(16)(module));
 }, function(module, exports) {
     module.exports = function(module) {
         if (!module.webpackPolyfill) {
@@ -1640,7 +2264,7 @@ require(\\"./taro\\");
     var createSuper = __webpack_require__(5);
     var react = __webpack_require__(0);
     var taro_components = __webpack_require__(2);
-    var index = __webpack_require__(17);
+    var index = __webpack_require__(18);
     var index_Index = function(_Component) {
         Object(inherits[\\"a\\"])(Index, _Component);
         var _super = Object(createSuper[\\"a\\"])(Index);
@@ -1702,10 +2326,10 @@ require(\\"./taro\\");
         navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
     };
     var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {}, config || {}));
-} ], [ [ 18, 0, 1, 3, 2 ] ] ]);
+} ], [ [ 19, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\",\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
 
 /** filePath: dist/pages/index/index.jxml **/
 <import src=\\"../../base.jxml\\"/>

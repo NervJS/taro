@@ -1,3 +1,4 @@
+import get from 'lodash-es/get'
 import { TaroElement } from './element'
 import { NodeType } from './node_types'
 import { MpInstance, HydratedData } from '../hydrate'
@@ -6,6 +7,8 @@ import { isFunction, Shortcuts } from '@tarojs/shared'
 import { perf } from '../perf'
 import { SET_DATA, PAGE_INIT } from '../constants'
 import { CurrentReconciler } from '../reconciler'
+import { eventCenter } from '../emitter/emitter'
+import { incrementId } from '../utils'
 
 export class TaroRootElement extends TaroElement {
   private pendingUpdate = false
@@ -85,15 +88,71 @@ export class TaroRootElement extends TaroElement {
         prerender(data)
       } else {
         this.pendingUpdate = false
-        ctx.setData(data, () => {
-          perf.stop(SET_DATA)
-          if (!this.pendingFlush) {
-            this.flushUpdateCallback()
+        const customWrapperUpdate: { ctx: any, data: object }[] = []
+        const normalUpdate = {}
+        if (!initRender) {
+          for (const p in data) {
+            const dataPathArr = p.split('.')
+            let hasCustomWrapper = false
+            for (let i = dataPathArr.length; i > 0; i--) {
+              const allPath = dataPathArr.slice(0, i).join('.')
+              const getData = get(ctx.__data__, allPath)
+              if (getData && getData.nn && getData.nn === 'custom-wrapper') {
+                const customWrapperId = getData.uid
+                const customWrapper = ctx.selectComponent(`#${customWrapperId}`)
+                const splitedPath = dataPathArr.slice(i).join('.')
+                if (customWrapper) {
+                  hasCustomWrapper = true
+                  customWrapperUpdate.push({
+                    ctx: ctx.selectComponent(`#${customWrapperId}`),
+                    data: {
+                      [`i.${splitedPath}`]: data[p]
+                    }
+                  })
+                }
+                break
+              }
+            }
+            if (!hasCustomWrapper) {
+              normalUpdate[p] = data[p]
+            }
           }
-          if (initRender) {
-            perf.stop(PAGE_INIT)
-          }
-        })
+        }
+        const updateArrLen = customWrapperUpdate.length
+        if (updateArrLen) {
+          const eventId = `${this._path}_update_${incrementId()}`
+          let executeTime = 0
+          eventCenter.once(eventId, () => {
+            executeTime++
+            if (executeTime === updateArrLen + 1) {
+              perf.stop(SET_DATA)
+              if (!this.pendingFlush) {
+                this.flushUpdateCallback()
+              }
+              if (initRender) {
+                perf.stop(PAGE_INIT)
+              }
+            }
+          }, eventCenter)
+          customWrapperUpdate.forEach(item => {
+            item.ctx.setData(item.data, () => {
+              eventCenter.trigger(eventId)
+            })
+          })
+          ctx.setData(normalUpdate, () => {
+            eventCenter.trigger(eventId)
+          })
+        } else {
+          ctx.setData(data, () => {
+            perf.stop(SET_DATA)
+            if (!this.pendingFlush) {
+              this.flushUpdateCallback()
+            }
+            if (initRender) {
+              perf.stop(PAGE_INIT)
+            }
+          })
+        }
       }
     }, 0)
   }

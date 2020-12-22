@@ -12,7 +12,6 @@ declare namespace Taro {
     shouldComponentUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): boolean
     componentWillUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): void
     componentWillUnmount?(): void
-    componentWillPreload?(params: { [propName: string]: any }): any
     componentDidShow?(): void
     componentDidHide?(): void
     componentDidCatchError?(err: string): void
@@ -52,7 +51,7 @@ declare namespace Taro {
     onReady: string
     onHide: string
     onShow: string
-    
+
     shareTicket: string | undefined
     scene: number | undefined
   }
@@ -162,7 +161,6 @@ declare namespace Taro {
     onShareAppMessage?(obj: { from: string; target?: any; webViewUrl: string }): void
     onResize?(options: unknown): void
     onTabItemTap?(obj: { index: string; pagePath: string; text: string }): void
-    componentWillPreload?(): void
     onTitleClick?(): void
     onOptionMenuClick?(): void
     onPopMenuClick?(): void

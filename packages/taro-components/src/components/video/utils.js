@@ -46,7 +46,6 @@ export const screenFn = (function () {
       'webkitFullscreenEnabled',
       'webkitfullscreenchange',
       'webkitfullscreenerror'
-
     ],
     // Old WebKit
     [
@@ -88,7 +87,7 @@ export const screenFn = (function () {
       return ret
     }
   }
-  // If it doesn't find any of them, this whole function returns false
+  // If it doesn't find any of them, this whole function returns {}
   // and the fn variable is set to this returned value.
   return ret
 })()

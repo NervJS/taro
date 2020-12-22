@@ -23,6 +23,9 @@ const baseConfig = {
       exports: 'named'
     }
   ],
+  external: [
+    '@tarojs/runtime'
+  ],
   plugins: [
     typescript(),
     alias({

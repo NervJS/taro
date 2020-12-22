@@ -64,7 +64,6 @@ const voidElements = new Set([
   'switch',
   'audio',
   'live-pusher',
-  'video',
   'ad',
   'official-account',
   'open-data',
@@ -74,8 +73,12 @@ const voidElements = new Set([
 const nestElements = new Map([
   ['view', -1],
   ['cover-view', -1],
+  ['catch-view', -1],
+  ['static-view', -1],
+  ['pure-view', -1],
   ['block', -1],
-  ['text', -1],
+  ['text', 6],
+  ['static-text', 6],
   ['slot', 8],
   ['slot-view', 8],
   ['label', 6],
@@ -111,7 +114,7 @@ export class BaseTemplate {
 
   private buildAttribute (attrs: Attributes, nodeName: string): string {
     return Object.keys(attrs)
-      .map(k => `${k}="${k.startsWith('bind') || k.startsWith('on') ? attrs[k] : `{${this.getAttrValue(attrs[k], k, nodeName)}}`}" `)
+      .map(k => `${k}="${k.startsWith('bind') || k.startsWith('on') || k.startsWith('catch') ? attrs[k] : `{${this.getAttrValue(attrs[k], k, nodeName)}}`}" `)
       .join('')
   }
 
@@ -159,6 +162,35 @@ export class BaseTemplate {
 
         if (compName === 'swiper-item') {
           delete newComp.style
+        }
+
+        if (compName === 'view') {
+          const reg = /^(bind|on)(touchmove|TouchMove)$/
+          const comp = { ...newComp }
+          Object.keys(comp).forEach(originKey => {
+            if (!reg.test(originKey)) return
+
+            const key = originKey.replace(reg, 'catch$2')
+            comp[key] = comp[originKey]
+            delete comp[originKey]
+          })
+
+          result['catch-view'] = comp
+        }
+
+        if (compName === 'view' || compName === 'text' || compName === 'image') {
+          const comp: Record<any, any> = {}
+          Object.keys(newComp).forEach(key => {
+            const value = newComp[key]
+            if (value !== 'eh') comp[key] = value
+          })
+          result[`static-${compName}`] = comp
+          if (compName === 'view') {
+            result['pure-view'] = {
+              style: comp.style,
+              class: comp.class
+            }
+          }
         }
 
         if (compName === 'slot' || compName === 'slot-view') {
@@ -259,7 +291,25 @@ export class BaseTemplate {
       children = this.modifyLoopContainer(children, comp.nodeName)
     }
 
-    const nodeName = comp.nodeName === 'slot' || comp.nodeName === 'slot-view' ? 'view' : comp.nodeName
+    let nodeName = ''
+    switch (comp.nodeName) {
+      case 'slot':
+      case 'slot-view':
+      case 'catch-view':
+      case 'static-view':
+      case 'pure-view':
+        nodeName = 'view'
+        break
+      case 'static-text':
+        nodeName = 'text'
+        break
+      case 'static-image':
+        nodeName = 'image'
+        break
+      default:
+        nodeName = comp.nodeName
+        break
+    }
 
     let res = `
 <template name="tmpl_${level}_${comp.nodeName}">
@@ -292,7 +342,15 @@ export class BaseTemplate {
       : this.dataKeymap('i:item')
 
     componentConfig.thirdPartyComponents.forEach((attrs, compName) => {
-      template += `
+      if (compName === 'custom-wrapper') {
+        template += `
+<template name="tmpl_${level}_${compName}">
+  <${compName} i="{{i}}" l="{{l}}" id="{{i.uid}}">
+  </${compName}>
+</template>
+  `
+      } else {
+        template += `
 <template name="tmpl_${level}_${compName}">
   <${compName} ${this.buildThirdPartyAttr(attrs)} id="{{i.uid}}">
     <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="uid">
@@ -301,6 +359,7 @@ export class BaseTemplate {
   </${compName}>
 </template>
   `
+      }
     })
 
     return template
@@ -309,11 +368,12 @@ export class BaseTemplate {
   protected buildContainerTemplate (level: number, restart = false) {
     let tmpl = ''
     if (restart) {
-      if (!this.isSupportRecursive && this.supportXS) {
-        tmpl = '<comp i="{{i}}" l="{{l}}" />'
-      } else {
-        tmpl = '<comp i="{{i}}" />'
-      }
+      tmpl = `<block ${this.Adapter.if}="{{i.nn === '#text'}}">
+    <template is="tmpl_0_#text" data="{{i:i}}" />
+  </block>
+  <block ${this.Adapter.else}>
+    ${!this.isSupportRecursive && this.supportXS ? '<comp i="{{i}}" l="{{l}}" />' : '<comp i="{{i}}" />'}
+  </block>`
     } else {
       const xs = !this.isSupportRecursive
         ? `xs.a(${level}, i.${Shortcuts.NodeName}, l)`
@@ -364,6 +424,17 @@ export class BaseTemplate {
 
     return `<import src="./base${ext}" />
   <template is="tmpl_0_${Shortcuts.Container}" data="{{${data}}}" />`
+  }
+
+  public buildCustomComponentTemplate = (ext: string) => {
+    const Adapter = this.Adapter
+    const data = !this.isSupportRecursive && this.supportXS
+      ? `${this.dataKeymap('i:item,l:\'\'')}`
+      : this.dataKeymap('i:item')
+    return `<import src="./base${ext}" />
+  <block wx:for="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="uid">
+    <template is="tmpl_0_container" data="{{${data}}}" />
+  </block>`
   }
 
   public buildXScript = () => {
