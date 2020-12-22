@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack-runner",
-  "version": "3.2.0-canary.3",
+  "version": "3.2.0-canary.4",
   "description": "webpack runner for taro",
   "main": "index.js",
   "scripts": {
@@ -31,11 +31,11 @@
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
     "@babel/core": "7.11.1",
-    "@tarojs/helper": "3.2.0-canary.3",
-    "@tarojs/runner-utils": "3.2.0-canary.3",
-    "@tarojs/runtime": "3.2.0-canary.3",
-    "@tarojs/shared": "3.2.0-canary.3",
-    "@tarojs/taro-loader": "3.2.0-canary.3",
+    "@tarojs/helper": "3.2.0-canary.4",
+    "@tarojs/runner-utils": "3.2.0-canary.4",
+    "@tarojs/runtime": "3.2.0-canary.4",
+    "@tarojs/shared": "3.2.0-canary.4",
+    "@tarojs/taro-loader": "3.2.0-canary.4",
     "autoprefixer": "9.7.4",
     "babel-loader": "8.0.6",
     "copy-webpack-plugin": "5.1.1",
@@ -53,8 +53,8 @@
     "open": "7.0.2",
     "ora": "4.0.3",
     "postcss-loader": "3.0.0",
-    "postcss-plugin-constparse": "3.2.0-canary.3",
-    "postcss-pxtransform": "3.2.0-canary.3",
+    "postcss-plugin-constparse": "3.2.0-canary.4",
+    "postcss-pxtransform": "3.2.0-canary.4",
     "resolve": "1.15.1",
     "resolve-url-loader": "3.1.1",
     "sass": "^1.25.0",
@@ -70,8 +70,8 @@
     "webpack-format-messages": "2.0.3"
   },
   "devDependencies": {
-    "@tarojs/components": "3.2.0-canary.3",
-    "@tarojs/taro": "3.2.0-canary.3",
+    "@tarojs/components": "3.2.0-canary.4",
+    "@tarojs/taro": "3.2.0-canary.4",
     "@types/autoprefixer": "9.7.0",
     "@types/detect-port": "1.1.0",
     "@types/lodash": "4.14.149",
@@ -79,7 +79,7 @@
     "@types/resolve": "1.14.0",
     "@types/webpack": "4.41.6",
     "@types/webpack-dev-server": "3.11.0",
-    "babel-plugin-transform-taroapi": "3.2.0-canary.3",
-    "babel-preset-taro": "3.2.0-canary.3"
+    "babel-plugin-transform-taroapi": "3.2.0-canary.4",
+    "babel-preset-taro": "3.2.0-canary.4"
   }
 }

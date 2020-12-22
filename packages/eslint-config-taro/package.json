@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-taro",
-  "version": "3.2.0-canary.3",
+  "version": "3.2.0-canary.4",
   "description": "Taro specific linting rules for ESLint",
   "main": "index.js",
   "files": [

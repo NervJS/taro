@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-h5",
-  "version": "3.2.0-canary.3",
+  "version": "3.2.0-canary.4",
   "description": "Taro h5 framework",
   "main:h5": "src/index.js",
   "main": "dist/index.cjs.js",
@@ -33,9 +33,9 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/api": "3.2.0-canary.3",
-    "@tarojs/router": "3.2.0-canary.3",
-    "@tarojs/runtime": "3.2.0-canary.3",
+    "@tarojs/api": "3.2.0-canary.4",
+    "@tarojs/router": "3.2.0-canary.4",
+    "@tarojs/runtime": "3.2.0-canary.4",
     "base64-js": "^1.3.0",
     "jsonp-retry": "^1.0.3",
     "mobile-detect": "^1.4.2",
