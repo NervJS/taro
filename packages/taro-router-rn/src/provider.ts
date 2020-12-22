@@ -25,12 +25,21 @@ export class PageProvider extends React.Component<any> {
   componentDidMount (): void {
     const { navigation, pageConfig } = this.props
     const config = globalAny.__taroAppConfig?.appConfig || {}
-    const winOptions = config.window
-    const title = pageConfig.navigationBarTitleText || winOptions?.navigationBarTitleText || ''
-    const color = pageConfig.navigationBarTextStyle || winOptions?.navigationBarTextStyle || 'black'
-    const bgColor = pageConfig.navigationBarBackgroundColor || winOptions?.navigationBarBackgroundColor || '#ffffff'
+    const winOptions = config.window || {}
+
+    // 多个config的优先级问题，页面rnConfig> 页面config > app.config中rnConfig > app.config.window
+    const winScreenOptions = this.isTabBarPage() ? {} : config.rn?.screenOptions || {}
+    const { title = '', headerTintColor = '', headerStyle = {}, headerShown = false } = winScreenOptions
+
+    const headerTitle = pageConfig.navigationBarTitleText || title || winOptions?.navigationBarTitleText || ''
+    const color = pageConfig.navigationBarTextStyle || headerTintColor || winOptions?.navigationBarTextStyle || 'black'
+    const bgColor = pageConfig.navigationBarBackgroundColor || headerStyle?.backgroundColor || winOptions?.navigationBarBackgroundColor || '#ffffff'
+    const customHeader = pageConfig?.navigationStyle !== 'custom' || headerShown || winOptions?.navigationStyle !== 'custom'
+
     const rnConfig = pageConfig?.rn || {}
     const screenOptions = rnConfig.screenOptions || {}
+    const screenHeaderStyle = screenOptions?.headerStyle || {}
+
     screenOptions.headerStyle = Object.assign({}, {
       backgroundColor: bgColor,
       shadowOffset: { width: 0, height: 0 },
@@ -38,10 +47,10 @@ export class PageProvider extends React.Component<any> {
       elevation: 0,
       shadowOpacity: 1,
       borderBottomWidth: 0
-    }, screenOptions.headerStyle)
-    const navBarParams = Object.assign({
-      title: title,
-      headerShown: (pageConfig?.navigationStyle || winOptions?.navigationStyle) !== 'custom',
+    }, screenHeaderStyle)
+    const navBarParams = Object.assign(winScreenOptions, {
+      title: headerTitle,
+      headerShown: customHeader,
       headerTintColor: color
     }, screenOptions)
     // 页面的config
