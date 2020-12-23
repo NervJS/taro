@@ -29,9 +29,9 @@ function buildData (offset = 0) {
   return Array(100).fill(0).map((_, i) => i + offset);
 }
 
-const Row = React.memo(({ index, style, data }) => {
+const Row = React.memo(({ id, index, style, data }) => {
   return (
-    <View className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} style={style}>
+    <View id={id} className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} style={style}>
       Row {index} : {data[index]}
     </View>
   );
@@ -65,9 +65,9 @@ export default class Index extends Component {
 实现无限滚动也非常简单，我们只需要在列表滚动到底部时，往列表尾部追加数据即可：
 
 ```jsx
-const Row = React.memo(({ index, style, data }) => {
+const Row = React.memo(({ id, index, style, data }) => {
   return (
-    <View className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} style={style}>
+    <View id={id} className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} style={style}>
       Row {index} : {data[index]}
     </View>
   );
@@ -209,6 +209,18 @@ export default class Index extends Component {
 #### `overscanCount: number = 1`
 
 在可视区域之外渲染的列表单项数量，值设置得越高，快速滚动时出现白屏的概率就越小，相应地，每次滚动的性能会变得越差。
+
+#### `unlimitedSize?: boolean`
+
+解开高度列表单项大小限制，默认值使用: itemSize (请注意，初始高度与实际高度差异过大会导致隐患)。
+
+#### `position?: 'absolute' | 'relative'`
+
+布局方式，默认采用 "absolute"
+
+#### `renderBottom?: ReactNode`
+
+底部区域
 
 #### `useIsScrolling: boolean`
 

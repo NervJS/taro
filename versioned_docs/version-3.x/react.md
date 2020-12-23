@@ -2,25 +2,32 @@
 title: React
 ---
 
-在 Taro 可以通过 `import * as React from 'react'` 来使用 React，JSX 语法没有任何限制，但和在浏览器中使用 React 依然有一些不同，具体体现在：
+Taro 支持使用 React 进行开发，但和在浏览器中使用 React 稍有不同，具体体现在：
 
 ## 入口组件
 
-每一个 Taro 应用都需要一个入口组件用来注册应用，入口文件默认是 `src` 目录下的 `app.js`，在 Taro 中使用 React，入口组件必须导出一个 React 组件，在入口组件中我们可以设置全局状态或访问小程序入口实例的生命周期：
+每一个 Taro 应用都需要一个入口组件用来注册应用，入口文件默认是 `src` 目录下的 `app.js`。
+
+在 Taro 中使用 React，入口组件必须导出一个 React 组件。在入口组件中我们可以设置全局状态或访问小程序入口实例的生命周期：
 
 ```jsx title="app.js"
 import React, { Component } from 'react'
+
 // 假设我们要使用 Redux
 import { Provider } from 'react-redux'
-
 import configStore from './store'
 
+// 全局样式
 import './app.css'
 
 const store = configStore()
 
 class App extends Component {
+  // 可以使用所有的 React 组件方法
   componentDidMount () {}
+
+  // 对应 onLaunch
+  onLaunch () {}
 
   // 对应 onShow
   componentDidShow () {}
@@ -28,14 +35,12 @@ class App extends Component {
   // 对应 onHide
   componentDidHide () {}
 
-  // 对应 onError
-  componentDidCatchError () {}
-
   render () {
     // 在入口组件不会渲染任何内容，但我们可以在这里做类似于状态管理的事情
     return (
       <Provider store={store}>
-        {this.props.children} /* this.props.children 是将要被渲染的页面 */
+        /* this.props.children 是将要被渲染的页面 */
+        {this.props.children}
       </Provider>
     )
   }
@@ -44,7 +49,11 @@ class App extends Component {
 export default App
 ```
 
-对于一个入口文件(例如`app.jsx`)而言，我们可以新增一个 `app.config.js` 的文件进行全局配置，`app.config.js` 的默认导出就是全局配置，配置规范基于微信小程序的[全局配置](https://developers.weixin.qq.com/miniprogram/dev/framework/config.html#%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE)进行制定，所有平台进行统一:
+### 入口配置
+
+我们可以新增一个 `app.config.js` 文件进行全局配置，`app.config.js` 的默认导出就是全局配置。
+
+配置规范基于微信小程序的[全局配置](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html)进行制定，所有平台进行统一:
 
 ```js  title="app.config.js"
 export default {
@@ -60,78 +69,65 @@ export default {
 }
 ```
 
-### 组件生命周期
+注意：
 
-## onLaunch(options)
+1. `app.config.js` 里 require 或 import 引用的 js 文件目前**没有经过 Babel 编译语法**。
+2. 多端差异化逻辑可以使用 `process.env.TARO_ENV` 变量作条件判断以实现。
 
-> 在微信/百度/字节跳动/支付宝小程序中这一生命周期方法对应 app 的 `onLaunch`
+### onLaunch (options)
 
-在此生命周期中通过 `getCurrentInstance().router.params`，可以访问到程序初始化参数。
+> 在小程序环境中对应 app 的 `onLaunch`。
 
-#### componentWillMount()
+在此生命周期中通过访问 `options` 参数或调用 `getCurrentInstance().router`，可以访问到程序初始化参数。
 
-监听程序初始化，初始化完成时触发（全局只触发一次）
+#### 参数
+
+##### options
+
+| 属性 | 类型 |  说明 |
+| - | - | - |
+| path | string | 启动小程序的路径 |
+| scene | number | 启动小程序的场景值 |
+| query | Object | 启动小程序的 query 参数 |
+| shareTicket | string | shareTicket，详见获取更多转发信息 |
+| referrerInfo | Object | 来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 {} |
 
 
-参数格式如下
+##### options.referrerInfo
 
-| 属性 | 类型 |  说明 | 微信小程序 | 百度小程序 | 字节跳动小程序 | 支付宝小程序 | H5 | RN |
-| - | - | - | - | - | - | - | - | - |
-| path | string | 启动小程序的路径 | ✔️| ✔️| ✔️| ✔️|  ✘ |  ✘ |
-| scene | number | 启动小程序的场景值 | ✔️| ✔️| ✔️|  ✘ |  ✘ |  ✘ |
-| query | Object | 启动小程序的 query 参数 | ✔️| ✔️| ✔️| ✔️|  ✘ |  ✘ |
-| shareTicket | string | shareTicket，详见获取更多转发信息 | ✔️| ✔️| ✔️|  ✘ |  ✘ | ✘ |
-| referrerInfo | Object | 来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 {} | ✔️| ✔️| ✔️| ✔️ |  ✘ | ✘ |
+| 属性 | 类型 |  说明 |
+| - | - | - |
+| appId | string | 来源小程序，或者公众号（微信中） |
+| extraData | Object | 来源小程序传过来的数据，微信和百度小程序在scene=1037或1038时支持 |
+| sourceServiceId | string | 来源插件，当处于插件运行模式时可见 |
 
-其中，场景值 scene，在微信小程序和百度小程序中存在区别，请分别参考 [微信小程序文档](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html) 和 [百度小程序文档](https://smartprogram.baidu.com/docs/data/scene/)
+> options 参数的字段在不同小程序中可能存在差异，如：
+>
+> 场景值 scene，在微信小程序和百度小程序中存在区别，请分别参考 [微信小程序文档](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html) 和 [百度小程序文档](https://smartprogram.baidu.com/docs/data/scene/)
 
-来源信息 referrerInfo 的数据结构如下
+### componentDidShow (options)
 
-| 属性 | 类型 |  说明 | 微信小程序 | 百度小程序 | 字节跳动小程序 | 支付宝小程序 |
-| - | - | - | - | - | - | - |
-| appId | string | 来源小程序，或者公众号（微信中） | ✔️| ✔️| ✔️| ✔️|
-| extraData | Object | 来源小程序传过来的数据，微信和百度小程序在scene=1037或1038时支持 | ✔️| ✔️| ✔️| ✔️|
-| sourceServiceId | string | 来源插件，当处于插件运行模式时可见 | ✘ | ✘ | ✘| ✔️（基础库版本 1.11.0）|
+程序启动，或切前台时触发。
 
-#### componentDidMount()
+和 `onLaunch` 生命周期一样，在此生命周期中通过访问 `options` 参数或调用 `getCurrentInstance().router`，可以访问到程序初始化参数。
 
-页面初次渲染完成时触发，一个页面只会调用一次，代表页面已经准备妥当，可以和视图层进行交互。此生命周期可以访问 `getCurrentInstance().router`。此生命周期可以访问 Taro DOM 并且更改 DOM 或添加事件，但无法通过 `Taro.createSelectorQuery` 查找小程序 DOM。
+参数与 `onLaunch` 中获取的基本一致，但**百度小程序**中补充两个参数如下：
 
-#### componentDidShow(options)
+| 属性 | 类型 |  说明 |
+| - | - | - |
+| entryType | string | 展现的来源标识，取值为 user/ schema /sys :<br />user：表示通过home前后<br/>切换或解锁屏幕等方式调起；<br/>schema：表示通过协议调起;<br />sys：其它 |
+| appURL | string | 展现时的调起协议，仅当entryType值为 schema 时存在|
 
-> 在微信/百度/字节跳动/支付宝小程序中这一生命周期方法对应 `onShow`，在 H5/RN 中同步实现
+### componentDidHide ()
 
-程序启动，或从后台进入前台显示时触发，微信小程序中也可以使用 `Taro.onAppShow` 绑定监听
+程序切后台时触发。
 
-在此生命周期中通过 `getCurrentInstance().router.params`，可以访问到程序初始化参数。
+### onPageNotFound (Object)
 
-参数与 `componentWillMount` 中获取的基本一致，但**百度小程序**中补充两个参数如下
+程序要打开的页面不存在时触发。
 
-| 属性 | 类型 |  说明 | 最低版本 |
-| - | - | - | - |
-| entryType | string | 展现的来源标识，取值为 user/ schema /sys :<br />user：表示通过home前后<br/>切换或解锁屏幕等方式调起；<br/>schema：表示通过协议调起;<br />sys：其它 | 2.10.7 |
-| appURL | string | 展现时的调起协议，仅当entryType值为 schema 时存在| 2.10.7 |
-
-#### componentDidHide()
-
-> 在微信/百度/字节跳动/支付宝小程序中这一生命周期方法对应 `onHide`，在 H5/RN 中同步实现
-
-程序从前台进入后台时触发，微信小程序中也可以使用 `Taro.onAppHide` 绑定监听
-
-#### componentDidCatchError(String error)
-
-> 在微信/百度/字节跳动/支付宝小程序中这一生命周期方法对应 `onError`，H5/RN 中尚未实现
-
-程序发生脚本错误或 API 调用报错时触发，微信小程序中也可以使用 `Taro.onError` 绑定监听
-
-#### onPageNotFound(Object)
-
-> 在微信/字节跳动小程序中这一生命周期方法对应 `onPageNotFound`，H5 端也支持，其他端尚未实现<br/>
-> 微信小程序中，基础库 1.9.90 开始支持
-
-程序要打开的页面不存在时触发，微信小程序中也可以使用 `Taro.onPageNotFound` 绑定监听
-
-参数如下
+#### 参数
+##### Object
 
 | 属性 | 类型 |  说明 |
 | - | - | - |
@@ -142,17 +138,21 @@ export default {
 
 ## 页面组件
 
-每一个 Taro 应用都至少包括一个页面组件，页面组件可以通过 Taro 路由进行跳转，也可以访问小程序页面的生命周期：
+每一个 Taro 应用都至少包括一个页面组件，页面组件可以通过 Taro 路由进行跳转，也可以访问小程序页面的生命周期。
 
-```jsx
+```jsx title="Class Component"
 import React, { Component } from 'react'
-import { View, Button, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 
 class Index extends Component {
+  // 可以使用所有的 React 组件方法
+  componentDidMount () {}
 
-    config = {
-    navigationBarTitleText: '首页'
-  }
+  // onLoad
+  onLoad () {}
+
+  // onReady
+  onReady () {}
 
   // 对应 onShow
   componentDidShow () {}
@@ -162,23 +162,11 @@ class Index extends Component {
 
   // 对应 onPullDownRefresh，除了 componentDidShow/componentDidHide 之外，
   // 所有页面生命周期函数名都与小程序相对应
-  onPullDownRefresh () {
-  },
-
-  // 对应 onPullDownRefresh
-  onReachBottom () {
-  },
-
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
+  onPullDownRefresh () {}
 
   render () {
     return (
-      <View className='index'>
-      </View>
+      <View className='index' />
     )
   }
 }
@@ -186,34 +174,153 @@ class Index extends Component {
 export default Index
 ```
 
-### 配置文件
-和入口组件一样，对于一个页面文件(例如`./pages/index/index.jsx`)而言，我们可以新增一个 `./pages/index/index.config.js` 的文件进行页面配置，`index.config.js` 的默认导出就是[页面配置](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html):
+```jsx title="Functional Component"
+import React, { useEffect } from 'react'
+import { View } from '@tarojs/components'
+import {
+  useReady,
+  useDidShow,
+  useDidHide,
+  usePullDownRefresh
+} from '@tarojs/taro'
 
-```js title="./pages/index/index.jsx"
+function Index () {
+  // 可以使用所有的 React Hooks
+  useEffect(() => {})
+
+  // 对应 onReady
+  useReady(() => {})
+
+  // 对应 onShow
+  useDidShow(() => {})
+
+  // 对应 onHide
+  useDidHide(() => {})
+
+  // Taro 对所有小程序页面生命周期都实现了对应的自定义 React Hooks 进行支持
+  // 详情可查阅：【Taro 文档】-> 【进阶指南】->【Hooks】
+  usePullDownRefresh(() => {})
+
+  return (
+    <View className='index' />
+  )
+}
+
+export default Index
+```
+
+### 页面配置
+
+对于每一个页面文件(例如 `./pages/index/index.jsx`)，我们可以新增一个 `./pages/index/index.config.js` 的文件进行页面配置，`index.config.js` 的默认导出就是页面配置。
+
+配置规范基于微信小程序的[页面配置](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/page.html)进行制定，所有平台进行统一:
+
+
+```js title="./pages/index/index.config.js"
 export default {
   navigationBarTitleText: '首页'
 }
 ```
 
-### 生命周期
+注意：
 
-#### onReady()
+1. `app.config.js` 里 require 或 import 引用的 js 文件目前**没有经过 Babel 编译语法**。
+2. 多端差异化逻辑可以使用 `process.env.TARO_ENV` 变量作条件判断以实现。
 
-页面首次渲染完毕时执行，此生命周期在小程序端对应小程序页面的 `onReady` 生命周期。从此生命周期开始可以使用 `createCanvasContext` 或 `createselectorquery` 等 API 访问真实 DOM。
+### 路由参数
 
-在可以非页面组件中，可以使用 Taro 内置的 [消息机制](./apis/about/events) 访问页面组件的 `onReady()` 生命周期：
+在页面组件中，可以通过 `getCurrentInstance().router` 获取当前页面的路由参数：
 
 ```jsx
-import { eventCenter, getCurrentInstance } from '@tarojs/taro'
-class Test extends React.Component {
+import React, { Component } from 'react'
+import { View } from '@tarojs/components'
+
+class Index extends Component {
+  // 建议在页面初始化时把 getCurrentInstance() 的结果保存下来供后面使用，
+  // 而不是频繁地调用此 API
+  $instance = getCurrentInstance()
+
   componentDidMount () {
-    eventCenter.once(getCurrentInstance().router.onReady, () => {
-      const query = Taro.createSelectorQuery()
-      query.select('#only').boundingClientRect()
-      query.exec(res => {
-        console.log(res, 'res')
-      })
+    // 获取路由参数
+    console.log($instance.router)
+  }
+
+  render () {
+    return (
+      <View className='index' />
+    )
+  }
+}
+
+export default Index
+```
+
+### 生命周期触发机制
+
+Taro 3 在小程序逻辑层上实现了一份遵循 Web 标准 BOM 和 DOM API。因此 React 使用的 `document.appendChild`、`document.removeChild` 等 API 其实是 Taro 模拟实现的，最终的效果是把 React 的虚拟 DOM 树渲染为 Taro 模拟的 Web 标准 DOM 树。
+
+因此在 Taro3 中，React 的生命周期触发时机和我们平常在 Web 开发中理解的概念有一些偏差。
+
+#### React 的生命周期
+
+React 组件的生命周期方法在 Taro 中都支持使用。
+
+触发时机：
+
+##### 1. componentWillMount ()
+
+[onLoad](./react#onload-options) 之后，页面组件渲染到 Taro 的虚拟 DOM 之前触发。
+
+##### 2. componentDidMount ()
+
+页面组件渲染到 Taro 的虚拟 DOM 之后触发。
+
+此时能访问到 Taro 的虚拟 DOM（使用 React ref、document.getElementById 等手段），并支持对其进行操作（设置 DOM 的 style 等）。
+
+但此时不代表 Taro 的虚拟 DOM 数据已经完成从逻辑层 `setData` 到视图层。因此这时**无法通过 `createSelectorQuery` 等方法获取小程序渲染层 DOM 节点。** 只能在 [onReady](./react#onready-) 生命周期中获取。
+
+#### 小程序页面的方法
+
+小程序页面的方法，在 Taro 的页面中同样可以使用：在 Class Component 中书写同名方法、在 Functional Component 中使用对应的 Hooks。
+
+**注意：**
+
+* 小程序页面方法在各端的支持程度不一。
+* 使用了 HOC 包裹的小程序页面组件，必须处理 forwardRef 或使用继承组件的方式而不是返回组件的方式，否则小程序页面方法可能不会被触发。
+
+### onLoad (options)
+
+> 在小程序环境中对应页面的 `onLoad`。
+
+在此生命周期中通过访问 `options` 参数或调用 `getCurrentInstance().router`，可以访问到页面路由参数。
+
+### onReady ()
+
+> 在小程序环境中对应页面的 `onReady`。
+
+从此生命周期开始可以使用 `createCanvasContext` 或 `createSelectorQuery` 等 API 访问小程序渲染层的 DOM 节点。
+
+#### 子组件的 onReady
+
+只在页面组件才会触发 `onReady` 生命周期。子组件可以使用 Taro 内置的[消息机制](./apis/about/events)监听页面组件的 `onReady()` 生命周期：
+
+```jsx title="页面中某个子组件"
+import React from 'react'
+import { View } from '@tarojs/components'
+import Taro, { eventCenter, getCurrentInstance } from '@tarojs/taro'
+
+class Test extends React.Component {
+  $instance = getCurrentInstance()
+
+  componentWillMount () {
+    const onReadyEventId = this.$instance.router.onReady
+    eventCenter.once(onReadyEventId, () => {
       console.log('onReady')
+
+      // onReady 触发后才能获取小程序渲染层的节点
+      Taro.createSelectorQuery().select('#only')
+        .boundingClientRect()
+        .exec(res => console.log(res, 'res'))
     })
   }
 
@@ -226,84 +333,196 @@ class Test extends React.Component {
 }
 ```
 
-#### onLoad(options)
+但是当子组件是**按需加载**的时候，页面 `onReady` 早已触发。如果此按需加载的子组件需要获取小程序渲染层的 DOM 节点，因为错过了页面 `onReady`，只能尝试使用 `Taro.nextTick` 模拟：
 
-页面创建时执行，此生命周期在小程序端对应小程序页面的 `onLoad` 生命周期。此生命周期可以访问 `getCurrentInstance().router`。
+```jsx title="按需加载的子组件"
+import React from 'react'
+import { View } from '@tarojs/components'
+import Taro from '@tarojs/taro'
 
-#### componentWillMount()
+class Test extends React.Component {
+  componentDidMount () {
+    Taro.nextTick(() => {
+      // 使用 Taro.nextTick 模拟 setData 已结束，节点已完成渲染
+      Taro.createSelectorQuery().select('#only')
+        .boundingClientRect()
+        .exec(res => console.log(res, 'res'))
+    })
+  }
 
-页面加载时触发，一个页面只会调用一次，此时页面 DOM 尚未准备好，还不能和视图层进行交互
+  render () {
+    return (
+      <View id="only" />
+    )
+  }
+}
+```
 
-#### componentDidMount()
+### componentDidShow ()
 
-页面初次渲染完成时触发，一个页面只会调用一次，代表页面已经准备妥当，可以和视图层进行交互。此生命周期可以访问 `getCurrentInstance().router`。此生命周期可以访问 Taro DOM 并且更改 DOM 或添加事件，但无法通过 `Taro.createSelectorQuery` 查找小程序 DOM。
+> 在小程序环境中对应页面的 `onShow`。
 
-#### shouldComponentUpdate(nextProps, nextState)
+页面显示/切入前台时触发。
 
-页面是否需要更新，返回 false 不继续更新，否则继续走更新流程
+#### 子组件的 onShow
 
-#### componentWillUpdate(nextProps, nextState)
+只在页面组件才会触发 `onShow` 生命周期。子组件可以使用 Taro 内置的[消息机制](./apis/about/events)监听页面组件的 `onShow()` 生命周期：
 
-页面即将更新
+```jsx title="页面中某个子组件"
+import React from 'react'
+import { View } from '@tarojs/components'
+import { eventCenter, getCurrentInstance } from '@tarojs/taro'
 
-#### componentDidUpdate(prevProps, prevState)
+class Test extends React.Component {
+  $instance = getCurrentInstance()
 
-页面更新完毕
+  componentWillMount () {
+    const onShowEventId = this.$instance.router.onShow
+    // 监听
+    eventCenter.on(onShowEventId, this.onShow)
+  }
 
-#### componentWillUnmount()
+  componentWillUnmount () {
+    const onShowEventId = this.$instance.router.onShow
+    // 卸载
+    eventCenter.off(onShowEventId, this.onShow)
+  }
 
-页面卸载时触发，如 redirectTo 或 navigateBack 到其他页面时
+  onShow = () => {
+    console.log('onShow')
+  }
 
-#### componentDidShow()
+  render () {
+    return (
+      <View id="only" />
+    )
+  }
+}
+```
 
-页面显示/切入前台时触发
+### componentDidHide ()
 
-#### componentDidHide()
+> 在小程序环境中对应页面的 `onHide`。
 
-页面隐藏/切入后台时触发， 如 navigateTo 或底部 tab 切换到其他页面，小程序切入后台等
+页面隐藏/切入后台时触发。
 
-**在以上所有的生命周期方法中，都可以通过 `getCurrentInstance().router.params` 获取打开当前页面路径中的参数**。
+#### 子组件的 onHide
 
-### 页面事件处理函数
+只在页面组件才会触发 `onHide` 生命周期。子组件可以使用 Taro 内置的[消息机制](./apis/about/events)监听页面组件的 `onHide()` 生命周期：
 
-在小程序中，页面还有在一些专属的事件处理函数，如下
+```jsx title="页面中某个子组件"
+import React from 'react'
+import { View } from '@tarojs/components'
+import { eventCenter, getCurrentInstance } from '@tarojs/taro'
 
-#### onPullDownRefresh()
+class Test extends React.Component {
+  $instance = getCurrentInstance()
 
-监听用户下拉刷新事件
+  componentWillMount () {
+    const onHideEventId = this.$instance.router.onHide
+    // 监听
+    eventCenter.on(onHideEventId, this.onHide)
+  }
 
-- 需要在全局配置的 window 选项中或页面配置中开启 enablePullDownRefresh
+  componentWillUnmount () {
+    const onHideEventId = this.$instance.router.onHide
+    // 卸载
+    eventCenter.off(onHideEventId, this.onHide)
+  }
+
+  onHide = () => {
+    console.log('onHide')
+  }
+
+  render () {
+    return (
+      <View id="only" />
+    )
+  }
+}
+```
+
+### onPullDownRefresh ()
+
+监听用户下拉动作。
+
+- 需要在全局配置的 window 选项中或页面配置中设置 `enablePullDownRefresh: true`。
 - 可以通过 [Taro.startPullDownRefresh](./apis/ui/pull-down-refresh/startPullDownRefresh.md) 触发下拉刷新，调用后触发下拉刷新动画，效果与用户手动下拉刷新一致。
-- 当处理完数据刷新后，[Taro.stopPullDownRefresh](./apis/ui/pull-down-refresh/stopPullDownRefresh.md) 可以停止当前页面的下拉刷新
+- 当处理完数据刷新后，[Taro.stopPullDownRefresh](./apis/ui/pull-down-refresh/stopPullDownRefresh.md) 可以停止当前页面的下拉刷新.
 
-#### onReachBottom()
+### onReachBottom ()
 
-监听用户上拉触底事件
+监听用户上拉触底事件。
 
-- 可以在全局配置的 window 选项中或页面配置中设置触发距离 onReachBottomDistance
+- 可以在全局配置的 window 选项中或页面配置中设置触发距离 `onReachBottomDistance`。
 - 在触发距离内滑动期间，本事件只会被触发一次
 
-#### onPageScroll(Object)
+> H5 暂时没有同步实现，可以通过给 window 绑定 scroll 事件来进行模拟
 
-监听用户滑动页面事件
+### onPageScroll (Object)
 
-Object 参数说明：
+监听用户滑动页面事件。
+
+> H5 暂时没有同步实现，可以通过给 window 绑定 scroll 事件来进行模拟
+
+#### 参数
+
+##### Object
 
 | 参数 | 类型 | 说明 |
 | - | - | - |
 | scrollTop | Number | 页面在垂直方向已滚动的距离（单位px）|
 
-**注意：请只在需要的时候才在 page 中定义此方法，不要定义空方法。以减少不必要的事件派发对渲染层-逻辑层通信的影响。注意：请避免在 onPageScroll 中过于频繁的执行 this.setState() 等引起逻辑层-渲染层通信的操作。尤其是每次传输大量数据，会影响通信耗时。**
 
-#### onShareAppMessage(Object)
+### onAddToFavorites (Object)
+
+监听用户点击右上角菜单“收藏”按钮的行为，并自定义收藏内容。
+
+> Taro 3.0.3 版本开始支持。
+> 只有微信小程序支持，本接口为 Beta 版本，安卓 7.0.15 版本起支持，暂只在安卓平台支持。
+
+#### 参数
+
+##### Object
+
+| 参数 | 类型 | 说明 |
+| - | - | - |
+| webviewUrl | String | 页面中包含web-view组件时，返回当前web-view的url |
+
+此事件处理函数需要 return 一个 Object，用于自定义收藏内容：
+
+| 字段 | 说明 | 默认值 |
+| - | - | - |
+| title	| 自定义标题 | 页面标题或账号名称 |
+| imageUrl | 自定义图片，显示图片长宽比为 1：1 | 页面截图 |
+| query | 自定义query字段 | 当前页面的query |
+
+#### 示例代码
+
+```js title="page.js"
+onAddToFavorites (res) {
+  // webview 页面返回 webviewUrl
+  console.log('WebviewUrl: ', res.webviewUrl)
+  return {
+    title: '自定义标题',
+    imageUrl: 'http://demo.png',
+    query: 'name=xxx&age=xxx',
+  }
+}
+```
+
+### onShareAppMessage (Object)
 
 监听用户点击页面内转发按钮（Button 组件 openType='share'）或右上角菜单“转发”按钮的行为，并自定义转发内容。
 
 **注意：**
 
-1. 只有定义了此事件处理函数，右上角菜单才会显示“转发”按钮
+1. 当 `onShareAppMessage` 没有触发时，请在页面配置中设置 `enableShareAppMessage: true`
+2. 只有定义了此事件处理函数，右上角菜单才会显示“转发”按钮
 
-Object 参数说明：
+#### 参数
+
+##### Object
 
 | 参数 | 类型 | 说明 |
 | - | - | - |
@@ -321,7 +540,7 @@ Object 参数说明：
 | path | 转发路径 | 当前页面 path ，必须是以 / 开头的完整路径 |
 | imageUrl | 自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径。支持 PNG 及 JPG 。显示图片长宽比是 5:4 | 使用默认截图 |
 
-示例代码
+#### 示例代码
 
 ```jsx title="page.js"
 export default class Index extends Component {
@@ -338,75 +557,28 @@ export default class Index extends Component {
 }
 ```
 
-#### onResize(Object)
-
-> 只有微信小程序支持，基础库 2.4.0 开始支持
-
-小程序屏幕旋转时触发。详见 [响应显示区域变化](https://developers.weixin.qq.com/miniprogram/dev/framework/view/resizable.html#%E5%9C%A8%E6%89%8B%E6%9C%BA%E4%B8%8A%E5%90%AF%E7%94%A8%E5%B1%8F%E5%B9%95%E6%97%8B%E8%BD%AC%E6%94%AF%E6%8C%81)
-
-#### onTabItemTap(Object)
-
-> 微信小程序中，基础库 1.9.0 开始支持
-
-点击 tab 时触发
-
-Object 参数说明：
-
-| 参数 | 类型 | 说明 |
-| - | - | - |
-| index | String | 被点击 tabItem 的序号，从 0 开始 |
-| pagePath | String | 被点击 tabItem 的页面路径 |
-| text | String | 被点击 tabItem 的按钮文字 |
-
-#### onAddToFavorites(Object)
-
-> Taro 3.0.3 版本开始支持
-> 只有微信小程序支持，本接口为 Beta 版本，安卓 7.0.15 版本起支持，暂只在安卓平台支持
-
-监听用户点击右上角菜单“收藏”按钮的行为，并自定义收藏内容。
-
-Object 参数说明：
-
-| 参数 | 类型 | 说明 |
-| - | - | - |
-| webviewUrl | String | 页面中包含web-view组件时，返回当前web-view的url |
-
-此事件处理函数需要 return 一个 Object，用于自定义收藏内容：
-
-| 字段 | 说明 | 默认值 |
-| - | - | - |
-| title	| 自定义标题 | 页面标题或账号名称 |
-| imageUrl | 自定义图片，显示图片长宽比为 1：1 | 页面截图 |
-| query | 自定义query字段 | 当前页面的query |
-
-示例代码
-
-```js
-onAddToFavorites(res) {
-  // webview 页面返回 webviewUrl
-  console.log('WebviewUrl: ', res.webviewUrl)
-  return {
-    title: '自定义标题',
-    imageUrl: 'http://demo.png',
-    query: 'name=xxx&age=xxx',
-  }
+```jsx title="page.config.js"
+export default {
+  // 当 `onShareAppMessage` 没有触发时，可以尝试配置此选项
+  enableShareAppMessage: true
 }
 ```
 
-#### onShareTimeline()
+### onShareTimeline ()
+
+监听右上角菜单“分享到朋友圈”按钮的行为，并自定义分享内容。
 
 > Taro 3.0.3 版本开始支持
 > 只有微信小程序支持，基础库 2.11.3 开始支持，本接口为 Beta 版本，暂只在 Android 平台支持
 
-监听右上角菜单“分享到朋友圈”按钮的行为，并自定义发享内容。
-
 **注意：**
 
-1. 只有定义了此事件处理函数，右上角菜单才会显示“分享到朋友圈”按钮
+1. 当 `onShareTimeline` 没有触发时，请在页面配置中设置 `enableShareTimeline: true`
+2. 只有定义了此事件处理函数，右上角菜单才会显示“分享到朋友圈”按钮
 
-自定义转发内容
+#### 返回值
 
-事件处理函数返回一个 Object，用于自定义分享内容，不支持自定义页面路径，返回内容如下：
+事件处理函数可以返回一个 Object，用于自定义分享内容，不支持自定义页面路径，返回内容如下：
 
 | 字段 | 说明 | 默认值 |
 | - | - | - |
@@ -418,94 +590,133 @@ onAddToFavorites(res) {
 class Index extends Component {
   onShareTimeline () {
     console.log('onShareTimeline')
+    return {}
   }
 }
 ```
 
-#### componentWillPreload()
+```jsx title="page.config.js"
+export default {
+  // 当 `onShareAppMessage` 没有触发时，可以尝试配置此选项
+  enableShareTimeline: true
+}
+```
 
-> 目前只有微信小程序支持
+### onResize (Object)
 
-[预加载](best-practice.md#预加载)钩子
+小程序屏幕旋转时触发。详见 [响应显示区域变化](https://developers.weixin.qq.com/miniprogram/dev/framework/view/resizable.html#%E5%9C%A8%E6%89%8B%E6%9C%BA%E4%B8%8A%E5%90%AF%E7%94%A8%E5%B1%8F%E5%B9%95%E6%97%8B%E8%BD%AC%E6%94%AF%E6%8C%81)。
 
-#### onTitleClick()
+### onTabItemTap (Object)
 
-> 只有支付宝小程序支持，基础库 1.3.0 开始支持
+点击 tab 时触发。
+
+#### 参数
+
+##### Object
+
+| 参数 | 类型 | 说明 |
+| - | - | - |
+| index | String | 被点击 tabItem 的序号，从 0 开始 |
+| pagePath | String | 被点击 tabItem 的页面路径 |
+| text | String | 被点击 tabItem 的按钮文字 |
+
+### onTitleClick ()
+
+> 只有支付宝小程序支持
 
 点击标题触发
 
-#### onOptionMenuClick()
+### onOptionMenuClick ()
 
-> 只有支付宝小程序支持，基础库 1.3.0 开始支持
+> 只有支付宝小程序支持
 
 点击导航栏额外图标触发
 
-#### onPopMenuClick()
+### onPopMenuClick ()
 
-> 只有支付宝小程序支持，基础库 1.11.0 开始支持
+> 只有支付宝小程序支持
 
 暂无说明
 
-#### onPullIntercept()
+### onPullIntercept ()
 
-> 只有支付宝小程序支持，基础库 1.3.0 开始支持
+> 只有支付宝小程序支持
 
 下拉截断时触发
 
-> H5 暂时没有同步实现 `onReachBottom` 、 `onPageScroll` 这两个事件函数，可以通过给 window 绑定 scroll 事件来进行模拟，而 `onPullDownRefresh` 下拉刷新则暂时只能用 `ScrollView` 组件来代替了。
+## 内置组件
 
-页面事件函数各端支持程度如下
+Taro 中使用小程序规范的内置组件进行开发，如 `<View />`、`<Text />`、`<Button />` 等。
 
-| 方法 | 作用 | 微信小程序 | 百度小程序 | 字节跳动小程序 | 支付宝小程序 | H5 | RN |
-| - | - | - | - | - | - | - | - |
-| onPullDownRefresh | 页面相关事件处理函数--监听用户下拉动作 | ✔️ | ✔️|✔️| ✔️ |✘|✘|
-| onReachBottom | 页面上拉触底事件的处理函数 | ✔️ | ✔️|✔️| ✔️ |✘|✘|
-| onShareAppMessage | 用户点击右上角转发 | ✔️ | ✔️|✔️| ✔️ |✘|✘|
-| onPageScroll | 页面滚动触发事件的处理函数 | ✔️ | ✔️|✔️| ✔️ |✘|✘|
-| onTabItemTap | 当前是 tab 页时，点击 tab 时触发 | ✔️ | ✔️|✔️| ✔️ |✘|✘|
-| onResize | 页面尺寸改变时触发，详见 [响应显示区域变化](https://developers.weixin.qq.com/miniprogram/dev/framework/view/resizable.html#%E5%9C%A8%E6%89%8B%E6%9C%BA%E4%B8%8A%E5%90%AF%E7%94%A8%E5%B1%8F%E5%B9%95%E6%97%8B%E8%BD%AC%E6%94%AF%E6%8C%81) | ✔️ | ✘|✘| ✘ |✘|✘|
-| componentWillPreload | [预加载](best-practice.md#预加载) | ✔️ | ✘|✘| ✘ |✘|✘|
-| onTitleClick | 点击标题触发 | ✘ | ✘|✘| ✔️|✘|✘|
-| onOptionMenuClick | 点击导航栏额外图标触发 | ✘ | ✘|✘| ✔️（基础库 1.3.0）|✘|✘|
-| onPopMenuClick |  | ✘ | ✘|✘| ✔️（基础库 1.3.0）|✘|✘|
-| onPullIntercept | 下拉截断时触发 | ✘ | ✘|✘| ✔️（基础库 1.11.0）|✘|✘|
+在 React 中使用这些内置组件前，必须从 `@tarojs/components` 进行引入，组件的 props 遵从**大驼峰式命名规范**：
 
-以上成员方法在 Taro 的页面中同样可以使用，书写同名方法即可，不过需要注意的，目前暂时只有小程序端支持（支持程度如上）这些方法，编译到 H5/RN 端后这些方法均会失效。
-
-## 内置组件/Props
-
-Taro 中使用 React，内置组件遵循小程序组件规范，所有内置组件都必须从 `@tarojs/components` 引入，组件的 Props 遵从大驼峰式命名规范：
-
-### Taro
-
-```jsx
-import { View } from '@tarojs/components'
-<View hoverClass='test' />
-```
-
-对应小程序:
+小程序写法:
 
 ```html
 <view hover-class='test' />
 ```
 
+对应 Taro 的写法：
+
+```jsx
+import { View } from '@tarojs/components'
+
+<View hoverClass='test' />
+```
+
 ## 事件
 
-在 Taro 中事件遵从小驼峰式命名规范，所有内置事件名以 `on` 开头，在事件处理函数中第一个参数是事件本身，可以通过调用 `stopPropagation` 来阻止冒泡。
+在 Taro 中事件遵从小驼峰式（camelCase）命名规范，所有内置事件名以 `on` 开头。
+
+在事件回调函数中，第一个参数是事件本身，回调中调用 `stopPropagation` 可以阻止冒泡。
 
 ```jsx
 function Comp () {
-  // 只有 onClick 对应 bindtap
-  // 其余内置事件名
   function clickHandler (e) {
     e.stopPropagation() // 阻止冒泡
   }
 
-  function scrollHandler () {
-    //
-  }
+  function scrollHandler () {}
+  
+  // 只有小程序的 bindtap 对应 Taro 的 onClick
+  // 其余小程序事件名把 bind 换成 on 即是 Taro 事件名（支付宝小程序除外，它的事件就是以 on 开头）
   return <ScrollView onClick={clickHandler} onScroll={scrollHandler} />
 }
+```
+
+### Taro 3 在小程序端的事件机制
+
+在 Taro 1 & 2 中，Taro 会根据开发者是否使用了 `e.stopPropagation()`，来决定在小程序模板中绑定的事件是以 `bind` 还是以 `catch` 形式。因此事件冒泡是由小程序控制的。
+
+但是在 Taro 3，我们在小程序逻辑层实现了一套事件系统，包括事件触发和事件冒泡。在小程序模板中绑定的事件都是以 `bind` 的形式。
+
+一般情况下，这套在逻辑层实现的小程序事件系统是可以正常工作的，事件回调能正确触发、冒泡、停止冒泡。
+
+但是，小程序模板中绑定的 `catchtouchmove` 事件除了可以阻止回调函数冒泡触发外，还能阻止视图的**滚动穿透**，这点 Taro 的事件系统是做不到的。
+
+### 阻止滚动穿透
+
+上一点中，我们介绍了 Taro 3 的事件机制。因为事件都以 `bind` 的形式进行绑定，因此不能使用 `e.stopPropagation()` 阻止滚动穿透。
+
+针对滚动穿透，目前总结了两种解决办法：
+
+#### 一、样式
+
+使用样式解决：[禁止被穿透的组件滚动](https://github.com/NervJS/taro/issues/5984#issuecomment-614502302)。
+
+这也是最推荐的做法。
+
+#### 二、catchMove
+
+> Taro 3.0.21 版本开始支持
+
+但是地图组件本身就是可以滚动的，即使固定了它的宽高。所以第一种办法处理不了冒泡到地图组件上的滚动事件。
+
+这时候可以为 `View` 组件增加 **catchMove** 属性：
+
+```jsx
+// 这个 View 组件会绑定 catchtouchmove 事件而不是 bindtouchmove
+<View catchMove></View>
 ```
 
 ## Hooks
