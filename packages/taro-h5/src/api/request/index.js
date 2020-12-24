@@ -64,6 +64,19 @@ function _request (options) {
       params.body = JSON.stringify(options.data)
     } else if (contentType.indexOf('application/x-www-form-urlencoded') >= 0) {
       params.body = serializeParams(options.data)
+    } else if (contentType.indexOf('multipart/form-data') >= 0 || (options.data instanceof FormData)) {
+      // 支持表单上传
+      const header = {
+        ...options.header
+      };
+      const temp = {};
+      Object.keys(header).forEach(key => {
+        if (key.toLowerCase() != 'content-type') {
+          temp[key] = header[key];
+        }
+      })
+      options.header = temp;
+      params.body = options.data
     } else {
       params.body = options.data
     }
