@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`mini-split-chunks should process mini-split-chunks 1`] = `26`;
+exports[`mini-split-chunks should process mini-split-chunks 1`] = `29`;
 
 exports[`mini-split-chunks should process mini-split-chunks 2`] = `
 "
@@ -55,7 +55,7 @@ require(\\"./taro\\");
     30: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
         var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(0);
         var react_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(20);
@@ -97,12 +97,44 @@ require(\\"./taro\\");
   </block>
 </template>
 
+<template name=\\"tmpl_0_catch-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_0_static-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_0_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_0_view\\">
   <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_0_static-text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_0_text\\">
@@ -121,6 +153,14 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_0_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{xs.b(i.mode,'scaleToFill')}}\\" webp=\\"{{xs.b(i.webp,false)}}\\" lazy-load=\\"{{xs.b(i.lazyLoad,false)}}\\" show-menu-by-longpress=\\"{{xs.b(i.showMenuByLongpress,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </image>
+</template>
+
 <template name=\\"tmpl_0_image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{xs.b(i.mode,'scaleToFill')}}\\" webp=\\"{{xs.b(i.webp,false)}}\\" lazy-load=\\"{{xs.b(i.lazyLoad,false)}}\\" show-menu-by-longpress=\\"{{xs.b(i.showMenuByLongpress,false)}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
@@ -137,12 +177,44 @@ require(\\"./taro\\");
   <template is=\\"{{xs.a(0, i.nn, l)}}\\" data=\\"{{i:i,cid:0,l:xs.f(l,i.nn)}}\\" />
 </template>
 
+<template name=\\"tmpl_1_catch-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_1_static-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_1_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_1_view\\">
   <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_1_static-text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_1_text\\">
@@ -165,12 +237,44 @@ require(\\"./taro\\");
   <template is=\\"{{xs.a(1, i.nn, l)}}\\" data=\\"{{i:i,cid:1,l:xs.f(l,i.nn)}}\\" />
 </template>
 
+<template name=\\"tmpl_2_catch-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_2_static-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_2_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_2_view\\">
   <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_2_static-text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_2_text\\">
@@ -193,12 +297,44 @@ require(\\"./taro\\");
   <template is=\\"{{xs.a(2, i.nn, l)}}\\" data=\\"{{i:i,cid:2,l:xs.f(l,i.nn)}}\\" />
 </template>
 
+<template name=\\"tmpl_3_catch-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_3_static-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_3_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_3_view\\">
   <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_3_static-text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_3_text\\">
@@ -221,12 +357,44 @@ require(\\"./taro\\");
   <template is=\\"{{xs.a(3, i.nn, l)}}\\" data=\\"{{i:i,cid:3,l:xs.f(l,i.nn)}}\\" />
 </template>
 
+<template name=\\"tmpl_4_catch-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_4_static-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_4_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_4_view\\">
   <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_4_static-text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_4_text\\">
@@ -241,12 +409,44 @@ require(\\"./taro\\");
   <template is=\\"{{xs.a(4, i.nn, l)}}\\" data=\\"{{i:i,cid:4,l:xs.f(l,i.nn)}}\\" />
 </template>
 
+<template name=\\"tmpl_5_catch-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_5_static-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_5_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_5_view\\">
   <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_5_static-text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_5_text\\">
@@ -261,6 +461,30 @@ require(\\"./taro\\");
   <template is=\\"{{xs.a(5, i.nn, l)}}\\" data=\\"{{i:i,cid:5,l:xs.f(l,i.nn)}}\\" />
 </template>
 
+<template name=\\"tmpl_6_catch-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_6_static-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_6_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_6_view\\">
   <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
@@ -269,16 +493,32 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_6_text\\">
-  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+<template name=\\"tmpl_6_container\\">
+  <template is=\\"{{xs.a(6, i.nn, l)}}\\" data=\\"{{i:i,cid:6,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_7_catch-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
-  </text>
+  </view>
 </template>
 
-<template name=\\"tmpl_6_container\\">
-  <template is=\\"{{xs.a(6, i.nn, l)}}\\" data=\\"{{i:i,cid:6,l:xs.f(l,i.nn)}}\\" />
+<template name=\\"tmpl_7_static-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_7_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
 </template>
 
 <template name=\\"tmpl_7_view\\">
@@ -289,16 +529,32 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_7_text\\">
-  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+<template name=\\"tmpl_7_container\\">
+  <template is=\\"{{xs.a(7, i.nn, l)}}\\" data=\\"{{i:i,cid:7,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_8_catch-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
-  </text>
+  </view>
 </template>
 
-<template name=\\"tmpl_7_container\\">
-  <template is=\\"{{xs.a(7, i.nn, l)}}\\" data=\\"{{i:i,cid:7,l:xs.f(l,i.nn)}}\\" />
+<template name=\\"tmpl_8_static-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_8_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
 </template>
 
 <template name=\\"tmpl_8_view\\">
@@ -309,16 +565,32 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_8_text\\">
-  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+<template name=\\"tmpl_8_container\\">
+  <template is=\\"{{xs.a(8, i.nn, l)}}\\" data=\\"{{i:i,cid:8,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_9_catch-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
-  </text>
+  </view>
 </template>
 
-<template name=\\"tmpl_8_container\\">
-  <template is=\\"{{xs.a(8, i.nn, l)}}\\" data=\\"{{i:i,cid:8,l:xs.f(l,i.nn)}}\\" />
+<template name=\\"tmpl_9_static-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_9_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
 </template>
 
 <template name=\\"tmpl_9_view\\">
@@ -329,16 +601,32 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_9_text\\">
-  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+<template name=\\"tmpl_9_container\\">
+  <template is=\\"{{xs.a(9, i.nn, l)}}\\" data=\\"{{i:i,cid:9,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_10_catch-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
-  </text>
+  </view>
 </template>
 
-<template name=\\"tmpl_9_container\\">
-  <template is=\\"{{xs.a(9, i.nn, l)}}\\" data=\\"{{i:i,cid:9,l:xs.f(l,i.nn)}}\\" />
+<template name=\\"tmpl_10_static-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_10_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
 </template>
 
 <template name=\\"tmpl_10_view\\">
@@ -349,16 +637,32 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_10_text\\">
-  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+<template name=\\"tmpl_10_container\\">
+  <template is=\\"{{xs.a(10, i.nn, l)}}\\" data=\\"{{i:i,cid:10,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_11_catch-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
-  </text>
+  </view>
 </template>
 
-<template name=\\"tmpl_10_container\\">
-  <template is=\\"{{xs.a(10, i.nn, l)}}\\" data=\\"{{i:i,cid:10,l:xs.f(l,i.nn)}}\\" />
+<template name=\\"tmpl_11_static-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_11_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
 </template>
 
 <template name=\\"tmpl_11_view\\">
@@ -369,16 +673,32 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_11_text\\">
-  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+<template name=\\"tmpl_11_container\\">
+  <template is=\\"{{xs.a(11, i.nn, l)}}\\" data=\\"{{i:i,cid:11,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_12_catch-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
-  </text>
+  </view>
 </template>
 
-<template name=\\"tmpl_11_container\\">
-  <template is=\\"{{xs.a(11, i.nn, l)}}\\" data=\\"{{i:i,cid:11,l:xs.f(l,i.nn)}}\\" />
+<template name=\\"tmpl_12_static-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_12_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
 </template>
 
 <template name=\\"tmpl_12_view\\">
@@ -389,16 +709,32 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_12_text\\">
-  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+<template name=\\"tmpl_12_container\\">
+  <template is=\\"{{xs.a(12, i.nn, l)}}\\" data=\\"{{i:i,cid:12,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_13_catch-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
-  </text>
+  </view>
 </template>
 
-<template name=\\"tmpl_12_container\\">
-  <template is=\\"{{xs.a(12, i.nn, l)}}\\" data=\\"{{i:i,cid:12,l:xs.f(l,i.nn)}}\\" />
+<template name=\\"tmpl_13_static-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_13_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
 </template>
 
 <template name=\\"tmpl_13_view\\">
@@ -409,16 +745,32 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_13_text\\">
-  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+<template name=\\"tmpl_13_container\\">
+  <template is=\\"{{xs.a(13, i.nn, l)}}\\" data=\\"{{i:i,cid:13,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_14_catch-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
-  </text>
+  </view>
 </template>
 
-<template name=\\"tmpl_13_container\\">
-  <template is=\\"{{xs.a(13, i.nn, l)}}\\" data=\\"{{i:i,cid:13,l:xs.f(l,i.nn)}}\\" />
+<template name=\\"tmpl_14_static-view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_14_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
 </template>
 
 <template name=\\"tmpl_14_view\\">
@@ -429,20 +781,17 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_14_text\\">
-  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
-      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
-    </block>
-  </text>
-</template>
-
 <template name=\\"tmpl_14_container\\">
   <template is=\\"{{xs.a(14, i.nn, l)}}\\" data=\\"{{i:i,cid:14,l:xs.f(l,i.nn)}}\\" />
 </template>
 
 <template name=\\"tmpl_15_container\\">
-  <comp i=\\"{{i}}\\" l=\\"{{l}}\\" />
+  <block wx:if=\\"{{i.nn === '#text'}}\\">
+    <template is=\\"tmpl_0_#text\\" data=\\"{{i:i}}\\" />
+  </block>
+  <block wx:else>
+    <comp i=\\"{{i}}\\" l=\\"{{l}}\\" />
+  </block>
 </template>
 
 
@@ -473,22 +822,41 @@ require(\\"./taro\\");
     32: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
 }, [ [ 32, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\"}}
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
 /** filePath: dist/comp.wxml **/
 <import src=\\"./base.wxml\\" />
   <template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
 
+/** filePath: dist/custom-wrapper.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
+    33: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
+    }
+}, [ [ 33, 0, 1 ] ] ]);
+
+/** filePath: dist/custom-wrapper.json **/
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
+
+/** filePath: dist/custom-wrapper.wxml **/
+<import src=\\"./base.wxml\\" />
+  <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+    <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
+  </block>
+
 /** filePath: dist/packageA/detail/index.js **/
 require(\\"../vendors\\");
 
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
     22: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -499,11 +867,11 @@ require(\\"../vendors\\");
         var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
         var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
         var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
-        var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1);
+        var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
         var _utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7);
         var _utils_consoleLogSubVendors__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(8);
         var _utils_testExcludeString__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(9);
-        var _index_css__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(35);
+        var _index_css__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(36);
         var _index_css__WEBPACK_IMPORTED_MODULE_9___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_9__);
         var Detail = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(Detail, _Component);
@@ -530,23 +898,23 @@ require(\\"../vendors\\");
             return Detail;
         }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
     },
-    34: function(module, __webpack_exports__, __webpack_require__) {
+    35: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(22);
         var config = {
             navigationBarTitleText: \\"\\\\u8be6\\\\u60c5\\\\u9875\\"
         };
         var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"packageA/detail/index\\", {}, config || {}));
     },
-    35: function(module, exports, __webpack_require__) {}
-}, [ [ 34, 0, 4, 1, 3, 2 ] ] ]);
+    36: function(module, exports, __webpack_require__) {}
+}, [ [ 35, 0, 4, 1, 3, 2 ] ] ]);
 
 
 
 /** filePath: dist/packageA/detail/index.json **/
-{\\"navigationBarTitleText\\":\\"详情页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
+{\\"navigationBarTitleText\\":\\"详情页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\",\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
 
 /** filePath: dist/packageA/detail/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
@@ -560,7 +928,7 @@ require(\\"../vendors\\");
 
 require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
 
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 11 ], {
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 12 ], {
     23: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -571,7 +939,7 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
         var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
         var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
         var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
-        var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1);
+        var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
         var _utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7);
         var _utils_consoleLogSubVendors__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(8);
         var _utils_consoleLogSubCommon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(10);
@@ -602,22 +970,22 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
             return My;
         }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
     },
-    36: function(module, __webpack_exports__, __webpack_require__) {
+    37: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
         var config = {
             navigationBarTitleText: \\"\\\\u4e2a\\\\u4eba\\\\u4e2d\\\\u5fc3\\\\u9875\\"
         };
         var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"packageA/my/index\\", {}, config || {}));
     }
-}, [ [ 36, 0, 4, 5, 1, 3, 2 ] ] ]);
+}, [ [ 37, 0, 4, 5, 1, 3, 2 ] ] ]);
 
 
 
 /** filePath: dist/packageA/my/index.json **/
-{\\"navigationBarTitleText\\":\\"个人中心页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
+{\\"navigationBarTitleText\\":\\"个人中心页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\",\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
 
 /** filePath: dist/packageA/my/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
@@ -646,7 +1014,7 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
 /** filePath: dist/packageB/list/index.js **/
 require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
 
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 13 ], {
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 14 ], {
     24: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -657,7 +1025,7 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
         var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
         var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
         var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
-        var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1);
+        var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
         var _utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7);
         var _utils_consoleLogSubCommon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(10);
         var _utils_testExcludeFunction__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(11);
@@ -684,22 +1052,22 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
             return My;
         }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
     },
-    37: function(module, __webpack_exports__, __webpack_require__) {
+    38: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
         var config = {
             navigationBarTitleText: \\"\\\\u5217\\\\u8868\\\\u9875\\"
         };
         var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"packageB/list/index\\", {}, config || {}));
     }
-}, [ [ 37, 0, 5, 1, 3, 2 ] ] ]);
+}, [ [ 38, 0, 5, 1, 3, 2 ] ] ]);
 
 
 
 /** filePath: dist/packageB/list/index.json **/
-{\\"navigationBarTitleText\\":\\"列表页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
+{\\"navigationBarTitleText\\":\\"列表页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\",\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
 
 /** filePath: dist/packageB/list/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
@@ -716,7 +1084,7 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
 } ]);
 
 /** filePath: dist/pages/index/index.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 15 ], {
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 16 ], {
     12: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = \\"taro\\";
@@ -731,7 +1099,7 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
         var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
         var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
         var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
-        var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1);
+        var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
         var _tarojs_taro__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(12);
         var _utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(7);
         var Index = function(_Component) {
@@ -775,20 +1143,20 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
             return Index;
         }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
     },
-    33: function(module, __webpack_exports__, __webpack_require__) {
+    34: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
         var config = {
             navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
         };
         var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"pages/index/index\\", {}, config || {}));
     }
-}, [ [ 33, 0, 1, 3, 2 ] ] ]);
+}, [ [ 34, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\",\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
 
 /** filePath: dist/pages/index/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
@@ -915,11 +1283,11 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
     1: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
-        var _unused_webpack_default_export = \\"taro-components-mock\\";
+        var _unused_webpack_default_export = \\"taro-runtime-mock\\";
     },
     2: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
-        var _unused_webpack_default_export = \\"taro-runtime-mock\\";
+        var _unused_webpack_default_export = \\"taro-components-mock\\";
     },
     20: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
