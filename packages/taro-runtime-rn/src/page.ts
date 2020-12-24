@@ -362,6 +362,12 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         return result
       }
 
+      isEnablePullDown(){
+        const windowOptions = globalAny.__taroAppConfig?.appConfig?.window || {}
+        const { enablePullDownRefresh = false } = windowOptions
+        return pageConfig?.enablePullDownRefresh || enablePullDownRefresh
+      }
+
       refreshPullDown () {
         const { refreshing, textColor, backgroundColor } = this.state
         return React.createElement(RefreshControl, {
@@ -369,7 +375,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
           enabled: true,
           titleColor: textColor,
           tintColor: textColor,
-          progressBackgroundColor: backgroundColor,
+          colors: [backgroundColor],
           onRefresh: () => this.onPullDownRefresh()
         }, null)
       }
@@ -383,8 +389,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       }
 
       createScrollPage () {
-        const { enablePullDownRefresh = false } = pageConfig
-        const refresh = enablePullDownRefresh ? { refreshControl: this.refreshPullDown() } : {}
+        const refresh = this.isEnablePullDown() ? { refreshControl: this.refreshPullDown() } : {}
         return h(ScrollView, {
           style: { flex: 1 },
           contentContainerStyle: { minHeight: '100%' },
