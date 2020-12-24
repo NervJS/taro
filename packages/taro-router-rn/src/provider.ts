@@ -26,12 +26,14 @@ export class PageProvider extends React.Component<any> {
     const { navigation, pageConfig } = this.props
     const config = globalAny.__taroAppConfig?.appConfig || {}
     const winOptions = config.window || {}
-
+    const winRnOptions = config.rn || {} // 全局的rn config
     // 多个config的优先级问题，页面rnConfig> 页面config > app.config中rnConfig > app.config.window
-    const winScreenOptions = this.isTabBarPage() ? {} : config.rn?.screenOptions || {}
+    const winScreenOptions = this.isTabBarPage() ? {} : (winRnOptions?.screenOptions || {})
     const { title = '', headerTintColor = '', headerStyle = {}, headerShown = false } = winScreenOptions
 
-    const headerTitle = pageConfig.navigationBarTitleText || title || winOptions?.navigationBarTitleText || ''
+    const winRnTitle = this.isTabBarPage() ? winRnOptions?.options?.title || '' : title
+
+    const headerTitle = pageConfig.navigationBarTitleText || winRnTitle || winOptions?.navigationBarTitleText || ''
     const color = pageConfig.navigationBarTextStyle || headerTintColor || winOptions?.navigationBarTextStyle || 'black'
     const bgColor = pageConfig.navigationBarBackgroundColor || headerStyle?.backgroundColor || winOptions?.navigationBarBackgroundColor || '#ffffff'
     const customHeader = pageConfig?.navigationStyle !== 'custom' || headerShown || winOptions?.navigationStyle !== 'custom'
