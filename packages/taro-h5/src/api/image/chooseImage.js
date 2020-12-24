@@ -68,7 +68,7 @@ const chooseImage = function (options) {
       })
       const url = URL.createObjectURL(blob)
       res.tempFilePaths.push(url)
-      res.tempFiles.push({ path: url, size: item.size, type: item.type, originalFileObj: item})
+      res.tempFiles.push({ path: url, size: item.size, type: item.type, originalFileObj: item })
     })
     typeof success === 'function' && success(res)
     typeof complete === 'function' && complete(res)
