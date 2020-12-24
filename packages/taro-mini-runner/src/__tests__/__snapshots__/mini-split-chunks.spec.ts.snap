@@ -1,0 +1,1083 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mini-split-chunks should process mini-split-chunks 1`] = `26`;
+
+exports[`mini-split-chunks should process mini-split-chunks 2`] = `
+"
+/** filePath: dist/app.js **/
+require(\\"./runtime\\");
+
+require(\\"./common\\");
+
+require(\\"./vendors\\");
+
+require(\\"./taro\\");
+
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
+    14: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
+        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
+        var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
+        var _app_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(31);
+        var _app_css__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(_app_css__WEBPACK_IMPORTED_MODULE_5__);
+        var App = function(_Component) {
+            Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(App, _Component);
+            var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(App);
+            function App() {
+                Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(this, App);
+                return _super.apply(this, arguments);
+            }
+            Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(App, [ {
+                key: \\"componentDidMount\\",
+                value: function componentDidMount() {}
+            }, {
+                key: \\"componentDidShow\\",
+                value: function componentDidShow() {}
+            }, {
+                key: \\"componentDidHide\\",
+                value: function componentDidHide() {}
+            }, {
+                key: \\"componentDidCatchError\\",
+                value: function componentDidCatchError() {}
+            }, {
+                key: \\"render\\",
+                value: function render() {
+                    return this.props.children;
+                }
+            } ]);
+            return App;
+        }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
+        __webpack_exports__[\\"a\\"] = App;
+    },
+    30: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+        var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
+        var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(0);
+        var react_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(20);
+        var config = {
+            pages: [ \\"pages/index/index\\" ],
+            window: {
+                backgroundTextStyle: \\"light\\",
+                navigationBarBackgroundColor: \\"#fff\\",
+                navigationBarTitleText: \\"WeChat\\",
+                navigationBarTextStyle: \\"black\\"
+            },
+            subpackages: [ {
+                root: \\"packageA\\",
+                pages: [ \\"detail/index\\", \\"my/index\\" ]
+            }, {
+                root: \\"packageB\\",
+                pages: [ \\"list/index\\" ]
+            } ]
+        };
+        _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"window\\"].__taroAppConfig = config;
+        var inst = App(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createReactApp\\"])(_node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], react__WEBPACK_IMPORTED_MODULE_2__, react_dom__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"], config));
+    },
+    31: function(module, exports, __webpack_require__) {}
+}, [ [ 30, 0, 1, 3, 2 ] ] ]);
+
+
+
+/** filePath: dist/app.json **/
+{\\"pages\\":[\\"pages/index/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"},\\"subpackages\\":[{\\"root\\":\\"packageA\\",\\"pages\\":[\\"detail/index\\",\\"my/index\\"]},{\\"root\\":\\"packageB\\",\\"pages\\":[\\"list/index\\"]}]}
+
+/** filePath: dist/app.wxss **/
+
+
+/** filePath: dist/base.wxml **/
+<wxs module=\\"xs\\" src=\\"./utils.wxs\\" />
+<template name=\\"taro_tmpl\\">
+  <block wx:for=\\"{{root.cn}}\\" wx:key=\\"uid\\">
+    <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
+  </block>
+</template>
+
+<template name=\\"tmpl_0_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_0_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_0_scroll-view\\">
+  <scroll-view scroll-x=\\"{{xs.b(i.scrollX,false)}}\\" scroll-y=\\"{{xs.b(i.scrollY,false)}}\\" upper-threshold=\\"{{xs.b(i.upperThreshold,50)}}\\" lower-threshold=\\"{{xs.b(i.lowerThreshold,50)}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{xs.b(i.scrollWithAnimation,false)}}\\" enable-back-to-top=\\"{{xs.b(i.enableBackToTop,false)}}\\" enable-flex=\\"{{xs.b(i.enableFlex,false)}}\\" scroll-anchoring=\\"{{xs.b(i.scrollAnchoring,false)}}\\" refresher-enabled=\\"{{xs.b(i.refresherEnabled,false)}}\\" refresher-threshold=\\"{{xs.b(i.refresherThreshold,45)}}\\" refresher-default-style=\\"{{xs.b(i.refresherDefaultStyle,'black')}}\\" refresher-background=\\"{{xs.b(i.refresherBackground,'#FFF')}}\\" refresher-triggered=\\"{{xs.b(i.refresherTriggered,false)}}\\" enhanced=\\"{{xs.b(i.enhanced,false)}}\\" bounces=\\"{{xs.b(i.bounces,true)}}\\" show-scrollbar=\\"{{xs.b(i.showScrollbar,true)}}\\" paging-enabled=\\"{{xs.b(i.pagingEnabled,false)}}\\" fast-deceleration=\\"{{xs.b(i.fastDeceleration,false)}}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" animation=\\"{{i.animation}}\\" bindtransitionend=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" binddragstart=\\"eh\\" binddragging=\\"eh\\" binddragend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </scroll-view>
+</template>
+
+<template name=\\"tmpl_0_image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{xs.b(i.mode,'scaleToFill')}}\\" webp=\\"{{xs.b(i.webp,false)}}\\" lazy-load=\\"{{xs.b(i.lazyLoad,false)}}\\" show-menu-by-longpress=\\"{{xs.b(i.showMenuByLongpress,false)}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </image>
+</template>
+
+<template name=\\"tmpl_0_#text\\" data=\\"{{i:i}}\\">
+  <block>{{i.v}}</block>
+</template>
+
+<template name=\\"tmpl_0_container\\">
+  <template is=\\"{{xs.a(0, i.nn, l)}}\\" data=\\"{{i:i,cid:0,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_1_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_1_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_1_scroll-view\\">
+  <scroll-view scroll-x=\\"{{xs.b(i.scrollX,false)}}\\" scroll-y=\\"{{xs.b(i.scrollY,false)}}\\" upper-threshold=\\"{{xs.b(i.upperThreshold,50)}}\\" lower-threshold=\\"{{xs.b(i.lowerThreshold,50)}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{xs.b(i.scrollWithAnimation,false)}}\\" enable-back-to-top=\\"{{xs.b(i.enableBackToTop,false)}}\\" enable-flex=\\"{{xs.b(i.enableFlex,false)}}\\" scroll-anchoring=\\"{{xs.b(i.scrollAnchoring,false)}}\\" refresher-enabled=\\"{{xs.b(i.refresherEnabled,false)}}\\" refresher-threshold=\\"{{xs.b(i.refresherThreshold,45)}}\\" refresher-default-style=\\"{{xs.b(i.refresherDefaultStyle,'black')}}\\" refresher-background=\\"{{xs.b(i.refresherBackground,'#FFF')}}\\" refresher-triggered=\\"{{xs.b(i.refresherTriggered,false)}}\\" enhanced=\\"{{xs.b(i.enhanced,false)}}\\" bounces=\\"{{xs.b(i.bounces,true)}}\\" show-scrollbar=\\"{{xs.b(i.showScrollbar,true)}}\\" paging-enabled=\\"{{xs.b(i.pagingEnabled,false)}}\\" fast-deceleration=\\"{{xs.b(i.fastDeceleration,false)}}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" animation=\\"{{i.animation}}\\" bindtransitionend=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" binddragstart=\\"eh\\" binddragging=\\"eh\\" binddragend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </scroll-view>
+</template>
+
+<template name=\\"tmpl_1_container\\">
+  <template is=\\"{{xs.a(1, i.nn, l)}}\\" data=\\"{{i:i,cid:1,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_2_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_2_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_2_scroll-view\\">
+  <scroll-view scroll-x=\\"{{xs.b(i.scrollX,false)}}\\" scroll-y=\\"{{xs.b(i.scrollY,false)}}\\" upper-threshold=\\"{{xs.b(i.upperThreshold,50)}}\\" lower-threshold=\\"{{xs.b(i.lowerThreshold,50)}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{xs.b(i.scrollWithAnimation,false)}}\\" enable-back-to-top=\\"{{xs.b(i.enableBackToTop,false)}}\\" enable-flex=\\"{{xs.b(i.enableFlex,false)}}\\" scroll-anchoring=\\"{{xs.b(i.scrollAnchoring,false)}}\\" refresher-enabled=\\"{{xs.b(i.refresherEnabled,false)}}\\" refresher-threshold=\\"{{xs.b(i.refresherThreshold,45)}}\\" refresher-default-style=\\"{{xs.b(i.refresherDefaultStyle,'black')}}\\" refresher-background=\\"{{xs.b(i.refresherBackground,'#FFF')}}\\" refresher-triggered=\\"{{xs.b(i.refresherTriggered,false)}}\\" enhanced=\\"{{xs.b(i.enhanced,false)}}\\" bounces=\\"{{xs.b(i.bounces,true)}}\\" show-scrollbar=\\"{{xs.b(i.showScrollbar,true)}}\\" paging-enabled=\\"{{xs.b(i.pagingEnabled,false)}}\\" fast-deceleration=\\"{{xs.b(i.fastDeceleration,false)}}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" animation=\\"{{i.animation}}\\" bindtransitionend=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" binddragstart=\\"eh\\" binddragging=\\"eh\\" binddragend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </scroll-view>
+</template>
+
+<template name=\\"tmpl_2_container\\">
+  <template is=\\"{{xs.a(2, i.nn, l)}}\\" data=\\"{{i:i,cid:2,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_3_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_3_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_3_scroll-view\\">
+  <scroll-view scroll-x=\\"{{xs.b(i.scrollX,false)}}\\" scroll-y=\\"{{xs.b(i.scrollY,false)}}\\" upper-threshold=\\"{{xs.b(i.upperThreshold,50)}}\\" lower-threshold=\\"{{xs.b(i.lowerThreshold,50)}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{xs.b(i.scrollWithAnimation,false)}}\\" enable-back-to-top=\\"{{xs.b(i.enableBackToTop,false)}}\\" enable-flex=\\"{{xs.b(i.enableFlex,false)}}\\" scroll-anchoring=\\"{{xs.b(i.scrollAnchoring,false)}}\\" refresher-enabled=\\"{{xs.b(i.refresherEnabled,false)}}\\" refresher-threshold=\\"{{xs.b(i.refresherThreshold,45)}}\\" refresher-default-style=\\"{{xs.b(i.refresherDefaultStyle,'black')}}\\" refresher-background=\\"{{xs.b(i.refresherBackground,'#FFF')}}\\" refresher-triggered=\\"{{xs.b(i.refresherTriggered,false)}}\\" enhanced=\\"{{xs.b(i.enhanced,false)}}\\" bounces=\\"{{xs.b(i.bounces,true)}}\\" show-scrollbar=\\"{{xs.b(i.showScrollbar,true)}}\\" paging-enabled=\\"{{xs.b(i.pagingEnabled,false)}}\\" fast-deceleration=\\"{{xs.b(i.fastDeceleration,false)}}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" animation=\\"{{i.animation}}\\" bindtransitionend=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" binddragstart=\\"eh\\" binddragging=\\"eh\\" binddragend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </scroll-view>
+</template>
+
+<template name=\\"tmpl_3_container\\">
+  <template is=\\"{{xs.a(3, i.nn, l)}}\\" data=\\"{{i:i,cid:3,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_4_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_4_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_4_container\\">
+  <template is=\\"{{xs.a(4, i.nn, l)}}\\" data=\\"{{i:i,cid:4,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_5_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_5_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_5_container\\">
+  <template is=\\"{{xs.a(5, i.nn, l)}}\\" data=\\"{{i:i,cid:5,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_6_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_6_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_6_container\\">
+  <template is=\\"{{xs.a(6, i.nn, l)}}\\" data=\\"{{i:i,cid:6,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_7_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_7_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_7_container\\">
+  <template is=\\"{{xs.a(7, i.nn, l)}}\\" data=\\"{{i:i,cid:7,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_8_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_8_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_8_container\\">
+  <template is=\\"{{xs.a(8, i.nn, l)}}\\" data=\\"{{i:i,cid:8,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_9_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_9_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_9_container\\">
+  <template is=\\"{{xs.a(9, i.nn, l)}}\\" data=\\"{{i:i,cid:9,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_10_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_10_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_10_container\\">
+  <template is=\\"{{xs.a(10, i.nn, l)}}\\" data=\\"{{i:i,cid:10,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_11_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_11_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_11_container\\">
+  <template is=\\"{{xs.a(11, i.nn, l)}}\\" data=\\"{{i:i,cid:11,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_12_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_12_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_12_container\\">
+  <template is=\\"{{xs.a(12, i.nn, l)}}\\" data=\\"{{i:i,cid:12,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_13_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_13_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_13_container\\">
+  <template is=\\"{{xs.a(13, i.nn, l)}}\\" data=\\"{{i:i,cid:13,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_14_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_14_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_14_container\\">
+  <template is=\\"{{xs.a(14, i.nn, l)}}\\" data=\\"{{i:i,cid:14,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_15_container\\">
+  <comp i=\\"{{i}}\\" l=\\"{{l}}\\" />
+</template>
+
+
+/** filePath: dist/common.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.r(__webpack_exports__);
+    __webpack_exports__[\\"default\\"] = \\"react-mock\\";
+}, , , , , , , function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_exports__[\\"a\\"] = function() {
+        console.log(\\"Main package\\");
+    };
+}, , function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_exports__[\\"a\\"] = function() {
+        console.log(\\"testExcludeString\\");
+    };
+}, , function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_exports__[\\"a\\"] = function() {
+        console.log(\\"testExcludeFunction\\");
+    };
+} ] ]);
+
+/** filePath: dist/comp.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
+    32: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
+    }
+}, [ [ 32, 0, 1 ] ] ]);
+
+/** filePath: dist/comp.json **/
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\"}}
+
+/** filePath: dist/comp.wxml **/
+<import src=\\"./base.wxml\\" />
+  <template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
+
+/** filePath: dist/packageA/detail/index.js **/
+require(\\"../vendors\\");
+
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
+    22: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+            return Detail;
+        }));
+        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
+        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
+        var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
+        var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1);
+        var _utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7);
+        var _utils_consoleLogSubVendors__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(8);
+        var _utils_testExcludeString__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(9);
+        var _index_css__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(35);
+        var _index_css__WEBPACK_IMPORTED_MODULE_9___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_9__);
+        var Detail = function(_Component) {
+            Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(Detail, _Component);
+            var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(Detail);
+            function Detail() {
+                Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(this, Detail);
+                return _super.apply(this, arguments);
+            }
+            Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(Detail, [ {
+                key: \\"componentDidMount\\",
+                value: function componentDidMount() {
+                    Object(_utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_6__[\\"a\\"])();
+                    Object(_utils_consoleLogSubVendors__WEBPACK_IMPORTED_MODULE_7__[\\"a\\"])();
+                    Object(_utils_testExcludeString__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"])();
+                }
+            }, {
+                key: \\"render\\",
+                value: function render() {
+                    return react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
+                        className: \\"detail\\"
+                    }, react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"Text\\"], null, \\"I m detail\\"));
+                }
+            } ]);
+            return Detail;
+        }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
+    },
+    34: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(22);
+        var config = {
+            navigationBarTitleText: \\"\\\\u8be6\\\\u60c5\\\\u9875\\"
+        };
+        var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"packageA/detail/index\\", {}, config || {}));
+    },
+    35: function(module, exports, __webpack_require__) {}
+}, [ [ 34, 0, 4, 1, 3, 2 ] ] ]);
+
+
+
+/** filePath: dist/packageA/detail/index.json **/
+{\\"navigationBarTitleText\\":\\"详情页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
+
+/** filePath: dist/packageA/detail/index.wxml **/
+<import src=\\"../../base.wxml\\"/>
+  <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
+
+/** filePath: dist/packageA/detail/index.wxss **/
+.detail{width:100%;height:100%}
+
+/** filePath: dist/packageA/my/index.js **/
+require(\\"../vendors\\");
+
+require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
+
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 11 ], {
+    23: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+            return My;
+        }));
+        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
+        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
+        var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
+        var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1);
+        var _utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7);
+        var _utils_consoleLogSubVendors__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(8);
+        var _utils_consoleLogSubCommon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(10);
+        var _utils_testExcludeString__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(9);
+        var _utils_testExcludeFunction__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(11);
+        var My = function(_Component) {
+            Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(My, _Component);
+            var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(My);
+            function My() {
+                Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(this, My);
+                return _super.apply(this, arguments);
+            }
+            Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(My, [ {
+                key: \\"componentDidMount\\",
+                value: function componentDidMount() {
+                    Object(_utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_6__[\\"a\\"])();
+                    Object(_utils_consoleLogSubVendors__WEBPACK_IMPORTED_MODULE_7__[\\"a\\"])();
+                    Object(_utils_consoleLogSubCommon__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"])(\\"packageA\\");
+                    Object(_utils_testExcludeString__WEBPACK_IMPORTED_MODULE_9__[\\"a\\"])();
+                    Object(_utils_testExcludeFunction__WEBPACK_IMPORTED_MODULE_10__[\\"a\\"])();
+                }
+            }, {
+                key: \\"render\\",
+                value: function render() {
+                    return react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], null, react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"Text\\"], null, \\"I m my\\"));
+                }
+            } ]);
+            return My;
+        }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
+    },
+    36: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
+        var config = {
+            navigationBarTitleText: \\"\\\\u4e2a\\\\u4eba\\\\u4e2d\\\\u5fc3\\\\u9875\\"
+        };
+        var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"packageA/my/index\\", {}, config || {}));
+    }
+}, [ [ 36, 0, 4, 5, 1, 3, 2 ] ] ]);
+
+
+
+/** filePath: dist/packageA/my/index.json **/
+{\\"navigationBarTitleText\\":\\"个人中心页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
+
+/** filePath: dist/packageA/my/index.wxml **/
+<import src=\\"../../base.wxml\\"/>
+  <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
+
+/** filePath: dist/packageA/sub-common/5af326dc7e88f9b2c32d07774f00fe26.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 5 ], {
+    10: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_exports__[\\"a\\"] = function(subpackage) {
+            console.log(\\"Subpackage: \\".concat(subpackage));
+        };
+    }
+} ]);
+
+/** filePath: dist/packageA/vendors.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
+    8: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_exports__[\\"a\\"] = function() {
+            console.log(\\"This is packageA vendors\\");
+        };
+    }
+} ]);
+
+/** filePath: dist/packageB/list/index.js **/
+require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
+
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 13 ], {
+    24: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+            return My;
+        }));
+        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
+        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
+        var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
+        var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1);
+        var _utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7);
+        var _utils_consoleLogSubCommon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(10);
+        var _utils_testExcludeFunction__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(11);
+        var My = function(_Component) {
+            Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(My, _Component);
+            var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(My);
+            function My() {
+                Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(this, My);
+                return _super.apply(this, arguments);
+            }
+            Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(My, [ {
+                key: \\"componentDidMount\\",
+                value: function componentDidMount() {
+                    Object(_utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_6__[\\"a\\"])();
+                    Object(_utils_consoleLogSubCommon__WEBPACK_IMPORTED_MODULE_7__[\\"a\\"])(\\"packageB\\");
+                    Object(_utils_testExcludeFunction__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"])();
+                }
+            }, {
+                key: \\"render\\",
+                value: function render() {
+                    return react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], null, react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"Text\\"], null, \\"list page\\"));
+                }
+            } ]);
+            return My;
+        }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
+    },
+    37: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
+        var config = {
+            navigationBarTitleText: \\"\\\\u5217\\\\u8868\\\\u9875\\"
+        };
+        var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"packageB/list/index\\", {}, config || {}));
+    }
+}, [ [ 37, 0, 5, 1, 3, 2 ] ] ]);
+
+
+
+/** filePath: dist/packageB/list/index.json **/
+{\\"navigationBarTitleText\\":\\"列表页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
+
+/** filePath: dist/packageB/list/index.wxml **/
+<import src=\\"../../base.wxml\\"/>
+  <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
+
+/** filePath: dist/packageB/sub-common/5af326dc7e88f9b2c32d07774f00fe26.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 5 ], {
+    10: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_exports__[\\"a\\"] = function(subpackage) {
+            console.log(\\"Subpackage: \\".concat(subpackage));
+        };
+    }
+} ]);
+
+/** filePath: dist/pages/index/index.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 15 ], {
+    12: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_exports__[\\"a\\"] = \\"taro\\";
+    },
+    21: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+            return Index;
+        }));
+        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
+        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
+        var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
+        var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1);
+        var _tarojs_taro__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(12);
+        var _utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(7);
+        var Index = function(_Component) {
+            Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(Index, _Component);
+            var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(Index);
+            function Index() {
+                Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(this, Index);
+                return _super.apply(this, arguments);
+            }
+            Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(Index, [ {
+                key: \\"componentDidMount\\",
+                value: function componentDidMount() {
+                    Object(_utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_7__[\\"a\\"])();
+                }
+            }, {
+                key: \\"render\\",
+                value: function render() {
+                    return react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
+                        className: \\"index\\"
+                    }, react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
+                        onClick: function onClick() {
+                            return _tarojs_taro__WEBPACK_IMPORTED_MODULE_6__[\\"a\\"].navigateTo({
+                                url: \\"/packageA/detail/index\\"
+                            });
+                        }
+                    }, \\"Go to detail\\"), react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
+                        onClick: function onClick() {
+                            return _tarojs_taro__WEBPACK_IMPORTED_MODULE_6__[\\"a\\"].navigateTo({
+                                url: \\"/packageA/my/index\\"
+                            });
+                        }
+                    }, \\"Go to my\\"), react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
+                        onClick: function onClick() {
+                            return _tarojs_taro__WEBPACK_IMPORTED_MODULE_6__[\\"a\\"].navigateTo({
+                                url: \\"/packageB/list/index\\"
+                            });
+                        }
+                    }, \\"Go to list\\"));
+                }
+            } ]);
+            return Index;
+        }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
+    },
+    33: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
+        var config = {
+            navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
+        };
+        var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"pages/index/index\\", {}, config || {}));
+    }
+}, [ [ 33, 0, 1, 3, 2 ] ] ]);
+
+/** filePath: dist/pages/index/index.json **/
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
+
+/** filePath: dist/pages/index/index.wxml **/
+<import src=\\"../../base.wxml\\"/>
+  <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
+
+/** filePath: dist/runtime.js **/
+(function(modules) {
+    function webpackJsonpCallback(data) {
+        var chunkIds = data[0];
+        var moreModules = data[1];
+        var executeModules = data[2];
+        var moduleId, chunkId, i = 0, resolves = [];
+        for (;i < chunkIds.length; i++) {
+            chunkId = chunkIds[i];
+            if (Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+                resolves.push(installedChunks[chunkId][0]);
+            }
+            installedChunks[chunkId] = 0;
+        }
+        for (moduleId in moreModules) {
+            if (Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+                modules[moduleId] = moreModules[moduleId];
+            }
+        }
+        if (parentJsonpFunction) parentJsonpFunction(data);
+        while (resolves.length) {
+            resolves.shift()();
+        }
+        deferredModules.push.apply(deferredModules, executeModules || []);
+        return checkDeferredModules();
+    }
+    function checkDeferredModules() {
+        var result;
+        for (var i = 0; i < deferredModules.length; i++) {
+            var deferredModule = deferredModules[i];
+            var fulfilled = true;
+            for (var j = 1; j < deferredModule.length; j++) {
+                var depId = deferredModule[j];
+                if (installedChunks[depId] !== 0) fulfilled = false;
+            }
+            if (fulfilled) {
+                deferredModules.splice(i--, 1);
+                result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
+            }
+        }
+        return result;
+    }
+    var installedModules = {};
+    var installedChunks = {
+        0: 0
+    };
+    var deferredModules = [];
+    function __webpack_require__(moduleId) {
+        if (installedModules[moduleId]) {
+            return installedModules[moduleId].exports;
+        }
+        var module = installedModules[moduleId] = {
+            i: moduleId,
+            l: false,
+            exports: {}
+        };
+        modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+        module.l = true;
+        return module.exports;
+    }
+    __webpack_require__.m = modules;
+    __webpack_require__.c = installedModules;
+    __webpack_require__.d = function(exports, name, getter) {
+        if (!__webpack_require__.o(exports, name)) {
+            Object.defineProperty(exports, name, {
+                enumerable: true,
+                get: getter
+            });
+        }
+    };
+    __webpack_require__.r = function(exports) {
+        if (typeof Symbol !== \\"undefined\\" && Symbol.toStringTag) {
+            Object.defineProperty(exports, Symbol.toStringTag, {
+                value: \\"Module\\"
+            });
+        }
+        Object.defineProperty(exports, \\"__esModule\\", {
+            value: true
+        });
+    };
+    __webpack_require__.t = function(value, mode) {
+        if (mode & 1) value = __webpack_require__(value);
+        if (mode & 8) return value;
+        if (mode & 4 && typeof value === \\"object\\" && value && value.__esModule) return value;
+        var ns = Object.create(null);
+        __webpack_require__.r(ns);
+        Object.defineProperty(ns, \\"default\\", {
+            enumerable: true,
+            value: value
+        });
+        if (mode & 2 && typeof value != \\"string\\") for (var key in value) __webpack_require__.d(ns, key, function(key) {
+            return value[key];
+        }.bind(null, key));
+        return ns;
+    };
+    __webpack_require__.n = function(module) {
+        var getter = module && module.__esModule ? function getDefault() {
+            return module[\\"default\\"];
+        } : function getModuleExports() {
+            return module;
+        };
+        __webpack_require__.d(getter, \\"a\\", getter);
+        return getter;
+    };
+    __webpack_require__.o = function(object, property) {
+        return Object.prototype.hasOwnProperty.call(object, property);
+    };
+    __webpack_require__.p = \\"/\\";
+    var jsonpArray = wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || [];
+    var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+    jsonpArray.push = webpackJsonpCallback;
+    jsonpArray = jsonpArray.slice();
+    for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+    var parentJsonpFunction = oldJsonpFunction;
+    checkDeferredModules();
+})([]);
+
+/** filePath: dist/taro.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
+    1: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        var _unused_webpack_default_export = \\"taro-components-mock\\";
+    },
+    2: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        var _unused_webpack_default_export = \\"taro-runtime-mock\\";
+    },
+    20: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
+    }
+} ]);
+
+/** filePath: dist/vendors.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _classCallCheck;
+    }));
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError(\\"Cannot call a class as a function\\");
+        }
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _createClass;
+    }));
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if (\\"value\\" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        return Constructor;
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _inherits;
+    }));
+    var _babel_runtime_helpers_esm_setPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
+    function _inherits(subClass, superClass) {
+        if (typeof superClass !== \\"function\\" && superClass !== null) {
+            throw new TypeError(\\"Super expression must either be null or a function\\");
+        }
+        subClass.prototype = Object.create(superClass && superClass.prototype, {
+            constructor: {
+                value: subClass,
+                writable: true,
+                configurable: true
+            }
+        });
+        if (superClass) Object(_babel_runtime_helpers_esm_setPrototypeOf__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(subClass, superClass);
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _createSuper;
+    }));
+    var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+    var _babel_runtime_helpers_esm_isNativeReflectConstruct__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
+    var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(17);
+    function _createSuper(Derived) {
+        var hasNativeReflectConstruct = Object(_babel_runtime_helpers_esm_isNativeReflectConstruct__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])();
+        return function _createSuperInternal() {
+            var Super = Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(Derived), result;
+            if (hasNativeReflectConstruct) {
+                var NewTarget = Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(this).constructor;
+                result = Reflect.construct(Super, arguments, NewTarget);
+            } else {
+                result = Super.apply(this, arguments);
+            }
+            return Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(this, result);
+        };
+    }
+}, , , , , , , function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _getPrototypeOf;
+    }));
+    function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+            return o.__proto__ || Object.getPrototypeOf(o);
+        };
+        return _getPrototypeOf(o);
+    }
+}, , function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _setPrototypeOf;
+    }));
+    function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+            o.__proto__ = p;
+            return o;
+        };
+        return _setPrototypeOf(o, p);
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _isNativeReflectConstruct;
+    }));
+    function _isNativeReflectConstruct() {
+        if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
+        if (Reflect.construct.sham) return false;
+        if (typeof Proxy === \\"function\\") return true;
+        try {
+            Date.prototype.toString.call(Reflect.construct(Date, [], (function() {})));
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _possibleConstructorReturn;
+    }));
+    var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
+    var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
+    function _possibleConstructorReturn(self, call) {
+        if (call && (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(call) === \\"object\\" || typeof call === \\"function\\")) {
+            return call;
+        }
+        return Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(self);
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _typeof;
+    }));
+    function _typeof(obj) {
+        \\"@babel/helpers - typeof\\";
+        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
+            _typeof = function _typeof(obj) {
+                return typeof obj;
+            };
+        } else {
+            _typeof = function _typeof(obj) {
+                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+            };
+        }
+        return _typeof(obj);
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _assertThisInitialized;
+    }));
+    function _assertThisInitialized(self) {
+        if (self === void 0) {
+            throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
+        }
+        return self;
+    }
+} ] ]);
+"
+`;
