@@ -56,27 +56,27 @@ function _request (options) {
 
     const keyOfContentType = Object.keys(options.header).find(item => item.toLowerCase() === 'content-type')
     if (!keyOfContentType) {
-      options.header['Content-Type'] = 'application/json'
-    }
-    const contentType = options.header[keyOfContentType || 'Content-Type']
-
-    if (contentType.indexOf('application/json') >= 0) {
-      params.body = JSON.stringify(options.data)
-    } else if (contentType.indexOf('application/x-www-form-urlencoded') >= 0) {
-      params.body = serializeParams(options.data)
-    } else if (contentType.indexOf('multipart/form-data') >= 0 || (options.data instanceof FormData)) {
-      // 支持表单上传
-      const header = {
-        ...options.header
-      };
-      const temp = {};
-      Object.keys(header).forEach(key => {
-        if (key.toLowerCase() != 'content-type') {
-          temp[key] = header[key];
+      const contentType = options.header[keyOfContentType || 'Content-Type']
+      if (contentType.indexOf('application/json') >= 0) {
+        params.body = JSON.stringify(options.data)
+      } else if (contentType.indexOf('application/x-www-form-urlencoded') >= 0) {
+        params.body = serializeParams(options.data)
+      } else if (contentType.indexOf('multipart/form-data') >= 0 || (options.data instanceof FormData)) {
+        // 支持表单上传
+        const header = {
+          ...options.header
         }
-      })
-      options.header = temp;
-      params.body = options.data
+        const temp = {};
+        Object.keys(header).forEach(key => {
+          if (key.toLowerCase() != 'content-type') {
+            temp[key] = header[key]
+          }
+        })
+        options.header = temp
+        params.body = options.data
+      } else {
+        params.body = options.data
+      }
     } else {
       params.body = options.data
     }
