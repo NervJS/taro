@@ -19,6 +19,18 @@ $ yarn global add @tarojs/cli
 $ cnpm install -g @tarojs/cli
 ```
 
+#### 查看 Taro 全部版本信息
+
+可以使用 `npm info` 查看 Taro 版本信息，在这里你可以看到当前最新版本
+
+```bash
+npm info @tarojs/cli
+```
+
+!npm info @tarojs/cli screenshot](https://img13.360buyimg.com/ling/jfs/t1/144770/7/20011/138415/5fe40491Ed0883578/11236962a3e672db.png)
+
+由图第 1 行可知最新版本，如果你用的是 beta 或者 canary 你可以通过 `dist-tags:` 下面那行看到最新的版本。
+
 ### 注意事项
 
 值得一提的是，如果安装过程出现`sass`相关的安装错误，请在安装[`mirror-config-china`](https://www.npmjs.com/package/mirror-config-china)后重试。
