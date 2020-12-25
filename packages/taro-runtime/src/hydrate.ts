@@ -11,6 +11,7 @@ export interface MpInstance {
   __route__: string;
   options?: Record<string, unknown>
   __data__: any,
+  data: any
   selectComponent: (selector: string) => any
 }
 
