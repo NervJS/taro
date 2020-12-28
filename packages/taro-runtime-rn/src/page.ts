@@ -362,7 +362,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         return result
       }
 
-      isEnablePullDown(){
+      isEnablePullDown () {
         const windowOptions = globalAny.__taroAppConfig?.appConfig?.window || {}
         const { enablePullDownRefresh = false } = windowOptions
         return pageConfig?.enablePullDownRefresh || enablePullDownRefresh
