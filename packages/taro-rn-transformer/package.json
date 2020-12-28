@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-transformer",
-  "version": "3.2.0-canary.4",
+  "version": "3.2.0-canary.5",
   "description": "Taro RN 入口文件处理",
   "main": "dist/index.js",
   "types": "./src/types/index.d.ts",
@@ -32,7 +32,7 @@
     "npm": ">=6.0.0"
   },
   "devDependencies": {
-    "@tarojs/helper": "3.2.0-canary.4",
+    "@tarojs/helper": "3.2.0-canary.5",
     "lodash": "^4.17.20"
   }
 }

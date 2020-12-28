@@ -1,7 +1,7 @@
 {
   "name": "stylelint-taro-rn",
   "description": "A collection of React Native specific rules for stylelint",
-  "version": "3.2.0-canary.4",
+  "version": "3.2.0-canary.5",
   "main": "dist/index.js",
   "files": [
     "dist",
