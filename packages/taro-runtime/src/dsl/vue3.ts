@@ -25,7 +25,9 @@ function createVue3Page (h: typeof createElement, id: string) {
       created () {
         injectPageInstance(this, id)
         // vue3 组件 created 时机比小程序页面 onShow 慢，因此在 created 后再手动触发一次 onShow。
-        safeExecute(id, 'onShow')
+        this.$nextTick(() => {
+          safeExecute(id, 'onShow')
+        })
       }
     }
 
