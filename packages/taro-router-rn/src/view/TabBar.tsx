@@ -189,15 +189,16 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
     const tabStyle = getTabConfig('tabStyle') as TabBarStyle
     const { color = '', selectedColor = '', backgroundColor = '', borderStyle = '' } = tabStyle
     const defaultBackground: any = style?.backgroundColor || 'rgb(255, 255, 255)'
+    const defalutBorderTopColor:any= style?.borderTopColor || 'rgb(216, 216, 216)'
     return {
       backgroundColor: backgroundColor || defaultBackground,
-      borderTopColor: borderStyle || 'rgb(216, 216, 216)',
+      borderTopColor: borderStyle || defalutBorderTopColor,
       color: color || inactiveTintColor,
       selectedColor: selectedColor || activeTintColor
     }
   }
 
-  getTabIconSource (index: number, focused: boolean): any {
+  getTabIconSource (index: number, focused: boolean) {
     const item: any = getDefalutTabItem(index)
     const iconPath = getTabItemConfig(index, 'iconPath') ?? item?.iconPath
     const selectedIconPath = getTabItemConfig(index, 'selectedIconPath') ?? item?.selectedIconPath
