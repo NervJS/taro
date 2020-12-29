@@ -47,7 +47,7 @@ interface PageItem {
   pagePath: string
 }
 
-interface RNConfig{
+interface RNConfig {
   linking?: string[],
   screenOptions?: Record<string, any>,
   tabBarOptions?: Record<string, any>,
@@ -185,7 +185,10 @@ function createTabStack (config: RouterConfig, parentProps: any) {
     inactiveTintColor: tabBar?.color || '#7A7E83',
     activeBackgroundColor: tabBar?.backgroundColor || '#ffffff',
     inactiveBackgroundColor: tabBar?.backgroundColor || '#ffffff',
-    style: tabBar?.borderStyle ? { backgroundColor: tabBar.borderStyle } : {}
+    style: tabBar?.borderStyle ? {
+      backgroundColor: tabBar?.backgroundColor,
+      borderTopColor: (tabBar?.borderStyle === 'black' ? '#000000' : '#ffffff')
+    } : {}
   }, userTabBarOptions)
 
   return React.createElement(Tab.Navigator,
