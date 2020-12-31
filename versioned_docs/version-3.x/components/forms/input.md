@@ -207,7 +207,7 @@ class App extends Component {
     <tr>
       <td>adjustPosition</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
+      <td style={{ textAlign: "center"}}><code>true</code></td>
       <td style={{ textAlign: "center"}}>否</td>
       <td>键盘弹起时，是否自动上推页面</td>
     </tr>
