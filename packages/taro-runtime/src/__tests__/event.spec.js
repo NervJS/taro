@@ -1,5 +1,5 @@
 describe('event', () => {
-  const runtime = require('../dist/runtime.esm')
+  const runtime = require('../../dist/runtime.esm')
   const document = runtime.document
 
   afterAll(() => {

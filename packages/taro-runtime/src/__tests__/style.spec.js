@@ -2,7 +2,7 @@ let TaroRootElement
 let Style
 
 describe('style', () => {
-  const runtime = require('../dist/runtime.esm')
+  const runtime = require('../../dist/runtime.esm')
   Style = runtime.Style
   TaroRootElement = runtime.TaroRootElement
 
