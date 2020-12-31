@@ -21,7 +21,7 @@ const FRAME_DURATION = 17
 export const pageScrollTo = ({ scrollTop, selector, duration = 300, success, fail, complete }) => {
   return new Promise((resolve, reject) => {
     try {
-      if (!scrollTop && !selector) {
+      if (scrollTop === undefined && !selector) {
         throw Error('"scrollTop" 或 "selector" 需要其之一')
       }
 
