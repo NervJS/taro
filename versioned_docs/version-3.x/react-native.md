@@ -215,7 +215,7 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 你需要准备一台 Android 设备来运行 React Native Android 应用。这里所指的设备既可以是真机，也可以是模拟器。Android 官方提供了名为 Android Virtual Device（简称 AVD）的模拟器。此外还有很多第三方提供的模拟器如 [Genymotion](https://www.genymotion.com/download)、BlueStack 等。一般来说官方模拟器免费、功能完整，但性能较差。第三方模拟器性能较好，但可能需要付费，或带有广告。
 
 #### 使用 Android 真机
-你也可以使用 Android 真机来代替模拟器进行开发，只需用 usb 数据线连接到电脑，然后遵照 [在设备上运行](https://reactnative.cn/docs/0.55/running-on-device) 这篇文档的说明操作即可。
+你也可以使用 Android 真机来代替模拟器进行开发，只需用 usb 数据线连接到电脑，然后遵照 [在设备上运行](https://reactnative.cn/docs/running-on-device) 这篇文档的说明操作即可。
 
 #### 使用 Android 模拟器
 你可以在 Android Studi 打开 "AVD Manager" 来查看可用的虚拟设备，它的图标看起来像下面这样：
@@ -726,14 +726,14 @@ See [`Redux DevTools Integration`](https://github.com/jhen0409/react-native-debu
 
 ![image](https://user-images.githubusercontent.com/9441951/56015544-ff513600-5d2b-11e9-92a6-ad01d21b2b8f.png)
 
-React Native 参考文档:[原生模块](https://reactnative.cn/docs/0.55/native-modules-ios/)
+React Native 参考文档:[原生模块](https://reactnative.cn/docs/native-modules-ios/)
 
 ## 集成到现有原生 app
 Taro  编译后的项目实际上就是一个 native React Native 项目，所以集成到现有原生 app 的流程和 React Native 也是一样的。
 
 如果你正准备从头开始制作一个新的应用，那么 React Native 会是个非常好的选择。但如果你只想给现有的原生应用中添加一两个视图或是业务流程，React Native 也同样不在话下。只需简单几步，你就可以给原有应用加上新的基于 React Native 的特性、画面和视图等。
 
-React Native 参考文档：[集成到现有原生应用](https://reactnative.cn/docs/0.55/integration-with-existing-apps/)
+React Native 参考文档：[集成到现有原生应用](https://reactnative.cn/docs/integration-with-existing-apps/)
 
 ## 构建独立 app
 
@@ -788,12 +788,13 @@ Taro 会读取 output 字段的内容且自动覆盖默认配置。
 ![检查设置](https://pic5.58cdn.com.cn/nowater/fangfe/n_v2f5839e05ac5a409db641edfb24c6f6ab.png)
 
 > 此时再次运行 `taro-native-shell` 则加载经 `build` 后的 `jsbundle`。
+
 #### iOS
 
-参考文档：[在设备上运行](https://reactnative.cn/docs/0.55/running-on-device/)
+参考文档：[在设备上运行](https://reactnative.cn/docs/running-on-device)
 
 #### Android
-参考文档：[打包APK](https://reactnative.cn/docs/0.55/signed-apk-android/)
+参考文档：[打包APK](https://reactnative.cn/docs/signed-apk-android/)
 
 ## 发布
 打包好的应用发布到 App Store 或各大应用商店可以查看官方文档。
