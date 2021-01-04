@@ -1,8 +1,7 @@
 import fs from 'fs'
 import path from 'path'
-import appRoot from 'app-root-path'
-import sass, { Options } from 'node-sass'
-import { insertBefore, findVariant } from '../utils'
+import sass, { Options } from 'node-sass' // TODO: dart-sass 支持
+import { insertBefore, resolveStyle } from '../utils'
 
 // https://github.com/sass/node-sass#options
 export interface Config {
@@ -39,7 +38,7 @@ function makeImportStatement (filePath: string, resource: string, rootDir: strin
 export function processByExternal (src, filename, config: SassExternalConfig) {
   let resource = ''
   const projectDirectory = config.projectDirectory || process.cwd()
-  const filePath = path.dirname(path.join(projectDirectory, filename))
+  const filePath = path.dirname(path.resolve(projectDirectory, filename))
   if (typeof config.resource === 'string') {
     resource = makeImportStatement(filePath, config.resource, projectDirectory)
   }
@@ -52,41 +51,28 @@ export function processByExternal (src, filename, config: SassExternalConfig) {
 }
 
 function renderToCSS (src, filename, options, transformOptions) {
-  const ext = path.extname(filename)
-  const exts = [
-    // add the platform specific extension, first in the array to take precedence
-    transformOptions.platform === 'android' ? '.android' + ext : '.ios' + ext,
-    '.native' + ext,
-    '.rn' + ext,
-    ext
-  ]
-
   const defaultOpts = {
-    includePaths: [path.dirname(filename), appRoot],
-    importer: function (url /*, prev, done */) {
+    importer: function (url, prev /*, done */) {
       // url is the path in import as is, which LibSass encountered.
       // prev is the previously resolved path.
       // done is an optional callback, either consume it or return value synchronously.
       // this.options contains this options hash, this.callback contains the node-style callback
-
-      const urlPath = path.parse(url)
-      const separator = process.platform === 'win32' ? ';' : ':'
-      const incPaths = this.options.includePaths.split(separator)
-
-      if (urlPath.dir.length > 0) {
-        incPaths.unshift(path.resolve(path.dirname(filename), urlPath.dir)) // add the file's dir to the search array
-      }
-      const f = findVariant(urlPath.name, exts, incPaths)
-
-      if (f) {
-        return { file: f }
+      let basedir = ''
+      if (path.isAbsolute(prev)) {
+        basedir = path.dirname(prev)
       } else {
-        return new Error(`
-        样式文件没有找到，请检查路径: ${url}
-        在 [
-          ${incPaths.join(',\n       ')}
-        ]
- `)
+        basedir = path.dirname(path.resolve(process.cwd(), filename))
+      }
+      try {
+        const file = resolveStyle(
+          url,
+          {
+            basedir,
+            platforms: transformOptions.platform
+          })
+        return { file: file }
+      } catch (err) {
+        return err
       }
     }
   }
@@ -123,6 +109,7 @@ export default function transform (
         ? `${config.additionalData(data)}`
         : `${config.additionalData}\n${data}`
   }
+
   return renderToCSS(data, filename, config.options, transformOptions)
     .then((css: string) => {
       return css

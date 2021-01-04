@@ -46,4 +46,39 @@ export function findVariant (name, extensions, includePaths) {
   return false
 }
 
+export const getCSSExts = platform => [
+  platform === 'android' ? '.android.css' : '.ios.css',
+  '.rn.css',
+  '.css'
+]
+
+/**
+ * 返回存在的文件path
+ * @param id import id
+ * @param opts { basedir, platform, paths }
+ */
+export function resolveStyle (id, opts) {
+  const { basedir, platform, paths = [] } = opts
+  const { dir, name, ext } = path.parse(id)
+  const incPaths = [path.resolve(basedir, dir)].concat(paths)
+
+  const exts = [
+    // add the platform specific extension, first in the array to take precedence
+    platform === 'android' ? '.android' + ext : '.ios' + ext,
+    '.rn' + ext,
+    ext
+  ]
+  const file = findVariant(name, exts, incPaths)
+  if (!file) {
+    throw new Error(`
+    样式文件没有找到，请检查文件路径: ${id}
+      在 [
+        ${incPaths.join(',\n       ')}
+      ]
+    `)
+  }
+
+  return file
+}
+
 export default {}

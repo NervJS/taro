@@ -1,5 +1,4 @@
 import path from 'path'
-import css2rn from 'css-to-react-native-transform'
 import transformCSS from 'taro-css-to-react-native'
 import { recursiveMerge, printLog, processTypeEnum } from '@tarojs/helper'
 
@@ -9,7 +8,7 @@ import lessTransform, { Config as LessConfig } from './less'
 import stylusTransform, { Config as StylusConfig, defaultOptions as stylusDefaultOptions } from './stylus'
 import { StyleSheetValidation } from './StyleSheet'
 
-function getWrapedCSS (css) {
+export function getWrapedCSS (css) {
   return `
 import { StyleSheet, Dimensions } from 'react-native'
 
@@ -151,21 +150,6 @@ export default class StyleTransform {
           filename
         }
       })
-  }
-
-  /**
-   * @description 处理样式入口
-   * @param {string} src
-   * @param {string} filename
-   * @param {object} transform
-   * @return {string} JSONString
-   */
-  async transform2rn (src: string, filename: string, options = {} as TransformOptions) {
-    const { css } = await this.processStyle(src, filename, options)
-    const styleObject = css2rn(css, { parseMediaQueries: true })
-    // stylelint，转换成对象，对对象进行校验
-    validateStyle({ styleObject, filename })
-    return JSON.stringify(styleObject, null, 2)
   }
 
   /**

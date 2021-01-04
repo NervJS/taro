@@ -17,8 +17,6 @@
   },
   "dependencies": {
     "@tarojs/helper": "3.2.0-canary.5",
-    "app-root-path": "^3.0.0",
-    "css-to-react-native-transform": "^1.9.0",
     "fbjs": "^2.0.0",
     "less": "^3.12.2",
     "node-sass": "^4.14.1",
