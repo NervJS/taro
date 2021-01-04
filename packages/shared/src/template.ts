@@ -432,7 +432,7 @@ export class BaseTemplate {
       ? `${this.dataKeymap('i:item,l:\'\'')}`
       : this.dataKeymap('i:item')
     return `<import src="./base${ext}" />
-  <block wx:for="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="uid">
+  <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="uid">
     <template is="tmpl_0_container" data="{{${data}}}" />
   </block>`
   }
