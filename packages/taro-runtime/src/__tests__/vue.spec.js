@@ -1,10 +1,13 @@
 describe('vue', () => {
   process.env.FRAMEWORK = 'vue'
-  const runtime = require('../dist/runtime.esm')
+  const runtime = require('../../dist/runtime.esm')
   global.document = runtime.document
   global.window = runtime.window
   global.navigator = runtime.navigator
-  const Vue = require('./vue').default
+  const Vue = require('vue')
+
+  Vue.config.devtools = false
+  Vue.config.productionTip = false
 
   afterAll(() => {
     process.env.FRAMEWORK = ''

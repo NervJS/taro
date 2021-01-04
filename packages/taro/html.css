@@ -1,4 +1,4 @@
-/* 
+/*
   Default Styles for HTML4 (W3C spec):
   https://www.w3.org/TR/CSS2/sample.html
 */
@@ -208,4 +208,7 @@
 }
 .taro_html .center {
   text-align: center;
+}
+.taro_html input[type="hidden"] {
+  display: none !important;
 }
