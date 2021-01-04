@@ -8,10 +8,9 @@ import { document } from '../bom/document'
 import { getPageInstance, injectPageInstance } from './common'
 import { isBrowser } from '../env'
 import { options } from '../options'
-import { Reconciler } from '../reconciler'
+import { Reconciler, CurrentReconciler } from '../reconciler'
 import { incrementId } from '../utils'
 import { HOOKS_APP_ID } from './hooks'
-import { CurrentReconciler } from '../reconciler'
 
 function isClassComponent (R: typeof React, component): boolean {
   return isFunction(component.render) ||
