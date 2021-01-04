@@ -3,6 +3,9 @@ import { options } from '../../options'
 import { document } from '../../bom/document'
 import { specialMiniElements, isMiniElements, isBlockElements, isInlineElements } from './tags'
 import { isFunction } from '@tarojs/shared'
+import StyleTagParser from './style'
+
+import type { TaroElement } from '../element'
 
 interface State {
   tokens: Token[]
@@ -42,6 +45,10 @@ export interface Element extends Node {
   attributes: string[]
 }
 
+export interface ParsedTaroElement extends TaroElement{
+  h5tagName?: string
+}
+
 type ChildNode = Comment | Text | Element
 
 function hasTerminalParent (tagName: string, stack: Element[]) {
@@ -62,7 +69,7 @@ function hasTerminalParent (tagName: string, stack: Element[]) {
   return false
 }
 
-function unquote (str: string) {
+export function unquote (str: string) {
   const car = str.charAt(0)
   const end = str.length - 1
   const isQuoteStart = car === '"' || car === "'"
@@ -99,53 +106,80 @@ function splitEqual (str: string) {
   return [key, value]
 }
 
-function format (children: ChildNode[]) {
-  return children.filter(child => {
-    if (child.type === 'comment') {
-      return false
-    } else if (child.type === 'text') {
-      return child.content !== ''
-    }
-    return true
-  }).map((child: Text | Element) => {
-    if (child.type === 'text') {
-      const text = document.createTextNode(child.content)
-      if (isFunction(options.html.transformText)) {
-        return options.html.transformText(text, child)
+function format (
+  children: ChildNode[],
+  styleOptions: {
+    styleTagParser: StyleTagParser
+    descendantList: number[]
+  },
+  parent?: TaroElement
+) {
+  return children
+    .filter(child => {
+      // 过滤注释和空文本节点
+      if (child.type === 'comment') {
+        return false
+      } else if (child.type === 'text') {
+        return child.content !== ''
       }
-      return text
-    }
-
-    const el = document.createElement(getTagName(child.tagName))
-    if (!options.html.renderHTMLTag) {
-      el.className = child.tagName
-    }
-    for (let i = 0; i < child.attributes.length; i++) {
-      const attr = child.attributes[i]
-      const [key, value] = splitEqual(attr)
-      if (key === 'class') {
-        el.className += ' ' + unquote(value)
-      } else if (key[0] === 'o' && key[1] === 'n') {
-        continue
-      } else {
-        el.setAttribute(key, value == null ? true : unquote(value))
+      return true
+    })
+    .map((child: Text | Element) => {
+      // 文本节点
+      if (child.type === 'text') {
+        const text = document.createTextNode(child.content)
+        if (isFunction(options.html.transformText)) {
+          return options.html.transformText(text, child)
+        }
+        parent?.appendChild(text)
+        return text
       }
-    }
 
-    const ch = format(child.children)
-    for (let i = 0; i < ch.length; i++) {
-      el.appendChild(ch[i])
-    }
+      const el: ParsedTaroElement = document.createElement(getTagName(child.tagName))
+      el.h5tagName = child.tagName
 
-    if (isFunction(options.html.transformElement)) {
-      return options.html.transformElement(el, child)
-    }
+      parent?.appendChild(el)
 
-    return el
-  })
+      if (!options.html.renderHTMLTag) {
+        el.className = child.tagName
+      }
+
+      for (let i = 0; i < child.attributes.length; i++) {
+        const attr = child.attributes[i]
+        const [key, value] = splitEqual(attr)
+        if (key === 'class') {
+          el.className += ' ' + unquote(value)
+        } else if (key[0] === 'o' && key[1] === 'n') {
+          continue
+        } else {
+          el.setAttribute(key, value == null ? true : unquote(value))
+        }
+      }
+
+      const { styleTagParser, descendantList } = styleOptions
+      const list = descendantList.slice()
+      const style = styleTagParser.matchStyle(child.tagName, el, list)
+
+      el.setAttribute('style', style + el.style.cssText)
+      // console.log('style, ', style)
+
+      format(child.children, {
+        styleTagParser,
+        descendantList: list
+      }, el)
+
+      if (isFunction(options.html.transformElement)) {
+        return options.html.transformElement(el, child)
+      }
+
+      return el
+    })
 }
 
 export function parser (html: string) {
+  const styleTagParser = new StyleTagParser()
+  html = styleTagParser.extractStyle(html)
+
   const tokens = new Scaner(html).scan()
 
   const root: Element = { tagName: '', children: [], type: 'element', attributes: [] }
@@ -153,7 +187,10 @@ export function parser (html: string) {
   const state = { tokens, options, cursor: 0, stack: [root] }
   parse(state)
 
-  return format(root.children)
+  return format(root.children, {
+    styleTagParser,
+    descendantList: Array(styleTagParser.styles.length).fill(0)
+  })
 }
 
 function parse (state: State) {
