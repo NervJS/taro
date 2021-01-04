@@ -224,7 +224,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.swan **/
 <import src=\\"./base.swan\\" />
-  <block wx:for=\\"{{i.cn}}\\" s-key=\\"uid\\">
+  <block s-for=\\"{{i.cn}}\\" s-key=\\"uid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{{ i:item }}}\\" />
   </block>
 
@@ -863,7 +863,7 @@ require(\\"./taro\\");
 } ], [ [ 19, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\"}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
 
 /** filePath: dist/pages/index/index.swan **/
 <import src=\\"../../base.swan\\"/>

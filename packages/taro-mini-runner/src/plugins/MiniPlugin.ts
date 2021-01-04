@@ -662,16 +662,14 @@ export default class TaroMiniPlugin {
       const importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(this.options.sourceDir, this.getTemplatePath(baseTemplateName))))
       const config = this.filesConfig[this.getConfigFilePath(page.name)]
       if (config) {
-        if (!template.isSupportRecursive) {
-          const importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(this.options.sourceDir, this.getTargetFilePath(baseCompName, ''))))
-          const importCustomWrapperPath = promoteRelativePath(path.relative(page.path, path.join(this.options.sourceDir, this.getTargetFilePath(customWrapperName, ''))))
-          if (!page.isNative) {
-            config.content.usingComponents = {
-              [baseCompName]: importBaseCompPath,
-              [customWrapperName]: importCustomWrapperPath,
-              ...config.content.usingComponents
-            }
-          }
+        const importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(this.options.sourceDir, this.getTargetFilePath(baseCompName, ''))))
+        const importCustomWrapperPath = promoteRelativePath(path.relative(page.path, path.join(this.options.sourceDir, this.getTargetFilePath(customWrapperName, ''))))
+        config.content.usingComponents = {
+          [customWrapperName]: importCustomWrapperPath,
+          ...config.content.usingComponents
+        }
+        if (!template.isSupportRecursive && !page.isNative) {
+          config.content.usingComponents[baseCompName] = importBaseCompPath
         }
         this.generateConfigFile(compilation, page.path, config.content)
       }

@@ -211,7 +211,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.axml **/
 <import src=\\"./base.axml\\" />
-  <block wx:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
+  <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
   </block>
 
@@ -867,7 +867,7 @@ require(\\"./taro\\");
 } ], [ [ 19, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\"}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
 
 /** filePath: dist/runtime.js **/
 (function(modules) {
