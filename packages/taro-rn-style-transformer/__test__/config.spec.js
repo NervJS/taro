@@ -1,26 +1,7 @@
 import path from 'path'
 import { recursiveMerge } from '@tarojs/helper'
 
-import StyleTransform from '../dist/transforms'
-
-function getWrapedCSS (css) {
-  return `
-import { StyleSheet, Dimensions } from 'react-native'
-
-// 一般app 只有竖屏模式，所以可以只获取一次 width
-const deviceWidthDp = Dimensions.get('window').width
-const uiWidthPx = 375
-
-function scalePx2dp (uiElementPx) {
-  return uiElementPx * deviceWidthDp / uiWidthPx
-}
-
-// 用来标识 rn-runner transformer 是否读写缓存
-function ignoreStyleFileCache() {}
-
-export default StyleSheet.create(${css})
-`
-}
+import StyleTransform, { getWrapedCSS } from '../dist/transforms'
 
 const defaultConfig = {
   designWidth: 750,
@@ -31,10 +12,10 @@ const defaultConfig = {
   },
   sass: {
     resource: [
-      'styles/variable.scss',
-      'styles/b.css'
+      '__test__/styles/variable.scss',
+      '__test__/styles/b.css'
     ],
-    projectDirectory: path.resolve(__dirname),
+    projectDirectory: path.resolve(__dirname, '..'),
     data: '.data { width: 200px }'
   },
   rn: {
@@ -59,7 +40,6 @@ const defaultConfig = {
 }
 
 async function run (src, config = {}, filename = './__test__/styles/a.css', options, debug = false) {
-  // const css = await styleTransform.transform2rn(src, filename, options)
   const mergeConfig = recursiveMerge({}, defaultConfig, config)
   // console.log('mergeConfig', JSON.stringify(mergeConfig, null, '  '))
   const styleTransform = new StyleTransform(mergeConfig)
@@ -82,7 +62,7 @@ describe('style transform with config options', () => {
     }
   `, {}, './__test__/styles/a.scss')
     expect(css).toEqual(getWrapedCSS(`{
-  "b": {
+  "brn": {
     "color": "red"
   },
   "data": {
@@ -110,7 +90,7 @@ describe('style transform with config options', () => {
       }
     }, './__test__/styles/a.scss')
     expect(css).toEqual(getWrapedCSS(`{
-  "b": {
+  "brn": {
     "color": "red"
   },
   "data": {

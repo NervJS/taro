@@ -1,5 +1,4 @@
 import path from 'path'
-import appRoot from 'app-root-path'
 import less from 'less'
 
 interface SourceMapOption {
@@ -60,10 +59,13 @@ export interface Config {
   additionalData?: string | Function;
 }
 
-function renderToCSS (src, filename, options = {}) {
+function renderToCSS (src, filename, options = {} as any) {
   return new Promise((resolve, reject) => {
     less
-      .render(src, { paths: [path.dirname(filename), appRoot], ...options })
+      .render(src, {
+        ...options,
+        paths: [path.dirname(path.resolve(process.cwd(), filename))].concat(options.paths || []) // default paths set current filePath
+      })
       .then(({ css }) => {
         resolve(css)
       })

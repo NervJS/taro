@@ -1,11 +1,10 @@
-import StyleTransform from '../dist/transforms'
+import StyleTransform, { getWrapedCSS } from '../dist/transforms'
 
 // 初始化config
 const styleTransform = new StyleTransform()
 
 async function run (src, filename = './__test__/styles/a.css', options, debug) {
-  // const css = await styleTransform.transform2rn(src, filename, options)
-  const css = await styleTransform.transform2rn(src, filename, options)
+  const css = await styleTransform.transform(src, filename, options)
   if (debug) {
     // eslint-disable-next-line
     console.log(filename + ' source: ', src)
@@ -25,14 +24,14 @@ describe('style transform in cross platform', () => {
     .rn { width: 100px }
     /*  #endif  */
   `)
-    expect(css).toEqual(`{
+    expect(css).toEqual(getWrapedCSS(`{
   "test": {
     "color": "red"
   },
   "rn": {
-    "width": 50
+    "width": scalePx2dp(50)
   }
-}`)
+}`))
   })
 
   it('not surport style', async () => {
@@ -42,11 +41,11 @@ describe('style transform in cross platform', () => {
       background: red;
     }
   `)
-    expect(css).toEqual(`{
+    expect(css).toEqual(getWrapedCSS(`{
   "test": {
     "o": 0.5,
     "backgroundColor": "red"
   }
-}`)
+}`))
   })
 })

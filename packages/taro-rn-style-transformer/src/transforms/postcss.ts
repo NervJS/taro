@@ -2,7 +2,7 @@ import postcss, { ProcessOptions } from 'postcss'
 import pxtransform from 'postcss-pxtransform'
 import postcssImport from 'postcss-import'
 import { recursiveMerge } from '@tarojs/helper'
-import resolveId from '../utils/resolveId'
+import { resolveStyle } from '../utils'
 import stylelintConfig from '../config/rn-stylelint.json'
 
 export interface Config {
@@ -40,8 +40,15 @@ export function getPostcssPlugins ({
 
   const plugins = [
     postcssImport({
-      resolve: function resolve (id, base, options) {
-        return resolveId(id, base, { ...options, platform: transformOptions.platform })
+      resolve: function resolve (id, basedir, options) {
+        return resolveStyle(
+          id,
+          {
+            ...options,
+            basedir,
+            platform: transformOptions.platform
+          }
+        )
       }
     }),
     require('stylelint')(stylelintConfig),

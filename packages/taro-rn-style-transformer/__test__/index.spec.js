@@ -1,11 +1,10 @@
-import StyleTransform from '../dist/transforms'
+import StyleTransform, { getWrapedCSS } from '../dist/transforms'
 
 // 初始化
 const styleTransform = new StyleTransform()
 
 async function run (src, filename = './__test__/styles/a.css', options, debug) {
-  // const css = await styleTransform.transform2rn(src, filename, options)
-  const css = await styleTransform.transform2rn(src, filename, options)
+  const css = await styleTransform.transform(src, filename, options)
   if (debug) {
     // eslint-disable-next-line
     console.log(filename + ' source: ', src)
@@ -23,12 +22,12 @@ describe('style transform', () => {
         height: 10px;
       }
     `)
-    expect(css).toEqual(`{
+    expect(css).toEqual(getWrapedCSS(`{
   "test": {
     "color": "red",
-    "height": 5
+    "height": scalePx2dp(5)
   }
-}`)
+}`))
   })
 
   it('.css transform @import', async () => {
@@ -38,14 +37,14 @@ describe('style transform', () => {
         color: red;
       }
     `)
-    expect(css).toEqual(`{
+    expect(css).toEqual(getWrapedCSS(`{
   "brn": {
     "color": "red"
   },
   "test": {
     "color": "red"
   }
-}`)
+}`))
   })
 
   it('.scss transform basic', async () => {
@@ -54,11 +53,11 @@ describe('style transform', () => {
         color: red;
       }
     `, './__test__/styles/a.scss')
-    expect(css).toEqual(`{
+    expect(css).toEqual(getWrapedCSS(`{
   "test": {
     "color": "red"
   }
-}`)
+}`))
   })
   //
   it('.scss transform @import', async () => {
@@ -68,14 +67,30 @@ describe('style transform', () => {
         color: red;
       }
     `, './__test__/styles/a.scss')
-    expect(css).toEqual(`{
+    expect(css).toEqual(getWrapedCSS(`{
   "b": {
     "color": "red"
   },
   "test": {
     "color": "red"
   }
-}`)
+}`))
+  })
+  it('.scss transform @import css file', async () => {
+    const css = await run(`
+      @import './c.css';
+      .test {
+        color: red;
+      }
+    `, './__test__/styles/a.scss')
+    expect(css).toEqual(getWrapedCSS(`{
+  "c": {
+    "color": "red"
+  },
+  "test": {
+    "color": "red"
+  }
+}`))
   })
 
   it('.scss transform @import with mixins', async () => {
@@ -86,12 +101,12 @@ describe('style transform', () => {
         @include hairline(width);
       }
     `, './__test__/styles/a.scss')
-    expect(css).toEqual(`{
+    expect(css).toEqual(getWrapedCSS(`{
   "test": {
     "color": "red",
-    "width": 0.5
+    "width": scalePx2dp(0.5)
   }
-}`)
+}`))
   })
 
   it('.less transform basic', async () => {
@@ -100,11 +115,11 @@ describe('style transform', () => {
         color: red;
       }
     `, './__test__/styles/a.less')
-    expect(css).toEqual(`{
+    expect(css).toEqual(getWrapedCSS(`{
   "test": {
     "color": "red"
   }
-}`)
+}`))
   })
 
   it('.less transform @import', async () => {
@@ -114,14 +129,14 @@ describe('style transform', () => {
         color: red;
       }
     `, './__test__/styles/a.less')
-    expect(css).toEqual(`{
+    expect(css).toEqual(getWrapedCSS(`{
   "b": {
     "color": "red"
   },
   "test": {
     "color": "red"
   }
-}`)
+}`))
   })
 
   it('.styl transform basic', async () => {
@@ -130,11 +145,11 @@ describe('style transform', () => {
         color: red;
       }
     `, './__test__/styles/a.styl')
-    expect(css).toEqual(`{
+    expect(css).toEqual(getWrapedCSS(`{
   "test": {
     "color": "#f00"
   }
-}`)
+}`))
   })
 
   it('.styl transform @import', async () => {
@@ -144,13 +159,13 @@ describe('style transform', () => {
         color: red;
       }
     `, './__test__/styles/a.styl')
-    expect(css).toEqual(`{
+    expect(css).toEqual(getWrapedCSS(`{
   "b": {
     "color": "#f00"
   },
   "test": {
     "color": "#f00"
   }
-}`)
+}`))
   })
 })
