@@ -175,16 +175,14 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
             </Animated.View>
           )}
           {
-            // eslint-disable-next-line multiline-ternary
             Array.isArray(children) ? (
               children.map((c: never, i: number) => (
-              <Text key={i} style={[styles.btnText, !isDefaultSize && styles.btnTextMini, { color: textColor }]}>
-                {c}
-              </Text>
+                <Text key={i} style={[styles.btnText, !isDefaultSize && styles.btnTextMini, { color: textColor }]}>
+                  {c}
+                </Text>
               ))
-            // eslint-disable-next-line multiline-ternary
-            ) : typeof children === 'string' ? (
-            <Text style={[styles.btnText, !isDefaultSize && styles.btnTextMini, { color: textColor }]}>{children}</Text>
+            ) : (['string', 'number'].indexOf(typeof children) > -1) ? (
+              <Text style={[styles.btnText, !isDefaultSize && styles.btnTextMini, { color: textColor }]}>{children}</Text>
             ) : (
               children
             )}
