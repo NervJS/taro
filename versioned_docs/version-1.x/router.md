@@ -34,7 +34,7 @@ Taro.navigateTo({
 
 ```
 
-这样的话，在跳转成功的目标页的**生命周期**方法里就能通过 `this.$router.params` 获取到传入的参数，例如上述跳转，在目标页的 `componentWillMount` 生命周期里获取入参
+这样的话，在跳转成功的目标页的**生命周期**方法里就能通过 `this.$router.params` 获取到传入的参数，例如上述跳转，在目标页的 `componentWillMount` 生命周期里获取入参数
 
 ```jsx
 class C extends Taro.Component {
