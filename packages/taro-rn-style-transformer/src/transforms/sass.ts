@@ -68,7 +68,7 @@ function renderToCSS (src, filename, options, transformOptions) {
           url,
           {
             basedir,
-            platforms: transformOptions.platform
+            platform: transformOptions.platform
           })
         return { file: file }
       } catch (err) {

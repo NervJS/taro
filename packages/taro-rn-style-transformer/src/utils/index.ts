@@ -46,18 +46,12 @@ export function findVariant (name, extensions, includePaths) {
   return false
 }
 
-export const getCSSExts = platform => [
-  platform === 'android' ? '.android.css' : '.ios.css',
-  '.rn.css',
-  '.css'
-]
-
 /**
  * 返回存在的文件path
  * @param id import id
  * @param opts { basedir, platform, paths }
  */
-export function resolveStyle (id, opts) {
+export function resolveStyle (id, opts: { basedir: string, platform: string, paths?: string[] }) {
   const { basedir, platform, paths = [] } = opts
   const { dir, name, ext } = path.parse(id)
   const incPaths = [path.resolve(basedir, dir)].concat(paths)
@@ -68,6 +62,7 @@ export function resolveStyle (id, opts) {
     '.rn' + ext,
     ext
   ]
+
   const file = findVariant(name, exts, incPaths)
   if (!file) {
     throw new Error(`
