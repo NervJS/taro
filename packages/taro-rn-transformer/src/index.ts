@@ -9,14 +9,13 @@ module.exports.transform = function ({ src, filename, options }: TransformType) 
   let code = src
   const sourceDir = options?.sourceRoot || 'src'
   const entryName = options?.entry || 'app'
-  if (!globalAny.__taroAppPages) {
+  if (!(/node_modules/.test(filename)) && filename.indexOf(sourceDir) !== -1 && !filename.includes('.config')) {
     const appPath = path.join(options.projectRoot, sourceDir, entryName)
     const basePath = path.join(options.projectRoot, sourceDir)
     const pages = getAppPages(appPath)
     globalAny.__taroAppPages = pages.map(item => sourceDir + item)
     globalAny.__taroCommonStyle = getCommonStyle(appPath, basePath)
   }
-
   if (options.isEntryFile(filename)) {
     code = appLoader({
       filename: filename,
