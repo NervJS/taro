@@ -2,8 +2,8 @@ import * as path from 'path'
 import * as fs from 'fs'
 import { camelCase } from 'lodash'
 import { isEmptyObject } from '@tarojs/helper'
-import { getConfigContent, getConfigFilePath, getCommonStyle } from './utils'
-import { TransformEntry, AppConfig, globalAny } from './types/index'
+import { getConfigContent, getConfigFilePath } from './utils'
+import { TransformEntry, AppConfig } from './types/index'
 
 function getPagesResource (appPath: string, basePath: string, pathPrefix: string) {
   const importPages: string[] = []
@@ -65,8 +65,8 @@ export function getAppPages (appPath: string) {
       pages.push(subRoot + itm)
     })
   })
-  pages.map(item => { return item.startsWith('/') ? item : `/${item}` })
-  return pages
+  const res = pages.map(item => { return item.startsWith('/') ? item : `/${item}` })
+  return res
 }
 
 export default function generateEntry ({
@@ -93,12 +93,6 @@ export default function generateEntry ({
   const importPageConfig = pages.importConfigs.join(';')
   const routeList = pages.screenPages
   const appComponentPath = `./${sourceDir}/${entryName}`
-
-  // 所有页面存一下，用于判断是否页面文件
-  globalAny.__taroAppPages = pages.screenPages.map(item => sourceDir + item)
-
-  // app入口公共样式文件读取
-  globalAny.__taroCommonStyle = getCommonStyle(appPath, basePath)
 
   const code = `import 'react-native/Libraries/polyfills/error-guard'
   import { AppRegistry } from 'react-native'
