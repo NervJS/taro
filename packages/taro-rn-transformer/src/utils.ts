@@ -59,7 +59,10 @@ export function getStyleCode (code: string, basePath: string) {
 export function isPageFile (file: string, sourceDir: string) {
   if ((/node_modules/.test(file)) || file.indexOf(sourceDir) === -1) return false
   const pagesList = globalAny.__taroAppPages || []
-  const filePath = file.split('.')[0].replace(/\\/g, '/')
+  const dirname = nodePath.dirname(file).replace(/\\/g, '/')
+  const fileObj = nodePath.parse(file)
+  const name = fileObj.name.split('.')[0]
+  const filePath = `${dirname}/${name}`
   const filename = nodePath.basename(file).replace(nodePath.extname(file), '')
   return pagesList.includes(filePath) && !(filename.endsWith('.config'))
 }
