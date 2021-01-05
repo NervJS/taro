@@ -819,11 +819,11 @@ export default class TaroMiniPlugin {
 
     const originSource: string = assets[appStyle].source()
     const source = new ConcatSource()
+    source.add(originSource)
 
     Object.keys(assets).forEach(assetName => {
       const fileName = path.basename(assetName, path.extname(assetName))
       if (REG_STYLE.test(assetName) && this.options.commonChunks.includes(fileName)) {
-        source.add(originSource)
         source.add('\n')
         source.add(`@import ${JSON.stringify(urlToRequest(assetName))};`)
         assets[appStyle] = {
