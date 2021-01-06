@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/react",
-  "version": "3.2.0-canary.5",
+  "version": "3.2.0-canary.6",
   "description": "like react-dom, but for mini apps.",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-react#readme",
@@ -24,7 +24,7 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/runtime": "3.2.0-canary.5",
+    "@tarojs/runtime": "3.2.0-canary.6",
     "react-reconciler": "^0.23.0",
     "scheduler": "^0.17.0"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router-rn",
-  "version": "3.2.0-canary.5",
+  "version": "3.2.0-canary.6",
   "description": "Taro-router-rn",
   "main": "dist/index.js",
   "typings": "src/index.ts",
