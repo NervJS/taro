@@ -336,7 +336,8 @@ export function createRecursiveComponentConfig () {
       }
     },
     options: {
-      addGlobalClass: true
+      addGlobalClass: true,
+      virtualHost: true
     },
     methods: {
       eh: eventHandler
