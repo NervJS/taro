@@ -118,7 +118,7 @@ defineConstants: {
 用来配置目录别名，从而方便书写代码引用路径。例如，使用相对路径书写文件引用如下：
 
 ```js
-import A from '../../componnets/A'
+import A from '../../components/A'
 import Utils from '../../utils'
 import packageJson from '../../package.json'
 import projectConfig from '../../project.config.json'
