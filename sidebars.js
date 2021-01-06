@@ -53,7 +53,17 @@ module.exports = {
       }
     ],
     迁移指南: ['migration'],
-    社区生态: ['redux', 'css-modules', 'template', 'youshu', 'report','seowhy', 'join-in', 'CONTRIBUTING'],
+    社区生态: [
+      'redux',
+      'css-modules',
+      'template',
+      'vant',
+      'youshu',
+      'report',
+      'seowhy',
+      'join-in',
+      'CONTRIBUTING'
+    ],
   },
   "components": {
     "关于组件库": [

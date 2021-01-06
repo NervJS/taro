@@ -1,0 +1,244 @@
+---
+title: Vant UI
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import { VueIcon, ReactIcon } from './guides/index'
+
+Taro3 支持使用 [Vant Weapp](https://youzan.github.io/vant-weapp/#/intro) 组件库进行开发，示例仓库：[taro3-vant-sample](https://github.com/NervJS/taro3-vant-sample)。
+
+> 注意：使用原生第三方组件库进行开发的项目，**不再具有多端转换的能力**。
+
+## 如何使用
+
+### 配置忽略 vant 的样式尺寸转换
+
+如果直接使用 vant 组件，会发现样式偏小的情况，这是因为 Taro 默认将 vant 的样式尺寸从 **px** 转换为了 **rpx**，可以通过配置 [selectorblacklist](https://nervjs.github.io/taro/docs/size#selectorblacklist) 来禁止转换。
+
+配置方法：
+
+```js
+// config/index.js
+const config = {
+  // ...
+  mini: {
+    postcss: {
+      pxtransform: {
+        enable: true,
+        config: {
+          selectorBlackList: [/van-/]
+        }
+      }
+    }
+  },
+}
+```
+
+### 配置 copy 小程序原生文件
+
+vant 组件中包含一些小程序原生文件的依赖，目前 Taro 没有对这些依赖进行分析。因此需要配置 `copy` 把这些依赖移动到 `dist` 目录中，例如需要 copy `wxs` 和样式文件，部分配置如下
+
+```js
+// config/index.js
+const config = {
+  // ...
+  copy: {
+    patterns: [
+      { from: 'src/components/vant-weapp/dist/wxs', to: 'dist/components/vant-weapp/dist/wxs' },
+      { from: 'src/components/vant-weapp/dist/common/style', to: 'dist/components/vant-weapp/dist/common/style' },
+      { from: 'src/components/vant-weapp/dist/common/index.wxss', to: 'dist/components/vant-weapp/dist/common/index.wxss' },
+      { from: 'src/components/vant-weapp/dist/calendar/index.wxs', to: 'dist/components/vant-weapp/dist/calendar/index.wxs' },
+      { from: 'src/components/vant-weapp/dist/calendar/utils.wxs', to: 'dist/components/vant-weapp/dist/calendar/utils.wxs' },
+      { from: 'src/components/vant-weapp/dist/calendar/calendar.wxml', to: 'dist/components/vant-weapp/dist/calendar/calendar.wxml' },
+      { from: 'src/components/vant-weapp/dist/calendar/components/month/index.wxs', to: 'dist/components/vant-weapp/dist/calendar/components/month/index.wxs' },
+    ],
+    options: {
+    }
+  },
+}
+```
+
+### 引用 vant 组件
+
+首先需要在 **app 的 config** 或**页面的 config** 文件中配置 `usingComponents` 字段，如：
+
+```js
+export default {
+  navigationBarTitleText: '首页',
+  usingComponents: {
+    'van-button': '../../components/vant-weapp/dist/button/index'
+  }
+}
+```
+
+然后在页面中便可以直接使用。
+
+### 使用 vant 组件
+
+#### 1. 绑定属性
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label:  <ReactIcon />, value: 'React'},
+    {label: <VueIcon />, value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
+```jsx
+import React, { Component } from 'react'
+import { View } from '@tarojs/components'
+
+export default class Index extends Component {
+  render () {
+    return (
+      <View>
+        <van-button type='primary' loading loading-text='ing'>Button</van-button>
+      </View>
+    )
+  }
+}
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <view>
+    <van-button type='primary' :loading='true' loading-text='ing'>Button</van-button>
+  </view>
+</template>
+
+<script>
+export default {
+  name: 'index'
+}
+</script>
+```
+
+</TabItem>
+</Tabs>
+
+> 注意：如果组件的某些属性在 vant 文档里写着带有默认值 `true`，在 Taro 中使用时仍然需要**显示设置为 true**。
+
+#### 2. 绑定事件
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label:  <ReactIcon />, value: 'React'},
+    {label: <VueIcon />, value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
+```jsx
+import React, { Component } from 'react'
+import { View } from '@tarojs/components'
+
+export default class Index extends Component {
+  handleClick = () => {
+    console.log('click')
+  }
+
+  onAfterRead = res => {
+    console.log(res)
+  }
+
+  render () {
+    return (
+      <View>
+        // 对应 bind:click 事件
+        <van-button type='primary' onClick={this.handleClick} >Button</van-button>
+        // 对应 bind:after-read 事件
+        <van-uploader fileList={[]} onAfterRead={this.onAfterRead} />
+      </View>
+    )
+  }
+}
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <view>
+    <van-button type='primary' @click='handleClick'>Button</van-button>
+    <van-uploader :fileList='[]' @after-read='onAfterRead' />
+  </view>
+</template>
+
+<script>
+export default {
+  methods: {
+    handleClick () {
+      console.log('click')
+    },
+    onAfterRead (res) {
+      console.log(res)
+    }
+  }
+}
+</script>
+```
+
+</TabItem>
+</Tabs>
+
+#### 3. Slot
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label:  <ReactIcon />, value: 'React'},
+    {label: <VueIcon />, value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
+```jsx
+import React, { Component } from 'react'
+import { View, Slot } from '@tarojs/components'
+
+export default class Index extends Component {
+  render () {
+    return (
+      <View>
+        <van-calendar poppable show>
+          <Slot name='title'>
+            <View>Hello world</View>
+          </Slot>
+        </van-calendar>
+      </View>
+    )
+  }
+}
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <view>
+    <van-calendar :poppable='true' :show='true'>
+      <slot-view :name='"title"'>
+        <view>Hello world</view>
+      </slot-view>
+    </van-calendar>
+  </view>
+</template>
+
+<script>
+export default {
+  name: 'index'
+}
+</script>
+```
+
+</TabItem>
+</Tabs>
