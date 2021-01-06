@@ -2,6 +2,7 @@ import { TaroNode } from './node'
 import { EMPTY_OBJ } from '@tarojs/shared'
 import { document } from '../bom/document'
 import { TaroElement } from './element'
+import { CurrentReconciler } from '../reconciler'
 
 interface EventOptions {
   bubbles: boolean;
@@ -91,6 +92,8 @@ export function createEvent (event: MpEvent | string, _?: TaroElement) {
 }
 
 export function eventHandler (event: MpEvent) {
+  CurrentReconciler.modifyEventType?.(event)
+
   if (event.currentTarget == null) {
     event.currentTarget = event.target
   }
