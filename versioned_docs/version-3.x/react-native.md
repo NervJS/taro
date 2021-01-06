@@ -773,21 +773,21 @@ Taro 会读取 output 字段的内容且自动覆盖默认配置。
 
 - 添加 bundle 文件及静态资源文件
 
-| ![添加静态文件](https://pic7.58cdn.com.cn/nowater/fangfe/n_v229d10b887c9f4eb28f4cd45ee972be09.png) | ![添加选项](https://pic1.58cdn.com.cn/nowater/fangfe/n_v28a29b61abe5c4c349de5b0212e9cda65.png) |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-|                                                              |                                                              |
+  | ![添加静态文件](https://pic7.58cdn.com.cn/nowater/fangfe/n_v229d10b887c9f4eb28f4cd45ee972be09.png) | ![添加选项](https://pic1.58cdn.com.cn/nowater/fangfe/n_v28a29b61abe5c4c349de5b0212e9cda65.png) |
+  | ------------------------------------------------------------ | ------------------------------------------------------------ |
+  |                                                              |                                                              |
 
-- 指定要加载的 bundle 文件
+- 设置脚本执行条件
 
-![设置加载的bundle](https://pic8.58cdn.com.cn/nowater/fangfe/n_v2ba3230a12d6d4511bab918ee93333a26.png)
+  ![设置脚本执行条件](https://pic1.58cdn.com.cn/nowater/fangfe/n_v21fc653659339465a809c28402ff21cc0.png)
 
-![注释壳工程内置bundle](https://pic5.58cdn.com.cn/nowater/fangfe/n_v29bf1d35f8d6a4269932b42b7d0327101.png)
+- 选择打包 release/debug 包。（product -> scheme -> edit scheme）
 
-- 检查以下设置是否均修改完成
+  ![设置release/debug](https://pic6.58cdn.com.cn/nowater/fangfe/n_v2b6ca255145434821adfa9ef46e9dd7bb.png)
 
-![检查设置](https://pic5.58cdn.com.cn/nowater/fangfe/n_v2f5839e05ac5a409db641edfb24c6f6ab.png)
 
-> 此时再次运行 `taro-native-shell` 则加载经 `build` 后的 `jsbundle`。
+> 此时再次运行 `taro-native-shell` 则可根据 `scheme` 配置加载相应的包。
+
 
 #### iOS
 
