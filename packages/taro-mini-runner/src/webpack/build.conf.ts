@@ -163,7 +163,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     document: ['@tarojs/runtime', 'document'],
     navigator: ['@tarojs/runtime', 'navigator'],
     requestAnimationFrame: ['@tarojs/runtime', 'requestAnimationFrame'],
-    cancelAnimationFrame: ['@tarojs/runtime', 'cancelAnimationFrame']
+    cancelAnimationFrame: ['@tarojs/runtime', 'cancelAnimationFrame'],
+    Element: ['@tarojs/runtime', 'TaroElement']
   })
 
   const isCssoEnabled = !((csso && csso.enable === false))
