@@ -1693,7 +1693,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.jxml **/
 <import src=\\"./base.jxml\\" />
-  <block wx:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+  <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
   </block>
 
@@ -2329,7 +2329,7 @@ require(\\"./taro\\");
 } ], [ [ 19, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\",\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
 /** filePath: dist/pages/index/index.jxml **/
 <import src=\\"../../base.jxml\\"/>

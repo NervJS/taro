@@ -1,5 +1,5 @@
 describe('style', () => {
-  const runtime = require('../dist/runtime.esm')
+  const runtime = require('../../dist/runtime.esm')
 
   afterAll(() => {
     process.env.FRAMEWORK = ''
