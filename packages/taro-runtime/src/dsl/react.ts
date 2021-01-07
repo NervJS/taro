@@ -110,6 +110,9 @@ function setReconciler () {
           next[item] = [...(next[item] || []), ...prev[item]]
         }
       })
+    },
+    modifyEventType (event) {
+      event.type = event.type.replace(/-/g, '')
     }
   }
 
