@@ -78,5 +78,5 @@ export interface AppInstance extends Show {
   mount? (component: React.ComponentClass | ComponentOptions<VueCtor> | Vue3Component, id: string, cb: () => void): void
   unmount? (id: string, cb: () => void): void
   onPageNotFound? (res: any): void
-  optionsExtraKeys?: string[]
+  taroGlobalData?: Record<any, any>
 }

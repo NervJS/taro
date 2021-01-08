@@ -111,7 +111,7 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
 
       public observers?: Record<string, Function>
 
-      public optionsExtraKeys: string[] = []
+      public taroGlobalData: Record<any, any> = Object.create(null)
 
       public data: any
 
@@ -218,7 +218,10 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
                 this.initLifeCycles(confKey, lifecycle)
               } else if (isFunction(confValue)) {
                 this[confKey] = bind(confValue, this)
-                isApp && !appOptions.includes(confKey) && this.optionsExtraKeys.push(confKey)
+
+                if (isApp && !appOptions.includes(confKey)) {
+                  this.defineProperty(this.taroGlobalData, confKey, this)
+                }
 
                 // 原生页面和 Taro 页面中共计只能定义一次的生命周期
                 if (uniquePageLifecycle.includes(confKey) && ConnectComponent.prototype[confKey]) {
@@ -226,7 +229,10 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
                 }
               } else {
                 this[confKey] = confValue
-                isApp && !appOptions.includes(confKey) && this.optionsExtraKeys.push(confKey)
+
+                if (isApp && !appOptions.includes(confKey)) {
+                  this.defineProperty(this.taroGlobalData, confKey, this)
+                }
               }
 
               break
@@ -413,6 +419,19 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
             observers[observerKey].apply(this, keys.map(key => safeGet(current, key)))
           }
         }
+      }
+
+      private defineProperty (target, key, data) {
+        Object.defineProperty(target, key, {
+          configurable: true,
+          enumerable: true,
+          set (value) {
+            data[key] = value
+          },
+          get () {
+            return data[key]
+          }
+        })
       }
 
       public privateStopNoop (...args) {
