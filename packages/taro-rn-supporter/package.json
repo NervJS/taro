@@ -1,0 +1,41 @@
+{
+  "name": "@tarojs/rn-supporter",
+  "version": "3.2.0-canary.5",
+  "description": "Taro rn supporter",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "test": "jest",
+    "test:ci": "jest --silent --coverage false",
+    "lint": "eslint ."
+  },
+  "author": "yechunxi",
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "directories": {
+    "test": "__tests__"
+  },
+  "files": [
+    "dist/",
+    "src/types/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=12.0.0",
+    "npm": ">=6.0.0"
+  },
+  "dependencies": {
+    "@tarojs/helper": "3.2.0-canary.5",
+    "@tarojs/rn-style-transformer": "3.2.0-canary.5",
+    "lodash": "^4.17.20",
+    "metro": "0.58.0",
+    "metro-react-native-babel-transformer": "^0.58.0",
+    "metro-resolver": "^0.58.0"
+  }
+}
