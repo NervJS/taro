@@ -243,6 +243,10 @@
         },
         {
           "type": "doc",
+          "id": "version-3.x/vant"
+        },
+        {
+          "type": "doc",
           "id": "version-3.x/youshu"
         },
         {

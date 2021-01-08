@@ -275,7 +275,7 @@ HashSet 中包含的 HTML 标签可以自动闭合，且不能被嵌套。
 ```js
 // 给所有 img 标签添加 aotu 类
 Taro.options.html.transformElement = (el) => {
-  if (el.nodeName === 'img') {
+  if (el.nodeName === 'image') {
     el.setAttribute('class', 'aotu')
   }
   return el

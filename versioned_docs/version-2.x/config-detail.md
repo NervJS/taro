@@ -362,7 +362,7 @@ const config = {
 }
 ```
 
-#### mini.compile.incldue
+#### mini.compile.include
 
 配置额外需要经过 Taro 编译的文件，例如 Taro 默认不编译 `node_modules` 包中文件，可以通过这个配置让 Taro 编译  `node_modules` 包中文件，使用方式与 `mini.compile.exclude` 一致，同 [Rule.include](https://webpack.js.org/configuration/module/#ruleinclude)。
 
