@@ -115,23 +115,31 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         // 屏幕宽高发送变化
         Dimensions.addEventListener('change', ({ window }) => this.onResize({ window }))
 
-        this.unSubscribleTabPress = navigation.addListener('tabPress', () => this.onTabItemTap())
-        this.unSubscribleFocus = navigation.addListener('focus', () => this.onFocusChange())
-        this.unSubscribleBlur = navigation.addListener('blur', () => this.onBlurChange())
+        if (navigation) {
+          this.unSubscribleTabPress = navigation.addListener('tabPress', () => this.onTabItemTap())
+          this.unSubscribleFocus = navigation.addListener('focus', () => this.onFocusChange())
+          this.unSubscribleBlur = navigation.addListener('blur', () => this.onBlurChange())
+        }
+
         eventCenter.on('__taroPullDownRefresh', ({ path, refresh }) => this.pullDownRefresh(path, refresh), this)
         eventCenter.on('__taroPageScrollTo', ({ path, scrollTop }) => this.pageToScroll({ path, scrollTop }), this)
         eventCenter.on('__taroSetRefreshStyle', () => this.setRefreshStyle(), this)
       }
 
       componentWillUnmount () {
+        const { navigation } = this.props
+
         AppState.removeEventListener('change', () => this.onAppStateChange)
         Dimensions.removeEventListener('change', ({ window }) => this.onResize({ window }))
-        this.unSubscribleTabPress()
-        this.unSubscribleBlur()
-        this.unSubscribleFocus()
+
         eventCenter.off('__taroPullDownRefresh', ({ path, refresh }) => this.pullDownRefresh(path, refresh), this)
         eventCenter.off('__taroPageScrollTo', ({ path, scrollTop }) => this.pageToScroll({ path, scrollTop }), this)
         eventCenter.off('__taroSetRefreshStyle', () => this.setRefreshStyle(), this)
+        if (navigation) {
+          this.unSubscribleTabPress()
+          this.unSubscribleBlur()
+          this.unSubscribleFocus()
+        }
       }
 
       setPageInstance () {
