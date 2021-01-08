@@ -233,6 +233,29 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
         // eslint-disable-next-line react/no-render-return-value
         wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById('app'))
         const app = ref.current
+
+        // For taroize
+        // 把 App Class 上挂载的额外属性同步到全局 app 对象中
+        if (app?.taroGlobalData) {
+          const globalData = app.taroGlobalData
+          const keys = Object.keys(globalData)
+          const descriptors = Object.getOwnPropertyDescriptors(globalData)
+          keys.forEach(key => {
+            Object.defineProperty(this, key, {
+              configurable: true,
+              enumerable: true,
+              get () {
+                return globalData[key]
+              },
+              set (value) {
+                globalData[key] = value
+              }
+            })
+          })
+          Object.defineProperties(this, descriptors)
+        }
+        this.$app = app
+
         if (app != null && isFunction(app.onLaunch)) {
           app.onLaunch(options)
         }
