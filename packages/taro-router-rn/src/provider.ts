@@ -24,63 +24,65 @@ export class PageProvider extends React.Component<any> {
 
   componentDidMount (): void {
     const { navigation, pageConfig } = this.props
-    const config = globalAny.__taroAppConfig?.appConfig || {}
-    const winOptions = config.window || {}
-    const winRnOptions = config.rn || {} // 全局的rn config
-    // 多个config的优先级问题，页面rnConfig> 页面config > app.config中rnConfig > app.config.window
-    const winScreenOptions = this.isTabBarPage() ? {} : (winRnOptions?.screenOptions || {})
-    const { title = '', headerTintColor = '', headerStyle = {}, headerShown = false } = winScreenOptions
+    if (navigation && navigation.setOptions) {
+      const config = globalAny.__taroAppConfig?.appConfig || {}
+      const winOptions = config.window || {}
+      const winRnOptions = config.rn || {} // 全局的rn config
+      // 多个config的优先级问题，页面rnConfig> 页面config > app.config中rnConfig > app.config.window
+      const winScreenOptions = this.isTabBarPage() ? {} : (winRnOptions?.screenOptions || {})
+      const { title = '', headerTintColor = '', headerStyle = {}, headerShown = false } = winScreenOptions
 
-    const winRnTitle = this.isTabBarPage() ? winRnOptions?.options?.title || '' : title
+      const winRnTitle = this.isTabBarPage() ? winRnOptions?.options?.title || '' : title
 
-    const headerTitle = pageConfig.navigationBarTitleText || winRnTitle || winOptions?.navigationBarTitleText || ''
-    const color = pageConfig.navigationBarTextStyle || headerTintColor || winOptions?.navigationBarTextStyle || 'black'
-    const bgColor = pageConfig.navigationBarBackgroundColor || headerStyle?.backgroundColor || winOptions?.navigationBarBackgroundColor || '#ffffff'
-    const customHeader = pageConfig?.navigationStyle !== 'custom' || headerShown || winOptions?.navigationStyle !== 'custom'
+      const headerTitle = pageConfig.navigationBarTitleText || winRnTitle || winOptions?.navigationBarTitleText || ''
+      const color = pageConfig.navigationBarTextStyle || headerTintColor || winOptions?.navigationBarTextStyle || 'black'
+      const bgColor = pageConfig.navigationBarBackgroundColor || headerStyle?.backgroundColor || winOptions?.navigationBarBackgroundColor || '#ffffff'
+      const customHeader = pageConfig?.navigationStyle !== 'custom' || headerShown || winOptions?.navigationStyle !== 'custom'
 
-    const rnConfig = pageConfig?.rn || {}
-    const screenOptions = rnConfig.screenOptions || {}
-    const screenHeaderStyle = screenOptions?.headerStyle || {}
+      const rnConfig = pageConfig?.rn || {}
+      const screenOptions = rnConfig.screenOptions || {}
+      const screenHeaderStyle = screenOptions?.headerStyle || {}
 
-    screenOptions.headerStyle = Object.assign({}, {
-      backgroundColor: bgColor,
-      shadowOffset: { width: 0, height: 0 },
-      borderWidth: 0,
-      elevation: 0,
-      shadowOpacity: 1,
-      borderBottomWidth: 0
-    }, screenHeaderStyle)
-    const navBarParams = Object.assign(winScreenOptions, {
-      title: headerTitle,
-      headerShown: customHeader,
-      headerTintColor: color
-    }, screenOptions)
-    // 页面的config
-    if (pageConfig) {
-      if (this.isTabBarPage()) {
-        navigation.setParams({
-          navigateConfig: navBarParams
-        })
-      } else {
-        navigation.setOptions(navBarParams)
+      screenOptions.headerStyle = Object.assign({}, {
+        backgroundColor: bgColor,
+        shadowOffset: { width: 0, height: 0 },
+        borderWidth: 0,
+        elevation: 0,
+        shadowOpacity: 1,
+        borderBottomWidth: 0
+      }, screenHeaderStyle)
+      const navBarParams = Object.assign(winScreenOptions, {
+        title: headerTitle,
+        headerShown: customHeader,
+        headerTintColor: color
+      }, screenOptions)
+      // 页面的config
+      if (pageConfig) {
+        if (this.isTabBarPage()) {
+          navigation.setParams({
+            navigateConfig: navBarParams
+          })
+        } else {
+          navigation.setOptions(navBarParams)
+        }
       }
+      this.unSubscribleFocus = this.props.navigation.addListener('focus', () => {
+        if (navigationRef && navigationRef?.current) {
+          navigationRef.current.setOptions = navigation.setOptions
+        }
+        // 若是tabBar页面，确保tabbar内容最新
+        if (this.isTabBarPage()) {
+          const tabBarVisible = getTabVisible()
+          navigation.setOptions({
+            tabBarVisible: tabBarVisible
+          })
+        }
+      })
     }
-    this.unSubscribleFocus = this.props.navigation.addListener('focus', () => {
-      // 若是tabBar页面，页面进入时setOptions tabbar相关，确保tabbar内容最新
-      if (navigationRef && navigationRef?.current) {
-        navigationRef.current.setOptions = navigation.setOptions
-      }
-      if (this.isTabBarPage()) {
-        const tabBarVisible = getTabVisible()
-        navigation.setOptions({
-          tabBarVisible: tabBarVisible
-        })
-      }
-    })
   }
 
   componentWillUnmount (): void {
-    this.unSubscribleFocus()
+    if (this.unSubscribleFocus) { this.unSubscribleFocus() }
   }
 
   isTabBarPage (): boolean {
