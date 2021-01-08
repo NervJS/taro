@@ -25,6 +25,7 @@
     "packages/taro-rn-runner",
     "packages/taro-rn-style-transformer",
     "packages/taro-rn-transformer",
+    "packages/taro-rn-supporter",
     "packages/taro-router",
     "packages/taro-router-rn",
     "packages/taro-runner-utils",
