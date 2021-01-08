@@ -11,7 +11,7 @@ import { shouleBeObject, getParameterError } from '../utils'
  * @param {function} [object.complete] 接口调用结束的回调函数（调用成功、失败都会执行）
  * @param {string} [object.imageId] 用来上传的input元素ID（仅h5端）
  */
-const chooseImage = function(options) {
+const chooseImage = function (options) {
   // options must be an Object
   const isObject = shouleBeObject(options)
   if (!isObject.res) {
@@ -66,17 +66,16 @@ const chooseImage = function(options) {
   const TaroMouseEvents = document.createEvent('MouseEvents')
   TaroMouseEvents.initEvent('click', true, true)
   taroChooseImageId.dispatchEvent(TaroMouseEvents)
-  taroChooseImageId.onchange = function(e) {
+  taroChooseImageId.onchange = function (e) {
     const arr = [...e.target.files]
-    arr &&
-      arr.forEach(item => {
-        const blob = new Blob([item], {
-          type: item.type
-        })
-        const url = URL.createObjectURL(blob)
-        res.tempFilePaths.push(url)
-        res.tempFiles.push({ path: url, size: item.size, type: item.type })
+    arr && arr.forEach(item => {
+      const blob = new Blob([item], {
+        type: item.type
       })
+      const url = URL.createObjectURL(blob)
+      res.tempFilePaths.push(url)
+      res.tempFiles.push({ path: url, size: item.size, type: item.type })
+    })
     typeof success === 'function' && success(res)
     typeof complete === 'function' && complete(res)
     taroChooseImageCallback(res)
