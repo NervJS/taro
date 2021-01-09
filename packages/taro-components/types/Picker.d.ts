@@ -52,7 +52,7 @@ interface PickerSelectorProps extends PickerStandardProps {
    * @supported weapp, h5, rn
    * @default 0
    */
-  value: number
+  value?: number
   /** value 改变时触发 change 事件，event.detail = {value}
    * @supported weapp, h5, rn
    */

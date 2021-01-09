@@ -3,6 +3,7 @@ import type { TaroText } from './dom/text'
 import type { DataTree, TaroNode } from './dom/node'
 import type { TaroRootElement } from './dom/root'
 import type { Instance, PageInstance, PageProps } from './dsl/instance'
+import { MpEvent } from './dom/event'
 
 type Inst = Instance<PageProps>
 
@@ -21,6 +22,8 @@ export interface Reconciler<Instance, DOMElement = TaroElement, TextElement = Ta
   prepareUpdateData?(data: DataTree, page: TaroRootElement): DataTree
 
   appendInitialPage?(data: DataTree, page: TaroRootElement): DataTree
+
+  modifyEventType?(event: MpEvent): void
 
   getLifecyle(instance: Instance, lifecyle: keyof PageInstance): Function | undefined | Array<Function>
 
