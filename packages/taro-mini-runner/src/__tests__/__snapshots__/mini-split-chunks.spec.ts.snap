@@ -914,7 +914,7 @@ require(\\"../vendors\\");
 
 
 /** filePath: dist/packageA/detail/index.json **/
-{\\"navigationBarTitleText\\":\\"详情页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\",\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
+{\\"navigationBarTitleText\\":\\"详情页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
 /** filePath: dist/packageA/detail/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
@@ -985,7 +985,7 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
 
 
 /** filePath: dist/packageA/my/index.json **/
-{\\"navigationBarTitleText\\":\\"个人中心页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\",\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
+{\\"navigationBarTitleText\\":\\"个人中心页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
 /** filePath: dist/packageA/my/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
@@ -1067,7 +1067,7 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
 
 
 /** filePath: dist/packageB/list/index.json **/
-{\\"navigationBarTitleText\\":\\"列表页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\",\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
+{\\"navigationBarTitleText\\":\\"列表页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
 /** filePath: dist/packageB/list/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
@@ -1156,7 +1156,7 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
 }, [ [ 34, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\",\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
 /** filePath: dist/pages/index/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
