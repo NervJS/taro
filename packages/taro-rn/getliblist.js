@@ -12,14 +12,14 @@ const info = '// 由taro-rn/getliblist 生成, 请不要手动修改'
 const dirs = getDirectories(path.join(__dirname, 'src/lib'))
 console.log(`dirs: ${dirs}`)
 const fileString = (`${info}
-module.exports = ${JSON.stringify(dirs, null, 2).replace(/"/g, "'")}`)
+module.exports = ${JSON.stringify(dirs, null, 2).replace(/"/g, "'")}\n`)
 
 // todo
-const filePath = path.join(__dirname, '../babel-preset-taro/rn/nativeApis.js')
+const filePath = path.join(__dirname, './nativeApis.js')
 
 writeFileSync(filePath, fileString)
 
-console.log('done: echo apilist to babel-preset-taro/rn/nativeApis.js')
+console.log('done: echo apilist to ./nativeApis.js')
 
 const libString = `${info}
 ${dirs.map(d => `export * from './${d}'`).join('\n')}
