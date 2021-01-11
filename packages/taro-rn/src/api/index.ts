@@ -36,11 +36,3 @@ export {
   setBackgroundColor,
   setBackgroundTextStyle
 } from '@tarojs/runtime-rn'
-
-export * from './request'
-export * from './env'
-export * from './system'
-export * from './others'
-export * from './webSocket'
-export * from './web'
-export * from './window'

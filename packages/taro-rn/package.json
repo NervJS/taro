@@ -6,7 +6,8 @@
   "files": [
     "dist",
     "src",
-    "nativeApis.js"
+    "apiList.js",
+    "libList.js"
   ],
   "scripts": {
     "assets": "cpy '**/*.png' '../dist/' --cwd=src --parents",
@@ -16,7 +17,8 @@
     "test": "jest --silent",
     "test:dev": "jest --watch",
     "test:ci": "jest --silent -i --coverage false",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "script": "node ./script"
   },
   "repository": {
     "type": "git",

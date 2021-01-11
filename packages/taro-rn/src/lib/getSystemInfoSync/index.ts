@@ -7,7 +7,7 @@ import {
 
 import { isIPhoneX } from '../../utils/system';
 
-export function getSystemInfoSync (): Taro.getSystemInfoSync.Result {
+export function getSystemInfoSync(): Taro.getSystemInfoSync.Result {
   const res: any = {}
 
   const pixelRatio = PixelRatio.get()
@@ -37,28 +37,4 @@ export function getSystemInfoSync (): Taro.getSystemInfoSync.Result {
   res.SDKVersion = null
 
   return res
-}
-
-export function canIUse (): boolean {
-  return true
-}
-
-export function getSystemInfo(opts?: Taro.getSystemInfo.Option): Promise<Taro.getSystemInfo.Result> {
-  const { success, fail, complete }: any = opts
-  try {
-    const res = {
-      ...getSystemInfoSync(),
-      errMsg: 'getSystemInfo: ok'
-    }
-    success && success(res)
-    complete && complete(res)
-
-    return Promise.resolve(res)
-  } catch (err) {
-    const res = { errMsg: err.message }
-    fail && fail(res)
-    complete && complete(res)
-
-    return Promise.reject(err)
-  }
 }
