@@ -50,14 +50,17 @@ export function getPostcssPlugins ({
           }
         )
       }
-    }),
-    require('stylelint')(stylelintConfig),
-    require('postcss-reporter')({ clearReportedMessages: true })
+    })
   ]
 
   if (pxtransformOption.enable) {
     plugins.push(pxtransform(pxtransformOption.config))
   }
+
+  plugins.push(
+    require('stylelint')(stylelintConfig),
+    require('postcss-reporter')({ clearReportedMessages: true })
+  )
 
   return plugins
 }

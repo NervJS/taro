@@ -23,6 +23,9 @@ describe('style transform in cross platform', () => {
     /*  #ifdef  rn  */
     .rn { width: 100px }
     /*  #endif  */
+    /*  #ifndef  rn  */
+    .h5 { errSet: 100px }
+    /*  #endif  */
   `)
     expect(css).toEqual(getWrapedCSS(`{
   "test": {
