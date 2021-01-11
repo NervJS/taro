@@ -66,7 +66,11 @@ export function customVue3Chain (chain) {
                 } else if ((prop as any).type === 7 /* DIRECTIVE */) {
                   prop = prop as DirectiveNode
                   if (prop.arg?.type === 4 /* SimpleExpression */) {
-                    usingComponent.add((prop.arg as SimpleExpressionNode).content)
+                    let value = (prop.arg as SimpleExpressionNode).content
+                    if (prop.name === 'on') {
+                      value = `on${value}`
+                    }
+                    usingComponent.add(value)
                   }
                 }
               })

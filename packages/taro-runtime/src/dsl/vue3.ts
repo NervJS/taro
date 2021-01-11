@@ -78,6 +78,9 @@ function setReconciler () {
       } else {
         delete dom.props[qualifiedName]
       }
+    },
+    modifyEventType (event) {
+      event.type = event.type.replace(/-/g, '')
     }
   }
 
