@@ -93,7 +93,7 @@ function getDefineConstants () {
 
 // taro-rn api 部分支持按需引入
 
-const nativeApis = require('./nativeApis')
+const nativeApis = require('@tarojs/taro-rn/nativeApis.js')
 
 module.exports = (_, options = {}) => {
   const {
@@ -111,19 +111,26 @@ module.exports = (_, options = {}) => {
   presets.push(reactNativeBabelPreset(_, options))
   plugins.push(
     require('babel-plugin-transform-react-jsx-to-rn-stylesheet'),
-    [require('babel-plugin-transform-imports'), {
-      '^@tarojs/components(-rn)?$': {
-        transform: '@tarojs/components-rn/dist/components/${member}'
-      },
-      '^@tarojs/taro(-rn)?$': {
-        transform: (importName) => {
-          if (nativeApis.includes(importName)) {
-            return `@tarojs/taro-rn/dist/lib/${importName}`
-          } else {
-            return '@tarojs/taro-rn/dist/api'
-          }
+    [require('babel-plugin-transform-imports-api').default, {
+      packagesApis: new Map([
+        ['@tarojs/taro', new Set(nativeApis)],
+        ['@tarojs/taro-rn', new Set(nativeApis)]
+      ]),
+      usePackgesImport: true, // Whether to use packagesImport
+      packagesImport: {
+        '^@tarojs/components(-rn)?$': {
+          transform: '@tarojs/components-rn/dist/components/${member}'
         },
-        skipDefaultConversion: true
+        '^@tarojs/taro(-rn)?$': {
+          transform: (importName) => {
+            if (nativeApis.includes(importName)) {
+              return `@tarojs/taro-rn/dist/lib/${importName}`
+            } else {
+              return '@tarojs/taro-rn/dist/api'
+            }
+          },
+          skipDefaultConversion: true
+        }
       }
     }],
     [require('babel-plugin-global-define'), defineConstants]
