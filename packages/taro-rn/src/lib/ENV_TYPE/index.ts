@@ -9,7 +9,3 @@ export const ENV_TYPE = {
   JD: 'JD',
   QUICKAPP: 'QUICKAPP'
 }
-
-export function getEnv (): string {
-  return ENV_TYPE.RN
-}

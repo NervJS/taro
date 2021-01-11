@@ -1,10 +1,10 @@
 import { StyleSheet, Platform } from 'react-native'
 
 interface Styles {
-  [propName: string]: any;
+  [propName: string]: any
 }
 
-export function create (styles: Styles): any {
+export function create(styles: Styles): any {
   const platformStyles: any = {}
   Object.keys(styles).forEach((name) => {
     const copyStyles = { ...styles[name] }

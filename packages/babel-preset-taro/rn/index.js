@@ -91,9 +91,10 @@ function getDefineConstants () {
   return getEnv()
 }
 
-// taro-rn api 部分支持按需引入
-
-const nativeApis = require('@tarojs/taro-rn/nativeApis.js')
+// taro-rn api/lib 支持按需引入
+const nativeApis = require('@tarojs/taro-rn/apiList.js')
+const nativeLibs = require('@tarojs/taro-rn/libList.js')
+const nativeInterfaces = nativeApis.concat(nativeLibs)
 
 module.exports = (_, options = {}) => {
   const {
@@ -113,8 +114,8 @@ module.exports = (_, options = {}) => {
     require('babel-plugin-transform-react-jsx-to-rn-stylesheet'),
     [require('babel-plugin-transform-imports-api').default, {
       packagesApis: new Map([
-        ['@tarojs/taro', new Set(nativeApis)],
-        ['@tarojs/taro-rn', new Set(nativeApis)]
+        ['@tarojs/taro', new Set(nativeInterfaces)],
+        ['@tarojs/taro-rn', new Set(nativeInterfaces)]
       ]),
       usePackgesImport: true, // Whether to use packagesImport
       packagesImport: {
@@ -123,7 +124,7 @@ module.exports = (_, options = {}) => {
         },
         '^@tarojs/taro(-rn)?$': {
           transform: (importName) => {
-            if (nativeApis.includes(importName)) {
+            if (nativeLibs.includes(importName)) {
               return `@tarojs/taro-rn/dist/lib/${importName}`
             } else {
               return '@tarojs/taro-rn/dist/api'

@@ -10,7 +10,7 @@ import {
   ViewPropTypes
 } from 'react-native'
 import { Mask } from '../Mask'
-import { create } from '../../api/StyleSheet'
+import { create } from '../StyleSheet'
 import V from '../variable'
 
 const { width } = Dimensions.get('window')
