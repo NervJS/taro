@@ -7,6 +7,7 @@ import sassTransform, { Config as SassConfig, SassExternalConfig, processByExter
 import lessTransform, { Config as LessConfig } from './less'
 import stylusTransform, { Config as StylusConfig, defaultOptions as stylusDefaultOptions } from './stylus'
 import { StyleSheetValidation } from './StyleSheet'
+import { TransformOptions } from '../types'
 
 export function getWrapedCSS (css) {
   return `

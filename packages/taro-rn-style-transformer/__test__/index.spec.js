@@ -139,6 +139,26 @@ describe('style transform', () => {
 }`))
   })
 
+  it('.less tranform nest import', async () => {
+    const css = await run(`
+      @import './c.less';
+      .test {
+        color: red;
+      }
+    `, './__test__/styles/a.less')
+    expect(css).toEqual(getWrapedCSS(`{
+  "nest": {
+    "color": "red"
+  },
+  "c": {
+    "color": "red"
+  },
+  "test": {
+    "color": "red"
+  }
+}`))
+  })
+
   it('.styl transform basic', async () => {
     const css = await run(`
       .test {

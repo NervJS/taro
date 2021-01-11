@@ -1,5 +1,7 @@
 import fs from 'fs'
 import path from 'path'
+import { printLog, processTypeEnum } from '@tarojs/helper'
+import { ResolveStyleOptions, LogLevelEnum } from '../types'
 
 export function insertBefore (source: string, target: string) {
   if (!source && !target) {
@@ -43,7 +45,7 @@ export function findVariant (name, extensions, includePaths) {
     }
   }
 
-  return false
+  return ''
 }
 
 /**
@@ -51,8 +53,13 @@ export function findVariant (name, extensions, includePaths) {
  * @param id import id
  * @param opts { basedir, platform, paths }
  */
-export function resolveStyle (id, opts: { basedir: string, platform: string, paths?: string[] }) {
-  const { basedir, platform, paths = [] } = opts
+export function resolveStyle (id: string, opts: ResolveStyleOptions) {
+  const {
+    basedir,
+    platform,
+    paths = [],
+    logLevel = LogLevelEnum.ERROR
+  } = opts
   const { dir, name, ext } = path.parse(id)
   const incPaths = [path.resolve(basedir, dir)].concat(paths)
 
@@ -65,12 +72,19 @@ export function resolveStyle (id, opts: { basedir: string, platform: string, pat
 
   const file = findVariant(name, exts, incPaths)
   if (!file) {
-    throw new Error(`
+    const levelMessage = `
     样式文件没有找到，请检查文件路径: ${id}
       在 [
         ${incPaths.join(',\n       ')}
       ]
-    `)
+    `
+    if (logLevel === LogLevelEnum.ERROR) {
+      throw new Error(levelMessage)
+    }
+    if (logLevel === LogLevelEnum.WARNING) {
+      printLog(processTypeEnum.WARNING, levelMessage)
+      return id
+    }
   }
 
   return file

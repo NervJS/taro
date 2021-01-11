@@ -1,5 +1,6 @@
 import path from 'path'
 import less from 'less'
+import makeLessImport from '../utils/lessImport'
 
 interface SourceMapOption {
   sourceMapURL?: string;
@@ -60,11 +61,16 @@ export interface Config {
 }
 
 function renderToCSS (src, filename, options = {} as any) {
+  // default plugins
+  const plugins = [makeLessImport(options)]
+  // default paths set current filePath
+  const paths = [path.dirname(path.resolve(process.cwd(), filename))]
   return new Promise((resolve, reject) => {
     less
       .render(src, {
         ...options,
-        paths: [path.dirname(path.resolve(process.cwd(), filename))].concat(options.paths || []) // default paths set current filePath
+        plugins: plugins.concat(options.plugins || []),
+        paths: paths.concat(options.paths || [])
       })
       .then(({ css }) => {
         resolve(css)
