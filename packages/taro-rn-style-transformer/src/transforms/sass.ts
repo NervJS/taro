@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import sass, { Options } from 'node-sass' // TODO: dart-sass 支持
 import { insertBefore, resolveStyle } from '../utils'
+import { TransformOptions } from '../types'
 
 // https://github.com/sass/node-sass#options
 export interface Config {
