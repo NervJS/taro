@@ -64,7 +64,6 @@ export function navigate (option: NavigateOption | NavigateBackOption, method: N
   if (path) {
     routeParam = handleUrl(path)
   }
-
   try {
     if (method === 'navigateTo') {
       navigationRef.current?.dispatch(StackActions.push(routeParam.pageName, routeParam.params))
@@ -120,4 +119,22 @@ export function isTabPage (path = ''): boolean {
     pageName = route?.name || ''
   }
   return tabPages.indexOf(pageName) !== -1
+}
+
+export function getCurrentRoute () {
+  const routeState = navigationRef.current?.getRootState()
+  const routes = routeState?.routes
+  const routeName: string[] = []
+  if (routes) {
+    routes.forEach(item => {
+      if (item.name === 'tabNav') {
+        const index = item.state?.index ?? 0
+        const names = item.state?.routeNames ?? []
+        names && routeName.push(names[index])
+      } else {
+        routeName.push(item.name)
+      }
+    })
+  }
+  return routeName
 }

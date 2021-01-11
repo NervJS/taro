@@ -4,7 +4,8 @@ export {
   stopPullDownRefresh,
   pageScrollTo,
   setBackgroundColor,
-  setBackgroundTextStyle
+  setBackgroundTextStyle,
+  getCurrentPages
 } from './page'
 export {
   createReactNativeApp,
