@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { ScrollView, RefreshControl, AppState, View, Dimensions } from 'react-native'
 import { camelCase } from 'lodash'
-import { PageProvider } from '@tarojs/router-rn'
+import { PageProvider, getCurrentRoute } from '@tarojs/router-rn'
 import { isFunction, EMPTY_OBJ, isArray, incrementId, successHandler, errorHandler } from './utils'
 import { isClassComponent } from './app'
 import { Current } from './current'
@@ -494,4 +494,20 @@ export function setBackgroundTextStyle (options: TextStyleOption) {
     const errMsg = ' setBackgroundTextStyle: error'
     return errorHandler(fail, complete)({ errMsg })
   }
+}
+
+export function getCurrentPages () {
+  const pages: PageInstance[] = []
+  const routeNames = getCurrentRoute()
+  if (routeNames && routeNames.length > 0) {
+    routeNames.forEach(item => {
+      const inst = getPageObject(item)
+      inst && pages.push(inst)
+    })
+  } else { // 第一次初始化时，getCurrentRoute会为空
+    const inst = Current.page
+    inst && pages.push(inst)
+  }
+
+  return pages
 }
