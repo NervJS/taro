@@ -11,6 +11,7 @@ import {
 import { Mask } from '../Mask'
 import { Popup } from '../Popup'
 import V from '../variable'
+import { isIPhoneX } from '../../utils/system'
 
 const styles = StyleSheet.create({
   iosActionsheet: {
@@ -47,6 +48,10 @@ const styles = StyleSheet.create({
     paddingBottom: 13,
     paddingLeft: 24,
     paddingRight: 24
+  },
+  iosActionBottomView: {
+    backgroundColor: '#fff',
+    paddingBottom: 34
   },
   firstActionsheetCell: {
     borderTopWidth: 0
@@ -162,6 +167,7 @@ const Index: React.FC<any> = ({
           {_renderActions()}
         </View>
         : false}
+        {isIPhoneX && <View style={[styles.iosActionBottomView]}></View>}
     </Popup>
     : <View
       style={styles.Modal}
