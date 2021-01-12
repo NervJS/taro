@@ -3,6 +3,11 @@ import { Permissions } from 'react-native-unimodules'
 import * as ImagePicker from 'expo-image-picker'
 import { askAsyncPermissions } from '../utils/premissions'
 
+export const MEDIA_TYPE = {
+  VIDEOS: 'Videos',
+  IMAGES: 'Images'
+}
+
 export async function saveMedia(opts: Taro.saveImageToPhotosAlbum.Option|Taro.saveVideoToPhotosAlbum.Option, type:string, API:string):Promise<Taro.General.CallbackResult> {
   const status = await askAsyncPermissions(Permissions.CAMERA_ROLL)
   if (status !== 'granted') {
@@ -49,16 +54,19 @@ export async function chooseMedia(opts: Taro.chooseImage.Option|Taro.chooseVideo
     p.then((resp) => {
       const { uri } = resp
       resp.path = uri
-      const res = {
+      let res = {
         tempFilePaths: [uri],
         tempFiles: [resp]
+      }
+      if (mediaTypes === MEDIA_TYPE.VIDEOS) {
+        res = Object.assign(res, { tempFilePath: uri })
       }
       success?.(res)
       complete?.(res)
       resolve(res as any)
     }).catch((err) => {
       const res = {
-        errMsg: 'chooseImage fail',
+        errMsg: mediaTypes === MEDIA_TYPE.VIDEOS ? 'chooseVideo fail' : 'chooseImage fail',
         err
       }
       fail?.(res)

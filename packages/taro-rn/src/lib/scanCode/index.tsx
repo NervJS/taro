@@ -6,7 +6,7 @@ import iconClose from './icon_close.png'
 import iconPic from './icon_pic.png'
 import * as Permissions from 'expo-permissions'
 import RootSiblings from 'react-native-root-siblings'
-import { chooseMedia } from '../media'
+import { chooseMedia, MEDIA_TYPE } from '../media'
 import React from 'react'
 
 export let scannerView
@@ -141,7 +141,7 @@ function scanFromPhoto(callback, errorCallBack) {
         })
       }
     }
-  }, 'Images').catch(errorCallBack)
+  }, MEDIA_TYPE.IMAGES).catch(errorCallBack)
 }
 
 export async function scanCode(option: Taro.scanCode.Option = {}): Promise<Taro.scanCode.SuccessCallbackResult> {
