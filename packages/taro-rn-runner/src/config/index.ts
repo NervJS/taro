@@ -6,7 +6,10 @@ import * as MetroResolver from 'metro-resolver'
 import * as ModuleResolution from 'metro/src/node-haste/DependencyGraph/ModuleResolution'
 import ConditionalFileStore from './conditional-file-store'
 import { resolvePathFromAlias, isRelativePath, lookup } from '../utils'
+import resolveReactNativePath from '@react-native-community/cli/build/tools/config/resolveReactNativePath'
+import findProjectRoot from '@react-native-community/cli/build/tools/config/findProjectRoot'
 
+const reactNativePath: string = resolveReactNativePath(findProjectRoot())
 interface VersionInfo {
   major: number;
   minor: number;
@@ -14,6 +17,8 @@ interface VersionInfo {
 }
 
 type ResolveRequestFunc = (context, realModuleName, platform, moduleName) => any
+type GetModulesRunBeforeMainModuleFunc = () => any
+type GetPolyfillsFunc = () => any
 interface MetroConfig {
   transformer: {
     dynamicDepsInPackages: string;
@@ -23,6 +28,10 @@ interface MetroConfig {
   resolver: {
     sourceExts: string[];
     resolveRequest?: ResolveRequestFunc;
+  },
+  serializer: {
+    getModulesRunBeforeMainModule: GetModulesRunBeforeMainModuleFunc,
+    getPolyfills: GetPolyfillsFunc
   },
   cacheStores: ConditionalFileStore<any>[]
 }
@@ -158,6 +167,17 @@ const defaultConfig: MetroConfig = {
   },
   resolver: {
     sourceExts: ['ts', 'tsx', 'js', 'jsx', 'scss', 'sass', 'less', 'css', 'pcss', 'json', 'styl', 'cjs']
+  },
+  serializer: {
+    // We can include multiple copies of InitializeCore here because metro will
+    // only add ones that are already part of the bundle
+    getModulesRunBeforeMainModule: () => [
+      require.resolve(
+        path.join(reactNativePath, 'Libraries/Core/InitializeCore')
+      )
+    ],
+    getPolyfills: () =>
+      require(path.join(reactNativePath, 'rn-get-polyfills'))()
   },
   cacheStores: [new ConditionalFileStore<any>({
     root: path.join(os.tmpdir(), 'metro-cache')
