@@ -20,8 +20,10 @@ class Importer {
       platform: this.platform,
       logLevel: LogLevelEnum.WARNING
     }
-    src = src.replace(/@import\s+['"]\s*(\/|\.\.?\/[\w-.]*)\s*['"]\s*;/gi, (_, id) => {
-      const relativePath = path.relative(basedir, resolveStyle(id, resolveOpts)).replace(/\\/g, '/')
+
+    // 解析 @import "a.less" 字符串里面的内容
+    src = src.replace(/@import\s+['"]([^'|"]*)['"]/gi, (_, id) => {
+      const relativePath = path.relative(basedir, resolveStyle(id.trim(), resolveOpts)).replace(/\\/g, '/')
       return `@import '${relativePath}';`
     })
 
