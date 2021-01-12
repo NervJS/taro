@@ -1693,7 +1693,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.jxml **/
 <import src=\\"./base.jxml\\" />
-  <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+  <block wx:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
   </block>
 
