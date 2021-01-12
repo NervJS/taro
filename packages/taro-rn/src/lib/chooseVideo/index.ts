@@ -1,4 +1,4 @@
-import { chooseMedia } from '../media'
+import { chooseMedia, MEDIA_TYPE } from '../media'
 
 /**
  * 拍摄视频或从手机相册中选视频。
@@ -10,5 +10,5 @@ import { chooseMedia } from '../media'
  * @returns {Promise<*>}
  */
 export function chooseVideo(opts: Taro.chooseVideo.Option): Promise<any> {
-  return chooseMedia(opts, 'Videos')
+  return chooseMedia(opts, MEDIA_TYPE.VIDEOS)
 }
