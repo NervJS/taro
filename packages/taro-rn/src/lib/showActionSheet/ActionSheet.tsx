@@ -8,10 +8,10 @@ import {
   Platform,
   ViewPropTypes
 } from 'react-native'
+import { initialWindowMetrics } from 'react-native-safe-area-context';
 import { Mask } from '../Mask'
 import { Popup } from '../Popup'
 import V from '../variable'
-import { isIPhoneX } from '../../utils/system'
 
 const styles = StyleSheet.create({
   iosActionsheet: {
@@ -167,7 +167,7 @@ const Index: React.FC<any> = ({
           {_renderActions()}
         </View>
         : false}
-        {isIPhoneX && <View style={[styles.iosActionBottomView]}></View>}
+      <View style={{paddingBottom: Math.max(initialWindowMetrics?.insets.bottom, 16), backgroundColor: '#fff'}}></View>
     </Popup>
     : <View
       style={styles.Modal}
