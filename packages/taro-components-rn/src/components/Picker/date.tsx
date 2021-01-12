@@ -86,7 +86,6 @@ export default class DateSelector extends React.Component<DateProps, DateState> 
     } else if (fields === 'month') {
       mode = 'month'
     }
-    console.log(children)
     return (
       <AntDatePicker
         mode={mode}
