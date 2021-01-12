@@ -163,7 +163,7 @@ const Index: React.FC<any> = ({
           {_renderActions()}
         </View>
         : false}
-      <View style={{paddingBottom: Math.max(initialWindowMetrics?.insets.bottom, 16), backgroundColor: '#fff'}}></View>
+      <View style={{paddingBottom: Math.max(initialWindowMetrics?.insets.bottom || 0, 16), backgroundColor: '#fff'}}></View>
     </Popup>
     : <View
       style={styles.Modal}
