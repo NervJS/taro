@@ -82,89 +82,6 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
     })
   }
 
-  const pageRef = React.createRef<Instance>()
-
-  // 和小程序的page实例保持一致
-  const inst: PageInstance = {
-    config: pageConfig,
-    route: pagePath,
-    onReady () {
-      const page = pageRef.current
-      if (page != null && isFunction(page.componentDidMount)) {
-        page.componentDidMount && page.componentDidMount()
-      } else {
-        safeExecute(pageId, 'onReady')
-      }
-    },
-    onShow () {
-      const page = pageRef.current
-      if (page != null && isFunction(page.componentDidShow)) {
-        page.componentDidShow && page.componentDidShow()
-      } else {
-        safeExecute(pageId, 'componentDidShow')
-      }
-    },
-    onHide () {
-      const page = pageRef.current
-      if (page != null && isFunction(page.componentDidHide)) {
-        page.componentDidHide && page.componentDidHide()
-      } else {
-        safeExecute(pageId, 'componentDidHide')
-      }
-    },
-    onPullDownRefresh () {
-      const page = pageRef.current
-      if (page != null && isFunction(page.onPullDownRefresh)) {
-        page.onPullDownRefresh && page.onPullDownRefresh()
-      } else {
-        safeExecute(pageId, 'onPullDownRefresh')
-      }
-    },
-    onReachBottom () {
-      const page = pageRef.current
-      if (page != null && isFunction(page.onReachBottom)) {
-        page.onReachBottom && page.onReachBottom()
-      } else {
-        safeExecute(pageId, 'onReachBottom')
-      }
-    },
-    onPageScroll (options) {
-      const page = pageRef.current
-      if (page != null && isFunction(page.onReachBottom)) {
-        page.onPageScroll && page.onPageScroll(options)
-      } else {
-        safeExecute(pageId, 'onPageScroll', options)
-      }
-    },
-    onResize (options) {
-      const page = pageRef.current
-      if (page != null && isFunction(page.onResize)) {
-        page.onResize && page.onResize(options)
-      } else {
-        safeExecute(pageId, 'onResize', options)
-      }
-    },
-    onTabItemTap (options) {
-      const page = pageRef.current
-      if (page != null && isFunction(page.onTabItemTap)) {
-        page.onTabItemTap && page.onTabItemTap(options)
-      } else {
-        safeExecute(pageId, 'onTabItemTap', options)
-      }
-    },
-    onUnload () {
-      const page = pageRef.current
-      if (page != null && isFunction(page.componentWillUnmount)) {
-        page.componentWillUnmount && page.componentWillUnmount()
-      } else {
-        safeExecute(pageId, 'onUnload')
-      }
-    }
-  }
-
-  // 存储对应小程序的实例
-  setPageObject(inst, pageId)
-
   // 注入的页面实例
   injectPageInstance(Page, pageId)
 
@@ -186,14 +103,9 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
           textColor: refreshStyle.textColor || '#ffffff',
           backgroundColor: refreshStyle.backgroundColor || '#ffffff'
         }
-        const { params = {} } = this.props.route
-        Current.router = {
-          params: params,
-          path: pagePath
-        }
-        //
-        this.screenRef = pageRef
+        this.screenRef = React.createRef<Instance>()
         this.pageScrollView = React.createRef()
+        this.setPageInstance()
       }
 
       componentDidMount () {
@@ -222,6 +134,96 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         eventCenter.off('__taroSetRefreshStyle', () => this.setRefreshStyle(), this)
       }
 
+      setPageInstance () {
+        const pageRef = this.screenRef
+        // 和小程序的page实例保持一致
+        const inst: PageInstance = {
+          config: pageConfig,
+          route: pagePath,
+          onReady () {
+            const page = pageRef.current
+            if (page != null && isFunction(page.componentDidMount)) {
+              page.componentDidMount && page.componentDidMount()
+            } else {
+              safeExecute(pageId, 'onReady')
+            }
+          },
+          onShow () {
+            const page = pageRef.current
+            if (page != null && isFunction(page.componentDidShow)) {
+              page.componentDidShow && page.componentDidShow()
+            } else {
+              safeExecute(pageId, 'componentDidShow')
+            }
+          },
+          onHide () {
+            const page = pageRef.current
+            if (page != null && isFunction(page.componentDidHide)) {
+              page.componentDidHide && page.componentDidHide()
+            } else {
+              safeExecute(pageId, 'componentDidHide')
+            }
+          },
+          onPullDownRefresh () {
+            const page = pageRef.current
+            if (page != null && isFunction(page.onPullDownRefresh)) {
+              page.onPullDownRefresh && page.onPullDownRefresh()
+            } else {
+              safeExecute(pageId, 'onPullDownRefresh')
+            }
+          },
+          onReachBottom () {
+            const page = pageRef.current
+            if (page != null && isFunction(page.onReachBottom)) {
+              page.onReachBottom && page.onReachBottom()
+            } else {
+              safeExecute(pageId, 'onReachBottom')
+            }
+          },
+          onPageScroll (options) {
+            const page = pageRef.current
+            if (page != null && isFunction(page.onReachBottom)) {
+              page.onPageScroll && page.onPageScroll(options)
+            } else {
+              safeExecute(pageId, 'onPageScroll', options)
+            }
+          },
+          onResize (options) {
+            const page = pageRef.current
+            if (page != null && isFunction(page.onResize)) {
+              page.onResize && page.onResize(options)
+            } else {
+              safeExecute(pageId, 'onResize', options)
+            }
+          },
+          onTabItemTap (options) {
+            const page = pageRef.current
+            if (page != null && isFunction(page.onTabItemTap)) {
+              page.onTabItemTap && page.onTabItemTap(options)
+            } else {
+              safeExecute(pageId, 'onTabItemTap', options)
+            }
+          },
+          onUnload () {
+            const page = pageRef.current
+            if (page != null && isFunction(page.componentWillUnmount)) {
+              page.componentWillUnmount && page.componentWillUnmount()
+            } else {
+              safeExecute(pageId, 'onUnload')
+            }
+          }
+        }
+        // 存储对应小程序的实例
+        setPageObject(inst, pageId)
+
+        const { params = {} } = this.props.route
+        Current.router = {
+          params: params,
+          path: pagePath
+        }
+        Current.page = inst
+      }
+
       pullDownRefresh (path, refresh) {
         if (path === pagePath) {
           this.setState({ refreshing: refresh })
@@ -243,12 +245,8 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       }
 
       onFocusChange () {
-        Current.page = getPageObject(pageId) || null
-        const { params = {} } = this.props.route
-        Current.router = {
-          params: params,
-          path: pagePath
-        }
+        // 页面切换，当前instance重新赋值
+        this.setPageInstance()
         try {
           this.handleHooksEvent('componentDidShow')
           if (this.screenRef?.current?.componentDidShow) {
@@ -409,8 +407,6 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
   }
 
   const pageComponet = WrapScreen(ScreenPage)
-
-  Current.page = inst
 
   return pageComponet
 }
