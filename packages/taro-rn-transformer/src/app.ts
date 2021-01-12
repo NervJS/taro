@@ -94,8 +94,7 @@ export default function generateEntry ({
   const routeList = pages.screenPages
   const appComponentPath = `./${sourceDir}/${entryName}`
 
-  const code = `import 'react-native/Libraries/polyfills/error-guard'
-  import { AppRegistry } from 'react-native'
+  const code = `import { AppRegistry } from 'react-native'
   import { createReactNativeApp, createPageConfig } from '@tarojs/runtime-rn'
   import Component from '${appComponentPath}'
   ${importPageList}
