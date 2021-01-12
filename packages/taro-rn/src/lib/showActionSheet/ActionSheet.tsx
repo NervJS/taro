@@ -49,10 +49,6 @@ const styles = StyleSheet.create({
     paddingLeft: 24,
     paddingRight: 24
   },
-  iosActionBottomView: {
-    backgroundColor: '#fff',
-    paddingBottom: 34
-  },
   firstActionsheetCell: {
     borderTopWidth: 0
   },
