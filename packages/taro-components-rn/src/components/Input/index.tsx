@@ -133,7 +133,6 @@ class _Input extends React.Component<InputProps, InputState> {
   onKeyPress = (event: NativeSyntheticEvent<TextInputKeyPressEventData>):void => {
     const { onKeyDown = noop, onConfirm = noop } = this.props
     const keyValue = event.nativeEvent.key
-    console.log(keyValue)
     let which
     keyValue === 'Enter' && (which = 13)
     keyValue === 'Backspace' && (which = 8)
