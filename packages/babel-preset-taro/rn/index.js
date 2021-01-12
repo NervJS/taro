@@ -91,11 +91,6 @@ function getDefineConstants () {
   return getEnv()
 }
 
-// taro-rn api/lib 支持按需引入
-const nativeApis = require('@tarojs/taro-rn/apiList.js')
-const nativeLibs = require('@tarojs/taro-rn/libList.js')
-const nativeInterfaces = nativeApis.concat(nativeLibs)
-
 module.exports = (_, options = {}) => {
   const {
     decoratorsBeforeExport,
@@ -104,6 +99,11 @@ module.exports = (_, options = {}) => {
   if (options.framework && options.framework !== 'react') {
     throw new Error(`Value "${options.framework}" of option "framework" is not supported for React-Native`)
   }
+
+  // taro-rn api/lib 支持按需引入
+  const nativeApis = require('@tarojs/taro-rn/apiList.js')
+  const nativeLibs = require('@tarojs/taro-rn/libList.js')
+  const nativeInterfaces = nativeApis.concat(nativeLibs)
 
   getEnv()
   const defineConstants = getDefineConstants()
