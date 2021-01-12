@@ -1048,10 +1048,10 @@ babel-plugin-global-define@^1.0.3:
   resolved "https://registry.yarnpkg.com/babel-plugin-global-define/-/babel-plugin-global-define-1.0.3.tgz#262c528f0c26bf318f4ccc77cf21df43a0fa6308"
   integrity sha512-M8Sby4wRLuLr+9UB8V31knVRf/rl0xkk51A7um6hUCvVPyOvLtI0u0k1OPiMgE2d7CwmeSa33NzGpaALHPQCPg==
 
-babel-plugin-transform-imports-api@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-imports-api/-/babel-plugin-transform-imports-api-0.2.1.tgz#cd6447952024566c77e0851b2a0e8f8aa903f442"
-  integrity sha512-Rsz7hI4kEMrOT134Y6L4EEgBkDxH2ufEtRSqGZ6e468gdDlNy6N0ZjciV1mFHG8PBjqyIu3Z/RFbQ6awNmUiZA==
+babel-plugin-transform-imports-api@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-imports-api/-/babel-plugin-transform-imports-api-1.0.0.tgz#b9076ebfe8da7ed5f3b44be23823500d22c43bc6"
+  integrity sha512-EtPFtwUFwXy4HyRwXiR7dCijk2b1dd12bVs39oY8aMZUnypFEMrctGX6/YrhQzhCPFweV7NTPhc+fD4zItWzUA==
   dependencies:
     is-invalid-path "^1.0.2"
 
