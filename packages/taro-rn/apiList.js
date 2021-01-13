@@ -35,5 +35,6 @@ module.exports = [
   'stopPullDownRefresh',
   'pageScrollTo',
   'setBackgroundColor',
-  'setBackgroundTextStyle'
+  'setBackgroundTextStyle',
+  'getCurrentPages'
 ]
