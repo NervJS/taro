@@ -220,7 +220,7 @@ require(\\"./taro\\");
 }, [ [ 13, 0, 1 ] ] ]);
 
 /** filePath: dist/custom-wrapper.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
+{\\"component\\":true,\\"usingComponents\\":{\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
 /** filePath: dist/custom-wrapper.swan **/
 <import src=\\"./base.swan\\" />
@@ -1020,7 +1020,7 @@ module.exports = {
   e: function (n) {
     return 'tmpl_' + n + '_container'
   },
-  
+
 }
 
 /** filePath: dist/vendors.js **/

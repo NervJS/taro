@@ -226,7 +226,7 @@ require(\\"./taro\\");
 }, [ [ 13, 0, 1 ] ] ]);
 
 /** filePath: dist/custom-wrapper.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
+{\\"component\\":true,\\"usingComponents\\":{\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
 /** filePath: dist/pages/index/index.acss **/
 
@@ -1020,7 +1020,7 @@ export default {
   e: function (n) {
     return 'tmpl_' + n + '_container'
   },
-  
+
 }
 
 /** filePath: dist/vendors.js **/
