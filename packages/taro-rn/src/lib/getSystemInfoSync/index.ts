@@ -4,6 +4,7 @@ import {
   StatusBar,
   PixelRatio
 } from 'react-native'
+import { initialWindowMetrics } from 'react-native-safe-area-context'
 
 import { isIPhoneX } from '../system';
 
@@ -15,15 +16,33 @@ export function getSystemInfoSync(): Taro.getSystemInfoSync.Result {
   const os = Platform.OS
   const version = Platform.Version
   const isAndroid = Platform.OS === 'android'
-  const statusBarHeight = isAndroid ? StatusBar.currentHeight : isIPhoneX ? 44 : 20
+  const statusBarHeight = isAndroid ? StatusBar.currentHeight || 0 : isIPhoneX ? 44 : 20
   const screenWidth = Dimensions.get('screen').width
   const screenHeight = Dimensions.get('screen').height
   const windowWidth = Dimensions.get('window').width
   const windowHeight = Dimensions.get('window').height
 
+  let safeArea = {};
+  try {
+    const { left, right, top, bottom = 0 } = initialWindowMetrics?.insets || {}
+
+    // NOTE：在竖屏正方向下的安全区域
+    safeArea = {
+      left: 0,
+      right: screenWidth,
+      top: statusBarHeight,
+      bottom: screenHeight - bottom,
+      height: screenHeight - bottom - statusBarHeight,
+      width: screenWidth,
+    }
+  } catch (error) {
+    console.log('calculate safeArea fail: ', error)
+  }
+
   res.brand = null
   res.model = null
   res.pixelRatio = pixelRatio
+  res.safeArea = safeArea
   res.screenWidth = screenWidth
   res.screenHeight = screenHeight
   res.windowWidth = windowWidth
