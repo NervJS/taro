@@ -1,6 +1,7 @@
-import * as system from '../api/system'
+import { getSystemInfo } from '../lib/getSystemInfo'
+import { getSystemInfoSync } from '../lib/getSystemInfoSync'
 
-const Taro = Object.assign({}, system)
+const Taro = { getSystemInfo, getSystemInfoSync }
 
 describe('system', () => {
   describe('getSystemInfoSync', () => {

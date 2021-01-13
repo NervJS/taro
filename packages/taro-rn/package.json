@@ -2,7 +2,8 @@
   "name": "@tarojs/taro-rn",
   "version": "3.2.0-canary.6",
   "description": "Taro RN framework",
-  "main": "./dist/index.js",
+  "main": "dist/index.js",
+  "typings": "types/index.d.ts",
   "files": [
     "dist",
     "src",

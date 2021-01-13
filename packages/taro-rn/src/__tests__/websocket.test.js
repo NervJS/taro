@@ -1,7 +1,7 @@
 import { WebSocket, Server } from 'mock-socket'
-import * as webSocket from '../api/webSocket'
+import * as connectSocket from '../lib/connectSocket'
 
-const Taro = Object.assign({}, webSocket)
+const Taro = Object.assign({}, connectSocket)
 
 describe('websocket', () => {
   beforeEach(() => {
