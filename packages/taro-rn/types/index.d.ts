@@ -1,10 +1,10 @@
-import Taro from '@tarojs/taro'
+/**
+ * Taro 类型定义文件
+ * 1.继承自 @tarojs/taro 包的类型
+ * 2.新增接口类型
+ */
 
-declare function openUrl<T>(opts?: {}): Promise<T>
+/// <reference types='@tarojs/taro' />
+/// <reference types='../src/lib/openUrl' />
 
-interface TaroRN {
-  openUrl: typeof openUrl
-}
-
-declare const TaroRN: (TaroRN & typeof Taro)
-export = TaroRN
+export = Taro

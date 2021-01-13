@@ -1,7 +1,7 @@
 import { Linking } from 'react-native'
 
-export async function openUrl <T>(opts = {}): Promise<T> {
-  const { url, success, fail, complete }: any = opts
+export async function openUrl <T>(opts: Taro.OpenUrl.Option): Promise<T> {
+  const { url, success, fail, complete } = opts || {} as Taro.OpenUrl.Option
   const res: any = { errMsg: 'openUrl:ok' }
 
   const isSupport = await Linking.canOpenURL(url)
