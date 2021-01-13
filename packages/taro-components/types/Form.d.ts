@@ -28,6 +28,46 @@ interface FormProps extends StandardProps {
    * @supported weapp, h5, rn
    */
   onReset?: CommonEventFunction
+
+  /** 规定服务器可处理的表单数据字符集
+   * @supported h5
+   */
+  acceptCharset?: string
+
+  /** 规定当提交表单时向何处发送表单数据
+   * @supported h5
+   */
+  action?: string
+
+  /** 规定是否启用表单的自动完成功能
+   * @supported h5
+   */
+  autoComplete?: string
+
+  /** 规定在向服务器发送表单数据之前如何对其进行编码。（适用于 method="post" 的情况）
+   * @supported h5
+   */
+  enctype?: string
+
+  /** 规定用于发送表单数据的 HTTP 方法
+   * @supported h5
+   */
+  method?: string
+
+  /** 规定表单的名称
+   * @supported h5
+   */
+  name?: string
+
+  /** 如果使用该属性，则提交表单时不进行验证
+   * @supported h5
+   */
+  novalidate?: string
+
+  /** 规定在何处打开 action URL
+   * @supported h5
+   */
+  target?: string
 }
 
 declare namespace FormProps {
@@ -46,22 +86,22 @@ declare namespace FormProps {
 }
 
 /** 表单。将组件内的用户输入的 switch input checkbox slider radio picker 提交。
- * 
+ *
  * 当点击 form 表单中 form-type 为 submit 的 button 组件时，会将表单组件中的 value 值进行提交，需要在表单组件中加上 name 来作为 key。
  * @classification forms
  * @supported weapp, h5, rn
  * @example
  * ```tsx
  * class App extends Component {
- * 
+ *
  *   formSubmit = e => {
  *     console.log(e)
  *   }
- * 
+ *
  *   formReset = e => {
  *     console.log(e)
  *   }
- * 
+ *
  *   render () {
  *     return (
  *       <Form onSubmit={this.formSubmit} onReset={this.formReset} >

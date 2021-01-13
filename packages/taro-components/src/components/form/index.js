@@ -1,5 +1,6 @@
 import 'weui'
 import Nerv from 'nervjs'
+import omit from 'omit.js'
 
 class Form extends Nerv.Component {
   constructor () {
@@ -80,8 +81,12 @@ class Form extends Nerv.Component {
   }
 
   render () {
-    const { className, style } = this.props
-    return <form className={className} style={style} onSubmit={this.onSubmit} onReset={this.onReset}>{this.props.children}</form>
+    const otherProps = omit(this.props, [
+      'onSubmit',
+      'onReset'
+    ])
+
+    return <form {...otherProps} onSubmit={this.onSubmit} onReset={this.onReset}>{this.props.children}</form>
   }
 }
 
