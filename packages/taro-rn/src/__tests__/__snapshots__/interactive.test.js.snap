@@ -1035,6 +1035,23 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                                   </ForwardRef>
                                 </View>
                               </View>
+                              <View
+                                style={
+                                  Object {
+                                    "backgroundColor": "#fff",
+                                    "paddingBottom": 16,
+                                  }
+                                }
+                              >
+                                <View
+                                  style={
+                                    Object {
+                                      "backgroundColor": "#fff",
+                                      "paddingBottom": 16,
+                                    }
+                                  }
+                                />
+                              </View>
                             </View>
                           </View>
                         </View>
