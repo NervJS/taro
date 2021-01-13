@@ -5,7 +5,7 @@ import {
   PixelRatio
 } from 'react-native'
 
-import { isIPhoneX } from '../../utils/system';
+import { isIPhoneX } from '../system';
 
 export function getSystemInfoSync(): Taro.getSystemInfoSync.Result {
   const res: any = {}
