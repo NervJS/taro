@@ -211,7 +211,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.ttml **/
 <import src=\\"./base.ttml\\" />
-  <block wx:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
+  <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
   </block>
 

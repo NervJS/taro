@@ -2371,7 +2371,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.qml **/
 <import src=\\"./base.qml\\" />
-  <block wx:for=\\"{{i.cn}}\\" qq:key=\\"uid\\">
+  <block qq:for=\\"{{i.cn}}\\" qq:key=\\"uid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
   </block>
 

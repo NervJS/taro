@@ -211,7 +211,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.swan **/
 <import src=\\"./base.swan\\" />
-  <block wx:for=\\"{{i.cn}}\\" s-key=\\"uid\\">
+  <block s-for=\\"{{i.cn}}\\" s-key=\\"uid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{{ i:item }}}\\" />
   </block>
 

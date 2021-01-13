@@ -198,7 +198,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.axml **/
 <import src=\\"./base.axml\\" />
-  <block wx:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
+  <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
   </block>
 
