@@ -637,8 +637,12 @@ export default class TaroMiniPlugin {
     this.generateConfigFile(compilation, customWrapperName, {
       component: true,
       usingComponents: {
-        [baseCompName]: `./${baseCompName}`,
-        [customWrapperName]: `./${customWrapperName}`
+        [customWrapperName]: `./${customWrapperName}`,
+        ...(
+          template.isSupportRecursive
+            ? {}
+            : { [baseCompName]: `./${baseCompName}` }
+        )
       }
     })
     this.generateTemplateFile(compilation, baseTemplateName, template.buildTemplate, componentConfig)
