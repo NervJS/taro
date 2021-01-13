@@ -27,13 +27,15 @@ export function getSystemInfoSync(): Taro.getSystemInfoSync.Result {
     const { left, right, top, bottom = 0 } = initialWindowMetrics?.insets || {}
 
     // NOTE：在竖屏正方向下的安全区域
+    const W = Math.min(screenWidth, screenHeight)
+    const H = Math.max(screenWidth, screenHeight)
     safeArea = {
       left: 0,
-      right: screenWidth,
+      right: W,
       top: statusBarHeight,
-      bottom: screenHeight - bottom,
-      height: screenHeight - bottom - statusBarHeight,
-      width: screenWidth,
+      bottom: H - bottom,
+      height: H - bottom - statusBarHeight,
+      width: W,
     }
   } catch (error) {
     console.log('calculate safeArea fail: ', error)
