@@ -6,7 +6,7 @@ import {
 } from 'react-native'
 import { initialWindowMetrics } from 'react-native-safe-area-context'
 
-import { isIPhoneX } from '../system';
+import { isIPhoneX } from '../system'
 
 export function getSystemInfoSync(): Taro.getSystemInfoSync.Result {
   const res: any = {}
@@ -22,11 +22,10 @@ export function getSystemInfoSync(): Taro.getSystemInfoSync.Result {
   const windowWidth = Dimensions.get('window').width
   const windowHeight = Dimensions.get('window').height
 
-  let safeArea = {};
+  // NOTE：在竖屏正方向下的安全区域
+  let safeArea = {}
   try {
     const { left, right, top, bottom = 0 } = initialWindowMetrics?.insets || {}
-
-    // NOTE：在竖屏正方向下的安全区域
     const W = Math.min(screenWidth, screenHeight)
     const H = Math.max(screenWidth, screenHeight)
     safeArea = {
