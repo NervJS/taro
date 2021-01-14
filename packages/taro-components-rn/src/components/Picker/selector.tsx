@@ -100,7 +100,7 @@ export default class Selector extends React.Component<SelectorProps, SelectorSta
       >
         <TouchableWithoutFeedback>
           {children}
-          </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
       </AntPicker>
     )
   }

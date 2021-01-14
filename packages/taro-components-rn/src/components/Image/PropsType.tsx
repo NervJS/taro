@@ -35,14 +35,14 @@ export type ResizeMode = 'cover' | 'contain' | 'stretch' | 'repeat' | 'center' |
 export type EventError = {
   detail: {
     errMsg: string;
-  }
+  };
 }
 
 export type EventLoad = {
   detail: {
     width: number;
     height: number;
-  }
+  };
 }
 
 export interface ImageProps {

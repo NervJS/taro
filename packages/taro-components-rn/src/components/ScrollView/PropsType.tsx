@@ -29,7 +29,7 @@ export type EventOnScroll = {
     scrollWidth: number;
     deltaX: number;
     deltaY: number;
-  }
+  };
 }
 
 export interface ScrollViewState {

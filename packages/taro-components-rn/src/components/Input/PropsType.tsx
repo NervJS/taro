@@ -1,15 +1,15 @@
 import { ViewStyle, StyleProp } from 'react-native'
 
 export type Event = {
-  target: { value?: string; },
-  detail: { value?: string; }
+  target: { value?: string };
+  detail: { value?: string };
 }
 
 export type EventOnLineChange = {
   detail: {
     height: number;
     lineCount: number;
-  }
+  };
 }
 
 export interface InputState {

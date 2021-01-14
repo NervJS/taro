@@ -13,11 +13,12 @@ import * as WEUI from '../../assets/weui'
 import { IconProps } from './PropsType'
 
 interface UIType {
-  [key: string]: any
+  [key: string]: any;
 }
 
 const iconTypeMap: { [key: string]: string } = {
   success: 'SUCCESS',
+  // eslint-disable-next-line @typescript-eslint/camelcase
   success_no_circle: 'SUCCESS_NO_CIRCLE',
   info: 'INFO',
   warn: 'WARN',

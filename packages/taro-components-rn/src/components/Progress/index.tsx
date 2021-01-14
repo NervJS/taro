@@ -70,7 +70,7 @@ class _Progress extends React.Component<ProgressProps, ProgressState> {
       return
     }
 
-    const sequence:Animated.CompositeAnimation[] = []
+    const sequence: Animated.CompositeAnimation[] = []
     const duration = (activeMode === 'forwards' ? Math.abs(percent - prevPercent) : percent) / 100 * 1000
 
     if (activeMode === 'backwards') {

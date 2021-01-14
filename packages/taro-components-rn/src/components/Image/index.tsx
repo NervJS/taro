@@ -158,23 +158,23 @@ export class _Image extends React.Component<ImageProps, ImageState> {
     const restImageProps = omit(this.props, ['source', 'src', 'resizeMode', 'onLoad', 'onError', 'onLayout', 'style'])
 
     return (
-        <Image
-          source={source}
-          resizeMode={rMode}
-          onError={this.onError}
-          onLoad={this.onLoad}
-          onLayout={this.onLayout}
-          style={[
-            {
-              width: 300
-            },
-            style,
-            {
-              height: imageHeight
-            }
-          ]}
-          {...restImageProps}
-        />
+      <Image
+        source={source}
+        resizeMode={rMode}
+        onError={this.onError}
+        onLoad={this.onLoad}
+        onLayout={this.onLayout}
+        style={[
+          {
+            width: 300
+          },
+          style,
+          {
+            height: imageHeight
+          }
+        ]}
+        {...restImageProps}
+      />
     )
   }
 }

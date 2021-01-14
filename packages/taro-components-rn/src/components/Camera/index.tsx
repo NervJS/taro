@@ -69,11 +69,11 @@ export class _Camera extends Component<Props, State> {
     const barCodeScannerSettings =
       mode === 'scanCode'
         ? {
-            barCodeScannerSettings: {
-              barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr]
-            },
-            onBarCodeScanned: this.onScanCode
-          }
+          barCodeScannerSettings: {
+            barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr]
+          },
+          onBarCodeScanned: this.onScanCode
+        }
         : {}
     return (
       <Camera

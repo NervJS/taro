@@ -8,7 +8,7 @@ export type EventOnChange = {
 export type EventGroupOnChange = {
   detail: {
     value: any;
-  }
+  };
 }
 
 export interface RadioGroupState {

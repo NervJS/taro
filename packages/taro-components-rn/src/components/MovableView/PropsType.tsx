@@ -22,5 +22,5 @@ export interface MovableViewProps {
   layout: {
     width: number;
     height: number;
-  }
+  };
 }

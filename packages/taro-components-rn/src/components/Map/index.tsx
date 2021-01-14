@@ -81,14 +81,14 @@ type Marker = {
   // height?: number;
   callout?: Callouts;
   // label?: Label;
-  anchor?: { x: number, y: number };
+  anchor?: { x: number; y: number };
 }
 
 /**
  * 多段线
  */
 type Polyline = {
-  points: Array<{ latitude: number, longitude: number }>;
+  points: Array<{ latitude: number; longitude: number }>;
   color?: string;
   width?: number;
   // dottedLine?: boolean;
@@ -102,7 +102,7 @@ type Polyline = {
  * 多边形
  */
 type Polygon = {
-  points: Array<{ latitude: number, longitude: number }>;
+  points: Array<{ latitude: number; longitude: number }>;
   strokeWidth?: number;
   strokeColor?: string;
   fillColor?: string;
@@ -153,7 +153,7 @@ export interface Props {
 
   onControlClick? (controlId?: number): void;
 
-  onRegionChange? (event: { type: 'begin' | 'end', timeStamp: number, causedBy?: 'scale' | 'drag' | 'update' }): void;
+  onRegionChange? (event: { type: 'begin' | 'end'; timeStamp: number; causedBy?: 'scale' | 'drag' | 'update' }): void;
 
   onClick? (coordinate: Coordinate): void;
 

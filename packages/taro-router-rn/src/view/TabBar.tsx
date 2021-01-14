@@ -189,7 +189,7 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
     const tabStyle = getTabConfig('tabStyle') as TabBarStyle
     const { color = '', selectedColor = '', backgroundColor = '', borderStyle = '' } = tabStyle
     const defaultBackground: any = style?.backgroundColor || 'rgb(255, 255, 255)'
-    const defalutBorderTopColor:any= style?.borderTopColor || 'rgb(216, 216, 216)'
+    const defalutBorderTopColor: any = style?.borderTopColor || 'rgb(216, 216, 216)'
     return {
       backgroundColor: backgroundColor || defaultBackground,
       borderTopColor: borderStyle || defalutBorderTopColor,
