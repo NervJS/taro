@@ -29,6 +29,7 @@
     "@ant-design/react-native": "^4.0.5",
     "@react-native-community/picker": "^1.8.1",
     "@react-native-community/slider": "4.0.0-rc.1",
+    "@react-native-community/viewpager": "^4.2.2",
     "@unimodules/core": "~5.5.1",
     "@unimodules/react-native-adapter": "~5.6.0",
     "expo-asset": "^8.2.0",
