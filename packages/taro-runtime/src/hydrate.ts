@@ -1,6 +1,7 @@
-import { isText } from './utils'
+import { isText, isHasExtractProp } from './utils'
 import { TaroElement } from './dom/element'
 import { TaroText } from './dom/text'
+import { SPECIAL_NODES } from './constants'
 import { Shortcuts, toCamelCase } from '@tarojs/shared'
 import type { PageConfig } from '@tarojs/taro'
 
@@ -40,35 +41,25 @@ export type HydratedData = () => MiniData | MiniData[]
  * it's a vnode traverser and modifier: that's exactly what Taro's doing in here.
  */
 export function hydrate (node: TaroElement | TaroText): MiniData {
+  const nodeName = node.nodeName
+
   if (isText(node)) {
     return {
       [Shortcuts.Text]: node.nodeValue,
-      [Shortcuts.NodeName]: node.nodeName
+      [Shortcuts.NodeName]: nodeName
     }
   }
 
   const data: MiniElementData = {
-    [Shortcuts.NodeName]: node.nodeName,
+    [Shortcuts.NodeName]: nodeName,
     uid: node.uid
   }
   const { props, childNodes } = node
 
-  if (!node.isAnyEventBinded()) {
-    if (node.nodeName === 'view') {
-      const isExtractProp = Object.keys(props).find(prop => {
-        return !(/class|style|id/.test(prop) || prop.startsWith('data-'))
-      })
-      if (isExtractProp) {
-        data[Shortcuts.NodeName] = 'static-view'
-      } else {
-        data[Shortcuts.NodeName] = 'pure-view'
-      }
-    }
-    if (node.nodeName === 'text') {
-      data[Shortcuts.NodeName] = 'static-text'
-    }
-    if (node.nodeName === 'image') {
-      data[Shortcuts.NodeName] = 'static-image'
+  if (!node.isAnyEventBinded() && SPECIAL_NODES.indexOf(nodeName) > -1) {
+    data[Shortcuts.NodeName] = `static-${nodeName}`
+    if (nodeName === 'view' && !isHasExtractProp(node)) {
+      data[Shortcuts.NodeName] = 'pure-view'
     }
   }
 
@@ -83,7 +74,7 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     ) {
       data[propInCamelCase] = props[prop]
     }
-    if (node.nodeName === 'view' && propInCamelCase === 'catchMove' && props[prop] !== 'false') {
+    if (nodeName === 'view' && propInCamelCase === 'catchMove' && props[prop] !== 'false') {
       data[Shortcuts.NodeName] = 'catch-view'
     }
   }
@@ -96,7 +87,7 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     data[Shortcuts.Class] = node.className
   }
 
-  if (node.cssText !== '' && node.nodeName !== 'swiper-item') {
+  if (node.cssText !== '' && nodeName !== 'swiper-item') {
     data[Shortcuts.Style] = node.cssText
   }
 
