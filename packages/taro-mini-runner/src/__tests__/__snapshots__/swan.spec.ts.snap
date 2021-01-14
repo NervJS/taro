@@ -119,7 +119,7 @@ require(\\"./taro\\");
 <template name=\\"tmpl_0_static-text\\">
   <text selectable=\\"{{ xs.b(i.selectable,false) }}\\" space=\\"{{ i.space }}\\" decode=\\"{{ xs.b(i.decode,false) }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\"  id=\\"{{i.uid}}\\">
     <block s-for=\\"{{i.cn}}\\" s-key=\\"uid\\">
-      <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+      <block>{{ i.cn[index].v }}</block>
     </block>
   </text>
 </template>
