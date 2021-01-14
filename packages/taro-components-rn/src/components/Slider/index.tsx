@@ -38,8 +38,8 @@ class _Slider extends React.Component<SliderProps, SliderState> {
   static getDerivedStateFromProps(props: SliderProps, state: SliderState): SliderState | null {
     return props.value !== state.currentValue
       ? {
-          currentValue: props.value
-        }
+        currentValue: props.value
+      }
       : null
   }
 

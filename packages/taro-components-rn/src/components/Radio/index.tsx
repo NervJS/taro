@@ -25,8 +25,8 @@ class _Radio extends React.Component<RadioProps, RadioState> {
   static getDerivedStateFromProps(props: RadioProps, state: RadioState): RadioState | null {
     return props.checked !== state.checked
       ? {
-          checked: !!props.checked
-        }
+        checked: !!props.checked
+      }
       : null
   }
 

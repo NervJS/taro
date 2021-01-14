@@ -67,9 +67,9 @@ class _Input extends React.Component<InputProps, InputState> {
   static getDerivedStateFromProps(props: InputProps, state: InputState): InputState | null {
     return props.value !== state.value
       ? {
-          ...state,
-          returnValue: props.value
-        }
+        ...state,
+        returnValue: props.value
+      }
       : null
   }
 
@@ -103,7 +103,7 @@ class _Input extends React.Component<InputProps, InputState> {
     }
   }
 
-  onFocus = ():void => {
+  onFocus = (): void => {
     const { onFocus = noop } = this.props
     // event.detail = { value, height }
     const { returnValue } = this.state
@@ -115,7 +115,7 @@ class _Input extends React.Component<InputProps, InputState> {
     })
   }
 
-  onBlur = ():void => {
+  onBlur = (): void => {
     const { onBlur = noop } = this.props
     onBlur({
       target: { value: this.tmpValue || '' },
@@ -130,7 +130,7 @@ class _Input extends React.Component<InputProps, InputState> {
    * the typed-in character otherwise including `' '` for space.
    * Fires before `onChange` callbacks.
    */
-  onKeyPress = (event: NativeSyntheticEvent<TextInputKeyPressEventData>):void => {
+  onKeyPress = (event: NativeSyntheticEvent<TextInputKeyPressEventData>): void => {
     const { onKeyDown = noop, onConfirm = noop } = this.props
     const keyValue = event.nativeEvent.key
     let which
@@ -148,7 +148,7 @@ class _Input extends React.Component<InputProps, InputState> {
     })
   }
 
-  onSubmitEditing = ():void => {
+  onSubmitEditing = (): void => {
     const { onKeyDown = noop, onConfirm = noop, _multiline } = this.props
     if (_multiline) return
     onKeyDown({
@@ -162,7 +162,7 @@ class _Input extends React.Component<InputProps, InputState> {
     })
   }
 
-  onContentSizeChange = (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>):void => {
+  onContentSizeChange = (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>): void => {
     const { width, height } = event.nativeEvent.contentSize
     // One of width and height may be 0.
     if (width && height) {

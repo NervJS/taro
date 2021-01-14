@@ -2,8 +2,8 @@ import { StyleProp, ViewStyle } from 'react-native'
 
 export type CallbackEvent = {
   detail: {
-    value: number
-  }
+    value: number;
+  };
 }
 
 export interface SliderState {

@@ -3,7 +3,7 @@ import { StyleProp, ViewStyle } from 'react-native'
 export type EventOnChange = {
   detail: {
     value: boolean;
-  }
+  };
 }
 
 export interface SwitchState {

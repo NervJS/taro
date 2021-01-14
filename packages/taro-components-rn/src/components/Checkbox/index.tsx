@@ -27,8 +27,8 @@ class _Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   static getDerivedStateFromProps(props: CheckboxProps, state: CheckboxState): CheckboxState | null {
     return props.checked !== state.checked
       ? {
-          checked: !!props.checked
-        }
+        checked: !!props.checked
+      }
       : null
   }
 

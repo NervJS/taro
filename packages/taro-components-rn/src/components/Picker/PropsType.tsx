@@ -15,7 +15,7 @@ export interface SelectorProps extends CommonProps<number> {
   rangeKey?: string;
 }
 
-export type MultiSelectorOnColumnChangeEvent = { detail: { column: number, value: number } }
+export type MultiSelectorOnColumnChangeEvent = { detail: { column: number; value: number } }
 export interface MultiSelectorProps extends CommonProps<number[]> {
   range?: any[][];
   rangeKey?: string;

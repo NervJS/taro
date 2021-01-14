@@ -49,9 +49,9 @@ class _ScrollView extends React.Component<ScrollViewProps<any>, ScrollViewState>
   static getDerivedStateFromProps(props: ScrollViewProps<any>, state: ScrollViewState): ScrollViewState | null {
     return state.snapScrollTop !== props.scrollTop || state.snapScrollLeft !== props.scrollLeft
       ? {
-          snapScrollTop: props.scrollTop || 0,
-          snapScrollLeft: props.scrollLeft || 0
-        }
+        snapScrollTop: props.scrollTop || 0,
+        snapScrollLeft: props.scrollLeft || 0
+      }
       : null
   }
 
