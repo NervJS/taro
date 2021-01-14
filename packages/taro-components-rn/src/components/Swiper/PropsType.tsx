@@ -3,14 +3,14 @@ import { ViewStyle } from 'react-native'
 
 export type EventOnChange = {
   detail: {
-    current: number
-  }
+    current: number;
+  };
 }
 
 export type EventOnAnimationFinish = {
   detail: {
-    current: number
-  }
+    current: number;
+  };
 }
 
 export interface SwiperProps {
