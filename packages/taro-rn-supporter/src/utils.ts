@@ -1,16 +1,13 @@
 import * as fs from 'fs'
 import * as path from 'path'
-import * as MetroResolver from 'metro-resolver'
 import { merge, isEmpty } from 'lodash'
 import * as helper from '@tarojs/helper'
-import { Config } from './types/index'
+import { Config, RNConfig } from './types/index'
 
 // 编译config
 let GLOBAL_CONFIG: Config = {}
-
-function getGlobalConfig () {
-  return GLOBAL_CONFIG
-}
+let FROM_TARO = false
+let RN_CONFIG: RNConfig = {}
 
 function getProjectConfig () {
   if (!isEmpty(GLOBAL_CONFIG)) return GLOBAL_CONFIG
@@ -23,6 +20,25 @@ function getProjectConfig () {
     GLOBAL_CONFIG = {}
     return GLOBAL_CONFIG
   }
+}
+
+function getRNConfig () {
+  const config = getProjectConfig()
+  if (RN_CONFIG) return RN_CONFIG
+  if (config.rn) {
+    RN_CONFIG = config.rn
+  } else {
+    RN_CONFIG = {}
+  }
+  return RN_CONFIG
+}
+
+function setFromRunner (fromTaro: boolean) {
+  FROM_TARO = fromTaro
+}
+
+function isTaroRunner () {
+  return FROM_TARO
 }
 
 function isRegExp (string) {
@@ -43,7 +59,7 @@ function getAliasTarget (key, isKeyRegExp) {
 }
 
 function getAlias () {
-  const config = GLOBAL_CONFIG
+  const config = getProjectConfig()
   const rnConfig = config.rn || {}
   let alias = {}
   if (rnConfig.alias) {
@@ -148,42 +164,11 @@ function resolveExtFile ({ originModulePath }, moduleName, platform) {
   return moduleName
 }
 
-/**
- * resolveRequest 文件处理，alias，文件后缀加载等
- */
-function handleFile (context, realModuleName, platform, moduleName) {
-  const savedOriginModulePath = context.originModulePath
-  const savedAllowHaste = context.allowHaste
-  if (moduleName.startsWith('@tarojs/')) {
-    // 通过Haste去查找软链接模块
-    context.allowHaste = true
-  }
-
-  // 处理 alias
-  moduleName = resolvePathFromAlias(moduleName)
-
-  // 处理后缀 .rn.ts
-  moduleName = resolveExtFile(context, moduleName, platform)
-
-  let res = null
-  const savedResolveRequest = context.resolveRequest
-  context.resolveRequest = null
-
-  try {
-    res = MetroResolver.resolve(context, moduleName, platform)
-  } catch (ex) {
-    // console.log(ex)
-    // nothing to do
-  } finally {
-    context.originModulePath = savedOriginModulePath
-    context.allowHaste = savedAllowHaste
-    context.resolveRequest = savedResolveRequest
-  }
-  return res
-}
-
 export {
-  handleFile,
-  getGlobalConfig,
-  getProjectConfig
+  setFromRunner,
+  isTaroRunner,
+  getProjectConfig,
+  getRNConfig,
+  resolvePathFromAlias,
+  resolveExtFile
 }

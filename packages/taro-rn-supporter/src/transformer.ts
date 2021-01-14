@@ -1,7 +1,6 @@
 import { transform as babelTransform, getCacheKey } from 'metro-react-native-babel-transformer'
 import { merge } from 'lodash'
-import * as ModuleResolution from 'metro/src/node-haste/DependencyGraph/ModuleResolution'
-import { getProjectConfig, getRNConfig } from './utils'
+import { getProjectConfig } from './utils'
 
 const _babelTransform = ({ src, filename, options, plugins }) => {
   // 获取rn配置中的moodifyBabelConfig
@@ -16,8 +15,6 @@ const getTransformer = (pkgName) => {
 
 const transform = ({ src, filename, options, plugins }) => {
   const config = getProjectConfig()
-  const rnConfig = getRNConfig()
-  const entry = rnConfig?.entry || 'app'
   const rules: Record<string, any> = [
     {
       test: /\.(css|scss|sass|less|styl|stylus|pcss)/,
@@ -28,18 +25,6 @@ const transform = ({ src, filename, options, plugins }) => {
       // TODO:处理引用的外部资源文件
       test: /\.(png|jpg|jpeg|bmp)/,
       transformer: ''
-    }, {
-      test: /\.(js|ts|jsx|tsx)/,
-      transformer: '@tarojs/rn-transformer',
-      configOpt: {
-        entry: entry,
-        sourceDir: config?.sourceRoot,
-        appName: rnConfig.appName,
-        designWidth: rnConfig.designWidth ? rnConfig.designWidth : config.designWidth,
-        deviceRatio: rnConfig.designWidth ? rnConfig.deviceRatio : config.deviceRatio,
-        nextTransformer: babelTransform,
-        isEntryFile: filename_ => ModuleResolution.ModuleResolver.EMPTY_MODULE.includes(filename_)
-      }
     }
   ]
   for (let i = 0; i < rules.length; i++) {
