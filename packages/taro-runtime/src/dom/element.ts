@@ -89,8 +89,9 @@ export class TaroElement extends TaroNode {
       qualifiedName = Shortcuts.Style
     } else if (qualifiedName === 'id') {
       eventSource.delete(this.uid)
-      this.props[qualifiedName] = this.uid = value as string
-      eventSource.set(value as string, this)
+      value = String(value)
+      this.props[qualifiedName] = this.uid = value
+      eventSource.set(value, this)
       qualifiedName = 'uid'
     } else {
       if (qualifiedName === 'class') {
