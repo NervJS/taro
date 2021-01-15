@@ -94,6 +94,7 @@ export class TaroElement extends TaroNode {
       eventSource.set(value, this)
       qualifiedName = 'uid'
     } else {
+      this.props[qualifiedName] = value as string
       if (qualifiedName === 'class') {
         qualifiedName = Shortcuts.Class
       } else if (qualifiedName.startsWith('data-')) {
@@ -108,7 +109,6 @@ export class TaroElement extends TaroNode {
           value: 'static-view'
         })
       }
-      this.props[qualifiedName] = value as string
     }
 
     CurrentReconciler.setAttribute?.(this, qualifiedName, value)
