@@ -27,6 +27,8 @@ export interface Reconciler<Instance, DOMElement = TaroElement, TextElement = Ta
 
   getLifecyle(instance: Instance, lifecyle: keyof PageInstance): Function | undefined | Array<Function>
 
+  batchedEventUpdates?(cb: () => void): void
+
   // h5
   createPullDownComponent?(el: Instance, path: string, framework)
 

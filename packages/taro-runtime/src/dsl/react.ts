@@ -113,6 +113,9 @@ function setReconciler () {
     },
     modifyEventType (event) {
       event.type = event.type.replace(/-/g, '')
+    },
+    batchedEventUpdates (cb) {
+      ReactDOM.unstable_batchedUpdates(cb)
     }
   }
 

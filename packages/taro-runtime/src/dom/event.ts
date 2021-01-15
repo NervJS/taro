@@ -100,6 +100,13 @@ export function eventHandler (event: MpEvent) {
 
   const node = document.getElementById(event.currentTarget.id)
   if (node != null) {
-    node.dispatchEvent(createEvent(event, node))
+    const dispatch = () => {
+      node.dispatchEvent(createEvent(event, node))
+    }
+    if (typeof CurrentReconciler.batchedEventUpdates === 'function') {
+      CurrentReconciler.batchedEventUpdates(dispatch)
+    } else {
+      dispatch()
+    }
   }
 }
