@@ -21,7 +21,7 @@ export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props)
   const isFormElement = dom instanceof FormElement
   for (i in newProps) {
     if (oldProps[i] !== newProps[i] || (isFormElement && i === 'value')) {
-      setProperty(dom, i, newProps[i], oldProps[i])
+      setProperty(dom, i, newProps[i], oldProps[i], newProps)
     }
   }
 }
@@ -78,7 +78,7 @@ interface DangerouslySetInnerHTML {
   __html?: string
 }
 
-function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?: unknown) {
+function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?: unknown, newProps?: Props) {
   name = name === 'className' ? 'class' : name
 
   if (
@@ -125,7 +125,11 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
     }
   } else if (!isFunction(value)) {
     if (value == null) {
-      dom.removeAttribute(name)
+      if (newProps && newProps.hasOwnProperty(name)) {
+        dom.setAttribute(name, value as string)
+      } else {
+        dom.removeAttribute(name)
+      }
     } else {
       dom.setAttribute(name, value as string)
     }
