@@ -7,7 +7,8 @@
  */
 import ViewPager from '@react-native-community/viewpager'
 import React from 'react'
-import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
+import { CarouselProps, PaginationProps } from './PropsType'
 
 const styles = StyleSheet.create({
   wrapperStyle: {
@@ -42,35 +43,9 @@ const styles = StyleSheet.create({
   },
 })
 
-export interface CarouselPropsType {
-  selectedIndex?: number;
-  dots?: boolean;
-  vertical?: boolean;
-  autoplay?: boolean;
-  autoplayInterval?: number;
-  infinite?: boolean;
-}
-
-export interface CarouselProps extends CarouselPropsType {
-  style?: StyleProp<ViewStyle>;
-  dotStyle?: StyleProp<ViewStyle>;
-  dotActiveStyle?: StyleProp<ViewStyle>;
-  pagination?: (props: PaginationProps) => React.ReactNode;
-  afterChange?: (index: number) => void;
-}
-
 export interface CarouselState {
   selectedIndex: number;
   isScrolling: boolean;
-}
-
-export interface PaginationProps {
-  vertical?: boolean;
-  current: number;
-  count: number;
-  styles: any;
-  dotStyle?: StyleProp<ViewStyle>;
-  dotActiveStyle?: StyleProp<ViewStyle>;
 }
 
 const defaultPagination = (props: PaginationProps) => {
