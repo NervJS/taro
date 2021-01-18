@@ -53,8 +53,7 @@ import {
 } from 'react-native'
 import { noop } from '../../utils'
 import { SwiperProps } from './PropsType'
-// 注意：由于 Carousel 组件依赖 @react-native-community/viewpager 实现，因此使用时需在壳工程中引入该组件
-import Carousel from '@ant-design/react-native/lib/carousel'
+import Carousel from './carousel'
 
 class _Swiper extends React.Component<SwiperProps> {
   static defaultProps = {
