@@ -50,6 +50,7 @@ interface ITaroMiniPluginOptions {
   template: RecursiveTemplate | UnRecursiveTemplate
   modifyBuildAssets?: Function
   modifyMiniConfigs?: Function
+  blended: boolean
 }
 
 export interface IComponentObj {
@@ -227,7 +228,8 @@ export default class TaroMiniPlugin {
               options: {
                 framework,
                 prerender: this.prerenderPages.size > 0,
-                config: this.appConfig
+                config: this.appConfig,
+                blended: this.options.blended
               }
             })
           }

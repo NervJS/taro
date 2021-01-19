@@ -71,6 +71,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     commonChunks,
     addChunkPages,
 
+    blended,
+
     modifyMiniConfigs,
     modifyBuildAssets
   } = config
@@ -150,7 +152,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     addChunkPages,
     modifyMiniConfigs,
     modifyBuildAssets,
-    minifyXML
+    minifyXML,
+    blended
   })
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{

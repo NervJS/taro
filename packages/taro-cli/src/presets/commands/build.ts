@@ -9,20 +9,17 @@ export default (ctx: IPluginContext) => {
     optionsMap: {
       '--type [typeName]': 'Build type, weapp/swan/alipay/tt/h5/quickapp/rn/qq/jd',
       '--watch': 'Watch mode',
-      '--page [pagePath]': 'Build one page',
-      '--component [pagePath]': 'Build one component',
       '--env [env]': 'Env type',
-      '--ui': 'Build Taro UI library',
-      '--ui-index [uiIndexPath]': 'Index file for build Taro UI library',
-      '--plugin [typeName]': 'Build Taro plugin project, weapp',
       '--port [port]': 'Specified port',
-      '--release': 'Release quickapp'
+      '--blended': 'Blended Taro project in an original MiniApp project'
+      // '--plugin [typeName]': 'Build Taro plugin project, weapp',
+      // '--release': 'Release quickapp'
     },
     async fn (opts) {
       const { platform, config } = opts
       const { fs, chalk, PROJECT_CONFIG } = ctx.helper
       const { outputPath, configPath } = ctx.paths
-      const { isWatch, envHasBeenSet } = ctx.runOpts
+      const { isWatch, envHasBeenSet, blended } = ctx.runOpts
       if (!configPath || !fs.existsSync(configPath)) {
         console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是 Taro 项目根目录!`))
         process.exit(1)
@@ -65,6 +62,7 @@ export default (ctx: IPluginContext) => {
             ...config,
             isWatch,
             mode: isProduction ? 'production' : 'development',
+            blended,
             async modifyWebpackChain (chain, webpack) {
               await ctx.applyPlugins({
                 name: 'modifyWebpackChain',

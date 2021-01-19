@@ -60,6 +60,7 @@ export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   baseLevel: number,
   prerender?: PrerenderConfig
   template: RecursiveTemplate | UnRecursiveTemplate
+  blended: boolean
 }
 
 export type AddPageChunks = ((pages: Map<string, string[]>, pagesNames?: string[]) => void)
