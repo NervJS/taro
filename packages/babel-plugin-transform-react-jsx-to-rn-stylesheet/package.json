@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-react-jsx-to-rn-stylesheet",
-  "version": "3.2.0-canary.6",
+  "version": "3.2.0-canary.7",
   "description": "Transform stylesheet selector to style in JSX Elements.",
   "license": "MIT",
   "main": "dist/index.js",
@@ -24,6 +24,6 @@
   },
   "dependencies": {
     "camelize": "^1.0.0",
-    "taro-css-to-react-native": "3.2.0-canary.6"
+    "taro-css-to-react-native": "3.2.0-canary.7"
   }
 }

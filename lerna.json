@@ -46,6 +46,6 @@
       "license": "MIT"
     }
   },
-  "version": "3.2.0-canary.6",
+  "version": "3.2.0-canary.7",
   "npmClient": "yarn"
 }
