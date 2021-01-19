@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router",
-  "version": "3.2.0-canary.6",
+  "version": "3.2.0-canary.7",
   "description": "Taro-router",
   "main:h5": "dist/router.esm.js",
   "main": "dist/index.js",
@@ -27,7 +27,7 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/runtime": "3.2.0-canary.6",
+    "@tarojs/runtime": "3.2.0-canary.7",
     "history": "^4.10.1",
     "universal-router": "^8.3.0",
     "url-parse": "^1.4.7"

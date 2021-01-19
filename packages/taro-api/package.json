@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/api",
-  "version": "3.2.0-canary.6",
+  "version": "3.2.0-canary.7",
   "description": "Taro common API",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/api#readme",
@@ -29,6 +29,6 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/runtime": "3.2.0-canary.6"
+    "@tarojs/runtime": "3.2.0-canary.7"
   }
 }
