@@ -94,6 +94,15 @@ describe('Context', () => {
       expect(container.firstChild.getAttribute('b')).toBe('b')
     })
 
+    it('not remove null properties', () => {
+      const container = document.createElement('div')
+      render(<div id='1' a={null} />, container)
+      render(<div id='1' a='a' b='b' />, container)
+      expect(container.firstChild.id).toBe('1')
+      expect(container.firstChild.getAttribute('a')).toBe('a')
+      expect(container.firstChild.getAttribute('b')).toBe('b')
+    })
+
     it('should ignore ref', () => {
       const container = document.createElement('div')
       render(<div ref={React.createRef} />, container)
