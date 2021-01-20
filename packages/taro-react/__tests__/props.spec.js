@@ -93,7 +93,7 @@ describe('Context', () => {
       expect(container.firstChild.getAttribute('a')).toBe('')
       expect(container.firstChild.getAttribute('b')).toBe('b')
     })
-    
+
     it('not remove null properties', () => {
       const container = document.createElement('div')
       render(<div id='1' a={null} />, container)
@@ -102,7 +102,6 @@ describe('Context', () => {
       expect(container.firstChild.getAttribute('a')).toBe('a')
       expect(container.firstChild.getAttribute('b')).toBe('b')
     })
-
 
     it('should ignore ref', () => {
       const container = document.createElement('div')
