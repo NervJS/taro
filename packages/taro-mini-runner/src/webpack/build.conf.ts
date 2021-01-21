@@ -153,7 +153,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     modifyMiniConfigs,
     modifyBuildAssets,
     minifyXML,
-    blended
+    blended,
+    alias
   })
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{

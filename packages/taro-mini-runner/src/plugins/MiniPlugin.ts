@@ -23,7 +23,9 @@ import {
   FRAMEWORK_EXT_MAP,
   printLog,
   processTypeEnum,
-  FRAMEWORK_MAP
+  FRAMEWORK_MAP,
+  isAliasPath,
+  replaceAliasPath
 } from '@tarojs/helper'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
@@ -51,6 +53,7 @@ interface ITaroMiniPluginOptions {
   modifyBuildAssets?: Function
   modifyMiniConfigs?: Function
   blended: boolean
+  alias: Record<string, string>
 }
 
 export interface IComponentObj {
@@ -485,19 +488,23 @@ export default class TaroMiniPlugin {
     const fileConfigPath = file.isNative ? this.replaceExt(filePath, '.json') : this.getConfigFilePath(filePath)
     const fileConfig = readConfig(fileConfigPath)
     const usingComponents = fileConfig.usingComponents
-    this.filesConfig[this.getConfigFilePath(file.name)] = {
-      content: fileConfig,
-      path: fileConfigPath
-    }
 
     // 递归收集依赖的第三方组件
     if (usingComponents) {
       const componentNames = Object.keys(usingComponents)
       const depComponents: Array<{ name: string, path: string }> = []
+      const alias = this.options.alias
       for (const compName of componentNames) {
+        let compPath = usingComponents[compName]
+
+        if (isAliasPath(compPath, alias)) {
+          compPath = replaceAliasPath(filePath, compPath, alias)
+          fileConfig.usingComponents[compName] = compPath
+        }
+
         depComponents.push({
           name: compName,
-          path: usingComponents[compName]
+          path: compPath
         })
 
         if (!componentConfig.thirdPartyComponents.has(compName) && !file.isNative) {
@@ -521,6 +528,11 @@ export default class TaroMiniPlugin {
           this.compileFile(componentObj)
         }
       })
+    }
+
+    this.filesConfig[this.getConfigFilePath(file.name)] = {
+      content: fileConfig,
+      path: fileConfigPath
     }
   }
 
