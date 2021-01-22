@@ -29,8 +29,14 @@ module.exports = {
       'css-in-js',
       'prerender',
       'virtual-list',
-      'mini-third-party',
-      'hybrid',
+      {
+        label: '原生混合',
+        type: 'category',
+        items: [
+          'hybrid',
+          'taro-in-miniapp',
+        ]
+      },
       {
         label: '反向转换',
         type: 'category',
