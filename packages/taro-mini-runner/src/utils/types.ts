@@ -54,6 +54,7 @@ export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   modifyWebpackChain: Function,
   modifyBuildAssets: Function,
   modifyMiniConfigs: Function,
+  onCompilerMake: Function,
   onWebpackChainReady: Function,
   onBuildFinish: Function
   framework: string,

@@ -91,6 +91,14 @@ export default (ctx: IPluginContext) => {
                 }
               })
             },
+            async onCompilerMake (compilation) {
+              await ctx.applyPlugins({
+                name: 'onCompilerMake',
+                opts: {
+                  compilation
+                }
+              })
+            },
             async onBuildFinish ({ error, stats, isWatch }) {
               await ctx.applyPlugins({
                 name: 'onBuildFinish',
@@ -113,6 +121,7 @@ function registerBuildHooks (ctx) {
     'modifyWebpackChain',
     'modifyBuildAssets',
     'modifyMiniConfigs',
+    'onCompilerMake',
     'onBuildStart',
     'onBuildFinish'
   ].forEach(methodName => {

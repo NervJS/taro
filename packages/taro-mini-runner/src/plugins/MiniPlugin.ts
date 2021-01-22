@@ -52,6 +52,7 @@ interface ITaroMiniPluginOptions {
   template: RecursiveTemplate | UnRecursiveTemplate
   modifyBuildAssets?: Function
   modifyMiniConfigs?: Function
+  onCompilerMake?: Function
   blended: boolean
   alias: Record<string, string>
 }
@@ -209,6 +210,7 @@ export default class TaroMiniPlugin {
           }))
         })
         await Promise.all(promises)
+        await this.options.onCompilerMake?.(compilation)
       })
     )
 
@@ -643,7 +645,9 @@ export default class TaroMiniPlugin {
     }
     const appConfigPath = this.getConfigFilePath(this.appEntry)
     const appConfigName = path.basename(appConfigPath).replace(path.extname(appConfigPath), '')
-    this.generateConfigFile(compilation, this.appEntry, this.filesConfig[appConfigName].content)
+    if (!this.options.blended) {
+      this.generateConfigFile(compilation, this.appEntry, this.filesConfig[appConfigName].content)
+    }
     if (!template.isSupportRecursive) {
       // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
       this.generateTemplateFile(compilation, baseCompName, template.buildBaseComponentTemplate, this.options.fileType.templ)

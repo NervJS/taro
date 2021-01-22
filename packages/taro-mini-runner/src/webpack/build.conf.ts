@@ -74,7 +74,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     blended,
 
     modifyMiniConfigs,
-    modifyBuildAssets
+    modifyBuildAssets,
+    onCompilerMake
   } = config
 
   let { copy } = config
@@ -152,6 +153,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     addChunkPages,
     modifyMiniConfigs,
     modifyBuildAssets,
+    onCompilerMake,
     minifyXML,
     blended,
     alias
