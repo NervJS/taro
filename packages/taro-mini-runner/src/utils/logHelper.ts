@@ -64,14 +64,14 @@ export const printPrerenderFail = (path: string) => {
 const printWarning = () => {
   getServeSpinner().stopAndPersist({
     symbol: '⚠️ ',
-    text: chalk.yellow('编译警告. ${new Date().toLocaleString()}\n')
+    text: chalk.yellow(`编译警告. ${new Date().toLocaleString()}\n`)
   })
 }
 
 const printFailed = () => {
   getServeSpinner().stopAndPersist({
     symbol: '🙅  ',
-    text: chalk.red('编译失败. ${new Date().toLocaleString()}\n')
+    text: chalk.red(`编译失败. ${new Date().toLocaleString()}\n`)
   })
 }
 
