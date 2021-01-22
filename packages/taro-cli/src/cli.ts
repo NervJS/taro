@@ -40,15 +40,12 @@ export default class CLI {
         case 'build': {
           build(kernel, {
             platform: args.type,
-            isWatch: !!args.watch,
+            isWatch: Boolean(args.watch),
             port: args.port,
             env: args.env,
-            release: args.release,
-            ui: args.ui,
-            uiIndex: args.uiIndex,
-            page: args.page,
-            component: args.component,
-            plugin: args.plugin,
+            blended: Boolean(args.blended),
+            // plugin: args.plugin,
+            // release: args.release,
             isHelp: args.h
           })
           break
