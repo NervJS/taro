@@ -18,8 +18,9 @@ if (typeof PRERENDER !== 'undefined') {
   const createApp = `${creator}(component, ${frameworkArgs})`
   const instantiateApp = blended
     ? `
-var opt = ${createApp}
-exports.taroApp = opt
+var app = ${createApp}
+app.onLaunch()
+exports.taroApp = app
 `
     : `var inst = App(${createApp})`
 
