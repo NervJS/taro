@@ -50,28 +50,28 @@ const printSuccess = () => {
 export const printPrerenderSuccess = (path: string) => {
   getServeSpinner().stopAndPersist({
     symbol: '🚀 ',
-    text: chalk.green(`页面 ${path} 预渲染成功`)
+    text: chalk.green(`页面 ${path} 预渲染成功 ${new Date().toLocaleString()}`)
   })
 }
 
 export const printPrerenderFail = (path: string) => {
   getServeSpinner().stopAndPersist({
     symbol: '⚠️ ',
-    text: chalk.yellow(`页面 ${path} 预渲染失败：`)
+    text: chalk.yellow(`${new Date().toLocaleString()} 页面 ${path} 预渲染失败：`)
   })
 }
 
 const printWarning = () => {
   getServeSpinner().stopAndPersist({
     symbol: '⚠️ ',
-    text: chalk.yellow('编译警告.\n')
+    text: chalk.yellow('编译警告. ${new Date().toLocaleString()}\n')
   })
 }
 
 const printFailed = () => {
   getServeSpinner().stopAndPersist({
     symbol: '🙅  ',
-    text: chalk.red('编译失败.\n')
+    text: chalk.red('编译失败. ${new Date().toLocaleString()}\n')
   })
 }
 
