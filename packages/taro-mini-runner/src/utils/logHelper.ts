@@ -43,7 +43,7 @@ const printBuildError = (err: Error): void => {
 const printSuccess = () => {
   getServeSpinner().stopAndPersist({
     symbol: '✅ ',
-    text: chalk.green('编译成功\n')
+    text: chalk.green(`编译成功 ${new Date().toLocaleString()}\n`)
   })
 }
 
