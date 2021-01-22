@@ -33,8 +33,9 @@ export default class StyleTagParser {
   styles: IStyle[]= []
 
   extractStyle (src: string) {
-    const REG_STYLE = /<style>(.+?)<\/style>/g
-    let html = src.replace(/\n/g, '')
+    const REG_STYLE = /<style>((.|\n|\s)+?)<\/style>/g
+    let html = src
+    // let html = src.replace(/\n/g, '')
 
     html = html.replace(REG_STYLE, (_, $1: string) => {
       const style = $1.trim()

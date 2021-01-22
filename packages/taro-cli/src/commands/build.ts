@@ -3,42 +3,33 @@ import { Kernel } from '@tarojs/service'
 export default function build (kernel: Kernel, {
   platform,
   isWatch,
-  release,
   port,
   env,
-  ui,
-  uiIndex,
-  page,
-  component,
+  blended = false,
   envHasBeenSet = false,
-  plugin,
+  // plugin,
+  // release,
   isHelp
 }: {
-  platform: string,
-  isWatch: boolean,
-  release?: boolean
+  platform: string
+  isWatch: boolean
   port?: number
   env?: string
-  ui?: boolean
-  uiIndex?: string
-  page?: string
-  component?: string
+  blended?: boolean
   envHasBeenSet?: boolean
-  plugin?: string | boolean
+  // plugin?: string | boolean
+  // release?: boolean
   isHelp?: boolean
 }) {
-  if (plugin) {
-    if (typeof plugin === 'boolean') {
-      plugin = 'weapp'
-    }
-    platform = 'plugin'
-  }
-  if (platform === 'plugin') {
-    plugin = plugin || 'weapp'
-  }
-  if (ui) {
-    platform = 'ui'
-  }
+  // if (plugin) {
+  //   if (typeof plugin === 'boolean') {
+  //     plugin = 'weapp'
+  //   }
+  //   platform = 'plugin'
+  // }
+  // if (platform === 'plugin') {
+  //   plugin = plugin || 'weapp'
+  // }
   let nodeEnv = process.env.NODE_ENV || env
   if (!nodeEnv) {
     if (isWatch) {
@@ -54,14 +45,11 @@ export default function build (kernel: Kernel, {
     opts: {
       platform,
       isWatch,
-      release,
       port,
-      ui,
-      uiIndex,
-      page,
-      component,
+      blended,
       envHasBeenSet,
-      plugin,
+      // plugin,
+      // release,
       isHelp
     }
   })
