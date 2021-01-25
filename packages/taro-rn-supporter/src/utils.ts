@@ -23,8 +23,9 @@ function getProjectConfig () {
 }
 
 function getRNConfig () {
+  if (!isEmpty(RN_CONFIG)) return RN_CONFIG
+
   const config = getProjectConfig()
-  if (RN_CONFIG) return RN_CONFIG
   if (config.rn) {
     RN_CONFIG = config.rn
   } else {
@@ -145,8 +146,8 @@ function lookup (modulePath, platform, isDirectory = false) {
  * @param platform 平台 ios/android
  */
 function resolveExtFile ({ originModulePath }, moduleName, platform) {
-  // ignore node_modules
-  if (originModulePath.indexOf('node_modules') > -1) {
+  // ignore node_modules except include config
+  if (originModulePath.indexOf('node_modules') > -1 && !includes(originModulePath)) {
     return moduleName
   }
   let modulePath = ''
@@ -162,6 +163,17 @@ function resolveExtFile ({ originModulePath }, moduleName, platform) {
     return lookup(modulePath, platform)
   }
   return moduleName
+}
+
+function includes (filePath: string): boolean {
+  const config = getRNConfig()
+  const include = config?.resolve?.include || []
+  if (!include.length) return false
+
+  filePath = filePath.replace(path.sep, '/')
+
+  const res = include.find(item => filePath.includes(item))
+  return Boolean(res)
 }
 
 export {
