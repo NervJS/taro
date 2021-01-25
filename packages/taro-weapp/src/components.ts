@@ -41,6 +41,7 @@ export const components = {
     'send-message-img': '',
     'app-parameter': '',
     'show-message-card': 'false',
+    'business-id': '',
     bindGetUserInfo: '',
     bindContact: '',
     bindGetPhoneNumber: '',

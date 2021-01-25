@@ -38,6 +38,7 @@ export declare const components: {
         'send-message-img': string;
         'app-parameter': string;
         'show-message-card': string;
+        'business-id': string;
         bindGetUserInfo: string;
         bindContact: string;
         bindGetPhoneNumber: string;
