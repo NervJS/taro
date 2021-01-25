@@ -102,6 +102,12 @@ export declare const components: {
         memo: string;
         bindFollow: string;
     };
+    LifeFollow: {
+        sceneId: string;
+        checkFollow: string;
+        bindCheckFollow: string;
+        bindClose: string;
+    };
     ContactButton: {
         'tnt-inst-id': string;
         scene: string;

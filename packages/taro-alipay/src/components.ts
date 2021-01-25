@@ -106,6 +106,12 @@ export const components = {
     memo: '',
     bindFollow: ''
   },
+  LifeFollow: {
+    sceneId: '',
+    checkFollow: '',
+    bindCheckFollow: '',
+    bindClose: ''
+  },
   ContactButton: {
     'tnt-inst-id': '',
     scene: '',
