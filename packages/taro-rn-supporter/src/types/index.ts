@@ -52,5 +52,10 @@ export interface RNConfig extends Config{
   sass?: Sass
   stylus?: object,
   transformer?: any,
-  babelPlugin?: any
+  babelPlugin?: any,
+  resolve?: ResolveOption
+}
+
+export interface ResolveOption {
+  include?: string[], // 包含的 node_modules 进行 resolve 处理，默认不处理
 }
