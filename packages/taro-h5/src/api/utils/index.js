@@ -185,37 +185,6 @@ const createCallbackManager = () => {
   }
 }
 
-const createScroller = () => {
-  const el = document.querySelector('.taro-tabbar__panel') || window
-
-  const getScrollHeight = el === window
-    ? () => document.documentElement.scrollHeight
-    : () => el.scrollHeight
-
-  const getPos = el === window
-    ? () => window.pageYOffset
-    : () => el.scrollTop
-
-  const getClientHeight = el === window
-    ? () => window.screen.height
-    : () => el.clientHeight
-
-  const listen = callback => {
-    el.addEventListener('scroll', callback)
-    document.body.addEventListener('touchmove', callback)
-  }
-  const unlisten = callback => {
-    el.removeEventListener('scroll', callback)
-    document.body.removeEventListener('touchmove', callback)
-  }
-
-  const isReachBottom = (distance = 0) => {
-    return getScrollHeight() - getPos() - getClientHeight() < distance
-  }
-
-  return { listen, unlisten, getPos, isReachBottom }
-}
-
 function processOpenapi (apiName, defaultOptions, formatResult = res => res, formatParams = options => options) {
   if (!window.wx) {
     return weixinCorpSupport(apiName)
@@ -268,7 +237,6 @@ export {
   isValidColor,
   isFunction,
   createCallbackManager,
-  createScroller,
   processOpenapi,
   easeInOut,
   getTimingFunc

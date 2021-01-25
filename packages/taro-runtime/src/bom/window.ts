@@ -26,4 +26,10 @@ if (process.env.TARO_ENV !== 'h5') {
   (window as any).requestAnimationFrame = raf;
   (window as any).cancelAnimationFrame = caf;
   (window as any).getComputedStyle = getComputedStyle
+  if (!('Date' in window)) {
+    (window as any).Date = Date
+  }
+  if (!('setTimeout' in window)) {
+    (window as any).setTimeout = setTimeout
+  }
 }

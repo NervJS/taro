@@ -7,6 +7,6 @@ export * from './apis-list'
 export const hostConfig = {
   initNativeApi,
   getPathIndex (indexOfNode) {
-    return indexOfNode
+    return `${indexOfNode}`
   }
 }

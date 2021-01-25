@@ -1,8 +1,7 @@
 import {
   queryToJson,
   getUniqueKey,
-  cacheDataSet,
-  cacheDataGet
+  cacheDataSet
 } from '@tarojs/shared'
 import { _onAndSyncApis, _noPromiseApis, _otherApis } from './apis-list'
 
@@ -99,8 +98,6 @@ function processApis (taro: ITaro) {
     reLaunch: true
   }
   const routerParamsPrivateKey = '__key_'
-  const preloadPrivateKey = '__preload_'
-  const preloadInitedComponent = '$preloadComponent'
   apis.forEach(key => {
     if (!(key in wx)) {
       taro[key] = () => {
@@ -124,21 +121,6 @@ function processApis (taro: ITaro) {
         if (key === 'navigateTo' || key === 'redirectTo' || key === 'switchTab') {
           let url = obj.url ? obj.url.replace(/^\//, '') : ''
           if (url.indexOf('?') > -1) url = url.split('?')[0]
-
-          const Component = cacheDataGet(url)
-          if (Component) {
-            const component = new Component()
-            if (component.componentWillPreload) {
-              const cacheKey = getUniqueKey()
-              const MarkIndex = obj.url.indexOf('?')
-              const hasMark = MarkIndex > -1
-              const urlQueryStr = hasMark ? obj.url.substring(MarkIndex + 1, obj.url.length) : ''
-              const params = queryToJson(urlQueryStr)
-              obj.url += (hasMark ? '&' : '?') + `${preloadPrivateKey}=${cacheKey}`
-              cacheDataSet(cacheKey, component.componentWillPreload(params))
-              cacheDataSet(preloadInitedComponent, component)
-            }
-          }
         }
 
         if (useDataCacheApis[key]) {
@@ -249,6 +231,18 @@ function wxCloud (taro) {
   taro.cloud = wxcloud
 }
 
+function getPreload (taro) {
+  return function (key, val) {
+    if (typeof key === 'object') {
+      taro.preloadData = key
+    } else if (key !== undefined && val !== undefined) {
+      taro.preloadData = {
+        [key]: val
+      }
+    }
+  }
+}
+
 export function initNativeApi (taro) {
   processApis(taro)
   const link = new taro.Link(taroInterceptor)
@@ -261,6 +255,7 @@ export function initNativeApi (taro) {
   taro.initPxTransform = taro.initPxTransform.bind(taro)
   taro.pxTransform = pxTransform.bind(taro)
   taro.canIUseWebp = canIUseWebp
+  taro.preload = getPreload(taro)
   taro.env = wx.env
   wxCloud(taro)
 }

@@ -5,11 +5,12 @@ import { isFunction, ensure, EMPTY_OBJ } from '@tarojs/shared'
 import { Current } from '../current'
 import { AppInstance, ReactPageComponent, PageProps, Instance, ReactAppInstance } from './instance'
 import { document } from '../bom/document'
-import { injectPageInstance } from './common'
+import { getPageInstance, injectPageInstance } from './common'
 import { isBrowser } from '../env'
 import { options } from '../options'
-import { Reconciler } from '../reconciler'
+import { Reconciler, CurrentReconciler } from '../reconciler'
 import { incrementId } from '../utils'
+import { HOOKS_APP_ID } from './hooks'
 
 function isClassComponent (R: typeof React, component): boolean {
   return isFunction(component.render) ||
@@ -109,6 +110,12 @@ function setReconciler () {
           next[item] = [...(next[item] || []), ...prev[item]]
         }
       })
+    },
+    modifyEventType (event) {
+      event.type = event.type.replace(/-/g, '')
+    },
+    batchedEventUpdates (cb) {
+      ReactDOM.unstable_batchedUpdates(cb)
     }
   }
 
@@ -270,6 +277,9 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
         if (app != null && isFunction(app.componentDidShow)) {
           app.componentDidShow(options)
         }
+
+        // app useDidShow
+        triggerAppHook('componentDidShow')
       }
     },
 
@@ -281,6 +291,9 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
         if (app != null && isFunction(app.componentDidHide)) {
           app.componentDidHide(options)
         }
+
+        // app useDidHide
+        triggerAppHook('componentDidHide')
       }
     },
 
@@ -295,6 +308,17 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
       }
     }
   })
+
+  function triggerAppHook (lifecycle) {
+    const instance = getPageInstance(HOOKS_APP_ID)
+    if (instance) {
+      const app = ref.current
+      const func = CurrentReconciler.getLifecyle(instance, lifecycle)
+      if (Array.isArray(func)) {
+        func.forEach(cb => cb.apply(app))
+      }
+    }
+  }
 
   Current.app = app
   return Current.app

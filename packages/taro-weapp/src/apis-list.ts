@@ -37,7 +37,9 @@ export const _onAndSyncApis = new Set([
   'onVoIPVideoMembersChanged',
   'onWifiConnected',
   'onWindowResize',
-  'reportMonitor'
+  'reportMonitor',
+  'onGyroscopeChange',
+  'offGyroscopeChange'
 ])
 
 export const _noPromiseApis = new Set([

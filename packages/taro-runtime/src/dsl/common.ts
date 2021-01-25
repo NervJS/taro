@@ -92,6 +92,9 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   // 小程序 Page 构造器是一个傲娇小公主，不能把复杂的对象挂载到参数上
   let pageElement: TaroRootElement | null = null
 
+  let unmounting = false
+  let prepareMountList: (() => void)[] = []
+
   const config: PageInstance = {
     onLoad (this: MpInstance, options, cb?: Function) {
       perf.start(PAGE_INIT)
@@ -112,16 +115,23 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
         onHide: getOnHideEventKey(id)
       }
 
-      Current.app!.mount!(component, path, () => {
-        pageElement = document.getElementById<TaroRootElement>(path)
+      const mount = () => {
+        Current.app!.mount!(component, path, () => {
+          pageElement = document.getElementById<TaroRootElement>(path)
 
-        ensure(pageElement !== null, '没有找到页面实例。')
-        safeExecute(path, 'onLoad', options)
-        if (!isBrowser) {
-          pageElement.ctx = this
-          pageElement.performUpdate(true, cb)
-        }
-      })
+          ensure(pageElement !== null, '没有找到页面实例。')
+          safeExecute(path, 'onLoad', options)
+          if (!isBrowser) {
+            pageElement.ctx = this
+            pageElement.performUpdate(true, cb)
+          }
+        })
+      }
+      if (unmounting) {
+        prepareMountList.push(mount)
+      } else {
+        mount()
+      }
     },
     onReady () {
       const path = getPath(id, this.options)
@@ -135,10 +145,16 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     },
     onUnload () {
       const path = getPath(id, this.options)
+      unmounting = true
       Current.app!.unmount!(path, () => {
+        unmounting = false
         instances.delete(path)
         if (pageElement) {
           pageElement.ctx = null
+        }
+        if (prepareMountList.length) {
+          prepareMountList.forEach(fn => fn())
+          prepareMountList = []
         }
       })
     },
@@ -165,12 +181,8 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       Current.page = null
       Current.router = null
       const path = getPath(id, this.options)
-
-      raf(() => {
-        eventCenter.trigger(getOnHideEventKey(id))
-      })
-
       safeExecute(path, 'onHide')
+      eventCenter.trigger(getOnHideEventKey(id))
     },
     onPullDownRefresh () {
       const path = getPath(id, this.options)
@@ -325,7 +337,8 @@ export function createRecursiveComponentConfig () {
       }
     },
     options: {
-      addGlobalClass: true
+      addGlobalClass: true,
+      virtualHost: true
     },
     methods: {
       eh: eventHandler

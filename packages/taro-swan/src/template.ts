@@ -39,7 +39,7 @@ export class Template extends RecursiveTemplate {
   }
 
   modifyLoopBody = (child: string, nodeName: string) => {
-    if (nodeName === 'text') {
+    if (nodeName === 'text' || nodeName === 'static-text') {
       return `<block>{{ i.${Shortcuts.Childnodes}[index].${Shortcuts.Text} }}</block>`
     }
 

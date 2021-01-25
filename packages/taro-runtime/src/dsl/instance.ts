@@ -47,7 +47,6 @@ export interface PageLifeCycle extends Show {
   onShareAppMessage?(obj: { from: string, target?: TaroElement, webViewUrl: string }): void
   onResize?(options: unknown): void
   onTabItemTap?(obj: { index: string, pagePath: string, text: string }): void
-  componentWillPreload?(): void
   onTitleClick?(): void
   onOptionMenuClick?(): void
   onPopMenuClick?(): void

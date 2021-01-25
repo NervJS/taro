@@ -73,8 +73,11 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     commonChunks,
     addChunkPages,
 
+    blended,
+
     modifyMiniConfigs,
-    modifyBuildAssets
+    modifyBuildAssets,
+    onCompilerMake
   } = config
 
   let { copy } = config
@@ -152,8 +155,11 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     addChunkPages,
     modifyMiniConfigs,
     modifyBuildAssets,
+    onCompilerMake,
     minifyXML,
-    runtimePath
+    runtimePath,
+    blended,
+    alias
   })
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
@@ -166,7 +172,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     document: ['@tarojs/runtime', 'document'],
     navigator: ['@tarojs/runtime', 'navigator'],
     requestAnimationFrame: ['@tarojs/runtime', 'requestAnimationFrame'],
-    cancelAnimationFrame: ['@tarojs/runtime', 'cancelAnimationFrame']
+    cancelAnimationFrame: ['@tarojs/runtime', 'cancelAnimationFrame'],
+    Element: ['@tarojs/runtime', 'TaroElement']
   })
 
   const isCssoEnabled = !((csso && csso.enable === false))
