@@ -142,8 +142,10 @@ function lookup (modulePath, platform, isDirectory = false) {
 
 /**
  * 处理平台优先级文件
- * @param moduleName import source
- * @param platform 平台 ios/android
+ * @param {Object} context
+ * @param {string} [context.originModulePath] 当前模块文件的路径
+ * @param {string} moduleName 当前模块引入的模块名
+ * @param {string} platform 编译的平台 ios/android
  */
 function resolveExtFile ({ originModulePath }, moduleName, platform) {
   // ignore node_modules except include config
@@ -172,7 +174,7 @@ function includes (filePath: string): boolean {
 
   filePath = filePath.replace(path.sep, '/')
 
-  const res = include.find(item => filePath.includes(item))
+  const res = include.find(item => filePath.includes(`node_modules/${item}`))
   return Boolean(res)
 }
 
