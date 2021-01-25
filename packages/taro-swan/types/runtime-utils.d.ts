@@ -4,5 +4,5 @@ export * from './components';
 export * from './apis-list';
 export declare const hostConfig: {
     initNativeApi: typeof initNativeApi;
-    getPathIndex(indexOfNode: any): any;
+    getPathIndex(indexOfNode: any): string;
 };

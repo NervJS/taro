@@ -1,9 +1,3 @@
-import {
-  queryToJson,
-  getUniqueKey,
-  cacheDataSet,
-  cacheDataGet
-} from '@tarojs/shared'
 import { _onAndSyncApis, _noPromiseApis, _otherApis } from './apis-list'
 
 declare const my: any

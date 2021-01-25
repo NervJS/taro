@@ -26,26 +26,27 @@ describe('inspect', () => {
     delete process.env.TARO_ENV
   })
 
+  afterEach(() => {
+    MockedKernel.mockClear()
+    process.argv = []
+    delete process.env.NODE_ENV
+    delete process.env.TARO_ENV
+  })
+
   describe('build', () => {
     const baseOpts = {
       platform: undefined,
       isWatch: false,
       release: undefined,
       port: undefined,
-      ui: undefined,
-      uiIndex: undefined,
-      page: undefined,
-      component: undefined,
       envHasBeenSet: false,
-      plugin: undefined,
-      isHelp: false
+      isHelp: false,
+      blended: false
     }
 
     it('should make configs', () => {
       const platform = 'weapp'
-      const page = 'src/index'
-      const component = 'components/my'
-      setProcessArgv('taro build --type weapp --watch --port 8080 --page src/index --component components/my --release')
+      setProcessArgv('taro build --type weapp --watch --port 8080')
       cli.run()
       const ins = MockedKernel.mock.instances[0]
       expect(ins.run).toHaveBeenCalledWith({
@@ -53,10 +54,7 @@ describe('inspect', () => {
         opts: Object.assign({}, baseOpts, {
           platform,
           isWatch: true,
-          port: 8080,
-          page,
-          component,
-          release: true
+          port: 8080
         })
       })
       expect(process.env.NODE_ENV).toEqual('development')
@@ -70,7 +68,7 @@ describe('inspect', () => {
       expect(process.env.NODE_ENV).toEqual('development')
     })
 
-    it('should make plugin config', () => {
+    it.skip('should make plugin config', () => {
       setProcessArgv('taro build --plugin')
       cli.run()
       const ins = MockedKernel.mock.instances[0]
@@ -83,20 +81,6 @@ describe('inspect', () => {
       })
       expect(process.env.NODE_ENV).toEqual('production')
       expect(process.env.TARO_ENV).toEqual('plugin')
-    })
-
-    it('should make ui config', () => {
-      setProcessArgv('taro build --ui --uiIndex=index')
-      cli.run()
-      const ins = MockedKernel.mock.instances[0]
-      expect(ins.run).toHaveBeenCalledWith({
-        name: 'build',
-        opts: Object.assign({}, baseOpts, {
-          platform: 'ui',
-          ui: true,
-          uiIndex: 'index'
-        })
-      })
     })
   })
 
@@ -153,7 +137,8 @@ describe('inspect', () => {
       expect(ins.run).toHaveBeenCalledWith({
         name: 'convert',
         opts: {
-          appPath: APP_PATH,
+          _: ['convert'],
+          options: {},
           isHelp: false
         }
       })
@@ -188,7 +173,7 @@ describe('inspect', () => {
 
       setProcessArgv('taro -h')
       cli.run()
-      expect(spy).toBeCalledTimes(16)
+      expect(spy).toBeCalledTimes(17)
 
       spy.mockRestore()
     })

@@ -1,10 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-<<<<<<< HEAD
-exports[`wx-hybrid should compatible with weapp native pages and components 1`] = `23`;
-=======
-exports[`wx-hybrid should compatible with weapp native pages and components 1`] = `25`;
->>>>>>> next
+exports[`wx-hybrid should compatible with weapp native pages and components 1`] = `26`;
 
 exports[`wx-hybrid should compatible with weapp native pages and components 2`] = `
 "
@@ -476,7 +472,7 @@ require(\\"./taro\\");
         const controlledComponent = new Set([ \\"input\\", \\"checkbox\\", \\"picker\\", \\"picker-view\\", \\"radio\\", \\"slider\\", \\"switch\\", \\"textarea\\" ]);
         const focusComponents = new Set([ \\"input\\", \\"textarea\\" ]);
         const voidElements = new Set([ \\"progress\\", \\"icon\\", \\"rich-text\\", \\"input\\", \\"textarea\\", \\"slider\\", \\"switch\\", \\"audio\\", \\"live-pusher\\", \\"ad\\", \\"official-account\\", \\"open-data\\", \\"navigation-bar\\" ]);
-        const nestElements = new Map([ [ \\"view\\", -1 ], [ \\"catch-view\\", -1 ], [ \\"cover-view\\", -1 ], [ \\"block\\", -1 ], [ \\"text\\", -1 ], [ \\"slot\\", 8 ], [ \\"slot-view\\", 8 ], [ \\"label\\", 6 ], [ \\"form\\", 4 ], [ \\"scroll-view\\", 4 ], [ \\"swiper\\", 4 ], [ \\"swiper-item\\", 4 ] ]);
+        const nestElements = new Map([ [ \\"view\\", -1 ], [ \\"catch-view\\", -1 ], [ \\"cover-view\\", -1 ], [ \\"static-view\\", -1 ], [ \\"pure-view\\", -1 ], [ \\"block\\", -1 ], [ \\"text\\", -1 ], [ \\"static-text\\", 6 ], [ \\"slot\\", 8 ], [ \\"slot-view\\", 8 ], [ \\"label\\", 6 ], [ \\"form\\", 4 ], [ \\"scroll-view\\", 4 ], [ \\"swiper\\", 4 ], [ \\"swiper-item\\", 4 ] ]);
         const EMPTY_OBJ = {};
         const EMPTY_ARR = [];
         const noop = (..._) => {};
@@ -501,6 +497,9 @@ require(\\"./taro\\");
             }
             return camel;
         }
+        const toKebabCase = function(string) {
+            return string.replace(/([a-z])([A-Z])/g, \\"$1-$2\\").toLowerCase();
+        };
         function capitalize(s) {
             return s.charAt(0).toUpperCase() + s.slice(1);
         }
@@ -601,6 +600,11 @@ require(\\"./taro\\");
                     const data = !this.isSupportRecursive && this.supportXS ? this.dataKeymap(\\"i:i,l:l\\") : this.dataKeymap(\\"i:i\\");
                     return \`<import src=\\"./base\${ext}\\" />\\\\n<template is=\\"tmpl_0_\${\\"container\\"}\\" data=\\"{{\${data}}}\\" />\`;
                 };
+                this.buildCustomComponentTemplate = ext => {
+                    const Adapter = this.Adapter;
+                    const data = !this.isSupportRecursive && this.supportXS ? \`\${this.dataKeymap(\\"i:item,l:''\\")}\` : this.dataKeymap(\\"i:item\\");
+                    return \`<import src=\\"./base\${ext}\\" />\\\\n  <block \${Adapter.for}=\\"{{i.\${\\"cn\\"}}}\\" \${Adapter.key}=\\"uid\\">\\\\n    <template is=\\"tmpl_0_container\\" data=\\"{{\${data}}}\\" />\\\\n  </block>\`;
+                };
                 this.buildXScript = () => \`\${this.exportExpr} {\\\\n  a: \${this.buildXSTmplName()},\\\\n  b: function (a, b) {\\\\n    return a === undefined ? b : a\\\\n  },\\\\n  c: function(i, prefix) {\\\\n    var s = i.focus !== undefined ? 'focus' : 'blur'\\\\n    return prefix + i.\${\\"nn\\"} + '_' + s\\\\n  },\\\\n  d: function (i, v) {\\\\n    return i === undefined ? v : i\\\\n  },\\\\n  e: function (n) {\\\\n    return 'tmpl_' + n + '_\${\\"container\\"}'\\\\n  },\\\\n  \${this.buildXSTmpExtra()}\\\\n}\`;
             }
             buildAttribute(attrs, nodeName) {
@@ -653,6 +657,20 @@ require(\\"./taro\\");
                             });
                             result[\\"catch-view\\"] = comp;
                         }
+                        if (compName === \\"view\\" || compName === \\"text\\" || compName === \\"image\\") {
+                            const comp = {};
+                            Object.keys(newComp).forEach(key => {
+                                const value = newComp[key];
+                                if (value !== \\"eh\\") comp[key] = value;
+                            });
+                            result[\`static-\${compName}\`] = comp;
+                            if (compName === \\"view\\") {
+                                result[\\"pure-view\\"] = {
+                                    style: comp.style,
+                                    class: comp.class
+                                };
+                            }
+                        }
                         if (compName === \\"slot\\" || compName === \\"slot-view\\") {
                             result[compName] = {
                                 slot: \\"i.name\\"
@@ -672,11 +690,19 @@ require(\\"./taro\\");
             buildThirdPartyAttr(attrs) {
                 return Array.from(attrs).reduce((str, attr) => {
                     if (attr.startsWith(\\"@\\")) {
-                        return str + \`bind\${attr.slice(1)}=\\"eh\\" \`;
+                        let value = attr.slice(1);
+                        if (value.indexOf(\\"-\\") > -1) {
+                            value = \`:\${value}\`;
+                        }
+                        return str + \`bind\${value}=\\"eh\\" \`;
                     } else if (attr.startsWith(\\"bind\\")) {
                         return str + \`\${attr}=\\"eh\\" \`;
                     } else if (attr.startsWith(\\"on\\")) {
-                        return str + \`bind\${attr.slice(2).toLowerCase()}=\\"eh\\" \`;
+                        let value = toKebabCase(attr.slice(2));
+                        if (value.indexOf(\\"-\\") > -1) {
+                            value = \`:\${value}\`;
+                        }
+                        return str + \`bind\${value}=\\"eh\\" \`;
                     }
                     return str + \`\${attr}=\\"{{i.\${toCamelCase(attr)}}}\\" \`;
                 }, \\"\\");
@@ -702,7 +728,28 @@ require(\\"./taro\\");
                 if (isFunction(this.modifyLoopContainer)) {
                     children = this.modifyLoopContainer(children, comp.nodeName);
                 }
-                const nodeName = comp.nodeName === \\"slot\\" || comp.nodeName === \\"slot-view\\" || comp.nodeName === \\"catch-view\\" ? \\"view\\" : comp.nodeName;
+                let nodeName = \\"\\";
+                switch (comp.nodeName) {
+                  case \\"slot\\":
+                  case \\"slot-view\\":
+                  case \\"catch-view\\":
+                  case \\"static-view\\":
+                  case \\"pure-view\\":
+                    nodeName = \\"view\\";
+                    break;
+
+                  case \\"static-text\\":
+                    nodeName = \\"text\\";
+                    break;
+
+                  case \\"static-image\\":
+                    nodeName = \\"image\\";
+                    break;
+
+                  default:
+                    nodeName = comp.nodeName;
+                    break;
+                }
                 let res = \`\\\\n<template name=\\"tmpl_\${level}_\${comp.nodeName}\\">\\\\n  <\${nodeName} \${this.buildAttribute(comp.attributes, comp.nodeName)} id=\\"{{i.uid}}\\">\${children}</\${nodeName}>\\\\n</template>\\\\n\`;
                 if (isFunction(this.modifyTemplateResult)) {
                     res = this.modifyTemplateResult(res, comp.nodeName, level, children);
@@ -718,18 +765,18 @@ require(\\"./taro\\");
                 let template = \\"\\";
                 const data = !this.isSupportRecursive && this.supportXS ? \`\${this.dataKeymap(\\"i:item,l:l\\")}\` : this.dataKeymap(\\"i:item\\");
                 componentConfig.thirdPartyComponents.forEach((attrs, compName) => {
-                    template += \`\\\\n<template name=\\"tmpl_\${level}_\${compName}\\">\\\\n  <\${compName} \${this.buildThirdPartyAttr(attrs)} id=\\"{{i.uid}}\\">\\\\n    <block \${Adapter.for}=\\"{{i.\${\\"cn\\"}}}\\" \${Adapter.key}=\\"uid\\">\\\\n      <template is=\\"tmpl_\${nextLevel}_\${\\"container\\"}\\" data=\\"{{\${data}}}\\" />\\\\n    </block>\\\\n  </\${compName}>\\\\n</template>\\\\n  \`;
+                    if (compName === \\"custom-wrapper\\") {
+                        template += \`\\\\n<template name=\\"tmpl_\${level}_\${compName}\\">\\\\n  <\${compName} i=\\"{{i}}\\" l=\\"{{l}}\\" id=\\"{{i.uid}}\\">\\\\n  </\${compName}>\\\\n</template>\\\\n  \`;
+                    } else {
+                        template += \`\\\\n<template name=\\"tmpl_\${level}_\${compName}\\">\\\\n  <\${compName} \${this.buildThirdPartyAttr(attrs)} id=\\"{{i.uid}}\\">\\\\n    <block \${Adapter.for}=\\"{{i.\${\\"cn\\"}}}\\" \${Adapter.key}=\\"uid\\">\\\\n      <template is=\\"tmpl_\${nextLevel}_\${\\"container\\"}\\" data=\\"{{\${data}}}\\" />\\\\n    </block>\\\\n  </\${compName}>\\\\n</template>\\\\n  \`;
+                    }
                 });
                 return template;
             }
             buildContainerTemplate(level, restart = false) {
                 let tmpl = \\"\\";
                 if (restart) {
-                    if (!this.isSupportRecursive && this.supportXS) {
-                        tmpl = '<comp i=\\"{{i}}\\" l=\\"{{l}}\\" />';
-                    } else {
-                        tmpl = '<comp i=\\"{{i}}\\" />';
-                    }
+                    tmpl = \`<block \${this.Adapter.if}=\\"{{i.nn === '#text'}}\\">\\\\n    <template is=\\"tmpl_0_#text\\" data=\\"{{i:i}}\\" />\\\\n  </block>\\\\n  <block \${this.Adapter.else}>\\\\n    \${!this.isSupportRecursive && this.supportXS ? '<comp i=\\"{{i}}\\" l=\\"{{l}}\\" />' : '<comp i=\\"{{i}}\\" />'}\\\\n  </block>\`;
                 } else {
                     const xs = !this.isSupportRecursive ? \`xs.a(\${level}, i.\${\\"nn\\"}, l)\` : \`xs.a(\${level}, i.\${\\"nn\\"})\`;
                     const data = !this.isSupportRecursive ? \`\${this.dataKeymap(\`i:i,cid:\${level},l:xs.f(l,i.\${\\"nn\\"})\`)}\` : \`\${this.dataKeymap(\\"i:i\\")}\`;
@@ -862,7 +909,7 @@ require(\\"./taro\\");
                 return \`f: function (l, n) {\\\\n    var b = \${JSON.stringify(hasMaxComps)}\\\\n    if (b.indexOf(n) > -1) {\\\\n      if (l) l += ','\\\\n      l += n\\\\n    }\\\\n    return l\\\\n  }\`;
             }
         }
-        const _onAndSyncApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\" ]);
+        const _onAndSyncApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\" ]);
         const _noPromiseApis = new Set([ \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\" ]);
         const _otherApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\" ]);
         const RequestQueue = {
@@ -938,8 +985,6 @@ require(\\"./taro\\");
                 reLaunch: true
             };
             const routerParamsPrivateKey = \\"__key_\\";
-            const preloadPrivateKey = \\"__preload_\\";
-            const preloadInitedComponent = \\"$preloadComponent\\";
             apis.forEach(key => {
                 if (!(key in wx)) {
                     taro[key] = () => {
@@ -961,20 +1006,6 @@ require(\\"./taro\\");
                         if (key === \\"navigateTo\\" || key === \\"redirectTo\\" || key === \\"switchTab\\") {
                             let url = obj.url ? obj.url.replace(/^\\\\//, \\"\\") : \\"\\";
                             if (url.indexOf(\\"?\\") > -1) url = url.split(\\"?\\")[0];
-                            const Component = cacheDataGet(url);
-                            if (Component) {
-                                const component = new Component;
-                                if (component.componentWillPreload) {
-                                    const cacheKey = getUniqueKey();
-                                    const MarkIndex = obj.url.indexOf(\\"?\\");
-                                    const hasMark = MarkIndex > -1;
-                                    const urlQueryStr = hasMark ? obj.url.substring(MarkIndex + 1, obj.url.length) : \\"\\";
-                                    const params = queryToJson(urlQueryStr);
-                                    obj.url += (hasMark ? \\"&\\" : \\"?\\") + \`\${preloadPrivateKey}=\${cacheKey}\`;
-                                    cacheDataSet(cacheKey, component.componentWillPreload(params));
-                                    cacheDataSet(preloadInitedComponent, component);
-                                }
-                            }
                         }
                         if (useDataCacheApis[key]) {
                             const url = obj.url = obj.url || \\"\\";
@@ -1065,6 +1096,17 @@ require(\\"./taro\\");
             });
             taro.cloud = wxcloud;
         }
+        function getPreload(taro) {
+            return function(key, val) {
+                if (typeof key === \\"object\\") {
+                    taro.preloadData = key;
+                } else if (key !== undefined && val !== undefined) {
+                    taro.preloadData = {
+                        [key]: val
+                    };
+                }
+            };
+        }
         function initNativeApi(taro) {
             processApis(taro);
             const link = new taro.Link(taroInterceptor);
@@ -1077,6 +1119,7 @@ require(\\"./taro\\");
             taro.initPxTransform = taro.initPxTransform.bind(taro);
             taro.pxTransform = pxTransform.bind(taro);
             taro.canIUseWebp = canIUseWebp;
+            taro.preload = getPreload(taro);
             taro.env = wx.env;
             wxCloud(taro);
         }
@@ -1428,10 +1471,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_catch-view\\">
-<<<<<<< HEAD
   <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
-=======
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -1448,7 +1488,6 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_0_pure-view\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
->>>>>>> next
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -1496,7 +1535,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_static-image\\">
-  <image src=\\"{{i.src}}\\" mode=\\"{{xs.b(i.mode,'scaleToFill')}}\\" webp=\\"{{xs.b(i.webp,false)}}\\" lazy-load=\\"{{xs.b(i.lazyLoad,false)}}\\" show-menu-by-longpress=\\"{{xs.b(i.showMenuByLongpress,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{xs.b(i.mode,'scaleToFill')}}\\" lazy-load=\\"{{xs.b(i.lazyLoad,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -1528,10 +1567,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_1_catch-view\\">
-<<<<<<< HEAD
   <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
-=======
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -1548,7 +1584,6 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_1_pure-view\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
->>>>>>> next
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -1600,10 +1635,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_2_catch-view\\">
-<<<<<<< HEAD
   <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
-=======
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -1620,7 +1652,6 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_2_pure-view\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
->>>>>>> next
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -1672,10 +1703,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_3_catch-view\\">
-<<<<<<< HEAD
   <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
-=======
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -1692,7 +1720,6 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_3_pure-view\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
->>>>>>> next
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -1744,10 +1771,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_4_catch-view\\">
-<<<<<<< HEAD
   <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
-=======
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -1764,7 +1788,6 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_4_pure-view\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
->>>>>>> next
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -1808,10 +1831,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_5_catch-view\\">
-<<<<<<< HEAD
   <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
-=======
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -1828,7 +1848,6 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_5_pure-view\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
->>>>>>> next
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -1872,10 +1891,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_6_catch-view\\">
-<<<<<<< HEAD
   <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
-=======
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -1892,7 +1908,6 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_6_pure-view\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
->>>>>>> next
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -1905,6 +1920,14 @@ require(\\"./taro\\");
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_6_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_6_tab\\">
@@ -1920,10 +1943,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_7_catch-view\\">
-<<<<<<< HEAD
   <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
-=======
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -1940,7 +1960,6 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_7_pure-view\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
->>>>>>> next
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -1953,6 +1972,14 @@ require(\\"./taro\\");
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_7_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_7_tab\\">
@@ -1968,10 +1995,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_8_catch-view\\">
-<<<<<<< HEAD
   <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
-=======
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -1988,7 +2012,6 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_8_pure-view\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
->>>>>>> next
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -2001,6 +2024,14 @@ require(\\"./taro\\");
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_8_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_8_tab\\">
@@ -2016,10 +2047,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_9_catch-view\\">
-<<<<<<< HEAD
   <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
-=======
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -2036,7 +2064,6 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_9_pure-view\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
->>>>>>> next
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -2049,6 +2076,14 @@ require(\\"./taro\\");
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_9_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_9_tab\\">
@@ -2064,10 +2099,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_10_catch-view\\">
-<<<<<<< HEAD
   <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
-=======
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -2084,7 +2116,6 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_10_pure-view\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
->>>>>>> next
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -2097,6 +2128,14 @@ require(\\"./taro\\");
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_10_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_10_tab\\">
@@ -2112,10 +2151,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_11_catch-view\\">
-<<<<<<< HEAD
   <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
-=======
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -2132,7 +2168,6 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_11_pure-view\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
->>>>>>> next
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -2145,6 +2180,14 @@ require(\\"./taro\\");
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_11_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_11_tab\\">
@@ -2160,10 +2203,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_12_catch-view\\">
-<<<<<<< HEAD
   <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
-=======
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -2180,7 +2220,6 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_12_pure-view\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
->>>>>>> next
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -2193,6 +2232,14 @@ require(\\"./taro\\");
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_12_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_12_tab\\">
@@ -2208,10 +2255,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_13_catch-view\\">
-<<<<<<< HEAD
   <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
-=======
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -2228,7 +2272,6 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_13_pure-view\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
->>>>>>> next
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -2241,6 +2284,14 @@ require(\\"./taro\\");
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_13_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_13_tab\\">
@@ -2256,10 +2307,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_14_catch-view\\">
-<<<<<<< HEAD
   <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
-=======
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -2276,7 +2324,6 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_14_pure-view\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
->>>>>>> next
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -2289,6 +2336,14 @@ require(\\"./taro\\");
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_14_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_14_tab\\">
@@ -2401,7 +2456,7 @@ require(\\"./taro\\");
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
 /** filePath: dist/custom-wrapper.wxml **/
-<import src=\\"./base.wxml\\" />
+<import src=\\"./base[object Object]\\" />
   <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
   </block>
@@ -2685,8 +2740,8 @@ require(\\"./taro\\");
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
-    var a = [\\"view\\",\\"catch-view\\",\\"cover-view\\",\\"block\\",\\"text\\",\\"slot\\",\\"slot-view\\",\\"label\\",\\"form\\",\\"scroll-view\\",\\"swiper\\",\\"swiper-item\\",\\"tab\\"]
-    var b = [\\"slot\\",\\"slot-view\\",\\"label\\",\\"form\\",\\"scroll-view\\",\\"swiper\\",\\"swiper-item\\"]
+    var a = [\\"view\\",\\"catch-view\\",\\"cover-view\\",\\"static-view\\",\\"pure-view\\",\\"block\\",\\"text\\",\\"static-text\\",\\"slot\\",\\"slot-view\\",\\"label\\",\\"form\\",\\"scroll-view\\",\\"swiper\\",\\"swiper-item\\",\\"tab\\"]
+    var b = [\\"static-text\\",\\"slot\\",\\"slot-view\\",\\"label\\",\\"form\\",\\"scroll-view\\",\\"swiper\\",\\"swiper-item\\"]
     if (a.indexOf(n) === -1) {
       l = 0
     }
@@ -2714,7 +2769,7 @@ module.exports = {
     return 'tmpl_' + n + '_container'
   },
   f: function (l, n) {
-    var b = [\\"slot\\",\\"slot-view\\",\\"label\\",\\"form\\",\\"scroll-view\\",\\"swiper\\",\\"swiper-item\\"]
+    var b = [\\"static-text\\",\\"slot\\",\\"slot-view\\",\\"label\\",\\"form\\",\\"scroll-view\\",\\"swiper\\",\\"swiper-item\\"]
     if (b.indexOf(n) > -1) {
       if (l) l += ','
       l += n
