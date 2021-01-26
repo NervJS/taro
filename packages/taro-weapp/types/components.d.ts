@@ -126,6 +126,9 @@ export declare const components: {
         'auto-pause-if-navigate': string;
         'auto-pause-if-open-native': string;
         'picture-in-picture-mode': string;
+        bindstatechange: string;
+        bindfullscreenchange: string;
+        bindnetstatus: string;
         bindAudioVolumeNotify: string;
         bindEnterPictureInPicture: string;
         bindLeavePictureInPicture: string;
@@ -218,12 +221,15 @@ export declare const components: {
         'audio-volume-type': string;
         'video-width': string;
         'video-height': string;
+        'beauty-style': string;
+        filter: string;
         animation: string;
         bindStateChange: string;
         bindNetStatus: string;
         bindBgmStart: string;
         bindBgmProgress: string;
         bindBgmComplete: string;
+        bindAudioVolumeNotify: string;
     };
     OfficialAccount: {
         bindLoad: string;

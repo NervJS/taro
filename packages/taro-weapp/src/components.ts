@@ -129,6 +129,9 @@ export const components = {
     'auto-pause-if-navigate': 'true',
     'auto-pause-if-open-native': 'true',
     'picture-in-picture-mode': '[]',
+    bindstatechange: '',
+    bindfullscreenchange: '',
+    bindnetstatus: '',
     bindAudioVolumeNotify: '',
     bindEnterPictureInPicture: '',
     bindLeavePictureInPicture: ''
@@ -227,12 +230,15 @@ export const components = {
     'audio-volume-type': singleQuote('voicecall'),
     'video-width': '360',
     'video-height': '640',
+    'beauty-style': singleQuote('smooth'),
+    filter: singleQuote('standard'),
     animation: '',
     bindStateChange: '',
     bindNetStatus: '',
     bindBgmStart: '',
     bindBgmProgress: '',
-    bindBgmComplete: ''
+    bindBgmComplete: '',
+    bindAudioVolumeNotify: ''
   },
   OfficialAccount: {
     bindLoad: '',
