@@ -158,6 +158,15 @@ function resolveExtFile ({ originModulePath }, moduleName, platform) {
     modulePath = moduleName
   } else if (isRelativePath(moduleName)) {
     modulePath = path.resolve(currentPath, moduleName)
+  } else {
+    // import node modules file like `import _ from 'lodash'`
+    // TODO: it is not rigorous, because in the project files directory may be have mutiple node_modules not just project root directory.
+    // to fix it may be need a lookup algorithm.
+    const tempPath = path.join(process.cwd(), 'node_modules', moduleName)
+    if (includes(tempPath)) {
+      console.log('filePath', tempPath)
+      modulePath = tempPath
+    }
   }
 
   if (modulePath) {
