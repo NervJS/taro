@@ -164,7 +164,6 @@ function resolveExtFile ({ originModulePath }, moduleName, platform) {
     // to fix it may be need a lookup algorithm.
     const tempPath = path.join(process.cwd(), 'node_modules', moduleName)
     if (includes(tempPath)) {
-      console.log('filePath', tempPath)
       modulePath = tempPath
     }
   }
@@ -181,7 +180,7 @@ function includes (filePath: string): boolean {
   const include = config?.resolve?.include || []
   if (!include.length) return false
 
-  filePath = filePath.replace(path.sep, '/')
+  filePath = filePath.replace(/\\/g, '/')
 
   const res = include.find(item => filePath.includes(`node_modules/${item}`))
   return Boolean(res)
