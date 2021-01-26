@@ -33,7 +33,7 @@ const transform = ({ src, filename, options, plugins }) => {
       transformer: '@tarojs/rn-transformer',
       configOpt: {
         entry: entry,
-        sourceDir: config?.sourceRoot,
+        sourceRoot: config?.sourceRoot,
         appName: rnConfig.appName,
         designWidth: rnConfig.designWidth ? rnConfig.designWidth : config.designWidth,
         deviceRatio: rnConfig.designWidth ? rnConfig.deviceRatio : config.deviceRatio,
