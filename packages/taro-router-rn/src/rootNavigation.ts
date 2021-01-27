@@ -10,7 +10,8 @@ import { CallbackResult, BaseOption } from './utils/types'
 type NavigateMethod = 'navigateTo' | 'redirectTo' | 'navigateBack' | 'switchTab' | 'reLaunch'
 
 interface NavigateOption extends BaseOption {
-  url: string
+  url: string,
+  events?: object
 }
 
 interface NavigateBackOption extends BaseOption {
@@ -20,6 +21,8 @@ interface NavigateBackOption extends BaseOption {
 interface NavigateRef extends NavigationContainerRef {
   setOptions: (obj: any) => void
 }
+
+let routeEvtChannel
 
 export const isReadyRef = React.createRef()
 
@@ -105,9 +108,10 @@ export function navigate (option: NavigateOption | NavigateBackOption, method: N
       const msg: any = {
         errMsg: `${method}:ok`
       }
-      // if (method === 'navigateTo') {
-      //   msg.eventChannel = getOpenerEventChannel()
-      // }
+      if (method === 'navigateTo') {
+        routeEvtChannel.addEvents((option as NavigateOption).events)
+        msg.eventChannel = routeEvtChannel
+      }
       success && success(msg)
       complete && complete(msg)
       resolve(msg)
@@ -143,4 +147,8 @@ export function getCurrentRoute () {
     })
   }
   return routeName
+}
+
+export const getRouteEventChannel = (routeChannel) => {
+  routeEvtChannel = routeChannel
 }
