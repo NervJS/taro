@@ -47,7 +47,6 @@ export interface PageLifeCycle extends Show {
   onShareAppMessage?(obj: { from: string, target?: TaroElement, webViewUrl: string }): void
   onResize?(options: unknown): void
   onTabItemTap?(obj: { index: string, pagePath: string, text: string }): void
-  componentWillPreload?(): void
   onTitleClick?(): void
   onOptionMenuClick?(): void
   onPopMenuClick?(): void
@@ -77,4 +76,6 @@ export interface AppInstance extends Show {
   onLaunch? (options?: string): void
   mount? (component: React.ComponentClass | ComponentOptions<VueCtor> | Vue3Component, id: string, cb: () => void): void
   unmount? (id: string, cb: () => void): void
+  onPageNotFound? (res: any): void
+  taroGlobalData?: Record<any, any>
 }

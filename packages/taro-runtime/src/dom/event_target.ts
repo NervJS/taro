@@ -70,4 +70,12 @@ export class TaroEventTarget {
 
     handlers.splice(index, 1)
   }
+
+  public isAnyEventBinded () {
+    const isAnyEventBinded = Object.keys(this.__handlers).find(key => {
+      const handler = this.__handlers[key]
+      return handler.length
+    })
+    return isAnyEventBinded
+  }
 }

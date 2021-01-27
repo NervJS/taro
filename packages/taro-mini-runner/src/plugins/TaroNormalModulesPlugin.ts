@@ -17,10 +17,6 @@ export default class TaroNormalModulesPlugin {
         }
       })
 
-      if (componentConfig.thirdPartyComponents.size === 0) {
-        return
-      }
-
       // react 的第三方组件支持
       normalModuleFactory.hooks.parser.for('javascript/auto').tap(PLUGIN_NAME, (parser) => {
         parser.hooks.program.tap(PLUGIN_NAME, (ast) => {
@@ -35,6 +31,13 @@ export default class TaroNormalModulesPlugin {
               }
 
               const [type, prop] = node.arguments
+              const componentName = type.name
+              if (componentName === 'CustomWrapper' && !componentConfig.thirdPartyComponents.get('custom-wrapper')) {
+                componentConfig.thirdPartyComponents.set('custom-wrapper', new Set())
+              }
+              if (componentConfig.thirdPartyComponents.size === 0) {
+                return
+              }
               const attrs = componentConfig.thirdPartyComponents.get(type.value)
 
               if (attrs == null || !prop || prop.type !== 'ObjectExpression') {

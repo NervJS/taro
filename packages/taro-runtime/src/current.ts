@@ -11,7 +11,8 @@ interface Router {
 interface Current {
   app: AppInstance | null,
   router: Router | null,
-  page: PageInstance | null
+  page: PageInstance | null,
+  preloadData?: any
 }
 
 export const Current: Current = {

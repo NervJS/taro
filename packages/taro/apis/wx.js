@@ -1,5 +1,5 @@
 import Taro from '@tarojs/api'
-import { cacheDataSet, cacheDataGet } from './data-cache'
+import { cacheDataSet } from './data-cache'
 import { queryToJson, getUniqueKey } from './utils'
 
 const {
@@ -7,7 +7,8 @@ const {
   onAndSyncApis,
   otherApis,
   initPxTransform,
-  Link
+  Link,
+  Current
 } = Taro
 
 const RequestQueue = {
@@ -90,8 +91,6 @@ function processApis (taro) {
     reLaunch: true
   }
   const routerParamsPrivateKey = '__key_'
-  const preloadPrivateKey = '__preload_'
-  const preloadInitedComponent = '$preloadComponent'
   Object.keys(weApis).forEach(key => {
     if (!(key in wx)) {
       taro[key] = () => {
@@ -115,21 +114,6 @@ function processApis (taro) {
         if (key === 'navigateTo' || key === 'redirectTo' || key === 'switchTab') {
           let url = obj.url ? obj.url.replace(/^\//, '') : ''
           if (url.indexOf('?') > -1) url = url.split('?')[0]
-
-          const Component = cacheDataGet(url)
-          if (Component) {
-            const component = new Component()
-            if (component.componentWillPreload) {
-              const cacheKey = getUniqueKey()
-              const MarkIndex = obj.url.indexOf('?')
-              const hasMark = MarkIndex > -1
-              const urlQueryStr = hasMark ? obj.url.substring(MarkIndex + 1, obj.url.length) : ''
-              const params = queryToJson(urlQueryStr)
-              obj.url += (hasMark ? '&' : '?') + `${preloadPrivateKey}=${cacheKey}`
-              cacheDataSet(cacheKey, component.componentWillPreload(params))
-              cacheDataSet(preloadInitedComponent, component)
-            }
-          }
         }
 
         if (useDataCacheApis[key]) {
@@ -240,6 +224,16 @@ function wxCloud (taro) {
   taro.cloud = wxcloud
 }
 
+function preload (key, val) {
+  if (typeof key === 'object') {
+    Current.preloadData = key
+  } else if (key !== undefined && val !== undefined) {
+    Current.preloadData = {
+      [key]: val
+    }
+  }
+}
+
 export default function initNativeApi (taro) {
   processApis(taro)
   taro.request = link.request.bind(link)
@@ -251,6 +245,7 @@ export default function initNativeApi (taro) {
   taro.initPxTransform = initPxTransform.bind(taro)
   taro.pxTransform = pxTransform.bind(taro)
   taro.canIUseWebp = canIUseWebp
+  taro.preload = preload
   taro.env = wx.env
   wxCloud(taro)
 }

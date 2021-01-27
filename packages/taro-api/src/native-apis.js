@@ -7,6 +7,7 @@ const onAndSyncApis = {
   onBackgroundAudioPause: true,
   onBackgroundAudioStop: true,
   onNetworkStatusChange: true,
+  offNetworkStatusChange: true,
   onAccelerometerChange: true,
   onCompassChange: true,
   onBluetoothAdapterStateChange: true,
@@ -32,6 +33,8 @@ const onAndSyncApis = {
   reportMonitor: true,
   reportAnalytics: true,
   navigateToSmartGameProgram: true,
+  onGyroscopeChange: true,
+  offGyroscopeChange: true,
   // 文件
   getFileSystemManager: true,
 
@@ -84,7 +87,8 @@ const noPromiseApis = {
   stopAccelerometer: true,
   startCompass: true,
   stopCompass: true,
-
+  stopGyroscope: true,
+  startGyroscope: true,
   // 界面
   hideToast: true,
   hideLoading: true,
@@ -291,6 +295,8 @@ const otherApis = {
   setEnableDebug: true,
   // 支付宝小程序API
   getOpenUserInfo: true,
+
+  getPhoneNumber: true,
 
   // 百度小程序专有 API
   // 百度小程序 AI 相关
