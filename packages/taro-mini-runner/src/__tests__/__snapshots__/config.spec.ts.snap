@@ -1396,6 +1396,7 @@ require(\\"./taro\\");
                 \\"send-message-img\\": \\"\\",
                 \\"app-parameter\\": \\"\\",
                 \\"show-message-card\\": \\"false\\",
+                \\"business-id\\": \\"\\",
                 bindGetUserInfo: \\"\\",
                 bindContact: \\"\\",
                 bindGetPhoneNumber: \\"\\",
@@ -1483,6 +1484,9 @@ require(\\"./taro\\");
                 \\"auto-pause-if-navigate\\": \\"true\\",
                 \\"auto-pause-if-open-native\\": \\"true\\",
                 \\"picture-in-picture-mode\\": \\"[]\\",
+                bindstatechange: \\"\\",
+                bindfullscreenchange: \\"\\",
+                bindnetstatus: \\"\\",
                 bindAudioVolumeNotify: \\"\\",
                 bindEnterPictureInPicture: \\"\\",
                 bindLeavePictureInPicture: \\"\\"
@@ -1575,12 +1579,15 @@ require(\\"./taro\\");
                 \\"audio-volume-type\\": singleQuote(\\"voicecall\\"),
                 \\"video-width\\": \\"360\\",
                 \\"video-height\\": \\"640\\",
+                \\"beauty-style\\": singleQuote(\\"smooth\\"),
+                filter: singleQuote(\\"standard\\"),
                 animation: \\"\\",
                 bindStateChange: \\"\\",
                 bindNetStatus: \\"\\",
                 bindBgmStart: \\"\\",
                 bindBgmProgress: \\"\\",
-                bindBgmComplete: \\"\\"
+                bindBgmComplete: \\"\\",
+                bindAudioVolumeNotify: \\"\\"
             },
             OfficialAccount: {
                 bindLoad: \\"\\",
@@ -4435,6 +4442,7 @@ require(\\"./taro\\");
                 \\"send-message-img\\": \\"\\",
                 \\"app-parameter\\": \\"\\",
                 \\"show-message-card\\": \\"false\\",
+                \\"business-id\\": \\"\\",
                 bindGetUserInfo: \\"\\",
                 bindContact: \\"\\",
                 bindGetPhoneNumber: \\"\\",
@@ -4522,6 +4530,9 @@ require(\\"./taro\\");
                 \\"auto-pause-if-navigate\\": \\"true\\",
                 \\"auto-pause-if-open-native\\": \\"true\\",
                 \\"picture-in-picture-mode\\": \\"[]\\",
+                bindstatechange: \\"\\",
+                bindfullscreenchange: \\"\\",
+                bindnetstatus: \\"\\",
                 bindAudioVolumeNotify: \\"\\",
                 bindEnterPictureInPicture: \\"\\",
                 bindLeavePictureInPicture: \\"\\"
@@ -4614,12 +4625,15 @@ require(\\"./taro\\");
                 \\"audio-volume-type\\": singleQuote(\\"voicecall\\"),
                 \\"video-width\\": \\"360\\",
                 \\"video-height\\": \\"640\\",
+                \\"beauty-style\\": singleQuote(\\"smooth\\"),
+                filter: singleQuote(\\"standard\\"),
                 animation: \\"\\",
                 bindStateChange: \\"\\",
                 bindNetStatus: \\"\\",
                 bindBgmStart: \\"\\",
                 bindBgmProgress: \\"\\",
-                bindBgmComplete: \\"\\"
+                bindBgmComplete: \\"\\",
+                bindAudioVolumeNotify: \\"\\"
             },
             OfficialAccount: {
                 bindLoad: \\"\\",
@@ -7298,6 +7312,7 @@ require(\\"./taro\\");
                 \\"send-message-img\\": \\"\\",
                 \\"app-parameter\\": \\"\\",
                 \\"show-message-card\\": \\"false\\",
+                \\"business-id\\": \\"\\",
                 bindGetUserInfo: \\"\\",
                 bindContact: \\"\\",
                 bindGetPhoneNumber: \\"\\",
@@ -7385,6 +7400,9 @@ require(\\"./taro\\");
                 \\"auto-pause-if-navigate\\": \\"true\\",
                 \\"auto-pause-if-open-native\\": \\"true\\",
                 \\"picture-in-picture-mode\\": \\"[]\\",
+                bindstatechange: \\"\\",
+                bindfullscreenchange: \\"\\",
+                bindnetstatus: \\"\\",
                 bindAudioVolumeNotify: \\"\\",
                 bindEnterPictureInPicture: \\"\\",
                 bindLeavePictureInPicture: \\"\\"
@@ -7477,12 +7495,15 @@ require(\\"./taro\\");
                 \\"audio-volume-type\\": singleQuote(\\"voicecall\\"),
                 \\"video-width\\": \\"360\\",
                 \\"video-height\\": \\"640\\",
+                \\"beauty-style\\": singleQuote(\\"smooth\\"),
+                filter: singleQuote(\\"standard\\"),
                 animation: \\"\\",
                 bindStateChange: \\"\\",
                 bindNetStatus: \\"\\",
                 bindBgmStart: \\"\\",
                 bindBgmProgress: \\"\\",
-                bindBgmComplete: \\"\\"
+                bindBgmComplete: \\"\\",
+                bindAudioVolumeNotify: \\"\\"
             },
             OfficialAccount: {
                 bindLoad: \\"\\",
