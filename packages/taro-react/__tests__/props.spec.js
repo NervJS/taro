@@ -98,7 +98,7 @@ describe('Context', () => {
       const container = document.createElement('div')
       render(<div id='1' a={null} />, container)
       expect(container.firstChild.id).toBe('1')
-      expect(container.firstChild.getAttribute('a')).toBe(null)
+      expect(container.firstChild.getAttribute('a')).toBeNull()
       render(<div id='1' a='a' b='b' />, container)
       expect(container.firstChild.getAttribute('a')).toBe('a')
       expect(container.firstChild.getAttribute('b')).toBe('b')
