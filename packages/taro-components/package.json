@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "3.2.0-canary.7",
+  "version": "3.2.0-canary.8",
   "description": "",
   "main:h5": "src/index.js",
   "main": "dist/index.js",
@@ -38,7 +38,7 @@
   "license": "MIT",
   "dependencies": {
     "@stencil/core": "~1.8.1",
-    "@tarojs/taro": "3.2.0-canary.7",
+    "@tarojs/taro": "3.2.0-canary.8",
     "better-scroll": "^1.14.1",
     "classnames": "^2.2.5",
     "intersection-observer": "^0.7.0",

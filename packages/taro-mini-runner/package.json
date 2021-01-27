@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/mini-runner",
-  "version": "3.2.0-canary.7",
+  "version": "3.2.0-canary.8",
   "description": "Mini app runner for taro",
   "main": "index.js",
   "scripts": {
@@ -37,12 +37,12 @@
     "@babel/core": "7.11.1",
     "@babel/plugin-proposal-class-properties": "7.10.4",
     "@babel/preset-env": "7.11.0",
-    "@tarojs/helper": "3.2.0-canary.7",
-    "@tarojs/runner-utils": "3.2.0-canary.7",
-    "@tarojs/runtime": "3.2.0-canary.7",
-    "@tarojs/shared": "3.2.0-canary.7",
-    "@tarojs/taro": "3.2.0-canary.7",
-    "@tarojs/taro-loader": "3.2.0-canary.7",
+    "@tarojs/helper": "3.2.0-canary.8",
+    "@tarojs/runner-utils": "3.2.0-canary.8",
+    "@tarojs/runtime": "3.2.0-canary.8",
+    "@tarojs/shared": "3.2.0-canary.8",
+    "@tarojs/taro": "3.2.0-canary.8",
+    "@tarojs/taro-loader": "3.2.0-canary.8",
     "babel-loader": "8.0.6",
     "babel-types": "^6.26.0",
     "copy-webpack-plugin": "^5.0.3",
@@ -84,9 +84,9 @@
     "yauzl": "2.10.0"
   },
   "devDependencies": {
-    "@tarojs/cli": "3.2.0-canary.7",
-    "@tarojs/components": "3.2.0-canary.7",
-    "@tarojs/react": "3.2.0-canary.7",
-    "babel-preset-taro": "3.2.0-canary.7"
+    "@tarojs/cli": "3.2.0-canary.8",
+    "@tarojs/components": "3.2.0-canary.8",
+    "@tarojs/react": "3.2.0-canary.8",
+    "babel-preset-taro": "3.2.0-canary.8"
   }
 }

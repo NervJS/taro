@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-style-transformer",
-  "version": "3.2.0-canary.7",
+  "version": "3.2.0-canary.8",
   "description": "提供Taro RN 统一处理样式文件能力",
   "main": "dist/index.js",
   "scripts": {
@@ -16,19 +16,19 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
-    "@tarojs/helper": "3.2.0-canary.7",
+    "@tarojs/helper": "3.2.0-canary.8",
     "fbjs": "^2.0.0",
     "less": "^3.12.2",
     "node-sass": "^4.14.1",
     "postcss": "^7.0.35",
     "postcss-import": "^12.0.1",
-    "postcss-pxtransform": "3.2.0-canary.7",
+    "postcss-pxtransform": "3.2.0-canary.8",
     "postcss-reporter": "^6.0.1",
     "prop-types": "^15.7.2",
     "stylelint": "^13.8.0",
-    "stylelint-config-taro-rn": "3.2.0-canary.7",
-    "stylelint-taro-rn": "3.2.0-canary.7",
+    "stylelint-config-taro-rn": "3.2.0-canary.8",
+    "stylelint-taro-rn": "3.2.0-canary.8",
     "stylus": "^0.54.8",
-    "taro-css-to-react-native": "3.2.0-canary.7"
+    "taro-css-to-react-native": "3.2.0-canary.8"
   }
 }

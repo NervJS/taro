@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro",
-  "version": "3.2.0-canary.7",
+  "version": "3.2.0-canary.8",
   "description": "Taro framework",
   "main": "index.js",
   "main:h5": "h5.js",
@@ -31,10 +31,10 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/api": "3.2.0-canary.7",
-    "@tarojs/taro-h5": "3.2.0-canary.7"
+    "@tarojs/api": "3.2.0-canary.8",
+    "@tarojs/taro-h5": "3.2.0-canary.8"
   },
   "devDependencies": {
-    "@tarojs/runtime": "3.2.0-canary.7"
+    "@tarojs/runtime": "3.2.0-canary.8"
   }
 }

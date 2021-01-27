@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runner-utils",
-  "version": "3.2.0-canary.7",
+  "version": "3.2.0-canary.8",
   "description": "Taro runner utilities.",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
@@ -23,7 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "@babel/core": "7.11.1",
-    "@tarojs/helper": "3.2.0-canary.7",
+    "@tarojs/helper": "3.2.0-canary.8",
     "chalk": "^3.0.0",
     "fs-extra": "^8.1.0",
     "lodash": "^4.17.15",

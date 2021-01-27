@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-taro",
-  "version": "3.2.0-canary.7",
+  "version": "3.2.0-canary.8",
   "description": "> TODO: description",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/babel-preset-taro#readme",
@@ -34,14 +34,14 @@
     "@babel/preset-react": "7.10.4",
     "@babel/preset-typescript": "7.10.4",
     "@babel/runtime": "^7.11.2",
-    "@tarojs/helper": "3.2.0-canary.7",
-    "@tarojs/taro-h5": "3.2.0-canary.7",
-    "@tarojs/taro-rn": "3.2.0-canary.7",
+    "@tarojs/helper": "3.2.0-canary.8",
+    "@tarojs/taro-h5": "3.2.0-canary.8",
+    "@tarojs/taro-rn": "3.2.0-canary.8",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "babel-plugin-global-define": "^1.0.3",
     "babel-plugin-transform-imports-api": "^1.0.0",
-    "babel-plugin-transform-react-jsx-to-rn-stylesheet": "3.2.0-canary.7",
-    "babel-plugin-transform-taroapi": "3.2.0-canary.7",
+    "babel-plugin-transform-react-jsx-to-rn-stylesheet": "3.2.0-canary.8",
+    "babel-plugin-transform-taroapi": "3.2.0-canary.8",
     "core-js": "^3.6.5",
     "metro-react-native-babel-preset": "^0.63.0"
   }
