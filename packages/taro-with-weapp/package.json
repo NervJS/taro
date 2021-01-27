@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/with-weapp",
-  "version": "3.0.24",
+  "version": "3.0.25",
   "description": "taroize 之后的运行时",
   "main": "index.js",
   "scripts": {
@@ -22,8 +22,8 @@
   "author": "yuche",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/runtime": "3.0.24",
-    "@tarojs/taro": "3.0.24",
+    "@tarojs/runtime": "3.0.25",
+    "@tarojs/taro": "3.0.25",
     "lodash": "^4.17.11"
   }
 }
