@@ -21,6 +21,7 @@ export interface TaroTabBarConfig {
 
 export interface CallbackResult {
   errMsg: string
+  eventChannel?: any
 }
 
 export interface BaseOption {

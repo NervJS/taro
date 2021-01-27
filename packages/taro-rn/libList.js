@@ -2,6 +2,7 @@
 module.exports = [
   'ENV_TYPE',
   'arrayBufferToBase64',
+  'authorize',
   'base64ToArrayBuffer',
   'canIUse',
   'chooseImage',
@@ -23,6 +24,7 @@ module.exports = [
   'getSavedFileInfo',
   'getSavedFileList',
   'getScreenBrightness',
+  'getSetting',
   'getStorage',
   'getStorageInfo',
   'getSystemInfo',
@@ -40,6 +42,7 @@ module.exports = [
   'onKeyboardHeightChange',
   'onNetworkStatusChange',
   'onWindowResize',
+  'openSetting',
   'openUrl',
   'previewImage',
   'removeSavedFile',
