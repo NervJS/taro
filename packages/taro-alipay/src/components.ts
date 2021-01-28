@@ -35,7 +35,8 @@ export const components = {
   },
   Input: {
     'random-number': 'false',
-    controlled: 'false'
+    controlled: 'false',
+    enableNative: 'false'
   },
   Slider: {
     'track-size': '4',

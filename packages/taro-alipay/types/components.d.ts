@@ -33,6 +33,7 @@ export declare const components: {
     Input: {
         'random-number': string;
         controlled: string;
+        enableNative: string;
     };
     Slider: {
         'track-size': string;
