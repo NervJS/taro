@@ -89,8 +89,8 @@ export namespace Components {
   interface TaroLabelCore {
     'for': string;
   }
-  interface TaroMoveableAreaCore {}
-  interface TaroMoveableViewCore {}
+  interface TaroMovableAreaCore {}
+  interface TaroMovableViewCore {}
   interface TaroNavigatorCore {
     'delta': number;
     'hoverClass': string;
@@ -485,16 +485,16 @@ declare global {
     new (): HTMLTaroLabelCoreElement;
   };
 
-  interface HTMLTaroMoveableAreaCoreElement extends Components.TaroMoveableAreaCore, HTMLStencilElement {}
-  var HTMLTaroMoveableAreaCoreElement: {
-    prototype: HTMLTaroMoveableAreaCoreElement;
-    new (): HTMLTaroMoveableAreaCoreElement;
+  interface HTMLTaroMovableAreaCoreElement extends Components.TaroMovableAreaCore, HTMLStencilElement {}
+  var HTMLTaroMovableAreaCoreElement: {
+    prototype: HTMLTaroMovableAreaCoreElement;
+    new (): HTMLTaroMovableAreaCoreElement;
   };
 
-  interface HTMLTaroMoveableViewCoreElement extends Components.TaroMoveableViewCore, HTMLStencilElement {}
-  var HTMLTaroMoveableViewCoreElement: {
-    prototype: HTMLTaroMoveableViewCoreElement;
-    new (): HTMLTaroMoveableViewCoreElement;
+  interface HTMLTaroMovableViewCoreElement extends Components.TaroMovableViewCore, HTMLStencilElement {}
+  var HTMLTaroMovableViewCoreElement: {
+    prototype: HTMLTaroMovableViewCoreElement;
+    new (): HTMLTaroMovableViewCoreElement;
   };
 
   interface HTMLTaroNavigatorCoreElement extends Components.TaroNavigatorCore, HTMLStencilElement {}
@@ -656,8 +656,8 @@ declare global {
     'taro-image-core': HTMLTaroImageCoreElement;
     'taro-input-core': HTMLTaroInputCoreElement;
     'taro-label-core': HTMLTaroLabelCoreElement;
-    'taro-moveable-area-core': HTMLTaroMoveableAreaCoreElement;
-    'taro-moveable-view-core': HTMLTaroMoveableViewCoreElement;
+    'taro-movable-area-core': HTMLTaroMovableAreaCoreElement;
+    'taro-movable-view-core': HTMLTaroMovableViewCoreElement;
     'taro-navigator-core': HTMLTaroNavigatorCoreElement;
     'taro-open-data-core': HTMLTaroOpenDataCoreElement;
     'taro-picker-core': HTMLTaroPickerCoreElement;
@@ -767,8 +767,8 @@ declare namespace LocalJSX {
   interface TaroLabelCore {
     'for'?: string;
   }
-  interface TaroMoveableAreaCore {}
-  interface TaroMoveableViewCore {}
+  interface TaroMovableAreaCore {}
+  interface TaroMovableViewCore {}
   interface TaroNavigatorCore {
     'delta'?: number;
     'hoverClass'?: string;
@@ -1088,8 +1088,8 @@ declare namespace LocalJSX {
     'taro-image-core': TaroImageCore;
     'taro-input-core': TaroInputCore;
     'taro-label-core': TaroLabelCore;
-    'taro-moveable-area-core': TaroMoveableAreaCore;
-    'taro-moveable-view-core': TaroMoveableViewCore;
+    'taro-movable-area-core': TaroMovableAreaCore;
+    'taro-movable-view-core': TaroMovableViewCore;
     'taro-navigator-core': TaroNavigatorCore;
     'taro-open-data-core': TaroOpenDataCore;
     'taro-picker-core': TaroPickerCore;
@@ -1138,8 +1138,8 @@ declare module "@stencil/core" {
       'taro-image-core': LocalJSX.TaroImageCore & JSXBase.HTMLAttributes<HTMLTaroImageCoreElement>;
       'taro-input-core': LocalJSX.TaroInputCore & JSXBase.HTMLAttributes<HTMLTaroInputCoreElement>;
       'taro-label-core': LocalJSX.TaroLabelCore & JSXBase.HTMLAttributes<HTMLTaroLabelCoreElement>;
-      'taro-moveable-area-core': LocalJSX.TaroMoveableAreaCore & JSXBase.HTMLAttributes<HTMLTaroMoveableAreaCoreElement>;
-      'taro-moveable-view-core': LocalJSX.TaroMoveableViewCore & JSXBase.HTMLAttributes<HTMLTaroMoveableViewCoreElement>;
+      'taro-movable-area-core': LocalJSX.TaroMovableAreaCore & JSXBase.HTMLAttributes<HTMLTaroMovableAreaCoreElement>;
+      'taro-movable-view-core': LocalJSX.TaroMovableViewCore & JSXBase.HTMLAttributes<HTMLTaroMovableViewCoreElement>;
       'taro-navigator-core': LocalJSX.TaroNavigatorCore & JSXBase.HTMLAttributes<HTMLTaroNavigatorCoreElement>;
       'taro-open-data-core': LocalJSX.TaroOpenDataCore & JSXBase.HTMLAttributes<HTMLTaroOpenDataCoreElement>;
       'taro-picker-core': LocalJSX.TaroPickerCore & JSXBase.HTMLAttributes<HTMLTaroPickerCoreElement>;
