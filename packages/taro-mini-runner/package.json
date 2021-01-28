@@ -62,7 +62,7 @@
     "html-minifier": "^4.0.0",
     "jsdom": "^15.2.1",
     "less": "^3.10.3",
-    "less-loader": "^5.0.0",
+    "less-loader": "^7.1.0",
     "loader-utils": "^1.2.3",
     "lodash": "^4.17.11",
     "micromatch": "^4.0.2",

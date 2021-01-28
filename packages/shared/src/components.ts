@@ -516,7 +516,6 @@ export const voidElements = new Set([
   'slider',
   'switch',
   'audio',
-  'live-pusher',
   'ad',
   'official-account',
   'open-data',
