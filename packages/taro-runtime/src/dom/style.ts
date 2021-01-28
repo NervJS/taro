@@ -98,7 +98,10 @@ export class Style {
         continue
       }
 
-      const [propName, val] = rule.split(':')
+      // 可能存在 'background: url(http:x/y/z)' 的情况
+      const [propName, ...valList] = rule.split(':')
+      const val = valList.join(':')
+
       if (isUndefined(val)) {
         continue
       }

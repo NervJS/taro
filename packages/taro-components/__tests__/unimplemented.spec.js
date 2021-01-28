@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom'
 import {
   CoverImage,
   CoverView,
-  MoveableArea,
-  MoveableView,
+  MovableArea,
+  MovableView,
   PickerView,
   PickerViewColumn,
   OpenData,
@@ -89,12 +89,12 @@ describe('unimplemented', () => {
     await testComponent(CoverImage)
   })
 
-  it('MoveableArea', async () => {
-    await testComponent(MoveableArea)
+  it('MovableArea', async () => {
+    await testComponent(MovableArea)
   })
 
-  it('MoveableView', async () => {
-    await testComponent(MoveableView)
+  it('MovableView', async () => {
+    await testComponent(MovableView)
   })
 
   it('PickerViewColumn', async () => {

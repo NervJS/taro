@@ -49,6 +49,10 @@ export function toCamelCase (s: string) {
   return camel
 }
 
+export const toKebabCase = function (string) {
+  return string.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
+}
+
 export function capitalize (s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
