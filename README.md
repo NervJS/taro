@@ -92,7 +92,7 @@ export default class Index extends Component {
 export default {
   data () {
     return {
-      msg: 'Hello World！'
+      msg: 'Hello World!'
     }
   },
   created () {},
