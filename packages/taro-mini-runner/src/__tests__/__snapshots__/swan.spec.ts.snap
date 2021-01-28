@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`swan should build swan app 1`] = `15`;
+exports[`swan should build swan app 1`] = `16`;
 
 exports[`swan should build swan app 2`] = `
 "
@@ -84,12 +84,44 @@ require(\\"./taro\\");
   </block>
 </template>
 
+<template name=\\"tmpl_0_catch-view\\">
+  <view hover-class=\\"{{ xs.b(i.hoverClass,'none') }}\\" hover-stop-propagation=\\"{{ xs.b(i.hoverStopPropagation,false) }}\\" hover-start-time=\\"{{ xs.b(i.hoverStartTime,50) }}\\" hover-stay-time=\\"{{ xs.b(i.hoverStayTime,400) }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block s-for=\\"{{i.cn}}\\" s-key=\\"uid\\">
+      <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_0_static-view\\">
+  <view hover-class=\\"{{ xs.b(i.hoverClass,'none') }}\\" hover-stop-propagation=\\"{{ xs.b(i.hoverStopPropagation,false) }}\\" hover-start-time=\\"{{ xs.b(i.hoverStartTime,50) }}\\" hover-stay-time=\\"{{ xs.b(i.hoverStayTime,400) }}\\" animation=\\"{{ i.animation }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\"  id=\\"{{i.uid}}\\">
+    <block s-for=\\"{{i.cn}}\\" s-key=\\"uid\\">
+      <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_0_pure-view\\">
+  <view style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\"  id=\\"{{i.uid}}\\">
+    <block s-for=\\"{{i.cn}}\\" s-key=\\"uid\\">
+      <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_0_view\\">
   <view hover-class=\\"{{ xs.b(i.hoverClass,'none') }}\\" hover-stop-propagation=\\"{{ xs.b(i.hoverStopPropagation,false) }}\\" hover-start-time=\\"{{ xs.b(i.hoverStartTime,50) }}\\" hover-stay-time=\\"{{ xs.b(i.hoverStayTime,400) }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block s-for=\\"{{i.cn}}\\" s-key=\\"uid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_0_static-text\\">
+  <text selectable=\\"{{ xs.b(i.selectable,false) }}\\" space=\\"{{ i.space }}\\" decode=\\"{{ xs.b(i.decode,false) }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\"  id=\\"{{i.uid}}\\">
+    <block s-for=\\"{{i.cn}}\\" s-key=\\"uid\\">
+      <block>{{ i.cn[index].v }}</block>
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_0_text\\">
@@ -132,6 +164,14 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_0_static-image\\">
+  <image src=\\"{{ i.src }}\\" mode=\\"{{ xs.b(i.mode,'scaleToFill') }}\\" webp=\\"{{ xs.b(i.webp,false) }}\\" lazy-load=\\"{{ xs.b(i.lazyLoad,false) }}\\" show-menu-by-longpress=\\"{{ xs.b(i.showMenuByLongpress,false) }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\"  id=\\"{{i.uid}}\\">
+    <block s-for=\\"{{i.cn}}\\" s-key=\\"uid\\">
+      <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+    </block>
+  </image>
+</template>
+
 <template name=\\"tmpl_0_image\\">
   <image src=\\"{{ i.src }}\\" mode=\\"{{ xs.b(i.mode,'scaleToFill') }}\\" webp=\\"{{ xs.b(i.webp,false) }}\\" lazy-load=\\"{{ xs.b(i.lazyLoad,false) }}\\" show-menu-by-longpress=\\"{{ xs.b(i.showMenuByLongpress,false) }}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block s-for=\\"{{i.cn}}\\" s-key=\\"uid\\">
@@ -156,7 +196,7 @@ require(\\"./taro\\");
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
 } ] ]);
 
-/** filePath: dist/comp.js **/
+/** filePath: dist/custom-wrapper.js **/
 (swan[\\"webpackJsonp\\"] = swan[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
     12: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -166,8 +206,14 @@ require(\\"./taro\\");
     }
 }, [ [ 12, 0, 1 ] ] ]);
 
-/** filePath: dist/comp.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\"}}
+/** filePath: dist/custom-wrapper.json **/
+{\\"component\\":true,\\"usingComponents\\":{\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
+
+/** filePath: dist/custom-wrapper.swan **/
+<import src=\\"./base.swan\\" />
+  <block s-for=\\"{{i.cn}}\\" s-key=\\"uid\\">
+    <template is=\\"tmpl_0_container\\" data=\\"{{{ i:item }}}\\" />
+  </block>
 
 /** filePath: dist/pages/index/index.css **/
 
@@ -804,7 +850,7 @@ require(\\"./taro\\");
 } ], [ [ 18, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\"}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
 
 /** filePath: dist/pages/index/index.swan **/
 <import src=\\"../../base.swan\\"/>

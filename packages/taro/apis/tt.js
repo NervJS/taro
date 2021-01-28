@@ -1,13 +1,12 @@
 import Taro from '@tarojs/api'
-import { cacheDataSet, cacheDataGet } from './data-cache'
-import { queryToJson, getUniqueKey } from './utils'
 
 const {
   noPromiseApis,
   onAndSyncApis,
   otherApis,
   initPxTransform,
-  Link
+  Link,
+  Current
 } = Taro
 
 const RequestQueue = {
@@ -84,8 +83,6 @@ function request (options) {
 
 function processApis (taro) {
   const weApis = Object.assign({ }, onAndSyncApis, noPromiseApis, otherApis)
-  const preloadPrivateKey = '__preload_'
-  const preloadInitedComponent = '$preloadComponent'
   Object.keys(weApis).forEach(key => {
     if (!(key in tt)) {
       taro[key] = () => {
@@ -108,21 +105,6 @@ function processApis (taro) {
         if (key === 'navigateTo' || key === 'redirectTo' || key === 'switchTab') {
           let url = obj.url ? obj.url.replace(/^\//, '') : ''
           if (url.indexOf('?') > -1) url = url.split('?')[0]
-
-          const Component = cacheDataGet(url)
-          if (Component) {
-            const component = new Component()
-            if (component.componentWillPreload) {
-              const cacheKey = getUniqueKey()
-              const MarkIndex = obj.url.indexOf('?')
-              const hasMark = MarkIndex > -1
-              const urlQueryStr = hasMark ? obj.url.substring(MarkIndex + 1, obj.url.length) : ''
-              const params = queryToJson(urlQueryStr)
-              obj.url += (hasMark ? '&' : '?') + `${preloadPrivateKey}=${cacheKey}`
-              cacheDataSet(cacheKey, component.componentWillPreload(params))
-              cacheDataSet(preloadInitedComponent, component)
-            }
-          }
         }
 
         const p = new Promise((resolve, reject) => {
@@ -194,6 +176,16 @@ function pxTransform (size) {
   return (parseInt(size, 10) * deviceRatio[designWidth]) + 'rpx'
 }
 
+function preload (key, val) {
+  if (typeof key === 'object') {
+    Current.preloadData = key
+  } else if (key !== undefined && val !== undefined) {
+    Current.preloadData = {
+      [key]: val
+    }
+  }
+}
+
 export default function initNativeApi (taro) {
   processApis(taro)
   taro.request = link.request.bind(link)
@@ -203,5 +195,6 @@ export default function initNativeApi (taro) {
   taro.getApp = getApp
   taro.initPxTransform = initPxTransform.bind(taro)
   taro.pxTransform = pxTransform.bind(taro)
+  taro.preload = preload
   taro.env = tt.env
 }

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`bytedance should build bytedance app 1`] = `14`;
+exports[`bytedance should build bytedance app 1`] = `15`;
 
 exports[`bytedance should build bytedance app 2`] = `
 "
@@ -84,12 +84,44 @@ require(\\"./taro\\");
   </block>
 </template>
 
+<template name=\\"tmpl_0_catch-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
+      <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_0_static-view\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
+      <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_0_pure-view\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
+      <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_0_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_0_static-text\\">
+  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
+      <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_0_text\\">
@@ -132,6 +164,14 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_0_static-image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+    <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
+      <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </image>
+</template>
+
 <template name=\\"tmpl_0_image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
@@ -156,7 +196,7 @@ require(\\"./taro\\");
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
 } ] ]);
 
-/** filePath: dist/comp.js **/
+/** filePath: dist/custom-wrapper.js **/
 (tt[\\"webpackJsonp\\"] = tt[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
     12: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -166,8 +206,14 @@ require(\\"./taro\\");
     }
 }, [ [ 12, 0, 1 ] ] ]);
 
-/** filePath: dist/comp.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\"}}
+/** filePath: dist/custom-wrapper.json **/
+{\\"component\\":true,\\"usingComponents\\":{\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
+
+/** filePath: dist/custom-wrapper.ttml **/
+<import src=\\"./base.ttml\\" />
+  <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
+    <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
+  </block>
 
 /** filePath: dist/pages/index/index.js **/
 (tt[\\"webpackJsonp\\"] = tt[\\"webpackJsonp\\"] || []).push([ [ 7 ], [ , , , , , , , function(module, exports, __webpack_require__) {
@@ -801,7 +847,7 @@ require(\\"./taro\\");
 } ], [ [ 18, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\"}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
 
 /** filePath: dist/pages/index/index.ttml **/
 <import src=\\"../../base.ttml\\"/>
