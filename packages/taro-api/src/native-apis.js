@@ -142,6 +142,7 @@ const otherApis = {
   chooseImage: true,
   chooseMessageFile: true,
   previewImage: true,
+  previewMedia: true,
   getImageInfo: true,
   compressImage: true,
   saveImageToPhotosAlbum: true,
