@@ -23,7 +23,9 @@ import {
   FRAMEWORK_EXT_MAP,
   printLog,
   processTypeEnum,
-  FRAMEWORK_MAP
+  FRAMEWORK_MAP,
+  isAliasPath,
+  replaceAliasPath
 } from '@tarojs/helper'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
@@ -50,6 +52,9 @@ interface ITaroMiniPluginOptions {
   template: RecursiveTemplate | UnRecursiveTemplate
   modifyBuildAssets?: Function
   modifyMiniConfigs?: Function
+  onCompilerMake?: Function
+  blended: boolean
+  alias: Record<string, string>
 }
 
 export interface IComponentObj {
@@ -205,6 +210,7 @@ export default class TaroMiniPlugin {
           }))
         })
         await Promise.all(promises)
+        await this.options.onCompilerMake?.(compilation)
       })
     )
 
@@ -227,7 +233,8 @@ export default class TaroMiniPlugin {
               options: {
                 framework,
                 prerender: this.prerenderPages.size > 0,
-                config: this.appConfig
+                config: this.appConfig,
+                blended: this.options.blended
               }
             })
           }
@@ -437,8 +444,11 @@ export default class TaroMiniPlugin {
    * 在 this.dependencies 中新增或修改 app、模板组件、页面、组件等资源模块
    */
   addEntries () {
+    const { template } = this.options
     this.addEntry(this.appEntry, 'app', META_TYPE.ENTRY)
-    this.addEntry(path.resolve(__dirname, '..', 'template/comp'), 'comp', META_TYPE.STATIC)
+    if (!template.isSupportRecursive) {
+      this.addEntry(path.resolve(__dirname, '..', 'template/comp'), 'comp', META_TYPE.STATIC)
+    }
     this.addEntry(path.resolve(__dirname, '..', 'template/custom-wrapper'), 'custom-wrapper', META_TYPE.STATIC)
     this.pages.forEach(item => {
       if (item.isNative) {
@@ -480,19 +490,23 @@ export default class TaroMiniPlugin {
     const fileConfigPath = file.isNative ? this.replaceExt(filePath, '.json') : this.getConfigFilePath(filePath)
     const fileConfig = readConfig(fileConfigPath)
     const usingComponents = fileConfig.usingComponents
-    this.filesConfig[this.getConfigFilePath(file.name)] = {
-      content: fileConfig,
-      path: fileConfigPath
-    }
 
     // 递归收集依赖的第三方组件
     if (usingComponents) {
       const componentNames = Object.keys(usingComponents)
       const depComponents: Array<{ name: string, path: string }> = []
+      const alias = this.options.alias
       for (const compName of componentNames) {
+        let compPath = usingComponents[compName]
+
+        if (isAliasPath(compPath, alias)) {
+          compPath = replaceAliasPath(filePath, compPath, alias)
+          fileConfig.usingComponents[compName] = compPath
+        }
+
         depComponents.push({
           name: compName,
-          path: usingComponents[compName]
+          path: compPath
         })
 
         if (!componentConfig.thirdPartyComponents.has(compName) && !file.isNative) {
@@ -516,6 +530,11 @@ export default class TaroMiniPlugin {
           this.compileFile(componentObj)
         }
       })
+    }
+
+    this.filesConfig[this.getConfigFilePath(file.name)] = {
+      content: fileConfig,
+      path: fileConfigPath
     }
   }
 
@@ -626,26 +645,35 @@ export default class TaroMiniPlugin {
     }
     const appConfigPath = this.getConfigFilePath(this.appEntry)
     const appConfigName = path.basename(appConfigPath).replace(path.extname(appConfigPath), '')
-    this.generateConfigFile(compilation, this.appEntry, this.filesConfig[appConfigName].content)
-    this.generateConfigFile(compilation, baseCompName, {
-      component: true,
-      usingComponents: {
-        [baseCompName]: `./${baseCompName}`,
-        [customWrapperName]: `./${customWrapperName}`
-      }
-    })
-    this.generateConfigFile(compilation, customWrapperName, {
-      component: true,
-      usingComponents: {
-        [baseCompName]: `./${baseCompName}`,
-        [customWrapperName]: `./${customWrapperName}`
-      }
-    })
-    this.generateTemplateFile(compilation, baseTemplateName, template.buildTemplate, componentConfig)
+    if (!this.options.blended) {
+      this.generateConfigFile(compilation, this.appEntry, this.filesConfig[appConfigName].content)
+    }
     if (!template.isSupportRecursive) {
       // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
       this.generateTemplateFile(compilation, baseCompName, template.buildBaseComponentTemplate, this.options.fileType.templ)
+      this.generateConfigFile(compilation, baseCompName, {
+        component: true,
+        usingComponents: {
+          [baseCompName]: `./${baseCompName}`,
+          [customWrapperName]: `./${customWrapperName}`
+        }
+      })
+      this.generateConfigFile(compilation, customWrapperName, {
+        component: true,
+        usingComponents: {
+          [baseCompName]: `./${baseCompName}`,
+          [customWrapperName]: `./${customWrapperName}`
+        }
+      })
+    } else {
+      this.generateConfigFile(compilation, customWrapperName, {
+        component: true,
+        usingComponents: {
+          [customWrapperName]: `./${customWrapperName}`
+        }
+      })
     }
+    this.generateTemplateFile(compilation, baseTemplateName, template.buildTemplate, componentConfig)
     this.generateTemplateFile(compilation, customWrapperName, template.buildCustomComponentTemplate, this.options.fileType.templ)
     this.generateXSFile(compilation)
     this.components.forEach(component => {

@@ -54,12 +54,14 @@ export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   modifyWebpackChain: Function,
   modifyBuildAssets: Function,
   modifyMiniConfigs: Function,
+  onCompilerMake: Function,
   onWebpackChainReady: Function,
   onBuildFinish: Function
   framework: string,
   baseLevel: number,
   prerender?: PrerenderConfig
   template: RecursiveTemplate | UnRecursiveTemplate
+  blended: boolean
 }
 
 export type AddPageChunks = ((pages: Map<string, string[]>, pagesNames?: string[]) => void)
