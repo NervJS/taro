@@ -1265,7 +1265,7 @@ require(\\"./taro\\");
 } ], [ [ 19, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\",\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
 /** filePath: dist/pages/index/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
@@ -2371,7 +2371,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.qml **/
 <import src=\\"./base.qml\\" />
-  <block wx:for=\\"{{i.cn}}\\" qq:key=\\"uid\\">
+  <block qq:for=\\"{{i.cn}}\\" qq:key=\\"uid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
   </block>
 
@@ -3007,7 +3007,7 @@ require(\\"./taro\\");
 } ], [ [ 19, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\",\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
 /** filePath: dist/pages/index/index.qml **/
 <import src=\\"../../base.qml\\"/>
