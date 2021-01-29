@@ -252,7 +252,8 @@ const Input = {
   ...selectEnv({
     alipay: {
       'random-number': 'false',
-      controlled: 'false'
+      controlled: 'false',
+      enableNative: 'false'
     },
     weapp: {
       'always-embed': 'false'
