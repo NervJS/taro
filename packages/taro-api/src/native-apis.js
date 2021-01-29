@@ -33,6 +33,8 @@ const onAndSyncApis = {
   reportMonitor: true,
   reportAnalytics: true,
   navigateToSmartGameProgram: true,
+  onGyroscopeChange: true,
+  offGyroscopeChange: true,
   // 文件
   getFileSystemManager: true,
 
@@ -85,7 +87,8 @@ const noPromiseApis = {
   stopAccelerometer: true,
   startCompass: true,
   stopCompass: true,
-
+  stopGyroscope: true,
+  startGyroscope: true,
   // 界面
   hideToast: true,
   hideLoading: true,
@@ -139,6 +142,7 @@ const otherApis = {
   chooseImage: true,
   chooseMessageFile: true,
   previewImage: true,
+  previewMedia: true,
   getImageInfo: true,
   compressImage: true,
   saveImageToPhotosAlbum: true,
