@@ -16,18 +16,4 @@ export default class JD extends TaroPlatformBase {
   }
 
   template = new Template()
-
-  /**
-   * 调用 mini-runner 开启编译
-   */
-  async start () {
-    this.setup()
-    this.generateProjectConfig(this.projectConfigJson)
-
-    const runner = await this.getRunner()
-    const options = this.getOptions({
-      runtimePath: this.runtimePath
-    })
-    runner(options)
-  }
 }

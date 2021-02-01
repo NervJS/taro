@@ -13,11 +13,16 @@ export default class TT extends TaroPlatformBase {
     };
     template: Template;
     /**
-     * 调用 mini-runner 开启编译
+     * 1. setupTransaction - init
+     * 2. setup
+     * 3. setupTransaction - close
+     * 4. buildTransaction - init
+     * 5. build
+     * 6. buildTransaction - close
      */
-    start(): Promise<void>;
+    constructor(ctx: any, config: any);
     /**
      * 增加组件或修改组件属性
      */
-    modifyComponents(): void;
+    modifyTemplate(): void;
 }

@@ -12,8 +12,4 @@ export default class JD extends TaroPlatformBase {
         script: string;
     };
     template: Template;
-    /**
-     * 调用 mini-runner 开启编译
-     */
-    start(): Promise<void>;
 }

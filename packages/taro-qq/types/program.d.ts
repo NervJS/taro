@@ -11,9 +11,14 @@ export default class QQ extends Weapp {
         script: string;
         xs: string;
     };
-    constructor(ctx: any, config: any);
     /**
-     * 增加组件或修改组件属性
+     * 1. setupTransaction - init
+     * 2. setup
+     * 3. setupTransaction - close
+     * 4. buildTransaction - init
+     * 5. build
+     * 6. buildTransaction - close
      */
-    modifyComponents(): void;
+    constructor(ctx: any, config: any);
+    beforeBuild(): void;
 }

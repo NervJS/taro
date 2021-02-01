@@ -19,24 +19,25 @@ export default class TT extends TaroPlatformBase {
   template = new Template()
 
   /**
-   * 调用 mini-runner 开启编译
+   * 1. setupTransaction - init
+   * 2. setup
+   * 3. setupTransaction - close
+   * 4. buildTransaction - init
+   * 5. build
+   * 6. buildTransaction - close
    */
-  async start () {
-    this.setup()
-    this.generateProjectConfig(this.projectConfigJson)
-    this.modifyComponents()
+  constructor (ctx, config) {
+    super(ctx, config)
 
-    const runner = await this.getRunner()
-    const options = this.getOptions({
-      runtimePath: this.runtimePath
+    this.setupTransaction.addWrapper({
+      close: this.modifyTemplate
     })
-    runner(options)
   }
 
   /**
    * 增加组件或修改组件属性
    */
-  modifyComponents () {
+  modifyTemplate () {
     this.template.mergeComponents(this.ctx, components)
   }
 }

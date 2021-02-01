@@ -10,7 +10,7 @@ export default class Swan extends TaroPlatformBase {
   globalObject = 'swan'
   projectConfigJson = PROJECT_JSON
   runtimePath = `${PACKAGE_NAME}/dist/runtime`
-  reactComponents = `${PACKAGE_NAME}/dist/components-react`
+  taroComponentsPath = `${PACKAGE_NAME}/dist/components-react`
   fileType = {
     templ: '.swan',
     style: '.css',
@@ -22,19 +22,19 @@ export default class Swan extends TaroPlatformBase {
   template = new Template()
 
   /**
-   * 调用 mini-runner 开启编译
+   * 1. setupTransaction - init
+   * 2. setup
+   * 3. setupTransaction - close
+   * 4. buildTransaction - init
+   * 5. build
+   * 6. buildTransaction - close
    */
-  async start () {
-    this.setup()
-    this.generateProjectConfig(this.projectConfigJson, PROJECT_JSON)
-    this.modifyComponents()
-    this.modifyWebpackChain()
+  constructor (ctx, config) {
+    super(ctx, config)
 
-    const runner = await this.getRunner()
-    const options = this.getOptions({
-      runtimePath: this.runtimePath
+    this.setupTransaction.addWrapper({
+      close: this.modifyComponents
     })
-    runner(options)
   }
 
   /**
@@ -42,15 +42,5 @@ export default class Swan extends TaroPlatformBase {
    */
   modifyComponents () {
     this.template.mergeComponents(this.ctx, components)
-  }
-
-  /**
-   * 修改 webpack 配置
-   */
-  modifyWebpackChain () {
-    this.ctx.modifyWebpackChain(({ chain }) => {
-      const { taroJsComponents } = this.helper
-      chain.resolve.alias.set(taroJsComponents + '$', this.reactComponents)
-    })
   }
 }

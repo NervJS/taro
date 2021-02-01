@@ -16,9 +16,25 @@ export default class QQ extends Weapp {
     xs: '.wxs'
   }
 
+  /**
+   * 1. setupTransaction - init
+   * 2. setup
+   * 3. setupTransaction - close
+   * 4. buildTransaction - init
+   * 5. build
+   * 6. buildTransaction - close
+   */
   constructor (ctx, config) {
     super(ctx, config)
 
+    this.buildTransaction.addWrapper({
+      init: this.beforeBuild
+    })
+  }
+
+  beforeBuild () {
+    // 处理 QQ 与微信的组件差异
+    this.template.mergeComponents(this.ctx, components)
     this.template.Adapter = {
       if: 'qq:if',
       else: 'qq:else',
@@ -30,16 +46,5 @@ export default class QQ extends Weapp {
       xs: 'wxs',
       type: 'qq'
     }
-  }
-
-  /**
-   * 增加组件或修改组件属性
-   */
-  modifyComponents () {
-    // 先按微信标准对齐组件
-    super.modifyComponents()
-
-    // 再处理 QQ 与微信的组件差异
-    this.template.mergeComponents(this.ctx, components)
   }
 }

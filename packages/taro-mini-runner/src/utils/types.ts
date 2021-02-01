@@ -61,6 +61,7 @@ export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   prerender?: PrerenderConfig
   template: RecursiveTemplate | UnRecursiveTemplate
   runtimePath?: string
+  taroComponentsPath?: string
   blended: boolean
 }
 

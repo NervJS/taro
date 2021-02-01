@@ -9,7 +9,7 @@ export default class Weapp extends TaroPlatformBase {
   globalObject = 'wx'
   projectConfigJson: string = this.config.projectConfigName || 'project.config.json'
   runtimePath = `${PACKAGE_NAME}/dist/runtime`
-  reactComponents = `${PACKAGE_NAME}/dist/components-react`
+  taroComponentsPath = `${PACKAGE_NAME}/dist/components-react`
   fileType = {
     templ: '.wxml',
     style: '.wxss',
@@ -21,37 +21,28 @@ export default class Weapp extends TaroPlatformBase {
   template = new Template()
 
   /**
-   * 调用 mini-runner 开启编译
+   * 1. setupTransaction - init
+   * 2. setup
+   * 3. setupTransaction - close
+   * 4. buildTransaction - init
+   * 5. build
+   * 6. buildTransaction - close
    */
-  async start () {
-    this.setup()
-    this.generateProjectConfig(this.projectConfigJson)
-    this.modifyComponents()
-    this.modifyWebpackChain()
+  constructor (ctx, config) {
+    super(ctx, config)
 
-    const runner = await this.getRunner()
-    const options = this.getOptions({
-      runtimePath: this.runtimePath
+    this.setupTransaction.addWrapper({
+      close: this.modifyTemplate
     })
-    runner(options)
   }
 
   /**
    * 增加组件或修改组件属性
    */
-  modifyComponents () {
-    this.template.mergeComponents(this.ctx, components)
-    this.template.voidElements.add('voip-room')
-    this.template.focusComponents.add('editor')
-  }
-
-  /**
-   * 修改 webpack 配置
-   */
-  modifyWebpackChain () {
-    this.ctx.modifyWebpackChain(({ chain }) => {
-      const { taroJsComponents } = this.helper
-      chain.resolve.alias.set(taroJsComponents + '$', this.reactComponents)
-    })
+  modifyTemplate () {
+    const template = this.template
+    template.mergeComponents(this.ctx, components)
+    template.voidElements.add('voip-room')
+    template.focusComponents.add('editor')
   }
 }

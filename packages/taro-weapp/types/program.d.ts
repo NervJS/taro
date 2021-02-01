@@ -5,7 +5,7 @@ export default class Weapp extends TaroPlatformBase {
     globalObject: string;
     projectConfigJson: string;
     runtimePath: string;
-    reactComponents: string;
+    taroComponentsPath: string;
     fileType: {
         templ: string;
         style: string;
@@ -15,15 +15,16 @@ export default class Weapp extends TaroPlatformBase {
     };
     template: Template;
     /**
-     * 调用 mini-runner 开启编译
+     * 1. setupTransaction - init
+     * 2. setup
+     * 3. setupTransaction - close
+     * 4. buildTransaction - init
+     * 5. build
+     * 6. buildTransaction - close
      */
-    start(): Promise<void>;
+    constructor(ctx: any, config: any);
     /**
      * 增加组件或修改组件属性
      */
-    modifyComponents(): void;
-    /**
-     * 修改 webpack 配置
-     */
-    modifyWebpackChain(): void;
+    modifyTemplate(): void;
 }

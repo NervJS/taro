@@ -9,14 +9,50 @@ interface IFileType {
   xs?: string
 }
 
-export class TaroPlatformBase {
+interface IWrapper {
+  init? (): void
+  close? (): void
+}
+
+class Transaction {
+  wrappers: IWrapper[] = []
+
+  async perform (fn: Function, scope: TaroPlatformBase, ...args) {
+    this.initAll(scope)
+    await fn.call(scope, ...args)
+    this.closeAll(scope)
+  }
+
+  initAll (scope) {
+    const wrappers = this.wrappers
+    wrappers.forEach(wrapper => wrapper.init?.call(scope))
+  }
+
+  closeAll (scope) {
+    const wrappers = this.wrappers
+    wrappers.forEach(wrapper => wrapper.close?.call(scope))
+  }
+
+  addWrapper (wrapper: IWrapper) {
+    this.wrappers.push(wrapper)
+  }
+}
+
+export abstract class TaroPlatformBase {
   ctx: IPluginContext
   helper: IPluginContext['helper']
   config: any
-  platform: string
-  globalObject: string
-  fileType: IFileType
-  template: RecursiveTemplate | UnRecursiveTemplate
+
+  abstract platform: string
+  abstract globalObject: string
+  abstract runtimePath: string
+  abstract fileType: IFileType
+  abstract template: RecursiveTemplate | UnRecursiveTemplate
+  projectConfigJson?: string
+  taroComponentsPath?: string
+
+  setupTransaction = new Transaction()
+  buildTransaction = new Transaction()
 
   constructor (ctx: IPluginContext, config) {
     this.ctx = ctx
@@ -26,19 +62,27 @@ export class TaroPlatformBase {
 
   /**
    * 1. 清空 dist 文件夹
-   * 2. 输出提示
+   * 2. 输出编译提示
+   * 3. 生成 project.config.json
    */
-  setup () {
-    this.emptyOutputDir()
-    this.printDevelopmentTip(this.platform)
+  private async setup () {
+    await this.setupTransaction.perform(this.setupImpl, this)
   }
 
-  emptyOutputDir () {
+  private setupImpl () {
+    this.emptyOutputDir()
+    this.printDevelopmentTip(this.platform)
+    if (this.projectConfigJson) {
+      this.generateProjectConfig(this.projectConfigJson)
+    }
+  }
+
+  protected emptyOutputDir () {
     const { outputPath } = this.ctx.paths
     this.helper.emptyDirectory(outputPath)
   }
 
-  printDevelopmentTip (platform: string) {
+  protected printDevelopmentTip (platform: string) {
     if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') return
 
     const { isWindows, chalk } = this.helper
@@ -59,7 +103,7 @@ ${exampleCommand}
   /**
    * 返回当前项目内的 @tarojs/mini-runner 包
    */
-  async getRunner () {
+  protected async getRunner () {
     const { appPath } = this.ctx.paths
     const { npm } = this.helper
     const runner = await npm.getNpmPkg('@tarojs/mini-runner', appPath)
@@ -70,7 +114,7 @@ ${exampleCommand}
    * 准备 mini-runner 参数
    * @param extraOptions 需要额外合入 Options 的配置项
    */
-  getOptions (extraOptions = {}) {
+  protected getOptions (extraOptions = {}) {
     const { ctx, config, globalObject, fileType, template } = this
 
     return {
@@ -85,11 +129,28 @@ ${exampleCommand}
   }
 
   /**
+   * 调用 mini-runner 开始编译
+   * @param extraOptions 需要额外传入 @tarojs/mini-runner 的配置项
+   */
+  private async build (extraOptions = {}) {
+    await this.buildTransaction.perform(this.buildImpl, this, extraOptions)
+  }
+
+  private async buildImpl (extraOptions) {
+    const runner = await this.getRunner()
+    const options = this.getOptions(Object.assign({
+      runtimePath: this.runtimePath,
+      taroComponentsPath: this.taroComponentsPath
+    }, extraOptions))
+    runner(options)
+  }
+
+  /**
    * 生成 project.config.json
    * @param src 项目源码中配置文件的名称
    * @param dist 编译后配置文件的名称，默认为 'project.config.json'
    */
-  generateProjectConfig (src: string, dist = 'project.config.json') {
+  protected generateProjectConfig (src: string, dist = 'project.config.json') {
     this.ctx.generateProjectConfig({
       srcConfigName: src,
       distConfigName: dist
@@ -99,7 +160,7 @@ ${exampleCommand}
   /**
    * 递归替换对象的 key 值
    */
-  recursiveReplaceObjectKeys (obj, keyMap) {
+  protected recursiveReplaceObjectKeys (obj, keyMap) {
     Object.keys(obj).forEach(key => {
       if (keyMap[key]) {
         obj[keyMap[key]] = obj[key]
@@ -113,5 +174,13 @@ ${exampleCommand}
         this.recursiveReplaceObjectKeys(obj[key], keyMap)
       }
     })
+  }
+
+  /**
+   * 调用 mini-runner 开启编译
+   */
+  public async start () {
+    await this.setup()
+    await this.build()
   }
 }

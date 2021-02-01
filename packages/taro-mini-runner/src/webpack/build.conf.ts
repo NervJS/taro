@@ -40,6 +40,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     sourceRoot = 'src',
     isBuildPlugin = false,
     runtimePath,
+    taroComponentsPath,
 
     designWidth = 750,
     deviceRatio,
@@ -102,7 +103,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   if (copy) {
     plugin.copyWebpackPlugin = getCopyWebpackPlugin({ copy, appPath })
   }
-  alias[taroJsComponents + '$'] = `${taroJsComponents}/mini`
+  alias[taroJsComponents + '$'] = taroComponentsPath || `${taroJsComponents}/mini`
   if (framework === 'react') {
     alias['react-dom'] = '@tarojs/react'
     if (process.env.NODE_ENV !== 'production' && !debugReact) {

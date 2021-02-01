@@ -1,4 +1,4 @@
-import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared'
+import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared';
 import type { IPluginContext } from '../types/index';
 interface IFileType {
     templ: string;
@@ -7,40 +7,68 @@ interface IFileType {
     script: string;
     xs?: string;
 }
-export declare class TaroPlatformBase {
+interface IWrapper {
+    init?(): void;
+    close?(): void;
+}
+declare class Transaction {
+    wrappers: IWrapper[];
+    perform(fn: Function, scope: TaroPlatformBase, ...args: any[]): Promise<void>;
+    initAll(scope: any): void;
+    closeAll(scope: any): void;
+    addWrapper(wrapper: IWrapper): void;
+}
+export declare abstract class TaroPlatformBase {
     ctx: IPluginContext;
     helper: IPluginContext['helper'];
     config: any;
-    platform: string;
-    globalObject: string;
-    fileType: IFileType;
-    template: RecursiveTemplate | UnRecursiveTemplate;
+    abstract platform: string;
+    abstract globalObject: string;
+    abstract runtimePath: string;
+    abstract fileType: IFileType;
+    abstract template: RecursiveTemplate | UnRecursiveTemplate;
+    projectConfigJson?: string;
+    taroComponentsPath?: string;
+    setupTransaction: Transaction;
+    buildTransaction: Transaction;
     constructor(ctx: IPluginContext, config: any);
     /**
      * 1. 清空 dist 文件夹
-     * 2. 输出提示
+     * 2. 输出编译提示
+     * 3. 生成 project.config.json
      */
-    setup(): void;
-    emptyOutputDir(): void;
-    printDevelopmentTip(platform: string): void;
+    private setup;
+    private setupImpl;
+    protected emptyOutputDir(): void;
+    protected printDevelopmentTip(platform: string): void;
     /**
      * 返回当前项目内的 @tarojs/mini-runner 包
      */
-    getRunner(): Promise<any>;
+    protected getRunner(): Promise<any>;
     /**
      * 准备 mini-runner 参数
      * @param extraOptions 需要额外合入 Options 的配置项
      */
-    getOptions(extraOptions?: {}): any;
+    protected getOptions(extraOptions?: {}): any;
+    /**
+     * 调用 mini-runner 开始编译
+     * @param extraOptions 需要额外传入 @tarojs/mini-runner 的配置项
+     */
+    private build;
+    private buildImpl;
     /**
      * 生成 project.config.json
      * @param src 项目源码中配置文件的名称
      * @param dist 编译后配置文件的名称，默认为 'project.config.json'
      */
-    generateProjectConfig(src: string, dist?: string): void;
+    protected generateProjectConfig(src: string, dist?: string): void;
     /**
      * 递归替换对象的 key 值
      */
-    recursiveReplaceObjectKeys(obj: any, keyMap: any): void;
+    protected recursiveReplaceObjectKeys(obj: any, keyMap: any): void;
+    /**
+     * 调用 mini-runner 开启编译
+     */
+    start(): Promise<void>;
 }
 export {};
