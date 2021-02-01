@@ -444,7 +444,7 @@ export class BaseTemplate {
 }`
   }
 
-  public mergeComponents (ctx, patch: typeof internalComponents) {
+  public mergeComponents (ctx, patch: Record<string, Record<string, string>>) {
     ctx.helper.recursiveMerge(this.internalComponents, patch)
   }
 
