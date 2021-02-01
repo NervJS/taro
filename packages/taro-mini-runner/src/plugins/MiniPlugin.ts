@@ -676,7 +676,7 @@ export default class TaroMiniPlugin {
       })
     }
     this.generateTemplateFile(compilation, baseTemplateName, template.buildTemplate, componentConfig)
-    this.generateTemplateFile(compilation, customWrapperName, template.buildCustomComponentTemplate, componentConfig)
+    this.generateTemplateFile(compilation, customWrapperName, template.buildCustomComponentTemplate, this.options.fileType.templ)
     this.generateXSFile(compilation)
     this.components.forEach(component => {
       const importBaseTemplatePath = promoteRelativePath(path.relative(component.path, path.join(this.options.sourceDir, this.getTemplatePath(baseTemplateName))))
