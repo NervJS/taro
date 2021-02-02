@@ -52,18 +52,35 @@ export async function chooseMedia(opts: Taro.chooseImage.Option|Taro.chooseVideo
   return new Promise((resolve, reject) => {
     p = isCamera ? ImagePicker.launchCameraAsync(options as any) : ImagePicker.launchImageLibraryAsync(options as any)
     p.then((resp) => {
-      const { uri } = resp
+      const { uri, duration, width, height } = resp
       resp.path = uri
-      let res = {
-        tempFilePaths: [uri],
-        tempFiles: [resp]
-      }
+
+      let res: any = {}
       if (mediaTypes === MEDIA_TYPE.VIDEOS) {
-        res = Object.assign(res, { tempFilePath: uri })
+        res = {
+          tempFilePath: uri,
+          duration,
+          width,
+          height
+        }
+      } else {
+        res = {
+          tempFilePaths: [uri],
+          tempFiles: [resp]
+        }
       }
-      success?.(res)
-      complete?.(res)
-      resolve(res as any)
+      if (res.tempFilePath || (!!res.tempFilePaths && res.tempFilePaths.length > 0)) {
+        success?.(res)
+        complete?.(res)
+        resolve(res as any)
+      } else {
+        const res = {
+          errMsg: mediaTypes === MEDIA_TYPE.VIDEOS ? 'chooseVideo:fail cancel' : 'chooseImage:fail cancel',
+        }
+        fail?.(res)
+        complete?.(res)
+        reject(res)
+      }
     }).catch((err) => {
       const res = {
         errMsg: mediaTypes === MEDIA_TYPE.VIDEOS ? 'chooseVideo fail' : 'chooseImage fail',
