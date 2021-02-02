@@ -39,7 +39,7 @@ import component from ${stringify(componentPath)}
 var config = ${configString};
 ${config.enableShareTimeline ? 'component.enableShareTimeline = true' : ''}
 ${config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : ''}
-var inst = Page(createPageConfig(component, '${options.name}', {}, config || {}))
+var inst = Page(createPageConfig(component, '${options.name}', {root:{cn:[]}}, config || {}))
 ${options.prerender ? prerender : ''}
 `
 }
