@@ -45,13 +45,13 @@ const chooseImage = function (options) {
     const obj = document.createElement('input')
     obj.setAttribute('type', 'file')
     obj.setAttribute('id', imageId)
-    if (count > 1) {
-      obj.setAttribute('multiple', 'multiple')
-    }
     obj.setAttribute('accept', 'image/*')
     obj.setAttribute('style', 'position: fixed; top: -4000px; left: -3000px; z-index: -300;')
     document.body.appendChild(obj)
     taroChooseImageId = document.getElementById(imageId)
+  }
+  if (count > 1) {
+    taroChooseImageId.setAttribute('multiple', 'multiple')
   }
   let taroChooseImageCallback
   const taroChooseImagePromise = new Promise(resolve => {
