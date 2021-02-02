@@ -16,24 +16,18 @@ require(\\"./taro\\");
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], [ function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return cacheDataSet;
-    }));
-    __webpack_require__.d(__webpack_exports__, \\"b\\", (function() {
-        return getUniqueKey;
-    }));
-    __webpack_require__.d(__webpack_exports__, \\"c\\", (function() {
         return mergeInternalComponents;
     }));
-    __webpack_require__.d(__webpack_exports__, \\"d\\", (function() {
+    __webpack_require__.d(__webpack_exports__, \\"b\\", (function() {
         return mergeReconciler;
     }));
-    __webpack_require__.d(__webpack_exports__, \\"e\\", (function() {
-        return queryToJson;
+    __webpack_require__.d(__webpack_exports__, \\"c\\", (function() {
+        return processApis;
     }));
-    __webpack_require__.d(__webpack_exports__, \\"f\\", (function() {
+    __webpack_require__.d(__webpack_exports__, \\"d\\", (function() {
         return singleQuote;
     }));
-    __webpack_require__.d(__webpack_exports__, \\"g\\", (function() {
+    __webpack_require__.d(__webpack_exports__, \\"e\\", (function() {
         return warn;
     }));
     var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
@@ -41,7 +35,7 @@ require(\\"./taro\\");
     var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(17);
     var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(14);
     var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(19);
-    var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(11);
+    var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(13);
     function isString(o) {
         return typeof o === \\"string\\";
     }
@@ -602,6 +596,21 @@ require(\\"./taro\\");
     function mergeReconciler(hostConfig) {
         Object.assign(defaultReconciler, hostConfig);
     }
+    function unsupport(api) {
+        return function() {
+            console.warn(\\"\\\\u5c0f\\\\u7a0b\\\\u5e8f\\\\u6682\\\\u4e0d\\\\u652f\\\\u6301 \\".concat(api));
+        };
+    }
+    function setUniqueKeyToRoute(key, obj) {
+        var routerParamsPrivateKey = \\"__key_\\";
+        var useDataCacheApis = [ \\"navigateTo\\", \\"redirectTo\\", \\"reLaunch\\", \\"switchTab\\" ];
+        if (useDataCacheApis.indexOf(key) > -1) {
+            var url = obj.url = obj.url || \\"\\";
+            var hasMark = url.indexOf(\\"?\\") > -1;
+            var cacheKey = getUniqueKey();
+            obj.url += (hasMark ? \\"&\\" : \\"?\\") + \\"\\".concat(routerParamsPrivateKey, \\"=\\").concat(cacheKey);
+        }
+    }
     var weixinAdapter = {
         if: \\"wx:if\\",
         else: \\"wx:else\\",
@@ -1020,19 +1029,196 @@ require(\\"./taro\\");
         } ]);
         return UnRecursiveTemplate;
     }(BaseTemplate);
+    var noPromiseApis = new Set([ \\"clearStorageSync\\", \\"getBatteryInfoSync\\", \\"getExtConfigSync\\", \\"getFileSystemManager\\", \\"getLaunchOptionsSync\\", \\"getStorageInfoSync\\", \\"getStorageSync\\", \\"getSystemInfoSync\\", \\"offAccelerometerChange\\", \\"offAppHide\\", \\"offAppShow\\", \\"offAudioInterruptionBegin\\", \\"offAudioInterruptionEnd\\", \\"offBLECharacteristicValueChange\\", \\"offBLEConnectionStateChange\\", \\"offBluetoothAdapterStateChange\\", \\"offBluetoothDeviceFound\\", \\"offCompassChange\\", \\"offError\\", \\"offGetWifiList\\", \\"offGyroscopeChange\\", \\"offMemoryWarning\\", \\"offNetworkStatusChange\\", \\"offPageNotFound\\", \\"offUnhandledRejection\\", \\"offUserCaptureScreen\\", \\"onAccelerometerChange\\", \\"onAppHide\\", \\"onAppShow\\", \\"onAudioInterruptionBegin\\", \\"onAudioInterruptionEnd\\", \\"onBLECharacteristicValueChange\\", \\"onBLEConnectionStateChange\\", \\"onBeaconServiceChange\\", \\"onBeaconUpdate\\", \\"onBluetoothAdapterStateChange\\", \\"onBluetoothDeviceFound\\", \\"onCompassChange\\", \\"onDeviceMotionChange\\", \\"onError\\", \\"onGetWifiList\\", \\"onGyroscopeChange\\", \\"onMemoryWarning\\", \\"onNetworkStatusChange\\", \\"onPageNotFound\\", \\"onSocketClose\\", \\"onSocketError\\", \\"onSocketMessage\\", \\"onSocketOpen\\", \\"onUnhandledRejection\\", \\"onUserCaptureScreen\\", \\"removeStorageSync\\", \\"reportAnalytics\\", \\"setStorageSync\\", \\"arrayBufferToBase64\\", \\"base64ToArrayBuffer\\", \\"canIUse\\", \\"createAnimation\\", \\"createCameraContext\\", \\"createCanvasContext\\", \\"createInnerAudioContext\\", \\"createIntersectionObserver\\", \\"createInterstitialAd\\", \\"createLivePlayerContext\\", \\"createMapContext\\", \\"createSelectorQuery\\", \\"createVideoContext\\", \\"getBackgroundAudioManager\\", \\"getMenuButtonBoundingClientRect\\", \\"getRecorderManager\\", \\"getUpdateManager\\" ]);
+    var needPromiseApis = new Set([ \\"addPhoneContact\\", \\"authorize\\", \\"canvasGetImageData\\", \\"canvasPutImageData\\", \\"canvasToTempFilePath\\", \\"checkSession\\", \\"chooseAddress\\", \\"chooseImage\\", \\"chooseInvoiceTitle\\", \\"chooseLocation\\", \\"chooseVideo\\", \\"clearStorage\\", \\"closeBLEConnection\\", \\"closeBluetoothAdapter\\", \\"closeSocket\\", \\"compressImage\\", \\"connectSocket\\", \\"createBLEConnection\\", \\"downloadFile\\", \\"getAvailableAudioSources\\", \\"getBLEDeviceCharacteristics\\", \\"getBLEDeviceServices\\", \\"getBatteryInfo\\", \\"getBeacons\\", \\"getBluetoothAdapterState\\", \\"getBluetoothDevices\\", \\"getClipboardData\\", \\"getConnectedBluetoothDevices\\", \\"getConnectedWifi\\", \\"getExtConfig\\", \\"getFileInfo\\", \\"getImageInfo\\", \\"getLocation\\", \\"getNetworkType\\", \\"getSavedFileInfo\\", \\"getSavedFileList\\", \\"getScreenBrightness\\", \\"getSetting\\", \\"getStorage\\", \\"getStorageInfo\\", \\"getSystemInfo\\", \\"getUserInfo\\", \\"getWifiList\\", \\"hideHomeButton\\", \\"hideShareMenu\\", \\"hideTabBar\\", \\"hideTabBarRedDot\\", \\"loadFontFace\\", \\"login\\", \\"makePhoneCall\\", \\"navigateBack\\", \\"navigateBackMiniProgram\\", \\"navigateTo\\", \\"navigateToBookshelf\\", \\"navigateToMiniProgram\\", \\"notifyBLECharacteristicValueChange\\", \\"hideKeyboard\\", \\"hideLoading\\", \\"hideNavigationBarLoading\\", \\"hideToast\\", \\"openBluetoothAdapter\\", \\"openDocument\\", \\"openLocation\\", \\"openSetting\\", \\"pageScrollTo\\", \\"previewImage\\", \\"queryBookshelf\\", \\"reLaunch\\", \\"readBLECharacteristicValue\\", \\"redirectTo\\", \\"removeSavedFile\\", \\"removeStorage\\", \\"removeTabBarBadge\\", \\"requestSubscribeMessage\\", \\"saveFile\\", \\"saveImageToPhotosAlbum\\", \\"saveVideoToPhotosAlbum\\", \\"scanCode\\", \\"sendSocketMessage\\", \\"setBackgroundColor\\", \\"setBackgroundTextStyle\\", \\"setClipboardData\\", \\"setEnableDebug\\", \\"setInnerAudioOption\\", \\"setKeepScreenOn\\", \\"setNavigationBarColor\\", \\"setNavigationBarTitle\\", \\"setScreenBrightness\\", \\"setStorage\\", \\"setTabBarBadge\\", \\"setTabBarItem\\", \\"setTabBarStyle\\", \\"showActionSheet\\", \\"showFavoriteGuide\\", \\"showLoading\\", \\"showModal\\", \\"showShareMenu\\", \\"showTabBar\\", \\"showTabBarRedDot\\", \\"showToast\\", \\"startBeaconDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"startDeviceMotionListening\\", \\"startPullDownRefresh\\", \\"stopBeaconDiscovery\\", \\"stopBluetoothDevicesDiscovery\\", \\"stopCompass\\", \\"startCompass\\", \\"startAccelerometer\\", \\"stopAccelerometer\\", \\"showNavigationBarLoading\\", \\"stopDeviceMotionListening\\", \\"stopPullDownRefresh\\", \\"switchTab\\", \\"uploadFile\\", \\"vibrateLong\\", \\"vibrateShort\\", \\"writeBLECharacteristicValue\\" ]);
+    function getCanIUseWebp(taro) {
+        return function() {
+            if (typeof taro.getSystemInfoSync !== \\"function\\") {
+                console.error(\\"\\\\u4e0d\\\\u652f\\\\u6301 API canIUseWebp\\");
+                return false;
+            }
+            var _taro$getSystemInfoSy = taro.getSystemInfoSync(), platform = _taro$getSystemInfoSy.platform;
+            var platformLower = platform.toLowerCase();
+            if (platformLower === \\"android\\" || platformLower === \\"devtools\\") {
+                return true;
+            }
+            return false;
+        };
+    }
+    function getNormalRequest(global) {
+        return function request(options) {
+            options = options || {};
+            if (typeof options === \\"string\\") {
+                options = {
+                    url: options
+                };
+            }
+            var originSuccess = options.success;
+            var originFail = options.fail;
+            var originComplete = options.complete;
+            var requestTask;
+            var p = new Promise((function(resolve, reject) {
+                options.success = function(res) {
+                    originSuccess && originSuccess(res);
+                    resolve(res);
+                };
+                options.fail = function(res) {
+                    originFail && originFail(res);
+                    reject(res);
+                };
+                options.complete = function(res) {
+                    originComplete && originComplete(res);
+                };
+                requestTask = global.request(options);
+            }));
+            p.abort = function(cb) {
+                cb && cb();
+                if (requestTask) {
+                    requestTask.abort();
+                }
+                return p;
+            };
+            return p;
+        };
+    }
+    function processApis(taro, global) {
+        var config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+        var patchNoPromiseApis = config.noPromiseApis || [];
+        var patchNeedPromiseApis = config.needPromiseApis || [];
+        var _noPromiseApis = new Set([].concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(patchNoPromiseApis), Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(noPromiseApis)));
+        var _needPromiseApis = new Set([].concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(patchNeedPromiseApis), Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(needPromiseApis)));
+        var apis = [].concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(_noPromiseApis), Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(_needPromiseApis));
+        apis.forEach((function(key) {
+            if (_needPromiseApis.has(key)) {
+                var originKey = key;
+                taro[originKey] = function() {
+                    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+                    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key2 = 1; _key2 < _len; _key2++) {
+                        args[_key2 - 1] = arguments[_key2];
+                    }
+                    var key = originKey;
+                    if (typeof options === \\"string\\") {
+                        if (args.length) {
+                            return global[key].apply(global, [ options ].concat(args));
+                        }
+                        return global[key](options);
+                    }
+                    if (config.transformMeta) {
+                        var transformResult = config.transformMeta(key, options);
+                        key = transformResult.key;
+                        options = transformResult.options;
+                        if (!global.hasOwnProperty(key)) {
+                            return unsupport(key)();
+                        }
+                    }
+                    var task = null;
+                    var obj = Object.assign({}, options);
+                    setUniqueKeyToRoute(key, options);
+                    var p = new Promise((function(resolve, reject) {
+                        obj.success = function(res) {
+                            var _a, _b;
+                            (_a = config.modifyAsyncResult) === null || _a === void 0 ? void 0 : _a.call(config, key, res);
+                            (_b = options.success) === null || _b === void 0 ? void 0 : _b.call(options, res);
+                            if (key === \\"connectSocket\\") {
+                                resolve(Promise.resolve().then((function() {
+                                    return Object.assign(task, res);
+                                })));
+                            } else {
+                                resolve(res);
+                            }
+                        };
+                        obj.fail = function(res) {
+                            var _a;
+                            (_a = options.fail) === null || _a === void 0 ? void 0 : _a.call(options, res);
+                            reject(res);
+                        };
+                        obj.complete = function(res) {
+                            var _a;
+                            (_a = options.complete) === null || _a === void 0 ? void 0 : _a.call(options, res);
+                        };
+                        if (args.length) {
+                            task = global[key].apply(global, [ obj ].concat(args));
+                        } else {
+                            task = global[key](obj);
+                        }
+                    }));
+                    if (key === \\"uploadFile\\" || key === \\"downloadFile\\") {
+                        p.progress = function(cb) {
+                            task === null || task === void 0 ? void 0 : task.onProgressUpdate(cb);
+                            return p;
+                        };
+                        p.abort = function(cb) {
+                            cb === null || cb === void 0 ? void 0 : cb();
+                            task === null || task === void 0 ? void 0 : task.abort();
+                            return p;
+                        };
+                    }
+                    return p;
+                };
+            } else {
+                if (!global.hasOwnProperty(key)) {
+                    taro[key] = unsupport(key);
+                    return;
+                }
+                taro[key] = function() {
+                    for (var _len2 = arguments.length, args = new Array(_len2), _key3 = 0; _key3 < _len2; _key3++) {
+                        args[_key3] = arguments[_key3];
+                    }
+                    if (config.handleSyncApis) {
+                        return config.handleSyncApis(key, global, args);
+                    } else {
+                        return global[key].apply(global, args);
+                    }
+                };
+            }
+        }));
+        equipCommonApis(taro, global, config);
+    }
+    function equipCommonApis(taro, global) {
+        var apis = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+        taro.canIUseWebp = getCanIUseWebp(taro);
+        taro.getCurrentPages = getCurrentPages || unsupport(\\"getCurrentPages\\");
+        taro.getApp = getApp || unsupport(\\"getApp\\");
+        taro.env = global.env || {};
+        try {
+            taro.requirePlugin = requirePlugin || unsupport(\\"requirePlugin\\");
+        } catch (error) {
+            taro.requirePlugin = unsupport(\\"requirePlugin\\");
+        }
+        var request = apis.request ? apis.request : getNormalRequest(global);
+        function taroInterceptor(chain) {
+            return request(chain.requestParams);
+        }
+        var link = new taro.Link(taroInterceptor);
+        taro.request = link.request.bind(link);
+        taro.addInterceptor = link.addInterceptor.bind(link);
+        taro.cleanInterceptors = link.cleanInterceptors.bind(link);
+    }
 }, , , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _toConsumableArray;
     }));
-    var _arrayWithoutHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
-    var _iterableToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
-    var _unsupportedIterableToArray__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(24);
-    var _nonIterableSpread__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(25);
+    var _arrayWithoutHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21);
+    var _iterableToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(22);
+    var _unsupportedIterableToArray__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(23);
+    var _nonIterableSpread__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(24);
     function _toConsumableArray(arr) {
         return Object(_arrayWithoutHoles__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(arr) || Object(_iterableToArray__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(arr) || Object(_unsupportedIterableToArray__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(arr) || Object(_nonIterableSpread__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])();
     }
-}, , , , , , , function(module, __webpack_exports__, __webpack_require__) {
+}, , , , , , , , function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _arrayLikeToArray;
+    }));
+    function _arrayLikeToArray(arr, len) {
+        if (len == null || len > arr.length) len = arr.length;
+        for (var i = 0, arr2 = new Array(len); i < len; i++) {
+            arr2[i] = arr[i];
+        }
+        return arr2;
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _typeof;
@@ -1050,18 +1236,6 @@ require(\\"./taro\\");
         }
         return _typeof(obj);
     }
-}, , function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _arrayLikeToArray;
-    }));
-    function _arrayLikeToArray(arr, len) {
-        if (len == null || len > arr.length) len = arr.length;
-        for (var i = 0, arr2 = new Array(len); i < len; i++) {
-            arr2[i] = arr[i];
-        }
-        return arr2;
-    }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -1077,7 +1251,7 @@ require(\\"./taro\\");
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _inherits;
     }));
-    var _setPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+    var _setPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
     function _inherits(subClass, superClass) {
         if (typeof superClass !== \\"function\\" && superClass !== null) {
             throw new TypeError(\\"Super expression must either be null or a function\\");
@@ -1097,8 +1271,8 @@ require(\\"./taro\\");
         return _createSuper;
     }));
     var _getPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
-    var _isNativeReflectConstruct__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(27);
-    var _possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(28);
+    var _isNativeReflectConstruct__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(26);
+    var _possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(27);
     function _createSuper(Derived) {
         var hasNativeReflectConstruct = Object(_isNativeReflectConstruct__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])();
         return function _createSuperInternal() {
@@ -1145,27 +1319,9 @@ require(\\"./taro\\");
 }, , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _defineProperty;
-    }));
-    function _defineProperty(obj, key, value) {
-        if (key in obj) {
-            Object.defineProperty(obj, key, {
-                value: value,
-                enumerable: true,
-                configurable: true,
-                writable: true
-            });
-        } else {
-            obj[key] = value;
-        }
-        return obj;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _arrayWithoutHoles;
     }));
-    var _arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+    var _arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
     function _arrayWithoutHoles(arr) {
         if (Array.isArray(arr)) return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(arr);
     }
@@ -1182,7 +1338,7 @@ require(\\"./taro\\");
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _unsupportedIterableToArray;
     }));
-    var _arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+    var _arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
     function _unsupportedIterableToArray(o, minLen) {
         if (!o) return;
         if (typeof o === \\"string\\") return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(o, minLen);
@@ -1232,8 +1388,8 @@ require(\\"./taro\\");
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _possibleConstructorReturn;
     }));
-    var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
-    var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(29);
+    var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+    var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(28);
     function _possibleConstructorReturn(self, call) {
         if (call && (Object(_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
@@ -1258,7 +1414,7 @@ require(\\"./taro\\");
     var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7);
     var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8);
     var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(1);
-    var _app_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(44);
+    var _app_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(43);
     var _app_css__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(_app_css__WEBPACK_IMPORTED_MODULE_5__);
     var App = function(_Component) {
         Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(App, _Component);
@@ -1292,11 +1448,11 @@ require(\\"./taro\\");
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     (function(global) {
-        var _tarojs_plugin_platform_weapp_dist_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(43);
+        var _tarojs_plugin_platform_weapp_dist_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(42);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
-        var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(30);
+        var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(29);
         var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(1);
-        var react_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(35);
+        var react_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(34);
         var config = {
             pages: [ \\"pages/index/index\\", \\"others/detail/index\\", \\"others/normal/index\\" ],
             window: {
@@ -1314,235 +1470,15 @@ require(\\"./taro\\");
     }).call(this, __webpack_require__(15));
 }, , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
-    var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21);
-    var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(11);
-    var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
-    var _tarojs_shared__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(0);
-    var _onAndSyncApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\" ]);
-    var _noPromiseApis = new Set([ \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\" ]);
-    var _otherApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\" ]);
-    var RequestQueue = {
-        MAX_REQUEST: 5,
-        queue: [],
-        request: function request(options) {
-            this.push(options);
-            return this.run();
-        },
-        push: function push(options) {
-            this.queue.push(options);
-        },
-        run: function run() {
-            var _this = this;
-            if (!this.queue.length) {
-                return;
-            }
-            if (this.queue.length <= this.MAX_REQUEST) {
-                var options = this.queue.shift();
-                var completeFn = options.complete;
-                options.complete = function() {
-                    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-                        args[_key] = arguments[_key];
-                    }
-                    completeFn && completeFn.apply(options, args);
-                    _this.run();
-                };
-                return wx.request(options);
-            }
-        }
-    };
-    function taroInterceptor(chain) {
-        return request(chain.requestParams);
-    }
-    function request(options) {
-        options = options || {};
-        if (typeof options === \\"string\\") {
-            options = {
-                url: options
-            };
-        }
-        var originSuccess = options.success;
-        var originFail = options.fail;
-        var originComplete = options.complete;
-        var requestTask;
-        var p = new Promise((function(resolve, reject) {
-            options.success = function(res) {
-                originSuccess && originSuccess(res);
-                resolve(res);
-            };
-            options.fail = function(res) {
-                originFail && originFail(res);
-                reject(res);
-            };
-            options.complete = function(res) {
-                originComplete && originComplete(res);
-            };
-            requestTask = RequestQueue.request(options);
-        }));
-        p.abort = function(cb) {
-            cb && cb();
-            if (requestTask) {
-                requestTask.abort();
-            }
-            return p;
-        };
-        return p;
-    }
-    function processApis(taro) {
-        var onAndSyncApis = new Set([].concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(taro.onAndSyncApis), Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(_onAndSyncApis)));
-        var noPromiseApis = new Set([].concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(taro.noPromiseApis), Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(_noPromiseApis)));
-        var otherApis = new Set([].concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(taro.otherApis), Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(_otherApis)));
-        var apis = [].concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(onAndSyncApis), Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(noPromiseApis), Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(otherApis));
-        var useDataCacheApis = {
-            navigateTo: true,
-            redirectTo: true,
-            reLaunch: true
-        };
-        var routerParamsPrivateKey = \\"__key_\\";
-        apis.forEach((function(key) {
-            if (!(key in wx)) {
-                taro[key] = function() {
-                    console.warn(\\"\\\\u5fae\\\\u4fe1\\\\u5c0f\\\\u7a0b\\\\u5e8f\\\\u6682\\\\u4e0d\\\\u652f\\\\u6301 \\".concat(key));
-                };
-                return;
-            }
-            if (otherApis.has(key)) {
-                taro[key] = function(options) {
-                    for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-                        args[_key2 - 1] = arguments[_key2];
-                    }
-                    options = options || {};
-                    var task = null;
-                    var obj = Object.assign({}, options);
-                    if (typeof options === \\"string\\") {
-                        if (args.length) {
-                            var _wx;
-                            return (_wx = wx)[key].apply(_wx, [ options ].concat(args));
-                        }
-                        return wx[key](options);
-                    }
-                    if (key === \\"navigateTo\\" || key === \\"redirectTo\\" || key === \\"switchTab\\") {
-                        var url = obj.url ? obj.url.replace(/^\\\\//, \\"\\") : \\"\\";
-                        if (url.indexOf(\\"?\\") > -1) url = url.split(\\"?\\")[0];
-                    }
-                    if (useDataCacheApis[key]) {
-                        var _url = obj.url = obj.url || \\"\\";
-                        var MarkIndex = _url.indexOf(\\"?\\");
-                        var hasMark = MarkIndex > -1;
-                        var urlQueryStr = hasMark ? _url.substring(MarkIndex + 1, _url.length) : \\"\\";
-                        var params = Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"e\\"])(urlQueryStr);
-                        var cacheKey = Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"b\\"])();
-                        obj.url += (hasMark ? \\"&\\" : \\"?\\") + \\"\\".concat(routerParamsPrivateKey, \\"=\\").concat(cacheKey);
-                        Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(cacheKey, params);
-                    }
-                    var p = new Promise((function(resolve, reject) {
-                        [ \\"fail\\", \\"success\\", \\"complete\\" ].forEach((function(k) {
-                            obj[k] = function(res) {
-                                options[k] && options[k](res);
-                                if (k === \\"success\\") {
-                                    if (key === \\"connectSocket\\") {
-                                        resolve(Promise.resolve().then((function() {
-                                            return Object.assign(task, res);
-                                        })));
-                                    } else {
-                                        resolve(res);
-                                    }
-                                } else if (k === \\"fail\\") {
-                                    reject(res);
-                                }
-                            };
-                        }));
-                        if (args.length) {
-                            var _wx2;
-                            task = (_wx2 = wx)[key].apply(_wx2, [ obj ].concat(args));
-                        } else {
-                            task = wx[key](obj);
-                        }
-                    }));
-                    if (key === \\"uploadFile\\" || key === \\"downloadFile\\") {
-                        p.progress = function(cb) {
-                            if (task) {
-                                task.onProgressUpdate(cb);
-                            }
-                            return p;
-                        };
-                        p.abort = function(cb) {
-                            cb && cb();
-                            if (task) {
-                                task.abort();
-                            }
-                            return p;
-                        };
-                    }
-                    return p;
-                };
-            } else {
-                taro[key] = function() {
-                    for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-                        args[_key3] = arguments[_key3];
-                    }
-                    var argsLen = args.length;
-                    var newArgs = args.concat();
-                    var lastArg = newArgs[argsLen - 1];
-                    if (lastArg && lastArg.isTaroComponent && lastArg.$scope) {
-                        newArgs.splice(argsLen - 1, 1, lastArg.$scope);
-                    }
-                    return wx[key].apply(wx, newArgs);
-                };
-            }
-        }));
-    }
-    function pxTransform(size) {
-        var _ref = this.config || {}, _ref$designWidth = _ref.designWidth, designWidth = _ref$designWidth === void 0 ? 750 : _ref$designWidth, _ref$deviceRatio = _ref.deviceRatio, deviceRatio = _ref$deviceRatio === void 0 ? {
-            640: 2.34 / 2,
-            750: 1,
-            828: 1.81 / 2
-        } : _ref$deviceRatio;
-        if (!(designWidth in deviceRatio)) {
-            throw new Error(\\"deviceRatio \\\\u914d\\\\u7f6e\\\\u4e2d\\\\u4e0d\\\\u5b58\\\\u5728 \\".concat(designWidth, \\" \\\\u7684\\\\u8bbe\\\\u7f6e\\\\uff01\\"));
-        }
-        return parseInt(size, 10) * deviceRatio[designWidth] + \\"rpx\\";
-    }
-    function canIUseWebp() {
-        var _wx$getSystemInfoSync = wx.getSystemInfoSync(), platform = _wx$getSystemInfoSync.platform;
-        var platformLower = platform.toLowerCase();
-        if (platformLower === \\"android\\" || platformLower === \\"devtools\\") {
-            return true;
-        }
-        return false;
-    }
-    function wxCloud(taro) {
-        var wxC = wx.cloud || {};
-        var wxcloud = {};
-        var apiList = [ \\"init\\", \\"database\\", \\"uploadFile\\", \\"downloadFile\\", \\"getTempFileURL\\", \\"deleteFile\\", \\"callFunction\\", \\"CloudID\\" ];
-        apiList.forEach((function(v) {
-            wxcloud[v] = wxC[v];
-        }));
-        taro.cloud = wxcloud;
-    }
-    function getPreload(taro) {
-        return function(key, val) {
-            if (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(key) === \\"object\\") {
-                taro.preloadData = key;
-            } else if (key !== undefined && val !== undefined) {
-                taro.preloadData = Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])({}, key, val);
-            }
-        };
-    }
+    var _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+    var noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\" ]);
+    var needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\" ]);
     function initNativeApi(taro) {
-        processApis(taro);
-        var link = new taro.Link(taroInterceptor);
-        taro.request = link.request.bind(link);
-        taro.addInterceptor = link.addInterceptor.bind(link);
-        taro.cleanInterceptors = link.cleanInterceptors.bind(link);
-        taro.getCurrentPages = getCurrentPages;
-        taro.getApp = getApp;
-        taro.requirePlugin = requirePlugin;
-        taro.initPxTransform = taro.initPxTransform.bind(taro);
-        taro.pxTransform = pxTransform.bind(taro);
-        taro.canIUseWebp = canIUseWebp;
-        taro.preload = getPreload(taro);
-        taro.env = wx.env;
-        wxCloud(taro);
+        Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"c\\"])(taro, wx, {
+            noPromiseApis: noPromiseApis,
+            needPromiseApis: needPromiseApis
+        });
+        taro.cloud = wx.cloud;
     }
     var components = {
         Progress: {
@@ -1610,8 +1546,8 @@ require(\\"./taro\\");
             bindPickEnd: \\"\\"
         },
         Slider: {
-            color: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"#e9e9e9\\"),
-            \\"selected-color\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"#1aad19\\")
+            color: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"#e9e9e9\\"),
+            \\"selected-color\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"#1aad19\\")
         },
         Textarea: {
             \\"show-confirm-bar\\": \\"true\\",
@@ -1625,8 +1561,8 @@ require(\\"./taro\\");
             \\"scroll-anchoring\\": \\"false\\",
             \\"refresher-enabled\\": \\"false\\",
             \\"refresher-threshold\\": \\"45\\",
-            \\"refresher-default-style\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"black\\"),
-            \\"refresher-background\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"#FFF\\"),
+            \\"refresher-default-style\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"black\\"),
+            \\"refresher-background\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"#FFF\\"),
             \\"refresher-triggered\\": \\"false\\",
             enhanced: \\"false\\",
             bounces: \\"true\\",
@@ -1643,22 +1579,22 @@ require(\\"./taro\\");
         },
         Swiper: {
             \\"snap-to-edge\\": \\"false\\",
-            \\"easing-function\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"default\\")
+            \\"easing-function\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"default\\")
         },
         SwiperItem: {
             \\"skip-hidden-item-layout\\": \\"false\\"
         },
         Navigator: {
-            target: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"self\\"),
+            target: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"self\\"),
             \\"app-id\\": \\"\\",
             path: \\"\\",
             \\"extra-data\\": \\"\\",
-            version: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"version\\")
+            version: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"version\\")
         },
         Camera: {
-            mode: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"normal\\"),
-            resolution: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"medium\\"),
-            \\"frame-size\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"medium\\"),
+            mode: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"normal\\"),
+            resolution: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"medium\\"),
+            \\"frame-size\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"medium\\"),
             bindInitDone: \\"\\",
             bindScanCode: \\"\\"
         },
@@ -1667,8 +1603,8 @@ require(\\"./taro\\");
             \\"show-menu-by-longpress\\": \\"false\\"
         },
         LivePlayer: {
-            mode: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"live\\"),
-            \\"sound-mode\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"speaker\\"),
+            mode: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"live\\"),
+            \\"sound-mode\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"speaker\\"),
             \\"auto-pause-if-navigate\\": \\"true\\",
             \\"auto-pause-if-open-native\\": \\"true\\",
             \\"picture-in-picture-mode\\": \\"[]\\",
@@ -1681,7 +1617,7 @@ require(\\"./taro\\");
         },
         Video: {
             title: \\"\\",
-            \\"play-btn-position\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"bottom\\"),
+            \\"play-btn-position\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"bottom\\"),
             \\"enable-play-gesture\\": \\"false\\",
             \\"auto-pause-if-navigate\\": \\"true\\",
             \\"auto-pause-if-open-native\\": \\"true\\",
@@ -1704,8 +1640,8 @@ require(\\"./taro\\");
             type: \\"\\"
         },
         Ad: {
-            \\"ad-type\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"banner\\"),
-            \\"ad-theme\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"white\\")
+            \\"ad-type\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"banner\\"),
+            \\"ad-theme\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"white\\")
         },
         Editor: {
             \\"read-only\\": \\"false\\",
@@ -1731,7 +1667,7 @@ require(\\"./taro\\");
             orientation: \\"\\"
         },
         FunctionalPageNavigator: {
-            version: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"release\\"),
+            version: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"release\\"),
             name: \\"\\",
             args: \\"\\",
             bindSuccess: \\"\\",
@@ -1740,22 +1676,22 @@ require(\\"./taro\\");
         },
         LivePusher: {
             url: \\"\\",
-            mode: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"RTC\\"),
+            mode: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"RTC\\"),
             autopush: \\"false\\",
             muted: \\"false\\",
             \\"enable-camera\\": \\"true\\",
             \\"auto-focus\\": \\"true\\",
-            orientation: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"vertical\\"),
+            orientation: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"vertical\\"),
             beauty: \\"0\\",
             whiteness: \\"0\\",
-            aspect: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"9:16\\"),
+            aspect: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"9:16\\"),
             \\"min-bitrate\\": \\"200\\",
             \\"max-bitrate\\": \\"1000\\",
-            \\"audio-quality\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"high\\"),
+            \\"audio-quality\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"high\\"),
             \\"waiting-image\\": \\"\\",
             \\"waiting-image-hash\\": \\"\\",
             zoom: \\"false\\",
-            \\"device-position\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"front\\"),
+            \\"device-position\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"front\\"),
             \\"background-mute\\": \\"false\\",
             mirror: \\"false\\",
             \\"remote-mirror\\": \\"false\\",
@@ -1764,11 +1700,11 @@ require(\\"./taro\\");
             \\"enable-mic\\": \\"true\\",
             \\"enable-agc\\": \\"false\\",
             \\"enable-ans\\": \\"false\\",
-            \\"audio-volume-type\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"voicecall\\"),
+            \\"audio-volume-type\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"voicecall\\"),
             \\"video-width\\": \\"360\\",
             \\"video-height\\": \\"640\\",
-            \\"beauty-style\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"smooth\\"),
-            filter: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"standard\\"),
+            \\"beauty-style\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"smooth\\"),
+            filter: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"standard\\"),
             animation: \\"\\",
             bindStateChange: \\"\\",
             bindNetStatus: \\"\\",
@@ -1784,7 +1720,7 @@ require(\\"./taro\\");
         OpenData: {
             type: \\"\\",
             \\"open-gid\\": \\"\\",
-            lang: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"en\\"),
+            lang: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"en\\"),
             \\"default-text\\": \\"\\",
             \\"default-avatar\\": \\"\\",
             bindError: \\"\\"
@@ -1795,25 +1731,25 @@ require(\\"./taro\\");
             \\"front-color\\": \\"\\",
             \\"background-color\\": \\"\\",
             \\"color-animation-duration\\": \\"0\\",
-            \\"color-animation-timing-func\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"linear\\")
+            \\"color-animation-timing-func\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"linear\\")
         },
         PageMeta: {
             \\"background-text-style\\": \\"\\",
             \\"background-color\\": \\"\\",
             \\"background-color-top\\": \\"\\",
             \\"background-color-bottom\\": \\"\\",
-            \\"scroll-top\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"\\"),
+            \\"scroll-top\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"\\"),
             \\"scroll-duration\\": \\"300\\",
-            \\"page-style\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"\\"),
-            \\"root-font-size\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"\\"),
+            \\"page-style\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"\\"),
+            \\"root-font-size\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"\\"),
             bindResize: \\"\\",
             bindScroll: \\"\\",
             bindScrollDone: \\"\\"
         },
         VoipRoom: {
             openid: \\"\\",
-            mode: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"camera\\"),
-            \\"device-position\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"f\\"])(\\"front\\"),
+            mode: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"camera\\"),
+            \\"device-position\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"front\\"),
             bindError: \\"\\"
         },
         AdCustom: {
@@ -1826,12 +1762,12 @@ require(\\"./taro\\");
     var hostConfig = {
         initNativeApi: initNativeApi,
         onTaroElementCreate: function onTaroElementCreate(tagName) {
-            Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"g\\"])(tagName === \\"MAP\\", \\"\\\\u5fae\\\\u4fe1\\\\u5c0f\\\\u7a0b\\\\u5e8f map \\\\u7ec4\\\\u4ef6\\\\u7684 \`setting\` \\\\u5c5e\\\\u6027\\\\u9700\\\\u8981\\\\u4f20\\\\u9012\\\\u4e00\\\\u4e2a\\\\u9ed8\\\\u8ba4\\\\u503c\\\\u3002\\\\u8be6\\\\u60c5\\\\uff1a\\\\n https://developers.weixin.qq.com/miniprogram/dev/component/map.html\\");
+            Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"e\\"])(tagName === \\"MAP\\", \\"\\\\u5fae\\\\u4fe1\\\\u5c0f\\\\u7a0b\\\\u5e8f map \\\\u7ec4\\\\u4ef6\\\\u7684 \`setting\` \\\\u5c5e\\\\u6027\\\\u9700\\\\u8981\\\\u4f20\\\\u9012\\\\u4e00\\\\u4e2a\\\\u9ed8\\\\u8ba4\\\\u503c\\\\u3002\\\\u8be6\\\\u60c5\\\\uff1a\\\\n https://developers.weixin.qq.com/miniprogram/dev/component/map.html\\");
         }
     };
-    Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"d\\"])(hostConfig);
-    Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_3__[\\"c\\"])(components);
-}, function(module, exports, __webpack_require__) {} ], [ [ 41, 0, 1, 3, 2 ] ] ]);
+    Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"b\\"])(hostConfig);
+    Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(components);
+}, function(module, exports, __webpack_require__) {} ], [ [ 40, 0, 1, 3, 2 ] ] ]);
 
 
       if (typeof PRERENDER !== 'undefined') {
@@ -2639,13 +2575,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/comp.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    45: function(module, __webpack_exports__, __webpack_require__) {
+    44: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
-}, [ [ 45, 0, 1 ] ] ]);
+}, [ [ 44, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -2656,19 +2592,19 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    46: function(module, __webpack_exports__, __webpack_require__) {
+    45: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
-}, [ [ 46, 0, 1 ] ] ]);
+}, [ [ 45, 0, 1 ] ] ]);
 
 /** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
 /** filePath: dist/custom-wrapper.wxml **/
-<import src=\\"./base[object Object]\\" />
+<import src=\\"./base.wxml\\" />
   <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
   </block>
@@ -3865,7 +3801,7 @@ require(\\"./taro\\");
         } ];
         __webpack_exports__[\\"a\\"] = region;
     },
-    37: function(module, __webpack_exports__, __webpack_require__) {
+    36: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
             return Index;
@@ -3875,7 +3811,7 @@ require(\\"./taro\\");
         var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
         var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
         var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8);
-        var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(12);
+        var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(11);
         var react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(1);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(2);
         var _region__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(10);
@@ -3943,12 +3879,12 @@ require(\\"./taro\\");
             return Index;
         }(react__WEBPACK_IMPORTED_MODULE_6__[\\"Component\\"]);
     },
-    49: function(module, __webpack_exports__, __webpack_require__) {
+    48: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         (function(global) {
             var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-            var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(37);
+            var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(36);
             var config = {};
             var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"others/detail/index\\", {}, config || {}));
             if (typeof PRERENDER !== \\"undefined\\") {
@@ -3956,7 +3892,7 @@ require(\\"./taro\\");
             }
         }).call(this, __webpack_require__(15));
     }
-}, [ [ 49, 0, 1, 3, 2 ] ] ]);
+}, [ [ 48, 0, 1, 3, 2 ] ] ]);
       if (typeof PRERENDER !== 'undefined') {
         module.exports = global._prerender
       }
@@ -3975,7 +3911,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/others/normal/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
-    38: function(module, __webpack_exports__, __webpack_require__) {
+    37: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
             return Index;
@@ -3985,7 +3921,7 @@ require(\\"./taro\\");
         var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
         var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
         var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8);
-        var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(12);
+        var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(11);
         var react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(1);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(2);
         var Index = function(_Component) {
@@ -4012,15 +3948,15 @@ require(\\"./taro\\");
             return Index;
         }(react__WEBPACK_IMPORTED_MODULE_6__[\\"Component\\"]);
     },
-    50: function(module, __webpack_exports__, __webpack_require__) {
+    49: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(38);
+        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(37);
         var config = {};
         var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"others/normal/index\\", {}, config || {}));
     }
-}, [ [ 50, 0, 1, 3, 2 ] ] ]);
+}, [ [ 49, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/others/normal/index.json **/
 {\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
@@ -4031,7 +3967,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
-    36: function(module, __webpack_exports__, __webpack_require__) {
+    35: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
             return Index;
@@ -4042,7 +3978,7 @@ require(\\"./taro\\");
         var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8);
         var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(1);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
-        var _index_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(48);
+        var _index_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(47);
         var _index_css__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_6__);
         var Index = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(Index, _Component);
@@ -4062,12 +3998,12 @@ require(\\"./taro\\");
             return Index;
         }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
     },
-    47: function(module, __webpack_exports__, __webpack_require__) {
+    46: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         (function(global) {
             var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-            var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(36);
+            var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(35);
             var config = {
                 navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
             };
@@ -4077,8 +4013,8 @@ require(\\"./taro\\");
             }
         }).call(this, __webpack_require__(15));
     },
-    48: function(module, exports, __webpack_require__) {}
-}, [ [ 47, 0, 1, 3, 2 ] ] ]);
+    47: function(module, exports, __webpack_require__) {}
+}, [ [ 46, 0, 1, 3, 2 ] ] ]);
       if (typeof PRERENDER !== 'undefined') {
         module.exports = global._prerender
       }
@@ -4226,7 +4162,7 @@ require(\\"./taro\\");
         __webpack_require__.r(__webpack_exports__);
         __webpack_exports__[\\"default\\"] = \\"taro-runtime-mock\\";
     },
-    35: function(module, __webpack_exports__, __webpack_require__) {
+    34: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
     }
@@ -4308,7 +4244,7 @@ module.exports = {
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _inherits;
     }));
-    var _babel_runtime_helpers_esm_setPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(31);
+    var _babel_runtime_helpers_esm_setPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(30);
     function _inherits(subClass, superClass) {
         if (typeof superClass !== \\"function\\" && superClass !== null) {
             throw new TypeError(\\"Super expression must either be null or a function\\");
@@ -4328,8 +4264,8 @@ module.exports = {
         return _createSuper;
     }));
     var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
-    var _babel_runtime_helpers_esm_isNativeReflectConstruct__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(32);
-    var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(33);
+    var _babel_runtime_helpers_esm_isNativeReflectConstruct__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(31);
+    var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(32);
     function _createSuper(Derived) {
         var hasNativeReflectConstruct = Object(_babel_runtime_helpers_esm_isNativeReflectConstruct__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])();
         return function _createSuperInternal() {
@@ -4354,7 +4290,7 @@ module.exports = {
         }
         return self;
     }
-}, , , function(module, __webpack_exports__, __webpack_require__) {
+}, , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _defineProperty;
@@ -4372,9 +4308,9 @@ module.exports = {
         }
         return obj;
     }
-}, , , function(module, exports, __webpack_require__) {
+}, , , , function(module, exports, __webpack_require__) {
     (function(window) {
-        var _typeof = __webpack_require__(42);
+        var _typeof = __webpack_require__(41);
         var g;
         g = function() {
             return this;
@@ -4397,7 +4333,7 @@ module.exports = {
         };
         return _getPrototypeOf(o);
     }
-}, , , , , , , , , , , function(module, __webpack_exports__, __webpack_require__) {
+}, , , , , , , , , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _setPrototypeOf;
@@ -4430,7 +4366,7 @@ module.exports = {
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _possibleConstructorReturn;
     }));
-    var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(34);
+    var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(33);
     var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
     function _possibleConstructorReturn(self, call) {
         if (call && (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(call) === \\"object\\" || typeof call === \\"function\\")) {
@@ -4555,32 +4491,6 @@ require(\\"./taro\\");
     18: function(module, exports, __webpack_require__) {},
     24: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
-        function _defineProperty(obj, key, value) {
-            if (key in obj) {
-                Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: true,
-                    configurable: true,
-                    writable: true
-                });
-            } else {
-                obj[key] = value;
-            }
-            return obj;
-        }
-        function _typeof(obj) {
-            \\"@babel/helpers - typeof\\";
-            if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-                _typeof = function _typeof(obj) {
-                    return typeof obj;
-                };
-            } else {
-                _typeof = function _typeof(obj) {
-                    return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-                };
-            }
-            return _typeof(obj);
-        }
         function _arrayLikeToArray(arr, len) {
             if (len == null || len > arr.length) len = arr.length;
             for (var i = 0, arr2 = new Array(len); i < len; i++) {
@@ -4644,6 +4554,19 @@ require(\\"./taro\\");
             } catch (e) {
                 return false;
             }
+        }
+        function _typeof(obj) {
+            \\"@babel/helpers - typeof\\";
+            if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
+                _typeof = function _typeof(obj) {
+                    return typeof obj;
+                };
+            } else {
+                _typeof = function _typeof(obj) {
+                    return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+                };
+            }
+            return _typeof(obj);
         }
         function _assertThisInitialized(self) {
             if (self === void 0) {
@@ -5249,6 +5172,21 @@ require(\\"./taro\\");
         function mergeReconciler(hostConfig) {
             Object.assign(defaultReconciler, hostConfig);
         }
+        function unsupport(api) {
+            return function() {
+                console.warn(\\"\\\\u5c0f\\\\u7a0b\\\\u5e8f\\\\u6682\\\\u4e0d\\\\u652f\\\\u6301 \\".concat(api));
+            };
+        }
+        function setUniqueKeyToRoute(key, obj) {
+            var routerParamsPrivateKey = \\"__key_\\";
+            var useDataCacheApis = [ \\"navigateTo\\", \\"redirectTo\\", \\"reLaunch\\", \\"switchTab\\" ];
+            if (useDataCacheApis.indexOf(key) > -1) {
+                var url = obj.url = obj.url || \\"\\";
+                var hasMark = url.indexOf(\\"?\\") > -1;
+                var cacheKey = getUniqueKey();
+                obj.url += (hasMark ? \\"&\\" : \\"?\\") + \\"\\".concat(routerParamsPrivateKey, \\"=\\").concat(cacheKey);
+            }
+        }
         var weixinAdapter = {
             if: \\"wx:if\\",
             else: \\"wx:else\\",
@@ -5667,231 +5605,179 @@ require(\\"./taro\\");
             } ]);
             return UnRecursiveTemplate;
         }(shared_esm_BaseTemplate);
-        var _onAndSyncApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\" ]);
-        var _noPromiseApis = new Set([ \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\" ]);
-        var _otherApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\" ]);
-        var RequestQueue = {
-            MAX_REQUEST: 5,
-            queue: [],
-            request: function request(options) {
-                this.push(options);
-                return this.run();
-            },
-            push: function push(options) {
-                this.queue.push(options);
-            },
-            run: function run() {
-                var _this = this;
-                if (!this.queue.length) {
-                    return;
+        var noPromiseApis = new Set([ \\"clearStorageSync\\", \\"getBatteryInfoSync\\", \\"getExtConfigSync\\", \\"getFileSystemManager\\", \\"getLaunchOptionsSync\\", \\"getStorageInfoSync\\", \\"getStorageSync\\", \\"getSystemInfoSync\\", \\"offAccelerometerChange\\", \\"offAppHide\\", \\"offAppShow\\", \\"offAudioInterruptionBegin\\", \\"offAudioInterruptionEnd\\", \\"offBLECharacteristicValueChange\\", \\"offBLEConnectionStateChange\\", \\"offBluetoothAdapterStateChange\\", \\"offBluetoothDeviceFound\\", \\"offCompassChange\\", \\"offError\\", \\"offGetWifiList\\", \\"offGyroscopeChange\\", \\"offMemoryWarning\\", \\"offNetworkStatusChange\\", \\"offPageNotFound\\", \\"offUnhandledRejection\\", \\"offUserCaptureScreen\\", \\"onAccelerometerChange\\", \\"onAppHide\\", \\"onAppShow\\", \\"onAudioInterruptionBegin\\", \\"onAudioInterruptionEnd\\", \\"onBLECharacteristicValueChange\\", \\"onBLEConnectionStateChange\\", \\"onBeaconServiceChange\\", \\"onBeaconUpdate\\", \\"onBluetoothAdapterStateChange\\", \\"onBluetoothDeviceFound\\", \\"onCompassChange\\", \\"onDeviceMotionChange\\", \\"onError\\", \\"onGetWifiList\\", \\"onGyroscopeChange\\", \\"onMemoryWarning\\", \\"onNetworkStatusChange\\", \\"onPageNotFound\\", \\"onSocketClose\\", \\"onSocketError\\", \\"onSocketMessage\\", \\"onSocketOpen\\", \\"onUnhandledRejection\\", \\"onUserCaptureScreen\\", \\"removeStorageSync\\", \\"reportAnalytics\\", \\"setStorageSync\\", \\"arrayBufferToBase64\\", \\"base64ToArrayBuffer\\", \\"canIUse\\", \\"createAnimation\\", \\"createCameraContext\\", \\"createCanvasContext\\", \\"createInnerAudioContext\\", \\"createIntersectionObserver\\", \\"createInterstitialAd\\", \\"createLivePlayerContext\\", \\"createMapContext\\", \\"createSelectorQuery\\", \\"createVideoContext\\", \\"getBackgroundAudioManager\\", \\"getMenuButtonBoundingClientRect\\", \\"getRecorderManager\\", \\"getUpdateManager\\" ]);
+        var needPromiseApis = new Set([ \\"addPhoneContact\\", \\"authorize\\", \\"canvasGetImageData\\", \\"canvasPutImageData\\", \\"canvasToTempFilePath\\", \\"checkSession\\", \\"chooseAddress\\", \\"chooseImage\\", \\"chooseInvoiceTitle\\", \\"chooseLocation\\", \\"chooseVideo\\", \\"clearStorage\\", \\"closeBLEConnection\\", \\"closeBluetoothAdapter\\", \\"closeSocket\\", \\"compressImage\\", \\"connectSocket\\", \\"createBLEConnection\\", \\"downloadFile\\", \\"getAvailableAudioSources\\", \\"getBLEDeviceCharacteristics\\", \\"getBLEDeviceServices\\", \\"getBatteryInfo\\", \\"getBeacons\\", \\"getBluetoothAdapterState\\", \\"getBluetoothDevices\\", \\"getClipboardData\\", \\"getConnectedBluetoothDevices\\", \\"getConnectedWifi\\", \\"getExtConfig\\", \\"getFileInfo\\", \\"getImageInfo\\", \\"getLocation\\", \\"getNetworkType\\", \\"getSavedFileInfo\\", \\"getSavedFileList\\", \\"getScreenBrightness\\", \\"getSetting\\", \\"getStorage\\", \\"getStorageInfo\\", \\"getSystemInfo\\", \\"getUserInfo\\", \\"getWifiList\\", \\"hideHomeButton\\", \\"hideShareMenu\\", \\"hideTabBar\\", \\"hideTabBarRedDot\\", \\"loadFontFace\\", \\"login\\", \\"makePhoneCall\\", \\"navigateBack\\", \\"navigateBackMiniProgram\\", \\"navigateTo\\", \\"navigateToBookshelf\\", \\"navigateToMiniProgram\\", \\"notifyBLECharacteristicValueChange\\", \\"hideKeyboard\\", \\"hideLoading\\", \\"hideNavigationBarLoading\\", \\"hideToast\\", \\"openBluetoothAdapter\\", \\"openDocument\\", \\"openLocation\\", \\"openSetting\\", \\"pageScrollTo\\", \\"previewImage\\", \\"queryBookshelf\\", \\"reLaunch\\", \\"readBLECharacteristicValue\\", \\"redirectTo\\", \\"removeSavedFile\\", \\"removeStorage\\", \\"removeTabBarBadge\\", \\"requestSubscribeMessage\\", \\"saveFile\\", \\"saveImageToPhotosAlbum\\", \\"saveVideoToPhotosAlbum\\", \\"scanCode\\", \\"sendSocketMessage\\", \\"setBackgroundColor\\", \\"setBackgroundTextStyle\\", \\"setClipboardData\\", \\"setEnableDebug\\", \\"setInnerAudioOption\\", \\"setKeepScreenOn\\", \\"setNavigationBarColor\\", \\"setNavigationBarTitle\\", \\"setScreenBrightness\\", \\"setStorage\\", \\"setTabBarBadge\\", \\"setTabBarItem\\", \\"setTabBarStyle\\", \\"showActionSheet\\", \\"showFavoriteGuide\\", \\"showLoading\\", \\"showModal\\", \\"showShareMenu\\", \\"showTabBar\\", \\"showTabBarRedDot\\", \\"showToast\\", \\"startBeaconDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"startDeviceMotionListening\\", \\"startPullDownRefresh\\", \\"stopBeaconDiscovery\\", \\"stopBluetoothDevicesDiscovery\\", \\"stopCompass\\", \\"startCompass\\", \\"startAccelerometer\\", \\"stopAccelerometer\\", \\"showNavigationBarLoading\\", \\"stopDeviceMotionListening\\", \\"stopPullDownRefresh\\", \\"switchTab\\", \\"uploadFile\\", \\"vibrateLong\\", \\"vibrateShort\\", \\"writeBLECharacteristicValue\\" ]);
+        function getCanIUseWebp(taro) {
+            return function() {
+                if (typeof taro.getSystemInfoSync !== \\"function\\") {
+                    console.error(\\"\\\\u4e0d\\\\u652f\\\\u6301 API canIUseWebp\\");
+                    return false;
                 }
-                if (this.queue.length <= this.MAX_REQUEST) {
-                    var options = this.queue.shift();
-                    var completeFn = options.complete;
-                    options.complete = function() {
-                        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-                            args[_key] = arguments[_key];
-                        }
-                        completeFn && completeFn.apply(options, args);
-                        _this.run();
-                    };
-                    return wx.request(options);
+                var _taro$getSystemInfoSy = taro.getSystemInfoSync(), platform = _taro$getSystemInfoSy.platform;
+                var platformLower = platform.toLowerCase();
+                if (platformLower === \\"android\\" || platformLower === \\"devtools\\") {
+                    return true;
                 }
-            }
-        };
-        function taroInterceptor(chain) {
-            return request(chain.requestParams);
+                return false;
+            };
         }
-        function request(options) {
-            options = options || {};
-            if (typeof options === \\"string\\") {
-                options = {
-                    url: options
-                };
-            }
-            var originSuccess = options.success;
-            var originFail = options.fail;
-            var originComplete = options.complete;
-            var requestTask;
-            var p = new Promise((function(resolve, reject) {
-                options.success = function(res) {
-                    originSuccess && originSuccess(res);
-                    resolve(res);
-                };
-                options.fail = function(res) {
-                    originFail && originFail(res);
-                    reject(res);
-                };
-                options.complete = function(res) {
-                    originComplete && originComplete(res);
-                };
-                requestTask = RequestQueue.request(options);
-            }));
-            p.abort = function(cb) {
-                cb && cb();
-                if (requestTask) {
-                    requestTask.abort();
+        function getNormalRequest(global) {
+            return function request(options) {
+                options = options || {};
+                if (typeof options === \\"string\\") {
+                    options = {
+                        url: options
+                    };
                 }
+                var originSuccess = options.success;
+                var originFail = options.fail;
+                var originComplete = options.complete;
+                var requestTask;
+                var p = new Promise((function(resolve, reject) {
+                    options.success = function(res) {
+                        originSuccess && originSuccess(res);
+                        resolve(res);
+                    };
+                    options.fail = function(res) {
+                        originFail && originFail(res);
+                        reject(res);
+                    };
+                    options.complete = function(res) {
+                        originComplete && originComplete(res);
+                    };
+                    requestTask = global.request(options);
+                }));
+                p.abort = function(cb) {
+                    cb && cb();
+                    if (requestTask) {
+                        requestTask.abort();
+                    }
+                    return p;
+                };
                 return p;
             };
-            return p;
         }
-        function processApis(taro) {
-            var onAndSyncApis = new Set([].concat(_toConsumableArray(taro.onAndSyncApis), _toConsumableArray(_onAndSyncApis)));
-            var noPromiseApis = new Set([].concat(_toConsumableArray(taro.noPromiseApis), _toConsumableArray(_noPromiseApis)));
-            var otherApis = new Set([].concat(_toConsumableArray(taro.otherApis), _toConsumableArray(_otherApis)));
-            var apis = [].concat(_toConsumableArray(onAndSyncApis), _toConsumableArray(noPromiseApis), _toConsumableArray(otherApis));
-            var useDataCacheApis = {
-                navigateTo: true,
-                redirectTo: true,
-                reLaunch: true
-            };
-            var routerParamsPrivateKey = \\"__key_\\";
+        function processApis(taro, global) {
+            var config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+            var patchNoPromiseApis = config.noPromiseApis || [];
+            var patchNeedPromiseApis = config.needPromiseApis || [];
+            var _noPromiseApis = new Set([].concat(_toConsumableArray(patchNoPromiseApis), _toConsumableArray(noPromiseApis)));
+            var _needPromiseApis = new Set([].concat(_toConsumableArray(patchNeedPromiseApis), _toConsumableArray(needPromiseApis)));
+            var apis = [].concat(_toConsumableArray(_noPromiseApis), _toConsumableArray(_needPromiseApis));
             apis.forEach((function(key) {
-                if (!(key in wx)) {
-                    taro[key] = function() {
-                        console.warn(\\"\\\\u5fae\\\\u4fe1\\\\u5c0f\\\\u7a0b\\\\u5e8f\\\\u6682\\\\u4e0d\\\\u652f\\\\u6301 \\".concat(key));
-                    };
-                    return;
-                }
-                if (otherApis.has(key)) {
-                    taro[key] = function(options) {
-                        for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+                if (_needPromiseApis.has(key)) {
+                    var originKey = key;
+                    taro[originKey] = function() {
+                        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+                        for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key2 = 1; _key2 < _len; _key2++) {
                             args[_key2 - 1] = arguments[_key2];
                         }
-                        options = options || {};
-                        var task = null;
-                        var obj = Object.assign({}, options);
+                        var key = originKey;
                         if (typeof options === \\"string\\") {
                             if (args.length) {
-                                var _wx;
-                                return (_wx = wx)[key].apply(_wx, [ options ].concat(args));
+                                return global[key].apply(global, [ options ].concat(args));
                             }
-                            return wx[key](options);
+                            return global[key](options);
                         }
-                        if (key === \\"navigateTo\\" || key === \\"redirectTo\\" || key === \\"switchTab\\") {
-                            var url = obj.url ? obj.url.replace(/^\\\\//, \\"\\") : \\"\\";
-                            if (url.indexOf(\\"?\\") > -1) url = url.split(\\"?\\")[0];
+                        if (config.transformMeta) {
+                            var transformResult = config.transformMeta(key, options);
+                            key = transformResult.key;
+                            options = transformResult.options;
+                            if (!global.hasOwnProperty(key)) {
+                                return unsupport(key)();
+                            }
                         }
-                        if (useDataCacheApis[key]) {
-                            var _url = obj.url = obj.url || \\"\\";
-                            var MarkIndex = _url.indexOf(\\"?\\");
-                            var hasMark = MarkIndex > -1;
-                            var urlQueryStr = hasMark ? _url.substring(MarkIndex + 1, _url.length) : \\"\\";
-                            var params = queryToJson(urlQueryStr);
-                            var cacheKey = getUniqueKey();
-                            obj.url += (hasMark ? \\"&\\" : \\"?\\") + \\"\\".concat(routerParamsPrivateKey, \\"=\\").concat(cacheKey);
-                            cacheDataSet(cacheKey, params);
-                        }
+                        var task = null;
+                        var obj = Object.assign({}, options);
+                        setUniqueKeyToRoute(key, options);
                         var p = new Promise((function(resolve, reject) {
-                            [ \\"fail\\", \\"success\\", \\"complete\\" ].forEach((function(k) {
-                                obj[k] = function(res) {
-                                    options[k] && options[k](res);
-                                    if (k === \\"success\\") {
-                                        if (key === \\"connectSocket\\") {
-                                            resolve(Promise.resolve().then((function() {
-                                                return Object.assign(task, res);
-                                            })));
-                                        } else {
-                                            resolve(res);
-                                        }
-                                    } else if (k === \\"fail\\") {
-                                        reject(res);
-                                    }
-                                };
-                            }));
+                            obj.success = function(res) {
+                                var _a, _b;
+                                (_a = config.modifyAsyncResult) === null || _a === void 0 ? void 0 : _a.call(config, key, res);
+                                (_b = options.success) === null || _b === void 0 ? void 0 : _b.call(options, res);
+                                if (key === \\"connectSocket\\") {
+                                    resolve(Promise.resolve().then((function() {
+                                        return Object.assign(task, res);
+                                    })));
+                                } else {
+                                    resolve(res);
+                                }
+                            };
+                            obj.fail = function(res) {
+                                var _a;
+                                (_a = options.fail) === null || _a === void 0 ? void 0 : _a.call(options, res);
+                                reject(res);
+                            };
+                            obj.complete = function(res) {
+                                var _a;
+                                (_a = options.complete) === null || _a === void 0 ? void 0 : _a.call(options, res);
+                            };
                             if (args.length) {
-                                var _wx2;
-                                task = (_wx2 = wx)[key].apply(_wx2, [ obj ].concat(args));
+                                task = global[key].apply(global, [ obj ].concat(args));
                             } else {
-                                task = wx[key](obj);
+                                task = global[key](obj);
                             }
                         }));
                         if (key === \\"uploadFile\\" || key === \\"downloadFile\\") {
                             p.progress = function(cb) {
-                                if (task) {
-                                    task.onProgressUpdate(cb);
-                                }
+                                task === null || task === void 0 ? void 0 : task.onProgressUpdate(cb);
                                 return p;
                             };
                             p.abort = function(cb) {
-                                cb && cb();
-                                if (task) {
-                                    task.abort();
-                                }
+                                cb === null || cb === void 0 ? void 0 : cb();
+                                task === null || task === void 0 ? void 0 : task.abort();
                                 return p;
                             };
                         }
                         return p;
                     };
                 } else {
+                    if (!global.hasOwnProperty(key)) {
+                        taro[key] = unsupport(key);
+                        return;
+                    }
                     taro[key] = function() {
-                        for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+                        for (var _len2 = arguments.length, args = new Array(_len2), _key3 = 0; _key3 < _len2; _key3++) {
                             args[_key3] = arguments[_key3];
                         }
-                        var argsLen = args.length;
-                        var newArgs = args.concat();
-                        var lastArg = newArgs[argsLen - 1];
-                        if (lastArg && lastArg.isTaroComponent && lastArg.$scope) {
-                            newArgs.splice(argsLen - 1, 1, lastArg.$scope);
+                        if (config.handleSyncApis) {
+                            return config.handleSyncApis(key, global, args);
+                        } else {
+                            return global[key].apply(global, args);
                         }
-                        return wx[key].apply(wx, newArgs);
                     };
                 }
             }));
+            equipCommonApis(taro, global, config);
         }
-        function pxTransform(size) {
-            var _ref = this.config || {}, _ref$designWidth = _ref.designWidth, designWidth = _ref$designWidth === void 0 ? 750 : _ref$designWidth, _ref$deviceRatio = _ref.deviceRatio, deviceRatio = _ref$deviceRatio === void 0 ? {
-                640: 2.34 / 2,
-                750: 1,
-                828: 1.81 / 2
-            } : _ref$deviceRatio;
-            if (!(designWidth in deviceRatio)) {
-                throw new Error(\\"deviceRatio \\\\u914d\\\\u7f6e\\\\u4e2d\\\\u4e0d\\\\u5b58\\\\u5728 \\".concat(designWidth, \\" \\\\u7684\\\\u8bbe\\\\u7f6e\\\\uff01\\"));
+        function equipCommonApis(taro, global) {
+            var apis = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+            taro.canIUseWebp = getCanIUseWebp(taro);
+            taro.getCurrentPages = getCurrentPages || unsupport(\\"getCurrentPages\\");
+            taro.getApp = getApp || unsupport(\\"getApp\\");
+            taro.env = global.env || {};
+            try {
+                taro.requirePlugin = requirePlugin || unsupport(\\"requirePlugin\\");
+            } catch (error) {
+                taro.requirePlugin = unsupport(\\"requirePlugin\\");
             }
-            return parseInt(size, 10) * deviceRatio[designWidth] + \\"rpx\\";
-        }
-        function canIUseWebp() {
-            var _wx$getSystemInfoSync = wx.getSystemInfoSync(), platform = _wx$getSystemInfoSync.platform;
-            var platformLower = platform.toLowerCase();
-            if (platformLower === \\"android\\" || platformLower === \\"devtools\\") {
-                return true;
+            var request = apis.request ? apis.request : getNormalRequest(global);
+            function taroInterceptor(chain) {
+                return request(chain.requestParams);
             }
-            return false;
-        }
-        function wxCloud(taro) {
-            var wxC = wx.cloud || {};
-            var wxcloud = {};
-            var apiList = [ \\"init\\", \\"database\\", \\"uploadFile\\", \\"downloadFile\\", \\"getTempFileURL\\", \\"deleteFile\\", \\"callFunction\\", \\"CloudID\\" ];
-            apiList.forEach((function(v) {
-                wxcloud[v] = wxC[v];
-            }));
-            taro.cloud = wxcloud;
-        }
-        function getPreload(taro) {
-            return function(key, val) {
-                if (_typeof(key) === \\"object\\") {
-                    taro.preloadData = key;
-                } else if (key !== undefined && val !== undefined) {
-                    taro.preloadData = _defineProperty({}, key, val);
-                }
-            };
-        }
-        function initNativeApi(taro) {
-            processApis(taro);
             var link = new taro.Link(taroInterceptor);
             taro.request = link.request.bind(link);
             taro.addInterceptor = link.addInterceptor.bind(link);
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
-            taro.getCurrentPages = getCurrentPages;
-            taro.getApp = getApp;
-            taro.requirePlugin = requirePlugin;
-            taro.initPxTransform = taro.initPxTransform.bind(taro);
-            taro.pxTransform = pxTransform.bind(taro);
-            taro.canIUseWebp = canIUseWebp;
-            taro.preload = getPreload(taro);
-            taro.env = wx.env;
-            wxCloud(taro);
+        }
+        var runtime_noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\" ]);
+        var runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\" ]);
+        function initNativeApi(taro) {
+            processApis(taro, wx, {
+                noPromiseApis: runtime_noPromiseApis,
+                needPromiseApis: runtime_needPromiseApis
+            });
+            taro.cloud = wx.cloud;
         }
         var components = {
             Progress: {
@@ -7018,7 +6904,7 @@ require(\\"./taro\\");
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
 /** filePath: dist/custom-wrapper.wxml **/
-<import src=\\"./base[object Object]\\" />
+<import src=\\"./base.wxml\\" />
   <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
   </block>
@@ -8864,32 +8750,6 @@ require(\\"./taro\\");
     18: function(module, exports, __webpack_require__) {},
     24: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
-        function _defineProperty(obj, key, value) {
-            if (key in obj) {
-                Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: true,
-                    configurable: true,
-                    writable: true
-                });
-            } else {
-                obj[key] = value;
-            }
-            return obj;
-        }
-        function _typeof(obj) {
-            \\"@babel/helpers - typeof\\";
-            if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-                _typeof = function _typeof(obj) {
-                    return typeof obj;
-                };
-            } else {
-                _typeof = function _typeof(obj) {
-                    return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-                };
-            }
-            return _typeof(obj);
-        }
         function _arrayLikeToArray(arr, len) {
             if (len == null || len > arr.length) len = arr.length;
             for (var i = 0, arr2 = new Array(len); i < len; i++) {
@@ -8953,6 +8813,19 @@ require(\\"./taro\\");
             } catch (e) {
                 return false;
             }
+        }
+        function _typeof(obj) {
+            \\"@babel/helpers - typeof\\";
+            if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
+                _typeof = function _typeof(obj) {
+                    return typeof obj;
+                };
+            } else {
+                _typeof = function _typeof(obj) {
+                    return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+                };
+            }
+            return _typeof(obj);
         }
         function _assertThisInitialized(self) {
             if (self === void 0) {
@@ -9558,6 +9431,21 @@ require(\\"./taro\\");
         function mergeReconciler(hostConfig) {
             Object.assign(defaultReconciler, hostConfig);
         }
+        function unsupport(api) {
+            return function() {
+                console.warn(\\"\\\\u5c0f\\\\u7a0b\\\\u5e8f\\\\u6682\\\\u4e0d\\\\u652f\\\\u6301 \\".concat(api));
+            };
+        }
+        function setUniqueKeyToRoute(key, obj) {
+            var routerParamsPrivateKey = \\"__key_\\";
+            var useDataCacheApis = [ \\"navigateTo\\", \\"redirectTo\\", \\"reLaunch\\", \\"switchTab\\" ];
+            if (useDataCacheApis.indexOf(key) > -1) {
+                var url = obj.url = obj.url || \\"\\";
+                var hasMark = url.indexOf(\\"?\\") > -1;
+                var cacheKey = getUniqueKey();
+                obj.url += (hasMark ? \\"&\\" : \\"?\\") + \\"\\".concat(routerParamsPrivateKey, \\"=\\").concat(cacheKey);
+            }
+        }
         var weixinAdapter = {
             if: \\"wx:if\\",
             else: \\"wx:else\\",
@@ -9976,231 +9864,179 @@ require(\\"./taro\\");
             } ]);
             return UnRecursiveTemplate;
         }(shared_esm_BaseTemplate);
-        var _onAndSyncApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\" ]);
-        var _noPromiseApis = new Set([ \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\" ]);
-        var _otherApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\" ]);
-        var RequestQueue = {
-            MAX_REQUEST: 5,
-            queue: [],
-            request: function request(options) {
-                this.push(options);
-                return this.run();
-            },
-            push: function push(options) {
-                this.queue.push(options);
-            },
-            run: function run() {
-                var _this = this;
-                if (!this.queue.length) {
-                    return;
+        var noPromiseApis = new Set([ \\"clearStorageSync\\", \\"getBatteryInfoSync\\", \\"getExtConfigSync\\", \\"getFileSystemManager\\", \\"getLaunchOptionsSync\\", \\"getStorageInfoSync\\", \\"getStorageSync\\", \\"getSystemInfoSync\\", \\"offAccelerometerChange\\", \\"offAppHide\\", \\"offAppShow\\", \\"offAudioInterruptionBegin\\", \\"offAudioInterruptionEnd\\", \\"offBLECharacteristicValueChange\\", \\"offBLEConnectionStateChange\\", \\"offBluetoothAdapterStateChange\\", \\"offBluetoothDeviceFound\\", \\"offCompassChange\\", \\"offError\\", \\"offGetWifiList\\", \\"offGyroscopeChange\\", \\"offMemoryWarning\\", \\"offNetworkStatusChange\\", \\"offPageNotFound\\", \\"offUnhandledRejection\\", \\"offUserCaptureScreen\\", \\"onAccelerometerChange\\", \\"onAppHide\\", \\"onAppShow\\", \\"onAudioInterruptionBegin\\", \\"onAudioInterruptionEnd\\", \\"onBLECharacteristicValueChange\\", \\"onBLEConnectionStateChange\\", \\"onBeaconServiceChange\\", \\"onBeaconUpdate\\", \\"onBluetoothAdapterStateChange\\", \\"onBluetoothDeviceFound\\", \\"onCompassChange\\", \\"onDeviceMotionChange\\", \\"onError\\", \\"onGetWifiList\\", \\"onGyroscopeChange\\", \\"onMemoryWarning\\", \\"onNetworkStatusChange\\", \\"onPageNotFound\\", \\"onSocketClose\\", \\"onSocketError\\", \\"onSocketMessage\\", \\"onSocketOpen\\", \\"onUnhandledRejection\\", \\"onUserCaptureScreen\\", \\"removeStorageSync\\", \\"reportAnalytics\\", \\"setStorageSync\\", \\"arrayBufferToBase64\\", \\"base64ToArrayBuffer\\", \\"canIUse\\", \\"createAnimation\\", \\"createCameraContext\\", \\"createCanvasContext\\", \\"createInnerAudioContext\\", \\"createIntersectionObserver\\", \\"createInterstitialAd\\", \\"createLivePlayerContext\\", \\"createMapContext\\", \\"createSelectorQuery\\", \\"createVideoContext\\", \\"getBackgroundAudioManager\\", \\"getMenuButtonBoundingClientRect\\", \\"getRecorderManager\\", \\"getUpdateManager\\" ]);
+        var needPromiseApis = new Set([ \\"addPhoneContact\\", \\"authorize\\", \\"canvasGetImageData\\", \\"canvasPutImageData\\", \\"canvasToTempFilePath\\", \\"checkSession\\", \\"chooseAddress\\", \\"chooseImage\\", \\"chooseInvoiceTitle\\", \\"chooseLocation\\", \\"chooseVideo\\", \\"clearStorage\\", \\"closeBLEConnection\\", \\"closeBluetoothAdapter\\", \\"closeSocket\\", \\"compressImage\\", \\"connectSocket\\", \\"createBLEConnection\\", \\"downloadFile\\", \\"getAvailableAudioSources\\", \\"getBLEDeviceCharacteristics\\", \\"getBLEDeviceServices\\", \\"getBatteryInfo\\", \\"getBeacons\\", \\"getBluetoothAdapterState\\", \\"getBluetoothDevices\\", \\"getClipboardData\\", \\"getConnectedBluetoothDevices\\", \\"getConnectedWifi\\", \\"getExtConfig\\", \\"getFileInfo\\", \\"getImageInfo\\", \\"getLocation\\", \\"getNetworkType\\", \\"getSavedFileInfo\\", \\"getSavedFileList\\", \\"getScreenBrightness\\", \\"getSetting\\", \\"getStorage\\", \\"getStorageInfo\\", \\"getSystemInfo\\", \\"getUserInfo\\", \\"getWifiList\\", \\"hideHomeButton\\", \\"hideShareMenu\\", \\"hideTabBar\\", \\"hideTabBarRedDot\\", \\"loadFontFace\\", \\"login\\", \\"makePhoneCall\\", \\"navigateBack\\", \\"navigateBackMiniProgram\\", \\"navigateTo\\", \\"navigateToBookshelf\\", \\"navigateToMiniProgram\\", \\"notifyBLECharacteristicValueChange\\", \\"hideKeyboard\\", \\"hideLoading\\", \\"hideNavigationBarLoading\\", \\"hideToast\\", \\"openBluetoothAdapter\\", \\"openDocument\\", \\"openLocation\\", \\"openSetting\\", \\"pageScrollTo\\", \\"previewImage\\", \\"queryBookshelf\\", \\"reLaunch\\", \\"readBLECharacteristicValue\\", \\"redirectTo\\", \\"removeSavedFile\\", \\"removeStorage\\", \\"removeTabBarBadge\\", \\"requestSubscribeMessage\\", \\"saveFile\\", \\"saveImageToPhotosAlbum\\", \\"saveVideoToPhotosAlbum\\", \\"scanCode\\", \\"sendSocketMessage\\", \\"setBackgroundColor\\", \\"setBackgroundTextStyle\\", \\"setClipboardData\\", \\"setEnableDebug\\", \\"setInnerAudioOption\\", \\"setKeepScreenOn\\", \\"setNavigationBarColor\\", \\"setNavigationBarTitle\\", \\"setScreenBrightness\\", \\"setStorage\\", \\"setTabBarBadge\\", \\"setTabBarItem\\", \\"setTabBarStyle\\", \\"showActionSheet\\", \\"showFavoriteGuide\\", \\"showLoading\\", \\"showModal\\", \\"showShareMenu\\", \\"showTabBar\\", \\"showTabBarRedDot\\", \\"showToast\\", \\"startBeaconDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"startDeviceMotionListening\\", \\"startPullDownRefresh\\", \\"stopBeaconDiscovery\\", \\"stopBluetoothDevicesDiscovery\\", \\"stopCompass\\", \\"startCompass\\", \\"startAccelerometer\\", \\"stopAccelerometer\\", \\"showNavigationBarLoading\\", \\"stopDeviceMotionListening\\", \\"stopPullDownRefresh\\", \\"switchTab\\", \\"uploadFile\\", \\"vibrateLong\\", \\"vibrateShort\\", \\"writeBLECharacteristicValue\\" ]);
+        function getCanIUseWebp(taro) {
+            return function() {
+                if (typeof taro.getSystemInfoSync !== \\"function\\") {
+                    console.error(\\"\\\\u4e0d\\\\u652f\\\\u6301 API canIUseWebp\\");
+                    return false;
                 }
-                if (this.queue.length <= this.MAX_REQUEST) {
-                    var options = this.queue.shift();
-                    var completeFn = options.complete;
-                    options.complete = function() {
-                        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-                            args[_key] = arguments[_key];
-                        }
-                        completeFn && completeFn.apply(options, args);
-                        _this.run();
-                    };
-                    return wx.request(options);
+                var _taro$getSystemInfoSy = taro.getSystemInfoSync(), platform = _taro$getSystemInfoSy.platform;
+                var platformLower = platform.toLowerCase();
+                if (platformLower === \\"android\\" || platformLower === \\"devtools\\") {
+                    return true;
                 }
-            }
-        };
-        function taroInterceptor(chain) {
-            return request(chain.requestParams);
+                return false;
+            };
         }
-        function request(options) {
-            options = options || {};
-            if (typeof options === \\"string\\") {
-                options = {
-                    url: options
-                };
-            }
-            var originSuccess = options.success;
-            var originFail = options.fail;
-            var originComplete = options.complete;
-            var requestTask;
-            var p = new Promise((function(resolve, reject) {
-                options.success = function(res) {
-                    originSuccess && originSuccess(res);
-                    resolve(res);
-                };
-                options.fail = function(res) {
-                    originFail && originFail(res);
-                    reject(res);
-                };
-                options.complete = function(res) {
-                    originComplete && originComplete(res);
-                };
-                requestTask = RequestQueue.request(options);
-            }));
-            p.abort = function(cb) {
-                cb && cb();
-                if (requestTask) {
-                    requestTask.abort();
+        function getNormalRequest(global) {
+            return function request(options) {
+                options = options || {};
+                if (typeof options === \\"string\\") {
+                    options = {
+                        url: options
+                    };
                 }
+                var originSuccess = options.success;
+                var originFail = options.fail;
+                var originComplete = options.complete;
+                var requestTask;
+                var p = new Promise((function(resolve, reject) {
+                    options.success = function(res) {
+                        originSuccess && originSuccess(res);
+                        resolve(res);
+                    };
+                    options.fail = function(res) {
+                        originFail && originFail(res);
+                        reject(res);
+                    };
+                    options.complete = function(res) {
+                        originComplete && originComplete(res);
+                    };
+                    requestTask = global.request(options);
+                }));
+                p.abort = function(cb) {
+                    cb && cb();
+                    if (requestTask) {
+                        requestTask.abort();
+                    }
+                    return p;
+                };
                 return p;
             };
-            return p;
         }
-        function processApis(taro) {
-            var onAndSyncApis = new Set([].concat(_toConsumableArray(taro.onAndSyncApis), _toConsumableArray(_onAndSyncApis)));
-            var noPromiseApis = new Set([].concat(_toConsumableArray(taro.noPromiseApis), _toConsumableArray(_noPromiseApis)));
-            var otherApis = new Set([].concat(_toConsumableArray(taro.otherApis), _toConsumableArray(_otherApis)));
-            var apis = [].concat(_toConsumableArray(onAndSyncApis), _toConsumableArray(noPromiseApis), _toConsumableArray(otherApis));
-            var useDataCacheApis = {
-                navigateTo: true,
-                redirectTo: true,
-                reLaunch: true
-            };
-            var routerParamsPrivateKey = \\"__key_\\";
+        function processApis(taro, global) {
+            var config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+            var patchNoPromiseApis = config.noPromiseApis || [];
+            var patchNeedPromiseApis = config.needPromiseApis || [];
+            var _noPromiseApis = new Set([].concat(_toConsumableArray(patchNoPromiseApis), _toConsumableArray(noPromiseApis)));
+            var _needPromiseApis = new Set([].concat(_toConsumableArray(patchNeedPromiseApis), _toConsumableArray(needPromiseApis)));
+            var apis = [].concat(_toConsumableArray(_noPromiseApis), _toConsumableArray(_needPromiseApis));
             apis.forEach((function(key) {
-                if (!(key in wx)) {
-                    taro[key] = function() {
-                        console.warn(\\"\\\\u5fae\\\\u4fe1\\\\u5c0f\\\\u7a0b\\\\u5e8f\\\\u6682\\\\u4e0d\\\\u652f\\\\u6301 \\".concat(key));
-                    };
-                    return;
-                }
-                if (otherApis.has(key)) {
-                    taro[key] = function(options) {
-                        for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+                if (_needPromiseApis.has(key)) {
+                    var originKey = key;
+                    taro[originKey] = function() {
+                        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+                        for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key2 = 1; _key2 < _len; _key2++) {
                             args[_key2 - 1] = arguments[_key2];
                         }
-                        options = options || {};
-                        var task = null;
-                        var obj = Object.assign({}, options);
+                        var key = originKey;
                         if (typeof options === \\"string\\") {
                             if (args.length) {
-                                var _wx;
-                                return (_wx = wx)[key].apply(_wx, [ options ].concat(args));
+                                return global[key].apply(global, [ options ].concat(args));
                             }
-                            return wx[key](options);
+                            return global[key](options);
                         }
-                        if (key === \\"navigateTo\\" || key === \\"redirectTo\\" || key === \\"switchTab\\") {
-                            var url = obj.url ? obj.url.replace(/^\\\\//, \\"\\") : \\"\\";
-                            if (url.indexOf(\\"?\\") > -1) url = url.split(\\"?\\")[0];
+                        if (config.transformMeta) {
+                            var transformResult = config.transformMeta(key, options);
+                            key = transformResult.key;
+                            options = transformResult.options;
+                            if (!global.hasOwnProperty(key)) {
+                                return unsupport(key)();
+                            }
                         }
-                        if (useDataCacheApis[key]) {
-                            var _url = obj.url = obj.url || \\"\\";
-                            var MarkIndex = _url.indexOf(\\"?\\");
-                            var hasMark = MarkIndex > -1;
-                            var urlQueryStr = hasMark ? _url.substring(MarkIndex + 1, _url.length) : \\"\\";
-                            var params = queryToJson(urlQueryStr);
-                            var cacheKey = getUniqueKey();
-                            obj.url += (hasMark ? \\"&\\" : \\"?\\") + \\"\\".concat(routerParamsPrivateKey, \\"=\\").concat(cacheKey);
-                            cacheDataSet(cacheKey, params);
-                        }
+                        var task = null;
+                        var obj = Object.assign({}, options);
+                        setUniqueKeyToRoute(key, options);
                         var p = new Promise((function(resolve, reject) {
-                            [ \\"fail\\", \\"success\\", \\"complete\\" ].forEach((function(k) {
-                                obj[k] = function(res) {
-                                    options[k] && options[k](res);
-                                    if (k === \\"success\\") {
-                                        if (key === \\"connectSocket\\") {
-                                            resolve(Promise.resolve().then((function() {
-                                                return Object.assign(task, res);
-                                            })));
-                                        } else {
-                                            resolve(res);
-                                        }
-                                    } else if (k === \\"fail\\") {
-                                        reject(res);
-                                    }
-                                };
-                            }));
+                            obj.success = function(res) {
+                                var _a, _b;
+                                (_a = config.modifyAsyncResult) === null || _a === void 0 ? void 0 : _a.call(config, key, res);
+                                (_b = options.success) === null || _b === void 0 ? void 0 : _b.call(options, res);
+                                if (key === \\"connectSocket\\") {
+                                    resolve(Promise.resolve().then((function() {
+                                        return Object.assign(task, res);
+                                    })));
+                                } else {
+                                    resolve(res);
+                                }
+                            };
+                            obj.fail = function(res) {
+                                var _a;
+                                (_a = options.fail) === null || _a === void 0 ? void 0 : _a.call(options, res);
+                                reject(res);
+                            };
+                            obj.complete = function(res) {
+                                var _a;
+                                (_a = options.complete) === null || _a === void 0 ? void 0 : _a.call(options, res);
+                            };
                             if (args.length) {
-                                var _wx2;
-                                task = (_wx2 = wx)[key].apply(_wx2, [ obj ].concat(args));
+                                task = global[key].apply(global, [ obj ].concat(args));
                             } else {
-                                task = wx[key](obj);
+                                task = global[key](obj);
                             }
                         }));
                         if (key === \\"uploadFile\\" || key === \\"downloadFile\\") {
                             p.progress = function(cb) {
-                                if (task) {
-                                    task.onProgressUpdate(cb);
-                                }
+                                task === null || task === void 0 ? void 0 : task.onProgressUpdate(cb);
                                 return p;
                             };
                             p.abort = function(cb) {
-                                cb && cb();
-                                if (task) {
-                                    task.abort();
-                                }
+                                cb === null || cb === void 0 ? void 0 : cb();
+                                task === null || task === void 0 ? void 0 : task.abort();
                                 return p;
                             };
                         }
                         return p;
                     };
                 } else {
+                    if (!global.hasOwnProperty(key)) {
+                        taro[key] = unsupport(key);
+                        return;
+                    }
                     taro[key] = function() {
-                        for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+                        for (var _len2 = arguments.length, args = new Array(_len2), _key3 = 0; _key3 < _len2; _key3++) {
                             args[_key3] = arguments[_key3];
                         }
-                        var argsLen = args.length;
-                        var newArgs = args.concat();
-                        var lastArg = newArgs[argsLen - 1];
-                        if (lastArg && lastArg.isTaroComponent && lastArg.$scope) {
-                            newArgs.splice(argsLen - 1, 1, lastArg.$scope);
+                        if (config.handleSyncApis) {
+                            return config.handleSyncApis(key, global, args);
+                        } else {
+                            return global[key].apply(global, args);
                         }
-                        return wx[key].apply(wx, newArgs);
                     };
                 }
             }));
+            equipCommonApis(taro, global, config);
         }
-        function pxTransform(size) {
-            var _ref = this.config || {}, _ref$designWidth = _ref.designWidth, designWidth = _ref$designWidth === void 0 ? 750 : _ref$designWidth, _ref$deviceRatio = _ref.deviceRatio, deviceRatio = _ref$deviceRatio === void 0 ? {
-                640: 2.34 / 2,
-                750: 1,
-                828: 1.81 / 2
-            } : _ref$deviceRatio;
-            if (!(designWidth in deviceRatio)) {
-                throw new Error(\\"deviceRatio \\\\u914d\\\\u7f6e\\\\u4e2d\\\\u4e0d\\\\u5b58\\\\u5728 \\".concat(designWidth, \\" \\\\u7684\\\\u8bbe\\\\u7f6e\\\\uff01\\"));
+        function equipCommonApis(taro, global) {
+            var apis = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+            taro.canIUseWebp = getCanIUseWebp(taro);
+            taro.getCurrentPages = getCurrentPages || unsupport(\\"getCurrentPages\\");
+            taro.getApp = getApp || unsupport(\\"getApp\\");
+            taro.env = global.env || {};
+            try {
+                taro.requirePlugin = requirePlugin || unsupport(\\"requirePlugin\\");
+            } catch (error) {
+                taro.requirePlugin = unsupport(\\"requirePlugin\\");
             }
-            return parseInt(size, 10) * deviceRatio[designWidth] + \\"rpx\\";
-        }
-        function canIUseWebp() {
-            var _wx$getSystemInfoSync = wx.getSystemInfoSync(), platform = _wx$getSystemInfoSync.platform;
-            var platformLower = platform.toLowerCase();
-            if (platformLower === \\"android\\" || platformLower === \\"devtools\\") {
-                return true;
+            var request = apis.request ? apis.request : getNormalRequest(global);
+            function taroInterceptor(chain) {
+                return request(chain.requestParams);
             }
-            return false;
-        }
-        function wxCloud(taro) {
-            var wxC = wx.cloud || {};
-            var wxcloud = {};
-            var apiList = [ \\"init\\", \\"database\\", \\"uploadFile\\", \\"downloadFile\\", \\"getTempFileURL\\", \\"deleteFile\\", \\"callFunction\\", \\"CloudID\\" ];
-            apiList.forEach((function(v) {
-                wxcloud[v] = wxC[v];
-            }));
-            taro.cloud = wxcloud;
-        }
-        function getPreload(taro) {
-            return function(key, val) {
-                if (_typeof(key) === \\"object\\") {
-                    taro.preloadData = key;
-                } else if (key !== undefined && val !== undefined) {
-                    taro.preloadData = _defineProperty({}, key, val);
-                }
-            };
-        }
-        function initNativeApi(taro) {
-            processApis(taro);
             var link = new taro.Link(taroInterceptor);
             taro.request = link.request.bind(link);
             taro.addInterceptor = link.addInterceptor.bind(link);
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
-            taro.getCurrentPages = getCurrentPages;
-            taro.getApp = getApp;
-            taro.requirePlugin = requirePlugin;
-            taro.initPxTransform = taro.initPxTransform.bind(taro);
-            taro.pxTransform = pxTransform.bind(taro);
-            taro.canIUseWebp = canIUseWebp;
-            taro.preload = getPreload(taro);
-            taro.env = wx.env;
-            wxCloud(taro);
+        }
+        var runtime_noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\" ]);
+        var runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\" ]);
+        function initNativeApi(taro) {
+            processApis(taro, wx, {
+                noPromiseApis: runtime_noPromiseApis,
+                needPromiseApis: runtime_needPromiseApis
+            });
+            taro.cloud = wx.cloud;
         }
         var components = {
             Progress: {
@@ -11327,7 +11163,7 @@ require(\\"./taro\\");
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
 /** filePath: dist/custom-wrapper.wxml **/
-<import src=\\"./base[object Object]\\" />
+<import src=\\"./base.wxml\\" />
   <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
   </block>

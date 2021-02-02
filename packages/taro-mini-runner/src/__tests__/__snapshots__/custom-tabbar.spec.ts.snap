@@ -18,32 +18,6 @@ require(\\"./taro\\");
     16: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        function _defineProperty(obj, key, value) {
-            if (key in obj) {
-                Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: true,
-                    configurable: true,
-                    writable: true
-                });
-            } else {
-                obj[key] = value;
-            }
-            return obj;
-        }
-        function _typeof(obj) {
-            \\"@babel/helpers - typeof\\";
-            if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-                _typeof = function _typeof(obj) {
-                    return typeof obj;
-                };
-            } else {
-                _typeof = function _typeof(obj) {
-                    return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-                };
-            }
-            return _typeof(obj);
-        }
         function _arrayLikeToArray(arr, len) {
             if (len == null || len > arr.length) len = arr.length;
             for (var i = 0, arr2 = new Array(len); i < len; i++) {
@@ -107,6 +81,19 @@ require(\\"./taro\\");
             } catch (e) {
                 return false;
             }
+        }
+        function _typeof(obj) {
+            \\"@babel/helpers - typeof\\";
+            if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
+                _typeof = function _typeof(obj) {
+                    return typeof obj;
+                };
+            } else {
+                _typeof = function _typeof(obj) {
+                    return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+                };
+            }
+            return _typeof(obj);
         }
         function _assertThisInitialized(self) {
             if (self === void 0) {
@@ -712,6 +699,21 @@ require(\\"./taro\\");
         function mergeReconciler(hostConfig) {
             Object.assign(defaultReconciler, hostConfig);
         }
+        function unsupport(api) {
+            return function() {
+                console.warn(\\"\\\\u5c0f\\\\u7a0b\\\\u5e8f\\\\u6682\\\\u4e0d\\\\u652f\\\\u6301 \\".concat(api));
+            };
+        }
+        function setUniqueKeyToRoute(key, obj) {
+            var routerParamsPrivateKey = \\"__key_\\";
+            var useDataCacheApis = [ \\"navigateTo\\", \\"redirectTo\\", \\"reLaunch\\", \\"switchTab\\" ];
+            if (useDataCacheApis.indexOf(key) > -1) {
+                var url = obj.url = obj.url || \\"\\";
+                var hasMark = url.indexOf(\\"?\\") > -1;
+                var cacheKey = getUniqueKey();
+                obj.url += (hasMark ? \\"&\\" : \\"?\\") + \\"\\".concat(routerParamsPrivateKey, \\"=\\").concat(cacheKey);
+            }
+        }
         var weixinAdapter = {
             if: \\"wx:if\\",
             else: \\"wx:else\\",
@@ -1130,231 +1132,179 @@ require(\\"./taro\\");
             } ]);
             return UnRecursiveTemplate;
         }(shared_esm_BaseTemplate);
-        var _onAndSyncApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\" ]);
-        var _noPromiseApis = new Set([ \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\" ]);
-        var _otherApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\" ]);
-        var RequestQueue = {
-            MAX_REQUEST: 5,
-            queue: [],
-            request: function request(options) {
-                this.push(options);
-                return this.run();
-            },
-            push: function push(options) {
-                this.queue.push(options);
-            },
-            run: function run() {
-                var _this = this;
-                if (!this.queue.length) {
-                    return;
+        var noPromiseApis = new Set([ \\"clearStorageSync\\", \\"getBatteryInfoSync\\", \\"getExtConfigSync\\", \\"getFileSystemManager\\", \\"getLaunchOptionsSync\\", \\"getStorageInfoSync\\", \\"getStorageSync\\", \\"getSystemInfoSync\\", \\"offAccelerometerChange\\", \\"offAppHide\\", \\"offAppShow\\", \\"offAudioInterruptionBegin\\", \\"offAudioInterruptionEnd\\", \\"offBLECharacteristicValueChange\\", \\"offBLEConnectionStateChange\\", \\"offBluetoothAdapterStateChange\\", \\"offBluetoothDeviceFound\\", \\"offCompassChange\\", \\"offError\\", \\"offGetWifiList\\", \\"offGyroscopeChange\\", \\"offMemoryWarning\\", \\"offNetworkStatusChange\\", \\"offPageNotFound\\", \\"offUnhandledRejection\\", \\"offUserCaptureScreen\\", \\"onAccelerometerChange\\", \\"onAppHide\\", \\"onAppShow\\", \\"onAudioInterruptionBegin\\", \\"onAudioInterruptionEnd\\", \\"onBLECharacteristicValueChange\\", \\"onBLEConnectionStateChange\\", \\"onBeaconServiceChange\\", \\"onBeaconUpdate\\", \\"onBluetoothAdapterStateChange\\", \\"onBluetoothDeviceFound\\", \\"onCompassChange\\", \\"onDeviceMotionChange\\", \\"onError\\", \\"onGetWifiList\\", \\"onGyroscopeChange\\", \\"onMemoryWarning\\", \\"onNetworkStatusChange\\", \\"onPageNotFound\\", \\"onSocketClose\\", \\"onSocketError\\", \\"onSocketMessage\\", \\"onSocketOpen\\", \\"onUnhandledRejection\\", \\"onUserCaptureScreen\\", \\"removeStorageSync\\", \\"reportAnalytics\\", \\"setStorageSync\\", \\"arrayBufferToBase64\\", \\"base64ToArrayBuffer\\", \\"canIUse\\", \\"createAnimation\\", \\"createCameraContext\\", \\"createCanvasContext\\", \\"createInnerAudioContext\\", \\"createIntersectionObserver\\", \\"createInterstitialAd\\", \\"createLivePlayerContext\\", \\"createMapContext\\", \\"createSelectorQuery\\", \\"createVideoContext\\", \\"getBackgroundAudioManager\\", \\"getMenuButtonBoundingClientRect\\", \\"getRecorderManager\\", \\"getUpdateManager\\" ]);
+        var needPromiseApis = new Set([ \\"addPhoneContact\\", \\"authorize\\", \\"canvasGetImageData\\", \\"canvasPutImageData\\", \\"canvasToTempFilePath\\", \\"checkSession\\", \\"chooseAddress\\", \\"chooseImage\\", \\"chooseInvoiceTitle\\", \\"chooseLocation\\", \\"chooseVideo\\", \\"clearStorage\\", \\"closeBLEConnection\\", \\"closeBluetoothAdapter\\", \\"closeSocket\\", \\"compressImage\\", \\"connectSocket\\", \\"createBLEConnection\\", \\"downloadFile\\", \\"getAvailableAudioSources\\", \\"getBLEDeviceCharacteristics\\", \\"getBLEDeviceServices\\", \\"getBatteryInfo\\", \\"getBeacons\\", \\"getBluetoothAdapterState\\", \\"getBluetoothDevices\\", \\"getClipboardData\\", \\"getConnectedBluetoothDevices\\", \\"getConnectedWifi\\", \\"getExtConfig\\", \\"getFileInfo\\", \\"getImageInfo\\", \\"getLocation\\", \\"getNetworkType\\", \\"getSavedFileInfo\\", \\"getSavedFileList\\", \\"getScreenBrightness\\", \\"getSetting\\", \\"getStorage\\", \\"getStorageInfo\\", \\"getSystemInfo\\", \\"getUserInfo\\", \\"getWifiList\\", \\"hideHomeButton\\", \\"hideShareMenu\\", \\"hideTabBar\\", \\"hideTabBarRedDot\\", \\"loadFontFace\\", \\"login\\", \\"makePhoneCall\\", \\"navigateBack\\", \\"navigateBackMiniProgram\\", \\"navigateTo\\", \\"navigateToBookshelf\\", \\"navigateToMiniProgram\\", \\"notifyBLECharacteristicValueChange\\", \\"hideKeyboard\\", \\"hideLoading\\", \\"hideNavigationBarLoading\\", \\"hideToast\\", \\"openBluetoothAdapter\\", \\"openDocument\\", \\"openLocation\\", \\"openSetting\\", \\"pageScrollTo\\", \\"previewImage\\", \\"queryBookshelf\\", \\"reLaunch\\", \\"readBLECharacteristicValue\\", \\"redirectTo\\", \\"removeSavedFile\\", \\"removeStorage\\", \\"removeTabBarBadge\\", \\"requestSubscribeMessage\\", \\"saveFile\\", \\"saveImageToPhotosAlbum\\", \\"saveVideoToPhotosAlbum\\", \\"scanCode\\", \\"sendSocketMessage\\", \\"setBackgroundColor\\", \\"setBackgroundTextStyle\\", \\"setClipboardData\\", \\"setEnableDebug\\", \\"setInnerAudioOption\\", \\"setKeepScreenOn\\", \\"setNavigationBarColor\\", \\"setNavigationBarTitle\\", \\"setScreenBrightness\\", \\"setStorage\\", \\"setTabBarBadge\\", \\"setTabBarItem\\", \\"setTabBarStyle\\", \\"showActionSheet\\", \\"showFavoriteGuide\\", \\"showLoading\\", \\"showModal\\", \\"showShareMenu\\", \\"showTabBar\\", \\"showTabBarRedDot\\", \\"showToast\\", \\"startBeaconDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"startDeviceMotionListening\\", \\"startPullDownRefresh\\", \\"stopBeaconDiscovery\\", \\"stopBluetoothDevicesDiscovery\\", \\"stopCompass\\", \\"startCompass\\", \\"startAccelerometer\\", \\"stopAccelerometer\\", \\"showNavigationBarLoading\\", \\"stopDeviceMotionListening\\", \\"stopPullDownRefresh\\", \\"switchTab\\", \\"uploadFile\\", \\"vibrateLong\\", \\"vibrateShort\\", \\"writeBLECharacteristicValue\\" ]);
+        function getCanIUseWebp(taro) {
+            return function() {
+                if (typeof taro.getSystemInfoSync !== \\"function\\") {
+                    console.error(\\"\\\\u4e0d\\\\u652f\\\\u6301 API canIUseWebp\\");
+                    return false;
                 }
-                if (this.queue.length <= this.MAX_REQUEST) {
-                    var options = this.queue.shift();
-                    var completeFn = options.complete;
-                    options.complete = function() {
-                        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-                            args[_key] = arguments[_key];
-                        }
-                        completeFn && completeFn.apply(options, args);
-                        _this.run();
-                    };
-                    return wx.request(options);
+                var _taro$getSystemInfoSy = taro.getSystemInfoSync(), platform = _taro$getSystemInfoSy.platform;
+                var platformLower = platform.toLowerCase();
+                if (platformLower === \\"android\\" || platformLower === \\"devtools\\") {
+                    return true;
                 }
-            }
-        };
-        function taroInterceptor(chain) {
-            return request(chain.requestParams);
+                return false;
+            };
         }
-        function request(options) {
-            options = options || {};
-            if (typeof options === \\"string\\") {
-                options = {
-                    url: options
-                };
-            }
-            var originSuccess = options.success;
-            var originFail = options.fail;
-            var originComplete = options.complete;
-            var requestTask;
-            var p = new Promise((function(resolve, reject) {
-                options.success = function(res) {
-                    originSuccess && originSuccess(res);
-                    resolve(res);
-                };
-                options.fail = function(res) {
-                    originFail && originFail(res);
-                    reject(res);
-                };
-                options.complete = function(res) {
-                    originComplete && originComplete(res);
-                };
-                requestTask = RequestQueue.request(options);
-            }));
-            p.abort = function(cb) {
-                cb && cb();
-                if (requestTask) {
-                    requestTask.abort();
+        function getNormalRequest(global) {
+            return function request(options) {
+                options = options || {};
+                if (typeof options === \\"string\\") {
+                    options = {
+                        url: options
+                    };
                 }
+                var originSuccess = options.success;
+                var originFail = options.fail;
+                var originComplete = options.complete;
+                var requestTask;
+                var p = new Promise((function(resolve, reject) {
+                    options.success = function(res) {
+                        originSuccess && originSuccess(res);
+                        resolve(res);
+                    };
+                    options.fail = function(res) {
+                        originFail && originFail(res);
+                        reject(res);
+                    };
+                    options.complete = function(res) {
+                        originComplete && originComplete(res);
+                    };
+                    requestTask = global.request(options);
+                }));
+                p.abort = function(cb) {
+                    cb && cb();
+                    if (requestTask) {
+                        requestTask.abort();
+                    }
+                    return p;
+                };
                 return p;
             };
-            return p;
         }
-        function processApis(taro) {
-            var onAndSyncApis = new Set([].concat(_toConsumableArray(taro.onAndSyncApis), _toConsumableArray(_onAndSyncApis)));
-            var noPromiseApis = new Set([].concat(_toConsumableArray(taro.noPromiseApis), _toConsumableArray(_noPromiseApis)));
-            var otherApis = new Set([].concat(_toConsumableArray(taro.otherApis), _toConsumableArray(_otherApis)));
-            var apis = [].concat(_toConsumableArray(onAndSyncApis), _toConsumableArray(noPromiseApis), _toConsumableArray(otherApis));
-            var useDataCacheApis = {
-                navigateTo: true,
-                redirectTo: true,
-                reLaunch: true
-            };
-            var routerParamsPrivateKey = \\"__key_\\";
+        function processApis(taro, global) {
+            var config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+            var patchNoPromiseApis = config.noPromiseApis || [];
+            var patchNeedPromiseApis = config.needPromiseApis || [];
+            var _noPromiseApis = new Set([].concat(_toConsumableArray(patchNoPromiseApis), _toConsumableArray(noPromiseApis)));
+            var _needPromiseApis = new Set([].concat(_toConsumableArray(patchNeedPromiseApis), _toConsumableArray(needPromiseApis)));
+            var apis = [].concat(_toConsumableArray(_noPromiseApis), _toConsumableArray(_needPromiseApis));
             apis.forEach((function(key) {
-                if (!(key in wx)) {
-                    taro[key] = function() {
-                        console.warn(\\"\\\\u5fae\\\\u4fe1\\\\u5c0f\\\\u7a0b\\\\u5e8f\\\\u6682\\\\u4e0d\\\\u652f\\\\u6301 \\".concat(key));
-                    };
-                    return;
-                }
-                if (otherApis.has(key)) {
-                    taro[key] = function(options) {
-                        for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+                if (_needPromiseApis.has(key)) {
+                    var originKey = key;
+                    taro[originKey] = function() {
+                        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+                        for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key2 = 1; _key2 < _len; _key2++) {
                             args[_key2 - 1] = arguments[_key2];
                         }
-                        options = options || {};
-                        var task = null;
-                        var obj = Object.assign({}, options);
+                        var key = originKey;
                         if (typeof options === \\"string\\") {
                             if (args.length) {
-                                var _wx;
-                                return (_wx = wx)[key].apply(_wx, [ options ].concat(args));
+                                return global[key].apply(global, [ options ].concat(args));
                             }
-                            return wx[key](options);
+                            return global[key](options);
                         }
-                        if (key === \\"navigateTo\\" || key === \\"redirectTo\\" || key === \\"switchTab\\") {
-                            var url = obj.url ? obj.url.replace(/^\\\\//, \\"\\") : \\"\\";
-                            if (url.indexOf(\\"?\\") > -1) url = url.split(\\"?\\")[0];
+                        if (config.transformMeta) {
+                            var transformResult = config.transformMeta(key, options);
+                            key = transformResult.key;
+                            options = transformResult.options;
+                            if (!global.hasOwnProperty(key)) {
+                                return unsupport(key)();
+                            }
                         }
-                        if (useDataCacheApis[key]) {
-                            var _url = obj.url = obj.url || \\"\\";
-                            var MarkIndex = _url.indexOf(\\"?\\");
-                            var hasMark = MarkIndex > -1;
-                            var urlQueryStr = hasMark ? _url.substring(MarkIndex + 1, _url.length) : \\"\\";
-                            var params = queryToJson(urlQueryStr);
-                            var cacheKey = getUniqueKey();
-                            obj.url += (hasMark ? \\"&\\" : \\"?\\") + \\"\\".concat(routerParamsPrivateKey, \\"=\\").concat(cacheKey);
-                            cacheDataSet(cacheKey, params);
-                        }
+                        var task = null;
+                        var obj = Object.assign({}, options);
+                        setUniqueKeyToRoute(key, options);
                         var p = new Promise((function(resolve, reject) {
-                            [ \\"fail\\", \\"success\\", \\"complete\\" ].forEach((function(k) {
-                                obj[k] = function(res) {
-                                    options[k] && options[k](res);
-                                    if (k === \\"success\\") {
-                                        if (key === \\"connectSocket\\") {
-                                            resolve(Promise.resolve().then((function() {
-                                                return Object.assign(task, res);
-                                            })));
-                                        } else {
-                                            resolve(res);
-                                        }
-                                    } else if (k === \\"fail\\") {
-                                        reject(res);
-                                    }
-                                };
-                            }));
+                            obj.success = function(res) {
+                                var _a, _b;
+                                (_a = config.modifyAsyncResult) === null || _a === void 0 ? void 0 : _a.call(config, key, res);
+                                (_b = options.success) === null || _b === void 0 ? void 0 : _b.call(options, res);
+                                if (key === \\"connectSocket\\") {
+                                    resolve(Promise.resolve().then((function() {
+                                        return Object.assign(task, res);
+                                    })));
+                                } else {
+                                    resolve(res);
+                                }
+                            };
+                            obj.fail = function(res) {
+                                var _a;
+                                (_a = options.fail) === null || _a === void 0 ? void 0 : _a.call(options, res);
+                                reject(res);
+                            };
+                            obj.complete = function(res) {
+                                var _a;
+                                (_a = options.complete) === null || _a === void 0 ? void 0 : _a.call(options, res);
+                            };
                             if (args.length) {
-                                var _wx2;
-                                task = (_wx2 = wx)[key].apply(_wx2, [ obj ].concat(args));
+                                task = global[key].apply(global, [ obj ].concat(args));
                             } else {
-                                task = wx[key](obj);
+                                task = global[key](obj);
                             }
                         }));
                         if (key === \\"uploadFile\\" || key === \\"downloadFile\\") {
                             p.progress = function(cb) {
-                                if (task) {
-                                    task.onProgressUpdate(cb);
-                                }
+                                task === null || task === void 0 ? void 0 : task.onProgressUpdate(cb);
                                 return p;
                             };
                             p.abort = function(cb) {
-                                cb && cb();
-                                if (task) {
-                                    task.abort();
-                                }
+                                cb === null || cb === void 0 ? void 0 : cb();
+                                task === null || task === void 0 ? void 0 : task.abort();
                                 return p;
                             };
                         }
                         return p;
                     };
                 } else {
+                    if (!global.hasOwnProperty(key)) {
+                        taro[key] = unsupport(key);
+                        return;
+                    }
                     taro[key] = function() {
-                        for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+                        for (var _len2 = arguments.length, args = new Array(_len2), _key3 = 0; _key3 < _len2; _key3++) {
                             args[_key3] = arguments[_key3];
                         }
-                        var argsLen = args.length;
-                        var newArgs = args.concat();
-                        var lastArg = newArgs[argsLen - 1];
-                        if (lastArg && lastArg.isTaroComponent && lastArg.$scope) {
-                            newArgs.splice(argsLen - 1, 1, lastArg.$scope);
+                        if (config.handleSyncApis) {
+                            return config.handleSyncApis(key, global, args);
+                        } else {
+                            return global[key].apply(global, args);
                         }
-                        return wx[key].apply(wx, newArgs);
                     };
                 }
             }));
+            equipCommonApis(taro, global, config);
         }
-        function pxTransform(size) {
-            var _ref = this.config || {}, _ref$designWidth = _ref.designWidth, designWidth = _ref$designWidth === void 0 ? 750 : _ref$designWidth, _ref$deviceRatio = _ref.deviceRatio, deviceRatio = _ref$deviceRatio === void 0 ? {
-                640: 2.34 / 2,
-                750: 1,
-                828: 1.81 / 2
-            } : _ref$deviceRatio;
-            if (!(designWidth in deviceRatio)) {
-                throw new Error(\\"deviceRatio \\\\u914d\\\\u7f6e\\\\u4e2d\\\\u4e0d\\\\u5b58\\\\u5728 \\".concat(designWidth, \\" \\\\u7684\\\\u8bbe\\\\u7f6e\\\\uff01\\"));
+        function equipCommonApis(taro, global) {
+            var apis = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+            taro.canIUseWebp = getCanIUseWebp(taro);
+            taro.getCurrentPages = getCurrentPages || unsupport(\\"getCurrentPages\\");
+            taro.getApp = getApp || unsupport(\\"getApp\\");
+            taro.env = global.env || {};
+            try {
+                taro.requirePlugin = requirePlugin || unsupport(\\"requirePlugin\\");
+            } catch (error) {
+                taro.requirePlugin = unsupport(\\"requirePlugin\\");
             }
-            return parseInt(size, 10) * deviceRatio[designWidth] + \\"rpx\\";
-        }
-        function canIUseWebp() {
-            var _wx$getSystemInfoSync = wx.getSystemInfoSync(), platform = _wx$getSystemInfoSync.platform;
-            var platformLower = platform.toLowerCase();
-            if (platformLower === \\"android\\" || platformLower === \\"devtools\\") {
-                return true;
+            var request = apis.request ? apis.request : getNormalRequest(global);
+            function taroInterceptor(chain) {
+                return request(chain.requestParams);
             }
-            return false;
-        }
-        function wxCloud(taro) {
-            var wxC = wx.cloud || {};
-            var wxcloud = {};
-            var apiList = [ \\"init\\", \\"database\\", \\"uploadFile\\", \\"downloadFile\\", \\"getTempFileURL\\", \\"deleteFile\\", \\"callFunction\\", \\"CloudID\\" ];
-            apiList.forEach((function(v) {
-                wxcloud[v] = wxC[v];
-            }));
-            taro.cloud = wxcloud;
-        }
-        function getPreload(taro) {
-            return function(key, val) {
-                if (_typeof(key) === \\"object\\") {
-                    taro.preloadData = key;
-                } else if (key !== undefined && val !== undefined) {
-                    taro.preloadData = _defineProperty({}, key, val);
-                }
-            };
-        }
-        function initNativeApi(taro) {
-            processApis(taro);
             var link = new taro.Link(taroInterceptor);
             taro.request = link.request.bind(link);
             taro.addInterceptor = link.addInterceptor.bind(link);
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
-            taro.getCurrentPages = getCurrentPages;
-            taro.getApp = getApp;
-            taro.requirePlugin = requirePlugin;
-            taro.initPxTransform = taro.initPxTransform.bind(taro);
-            taro.pxTransform = pxTransform.bind(taro);
-            taro.canIUseWebp = canIUseWebp;
-            taro.preload = getPreload(taro);
-            taro.env = wx.env;
-            wxCloud(taro);
+        }
+        var runtime_noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\" ]);
+        var runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\" ]);
+        function initNativeApi(taro) {
+            processApis(taro, wx, {
+                noPromiseApis: runtime_noPromiseApis,
+                needPromiseApis: runtime_needPromiseApis
+            });
+            taro.cloud = wx.cloud;
         }
         var components = {
             Progress: {
@@ -1679,7 +1629,7 @@ require(\\"./taro\\");
         }(react[\\"Component\\"]);
         var lib_src_app = app_App;
         var taro_react = __webpack_require__(7);
-        var config = {
+        var app_config = {
             pages: [ \\"pages/index/index\\", \\"pages/detail/index\\" ],
             window: {
                 backgroundTextStyle: \\"light\\",
@@ -1706,8 +1656,8 @@ require(\\"./taro\\");
             },
             usingComponents: {}
         };
-        taro_runtime[\\"window\\"].__taroAppConfig = config;
-        var inst = App(Object(taro_runtime[\\"createReactApp\\"])(lib_src_app, react, taro_react[\\"a\\"], config));
+        taro_runtime[\\"window\\"].__taroAppConfig = app_config;
+        var inst = App(Object(taro_runtime[\\"createReactApp\\"])(lib_src_app, react, taro_react[\\"a\\"], app_config));
     }
 }, [ [ 16, 0, 1, 3, 2 ] ] ]);
 
@@ -2759,7 +2709,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
 /** filePath: dist/custom-wrapper.wxml **/
-<import src=\\"./base[object Object]\\" />
+<import src=\\"./base.wxml\\" />
   <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
   </block>
