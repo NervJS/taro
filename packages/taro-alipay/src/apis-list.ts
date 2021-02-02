@@ -1,12 +1,9 @@
-export const _onAndSyncApis = new Set([
+export const noPromiseApis = new Set([
   'offSocketClose',
   'offSocketError',
   'offSocketMessage',
   'offSocketOpen',
-  'getAppIdSync'
-])
-
-export const _noPromiseApis = new Set([
+  'getAppIdSync',
   'calculateRoute',
   'createWebViewContext',
   'hideAddToDesktopMenu',
@@ -29,7 +26,7 @@ export const _noPromiseApis = new Set([
   'showSharePanel'
 ])
 
-export const _otherApis = new Set([
+export const needPromiseApis = new Set([
   'addCardAuth',
   'getOpenUserInfo',
   'chooseAlipayContact',

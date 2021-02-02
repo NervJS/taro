@@ -157,3 +157,26 @@ export function mergeInternalComponents (components) {
 export function mergeReconciler (hostConfig) {
   Object.assign(defaultReconciler, hostConfig)
 }
+
+export function unsupport (api) {
+  return function () {
+    console.warn(`小程序暂不支持 ${api}`)
+  }
+}
+
+export function setUniqueKeyToRoute (key: string, obj) {
+  const routerParamsPrivateKey = '__key_'
+  const useDataCacheApis = [
+    'navigateTo',
+    'redirectTo',
+    'reLaunch',
+    'switchTab'
+  ]
+
+  if (useDataCacheApis.indexOf(key) > -1) {
+    const url = obj.url = obj.url || ''
+    const hasMark = url.indexOf('?') > -1
+    const cacheKey = getUniqueKey()
+    obj.url += (hasMark ? '&' : '?') + `${routerParamsPrivateKey}=${cacheKey}`
+  }
+}

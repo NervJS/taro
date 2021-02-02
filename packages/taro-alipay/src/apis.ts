@@ -1,15 +1,7 @@
-import { _onAndSyncApis, _noPromiseApis, _otherApis } from './apis-list'
+import { processApis } from '@tarojs/shared'
+import { noPromiseApis, needPromiseApis } from './apis-list'
 
 declare const my: any
-declare const getCurrentPages: () => any
-declare const getApp: () => any
-
-interface ITaro {
-  onAndSyncApis: Set<string>
-  noPromiseApis: Set<string>
-  otherApis: Set<string>
-  [propName: string]: any
-}
 
 const apiDiff = {
   showActionSheet: {
@@ -178,39 +170,6 @@ const apiDiff = {
 
 const nativeRequest = my.canIUse('request') ? my.request : my.httpRequest
 
-const RequestQueue = {
-  MAX_REQUEST: 5,
-  queue: [],
-  request (options) {
-    this.push(options)
-    // 返回request task
-    return this.run()
-  },
-
-  push (options) {
-    this.queue.push(options)
-  },
-
-  run () {
-    if (!this.queue.length) {
-      return
-    }
-    if (this.queue.length <= this.MAX_REQUEST) {
-      const options = this.queue.shift()
-      const completeFn = options.complete
-      options.complete = () => {
-        completeFn && completeFn.apply(options, [...arguments])
-        this.run()
-      }
-      return nativeRequest(options)
-    }
-  }
-}
-
-function taroInterceptor (chain) {
-  return request(chain.requestParams)
-}
-
 function request (options) {
   options = options || {}
   if (typeof options === 'string') {
@@ -251,7 +210,7 @@ function request (options) {
       originComplete && originComplete(res)
     }
 
-    requestTask = RequestQueue.request(options)
+    requestTask = nativeRequest(options)
   })
   p.abort = (cb) => {
     cb && cb()
@@ -263,166 +222,51 @@ function request (options) {
   return p
 }
 
-function processApis (taro: ITaro) {
-  const onAndSyncApis = new Set([...taro.onAndSyncApis, ..._onAndSyncApis])
-  const noPromiseApis = new Set([...taro.noPromiseApis, ..._noPromiseApis])
-  const otherApis = new Set([...taro.otherApis, ..._otherApis])
-  const apis = [...onAndSyncApis, ...noPromiseApis, ...otherApis]
-  apis.forEach(key => {
-    if (!(key in my)) {
-      taro[key] = () => {
-        console.warn(`支付宝小程序暂不支持 ${key}`)
+function handleSyncApis (key: string, global: Record<string, any>, args: any[]) {
+  if (key === 'getStorageSync') {
+    const arg1 = args[0]
+    if (arg1 != null) {
+      const res = global[key]({ key: arg1 })
+
+      // 支付宝小程序遗留bug：值可能在data或APDataStorage字段下
+      let data = null
+      if (res.hasOwnProperty('data')) {
+        data = res.data
+      } else if (res.hasOwnProperty('APDataStorage')) {
+        data = res.APDataStorage
       }
-      return
+
+      return data === null ? '' : data
     }
-
-    if (otherApis.has(key)) {
-      taro[key] = (options, ...args) => {
-        const result = generateSpecialApis(key, options || {})
-        const newKey = result.api
-        options = result.options
-        let task: any = null
-        const obj = Object.assign({}, options)
-        if (!(newKey in my)) {
-          console.warn(`支付宝小程序暂不支持 ${newKey}`)
-          return
-        }
-        if (typeof options === 'string') {
-          if (args.length) {
-            return my[newKey](options, ...args)
-          }
-          return my[newKey](options)
-        }
-
-        if (key === 'navigateTo' || key === 'redirectTo' || key === 'switchTab') {
-          let url = obj.url ? obj.url.replace(/^\//, '') : ''
-          if (url.indexOf('?') > -1) url = url.split('?')[0]
-        }
-
-        const p: any = new Promise((resolve, reject) => {
-          ['fail', 'success', 'complete'].forEach((k) => {
-            obj[k] = (res) => {
-              if (k === 'success') {
-                if (newKey === 'saveFile') {
-                  res.savedFilePath = res.apFilePath
-                } else if (newKey === 'downloadFile') {
-                  res.tempFilePath = res.apFilePath
-                } else if (newKey === 'chooseImage') {
-                  res.tempFilePaths = res.apFilePaths
-                } else if (newKey === 'getClipboard') {
-                  res.data = res.text
-                } else if (newKey === 'scan') {
-                  res.result = res.code
-                } else if (newKey === 'getScreenBrightness') {
-                  res.value = res.brightness
-                  delete res.brightness
-                }
-              }
-              options[k] && options[k](res)
-              if (k === 'success') {
-                resolve(res)
-              } else if (k === 'fail') {
-                reject(res)
-              }
-            }
-          })
-          if (args.length) {
-            task = my[newKey](obj, ...args)
-          } else {
-            task = my[newKey](obj)
-          }
-        })
-        if (newKey === 'uploadFile' || newKey === 'downloadFile') {
-          p.progress = cb => {
-            if (task) {
-              task.onProgressUpdate(cb)
-            }
-            return p
-          }
-          p.abort = cb => {
-            cb && cb()
-            if (task) {
-              task.abort()
-            }
-            return p
-          }
-        }
-        return p
-      }
-    } else {
-      taro[key] = (...args) => {
-        if (!(key in my)) {
-          console.warn(`支付宝小程序暂不支持 ${key}`)
-          return
-        }
-        if (key === 'getStorageSync') {
-          const arg1 = args[0]
-          if (arg1 != null) {
-            const res = my[key]({ key: arg1 })
-
-            // 支付宝小程序遗留bug：值可能在data或APDataStorage字段下
-            let data = null
-            if (res.hasOwnProperty('data')) {
-              data = res.data
-            } else if (res.hasOwnProperty('APDataStorage')) {
-              data = res.APDataStorage
-            }
-
-            return data === null ? '' : data
-          }
-          return console.error('getStorageSync 传入参数错误')
-        }
-        if (key === 'setStorageSync') {
-          const arg1 = args[0]
-          const arg2 = args[1]
-          if (arg1 != null) {
-            return my[key]({
-              key: arg1,
-              data: arg2
-            })
-          }
-          return console.error('setStorageSync 传入参数错误')
-        }
-        if (key === 'removeStorageSync') {
-          const arg1 = args[0]
-          if (arg1 != null) {
-            return my[key]({ key: arg1 })
-          }
-          return console.error('removeStorageSync 传入参数错误')
-        }
-        if (key === 'createSelectorQuery') {
-          const query = my[key]()
-          query.in = function () { return query }
-          return query
-        }
-        const argsLen = args.length
-        const newArgs = args.concat()
-        const lastArg = newArgs[argsLen - 1]
-        if (lastArg && lastArg.isTaroComponent && lastArg.$scope) {
-          newArgs.splice(argsLen - 1, 1, lastArg.$scope)
-        }
-        return my[key].apply(my, newArgs)
-      }
-    }
-  })
-}
-
-function pxTransform (size) {
-  const {
-    designWidth = 750,
-    deviceRatio = {
-      640: 2.34 / 2,
-      750: 1,
-      828: 1.81 / 2
-    }
-  } = this.config || {}
-  if (!(designWidth in deviceRatio)) {
-    throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
+    return console.error('getStorageSync 传入参数错误')
   }
-  return (parseInt(size, 10) * deviceRatio[designWidth]) + 'rpx'
+  if (key === 'setStorageSync') {
+    const arg1 = args[0]
+    const arg2 = args[1]
+    if (arg1 != null) {
+      return global[key]({
+        key: arg1,
+        data: arg2
+      })
+    }
+    return console.error('setStorageSync 传入参数错误')
+  }
+  if (key === 'removeStorageSync') {
+    const arg1 = args[0]
+    if (arg1 != null) {
+      return global[key]({ key: arg1 })
+    }
+    return console.error('removeStorageSync 传入参数错误')
+  }
+  if (key === 'createSelectorQuery') {
+    const query = global[key]()
+    query.in = function () { return query }
+    return query
+  }
+  return global[key].apply(global, args)
 }
 
-function generateSpecialApis (api, options) {
+function transformMeta (api: string, options: Record<string, any>) {
   let apiAlias = api
   if (api === 'showModal') {
     options.cancelButtonText = options.cancelText || '取消'
@@ -458,33 +302,35 @@ function generateSpecialApis (api, options) {
   }
 
   return {
-    api: apiAlias,
+    key: apiAlias,
     options
   }
 }
 
-function getPreload (taro) {
-  return function (key, val) {
-    if (typeof key === 'object') {
-      taro.preloadData = key
-    } else if (key !== undefined && val !== undefined) {
-      taro.preloadData = {
-        [key]: val
-      }
-    }
+function modifyAsyncResult (key, res) {
+  if (key === 'saveFile') {
+    res.savedFilePath = res.apFilePath
+  } else if (key === 'downloadFile') {
+    res.tempFilePath = res.apFilePath
+  } else if (key === 'chooseImage') {
+    res.tempFilePaths = res.apFilePaths
+  } else if (key === 'getClipboard') {
+    res.data = res.text
+  } else if (key === 'scan') {
+    res.result = res.code
+  } else if (key === 'getScreenBrightness') {
+    res.value = res.brightness
+    delete res.brightness
   }
 }
 
 export function initNativeApi (taro) {
-  processApis(taro)
-  const link = new taro.Link(taroInterceptor)
-  taro.request = link.request.bind(link)
-  taro.addInterceptor = link.addInterceptor.bind(link)
-  taro.cleanInterceptors = link.cleanInterceptors.bind(link)
-  taro.getCurrentPages = getCurrentPages
-  taro.getApp = getApp
-  taro.initPxTransform = taro.initPxTransform.bind(taro)
-  taro.pxTransform = pxTransform.bind(taro)
-  taro.preload = getPreload(taro)
-  taro.env = my.env
+  processApis(taro, my, {
+    noPromiseApis,
+    needPromiseApis,
+    handleSyncApis,
+    transformMeta,
+    modifyAsyncResult,
+    request
+  })
 }

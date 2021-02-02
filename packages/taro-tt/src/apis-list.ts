@@ -1,8 +1,8 @@
-export const _noPromiseApis = new Set([
+export const noPromiseApis = new Set([
   'canIPutStuffOverComponent'
 ])
 
-export const _otherApis = new Set([
+export const needPromiseApis = new Set([
   'checkFollowState',
   'exitMiniProgram',
   'followOfficialAccount',

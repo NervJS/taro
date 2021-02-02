@@ -1,4 +1,4 @@
-export const _onAndSyncApis = new Set([
+export const noPromiseApis = new Set([
   'getAccountInfoSync',
   'getEnterOptionsSync',
   'offBLEPeripheralConnectionStateChanged',
@@ -39,10 +39,7 @@ export const _onAndSyncApis = new Set([
   'onWindowResize',
   'reportMonitor',
   'onGyroscopeChange',
-  'offGyroscopeChange'
-])
-
-export const _noPromiseApis = new Set([
+  'offGyroscopeChange',
   'createAudioContext',
   'createLivePusherContext',
   'createMediaContainer',
@@ -64,7 +61,7 @@ export const _noPromiseApis = new Set([
   'stopVoice'
 ])
 
-export const _otherApis = new Set([
+export const needPromiseApis = new Set([
   'addCard',
   'authPrivateMessage',
   'checkIsOpenAccessibility',

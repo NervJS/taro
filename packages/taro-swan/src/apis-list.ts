@@ -1,10 +1,6 @@
-export const _onAndSyncApis = new Set([
+export const noPromiseApis = new Set([
   'getEnvInfoSync',
-  'isLoginSync'
-
-])
-
-export const _noPromiseApis = new Set([
+  'isLoginSync',
   'createARCameraContext',
   'createAnimationVideo',
   'createRtcRoomContext',
@@ -12,7 +8,7 @@ export const _noPromiseApis = new Set([
   'setURLQuery'
 ])
 
-export const _otherApis = new Set([
+export const needPromiseApis = new Set([
   'addEventOnCalendar',
   'chooseAlbum',
   'closeCommunityEditor',

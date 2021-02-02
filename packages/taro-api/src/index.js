@@ -1,58 +1,21 @@
 /* eslint-disable camelcase */
 import './polyfill'
 import { getEnv, ENV_TYPE } from './env'
-import render from './render'
 import Link from './interceptor'
 import * as interceptors from './interceptor/interceptors'
 import {
-  noPromiseApis,
-  onAndSyncApis,
-  otherApis,
-  initPxTransform
-} from './native-apis'
+  Behavior,
+  getPreload,
+  getPxTransform,
+  getInitPxTransform
+} from './tools'
 import {
   Current,
   getCurrentInstance,
-  useDidShow,
-  useDidHide,
-  usePullDownRefresh,
-  useReachBottom,
-  usePageScroll,
-  useResize,
-  useShareAppMessage,
-  useTabItemTap,
-  useTitleClick,
-  useOptionMenuClick,
-  usePullIntercept,
-  useShareTimeline,
-  useAddToFavorites,
-  useReady,
-  useRouter,
   options,
   nextTick,
   eventCenter,
-  Events
-} from '@tarojs/runtime'
-
-const Behavior = function (options) {
-  return options
-}
-
-const Taro = {
-  Behavior,
   Events,
-  eventCenter,
-  getEnv,
-  ENV_TYPE,
-  render,
-  noPromiseApis,
-  onAndSyncApis,
-  otherApis,
-  initPxTransform,
-  Link,
-  interceptors,
-  Current,
-  getCurrentInstance,
   useDidShow,
   useDidHide,
   usePullDownRefresh,
@@ -67,9 +30,39 @@ const Taro = {
   useShareTimeline,
   useAddToFavorites,
   useReady,
-  useRouter,
+  useRouter
+} from '@tarojs/runtime'
+
+const Taro = {
+  Behavior,
+  getEnv,
+  ENV_TYPE,
+  Link,
+  interceptors,
+  initPxTransform: getInitPxTransform(Taro),
+  Current,
+  getCurrentInstance,
   options,
-  nextTick
+  nextTick,
+  eventCenter,
+  Events,
+  getPreload: getPreload(Taro),
+  pxTransform: getPxTransform(Taro),
+  useDidShow,
+  useDidHide,
+  usePullDownRefresh,
+  useReachBottom,
+  usePageScroll,
+  useResize,
+  useShareAppMessage,
+  useTabItemTap,
+  useTitleClick,
+  useOptionMenuClick,
+  usePullIntercept,
+  useShareTimeline,
+  useAddToFavorites,
+  useReady,
+  useRouter
 }
 
 export default Taro
