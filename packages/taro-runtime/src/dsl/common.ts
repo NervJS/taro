@@ -313,7 +313,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
   return config
 }
 
-export function createRecursiveComponentConfig () {
+export function createRecursiveComponentConfig (componentName?: string) {
   return {
     properties: {
       i: {
@@ -337,7 +337,7 @@ export function createRecursiveComponentConfig () {
     },
     options: {
       addGlobalClass: true,
-      virtualHost: true
+      virtualHost: componentName !== 'custom-wrapper'
     },
     methods: {
       eh: eventHandler
