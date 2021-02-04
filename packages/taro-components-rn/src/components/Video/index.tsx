@@ -181,12 +181,14 @@ class _Video extends Component<Props, any> {
   };
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  onError = (e: any): void => {
-    Object.defineProperty(e, 'detail', {
-      enumerable: true,
-      value: { errMsg: e.srcElement.error.code },
-    })
-    this.props.onError && this.props.onError(e)
+  onError = (e: string): void => {
+    if (this.props.onError) {
+      const error = Object.defineProperty({}, 'detail', {
+        enumerable: true,
+        value: { errMsg: e },
+      })
+      this.props.onError(error)
+    }
   };
 
   onLoad = (status: AVPlaybackStatus): void => {
