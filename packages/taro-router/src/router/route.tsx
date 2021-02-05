@@ -133,6 +133,7 @@ class Route extends Taro.Component<RouteProps, {}> {
 
     if (isRedirect) {
       this.updateComponent(nProps)
+      return
     } else if (lastMatched === nextMatched) {
       return
     }
