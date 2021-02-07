@@ -254,13 +254,13 @@ export class BaseTemplate {
     const { isSupportRecursive, Adapter } = this
     const nextLevel = isSupportRecursive ? 0 : level + 1
 
-    const data = !this.isSupportRecursive
+    const data = !this.isSupportRecursive && this.supportXS
       ? `${this.dataKeymap('i:item,l:l')}`
       : this.dataKeymap('i:item')
 
     let child = this.supportXS
       ? `<template is="{{xs.e(${isSupportRecursive ? 0 : 'cid+1'})}}" data="{{${data}}}" />`
-      : `<template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${this.dataKeymap('i:item')}}}" />`
+      : `<template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${data}}}" />`
 
     if (isFunction(this.modifyLoopBody)) {
       child = this.modifyLoopBody(child, comp.nodeName)
@@ -320,11 +320,11 @@ export class BaseTemplate {
   }
 
   protected buildThirdPartyTemplate (level: number, componentConfig: ComponentConfig) {
-    const { Adapter, isSupportRecursive } = this
+    const { Adapter, isSupportRecursive, supportXS, nestElements } = this
     const nextLevel = isSupportRecursive ? 0 : level + 1
     let template = ''
 
-    const data = !this.isSupportRecursive && this.supportXS
+    const data = !isSupportRecursive && supportXS
       ? `${this.dataKeymap('i:item,l:l')}`
       : this.dataKeymap('i:item')
 
@@ -337,11 +337,17 @@ export class BaseTemplate {
 </template>
   `
       } else {
+        if (!isSupportRecursive && supportXS && nestElements.has(compName) && level + 1 > nestElements.get(compName)!) return
+
+        const child = supportXS
+          ? `<template is="{{xs.e(${isSupportRecursive ? 0 : 'cid+1'})}}" data="{{${data}}}" />`
+          : `<template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${data}}}" />`
+
         template += `
 <template name="tmpl_${level}_${compName}">
   <${compName} ${this.buildThirdPartyAttr(attrs)} id="{{i.uid}}">
     <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="uid">
-      <template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${data}}}" />
+      ${child}
     </block>
   </${compName}>
 </template>
@@ -558,16 +564,21 @@ export class UnRecursiveTemplate extends BaseTemplate {
   }
 
   protected buildXSTmplName () {
-    const comps = [
+    const isLoopComps = [
       ...Array.from(this.nestElements.keys()),
       ...Array.from(this.componentConfig.thirdPartyComponents.keys())
     ]
+    const isLoopCompsSet = new Set(isLoopComps)
     const hasMaxComps: string[] = []
     this.nestElements.forEach((max, comp) => {
-      if (max > -1) hasMaxComps.push(comp)
+      if (max > 1) {
+        hasMaxComps.push(comp)
+      } else if (max === 1 && isLoopCompsSet.has(comp)) {
+        isLoopCompsSet.delete(comp)
+      }
     })
     return `function (l, n, s) {
-    var a = ${JSON.stringify(comps)}
+    var a = ${JSON.stringify(Array.from(isLoopCompsSet))}
     var b = ${JSON.stringify(hasMaxComps)}
     if (a.indexOf(n) === -1) {
       l = 0
@@ -587,7 +598,7 @@ export class UnRecursiveTemplate extends BaseTemplate {
   protected buildXSTmpExtra () {
     const hasMaxComps: string[] = []
     this.nestElements.forEach((max, comp) => {
-      if (max > -1) hasMaxComps.push(comp)
+      if (max > 1) hasMaxComps.push(comp)
     })
     return `f: function (l, n) {
     var b = ${JSON.stringify(hasMaxComps)}
