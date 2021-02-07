@@ -388,6 +388,7 @@ function equipCommonApis (taro, global, apis: Record<string, any> = {}) {
   taro.request = link.request.bind(link)
   taro.addInterceptor = link.addInterceptor.bind(link)
   taro.cleanInterceptors = link.cleanInterceptors.bind(link)
+  taro.miniGlobal = global
 }
 
 export {

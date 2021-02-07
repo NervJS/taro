@@ -19,7 +19,10 @@ if (typeof PRERENDER !== 'undefined') {
   global._prerender = inst
 }`
 
-  const setReconciler = options.runtimePath ? `import '${options.runtimePath}'` : ''
+  const runtimePath = Array.isArray(options.runtimePath) ? options.runtimePath : [options.runtimePath]
+  const setReconciler = runtimePath.reduce((res, item) => {
+    return res + `import '${item}'\n`
+  }, '')
 
   const createApp = `${creator}(component, ${frameworkArgs})`
 

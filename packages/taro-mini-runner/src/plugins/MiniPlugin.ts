@@ -52,7 +52,7 @@ interface ITaroMiniPluginOptions {
   template: RecursiveTemplate | UnRecursiveTemplate
   modifyBuildAssets?: Function
   modifyMiniConfigs?: Function
-  runtimePath?: string
+  runtimePath?: string | string[]
   onCompilerMake?: Function
   blended: boolean
   alias: Record<string, string>

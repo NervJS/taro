@@ -1,5 +1,5 @@
 import { IPluginContext } from '@tarojs/service'
-
+import * as hooks from '../constant'
 import configValidator from '../../doctor/configValidator'
 
 export default (ctx: IPluginContext) => {
@@ -54,7 +54,7 @@ export default (ctx: IPluginContext) => {
         isProduction = process.env.NODE_ENV === 'production' || !isWatch
       }
 
-      await ctx.applyPlugins('onBuildStart')
+      await ctx.applyPlugins(hooks.ON_BUILD_START)
       await ctx.applyPlugins({
         name: platform,
         opts: {
@@ -65,7 +65,7 @@ export default (ctx: IPluginContext) => {
             blended,
             async modifyWebpackChain (chain, webpack) {
               await ctx.applyPlugins({
-                name: 'modifyWebpackChain',
+                name: hooks.MODIFY_WEBPACK_CHAIN,
                 initialVal: chain,
                 opts: {
                   chain,
@@ -75,7 +75,7 @@ export default (ctx: IPluginContext) => {
             },
             async modifyBuildAssets (assets, miniPlugin) {
               await ctx.applyPlugins({
-                name: 'modifyBuildAssets',
+                name: hooks.MODIFY_BUILD_ASSETS,
                 initialVal: assets,
                 opts: {
                   assets,
@@ -85,7 +85,7 @@ export default (ctx: IPluginContext) => {
             },
             async modifyMiniConfigs (configMap) {
               await ctx.applyPlugins({
-                name: 'modifyMiniConfigs',
+                name: hooks.MODIFY_MINI_CONFIGS,
                 initialVal: configMap,
                 opts: {
                   configMap
@@ -94,7 +94,7 @@ export default (ctx: IPluginContext) => {
             },
             async onCompilerMake (compilation) {
               await ctx.applyPlugins({
-                name: 'onCompilerMake',
+                name: hooks.ON_COMPILER_MAKE,
                 opts: {
                   compilation
                 }
@@ -102,7 +102,7 @@ export default (ctx: IPluginContext) => {
             },
             async onBuildFinish ({ error, stats, isWatch }) {
               await ctx.applyPlugins({
-                name: 'onBuildFinish',
+                name: hooks.ON_BUILD_FINISH,
                 opts: {
                   error,
                   stats,
@@ -119,12 +119,12 @@ export default (ctx: IPluginContext) => {
 
 function registerBuildHooks (ctx) {
   [
-    'modifyWebpackChain',
-    'modifyBuildAssets',
-    'modifyMiniConfigs',
-    'onCompilerMake',
-    'onBuildStart',
-    'onBuildFinish'
+    hooks.MODIFY_WEBPACK_CHAIN,
+    hooks.MODIFY_BUILD_ASSETS,
+    hooks.MODIFY_MINI_CONFIGS,
+    hooks.ON_COMPILER_MAKE,
+    hooks.ON_BUILD_START,
+    hooks.ON_BUILD_FINISH
   ].forEach(methodName => {
     ctx.registerMethod(methodName)
   })

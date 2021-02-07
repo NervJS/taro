@@ -24,7 +24,7 @@ export declare abstract class TaroPlatformBase {
     config: any;
     abstract platform: string;
     abstract globalObject: string;
-    abstract runtimePath: string;
+    abstract runtimePath: string | string[];
     abstract fileType: IFileType;
     abstract template: RecursiveTemplate | UnRecursiveTemplate;
     projectConfigJson?: string;

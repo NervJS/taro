@@ -45,7 +45,7 @@ export abstract class TaroPlatformBase {
 
   abstract platform: string
   abstract globalObject: string
-  abstract runtimePath: string
+  abstract runtimePath: string | string[]
   abstract fileType: IFileType
   abstract template: RecursiveTemplate | UnRecursiveTemplate
   projectConfigJson?: string
@@ -67,6 +67,7 @@ export abstract class TaroPlatformBase {
    */
   private async setup () {
     await this.setupTransaction.perform(this.setupImpl, this)
+    this.ctx.onSetupClose?.(this)
   }
 
   private setupImpl () {
@@ -133,6 +134,7 @@ ${exampleCommand}
    * @param extraOptions 需要额外传入 @tarojs/mini-runner 的配置项
    */
   private async build (extraOptions = {}) {
+    this.ctx.onBuildInit?.(this)
     await this.buildTransaction.perform(this.buildImpl, this, extraOptions)
   }
 
