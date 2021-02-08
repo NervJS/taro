@@ -341,7 +341,7 @@ export class Template extends RecursiveTemplate {
 
 ### 微信小程序模板
 
-* 微信小程序支持模板递归，所以继承 `UnRecursiveTemplate` 基类。
+* 微信小程序不支持模板递归，所以继承 `UnRecursiveTemplate` 基类。
 * 设置 `supportXS` 和 `Adapter` 属性。
 * 因为微信小程序支持渲染层脚本 `wxs`，所以通过 `buildXsTemplate` 设置 base 模板中对 utils 脚本的引用语法。
 * 利用 `replacePropName` 修改了组件绑定的属性名。

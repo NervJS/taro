@@ -158,12 +158,19 @@
           "id": "version-3.2.0-canary.3/virtual-list"
         },
         {
-          "type": "doc",
-          "id": "version-3.2.0-canary.3/mini-third-party"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.2.0-canary.3/hybrid"
+          "collapsed": true,
+          "label": "反向转换",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.3/hybrid"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.3/taro-in-miniapp"
+            }
+          ]
         },
         {
           "collapsed": true,

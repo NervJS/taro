@@ -158,12 +158,19 @@
           "id": "version-3.x/virtual-list"
         },
         {
-          "type": "doc",
-          "id": "version-3.x/mini-third-party"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/hybrid"
+          "collapsed": true,
+          "label": "反向转换",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/hybrid"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/taro-in-miniapp"
+            }
+          ]
         },
         {
           "collapsed": true,

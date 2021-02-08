@@ -35,7 +35,7 @@ class App extends Component {
           <Text>可以自动聚焦的 input</Text>
             <Input type='text' placeholder='将会获取焦点' focus/>
             <Text>控制最大输入长度的 input</Text>
-            <Input type='text' placeholder='最大输入长度为 10' maxlength='10'/>
+           <Input type='text' placeholder='最大输入长度为 10' maxlength='10'/>
             <Text>数字输入的 input</Text>
             <Input type='number' placeholder='这是一个数字输入框'/>
             <Text>密码输入的 input</Text>
@@ -312,6 +312,9 @@ class App extends Component {
     </tr>
   </tbody>
 </table>
+
+
+> 注意：React-Native 端 `inputEventDetail` 仅实现参数 `value`，若需实时获取光标位置则可通过 [`onSelectionChange`](https://reactnative.dev/docs/textinput#onselectionchange) 实现。
 
 ### inputForceEventDetail
 
