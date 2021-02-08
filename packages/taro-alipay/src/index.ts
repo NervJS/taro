@@ -12,7 +12,7 @@ export default (ctx: IPluginContext) => {
       modifyPageTemplate(ctx)
 
       const program = new Alipay(ctx, config)
-      program.start()
+      await program.start()
     }
   })
 }

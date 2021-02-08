@@ -9,7 +9,7 @@ export default (ctx: IPluginContext) => {
     useConfigName: 'mini',
     async fn ({ config }) {
       const program = new QQ(ctx, config)
-      program.start()
+      await program.start()
     }
   })
 }

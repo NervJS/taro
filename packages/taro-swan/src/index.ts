@@ -10,7 +10,7 @@ export default (ctx: IPluginContext) => {
     useConfigName: 'mini',
     async fn ({ config }) {
       const program = new Swan(ctx, config)
-      program.start()
+      await program.start()
     }
   })
 }
