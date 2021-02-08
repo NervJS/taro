@@ -734,8 +734,8 @@ require(\\"./taro\\");
             buildStandardComponentTemplate(comp, level) {
                 const {isSupportRecursive: isSupportRecursive, Adapter: Adapter} = this;
                 const nextLevel = isSupportRecursive ? 0 : level + 1;
-                const data = !this.isSupportRecursive ? \`\${this.dataKeymap(\\"i:item,l:l\\")}\` : this.dataKeymap(\\"i:item\\");
-                let child = this.supportXS ? \`<template is=\\"{{xs.e(\${isSupportRecursive ? 0 : \\"cid+1\\"})}}\\" data=\\"{{\${data}}}\\" />\` : \`<template is=\\"tmpl_\${nextLevel}_\${\\"container\\"}\\" data=\\"{{\${this.dataKeymap(\\"i:item\\")}}}\\" />\`;
+                const data = !this.isSupportRecursive && this.supportXS ? \`\${this.dataKeymap(\\"i:item,l:l\\")}\` : this.dataKeymap(\\"i:item\\");
+                let child = this.supportXS ? \`<template is=\\"{{xs.e(\${isSupportRecursive ? 0 : \\"cid+1\\"})}}\\" data=\\"{{\${data}}}\\" />\` : \`<template is=\\"tmpl_\${nextLevel}_\${\\"container\\"}\\" data=\\"{{\${data}}}\\" />\`;
                 if (isFunction(this.modifyLoopBody)) {
                     child = this.modifyLoopBody(child, comp.nodeName);
                 }
@@ -775,15 +775,17 @@ require(\\"./taro\\");
                 return \`\\\\n<template name=\\"tmpl_\${level}_#text\\" data=\\"{{\${this.dataKeymap(\\"i:i\\")}}}\\">\\\\n  <block>{{i.\${\\"v\\"}}}</block>\\\\n</template>\\\\n\`;
             }
             buildThirdPartyTemplate(level, componentConfig) {
-                const {Adapter: Adapter, isSupportRecursive: isSupportRecursive} = this;
+                const {Adapter: Adapter, isSupportRecursive: isSupportRecursive, supportXS: supportXS, nestElements: nestElements} = this;
                 const nextLevel = isSupportRecursive ? 0 : level + 1;
                 let template = \\"\\";
-                const data = !this.isSupportRecursive && this.supportXS ? \`\${this.dataKeymap(\\"i:item,l:l\\")}\` : this.dataKeymap(\\"i:item\\");
+                const data = !isSupportRecursive && supportXS ? \`\${this.dataKeymap(\\"i:item,l:l\\")}\` : this.dataKeymap(\\"i:item\\");
                 componentConfig.thirdPartyComponents.forEach((attrs, compName) => {
                     if (compName === \\"custom-wrapper\\") {
                         template += \`\\\\n<template name=\\"tmpl_\${level}_\${compName}\\">\\\\n  <\${compName} i=\\"{{i}}\\" l=\\"{{l}}\\" id=\\"{{i.uid}}\\">\\\\n  </\${compName}>\\\\n</template>\\\\n  \`;
                     } else {
-                        template += \`\\\\n<template name=\\"tmpl_\${level}_\${compName}\\">\\\\n  <\${compName} \${this.buildThirdPartyAttr(attrs)} id=\\"{{i.uid}}\\">\\\\n    <block \${Adapter.for}=\\"{{i.\${\\"cn\\"}}}\\" \${Adapter.key}=\\"uid\\">\\\\n      <template is=\\"tmpl_\${nextLevel}_\${\\"container\\"}\\" data=\\"{{\${data}}}\\" />\\\\n    </block>\\\\n  </\${compName}>\\\\n</template>\\\\n  \`;
+                        if (!isSupportRecursive && supportXS && nestElements.has(compName) && level + 1 > nestElements.get(compName)) return;
+                        const child = supportXS ? \`<template is=\\"{{xs.e(\${isSupportRecursive ? 0 : \\"cid+1\\"})}}\\" data=\\"{{\${data}}}\\" />\` : \`<template is=\\"tmpl_\${nextLevel}_\${\\"container\\"}\\" data=\\"{{\${data}}}\\" />\`;
+                        template += \`\\\\n<template name=\\"tmpl_\${level}_\${compName}\\">\\\\n  <\${compName} \${this.buildThirdPartyAttr(attrs)} id=\\"{{i.uid}}\\">\\\\n    <block \${Adapter.for}=\\"{{i.\${\\"cn\\"}}}\\" \${Adapter.key}=\\"uid\\">\\\\n      \${child}\\\\n    </block>\\\\n  </\${compName}>\\\\n</template>\\\\n  \`;
                     }
                 });
                 return template;
@@ -909,17 +911,22 @@ require(\\"./taro\\");
                 return template;
             }
             buildXSTmplName() {
-                const comps = [ ...Array.from(this.nestElements.keys()), ...Array.from(this.componentConfig.thirdPartyComponents.keys()) ];
+                const isLoopComps = [ ...Array.from(this.nestElements.keys()), ...Array.from(this.componentConfig.thirdPartyComponents.keys()) ];
+                const isLoopCompsSet = new Set(isLoopComps);
                 const hasMaxComps = [];
                 this.nestElements.forEach((max, comp) => {
-                    if (max > -1) hasMaxComps.push(comp);
+                    if (max > 1) {
+                        hasMaxComps.push(comp);
+                    } else if (max === 1 && isLoopCompsSet.has(comp)) {
+                        isLoopCompsSet.delete(comp);
+                    }
                 });
-                return \`function (l, n, s) {\\\\n    var a = \${JSON.stringify(comps)}\\\\n    var b = \${JSON.stringify(hasMaxComps)}\\\\n    if (a.indexOf(n) === -1) {\\\\n      l = 0\\\\n    }\\\\n    if (b.indexOf(n) > -1) {\\\\n      var u = s.split(',')\\\\n      var depth = 0\\\\n      for (var i = 0; i < u.length; i++) {\\\\n        if (u[i] === n) depth++\\\\n      }\\\\n      l = depth\\\\n    }\\\\n    return 'tmpl_' + l + '_' + n\\\\n  }\`;
+                return \`function (l, n, s) {\\\\n    var a = \${JSON.stringify(Array.from(isLoopCompsSet))}\\\\n    var b = \${JSON.stringify(hasMaxComps)}\\\\n    if (a.indexOf(n) === -1) {\\\\n      l = 0\\\\n    }\\\\n    if (b.indexOf(n) > -1) {\\\\n      var u = s.split(',')\\\\n      var depth = 0\\\\n      for (var i = 0; i < u.length; i++) {\\\\n        if (u[i] === n) depth++\\\\n      }\\\\n      l = depth\\\\n    }\\\\n    return 'tmpl_' + l + '_' + n\\\\n  }\`;
             }
             buildXSTmpExtra() {
                 const hasMaxComps = [];
                 this.nestElements.forEach((max, comp) => {
-                    if (max > -1) hasMaxComps.push(comp);
+                    if (max > 1) hasMaxComps.push(comp);
                 });
                 return \`f: function (l, n) {\\\\n    var b = \${JSON.stringify(hasMaxComps)}\\\\n    if (b.indexOf(n) > -1) {\\\\n      if (l) l += ','\\\\n      l += n\\\\n    }\\\\n    return l\\\\n  }\`;
             }
@@ -1077,6 +1084,7 @@ require(\\"./taro\\");
             taro.request = link.request.bind(link);
             taro.addInterceptor = link.addInterceptor.bind(link);
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
+            taro.miniGlobal = global;
         }
         const runtime_noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\" ]);
         const runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\" ]);
@@ -1528,7 +1536,7 @@ require(\\"./taro\\");
 <template name=\\"tmpl_0_tab\\">
   <tab bindmyevent=\\"eh\\" myProperty=\\"{{i.myProperty}}\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
-      <template is=\\"tmpl_1_container\\" data=\\"{{i:item,l:l}}\\" />
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </tab>
 </template>
@@ -1596,7 +1604,7 @@ require(\\"./taro\\");
 <template name=\\"tmpl_1_tab\\">
   <tab bindmyevent=\\"eh\\" myProperty=\\"{{i.myProperty}}\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
-      <template is=\\"tmpl_2_container\\" data=\\"{{i:item,l:l}}\\" />
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </tab>
 </template>
@@ -1664,7 +1672,7 @@ require(\\"./taro\\");
 <template name=\\"tmpl_2_tab\\">
   <tab bindmyevent=\\"eh\\" myProperty=\\"{{i.myProperty}}\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
-      <template is=\\"tmpl_3_container\\" data=\\"{{i:item,l:l}}\\" />
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </tab>
 </template>
@@ -1732,7 +1740,7 @@ require(\\"./taro\\");
 <template name=\\"tmpl_3_tab\\">
   <tab bindmyevent=\\"eh\\" myProperty=\\"{{i.myProperty}}\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
-      <template is=\\"tmpl_4_container\\" data=\\"{{i:item,l:l}}\\" />
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </tab>
 </template>
@@ -1792,7 +1800,7 @@ require(\\"./taro\\");
 <template name=\\"tmpl_4_tab\\">
   <tab bindmyevent=\\"eh\\" myProperty=\\"{{i.myProperty}}\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
-      <template is=\\"tmpl_5_container\\" data=\\"{{i:item,l:l}}\\" />
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </tab>
 </template>
@@ -1852,7 +1860,7 @@ require(\\"./taro\\");
 <template name=\\"tmpl_5_tab\\">
   <tab bindmyevent=\\"eh\\" myProperty=\\"{{i.myProperty}}\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
-      <template is=\\"tmpl_6_container\\" data=\\"{{i:item,l:l}}\\" />
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </tab>
 </template>
@@ -1904,7 +1912,7 @@ require(\\"./taro\\");
 <template name=\\"tmpl_6_tab\\">
   <tab bindmyevent=\\"eh\\" myProperty=\\"{{i.myProperty}}\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
-      <template is=\\"tmpl_7_container\\" data=\\"{{i:item,l:l}}\\" />
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </tab>
 </template>
@@ -1956,7 +1964,7 @@ require(\\"./taro\\");
 <template name=\\"tmpl_7_tab\\">
   <tab bindmyevent=\\"eh\\" myProperty=\\"{{i.myProperty}}\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
-      <template is=\\"tmpl_8_container\\" data=\\"{{i:item,l:l}}\\" />
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </tab>
 </template>
@@ -2008,7 +2016,7 @@ require(\\"./taro\\");
 <template name=\\"tmpl_8_tab\\">
   <tab bindmyevent=\\"eh\\" myProperty=\\"{{i.myProperty}}\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
-      <template is=\\"tmpl_9_container\\" data=\\"{{i:item,l:l}}\\" />
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </tab>
 </template>
@@ -2060,7 +2068,7 @@ require(\\"./taro\\");
 <template name=\\"tmpl_9_tab\\">
   <tab bindmyevent=\\"eh\\" myProperty=\\"{{i.myProperty}}\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
-      <template is=\\"tmpl_10_container\\" data=\\"{{i:item,l:l}}\\" />
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </tab>
 </template>
@@ -2112,7 +2120,7 @@ require(\\"./taro\\");
 <template name=\\"tmpl_10_tab\\">
   <tab bindmyevent=\\"eh\\" myProperty=\\"{{i.myProperty}}\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
-      <template is=\\"tmpl_11_container\\" data=\\"{{i:item,l:l}}\\" />
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </tab>
 </template>
@@ -2164,7 +2172,7 @@ require(\\"./taro\\");
 <template name=\\"tmpl_11_tab\\">
   <tab bindmyevent=\\"eh\\" myProperty=\\"{{i.myProperty}}\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
-      <template is=\\"tmpl_12_container\\" data=\\"{{i:item,l:l}}\\" />
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </tab>
 </template>
@@ -2216,7 +2224,7 @@ require(\\"./taro\\");
 <template name=\\"tmpl_12_tab\\">
   <tab bindmyevent=\\"eh\\" myProperty=\\"{{i.myProperty}}\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
-      <template is=\\"tmpl_13_container\\" data=\\"{{i:item,l:l}}\\" />
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </tab>
 </template>
@@ -2268,7 +2276,7 @@ require(\\"./taro\\");
 <template name=\\"tmpl_13_tab\\">
   <tab bindmyevent=\\"eh\\" myProperty=\\"{{i.myProperty}}\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
-      <template is=\\"tmpl_14_container\\" data=\\"{{i:item,l:l}}\\" />
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </tab>
 </template>
@@ -2320,7 +2328,7 @@ require(\\"./taro\\");
 <template name=\\"tmpl_14_tab\\">
   <tab bindmyevent=\\"eh\\" myProperty=\\"{{i.myProperty}}\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
-      <template is=\\"tmpl_15_container\\" data=\\"{{i:item,l:l}}\\" />
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </tab>
 </template>
@@ -2510,7 +2518,11 @@ require(\\"./taro\\");
                 tab: \\"../../components/tab/tab\\"
             }
         };
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {}, config || {}));
+        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {
+            root: {
+                cn: []
+            }
+        }, config || {}));
     }
 }, [ [ 24, 0, 1, 3, 2 ] ] ]);
 

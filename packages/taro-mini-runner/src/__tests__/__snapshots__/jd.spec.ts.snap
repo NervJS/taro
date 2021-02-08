@@ -887,8 +887,8 @@ require(\\"./taro\\");
                 value: function buildStandardComponentTemplate(comp, level) {
                     var isSupportRecursive = this.isSupportRecursive, Adapter = this.Adapter;
                     var nextLevel = isSupportRecursive ? 0 : level + 1;
-                    var data = !this.isSupportRecursive ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
-                    var child = this.supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(this.dataKeymap(\\"i:item\\"), '}}\\" />');
+                    var data = !this.isSupportRecursive && this.supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
+                    var child = this.supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
                     if (isFunction(this.modifyLoopBody)) {
                         child = this.modifyLoopBody(child, comp.nodeName);
                     }
@@ -933,15 +933,17 @@ require(\\"./taro\\");
                 key: \\"buildThirdPartyTemplate\\",
                 value: function buildThirdPartyTemplate(level, componentConfig) {
                     var _this4 = this;
-                    var Adapter = this.Adapter, isSupportRecursive = this.isSupportRecursive;
+                    var Adapter = this.Adapter, isSupportRecursive = this.isSupportRecursive, supportXS = this.supportXS, nestElements = this.nestElements;
                     var nextLevel = isSupportRecursive ? 0 : level + 1;
                     var template = \\"\\";
-                    var data = !this.isSupportRecursive && this.supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
+                    var data = !isSupportRecursive && supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
                     componentConfig.thirdPartyComponents.forEach((function(attrs, compName) {
                         if (compName === \\"custom-wrapper\\") {
                             template += '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(compName, '\\">\\\\n  <').concat(compName, ' i=\\"{{i}}\\" l=\\"{{l}}\\" id=\\"{{i.uid}}\\">\\\\n  </').concat(compName, \\">\\\\n</template>\\\\n  \\");
                         } else {
-                            template += '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(compName, '\\">\\\\n  <').concat(compName, \\" \\").concat(_this4.buildThirdPartyAttr(attrs), ' id=\\"{{i.uid}}\\">\\\\n    <block ').concat(Adapter.for, '=\\"{{i.', \\"cn\\", '}}\\" ').concat(Adapter.key, '=\\"uid\\">\\\\n      <template is=\\"tmpl_').concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />\\\\n    </block>\\\\n  </').concat(compName, \\">\\\\n</template>\\\\n  \\");
+                            if (!isSupportRecursive && supportXS && nestElements.has(compName) && level + 1 > nestElements.get(compName)) return;
+                            var child = supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
+                            template += '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(compName, '\\">\\\\n  <').concat(compName, \\" \\").concat(_this4.buildThirdPartyAttr(attrs), ' id=\\"{{i.uid}}\\">\\\\n    <block ').concat(Adapter.for, '=\\"{{i.', \\"cn\\", '}}\\" ').concat(Adapter.key, '=\\"uid\\">\\\\n      ').concat(child, \\"\\\\n    </block>\\\\n  </\\").concat(compName, \\">\\\\n</template>\\\\n  \\");
                         }
                     }));
                     return template;
@@ -1105,19 +1107,24 @@ require(\\"./taro\\");
             }, {
                 key: \\"buildXSTmplName\\",
                 value: function buildXSTmplName() {
-                    var comps = [].concat(_toConsumableArray(Array.from(this.nestElements.keys())), _toConsumableArray(Array.from(this.componentConfig.thirdPartyComponents.keys())));
+                    var isLoopComps = [].concat(_toConsumableArray(Array.from(this.nestElements.keys())), _toConsumableArray(Array.from(this.componentConfig.thirdPartyComponents.keys())));
+                    var isLoopCompsSet = new Set(isLoopComps);
                     var hasMaxComps = [];
                     this.nestElements.forEach((function(max, comp) {
-                        if (max > -1) hasMaxComps.push(comp);
+                        if (max > 1) {
+                            hasMaxComps.push(comp);
+                        } else if (max === 1 && isLoopCompsSet.has(comp)) {
+                            isLoopCompsSet.delete(comp);
+                        }
                     }));
-                    return \\"function (l, n, s) {\\\\n    var a = \\".concat(JSON.stringify(comps), \\"\\\\n    var b = \\").concat(JSON.stringify(hasMaxComps), \\"\\\\n    if (a.indexOf(n) === -1) {\\\\n      l = 0\\\\n    }\\\\n    if (b.indexOf(n) > -1) {\\\\n      var u = s.split(',')\\\\n      var depth = 0\\\\n      for (var i = 0; i < u.length; i++) {\\\\n        if (u[i] === n) depth++\\\\n      }\\\\n      l = depth\\\\n    }\\\\n    return 'tmpl_' + l + '_' + n\\\\n  }\\");
+                    return \\"function (l, n, s) {\\\\n    var a = \\".concat(JSON.stringify(Array.from(isLoopCompsSet)), \\"\\\\n    var b = \\").concat(JSON.stringify(hasMaxComps), \\"\\\\n    if (a.indexOf(n) === -1) {\\\\n      l = 0\\\\n    }\\\\n    if (b.indexOf(n) > -1) {\\\\n      var u = s.split(',')\\\\n      var depth = 0\\\\n      for (var i = 0; i < u.length; i++) {\\\\n        if (u[i] === n) depth++\\\\n      }\\\\n      l = depth\\\\n    }\\\\n    return 'tmpl_' + l + '_' + n\\\\n  }\\");
                 }
             }, {
                 key: \\"buildXSTmpExtra\\",
                 value: function buildXSTmpExtra() {
                     var hasMaxComps = [];
                     this.nestElements.forEach((function(max, comp) {
-                        if (max > -1) hasMaxComps.push(comp);
+                        if (max > 1) hasMaxComps.push(comp);
                     }));
                     return \\"f: function (l, n) {\\\\n    var b = \\".concat(JSON.stringify(hasMaxComps), \\"\\\\n    if (b.indexOf(n) > -1) {\\\\n      if (l) l += ','\\\\n      l += n\\\\n    }\\\\n    return l\\\\n  }\\");
                 }
@@ -1296,6 +1303,7 @@ require(\\"./taro\\");
             taro.request = link.request.bind(link);
             taro.addInterceptor = link.addInterceptor.bind(link);
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
+            taro.miniGlobal = global;
         }
         function initNativeApi(taro) {
             processApis(taro, jd);
@@ -3611,7 +3619,11 @@ require(\\"./taro\\");
     var config = {
         navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
     };
-    var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {}, config || {}));
+    var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {
+        root: {
+            cn: []
+        }
+    }, config || {}));
 } ], [ [ 20, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/

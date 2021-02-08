@@ -784,8 +784,8 @@ require(\\"./taro\\");
             value: function buildStandardComponentTemplate(comp, level) {
                 var isSupportRecursive = this.isSupportRecursive, Adapter = this.Adapter;
                 var nextLevel = isSupportRecursive ? 0 : level + 1;
-                var data = !this.isSupportRecursive ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
-                var child = this.supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(this.dataKeymap(\\"i:item\\"), '}}\\" />');
+                var data = !this.isSupportRecursive && this.supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
+                var child = this.supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
                 if (isFunction(this.modifyLoopBody)) {
                     child = this.modifyLoopBody(child, comp.nodeName);
                 }
@@ -830,15 +830,17 @@ require(\\"./taro\\");
             key: \\"buildThirdPartyTemplate\\",
             value: function buildThirdPartyTemplate(level, componentConfig) {
                 var _this4 = this;
-                var Adapter = this.Adapter, isSupportRecursive = this.isSupportRecursive;
+                var Adapter = this.Adapter, isSupportRecursive = this.isSupportRecursive, supportXS = this.supportXS, nestElements = this.nestElements;
                 var nextLevel = isSupportRecursive ? 0 : level + 1;
                 var template = \\"\\";
-                var data = !this.isSupportRecursive && this.supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
+                var data = !isSupportRecursive && supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
                 componentConfig.thirdPartyComponents.forEach((function(attrs, compName) {
                     if (compName === \\"custom-wrapper\\") {
                         template += '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(compName, '\\">\\\\n  <').concat(compName, ' i=\\"{{i}}\\" l=\\"{{l}}\\" id=\\"{{i.uid}}\\">\\\\n  </').concat(compName, \\">\\\\n</template>\\\\n  \\");
                     } else {
-                        template += '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(compName, '\\">\\\\n  <').concat(compName, \\" \\").concat(_this4.buildThirdPartyAttr(attrs), ' id=\\"{{i.uid}}\\">\\\\n    <block ').concat(Adapter.for, '=\\"{{i.', \\"cn\\", '}}\\" ').concat(Adapter.key, '=\\"uid\\">\\\\n      <template is=\\"tmpl_').concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />\\\\n    </block>\\\\n  </').concat(compName, \\">\\\\n</template>\\\\n  \\");
+                        if (!isSupportRecursive && supportXS && nestElements.has(compName) && level + 1 > nestElements.get(compName)) return;
+                        var child = supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
+                        template += '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(compName, '\\">\\\\n  <').concat(compName, \\" \\").concat(_this4.buildThirdPartyAttr(attrs), ' id=\\"{{i.uid}}\\">\\\\n    <block ').concat(Adapter.for, '=\\"{{i.', \\"cn\\", '}}\\" ').concat(Adapter.key, '=\\"uid\\">\\\\n      ').concat(child, \\"\\\\n    </block>\\\\n  </\\").concat(compName, \\">\\\\n</template>\\\\n  \\");
                     }
                 }));
                 return template;
@@ -1002,19 +1004,24 @@ require(\\"./taro\\");
         }, {
             key: \\"buildXSTmplName\\",
             value: function buildXSTmplName() {
-                var comps = [].concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(Array.from(this.nestElements.keys())), Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(Array.from(this.componentConfig.thirdPartyComponents.keys())));
+                var isLoopComps = [].concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(Array.from(this.nestElements.keys())), Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(Array.from(this.componentConfig.thirdPartyComponents.keys())));
+                var isLoopCompsSet = new Set(isLoopComps);
                 var hasMaxComps = [];
                 this.nestElements.forEach((function(max, comp) {
-                    if (max > -1) hasMaxComps.push(comp);
+                    if (max > 1) {
+                        hasMaxComps.push(comp);
+                    } else if (max === 1 && isLoopCompsSet.has(comp)) {
+                        isLoopCompsSet.delete(comp);
+                    }
                 }));
-                return \\"function (l, n, s) {\\\\n    var a = \\".concat(JSON.stringify(comps), \\"\\\\n    var b = \\").concat(JSON.stringify(hasMaxComps), \\"\\\\n    if (a.indexOf(n) === -1) {\\\\n      l = 0\\\\n    }\\\\n    if (b.indexOf(n) > -1) {\\\\n      var u = s.split(',')\\\\n      var depth = 0\\\\n      for (var i = 0; i < u.length; i++) {\\\\n        if (u[i] === n) depth++\\\\n      }\\\\n      l = depth\\\\n    }\\\\n    return 'tmpl_' + l + '_' + n\\\\n  }\\");
+                return \\"function (l, n, s) {\\\\n    var a = \\".concat(JSON.stringify(Array.from(isLoopCompsSet)), \\"\\\\n    var b = \\").concat(JSON.stringify(hasMaxComps), \\"\\\\n    if (a.indexOf(n) === -1) {\\\\n      l = 0\\\\n    }\\\\n    if (b.indexOf(n) > -1) {\\\\n      var u = s.split(',')\\\\n      var depth = 0\\\\n      for (var i = 0; i < u.length; i++) {\\\\n        if (u[i] === n) depth++\\\\n      }\\\\n      l = depth\\\\n    }\\\\n    return 'tmpl_' + l + '_' + n\\\\n  }\\");
             }
         }, {
             key: \\"buildXSTmpExtra\\",
             value: function buildXSTmpExtra() {
                 var hasMaxComps = [];
                 this.nestElements.forEach((function(max, comp) {
-                    if (max > -1) hasMaxComps.push(comp);
+                    if (max > 1) hasMaxComps.push(comp);
                 }));
                 return \\"f: function (l, n) {\\\\n    var b = \\".concat(JSON.stringify(hasMaxComps), \\"\\\\n    if (b.indexOf(n) > -1) {\\\\n      if (l) l += ','\\\\n      l += n\\\\n    }\\\\n    return l\\\\n  }\\");
             }
@@ -1193,6 +1200,7 @@ require(\\"./taro\\");
         taro.request = link.request.bind(link);
         taro.addInterceptor = link.addInterceptor.bind(link);
         taro.cleanInterceptors = link.cleanInterceptors.bind(link);
+        taro.miniGlobal = global;
     }
 }, , , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
@@ -3886,7 +3894,11 @@ require(\\"./taro\\");
             var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
             var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(36);
             var config = {};
-            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"others/detail/index\\", {}, config || {}));
+            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"others/detail/index\\", {
+                root: {
+                    cn: []
+                }
+            }, config || {}));
             if (typeof PRERENDER !== \\"undefined\\") {
                 global._prerender = inst;
             }
@@ -3954,7 +3966,11 @@ require(\\"./taro\\");
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
         var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(37);
         var config = {};
-        var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"others/normal/index\\", {}, config || {}));
+        var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"others/normal/index\\", {
+            root: {
+                cn: []
+            }
+        }, config || {}));
     }
 }, [ [ 49, 0, 1, 3, 2 ] ] ]);
 
@@ -4007,7 +4023,11 @@ require(\\"./taro\\");
             var config = {
                 navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
             };
-            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"pages/index/index\\", {}, config || {}));
+            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"pages/index/index\\", {
+                root: {
+                    cn: []
+                }
+            }, config || {}));
             if (typeof PRERENDER !== \\"undefined\\") {
                 global._prerender = inst;
             }
@@ -5360,8 +5380,8 @@ require(\\"./taro\\");
                 value: function buildStandardComponentTemplate(comp, level) {
                     var isSupportRecursive = this.isSupportRecursive, Adapter = this.Adapter;
                     var nextLevel = isSupportRecursive ? 0 : level + 1;
-                    var data = !this.isSupportRecursive ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
-                    var child = this.supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(this.dataKeymap(\\"i:item\\"), '}}\\" />');
+                    var data = !this.isSupportRecursive && this.supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
+                    var child = this.supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
                     if (isFunction(this.modifyLoopBody)) {
                         child = this.modifyLoopBody(child, comp.nodeName);
                     }
@@ -5406,15 +5426,17 @@ require(\\"./taro\\");
                 key: \\"buildThirdPartyTemplate\\",
                 value: function buildThirdPartyTemplate(level, componentConfig) {
                     var _this4 = this;
-                    var Adapter = this.Adapter, isSupportRecursive = this.isSupportRecursive;
+                    var Adapter = this.Adapter, isSupportRecursive = this.isSupportRecursive, supportXS = this.supportXS, nestElements = this.nestElements;
                     var nextLevel = isSupportRecursive ? 0 : level + 1;
                     var template = \\"\\";
-                    var data = !this.isSupportRecursive && this.supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
+                    var data = !isSupportRecursive && supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
                     componentConfig.thirdPartyComponents.forEach((function(attrs, compName) {
                         if (compName === \\"custom-wrapper\\") {
                             template += '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(compName, '\\">\\\\n  <').concat(compName, ' i=\\"{{i}}\\" l=\\"{{l}}\\" id=\\"{{i.uid}}\\">\\\\n  </').concat(compName, \\">\\\\n</template>\\\\n  \\");
                         } else {
-                            template += '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(compName, '\\">\\\\n  <').concat(compName, \\" \\").concat(_this4.buildThirdPartyAttr(attrs), ' id=\\"{{i.uid}}\\">\\\\n    <block ').concat(Adapter.for, '=\\"{{i.', \\"cn\\", '}}\\" ').concat(Adapter.key, '=\\"uid\\">\\\\n      <template is=\\"tmpl_').concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />\\\\n    </block>\\\\n  </').concat(compName, \\">\\\\n</template>\\\\n  \\");
+                            if (!isSupportRecursive && supportXS && nestElements.has(compName) && level + 1 > nestElements.get(compName)) return;
+                            var child = supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
+                            template += '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(compName, '\\">\\\\n  <').concat(compName, \\" \\").concat(_this4.buildThirdPartyAttr(attrs), ' id=\\"{{i.uid}}\\">\\\\n    <block ').concat(Adapter.for, '=\\"{{i.', \\"cn\\", '}}\\" ').concat(Adapter.key, '=\\"uid\\">\\\\n      ').concat(child, \\"\\\\n    </block>\\\\n  </\\").concat(compName, \\">\\\\n</template>\\\\n  \\");
                         }
                     }));
                     return template;
@@ -5578,19 +5600,24 @@ require(\\"./taro\\");
             }, {
                 key: \\"buildXSTmplName\\",
                 value: function buildXSTmplName() {
-                    var comps = [].concat(_toConsumableArray(Array.from(this.nestElements.keys())), _toConsumableArray(Array.from(this.componentConfig.thirdPartyComponents.keys())));
+                    var isLoopComps = [].concat(_toConsumableArray(Array.from(this.nestElements.keys())), _toConsumableArray(Array.from(this.componentConfig.thirdPartyComponents.keys())));
+                    var isLoopCompsSet = new Set(isLoopComps);
                     var hasMaxComps = [];
                     this.nestElements.forEach((function(max, comp) {
-                        if (max > -1) hasMaxComps.push(comp);
+                        if (max > 1) {
+                            hasMaxComps.push(comp);
+                        } else if (max === 1 && isLoopCompsSet.has(comp)) {
+                            isLoopCompsSet.delete(comp);
+                        }
                     }));
-                    return \\"function (l, n, s) {\\\\n    var a = \\".concat(JSON.stringify(comps), \\"\\\\n    var b = \\").concat(JSON.stringify(hasMaxComps), \\"\\\\n    if (a.indexOf(n) === -1) {\\\\n      l = 0\\\\n    }\\\\n    if (b.indexOf(n) > -1) {\\\\n      var u = s.split(',')\\\\n      var depth = 0\\\\n      for (var i = 0; i < u.length; i++) {\\\\n        if (u[i] === n) depth++\\\\n      }\\\\n      l = depth\\\\n    }\\\\n    return 'tmpl_' + l + '_' + n\\\\n  }\\");
+                    return \\"function (l, n, s) {\\\\n    var a = \\".concat(JSON.stringify(Array.from(isLoopCompsSet)), \\"\\\\n    var b = \\").concat(JSON.stringify(hasMaxComps), \\"\\\\n    if (a.indexOf(n) === -1) {\\\\n      l = 0\\\\n    }\\\\n    if (b.indexOf(n) > -1) {\\\\n      var u = s.split(',')\\\\n      var depth = 0\\\\n      for (var i = 0; i < u.length; i++) {\\\\n        if (u[i] === n) depth++\\\\n      }\\\\n      l = depth\\\\n    }\\\\n    return 'tmpl_' + l + '_' + n\\\\n  }\\");
                 }
             }, {
                 key: \\"buildXSTmpExtra\\",
                 value: function buildXSTmpExtra() {
                     var hasMaxComps = [];
                     this.nestElements.forEach((function(max, comp) {
-                        if (max > -1) hasMaxComps.push(comp);
+                        if (max > 1) hasMaxComps.push(comp);
                     }));
                     return \\"f: function (l, n) {\\\\n    var b = \\".concat(JSON.stringify(hasMaxComps), \\"\\\\n    if (b.indexOf(n) > -1) {\\\\n      if (l) l += ','\\\\n      l += n\\\\n    }\\\\n    return l\\\\n  }\\");
                 }
@@ -5769,6 +5796,7 @@ require(\\"./taro\\");
             taro.request = link.request.bind(link);
             taro.addInterceptor = link.addInterceptor.bind(link);
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
+            taro.miniGlobal = global;
         }
         var runtime_noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\" ]);
         var runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\" ]);
@@ -8182,7 +8210,11 @@ require(\\"./taro\\");
             var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
             var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
             var config = {};
-            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"others/detail/index\\", {}, config || {}));
+            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"others/detail/index\\", {
+                root: {
+                    cn: []
+                }
+            }, config || {}));
             if (typeof PRERENDER !== \\"undefined\\") {
                 global._prerender = inst;
             }
@@ -8243,7 +8275,11 @@ require(\\"./taro\\");
             return Index;
         }(react[\\"Component\\"]);
         var config = {};
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(normal_Index, \\"others/normal/index\\", {}, config || {}));
+        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(normal_Index, \\"others/normal/index\\", {
+            root: {
+                cn: []
+            }
+        }, config || {}));
     }
 }, [ [ 25, 0, 1, 3, 2 ] ] ]);
 
@@ -8296,7 +8332,11 @@ require(\\"./taro\\");
             var config = {
                 navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
             };
-            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"pages/index/index\\", {}, config || {}));
+            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"pages/index/index\\", {
+                root: {
+                    cn: []
+                }
+            }, config || {}));
             if (typeof PRERENDER !== \\"undefined\\") {
                 global._prerender = inst;
             }
@@ -9619,8 +9659,8 @@ require(\\"./taro\\");
                 value: function buildStandardComponentTemplate(comp, level) {
                     var isSupportRecursive = this.isSupportRecursive, Adapter = this.Adapter;
                     var nextLevel = isSupportRecursive ? 0 : level + 1;
-                    var data = !this.isSupportRecursive ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
-                    var child = this.supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(this.dataKeymap(\\"i:item\\"), '}}\\" />');
+                    var data = !this.isSupportRecursive && this.supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
+                    var child = this.supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
                     if (isFunction(this.modifyLoopBody)) {
                         child = this.modifyLoopBody(child, comp.nodeName);
                     }
@@ -9665,15 +9705,17 @@ require(\\"./taro\\");
                 key: \\"buildThirdPartyTemplate\\",
                 value: function buildThirdPartyTemplate(level, componentConfig) {
                     var _this4 = this;
-                    var Adapter = this.Adapter, isSupportRecursive = this.isSupportRecursive;
+                    var Adapter = this.Adapter, isSupportRecursive = this.isSupportRecursive, supportXS = this.supportXS, nestElements = this.nestElements;
                     var nextLevel = isSupportRecursive ? 0 : level + 1;
                     var template = \\"\\";
-                    var data = !this.isSupportRecursive && this.supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
+                    var data = !isSupportRecursive && supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
                     componentConfig.thirdPartyComponents.forEach((function(attrs, compName) {
                         if (compName === \\"custom-wrapper\\") {
                             template += '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(compName, '\\">\\\\n  <').concat(compName, ' i=\\"{{i}}\\" l=\\"{{l}}\\" id=\\"{{i.uid}}\\">\\\\n  </').concat(compName, \\">\\\\n</template>\\\\n  \\");
                         } else {
-                            template += '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(compName, '\\">\\\\n  <').concat(compName, \\" \\").concat(_this4.buildThirdPartyAttr(attrs), ' id=\\"{{i.uid}}\\">\\\\n    <block ').concat(Adapter.for, '=\\"{{i.', \\"cn\\", '}}\\" ').concat(Adapter.key, '=\\"uid\\">\\\\n      <template is=\\"tmpl_').concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />\\\\n    </block>\\\\n  </').concat(compName, \\">\\\\n</template>\\\\n  \\");
+                            if (!isSupportRecursive && supportXS && nestElements.has(compName) && level + 1 > nestElements.get(compName)) return;
+                            var child = supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
+                            template += '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(compName, '\\">\\\\n  <').concat(compName, \\" \\").concat(_this4.buildThirdPartyAttr(attrs), ' id=\\"{{i.uid}}\\">\\\\n    <block ').concat(Adapter.for, '=\\"{{i.', \\"cn\\", '}}\\" ').concat(Adapter.key, '=\\"uid\\">\\\\n      ').concat(child, \\"\\\\n    </block>\\\\n  </\\").concat(compName, \\">\\\\n</template>\\\\n  \\");
                         }
                     }));
                     return template;
@@ -9837,19 +9879,24 @@ require(\\"./taro\\");
             }, {
                 key: \\"buildXSTmplName\\",
                 value: function buildXSTmplName() {
-                    var comps = [].concat(_toConsumableArray(Array.from(this.nestElements.keys())), _toConsumableArray(Array.from(this.componentConfig.thirdPartyComponents.keys())));
+                    var isLoopComps = [].concat(_toConsumableArray(Array.from(this.nestElements.keys())), _toConsumableArray(Array.from(this.componentConfig.thirdPartyComponents.keys())));
+                    var isLoopCompsSet = new Set(isLoopComps);
                     var hasMaxComps = [];
                     this.nestElements.forEach((function(max, comp) {
-                        if (max > -1) hasMaxComps.push(comp);
+                        if (max > 1) {
+                            hasMaxComps.push(comp);
+                        } else if (max === 1 && isLoopCompsSet.has(comp)) {
+                            isLoopCompsSet.delete(comp);
+                        }
                     }));
-                    return \\"function (l, n, s) {\\\\n    var a = \\".concat(JSON.stringify(comps), \\"\\\\n    var b = \\").concat(JSON.stringify(hasMaxComps), \\"\\\\n    if (a.indexOf(n) === -1) {\\\\n      l = 0\\\\n    }\\\\n    if (b.indexOf(n) > -1) {\\\\n      var u = s.split(',')\\\\n      var depth = 0\\\\n      for (var i = 0; i < u.length; i++) {\\\\n        if (u[i] === n) depth++\\\\n      }\\\\n      l = depth\\\\n    }\\\\n    return 'tmpl_' + l + '_' + n\\\\n  }\\");
+                    return \\"function (l, n, s) {\\\\n    var a = \\".concat(JSON.stringify(Array.from(isLoopCompsSet)), \\"\\\\n    var b = \\").concat(JSON.stringify(hasMaxComps), \\"\\\\n    if (a.indexOf(n) === -1) {\\\\n      l = 0\\\\n    }\\\\n    if (b.indexOf(n) > -1) {\\\\n      var u = s.split(',')\\\\n      var depth = 0\\\\n      for (var i = 0; i < u.length; i++) {\\\\n        if (u[i] === n) depth++\\\\n      }\\\\n      l = depth\\\\n    }\\\\n    return 'tmpl_' + l + '_' + n\\\\n  }\\");
                 }
             }, {
                 key: \\"buildXSTmpExtra\\",
                 value: function buildXSTmpExtra() {
                     var hasMaxComps = [];
                     this.nestElements.forEach((function(max, comp) {
-                        if (max > -1) hasMaxComps.push(comp);
+                        if (max > 1) hasMaxComps.push(comp);
                     }));
                     return \\"f: function (l, n) {\\\\n    var b = \\".concat(JSON.stringify(hasMaxComps), \\"\\\\n    if (b.indexOf(n) > -1) {\\\\n      if (l) l += ','\\\\n      l += n\\\\n    }\\\\n    return l\\\\n  }\\");
                 }
@@ -10028,6 +10075,7 @@ require(\\"./taro\\");
             taro.request = link.request.bind(link);
             taro.addInterceptor = link.addInterceptor.bind(link);
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
+            taro.miniGlobal = global;
         }
         var runtime_noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\" ]);
         var runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\" ]);
@@ -12441,7 +12489,11 @@ require(\\"./taro\\");
             var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
             var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
             var config = {};
-            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"others/detail/index\\", {}, config || {}));
+            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"others/detail/index\\", {
+                root: {
+                    cn: []
+                }
+            }, config || {}));
             if (typeof PRERENDER !== \\"undefined\\") {
                 global._prerender = inst;
             }
@@ -12502,7 +12554,11 @@ require(\\"./taro\\");
             return Index;
         }(react[\\"Component\\"]);
         var config = {};
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(normal_Index, \\"others/normal/index\\", {}, config || {}));
+        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(normal_Index, \\"others/normal/index\\", {
+            root: {
+                cn: []
+            }
+        }, config || {}));
     }
 }, [ [ 25, 0, 1, 3, 2 ] ] ]);
 
@@ -12555,7 +12611,11 @@ require(\\"./taro\\");
             var config = {
                 navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
             };
-            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"pages/index/index\\", {}, config || {}));
+            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"pages/index/index\\", {
+                root: {
+                    cn: []
+                }
+            }, config || {}));
             if (typeof PRERENDER !== \\"undefined\\") {
                 global._prerender = inst;
             }
