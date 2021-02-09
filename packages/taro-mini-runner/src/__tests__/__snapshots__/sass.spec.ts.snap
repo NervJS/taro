@@ -812,7 +812,7 @@ require(\\"./taro\\");
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
+        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
 }, [ [ 12, 0, 1 ] ] ]);
 
@@ -1945,7 +1945,7 @@ require(\\"./taro\\");
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
+        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
 }, [ [ 12, 0, 1 ] ] ]);
 
@@ -3078,7 +3078,7 @@ require(\\"./taro\\");
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
+        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
 }, [ [ 12, 0, 1 ] ] ]);
 
@@ -4211,7 +4211,7 @@ require(\\"./taro\\");
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
+        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
 }, [ [ 12, 0, 1 ] ] ]);
 
