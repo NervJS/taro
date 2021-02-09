@@ -31,7 +31,8 @@ const schema = Joi.object().keys({
       Joi.object().keys({
         from: Joi.string().required(),
         to: Joi.string().required(),
-        ignore: Joi.array().items(Joi.string())
+        ignore: Joi.array().items(Joi.string()),
+        transform: Joi.func()
       })
     ),
 
