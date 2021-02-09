@@ -2,11 +2,11 @@
 import { Component, h, Host } from '@stencil/core'
 
 @Component({
-  tag: 'taro-moveable-area-core'
+  tag: 'taro-movable-view-core'
 })
-export class MoveableArea {
+export class MovableView {
   componentDidLoad () {
-    console.error('H5 暂不支持 MoveableArea 组件！')
+    console.error('H5 暂不支持 MovableView 组件！')
   }
 
   render () {

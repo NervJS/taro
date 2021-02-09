@@ -4,6 +4,10 @@ import { IPluginContext } from '@tarojs/service'
 
 export default (ctx: IPluginContext) => {
   ctx.registerMethod('generateProjectConfig', ({ srcConfigName, distConfigName }) => {
+    // 混合模式不需要生成项目配置
+    const { blended } = ctx.runOpts
+    if (blended) return
+
     const { appPath, sourcePath, outputPath } = ctx.paths
     const { printLog, processTypeEnum, fs } = ctx.helper
     // 生成 project.config.json

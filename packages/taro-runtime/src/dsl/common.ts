@@ -106,10 +106,10 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       }
 
       const path = getPath(id, options)
-
+      const router = isBrowser ? path : this.route || this.__route__
       Current.router = {
         params: options,
-        path: addLeadingSlash(this.route || this.__route__),
+        path: addLeadingSlash(router),
         onReady: getOnReadyEventKey(id),
         onShow: getOnShowEventKey(id),
         onHide: getOnHideEventKey(id)
@@ -161,10 +161,10 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       Current.page = this as any
       this.config = pageConfig || {}
       const path = getPath(id, this.options)
-
+      const router = isBrowser ? path : this.route || this.__route__
       Current.router = {
         params: this.options,
-        path: addLeadingSlash(this.route || this.__route__),
+        path: addLeadingSlash(router),
         onReady: getOnReadyEventKey(id),
         onShow: getOnShowEventKey(id),
         onHide: getOnHideEventKey(id)
@@ -313,7 +313,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
   return config
 }
 
-export function createRecursiveComponentConfig () {
+export function createRecursiveComponentConfig (componentName?: string) {
   return {
     properties: {
       i: {
@@ -336,7 +336,8 @@ export function createRecursiveComponentConfig () {
       }
     },
     options: {
-      addGlobalClass: true
+      addGlobalClass: true,
+      virtualHost: componentName !== 'custom-wrapper'
     },
     methods: {
       eh: eventHandler

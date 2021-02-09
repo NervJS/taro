@@ -3,9 +3,9 @@ import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
 import { TaroEvent, eventSource } from './event'
-import { isElement } from '../utils'
+import { isElement, isHasExtractProp } from '../utils'
 import { Style } from './style'
-import { PROPERTY_THRESHOLD } from '../constants'
+import { PROPERTY_THRESHOLD, SPECIAL_NODES } from '../constants'
 import { CurrentReconciler } from '../reconciler'
 import { treeToArray } from './tree'
 import { ClassList } from './class-list'
@@ -89,15 +89,23 @@ export class TaroElement extends TaroNode {
       qualifiedName = Shortcuts.Style
     } else if (qualifiedName === 'id') {
       eventSource.delete(this.uid)
-      this.props[qualifiedName] = this.uid = value as string
-      eventSource.set(value as string, this)
+      value = String(value)
+      this.props[qualifiedName] = this.uid = value
+      eventSource.set(value, this)
       qualifiedName = 'uid'
     } else {
+      // pure-view => static-view
+      if (this.nodeName === 'view' && !isHasExtractProp(this) && !this.isAnyEventBinded()) {
+        this.enqueueUpdate({
+          path: `${this._path}.${Shortcuts.NodeName}`,
+          value: 'static-view'
+        })
+      }
+
       this.props[qualifiedName] = value as string
       if (qualifiedName === 'class') {
         qualifiedName = Shortcuts.Class
-      }
-      if (qualifiedName.startsWith('data-')) {
+      } else if (qualifiedName.startsWith('data-')) {
         if (this.dataset === EMPTY_OBJ) {
           this.dataset = Object.create(null)
         }
@@ -126,6 +134,14 @@ export class TaroElement extends TaroNode {
       path: `${this._path}.${toCamelCase(qualifiedName)}`,
       value: ''
     })
+
+    if (this.nodeName === 'view' && !isHasExtractProp(this) && !this.isAnyEventBinded()) {
+      // static-view => pure-view
+      this.enqueueUpdate({
+        path: `${this._path}.${Shortcuts.NodeName}`,
+        value: 'pure-view'
+      })
+    }
   }
 
   public getAttribute (qualifiedName: string): string {
@@ -215,6 +231,30 @@ export class TaroElement extends TaroNode {
         const l = listeners[i]
         l._stop = true
       }
+    }
+  }
+
+  public addEventListener (type, handler, options) {
+    const name = this.nodeName
+    if (!this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
+      this.enqueueUpdate({
+        path: `${this._path}.${Shortcuts.NodeName}`,
+        value: name
+      })
+    }
+
+    super.addEventListener(type, handler, options)
+  }
+
+  public removeEventListener (type, handler) {
+    super.removeEventListener(type, handler)
+
+    const name = this.nodeName
+    if (!this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
+      this.enqueueUpdate({
+        path: `${this._path}.${Shortcuts.NodeName}`,
+        value: isHasExtractProp(this) ? `static-${name}` : `pure-${name}`
+      })
     }
   }
 }
