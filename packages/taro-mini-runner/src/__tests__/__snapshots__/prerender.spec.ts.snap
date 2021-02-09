@@ -956,6 +956,14 @@ require(\\"./taro\\");
             return _this6;
         }
         Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_4__[\\"a\\"])(UnRecursiveTemplate, [ {
+            key: \\"baseLevel\\",
+            get: function get() {
+                return this._baseLevel;
+            },
+            set: function set(lv) {
+                this._baseLevel = lv;
+            }
+        }, {
             key: \\"buildFloor\\",
             value: function buildFloor(level, components) {
                 var _this7 = this;
@@ -1024,14 +1032,6 @@ require(\\"./taro\\");
                     if (max > 1) hasMaxComps.push(comp);
                 }));
                 return \\"f: function (l, n) {\\\\n    var b = \\".concat(JSON.stringify(hasMaxComps), \\"\\\\n    if (b.indexOf(n) > -1) {\\\\n      if (l) l += ','\\\\n      l += n\\\\n    }\\\\n    return l\\\\n  }\\");
-            }
-        }, {
-            key: \\"baseLevel\\",
-            set: function set(lv) {
-                this._baseLevel = lv;
-            },
-            get: function get() {
-                return this._baseLevel;
             }
         } ]);
         return UnRecursiveTemplate;
@@ -2604,7 +2604,7 @@ require(\\"./taro\\");
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
+        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
 }, [ [ 45, 0, 1 ] ] ]);
 
@@ -5552,6 +5552,14 @@ require(\\"./taro\\");
                 return _this6;
             }
             _createClass(UnRecursiveTemplate, [ {
+                key: \\"baseLevel\\",
+                get: function get() {
+                    return this._baseLevel;
+                },
+                set: function set(lv) {
+                    this._baseLevel = lv;
+                }
+            }, {
                 key: \\"buildFloor\\",
                 value: function buildFloor(level, components) {
                     var _this7 = this;
@@ -5620,14 +5628,6 @@ require(\\"./taro\\");
                         if (max > 1) hasMaxComps.push(comp);
                     }));
                     return \\"f: function (l, n) {\\\\n    var b = \\".concat(JSON.stringify(hasMaxComps), \\"\\\\n    if (b.indexOf(n) > -1) {\\\\n      if (l) l += ','\\\\n      l += n\\\\n    }\\\\n    return l\\\\n  }\\");
-                }
-            }, {
-                key: \\"baseLevel\\",
-                set: function set(lv) {
-                    this._baseLevel = lv;
-                },
-                get: function get() {
-                    return this._baseLevel;
                 }
             } ]);
             return UnRecursiveTemplate;
@@ -6924,7 +6924,7 @@ require(\\"./taro\\");
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
+        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
 }, [ [ 20, 0, 1 ] ] ]);
 
@@ -9831,6 +9831,14 @@ require(\\"./taro\\");
                 return _this6;
             }
             _createClass(UnRecursiveTemplate, [ {
+                key: \\"baseLevel\\",
+                get: function get() {
+                    return this._baseLevel;
+                },
+                set: function set(lv) {
+                    this._baseLevel = lv;
+                }
+            }, {
                 key: \\"buildFloor\\",
                 value: function buildFloor(level, components) {
                     var _this7 = this;
@@ -9899,14 +9907,6 @@ require(\\"./taro\\");
                         if (max > 1) hasMaxComps.push(comp);
                     }));
                     return \\"f: function (l, n) {\\\\n    var b = \\".concat(JSON.stringify(hasMaxComps), \\"\\\\n    if (b.indexOf(n) > -1) {\\\\n      if (l) l += ','\\\\n      l += n\\\\n    }\\\\n    return l\\\\n  }\\");
-                }
-            }, {
-                key: \\"baseLevel\\",
-                set: function set(lv) {
-                    this._baseLevel = lv;
-                },
-                get: function get() {
-                    return this._baseLevel;
                 }
             } ]);
             return UnRecursiveTemplate;
@@ -11203,7 +11203,7 @@ require(\\"./taro\\");
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
+        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
 }, [ [ 20, 0, 1 ] ] ]);
 
