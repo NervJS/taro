@@ -1014,7 +1014,11 @@ require(\\"./taro\\");
         var config = {
             navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
         };
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {}, config || {}));
+        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {
+            root: {
+                cn: []
+            }
+        }, config || {}));
     }
 }, [ [ 14, 0, 1, 3, 2 ] ] ]);
 
@@ -2146,7 +2150,11 @@ require(\\"./taro\\");
         var config = {
             navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
         };
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {}, config || {}));
+        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {
+            root: {
+                cn: []
+            }
+        }, config || {}));
     }
 }, [ [ 14, 0, 1, 3, 2 ] ] ]);
 
@@ -3282,7 +3290,11 @@ I m irrelevant.
         var config = {
             navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
         };
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {}, config || {}));
+        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {
+            root: {
+                cn: []
+            }
+        }, config || {}));
     }
 }, [ [ 14, 0, 1, 3, 2 ] ] ]);
 

@@ -1082,7 +1082,11 @@ require(\\"./taro\\");
                 tab: \\"../../components/tab/tab\\"
             }
         };
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {}, config || {}));
+        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {
+            root: {
+                cn: []
+            }
+        }, config || {}));
     }
 }, [ [ 24, 0, 1, 3, 2 ] ] ]);
 
