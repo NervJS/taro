@@ -1,5 +1,5 @@
-import { initNativeApi } from './apis';
-export { initNativeApi };
+import { initNativeApi, handleSyncApis, transformMeta, modifyAsyncResult, request } from './apis';
+export { initNativeApi, handleSyncApis, transformMeta, modifyAsyncResult, request };
 export * from './components';
 export * from './apis-list';
 export declare const hostConfig: {

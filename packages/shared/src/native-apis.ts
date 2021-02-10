@@ -12,6 +12,7 @@ interface IProcessApisIOptions {
   handleSyncApis?: (key: string, global: IObject, args: any[]) => any
   transformMeta?: (key: string, options: IObject) => { key: string, options: IObject },
   modifyAsyncResult?: (key: string, res) => void
+  isOnlyPromisify?: boolean
   [propName: string]: any
 }
 
@@ -359,7 +360,7 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
     }
   })
 
-  equipCommonApis(taro, global, config)
+  !config.isOnlyPromisify && equipCommonApis(taro, global, config)
 }
 
 /**

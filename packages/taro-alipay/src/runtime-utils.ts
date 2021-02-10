@@ -1,9 +1,21 @@
 
-import { initNativeApi } from './apis'
+import {
+  initNativeApi,
+  handleSyncApis,
+  transformMeta,
+  modifyAsyncResult,
+  request
+} from './apis'
 
 declare const my: any
 
-export { initNativeApi }
+export {
+  initNativeApi,
+  handleSyncApis,
+  transformMeta,
+  modifyAsyncResult,
+  request
+}
 export * from './components'
 export * from './apis-list'
 export const hostConfig = {

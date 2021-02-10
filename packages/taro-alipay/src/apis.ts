@@ -170,7 +170,7 @@ const apiDiff = {
 
 const nativeRequest = my.canIUse('request') ? my.request : my.httpRequest
 
-function request (options) {
+export function request (options) {
   options = options || {}
   if (typeof options === 'string') {
     options = {
@@ -222,7 +222,7 @@ function request (options) {
   return p
 }
 
-function handleSyncApis (key: string, global: Record<string, any>, args: any[]) {
+export function handleSyncApis (key: string, global: Record<string, any>, args: any[]) {
   if (key === 'getStorageSync') {
     const arg1 = args[0]
     if (arg1 != null) {
@@ -266,7 +266,7 @@ function handleSyncApis (key: string, global: Record<string, any>, args: any[]) 
   return global[key].apply(global, args)
 }
 
-function transformMeta (api: string, options: Record<string, any>) {
+export function transformMeta (api: string, options: Record<string, any>) {
   let apiAlias = api
   if (api === 'showModal') {
     options.cancelButtonText = options.cancelText || '取消'
@@ -307,7 +307,7 @@ function transformMeta (api: string, options: Record<string, any>) {
   }
 }
 
-function modifyAsyncResult (key, res) {
+export function modifyAsyncResult (key, res) {
   if (key === 'saveFile') {
     res.savedFilePath = res.apFilePath
   } else if (key === 'downloadFile') {
