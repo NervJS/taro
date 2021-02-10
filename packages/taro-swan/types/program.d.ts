@@ -3,7 +3,6 @@ import { Template } from './template';
 export default class Swan extends TaroPlatformBase {
     platform: string;
     globalObject: string;
-    projectConfigJson: string;
     runtimePath: string;
     taroComponentsPath: string;
     fileType: {

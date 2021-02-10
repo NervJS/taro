@@ -8,7 +8,6 @@ const PROJECT_JSON = 'project.swan.json'
 export default class Swan extends TaroPlatformBase {
   platform = 'swan'
   globalObject = 'swan'
-  projectConfigJson = PROJECT_JSON
   runtimePath = `${PACKAGE_NAME}/dist/runtime`
   taroComponentsPath = `${PACKAGE_NAME}/dist/components-react`
   fileType = {
@@ -33,7 +32,10 @@ export default class Swan extends TaroPlatformBase {
     super(ctx, config)
 
     this.setupTransaction.addWrapper({
-      close: this.modifyComponents
+      close () {
+        this.modifyComponents()
+        this.generateProjectConfig(PROJECT_JSON, PROJECT_JSON)
+      }
     })
   }
 
