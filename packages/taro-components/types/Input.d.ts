@@ -200,7 +200,7 @@ declare namespace InputProps {
  *           <Text>可以自动聚焦的 input</Text>
  *             <Input type='text' placeholder='将会获取焦点' focus/>
  *             <Text>控制最大输入长度的 input</Text>
- *             <Input type='text' placeholder='最大输入长度为 10' maxLength='10'/>
+ *             <Input type='text' placeholder='最大输入长度为 10' maxlength='10'/>
  *             <Text>数字输入的 input</Text>
  *             <Input type='number' placeholder='这是一个数字输入框'/>
  *             <Text>密码输入的 input</Text>

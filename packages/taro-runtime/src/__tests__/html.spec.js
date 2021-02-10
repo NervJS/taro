@@ -286,4 +286,25 @@ describe('html with <style>', () => {
     expect(el3.style.cssText).toBe('color: red;')
     expect(el4.style.cssText).toBe('width: 100%;')
   })
+  it('enter', () => {
+    const html = `
+      <style>
+        span {
+          color: red;
+          font-size: 10;
+        }
+      </style>
+      <div class="parent">
+        <span>测试换行\nxxxx</span>
+        <span>测试换行xxxx</span>
+      </div>
+    `
+    const res = parser(html)
+    const el0 = res[0].children[0]
+    const el1 = res[0].children[1]
+    expect(el0.style.cssText).toBe('color: red;font-size: 10;')
+    expect(el0.childNodes[0]._value).toBe('测试换行\nxxxx')
+    expect(el1.style.cssText).toBe('color: red;font-size: 10;')
+    expect(el1.childNodes[0]._value).toBe('测试换行xxxx')
+  })
 })

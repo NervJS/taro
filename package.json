@@ -70,7 +70,7 @@
     "@types/jest": "^26.0.14",
     "@types/lodash": "^4.14.142",
     "@types/node": "^12.7.11",
-    "@types/react": "^16.9.5",
+    "@types/react": "16.9.49",
     "@types/sinon": "^7.5.0",
     "@types/tapable": "1.0.5",
     "@types/webpack": "^4.39.3",

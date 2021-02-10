@@ -850,7 +850,7 @@ require(\\"./taro\\");
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
+        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
 }, [ [ 14, 0, 1 ] ] ]);
 
@@ -898,7 +898,11 @@ require(\\"./taro\\");
         var config = {
             navigationBarTitleText: \\"\\\\u5173\\\\u4e8e\\"
         };
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(about_Index, \\"pages/about/index\\", {}, config || {}));
+        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(about_Index, \\"pages/about/index\\", {
+            root: {
+                cn: []
+            }
+        }, config || {}));
     }
 }, [ [ 18, 0, 1, 3, 2 ] ] ]);
 
@@ -944,7 +948,11 @@ require(\\"./taro\\");
         var config = {
             navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
         };
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {}, config || {}));
+        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {
+            root: {
+                cn: []
+            }
+        }, config || {}));
     }
 }, [ [ 17, 0, 1, 3, 2 ] ] ]);
 

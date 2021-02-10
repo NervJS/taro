@@ -10,6 +10,8 @@ import { CurrentReconciler } from '../reconciler'
 import { eventCenter } from '../emitter/emitter'
 import { incrementId } from '../utils'
 
+const eventIncrementId = incrementId()
+
 export class TaroRootElement extends TaroElement {
   private pendingUpdate = false
 
@@ -120,7 +122,7 @@ export class TaroRootElement extends TaroElement {
         }
         const updateArrLen = customWrapperUpdate.length
         if (updateArrLen) {
-          const eventId = `${this._path}_update_${incrementId()}`
+          const eventId = `${this._path}_update_${eventIncrementId()}`
           let executeTime = 0
           eventCenter.once(eventId, () => {
             executeTime++
