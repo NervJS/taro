@@ -71,8 +71,11 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     commonChunks,
     addChunkPages,
 
+    blended,
+
     modifyMiniConfigs,
-    modifyBuildAssets
+    modifyBuildAssets,
+    onCompilerMake
   } = config
 
   let { copy } = config
@@ -150,7 +153,10 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     addChunkPages,
     modifyMiniConfigs,
     modifyBuildAssets,
-    minifyXML
+    onCompilerMake,
+    minifyXML,
+    blended,
+    alias
   })
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{

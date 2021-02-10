@@ -22,7 +22,7 @@ import {
 } from './components'
 import { Shortcuts } from './shortcuts'
 import { isBooleanStringLiteral, isNumber, isFunction } from './is'
-import { toCamelCase, toDashed, hasOwn } from './utils'
+import { toCamelCase, toKebabCase, toDashed, hasOwn } from './utils'
 
 interface Component {
   nodeName: string;
@@ -63,7 +63,6 @@ const voidElements = new Set([
   'slider',
   'switch',
   'audio',
-  'live-pusher',
   'ad',
   'official-account',
   'open-data',
@@ -224,12 +223,23 @@ export class BaseTemplate {
 
   protected buildThirdPartyAttr (attrs: Set<string>) {
     return Array.from(attrs).reduce((str, attr) => {
-      if (attr.startsWith('@')) { // vue event
-        return str + `bind${attr.slice(1)}="eh" `
+      if (attr.startsWith('@')) {
+        // vue2
+        let value = attr.slice(1)
+        if (value.indexOf('-') > -1) {
+          value = `:${value}`
+        }
+        return str + `bind${value}="eh" `
       } else if (attr.startsWith('bind')) {
         return str + `${attr}="eh" `
       } else if (attr.startsWith('on')) {
-        return str + `bind${attr.slice(2).toLowerCase()}="eh" `
+        // react, vue3
+        let value = toKebabCase(attr.slice(2))
+        if (value.indexOf('-') > -1) {
+          // 兼容如 vant 某些组件的 bind:a-b 这类属性
+          value = `:${value}`
+        }
+        return str + `bind${value}="eh" `
       }
 
       return str + `${attr}="{{i.${toCamelCase(attr)}}}" `
