@@ -53,7 +53,6 @@ function _request (options) {
     url = generateRequestUrlWithParams(url, options.data)
   } else if (typeof options.data === 'object') {
     options.header = options.header || {}
-
     const keyOfContentType = Object.keys(options.header).find(item => item.toLowerCase() === 'content-type')
     if (!keyOfContentType) {
       const contentType = options.header[keyOfContentType || 'Content-Type']
