@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro",
-  "version": "3.0.21",
+  "version": "3.0.27",
   "description": "Taro framework",
   "main": "index.js",
   "main:h5": "h5.js",
@@ -31,10 +31,10 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/api": "3.0.21",
-    "@tarojs/taro-h5": "3.0.21"
+    "@tarojs/api": "3.0.27",
+    "@tarojs/taro-h5": "3.0.27"
   },
   "devDependencies": {
-    "@tarojs/runtime": "3.0.21"
+    "@tarojs/runtime": "3.0.27"
   }
 }

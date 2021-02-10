@@ -775,7 +775,7 @@ require(\\"./taro\\");
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
+        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
 }, [ [ 5, 0, 1 ] ] ]);
 
@@ -872,12 +872,16 @@ require(\\"./taro\\");
         var config = {
             navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
         };
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index, \\"pages/index/index\\", {}, config || {}));
+        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index, \\"pages/index/index\\", {
+            root: {
+                cn: []
+            }
+        }, config || {}));
     }
 }, [ [ 6, 0, 1 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\",\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
 /** filePath: dist/pages/index/index.wxml **/
 <import src=\\"../../base.wxml\\"/>

@@ -1,11 +1,13 @@
 describe('DOM', () => {
   process.env.FRAMEWORK = 'nerv'
-  const runtime = require('../dist/runtime.esm')
+  const runtime = require('../../dist/runtime.esm')
   const document = runtime.document
   global.document = runtime.document
   global.window = runtime.window
   global.navigator = runtime.navigator
-  const React = require('./nerv')
+  // eslint-disable-next-line no-use-before-define
+  const React = require('react')
+  const ReactDOM = require('@tarojs/react')
 
   afterAll(() => {
     process.env.FRAMEWORK = ''
@@ -247,7 +249,7 @@ describe('DOM', () => {
 
       const div = document.createElement('div')
       // eslint-disable-next-line react/no-deprecated
-      React.render(<App />, div)
+      ReactDOM.render(<App />, div)
       expect(div.textContent).toBe(' a bc')
     })
   })
