@@ -23,8 +23,17 @@ describe('mini-split-chunks', () => {
         enable: true,
         exclude: [
           path.resolve(__dirname, './fixtures/mini-split-chunks/src/utils/testExcludeString.js'),
-          (module) => module.resource.indexOf('testExcludeFunction') >= 0
+          (module) => module.resource?.indexOf('testExcludeFunction') >= 0
         ]
+      },
+      postcss: {
+        cssModules: {
+          enable: true,
+          config: {
+            namingPattern: 'module',
+            generateScopedName: '[name]__[local]___[hash:base64:5]'
+          }
+        }
       }
     })
 

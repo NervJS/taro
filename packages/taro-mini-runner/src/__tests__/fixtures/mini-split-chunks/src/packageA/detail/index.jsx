@@ -4,6 +4,10 @@ import consoleLogMain from '../../utils/consoleLogMain'
 import consoleLogSubVendors from '../../utils/consoleLogSubVendors'
 import testExcludeString from '../../utils/testExcludeString'
 import './index.css'
+import '../../css/sub-vendors.css'
+import '../../css/sub-common.css'
+import subCommonStyles from '../../css/sub-common.module.css'
+import vendorsStyles from '../../css/sub-vendors.module.css'
 
 export default class Detail extends Component {
   componentDidMount() {
@@ -15,7 +19,12 @@ export default class Detail extends Component {
   render() {
     return (
       <View className='detail'>
-        <Text>I m detail</Text>
+        <Text className={`
+          sub-vendors
+          sub-common
+          ${subCommonStyles['sub-common-module']}
+          ${vendorsStyles['sub-vendors-module']}
+        `}>I m detail</Text>
       </View>
     )
   }

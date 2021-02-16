@@ -3,6 +3,8 @@ import { View, Text } from '@tarojs/components'
 import consoleLogMain from '../../utils/consoleLogMain'
 import consoleLogSubCommon from '../../utils/consoleLogSubCommon'
 import testExcludeFunction from '../../utils/testExcludeFunction'
+import '../../css/sub-common.css'
+import subCommonStyles from '../../css/sub-common.module.css'
 
 export default class My extends Component {
   componentDidMount () {
@@ -13,7 +15,12 @@ export default class My extends Component {
 
   render () {
     return (
-      <View>
+      <View 
+        className={`
+          sub-common
+          ${subCommonStyles['sub-common-module']}
+        `}
+        >
         <Text>list page</Text>
       </View>
     )

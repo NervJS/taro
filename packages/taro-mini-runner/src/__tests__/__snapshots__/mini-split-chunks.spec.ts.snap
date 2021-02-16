@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`mini-split-chunks should process mini-split-chunks 1`] = `29`;
+exports[`mini-split-chunks should process mini-split-chunks 1`] = `38`;
 
 exports[`mini-split-chunks should process mini-split-chunks 2`] = `
 "
@@ -13,15 +13,15 @@ require(\\"./vendors\\");
 
 require(\\"./taro\\");
 
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    14: function(module, __webpack_exports__, __webpack_require__) {
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
+    18: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
         var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
         var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
         var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
         var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
-        var _app_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(31);
+        var _app_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(35);
         var _app_css__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(_app_css__WEBPACK_IMPORTED_MODULE_5__);
         var App = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(App, _Component);
@@ -52,13 +52,13 @@ require(\\"./taro\\");
         }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
         __webpack_exports__[\\"a\\"] = App;
     },
-    30: function(module, __webpack_exports__, __webpack_require__) {
+    34: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-        var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
+        var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
         var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(0);
-        var react_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(20);
+        var react_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(24);
         var config = {
             pages: [ \\"pages/index/index\\" ],
             window: {
@@ -78,8 +78,8 @@ require(\\"./taro\\");
         _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"window\\"].__taroAppConfig = config;
         var inst = App(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createReactApp\\"])(_node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], react__WEBPACK_IMPORTED_MODULE_2__, react_dom__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"], config));
     },
-    31: function(module, exports, __webpack_require__) {}
-}, [ [ 30, 0, 1, 3, 2 ] ] ]);
+    35: function(module, exports, __webpack_require__) {}
+}, [ [ 34, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -87,7 +87,7 @@ require(\\"./taro\\");
 {\\"pages\\":[\\"pages/index/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"},\\"subpackages\\":[{\\"root\\":\\"packageA\\",\\"pages\\":[\\"detail/index\\",\\"my/index\\"]},{\\"root\\":\\"packageB\\",\\"pages\\":[\\"list/index\\"]}]}
 
 /** filePath: dist/app.wxss **/
-
+page{width:'100%';height:'100%'}
 
 /** filePath: dist/base.wxml **/
 <wxs module=\\"xs\\" src=\\"./utils.wxs\\" />
@@ -796,36 +796,41 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/common.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.r(__webpack_exports__);
-    __webpack_exports__[\\"default\\"] = \\"react-mock\\";
-}, , , , , , , function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_exports__[\\"a\\"] = function() {
-        console.log(\\"Main package\\");
-    };
-}, , function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_exports__[\\"a\\"] = function() {
-        console.log(\\"testExcludeString\\");
-    };
-}, , function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_exports__[\\"a\\"] = function() {
-        console.log(\\"testExcludeFunction\\");
-    };
-} ] ]);
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], {
+    0: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        __webpack_exports__[\\"default\\"] = \\"react-mock\\";
+    },
+    13: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_exports__[\\"a\\"] = function() {
+            console.log(\\"testExcludeFunction\\");
+        };
+    },
+    7: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_exports__[\\"a\\"] = function() {
+            console.log(\\"Main package\\");
+        };
+    },
+    9: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_exports__[\\"a\\"] = function() {
+            console.log(\\"testExcludeString\\");
+        };
+    }
+} ]);
 
 /** filePath: dist/comp.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
-    32: function(module, __webpack_exports__, __webpack_require__) {
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 12 ], {
+    36: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
-}, [ [ 32, 0, 1 ] ] ]);
+}, [ [ 36, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -835,14 +840,14 @@ require(\\"./taro\\");
   <template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
 
 /** filePath: dist/custom-wrapper.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
-    33: function(module, __webpack_exports__, __webpack_require__) {
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 13 ], {
+    37: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
-}, [ [ 33, 0, 1 ] ] ]);
+}, [ [ 37, 0, 1 ] ] ]);
 
 /** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -854,10 +859,18 @@ require(\\"./taro\\");
   </block>
 
 /** filePath: dist/packageA/detail/index.js **/
-require(\\"../vendors\\");
+require(\\"../sub-vendors\\");
 
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
-    22: function(module, __webpack_exports__, __webpack_require__) {
+require(\\"../sub-common/68dd8a31b878ce116a2005a66b95fc8c\\");
+
+require(\\"../sub-common/69741b2500be046f25207856b4a44ce9\\");
+
+require(\\"../sub-common/42904459d2e00d49c3cf68cf8cb082f4\\");
+
+require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
+
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 14 ], {
+    26: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
             return Detail;
@@ -871,8 +884,16 @@ require(\\"../vendors\\");
         var _utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7);
         var _utils_consoleLogSubVendors__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(8);
         var _utils_testExcludeString__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(9);
-        var _index_css__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(36);
+        var _index_css__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(40);
         var _index_css__WEBPACK_IMPORTED_MODULE_9___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_9__);
+        var _css_sub_vendors_css__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(16);
+        var _css_sub_vendors_css__WEBPACK_IMPORTED_MODULE_10___default = __webpack_require__.n(_css_sub_vendors_css__WEBPACK_IMPORTED_MODULE_10__);
+        var _css_sub_common_css__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(17);
+        var _css_sub_common_css__WEBPACK_IMPORTED_MODULE_11___default = __webpack_require__.n(_css_sub_common_css__WEBPACK_IMPORTED_MODULE_11__);
+        var _css_sub_common_module_css__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(10);
+        var _css_sub_common_module_css__WEBPACK_IMPORTED_MODULE_12___default = __webpack_require__.n(_css_sub_common_module_css__WEBPACK_IMPORTED_MODULE_12__);
+        var _css_sub_vendors_module_css__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(11);
+        var _css_sub_vendors_module_css__WEBPACK_IMPORTED_MODULE_13___default = __webpack_require__.n(_css_sub_vendors_module_css__WEBPACK_IMPORTED_MODULE_13__);
         var Detail = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(Detail, _Component);
             var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(Detail);
@@ -892,24 +913,26 @@ require(\\"../vendors\\");
                 value: function render() {
                     return react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
                         className: \\"detail\\"
-                    }, react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"Text\\"], null, \\"I m detail\\"));
+                    }, react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"Text\\"], {
+                        className: \\"\\\\n          sub-vendors\\\\n          sub-common\\\\n          \\".concat(_css_sub_common_module_css__WEBPACK_IMPORTED_MODULE_12___default.a[\\"sub-common-module\\"], \\"\\\\n          \\").concat(_css_sub_vendors_module_css__WEBPACK_IMPORTED_MODULE_13___default.a[\\"sub-vendors-module\\"], \\"\\\\n        \\")
+                    }, \\"I m detail\\"));
                 }
             } ]);
             return Detail;
         }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
     },
-    35: function(module, __webpack_exports__, __webpack_require__) {
+    39: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(22);
+        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(26);
         var config = {
             navigationBarTitleText: \\"\\\\u8be6\\\\u60c5\\\\u9875\\"
         };
         var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"packageA/detail/index\\", {}, config || {}));
     },
-    36: function(module, exports, __webpack_require__) {}
-}, [ [ 35, 0, 4, 1, 3, 2 ] ] ]);
+    40: function(module, exports, __webpack_require__) {}
+}, [ [ 39, 0, 4, 7, 8, 5, 9, 1, 3, 2 ] ] ]);
 
 
 
@@ -921,15 +944,18 @@ require(\\"../vendors\\");
   <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 
 /** filePath: dist/packageA/detail/index.wxss **/
+@import \\"../sub-vendors.wxss\\";
+@import \\"../sub-common/42904459d2e00d49c3cf68cf8cb082f4.wxss\\";
+@import \\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4.wxss\\";
 .detail{width:100%;height:100%}
 
 /** filePath: dist/packageA/my/index.js **/
-require(\\"../vendors\\");
+require(\\"../sub-vendors\\");
 
 require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
 
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 12 ], {
-    23: function(module, __webpack_exports__, __webpack_require__) {
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 16 ], {
+    27: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
             return My;
@@ -942,9 +968,13 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
         var _utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7);
         var _utils_consoleLogSubVendors__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(8);
-        var _utils_consoleLogSubCommon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(10);
+        var _utils_consoleLogSubCommon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(12);
         var _utils_testExcludeString__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(9);
-        var _utils_testExcludeFunction__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(11);
+        var _utils_testExcludeFunction__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(13);
+        var _css_sub_vendors_css__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(16);
+        var _css_sub_vendors_css__WEBPACK_IMPORTED_MODULE_11___default = __webpack_require__.n(_css_sub_vendors_css__WEBPACK_IMPORTED_MODULE_11__);
+        var _css_sub_vendors_module_css__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(11);
+        var _css_sub_vendors_module_css__WEBPACK_IMPORTED_MODULE_12___default = __webpack_require__.n(_css_sub_vendors_module_css__WEBPACK_IMPORTED_MODULE_12__);
         var My = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(My, _Component);
             var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(My);
@@ -964,23 +994,25 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
             }, {
                 key: \\"render\\",
                 value: function render() {
-                    return react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], null, react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"Text\\"], null, \\"I m my\\"));
+                    return react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
+                        className: \\"\\\\n          sub-vendors\\\\n          \\".concat(_css_sub_vendors_module_css__WEBPACK_IMPORTED_MODULE_12___default.a[\\"sub-vendors-module\\"], \\"\\\\n        \\")
+                    }, react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"Text\\"], null, \\"I m my\\"));
                 }
             } ]);
             return My;
         }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
     },
-    37: function(module, __webpack_exports__, __webpack_require__) {
+    41: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
+        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(27);
         var config = {
             navigationBarTitleText: \\"\\\\u4e2a\\\\u4eba\\\\u4e2d\\\\u5fc3\\\\u9875\\"
         };
         var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"packageA/my/index\\", {}, config || {}));
     }
-}, [ [ 37, 0, 4, 5, 1, 3, 2 ] ] ]);
+}, [ [ 41, 0, 4, 6, 1, 3, 2 ] ] ]);
 
 
 
@@ -991,9 +1023,19 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
 <import src=\\"../../base.wxml\\"/>
   <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 
+/** filePath: dist/packageA/my/index.wxss **/
+@import \\"../sub-vendors.wxss\\";
+
+
+/** filePath: dist/packageA/sub-common/42904459d2e00d49c3cf68cf8cb082f4.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 5 ], [] ]);
+
+/** filePath: dist/packageA/sub-common/42904459d2e00d49c3cf68cf8cb082f4.wxss **/
+.sub-common-module__sub-common-module___L8rCm{content:'sub-common-module'}
+
 /** filePath: dist/packageA/sub-common/5af326dc7e88f9b2c32d07774f00fe26.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 5 ], {
-    10: function(module, __webpack_exports__, __webpack_require__) {
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
+    12: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = function(subpackage) {
             console.log(\\"Subpackage: \\".concat(subpackage));
@@ -1001,8 +1043,34 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
     }
 } ]);
 
-/** filePath: dist/packageA/vendors.js **/
+/** filePath: dist/packageA/sub-common/68dd8a31b878ce116a2005a66b95fc8c.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
+    10: function(module, exports, __webpack_require__) {
+        module.exports = {
+            \\"sub-common-module\\": \\"sub-common-module__sub-common-module___L8rCm\\"
+        };
+    }
+} ]);
+
+/** filePath: dist/packageA/sub-common/69741b2500be046f25207856b4a44ce9.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
+    17: function(module, exports, __webpack_require__) {}
+} ]);
+
+/** filePath: dist/packageA/sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], [] ]);
+
+/** filePath: dist/packageA/sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4.wxss **/
+.sub-common{content:'sub-common'}
+
+/** filePath: dist/packageA/sub-vendors.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
+    11: function(module, exports, __webpack_require__) {
+        module.exports = {
+            \\"sub-vendors-module\\": \\"sub-vendors-module__sub-vendors-module___1PTFy\\"
+        };
+    },
+    16: function(module, exports, __webpack_require__) {},
     8: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = function() {
@@ -1011,11 +1079,22 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
     }
 } ]);
 
+/** filePath: dist/packageA/sub-vendors.wxss **/
+.sub-vendors{content:'sub-vendors'}.sub-vendors-module__sub-vendors-module___1PTFy{content:'sub-vendors-module'}
+
 /** filePath: dist/packageB/list/index.js **/
 require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
 
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 14 ], {
-    24: function(module, __webpack_exports__, __webpack_require__) {
+require(\\"../sub-common/68dd8a31b878ce116a2005a66b95fc8c\\");
+
+require(\\"../sub-common/69741b2500be046f25207856b4a44ce9\\");
+
+require(\\"../sub-common/42904459d2e00d49c3cf68cf8cb082f4\\");
+
+require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
+
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 18 ], {
+    28: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
             return My;
@@ -1027,8 +1106,12 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
         var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
         var _utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7);
-        var _utils_consoleLogSubCommon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(10);
-        var _utils_testExcludeFunction__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(11);
+        var _utils_consoleLogSubCommon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(12);
+        var _utils_testExcludeFunction__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(13);
+        var _css_sub_common_css__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(17);
+        var _css_sub_common_css__WEBPACK_IMPORTED_MODULE_9___default = __webpack_require__.n(_css_sub_common_css__WEBPACK_IMPORTED_MODULE_9__);
+        var _css_sub_common_module_css__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(10);
+        var _css_sub_common_module_css__WEBPACK_IMPORTED_MODULE_10___default = __webpack_require__.n(_css_sub_common_module_css__WEBPACK_IMPORTED_MODULE_10__);
         var My = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(My, _Component);
             var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(My);
@@ -1046,23 +1129,25 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
             }, {
                 key: \\"render\\",
                 value: function render() {
-                    return react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], null, react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"Text\\"], null, \\"list page\\"));
+                    return react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
+                        className: \\"\\\\n          sub-common\\\\n          \\".concat(_css_sub_common_module_css__WEBPACK_IMPORTED_MODULE_10___default.a[\\"sub-common-module\\"], \\"\\\\n        \\")
+                    }, react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"Text\\"], null, \\"list page\\"));
                 }
             } ]);
             return My;
         }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
     },
-    38: function(module, __webpack_exports__, __webpack_require__) {
+    42: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
+        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(28);
         var config = {
             navigationBarTitleText: \\"\\\\u5217\\\\u8868\\\\u9875\\"
         };
         var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"packageB/list/index\\", {}, config || {}));
     }
-}, [ [ 38, 0, 5, 1, 3, 2 ] ] ]);
+}, [ [ 42, 0, 6, 7, 8, 5, 9, 1, 3, 2 ] ] ]);
 
 
 
@@ -1073,9 +1158,20 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
 <import src=\\"../../base.wxml\\"/>
   <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 
+/** filePath: dist/packageB/list/index.wxss **/
+@import \\"../sub-common/42904459d2e00d49c3cf68cf8cb082f4.wxss\\";
+@import \\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4.wxss\\";
+
+
+/** filePath: dist/packageB/sub-common/42904459d2e00d49c3cf68cf8cb082f4.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 5 ], [] ]);
+
+/** filePath: dist/packageB/sub-common/42904459d2e00d49c3cf68cf8cb082f4.wxss **/
+.sub-common-module__sub-common-module___L8rCm{content:'sub-common-module'}
+
 /** filePath: dist/packageB/sub-common/5af326dc7e88f9b2c32d07774f00fe26.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 5 ], {
-    10: function(module, __webpack_exports__, __webpack_require__) {
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
+    12: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = function(subpackage) {
             console.log(\\"Subpackage: \\".concat(subpackage));
@@ -1083,13 +1179,33 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
     }
 } ]);
 
+/** filePath: dist/packageB/sub-common/68dd8a31b878ce116a2005a66b95fc8c.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
+    10: function(module, exports, __webpack_require__) {
+        module.exports = {
+            \\"sub-common-module\\": \\"sub-common-module__sub-common-module___L8rCm\\"
+        };
+    }
+} ]);
+
+/** filePath: dist/packageB/sub-common/69741b2500be046f25207856b4a44ce9.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
+    17: function(module, exports, __webpack_require__) {}
+} ]);
+
+/** filePath: dist/packageB/sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], [] ]);
+
+/** filePath: dist/packageB/sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4.wxss **/
+.sub-common{content:'sub-common'}
+
 /** filePath: dist/pages/index/index.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 16 ], {
-    12: function(module, __webpack_exports__, __webpack_require__) {
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 20 ], {
+    14: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = \\"taro\\";
     },
-    21: function(module, __webpack_exports__, __webpack_require__) {
+    25: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
             return Index;
@@ -1100,7 +1216,7 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
         var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
         var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
-        var _tarojs_taro__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(12);
+        var _tarojs_taro__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(14);
         var _utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(7);
         var Index = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(Index, _Component);
@@ -1143,17 +1259,17 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
             return Index;
         }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
     },
-    34: function(module, __webpack_exports__, __webpack_require__) {
+    38: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
+        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(25);
         var config = {
             navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
         };
         var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"pages/index/index\\", {}, config || {}));
     }
-}, [ [ 34, 0, 1, 3, 2 ] ] ]);
+}, [ [ 38, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
@@ -1289,7 +1405,7 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-components-mock\\";
     },
-    20: function(module, __webpack_exports__, __webpack_require__) {
+    24: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
     }
@@ -1330,7 +1446,7 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _inherits;
     }));
-    var _babel_runtime_helpers_esm_setPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
+    var _babel_runtime_helpers_esm_setPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
     function _inherits(subClass, superClass) {
         if (typeof superClass !== \\"function\\" && superClass !== null) {
             throw new TypeError(\\"Super expression must either be null or a function\\");
@@ -1349,9 +1465,9 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _createSuper;
     }));
-    var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
-    var _babel_runtime_helpers_esm_isNativeReflectConstruct__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
-    var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(17);
+    var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
+    var _babel_runtime_helpers_esm_isNativeReflectConstruct__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(20);
+    var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(21);
     function _createSuper(Derived) {
         var hasNativeReflectConstruct = Object(_babel_runtime_helpers_esm_isNativeReflectConstruct__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])();
         return function _createSuperInternal() {
@@ -1365,7 +1481,7 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
             return Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(this, result);
         };
     }
-}, , , , , , , function(module, __webpack_exports__, __webpack_require__) {
+}, , , , , , , , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _getPrototypeOf;
@@ -1376,7 +1492,7 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
         };
         return _getPrototypeOf(o);
     }
-}, , function(module, __webpack_exports__, __webpack_require__) {
+}, , , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _setPrototypeOf;
@@ -1409,8 +1525,8 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _possibleConstructorReturn;
     }));
-    var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
-    var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
+    var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+    var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
     function _possibleConstructorReturn(self, call) {
         if (call && (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;

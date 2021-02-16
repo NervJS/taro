@@ -11,11 +11,14 @@ import { isString, isFunction, isArray } from '@tarojs/shared'
 
 const PLUGIN_NAME = 'MiniSplitChunkPlugin'
 const SUB_COMMON_DIR = 'sub-common'
-const SUB_VENDORS_NAME = 'vendors'
+const SUB_VENDORS_NAME = 'sub-vendors'
 const CSS_MINI_EXTRACT = 'css/mini-extract'
+const jsExt = '.js'
+const jsmapExt = '.js.map'
+const styleExt = '.wxss'
 
 interface MiniSplitChunksPluginOption {
-  exclude?: Array<string | ExcludeFunctionItem>
+  exclude?: (string | ExcludeFunctionItem)[]
 }
 
 interface ExcludeFunctionItem {
@@ -23,6 +26,7 @@ interface ExcludeFunctionItem {
 }
 
 interface DepInfo {
+  identifier: string
   resource: string
   chunks: Set<string>
 }
@@ -31,10 +35,10 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   options: any
   subCommonDeps: Map<string, DepInfo>
   chunkSubCommons: Map<string, Set<string>>
-  subPackagesVendors: webpack.compilation.Chunk[]
+  subPackagesVendors: Map<string, webpack.compilation.Chunk>
   context: string
   distPath: string
-  exclude: Array<string | ExcludeFunctionItem>
+  exclude: (string | ExcludeFunctionItem)[]
   isDevMode: boolean
   subPackages: SubPackage[]
   subRoots: string[]
@@ -45,7 +49,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
     this.options = null
     this.subCommonDeps = new Map()
     this.chunkSubCommons = new Map()
-    this.subPackagesVendors = []
+    this.subPackagesVendors = new Map()
     this.distPath = ''
     this.exclude = options.exclude || []
   }
@@ -73,7 +77,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
          */
         this.subCommonDeps = new Map()
         this.chunkSubCommons = new Map()
-        this.subPackagesVendors = []
+        this.subPackagesVendors = new Map()
 
         /**
          * 找出分包入口chunks
@@ -85,17 +89,9 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
         }
 
         subChunks.forEach((subChunk: webpack.compilation.Chunk) => {
-          const modules: webpack.compilation.Module[] = Array.from(subChunk.modulesIterable)
+          const modules = Array.from(subChunk.modulesIterable)
 
           modules.map((module: any) => {
-            if (!module.resource) {
-              return
-            }
-
-            if (module.type === CSS_MINI_EXTRACT) {
-              return
-            }
-
             if (this.hasExclude() && this.isExcludeModule(module)) {
               return
             }
@@ -105,8 +101,16 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
              * 找出没有被主包引用，且被多个分包引用的module，并记录下来
              */
             if (!this.hasMainChunk(chunks) && this.isSubsDep(chunks)) {
-              const depPath = module.resource.replace(new RegExp(`${this.context}(.*)`), '$1')
+              let depPath = ''
               let depName = ''
+
+              if (module.type === CSS_MINI_EXTRACT) {
+                depPath = module._identifier
+              }
+
+              if (!depPath) {
+                depPath = module.resource.replace(new RegExp(`${this.context}(.*)`), '$1')
+              }
 
               if (this.isDevMode) {
                 /**
@@ -121,6 +125,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
                 const subCommonDepChunks = new Set(chunks.map(chunk => chunk.name))
 
                 this.subCommonDeps.set(depName, {
+                  identifier: module._identifier,
                   resource: module.resource,
                   chunks: subCommonDepChunks
                 })
@@ -148,23 +153,25 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
       })
 
       /**
-       * 收集分包下的vendors和sub-common下的公共模块信息
+       * 收集分包下的sub-vendors和sub-common下的公共模块信息
        */
       compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, (chunks: webpack.compilation.Chunk[]) => {
-        const existSubCommonDeps: Map<string, DepInfo> = new Map()
+        const existSubCommonDeps = new Map()
 
         chunks.forEach(chunk => {
           const chunkName = chunk.name
 
           if (this.matchSubVendors(chunk)) {
-            this.subPackagesVendors.push(chunk)
+            const subRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}/`).test(chunkName)) as string
+
+            this.subPackagesVendors.set(subRoot, chunk)
           }
 
           if (this.matchSubCommon(chunk)) {
             const depName = chunkName.replace(new RegExp(`^${SUB_COMMON_DIR}/(.*)`), '$1')
 
             if (this.subCommonDeps.has(depName)) {
-              existSubCommonDeps.set(depName, this.subCommonDeps.get(depName) as DepInfo)
+              existSubCommonDeps.set(depName, this.subCommonDeps.get(depName))
             }
           }
         })
@@ -179,18 +186,17 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
       compilation.chunkTemplate.hooks.renderWithEntry.tap(PLUGIN_NAME, (modules, chunk) => {
         if (this.isSubChunk(chunk)) {
           const chunkName = chunk.name
-          const chunkSubRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}/`).test(chunkName))
+          const chunkSubRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}/`).test(chunkName)) as string
           const chunkAbsulutePath = path.resolve(this.distPath, chunkName)
           const source = new ConcatSource()
-          const subVendors = this.subPackagesVendors.find(subPackagesVendor => {
-            return new RegExp(`^${chunkSubRoot}/`).test(subPackagesVendor.name)
-          })
+          const hasSubVendors = this.subPackagesVendors.has(chunkSubRoot)
+          const subVendors = this.subPackagesVendors.get(chunkSubRoot) as webpack.compilation.Chunk
           const subCommon = [...(this.chunkSubCommons.get(chunkName) || [])]
 
           /**
-           * require该分包下的vendors
+           * require该分包下的sub-vendors
            */
-          if (subVendors) {
+          if (hasSubVendors) {
             const subVendorsAbsolutePath = path.resolve(this.distPath, subVendors.name)
             const relativePath = this.getRealRelativePath(chunkAbsulutePath, subVendorsAbsolutePath)
 
@@ -200,7 +206,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
           // require sub-common下的模块
           if (subCommon.length > 0) {
             subCommon.forEach(moduleName => {
-              const moduleAbsulutePath = path.resolve(this.distPath, chunkSubRoot as string, SUB_COMMON_DIR, moduleName)
+              const moduleAbsulutePath = path.resolve(this.distPath, chunkSubRoot, SUB_COMMON_DIR, moduleName)
               const relativePath = this.getRealRelativePath(chunkAbsulutePath, moduleAbsulutePath)
 
               source.add(`require(${JSON.stringify(relativePath)});\n`)
@@ -215,6 +221,51 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
       })
     })
 
+    compiler.hooks.emit.tapAsync(PLUGIN_NAME, this.tryAsync((compilation) => {
+      const assets = compilation.assets
+      const subChunks = compilation.entries.filter(entry => entry.miniType === 'PAGE' && this.isSubChunk(entry))
+
+      subChunks.forEach(subChunk => {
+        const subChunkName = subChunk.name
+        const subRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}/`).test(subChunkName)) as string
+        const chunkWxssName = `${subChunkName}${styleExt}`
+        const subCommon = [...(this.chunkSubCommons.get(subChunkName) || [])]
+        const wxssAbsulutePath = path.resolve(this.distPath, chunkWxssName)
+        const subVendorsWxssPath = path.join(subRoot, `${SUB_VENDORS_NAME}${styleExt}`)
+        const source = new ConcatSource()
+
+        if (assets[subVendorsWxssPath]) {
+          const subVendorsAbsolutePath = path.resolve(this.distPath, subVendorsWxssPath)
+          const relativePath = this.getRealRelativePath(wxssAbsulutePath, subVendorsAbsolutePath)
+
+          source.add(`@import ${JSON.stringify(relativePath)};\n`)
+        }
+
+        if (subCommon.length > 0) { 
+          subCommon.forEach(moduleName => {
+            const wxssFileName = `${moduleName}${styleExt}`
+
+            if (assets[path.join(SUB_COMMON_DIR, wxssFileName)]) {
+              const moduleAbsulutePath = path.resolve(this.distPath, subRoot, SUB_COMMON_DIR, wxssFileName)
+              const relativePath = this.getRealRelativePath(wxssAbsulutePath, moduleAbsulutePath)
+              
+              source.add(`@import ${JSON.stringify(`${relativePath}`)};\n`)
+            }
+          })
+        }
+
+        if (assets[chunkWxssName]) {
+          const originSource = assets[chunkWxssName].source()
+          source.add(originSource)
+        }
+
+        assets[chunkWxssName] = {
+          size: () => source.source().length,
+          source: () => source.source()
+        }
+      }) 
+    }))
+
     compiler.hooks.afterEmit.tap(PLUGIN_NAME, () => {
       const subCommonPath = path.resolve(this.distPath, SUB_COMMON_DIR)
 
@@ -223,15 +274,19 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
       }
 
       this.subCommonDeps.forEach((subCommonDep, depName) => {
-        const depFileName = depName + '.js'
-        const depJsMapFileName = depName + '.js.map'
+        const depFileName = `${depName}${jsExt}`
+        const depJsMapFileName = `${depName}${jsmapExt}`
+        const wxssFileName = `${depName}${styleExt}`
         const sourcePath = path.resolve(subCommonPath, depFileName)
         const mapSourcePath = path.resolve(subCommonPath, depJsMapFileName)
+        const wxssSourcePath = path.resolve(subCommonPath, wxssFileName)
         const chunks = [...subCommonDep.chunks]
-        const needCopySubRoots: Set<string> = chunks.reduce((set: Set<any>, chunkName: string) => {
+        const needCopySubRoots = chunks.reduce((set: Set<string>, chunkName: string) => {
           const subRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}/`).test(chunkName))
 
-          set.add(subRoot)
+          if (!!subRoot) {
+            set.add(subRoot)
+          }
           return set
         }, new Set())
 
@@ -242,6 +297,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
           const targetDirPath = path.resolve(this.distPath, needCopySubRoot, SUB_COMMON_DIR)
           const sourceTargetPath = path.resolve(targetDirPath, depFileName)
           const mapSourceTargetPath = path.resolve(targetDirPath, depJsMapFileName)
+          const wxssSourceTargetPath = path.resolve(targetDirPath, wxssFileName)
 
           /**
            * 检查是否存在目录，没有则创建
@@ -255,6 +311,10 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
           if (fs.pathExistsSync(mapSourcePath)) {
             fs.outputFileSync(mapSourceTargetPath, fs.readFileSync(mapSourcePath))
           }
+
+          if (fs.pathExistsSync(wxssSourcePath)) {
+            fs.outputFileSync(wxssSourceTargetPath, fs.readFileSync(wxssSourcePath))
+          }
         })
       })
 
@@ -264,6 +324,18 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
       fs.emptyDirSync(subCommonPath)
       fs.removeSync(subCommonPath)
     })
+  }
+
+  /**
+   * 自动驱动 tapAsync
+   */
+  tryAsync = fn => async (arg, callback) => {
+    try {
+      await fn(arg)
+      callback()
+    } catch (err) {
+      callback(err)
+    }
   }
 
   /**
@@ -312,7 +384,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   }
 
   /**
-   * match *\/vendors
+   * match *\/sub-vendors
    */
   matchSubVendors (chunk: webpack.compilation.Chunk): boolean {
     const subVendorsRegExps = this.subRoots.map(subRoot => new RegExp(`^${path.join(subRoot, SUB_VENDORS_NAME)}$`))
@@ -366,7 +438,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   }
 
   /**
-   * 仅分包有引用的module抽取到分包下的vendors
+   * 仅分包有引用的module抽取到分包下的sub-vendors
    */
   getSubPackageVendorsCacheGroup () {
     const subPackageVendorsCacheGroup = {}
@@ -374,21 +446,13 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
     this.subRoots.forEach(subRoot => {
       subPackageVendorsCacheGroup[subRoot] = {
         test: (module, chunks) => {
-          if (module.type === CSS_MINI_EXTRACT) {
-            return false
-          }
-
-          if (!module.resource) {
-            return false
-          }
-
           if (this.hasExclude() && this.isExcludeModule(module)) {
             return false
           }
 
           return chunks.every(chunk => new RegExp(`^${subRoot}/`).test(chunk.name))
         },
-        name: `${subRoot}/${SUB_VENDORS_NAME}`,
+        name: path.join(subRoot, SUB_VENDORS_NAME),
         minChunks: 2,
         priority: 10000
       }
@@ -403,9 +467,13 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
     const subCommonCacheGroup = {}
 
     this.subCommonDeps.forEach((depInfo: DepInfo, depName: string) => {
-      subCommonCacheGroup[`${SUB_COMMON_DIR}/${depName}`] = {
-        name: `${SUB_COMMON_DIR}/${depName}`,
+      const cacheGroupName = path.join(SUB_COMMON_DIR, depName)
+      subCommonCacheGroup[cacheGroupName] = {
+        name: cacheGroupName,
         test: module => {
+          if (module.type === CSS_MINI_EXTRACT) {
+            return module._identifier === depInfo.identifier
+          }
           return module.resource === depInfo.resource
         },
         priority: 1000
