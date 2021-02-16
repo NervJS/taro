@@ -241,14 +241,14 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
           source.add(`@import ${JSON.stringify(relativePath)};\n`)
         }
 
-        if (subCommon.length > 0) { 
+        if (subCommon.length > 0) {
           subCommon.forEach(moduleName => {
             const wxssFileName = `${moduleName}${styleExt}`
 
             if (assets[path.join(SUB_COMMON_DIR, wxssFileName)]) {
               const moduleAbsulutePath = path.resolve(this.distPath, subRoot, SUB_COMMON_DIR, wxssFileName)
               const relativePath = this.getRealRelativePath(wxssAbsulutePath, moduleAbsulutePath)
-              
+
               source.add(`@import ${JSON.stringify(`${relativePath}`)};\n`)
             }
           })
@@ -263,7 +263,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
           size: () => source.source().length,
           source: () => source.source()
         }
-      }) 
+      })
     }))
 
     compiler.hooks.afterEmit.tap(PLUGIN_NAME, () => {
@@ -284,7 +284,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
         const needCopySubRoots = chunks.reduce((set: Set<string>, chunkName: string) => {
           const subRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}/`).test(chunkName))
 
-          if (!!subRoot) {
+          if (subRoot) {
             set.add(subRoot)
           }
           return set
