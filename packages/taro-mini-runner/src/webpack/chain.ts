@@ -170,11 +170,12 @@ export const getCopyWebpackPlugin = ({ copy, appPath }: {
   appPath: string
 }) => {
   const args = [
-    copy.patterns.map(({ from, to }) => {
+    copy.patterns.map(({ from, to, ...extra }) => {
       return {
         from,
         to: path.resolve(appPath, to),
-        context: appPath
+        context: appPath,
+        ...extra
       }
     }),
     copy.options
