@@ -94,6 +94,14 @@ export class TaroElement extends TaroNode {
       eventSource.set(value, this)
       qualifiedName = 'uid'
     } else {
+      // pure-view => static-view
+      if (this.nodeName === 'view' && !isHasExtractProp(this) && !this.isAnyEventBinded()) {
+        this.enqueueUpdate({
+          path: `${this._path}.${Shortcuts.NodeName}`,
+          value: 'static-view'
+        })
+      }
+
       this.props[qualifiedName] = value as string
       if (qualifiedName === 'class') {
         qualifiedName = Shortcuts.Class
@@ -102,12 +110,6 @@ export class TaroElement extends TaroNode {
           this.dataset = Object.create(null)
         }
         this.dataset[toCamelCase(qualifiedName.replace(/^data-/, ''))] = value
-      } else if (this.nodeName === 'view' && !isHasExtractProp(this) && !this.isAnyEventBinded()) {
-        // pure-view => static-view
-        this.enqueueUpdate({
-          path: `${this._path}.${Shortcuts.NodeName}`,
-          value: 'static-view'
-        })
       }
     }
 
