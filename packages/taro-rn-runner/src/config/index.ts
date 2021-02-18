@@ -25,7 +25,10 @@ interface MetroConfig {
     getModulesRunBeforeMainModule: GetModulesRunBeforeMainModuleFunc,
     getPolyfills: GetPolyfillsFunc
   },
-  cacheStores: ConditionalFileStore<any>[]
+  cacheStores: ConditionalFileStore<any>[],
+  server: {
+    port: number;
+  }
 }
 
 const defaultConfig: MetroConfig = getDefaultConfig()
@@ -49,7 +52,10 @@ function getDefaultConfig () {
     },
     cacheStores: [new ConditionalFileStore<any>({
       root: path.join(os.tmpdir(), 'metro-cache')
-    })]
+    })],
+    server: {
+      port: 8081
+    }
   }
   return metroConfig
 }
