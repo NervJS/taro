@@ -3,7 +3,7 @@ import * as React from 'react'
 import { camelCase } from 'lodash'
 import { parseUrl } from 'query-string'
 import { StackActions, NavigationContainerRef } from '@react-navigation/native'
-import { getTabBarPages } from './utils/index'
+import { getTabBarPages, setTabInitRoute } from './utils/index'
 import { CallbackResult, BaseOption } from './utils/types'
 // import { getOpenerEventChannel } from './getOpenerEventChannel'
 
@@ -70,7 +70,13 @@ export function navigate (option: NavigateOption | NavigateBackOption, method: N
     } else if (method === 'redirectTo') {
       navigationRef.current?.dispatch(StackActions.replace(routeParam.pageName, routeParam.params))
     } else if (method === 'switchTab') {
-      navigationRef.current?.navigate(routeParam.pageName, routeParam.params)
+      const states = navigationRef.current?.getRootState()
+      if (states?.routes[0].name !== 'tabNav') {
+        navigationRef.current?.dispatch(StackActions.replace('tabNav'))
+        setTabInitRoute(routeParam.pageName)
+      } else {
+        navigationRef.current?.navigate(routeParam.pageName, routeParam.params)
+      }
     } else if (method === 'navigateBack') {
       const number = (option as NavigateBackOption).delta ? (option as NavigateBackOption).delta : 1
       const states = navigationRef.current?.getRootState()
