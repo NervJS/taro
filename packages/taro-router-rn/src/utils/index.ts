@@ -80,6 +80,14 @@ export function setTabConfig (key: string, value: unknown) {
   globalAny.__taroTabBarIconConfig = tabBarConfig
 }
 
+export function setTabInitRoute (routeName: string) {
+  globalAny.__taroTabInitRoute = routeName
+}
+
+export function getTabInitRoute (): string {
+  return globalAny.__taroTabInitRoute || ''
+}
+
 export function getTabVisible (): boolean {
   return getTabConfig('tabBarVisible')
 }

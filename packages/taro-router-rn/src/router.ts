@@ -9,7 +9,7 @@ import { navigationRef } from './rootNavigation'
 import CustomTabBar from './view/TabBar'
 import HeadTitle from './view/HeadTitle'
 import BackButton from './view/BackButton'
-import { getTabItemConfig, getTabVisible, setTabConfig } from './utils/index'
+import { getTabItemConfig, getTabVisible, setTabConfig, getTabInitRoute } from './utils/index'
 
 interface WindowConfig {
   pageOrientation?: 'auto' | 'portrait' | 'landscape'
@@ -48,6 +48,7 @@ interface PageItem {
 }
 
 interface RNConfig {
+  initialRouteName?: string,
   linking?: string[],
   screenOptions?: Record<string, any>,
   tabBarOptions?: Record<string, any>,
@@ -154,6 +155,17 @@ function getTabItem (config: RouterConfig, tabName: string) {
   return tabItem
 }
 
+function getInitRouteName (config: RouterConfig) {
+  let initRoute = ''
+  const rn = config.rnConfig || {}
+  if (rn?.initialRouteName) {
+    initRoute = camelCase(rn.initialRouteName)
+  } else {
+    initRoute = config.pages[0].name
+  }
+  return initRoute
+}
+
 function createTabStack (config: RouterConfig, parentProps: any) {
   const Tab = createBottomTabNavigator()
   const tabBar = config.tabBar
@@ -191,10 +203,13 @@ function createTabStack (config: RouterConfig, parentProps: any) {
     } : {}
   }, userTabBarOptions)
 
+  const tabNames = getTabNames(config)
+  const tabInitRouteName = getTabInitRoute() || tabNames[0]
   return React.createElement(Tab.Navigator,
     {
       tabBarOptions: tabBarOptions,
       tabBar: (props) => createTabBar(props, userOptions),
+      initialRouteName: tabInitRouteName,
       children: tabList
     },
     tabList)
@@ -261,7 +276,6 @@ function createTabNavigate (config: RouterConfig) {
       }, null)
     screeList.push(screenNode)
   })
-
   const linking = getLinkingConfig(config)
   const tabStack = React.createElement(Stack.Navigator,
     {
@@ -270,6 +284,7 @@ function createTabNavigate (config: RouterConfig) {
         const defaultOptions = getStackOptions(config)
         return Object.assign({}, defaultOptions, options)
       },
+      initialRouteName: getInitRouteName(config),
       children: screeList
     }, screeList)
   return React.createElement(NavigationContainer, { ref: navigationRef, linking: linking, children: tabStack }, tabStack)
