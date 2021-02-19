@@ -56,7 +56,12 @@ const reactifyWebComponent = WC => {
             return this.ref.current.setAttribute(prop, val)
           } else if (val && typeof val === 'object') {
             for (const key in val) {
-              this.ref.current.style.setProperty(key, val[key])
+              if (/^--/.test(key)) {
+                // css variable
+                this.ref.current.style.setProperty(key, val[key])
+              } else {
+                this.ref.current.style[key] = val[key]
+              }
             }
             return
           }
