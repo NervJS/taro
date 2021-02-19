@@ -69,14 +69,12 @@ function _request (options) {
       const header = {
         ...options.header
       }
-        
       const temp = {}
       Object.keys(header).forEach(key => {
         if (key.toLowerCase() !== 'content-type') {
           temp[key] = header[key]
         }
       })
-      
       options.header = temp
       params.body = options.data
     } else {
