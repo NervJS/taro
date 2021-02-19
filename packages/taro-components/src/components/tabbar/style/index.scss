@@ -12,22 +12,19 @@ html, body {
       }
     }
   }
-  &__container {
-    display: flex;
-    height: 100%;
-    flex-direction: column;
-    overflow: hidden;
-  }
   &__panel {
-    flex: 1;
-    position: relative;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
+    &-bottom {
+      padding-bottom: 50px;
+    }
+    &-top {
+      padding-top: 50px;
+    }
   }
   &__tabbar {
-    position: relative;
+    position: fixed;
+    left: 0;
+    right: 0;
     height: 50px;
-    width: 100%;
     transition: bottom .2s, top .2s;
     &-top {
       top: 0;
@@ -40,7 +37,6 @@ html, body {
     }
     &-slideout {
       top: -52px;
-      flex: 0 0;
     }
   }
 

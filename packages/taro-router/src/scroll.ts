@@ -44,14 +44,8 @@ window.addEventListener('DOMSubtreeModified', (e) => {
   }
 }, false)
 
-function getScrollContainer (): Element | Window {
-  if (document.querySelector('.taro-tabbar__tabbar') === null) {
-    // 没设置tabbar
-    return window
-  } else {
-    // 有设置tabbar
-    return document.querySelector('.taro-tabbar__panel') || window
-  }
+function getScrollContainer (): Window {
+  return window
 }
 
 function getOffset () {

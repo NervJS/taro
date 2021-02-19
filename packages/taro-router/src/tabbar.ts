@@ -1,10 +1,21 @@
-import { AppConfig } from '@tarojs/taro'
+import Taro, { AppConfig } from '@tarojs/taro'
 import { history } from './history'
 
-export function initTabbar (config: AppConfig) {
+export function initTabbar (config: AppConfig, panel: HTMLElement) {
   if (config.tabBar == null) {
     return
   }
+
+  const position = config.tabBar.position || 'bottom'
+  const targetClass = position === 'bottom' ? 'taro-tabbar__panel-bottom' : 'taro-tabbar__panel-top'
+  panel.classList.add(targetClass)
+
+  Taro.eventCenter.on('__taroShowTabBar', () => {
+    panel.classList.add(targetClass)
+  })
+  Taro.eventCenter.on('__taroHideTabBar', () => {
+    panel.classList.remove(targetClass)
+  })
 
   // TODO: 找到 tabbar 的类型
   const tabbar = document.createElement('taro-tabbar') as any
@@ -21,7 +32,7 @@ export function initTabbar (config: AppConfig) {
     tabbar.conf.custom = false
     tabbar.conf.customRoutes = {}
   }
-  const container = document.getElementById('container')
+  const container = document.body
   // eslint-disable-next-line no-unused-expressions
   container?.appendChild(tabbar)
 }

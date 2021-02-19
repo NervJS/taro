@@ -8,10 +8,6 @@ export function init (config: RouterConfig) {
   Object.assign(routerConfig, config)
   document.getElementById('app')?.remove()
 
-  const container = document.createElement('div')
-  container.classList.add('taro-tabbar__container')
-  container.id = 'container'
-
   const panel = document.createElement('div')
   panel.classList.add('taro-tabbar__panel')
 
@@ -20,11 +16,9 @@ export function init (config: RouterConfig) {
   app.classList.add('taro_router')
 
   panel.appendChild(app)
-  container.appendChild(panel)
+  document.body.appendChild(panel)
 
-  document.body.appendChild(container)
-
-  initTabbar(config)
+  initTabbar(config, panel)
 }
 
 export const routerConfig: RouterConfig = Object.create(null)

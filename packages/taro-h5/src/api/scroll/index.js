@@ -25,31 +25,12 @@ export const pageScrollTo = ({ scrollTop, selector, duration = 300, success, fai
         throw Error('"scrollTop" 或 "selector" 需要其之一')
       }
 
-      let el
-      if (document.querySelector('.taro-tabbar__tabbar') === null) {
-        // 没设置tabbar
-        el = window
-      } else {
-        // 有设置tabbar
-        el = document.querySelector('.taro-tabbar__panel') || window
-      }
-
       if (!scrollFunc) {
-        if (el === window) {
-          scrollFunc = pos => {
-            if (pos === undefined) {
-              return window.pageYOffset
-            } else {
-              window.scrollTo(0, pos)
-            }
-          }
-        } else {
-          scrollFunc = pos => {
-            if (pos === undefined) {
-              return el.scrollTop
-            } else {
-              el.scrollTop = pos
-            }
+        scrollFunc = pos => {
+          if (pos === undefined) {
+            return window.pageYOffset
+          } else {
+            window.scrollTo(0, pos)
           }
         }
       }

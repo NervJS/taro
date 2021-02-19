@@ -55,15 +55,8 @@ export class PullToRefresh implements ComponentInterface {
   private _lastScreenY = 0;
 
   private _isMounted = false;
-
   private get scrollContainer () {
-    if (document.querySelector('.taro-tabbar__tabbar') === null) {
-      // 没设置tabbar
-      return window
-    } else {
-      // 有设置tabbar
-      return document.querySelector('.taro-tabbar__panel') || window
-    }
+    return window
   }
 
   @Watch('currSt')
@@ -153,12 +146,6 @@ export class PullToRefresh implements ComponentInterface {
   }
 
   isEdge = (ele: HTMLElement) => {
-    const container = this.scrollContainer
-    if (container && container === document.body) {
-      // In chrome61 `document.body.scrollTop` is invalid
-      const scrollNode = document.scrollingElement ? document.scrollingElement : document.body
-      return scrollNode.scrollTop <= 0
-    }
     return ele.scrollTop <= 0
   }
 
