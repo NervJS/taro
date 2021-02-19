@@ -9,6 +9,9 @@ import { cancelTimeout, requestTimeout } from '../timer'
 import { getRTLOffsetType } from '../domHelpers'
 const IS_SCROLLING_DEBOUNCE_INTERVAL = 150
 
+// For trigger rerender of component use same offset, need to change the value of scrollTop
+const RERENDER_OFFSET = 0.1
+
 const defaultItemKey = (index) => index // In DEV mode, this Set helps us only log a warning once per component instance.
 // This avoids spamming the console every time a render happens.
 
@@ -61,6 +64,7 @@ export default function createListComponent ({
         isScrolling: false,
         scrollDirection: 'forward',
         scrollOffset: typeof this.props.initialScrollOffset === 'number' ? this.props.initialScrollOffset : 0,
+        lockedScrollOffset: typeof this.props.initialScrollOffset === 'number' ? this.props.initialScrollOffset : 0,
         scrollUpdateWasRequested: false,
         sizeList: []
       }
@@ -278,6 +282,7 @@ export default function createListComponent ({
             isScrolling: true,
             scrollDirection: prevState.scrollOffset < scrollLeft ? 'forward' : 'backward',
             scrollOffset,
+            lockedScrollOffset: (prevState.lockedScrollOffset === scrollLeft) ? scrollLeft + RERENDER_OFFSET : scrollOffset,
             scrollUpdateWasRequested: false
           }
         }, this._resetIsScrollingDebounced)
@@ -310,6 +315,7 @@ export default function createListComponent ({
             isScrolling: true,
             scrollDirection: prevState.scrollOffset < scrollOffset ? 'forward' : 'backward',
             scrollOffset,
+            lockedScrollOffset: (prevState.lockedScrollOffset === scrollOffset) ? scrollOffset + RERENDER_OFFSET : scrollOffset,
             scrollUpdateWasRequested: false
           }
         }, this._resetIsScrollingDebounced)
@@ -363,6 +369,7 @@ export default function createListComponent ({
         return {
           scrollDirection: prevState.scrollOffset < scrollOffset ? 'forward' : 'backward',
           scrollOffset: scrollOffset,
+          lockedScrollOffset: scrollOffset,
           scrollUpdateWasRequested: true
         }
       }, this._resetIsScrollingDebounced)
@@ -471,6 +478,7 @@ export default function createListComponent ({
         id,
         isScrolling,
         scrollOffset,
+        lockedScrollOffset,
         scrollUpdateWasRequested
       } = this.state // TODO Deprecate direction "horizontal"
 
@@ -531,6 +539,12 @@ export default function createListComponent ({
           outerElementProps.scrollLeft = scrollOffset
         } else {
           outerElementProps.scrollTop = scrollOffset
+        }
+      } else {
+        if (isHorizontal) {
+          outerElementProps.scrollLeft = lockedScrollOffset
+        } else {
+          outerElementProps.scrollTop = lockedScrollOffset
         }
       }
 
