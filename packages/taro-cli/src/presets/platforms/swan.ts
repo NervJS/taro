@@ -58,9 +58,7 @@ export default (ctx: IPluginContext) => {
       const { npm, emptyDirectory } = ctx.helper
       emptyDirectory(outputPath)
 
-      // ctx.generateFrameworkInfo({
-      //   platform: config.platform
-      // })
+      ctx.generateFrameworkInfo()
 
       printDevelopmentTip('swan')
 
