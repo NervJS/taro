@@ -780,6 +780,7 @@ module.exports = {
 ```
 
 ### mini.lessLoaderOption
+> Taro 3.0.26 版本开始支持less-loader@7
 
 `object`
 
@@ -791,8 +792,10 @@ module.exports = {
   mini: {
     // ...
     lessLoaderOption: {
-      strictMath: true,
-      noIeCompat: true
+      lessOptions: { // 如果使用less-loader@5，请移除 lessOptions 这一级直接配置选项。
+        strictMath: true,
+        noIeCompat: true
+      }
     }
   }
 }
@@ -1283,6 +1286,7 @@ module.exports = {
 ```
 
 ### h5.lessLoaderOption
+> Taro 3.0.26 版本开始支持less-loader@7
 
 `object`
 
@@ -1294,8 +1298,10 @@ module.exports = {
   h5: {
     // ...
     lessLoaderOption: {
-      strictMath: true,
-      noIeCompat: true
+      lessOptions: { // 如果使用less-loader@5，请移除 lessOptions 这一级直接配置选项。
+        strictMath: true,
+        noIeCompat: true
+      }
     }
   }
 }
