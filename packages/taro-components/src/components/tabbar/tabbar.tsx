@@ -3,6 +3,8 @@ import classNames from 'classnames'
 import resolvePathname from 'resolve-pathname'
 import { splitUrl } from '../../utils'
 import { TabbarItem } from './tabbar-item'
+
+// IGNORE: 由于 @tarojs/taro 与 @tarojs/components 中存在循环依赖，暂时使用 commonjs 引用
 const Taro = require('@tarojs/taro')
 
 // const removeLeadingSlash = str => str.replace(/^\.?\//, '')
@@ -333,7 +335,8 @@ export class Tabbar implements ComponentInterface {
                 iconPath={iconPath}
                 text={item.text}
                 badgeText={item.badgeText}
-                showRedDot={item.showRedDot} />
+                showRedDot={item.showRedDot}
+              />
             )
           })}
         </div>
