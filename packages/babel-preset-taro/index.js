@@ -10,11 +10,19 @@ module.exports = (_, options = {}) => {
   const isVue3 = options.framework === 'vue3'
   const moduleName = options.framework.charAt(0).toUpperCase() + options.framework.slice(1)
 
-  if (isNerv || isReact) {
+  if (isNerv) {
     presets.push([require('@babel/preset-react'), {
       pragma: `${moduleName}.createElement`,
       pragmaFrag: `${moduleName}.Fragment`
     }])
+  }
+
+  if (isReact) {
+    presets.push([require('@babel/preset-react'), {
+    }])
+    if (process.env.NODE_ENV !== 'production') {
+      plugins.push([require('react-refresh/babel')])
+    }
   }
 
   if (options.ts) {
