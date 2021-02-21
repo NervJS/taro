@@ -1282,7 +1282,7 @@ require(\\"./taro\\");
                     };
                 }
             }));
-            equipCommonApis(taro, global, config);
+            !config.isOnlyPromisify && equipCommonApis(taro, global, config);
         }
         function equipCommonApis(taro, global) {
             var apis = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};

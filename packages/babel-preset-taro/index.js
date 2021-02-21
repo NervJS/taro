@@ -20,7 +20,7 @@ module.exports = (_, options = {}) => {
   if (isReact) {
     presets.push([require('@babel/preset-react'), {
     }])
-    if (process.env.NODE_ENV !== 'production' && options.hot !== false) {
+    if (process.env.TARO_ENV === 'h5' && process.env.NODE_ENV !== 'production' && options.hot !== false) {
       plugins.push([require('react-refresh/babel')])
     }
   }
