@@ -3,17 +3,20 @@ import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 
 /** 选择器通用参数 */
 interface PickerStandardProps extends StandardProps, FormItemProps {
-  /** 选择器类型，默认是普通选择器
+  /**
+   * 选择器类型，默认是普通选择器
    * @default "selector"
    * @supported weapp, h5, rn
    */
-  mode: keyof PickerStandardProps.mode
-  /** 是否禁用
+  mode?: keyof PickerStandardProps.Mode
+  /**
+   * 是否禁用
    * @default false
    * @supported weapp, h5, rn
    */
   disabled?: boolean
-  /** 取消选择或点遮罩层收起 picker 时触发
+  /**
+   * 取消选择或点遮罩层收起 picker 时触发
    * @supported weapp, h5, rn
    */
   onCancel?: CommonEventFunction
@@ -21,7 +24,7 @@ interface PickerStandardProps extends StandardProps, FormItemProps {
 
 declare namespace PickerStandardProps {
   /** 选择器类型 */
-  interface mode {
+  interface Mode {
     /** 普通选择器 */
     selector
     /** 多列选择器 */
@@ -38,29 +41,33 @@ declare namespace PickerStandardProps {
 /** 普通选择器：mode = selector */
 interface PickerSelectorProps extends PickerStandardProps {
   /** 选择器类型 */
-  mode: 'selector'
-  /** mode为 selector 或 multiSelector 时，range 有效
+  mode?: 'selector'
+  /**
+   * mode为 selector 或 multiSelector 时，range 有效
    * @supported weapp, h5, rn
    * @default []
    */
-  range: string[] | number[] | Object[]
-  /** 当 range 是一个 Object Array 时，通过 rangeKey 来指定 Object 中 key 的值作为选择器显示内容
+  range: string[] | number[] | Record<string, any>
+  /**
+   * 当 range 是一个 Object Array 时，通过 rangeKey 来指定 Object 中 key 的值作为选择器显示内容
    * @supported weapp, h5, rn
    */
   rangeKey?: string
-  /** 表示选择了 range 中的第几个（下标从 0 开始）
+  /**
+   * 表示选择了 range 中的第几个（下标从 0 开始）
    * @supported weapp, h5, rn
    * @default 0
    */
   value?: number
-  /** value 改变时触发 change 事件，event.detail = {value}
+  /**
+   * value 改变时触发 change 事件，event.detail = {value}
    * @supported weapp, h5, rn
    */
-  onChange: CommonEventFunction<PickerSelectorProps.onChangeEventDetail>
+  onChange: CommonEventFunction<PickerSelectorProps.ChangeEventDetail>
 }
 
 declare namespace PickerSelectorProps {
-  interface onChangeEventDetail {
+  interface ChangeEventDetail {
     /** 表示变更值的下标 */
     value: string | number
   }
@@ -70,36 +77,41 @@ declare namespace PickerSelectorProps {
 interface PickerMultiSelectorProps extends PickerStandardProps {
   /** 选择器类型 */
   mode: 'multiSelector'
-  /** mode为 selector 或 multiSelector 时，range 有效
+  /**
+   * mode为 selector 或 multiSelector 时，range 有效
    * @supported weapp, h5, rn
    * @default []
    */
-  range: Array<string[]> | Array<number[]> | Array<Object[]>
-  /** 当 range 是一个 Object Array 时，通过 rangeKey 来指定 Object 中 key 的值作为选择器显示内容
+  range: Array<string[]> | Array<number[]> | Array<Record<string, any>[]>
+  /**
+   * 当 range 是一个 Object Array 时，通过 rangeKey 来指定 Object 中 key 的值作为选择器显示内容
    * @supported weapp, h5, rn
    */
   rangeKey?: string
-  /** 表示选择了 range 中的第几个（下标从 0 开始）
+  /**
+   * 表示选择了 range 中的第几个（下标从 0 开始）
    * @supported weapp, h5, rn
    * @default []
    */
-  value: number[] | string[] | Object[]
-  /** 当 value 改变时触发 change 事件，event.detail = {value}
+  value: number[] | string[] | Record<string, any>[]
+  /**
+   * 当 value 改变时触发 change 事件，event.detail = {value}
    * @supported weapp, h5, rn
    */
-  onChange: CommonEventFunction<PickerMultiSelectorProps.onChangeEventDetail>
-  /** 列改变时触发
+  onChange: CommonEventFunction<PickerMultiSelectorProps.ChangeEventDetail>
+  /**
+   * 列改变时触发
    * @supported weapp, h5, rn
    */
-  onColumnChange?: CommonEventFunction<PickerMultiSelectorProps.onColumnChangeEvnetDetail>
+  onColumnChange?: CommonEventFunction<PickerMultiSelectorProps.ColumnChangeEvnetDetail>
 }
 
 declare namespace PickerMultiSelectorProps {
-  interface onChangeEventDetail {
+  interface ChangeEventDetail {
     /** 表示变更值的下标 */
     value: number[]
   }
-  interface onColumnChangeEvnetDetail {
+  interface ColumnChangeEvnetDetail {
     /** 表示改变了第几列（下标从0开始） */
     column: number
     /** 表示变更值的下标 */
@@ -111,26 +123,30 @@ declare namespace PickerMultiSelectorProps {
 interface PickerTimeProps extends PickerStandardProps {
   /** 选择器类型 */
   mode: 'time'
-  /** value 的值表示选择了 range 中的第几个（下标从 0 开始）
+  /**
+   * value 的值表示选择了 range 中的第几个（下标从 0 开始）
    * @supported weapp, h5, rn
    */
   value: string
-  /** 仅当 mode = time|date 时有效，表示有效时间范围的开始，字符串格式为"hh:mm"
+  /**
+   * 仅当 mode = time|date 时有效，表示有效时间范围的开始，字符串格式为"hh:mm"
    * @supported weapp, h5, rn
    */
   start?: string
-  /** 仅当 mode = time|date 时有效，表示有效时间范围的结束，字符串格式为"hh:mm"
+  /**
+   * 仅当 mode = time|date 时有效，表示有效时间范围的结束，字符串格式为"hh:mm"
    * @supported weapp, h5, rn
    */
   end?: string
-  /** value 改变时触发 change 事件，event.detail = {value}
+  /**
+   * value 改变时触发 change 事件，event.detail = {value}
    * @supported weapp, h5, rn
    */
-  onChange: CommonEventFunction<PickerTimeProps.onChangeEventDetail>
+  onChange: CommonEventFunction<PickerTimeProps.ChangeEventDetail>
 }
 
 declare namespace PickerTimeProps {
-  interface onChangeEventDetail {
+  interface ChangeEventDetail {
     /** 表示选中的时间 */
     value: string
   }
@@ -140,32 +156,37 @@ declare namespace PickerTimeProps {
 interface PickerDateProps extends PickerStandardProps {
   /** 选择器类型 */
   mode: 'date'
-  /** 表示选中的日期，格式为"YYYY-MM-DD"
+  /**
+   * 表示选中的日期，格式为"YYYY-MM-DD"
    * @supported weapp, h5, rn
    * @default 0
    */
   value: string
-  /** 仅当 mode = time|date 时有效，表示有效时间范围的开始，字符串格式为"hh:mm"
+  /**
+   * 仅当 mode = time|date 时有效，表示有效时间范围的开始，字符串格式为"hh:mm"
    * @supported weapp, h5, rn
    */
   start?: string
-  /** 仅当 mode = time|date 时有效，表示有效时间范围的结束，字符串格式为"hh:mm"
+  /**
+   * 仅当 mode = time|date 时有效，表示有效时间范围的结束，字符串格式为"hh:mm"
    * @supported weapp, h5, rn
    */
   end?: string
-  /** 有效值 year, month, day，表示选择器的粒度
+  /**
+   * 有效值 year, month, day，表示选择器的粒度
    * @supported weapp, h5, rn
    * @default "day"
    */
-  fields?: keyof PickerDateProps.fields
-  /** value 改变时触发 change 事件，event.detail = {value}
+  fields?: keyof PickerDateProps.Fields
+  /**
+   * value 改变时触发 change 事件，event.detail = {value}
    * @supported weapp, h5, rn
    */
-  onChange: CommonEventFunction<PickerDateProps.onChangeEventDetail>
+  onChange: CommonEventFunction<PickerDateProps.ChangeEventDetail>
 }
 
 declare namespace PickerDateProps {
-  interface fields {
+  interface Fields {
     /** 选择器粒度为年 */
     year
     /** 选择器粒度为月份 */
@@ -173,7 +194,7 @@ declare namespace PickerDateProps {
     /** 选择器粒度为天 */
     day
   }
-  interface onChangeEventDetail {
+  interface ChangeEventDetail {
     /** 表示选中的日期 */
     value: string
   }
@@ -183,23 +204,26 @@ declare namespace PickerDateProps {
 interface PickerRegionProps extends PickerStandardProps {
   /** 选择器类型 */
   mode: 'region'
-  /** 表示选中的省市区，默认选中每一列的第一个值
+  /**
+   * 表示选中的省市区，默认选中每一列的第一个值
    * @supported weapp, h5, rn
    * @default []
    */
   value: string[]
-  /** 可为每一列的顶部添加一个自定义的项
+  /**
+   * 可为每一列的顶部添加一个自定义的项
    * @supported weapp, h5, rn
    */
   customItem?: string
-  /** value 改变时触发 change 事件，event.detail = {value, code, postcode}，其中字段 code 是统计用区划代码，postcode 是邮政编码	
+  /**
+   * value 改变时触发 change 事件，event.detail = {value, code, postcode}，其中字段 code 是统计用区划代码，postcode 是邮政编码
    * @supported weapp, h5, rn
    */
-  onChange: CommonEventFunction<PickerRegionProps.onChangeEventDetail>
+  onChange: CommonEventFunction<PickerRegionProps.ChangeEventDetail>
 }
 
 declare namespace PickerRegionProps {
-  interface onChangeEventDetail {
+  interface ChangeEventDetail {
     /** 表示选中的省市区 */
     value: string[]
     /** 统计用区划代码 */
@@ -209,7 +233,8 @@ declare namespace PickerRegionProps {
   }
 }
 
-/** 从底部弹起的滚动选择器
+/**
+ * 从底部弹起的滚动选择器
  * @classification forms
  * @supported weapp, h5, rn, swan, alipay, tt
  * @example
@@ -221,13 +246,13 @@ declare namespace PickerRegionProps {
  *     timeSel: '12:01',
  *     dateSel: '2018-04-22'
  *   }
- * 
+ *
  *   onChange = e => {
  *     this.setState({
  *       selectorChecked: this.state.selector[e.detail.value]
  *     })
  *   }
- * 
+ *
  *   onTimeChange = e => {
  *     this.setState({
  *       timeSel: e.detail.value
@@ -238,7 +263,7 @@ declare namespace PickerRegionProps {
  *       dateSel: e.detail.value
  *     })
  *   }
- * 
+ *
  *   render () {
  *     return (
  *       <View className='container'>
@@ -281,13 +306,7 @@ declare namespace PickerRegionProps {
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/picker.html
  */
-declare const Picker: ComponentType<
-  | PickerSelectorProps
-  | PickerMultiSelectorProps
-  | PickerTimeProps
-  | PickerDateProps
-  | PickerRegionProps
->
+declare const Picker: ComponentType<PickerMultiSelectorProps | PickerTimeProps | PickerDateProps | PickerRegionProps | PickerSelectorProps>
 
 export {
   Picker,
