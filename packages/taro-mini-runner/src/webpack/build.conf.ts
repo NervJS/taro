@@ -105,13 +105,13 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   }
   alias[taroJsComponents + '$'] = taroComponentsPath || `${taroJsComponents}/mini`
   if (framework === 'react') {
-    alias['react-dom'] = '@tarojs/react'
+    alias['react-dom$'] = '@tarojs/react'
     if (process.env.NODE_ENV !== 'production' && !debugReact) {
-      alias['react-reconciler'] = 'react-reconciler/cjs/react-reconciler.production.min.js'
+      alias['react-reconciler$'] = 'react-reconciler/cjs/react-reconciler.production.min.js'
       // eslint-disable-next-line dot-notation
-      alias['react'] = 'react/cjs/react.production.min.js'
+      alias['react$'] = 'react/cjs/react.production.min.js'
       // eslint-disable-next-line dot-notation
-      alias['scheduler'] = 'scheduler/cjs/scheduler.production.min.js'
+      alias['scheduler$'] = 'scheduler/cjs/scheduler.production.min.js'
     }
   }
   if (framework === 'nerv') {
