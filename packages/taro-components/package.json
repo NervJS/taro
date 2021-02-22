@@ -24,10 +24,10 @@
     "build-h5": "babel -d dist-h5 h5",
     "build": "npm run build-h5 & stencil build --config stencil.config.ts",
     "dev": "stencil build --config stencil.config.ts --watch",
-    "test": "karmatic --files '__tests__/**.spec.js' --coverage false",
-    "test:ci": "karmatic --files '__tests__/**.spec.js' --coverage false",
-    "test:debug": "karmatic debug --files '__tests__/**.spec.js' --coverage false",
-    "test:coverage": "karmatic --files '__tests__/**.spec.js'"
+    "test": "karmatic --files '__tests__/polyfill.js,__tests__/**.spec.js' --coverage false",
+    "test:ci": "karmatic --files '__tests__/polyfill.js,__tests__/**.spec.js' --coverage false",
+    "test:debug": "karmatic debug --files '__tests__/polyfill.js,__tests__/**.spec.js' --coverage false",
+    "test:coverage": "karmatic --files '__tests__/polyfill.js,__tests__/**.spec.js'"
   },
   "repository": {
     "type": "git",
