@@ -399,9 +399,14 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       }
 
       createScrollPage () {
+        let bgColor = pageConfig.backgroundColor ? pageConfig.backgroundColor : ''
+        const windowOptions = globalAny.__taroAppConfig?.appConfig?.window || {}
+        if (!bgColor && windowOptions?.backgroundColor) {
+          bgColor = windowOptions?.backgroundColor
+        }
         const refresh = this.isEnablePullDown() ? { refreshControl: this.refreshPullDown() } : {}
         return h(ScrollView, {
-          style: { flex: 1 },
+          style: [{ flex: 1 }, (bgColor ? { backgroundColor: bgColor } : {})],
           contentContainerStyle: { minHeight: '100%' },
           ref: this.pageScrollView,
           scrollEventThrottle: 8,
