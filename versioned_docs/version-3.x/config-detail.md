@@ -781,6 +781,8 @@ module.exports = {
 
 ### mini.lessLoaderOption
 
+> 自 v3.0.26 开始支持
+
 `object`
 
 `less-loader` 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/less-loader)，例如：
@@ -791,8 +793,10 @@ module.exports = {
   mini: {
     // ...
     lessLoaderOption: {
-      strictMath: true,
-      noIeCompat: true
+      lessOptions: { // 如果使用less-loader@5，请移除 lessOptions 这一级直接配置选项。
+        strictMath: true,
+        noIeCompat: true
+      }
     }
   }
 }
@@ -1284,6 +1288,8 @@ module.exports = {
 
 ### h5.lessLoaderOption
 
+> 自 v3.0.26 开始支持
+
 `object`
 
 `less-loader` 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/less-loader)，例如：
@@ -1294,8 +1300,10 @@ module.exports = {
   h5: {
     // ...
     lessLoaderOption: {
-      strictMath: true,
-      noIeCompat: true
+      lessOptions: { // 如果使用less-loader@5，请移除 lessOptions 这一级直接配置选项。
+        strictMath: true,
+        noIeCompat: true
+      }
     }
   }
 }
