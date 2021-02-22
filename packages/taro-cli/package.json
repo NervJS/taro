@@ -57,7 +57,7 @@
     "@tarojs/taroize": "3.1.0-beta.10",
     "@tarojs/transformer-wx": "^2.0.4",
     "@types/request": "^2.48.1",
-    "@typescript-eslint/parser": "^2.0.0",
+    "@typescript-eslint/parser": "^4.15.1",
     "adm-zip": "^0.4.13",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
