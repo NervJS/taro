@@ -781,7 +781,7 @@ module.exports = {
 
 ### mini.lessLoaderOption
 
-> 自 v3.0.8 开始支持
+> 自 v3.0.26 开始支持
 
 `object`
 
@@ -1288,7 +1288,7 @@ module.exports = {
 
 ### h5.lessLoaderOption
 
-> 自 v3.0.8 开始支持
+> 自 v3.0.26 开始支持
 
 `object`
 
