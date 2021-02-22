@@ -30,13 +30,14 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
     let isChanged = false
     const newMapState = mapStateToProps(store.getState(), this.props)
     const prevProps = Object.assign({}, this.props)
+    const props = Object.assign({}, this.props)
     Object.keys(newMapState).forEach(key => {
       let val = newMapState[key]
       if (isObject(val) && isObject(initMapDispatch[key])) {
         val = mergeObjects(val, initMapDispatch[key])
       }
-      if (this.props[key] !== val) {
-        this.props[key] = val
+      if (props.[key] !== val) {
+        props.[key] = val
         isChanged = true
       }
     })
@@ -44,6 +45,7 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
       if (!this._dirty) {
         this.prevProps = prevProps
       }
+      this.props = props
       this._unsafeCallUpdate = true
       this.setState({}, () => {
         delete this._unsafeCallUpdate
