@@ -3,5 +3,9 @@
 // https://eslint.vuejs.org/user-guide/#editor-integrations
 <%}-%>
 {
-  "extends": ["taro/<%= framework %>"]
+  "extends": ["taro/<%= framework %>"],
+  "rules": {
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off"
+  }
 }
