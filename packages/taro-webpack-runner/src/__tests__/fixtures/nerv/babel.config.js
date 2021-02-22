@@ -5,7 +5,8 @@ module.exports = {
     ['taro', {
       framework: 'nerv',
       ts: false,
-      hot: false
+      hot: false,
+      reactJsxRuntime: 'classic'
     }]
   ]
 }

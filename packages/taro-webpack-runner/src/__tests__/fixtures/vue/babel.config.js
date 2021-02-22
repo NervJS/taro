@@ -5,7 +5,8 @@ module.exports = {
     ['taro', {
       framework: 'vue',
       ts: false,
-      hot: false
+      hot: false,
+      reactJsxRuntime: 'classic'
     }]
   ]
 }

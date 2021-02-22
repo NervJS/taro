@@ -6,7 +6,8 @@ module.exports = {
     ['taro', {
       framework: 'react',
       ts: false,
-      hot: false
+      hot: false,
+      reactJsxRuntime: 'classic'
     }]
   ]
 }
