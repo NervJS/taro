@@ -36,8 +36,8 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
       if (isObject(val) && isObject(initMapDispatch[key])) {
         val = mergeObjects(val, initMapDispatch[key])
       }
-      if (props.[key] !== val) {
-        props.[key] = val
+      if (props[key] !== val) {
+        props[key] = val
         isChanged = true
       }
     })
