@@ -278,8 +278,8 @@ export class Tabbar implements ComponentInterface {
     Taro.eventCenter.off('__taroRemoveTabBarBadge', this.removeTabBarBadgeHandler)
     Taro.eventCenter.off('__taroShowTabBarRedDotHandler', this.showTabBarRedDotHandler)
     Taro.eventCenter.off('__taroHideTabBarRedDotHandler', this.hideTabBarRedDotHandler)
-    Taro.eventCenter.off('__taroShowTabBarHandler', this.showTabBarHandler)
-    Taro.eventCenter.off('__taroHideTabBarHandler', this.hideTabBarHandler)
+    Taro.eventCenter.off('__taroShowTabBar', this.showTabBarHandler)
+    Taro.eventCenter.off('__taroHideTabBar', this.hideTabBarHandler)
   }
 
   componentDidLoad () {
