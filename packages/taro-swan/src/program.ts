@@ -34,6 +34,7 @@ export default class Swan extends TaroPlatformBase {
     this.setupTransaction.addWrapper({
       close () {
         this.modifyComponents()
+        ctx.generateFrameworkInfo()
         this.generateProjectConfig(PROJECT_JSON, PROJECT_JSON)
       }
     })
