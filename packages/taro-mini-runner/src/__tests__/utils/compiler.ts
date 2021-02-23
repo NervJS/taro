@@ -56,7 +56,7 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
           '@tarojs/components$': path.resolve(__dirname, '../mocks/taro-components'),
           '@tarojs/react': path.resolve(__dirname, '../mocks/taro-react'),
           '@tarojs/taro': path.resolve(__dirname, '../mocks/taro'),
-          react: path.resolve(__dirname, '../mocks/react'),
+          react$: path.resolve(__dirname, '../mocks/react'),
           vue: path.resolve(__dirname, '../mocks/vue'),
           nervjs: path.resolve(__dirname, '../mocks/nerv')
         }
