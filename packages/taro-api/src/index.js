@@ -39,15 +39,12 @@ const Taro = {
   ENV_TYPE,
   Link,
   interceptors,
-  initPxTransform: getInitPxTransform(Taro),
   Current,
   getCurrentInstance,
   options,
   nextTick,
   eventCenter,
   Events,
-  getPreload: getPreload(Taro),
-  pxTransform: getPxTransform(Taro),
   useDidShow,
   useDidHide,
   usePullDownRefresh,
@@ -64,5 +61,9 @@ const Taro = {
   useReady,
   useRouter
 }
+
+Taro.initPxTransform = getInitPxTransform(Taro)
+Taro.getPreload = getPreload(Taro)
+Taro.pxTransform = getPxTransform(Taro)
 
 export default Taro

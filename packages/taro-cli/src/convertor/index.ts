@@ -279,7 +279,7 @@ export default class Convertor {
           const lastImport = bodyNode.filter(p => p.isImportDeclaration()).pop()
           const hasTaroImport = bodyNode.some(p => p.isImportDeclaration() && p.node.source.value === '@tarojs/taro')
           if (needInsertImportTaro && !hasTaroImport) {
-            ;(astPath.node as t.Program).body.unshift(
+            (astPath.node as t.Program).body.unshift(
               t.importDeclaration([t.importDefaultSpecifier(t.identifier('Taro'))], t.stringLiteral('@tarojs/taro'))
             )
           }

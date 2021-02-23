@@ -11,12 +11,17 @@ import { options } from '../options'
 import { Reconciler, CurrentReconciler } from '../reconciler'
 import { incrementId } from '../utils'
 import { HOOKS_APP_ID } from './hooks'
+import type { Func } from '../utils/types'
 
 function isClassComponent (R: typeof React, component): boolean {
   return isFunction(component.render) ||
   !!component.prototype?.isReactComponent ||
   component.prototype instanceof R.Component // compat for some others react-like library
 }
+
+// 初始值设置为 any 主要是为了过 TS 的校验
+export let R: typeof React = EMPTY_OBJ
+export let PageContext: React.Context<string> = EMPTY_OBJ
 
 export function connectReactPage (
   R: typeof React,
@@ -81,10 +86,6 @@ export function connectReactPage (
   }
 }
 
-// 初始值设置为 any 主要是为了过 TS 的校验
-export let R: typeof React = EMPTY_OBJ
-export let PageContext: React.Context<string> = EMPTY_OBJ
-
 let ReactDOM
 
 type PageComponent = React.CElement<PageProps, React.Component<PageProps, any, any>>
@@ -97,7 +98,7 @@ function setReconciler () {
       } else if (lifecycle === 'onHide') {
         lifecycle = 'componentDidHide'
       }
-      return instance[lifecycle] as Function
+      return instance[lifecycle] as Func
     },
     mergePageInstance (prev, next) {
       if (!prev || !next) return

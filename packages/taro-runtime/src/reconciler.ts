@@ -7,6 +7,7 @@ import type { Instance, PageInstance, PageProps } from './dsl/instance'
 import type { NodeType } from './dom/node_types'
 import type { EventsType } from './emitter/emitter'
 import { TaroEvent, MpEvent } from './dom/event'
+import type { Func } from './utils/types'
 
 type Inst = Instance<PageProps>
 
@@ -28,7 +29,7 @@ export interface Reconciler<Instance, DOMElement = TaroElement, TextElement = Ta
 
   modifyEventType?(event: MpEvent): void
 
-  getLifecyle(instance: Instance, lifecyle: keyof PageInstance): Function | undefined | Array<Function>
+  getLifecyle(instance: Instance, lifecyle: keyof PageInstance): Func | undefined | Array<Func>
 
   onTaroElementCreate?(tagName: string, nodeType: NodeType): void
 

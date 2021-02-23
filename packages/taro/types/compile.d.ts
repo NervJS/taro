@@ -64,7 +64,7 @@ export interface ICopyOptions {
   }
 }
 
-interface ISassOptions {
+export interface ISassOptions {
   /**
    * 引入的全局 sass 文件，如果要引入多个文件，支持数组形式传入
    */

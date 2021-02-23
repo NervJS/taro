@@ -12,7 +12,7 @@ type Callback6Rest<T1, T2, T3, T4, T5, T6> = (arg1: T1, arg2: T2, arg3: T3,
   ...rest: any[]) => any;
 
 export class Events {
-  private callbacks: Record<string, unknown>
+  private callbacks?: Record<string, unknown>
   static eventSplitter = /\s+/
 
   constructor (opts?) {
@@ -35,6 +35,7 @@ export class Events {
       return this
     }
     eventName = eventName.split(Events.eventSplitter)
+    this.callbacks ||= {}
     const calls = this.callbacks
     while ((event = eventName.shift())) {
       list = calls[event]

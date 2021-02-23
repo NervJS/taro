@@ -103,7 +103,7 @@
     "eslint-loader": "^2.0.0",
     "eslint-plugin-flowtype": "^3.2.0",
     "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jest": "^22.17.0",
+    "eslint-plugin-jest": "24.1.5",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-promise": "^4.2.1",

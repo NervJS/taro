@@ -11,8 +11,8 @@ import { bindPageScroll } from './scroll'
 import { setRoutesAlias, addLeadingSlash } from './utils'
 
 export interface Route extends PageConfig {
-  path: string
-  load: () => Promise<any>
+  path?: string
+  load?: () => Promise<any>
 }
 
 export interface RouterConfig extends AppConfig {

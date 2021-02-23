@@ -17,7 +17,7 @@ interface IWrapper {
 class Transaction {
   wrappers: IWrapper[] = []
 
-  async perform (fn: Function, scope: TaroPlatformBase, ...args) {
+  async perform (fn: (...args: any[]) => void, scope: TaroPlatformBase, ...args) {
     this.initAll(scope)
     await fn.call(scope, ...args)
     this.closeAll(scope)

@@ -6,29 +6,30 @@ import { diff } from './diff'
 import { clone } from './clone'
 
 type Observer = (newProps, oldProps, changePath: string) => void
+type Func = (...args: any[]) => void
 
 interface ObserverProperties {
   name: string,
   observer: string | Observer
 }
 
-interface ComponentClass<P = {}, S = {}> extends ComponentLifecycle<P, S> {
+interface ComponentClass<P = Record<string, any>, S = Record<string, any>> extends ComponentLifecycle<P, S> {
   new (props: P): Component<P, S>
   externalClasses: Record<string, unknown>
   defaultProps?: Partial<P>
   _observeProps?: ObserverProperties[]
-  observers?: Record<string, Function>
+  observers?: Record<string, Func>
 }
 
 interface WxOptions {
   methods?: {
-    [key: string]: Function;
+    [key: string]: Func;
   }
-  properties?: Record<string, Record<string, unknown> | Function>
+  properties?: Record<string, Record<string, unknown> | Func>
   props?: Record<string, unknown>
   data?: Record<string, unknown>,
-  observers?: Record<string, Function>
-  lifetimes?: Record<string, Function>
+  observers?: Record<string, Func>
+  lifetimes?: Record<string, Func>
   behaviors?: any[]
 }
 
@@ -48,7 +49,7 @@ function defineGetter (component: Component, key: string, getter: string) {
   })
 }
 
-function isFunction (o): o is Function {
+function isFunction (o): o is Func {
   return typeof o === 'function'
 }
 
@@ -91,25 +92,25 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
       }
     }
 
-    class BaseComponent<P = {}, S = {}> extends ConnectComponent {
+    class BaseComponent<P = Record<string, any>, S = Record<string, any>> extends ConnectComponent {
       private _observeProps: ObserverProperties[] = []
 
       // mixins 可以多次调用生命周期
-      private willMounts: Function[] = []
+      private willMounts: Func[] = []
 
-      private didMounts: Function[] = []
+      private didMounts: Func[] = []
 
-      private didHides: Function[] = []
+      private didHides: Func[] = []
 
-      private didShows: Function[] = []
+      private didShows: Func[] = []
 
-      private willUnmounts: Function[] = []
+      private willUnmounts: Func[] = []
 
-      private eventDistoryList: Function[] = []
+      private eventDistoryList: Func[] = []
 
       private current = getCurrentInstance()
 
-      public observers?: Record<string, Function>
+      public observers?: Record<string, Func>
 
       public taroGlobalData: Record<any, any> = Object.create(null)
 
@@ -339,7 +340,7 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
         }
       }
 
-      private safeExecute = (func?: Function, ...args: unknown[]) => {
+      private safeExecute = (func?: Func, ...args: unknown[]) => {
         if (isFunction(func)) func.apply(this, args)
       }
 
@@ -353,7 +354,7 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
         this.eventDistoryList.push(() => eventCenter.off(router[lifecycleName], cb))
       }
 
-      private executeLifeCycles (funcs: Function[], ...args: unknown[]) {
+      private executeLifeCycles (funcs: Func[], ...args: unknown[]) {
         for (let i = 0; i < funcs.length; i++) {
           const func = funcs[i]
           this.safeExecute(func, ...args)

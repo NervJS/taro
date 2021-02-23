@@ -64,7 +64,7 @@ export function capitalize (s: string) {
 const hasOwnProperty = Object.prototype.hasOwnProperty
 
 export const hasOwn = (
-  val: object,
+  val: Record<any, any>,
   key: string | symbol
 ) => hasOwnProperty.call(val, key)
 
