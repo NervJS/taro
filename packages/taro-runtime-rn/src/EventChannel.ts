@@ -29,18 +29,17 @@ class PageEvts extends Events {
       }
       return prev
     }, [])
-    super.off(eventName, callback, this)
     return this
   }
 
   emit (events, data) {
     routeChannel.trigger(events, data)
-    routeChannel.off(events, null, routeChannel)
   }
 }
 
 class RouteEvts extends Events {
   emit (events, data) {
+    pageChannel.off(events, null, null)
     pageChannel.exeList.push({
       eventName: events,
       data
@@ -50,6 +49,7 @@ class RouteEvts extends Events {
   addEvents (events) {
     if (!events || typeof events !== 'object') return
     Object.keys(events).forEach(key => {
+      this.off(key, null, null)
       this.on(key, events[key], this)
     })
   }
