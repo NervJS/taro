@@ -35,7 +35,8 @@ export class Supporter {
     const handleEntryFile = this.fromRunner ? handleTaroFile : handleFile
     const resolver: any = {
       sourceExts: ['ts', 'tsx', 'js', 'jsx', 'scss', 'sass', 'less', 'css', 'pcss', 'json', 'styl', 'cjs'],
-      resolveRequest: handleEntryFile
+      resolveRequest: handleEntryFile,
+      resolverMainFields: ['react-native', 'browser', 'main']
     }
     // 兼容0.60
     const rnVersion = getReactNativeVersion()
