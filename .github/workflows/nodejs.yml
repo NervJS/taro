@@ -3,7 +3,7 @@ name: Node CI
 on:
   push:
     branches:
-      - chore/mini-program
+      - next
   pull_request:
     branches:
       - next
