@@ -305,6 +305,9 @@ exports[`sass should build app with sass 2`] = `
     __webpack_exports__[\\"b\\"] = \\"react-mock\\";
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _createSuper;
+    }));
     function _getPrototypeOf(o) {
         _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
             return o.__proto__ || Object.getPrototypeOf(o);
@@ -347,9 +350,6 @@ exports[`sass should build app with sass 2`] = `
         }
         return _assertThisInitialized(self);
     }
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _createSuper;
-    }));
     function _createSuper(Derived) {
         var hasNativeReflectConstruct = _isNativeReflectConstruct();
         return function _createSuperInternal() {
@@ -365,6 +365,9 @@ exports[`sass should build app with sass 2`] = `
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _inherits;
+    }));
     function _setPrototypeOf(o, p) {
         _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
             o.__proto__ = p;
@@ -372,9 +375,6 @@ exports[`sass should build app with sass 2`] = `
         };
         return _setPrototypeOf(o, p);
     }
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _inherits;
-    }));
     function _inherits(subClass, superClass) {
         if (typeof superClass !== \\"function\\" && superClass !== null) {
             throw new TypeError(\\"Super expression must either be null or a function\\");
@@ -1089,6 +1089,9 @@ exports[`sass should build app with scss 2`] = `
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _createSuper;
+    }));
     function _getPrototypeOf(o) {
         _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
             return o.__proto__ || Object.getPrototypeOf(o);
@@ -1131,9 +1134,6 @@ exports[`sass should build app with scss 2`] = `
         }
         return _assertThisInitialized(self);
     }
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _createSuper;
-    }));
     function _createSuper(Derived) {
         var hasNativeReflectConstruct = _isNativeReflectConstruct();
         return function _createSuperInternal() {
@@ -1149,6 +1149,9 @@ exports[`sass should build app with scss 2`] = `
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _inherits;
+    }));
     function _setPrototypeOf(o, p) {
         _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
             o.__proto__ = p;
@@ -1156,9 +1159,6 @@ exports[`sass should build app with scss 2`] = `
         };
         return _setPrototypeOf(o, p);
     }
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _inherits;
-    }));
     function _inherits(subClass, superClass) {
         if (typeof superClass !== \\"function\\" && superClass !== null) {
             throw new TypeError(\\"Super expression must either be null or a function\\");
@@ -1885,6 +1885,9 @@ exports[`sass should set global sass content with data 2`] = `
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _createSuper;
+    }));
     function _getPrototypeOf(o) {
         _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
             return o.__proto__ || Object.getPrototypeOf(o);
@@ -1927,9 +1930,6 @@ exports[`sass should set global sass content with data 2`] = `
         }
         return _assertThisInitialized(self);
     }
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _createSuper;
-    }));
     function _createSuper(Derived) {
         var hasNativeReflectConstruct = _isNativeReflectConstruct();
         return function _createSuperInternal() {
@@ -1945,6 +1945,9 @@ exports[`sass should set global sass content with data 2`] = `
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _inherits;
+    }));
     function _setPrototypeOf(o, p) {
         _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
             o.__proto__ = p;
@@ -1952,9 +1955,6 @@ exports[`sass should set global sass content with data 2`] = `
         };
         return _setPrototypeOf(o, p);
     }
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _inherits;
-    }));
     function _inherits(subClass, superClass) {
         if (typeof superClass !== \\"function\\" && superClass !== null) {
             throw new TypeError(\\"Super expression must either be null or a function\\");
@@ -2681,6 +2681,9 @@ exports[`sass should set global sass content with source & dir 2`] = `
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _createSuper;
+    }));
     function _getPrototypeOf(o) {
         _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
             return o.__proto__ || Object.getPrototypeOf(o);
@@ -2723,9 +2726,6 @@ exports[`sass should set global sass content with source & dir 2`] = `
         }
         return _assertThisInitialized(self);
     }
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _createSuper;
-    }));
     function _createSuper(Derived) {
         var hasNativeReflectConstruct = _isNativeReflectConstruct();
         return function _createSuperInternal() {
@@ -2741,6 +2741,9 @@ exports[`sass should set global sass content with source & dir 2`] = `
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _inherits;
+    }));
     function _setPrototypeOf(o, p) {
         _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
             o.__proto__ = p;
@@ -2748,9 +2751,6 @@ exports[`sass should set global sass content with source & dir 2`] = `
         };
         return _setPrototypeOf(o, p);
     }
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _inherits;
-    }));
     function _inherits(subClass, superClass) {
         if (typeof superClass !== \\"function\\" && superClass !== null) {
             throw new TypeError(\\"Super expression must either be null or a function\\");
@@ -3477,6 +3477,9 @@ exports[`sass should set global sass content with source 2`] = `
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _createSuper;
+    }));
     function _getPrototypeOf(o) {
         _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
             return o.__proto__ || Object.getPrototypeOf(o);
@@ -3519,9 +3522,6 @@ exports[`sass should set global sass content with source 2`] = `
         }
         return _assertThisInitialized(self);
     }
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _createSuper;
-    }));
     function _createSuper(Derived) {
         var hasNativeReflectConstruct = _isNativeReflectConstruct();
         return function _createSuperInternal() {
@@ -3537,6 +3537,9 @@ exports[`sass should set global sass content with source 2`] = `
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _inherits;
+    }));
     function _setPrototypeOf(o, p) {
         _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
             o.__proto__ = p;
@@ -3544,9 +3547,6 @@ exports[`sass should set global sass content with source 2`] = `
         };
         return _setPrototypeOf(o, p);
     }
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _inherits;
-    }));
     function _inherits(subClass, superClass) {
         if (typeof superClass !== \\"function\\" && superClass !== null) {
             throw new TypeError(\\"Super expression must either be null or a function\\");

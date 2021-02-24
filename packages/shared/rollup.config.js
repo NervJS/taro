@@ -22,7 +22,11 @@ const baseConfig = {
         }
       }
     }),
-    buble()
+    buble({
+      transforms: {
+        asyncAwait: false
+      }
+    })
   ]
 }
 const esmConfig = Object.assign({}, baseConfig, {

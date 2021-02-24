@@ -52,7 +52,6 @@ const PACKAGES = {
 const additionalConstructorNode = toAst('Taro._$app = this')
 const superNode = t.expressionStatement(
   t.callExpression(
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     t.super(),
     [

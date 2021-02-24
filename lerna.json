@@ -24,7 +24,13 @@
     "packages/taro-service",
     "packages/taro-webpack-runner",
     "packages/taro-with-weapp",
-    "packages/taroize"
+    "packages/taroize",
+    "packages/taro-weapp",
+    "packages/taro-alipay",
+    "packages/taro-swan",
+    "packages/taro-tt",
+    "packages/taro-qq",
+    "packages/taro-jd"
   ],
   "command": {
     "publish": {
@@ -35,6 +41,6 @@
       "license": "MIT"
     }
   },
-  "version": "3.0.28",
+  "version": "3.1.0",
   "npmClient": "yarn"
 }

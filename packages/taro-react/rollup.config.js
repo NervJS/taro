@@ -1,6 +1,5 @@
 const { join } = require('path')
 const buble = require('rollup-plugin-buble')
-const alias = require('rollup-plugin-alias')
 const typescript = require('rollup-plugin-typescript2')
 const cwd = __dirname
 
@@ -14,16 +13,8 @@ const baseConfig = {
       exports: 'named'
     }
   ],
-  external: ['@tarojs/runtime', 'scheduler', 'react-reconciler'],
+  external: ['@tarojs/runtime', 'scheduler', 'react-reconciler', '@tarojs/shared'],
   plugins: [
-    alias({
-      entries: [
-        {
-          find: '@tarojs/shared',
-          replacement: join(cwd, '../shared/dist/shared.esm')
-        }
-      ]
-    }),
     typescript(),
     buble()
   ]

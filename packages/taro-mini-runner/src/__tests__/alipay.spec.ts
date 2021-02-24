@@ -1,19 +1,17 @@
+import { Alipay } from '@tarojs/plugin-platform-alipay'
+import * as helper from '@tarojs/helper'
 import { compile, getOutput } from './utils/compiler'
-import { Template } from '@tarojs/cli/src/presets/platforms/alipay'
 
 describe('alipay', () => {
   test('should build alipay app', async () => {
+    const program = new Alipay({ helper } as any, {})
+
     const { stats, config } = await compile('react', {
       buildAdapter: 'alipay',
-      globalObject: 'my',
-      fileType: {
-        templ: '.axml',
-        style: '.acss',
-        config: '.json',
-        script: '.js',
-        xs: '.sjs'
-      },
-      template: new Template()
+      globalObject: program.globalObject,
+      fileType: program.fileType,
+      template: program.template,
+      runtimePath: program.runtimePath
     })
     const assets = stats.toJson().assets || []
 

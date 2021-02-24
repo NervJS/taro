@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-taro",
-  "version": "3.0.28",
+  "version": "3.1.0",
   "description": "Taro specific linting rules for ESLint",
   "main": "index.js",
   "files": [
@@ -26,12 +26,12 @@
     "eslint": "*"
   },
   "dependencies": {
-    "@typescript-eslint/parser": "^2.x",
+    "@typescript-eslint/parser": "^4.15.1",
     "babel-eslint": "^10.0.0"
   },
   "author": "O2Team",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^3.7.5"
+    "typescript": "^4.1.0"
   }
 }
