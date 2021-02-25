@@ -72,7 +72,11 @@ export class Style {
     this._usedStyleProp.forEach(key => {
       const val = this[key]
       if (!val) return
-      text += `${toDashed(key)}: ${val};`
+      let k = toDashed(key)
+      if (k.indexOf('webkit') === 0 || k.indexOf('Webkit') === 0) {
+        k = `-${k}`
+      }
+      text += `${k}: ${val};`
     })
     return text
   }
