@@ -112,6 +112,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       alias['react$'] = 'react/cjs/react.production.min.js'
       // eslint-disable-next-line dot-notation
       alias['scheduler$'] = 'scheduler/cjs/scheduler.production.min.js'
+      alias['react/jsx-runtime$'] = 'react/cjs/react-jsx-runtime.production.min.js'
     }
   }
   if (framework === 'nerv') {
