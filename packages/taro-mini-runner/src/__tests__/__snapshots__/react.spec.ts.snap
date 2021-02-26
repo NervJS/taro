@@ -14,8 +14,8 @@ require(\\"./vendors\\");
 require(\\"./taro\\");
 
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    11: function(module, exports, __webpack_require__) {},
-    19: function(module, __webpack_exports__, __webpack_require__) {
+    17: function(module, exports, __webpack_require__) {},
+    24: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         function _arrayLikeToArray(arr, len) {
@@ -1468,7 +1468,11 @@ require(\\"./taro\\");
                 bindControlsToggle: \\"\\",
                 bindEnterPictureInPicture: \\"\\",
                 bindLeavePictureInPicture: \\"\\",
-                bindSeekComplete: \\"\\"
+                bindSeekComplete: \\"\\",
+                bindAdLoad: \\"\\",
+                bindAdError: \\"\\",
+                bindAdClose: \\"\\",
+                bindAdPlay: \\"\\"
             },
             Canvas: {
                 type: \\"\\"
@@ -1604,10 +1608,10 @@ require(\\"./taro\\");
         var taro_runtime = __webpack_require__(1);
         var classCallCheck = __webpack_require__(3);
         var createClass = __webpack_require__(4);
-        var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(5);
+        var inherits = __webpack_require__(5);
+        var createSuper = __webpack_require__(6);
         var react = __webpack_require__(0);
-        var app = __webpack_require__(11);
+        var app = __webpack_require__(17);
         var app_App = function(_Component) {
             Object(inherits[\\"a\\"])(App, _Component);
             var _super = Object(createSuper[\\"a\\"])(App);
@@ -1636,7 +1640,7 @@ require(\\"./taro\\");
             return App;
         }(react[\\"Component\\"]);
         var lib_src_app = app_App;
-        var taro_react = __webpack_require__(8);
+        var taro_react = __webpack_require__(13);
         var app_config = {
             pages: [ \\"pages/index/index\\" ],
             window: {
@@ -1649,7 +1653,7 @@ require(\\"./taro\\");
         taro_runtime[\\"window\\"].__taroAppConfig = app_config;
         var inst = App(Object(taro_runtime[\\"createReactApp\\"])(lib_src_app, react, taro_react[\\"a\\"], app_config));
     }
-}, [ [ 19, 0, 1, 3, 2 ] ] ]);
+}, [ [ 24, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -2470,13 +2474,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/comp.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    12: function(module, __webpack_exports__, __webpack_require__) {
+    18: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
-}, [ [ 12, 0, 1 ] ] ]);
+}, [ [ 18, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -2487,13 +2491,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    13: function(module, __webpack_exports__, __webpack_require__) {
+    19: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
-}, [ [ 13, 0, 1 ] ] ]);
+}, [ [ 19, 0, 1 ] ] ]);
 
 /** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -2505,639 +2509,631 @@ require(\\"./taro\\");
   </block>
 
 /** filePath: dist/pages/index/index.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], [ , , , , , , , function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(14);
-}, , , , , , , function(module, exports, __webpack_require__) {
-    var g = function() {
-        return this;
-    }() || Function(\\"return this\\")();
-    var hadRuntime = g.regeneratorRuntime && Object.getOwnPropertyNames(g).indexOf(\\"regeneratorRuntime\\") >= 0;
-    var oldRuntime = hadRuntime && g.regeneratorRuntime;
-    g.regeneratorRuntime = undefined;
-    module.exports = __webpack_require__(15);
-    if (hadRuntime) {
-        g.regeneratorRuntime = oldRuntime;
-    } else {
-        try {
-            delete g.regeneratorRuntime;
-        } catch (e) {
-            g.regeneratorRuntime = undefined;
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
+    20: function(module, exports, __webpack_require__) {
+        var g = function() {
+            return this;
+        }() || Function(\\"return this\\")();
+        var hadRuntime = g.regeneratorRuntime && Object.getOwnPropertyNames(g).indexOf(\\"regeneratorRuntime\\") >= 0;
+        var oldRuntime = hadRuntime && g.regeneratorRuntime;
+        g.regeneratorRuntime = undefined;
+        module.exports = __webpack_require__(21);
+        if (hadRuntime) {
+            g.regeneratorRuntime = oldRuntime;
+        } else {
+            try {
+                delete g.regeneratorRuntime;
+            } catch (e) {
+                g.regeneratorRuntime = undefined;
+            }
         }
-    }
-}, function(module, exports, __webpack_require__) {
-    (function(module) {
-        var _typeof = __webpack_require__(17);
-        !function(global) {
-            \\"use strict\\";
-            var Op = Object.prototype;
-            var hasOwn = Op.hasOwnProperty;
-            var undefined;
-            var $Symbol = typeof Symbol === \\"function\\" ? Symbol : {};
-            var iteratorSymbol = $Symbol.iterator || \\"@@iterator\\";
-            var asyncIteratorSymbol = $Symbol.asyncIterator || \\"@@asyncIterator\\";
-            var toStringTagSymbol = $Symbol.toStringTag || \\"@@toStringTag\\";
-            var inModule = (false ? undefined : _typeof(module)) === \\"object\\";
-            var runtime = global.regeneratorRuntime;
-            if (runtime) {
-                if (inModule) {
-                    module.exports = runtime;
+    },
+    21: function(module, exports, __webpack_require__) {
+        (function(module) {
+            var _typeof = __webpack_require__(9);
+            !function(global) {
+                \\"use strict\\";
+                var Op = Object.prototype;
+                var hasOwn = Op.hasOwnProperty;
+                var undefined;
+                var $Symbol = typeof Symbol === \\"function\\" ? Symbol : {};
+                var iteratorSymbol = $Symbol.iterator || \\"@@iterator\\";
+                var asyncIteratorSymbol = $Symbol.asyncIterator || \\"@@asyncIterator\\";
+                var toStringTagSymbol = $Symbol.toStringTag || \\"@@toStringTag\\";
+                var inModule = (false ? undefined : _typeof(module)) === \\"object\\";
+                var runtime = global.regeneratorRuntime;
+                if (runtime) {
+                    if (inModule) {
+                        module.exports = runtime;
+                    }
+                    return;
                 }
-                return;
-            }
-            runtime = global.regeneratorRuntime = inModule ? module.exports : {};
-            function wrap(innerFn, outerFn, self, tryLocsList) {
-                var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
-                var generator = Object.create(protoGenerator.prototype);
-                var context = new Context(tryLocsList || []);
-                generator._invoke = makeInvokeMethod(innerFn, self, context);
-                return generator;
-            }
-            runtime.wrap = wrap;
-            function tryCatch(fn, obj, arg) {
-                try {
-                    return {
-                        type: \\"normal\\",
-                        arg: fn.call(obj, arg)
-                    };
-                } catch (err) {
-                    return {
-                        type: \\"throw\\",
-                        arg: err
-                    };
+                runtime = global.regeneratorRuntime = inModule ? module.exports : {};
+                function wrap(innerFn, outerFn, self, tryLocsList) {
+                    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+                    var generator = Object.create(protoGenerator.prototype);
+                    var context = new Context(tryLocsList || []);
+                    generator._invoke = makeInvokeMethod(innerFn, self, context);
+                    return generator;
                 }
-            }
-            var GenStateSuspendedStart = \\"suspendedStart\\";
-            var GenStateSuspendedYield = \\"suspendedYield\\";
-            var GenStateExecuting = \\"executing\\";
-            var GenStateCompleted = \\"completed\\";
-            var ContinueSentinel = {};
-            function Generator() {}
-            function GeneratorFunction() {}
-            function GeneratorFunctionPrototype() {}
-            var IteratorPrototype = {};
-            IteratorPrototype[iteratorSymbol] = function() {
-                return this;
-            };
-            var getProto = Object.getPrototypeOf;
-            var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
-            if (NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
-                IteratorPrototype = NativeIteratorPrototype;
-            }
-            var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype);
-            GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
-            GeneratorFunctionPrototype.constructor = GeneratorFunction;
-            GeneratorFunctionPrototype[toStringTagSymbol] = GeneratorFunction.displayName = \\"GeneratorFunction\\";
-            function defineIteratorMethods(prototype) {
-                [ \\"next\\", \\"throw\\", \\"return\\" ].forEach((function(method) {
-                    prototype[method] = function(arg) {
-                        return this._invoke(method, arg);
-                    };
-                }));
-            }
-            runtime.isGeneratorFunction = function(genFun) {
-                var ctor = typeof genFun === \\"function\\" && genFun.constructor;
-                return ctor ? ctor === GeneratorFunction || (ctor.displayName || ctor.name) === \\"GeneratorFunction\\" : false;
-            };
-            runtime.mark = function(genFun) {
-                if (Object.setPrototypeOf) {
-                    Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
-                } else {
-                    genFun.__proto__ = GeneratorFunctionPrototype;
-                    if (!(toStringTagSymbol in genFun)) {
-                        genFun[toStringTagSymbol] = \\"GeneratorFunction\\";
+                runtime.wrap = wrap;
+                function tryCatch(fn, obj, arg) {
+                    try {
+                        return {
+                            type: \\"normal\\",
+                            arg: fn.call(obj, arg)
+                        };
+                    } catch (err) {
+                        return {
+                            type: \\"throw\\",
+                            arg: err
+                        };
                     }
                 }
-                genFun.prototype = Object.create(Gp);
-                return genFun;
-            };
-            runtime.awrap = function(arg) {
-                return {
-                    __await: arg
+                var GenStateSuspendedStart = \\"suspendedStart\\";
+                var GenStateSuspendedYield = \\"suspendedYield\\";
+                var GenStateExecuting = \\"executing\\";
+                var GenStateCompleted = \\"completed\\";
+                var ContinueSentinel = {};
+                function Generator() {}
+                function GeneratorFunction() {}
+                function GeneratorFunctionPrototype() {}
+                var IteratorPrototype = {};
+                IteratorPrototype[iteratorSymbol] = function() {
+                    return this;
                 };
-            };
-            function AsyncIterator(generator) {
-                function invoke(method, arg, resolve, reject) {
-                    var record = tryCatch(generator[method], generator, arg);
-                    if (record.type === \\"throw\\") {
-                        reject(record.arg);
+                var getProto = Object.getPrototypeOf;
+                var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+                if (NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+                    IteratorPrototype = NativeIteratorPrototype;
+                }
+                var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype);
+                GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+                GeneratorFunctionPrototype.constructor = GeneratorFunction;
+                GeneratorFunctionPrototype[toStringTagSymbol] = GeneratorFunction.displayName = \\"GeneratorFunction\\";
+                function defineIteratorMethods(prototype) {
+                    [ \\"next\\", \\"throw\\", \\"return\\" ].forEach((function(method) {
+                        prototype[method] = function(arg) {
+                            return this._invoke(method, arg);
+                        };
+                    }));
+                }
+                runtime.isGeneratorFunction = function(genFun) {
+                    var ctor = typeof genFun === \\"function\\" && genFun.constructor;
+                    return ctor ? ctor === GeneratorFunction || (ctor.displayName || ctor.name) === \\"GeneratorFunction\\" : false;
+                };
+                runtime.mark = function(genFun) {
+                    if (Object.setPrototypeOf) {
+                        Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
                     } else {
-                        var result = record.arg;
-                        var value = result.value;
-                        if (value && _typeof(value) === \\"object\\" && hasOwn.call(value, \\"__await\\")) {
-                            return Promise.resolve(value.__await).then((function(value) {
-                                invoke(\\"next\\", value, resolve, reject);
-                            }), (function(err) {
-                                invoke(\\"throw\\", err, resolve, reject);
+                        genFun.__proto__ = GeneratorFunctionPrototype;
+                        if (!(toStringTagSymbol in genFun)) {
+                            genFun[toStringTagSymbol] = \\"GeneratorFunction\\";
+                        }
+                    }
+                    genFun.prototype = Object.create(Gp);
+                    return genFun;
+                };
+                runtime.awrap = function(arg) {
+                    return {
+                        __await: arg
+                    };
+                };
+                function AsyncIterator(generator) {
+                    function invoke(method, arg, resolve, reject) {
+                        var record = tryCatch(generator[method], generator, arg);
+                        if (record.type === \\"throw\\") {
+                            reject(record.arg);
+                        } else {
+                            var result = record.arg;
+                            var value = result.value;
+                            if (value && _typeof(value) === \\"object\\" && hasOwn.call(value, \\"__await\\")) {
+                                return Promise.resolve(value.__await).then((function(value) {
+                                    invoke(\\"next\\", value, resolve, reject);
+                                }), (function(err) {
+                                    invoke(\\"throw\\", err, resolve, reject);
+                                }));
+                            }
+                            return Promise.resolve(value).then((function(unwrapped) {
+                                result.value = unwrapped;
+                                resolve(result);
+                            }), reject);
+                        }
+                    }
+                    var previousPromise;
+                    function enqueue(method, arg) {
+                        function callInvokeWithMethodAndArg() {
+                            return new Promise((function(resolve, reject) {
+                                invoke(method, arg, resolve, reject);
                             }));
                         }
-                        return Promise.resolve(value).then((function(unwrapped) {
-                            result.value = unwrapped;
-                            resolve(result);
-                        }), reject);
+                        return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
                     }
+                    this._invoke = enqueue;
                 }
-                var previousPromise;
-                function enqueue(method, arg) {
-                    function callInvokeWithMethodAndArg() {
-                        return new Promise((function(resolve, reject) {
-                            invoke(method, arg, resolve, reject);
-                        }));
-                    }
-                    return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
-                }
-                this._invoke = enqueue;
-            }
-            defineIteratorMethods(AsyncIterator.prototype);
-            AsyncIterator.prototype[asyncIteratorSymbol] = function() {
-                return this;
-            };
-            runtime.AsyncIterator = AsyncIterator;
-            runtime.async = function(innerFn, outerFn, self, tryLocsList) {
-                var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList));
-                return runtime.isGeneratorFunction(outerFn) ? iter : iter.next().then((function(result) {
-                    return result.done ? result.value : iter.next();
-                }));
-            };
-            function makeInvokeMethod(innerFn, self, context) {
-                var state = GenStateSuspendedStart;
-                return function invoke(method, arg) {
-                    if (state === GenStateExecuting) {
-                        throw new Error(\\"Generator is already running\\");
-                    }
-                    if (state === GenStateCompleted) {
-                        if (method === \\"throw\\") {
-                            throw arg;
-                        }
-                        return doneResult();
-                    }
-                    context.method = method;
-                    context.arg = arg;
-                    while (true) {
-                        var delegate = context.delegate;
-                        if (delegate) {
-                            var delegateResult = maybeInvokeDelegate(delegate, context);
-                            if (delegateResult) {
-                                if (delegateResult === ContinueSentinel) continue;
-                                return delegateResult;
-                            }
-                        }
-                        if (context.method === \\"next\\") {
-                            context.sent = context._sent = context.arg;
-                        } else if (context.method === \\"throw\\") {
-                            if (state === GenStateSuspendedStart) {
-                                state = GenStateCompleted;
-                                throw context.arg;
-                            }
-                            context.dispatchException(context.arg);
-                        } else if (context.method === \\"return\\") {
-                            context.abrupt(\\"return\\", context.arg);
-                        }
-                        state = GenStateExecuting;
-                        var record = tryCatch(innerFn, self, context);
-                        if (record.type === \\"normal\\") {
-                            state = context.done ? GenStateCompleted : GenStateSuspendedYield;
-                            if (record.arg === ContinueSentinel) {
-                                continue;
-                            }
-                            return {
-                                value: record.arg,
-                                done: context.done
-                            };
-                        } else if (record.type === \\"throw\\") {
-                            state = GenStateCompleted;
-                            context.method = \\"throw\\";
-                            context.arg = record.arg;
-                        }
-                    }
+                defineIteratorMethods(AsyncIterator.prototype);
+                AsyncIterator.prototype[asyncIteratorSymbol] = function() {
+                    return this;
                 };
-            }
-            function maybeInvokeDelegate(delegate, context) {
-                var method = delegate.iterator[context.method];
-                if (method === undefined) {
-                    context.delegate = null;
-                    if (context.method === \\"throw\\") {
-                        if (delegate.iterator.return) {
-                            context.method = \\"return\\";
-                            context.arg = undefined;
-                            maybeInvokeDelegate(delegate, context);
-                            if (context.method === \\"throw\\") {
-                                return ContinueSentinel;
+                runtime.AsyncIterator = AsyncIterator;
+                runtime.async = function(innerFn, outerFn, self, tryLocsList) {
+                    var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList));
+                    return runtime.isGeneratorFunction(outerFn) ? iter : iter.next().then((function(result) {
+                        return result.done ? result.value : iter.next();
+                    }));
+                };
+                function makeInvokeMethod(innerFn, self, context) {
+                    var state = GenStateSuspendedStart;
+                    return function invoke(method, arg) {
+                        if (state === GenStateExecuting) {
+                            throw new Error(\\"Generator is already running\\");
+                        }
+                        if (state === GenStateCompleted) {
+                            if (method === \\"throw\\") {
+                                throw arg;
                             }
+                            return doneResult();
                         }
-                        context.method = \\"throw\\";
-                        context.arg = new TypeError(\\"The iterator does not provide a 'throw' method\\");
-                    }
-                    return ContinueSentinel;
-                }
-                var record = tryCatch(method, delegate.iterator, context.arg);
-                if (record.type === \\"throw\\") {
-                    context.method = \\"throw\\";
-                    context.arg = record.arg;
-                    context.delegate = null;
-                    return ContinueSentinel;
-                }
-                var info = record.arg;
-                if (!info) {
-                    context.method = \\"throw\\";
-                    context.arg = new TypeError(\\"iterator result is not an object\\");
-                    context.delegate = null;
-                    return ContinueSentinel;
-                }
-                if (info.done) {
-                    context[delegate.resultName] = info.value;
-                    context.next = delegate.nextLoc;
-                    if (context.method !== \\"return\\") {
-                        context.method = \\"next\\";
-                        context.arg = undefined;
-                    }
-                } else {
-                    return info;
-                }
-                context.delegate = null;
-                return ContinueSentinel;
-            }
-            defineIteratorMethods(Gp);
-            Gp[toStringTagSymbol] = \\"Generator\\";
-            Gp[iteratorSymbol] = function() {
-                return this;
-            };
-            Gp.toString = function() {
-                return \\"[object Generator]\\";
-            };
-            function pushTryEntry(locs) {
-                var entry = {
-                    tryLoc: locs[0]
-                };
-                if (1 in locs) {
-                    entry.catchLoc = locs[1];
-                }
-                if (2 in locs) {
-                    entry.finallyLoc = locs[2];
-                    entry.afterLoc = locs[3];
-                }
-                this.tryEntries.push(entry);
-            }
-            function resetTryEntry(entry) {
-                var record = entry.completion || {};
-                record.type = \\"normal\\";
-                delete record.arg;
-                entry.completion = record;
-            }
-            function Context(tryLocsList) {
-                this.tryEntries = [ {
-                    tryLoc: \\"root\\"
-                } ];
-                tryLocsList.forEach(pushTryEntry, this);
-                this.reset(true);
-            }
-            runtime.keys = function(object) {
-                var keys = [];
-                for (var key in object) {
-                    keys.push(key);
-                }
-                keys.reverse();
-                return function next() {
-                    while (keys.length) {
-                        var key = keys.pop();
-                        if (key in object) {
-                            next.value = key;
-                            next.done = false;
-                            return next;
-                        }
-                    }
-                    next.done = true;
-                    return next;
-                };
-            };
-            function values(iterable) {
-                if (iterable) {
-                    var iteratorMethod = iterable[iteratorSymbol];
-                    if (iteratorMethod) {
-                        return iteratorMethod.call(iterable);
-                    }
-                    if (typeof iterable.next === \\"function\\") {
-                        return iterable;
-                    }
-                    if (!isNaN(iterable.length)) {
-                        var i = -1, next = function next() {
-                            while (++i < iterable.length) {
-                                if (hasOwn.call(iterable, i)) {
-                                    next.value = iterable[i];
-                                    next.done = false;
-                                    return next;
+                        context.method = method;
+                        context.arg = arg;
+                        while (true) {
+                            var delegate = context.delegate;
+                            if (delegate) {
+                                var delegateResult = maybeInvokeDelegate(delegate, context);
+                                if (delegateResult) {
+                                    if (delegateResult === ContinueSentinel) continue;
+                                    return delegateResult;
                                 }
                             }
-                            next.value = undefined;
-                            next.done = true;
-                            return next;
-                        };
-                        return next.next = next;
-                    }
-                }
-                return {
-                    next: doneResult
-                };
-            }
-            runtime.values = values;
-            function doneResult() {
-                return {
-                    value: undefined,
-                    done: true
-                };
-            }
-            Context.prototype = {
-                constructor: Context,
-                reset: function reset(skipTempReset) {
-                    this.prev = 0;
-                    this.next = 0;
-                    this.sent = this._sent = undefined;
-                    this.done = false;
-                    this.delegate = null;
-                    this.method = \\"next\\";
-                    this.arg = undefined;
-                    this.tryEntries.forEach(resetTryEntry);
-                    if (!skipTempReset) {
-                        for (var name in this) {
-                            if (name.charAt(0) === \\"t\\" && hasOwn.call(this, name) && !isNaN(+name.slice(1))) {
-                                this[name] = undefined;
+                            if (context.method === \\"next\\") {
+                                context.sent = context._sent = context.arg;
+                            } else if (context.method === \\"throw\\") {
+                                if (state === GenStateSuspendedStart) {
+                                    state = GenStateCompleted;
+                                    throw context.arg;
+                                }
+                                context.dispatchException(context.arg);
+                            } else if (context.method === \\"return\\") {
+                                context.abrupt(\\"return\\", context.arg);
+                            }
+                            state = GenStateExecuting;
+                            var record = tryCatch(innerFn, self, context);
+                            if (record.type === \\"normal\\") {
+                                state = context.done ? GenStateCompleted : GenStateSuspendedYield;
+                                if (record.arg === ContinueSentinel) {
+                                    continue;
+                                }
+                                return {
+                                    value: record.arg,
+                                    done: context.done
+                                };
+                            } else if (record.type === \\"throw\\") {
+                                state = GenStateCompleted;
+                                context.method = \\"throw\\";
+                                context.arg = record.arg;
                             }
                         }
+                    };
+                }
+                function maybeInvokeDelegate(delegate, context) {
+                    var method = delegate.iterator[context.method];
+                    if (method === undefined) {
+                        context.delegate = null;
+                        if (context.method === \\"throw\\") {
+                            if (delegate.iterator.return) {
+                                context.method = \\"return\\";
+                                context.arg = undefined;
+                                maybeInvokeDelegate(delegate, context);
+                                if (context.method === \\"throw\\") {
+                                    return ContinueSentinel;
+                                }
+                            }
+                            context.method = \\"throw\\";
+                            context.arg = new TypeError(\\"The iterator does not provide a 'throw' method\\");
+                        }
+                        return ContinueSentinel;
                     }
-                },
-                stop: function stop() {
-                    this.done = true;
-                    var rootEntry = this.tryEntries[0];
-                    var rootRecord = rootEntry.completion;
-                    if (rootRecord.type === \\"throw\\") {
-                        throw rootRecord.arg;
+                    var record = tryCatch(method, delegate.iterator, context.arg);
+                    if (record.type === \\"throw\\") {
+                        context.method = \\"throw\\";
+                        context.arg = record.arg;
+                        context.delegate = null;
+                        return ContinueSentinel;
                     }
-                    return this.rval;
-                },
-                dispatchException: function dispatchException(exception) {
-                    if (this.done) {
-                        throw exception;
+                    var info = record.arg;
+                    if (!info) {
+                        context.method = \\"throw\\";
+                        context.arg = new TypeError(\\"iterator result is not an object\\");
+                        context.delegate = null;
+                        return ContinueSentinel;
                     }
-                    var context = this;
-                    function handle(loc, caught) {
-                        record.type = \\"throw\\";
-                        record.arg = exception;
-                        context.next = loc;
-                        if (caught) {
+                    if (info.done) {
+                        context[delegate.resultName] = info.value;
+                        context.next = delegate.nextLoc;
+                        if (context.method !== \\"return\\") {
                             context.method = \\"next\\";
                             context.arg = undefined;
                         }
-                        return !!caught;
+                    } else {
+                        return info;
                     }
-                    for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-                        var entry = this.tryEntries[i];
-                        var record = entry.completion;
-                        if (entry.tryLoc === \\"root\\") {
-                            return handle(\\"end\\");
-                        }
-                        if (entry.tryLoc <= this.prev) {
-                            var hasCatch = hasOwn.call(entry, \\"catchLoc\\");
-                            var hasFinally = hasOwn.call(entry, \\"finallyLoc\\");
-                            if (hasCatch && hasFinally) {
-                                if (this.prev < entry.catchLoc) {
-                                    return handle(entry.catchLoc, true);
-                                } else if (this.prev < entry.finallyLoc) {
-                                    return handle(entry.finallyLoc);
-                                }
-                            } else if (hasCatch) {
-                                if (this.prev < entry.catchLoc) {
-                                    return handle(entry.catchLoc, true);
-                                }
-                            } else if (hasFinally) {
-                                if (this.prev < entry.finallyLoc) {
-                                    return handle(entry.finallyLoc);
-                                }
-                            } else {
-                                throw new Error(\\"try statement without catch or finally\\");
+                    context.delegate = null;
+                    return ContinueSentinel;
+                }
+                defineIteratorMethods(Gp);
+                Gp[toStringTagSymbol] = \\"Generator\\";
+                Gp[iteratorSymbol] = function() {
+                    return this;
+                };
+                Gp.toString = function() {
+                    return \\"[object Generator]\\";
+                };
+                function pushTryEntry(locs) {
+                    var entry = {
+                        tryLoc: locs[0]
+                    };
+                    if (1 in locs) {
+                        entry.catchLoc = locs[1];
+                    }
+                    if (2 in locs) {
+                        entry.finallyLoc = locs[2];
+                        entry.afterLoc = locs[3];
+                    }
+                    this.tryEntries.push(entry);
+                }
+                function resetTryEntry(entry) {
+                    var record = entry.completion || {};
+                    record.type = \\"normal\\";
+                    delete record.arg;
+                    entry.completion = record;
+                }
+                function Context(tryLocsList) {
+                    this.tryEntries = [ {
+                        tryLoc: \\"root\\"
+                    } ];
+                    tryLocsList.forEach(pushTryEntry, this);
+                    this.reset(true);
+                }
+                runtime.keys = function(object) {
+                    var keys = [];
+                    for (var key in object) {
+                        keys.push(key);
+                    }
+                    keys.reverse();
+                    return function next() {
+                        while (keys.length) {
+                            var key = keys.pop();
+                            if (key in object) {
+                                next.value = key;
+                                next.done = false;
+                                return next;
                             }
                         }
-                    }
-                },
-                abrupt: function abrupt(type, arg) {
-                    for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-                        var entry = this.tryEntries[i];
-                        if (entry.tryLoc <= this.prev && hasOwn.call(entry, \\"finallyLoc\\") && this.prev < entry.finallyLoc) {
-                            var finallyEntry = entry;
-                            break;
+                        next.done = true;
+                        return next;
+                    };
+                };
+                function values(iterable) {
+                    if (iterable) {
+                        var iteratorMethod = iterable[iteratorSymbol];
+                        if (iteratorMethod) {
+                            return iteratorMethod.call(iterable);
+                        }
+                        if (typeof iterable.next === \\"function\\") {
+                            return iterable;
+                        }
+                        if (!isNaN(iterable.length)) {
+                            var i = -1, next = function next() {
+                                while (++i < iterable.length) {
+                                    if (hasOwn.call(iterable, i)) {
+                                        next.value = iterable[i];
+                                        next.done = false;
+                                        return next;
+                                    }
+                                }
+                                next.value = undefined;
+                                next.done = true;
+                                return next;
+                            };
+                            return next.next = next;
                         }
                     }
-                    if (finallyEntry && (type === \\"break\\" || type === \\"continue\\") && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc) {
-                        finallyEntry = null;
-                    }
-                    var record = finallyEntry ? finallyEntry.completion : {};
-                    record.type = type;
-                    record.arg = arg;
-                    if (finallyEntry) {
+                    return {
+                        next: doneResult
+                    };
+                }
+                runtime.values = values;
+                function doneResult() {
+                    return {
+                        value: undefined,
+                        done: true
+                    };
+                }
+                Context.prototype = {
+                    constructor: Context,
+                    reset: function reset(skipTempReset) {
+                        this.prev = 0;
+                        this.next = 0;
+                        this.sent = this._sent = undefined;
+                        this.done = false;
+                        this.delegate = null;
                         this.method = \\"next\\";
-                        this.next = finallyEntry.finallyLoc;
-                        return ContinueSentinel;
-                    }
-                    return this.complete(record);
-                },
-                complete: function complete(record, afterLoc) {
-                    if (record.type === \\"throw\\") {
-                        throw record.arg;
-                    }
-                    if (record.type === \\"break\\" || record.type === \\"continue\\") {
-                        this.next = record.arg;
-                    } else if (record.type === \\"return\\") {
-                        this.rval = this.arg = record.arg;
-                        this.method = \\"return\\";
-                        this.next = \\"end\\";
-                    } else if (record.type === \\"normal\\" && afterLoc) {
-                        this.next = afterLoc;
-                    }
-                    return ContinueSentinel;
-                },
-                finish: function finish(finallyLoc) {
-                    for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-                        var entry = this.tryEntries[i];
-                        if (entry.finallyLoc === finallyLoc) {
-                            this.complete(entry.completion, entry.afterLoc);
-                            resetTryEntry(entry);
+                        this.arg = undefined;
+                        this.tryEntries.forEach(resetTryEntry);
+                        if (!skipTempReset) {
+                            for (var name in this) {
+                                if (name.charAt(0) === \\"t\\" && hasOwn.call(this, name) && !isNaN(+name.slice(1))) {
+                                    this[name] = undefined;
+                                }
+                            }
+                        }
+                    },
+                    stop: function stop() {
+                        this.done = true;
+                        var rootEntry = this.tryEntries[0];
+                        var rootRecord = rootEntry.completion;
+                        if (rootRecord.type === \\"throw\\") {
+                            throw rootRecord.arg;
+                        }
+                        return this.rval;
+                    },
+                    dispatchException: function dispatchException(exception) {
+                        if (this.done) {
+                            throw exception;
+                        }
+                        var context = this;
+                        function handle(loc, caught) {
+                            record.type = \\"throw\\";
+                            record.arg = exception;
+                            context.next = loc;
+                            if (caught) {
+                                context.method = \\"next\\";
+                                context.arg = undefined;
+                            }
+                            return !!caught;
+                        }
+                        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+                            var entry = this.tryEntries[i];
+                            var record = entry.completion;
+                            if (entry.tryLoc === \\"root\\") {
+                                return handle(\\"end\\");
+                            }
+                            if (entry.tryLoc <= this.prev) {
+                                var hasCatch = hasOwn.call(entry, \\"catchLoc\\");
+                                var hasFinally = hasOwn.call(entry, \\"finallyLoc\\");
+                                if (hasCatch && hasFinally) {
+                                    if (this.prev < entry.catchLoc) {
+                                        return handle(entry.catchLoc, true);
+                                    } else if (this.prev < entry.finallyLoc) {
+                                        return handle(entry.finallyLoc);
+                                    }
+                                } else if (hasCatch) {
+                                    if (this.prev < entry.catchLoc) {
+                                        return handle(entry.catchLoc, true);
+                                    }
+                                } else if (hasFinally) {
+                                    if (this.prev < entry.finallyLoc) {
+                                        return handle(entry.finallyLoc);
+                                    }
+                                } else {
+                                    throw new Error(\\"try statement without catch or finally\\");
+                                }
+                            }
+                        }
+                    },
+                    abrupt: function abrupt(type, arg) {
+                        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+                            var entry = this.tryEntries[i];
+                            if (entry.tryLoc <= this.prev && hasOwn.call(entry, \\"finallyLoc\\") && this.prev < entry.finallyLoc) {
+                                var finallyEntry = entry;
+                                break;
+                            }
+                        }
+                        if (finallyEntry && (type === \\"break\\" || type === \\"continue\\") && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc) {
+                            finallyEntry = null;
+                        }
+                        var record = finallyEntry ? finallyEntry.completion : {};
+                        record.type = type;
+                        record.arg = arg;
+                        if (finallyEntry) {
+                            this.method = \\"next\\";
+                            this.next = finallyEntry.finallyLoc;
                             return ContinueSentinel;
                         }
-                    }
-                },
-                catch: function _catch(tryLoc) {
-                    for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-                        var entry = this.tryEntries[i];
-                        if (entry.tryLoc === tryLoc) {
-                            var record = entry.completion;
-                            if (record.type === \\"throw\\") {
-                                var thrown = record.arg;
+                        return this.complete(record);
+                    },
+                    complete: function complete(record, afterLoc) {
+                        if (record.type === \\"throw\\") {
+                            throw record.arg;
+                        }
+                        if (record.type === \\"break\\" || record.type === \\"continue\\") {
+                            this.next = record.arg;
+                        } else if (record.type === \\"return\\") {
+                            this.rval = this.arg = record.arg;
+                            this.method = \\"return\\";
+                            this.next = \\"end\\";
+                        } else if (record.type === \\"normal\\" && afterLoc) {
+                            this.next = afterLoc;
+                        }
+                        return ContinueSentinel;
+                    },
+                    finish: function finish(finallyLoc) {
+                        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+                            var entry = this.tryEntries[i];
+                            if (entry.finallyLoc === finallyLoc) {
+                                this.complete(entry.completion, entry.afterLoc);
                                 resetTryEntry(entry);
-                            }
-                            return thrown;
-                        }
-                    }
-                    throw new Error(\\"illegal catch attempt\\");
-                },
-                delegateYield: function delegateYield(iterable, resultName, nextLoc) {
-                    this.delegate = {
-                        iterator: values(iterable),
-                        resultName: resultName,
-                        nextLoc: nextLoc
-                    };
-                    if (this.method === \\"next\\") {
-                        this.arg = undefined;
-                    }
-                    return ContinueSentinel;
-                }
-            };
-        }(function() {
-            return this;
-        }() || Function(\\"return this\\")());
-    }).call(this, __webpack_require__(16)(module));
-}, function(module, exports) {
-    module.exports = function(module) {
-        if (!module.webpackPolyfill) {
-            module.deprecate = function() {};
-            module.paths = [];
-            if (!module.children) module.children = [];
-            Object.defineProperty(module, \\"loaded\\", {
-                enumerable: true,
-                get: function get() {
-                    return module.l;
-                }
-            });
-            Object.defineProperty(module, \\"id\\", {
-                enumerable: true,
-                get: function get() {
-                    return module.i;
-                }
-            });
-            module.webpackPolyfill = 1;
-        }
-        return module;
-    };
-}, function(module, exports) {
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-            module.exports = _typeof = function _typeof(obj) {
-                return typeof obj;
-            };
-        } else {
-            module.exports = _typeof = function _typeof(obj) {
-                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-            };
-        }
-        return _typeof(obj);
-    }
-    module.exports = _typeof;
-}, function(module, exports, __webpack_require__) {}, , function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.r(__webpack_exports__);
-    var taro_runtime = __webpack_require__(1);
-    var regenerator = __webpack_require__(7);
-    var regenerator_default = __webpack_require__.n(regenerator);
-    function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-        try {
-            var info = gen[key](arg);
-            var value = info.value;
-        } catch (error) {
-            reject(error);
-            return;
-        }
-        if (info.done) {
-            resolve(value);
-        } else {
-            Promise.resolve(value).then(_next, _throw);
-        }
-    }
-    function _asyncToGenerator(fn) {
-        return function() {
-            var self = this, args = arguments;
-            return new Promise((function(resolve, reject) {
-                var gen = fn.apply(self, args);
-                function _next(value) {
-                    asyncGeneratorStep(gen, resolve, reject, _next, _throw, \\"next\\", value);
-                }
-                function _throw(err) {
-                    asyncGeneratorStep(gen, resolve, reject, _next, _throw, \\"throw\\", err);
-                }
-                _next(undefined);
-            }));
-        };
-    }
-    var classCallCheck = __webpack_require__(3);
-    var createClass = __webpack_require__(4);
-    var inherits = __webpack_require__(6);
-    var createSuper = __webpack_require__(5);
-    var react = __webpack_require__(0);
-    var taro_components = __webpack_require__(2);
-    var index = __webpack_require__(18);
-    var index_Index = function(_Component) {
-        Object(inherits[\\"a\\"])(Index, _Component);
-        var _super = Object(createSuper[\\"a\\"])(Index);
-        function Index() {
-            Object(classCallCheck[\\"a\\"])(this, Index);
-            return _super.apply(this, arguments);
-        }
-        Object(createClass[\\"a\\"])(Index, [ {
-            key: \\"componentWillMount\\",
-            value: function() {
-                var _componentWillMount = _asyncToGenerator(regenerator_default.a.mark((function _callee() {
-                    return regenerator_default.a.wrap((function _callee$(_context) {
-                        while (1) {
-                            switch (_context.prev = _context.next) {
-                              case 0:
-                                _context.next = 2;
-                                return Promise.resolve(1);
-
-                              case 2:
-                              case \\"end\\":
-                                return _context.stop();
+                                return ContinueSentinel;
                             }
                         }
-                    }), _callee);
-                })));
-                function componentWillMount() {
-                    return _componentWillMount.apply(this, arguments);
-                }
-                return componentWillMount;
-            }()
-        }, {
-            key: \\"componentDidMount\\",
-            value: function componentDidMount() {}
-        }, {
-            key: \\"componentWillUnmount\\",
-            value: function componentWillUnmount() {}
-        }, {
-            key: \\"componentDidShow\\",
-            value: function componentDidShow() {}
-        }, {
-            key: \\"componentDidHide\\",
-            value: function componentDidHide() {}
-        }, {
-            key: \\"render\\",
-            value: function render() {
-                return react[\\"default\\"].createElement(taro_components[\\"View\\"], {
-                    className: \\"index\\"
-                }, react[\\"default\\"].createElement(taro_components[\\"Text\\"], null, \\"Hello world!\\"), react[\\"default\\"].createElement(taro_components[\\"Input\\"], {
-                    placeholder: \\"input\\",
-                    value: \\"\\"
-                }), react[\\"default\\"].createElement(taro_components[\\"Textarea\\"], {
-                    value: \\"\\"
-                }));
+                    },
+                    catch: function _catch(tryLoc) {
+                        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+                            var entry = this.tryEntries[i];
+                            if (entry.tryLoc === tryLoc) {
+                                var record = entry.completion;
+                                if (record.type === \\"throw\\") {
+                                    var thrown = record.arg;
+                                    resetTryEntry(entry);
+                                }
+                                return thrown;
+                            }
+                        }
+                        throw new Error(\\"illegal catch attempt\\");
+                    },
+                    delegateYield: function delegateYield(iterable, resultName, nextLoc) {
+                        this.delegate = {
+                            iterator: values(iterable),
+                            resultName: resultName,
+                            nextLoc: nextLoc
+                        };
+                        if (this.method === \\"next\\") {
+                            this.arg = undefined;
+                        }
+                        return ContinueSentinel;
+                    }
+                };
+            }(function() {
+                return this;
+            }() || Function(\\"return this\\")());
+        }).call(this, __webpack_require__(22)(module));
+    },
+    22: function(module, exports) {
+        module.exports = function(module) {
+            if (!module.webpackPolyfill) {
+                module.deprecate = function() {};
+                module.paths = [];
+                if (!module.children) module.children = [];
+                Object.defineProperty(module, \\"loaded\\", {
+                    enumerable: true,
+                    get: function get() {
+                        return module.l;
+                    }
+                });
+                Object.defineProperty(module, \\"id\\", {
+                    enumerable: true,
+                    get: function get() {
+                        return module.i;
+                    }
+                });
+                module.webpackPolyfill = 1;
             }
-        } ]);
-        return Index;
-    }(react[\\"Component\\"]);
-    var config = {
-        navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
-    };
-    var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {
-        root: {
-            cn: []
+            return module;
+        };
+    },
+    23: function(module, exports, __webpack_require__) {},
+    25: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        var taro_runtime = __webpack_require__(1);
+        var regenerator = __webpack_require__(8);
+        var regenerator_default = __webpack_require__.n(regenerator);
+        function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+            try {
+                var info = gen[key](arg);
+                var value = info.value;
+            } catch (error) {
+                reject(error);
+                return;
+            }
+            if (info.done) {
+                resolve(value);
+            } else {
+                Promise.resolve(value).then(_next, _throw);
+            }
         }
-    }, config || {}));
-} ], [ [ 20, 0, 1, 3, 2 ] ] ]);
+        function _asyncToGenerator(fn) {
+            return function() {
+                var self = this, args = arguments;
+                return new Promise((function(resolve, reject) {
+                    var gen = fn.apply(self, args);
+                    function _next(value) {
+                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, \\"next\\", value);
+                    }
+                    function _throw(err) {
+                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, \\"throw\\", err);
+                    }
+                    _next(undefined);
+                }));
+            };
+        }
+        var classCallCheck = __webpack_require__(3);
+        var createClass = __webpack_require__(4);
+        var inherits = __webpack_require__(5);
+        var createSuper = __webpack_require__(6);
+        var react = __webpack_require__(0);
+        var taro_components = __webpack_require__(2);
+        var index = __webpack_require__(23);
+        var index_Index = function(_Component) {
+            Object(inherits[\\"a\\"])(Index, _Component);
+            var _super = Object(createSuper[\\"a\\"])(Index);
+            function Index() {
+                Object(classCallCheck[\\"a\\"])(this, Index);
+                return _super.apply(this, arguments);
+            }
+            Object(createClass[\\"a\\"])(Index, [ {
+                key: \\"componentWillMount\\",
+                value: function() {
+                    var _componentWillMount = _asyncToGenerator(regenerator_default.a.mark((function _callee() {
+                        return regenerator_default.a.wrap((function _callee$(_context) {
+                            while (1) {
+                                switch (_context.prev = _context.next) {
+                                  case 0:
+                                    _context.next = 2;
+                                    return Promise.resolve(1);
+
+                                  case 2:
+                                  case \\"end\\":
+                                    return _context.stop();
+                                }
+                            }
+                        }), _callee);
+                    })));
+                    function componentWillMount() {
+                        return _componentWillMount.apply(this, arguments);
+                    }
+                    return componentWillMount;
+                }()
+            }, {
+                key: \\"componentDidMount\\",
+                value: function componentDidMount() {}
+            }, {
+                key: \\"componentWillUnmount\\",
+                value: function componentWillUnmount() {}
+            }, {
+                key: \\"componentDidShow\\",
+                value: function componentDidShow() {}
+            }, {
+                key: \\"componentDidHide\\",
+                value: function componentDidHide() {}
+            }, {
+                key: \\"render\\",
+                value: function render() {
+                    return react[\\"default\\"].createElement(taro_components[\\"View\\"], {
+                        className: \\"index\\"
+                    }, react[\\"default\\"].createElement(taro_components[\\"Text\\"], null, \\"Hello world!\\"), react[\\"default\\"].createElement(taro_components[\\"Input\\"], {
+                        placeholder: \\"input\\",
+                        value: \\"\\"
+                    }), react[\\"default\\"].createElement(taro_components[\\"Textarea\\"], {
+                        value: \\"\\"
+                    }));
+                }
+            } ]);
+            return Index;
+        }(react[\\"Component\\"]);
+        var config = {
+            navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
+        };
+        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {
+            root: {
+                cn: []
+            }
+        }, config || {}));
+    },
+    8: function(module, exports, __webpack_require__) {
+        module.exports = __webpack_require__(20);
+    }
+}, [ [ 25, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
@@ -3272,13 +3268,13 @@ require(\\"./taro\\");
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-runtime-mock\\";
     },
+    13: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
+    },
     2: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-components-mock\\";
-    },
-    8: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
     }
 } ]);
 
@@ -3356,75 +3352,9 @@ module.exports = {
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _createSuper;
-    }));
-    function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-            return o.__proto__ || Object.getPrototypeOf(o);
-        };
-        return _getPrototypeOf(o);
-    }
-    function _isNativeReflectConstruct() {
-        if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
-        if (Reflect.construct.sham) return false;
-        if (typeof Proxy === \\"function\\") return true;
-        try {
-            Date.prototype.toString.call(Reflect.construct(Date, [], (function() {})));
-            return true;
-        } catch (e) {
-            return false;
-        }
-    }
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-            _typeof = function _typeof(obj) {
-                return typeof obj;
-            };
-        } else {
-            _typeof = function _typeof(obj) {
-                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-            };
-        }
-        return _typeof(obj);
-    }
-    function _assertThisInitialized(self) {
-        if (self === void 0) {
-            throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
-        }
-        return self;
-    }
-    function _possibleConstructorReturn(self, call) {
-        if (call && (_typeof(call) === \\"object\\" || typeof call === \\"function\\")) {
-            return call;
-        }
-        return _assertThisInitialized(self);
-    }
-    function _createSuper(Derived) {
-        var hasNativeReflectConstruct = _isNativeReflectConstruct();
-        return function _createSuperInternal() {
-            var Super = _getPrototypeOf(Derived), result;
-            if (hasNativeReflectConstruct) {
-                var NewTarget = _getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else {
-                result = Super.apply(this, arguments);
-            }
-            return _possibleConstructorReturn(this, result);
-        };
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _inherits;
     }));
-    function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-            o.__proto__ = p;
-            return o;
-        };
-        return _setPrototypeOf(o, p);
-    }
+    var setPrototypeOf = __webpack_require__(10);
     function _inherits(subClass, superClass) {
         if (typeof superClass !== \\"function\\" && superClass !== null) {
             throw new TypeError(\\"Super expression must either be null or a function\\");
@@ -3436,8 +3366,102 @@ module.exports = {
                 configurable: true
             }
         });
-        if (superClass) _setPrototypeOf(subClass, superClass);
+        if (superClass) setPrototypeOf(subClass, superClass);
     }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _createSuper;
+    }));
+    var getPrototypeOf = __webpack_require__(7);
+    var isNativeReflectConstruct = __webpack_require__(11);
+    var possibleConstructorReturn = __webpack_require__(12);
+    function _createSuper(Derived) {
+        var hasNativeReflectConstruct = isNativeReflectConstruct();
+        return function _createSuperInternal() {
+            var Super = getPrototypeOf(Derived), result;
+            if (hasNativeReflectConstruct) {
+                var NewTarget = getPrototypeOf(this).constructor;
+                result = Reflect.construct(Super, arguments, NewTarget);
+            } else {
+                result = Super.apply(this, arguments);
+            }
+            return possibleConstructorReturn(this, result);
+        };
+    }
+}, function(module, exports) {
+    function _getPrototypeOf(o) {
+        module.exports = _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+            return o.__proto__ || Object.getPrototypeOf(o);
+        };
+        module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+        return _getPrototypeOf(o);
+    }
+    module.exports = _getPrototypeOf;
+    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+}, , function(module, exports) {
+    function _typeof(obj) {
+        \\"@babel/helpers - typeof\\";
+        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
+            module.exports = _typeof = function _typeof(obj) {
+                return typeof obj;
+            };
+            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+        } else {
+            module.exports = _typeof = function _typeof(obj) {
+                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+            };
+            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+        }
+        return _typeof(obj);
+    }
+    module.exports = _typeof;
+    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+}, function(module, exports) {
+    function _setPrototypeOf(o, p) {
+        module.exports = _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+            o.__proto__ = p;
+            return o;
+        };
+        module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+        return _setPrototypeOf(o, p);
+    }
+    module.exports = _setPrototypeOf;
+    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+}, function(module, exports) {
+    function _isNativeReflectConstruct() {
+        if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
+        if (Reflect.construct.sham) return false;
+        if (typeof Proxy === \\"function\\") return true;
+        try {
+            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+    module.exports = _isNativeReflectConstruct;
+    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+}, function(module, exports, __webpack_require__) {
+    var _typeof = __webpack_require__(9)[\\"default\\"];
+    var assertThisInitialized = __webpack_require__(16);
+    function _possibleConstructorReturn(self, call) {
+        if (call && (_typeof(call) === \\"object\\" || typeof call === \\"function\\")) {
+            return call;
+        }
+        return assertThisInitialized(self);
+    }
+    module.exports = _possibleConstructorReturn;
+    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+}, , , , function(module, exports) {
+    function _assertThisInitialized(self) {
+        if (self === void 0) {
+            throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
+        }
+        return self;
+    }
+    module.exports = _assertThisInitialized;
+    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
 } ] ]);
 "
 `;
