@@ -160,7 +160,11 @@ export const components = {
     bindControlsToggle: '',
     bindEnterPictureInPicture: '',
     bindLeavePictureInPicture: '',
-    bindSeekComplete: ''
+    bindSeekComplete: '',
+    bindAdLoad: '',
+    bindAdError: '',
+    bindAdClose: '',
+    bindAdPlay: ''
   },
   Canvas: {
     type: ''
