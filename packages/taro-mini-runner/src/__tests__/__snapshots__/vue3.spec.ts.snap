@@ -1466,7 +1466,11 @@ require(\\"./taro\\");
                 bindControlsToggle: \\"\\",
                 bindEnterPictureInPicture: \\"\\",
                 bindLeavePictureInPicture: \\"\\",
-                bindSeekComplete: \\"\\"
+                bindSeekComplete: \\"\\",
+                bindAdLoad: \\"\\",
+                bindAdError: \\"\\",
+                bindAdClose: \\"\\",
+                bindAdPlay: \\"\\"
             },
             Canvas: {
                 type: \\"\\"

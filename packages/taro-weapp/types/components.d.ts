@@ -153,6 +153,10 @@ export declare const components: {
         bindEnterPictureInPicture: string;
         bindLeavePictureInPicture: string;
         bindSeekComplete: string;
+        bindAdLoad: string;
+        bindAdError: string;
+        bindAdClose: string;
+        bindAdPlay: string;
     };
     Canvas: {
         type: string;
