@@ -23,11 +23,15 @@ export default class TaroNormalModulesPlugin {
           walk.simple(ast, {
             CallExpression (node) {
               const callee = node.callee
-              if (callee.type !== 'MemberExpression') {
-                return
-              }
-              if (callee.property.name !== 'createElement') {
-                return
+              if (callee.type === 'MemberExpression') {
+                if (callee.property.name !== 'createElement') {
+                  return
+                }
+              } else {
+                // 兼容 react17 new jsx transtrom
+                if (callee.name !== '_jsx') {
+                  return
+                }
               }
 
               const [type, prop] = node.arguments
