@@ -75,6 +75,7 @@ export function navigate (option: NavigateOption | NavigateBackOption, method: N
     } else if (method === 'switchTab') {
       const states = navigationRef.current?.getRootState()
       if (states?.routes[0].name !== 'tabNav') {
+        navigationRef.current?.dispatch(StackActions.popToTop())
         navigationRef.current?.dispatch(StackActions.replace('tabNav'))
         setTabInitRoute(routeParam.pageName)
       } else {
@@ -92,7 +93,7 @@ export function navigate (option: NavigateOption | NavigateBackOption, method: N
           : navigationRef.current?.dispatch(StackActions.push(routeParam.pageName, routeParam.params))
       } else {
         navigationRef.current?.dispatch(StackActions.popToTop())
-        navigationRef.current?.dispatch(StackActions.push(routeParam.pageName, routeParam.params))
+        navigationRef.current?.dispatch(StackActions.replace(routeParam.pageName, routeParam.params))
       }
     }
   } catch (error) {
