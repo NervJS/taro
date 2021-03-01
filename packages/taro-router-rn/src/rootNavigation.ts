@@ -75,7 +75,7 @@ export function navigate (option: NavigateOption | NavigateBackOption, method: N
     } else if (method === 'switchTab') {
       const states = navigationRef.current?.getRootState()
       if (states?.routes[0].name !== 'tabNav') {
-        navigationRef.current?.dispatch(StackActions.popToTop())
+        states && states?.routes.length > 1 && navigationRef.current?.dispatch(StackActions.popToTop())
         navigationRef.current?.dispatch(StackActions.replace('tabNav'))
         setTabInitRoute(routeParam.pageName)
       } else {
