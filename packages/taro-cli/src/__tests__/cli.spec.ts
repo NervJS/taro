@@ -34,13 +34,14 @@ describe('inspect', () => {
 
   describe('build', () => {
     const baseOpts = {
-      platform: undefined,
-      isWatch: false,
-      release: undefined,
-      port: undefined,
-      envHasBeenSet: false,
-      isHelp: false,
-      blended: false
+      _: [],
+      options: {
+        platform: undefined,
+        isWatch: false,
+        env: undefined,
+        blended: false
+      },
+      isHelp: false
     }
 
     it('should make configs', () => {
@@ -48,16 +49,18 @@ describe('inspect', () => {
       setProcessArgv('taro build --type weapp --watch --port 8080')
       cli.run()
       const ins = MockedKernel.mock.instances[0]
+
+      const opts = Object.assign({}, baseOpts)
+      opts.options = Object.assign({}, baseOpts.options, {
+        platform,
+        isWatch: true,
+        port: 8080
+      })
+
       expect(ins.run).toHaveBeenCalledWith({
         name: 'build',
-        opts: Object.assign({}, baseOpts, {
-          platform,
-          isWatch: true,
-          port: 8080
-        })
+        opts
       })
-      expect(process.env.NODE_ENV).toEqual('development')
-      expect(process.env.TARO_ENV).toEqual(platform)
     })
 
     it('should not set node env again', () => {
