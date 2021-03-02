@@ -7,6 +7,10 @@ export function cancelTimeout (timeoutID) {
 export function requestTimeout (callback, delay) {
   const start = now()
 
+  const timeoutID = {
+    id: requestAnimationFrame(tick)
+  }
+
   function tick () {
     if (now() - start >= delay) {
       // eslint-disable-next-line no-useless-call
@@ -16,8 +20,5 @@ export function requestTimeout (callback, delay) {
     }
   }
 
-  const timeoutID = {
-    id: requestAnimationFrame(tick)
-  }
   return timeoutID
 }

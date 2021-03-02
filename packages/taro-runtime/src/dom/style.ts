@@ -41,6 +41,10 @@ function initStyle (ctor: typeof Style) {
   Object.defineProperties(ctor.prototype, properties)
 }
 
+function isCssVariable (propertyName) {
+  return /^--/.test(propertyName)
+}
+
 export class Style {
   public _usedStyleProp: Set<string>
 
@@ -72,7 +76,8 @@ export class Style {
     this._usedStyleProp.forEach(key => {
       const val = this[key]
       if (!val) return
-      text += `${toDashed(key)}: ${val};`
+      const styleName = isCssVariable(key) ? key : toDashed(key)
+      text += `${styleName}: ${val};`
     })
     return text
   }
@@ -110,7 +115,7 @@ export class Style {
   }
 
   public setProperty (propertyName: string, value?: string | null) {
-    if (propertyName[0] === '-') {
+    if (isCssVariable(propertyName)) {
       this.setCssVariables(propertyName)
     } else {
       propertyName = toCamelCase(propertyName)

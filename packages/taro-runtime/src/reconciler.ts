@@ -1,9 +1,13 @@
+import { defaultReconciler } from '@tarojs/shared'
 import type { TaroElement } from './dom/element'
 import type { TaroText } from './dom/text'
 import type { DataTree, TaroNode } from './dom/node'
 import type { TaroRootElement } from './dom/root'
 import type { Instance, PageInstance, PageProps } from './dsl/instance'
-import { MpEvent } from './dom/event'
+import type { NodeType } from './dom/node_types'
+import type { EventsType } from './emitter/emitter'
+import { TaroEvent, MpEvent } from './dom/event'
+import type { Func } from './utils/types'
 
 type Inst = Instance<PageProps>
 
@@ -25,7 +29,15 @@ export interface Reconciler<Instance, DOMElement = TaroElement, TextElement = Ta
 
   modifyEventType?(event: MpEvent): void
 
-  getLifecyle(instance: Instance, lifecyle: keyof PageInstance): Function | undefined | Array<Function>
+  getLifecyle(instance: Instance, lifecyle: keyof PageInstance): Func | undefined | Array<Func>
+
+  onTaroElementCreate?(tagName: string, nodeType: NodeType): void
+
+  getPathIndex(indexOfNode: number): string
+
+  getEventCenter(Events: EventsType): InstanceType<EventsType>
+
+  modifyDispatchEvent? (event: TaroEvent, tagName: string): void
 
   batchedEventUpdates?(cb: () => void): void
 
@@ -37,8 +49,14 @@ export interface Reconciler<Instance, DOMElement = TaroElement, TextElement = Ta
   mergePageInstance?(prev: Inst | undefined, next: Inst): void
 }
 
-export const CurrentReconciler: Reconciler<any> = {
+export const CurrentReconciler: Reconciler<any> = Object.assign({
   getLifecyle (instance, lifecyle) {
     return instance[lifecyle]
+  },
+  getPathIndex (indexOfNode) {
+    return `[${indexOfNode}]`
+  },
+  getEventCenter (Events) {
+    return new Events()
   }
-}
+}, defaultReconciler)

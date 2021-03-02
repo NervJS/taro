@@ -19,6 +19,11 @@ if (typeof PRERENDER !== 'undefined') {
   global._prerender = inst
 }`
 
+  const runtimePath = Array.isArray(options.runtimePath) ? options.runtimePath : [options.runtimePath]
+  const setReconciler = runtimePath.reduce((res, item) => {
+    return res + `import '${item}'\n`
+  }, '')
+
   const createApp = `${creator}(component, ${frameworkArgs})`
 
   const instantiateApp = blended
@@ -29,7 +34,8 @@ exports.taroApp = app
 `
     : `var inst = App(${createApp})`
 
-  return `import { ${creator}, window } from '@tarojs/runtime'
+  return `${setReconciler}
+import { ${creator}, window } from '@tarojs/runtime'
 import component from ${stringify(this.request.split('!').slice(thisLoaderIndex + 1).join('!'))}
 ${importFrameworkStatement}
 var config = ${config};
