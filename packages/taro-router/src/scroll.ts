@@ -34,7 +34,6 @@ export function bindPageScroll (page: PageInstance, config: Partial<PageConfig>)
 }
 
 window.addEventListener('DOMSubtreeModified', (e) => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   const className = e.target?.className
   if (className && /taro-tabbar__/.test(className)) {

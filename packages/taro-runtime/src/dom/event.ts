@@ -91,6 +91,8 @@ export function createEvent (event: MpEvent | string, _?: TaroElement) {
   return domEv
 }
 
+const eventsBatch = {}
+
 export function eventHandler (event: MpEvent) {
   CurrentReconciler.modifyEventType?.(event)
 
@@ -104,7 +106,22 @@ export function eventHandler (event: MpEvent) {
       node.dispatchEvent(createEvent(event, node))
     }
     if (typeof CurrentReconciler.batchedEventUpdates === 'function') {
-      CurrentReconciler.batchedEventUpdates(dispatch)
+      const type = event.type
+      const isParentBinded = node.parentElement?.__handlers[type]?.length
+
+      if (!isParentBinded || (type === 'touchmove' && !!node.props.catchMove)) {
+        // 最上层组件统一 batchUpdate
+        CurrentReconciler.batchedEventUpdates(() => {
+          if (eventsBatch[type]) {
+            eventsBatch[type].forEach(fn => fn())
+            delete eventsBatch[type]
+          }
+          dispatch()
+        })
+      } else {
+        // 如果上层组件也有绑定同类型的组件，委托给上层组件调用事件回调
+        (eventsBatch[type] ||= []).push(dispatch)
+      }
     } else {
       dispatch()
     }
