@@ -53,6 +53,13 @@ const createDownloadTask = ({ url, header, success, error }) => {
     })
   }
 
+  /**
+   * 中断任务
+   */
+  const abort = () => {
+    xhr.abort()
+  }
+
   const send = () => {
     xhr.send()
     timeout = setTimeout(() => {
@@ -69,13 +76,6 @@ const createDownloadTask = ({ url, header, success, error }) => {
   }
 
   send()
-
-  /**
-   * 中断任务
-   */
-  const abort = () => {
-    xhr.abort()
-  }
 
   /**
    * 监听 HTTP Response Header 事件。会比请求完成事件更早

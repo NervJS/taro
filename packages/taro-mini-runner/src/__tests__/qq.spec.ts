@@ -1,20 +1,19 @@
+import { QQ } from '@tarojs/plugin-platform-qq'
+import * as helper from '@tarojs/helper'
 import { compile, getOutput } from './utils/compiler'
-import { Template } from '@tarojs/cli/src/presets/platforms/qq'
+
+const program = new QQ({ helper } as any, {})
+const customConfig = {
+  buildAdapter: 'qq',
+  globalObject: program.globalObject,
+  fileType: program.fileType,
+  template: program.template,
+  runtimePath: program.runtimePath
+}
 
 describe('qq', () => {
   test('should build qq app', async () => {
-    const { stats, config } = await compile('react', {
-      buildAdapter: 'qq',
-      globalObject: 'qq',
-      fileType: {
-        templ: '.qml',
-        style: '.qss',
-        config: '.json',
-        script: '.js',
-        xs: '.wxs'
-      },
-      template: new Template()
-    })
+    const { stats, config } = await compile('react', customConfig)
     const assets = stats.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
@@ -24,10 +23,7 @@ describe('qq', () => {
   })
 
   test('should base template loop 10 times', async () => {
-    const { stats, config } = await compile('react', {
-      buildAdapter: 'qq',
-      baseLevel: 10
-    })
+    const { stats, config } = await compile('react', customConfig)
     const assets = stats.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
