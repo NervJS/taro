@@ -3,6 +3,7 @@ import helper from '@tarojs/helper'
 
 interface IOptions {
   include?: string[]
+  chain?: any
 }
 
 /**
@@ -55,7 +56,9 @@ export class MultiPlatformPlugin {
             return callback()
           }
 
-          const newRequestStr = helper.resolveMainFilePath(srcRequest)
+          const extensions = this.options.chain?.resolve?.extensions?.values()
+
+          const newRequestStr = helper.resolveMainFilePath(srcRequest, extensions)
           if (newRequestStr === innerRequest) return callback()
           const obj = Object.assign({}, request, {
             request: newRequestStr

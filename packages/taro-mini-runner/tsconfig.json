@@ -20,6 +20,11 @@
     "traceResolution": false,
     "types": ["jest"]
   },
-  "include": ["src"],
-  "exclude": ["./src/__tests__"]
+  "include": [
+    "./src"
+  ],
+  "exclude": [
+    "./src/__tests__",
+    "./src/template/comp.ts"
+  ]
 }
