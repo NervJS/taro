@@ -16,7 +16,7 @@ npm install --save-dev babel-plugin-transform-jsx-to-stylesheet
 ```json
 {
   "plugins": ["transform-jsx-to-stylesheet"]
-} 
+}
 ```
 
 ## Example
