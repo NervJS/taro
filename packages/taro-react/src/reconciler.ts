@@ -23,7 +23,7 @@ const hostConfig: HostConfig<
   TaroText, // TextInstance
   TaroElement, // HydratableInstance
   TaroElement, // PublicInstance
-  object, // HostContext
+  Record<string, any>, // HostContext
   string[], // UpdatePayload
   unknown, // ChildSet
   unknown, // TimeoutHandle

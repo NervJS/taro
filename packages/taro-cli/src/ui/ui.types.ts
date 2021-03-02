@@ -1,4 +1,11 @@
-import { IProjectConfig, IH5Config } from '@tarojs/taro/types/compile'
+import {
+  IProjectConfig,
+  IH5Config,
+  IOption,
+  TogglableOptions,
+  IDeviceRatio,
+  ISassOptions
+} from '@tarojs/taro/types/compile'
 
 export interface IBuildData {
   appPath: string,
@@ -13,16 +20,16 @@ export interface IBuildData {
 }
 
 export interface IH5BuildConfig extends IH5Config {
-  env?: object,
-  defineConstants?: object,
+  env?: IOption,
+  defineConstants?: IOption,
   plugins?: any[],
   designWidth?: number,
-  deviceRatio?: object,
+  deviceRatio?: IDeviceRatio,
   sourceRoot?: string,
   outputRoot?: string,
   isWatch?: boolean,
-  babel?: object,
-  sass?: object,
-  csso?: object,
-  uglify?: object
+  babel?: Record<string, any>,
+  sass?: ISassOptions,
+  csso?: TogglableOptions,
+  uglify?: TogglableOptions
 }

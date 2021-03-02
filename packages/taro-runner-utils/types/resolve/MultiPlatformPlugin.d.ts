@@ -1,5 +1,6 @@
 interface IOptions {
     include?: string[];
+    chain?: any;
 }
 /**
  * @description 此 enhance-resolve 插件用于根据当前编译的平台，解析多端文件的后缀

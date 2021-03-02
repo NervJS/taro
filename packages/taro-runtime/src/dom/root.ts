@@ -9,6 +9,7 @@ import { SET_DATA, PAGE_INIT } from '../constants'
 import { CurrentReconciler } from '../reconciler'
 import { eventCenter } from '../emitter/emitter'
 import { incrementId } from '../utils'
+import type { Func } from '../utils/types'
 
 const eventIncrementId = incrementId()
 
@@ -19,7 +20,7 @@ export class TaroRootElement extends TaroElement {
 
   private pendingFlush = false
 
-  private updateCallbacks: Function[]= []
+  private updateCallbacks: Func[]= []
 
   public ctx: null | MpInstance = null
 
@@ -45,7 +46,7 @@ export class TaroRootElement extends TaroElement {
     this.performUpdate()
   }
 
-  public performUpdate (initRender = false, prerender?: Function) {
+  public performUpdate (initRender = false, prerender?: Func) {
     this.pendingUpdate = true
     const ctx = this.ctx!
 
@@ -90,7 +91,7 @@ export class TaroRootElement extends TaroElement {
         prerender(data)
       } else {
         this.pendingUpdate = false
-        const customWrapperUpdate: { ctx: any, data: object }[] = []
+        const customWrapperUpdate: { ctx: any, data: Record<string, any> }[] = []
         const normalUpdate = {}
         if (!initRender) {
           for (const p in data) {
@@ -159,7 +160,7 @@ export class TaroRootElement extends TaroElement {
     }, 0)
   }
 
-  public enqueueUpdateCallback (cb: Function, ctx?: Record<string, any>) {
+  public enqueueUpdateCallback (cb: Func, ctx?: Record<string, any>) {
     this.updateCallbacks.push(() => {
       ctx ? cb.call(ctx) : cb()
     })

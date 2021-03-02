@@ -11,12 +11,17 @@ import { options } from '../options'
 import { Reconciler, CurrentReconciler } from '../reconciler'
 import { incrementId } from '../utils'
 import { HOOKS_APP_ID } from './hooks'
+import type { Func } from '../utils/types'
 
 function isClassComponent (R: typeof React, component): boolean {
   return isFunction(component.render) ||
   !!component.prototype?.isReactComponent ||
   component.prototype instanceof R.Component // compat for some others react-like library
 }
+
+// 初始值设置为 any 主要是为了过 TS 的校验
+export let R: typeof React = EMPTY_OBJ
+export let PageContext: React.Context<string> = EMPTY_OBJ
 
 export function connectReactPage (
   R: typeof React,
@@ -81,28 +86,28 @@ export function connectReactPage (
   }
 }
 
-// 初始值设置为 any 主要是为了过 TS 的校验
-export let R: typeof React = EMPTY_OBJ
-export let PageContext: React.Context<string> = EMPTY_OBJ
-
 let ReactDOM
 
 type PageComponent = React.CElement<PageProps, React.Component<PageProps, any, any>>
 
 function setReconciler () {
-  const hostConfig: Reconciler<React.FunctionComponent<PageProps> | React.ComponentClass<PageProps>> = {
+  const hostConfig: Partial<Reconciler<React.FunctionComponent<PageProps> | React.ComponentClass<PageProps>>> = {
     getLifecyle (instance, lifecycle) {
       if (lifecycle === 'onShow') {
         lifecycle = 'componentDidShow'
       } else if (lifecycle === 'onHide') {
         lifecycle = 'componentDidHide'
       }
-      return instance[lifecycle] as Function
+      return instance[lifecycle] as Func
     },
     mergePageInstance (prev, next) {
       if (!prev || !next) return
 
       // 子组件使用 lifecycle hooks 注册了生命周期后，会存在 prev，里面是注册的生命周期回调。
+
+      // prev 使用 Object.create(null) 创建，H5 的 fast-refresh 可能也会导致存在 prev，要排除这些意外产生的 prev
+      if ('constructor' in prev) return
+
       Object.keys(prev).forEach(item => {
         if (isFunction(next[item])) {
           next[item] = [next[item], ...prev[item]]
@@ -294,6 +299,17 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
 
         // app useDidHide
         triggerAppHook('componentDidHide')
+      }
+    },
+
+    onPageNotFound: {
+      enumerable: true,
+      writable: true,
+      value (res: unknown) {
+        const app = ref.current
+        if (app != null && isFunction(app.onPageNotFound)) {
+          app.onPageNotFound(res)
+        }
       }
     }
   })
