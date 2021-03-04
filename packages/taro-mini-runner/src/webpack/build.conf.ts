@@ -13,6 +13,7 @@ import {
   getModule,
   mergeOption,
   getMiniPlugin,
+  getBuildNativePlugin,
   getProviderPlugin,
   getMiniCssExtractPlugin,
   getEntry
@@ -75,6 +76,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     addChunkPages,
 
     blended,
+    isBuildNativeComp,
 
     modifyMiniConfigs,
     modifyBuildAssets,
@@ -138,7 +140,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     customCommonChunks = commonChunks
   }
   plugin.definePlugin = getDefinePlugin([constantsReplaceList])
-  plugin.miniPlugin = getMiniPlugin({
+
+  const miniPluginOptions = {
     sourceDir,
     outputDir,
     constantsReplaceList,
@@ -161,8 +164,10 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     minifyXML,
     runtimePath,
     blended,
+    isBuildNativeComp,
     alias
-  })
+  }
+  plugin.miniPlugin = !isBuildNativeComp ? getMiniPlugin(miniPluginOptions) : getBuildNativePlugin(miniPluginOptions)
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
     filename: `[name]${fileType.style}`,

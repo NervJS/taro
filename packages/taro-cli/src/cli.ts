@@ -45,7 +45,7 @@ export default class CLI {
             '@tarojs/plugin-platform-jd'
           ]
           customCommand('build', kernel, {
-            _: [],
+            _: args._,
             platform: args.type,
             isWatch: Boolean(args.watch),
             port: args.port,
