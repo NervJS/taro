@@ -107,7 +107,7 @@ export interface ITouchEvent<T = any> extends BaseEventOrig<T> {
   touches: Array<ITouch>
 
   /** 触摸事件，当前变化的触摸点信息的数组 */
-  changedTouches: Array<CanvasTouch>
+  changedTouches: Array<ITouch>
 }
 
 export interface CanvasTouch {
