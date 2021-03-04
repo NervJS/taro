@@ -250,3 +250,74 @@ taro build --type weapp --watch --blended
 
 #### 4. 设置原生项目的分包配置
 
+## 把 Taro 组件编译为原生自定义组件
+
+> v3.1.2+，暂时只支持 React
+
+Taro 支持把组件编译为**原生小程序自定义组件**，供原生项目使用。
+
+### 使用方法
+
+#### 1. 配置组件路径
+
+修改 `app.config.js`，增加 `components` 配置，指向组件入口文件的路径：
+
+```js title="app.config.js"
+export default {
+  // ...
+  components: [
+    'pages/index/index',
+    'components/picker/index'
+  ]
+}
+```
+
+#### 2. 开始编译
+
+使用 `taro build native-components` 命令，配合参数 `type`，即可编译出对应平台的自定义组件。
+
+```bash
+taro build native-components --type [platform] [--watch]
+```
+
+### props 传递
+
+传递 props 给 Taro 编译出来的原生自定义组件时，需要统一通过 `props` 参数来传递：
+
+```js title="page/index/index.js"
+Page({
+  data: {
+    pickerProps: {
+      mode: 'format',
+      value: [0, 0, 0],
+      onInitial (value, index) {
+        console.log('onInitial')
+      }
+    }
+  }
+})
+```
+
+```xml title="page/index/index.wxml"
+<!--index.wxml-->
+<view>
+  <picker props="{{pickerProps}}"></picker>
+</view>
+```
+
+```jsx title="Taro 组件 - Picker"
+function Picker ({ mode, value, onInitial }) {
+  return (
+    // ...
+  )
+}
+```
+
+
+
+
+
+
+
+
+
