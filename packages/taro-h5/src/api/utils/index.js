@@ -193,7 +193,7 @@ function processOpenapi (apiName, defaultOptions, formatResult = res => res, for
     options = options || {}
     const obj = Object.assign({}, defaultOptions, options)
     const p = new Promise((resolve, reject) => {
-      ;['fail', 'success', 'complete'].forEach(k => {
+      ['fail', 'success', 'complete'].forEach(k => {
         obj[k] = oriRes => {
           const res = formatResult(oriRes)
           options[k] && options[k](res)

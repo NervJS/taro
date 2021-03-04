@@ -22,12 +22,6 @@ describe('babel-preset-taro', () => {
     })
 
     expect(config.sourceType).toBe('unambiguous')
-
-    const [override] = config.overrides
-
-    const [, [_, reactConfig]] = override.presets
-    expect(reactConfig.pragma).toBe('React.createElement')
-    expect(reactConfig.pragmaFrag).toBe('React.Fragment')
   })
 
   it('vue', () => {

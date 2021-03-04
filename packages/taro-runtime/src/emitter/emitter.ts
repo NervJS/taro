@@ -1,3 +1,5 @@
+import { CurrentReconciler } from '../reconciler'
+
 /* eslint-disable no-dupe-class-members */
 type Callback1<T1> = (arg1: T1) => any;
 type Callback2<T1, T2> = (arg1: T1, arg2: T2) => any;
@@ -10,7 +12,7 @@ type Callback6Rest<T1, T2, T3, T4, T5, T6> = (arg1: T1, arg2: T2, arg3: T3,
   ...rest: any[]) => any;
 
 export class Events {
-  private callbacks: Record<string, unknown>
+  private callbacks?: Record<string, unknown>
   static eventSplitter = /\s+/
 
   constructor (opts?) {
@@ -33,6 +35,7 @@ export class Events {
       return this
     }
     eventName = eventName.split(Events.eventSplitter)
+    this.callbacks ||= {}
     const calls = this.callbacks
     while ((event = eventName.shift())) {
       list = calls[event]
@@ -115,15 +118,6 @@ export class Events {
   }
 }
 
-declare let my: any
+export type EventsType = typeof Events
 
-export let eventCenter: Events
-
-if (process.env.TARO_ENV === 'alipay') {
-  if (!my.taroEventCenter) {
-    my.taroEventCenter = new Events()
-  }
-  eventCenter = my.taroEventCenter
-} else {
-  eventCenter = new Events()
-}
+export const eventCenter = CurrentReconciler.getEventCenter(Events)
