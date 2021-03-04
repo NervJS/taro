@@ -21,7 +21,7 @@ interface RenderOptions {
    * @type {(string|Function)[]}
    * @default []
    */
-  use: (string | Function)[],
+  use: (string | ((string) => string))[],
   /**
    * Add path(s) to the import lookup paths.
    *
@@ -98,7 +98,7 @@ interface RenderOptions {
 
 export interface Config {
   options: RenderOptions,
-  additionalData?: string | Function;
+  additionalData?: string | ((string) => string);
 }
 
 export const defaultOptions = {

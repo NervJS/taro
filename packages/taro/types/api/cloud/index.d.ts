@@ -18,7 +18,7 @@ declare namespace Taro {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (val: T | General.CallbackResult) => void
     }
-  
+
     // type IAPIFunction<T, P extends IAPIParam<T>> = (param?: P) => Promise<T>
 
     /** 初始化配置 */
@@ -55,7 +55,7 @@ declare namespace Taro {
     // }
     // interface ICloudService {
     //   name: string
-  
+
     //   getAPIs: () => { [name: string]: cloud.IAPIFunction<any, any> }
     // }
     // interface ICloudServices {
@@ -199,6 +199,53 @@ declare namespace Taro {
       /** 接口调用成功的回调函数 */
       success?: (res: DeleteFileResult) => void
     }
+
+    /** 新建云开发操作实例 */
+    interface IOptions {
+      /** 资源方 AppID, 不填则表示已登录的当前账号（如小程序中） */
+      resourceAppid?: string
+      /** 资源方云环境 ID */
+      resourceEnd: string
+    }
+
+    /** 调用云托管参数 */
+    interface CallContainerParam < P extends string | General.IAnyObject | ArrayBuffer = any | any > {
+      /** 服务路径 */
+      path: string
+      /** HTTP请求方法，默认 GET */
+      method?: keyof Taro.request.method
+      /** 请求数据 */
+      data?: P
+      /** 设置请求的 header，header 中不能设置 Referer。content-type 默认为 application/json */
+      header?: General.IAnyObject
+      /** 超时时间，单位为毫秒 */
+      timeout?: number
+      /** 返回的数据格式 */
+      dataType?: Taro.request.dataType
+      /** 响应的数据类型 */
+      responseType?: keyof {
+        text
+        arraybuffer
+      }
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: CallFunctionResult | General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: CallFunctionResult) => void
+    }
+
+    /** 调用云托管返回值 */
+    interface CallContainerResult < R extends string | General.IAnyObject | ArrayBuffer = any | any > {
+      /** 开发者云托管服务返回的数据 */
+      data: R
+      /** 开发者云托管返回的 HTTP Response Header */
+      header: General.IAnyObject
+      /** 开发者云托管服务返回的 HTTP 状态码 */
+      statusCode: number
+      /** 开发者云托管返回的 cookies，格式为字符串数组，仅小程序端有此字段 */
+      cookies?: General.IAnyObject
+    }
   }
 
   /** 云开发 SDK 实例
@@ -221,7 +268,7 @@ declare namespace Taro {
      * @supported weapp
      * @example
      * 假设已有一个云函数 add，在小程序端发起对云函数 add 的调用：
-     * 
+     *
      * ```tsx
      * Taro.cloud.callFunction({
      * // 要调用的云函数名称
@@ -378,13 +425,13 @@ declare namespace Taro {
      * @supported weapp
      * @example
      * 以下调用获取默认环境的数据库的引用：
-     * 
+     *
      * ```tsx
      * const db = Taro.cloud.database()
      * ```
      * @example
      * 假设有一个环境名为 test-123，用做测试环境，那么可以如下获取测试环境数据库：
-     * 
+     *
      * ```tsx
      * const testDB = Taro.cloud.database({
      *   env: 'test-123'
@@ -393,6 +440,53 @@ declare namespace Taro {
      * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/Cloud.database.html
      */
     static database(config?: cloud.IConfig): DB.Database
+
+    /** 声明新的云开发操作实例
+     * @supported weapp
+     * @example
+     * 声明新的操作实例
+     *
+     * ```tsx
+     * const c1 = new Taro.cloud.Cloud({
+     *   resourceEnv: '我的某个环境ID',
+     * })
+     * ```
+     * @example
+     * 资源共享时跨账号访问资源
+     *
+     * ```tsx
+     * // 声明
+     * const c1 = new Taro.cloud.Cloud({
+     *   resourceAppid: '资源方 AppID',
+     *   resourceEnv: '我的某个环境ID',
+     * })
+     * // 等待初始化完成
+     * await c1.init()
+     *
+     * // 然后照常访问指定环境下的资源
+     * c1.callFunction({
+     *  name: '',
+     *  data: {},
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/utils/Cloud.Cloud.html
+     */
+    static Cloud(options: cloud.IOptions): cloud
+
+    /** 调用云托管服务
+     * @supported weapp
+     * @example
+     * 假设已经初始化了一个叫c1的云开发实例，并发起云托管调用
+     * 
+     * ``` tsx
+     * const r = await c1.callContainer({
+     *   path: '/path/to/container', // 填入容器的访问路径
+     *   method: 'POST',
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/container/Cloud.callContainer.html 
+     */
+    static callContainer < R = any, P = any >(params: cloud.CallContainerParam<P>): Promise<cloud.CallContainerResult<R>>
   }
 
   namespace DB {
@@ -416,7 +510,7 @@ declare namespace Taro {
        * @supported weapp
        * @example
        * 新增记录时设置字段为服务端时间：
-       * 
+       *
        * ```tsx
        * db.collection('todos').add({
        *   description: 'eat an apple',
@@ -424,7 +518,7 @@ declare namespace Taro {
        * })
        * ```
        * 更新字段为服务端时间往后一小时：
-       * 
+       *
        * ```tsx
        * db.collection('todos').doc('my-todo-id').update({
        *   due: db.serverDate({
@@ -443,7 +537,7 @@ declare namespace Taro {
        * db.collection('todos').where({
        *   description: /miniprogram/i
        * })
-       * 
+       *
        * // 数据库正则对象
        * db.collection('todos').where({
        *   description: db.RegExp({
@@ -451,7 +545,7 @@ declare namespace Taro {
        *     options: 'i',
        *   })
        * })
-       * 
+       *
        * // 用 new 构造也是可以的
        * db.collection('todos').where({
        *   description: new db.RegExp({
@@ -480,7 +574,7 @@ declare namespace Taro {
       interface ServerDate {
         readonly options: ServerDate.IOptions
       }
-  
+
       namespace ServerDate {
         interface IOptions {
           offset: number
@@ -492,8 +586,8 @@ declare namespace Taro {
         readonly regexp: string
         readonly options: string
       }
-  
-      namespace IRegExp {    
+
+      namespace IRegExp {
         interface IRegExpOptions {
           regexp: string
           options?: string
@@ -595,16 +689,16 @@ declare namespace Taro {
        * @supported weapp
        * @example
        * 按一个字段排序：按进度排升序取待办事项
-       * 
+       *
        * ```tsx
        * db.collection('todos').orderBy('progress', 'asc')
        *   .get()
        *   .then(console.log)
        *   .catch(console.error)
        * ```
-       * 
+       *
        * 按多个字段排序：先按 progress 排降序（progress 越大越靠前）、再按 description 排升序（字母序越前越靠前）取待办事项
-       * 
+       *
        * ```tsx
        * db.collection('todos')
        *   .orderBy('progress', 'desc')
@@ -631,14 +725,14 @@ declare namespace Taro {
       skip(offset: number): Collection
 
       /** 指定返回结果中记录需返回的字段
-       * 
+       *
        * **说明**
-       * 
+       *
        * 方法接受一个必填对象用于指定需返回的字段，对象的各个 key 表示要返回或不要返回的字段，value 传入 true|false（或 1|-1）表示要返回还是不要返回。
        * 如果指定的字段是数组字段，还可以用以下方法只返回数组的第一个元素：在该字段 key 后面拼接上 `.$` 成为 `字段.$` 的形式。
        * 如果指定的字段是数组字段，还可以用 `db.command.project.slice` 方法返回数组的子数组：
        * 方法既可以接收一个正数表示返回前 n 个元素，也可以接收一个负数表示返回后 n 个元素；还可以接收一个包含两个数字 `[ skip, limit ]` 的数组，如果 `skip` 是正数，表示跳过 `skip` 个元素后再返回接下来的 `limit` 个元素，如果 `skip` 是负数，表示从倒数第 `skip` 个元素开始，返回往后数的 `limit` 个元素
-       * 
+       *
        * - 返回数组的前 5 个元素：`{ tags: db.command.project.slice(5) }`
        * - 返回数组的后 5 个元素：`{ tags: db.command.project.slice(-5) }`
        * - 跳过前 5 个元素，返回接下来 10 个元素：`{ tags: db.command.project.slice(5, 10) }`
@@ -646,7 +740,7 @@ declare namespace Taro {
        * @supported weapp
        * @example
        * 返回 description, done 和 progress 三个字段：
-       * 
+       *
        * ```tsx
        * db.collection('todos').field({
        *   description: true,
@@ -664,18 +758,18 @@ declare namespace Taro {
       field(object: General.IAnyObject): Collection
 
       /** 获取集合数据，或获取根据查询条件筛选后的集合数据。
-       * 
+       *
        * **使用说明**
-       * 
+       *
        * 统计集合记录数或统计查询语句对应的结果记录数
-       * 
+       *
        * 小程序端与云函数端的表现会有如下差异：
-       * 
+       *
        * - 小程序端：如果没有指定 limit，则默认且最多取 20 条记录。
        * - 云函数端：如果没有指定 limit，则默认且最多取 100 条记录。
-       * 
+       *
        * 如果没有指定 skip，则默认从第 0 条记录开始取，skip 常用于分页。
-       * 
+       *
        * 如果需要取集合中所有的数据，仅在数据量不大且在云函数中时
        * @supported weapp
        * @example
@@ -764,7 +858,7 @@ declare namespace Taro {
        *   complete: cosnole.log
        * })
        * ```
-       * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.add.html 
+       * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.add.html
        */
       add(options: OQ<Document.IAddDocumentOptions>): void
       add(options: RQ<Document.IAddDocumentOptions>): Promise<Query.IAddResult>
@@ -773,7 +867,7 @@ declare namespace Taro {
        * @supported weapp
        * @example
        * 根据查询条件监听
-       * 
+       *
        * ```tsx
        * const db = Taro.cloud.database()
        * const watcher = db.collection('todos').where({
@@ -789,7 +883,7 @@ declare namespace Taro {
        * ```
        * @example
        * 监听一个记录的变化
-       * 
+       *
        * ```tsx
        * const db = Taro.cloud.database()
        * const watcher = db.collection('todos').doc('x').watch({
@@ -803,7 +897,7 @@ declare namespace Taro {
        * ```
        * @example
        * 关闭监听
-       * 
+       *
        * ```tsx
        * const db = Taro.cloud.database()
        * const watcher = db.collection('todos').where({
@@ -969,10 +1063,10 @@ declare namespace Taro {
         _id?: DocumentId
         [key: string]: any
       }
-  
+
       /** 数据库 API 通用参数 */
       type IDBAPIParam = cloud.IAPIParam
-  
+
       /** 新增记录的定义 */
       interface IAddDocumentOptions extends IDBAPIParam {
         /** 新增记录的定义 */
@@ -986,7 +1080,7 @@ declare namespace Taro {
         /** 接口调用成功的回调函数 */
         success?: (res: General.CallbackResult) => void
       }
-  
+
       /** 监听集合中符合查询条件的数据的更新事件 */
       interface IWatchDocumentOptions {
         /** 成功回调，回调传入的参数 snapshot 是变更快照 */
@@ -1055,13 +1149,13 @@ declare namespace Taro {
         /** 关闭监听，无需参数，返回 Promise，会在关闭完成时 resolve */
         close(): Promise<any>
       }
-  
+
       /** 获取记录参数 */
       type IGetDocumentOptions = IDBAPIParam
-  
+
       /** 获取记录条数参数 */
       type ICountDocumentOptions = IDBAPIParam
-  
+
       /** 更新记录参数 */
       interface IUpdateDocumentOptions extends IDBAPIParam {
         data: IUpdateCondition
@@ -1074,7 +1168,7 @@ declare namespace Taro {
         /** 接口调用成功的回调函数 */
         success?: (res: General.CallbackResult) => void
       }
-  
+
       /** 更新单条记录参数 */
       interface IUpdateSingleDocumentOptions extends IDBAPIParam {
         /** 替换记录的定义 */
@@ -1088,7 +1182,7 @@ declare namespace Taro {
         /** 接口调用成功的回调函数 */
         success?: (res: General.CallbackResult) => void
       }
-  
+
       /** 替换记录参数 */
       interface ISetDocumentOptions extends IDBAPIParam {
         /** 替换记录的定义 */
@@ -1102,7 +1196,7 @@ declare namespace Taro {
         /** 接口调用成功的回调函数 */
         success?: (res: General.CallbackResult) => void
       }
-  
+
       /** 替换一条记录参数 */
       interface ISetSingleDocumentOptions extends IDBAPIParam {
         data: IUpdateCondition
@@ -1128,9 +1222,9 @@ declare namespace Taro {
         /** 接口调用成功的回调函数 */
         success?: (res: General.CallbackResult) => void
       }
-  
+
       /** 删除一条记录参数 */
-      type IRemoveSingleDocumentOptions = IDBAPIParam  
+      type IRemoveSingleDocumentOptions = IDBAPIParam
 
       /** 更新记录定义 */
       interface IUpdateCondition {
@@ -1159,16 +1253,16 @@ declare namespace Taro {
        * @supported weapp
        * @example
        * 按一个字段排序：按进度排升序取待办事项
-       * 
+       *
        * ```tsx
        * db.collection('todos').orderBy('progress', 'asc')
        *   .get()
        *   .then(console.log)
        *   .catch(console.error)
        * ```
-       * 
+       *
        * 按多个字段排序：先按 progress 排降序（progress 越大越靠前）、再按 description 排升序（字母序越前越靠前）取待办事项
-       * 
+       *
        * ```tsx
        * db.collection('todos')
        *   .orderBy('progress', 'desc')
@@ -1208,14 +1302,14 @@ declare namespace Taro {
       skip(offset: number): Query
 
       /** 指定返回结果中记录需返回的字段
-       * 
+       *
        * **说明**
-       * 
+       *
        * 方法接受一个必填对象用于指定需返回的字段，对象的各个 key 表示要返回或不要返回的字段，value 传入 true|false（或 1|-1）表示要返回还是不要返回。
        * 如果指定的字段是数组字段，还可以用以下方法只返回数组的第一个元素：在该字段 key 后面拼接上 `.$` 成为 `字段.$` 的形式。
        * 如果指定的字段是数组字段，还可以用 `db.command.project.slice` 方法返回数组的子数组：
        * 方法既可以接收一个正数表示返回前 n 个元素，也可以接收一个负数表示返回后 n 个元素；还可以接收一个包含两个数字 `[ skip, limit ]` 的数组，如果 `skip` 是正数，表示跳过 `skip` 个元素后再返回接下来的 `limit` 个元素，如果 `skip` 是负数，表示从倒数第 `skip` 个元素开始，返回往后数的 `limit` 个元素
-       * 
+       *
        * - 返回数组的前 5 个元素：`{ tags: db.command.project.slice(5) }`
        * - 返回数组的后 5 个元素：`{ tags: db.command.project.slice(-5) }`
        * - 跳过前 5 个元素，返回接下来 10 个元素：`{ tags: db.command.project.slice(5, 10) }`
@@ -1223,7 +1317,7 @@ declare namespace Taro {
        * @supported weapp
        * @example
        * 返回 description, done 和 progress 三个字段：
-       * 
+       *
        * ```tsx
        * db.collection('todos').field({
        *   description: true,
@@ -1241,18 +1335,18 @@ declare namespace Taro {
       field(object: General.IAnyObject): Query
 
       /** 获取集合数据，或获取根据查询条件筛选后的集合数据。
-       * 
+       *
        * **使用说明**
-       * 
+       *
        * 统计集合记录数或统计查询语句对应的结果记录数
-       * 
+       *
        * 小程序端与云函数端的表现会有如下差异：
-       * 
+       *
        * - 小程序端：如果没有指定 limit，则默认且最多取 20 条记录。
        * - 云函数端：如果没有指定 limit，则默认且最多取 100 条记录。
-       * 
+       *
        * 如果没有指定 skip，则默认从第 0 条记录开始取，skip 常用于分页。
-       * 
+       *
        * 如果需要取集合中所有的数据，仅在数据量不大且在云函数中时
        * @supported weapp
        * @example
@@ -1302,16 +1396,16 @@ declare namespace Taro {
       interface IQueryCondition {
         [key: string]: any
       }
-  
+
       type IStringQueryCondition = string
-  
+
       interface IQueryResult extends General.CallbackResult {
         /** 查询的结果数组，数据的每个元素是一个 Object，代表一条记录 */
         data: Document.IDocumentData[]
         /** 调用结果 */
         errMsg: string
       }
-  
+
       interface IQuerySingleResult extends General.CallbackResult {
         data: Document.IDocumentData
         /** 调用结果 */
@@ -1323,7 +1417,7 @@ declare namespace Taro {
         /** 调用结果 */
         errMsg: string
       }
-  
+
       interface IUpdateResult extends General.CallbackResult {
         stats: {
           updated: number
@@ -1332,7 +1426,7 @@ declare namespace Taro {
         /** 调用结果 */
         errMsg: string
       }
-  
+
       interface ISetResult extends General.CallbackResult {
         _id: Document.DocumentId
         stats: {
@@ -1342,7 +1436,7 @@ declare namespace Taro {
         /** 调用结果 */
         errMsg: string
       }
-  
+
       interface IRemoveResult extends General.CallbackResult {
         stats: {
           removed: number,
@@ -1350,7 +1444,7 @@ declare namespace Taro {
         /** 调用结果 */
         errMsg: string
       }
-  
+
       interface ICountResult extends General.CallbackResult {
         /** 结果数量 */
         total: number
@@ -1507,7 +1601,7 @@ declare namespace Taro {
           ...expressions: Array<DatabaseLogicCommand | Query.IQueryCondition>
         ): DatabaseLogicCommand
       }
-  
+
       /** 数据库查询操作符 */
       interface DatabaseQueryCommand extends DatabaseLogicCommand {
         /** 操作符 */
@@ -1515,7 +1609,7 @@ declare namespace Taro {
 
         /** 设置作用域名称 */
         _setFieldName: (fieldName: string) => DatabaseQueryCommand
-  
+
         /** 查询筛选条件，表示字段等于某个值。eq 指令接受一个字面量 (literal)，可以是 number, boolean, string, object, array, Date。
          * @supported weapp
          * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.eq.html
@@ -1584,7 +1678,7 @@ declare namespace Taro {
         operator: keyof UPDATE_COMMANDS_LITERAL
         /** 操作数 */
         operands: any[]
-  
+
         /** 设置作用域名称 */
         _setFieldName: (fieldName: string) => DatabaseUpdateCommand
       }
@@ -1649,7 +1743,7 @@ declare namespace Taro {
         /** 头部添加 */
         unshift
       }
-  
+
       /** 按从近到远的顺序，找出字段值在给定点的附近的记录参数 */
       interface NearCommandOptions {
         /** 地理位置点 (Point) */
@@ -1659,13 +1753,13 @@ declare namespace Taro {
         /** 最小距离，单位为米 */
         minDistance?: number
       }
-  
+
       /** 找出字段值在指定区域内的记录，无排序参数 */
       interface WithinCommandOptions {
         /** 地理信息结构，Polygon，MultiPolygon，或 { centerSphere } */
         geometry: IGeo.GeoPolygon | IGeo.GeoMultiPolygon
       }
-  
+
       /** 找出给定的地理位置图形相交的记录 */
       interface IntersectsCommandOptions {
         /** 地理信息结构 */
@@ -1742,7 +1836,7 @@ declare namespace Taro {
        * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.match.html
        */
       match(object: Object): Aggregate
-      
+
       /** 聚合阶段。把指定的字段传递给下一个流水线，指定的字段可以是某个已经存在的字段，也可以是计算出来的新字段。
        * @supported weapp
        * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.project.html
@@ -1791,7 +1885,7 @@ declare namespace Taro {
      */
     interface IGeo {
       /** 构造一个地理位置 ”点“。方法接受两个必填参数，第一个是经度（longitude），第二个是纬度（latitude），务必注意顺序。
-       * 
+       *
        * 如存储地理位置信息的字段有被查询的需求，务必对字段建立地理位置索引
        * @supported weapp
        * @example
@@ -1805,14 +1899,14 @@ declare namespace Taro {
        * ```
        * @example
        * 除了使用接口构造一个点外，也可以使用等价的 GeoJSON 的 点 (Point) 的 JSON 表示，其格式如下：
-       * 
+       *
        * ```json
        * {
        *   "type": "Point",
        *   "coordinates": [longitude, latitude] // 数字数组：[经度, 纬度]
        * }
        * ```
-       * 
+       *
        * ```tsx
        * db.collection('todos').add({
        *   data: {
@@ -1830,7 +1924,7 @@ declare namespace Taro {
       // Point(geojson: IGeo.JSONPoint): IGeo.GeoPoint
 
       /** 构造一个地理位置的 ”线“。一个线由两个或更多的点有序连接组成。
-       * 
+       *
        * 如存储地理位置信息的字段有被查询的需求，务必对字段建立地理位置索引
        * @supported weapp
        * @example
@@ -1848,7 +1942,7 @@ declare namespace Taro {
        * ```
        * @example
        * 除了使用接口构造一条 LineString 外，也可以使用等价的 GeoJSON 的 线 (LineString) 的 JSON 表示，其格式如下：
-       * 
+       *
        * ```json
        * {
        *   "type": "LineString",
@@ -1859,7 +1953,7 @@ declare namespace Taro {
        *   ]
        * }
        * ```
-       * 
+       *
        * ```tsx
        * db.collection('todos').add({
        *   data: {
@@ -1879,15 +1973,15 @@ declare namespace Taro {
       LineString(points: IGeo.GeoPoint[] | IGeo.JSONMultiPoint): IGeo.GeoMultiPoint
 
       /** 构造一个地理位置 ”多边形“
-       * 
+       *
        * 如存储地理位置信息的字段有被查询的需求，务必对字段建立地理位置索引
-       * 
+       *
        * **说明**
-       * 
+       *
        * 一个多边形由一个或多个线性环（Linear Ring）组成，一个线性环即一个闭合的线段。一个闭合线段至少由四个点组成，其中最后一个点和第一个点的坐标必须相同，以此表示环的起点和终点。如果一个多边形由多个线性环组成，则第一个线性环表示外环（外边界），接下来的所有线性环表示内环（即外环中的洞，不计在此多边形中的区域）。如果一个多边形只有一个线性环组成，则这个环就是外环。
-       * 
+       *
        * 多边形构造规则：
-       * 
+       *
        * 1. 第一个线性环必须是外环
        * 2. 外环不能自交
        * 3. 所有内环必须完全在外环内
@@ -1896,7 +1990,7 @@ declare namespace Taro {
        * @supported weapp
        * @example
        * 单环多边形
-       * 
+       *
        * ```tsx
        * const { Polygon, LineString, Point } = db.Geo
        * db.collection('todos').add({
@@ -1915,7 +2009,7 @@ declare namespace Taro {
        * ```
        * @example
        * 含一个外环和一个内环的多边形
-       * 
+       *
        * ```tsx
        * const { Polygon, LineString, Point } = db.Geo
        * db.collection('todos').add({
@@ -1932,7 +2026,7 @@ declare namespace Taro {
        * ```
        * @example
        * 除了使用接口构造一个 Polygon 外，也可以使用等价的 GeoJSON 的 多边形 (Polygon) 的 JSON 表示，其格式如下：
-       * 
+       *
        * ```json
        * {
        *   "type": "Polygon",
@@ -1944,7 +2038,7 @@ declare namespace Taro {
        *   ]
        * }
        * ```
-       * 
+       *
        * ```tsx
        * db.collection('todos').add({
        *   data: {
@@ -1964,7 +2058,7 @@ declare namespace Taro {
       Polygon(lineStrings: IGeo.GeoLineString[] | IGeo.JSONPolygon): IGeo.GeoPolygon
 
       /** 构造一个地理位置的 ”点“ 的集合。一个点集合由一个或更多的点组成。
-       * 
+       *
        * 如存储地理位置信息的字段有被查询的需求，务必对字段建立地理位置索引
        * @supported weapp
        * @example
@@ -1982,7 +2076,7 @@ declare namespace Taro {
        * ```
        * @example
        * 除了使用接口构造 MultiPoint 外，也可以使用等价的 GeoJSON 的 点集合 (MultiPoint) 的 JSON 表示，其格式如下：
-       * 
+       *
        * ```json
        * {
        *   "type": "MultiPoint",
@@ -1993,7 +2087,7 @@ declare namespace Taro {
        *   ]
        * }
        * ```
-       * 
+       *
        * ```tsx
        * db.collection('todos').add({
        *   data: {
@@ -2013,7 +2107,7 @@ declare namespace Taro {
       MultiPoint(polygons: IGeo.GeoPolygon[] | IGeo.JSONMultiPolygon): IGeo.GeoMultiPolygon
 
       /** 构造一个地理位置 ”线“ 集合。一个线集合由多条线组成。
-       * 
+       *
        * 如存储地理位置信息的字段有被查询的需求，务必对字段建立地理位置索引
        * @supported weapp
        * @example
@@ -2031,7 +2125,7 @@ declare namespace Taro {
        * ```
        * @example
        * 除了使用接口构造一个 MultiLineString 外，也可以使用等价的 GeoJSON 的 线集合 (MultiLineString) 的 JSON 表示，其格式如下：
-       * 
+       *
        * ```json
        * {
        *   "type": "MultiLineString",
@@ -2043,7 +2137,7 @@ declare namespace Taro {
        *   ]
        * }
        * ```
-       * 
+       *
        * ```tsx
        * db.collection('todos').add({
        *   data: {
@@ -2065,15 +2159,15 @@ declare namespace Taro {
       ): IGeo.GeoMultiLineString
 
       /** 构造一个地理位置 ”多边形“ 集合。一个多边形集合由多个多边形组成。
-       * 
+       *
        * 如存储地理位置信息的字段有被查询的需求，务必对字段建立地理位置索引
-       * 
+       *
        * **说明**
-       * 
+       *
        * 一个多边形由一个或多个线性环（Linear Ring）组成，一个线性环即一个闭合的线段。一个闭合线段至少由四个点组成，其中最后一个点和第一个点的坐标必须相同，以此表示环的起点和终点。如果一个多边形由多个线性环组成，则第一个线性环表示外环（外边界），接下来的所有线性环表示内环（即外环中的洞，不计在此多边形中的区域）。如果一个多边形只有一个线性环组成，则这个环就是外环。
-       * 
+       *
        * 多边形构造规则：
-       * 
+       *
        * 1. 第一个线性环必须是外环
        * 2. 外环不能自交
        * 3. 所有内环必须完全在外环内
@@ -2100,7 +2194,7 @@ declare namespace Taro {
        * ```
        * @example
        * 除了使用接口构造一个 MultiPolygon 外，也可以使用等价的 GeoJSON 的 多边形 (MultiPolygon) 的 JSON 表示，其格式如下：
-       * 
+       *
        * ```json
        * {
        *   "type": "MultiPolygon",
@@ -2123,7 +2217,7 @@ declare namespace Taro {
        *   ]
        * }
        * ```
-       * 
+       *
        * ```tsx
        * db.collection('todos').add({
        *   data: {
@@ -2157,33 +2251,33 @@ declare namespace Taro {
         longitude: number
         /** 纬度 */
         latitude: number
-  
+
         /** 格式化为 JSON 结构 */
         toJSON(): object
         /** 格式化为字符串 */
         toString(): string
       }
-  
+
       /** 地理位置的 ”线“。一个线由两个或更多的点有序连接组成。
        * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/GeoLineString.html
        */
       interface GeoLineString {
         /** 点集合 */
         points: GeoPoint[]
-  
+
         /** 格式化为 JSON 结构 */
         toJSON(): JSONLineString
         /** 格式化为字符串 */
         toString(): string
       }
-  
+
       /** 地理位置 ”多边形“
        * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/GeoPolygon.html
        */
       interface GeoPolygon {
         /** 线集合 */
         lines: GeoLineString[]
-  
+
         /** 格式化为 JSON 结构 */
         toJSON(): JSONPolygon
         /** 格式化为字符串 */
@@ -2196,33 +2290,33 @@ declare namespace Taro {
       interface GeoMultiPoint {
         /** 点集合 */
         points: GeoPoint[]
-  
+
         /** 格式化为 JSON 结构 */
         toJSON(): JSONMultiPoint
         /** 格式化为字符串 */
         toString(): string
       }
-  
+
       /** 地理位置 ”线“ 集合。一个线集合由多条线组成。
        * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/GeoMultiLineString.html
        */
       interface GeoMultiLineString {
         /** 线集合 */
         lines: GeoLineString[]
-  
+
         /** 格式化为 JSON 结构 */
         toJSON(): JSONMultiLineString
         /** 格式化为字符串 */
         toString(): string
       }
-  
+
       /** 地理位置 ”多边形“ 集合。一个多边形集合由多个多边形组成。
        * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/GeoMultiPolygon.html
        */
       interface GeoMultiPolygon {
         /** 多边形集合 */
         polygons: GeoPolygon[]
-  
+
         /** 格式化为 JSON 结构 */
         toJSON(): JSONMultiPolygon
         /** 格式化为字符串 */
@@ -2236,7 +2330,7 @@ declare namespace Taro {
         /** 坐标 */
         coordinates: [number, number]
       }
-  
+
       /** 地理位置 ”线“ 的 JSON 结构 */
       interface JSONLineString {
         /** 类型  */
@@ -2244,7 +2338,7 @@ declare namespace Taro {
         /** 坐标 */
         coordinates: Array<[number, number]>
       }
-  
+
       /** 地理位置 ”多边形“ 的 JSON 结构 */
       interface JSONPolygon {
         /** 类型  */
@@ -2252,7 +2346,7 @@ declare namespace Taro {
         /** 坐标 */
         coordinates: Array<Array<[number, number]>>
       }
-  
+
       /** 地理位置的 ”点“ 集合的 JSON 结构 */
       interface JSONMultiPoint {
         /** 类型  */
@@ -2260,7 +2354,7 @@ declare namespace Taro {
         /** 坐标 */
         coordinates: Array<[number, number]>
       }
-  
+
       /** 地理位置 ”线“ 集合的 JSON 结构 */
       interface JSONMultiLineString {
         /** 类型  */
@@ -2268,7 +2362,7 @@ declare namespace Taro {
         /** 坐标 */
         coordinates: Array<Array<[number, number]>>
       }
-  
+
       /** 地理位置 ”多边形“ 集合的 JSON 结构 */
       interface JSONMultiPolygon {
         /** 类型  */

@@ -7,7 +7,7 @@ import { TransformOptions } from '../types'
 // https://github.com/sass/node-sass#options
 export interface Config {
   options?: Options;
-  additionalData?: string | Function;
+  additionalData?: string | ((string) => string);
 }
 
 export interface SassExternalConfig {

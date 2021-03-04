@@ -1,5 +1,5 @@
 import { IPluginContext } from '@tarojs/service'
-
+import * as hooks from '../constant'
 import configValidator from '../../doctor/configValidator'
 
 export default (ctx: IPluginContext) => {
@@ -9,22 +9,20 @@ export default (ctx: IPluginContext) => {
     optionsMap: {
       '--type [typeName]': 'Build type, weapp/swan/alipay/tt/h5/quickapp/rn/qq/jd',
       '--watch': 'Watch mode',
-      '--page [pagePath]': 'Build one page',
-      '--component [pagePath]': 'Build one component',
       '--env [env]': 'Env type',
-      '--ui': 'Build Taro UI library',
-      '--ui-index [uiIndexPath]': 'Index file for build Taro UI library',
-      '--plugin [typeName]': 'Build Taro plugin project, weapp',
       '-p, --port [port]': 'Specified port',
-      '--release': 'Release quickapp',
       '--platform': 'Specific React-Native build target: android / ios, android is default value',
-      '--reset-cache': 'Clear transform cache just for React-Native'
+      '--reset-cache': 'Clear transform cache just for React-Native',
+      '--port [port]': 'Specified port',
+      '--blended': 'Blended Taro project in an original MiniApp project'
+      // '--plugin [typeName]': 'Build Taro plugin project, weapp',
+      // '--release': 'Release quickapp'
     },
     async fn (opts) {
       const { platform, config } = opts
       const { fs, chalk, PROJECT_CONFIG } = ctx.helper
       const { outputPath, configPath } = ctx.paths
-      const { isWatch, envHasBeenSet } = ctx.runOpts
+      const { isWatch, envHasBeenSet, blended } = ctx.runOpts
       if (!configPath || !fs.existsSync(configPath)) {
         console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是 Taro 项目根目录!`))
         process.exit(1)
@@ -59,7 +57,7 @@ export default (ctx: IPluginContext) => {
         isProduction = process.env.NODE_ENV === 'production' || !isWatch
       }
 
-      await ctx.applyPlugins('onBuildStart')
+      await ctx.applyPlugins(hooks.ON_BUILD_START)
       await ctx.applyPlugins({
         name: platform,
         opts: {
@@ -67,9 +65,10 @@ export default (ctx: IPluginContext) => {
             ...config,
             isWatch,
             mode: isProduction ? 'production' : 'development',
+            blended,
             async modifyWebpackChain (chain, webpack) {
               await ctx.applyPlugins({
-                name: 'modifyWebpackChain',
+                name: hooks.MODIFY_WEBPACK_CHAIN,
                 initialVal: chain,
                 opts: {
                   chain,
@@ -77,27 +76,36 @@ export default (ctx: IPluginContext) => {
                 }
               })
             },
-            async modifyBuildAssets (assets) {
+            async modifyBuildAssets (assets, miniPlugin) {
               await ctx.applyPlugins({
-                name: 'modifyBuildAssets',
+                name: hooks.MODIFY_BUILD_ASSETS,
                 initialVal: assets,
                 opts: {
-                  assets
+                  assets,
+                  miniPlugin
                 }
               })
             },
             async modifyMiniConfigs (configMap) {
               await ctx.applyPlugins({
-                name: 'modifyMiniConfigs',
+                name: hooks.MODIFY_MINI_CONFIGS,
                 initialVal: configMap,
                 opts: {
                   configMap
                 }
               })
             },
+            async onCompilerMake (compilation) {
+              await ctx.applyPlugins({
+                name: hooks.ON_COMPILER_MAKE,
+                opts: {
+                  compilation
+                }
+              })
+            },
             async onBuildFinish ({ error, stats, isWatch }) {
               await ctx.applyPlugins({
-                name: 'onBuildFinish',
+                name: hooks.ON_BUILD_FINISH,
                 opts: {
                   error,
                   stats,
@@ -114,11 +122,12 @@ export default (ctx: IPluginContext) => {
 
 function registerBuildHooks (ctx) {
   [
-    'modifyWebpackChain',
-    'modifyBuildAssets',
-    'modifyMiniConfigs',
-    'onBuildStart',
-    'onBuildFinish'
+    hooks.MODIFY_WEBPACK_CHAIN,
+    hooks.MODIFY_BUILD_ASSETS,
+    hooks.MODIFY_MINI_CONFIGS,
+    hooks.ON_COMPILER_MAKE,
+    hooks.ON_BUILD_START,
+    hooks.ON_BUILD_FINISH
   ].forEach(methodName => {
     ctx.registerMethod(methodName)
   })

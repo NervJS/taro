@@ -3,9 +3,9 @@ import { history } from './history'
 import { routesAlias, addLeadingSlash } from './utils'
 
 interface Base {
-  success?: Function
-  fail?: Function
-  complete?: Function
+  success?: (...args: any[]) => void
+  fail?: (...args: any[]) => void
+  complete?: (...args: any[]) => void
 }
 
 interface Option extends Base {
@@ -48,7 +48,7 @@ function navigate (option: Option | NavigateBackOption, method: 'navigateTo' | '
   } catch (error) {
     failReason = error
   }
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     if (failReason) {
       fail && fail(failReason)
       complete && complete()

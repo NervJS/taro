@@ -48,7 +48,7 @@ export default class Kernel extends EventEmitter {
   config: Config
   initialConfig: IProjectConfig
   hooks: Map<string, IHook[]>
-  methods: Map<string, Function>
+  methods: Map<string, (...args: any[]) => void>
   commands: Map<string, ICommand>
   platforms: Map<string, IPlatform>
   helper: any
@@ -302,6 +302,10 @@ export default class Kernel extends EventEmitter {
     }
     if (opts && opts.platform) {
       opts.config = this.runWithPlatform(opts.platform)
+      if (!opts.config.framework) {
+        console.log(helper.chalk.red('请在项目配置中设置 framework 字段：https://taro-docs.jd.com/taro/docs/config'))
+        return
+      }
     }
     await this.applyPlugins({
       name,

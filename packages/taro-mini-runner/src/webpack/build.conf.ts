@@ -38,6 +38,9 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     globalObject = 'wx',
     outputRoot = 'dist',
     sourceRoot = 'src',
+    isBuildPlugin = false,
+    runtimePath,
+    taroComponentsPath,
 
     designWidth = 750,
     deviceRatio,
@@ -71,8 +74,11 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     commonChunks,
     addChunkPages,
 
+    blended,
+
     modifyMiniConfigs,
-    modifyBuildAssets
+    modifyBuildAssets,
+    onCompilerMake
   } = config
 
   let { copy } = config
@@ -82,7 +88,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const sourceDir = path.join(appPath, sourceRoot)
   const outputDir = path.join(appPath, outputRoot)
   const taroBaseReg = /@tarojs[\\/][a-z]+/
-  if (config.isBuildPlugin) {
+  if (isBuildPlugin) {
     const patterns = copy ? copy.patterns : []
     patterns.push({
       from: path.join(sourceRoot, 'plugin', 'doc'),
@@ -97,15 +103,16 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   if (copy) {
     plugin.copyWebpackPlugin = getCopyWebpackPlugin({ copy, appPath })
   }
-  alias[taroJsComponents + '$'] = `${taroJsComponents}/mini`
+  alias[taroJsComponents + '$'] = taroComponentsPath || `${taroJsComponents}/mini`
   if (framework === 'react') {
-    alias['react-dom'] = '@tarojs/react'
+    alias['react-dom$'] = '@tarojs/react'
     if (process.env.NODE_ENV !== 'production' && !debugReact) {
-      alias['react-reconciler'] = 'react-reconciler/cjs/react-reconciler.production.min.js'
+      alias['react-reconciler$'] = 'react-reconciler/cjs/react-reconciler.production.min.js'
       // eslint-disable-next-line dot-notation
-      alias['react'] = 'react/cjs/react.production.min.js'
+      alias['react$'] = 'react/cjs/react.production.min.js'
       // eslint-disable-next-line dot-notation
-      alias['scheduler'] = 'scheduler/cjs/scheduler.production.min.js'
+      alias['scheduler$'] = 'scheduler/cjs/scheduler.production.min.js'
+      alias['react/jsx-runtime$'] = 'react/cjs/react-jsx-runtime.production.min.js'
     }
   }
   if (framework === 'nerv') {
@@ -119,9 +126,9 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const entryRes = getEntry({
     sourceDir,
     entry,
-    isBuildPlugin: config.isBuildPlugin
+    isBuildPlugin
   })
-  const defaultCommonChunks = config.isBuildPlugin
+  const defaultCommonChunks = isBuildPlugin
     ? ['plugin/runtime', 'plugin/vendors', 'plugin/taro', 'plugin/common']
     : ['runtime', 'vendors', 'taro', 'common']
   let customCommonChunks = defaultCommonChunks
@@ -142,7 +149,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     quickappJSON,
     designWidth,
     pluginConfig: entryRes!.pluginConfig,
-    isBuildPlugin: !!config.isBuildPlugin,
+    isBuildPlugin: Boolean(isBuildPlugin),
     commonChunks: customCommonChunks,
     baseLevel,
     framework,
@@ -150,7 +157,11 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     addChunkPages,
     modifyMiniConfigs,
     modifyBuildAssets,
-    minifyXML
+    onCompilerMake,
+    minifyXML,
+    runtimePath,
+    blended,
+    alias
   })
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
@@ -163,7 +174,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     document: ['@tarojs/runtime', 'document'],
     navigator: ['@tarojs/runtime', 'navigator'],
     requestAnimationFrame: ['@tarojs/runtime', 'requestAnimationFrame'],
-    cancelAnimationFrame: ['@tarojs/runtime', 'cancelAnimationFrame']
+    cancelAnimationFrame: ['@tarojs/runtime', 'cancelAnimationFrame'],
+    Element: ['@tarojs/runtime', 'TaroElement']
   })
 
   const isCssoEnabled = !((csso && csso.enable === false))
@@ -224,7 +236,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       usedExports: true,
       minimizer,
       runtimeChunk: {
-        name: config.isBuildPlugin ? 'plugin/runtime' : 'runtime'
+        name: isBuildPlugin ? 'plugin/runtime' : 'runtime'
       },
       splitChunks: {
         chunks: 'all',
@@ -232,12 +244,12 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
         minSize: 0,
         cacheGroups: {
           common: {
-            name: config.isBuildPlugin ? 'plugin/common' : 'common',
+            name: isBuildPlugin ? 'plugin/common' : 'common',
             minChunks: 2,
             priority: 1
           },
           vendors: {
-            name: config.isBuildPlugin ? 'plugin/vendors' : 'vendors',
+            name: isBuildPlugin ? 'plugin/vendors' : 'vendors',
             minChunks: 2,
             test: module => {
               return /[\\/]node_modules[\\/]/.test(module.resource)
@@ -245,7 +257,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
             priority: 10
           },
           taro: {
-            name: config.isBuildPlugin ? 'plugin/taro' : 'taro',
+            name: isBuildPlugin ? 'plugin/taro' : 'taro',
             test: module => {
               return taroBaseReg.test(module.context)
             },

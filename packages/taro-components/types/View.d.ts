@@ -32,6 +32,9 @@ interface ViewProps extends StandardProps {
    * @supported weapp, swan, alipay, tt, h5, rn
    */
   hoverStayTime?: number
+
+  /** 是否以 catch 的形式绑定 touchmove 事件 */
+  catchMove?: boolean
 }
 
 /** 视图容器
@@ -43,7 +46,7 @@ interface ViewProps extends StandardProps {
  *   constructor() {
  *     super(...arguments)
  *   }
- * 
+ *
  *   render() {
  *     return (
  *       <View className='components-page'>

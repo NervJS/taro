@@ -36,7 +36,13 @@
     "packages/taro-with-weapp",
     "packages/taroize",
     "packages/stylelint-taro-rn",
-    "packages/stylelint-config-taro-rn"
+    "packages/stylelint-config-taro-rn",
+    "packages/taro-weapp",
+    "packages/taro-alipay",
+    "packages/taro-swan",
+    "packages/taro-tt",
+    "packages/taro-qq",
+    "packages/taro-jd"
   ],
   "command": {
     "publish": {
@@ -47,6 +53,6 @@
       "license": "MIT"
     }
   },
-  "version": "3.2.0-beta.0",
+  "version": "3.1.1",
   "npmClient": "yarn"
 }

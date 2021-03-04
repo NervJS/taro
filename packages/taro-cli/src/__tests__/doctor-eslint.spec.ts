@@ -2,6 +2,15 @@ import * as path from 'path'
 import validator from '../doctor/eslintValidator'
 
 describe('eslint validator of doctor', () => {
+  let cwd = ''
+  beforeEach(() => {
+    cwd = process.cwd()
+  })
+
+  afterEach(() => {
+    process.chdir(cwd)
+  })
+
   it('should lint for react', () => {
     process.chdir(path.join(__dirname, 'fixtures/default'))
     const { raw } = validator({

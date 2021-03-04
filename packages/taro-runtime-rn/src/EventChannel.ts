@@ -3,7 +3,7 @@ import { Events } from './emmiter'
 
 interface ExeListItem {
   eventName: string,
-  data: object
+  data: Record<string, any>
 }
 
 interface RouteEvt extends Events {

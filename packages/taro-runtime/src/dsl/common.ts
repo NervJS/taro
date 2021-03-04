@@ -15,6 +15,7 @@ import { raf } from '../bom/raf'
 import { CurrentReconciler } from '../reconciler'
 
 import type { PageConfig } from '@tarojs/taro'
+import type { Func } from '../utils/types'
 
 const instances = new Map<string, Instance>()
 
@@ -92,8 +93,11 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   // 小程序 Page 构造器是一个傲娇小公主，不能把复杂的对象挂载到参数上
   let pageElement: TaroRootElement | null = null
 
+  let unmounting = false
+  let prepareMountList: (() => void)[] = []
+
   const config: PageInstance = {
-    onLoad (this: MpInstance, options, cb?: Function) {
+    onLoad (this: MpInstance, options, cb?: Func) {
       perf.start(PAGE_INIT)
 
       Current.page = this as any
@@ -103,25 +107,32 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       }
 
       const path = getPath(id, options)
-
+      const router = isBrowser ? path : this.route || this.__route__
       Current.router = {
         params: options,
-        path: addLeadingSlash(this.route || this.__route__),
+        path: addLeadingSlash(router),
         onReady: getOnReadyEventKey(id),
         onShow: getOnShowEventKey(id),
         onHide: getOnHideEventKey(id)
       }
 
-      Current.app!.mount!(component, path, () => {
-        pageElement = document.getElementById<TaroRootElement>(path)
+      const mount = () => {
+        Current.app!.mount!(component, path, () => {
+          pageElement = document.getElementById<TaroRootElement>(path)
 
-        ensure(pageElement !== null, '没有找到页面实例。')
-        safeExecute(path, 'onLoad', options)
-        if (!isBrowser) {
-          pageElement.ctx = this
-          pageElement.performUpdate(true, cb)
-        }
-      })
+          ensure(pageElement !== null, '没有找到页面实例。')
+          safeExecute(path, 'onLoad', options)
+          if (!isBrowser) {
+            pageElement.ctx = this
+            pageElement.performUpdate(true, cb)
+          }
+        })
+      }
+      if (unmounting) {
+        prepareMountList.push(mount)
+      } else {
+        mount()
+      }
     },
     onReady () {
       const path = getPath(id, this.options)
@@ -131,13 +142,20 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       })
 
       safeExecute(path, 'onReady')
+      this.onReady.called = true
     },
     onUnload () {
       const path = getPath(id, this.options)
+      unmounting = true
       Current.app!.unmount!(path, () => {
+        unmounting = false
         instances.delete(path)
         if (pageElement) {
           pageElement.ctx = null
+        }
+        if (prepareMountList.length) {
+          prepareMountList.forEach(fn => fn())
+          prepareMountList = []
         }
       })
     },
@@ -145,10 +163,10 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       Current.page = this as any
       this.config = pageConfig || {}
       const path = getPath(id, this.options)
-
+      const router = isBrowser ? path : this.route || this.__route__
       Current.router = {
         params: this.options,
-        path: addLeadingSlash(this.route || this.__route__),
+        path: addLeadingSlash(router),
         onReady: getOnReadyEventKey(id),
         onShow: getOnShowEventKey(id),
         onHide: getOnHideEventKey(id)
@@ -164,12 +182,8 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       Current.page = null
       Current.router = null
       const path = getPath(id, this.options)
-
-      raf(() => {
-        eventCenter.trigger(getOnHideEventKey(id))
-      })
-
       safeExecute(path, 'onHide')
+      eventCenter.trigger(getOnHideEventKey(id))
     },
     onPullDownRefresh () {
       const path = getPath(id, this.options)
@@ -301,7 +315,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
   return config
 }
 
-export function createRecursiveComponentConfig () {
+export function createRecursiveComponentConfig (componentName?: string) {
   return {
     properties: {
       i: {
@@ -324,7 +338,8 @@ export function createRecursiveComponentConfig () {
       }
     },
     options: {
-      addGlobalClass: true
+      addGlobalClass: true,
+      virtualHost: componentName !== 'custom-wrapper'
     },
     methods: {
       eh: eventHandler

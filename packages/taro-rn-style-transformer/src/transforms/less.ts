@@ -57,7 +57,7 @@ export interface Options {
 
 export interface Config {
   options: Options,
-  additionalData?: string | Function;
+  additionalData?: string | ((string) => string);
 }
 
 function renderToCSS (src, filename, options = {} as any) {
