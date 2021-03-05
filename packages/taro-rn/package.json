@@ -35,6 +35,7 @@
     "@react-native-async-storage/async-storage": "^1.13.2",
     "@react-native-community/cameraroll": "^4.0.1",
     "@react-native-community/clipboard": "^1.5.1",
+    "@react-native-community/geolocation": "^2.0.2",
     "@react-native-community/netinfo": "^5.9.7",
     "@tarojs/runtime-rn": "3.2.0-beta.0",
     "babel-preset-expo": "^5.2.0",
