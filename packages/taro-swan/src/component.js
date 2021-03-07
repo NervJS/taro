@@ -43,7 +43,7 @@ class BaseComponent {
 
   constructor (props = {}, isPage) {
     this.state = {}
-    this.props = {}
+    this.props = props
     this.$componentType = isPage ? 'PAGE' : 'COMPONENT'
     this.$prefix = genCompPrefix()
     this.isTaroComponent = this.$componentType && this.$router && this._pendingStates
