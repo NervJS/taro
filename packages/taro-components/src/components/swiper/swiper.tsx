@@ -8,7 +8,6 @@ let INSTANCE_ID = 0
 @Component({
   tag: 'taro-swiper-core',
   styleUrls: [
-    '../../../node_modules/swiper/dist/css/swiper.min.css',
     './style/index.scss'
   ]
 })
@@ -18,6 +17,7 @@ export class Swiper implements ComponentInterface {
   @Element() el: HTMLElement
   @State() swiperWrapper: HTMLElement | null
   @State() private swiper: SwiperJS
+  @State() isWillLoadCalled = false
   /**
    * 是否显示面板指示点
    */
@@ -93,6 +93,8 @@ export class Swiper implements ComponentInterface {
 
   @Watch('current')
   watchCurrent (newVal) {
+    if (!this.isWillLoadCalled) return
+
     const n = parseInt(newVal, 10)
     if (isNaN(n)) return
 
@@ -107,6 +109,8 @@ export class Swiper implements ComponentInterface {
 
   @Watch('autoplay')
   watchAutoplay (newVal) {
+    if (!this.isWillLoadCalled) return
+
     if (this.swiper.autoplay.running === newVal) return
 
     if (newVal) {
@@ -122,16 +126,20 @@ export class Swiper implements ComponentInterface {
 
   @Watch('duration')
   watchDuration (newVal) {
+    if (!this.isWillLoadCalled) return
     this.swiper.params.speed = newVal
   }
 
   @Watch('interval')
   watchInterval (newVal) {
+    if (!this.isWillLoadCalled) return
+
     this.swiper.params.autoplay.delay = newVal
   }
 
   @Watch('swiperWrapper')
   watchSwiperWrapper (newVal?: HTMLElement) {
+    if (!this.isWillLoadCalled) return
     if (!newVal) return
     this.el.appendChild = <T extends Node>(newChild: T): T => {
       return newVal.appendChild(newChild)
@@ -145,6 +153,10 @@ export class Swiper implements ComponentInterface {
     this.el.removeChild = <T extends Node>(oldChild: T): T => {
       return newVal.removeChild(oldChild)
     }
+  }
+
+  componentWillLoad () {
+    this.isWillLoadCalled = true
   }
 
   componentDidLoad () {
