@@ -290,6 +290,7 @@ const otherApis = {
   checkIsSupportSoterAuthentication: true,
   startSoterAuthentication: true,
   checkIsSoterEnrolledInDevice: true,
+  getUserProfile: true,
 
   // 订阅消息
   requestSubscribeMessage: true,
