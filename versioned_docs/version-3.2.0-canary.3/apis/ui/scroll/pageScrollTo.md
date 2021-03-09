@@ -65,7 +65,7 @@ selector类似于 CSS 的选择器，但仅支持下列语法。
       <td>selector</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>选择器, css selector</td>
+      <td>选择器, css selector (rn 不支持该属性)</td>
     </tr>
     <tr>
       <td>success</td>
@@ -89,4 +89,4 @@ Taro.pageScrollTo({
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| Taro.pageScrollTo | ✔️ | ✔️ |  |
+| Taro.pageScrollTo | ✔️ | ✔️ | ✔️ |

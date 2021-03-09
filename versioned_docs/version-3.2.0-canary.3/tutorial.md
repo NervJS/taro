@@ -107,13 +107,13 @@ export default {
 | navigationBarBackgroundColor | ✔️ | ✔️|✔️|✔️|✔️|✔️|
 | navigationBarTextStyle | ✔️ | ✔️|✔️|  ✘ |✔️|✔️|
 | navigationBarTitleText | ✔️ | ✔️|✔️| ✔️ |✔️|✔️|
-| navigationStyle | ✔️（微信客户端 6.6.0） | ✔️（百度 App 版本 11.1.0）|✔️|  ✘ | ✘| ✘|
-| backgroundColor | ✔️ | ✔️|✔️| ✘ |✘|✘|
+| navigationStyle | ✔️（微信客户端 6.6.0） | ✔️（百度 App 版本 11.1.0）|✔️|  ✘ | ✘| ✔️ |
+| backgroundColor | ✔️ | ✔️|✔️| ✘ |✘|✔️|
 | backgroundTextStyle | ✔️ | ✔️|✔️| ✘ |✘|✘|
 | backgroundColorTop |✔️（微信客户端 6.5.16） | ✘|✔️| ✘ |✘|✘|
 | backgroundColorBottom | ✔️（微信客户端 6.5.16） | ✘|✔️| ✘ |✘|✘|
-| enablePullDownRefresh | ✔️ | ✔️|✔️| ✔️ |✘|✘|
-| onReachBottomDistance | ✔️ | ✔️|✔️| ✘ |✘|✘|
+| enablePullDownRefresh | ✔️ | ✔️|✔️| ✔️ |✘|✔️|
+| onReachBottomDistance | ✔️ | ✔️|✔️| ✘ |✘|✔️|
 |pageOrientation | ✔️2.4.0 (auto) / 2.5.0 (landscape) | ✘|✘| ✘ |✘|✘|
 
 > 微信小程序中，关于navigationStyle
@@ -165,7 +165,8 @@ export default {
 | borderStyle | ✔️ | ✔️|✔️|  ✘ | ✔️| ✔️|
 | list | ✔️ | ✔️|✔️| ✔️ |✔️|✔️|
 | position | ✔️ | ✘|✔️| ✘ |✘|✘|
-| custom |✔️（基础库 2.5.0 以上） | ✘|✘| ✘ |✘|✘|
+| custom |✔️（基础库 2.5.0 以上） | ✘|✘| ✘ |✘|✔️|
+
 
 其中 list 接受一个数组，只能配置最少 2 个、最多 5 个 tab。tab 按数组的顺序排序，每个项都是一个对象，其属性值如下：
 
@@ -175,6 +176,8 @@ export default {
 | text | String | 是 |  tab 上按钮文字 |
 | iconPath | String | 否 |  图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px，不支持网络图片。<br/>当 position 为 top 时，不显示 icon。 |
 | selectedIconPath | String | 否 |  选中时的图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px，不支持网络图片。<br/>当 position 为 top 时，不显示 icon。 |
+
+> - 在React Native端，tabbar的 iconPath,selectedIconPath 不支持本地图片，支持网络图片或者 base64
 
 #### networkTimeout
 
@@ -297,6 +300,7 @@ export default {
 
 ![image](https://img10.360buyimg.com/ling/jfs/t1/132830/23/12399/20429/5f893793Ebafa6939/b5f6a390ac9bfd79.jpg)
 
+
 ### Taro.getApp(Object)
 
 可以用来获取到程序 App 实例，在各个端均有实现
@@ -359,8 +363,8 @@ export default  {
 | backgroundTextStyle | ✔️ | ✔️|✔️| ✘ |✘|✔️|
 | backgroundColorTop |✔️（微信客户端 6.5.16） | ✘|✔️| ✘ |✘|✘|
 | backgroundColorBottom | ✔️（微信客户端 6.5.16） | ✘|✔️| ✘ |✘|✘|
-| enablePullDownRefresh | ✔️ | ✔️|✔️| ✔️ |✘|✘|
-| onReachBottomDistance | ✔️ | ✔️|✔️| ✘ |✘|✘|
+| enablePullDownRefresh | ✔️ | ✔️|✔️| ✔️ |✘|✔️|
+| onReachBottomDistance | ✔️ | ✔️|✔️| ✘ |✘|✔️|
 |pageOrientation | ✔️2.4.0 (auto) / 2.5.0 (landscape) | ✘|✘| ✘ |✘|✘|
 | disableScroll | ✔️ | ✘|✘| ✘ |✘|✔️|
 | disableSwipeBack | ✔️ | ✘|✘| ✘ |✘|✘|

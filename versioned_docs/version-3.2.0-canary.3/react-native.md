@@ -843,6 +843,8 @@ rm -fr $TMPDIR/react-*
 
 可能的原因很多，可以参考这个 issue：[react-community/create-react-native-app#392](https://github.com/react-community/create-react-native-app/issues/392)
 
+
+
 ## 参考
 
 - [React Native 中文网](https://reactnative.cn/)
