@@ -338,9 +338,8 @@ export class Scaner {
     const { html, position } = this
     const safeTagName = tagName.toLowerCase()
     const len = html.length
-    let index = position.index
-    while (index < len) {
-      const nextTag = html.indexOf('</', index)
+    while (position.index < len) {
+      const nextTag = html.indexOf('</', position.index)
       if (nextTag === -1) {
         this.scanText()
         break
