@@ -1,9 +1,12 @@
 name: publish
 on:
+  push:
+    branches:
+      - 3.0
   # When Release Pull Request is merged
   pull_request:
     branches:
-      - next
+      - 3.0
     types: [closed]
 
 env:
@@ -99,7 +102,7 @@ jobs:
       - name: Publish
         if: steps.tag_check.outputs.exists_tag == 'false' && startsWith( env.commitmsg , 'chore(release):' )
         run: |
-          yarn lerna publish from-package  --yes
+          yarn lerna publish from-package --dist-tag 3.0 --yes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
