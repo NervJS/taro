@@ -115,7 +115,8 @@ export class Style {
   }
 
   public setProperty (propertyName: string, value?: string | null) {
-    if (isCssVariable(propertyName)) {
+    if (propertyName[0] === '-') {
+      // 支持 webkit 属性或 css 变量
       this.setCssVariables(propertyName)
     } else {
       propertyName = toCamelCase(propertyName)
