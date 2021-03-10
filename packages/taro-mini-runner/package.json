@@ -68,7 +68,7 @@
     "micromatch": "^4.0.2",
     "mini-css-extract-plugin": "0.8.0",
     "miniprogram-simulate": "^1.1.5",
-    "node-sass": "^4.12.0",
+    "node-sass": "^5.0.0",
     "ora": "^3.4.0",
     "postcss-import": "12.0.1",
     "postcss-loader": "^3.0.0",
