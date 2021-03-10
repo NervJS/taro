@@ -30,14 +30,20 @@ export class PageProvider extends React.Component<any> {
       const winRnOptions = config.rn || {} // 全局的rn config
       // 多个config的优先级问题，页面rnConfig> 页面config > app.config中rnConfig > app.config.window
       const winScreenOptions = this.isTabBarPage() ? {} : (winRnOptions?.screenOptions || {})
-      const { title = '', headerTintColor = '', headerStyle = {}, headerShown = false } = winScreenOptions
+      const { title = '', headerTintColor = '', headerStyle = {}, headerShown = true } = winScreenOptions
 
       const winRnTitle = this.isTabBarPage() ? winRnOptions?.options?.title || '' : title
 
       const headerTitle = pageConfig.navigationBarTitleText || winRnTitle || winOptions?.navigationBarTitleText || ''
       const color = pageConfig.navigationBarTextStyle || headerTintColor || winOptions?.navigationBarTextStyle || 'black'
       const bgColor = pageConfig.navigationBarBackgroundColor || headerStyle?.backgroundColor || winOptions?.navigationBarBackgroundColor || '#ffffff'
-      const customHeader = pageConfig?.navigationStyle !== 'custom' || headerShown || winOptions?.navigationStyle !== 'custom'
+      let showHeader = headerShown
+      if(pageConfig.navigationStyle){
+        showHeader = pageConfig.navigationStyle !== 'custom'
+      }
+      if(winOptions.navigationStyle){
+        showHeader = winOptions.navigationStyle !== 'custom'
+      }
 
       const rnConfig = pageConfig?.rn || {}
       const screenOptions = rnConfig.screenOptions || {}
@@ -53,7 +59,7 @@ export class PageProvider extends React.Component<any> {
       }, screenHeaderStyle)
       const navBarParams = Object.assign(winScreenOptions, {
         title: headerTitle,
-        headerShown: customHeader,
+        headerShown: showHeader,
         headerTintColor: color
       }, screenOptions)
       // 页面的config
