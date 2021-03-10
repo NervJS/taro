@@ -27,6 +27,7 @@ class Input extends Nerv.Component {
   constructor () {
     super(...arguments)
     this.onInput = this.onInput.bind(this)
+    this.onPaste = this.onPaste.bind(this)
     this.onFocus = this.onFocus.bind(this)
     this.onBlur = this.onBlur.bind(this)
     this.onKeyDown = this.onKeyDown.bind(this)
@@ -88,6 +89,18 @@ class Input extends Nerv.Component {
       if (onChange) return onChange(e)
       if (onInput) return onInput(e)
     }
+  }
+
+  onPaste(e) {
+    const { onPaste } = this.props
+    this.onInputExcuted = false
+    Object.defineProperty(e, 'detail', {
+      enumerable: true,
+      value: {
+        value: e.target.value
+      }
+    })
+    onPaste && onPaste(e)
   }
 
   onFocus (e) {
@@ -181,6 +194,7 @@ class Input extends Nerv.Component {
         disabled={disabled}
         maxlength={maxLength}
         onInput={this.onInput}
+        onPaste={this.onPaste}
         onFocus={this.onFocus}
         onBlur={this.onBlur}
         autofocus={focus}
