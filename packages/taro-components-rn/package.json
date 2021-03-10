@@ -54,6 +54,7 @@
     "@types/sinon": "^9.0.8",
     "cpy-cli": "^3.1.1",
     "jest-expo": "^39.0.0",
+    "metro-react-native-babel-preset": "^0.65.2",
     "pre-commit": "^1.2.2",
     "react-native": "^0.63.3",
     "react-native-mock-render": "^0.1.9",

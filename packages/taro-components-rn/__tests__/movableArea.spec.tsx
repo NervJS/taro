@@ -12,7 +12,7 @@ describe('MovableArea', () => {
       onDragEnd={jest.fn}
       onMove={jest.fn}
     >content</MovableArea>)
-    const view = wrapper.find('View').at(0)
+    const view = wrapper.at(0)
     expect(view.props().style).toEqual([{ height: 100, overflow: 'hidden', width: 100 }, undefined])
   })
 
@@ -24,7 +24,7 @@ describe('MovableArea', () => {
       onDragEnd={jest.fn}
       onMove={jest.fn}
     >content</MovableArea>)
-    const view = wrapper.find('View').at(0)
+    const view = wrapper.at(0)
     const event = {
       nativeEvent: {
         layout: {
