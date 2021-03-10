@@ -18,7 +18,7 @@ export function isText (node: TaroNode): node is TaroText {
 
 export function isHasExtractProp (el: TaroElement): boolean {
   const res = Object.keys(el.props).find(prop => {
-    return !(/class|style|id/.test(prop) || prop.startsWith('data-'))
+    return !(/^(class|style|id)$/.test(prop) || prop.startsWith('data-'))
   })
   return Boolean(res)
 }
