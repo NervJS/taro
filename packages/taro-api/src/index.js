@@ -63,7 +63,7 @@ const Taro = {
 }
 
 Taro.initPxTransform = getInitPxTransform(Taro)
-Taro.getPreload = getPreload(Taro)
+Taro.preload = getPreload(Taro)
 Taro.pxTransform = getPxTransform(Taro)
 
 export default Taro
