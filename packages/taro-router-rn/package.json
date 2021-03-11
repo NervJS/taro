@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router-rn",
-  "version": "3.2.0-beta.0",
+  "version": "3.1.1",
   "description": "Taro-router-rn",
   "main": "dist/index.js",
   "typings": "src/index.ts",
@@ -45,6 +45,6 @@
     "react-native-screens": "^2.11.0"
   },
   "resolutions": {
-    "@types/react": "16.9.56"
+    "@types/react": "16.9.49"
   }
 }

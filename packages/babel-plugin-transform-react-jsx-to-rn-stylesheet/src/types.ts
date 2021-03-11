@@ -11,16 +11,16 @@ type BabelTransformationFile = {
     root: string
     plugins: unknown[]
     presets: unknown[]
-    parserOpts: object
-    generatorOpts: object
+    parserOpts: Record<string, any>
+    generatorOpts: Record<string, any>
   }
-  declarations: object
+  declarations: Record<string, any>
   path: NodePath | null
-  ast: object
+  ast: Record<string, any>
   scope: unknown
-  metadata: object
+  metadata: Record<string, any>
   code: string
-  inputMap: object | null
+  inputMap: Record<string, any> | null
 }
 
 export type Opts = {

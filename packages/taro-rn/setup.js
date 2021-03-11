@@ -1,6 +1,6 @@
 import 'jest-enzyme'
 import { configure } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import mockRNCNetInfo from '@react-native-community/netinfo/jest/netinfo-mock.js'
 import mockRNCAsyncStorage from '@react-native-async-storage/async-storage/jest/async-storage-mock.js'
 

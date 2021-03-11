@@ -102,7 +102,8 @@ declare namespace Taro {
     page: PageInstance | null,
     onReady: string,
     onHide: string,
-    onShow: string
+    onShow: string,
+    preloadData?: Record<any, any>
   }
 
   const Current: Current

@@ -3,25 +3,50 @@ import { history, navigateBack, navigateTo, createRouter, reLaunch, redirectTo, 
 import { permanentlyNotSupport } from '../api/utils'
 
 const {
+  Behavior,
+  getEnv,
   ENV_TYPE,
+  Link,
+  interceptors,
+  initPxTransform,
+  Current,
+  getCurrentInstance,
+  options,
+  nextTick,
   eventCenter,
   Events,
-  getEnv,
-  initPxTransform: originalInitPxTransform,
-  render,
-  interceptors,
-  Current,
-  ...rest
+  getPreload,
+  useDidShow,
+  useDidHide,
+  usePullDownRefresh,
+  useReachBottom,
+  usePageScroll,
+  useResize,
+  useShareAppMessage,
+  useTabItemTap,
+  useTitleClick,
+  useOptionMenuClick,
+  usePullIntercept,
+  useShareTimeline,
+  useAddToFavorites,
+  useReady,
+  useRouter
 } = Taro
 
 const taro = {
-  ...rest,
+  Behavior,
   getEnv,
   ENV_TYPE,
-  Events,
-  eventCenter,
+  Link,
+  interceptors,
+  initPxTransform,
   Current,
-  render,
+  getCurrentInstance,
+  options,
+  nextTick,
+  eventCenter,
+  Events,
+  getPreload,
   history,
   navigateBack,
   navigateTo,
@@ -29,10 +54,24 @@ const taro = {
   reLaunch,
   redirectTo,
   getCurrentPages,
-  switchTab
+  switchTab,
+  useDidShow,
+  useDidHide,
+  usePullDownRefresh,
+  useReachBottom,
+  usePageScroll,
+  useResize,
+  useShareAppMessage,
+  useTabItemTap,
+  useTitleClick,
+  useOptionMenuClick,
+  usePullIntercept,
+  useShareTimeline,
+  useAddToFavorites,
+  useReady,
+  useRouter
 }
 
-const initPxTransform = originalInitPxTransform.bind(taro)
 const requirePlugin = permanentlyNotSupport('requirePlugin')
 const getApp = function () {
   return taro._$app
@@ -60,27 +99,31 @@ const canIUseWebp = function () {
   return canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0
 }
 
-taro.initPxTransform = initPxTransform
 taro.requirePlugin = requirePlugin
 taro.getApp = getApp
 taro.pxTransform = pxTransform
 taro.canIUseWebp = canIUseWebp
-taro.interceptors = interceptors
 
 export default taro
 
 export {
+  Behavior,
   getEnv,
   ENV_TYPE,
-  Events,
-  eventCenter,
-  render,
+  Link,
+  interceptors,
   initPxTransform,
+  Current,
+  getCurrentInstance,
+  options,
+  nextTick,
+  eventCenter,
+  Events,
+  getPreload,
   requirePlugin,
   getApp,
   pxTransform,
   canIUseWebp,
-  interceptors,
   history,
   navigateBack,
   navigateTo,
@@ -88,5 +131,20 @@ export {
   reLaunch,
   redirectTo,
   getCurrentPages,
-  switchTab
+  switchTab,
+  useDidShow,
+  useDidHide,
+  usePullDownRefresh,
+  useReachBottom,
+  usePageScroll,
+  useResize,
+  useShareAppMessage,
+  useTabItemTap,
+  useTitleClick,
+  useOptionMenuClick,
+  usePullIntercept,
+  useShareTimeline,
+  useAddToFavorites,
+  useReady,
+  useRouter
 }

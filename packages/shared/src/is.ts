@@ -18,7 +18,7 @@ export function isBoolean (o: unknown): o is boolean {
   return o === true || o === false
 }
 
-export function isFunction (o: unknown): o is Function {
+export function isFunction (o: unknown): o is (...args: any[]) => any {
   return typeof o === 'function'
 }
 

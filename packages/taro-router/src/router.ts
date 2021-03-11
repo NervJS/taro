@@ -11,8 +11,8 @@ import { bindPageScroll } from './scroll'
 import { setRoutesAlias, addLeadingSlash } from './utils'
 
 export interface Route extends PageConfig {
-  path: string
-  load: () => Promise<any>
+  path?: string
+  load?: () => Promise<any>
 }
 
 export interface RouterConfig extends AppConfig {
@@ -115,7 +115,19 @@ export function createRouter (
 
   const render: LocationListener<LocationState> = async (location, action) => {
     routerConfig.router.pathname = location.pathname
-    const element = await router.resolve(location.pathname)
+    let element
+    try {
+      element = await router.resolve(location.pathname)
+    } catch (error) {
+      if (error.status === 404) {
+        app.onPageNotFound?.({
+          path: location.pathname
+        })
+      } else {
+        throw new Error(error)
+      }
+    }
+    if (!element) return
     const pageConfig = config.routes.find(r => {
       const path = addLeadingSlash(r.path)
       return path === location.pathname || alias[path] === location.pathname
@@ -167,7 +179,7 @@ export function createRouter (
   }
 
   if (history.location.pathname === '/') {
-    history.replace(routes[0].path as string)
+    history.replace(routes[0].path as string + history.location.search)
   }
 
   render(history.location, 'PUSH')

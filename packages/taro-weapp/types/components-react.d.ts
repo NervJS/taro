@@ -1,0 +1,11 @@
+export * from '@tarojs/components/mini';
+export declare const Editor = "editor";
+export declare const MatchMedia = "match-media";
+export declare const FunctionalPageNavigator = "functional-page-navigator";
+export declare const LivePusher = "live-pusher";
+export declare const OfficialAccount = "official-account";
+export declare const OpenData = "open-data";
+export declare const NavigationBar = "navigation-bar";
+export declare const PageMeta = "page-meta";
+export declare const VoipRoom = "voip-room";
+export declare const AdCustom = "ad-custom";

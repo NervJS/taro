@@ -26,7 +26,7 @@ export interface Instance<T = {}> extends Component<T>, PageLifeCycle {
 export interface PageInstance extends PageLifeCycle {
   config: PageConfig
   route: string
-  getOpenerEventChannel?(): object
+  getOpenerEventChannel?(): Record<string, any>
 }
 
 export interface AppInstance extends Show {

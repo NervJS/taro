@@ -63,7 +63,9 @@ export class View implements ComponentInterface {
       [`${this.hoverClass}`]: this.hover
     })
     return (
-      <Host class={cls} />
+      <Host class={cls}>
+        <slot></slot>
+      </Host>
     )
   }
 }

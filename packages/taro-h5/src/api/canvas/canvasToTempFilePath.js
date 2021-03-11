@@ -21,9 +21,9 @@ import { findDOM } from '../utils/index'
  * @param {Param} object 参数
  * @todo 暂未支持尺寸相关功能
  */
-const canvasToTempFilePath = ({ canvasId, fileType, quality, success, fail, complete }) => {
+const canvasToTempFilePath = ({ canvasId, fileType, quality, success, fail, complete }, inst) => {
   /** @type {HTMLCanvasElement} */
-  const canvas = findDOM().querySelector(`[canvasId=${canvasId}]`)
+  const canvas = findDOM(inst).querySelector(`canvas[canvas-id=${canvasId}]`)
 
   try {
     // /** @type {CanvasRenderingContext2D} */

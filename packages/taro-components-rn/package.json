@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-rn",
-  "version": "3.2.0-beta.0",
+  "version": "3.1.1",
   "description": "多端解决方案基础组件（RN）",
   "main": "./dist/index.js",
   "scripts": {
@@ -49,11 +49,12 @@
     "utility-types": "^3.4.1"
   },
   "devDependencies": {
-    "@tarojs/components": "3.2.0-beta.0",
+    "@tarojs/components": "3.1.1",
     "@types/react-native": "^0.63.33",
     "@types/sinon": "^9.0.8",
     "cpy-cli": "^3.1.1",
     "jest-expo": "^39.0.0",
+    "metro-react-native-babel-preset": "^0.65.2",
     "pre-commit": "^1.2.2",
     "react-native": "^0.63.3",
     "react-native-mock-render": "^0.1.9",
@@ -66,6 +67,6 @@
     "react-native": "*"
   },
   "resolutions": {
-    "@types/react": "16.9.56"
+    "@types/react": "16.9.49"
   }
 }
