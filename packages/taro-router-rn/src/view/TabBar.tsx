@@ -122,7 +122,7 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
       this.setState({
         tabVisible: curVisible
       })
-      this.setTabBarHidden(curVisible)
+      this.setTabBarHidden(!curVisible)
     }
   }
 
@@ -238,7 +238,8 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
       {state.routes.map((route, index) => {
         const focused = index === state.index
         const { options } = descriptors[route.key]
-        const label =
+        const tabLabel = getTabItemConfig(index,'tabBarLabel')
+        const label = tabLabel ?  tabLabel :
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
             : options.title !== undefined
@@ -375,12 +376,11 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
         <Animated.View
           style={[
             styles.tabBar,
-            {
-
+            showTabBar ? {
               height: this.getDefaultTabBarHeight() + paddingBottom,
               paddingBottom,
               paddingHorizontal: Math.max(insets.left, insets.right)
-            },
+            }:{},
             {
               transform: [
                 {
@@ -393,7 +393,7 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
                   })
                 }
               ],
-              position: !tabVisible ? 'absolute' : (null as any)
+              position: showTabBar ? 'absolute' : (null as any)
             },
             style,
             {
