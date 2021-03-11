@@ -57,7 +57,7 @@ module.exports = {
       action: require("linaria/evaluators").shaker,
     },
     {
-      test: /node_modules[\/\\](?!@tarojs[\/\\]components)/,
+      test: /node_modules[\/\\](?!@tarojs)/,
       action: "ignore"
     }
   ]
