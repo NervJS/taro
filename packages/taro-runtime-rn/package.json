@@ -30,10 +30,12 @@
     },
     "dependencies": {
         "@tarojs/components-rn": "3.2.0-beta.1",
-        "@tarojs/router-rn": "3.2.0-beta.1",
-        "@types/react-native": "^0.63.33"
+        "@tarojs/router-rn": "3.2.0-beta.1"
     },
     "resolutions": {
         "@types/react": "16.9.49"
+    },
+    "devDependencies": {
+        "@types/react-native": "0.63.51"
     }
 }

@@ -62,7 +62,7 @@
   },
   "devDependencies": {
     "@tarojs/taro": "3.2.0-beta.1",
-    "@types/react-native": "^0.63.33",
+    "@types/react-native": "0.63.51",
     "babel-plugin-jest-hoist": "^26.6.2",
     "cpy-cli": "^3.1.1",
     "jest-expo": "^39.0.0",
