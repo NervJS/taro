@@ -48,6 +48,28 @@ const COMPACT_TABBAR_HEIGHT = 32
 
 const useNativeDriver = Platform.OS !== 'web'
 
+const styles = StyleSheet.create({
+  tabBar: {
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    elevation: 8
+  },
+  tab: {
+    flex: 1,
+    alignItems: 'center'
+  },
+  tabPortrait: {
+    justifyContent: 'flex-end',
+    flexDirection: 'column'
+  },
+  tabLandscape: {
+    justifyContent: 'center',
+    flexDirection: 'row'
+  }
+})
+
 export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
   constructor (props: TabBarProps) {
     super(props)
@@ -389,25 +411,3 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
 }
 
 export default withSafeAreaInsets(TabBar)
-
-const styles = StyleSheet.create({
-  tabBar: {
-    left: 0,
-    right: 0,
-    bottom: 0,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    elevation: 8
-  },
-  tab: {
-    flex: 1,
-    alignItems: 'center'
-  },
-  tabPortrait: {
-    justifyContent: 'flex-end',
-    flexDirection: 'column'
-  },
-  tabLandscape: {
-    justifyContent: 'center',
-    flexDirection: 'row'
-  }
-})

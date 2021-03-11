@@ -69,7 +69,7 @@ class _Swiper extends React.Component<SwiperProps> {
     onAnimationFinish({ detail: { current: index } })
   }
 
-  render() {
+  render(): any {
     const {
       children,
       style,

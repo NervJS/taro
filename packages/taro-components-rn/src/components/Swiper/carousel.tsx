@@ -48,7 +48,7 @@ export interface CarouselState {
   isScrolling: boolean;
 }
 
-const defaultPagination = (props: PaginationProps) => {
+const defaultPagination = (props: PaginationProps): any => {
   const { styles, current, vertical, count, dotStyle, dotActiveStyle } = props
   const positionStyle = vertical ? 'paginationY' : 'paginationX'
   const flexDirection = vertical ? 'column' : 'row'
@@ -102,15 +102,15 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     }
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.autoplay()
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     clearTimeout(this.autoplayTimer)
   }
 
-  componentDidUpdate(prevProps: CarouselProps) {
+  componentDidUpdate(prevProps: CarouselProps): void {
     if (
       (prevProps.autoplay !== undefined && prevProps.autoplay !== this.props.autoplay) ||
       (prevProps.infinite !== undefined && prevProps.infinite !== this.props.infinite)
@@ -123,13 +123,13 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
    * go to index
    * @param index
    */
-  public goTo(index: number) {
+  public goTo(index: number): void {
     this.setState({ selectedIndex: index })
     // @ts-ignore
     this.viewPager.current.setPage(index)
   }
 
-  render() {
+  render(): any {
     const { selectedIndex } = this.state
     const { dots, children, vertical } = this.props
 

@@ -4,6 +4,7 @@ const fs = require('fs')
 const path = require('path')
 // eslint-disable-next-line
 const parser = require('@babel/parser')
+// eslint-disable-next-line
 const traverse = require('@babel/traverse').default
 
 const code = fs.readFileSync(path.resolve(__dirname, '../src/api/index.ts')).toString()

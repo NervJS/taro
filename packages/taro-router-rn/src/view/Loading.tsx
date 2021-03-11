@@ -9,6 +9,13 @@ interface LoadingViewState {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface LoadingViewProps { }
 
+const styles = StyleSheet.create({
+  toastLoading: {
+    width: 25,
+    height: 25
+  }
+})
+
 class LoadingView extends React.Component<LoadingViewProps, LoadingViewState> {
   constructor (props: LoadingViewProps) {
     super(props)
@@ -50,12 +57,5 @@ class LoadingView extends React.Component<LoadingViewProps, LoadingViewState> {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  toastLoading: {
-    width: 25,
-    height: 25
-  }
-})
 
 export default LoadingView

@@ -11,7 +11,7 @@ type NavigateMethod = 'navigateTo' | 'redirectTo' | 'navigateBack' | 'switchTab'
 
 interface NavigateOption extends BaseOption {
   url: string,
-  events?: object
+  events?: Record<string, any>
 }
 
 interface NavigateBackOption extends BaseOption {

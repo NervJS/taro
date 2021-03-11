@@ -6,12 +6,12 @@ interface Output {
 
 interface Copy {
   patterns: [],
-  options: object
+  options: Record<string, any>
 }
 
 interface Csso {
   enable: boolean,
-  config: object
+  config: Record<string, any>
 }
 
 interface Sass {
@@ -24,22 +24,22 @@ export interface Config {
   projectName?: string,
   date?: string,
   designWidth?: number,
-  deviceRatio?: object,
+  deviceRatio?: Record<string, any>,
   sourceRoot?: string,
   outputRoot?: string,
-  defineConstants?: object,
-  alias?: object,
-  env?: object,
+  defineConstants?: Record<string, any>,
+  alias?: Record<string, any>,
+  env?: Record<string, any>,
   sass?: Sass,
   copy?: Copy,
   plugins?: [],
   presets?: [],
-  terser?: object,
+  terser?: Record<string, any>,
   csso?: Csso,
-  framework?: object,
-  mini?: object,
-  h5?: object,
-  rn?: object,
+  framework?: Record<string, any>,
+  mini?: Record<string, any>,
+  h5?: Record<string, any>,
+  rn?: Record<string, any>,
 }
 
 export interface RNConfig extends Config {
@@ -47,9 +47,9 @@ export interface RNConfig extends Config {
   entry?: string,
   output?: Output,
   sourceDir?: string,
-  postcss?: object,
-  less?: object,
-  stylus?: object,
+  postcss?: Record<string, any>,
+  less?: Record<string, any>,
+  stylus?: Record<string, any>,
   transformer?: any,
   babelPlugin?: any,
 }

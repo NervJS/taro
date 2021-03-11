@@ -41,55 +41,6 @@ interface TabBarItemProps extends TabBarOptions{
   userOptions?: TabOptions
 }
 
-export default class TabBarItem extends React.PureComponent<TabBarItemProps> {
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  render () {
-    const {
-      label,
-      horizontal,
-      showRedDot,
-      badge,
-      size = 20,
-      labelColor,
-      iconSource,
-      userOptions,
-      tabStyle = {},
-      labelStyle = {},
-      allowFontScaling = true,
-      showLabel = true
-    } = this.props
-    const tabBarBadgeStyle = userOptions?.tabBarBadgeStyle || {}
-    return (
-      <View style={[styles.tabItem, styles.itemHorizontal, tabStyle]}>
-        <View style={styles.icon}>
-          {!!iconSource && <Image style={{ width: size, height: size }} source={iconSource} />}
-          {!!showRedDot && !badge && <View style={styles.redDot} />}
-          {!!badge && <Badge
-            visible={badge != null}
-            style={[
-              styles.badge,
-              horizontal ? styles.badgeHorizontal : styles.badgeVertical,
-              tabBarBadgeStyle
-            ]}
-            size={(size * 3) / 4}
-          >{('' + badge).length >= 4 ? '...' : badge}</Badge>
-          }
-        </View>
-        {showLabel && <Text
-          numberOfLines={1}
-          allowFontScaling={allowFontScaling}
-          style={[
-            styles.label,
-            horizontal ? styles.labelBeside : styles.labelBeneath,
-            labelStyle,
-            { color: labelColor }
-          ]}
-        >{label}</Text>}
-      </View >
-    )
-  }
-}
-
 const styles = StyleSheet.create({
   label: {
     textAlign: 'center',
@@ -144,3 +95,52 @@ const styles = StyleSheet.create({
   badgeHorizontal: {},
   badgeVertical: {}
 })
+
+export default class TabBarItem extends React.PureComponent<TabBarItemProps> {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  render () {
+    const {
+      label,
+      horizontal,
+      showRedDot,
+      badge,
+      size = 20,
+      labelColor,
+      iconSource,
+      userOptions,
+      tabStyle = {},
+      labelStyle = {},
+      allowFontScaling = true,
+      showLabel = true
+    } = this.props
+    const tabBarBadgeStyle = userOptions?.tabBarBadgeStyle || {}
+    return (
+      <View style={[styles.tabItem, styles.itemHorizontal, tabStyle]}>
+        <View style={styles.icon}>
+          {!!iconSource && <Image style={{ width: size, height: size }} source={iconSource} />}
+          {!!showRedDot && !badge && <View style={styles.redDot} />}
+          {!!badge && <Badge
+            visible={badge != null}
+            style={[
+              styles.badge,
+              horizontal ? styles.badgeHorizontal : styles.badgeVertical,
+              tabBarBadgeStyle
+            ]}
+            size={(size * 3) / 4}
+          >{('' + badge).length >= 4 ? '...' : badge}</Badge>
+          }
+        </View>
+        {showLabel && <Text
+          numberOfLines={1}
+          allowFontScaling={allowFontScaling}
+          style={[
+            styles.label,
+            horizontal ? styles.labelBeside : styles.labelBeneath,
+            labelStyle,
+            { color: labelColor }
+          ]}
+        >{label}</Text>}
+      </View >
+    )
+  }
+}

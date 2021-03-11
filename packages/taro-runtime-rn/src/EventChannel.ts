@@ -33,9 +33,12 @@ class PageEvts extends Events {
   }
 
   emit (events, data) {
+    // eslint-disable-next-line
     routeChannel.trigger(events, data)
   }
 }
+
+const pageChannel: PageEvt = new PageEvts()
 
 class RouteEvts extends Events {
   emit (events, data) {
@@ -56,7 +59,6 @@ class RouteEvts extends Events {
 }
 
 const routeChannel: RouteEvt = new RouteEvts()
-const pageChannel: PageEvt = new PageEvts()
 
 getRouteEventChannel(routeChannel)
 

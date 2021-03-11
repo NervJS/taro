@@ -14,6 +14,15 @@ export interface BadgeState {
   visible: boolean
 }
 
+const styles = StyleSheet.create({
+  container: {
+    alignSelf: 'flex-end',
+    textAlign: 'center',
+    paddingHorizontal: 4,
+    overflow: 'hidden'
+  }
+})
+
 export default class Badge extends React.PureComponent<BadgeProps, BadgeState> {
   constructor (props: BadgeProps) {
     super(props)
@@ -96,12 +105,3 @@ export default class Badge extends React.PureComponent<BadgeProps, BadgeState> {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    alignSelf: 'flex-end',
-    textAlign: 'center',
-    paddingHorizontal: 4,
-    overflow: 'hidden'
-  }
-})

@@ -18,7 +18,6 @@ interface UIType {
 
 const iconTypeMap: { [key: string]: string } = {
   success: 'SUCCESS',
-  // eslint-disable-next-line @typescript-eslint/camelcase
   success_no_circle: 'SUCCESS_NO_CIRCLE',
   info: 'INFO',
   warn: 'WARN',
