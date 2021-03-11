@@ -151,8 +151,9 @@ export function setTabBarItem (options: TabBarItem): Promise<CallbackResult> {
     selectedIconPath: selectedIconPath
   })
   try {
+    // 会直接更新当前调用的tab,只是为了触发导航的tabbar的更新
     navigationRef.current?.setOptions({
-      tabBarLabel: text
+      tabBarIcon: null
     })
   } catch (error) {
     msg = error
