@@ -12,7 +12,6 @@ import { isString, isFunction, isArray } from '@tarojs/shared'
 const PLUGIN_NAME = 'MiniSplitChunkPlugin'
 const SUB_COMMON_DIR = 'sub-common'
 const SUB_VENDORS_NAME = 'sub-vendors'
-const CSS_MINI_EXTRACT = 'css/mini-extract'
 
 enum FileExtsMap {
   JS = '.js',
@@ -64,7 +63,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
       root: this.formatSubRoot(subPackage.root)
     }))
     this.subRoots = this.subPackages.map((subPackage: SubPackage) => subPackage.root)
-    this.subRootRegExps = this.subRoots.map((subRoot: string) => new RegExp(`^${subRoot}/`))
+    this.subRootRegExps = this.subRoots.map((subRoot: string) => new RegExp(`^${subRoot}\\/`))
     this.distPath = compiler?.options?.output?.path as string
     this.isDevMode = compiler.options.mode === 'development'
 
@@ -105,12 +104,10 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
               let depPath = ''
               let depName = ''
 
-              if (module.type === CSS_MINI_EXTRACT) {
+              if (module.resource) {
+                depPath = module.resource
+              } else {
                 depPath = module._identifier
-              }
-
-              if (!depPath) {
-                depPath = module.resource.replace(new RegExp(`${this.context}(.*)`), '$1')
               }
 
               if (this.isDevMode) {
@@ -163,13 +160,13 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
           const chunkName = chunk.name
 
           if (this.matchSubVendors(chunk)) {
-            const subRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}/`).test(chunkName)) as string
+            const subRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}\\/`).test(chunkName)) as string
 
             this.subPackagesVendors.set(subRoot, chunk)
           }
 
           if (this.matchSubCommon(chunk)) {
-            const depName = chunkName.replace(new RegExp(`^${SUB_COMMON_DIR}/(.*)`), '$1')
+            const depName = chunkName.replace(new RegExp(`^${SUB_COMMON_DIR}\\/(.*)`), '$1')
 
             if (this.subCommonDeps.has(depName)) {
               existSubCommonDeps.set(depName, this.subCommonDeps.get(depName))
@@ -187,7 +184,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
       compilation.chunkTemplate.hooks.renderWithEntry.tap(PLUGIN_NAME, (modules, chunk) => {
         if (this.isSubChunk(chunk)) {
           const chunkName = chunk.name
-          const chunkSubRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}/`).test(chunkName)) as string
+          const chunkSubRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}\\/`).test(chunkName)) as string
           const chunkAbsulutePath = path.resolve(this.distPath, chunkName)
           const source = new ConcatSource()
           const hasSubVendors = this.subPackagesVendors.has(chunkSubRoot)
@@ -227,7 +224,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
 
       subChunks.forEach(subChunk => {
         const subChunkName = subChunk.name
-        const subRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}/`).test(subChunkName)) as string
+        const subRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}\\/`).test(subChunkName)) as string
         const chunkWxssName = `${subChunkName}${FileExtsMap.STYLE}`
         const subCommon = [...(this.chunkSubCommons.get(subChunkName) || [])]
         const wxssAbsulutePath = path.resolve(this.distPath, chunkWxssName)
@@ -278,7 +275,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
       this.subCommonDeps.forEach((subCommonDep, depName) => {
         const chunks = [...subCommonDep.chunks]
         const needCopySubRoots = chunks.reduce((set: Set<string>, chunkName: string) => {
-          const subRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}/`).test(chunkName))
+          const subRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}\\/`).test(chunkName))
 
           if (subRoot) {
             set.add(subRoot)
@@ -388,7 +385,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
    * match sub-common\/*
    */
   matchSubCommon (chunk: webpack.compilation.Chunk): boolean {
-    return new RegExp(`^${SUB_COMMON_DIR}/`).test(chunk.name)
+    return new RegExp(`^${SUB_COMMON_DIR}\\/`).test(chunk.name)
   }
 
   /**
@@ -420,7 +417,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
 
     chunkNames.forEach((chunkName: string) => {
       this.subRoots.forEach((subRoot: string) => {
-        if (new RegExp(`^${subRoot}/`).test(chunkName)) {
+        if (new RegExp(`^${subRoot}\\/`).test(chunkName)) {
           chunkSubRoots.add(subRoot)
         }
       })
@@ -441,7 +438,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
             return false
           }
 
-          return chunks.every(chunk => new RegExp(`^${subRoot}/`).test(chunk.name))
+          return chunks.every(chunk => new RegExp(`^${subRoot}\\/`).test(chunk.name))
         },
         name: path.join(subRoot, SUB_VENDORS_NAME),
         minChunks: 2,
@@ -463,7 +460,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
       subCommonCacheGroup[cacheGroupName] = {
         name: cacheGroupName,
         test: module => {
-          if (module.type === CSS_MINI_EXTRACT) {
+          if (!module.resource) {
             return module._identifier === depInfo.identifier
           }
           return module.resource === depInfo.resource

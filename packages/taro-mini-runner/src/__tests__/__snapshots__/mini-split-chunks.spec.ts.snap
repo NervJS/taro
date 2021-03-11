@@ -861,9 +861,9 @@ page{width:'100%';height:'100%'}
 /** filePath: dist/packageA/detail/index.js **/
 require(\\"../sub-vendors\\");
 
-require(\\"../sub-common/68dd8a31b878ce116a2005a66b95fc8c\\");
+require(\\"../sub-common/0a099b4ab650a7002eadd1cfdcbd0c58\\");
 
-require(\\"../sub-common/69741b2500be046f25207856b4a44ce9\\");
+require(\\"../sub-common/276eac19ba130f3c2def58959d277460\\");
 
 require(\\"../sub-common/42904459d2e00d49c3cf68cf8cb082f4\\");
 
@@ -932,7 +932,7 @@ require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
         var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"packageA/detail/index\\", {}, config || {}));
     },
     40: function(module, exports, __webpack_require__) {}
-}, [ [ 39, 0, 4, 7, 8, 5, 9, 1, 3, 2 ] ] ]);
+}, [ [ 39, 0, 4, 5, 6, 7, 8, 1, 3, 2 ] ] ]);
 
 
 
@@ -952,7 +952,7 @@ require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
 /** filePath: dist/packageA/my/index.js **/
 require(\\"../sub-vendors\\");
 
-require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
+require(\\"../sub-common/99b10a6beb849fcc5ec5da14c71c6aa9\\");
 
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 16 ], {
     27: function(module, __webpack_exports__, __webpack_require__) {
@@ -1012,7 +1012,7 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
         };
         var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"packageA/my/index\\", {}, config || {}));
     }
-}, [ [ 41, 0, 4, 6, 1, 3, 2 ] ] ]);
+}, [ [ 41, 0, 4, 9, 1, 3, 2 ] ] ]);
 
 
 
@@ -1027,8 +1027,22 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
 @import \\"../sub-vendors.wxss\\";
 
 
+/** filePath: dist/packageA/sub-common/0a099b4ab650a7002eadd1cfdcbd0c58.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 5 ], {
+    10: function(module, exports, __webpack_require__) {
+        module.exports = {
+            \\"sub-common-module\\": \\"sub-common-module__sub-common-module___L8rCm\\"
+        };
+    }
+} ]);
+
+/** filePath: dist/packageA/sub-common/276eac19ba130f3c2def58959d277460.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
+    17: function(module, exports, __webpack_require__) {}
+} ]);
+
 /** filePath: dist/packageA/sub-common/42904459d2e00d49c3cf68cf8cb082f4.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 5 ], [] ]);
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], [] ]);
 
 /** filePath: dist/packageA/sub-common/42904459d2e00d49c3cf68cf8cb082f4.wxss **/
 .sub-common-module__sub-common-module___L8rCm{content:'sub-common-module'}
@@ -1058,10 +1072,20 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
 } ]);
 
 /** filePath: dist/packageA/sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], [] ]);
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], [] ]);
 
 /** filePath: dist/packageA/sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4.wxss **/
 .sub-common{content:'sub-common'}
+
+/** filePath: dist/packageA/sub-common/99b10a6beb849fcc5ec5da14c71c6aa9.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
+    12: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_exports__[\\"a\\"] = function(subpackage) {
+            console.log(\\"Subpackage: \\".concat(subpackage));
+        };
+    }
+} ]);
 
 /** filePath: dist/packageA/sub-vendors.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
@@ -1083,11 +1107,11 @@ require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
 .sub-vendors{content:'sub-vendors'}.sub-vendors-module__sub-vendors-module___1PTFy{content:'sub-vendors-module'}
 
 /** filePath: dist/packageB/list/index.js **/
-require(\\"../sub-common/5af326dc7e88f9b2c32d07774f00fe26\\");
+require(\\"../sub-common/99b10a6beb849fcc5ec5da14c71c6aa9\\");
 
-require(\\"../sub-common/68dd8a31b878ce116a2005a66b95fc8c\\");
+require(\\"../sub-common/0a099b4ab650a7002eadd1cfdcbd0c58\\");
 
-require(\\"../sub-common/69741b2500be046f25207856b4a44ce9\\");
+require(\\"../sub-common/276eac19ba130f3c2def58959d277460\\");
 
 require(\\"../sub-common/42904459d2e00d49c3cf68cf8cb082f4\\");
 
@@ -1147,7 +1171,7 @@ require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
         };
         var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"packageB/list/index\\", {}, config || {}));
     }
-}, [ [ 42, 0, 6, 7, 8, 5, 9, 1, 3, 2 ] ] ]);
+}, [ [ 42, 0, 9, 5, 6, 7, 8, 1, 3, 2 ] ] ]);
 
 
 
@@ -1163,8 +1187,22 @@ require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
 @import \\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4.wxss\\";
 
 
+/** filePath: dist/packageB/sub-common/0a099b4ab650a7002eadd1cfdcbd0c58.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 5 ], {
+    10: function(module, exports, __webpack_require__) {
+        module.exports = {
+            \\"sub-common-module\\": \\"sub-common-module__sub-common-module___L8rCm\\"
+        };
+    }
+} ]);
+
+/** filePath: dist/packageB/sub-common/276eac19ba130f3c2def58959d277460.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
+    17: function(module, exports, __webpack_require__) {}
+} ]);
+
 /** filePath: dist/packageB/sub-common/42904459d2e00d49c3cf68cf8cb082f4.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 5 ], [] ]);
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], [] ]);
 
 /** filePath: dist/packageB/sub-common/42904459d2e00d49c3cf68cf8cb082f4.wxss **/
 .sub-common-module__sub-common-module___L8rCm{content:'sub-common-module'}
@@ -1194,10 +1232,20 @@ require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
 } ]);
 
 /** filePath: dist/packageB/sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], [] ]);
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], [] ]);
 
 /** filePath: dist/packageB/sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4.wxss **/
 .sub-common{content:'sub-common'}
+
+/** filePath: dist/packageB/sub-common/99b10a6beb849fcc5ec5da14c71c6aa9.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
+    12: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_exports__[\\"a\\"] = function(subpackage) {
+            console.log(\\"Subpackage: \\".concat(subpackage));
+        };
+    }
+} ]);
 
 /** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 20 ], {
