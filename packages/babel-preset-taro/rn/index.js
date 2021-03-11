@@ -109,8 +109,13 @@ module.exports = (_, options = {}) => {
   const defineConstants = getDefineConstants()
   const presets = []
   const plugins = []
+
   presets.push(reactNativeBabelPreset(_, options))
   plugins.push(
+    // React 17 jsx runtime 兼容
+    [require('@babel/plugin-transform-react-jsx'), {
+      runtime: options.reactJsxRuntime || 'automatic'
+    }],
     require('babel-plugin-transform-react-jsx-to-rn-stylesheet'),
     [require('babel-plugin-transform-imports-api').default, {
       packagesApis: new Map([
