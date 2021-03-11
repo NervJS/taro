@@ -34,7 +34,7 @@
     "@babel/preset-react": "7.12.13",
     "@babel/preset-typescript": "7.12.17",
     "@babel/runtime": "^7.11.2",
-    "@tarojs/helper": "3.1.1",
+    "@tarojs/helper": "3.2.0-beta.1",
     "@tarojs/taro-h5": "3.2.0-beta.1",
     "@tarojs/taro-rn": "3.2.0-beta.1",
     "babel-plugin-dynamic-import-node": "^2.3.3",
