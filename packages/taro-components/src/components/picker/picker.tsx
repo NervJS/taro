@@ -53,6 +53,7 @@ export class Picker implements ComponentInterface {
   @State() height: number[] = []
   @State() hidden = true
   @State() fadeOut = false
+  @State() isWillLoadCalled = false
 
   @Event({
     eventName: 'change'
@@ -67,6 +68,7 @@ export class Picker implements ComponentInterface {
   }) onCancel: EventEmitter
 
   componentWillLoad () {
+    this.isWillLoadCalled = true
     this.handleProps()
   }
 
@@ -94,6 +96,7 @@ export class Picker implements ComponentInterface {
   @Watch('start')
   @Watch('end')
   onPropsChange () {
+    if (!this.isWillLoadCalled) return
     this.handleProps()
   }
 
