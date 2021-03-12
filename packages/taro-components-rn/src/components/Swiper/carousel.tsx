@@ -119,9 +119,9 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     }
   }
 
-  static getDerivedStateFromProps(nextProps){
+  static getDerivedStateFromProps(nextProps:CarouselProps): Record<string, any> {
     return {
-      selectedIndex:nextProps.selectedIndex
+      selectedIndex: nextProps.selectedIndex
     }
   }
 

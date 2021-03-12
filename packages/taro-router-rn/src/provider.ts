@@ -38,10 +38,10 @@ export class PageProvider extends React.Component<any> {
       const color = pageConfig.navigationBarTextStyle || headerTintColor || winOptions?.navigationBarTextStyle || 'black'
       const bgColor = pageConfig.navigationBarBackgroundColor || headerStyle?.backgroundColor || winOptions?.navigationBarBackgroundColor || '#ffffff'
       let showHeader = headerShown
-      if(pageConfig.navigationStyle){
+      if (pageConfig.navigationStyle) {
         showHeader = pageConfig.navigationStyle !== 'custom'
       }
-      if(winOptions.navigationStyle){
+      if (winOptions.navigationStyle) {
         showHeader = winOptions.navigationStyle !== 'custom'
       }
 
