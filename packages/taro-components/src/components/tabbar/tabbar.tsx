@@ -288,7 +288,7 @@ export class Tabbar implements ComponentInterface {
     this.routerChangeHandler()
   }
 
-  componentDidUnload () {
+  disconnectedCallback () {
     this.removeEvent()
   }
 

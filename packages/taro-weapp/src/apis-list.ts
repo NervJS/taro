@@ -123,5 +123,6 @@ export const needPromiseApis = new Set([
   'updateShareMenu',
   'updateVoIPChatMuteConfig',
   'updateWeChatApp',
-  'sendBizRedPacket'
+  'sendBizRedPacket',
+  'getUserProfile'
 ])
