@@ -64,7 +64,8 @@ export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   template: RecursiveTemplate | UnRecursiveTemplate
   runtimePath?: string | string[]
   taroComponentsPath?: string
-  blended: boolean
+  blended?: boolean
+  isBuildNativeComp?: boolean
 }
 
 export type AddPageChunks = ((pages: Map<string, string[]>, pagesNames?: string[]) => void)

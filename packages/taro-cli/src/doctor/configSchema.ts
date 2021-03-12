@@ -41,7 +41,7 @@ const schema = Joi.object().keys({
     })
   }),
 
-  framework: Joi.any().valid('nerv', 'react', 'vue', 'vue3'),
+  framework: Joi.any().valid('nerv', 'react', 'vue', 'vue3').required(),
 
   mini: Joi.object().keys({
     baseLevel: Joi.number().integer().positive(),
