@@ -92,7 +92,7 @@ export class TaroElement extends TaroNode {
       qualifiedName = 'uid'
     } else {
       // pure-view => static-view
-      if (this.nodeName === 'view' && !isHasExtractProp(this) && !this.isAnyEventBinded()) {
+      if (this.nodeName === 'view' && !isHasExtractProp(this) && !(/class|style|id/.test(qualifiedName)) && !this.isAnyEventBinded()) {
         this.enqueueUpdate({
           path: `${this._path}.${Shortcuts.NodeName}`,
           value: 'static-view'

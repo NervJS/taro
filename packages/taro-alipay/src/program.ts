@@ -34,6 +34,7 @@ export default class Alipay extends TaroPlatformBase {
       close () {
         this.modifyMiniConfigs()
         this.modifyComponents()
+        this.modifyWebpackConfig()
       }
     })
   }
@@ -85,5 +86,20 @@ export default class Alipay extends TaroPlatformBase {
    */
   modifySwiper (swiper) {
     delete swiper.bindAnimationFinish
+  }
+
+  /**
+   * 修改 Webpack 配置
+   */
+  modifyWebpackConfig () {
+    this.ctx.modifyWebpackChain(({ chain }) => {
+      // 支付宝系小程序全局就有 navigator 对象，不需要模拟
+      chain.plugin('providerPlugin')
+        .tap(args => {
+          const newArgs = Object.assign({}, args[0])
+          delete newArgs.navigator
+          return [newArgs]
+        })
+    })
   }
 }

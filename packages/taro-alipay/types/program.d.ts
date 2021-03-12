@@ -38,4 +38,8 @@ export default class Alipay extends TaroPlatformBase {
      * 修改 Swiper 组件属性
      */
     modifySwiper(swiper: any): void;
+    /**
+     * 修改 Webpack 配置
+     */
+    modifyWebpackConfig(): void;
 }
