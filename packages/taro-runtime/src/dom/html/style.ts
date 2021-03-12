@@ -33,7 +33,7 @@ export default class StyleTagParser {
   styles: IStyle[]= []
 
   extractStyle (src: string) {
-    const REG_STYLE = /<style>((.|\n|\s)+?)<\/style>/g
+    const REG_STYLE = /<style\s?[^>]*>((.|\n|\s)+?)<\/style>/g
     let html = src
     // let html = src.replace(/\n/g, '')
 
