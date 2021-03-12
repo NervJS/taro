@@ -119,6 +119,12 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     }
   }
 
+  static getDerivedStateFromProps(nextProps){
+    return {
+      selectedIndex:nextProps.selectedIndex
+    }
+  }
+
   /**
    * go to index
    * @param index
@@ -205,6 +211,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
           // Lib does not support dynamically transitionStyle change
           transitionStyle="scroll"
           ref={this.viewPager as any}
+          key={`viewPage_${this.props.selectedIndex}`}
         >
           {pages}
         </ViewPager>
