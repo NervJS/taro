@@ -1,4 +1,4 @@
-import { applyPolyfills, defineCustomElements } from '../loader/index.es2017.mjs'
+import { applyPolyfills, defineCustomElements } from '../loader/index.es2017.js'
 import '../dist/taro-components/taro-components.css'
 
 // eslint-disable-next-line no-undef

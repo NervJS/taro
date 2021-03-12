@@ -29,7 +29,7 @@ export default class TaroNormalModulesPlugin {
                 }
               } else {
                 // 兼容 react17 new jsx transtrom
-                if (callee.name !== '_jsx') {
+                if (callee.name !== '_jsx' && callee.name !== '_jsxs') {
                   return
                 }
               }
