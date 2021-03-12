@@ -238,13 +238,12 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
       {state.routes.map((route, index) => {
         const focused = index === state.index
         const { options } = descriptors[route.key]
-        const tabLabel = getTabItemConfig(index,'tabBarLabel')
-        const label = tabLabel ?  tabLabel :
-          options.tabBarLabel !== undefined
-            ? options.tabBarLabel
-            : options.title !== undefined
-              ? options.title
-              : route.name
+        const tabLabel = getTabItemConfig(index, 'tabBarLabel')
+        const label = tabLabel || (options.tabBarLabel !== undefined
+          ? options.tabBarLabel
+          : options.title !== undefined
+            ? options.title
+            : route.name)
 
         const accessibilityLabel =
           options.tabBarAccessibilityLabel !== undefined
@@ -380,7 +379,7 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
               height: this.getDefaultTabBarHeight() + paddingBottom,
               paddingBottom,
               paddingHorizontal: Math.max(insets.left, insets.right)
-            }:{},
+            } : {},
             {
               transform: [
                 {
