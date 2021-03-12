@@ -6,7 +6,7 @@ import { TaroRootElement } from './root'
 import { Shortcuts, ensure } from '@tarojs/shared'
 import { hydrate, HydratedData } from '../hydrate'
 import { TaroElement } from './element'
-import { setInnerHTML } from './html/html'
+import { setInnerHTML, getInnerHTML } from './html/html'
 import { CurrentReconciler } from '../reconciler'
 import { document } from '../bom/document'
 
@@ -213,7 +213,7 @@ export class TaroNode extends TaroEventTarget {
   }
 
   public get innerHTML () {
-    return ''
+    return getInnerHTML(this)
   }
 
   protected findIndex (childeNodes: TaroNode[], refChild: TaroNode) {

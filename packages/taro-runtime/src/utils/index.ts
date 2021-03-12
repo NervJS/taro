@@ -22,3 +22,14 @@ export function isHasExtractProp (el: TaroElement): boolean {
   })
   return Boolean(res)
 }
+
+export function escapeForHtmlGeneration (value: string): string {
+  return value.replace(/"/g, '&quot;')
+}
+
+/**
+ * 驼峰转连字符
+ */
+export function toDash (str) {
+  return str.replace(/[A-Z]/g, all => `-${all.toLowerCase()}`)
+}
