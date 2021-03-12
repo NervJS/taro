@@ -34,7 +34,9 @@ describe('inspect', () => {
 
   describe('build', () => {
     const baseOpts = {
-      _: [],
+      _: [
+        'build'
+      ],
       options: {
         platform: undefined,
         isWatch: false,
