@@ -26,7 +26,6 @@ module.exports = {
       'hooks',
       'jquery-like',
       'html',
-      'css-in-js',
       'prerender',
       'virtual-list',
       {
@@ -58,10 +57,10 @@ module.exports = {
         ]
       }
     ],
-    迁移指南: ['migration'],
     社区生态: [
       'redux',
       'css-modules',
+      'css-in-js',
       'template',
       'vant',
       'youshu',
@@ -70,6 +69,7 @@ module.exports = {
       'join-in',
       'CONTRIBUTING'
     ],
+    迁移指南: ['migration'],
   },
   "components": {
     "关于组件库": [

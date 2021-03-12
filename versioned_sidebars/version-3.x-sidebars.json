@@ -147,10 +147,6 @@
         },
         {
           "type": "doc",
-          "id": "version-3.x/css-in-js"
-        },
-        {
-          "type": "doc",
           "id": "version-3.x/prerender"
         },
         {
@@ -223,17 +219,6 @@
     {
       "collapsed": true,
       "type": "category",
-      "label": "迁移指南",
-      "items": [
-        {
-          "type": "doc",
-          "id": "version-3.x/migration"
-        }
-      ]
-    },
-    {
-      "collapsed": true,
-      "type": "category",
       "label": "社区生态",
       "items": [
         {
@@ -243,6 +228,10 @@
         {
           "type": "doc",
           "id": "version-3.x/css-modules"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/css-in-js"
         },
         {
           "type": "doc",
@@ -271,6 +260,17 @@
         {
           "type": "doc",
           "id": "version-3.x/CONTRIBUTING"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "迁移指南",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.x/migration"
         }
       ]
     }

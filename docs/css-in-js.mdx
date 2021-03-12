@@ -2,6 +2,9 @@
 title: 使用 CSS-in-JS
 ---
 
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
 在 React 社区有一个著名的 CSS-in-JS 解决方案: [styled-components](https://github.com/styled-components/styled-components)。但遗憾的是，`styled-components` 使用 `<style>` 标签来动态地控制样式，在小程序没有类似的方案。但我们可以通过 [linaria](https://github.com/callstack/linaria) 实现同样的功能，`linaria` 主要提供以下特性：
 
 * 近似于 `styled-components` 的 API
@@ -43,6 +46,17 @@ const config = {
           sourceMap: process.env.NODE_ENV !== 'production',
         })
     }
+  },
+  h5: {
+    webpackChain(chain, webpack) {
+      chain.module
+        .rule('script')
+        .use('linariaLoader')
+        .loader('linaria/loader')
+        .options({
+          sourceMap: process.env.NODE_ENV !== 'production',
+        })
+    }
   }
 }
 ```
@@ -57,7 +71,7 @@ module.exports = {
       action: require("linaria/evaluators").shaker,
     },
     {
-      test: /node_modules[\/\\](?!@tarojs[\/\\]components)/,
+      test: /node_modules[\/\\](?!@tarojs)/,
       action: "ignore"
     }
   ]
@@ -66,9 +80,13 @@ module.exports = {
 
 在业务代码中我们可以这样使用：
 
-<!--DOCUSAURUS_CODE_TABS-->
-
-<!--JavaScript-->
+<Tabs
+  defaultValue="JS"
+  values={[
+    {label: 'JavaScript', value: 'JS'},
+    {label: 'TypeScript', value: 'TS'}
+  ]}>
+<TabItem value="JS">
 
 ```jsx
 import React from 'react'
@@ -87,7 +105,10 @@ const Index = () => {
 
 export default Index
 ```
-<!--TypeScript-->
+
+</TabItem>
+
+<TabItem value="TS">
 
 ```tsx
 import React from 'react'
@@ -107,4 +128,5 @@ const Index: React.FC = () => {
 export default Index
 ```
 
-<!--END_DOCUSAURUS_CODE_TABS-->
+</TabItem>
+</Tabs>
