@@ -1,6 +1,7 @@
 // import { Scaner } from '../src/html/scaner'
 // import { parser } from '../src/html/oparser'
 import { parser } from '../dom/html/parser'
+import { Scaner } from '../dom/html/scaner'
 import { isElement } from '../utils'
 
 // 测试还没写完，先跳过
@@ -306,5 +307,19 @@ describe('html with <style>', () => {
     expect(el0.childNodes[0]._value).toBe('测试换行\nxxxx')
     expect(el1.style.cssText).toBe('color: red;font-size: 10;')
     expect(el1.childNodes[0]._value).toBe('测试换行xxxx')
+  })
+})
+
+describe('html with tag should be skipped', () => {
+  it('scanSkipTag should skip script', () => {
+    const s = '<script type="text/javascript"> </script><div></div>'
+    const tokens = new Scaner(s).scan()
+    expect(tokens[1].content).toBe('script')
+  })
+  it('html should be rendered successfully', () => {
+    const s = '<script type="text/javascript"> </script><div>hello world</div>'
+    const res = parser(s)
+    expect(res[0].props.class).toBe('script')
+    expect(res[1].childNodes[0]._value).toBe('hello world')
   })
 })
