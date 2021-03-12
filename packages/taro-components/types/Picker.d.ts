@@ -47,7 +47,7 @@ interface PickerSelectorProps extends PickerStandardProps {
    * @supported weapp, h5, rn
    * @default []
    */
-  range: string[] | number[] | Record<string, any>
+  range: string[] | number[] | Record<string, any>[]
   /**
    * 当 range 是一个 Object Array 时，通过 rangeKey 来指定 Object 中 key 的值作为选择器显示内容
    * @supported weapp, h5, rn
