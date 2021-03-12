@@ -18,6 +18,7 @@ export declare const components: {
         'tile-overlay': string;
         'custom-map-style': string;
         setting: string;
+        optimize: string;
         bindRegionChange: string;
         bindPanelTap: string;
     };

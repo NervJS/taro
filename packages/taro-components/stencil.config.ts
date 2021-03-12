@@ -21,7 +21,6 @@ export const config: Config = {
     { components: ['taro-swiper-core', 'taro-swiper-item-core'] },
     { components: ['taro-video-core', 'taro-video-control', 'taro-video-danmu'] }
   ],
-  excludeSrc: ['/test/', '**/.spec.', '/types/', '*.d.ts'],
   testing: {
     testRegex: '(/__tests__/.*|(\\.|/)(tt|spec))\\.[jt]sx?$',
     transform: {

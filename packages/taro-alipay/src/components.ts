@@ -21,6 +21,7 @@ export const components = {
     'tile-overlay': '',
     'custom-map-style': '',
     setting: '{}',
+    optimize: '',
     bindRegionChange: '',
     bindPanelTap: ''
   },
