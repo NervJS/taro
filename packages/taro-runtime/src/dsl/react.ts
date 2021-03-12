@@ -333,7 +333,7 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
   return Current.app
 }
 
-let getNativeCompId = incrementId()
+const getNativeCompId = incrementId()
 
 function initNativeComponentEntry (R: typeof React, ReactDOM) {
   interface IEntryState {
@@ -348,7 +348,7 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
     renderComponent: (ctx: any) => React.ReactElement
   }
 
-  class NativeComponentWrapper extends R.Component<IWrapperProps, {}> {
+  class NativeComponentWrapper extends R.Component<IWrapperProps, Record<any, any>> {
     root = R.createRef<TaroRootElement>()
     ctx = this.props.getCtx()
 
@@ -361,15 +361,18 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
 
     render () {
       return (
-        R.createElement('root', {
-          ref: this.root,
-          children: this.props.renderComponent(this.ctx)
-        })
+        R.createElement(
+          'root',
+          {
+            ref: this.root
+          },
+          this.props.renderComponent(this.ctx)
+        )
       )
     }
   }
 
-  class Entry extends R.Component<{}, IEntryState> {
+  class Entry extends R.Component<Record<any, any>, IEntryState> {
     state: IEntryState = {
       components: []
     }
@@ -491,8 +494,8 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
     if (!currentPage.options) {
       // 例如在微信小程序中，页面 options 的设置时机比组件 attached 慢
       Object.defineProperty(currentPage, 'options', {
-        enumerable : true,
-        configurable : true,
+        enumerable: true,
+        configurable: true,
         get () {
           return this._optionsValue
         },

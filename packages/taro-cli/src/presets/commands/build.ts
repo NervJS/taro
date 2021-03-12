@@ -10,7 +10,7 @@ export default (ctx: IPluginContext) => {
       '--type [typeName]': 'Build type, weapp/swan/alipay/tt/qq/jd/h5',
       '--watch': 'Watch mode',
       '--env [env]': 'Value for process.env.NODE_ENV',
-      '--blended': 'Blended Taro project in an original MiniApp project',
+      '--blended': 'Blended Taro project in an original MiniApp project'
       // '--port [port]': 'Specified port',
     },
     synopsisList: [
@@ -22,7 +22,7 @@ export default (ctx: IPluginContext) => {
     ],
     async fn (opts) {
       const { options, config, _ } = opts
-      const { platform, isWatch, env, blended} = options
+      const { platform, isWatch, env, blended } = options
       const { fs, chalk, PROJECT_CONFIG } = ctx.helper
       const { outputPath, configPath } = ctx.paths
 

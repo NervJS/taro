@@ -6,7 +6,7 @@ import {
   isEmptyObject,
   FRAMEWORK_EXT_MAP,
   printLog,
-  processTypeEnum,
+  processTypeEnum
 } from '@tarojs/helper'
 import { getIdOrName, addRequireToSource } from './TaroLoadChunksPlugin'
 import { IComponent } from '../utils/types'
@@ -64,7 +64,7 @@ export default class BuildNativePlugin extends MiniPlugin {
   addEntries () {
     super.addEntries()
     const deps = this.dependencies
-    for (let [key, dep] of deps.entries()) {
+    for (const [key, dep] of deps.entries()) {
       if (dep.miniType === 'ENTRY') {
         deps.delete(key)
         break
@@ -124,7 +124,7 @@ export default class BuildNativePlugin extends MiniPlugin {
   addLoader (compiler: webpack.Compiler) {
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
       compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (_loaderContext, module: any) => {
-        if(module.rawRequest === '@tarojs/runtime') {
+        if (module.rawRequest === '@tarojs/runtime') {
           module.loaders.unshift({
             loader: '@tarojs/taro-loader/lib/taro-runtime',
             options: {
