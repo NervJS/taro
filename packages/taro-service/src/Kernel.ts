@@ -48,7 +48,7 @@ export default class Kernel extends EventEmitter {
   config: Config
   initialConfig: IProjectConfig
   hooks: Map<string, IHook[]>
-  methods: Map<string, Function>
+  methods: Map<string, (...args: any[]) => void>
   commands: Map<string, ICommand>
   platforms: Map<string, IPlatform>
   helper: any

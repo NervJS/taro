@@ -6,12 +6,6 @@ interface Position {
   line: number
 }
 
-interface State {
-  html: string
-  tokens: Token[]
-  position: Position
-}
-
 export interface Token {
   type: string
   content?: string
@@ -341,42 +335,21 @@ export class Scaner {
   }
 
   private scanSkipTag (tagName: string) {
-    const { html, position, tokens } = this
+    const { html, position } = this
     const safeTagName = tagName.toLowerCase()
     const len = html.length
-    let index = position.index
-    while (index < len) {
-      const nextTag = html.indexOf('</', index)
+    while (position.index < len) {
+      const nextTag = html.indexOf('</', position.index)
       if (nextTag === -1) {
         this.scanText()
         break
       }
 
-      const tagStartPosition = copyPosition(position)
-      jumpPosition(tagStartPosition, html, nextTag)
-      const tagState: State = { html, position: tagStartPosition, tokens: [] }
+      jumpPosition(position, html, nextTag)
       const name = this.scanTag()
-      if (safeTagName !== name.toLowerCase()) {
-        index = tagState.position.index
-        continue
+      if (safeTagName === name.toLowerCase()) {
+        break
       }
-
-      if (nextTag !== position.index) {
-        const textStart = copyPosition(position)
-        jumpPosition(position, html, nextTag)
-        tokens.push({
-          type: 'text',
-          content: html.slice(textStart.index, nextTag),
-          position: {
-            start: textStart,
-            end: copyPosition(position)
-          }
-        })
-      }
-
-      tokens.push.apply(tokens, tagState.tokens)
-      jumpPosition(position, html, tagState.position.index)
-      break
     }
   }
 }

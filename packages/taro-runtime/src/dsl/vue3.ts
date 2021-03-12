@@ -62,7 +62,7 @@ function createVue3Page (h: typeof createElement, id: string) {
 }
 
 function setReconciler () {
-  const hostConfig: Reconciler<any> = {
+  const hostConfig: Partial<Reconciler<any>> = {
     getLifecyle (instance, lifecycle) {
       return instance.$options[lifecycle]
     },

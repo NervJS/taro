@@ -5,7 +5,7 @@ import { CombinedVueInstance } from 'vue/types/vue'
 import { MpEvent } from '../dom/event'
 import { TaroElement } from '../dom/element'
 
-export interface Instance<T = {}> extends Component<T>, Show, PageInstance {
+export interface Instance<T = Record<string, any>> extends Component<T>, Show, PageInstance {
   tid?: string
   $forceUpdate?(): void
   $nextTick?(cb: () => void): void
@@ -16,7 +16,7 @@ export interface VueAppInstance extends ComponentOptions<VueCtor> {
   $options: AppInstance
 }
 
-export type VueInstance<M = object, P = object> = CombinedVueInstance<VueCtor, object, M, P, Record<never, any>> & VueInternal
+export type VueInstance<M = Record<string, any>, P = Record<string, any>> = CombinedVueInstance<VueCtor, Record<string, any>, M, P, Record<never, any>> & VueInternal
 
 interface VueInternal {
   _render(): VNode

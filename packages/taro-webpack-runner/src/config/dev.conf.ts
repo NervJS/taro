@@ -6,10 +6,10 @@ import {
   getCopyWebpackPlugin,
   getDefinePlugin,
   getDevtool,
-  // getHotModuleReplacementPlugin,
   getHtmlWebpackPlugin,
   getMiniCssExtractPlugin,
   getMainPlugin,
+  getFastRefreshPlugin,
   getModule,
   getOutput,
   processEnvOption
@@ -101,7 +101,11 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     }])
   }
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
-  // plugin.hotModuleReplacementPlugin = getHotModuleReplacementPlugin()
+
+  if (config.devServer?.hot !== false) {
+    // 默认开启 fast-refresh
+    plugin.fastRefreshPlugin = getFastRefreshPlugin()
+  }
 
   const mode = 'development'
 

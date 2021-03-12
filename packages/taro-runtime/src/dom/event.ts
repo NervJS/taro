@@ -3,6 +3,7 @@ import { EMPTY_OBJ } from '@tarojs/shared'
 import { document } from '../bom/document'
 import { TaroElement } from './element'
 import { CurrentReconciler } from '../reconciler'
+import { isParentBinded } from '../utils'
 
 interface EventOptions {
   bubbles: boolean;
@@ -91,6 +92,8 @@ export function createEvent (event: MpEvent | string, _?: TaroElement) {
   return domEv
 }
 
+const eventsBatch = {}
+
 export function eventHandler (event: MpEvent) {
   CurrentReconciler.modifyEventType?.(event)
 
@@ -104,7 +107,21 @@ export function eventHandler (event: MpEvent) {
       node.dispatchEvent(createEvent(event, node))
     }
     if (typeof CurrentReconciler.batchedEventUpdates === 'function') {
-      CurrentReconciler.batchedEventUpdates(dispatch)
+      const type = event.type
+
+      if (!isParentBinded(node, type) || (type === 'touchmove' && !!node.props.catchMove)) {
+        // 最上层组件统一 batchUpdate
+        CurrentReconciler.batchedEventUpdates(() => {
+          if (eventsBatch[type]) {
+            eventsBatch[type].forEach(fn => fn())
+            delete eventsBatch[type]
+          }
+          dispatch()
+        })
+      } else {
+        // 如果上层组件也有绑定同类型的组件，委托给上层组件调用事件回调
+        (eventsBatch[type] ||= []).push(dispatch)
+      }
     } else {
       dispatch()
     }

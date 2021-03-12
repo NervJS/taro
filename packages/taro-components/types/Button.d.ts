@@ -118,6 +118,13 @@ interface ButtonProps extends StandardProps {
    */
   appParameter?: string
 
+  /** 微信小程序子商户能力中，添加 business-id 字段指向子商户
+   *
+   * 生效时机：`open-type="contact"`
+   * @supported weapp
+   */
+  businessId?: string
+
   /** 支付宝小程序 scope
    *
    * 生效时机：`open-type="getAuthorize"`
@@ -131,30 +138,6 @@ interface ButtonProps extends StandardProps {
    * @default false
    */
   showMessageCard?: boolean
-
-  /**
-   * 应用的包名 （安卓）
-   * 生效时机：`open-type="launchApp"`
-   * @supported qq
-   * @see https://q.qq.com/wiki/develop/miniprogram/frame/open_ability/open_app.html
-   */
-  appPackagename?: string
-
-  /**
-   * 应用的bundleid （iOS）
-   * 生效时机：`open-type="launchApp"`
-   * @supported qq
-   * @see https://q.qq.com/wiki/develop/miniprogram/frame/open_ability/open_app.html
-   */
-  appBundleid?: string
-
-  /**
-   * QQ互联中的AppID
-   * 生效时机：`open-type="launchApp"`
-   * @supported qq
-   * @see https://q.qq.com/wiki/develop/miniprogram/frame/open_ability/open_app.html
-   */
-  appConnectId?: string
 
   /** 用户点击该按钮时，会返回获取到的用户信息，回调的detail数据与 Taro.getUserInfo 返回的一致
    *

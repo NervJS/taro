@@ -1,5 +1,5 @@
 /* eslint-disable no-dupe-class-members */
-import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase } from '@tarojs/shared'
+import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase, isFunction } from '@tarojs/shared'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
 import { TaroEvent, eventSource } from './event'
@@ -28,10 +28,7 @@ export class TaroElement extends TaroNode {
     super(nodeType || NodeType.ELEMENT_NODE, nodeName)
     this.tagName = nodeName.toUpperCase()
     this.style = new Style(this)
-    warn(
-      this.tagName === 'MAP' && process.env.TARO_ENV === 'weapp',
-      '微信小程序 map 组件的 `setting` 属性需要传递一个默认值。详情：\n https://developers.weixin.qq.com/miniprogram/dev/component/map.html'
-    )
+    CurrentReconciler.onTaroElementCreate?.(this.tagName, nodeType)
   }
 
   public get id () {
@@ -95,7 +92,7 @@ export class TaroElement extends TaroNode {
       qualifiedName = 'uid'
     } else {
       // pure-view => static-view
-      if (this.nodeName === 'view' && !isHasExtractProp(this) && !this.isAnyEventBinded()) {
+      if (this.nodeName === 'view' && !isHasExtractProp(this) && !(/class|style|id/.test(qualifiedName)) && !this.isAnyEventBinded()) {
         this.enqueueUpdate({
           path: `${this._path}.${Shortcuts.NodeName}`,
           value: 'static-view'
@@ -172,6 +169,9 @@ export class TaroElement extends TaroNode {
 
   public dispatchEvent (event: TaroEvent) {
     const cancelable = event.cancelable
+    if (isFunction(CurrentReconciler.modifyDispatchEvent)) {
+      CurrentReconciler.modifyDispatchEvent(event, this.tagName)
+    }
     const listeners = this.__handlers[event.type]
     if (!isArray(listeners)) {
       return

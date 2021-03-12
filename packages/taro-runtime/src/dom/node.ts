@@ -41,9 +41,8 @@ export class TaroNode extends TaroEventTarget {
 
   public get _path () {
     if (this.parentNode !== null) {
-      const index = process.env.TARO_ENV === 'swan'
-        ? `${this.parentNode.childNodes.indexOf(this)}`
-        : '[' + this.parentNode.childNodes.indexOf(this) + ']'
+      const indexOfNode = this.parentNode.childNodes.indexOf(this)
+      const index = CurrentReconciler.getPathIndex(indexOfNode)
 
       return `${this.parentNode._path}.${Shortcuts.Childnodes}.${index}`
     }

@@ -14,7 +14,7 @@ export interface Options {
     transformElement?: (taroElement: TaroElement, element: Element) => TaroElement
     renderHTMLTag: boolean
   },
-  reconciler: (reconciler: Reconciler<any>) => void
+  reconciler: <T>(reconciler: Partial<Reconciler<T>>) => void
 }
 
 export const options: Options = {
@@ -34,7 +34,7 @@ export const options: Options = {
     ]),
     renderHTMLTag: false
   },
-  reconciler<T> (reconciler: Reconciler<T>) {
+  reconciler (reconciler) {
     Object.assign(CurrentReconciler, reconciler)
   }
 }

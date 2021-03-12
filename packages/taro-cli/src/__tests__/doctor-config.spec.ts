@@ -324,7 +324,7 @@ describe('config validator of doctor', () => {
     let res = await validator(getConfig({
       copy: {
         patterns: [
-          { from: 'src/asset/tt/', to: 'dist/asset/tt/', ignore: '*.js' },
+          { from: 'src/asset/tt/', to: 'dist/asset/tt/', ignore: ['*.js'] },
           { from: 'src/asset/tt/sd.jpg', to: 'dist/asset/tt/sd.jpg' }
         ]
       }
@@ -343,7 +343,7 @@ describe('config validator of doctor', () => {
     res = await validator(getConfig({
       copy: {
         patterns: [
-          { ignore: '*.js' },
+          { ignore: ['*.js'] },
           { from: 'src/asset/tt/sd.jpg' },
           { to: 'dist/asset/tt/sd.jpg' }
         ],
