@@ -22,7 +22,7 @@ export default (ctx: IPluginContext) => {
     ],
     async fn (opts) {
       const { options, config, _ } = opts
-      const { platform, isWatch, env, blended } = options
+      const { platform, isWatch, blended } = options
       const { fs, chalk, PROJECT_CONFIG } = ctx.helper
       const { outputPath, configPath } = ctx.paths
 
@@ -58,9 +58,6 @@ export default (ctx: IPluginContext) => {
         process.exit(0)
       }
 
-      // 设置环境变量
-      process.env.NODE_ENV = process.env.NODE_ENV || env || (isWatch ? 'development' : 'production')
-      process.env.TARO_ENV = platform
       const isProduction = process.env.NODE_ENV === 'production' || !isWatch
 
       // dist folder
