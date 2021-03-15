@@ -137,11 +137,11 @@ export default (ctx) => {
 
 正如前面所述，针对编译过程，有 `onBuildStart`、`onBuildFinish` 两个钩子来分别表示编译开始，编译结束，而除此之外也有更多 API 来对编译过程进行修改，如下：
 
-- `ctx.onBuildStart(() => viod)`，编译开始，接收一个回调函数
+- `ctx.onBuildStart(() => void)`，编译开始，接收一个回调函数
 - `ctx.modifyWebpackChain(args: { chain: any }) => void)`，编译中修改 webpack 配置，在这个钩子中，你可以对 webpackChain 作出想要的调整，等同于配置 [`webpackChain`](./config-detail.md#miniwebpackchain)
 - `ctx.modifyBuildAssets(args: { assets: any }) => void)`，修改编译后的结果
 - `ctx.modifyBuildTempFileContent(args: { tempFiles: any }) => void)`，修改编译过程中的中间文件，例如修改 app 或页面的 config 配置
-- `ctx.onBuildFinish(() => viod)`，编译结束，接收一个回调函数
+- `ctx.onBuildFinish(() => void)`，编译结束，接收一个回调函数
 
 #### 编译平台拓展
 
