@@ -54,6 +54,7 @@ interface Config {
   designWidth: number;
   deviceRatio: { [key: number]: number };
   sass: SassExternalConfig;
+  alias: Record<string, string>;
   rn: RNConfig;
 }
 
@@ -102,6 +103,7 @@ export default class StyleTransform {
       designWidth: config.designWidth || designWidth,
       deviceRatio: config.deviceRatio || deviceRatio,
       sass: config.sass || {},
+      alias: config.alias ?? [],
       rn: recursiveMerge({}, DEFAULT_RN_CONFIG, config.rn)
     }
     Reflect.ownKeys(this.config.rn).forEach(key => this.extConfigMap.set(key, this.config.rn[key]))

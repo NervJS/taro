@@ -3,7 +3,7 @@ import StyleTransform, { getWrapedCSS } from '../dist/transforms'
 // 初始化config
 const styleTransform = new StyleTransform()
 
-async function run (src, filename = './__test__/styles/a.css', options, debug) {
+async function run (src, filename = './__tests__/styles/a.css', options, debug) {
   const css = await styleTransform.transform(src, filename, options)
   if (debug) {
     // eslint-disable-next-line

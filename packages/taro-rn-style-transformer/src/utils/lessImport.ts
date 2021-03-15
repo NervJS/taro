@@ -9,8 +9,9 @@ class Importer {
 
   platform: 'android' | 'ios'
 
-  process (src: string, { fileInfo }) {
-    const basedir = fileInfo.currentDirectory
+  process (src: string, { fileInfo }: Less.PreProcessorExtraInfo) {
+    const { filename, currentDirectory: basedir } = fileInfo
+
     if (!basedir) {
       return src
     }
@@ -18,7 +19,8 @@ class Importer {
     const resolveOpts = {
       basedir,
       platform: this.platform,
-      logLevel: LogLevelEnum.WARNING
+      logLevel: LogLevelEnum.WARNING,
+      defaultExt: path.extname(filename)
     }
 
     // 解析 @import "a.less" 字符串里面的内容
