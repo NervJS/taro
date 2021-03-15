@@ -71,8 +71,27 @@
     "rimraf": "^3.0.0"
   },
   "peerDependencies": {
+    "@react-native-async-storage/async-storage": "^1.13.2",
+    "@react-native-community/cameraroll": "^4.0.1",
+    "@react-native-community/clipboard": "^1.5.1",
+    "@react-native-community/geolocation": "^2.0.2",
+    "@react-native-community/netinfo": "^5.9.7",
+    "expo-av": "~8.6.0",
+    "expo-barcode-scanner": "~9.0.0",
+    "expo-brightness": "^8.3.0",
+    "expo-camera": "~9.0.0",
+    "expo-file-system": "~9.2.0",
+    "expo-image-picker": "~9.1.0",
+    "expo-keep-awake": "^8.3.0",
+    "expo-location": "^9.0.1",
+    "expo-permissions": "~9.3.0",
+    "expo-sensors": "^9.1.0",
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-image-resizer": "^1.4.0",
+    "react-native-safe-area-context": "^3.1.8",
+    "react-native-syan-image-picker": "0.4.10",
+    "react-native-unimodules": "^0.11.0"
   },
   "resolutions": {
     "@types/react": "16.9.49"
