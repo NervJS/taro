@@ -14,8 +14,9 @@ export enum LogLevelEnum {
 }
 
 export interface ResolveStyleOptions {
-  basedir: string,
+  basedir: string;
   platform: 'android' | 'ios';
-  paths?: string[],
-  logLevel?: LogLevelEnum,
+  paths?: string[];
+  logLevel?: LogLevelEnum;
+  defaultExt?: string;
 }

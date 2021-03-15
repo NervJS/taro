@@ -12,8 +12,8 @@ const defaultConfig = {
   },
   sass: {
     resource: [
-      '__test__/styles/variable.scss',
-      '__test__/styles/b.css'
+      '__tests__/styles/variable.scss',
+      '__tests__/styles/b.css'
     ],
     projectDirectory: path.resolve(__dirname, '..'),
     data: '.data { width: 200px }'
@@ -39,7 +39,7 @@ const defaultConfig = {
   }
 }
 
-async function run (src, config = {}, filename = './__test__/styles/a.css', options, debug = false) {
+async function run (src, config = {}, filename = './__tests__/styles/a.css', options, debug = false) {
   const mergeConfig = recursiveMerge({}, defaultConfig, config)
   // console.log('mergeConfig', JSON.stringify(mergeConfig, null, '  '))
   const styleTransform = new StyleTransform(mergeConfig)
@@ -60,7 +60,7 @@ describe('style transform with config options', () => {
       color: $base-color;
       height: 10px;
     }
-  `, {}, './__test__/styles/a.scss')
+  `, {}, './__tests__/styles/a.scss')
     expect(css).toEqual(getWrapedCSS(`{
   "brn": {
     "color": "red"
@@ -88,7 +88,7 @@ describe('style transform with config options', () => {
           path.resolve(__dirname, 'styles/b.css')
         ]
       }
-    }, './__test__/styles/a.scss')
+    }, './__tests__/styles/a.scss')
     expect(css).toEqual(getWrapedCSS(`{
   "brn": {
     "color": "red"

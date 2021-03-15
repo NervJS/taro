@@ -3,7 +3,7 @@ import StyleTransform, { getWrapedCSS } from '../dist/transforms'
 // 初始化
 const styleTransform = new StyleTransform()
 
-async function run (src, filename = './__test__/styles/a.css', options, debug) {
+async function run (src, filename = './__tests__/styles/a.css', options, debug) {
   const css = await styleTransform.transform(src, filename, options)
   if (debug) {
     // eslint-disable-next-line
@@ -47,12 +47,23 @@ describe('style transform', () => {
 }`))
   })
 
-  it('.scss transform basic', async () => {
+  it('.css import source omit extension', async () => {
+    const css = await run(`
+      @import './b';
+    `, './__tests__/styles/a.css')
+    expect(css).toEqual(getWrapedCSS(`{
+  "brn": {
+    "color": "red"
+  }
+}`))
+  })
+
+  it('.sass transform basic', async () => {
     const css = await run(`
       .test {
         color: red;
       }
-    `, './__test__/styles/a.scss')
+    `, './__tests__/styles/a.scss')
     expect(css).toEqual(getWrapedCSS(`{
   "test": {
     "color": "red"
@@ -60,13 +71,13 @@ describe('style transform', () => {
 }`))
   })
   //
-  it('.scss transform @import', async () => {
+  it('.sass transform @import', async () => {
     const css = await run(`
       @import './b.scss';
       .test {
         color: red;
       }
-    `, './__test__/styles/a.scss')
+    `, './__tests__/styles/a.scss')
     expect(css).toEqual(getWrapedCSS(`{
   "b": {
     "color": "red"
@@ -76,13 +87,13 @@ describe('style transform', () => {
   }
 }`))
   })
-  it('.scss transform @import css file', async () => {
+  it('.sass transform @import css file', async () => {
     const css = await run(`
       @import './c.css';
       .test {
         color: red;
       }
-    `, './__test__/styles/a.scss')
+    `, './__tests__/styles/a.scss')
     expect(css).toEqual(getWrapedCSS(`{
   "c": {
     "color": "red"
@@ -93,18 +104,29 @@ describe('style transform', () => {
 }`))
   })
 
-  it('.scss transform @import with mixins', async () => {
+  it('.sass transform @import with mixins', async () => {
     const css = await run(`
       @import './mixins.scss';
       .test {
         color: red;
         @include hairline(width);
       }
-    `, './__test__/styles/a.scss')
+    `, './__tests__/styles/a.scss')
     expect(css).toEqual(getWrapedCSS(`{
   "test": {
     "color": "red",
     "width": scalePx2dp(0.5)
+  }
+}`))
+  })
+
+  it('.sass import source omit extension', async () => {
+    const css = await run(`
+      @import './b';
+    `, './__tests__/styles/a.scss')
+    expect(css).toEqual(getWrapedCSS(`{
+  "b": {
+    "color": "red"
   }
 }`))
   })
@@ -114,7 +136,7 @@ describe('style transform', () => {
       .test {
         color: red;
       }
-    `, './__test__/styles/a.less')
+    `, './__tests__/styles/a.less')
     expect(css).toEqual(getWrapedCSS(`{
   "test": {
     "color": "red"
@@ -128,7 +150,7 @@ describe('style transform', () => {
       .test {
         color: red;
       }
-    `, './__test__/styles/a.less')
+    `, './__tests__/styles/a.less')
     expect(css).toEqual(getWrapedCSS(`{
   "b": {
     "color": "red"
@@ -145,7 +167,7 @@ describe('style transform', () => {
       .test {
         color: red;
       }
-    `, './__test__/styles/a.less')
+    `, './__tests__/styles/a.less')
     expect(css).toEqual(getWrapedCSS(`{
   "nest": {
     "color": "red"
@@ -159,12 +181,23 @@ describe('style transform', () => {
 }`))
   })
 
+  it('.less import source omit extension', async () => {
+    const css = await run(`
+      @import './b';
+    `, './__tests__/styles/a.less')
+    expect(css).toEqual(getWrapedCSS(`{
+  "b": {
+    "color": "red"
+  }
+}`))
+  })
+
   it('.styl transform basic', async () => {
     const css = await run(`
       .test {
         color: red;
       }
-    `, './__test__/styles/a.styl')
+    `, './__tests__/styles/a.styl')
     expect(css).toEqual(getWrapedCSS(`{
   "test": {
     "color": "#f00"
@@ -178,7 +211,7 @@ describe('style transform', () => {
       .test {
         color: red;
       }
-    `, './__test__/styles/a.styl')
+    `, './__tests__/styles/a.styl')
     expect(css).toEqual(getWrapedCSS(`{
   "b": {
     "color": "#f00"
