@@ -3,10 +3,13 @@ import { PageContext, R as React } from './react'
 import { getPageInstance, injectPageInstance } from './common'
 import { PageLifeCycle } from './instance'
 import { Current } from '../current'
+import type { Func } from '../utils/types'
+
+export const HOOKS_APP_ID = 'taro-app'
 
 const taroHooks = (lifecycle: keyof PageLifeCycle) => {
-  return (fn: Function) => {
-    const id = React.useContext(PageContext)
+  return (fn: Func) => {
+    const id = React.useContext(PageContext) || HOOKS_APP_ID
 
     // hold fn ref and keep up to date
     const fnRef = React.useRef(fn)

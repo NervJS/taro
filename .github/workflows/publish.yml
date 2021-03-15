@@ -21,13 +21,14 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
       - name: Get commit message
         run: |
-           echo ::set-env name=commitmsg::$(git log --format=%B -n 1 ${{ github.event.after }})
+          COMMIT_MESSAGE=$(git log --format=%B -n 1)
+          echo "commitmsg=${COMMIT_MESSAGE}" >> $GITHUB_ENV
       - name: Show commit message
-        run : echo $commitmsg
+        run : echo "$commitmsg"
       - name: Setup Node ${{ matrix.node_version }}
         uses: actions/setup-node@v1
         with:
-          node_version: 12
+          node-version: 12
           registry-url: 'https://registry.npmjs.org'
       - name: Git Identity
         run: |
@@ -51,7 +52,7 @@ jobs:
         shell: bash -ex {0}
         run: |
           CURRENT_VERSION=$(node -p 'require("./lerna.json").version')
-          echo "::set-env name=CURRENT_VERSION::${CURRENT_VERSION}"
+          echo "CURRENT_VERSION=${CURRENT_VERSION}" >> $GITHUB_ENV
       - name: Tag Check
         if: startsWith( env.commitmsg , 'chore(release):' )
         id: tag_check
@@ -98,7 +99,7 @@ jobs:
       - name: Publish
         if: steps.tag_check.outputs.exists_tag == 'false' && startsWith( env.commitmsg , 'chore(release):' )
         run: |
-          yarn lerna publish from-package  --yes
+          yarn lerna publish from-package --yes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

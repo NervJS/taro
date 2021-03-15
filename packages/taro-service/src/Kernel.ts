@@ -48,7 +48,7 @@ export default class Kernel extends EventEmitter {
   config: Config
   initialConfig: IProjectConfig
   hooks: Map<string, IHook[]>
-  methods: Map<string, Function>
+  methods: Map<string, (...args: any[]) => void>
   commands: Map<string, ICommand>
   platforms: Map<string, IPlatform>
   helper: any
@@ -288,7 +288,7 @@ export default class Kernel extends EventEmitter {
     if (!this.commands.has(name)) {
       throw new Error(`${name} 命令不存在`)
     }
-    if (opts && opts.isHelp) {
+    if (opts?.isHelp) {
       const command = this.commands.get(name)
       const defaultOptionsMap = new Map()
       defaultOptionsMap.set('-h, --help', 'output usage information')
@@ -300,8 +300,8 @@ export default class Kernel extends EventEmitter {
       printHelpLog(name, optionsMap, command?.synopsisList ? new Set(command?.synopsisList) : new Set())
       return
     }
-    if (opts && opts.platform) {
-      opts.config = this.runWithPlatform(opts.platform)
+    if (opts?.options?.platform) {
+      opts.config = this.runWithPlatform(opts.options.platform)
     }
     await this.applyPlugins({
       name,

@@ -11,7 +11,7 @@
 | ------------- | -------------- | ----------- | --------- | ----------- |
 | `confirmType` | `confirm-type` |             | `string`  | `undefined` |
 | `disabled`    | `disabled`     |             | `boolean` | `false`     |
-| `maxLength`   | `max-length`   |             | `number`  | `undefined` |
+| `maxlength`   | `max-length`   |             | `number`  | `undefined` |
 | `password`    | `password`     |             | `string`  | `undefined` |
 | `placeholder` | `placeholder`  |             | `string`  | `undefined` |
 | `type`        | `type`         |             | `string`  | `'text'`    |

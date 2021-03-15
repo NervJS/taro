@@ -1,7 +1,7 @@
 import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
 import { buildRender, buildBlockElement, pascalName, setting } from './utils'
-import { resolve, relative } from 'path'
+import { resolve, relative, extname, dirname } from 'path'
 import * as fs from 'fs'
 import { parseWXML, createWxmlVistor } from './wxml'
 import { errors } from './global'
@@ -66,22 +66,15 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
       render = buildRender(block, [], [])
     } else if (refIds.size === 1) {
       // 只有一个数据源
-      render = buildRender(block, [], Array.from(refIds), firstId)
+      render = buildRender(block, [], Array.from(refIds), [])
     } else {
       // 使用 ...spread
       render = buildRender(block, [], Array.from(refIds), [])
     }
-    const classProp = t.classProperty(t.identifier('options'), t.objectExpression([
-      t.objectProperty(
-        t.identifier('addGlobalClass'),
-        t.booleanLiteral(true)
-      )
-    ])) as any
-    classProp.static = true
     const classDecl = t.classDeclaration(
       t.identifier(className),
       t.memberExpression(t.identifier('React'), t.identifier('Component')),
-      t.classBody([render, classProp]),
+      t.classBody([render]),
       []
     )
     path.remove()
@@ -174,6 +167,9 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
   if (!src) {
     throw new Error(`${type} 标签必须包含 \`src\` 属性`)
   }
+  if (extname(dirPath)) {
+    dirPath = dirname(dirPath)
+  }
   const value = src.get('value')
   if (!value.isStringLiteral()) {
     throw new Error(`${type} 标签的 src 属性值必须是一个字符串`)
@@ -211,7 +207,7 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
       jsx.remove()
       return
     }
-    const { wxml } = parseWXML(dirPath, wxmlStr, true)
+    const { wxml } = parseWXML(resolve(dirPath, srcValue), wxmlStr, true)
     try {
       if (wxml) {
         block.children = [wxml as any]

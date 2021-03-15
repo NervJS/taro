@@ -1,11 +1,11 @@
 /* eslint-disable no-dupe-class-members */
-import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase } from '@tarojs/shared'
+import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase, isFunction } from '@tarojs/shared'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
 import { TaroEvent, eventSource } from './event'
-import { isElement } from '../utils'
+import { isElement, isHasExtractProp } from '../utils'
 import { Style } from './style'
-import { PROPERTY_THRESHOLD } from '../constants'
+import { PROPERTY_THRESHOLD, SPECIAL_NODES } from '../constants'
 import { CurrentReconciler } from '../reconciler'
 import { treeToArray } from './tree'
 import { ClassList } from './class-list'
@@ -28,10 +28,7 @@ export class TaroElement extends TaroNode {
     super(nodeType || NodeType.ELEMENT_NODE, nodeName)
     this.tagName = nodeName.toUpperCase()
     this.style = new Style(this)
-    warn(
-      this.tagName === 'MAP' && process.env.TARO_ENV === 'weapp',
-      '微信小程序 map 组件的 `setting` 属性需要传递一个默认值。详情：\n https://developers.weixin.qq.com/miniprogram/dev/component/map.html'
-    )
+    CurrentReconciler.onTaroElementCreate?.(this.tagName, nodeType)
   }
 
   public get id () {
@@ -89,15 +86,23 @@ export class TaroElement extends TaroNode {
       qualifiedName = Shortcuts.Style
     } else if (qualifiedName === 'id') {
       eventSource.delete(this.uid)
-      this.props[qualifiedName] = this.uid = value as string
-      eventSource.set(value as string, this)
+      value = String(value)
+      this.props[qualifiedName] = this.uid = value
+      eventSource.set(value, this)
       qualifiedName = 'uid'
     } else {
+      // pure-view => static-view
+      if (this.nodeName === 'view' && !isHasExtractProp(this) && !(/class|style|id/.test(qualifiedName)) && !this.isAnyEventBinded()) {
+        this.enqueueUpdate({
+          path: `${this._path}.${Shortcuts.NodeName}`,
+          value: 'static-view'
+        })
+      }
+
       this.props[qualifiedName] = value as string
       if (qualifiedName === 'class') {
         qualifiedName = Shortcuts.Class
-      }
-      if (qualifiedName.startsWith('data-')) {
+      } else if (qualifiedName.startsWith('data-')) {
         if (this.dataset === EMPTY_OBJ) {
           this.dataset = Object.create(null)
         }
@@ -118,6 +123,9 @@ export class TaroElement extends TaroNode {
       this.style.cssText = ''
     } else {
       delete this.props[qualifiedName]
+      if (qualifiedName === 'class') {
+        qualifiedName = Shortcuts.Class
+      }
     }
 
     CurrentReconciler.removeAttribute?.(this, qualifiedName)
@@ -126,6 +134,14 @@ export class TaroElement extends TaroNode {
       path: `${this._path}.${toCamelCase(qualifiedName)}`,
       value: ''
     })
+
+    if (this.nodeName === 'view' && !isHasExtractProp(this) && !this.isAnyEventBinded()) {
+      // static-view => pure-view
+      this.enqueueUpdate({
+        path: `${this._path}.${Shortcuts.NodeName}`,
+        value: 'pure-view'
+      })
+    }
   }
 
   public getAttribute (qualifiedName: string): string {
@@ -156,6 +172,9 @@ export class TaroElement extends TaroNode {
 
   public dispatchEvent (event: TaroEvent) {
     const cancelable = event.cancelable
+    if (isFunction(CurrentReconciler.modifyDispatchEvent)) {
+      CurrentReconciler.modifyDispatchEvent(event, this.tagName)
+    }
     const listeners = this.__handlers[event.type]
     if (!isArray(listeners)) {
       return
@@ -215,6 +234,30 @@ export class TaroElement extends TaroNode {
         const l = listeners[i]
         l._stop = true
       }
+    }
+  }
+
+  public addEventListener (type, handler, options) {
+    const name = this.nodeName
+    if (!this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
+      this.enqueueUpdate({
+        path: `${this._path}.${Shortcuts.NodeName}`,
+        value: name
+      })
+    }
+
+    super.addEventListener(type, handler, options)
+  }
+
+  public removeEventListener (type, handler) {
+    super.removeEventListener(type, handler)
+
+    const name = this.nodeName
+    if (!this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
+      this.enqueueUpdate({
+        path: `${this._path}.${Shortcuts.NodeName}`,
+        value: isHasExtractProp(this) ? `static-${name}` : `pure-${name}`
+      })
     }
   }
 }
