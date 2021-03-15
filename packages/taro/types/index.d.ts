@@ -1,6 +1,6 @@
 /**
  * Taro 类型定义文件
- * 
+ *
  * 目录结构
  * ├── api                                  小程序端能力 API
  * │   ├── ad
@@ -196,6 +196,7 @@
 /// <reference path="api/open-api/soter.d.ts" />
 /// <reference path="api/open-api/subscribe-message.d.ts" />
 /// <reference path="api/open-api/user-info.d.ts" />
+/// <reference path="api/open-api/user-profile.d.ts" />
 /// <reference path="api/open-api/werun.d.ts" />
 /// <reference path="api/route/index.d.ts" />
 /// <reference path="api/share/index.d.ts" />
