@@ -107,8 +107,8 @@ export default (ctx) => {
     useConfigName: 'mini',
     async fn (arg) {
       // 调用自定义平台类的 start 函数，开始端平台编译
-      const program = new Weapp(ctx, arg.config)
-      program.start()
+      const program = new Weapp(ctx, config)
+      await program.start()
     }
   })
 }
@@ -122,19 +122,19 @@ export default (ctx) => {
 
 #### 1. 编写 runtime.ts
 
-`runtime.ts` 是我们运行时的入口文件，当 `Webpack` 使用 `AppLoader` 加载入口文件时，它会被注入到 `app.js` 中进行引用。
+`runtime.ts` 是我们运行时的入口文件，`Webpack` 编译时会把它注入到 `app.js` 中进行引用。
 
 例子：
 
-```js
-// runtime.ts
+```js title="runtime.ts"
 import { mergeReconciler, mergeInternalComponents } from '@tarojs/shared'
 import { hostConfig, components } from './runtime-utils'
 
 mergeReconciler(hostConfig)
 mergeInternalComponents(components)
+```
 
-// runtime-utils.ts
+```js title="runtime-utils.ts"
 export * from './components'
 export const hostConfig = {}
 ```
@@ -148,25 +148,12 @@ export const hostConfig = {}
 
 #### 2. 连接插件入口
 
-为了让 `Webpack` 的 `AppLoader` 知道去哪里引用上述编写的运行时入口文件，需要给 `@tarojs/mini-runner` 传入 `runtimePath` 参数：
+为了让 `Webpack` 知道去哪里引用上述运行时入口文件，需要配置 `runtimePath`：
 
-```js
-// program.ts
-const PACKAGE_NAME = '@tarojs/plugin-platform-weapp'
 
+```js title="program.ts"
 class Weapp extends TaroPlatformBase {
-  // ...
-  runtimePath = `${PACKAGE_NAME}/dist/runtime`
-
-  async start () {
-    //...
-    const runner = await this.getRunner()
-    // 告诉 AppLoader 从 this.runtimePath 中引用运行时入口
-    const options = this.getOptions({
-      runtimePath: this.runtimePath
-    })
-    runner(options)
-  }
+  runtimePath = '@tarojs/plugin-platform-weapp/dist/runtime'
 }
 ```
 
@@ -187,81 +174,64 @@ Taro.request()
 
 原始的 `@tarojs/taro` 包只提供了内置 API。我们需要通过配置 `Reconciler` 的 [initNativeApi](./platform-plugin-reconciler#initnativeapi-taro) 选项，为全局 Taro 对象增加小程序的 API 和我们想要挂载在 Taro 对象上的 API。
 
-```js
-// runtime-utils.ts
-import { initNativeApi } from './apis'
-export const hostConfig = { initNativeApi }
-
-// apis.ts
-export function initNativeApi (taro) {
-  // 挂载小程序原生 API （promise 化）
-  processApis(taro)
-  // 挂载额外 API
-  taro.xxx = 'xxx'
-}
-```
-
-#### 2. 挂载小程序原生 API
-
-接下来介绍上述的 `processApis` 函数。
-
-我们把目前支持的 6 种小程序的 API 进行了比对，搜集出最通用的 API，并把它们归为三类：
-
-* taro.onAndSyncApis 
-  同步调用函数，或事件监听函数。
-
-* taro.noPromiseApis
-  非异步函数。
-
-* taro.otherApis
-
-  这些 API 都可以设置 `success`、`fail`、`complete` 回调，需要对它们进行 Promise 化。
-
-当前扩展的小程序平台如果需要额外新增 API，建议使用一个 `apis-list.ts` 文件维护：
-
 ```js title="apis-list.ts"
-// 微信小程序部分扩展 API
-export const _onAndSyncApis = new Set([
+// 需要新增额外的原生 API 时，分拆一个单独的 `apis-list.ts` 文件能有利于维护。
+
+// 同步 API
+export const noPromiseApis = new Set([
   'getAccountInfoSync'
 ])
 
-export const _noPromiseApis = new Set([
-  'createAudioContext'
-])
-
-export const _otherApis = new Set([
+// 异步 API，这些 API 都可以设置 `success`、`fail`、`complete` 回调，需要对它们进行 Promise 化。
+export const needPromiseApis = new Set([
   'addCard'
 ])
 ```
 
-最终在 `processApis` 函数中对该小程序支持的所有 API 进行处理：
+```js title="apis.ts"
+import { processApis } from '@tarojs/shared'
+import { noPromiseApis, needPromiseApis } from './apis-list'
 
-```js
-import { _onAndSyncApis, _noPromiseApis, _otherApis } from './apis-list'
+declare const wx: any
 
-function processApis (taro) {
-  const onAndSyncApis = new Set([...taro.onAndSyncApis, ..._onAndSyncApis])
-  const noPromiseApis = new Set([...taro.noPromiseApis, ..._noPromiseApis])
-  const otherApis = new Set([...taro.otherApis, ..._otherApis])
-
-  // 合并基础 API 和小程序独有 API
-  const apis = [...onAndSyncApis, ...noPromiseApis, ...otherApis]
-  
-  apis.forEach(key => {
-    if (otherApis.has(key)) {
-      // 对异步方法进行 Promise 化
-      taro[key] = (options) => {
-        // 此处 promisefy 是伪函数，代表对 API 进行 Promise 化，具体实现可参考各内置端平台插件
-        return promisefy(key, options)
-    } else {
-      // 非异步方法直接调用原生 API
-      taro[key] = () => {
-        return wx[key](...arguments)
-      }
-    }
+export function initNativeApi (taro) {
+  // 下文将详细介绍 processApis 函数
+  processApis(taro, wx, {
+    noPromiseApis,
+    needPromiseApis
   })
+  // 可以为 taro 挂载任意的 API
+  taro.cloud = wx.cloud
 }
 ```
+
+```js title="runtime-utils.ts"
+import { initNativeApi } from './apis'
+export const hostConfig = { initNativeApi }
+```
+
+#### 2. processApis(taro, global, options)
+
+##### 入参
+
+| 参数 | 类型 | 说明 |
+| :--- | :--- | :--- |
+| taro | object | Taro 对象 |
+| global | object | 小程序全局对象，如微信的 wx |
+| options | object | 配置项 |
+
+###### options
+
+| 属性 | 类型 | 说明 |
+| :--- | :--- | :--- |
+| noPromiseApis | Set`<string>` | 新增的同步 API |
+| needPromiseApis | Set`<string>` | 新增的异步 API |
+
+上述 `processApis` 函数帮助我们做了三件事情：
+
+1. 挂载所有平台公共的小程序 API 到 Taro 对象上
+2. 挂载常用的小程序全局对象属性 到 Taro 对象上
+3. 挂载用户传入的小程序 API 到 Taro 对象上
 
 ## 打包
 

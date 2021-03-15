@@ -154,7 +154,7 @@ module.exports = {
   // ...
   copy: {
     patterns: [
-      { from: 'src/asset/tt/', to: 'dist/asset/tt/', ignore: '*.js' }, // 指定需要 copy 的目录
+      { from: 'src/asset/tt/', to: 'dist/asset/tt/', ignore: ['*.js'] }, // 指定需要 copy 的目录
       { from: 'src/asset/tt/sd.jpg', to: 'dist/asset/tt/sd.jpg' } // 指定需要 copy 的文件
     ]
   }
@@ -1301,8 +1301,8 @@ module.exports = {
     // ...
     lessLoaderOption: {
       lessOptions: { // 如果使用less-loader@5，请移除 lessOptions 这一级直接配置选项。
-        strictMath: true,
-        noIeCompat: true
+      strictMath: true,
+      noIeCompat: true
       }
     }
   }
@@ -1365,3 +1365,143 @@ module.exports = {
 `object`
 
 针对 `woff | woff2 | eot | ttf | otf` 文件的 `url-loader` 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)。
+
+## rn
+
+专属于 RN 的配置。
+
+### rn.appName
+
+`string`
+
+设置RN bundle中注册应用的名称
+
+```js
+module.exports = {
+  // ...
+  rn: {
+    // ...
+    appName: 'TaroDemo'
+  }
+}
+```
+
+### rn.entry
+
+`string`
+
+entry利用模块查找规则{name}.{platform}.{ext}自动区分平台
+
+```js
+module.exports = {
+  // ...
+  rn: {
+    // ...
+    entry: 'index.android.tsx'
+  }
+}
+```
+
+### rn.output
+
+`object`
+
+设置Metro打包生成bundle的输出路径，默认 dist 目录下
+
+```js
+module.exports = {
+  // ...
+  rn: {
+    // ...
+    output: {
+      ios: '../taro-native-shell/ios/main.jsbundle',
+      iosAssetsDest: '../taro-native-shell/ios',
+      android: '../taro-native-shell/android/app/src/main/assets/index.android.bundle',
+      androidAssetsDest: '../taro-native-shell/android/app/src/main/res'
+    },
+  }
+}
+```
+
+### rn.postcss
+
+`object`
+
+ `postcss` 相关配置，其他样式语言预处理后经过此配置。
+
+```js
+module.exports = {
+  // ...
+  rn: {
+    // ...
+    postcss: {
+      // postcss 配置，参考 https://github.com/postcss/postcss#options
+      options: { /* ... */ },
+      // 默认true，控制是否对 css value 进行 scalePx2dp 转换，pxtransform配置 enable 才生效
+      scalable: boolean,
+      pxtransform: {
+        enable: boolean, // 默认true
+        config: { /* ... */ } // 插件 pxtransform 配置项，参考尺寸章节
+      },
+    },
+  }
+}
+```
+
+### rn.sass
+
+`object`
+
+ `sass` 相关配置。`options` 配置项参考[官方文档](https://github.com/sass/node-sass#options)。
+
+```js
+module.exports = {
+  // ...
+  rn: {
+    // ...
+    sass: {
+      options: { /* ... */ },
+    	// 加入到脚本注入的每个 sass 文件头部，在 config.sass 之前
+      additionalData: '', // {String|Function}
+    }
+  }
+}
+```
+
+### rn.less
+
+`object`
+
+`less` 相关配置。`options` 配置项参考[官方文档](http://lesscss.org/usage/#less-options)。
+
+```js
+module.exports = {
+  // ...
+  rn: {
+    // ...
+    less: {
+      options: { /* ... */ },
+      additionalData: '', // {String|Function}
+    }
+  }
+}
+```
+
+### rn.stylus
+
+`object`
+
+ `stylus` 相关配置。`stylus.options` 配置项参考[文档](https://github.com/NervJS/taro/tree/next/packages/taro-rn-style-transformer/README.md#rnstylus)。
+
+```js
+module.exports = {
+  // ...
+  rn: {
+    // ...
+    stylus: {
+      options: { /* ... */ },
+      additionalData: '', // {String|Function}
+    }
+  }
+}
+```

@@ -24,69 +24,211 @@ export default class Weapp extends TaroPlatformBase {
 | ctx | object | 插件上下文对象 |
 | config | object | Taro 编译配置 |
 
-### this.ctx
+### ctx
 
 `object`
 
 插件上下文对象。
 
-### this.helper
+#### this.ctx.modifyWebpackChain
+
+获取 WebpackChain，例子：
+
+```js title="program.ts"
+class Weapp extends TaroPlatformBase {
+  modifyWebpackChain () {
+    // 通过 this.ctx.modifyWepackChain 能获取到 WebpackChain 实例
+    this.ctx.modifyWebpackChain(({ chain }) => {
+      // chain.xxxx
+    })
+  }
+}
+```
+
+### helper
 
 `object`
 
 存放着一系列工具函数，对应 `@tarojs/helper` 包的导出内容。
 
-### this.config
+### config
 
 `object`
 
 编译配置对象。
 
-### this.platform
+### (abstract) platform
+
+> 抽象属性，子类必须实现。
 
 `string`
 
-需要由子类设置，平台名称。
+平台名称，如：
 
-### this.globalObject
+```js title="program.ts"
+class Weapp extends TaroPlatformBase {
+  platform = 'weapp'
+}
+```
+
+### (abstract) globalObject
+
+> 抽象属性，子类必须实现。
 
 `string`
 
-小程序挂载各种 API 的全局对象名称。如微信小程序的 `wx`，支付宝小程序的 `my`。
+小程序挂载各种 API 的全局对象名称。如微信小程序的 `wx`，支付宝小程序的 `my`，例如：
 
-### this.fileType
+```js title="program.ts"
+class Weapp extends TaroPlatformBase {
+  globalObject = 'wx'
+}
+```
+
+### (abstract) runtimePath
+
+> 抽象属性，子类必须实现。
+
+`stirng` | `string[]`
+
+小程序编译的运行时文件的解析路径，如：
+
+```js title="program.ts"
+class Weapp extends TaroPlatformBase {
+  runtimePath = '@tarojs/plugin-platform-weapp/dist/runtime'
+}
+```
+
+### (abstract) fileType
+
+> 抽象属性，子类必须实现。
 
 `object`
 
 平台的各种文件的后缀名，如：
 
-```js
-fileType = {
-  // 模板文件后缀
-  templ: '.wxml',
-  // 样式文件后缀
-  style: '.wxss',
-  // 配置文件后缀
-  config: '.json',
-  // 脚本文件后缀
-  script: '.js',
-  // 【可选】渲染层脚本文件后缀，如微信小程序的 wxs，支付宝小程序的 sjs
-  xs: '.wxs'
+```js title="program.ts"
+class Weapp extends TaroPlatformBase {
+  fileType = {
+    // 模板文件后缀
+    templ: '.wxml',
+    // 样式文件后缀
+    style: '.wxss',
+    // 配置文件后缀
+    config: '.json',
+    // 脚本文件后缀
+    script: '.js',
+    // 【可选】渲染层脚本文件后缀，如微信小程序的 wxs，支付宝小程序的 sjs
+    xs: '.wxs'
+  }
 }
+
 ```
 
-### this.template
+### (abstract) template
+
+> 抽象属性，子类必须实现。
 
 `object`
 
-模板对象，下文将详细介绍。
+[模板对象](./platform-plugin-template)的实例。
 
-### setup ()
+### (optional) projectConfigJson
 
-此函数处理了两件事：
+> 子类可选择是否进行设置。
 
-1. 清空 dist 文件夹
-2. 输出编译提示（提示用户可以如何在 Dev 模式下开启压缩）
+小程序配置文件的名称。
+
+如果子类有实现 `projectConfigJson`，则会自动拷贝此文件到 `dist` 目录下。
+
+```js title="program.ts"
+class Weapp extends TaroPlatformBase {
+  projectConfigJson = 'project.config.json'
+}
+```
+
+### (optional) taroComponentsPath
+
+> 子类可选择是否进行设置。
+
+编译时对 `@tarojs/components` 包的 alias，下文将详细介绍。
+
+```js title="program.ts"
+class Weapp extends TaroPlatformBase {
+  taroComponentsPath = '@tarojs/plugin-platform-weapp/dist/components-react'
+}
+```
+
+### setupTransaction
+
+`setup` 阶段的事务钩子。
+
+```js title="program.ts"
+class Weapp extends TaroPlatformBase {
+  /**
+   * 1. setupTransaction - init
+   * 2. setup
+   * 3. setupTransaction - close
+   * 4. buildTransaction - init
+   * 5. build
+   * 6. buildTransaction - close
+   */
+  constructor (ctx, config) {
+    super(ctx, config)
+
+    this.setupTransaction.addWrapper({
+      init () {}
+      close () {}
+    })
+  }
+}
+```
+
+### buildTransaction
+
+`build` 阶段的事务钩子。
+
+```js title="program.ts"
+class Weapp extends TaroPlatformBase {
+  /**
+   * 1. setupTransaction - init
+   * 2. setup
+   * 3. setupTransaction - close
+   * 4. buildTransaction - init
+   * 5. build
+   * 6. buildTransaction - close
+   */
+  constructor (ctx, config) {
+    super(ctx, config)
+
+    this.buildTransaction.addWrapper({
+      init () {}
+      close () {}
+    })
+  }
+}
+```
+
+### start ()
+
+插件入口调用 `start` 方法开启编译，如：
+
+```js title="program.ts"
+class Weapp extends TaroPlatformBase {
+  // ...
+}
+
+export default (ctx) => {
+  ctx.registerPlatform({
+    name: 'weapp',
+    useConfigName: 'mini',
+    async fn ({ config }) {
+      const program = new Weapp(ctx, config)
+      await program.start()
+    }
+  })
+}
+```
 
 ### generateProjectConfig (src, dist)
 
@@ -140,57 +282,26 @@ this.ctx.modifyMiniConfigs(({ configMap }) => {
 })
 ```
 
-### getOptions (extraOptions): options
-
-获取提供给 `@tarojs/mini-runner` 的配置对象。
-
-| 参数 | 类型 | 说明 |
-| :--- | :--- | :--- |
-| extraOptions | object | 需要额外合入到配置对象的配置项 |
-
-| 返回值 | 类型 | 说明 |
-| :--- | :--- | :--- |
-| options | object | 配置对象 |
-
-例子：
-
-```js
-const options = this.getOptions({
-  runtimePath: this.runtimePath
-})
-```
-
-### getRunner ()
-
-返回当前项目内的 `@tarojs/mini-runner` 包。
-
-例子：
-
-```js
-// 获取 @tarojs/mini-runner 包导出的实例
-const runner = await this.getRunner()
-// 获取配置
-const options = this.getOptions({
-  runtimePath: this.runtimePath
-})
-// 启动 webpack 编译
-runner(options)
-```
-
 ## 自定义平台类
 
 接下来将以扩展对微信小程序的编译支持为例，介绍如何创建一个自定义平台类。
 
 ### 1. 继承基类
 
+继承 `TaroPlatformBase` 以实现 `Weapp` 类，并实现所有抽象属性、可选属性：
+
 ```js title="program.ts"
 import { TaroPlatformBase } from '@tarojs/service'
+
+const PACKAGE_NAME = '@tarojs/plugin-platform-weapp'
 
 class Weapp extends TaroPlatformBase {
   // 平台名称
   platform = 'weapp'
   // 小程序全局对象
   globalObject = 'wx'
+  // 小程序编译的运行时文件的解析路径
+  runtimePath = `${PACKAGE_NAME}/dist/runtime`
   // 文件后缀
   fileType = {
     templ: '.wxml',
@@ -198,6 +309,36 @@ class Weapp extends TaroPlatformBase {
     config: '.json',
     script: '.js',
     xs: '.wxs'
+  }
+  template = new Template()
+  // 小程序配置文件名称
+  projectConfigJson = 'project.config.json'
+  // 对 `@tarojs/components` 包的 alias 路径
+  taroComponentsPath = `${PACKAGE_NAME}/dist/components-react`
+
+  constructor (ctx, config) {
+    super(ctx, config)
+  
+    /**
+    * 1. setupTransaction - init
+    * 2. setup
+    * 3. setupTransaction - close
+    * 4. buildTransaction - init
+    * 5. build
+    * 6. buildTransaction - close
+    */
+
+    // 可以在 setup 的不同阶段注入自定义逻辑
+    this.setupTransaction.addWrapper({
+      init () {}
+      close () {}
+    })
+
+    // 可以在 build 的不同阶段注入自定义逻辑
+    this.buildTransaction.addWrapper({
+      init () {}
+      close () {}
+    })
   }
 }
 
@@ -208,19 +349,19 @@ export default Weapp
 
 编写一个[模板类](./platform-plugin-template)以处理模板逻辑，把它的实例设置为自定义平台类的 `template` 属性：
 
-```js
-// program.ts
+```js title="program.ts"
 import { Template } from './template'
 
 class Weapp extends TaroPlatformBase {
   // ...
+  // 模板实例
   template = new Template()
 }
 ```
 
 ### 3. 处理组件
 
-我们把目前支持的 6 种小程序进行了组件和组件属性的比对，得出了一份最通用的组件以及其属性。访问上一节 `Template` 类实例的 [internalComponents](./platform-plugin-template#thisinternalcomponents) 属性可以获取到这些通用组件以及属性。
+我们把目前支持的 6 种小程序进行了组件和组件属性的比对，得出了一份最通用的组件以及其属性。访问 `Template` 类实例的 [internalComponents](./platform-plugin-template#thisinternalcomponents) 属性可以获取到这些通用组件以及属性。
 
 > 抽取这份通用组件的目的是为了在生成 B 小程序的模板时，尽量不会含有 A 小程序独有的组件或属性。
 
@@ -255,7 +396,7 @@ export const components = {
 
 #### 3.2 合并到 template.internalComponents
 
-编写好 `components.ts` 后，可以借助模板类实例的 `mergeComponents` 方法进行合并。
+编写好 `components.ts` 后，可以借助 `Template` 类实例的 `mergeComponents` 方法进行合并。
 
 ##### template.mergeComponents (ctx, patch)
 
@@ -268,17 +409,26 @@ export const components = {
 
 例子：
 
-```js
-// program.ts
+```js title="program.ts"
 import { components } from './components'
 
 class Weapp extends TaroPlatformBase {
-  modifyComponents () {
+  constructor (ctx, config) {
+    super(ctx, config)
+
+    // 在 setup 阶段结束时，修改模板
+    this.setupTransaction.addWrapper({
+      close: this.modifyTemplate
+    })
+  }
+
+  modifyTemplate () {
     this.template.mergeComponents(this.ctx, components)
   }
 }
+```
 
-// components.ts
+```js title="components.ts"
 export const components = {
   ScrollView: {
     'enable-flex': 'true',
@@ -288,15 +438,22 @@ export const components = {
     'a': ''
   }
 }
+```
 
-// 假设 template.internalComponent 默认值为：
+假设 `template.internalComponent` 的默认值为：
+
+```js
 internalComponent = {
   ScrollView: {
     'scroll-left': '',
     'enable-flex': 'false',
   }
 }
-// 这时合并后的结果为：
+```
+
+合并后的结果为：
+
+```js
 internalComponent = {
   ScrollView: {
     'scroll-left': '',
@@ -318,7 +475,7 @@ internalComponent = {
 
 ```js title="program.ts"
 class Weapp extends TaroPlatformBase {
-  modifyComponents () {
+  modifyTemplate () {
     // 删除 Slider 组件里的一些属性
     this.modifySlider(this.template.internalComponents.Slider)
     // 改写 View 组件的属性对象
@@ -332,65 +489,37 @@ class Weapp extends TaroPlatformBase {
 }
 ```
 
-建议尽量编写一份 `components.ts` 进行 merge，而不是直接操作。因为运行时也需要合并后的组件信息，编写一份 `components.ts` 能进行复用。
+> 建议尽量编写一份 `components.ts` 进行 merge，而不是直接操作。因为运行时也需要合并后的组件信息，编写一份 `components.ts` 能进行复用。
 
 #### 3.4 编写 components-react.ts
 
-在 Taro 里使用 React，内置组件需要从 `@tarojs/components` 这个包引用后再使用。但如果我们增加了新的内置组件，再向 `@tarojs/components` 引用就取不到这些新增的组件。
+在 Taro 里使用 React，内置组件需要从 `@tarojs/components` 中引用后再使用。
 
 ```js
 import { View } from '@tarojs/components'
 ```
 
-因此当我们新增加了组件时，需要编写 `components-react.ts`，并配置 Webpack alias，供 **React** 引用。
+但如果我们**增加了新的内置组件，再从 `@tarojs/components` 中引用就取不到这些新增的组件**。
+
+因此当我们**新增加了组件**时，需要编写一份 `components-react.ts`，并配置 Webpack alias，供 **React** 引用。
 
 例子：
 
-```js
-// components-react.ts
+1. 编写 `components-react.ts` 文件
+
+```js title="components-react.ts"
 // 原有的组件
-export const View = 'view'
+export * from '@tarojs/components/mini'
 // 新增的组件
 export const Editor = 'editor'
-
-// program.ts
-const PACKAGE_NAME = '@tarojs/plugin-platform-weapp'
-class Weapp extends TaroPlatformBase {
-  modifyWebpackChain () {
-    // 通过 this.ctx.modifyWepackChain 能获取到 WebpackChain 实例
-    this.ctx.modifyWebpackChain(({ chain }) => {
-      chain.resolve.alias.set(
-        '@tarojs/components$',
-        `${PACKAGE_NAME}/dist/components-react`
-      )
-    })
-  }
-}
+export const OfficialAccount = 'official-account'
 ```
 
-### 4. 编写接口
-
-我们创建的平台类需要编写一个对外的接口，在其中对编译流程进行设计，最终目标是调用 `@tarojs/mini-runner` 驱动 **Webpack** 开启编译。
+2. 设置 [taroComponentsPath](./platform-plugin-base#optional-tarocomponentspath)
 
 ```js title="program.ts"
+const PACKAGE_NAME = '@tarojs/plugin-platform-weapp'
 class Weapp extends TaroPlatformBase {
-  // ...
-  async start () {
-    // 清空输出目录和输出提示
-    this.setup()
-    // 生成 project.config.json
-    this.generateProjectConfig(this.projectConfigJson)
-    // 配置组件
-    this.modifyComponents()
-    // 修改 webpack chain
-    this.modifyWebpackChain()
-
-    // 获取配置对象，调用 runner 开启编译
-    const runner = await this.getRunner()
-    const options = this.getOptions({
-      runtimePath: this.runtimePath
-    })
-    runner(options)
-  }
+  taroComponentsPath = `${PACKAGE_NAME}/dist/components-react`
 }
 ```
