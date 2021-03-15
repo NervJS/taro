@@ -58,10 +58,12 @@ export function resolveStyle (id: string, opts: ResolveStyleOptions) {
     basedir,
     platform,
     paths = [],
+    defaultExt = '',
     logLevel = LogLevelEnum.ERROR
   } = opts
-  const { dir, name, ext } = path.parse(id)
+  const { dir, name, ext: idExt } = path.parse(id)
   const incPaths = [path.resolve(basedir, dir)].concat(paths)
+  const ext = idExt || defaultExt
 
   const exts = [
     // add the platform specific extension, first in the array to take precedence

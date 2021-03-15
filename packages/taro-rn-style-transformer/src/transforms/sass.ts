@@ -53,22 +53,31 @@ export function processByExternal (src, filename, config: SassExternalConfig) {
 
 function renderToCSS (src, filename, options, transformOptions) {
   const defaultOpts = {
-    importer: function (url, prev /*, done */) {
+    importer: function (...params) { /* url, prev, done */
+      let [url, prev] = params
       // url is the path in import as is, which LibSass encountered.
       // prev is the previously resolved path.
       // done is an optional callback, either consume it or return value synchronously.
       // this.options contains this options hash, this.callback contains the node-style callback
       let basedir = ''
+      let defaultExt = ''
       if (path.isAbsolute(prev)) {
-        basedir = path.dirname(prev)
+        ({ dir: basedir, ext: defaultExt } = path.parse(prev))
       } else {
-        basedir = path.dirname(path.resolve(process.cwd(), filename))
+        ({ dir: basedir, ext: defaultExt } = path.parse(path.resolve(process.cwd(), filename)))
       }
+
+      // 外部 sass importer 配置
+      if (typeof options.importer === 'function') {
+        ({ file: url } = options.importer(params))
+      }
+
       try {
         const file = resolveStyle(
           url,
           {
             basedir,
+            defaultExt,
             platform: transformOptions.platform
           })
         return { file: file }
@@ -78,7 +87,7 @@ function renderToCSS (src, filename, options, transformOptions) {
     }
   }
 
-  const opts = { ...defaultOpts, ...options, data: src }
+  const opts = { ...options, ...defaultOpts, data: src }
 
   return new Promise((resolve, reject) => {
     sass.render(opts, (err, result) => {

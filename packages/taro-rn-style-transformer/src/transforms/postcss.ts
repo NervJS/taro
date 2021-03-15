@@ -40,12 +40,13 @@ export function getPostcssPlugins ({
 
   const plugins = [
     postcssImport({
-      resolve: function resolve (id, basedir, options) {
+      resolve: function resolve (id: string, basedir: string, options: postcssImport.AtImportOptions) {
         return resolveStyle(
           id,
           {
             ...options,
             basedir,
+            defaultExt: '.css', // 省略后缀则默认 `.css`
             platform: transformOptions.platform
           }
         )
