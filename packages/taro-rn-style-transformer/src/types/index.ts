@@ -1,11 +1,11 @@
 export interface TransformOptions {
-  dev: boolean;
-  hot: boolean;
-  minify: boolean;
-  platform: 'android' | 'ios';
-  projectRoot: string;
-  publicPath: string;
-  customTransformOptions: any;
+  dev: boolean
+  hot: boolean
+  minify: boolean
+  platform: 'android' | 'ios'
+  projectRoot: string
+  publicPath: string
+  customTransformOptions: any
 }
 
 export enum LogLevelEnum {
@@ -14,9 +14,10 @@ export enum LogLevelEnum {
 }
 
 export interface ResolveStyleOptions {
-  basedir: string;
-  platform: 'android' | 'ios';
-  paths?: string[];
-  logLevel?: LogLevelEnum;
-  defaultExt?: string;
+  basedir: string
+  platform: 'android' | 'ios'
+  paths?: string[]
+  logLevel?: LogLevelEnum
+  defaultExt?: string
+  alias?: Record<string, string>
 }

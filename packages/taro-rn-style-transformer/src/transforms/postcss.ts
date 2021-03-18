@@ -47,6 +47,7 @@ export function getPostcssPlugins ({
             ...options,
             basedir,
             defaultExt: '.css', // 省略后缀则默认 `.css`
+            alias: postcssConfig.alias,
             platform: transformOptions.platform
           }
         )

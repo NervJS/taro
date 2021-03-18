@@ -10,13 +10,8 @@ const defaultConfig = {
     750: 1,
     828: 1.81 / 2
   },
-  sass: {
-    resource: [
-      '__tests__/styles/variable.scss',
-      '__tests__/styles/b.css'
-    ],
-    projectDirectory: path.resolve(__dirname, '..'),
-    data: '.data { width: 200px }'
+  alias: {
+    '@': path.resolve(__dirname, './styles')
   },
   rn: {
     postcss: {
@@ -60,7 +55,16 @@ describe('style transform with config options', () => {
       color: $base-color;
       height: 10px;
     }
-  `, {}, './__tests__/styles/a.scss')
+  `, {
+      sass: {
+        resource: [
+          '__tests__/styles/variable.scss',
+          '__tests__/styles/b.css'
+        ],
+        projectDirectory: path.resolve(__dirname, '..'),
+        data: '.data { width: 200px }'
+      }
+    }, './__tests__/styles/a.scss')
     expect(css).toEqual(getWrapedCSS(`{
   "brn": {
     "color": "red"
@@ -86,7 +90,9 @@ describe('style transform with config options', () => {
         resource: [
           path.resolve(__dirname, 'styles/variable.scss'),
           path.resolve(__dirname, 'styles/b.css')
-        ]
+        ],
+        projectDirectory: path.resolve(__dirname, '..'),
+        data: '.data { width: 200px }'
       }
     }, './__tests__/styles/a.scss')
     expect(css).toEqual(getWrapedCSS(`{
@@ -135,6 +141,38 @@ describe('style transform with config options', () => {
     expect(css).toEqual(getWrapedCSS(`{
   "test": {
     "height": 5
+  }
+}`))
+  })
+  it('config.alias in css', async () => {
+    const css = await run(`
+    @import '@/b.css';
+  `)
+    expect(css).toEqual(getWrapedCSS(`{
+  "brn": {
+    "color": "red"
+  }
+}`))
+  })
+
+  it('config.alias in sass', async () => {
+    const css = await run(`
+    @import '@/b.scss';
+  `, {}, './__tests__/styles/a.scss')
+    expect(css).toEqual(getWrapedCSS(`{
+  "b": {
+    "color": "red"
+  }
+}`))
+  })
+
+  it('config.alias in less', async () => {
+    const css = await run(`
+    @import '@/b.less';
+  `, {}, './__tests__/styles/a.less')
+    expect(css).toEqual(getWrapedCSS(`{
+  "b": {
+    "color": "red"
   }
 }`))
   })

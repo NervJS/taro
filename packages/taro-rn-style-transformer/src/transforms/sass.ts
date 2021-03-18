@@ -6,8 +6,9 @@ import { TransformOptions } from '../types'
 
 // https://github.com/sass/node-sass#options
 export interface Config {
-  options?: Options;
-  additionalData?: string | ((string) => string);
+  alias?: Record<string, string>
+  options?: Options
+  additionalData?: string | ((string) => string)
 }
 
 export interface SassExternalConfig {
@@ -78,6 +79,7 @@ function renderToCSS (src, filename, options, transformOptions) {
           {
             basedir,
             defaultExt,
+            alias: options.alias,
             platform: transformOptions.platform
           })
         return { file: file }
@@ -120,7 +122,7 @@ export default function transform (
         : `${config.additionalData}\n${data}`
   }
 
-  return renderToCSS(data, filename, config.options, transformOptions)
+  return renderToCSS(data, filename, { ...config.options, alias: config.alias }, transformOptions)
     .then((css: string) => {
       return css
     })

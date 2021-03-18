@@ -56,8 +56,9 @@ export interface Options {
 }
 
 export interface Config {
-  options: Options,
-  additionalData?: string | ((string) => string);
+  alias?: Record<string, string>
+  options: Options
+  additionalData?: string | ((string) => string)
 }
 
 function renderToCSS (src, filename, options = {} as any) {
@@ -69,6 +70,7 @@ function renderToCSS (src, filename, options = {} as any) {
     less
       .render(src, {
         ...options,
+        filename,
         plugins: plugins.concat(options.plugins || []),
         paths: paths.concat(options.paths || [])
       })
@@ -88,7 +90,7 @@ export default function transform (src: string, filename: string, config: Config
         ? `${config.additionalData(data)}`
         : `${config.additionalData}\n${data}`
   }
-  return renderToCSS(data, filename, config.options)
+  return renderToCSS(data, filename, { ...config.options, alias: config.alias })
     .then((css: string) => {
       return css
     })
