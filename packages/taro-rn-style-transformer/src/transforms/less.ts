@@ -73,11 +73,12 @@ function renderToCSS (src, filename, options = {} as any) {
         filename,
         plugins: plugins.concat(options.plugins || []),
         paths: paths.concat(options.paths || [])
+      }, (err, output) => {
+        if (err) {
+          return reject(err.message)
+        }
+        resolve(output.css)
       })
-      .then(({ css }) => {
-        resolve(css)
-      })
-      .catch(reject)
   })
 }
 
