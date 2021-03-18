@@ -97,8 +97,9 @@ interface RenderOptions {
 }
 
 export interface Config {
-  options: RenderOptions,
-  additionalData?: string | ((string) => string);
+  alias?: Record<string, string>
+  options: RenderOptions
+  additionalData?: string | ((string) => string)
 }
 
 export const defaultOptions = {

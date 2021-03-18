@@ -5,11 +5,15 @@ import { LogLevelEnum } from '../types'
 class Importer {
   constructor (opt) {
     this.platform = opt.platform
+    this.alias = opt.alias
   }
 
   platform: 'android' | 'ios'
 
-  process (src: string, { fileInfo }: Less.PreProcessorExtraInfo) {
+  alias: Record<string, string> = {}
+
+  process (src: string, options: Less.PreProcessorExtraInfo) {
+    const { fileInfo } = options
     const { filename, currentDirectory: basedir } = fileInfo
 
     if (!basedir) {
@@ -18,6 +22,7 @@ class Importer {
 
     const resolveOpts = {
       basedir,
+      alias: this.alias,
       platform: this.platform,
       logLevel: LogLevelEnum.WARNING,
       defaultExt: path.extname(filename)

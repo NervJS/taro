@@ -58,9 +58,16 @@ export function resolveStyle (id: string, opts: ResolveStyleOptions) {
     basedir,
     platform,
     paths = [],
+    alias = {},
     defaultExt = '',
     logLevel = LogLevelEnum.ERROR
   } = opts
+  Object.keys(alias).forEach(key => {
+    if (id.startsWith(key)) {
+      id = id.replace(key, alias[key])
+    }
+  })
+
   const { dir, name, ext: idExt } = path.parse(id)
   const incPaths = [path.resolve(basedir, dir)].concat(paths)
   const ext = idExt || defaultExt
