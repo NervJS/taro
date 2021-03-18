@@ -166,6 +166,20 @@ function getInitRouteName (config: RouterConfig) {
   return initRoute
 }
 
+function getInitTabRoute (config:RouterConfig){
+  const pageList = config.pages
+  const tabNames = getTabNames(config)
+  let initTabName = ''
+  for (let i = 0; i < pageList.length; i++) {
+    const item = pageList[i]
+    if(tabNames.indexOf(item.name) !== -1){
+      initTabName = item.name;
+      break;
+    }
+  }
+  return initTabName
+}
+
 function createTabStack (config: RouterConfig, parentProps: any) {
   const Tab = createBottomTabNavigator()
   const tabBar = config.tabBar
@@ -204,7 +218,7 @@ function createTabStack (config: RouterConfig, parentProps: any) {
   }, userTabBarOptions)
 
   const tabNames = getTabNames(config)
-  const tabInitRouteName = getTabInitRoute() || tabNames[0]
+  const tabInitRouteName = getTabInitRoute() || getInitTabRoute(config)|| tabNames[0]
   return React.createElement(Tab.Navigator,
     {
       tabBarOptions: tabBarOptions,
