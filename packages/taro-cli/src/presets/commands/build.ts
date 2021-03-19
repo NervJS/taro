@@ -1,5 +1,5 @@
 import { IPluginContext } from '@tarojs/service'
-
+import * as hooks from '../constant'
 import configValidator from '../../doctor/configValidator'
 
 export default (ctx: IPluginContext) => {
@@ -7,23 +7,36 @@ export default (ctx: IPluginContext) => {
   ctx.registerCommand({
     name: 'build',
     optionsMap: {
-      '--type [typeName]': 'Build type, weapp/swan/alipay/tt/h5/quickapp/rn/qq/jd',
+      '--type [typeName]': 'Build type, weapp/swan/alipay/tt/qq/jd/h5',
       '--watch': 'Watch mode',
-      '--env [env]': 'Env type',
-      '--port [port]': 'Specified port',
+      '--env [env]': 'Value for process.env.NODE_ENV',
       '--blended': 'Blended Taro project in an original MiniApp project'
-      // '--plugin [typeName]': 'Build Taro plugin project, weapp',
-      // '--release': 'Release quickapp'
+      // '--port [port]': 'Specified port',
     },
+    synopsisList: [
+      'taro build --type weapp',
+      'taro build --type weapp --watch',
+      'taro build --type weapp --env production',
+      'taro build --type weapp --blended',
+      'taro build native-components --type weapp'
+    ],
     async fn (opts) {
-      const { platform, config } = opts
+      const { options, config, _ } = opts
+      const { platform, isWatch, blended } = options
       const { fs, chalk, PROJECT_CONFIG } = ctx.helper
       const { outputPath, configPath } = ctx.paths
-      const { isWatch, envHasBeenSet, blended } = ctx.runOpts
+
       if (!configPath || !fs.existsSync(configPath)) {
         console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是 Taro 项目根目录!`))
         process.exit(1)
       }
+
+      if (typeof platform !== 'string') {
+        console.log(chalk.red('请传入正确的编译类型！'))
+        process.exit(0)
+      }
+
+      // 校验 Taro 项目配置
       const checkResult = await checkConfig({
         configPath,
         projectConfig: ctx.initialConfig
@@ -42,19 +55,18 @@ export default (ctx: IPluginContext) => {
             lineChalk(line.desc)
           )
         })
-      }
-      if (typeof platform !== 'string') {
-        console.log(chalk.red('请传入正确的编译类型！'))
         process.exit(0)
       }
-      process.env.TARO_ENV = platform
-      fs.ensureDirSync(outputPath)
-      let isProduction = false
-      if (!envHasBeenSet) {
-        isProduction = process.env.NODE_ENV === 'production' || !isWatch
-      }
 
-      await ctx.applyPlugins('onBuildStart')
+      const isProduction = process.env.NODE_ENV === 'production' || !isWatch
+
+      // dist folder
+      fs.ensureDirSync(outputPath)
+
+      // is build native components mode?
+      const isBuildNativeComp = _[1] === 'native-components'
+
+      await ctx.applyPlugins(hooks.ON_BUILD_START)
       await ctx.applyPlugins({
         name: platform,
         opts: {
@@ -63,9 +75,10 @@ export default (ctx: IPluginContext) => {
             isWatch,
             mode: isProduction ? 'production' : 'development',
             blended,
+            isBuildNativeComp,
             async modifyWebpackChain (chain, webpack) {
               await ctx.applyPlugins({
-                name: 'modifyWebpackChain',
+                name: hooks.MODIFY_WEBPACK_CHAIN,
                 initialVal: chain,
                 opts: {
                   chain,
@@ -73,18 +86,19 @@ export default (ctx: IPluginContext) => {
                 }
               })
             },
-            async modifyBuildAssets (assets) {
+            async modifyBuildAssets (assets, miniPlugin) {
               await ctx.applyPlugins({
-                name: 'modifyBuildAssets',
+                name: hooks.MODIFY_BUILD_ASSETS,
                 initialVal: assets,
                 opts: {
-                  assets
+                  assets,
+                  miniPlugin
                 }
               })
             },
             async modifyMiniConfigs (configMap) {
               await ctx.applyPlugins({
-                name: 'modifyMiniConfigs',
+                name: hooks.MODIFY_MINI_CONFIGS,
                 initialVal: configMap,
                 opts: {
                   configMap
@@ -93,7 +107,7 @@ export default (ctx: IPluginContext) => {
             },
             async onCompilerMake (compilation) {
               await ctx.applyPlugins({
-                name: 'onCompilerMake',
+                name: hooks.ON_COMPILER_MAKE,
                 opts: {
                   compilation
                 }
@@ -101,7 +115,7 @@ export default (ctx: IPluginContext) => {
             },
             async onBuildFinish ({ error, stats, isWatch }) {
               await ctx.applyPlugins({
-                name: 'onBuildFinish',
+                name: hooks.ON_BUILD_FINISH,
                 opts: {
                   error,
                   stats,
@@ -118,12 +132,12 @@ export default (ctx: IPluginContext) => {
 
 function registerBuildHooks (ctx) {
   [
-    'modifyWebpackChain',
-    'modifyBuildAssets',
-    'modifyMiniConfigs',
-    'onCompilerMake',
-    'onBuildStart',
-    'onBuildFinish'
+    hooks.MODIFY_WEBPACK_CHAIN,
+    hooks.MODIFY_BUILD_ASSETS,
+    hooks.MODIFY_MINI_CONFIGS,
+    hooks.ON_COMPILER_MAKE,
+    hooks.ON_BUILD_START,
+    hooks.ON_BUILD_FINISH
   ].forEach(methodName => {
     ctx.registerMethod(methodName)
   })

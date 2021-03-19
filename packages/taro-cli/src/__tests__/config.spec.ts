@@ -1,11 +1,11 @@
 import * as path from 'path'
-import { run } from './utils'
 import {
   getUserHomeDir,
   fs,
   TARO_CONFIG_FLODER,
   TARO_BASE_CONFIG
 } from '@tarojs/helper'
+import { run } from './utils'
 
 jest.mock('@tarojs/helper', () => {
   const helper = jest.requireActual('@tarojs/helper')

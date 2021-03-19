@@ -207,6 +207,45 @@ declare namespace Taro {
       /** 资源方云环境 ID */
       resourceEnv: string
     }
+
+    /** 调用云托管参数 */
+    interface CallContainerParam < P extends string | General.IAnyObject | ArrayBuffer = any | any > {
+      /** 服务路径 */
+      path: string
+      /** HTTP请求方法，默认 GET */
+      method?: keyof Taro.request.method
+      /** 请求数据 */
+      data?: P
+      /** 设置请求的 header，header 中不能设置 Referer。content-type 默认为 application/json */
+      header?: General.IAnyObject
+      /** 超时时间，单位为毫秒 */
+      timeout?: number
+      /** 返回的数据格式 */
+      dataType?: Taro.request.dataType
+      /** 响应的数据类型 */
+      responseType?: keyof {
+        text
+        arraybuffer
+      }
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: CallFunctionResult | General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: CallFunctionResult) => void
+    }
+
+    /** 调用云托管返回值 */
+    interface CallContainerResult < R extends string | General.IAnyObject | ArrayBuffer = any | any > {
+      /** 开发者云托管服务返回的数据 */
+      data: R
+      /** 开发者云托管返回的 HTTP Response Header */
+      header: General.IAnyObject
+      /** 开发者云托管服务返回的 HTTP 状态码 */
+      statusCode: number
+      /** 开发者云托管返回的 cookies，格式为字符串数组，仅小程序端有此字段 */
+      cookies?: General.IAnyObject
+    }
   }
 
   /** 云开发 SDK 实例
@@ -433,6 +472,21 @@ declare namespace Taro {
      * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/utils/Cloud.Cloud.html
      */
     static Cloud: new (options: cloud.IOptions) => Cloud
+
+    /** 调用云托管服务
+     * @supported weapp
+     * @example
+     * 假设已经初始化了一个叫c1的云开发实例，并发起云托管调用
+     *
+     * ``` tsx
+     * const r = await c1.callContainer({
+     *   path: '/path/to/container', // 填入容器的访问路径
+     *   method: 'POST',
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/container/Cloud.callContainer.html
+     */
+    static callContainer < R = any, P = any >(params: cloud.CallContainerParam<P>): Promise<cloud.CallContainerResult<R>>
   }
 
   class Cloud {
@@ -624,7 +678,6 @@ declare namespace Taro {
      * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/Cloud.database.html
      */
     database(config?: cloud.IConfig): DB.Database
-
   }
 
   namespace DB {

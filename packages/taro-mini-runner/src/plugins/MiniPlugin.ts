@@ -33,7 +33,7 @@ import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 import { componentConfig } from '../template/component'
 import { validatePrerenderPages, PrerenderConfig } from '../prerender/prerender'
-import { AddPageChunks, IComponent, IFileType } from '../utils/types'
+import { AddPageChunks, IComponent, IFileType, Func } from '../utils/types'
 
 const PLUGIN_NAME = 'TaroMiniPlugin'
 
@@ -50,9 +50,10 @@ interface ITaroMiniPluginOptions {
   }
   fileType: IFileType
   template: RecursiveTemplate | UnRecursiveTemplate
-  modifyBuildAssets?: Function
-  modifyMiniConfigs?: Function
-  onCompilerMake?: Function
+  modifyBuildAssets?: Func
+  modifyMiniConfigs?: Func
+  runtimePath?: string | string[]
+  onCompilerMake?: Func
   blended: boolean
   alias: Record<string, string>
 }
@@ -111,6 +112,7 @@ export default class TaroMiniPlugin {
   dependencies = new Map<string, TaroSingleEntryDependency>()
   loadChunksPlugin: TaroLoadChunksPlugin
   themeLocation: string
+  pageLoaderName = '@tarojs/taro-loader/lib/page'
 
   constructor (options = {} as ITaroMiniPluginOptions) {
     this.options = Object.assign({
@@ -205,8 +207,8 @@ export default class TaroMiniPlugin {
         const dependencies = this.dependencies
         const promises: Promise<null>[] = []
         dependencies.forEach(dep => {
-          promises.push(new Promise((resolve, reject) => {
-            compilation.addEntry(this.options.sourceDir, dep, dep.name, err => err ? reject(err) : resolve())
+          promises.push(new Promise<null>((resolve, reject) => {
+            compilation.addEntry(this.options.sourceDir, dep, dep.name, err => err ? reject(err) : resolve(null))
           }))
         })
         await Promise.all(promises)
@@ -234,12 +236,13 @@ export default class TaroMiniPlugin {
                 framework,
                 prerender: this.prerenderPages.size > 0,
                 config: this.appConfig,
+                runtimePath: this.options.runtimePath,
                 blended: this.options.blended
               }
             })
           }
         } else if (module.miniType === META_TYPE.PAGE) {
-          const loaderName = '@tarojs/taro-loader/lib/page'
+          const loaderName = this.pageLoaderName
           if (!isLoaderExist(module.loaders, loaderName)) {
             module.loaders.unshift({
               loader: loaderName,
@@ -711,13 +714,13 @@ export default class TaroMiniPlugin {
       this.generateDarkModeFile(compilation)
     }
     if (typeof modifyBuildAssets === 'function') {
-      await modifyBuildAssets(compilation.assets)
+      await modifyBuildAssets(compilation.assets, this)
     }
   }
 
   generateConfigFile (compilation: webpack.compilation.Compilation, filePath: string, config: Config & { component?: boolean }) {
     const fileConfigName = this.getConfigPath(this.getComponentName(filePath))
-    const unOfficalConfigs = ['enableShareAppMessage', 'enableShareTimeline']
+    const unOfficalConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components']
     unOfficalConfigs.forEach(item => {
       delete config[item]
     })

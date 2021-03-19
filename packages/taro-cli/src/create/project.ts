@@ -39,7 +39,7 @@ export interface IProjectConf {
 }
 
 interface AskMethods {
-  (conf: IProjectConf, prompts: object[], choices?: ITemplates[]): void;
+  (conf: IProjectConf, prompts: Record<string, unknown>[], choices?: ITemplates[]): void;
 }
 
 const NONE_AVALIABLE_TEMPLATE = '无可用模板'
@@ -86,7 +86,7 @@ export default class Project extends Creator {
   }
 
   async ask () {
-    let prompts: object[] = []
+    let prompts: Record<string, unknown>[] = []
     const conf = this.conf
 
     this.askProjectName(conf, prompts)

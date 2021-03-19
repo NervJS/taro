@@ -320,6 +320,9 @@ exports[`nerv should build nerv app 2`] = `
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _createSuper;
+    }));
     function _getPrototypeOf(o) {
         _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
             return o.__proto__ || Object.getPrototypeOf(o);
@@ -362,9 +365,6 @@ exports[`nerv should build nerv app 2`] = `
         }
         return _assertThisInitialized(self);
     }
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _createSuper;
-    }));
     function _createSuper(Derived) {
         var hasNativeReflectConstruct = _isNativeReflectConstruct();
         return function _createSuperInternal() {
@@ -380,6 +380,9 @@ exports[`nerv should build nerv app 2`] = `
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _inherits;
+    }));
     function _setPrototypeOf(o, p) {
         _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
             o.__proto__ = p;
@@ -387,9 +390,6 @@ exports[`nerv should build nerv app 2`] = `
         };
         return _setPrototypeOf(o, p);
     }
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _inherits;
-    }));
     function _inherits(subClass, superClass) {
         if (typeof superClass !== \\"function\\" && superClass !== null) {
             throw new TypeError(\\"Super expression must either be null or a function\\");

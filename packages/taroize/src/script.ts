@@ -6,9 +6,13 @@ import { usedComponents } from './global'
 
 const defaultClassName = '_C'
 
-const buildDecorator = (id: t.Identifier | t.ObjectExpression) => t.decorator(
-  t.callExpression(t.identifier('withWeapp'), [id])
-)
+const buildDecorator = (id: t.Identifier | t.ObjectExpression, isApp = false) => {
+  const args: any[] = [id]
+  isApp && args.push(t.booleanLiteral(true))
+  return t.decorator(
+    t.callExpression(t.identifier('withWeapp'), args)
+  )
+}
 
 export function replaceIdentifier (callee: NodePath<t.Node>) {
   if (callee.isIdentifier()) {
@@ -34,7 +38,8 @@ export function parseScript (
   script?: string,
   returned?: t.Expression,
   wxses: WXS[] = [],
-  refId?: Set<string>
+  refId?: Set<string>,
+  isApp = false
 ) {
   script = script || 'Page({})'
   if (t.isJSXText(returned as any)) {
@@ -70,7 +75,8 @@ export function parseScript (
           returned || t.nullLiteral(),
           componentType,
           refId,
-          wxses
+          wxses,
+          isApp
         )
         ast.program.body.push(
           classDecl,
@@ -115,7 +121,8 @@ function parsePage (
   returned: t.Expression,
   componentType?: string,
   refId?: Set<string>,
-  wxses?: WXS[]
+  wxses?: WXS[],
+  isApp = false
 ) {
   const stateKeys: string[] = []
   pagePath.traverse({
@@ -164,7 +171,7 @@ function parsePage (
     []
   )
 
-  classDecl.decorators = [buildDecorator(arg.node)]
+  classDecl.decorators = [buildDecorator(arg.node, isApp)]
 
   return classDecl
 }

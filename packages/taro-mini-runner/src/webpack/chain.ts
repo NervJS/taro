@@ -32,6 +32,7 @@ import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { getPostcssPlugins } from './postcss.conf'
 
 import MiniPlugin from '../plugins/MiniPlugin'
+import BuildNativePlugin from '../plugins/BuildNativePlugin'
 import { IOption, IBuildConfig } from '../utils/types'
 import defaultTerserOptions from '../config/terserOptions'
 
@@ -139,6 +140,7 @@ export const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
 export const getFileLoader = pipe(mergeOption, partial(getLoader, 'file-loader'))
 export const getBabelLoader = pipe(mergeOption, partial(getLoader, 'babel-loader'))
 export const getMiniTemplateLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/miniTemplateLoader')))
+export const getResolveUrlLoader = pipe(mergeOption, partial(getLoader, 'resolve-url-loader'))
 
 const getExtractCssLoader = () => {
   return {
@@ -183,6 +185,10 @@ export const getCopyWebpackPlugin = ({ copy, appPath }: {
 
 export const getMiniPlugin = args => {
   return partial(getPlugin, MiniPlugin)([args])
+}
+
+export const getBuildNativePlugin = args => {
+  return partial(getPlugin, BuildNativePlugin)([args])
 }
 
 export const getProviderPlugin = args => {
@@ -263,6 +269,7 @@ export const getModule = (appPath: string, {
       outputStyle: 'expanded'
     }
   }, sassLoaderOption])
+  const resolveUrlLoader = getResolveUrlLoader([{}])
 
   const postcssLoader = getPostcssLoader([
     { sourceMap: enableSourceMap },
@@ -328,10 +335,12 @@ export const getModule = (appPath: string, {
     postcssUrlOption = urlOptions.config
   }
 
-  function addCssLoader (cssLoaders, loader) {
+  function addCssLoader (cssLoaders, ...loader) {
     const cssLoadersCopy = cloneDeep(cssLoaders)
     cssLoadersCopy.forEach(item => {
-      item.use && item.use.push(loader)
+      if (item.use) {
+        item.use = [...item.use, ...loader]
+      }
     })
     return cssLoadersCopy
   }
@@ -361,11 +370,11 @@ export const getModule = (appPath: string, {
   const rule: Record<string, IRule> = {
     sass: {
       test: REG_SASS_SASS,
-      oneOf: addCssLoader(cssLoaders, sassLoader)
+      oneOf: addCssLoader(cssLoaders, resolveUrlLoader, sassLoader)
     },
     scss: {
       test: REG_SASS_SCSS,
-      oneOf: addCssLoader(cssLoaders, scssLoader)
+      oneOf: addCssLoader(cssLoaders, resolveUrlLoader, scssLoader)
     },
     less: {
       test: REG_LESS,
