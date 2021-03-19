@@ -71,4 +71,4 @@ sidebar_label: onGyroscopeChange
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| Taro.onGyroscopeChange | ✔️ |  |  |
+| Taro.onGyroscopeChange | ✔️ |  | ✔️ |
