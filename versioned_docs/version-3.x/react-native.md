@@ -284,12 +284,9 @@ To open developer menu press "d"
 ```
 ![image](https://wos2.58cdn.com.cn/DeFazYxWvDti/frsupload/87c9f57282c511d4920d86cf6c3adde7.gif)
 
-这时，在浏览器输入 https://127.0.0.1:8081，可以看到如下页面：
-![image](https://user-images.githubusercontent.com/9441951/55865494-13245d00-5bb1-11e9-9a97-8a785a83b584.png)
+这时，在浏览器输入 https://127.0.0.1:8081/index.bundle?platform=ios&dev=true 会触发对应终端平台的 js bundle 构建。
 
-输入 https://127.0.0.1:8081/rn_temp/index.bundle?platform=ios&dev=true 会触发对应终端平台的 js bundle 构建。
-
-![image](https://user-images.githubusercontent.com/9441951/55865039-37336e80-5bb0-11e9-8aca-c121be4542f6.png)
+![image](https://pic1.58cdn.com.cn/nowater/fangfe/n_v2beae27152fcd4d118b60d5284e29d9c9.png)
 
 构建完成后，浏览器会显示构建后的 js 代码。
 
