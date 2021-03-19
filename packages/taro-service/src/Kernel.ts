@@ -288,7 +288,7 @@ export default class Kernel extends EventEmitter {
     if (!this.commands.has(name)) {
       throw new Error(`${name} 命令不存在`)
     }
-    if (opts && opts.isHelp) {
+    if (opts?.isHelp) {
       const command = this.commands.get(name)
       const defaultOptionsMap = new Map()
       defaultOptionsMap.set('-h, --help', 'output usage information')
@@ -300,12 +300,8 @@ export default class Kernel extends EventEmitter {
       printHelpLog(name, optionsMap, command?.synopsisList ? new Set(command?.synopsisList) : new Set())
       return
     }
-    if (opts && opts.platform) {
-      opts.config = this.runWithPlatform(opts.platform)
-      if (!opts.config.framework) {
-        console.log(helper.chalk.red('请在项目配置中设置 framework 字段：https://taro-docs.jd.com/taro/docs/config'))
-        return
-      }
+    if (opts?.options?.platform) {
+      opts.config = this.runWithPlatform(opts.options.platform)
     }
     await this.applyPlugins({
       name,

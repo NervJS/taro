@@ -44,7 +44,7 @@ ${options.prerender ? prerender : ''}
 `
 }
 
-function getPageConfig (configs: Record<string, PageConfig>, resourcePath: string) {
+export function getPageConfig (configs: Record<string, PageConfig>, resourcePath: string) {
   const configPath = removeExt(resourcePath) + '.config'
   for (const name in configs) {
     const config = configs[name]

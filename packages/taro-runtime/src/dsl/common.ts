@@ -28,7 +28,7 @@ export function getPageInstance (id: string) {
   return instances.get(id)
 }
 
-function addLeadingSlash (path?: string) {
+export function addLeadingSlash (path?: string) {
   if (path == null) {
     return ''
   }
