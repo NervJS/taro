@@ -402,7 +402,7 @@ declare namespace Taro {
      */
     static database(config?: cloud.IConfig): DB.Database
 
-      /** 声明新的云开发操作实例
+    /** 声明新的云开发操作实例
      * @supported weapp
      * @example
      * 声明新的操作实例
