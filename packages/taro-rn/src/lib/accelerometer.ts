@@ -1,28 +1,26 @@
 import { Accelerometer } from 'expo-sensors'
 
-const accCase: any = {}
+const accCase: any = {
+  callbacks: [],
+}
 const intervalMap: any = {
-  game: 29,
+  game: 20,
   ui: 60,
   normal: 200
 }
 
-function offAccelerometerChange (fnc?: () => any): void {
+function offAccelerometerChange(fnc?: () => any): void {
   if (fnc && typeof fnc === 'function') {
-    if (accCase.callback === fnc) {
-      accCase.callback = null
-    } else {
-      console.warn('offAccelerometerChange failed')
-    }
+    accCase.callbacks = accCase.callbacks.filter((cb: (...args: any[]) => any) => cb !== fnc)
+  } else if (fnc === undefined) {
+    accCase.callbacks = []
   } else {
-    Accelerometer.removeAllListeners()
-    accCase.listener = null
-    accCase.callback = null
+    console.warn('offAccelerometerChange failed')
   }
 }
 
-function onAccelerometerChange (fnc: Taro.onAccelerometerChange.Callback): void {
-  accCase.callback = fnc
+function onAccelerometerChange(fnc: Taro.onAccelerometerChange.Callback): void {
+  accCase.callbacks.push(fnc)
 }
 
 /**
@@ -30,18 +28,22 @@ function onAccelerometerChange (fnc: Taro.onAccelerometerChange.Callback): void 
  * @param {Object} opts
  * @param {string} [opts.interval='normal'] 监听加速度数据回调函数的执行频率
  */
-function startAccelerometer (opts: Taro.startAccelerometer.Option = {}): Promise<Taro.General.CallbackResult> {
+function startAccelerometer(opts: Taro.startAccelerometer.Option = {}): Promise<Taro.General.CallbackResult> {
   const { interval = 'normal', success, fail, complete } = opts
   accCase.interval = interval
   const res = { errMsg: 'startAccelerometer:ok' }
   try {
-    accCase.listener = Accelerometer.addListener(accCase.callback)
-    success && success(res)
-    complete && complete(res)
+    accCase.listener = Accelerometer.addListener((e: Taro.onAccelerometerChange.Result) => {
+      accCase.callbacks.forEach((cb: (...args: any[]) => any) => {
+        cb?.(e)
+      });
+    })
+    success?.(res)
+    complete?.(res)
   } catch (error) {
     res.errMsg = 'startAccelerometer:fail'
-    fail && fail(res)
-    complete && complete(res)
+    fail?.(res)
+    complete?.(res)
     return Promise.reject(res)
   }
   Accelerometer.setUpdateInterval(intervalMap[interval])
@@ -52,19 +54,19 @@ function startAccelerometer (opts: Taro.startAccelerometer.Option = {}): Promise
  * 停止监听加速度数据
  * @param opts
  */
-function stopAccelerometer (opts: Taro.stopAccelerometer.Option = {}): Promise<Taro.General.CallbackResult> {
+function stopAccelerometer(opts: Taro.stopAccelerometer.Option = {}): Promise<Taro.General.CallbackResult> {
   const { success, fail, complete } = opts
   const res = { errMsg: 'stopAccelerometer:ok' }
   try {
     accCase.listener.remove()
     accCase.listener = null
-    success && success(res)
-    complete && complete(res)
+    success?.(res)
+    complete?.(res)
     return Promise.resolve(res)
   } catch (error) {
     res.errMsg = 'stopAccelerometer:fail'
-    fail && fail(res)
-    complete && complete(res)
+    fail?.(res)
+    complete?.(res)
     return Promise.reject(res)
   }
 }

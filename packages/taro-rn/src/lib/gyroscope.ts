@@ -69,7 +69,7 @@ function onGyroscopeChange(fnc: Taro.onGyroscopeChange.Callback): void {
  * 取消监听陀螺仪数据变化事件
  * @param opts 
  */
-function offGyroscopeChange(fnc?: Taro.onGyroscopeChange.Callback) {
+function offGyroscopeChange(fnc?: () => any) {
     if (fnc && typeof fnc === 'function') {
         gyroCase.callbacks = gyroCase.callbacks.filter((cb: Taro.onGyroscopeChange.Callback) => {
             return cb !== fnc
