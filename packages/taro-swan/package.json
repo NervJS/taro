@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-swan",
-  "version": "2.2.16",
+  "version": "2.2.17",
   "description": "Taro swan framework",
   "main": "index.js",
   "files": [
@@ -24,8 +24,8 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/taro": "2.2.16",
-    "@tarojs/utils": "2.2.16",
+    "@tarojs/taro": "2.2.17",
+    "@tarojs/utils": "2.2.17",
     "lodash": "^4.17.10",
     "prop-types": "^15.6.1"
   }
