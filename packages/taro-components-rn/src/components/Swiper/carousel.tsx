@@ -119,10 +119,11 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     }
   }
 
-  UNSAFE_componentWillReceiveProps(props): void{
-    const {  selectedIndex } = props
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(props: CarouselProps): void{
+    const { selectedIndex } = props
     const index = selectedIndex as number
-    if(selectedIndex !== this.state.selectedIndex){
+    if (selectedIndex !== this.state.selectedIndex) {
       this.goTo(index)
     }
   }
