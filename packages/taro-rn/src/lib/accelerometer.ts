@@ -9,7 +9,7 @@ const intervalMap: any = {
   normal: 200
 }
 
-function offAccelerometerChange(fnc?: () => any): void {
+function offAccelerometerChange(fnc?: Taro.onAccelerometerChange.Callback): void {
   if (fnc && typeof fnc === 'function') {
     accCase.callbacks = accCase.callbacks.filter((cb: (...args: any[]) => any) => cb !== fnc)
   } else if (fnc === undefined) {
@@ -33,6 +33,10 @@ function startAccelerometer(opts: Taro.startAccelerometer.Option = {}): Promise<
   accCase.interval = interval
   const res = { errMsg: 'startAccelerometer:ok' }
   try {
+    // 适配微信小程序行为：重复 start 失败
+    if (accCase.listener) {
+      throw new Error('startAccelerometer:fail')
+    }
     accCase.listener = Accelerometer.addListener((e: Taro.onAccelerometerChange.Result) => {
       accCase.callbacks.forEach((cb: (...args: any[]) => any) => {
         cb?.(e)

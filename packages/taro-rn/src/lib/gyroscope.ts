@@ -19,6 +19,10 @@ function startGyroscope(opts: Taro.startGyroscope.Option = {}): Promise<Taro.Gen
     gyroCase.interval = interval
     const res = { errMsg: 'startGyroscope:ok' }
     try {
+        // 适配微信小程序行为：重复 start 失败
+        if (gyroCase.listener) {
+            throw new Error('startGyroscope:fail')
+        }
         gyroCase.listener = Gyroscope.addListener(e => {
             gyroCase.callbacks.forEach((cb: Taro.onGyroscopeChange.Callback) => {
                 cb?.(e)
@@ -69,7 +73,7 @@ function onGyroscopeChange(fnc: Taro.onGyroscopeChange.Callback): void {
  * 取消监听陀螺仪数据变化事件
  * @param opts 
  */
-function offGyroscopeChange(fnc?: () => any) {
+function offGyroscopeChange(fnc?: Taro.onGyroscopeChange.Callback) {
     if (fnc && typeof fnc === 'function') {
         gyroCase.callbacks = gyroCase.callbacks.filter((cb: Taro.onGyroscopeChange.Callback) => {
             return cb !== fnc
