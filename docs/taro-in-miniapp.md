@@ -217,6 +217,8 @@ const config = {
 
 ## 把 Taro 项目作为一个完整分包
 
+### 使用方法
+
 #### 1. 安装使用插件
 
 安装插件 [@tarojs/plugin-indie](https://github.com/NervJS/taro-plugin-indie)
@@ -249,6 +251,30 @@ taro build --type weapp --watch --blended
 可以编写一个** Taro 插件**自动移动，可以参考 [plugin-mv](https://github.com/NervJS/taro-blended/blob/master/taro-project/plugin-mv/index.js)。
 
 #### 4. 设置原生项目的分包配置
+
+### 把 Taro 项目拆分到多个分包
+
+假设有一个 Taro 项目，它含有页面 A 和页面 B。我们需要把页面 A 加入原生项目的其中一个分包 M，把页面 B 加入到另一个分包 N。
+
+为此，和普通打出**一个分包**不同的是，首先需要配置 Webpack 的 `output.jsonpFunction` 配置，避免 `chunkid` 的冲突。
+
+```js title="config/index.js"
+config = {
+  // ...
+  mini: {
+    webpackChain (chain) {
+      chain.merge({
+        output: {
+          // 可以配合 npm script 和环境变量来动态修改
+          jsonpFunction: process.env.JSONP_NAME || "webpackJsonp"
+        }
+      })
+    }
+  }
+}
+```
+
+然后分别对 A、B 页面使用混合模式打包，步骤和[把 Taro 项目作为一个完整分包](./taro-in-miniapp#把-taro-项目作为一个完整分包)一致。
 
 ## 把 Taro 组件编译为原生自定义组件
 
@@ -312,12 +338,3 @@ function Picker ({ mode, value, onInitial }) {
   )
 }
 ```
-
-
-
-
-
-
-
-
-

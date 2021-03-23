@@ -217,6 +217,8 @@ const config = {
 
 ## 把 Taro 项目作为一个完整分包
 
+### 使用方法
+
 #### 1. 安装使用插件
 
 安装插件 [@tarojs/plugin-indie](https://github.com/NervJS/taro-plugin-indie)
@@ -250,3 +252,89 @@ taro build --type weapp --watch --blended
 
 #### 4. 设置原生项目的分包配置
 
+### 把 Taro 项目拆分到多个分包
+
+假设有一个 Taro 项目，它含有页面 A 和页面 B。我们需要把页面 A 加入原生项目的其中一个分包 M，把页面 B 加入到另一个分包 N。
+
+为此，和普通打出**一个分包**不同的是，首先需要配置 Webpack 的 `output.jsonpFunction` 配置，避免 `chunkid` 的冲突。
+
+```js title="config/index.js"
+config = {
+  // ...
+  mini: {
+    webpackChain (chain) {
+      chain.merge({
+        output: {
+          // 可以配合 npm script 和环境变量来动态修改
+          jsonpFunction: process.env.JSONP_NAME || "webpackJsonp"
+        }
+      })
+    }
+  }
+}
+```
+
+然后分别对 A、B 页面使用混合模式打包，步骤和[把 Taro 项目作为一个完整分包](./taro-in-miniapp#把-taro-项目作为一个完整分包)一致。
+
+## 把 Taro 组件编译为原生自定义组件
+
+> v3.1.2+，暂时只支持 React
+
+Taro 支持把组件编译为**原生小程序自定义组件**，供原生项目使用。
+
+### 使用方法
+
+#### 1. 配置组件路径
+
+修改 `app.config.js`，增加 `components` 配置，指向组件入口文件的路径：
+
+```js title="app.config.js"
+export default {
+  // ...
+  components: [
+    'pages/index/index',
+    'components/picker/index'
+  ]
+}
+```
+
+#### 2. 开始编译
+
+使用 `taro build native-components` 命令，配合参数 `type`，即可编译出对应平台的自定义组件。
+
+```bash
+taro build native-components --type [platform] [--watch]
+```
+
+### props 传递
+
+传递 props 给 Taro 编译出来的原生自定义组件时，需要统一通过 `props` 参数来传递：
+
+```js title="page/index/index.js"
+Page({
+  data: {
+    pickerProps: {
+      mode: 'format',
+      value: [0, 0, 0],
+      onInitial (value, index) {
+        console.log('onInitial')
+      }
+    }
+  }
+})
+```
+
+```xml title="page/index/index.wxml"
+<!--index.wxml-->
+<view>
+  <picker props="{{pickerProps}}"></picker>
+</view>
+```
+
+```jsx title="Taro 组件 - Picker"
+function Picker ({ mode, value, onInitial }) {
+  return (
+    // ...
+  )
+}
+```
