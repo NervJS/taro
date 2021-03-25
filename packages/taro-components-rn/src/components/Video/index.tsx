@@ -158,7 +158,7 @@ class _Video extends Component<Props, any> {
       isFirst: true,
       isEnded: true,
     })
-    this.pause()
+    if (!this.props.loop) this.pause()
     this.props.onEnded && this.props.onEnded(e)
   };
 
@@ -198,6 +198,16 @@ class _Video extends Component<Props, any> {
     })
     this.props.onLoad && this.props.onLoad()
   };
+
+  clickPlayBtn = ():void => {
+    const { isEnded } = this.state
+    isEnded && this.seek(0)
+    this.videoRef && this.videoRef.playAsync()
+    this.setState({
+      shouldPlay: true,
+      isFirst: false,
+    })
+  }
 
   play = (): void => {
     const { isEnded } = this.state
@@ -277,16 +287,21 @@ class _Video extends Component<Props, any> {
 
   onFullscreenChange = (event: VideoFullscreenUpdateEvent): void => {
     const { fullscreenUpdate, status } = event
+    const fullScreen: boolean = fullscreenUpdate === Video.FULLSCREEN_UPDATE_PLAYER_WILL_PRESENT || fullscreenUpdate === Video.FULLSCREEN_UPDATE_PLAYER_DID_PRESENT
     const detail: onFullscreenChangeEventDetail = {
-      fullScreen:
-        fullscreenUpdate === Video.FULLSCREEN_UPDATE_PLAYER_WILL_PRESENT ||
-        fullscreenUpdate === Video.FULLSCREEN_UPDATE_PLAYER_DID_PRESENT,
+      fullScreen: fullscreenUpdate === Video.FULLSCREEN_UPDATE_PLAYER_WILL_PRESENT || fullscreenUpdate === Video.FULLSCREEN_UPDATE_PLAYER_DID_PRESENT,
       fullscreenUpdate,
       direction: 1,
       ...status,
     }
-    // @ts-ignore
-    this.props.onFullscreenChange && this.props.onFullscreenChange({ detail })
+    if (this.state.isFullScreen !== fullScreen) {
+      this.setState({
+        isFullScreen: fullScreen,
+      }, () => {
+        // @ts-ignore
+        this.props.onFullscreenChange && this.props.onFullscreenChange({ detail })
+      })
+    }
   };
 
   onPlaybackStatusUpdate = (event: AVPlaybackStatus): void => {
@@ -297,14 +312,17 @@ class _Video extends Component<Props, any> {
     if (didJustFinish) {
       this.onEnded(event)
     }
-    this.setState(
-      {
-        isPlaying,
-      },
-      () => {
-        isPlaying && this.onPlay(event)
-      }
-    )
+    if (isPlaying !== this.state.isPlaying) {
+      this.setState(
+        {
+          isPlaying,
+        },
+        () => {
+          isPlaying && this.onPlay(event)
+          !isPlaying && !this.state.isFirst && this.onPause(event)
+        }
+      )
+    }
   };
 
   render(): JSX.Element {
@@ -320,7 +338,7 @@ class _Video extends Component<Props, any> {
       controls,
       showCenterPlayBtn,
     } = this.props
-    const { isFirst, isFullScreen, shouldPlay } = this.state
+    const { isFullScreen, shouldPlay } = this.state
     const duration = formatTime(
       this.props.duration || this.state.duration || null
     )
@@ -350,12 +368,12 @@ class _Video extends Component<Props, any> {
         ]}
       >
         <Video {...videoProps} />
-        {isFirst && showCenterPlayBtn && !this.state.isPlaying && (
+        {showCenterPlayBtn && !this.state.isPlaying && (
           <View style={Styles['taro-video-cover']}>
             <Image
               src={require('../../assets/video/play.png')}
               style={Styles['taro-video-cover-play-button']}
-              onClick={this.play}
+              onClick={this.clickPlayBtn}
             />
             <Text style={Styles['taro-video-cover-duration']}>{duration}</Text>
           </View>
