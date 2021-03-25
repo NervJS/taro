@@ -67,7 +67,7 @@
     "cpy-cli": "^3.1.1",
     "jest-expo": "^39.0.0",
     "mock-socket": "^7.1.0",
-    "react-native": "^0.63.3",
+    "react-native": "^0.64.0",
     "rimraf": "^3.0.0"
   },
   "peerDependencies": {
