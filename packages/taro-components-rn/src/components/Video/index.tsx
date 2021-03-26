@@ -155,7 +155,7 @@ class _Video extends Component<Props, any> {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   onEnded = (e: any): void => {
     this.setState({
-      isFirst: true,
+      // isFirst: true,
       isEnded: true,
     })
     if (!this.props.loop) this.pause()
@@ -312,10 +312,12 @@ class _Video extends Component<Props, any> {
     if (didJustFinish) {
       this.onEnded(event)
     }
+
     if (isPlaying !== this.state.isPlaying) {
       this.setState(
         {
           isPlaying,
+          isFirst: isPlaying ? false : this.state.isFirst
         },
         () => {
           isPlaying && this.onPlay(event)
@@ -360,6 +362,10 @@ class _Video extends Component<Props, any> {
       onFullscreenUpdate: this.onFullscreenChange,
       onPlaybackStatusUpdate: this.onPlaybackStatusUpdate,
     }
+
+    // 第一次不显示又无法自动播放
+    const showPlayBtn = this.state.isFirst ? true : showCenterPlayBtn
+
     const videoNode = (
       <View
         style={[
@@ -368,7 +374,7 @@ class _Video extends Component<Props, any> {
         ]}
       >
         <Video {...videoProps} />
-        {showCenterPlayBtn && !this.state.isPlaying && (
+        {showPlayBtn && !this.state.isPlaying && (
           <View style={Styles['taro-video-cover']}>
             <Image
               src={require('../../assets/video/play.png')}
