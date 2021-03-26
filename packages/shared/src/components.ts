@@ -251,8 +251,6 @@ const CoverImage = {
 
 const CoverView = {
   'scroll-top': 'false',
-  'marker-id': '',
-  'slot': '',
   ...touchEvents
 }
 
