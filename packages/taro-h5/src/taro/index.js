@@ -3,19 +3,19 @@ import { history, navigateBack, navigateTo, createRouter, reLaunch, redirectTo, 
 import { permanentlyNotSupport } from '../api/utils'
 
 const {
+  Behavior,
+  getEnv,
   ENV_TYPE,
+  Link,
+  interceptors,
+  initPxTransform,
+  Current,
+  getCurrentInstance,
+  options,
+  nextTick,
   eventCenter,
   Events,
-  getEnv,
-  initPxTransform: originalInitPxTransform,
-  render,
-  interceptors,
-  Current,
-  noPromiseApis,
-  onAndSyncApis,
-  otherApis,
-  Link,
-  getCurrentInstance,
+  getPreload,
   useDidShow,
   useDidHide,
   usePullDownRefresh,
@@ -30,18 +30,23 @@ const {
   useShareTimeline,
   useAddToFavorites,
   useReady,
-  useRouter,
-  options,
-  nextTick
+  useRouter
 } = Taro
 
 const taro = {
+  Behavior,
   getEnv,
   ENV_TYPE,
-  Events,
-  eventCenter,
+  Link,
+  interceptors,
+  initPxTransform,
   Current,
-  render,
+  getCurrentInstance,
+  options,
+  nextTick,
+  eventCenter,
+  Events,
+  getPreload,
   history,
   navigateBack,
   navigateTo,
@@ -50,11 +55,6 @@ const taro = {
   redirectTo,
   getCurrentPages,
   switchTab,
-  noPromiseApis,
-  onAndSyncApis,
-  otherApis,
-  Link,
-  getCurrentInstance,
   useDidShow,
   useDidHide,
   usePullDownRefresh,
@@ -69,12 +69,9 @@ const taro = {
   useShareTimeline,
   useAddToFavorites,
   useReady,
-  useRouter,
-  options,
-  nextTick
+  useRouter
 }
 
-const initPxTransform = originalInitPxTransform.bind(taro)
 const requirePlugin = permanentlyNotSupport('requirePlugin')
 const getApp = function () {
   return taro._$app
@@ -102,27 +99,31 @@ const canIUseWebp = function () {
   return canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0
 }
 
-taro.initPxTransform = initPxTransform
 taro.requirePlugin = requirePlugin
 taro.getApp = getApp
 taro.pxTransform = pxTransform
 taro.canIUseWebp = canIUseWebp
-taro.interceptors = interceptors
 
 export default taro
 
 export {
+  Behavior,
   getEnv,
   ENV_TYPE,
-  Events,
-  eventCenter,
-  render,
+  Link,
+  interceptors,
   initPxTransform,
+  Current,
+  getCurrentInstance,
+  options,
+  nextTick,
+  eventCenter,
+  Events,
+  getPreload,
   requirePlugin,
   getApp,
   pxTransform,
   canIUseWebp,
-  interceptors,
   history,
   navigateBack,
   navigateTo,
@@ -131,11 +132,6 @@ export {
   redirectTo,
   getCurrentPages,
   switchTab,
-  noPromiseApis,
-  onAndSyncApis,
-  otherApis,
-  Link,
-  getCurrentInstance,
   useDidShow,
   useDidHide,
   usePullDownRefresh,
@@ -150,7 +146,5 @@ export {
   useShareTimeline,
   useAddToFavorites,
   useReady,
-  useRouter,
-  options,
-  nextTick
+  useRouter
 }

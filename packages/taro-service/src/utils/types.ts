@@ -23,12 +23,14 @@ export interface IPaths {
   nodeModulesPath: string
 }
 
+export type Func = (...args: any[]) => any
+
 export interface IPlugin {
   id: string
   path: string
   opts: any
   type: PluginType
-  apply: Function
+  apply: Func
 }
 
 export type IPreset = IPlugin
@@ -36,7 +38,7 @@ export type IPreset = IPlugin
 export interface IHook {
   name: string
   plugin?: string
-  fn: Function
+  fn: Func
   before?: string
   stage?: number
 }

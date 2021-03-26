@@ -15,6 +15,7 @@ import { raf } from '../bom/raf'
 import { CurrentReconciler } from '../reconciler'
 
 import type { PageConfig } from '@tarojs/taro'
+import type { Func } from '../utils/types'
 
 const instances = new Map<string, Instance>()
 
@@ -27,7 +28,7 @@ export function getPageInstance (id: string) {
   return instances.get(id)
 }
 
-function addLeadingSlash (path?: string) {
+export function addLeadingSlash (path?: string) {
   if (path == null) {
     return ''
   }
@@ -96,7 +97,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   let prepareMountList: (() => void)[] = []
 
   const config: PageInstance = {
-    onLoad (this: MpInstance, options, cb?: Function) {
+    onLoad (this: MpInstance, options, cb?: Func) {
       perf.start(PAGE_INIT)
 
       Current.page = this as any
@@ -141,6 +142,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       })
 
       safeExecute(path, 'onReady')
+      this.onReady.called = true
     },
     onUnload () {
       const path = getPath(id, this.options)

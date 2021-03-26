@@ -81,7 +81,7 @@ export class Input implements ComponentInterface {
     })
   }
 
-  componentDidUnload () {
+  disconnectedCallback () {
     if (this.type === 'file') {
       this.inputRef.removeEventListener('change', this.fileListener)
     }

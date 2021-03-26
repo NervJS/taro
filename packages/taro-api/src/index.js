@@ -1,18 +1,21 @@
 /* eslint-disable camelcase */
 import './polyfill'
 import { getEnv, ENV_TYPE } from './env'
-import render from './render'
 import Link from './interceptor'
 import * as interceptors from './interceptor/interceptors'
 import {
-  noPromiseApis,
-  onAndSyncApis,
-  otherApis,
-  initPxTransform
-} from './native-apis'
+  Behavior,
+  getPreload,
+  getPxTransform,
+  getInitPxTransform
+} from './tools'
 import {
   Current,
   getCurrentInstance,
+  options,
+  nextTick,
+  eventCenter,
+  Events,
   useDidShow,
   useDidHide,
   usePullDownRefresh,
@@ -27,27 +30,21 @@ import {
   useShareTimeline,
   useAddToFavorites,
   useReady,
-  useRouter,
-  options,
-  nextTick,
-  eventCenter,
-  Events
+  useRouter
 } from '@tarojs/runtime'
 
 const Taro = {
-  Events,
-  eventCenter,
+  Behavior,
   getEnv,
   ENV_TYPE,
-  render,
-  noPromiseApis,
-  onAndSyncApis,
-  otherApis,
-  initPxTransform,
   Link,
   interceptors,
   Current,
   getCurrentInstance,
+  options,
+  nextTick,
+  eventCenter,
+  Events,
   useDidShow,
   useDidHide,
   usePullDownRefresh,
@@ -62,9 +59,11 @@ const Taro = {
   useShareTimeline,
   useAddToFavorites,
   useReady,
-  useRouter,
-  options,
-  nextTick
+  useRouter
 }
+
+Taro.initPxTransform = getInitPxTransform(Taro)
+Taro.preload = getPreload(Taro)
+Taro.pxTransform = getPxTransform(Taro)
 
 export default Taro

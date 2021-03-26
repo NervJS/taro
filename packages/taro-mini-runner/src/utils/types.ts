@@ -37,6 +37,8 @@ export interface IFileType {
   xs?: string
 }
 
+export type Func = (...args: any[]) => any
+
 export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   isWatch: boolean,
   mode: 'production' | 'development',
@@ -50,18 +52,20 @@ export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   fileType: IFileType,
   isSupportXS: boolean,
   globalObject: string,
-  isUseComponentBuildPage: boolean,
-  modifyWebpackChain: Function,
-  modifyBuildAssets: Function,
-  modifyMiniConfigs: Function,
-  onCompilerMake: Function,
-  onWebpackChainReady: Function,
-  onBuildFinish: Function
+  modifyWebpackChain: Func,
+  modifyBuildAssets: Func,
+  modifyMiniConfigs: Func,
+  onCompilerMake: Func,
+  onWebpackChainReady: Func,
+  onBuildFinish: Func
   framework: string,
   baseLevel: number,
   prerender?: PrerenderConfig
   template: RecursiveTemplate | UnRecursiveTemplate
-  blended: boolean
+  runtimePath?: string | string[]
+  taroComponentsPath?: string
+  blended?: boolean
+  isBuildNativeComp?: boolean
 }
 
 export type AddPageChunks = ((pages: Map<string, string[]>, pagesNames?: string[]) => void)

@@ -9,7 +9,7 @@ const npmCached = {}
 
 const erroneous: string[] = []
 
-type pluginFunction = (pluginName: string, content: string | null, file: string, config: object, root: string) => any
+type pluginFunction = (pluginName: string, content: string | null, file: string, config: Record<string, any>, root: string) => any
 export interface IInstallOptions {
   dev: boolean,
   peerDependencies?: boolean
@@ -30,7 +30,7 @@ export function resolveNpm (pluginName: string, root): Promise<string> {
           return reject(err)
         }
         npmCached[pluginName] = res
-        resolve(res)
+        resolve(res || '')
       })
     })
   }
@@ -128,12 +128,12 @@ export function installNpmPkg (pkgList: string[] | string, options: IInstallOpti
   return output
 }
 
-export const callPlugin: pluginFunction = async (pluginName: string, content: string | null, file: string, config: object, root: string) => {
+export const callPlugin: pluginFunction = async (pluginName: string, content: string | null, file: string, config: Record<string, any>, root: string) => {
   const pluginFn = await getNpmPkg(`${taroPluginPrefix}${pluginName}`, root)
   return pluginFn(content, file, config)
 }
 
-export const callPluginSync: pluginFunction = (pluginName: string, content: string | null, file: string, config: object, root: string) => {
+export const callPluginSync: pluginFunction = (pluginName: string, content: string | null, file: string, config: Record<string, any>, root: string) => {
   const pluginFn = getNpmPkgSync(`${taroPluginPrefix}${pluginName}`, root)
   return pluginFn(content, file, config)
 }

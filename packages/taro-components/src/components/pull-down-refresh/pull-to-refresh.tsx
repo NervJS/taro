@@ -76,7 +76,7 @@ export class PullToRefresh implements ComponentInterface {
     }
   }
 
-  componentDidUnload () {
+  disconnectedCallback () {
     this.destroy()
   }
 
