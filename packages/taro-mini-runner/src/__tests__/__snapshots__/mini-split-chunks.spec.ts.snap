@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`mini-split-chunks should process mini-split-chunks 1`] = `38`;
+exports[`mini-split-chunks should process mini-split-chunks 1`] = `40`;
 
 exports[`mini-split-chunks should process mini-split-chunks 2`] = `
 "
@@ -14,14 +14,14 @@ require(\\"./vendors\\");
 require(\\"./taro\\");
 
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
-    18: function(module, __webpack_exports__, __webpack_require__) {
+    19: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
-        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
-        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
-        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
-        var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
-        var _app_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(35);
+        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
+        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
+        var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3);
+        var _app_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(36);
         var _app_css__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(_app_css__WEBPACK_IMPORTED_MODULE_5__);
         var App = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(App, _Component);
@@ -52,13 +52,13 @@ require(\\"./taro\\");
         }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
         __webpack_exports__[\\"a\\"] = App;
     },
-    34: function(module, __webpack_exports__, __webpack_require__) {
+    35: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-        var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
-        var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(0);
-        var react_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(24);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
+        var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
+        var react_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(25);
         var config = {
             pages: [ \\"pages/index/index\\" ],
             window: {
@@ -78,8 +78,8 @@ require(\\"./taro\\");
         _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"window\\"].__taroAppConfig = config;
         var inst = App(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createReactApp\\"])(_node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], react__WEBPACK_IMPORTED_MODULE_2__, react_dom__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"], config));
     },
-    35: function(module, exports, __webpack_require__) {}
-}, [ [ 34, 0, 1, 3, 2 ] ] ]);
+    36: function(module, exports, __webpack_require__) {}
+}, [ [ 35, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -98,7 +98,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_0_catch-view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -122,7 +122,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_0_view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -146,7 +146,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_0_scroll-view\\">
-  <scroll-view scroll-x=\\"{{xs.b(i.scrollX,false)}}\\" scroll-y=\\"{{xs.b(i.scrollY,false)}}\\" upper-threshold=\\"{{xs.b(i.upperThreshold,50)}}\\" lower-threshold=\\"{{xs.b(i.lowerThreshold,50)}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{xs.b(i.scrollWithAnimation,false)}}\\" enable-back-to-top=\\"{{xs.b(i.enableBackToTop,false)}}\\" enable-flex=\\"{{xs.b(i.enableFlex,false)}}\\" scroll-anchoring=\\"{{xs.b(i.scrollAnchoring,false)}}\\" refresher-enabled=\\"{{xs.b(i.refresherEnabled,false)}}\\" refresher-threshold=\\"{{xs.b(i.refresherThreshold,45)}}\\" refresher-default-style=\\"{{xs.b(i.refresherDefaultStyle,'black')}}\\" refresher-background=\\"{{xs.b(i.refresherBackground,'#FFF')}}\\" refresher-triggered=\\"{{xs.b(i.refresherTriggered,false)}}\\" enhanced=\\"{{xs.b(i.enhanced,false)}}\\" bounces=\\"{{xs.b(i.bounces,true)}}\\" show-scrollbar=\\"{{xs.b(i.showScrollbar,true)}}\\" paging-enabled=\\"{{xs.b(i.pagingEnabled,false)}}\\" fast-deceleration=\\"{{xs.b(i.fastDeceleration,false)}}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" animation=\\"{{i.animation}}\\" bindtransitionend=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" binddragstart=\\"eh\\" binddragging=\\"eh\\" binddragend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <scroll-view scroll-x=\\"{{xs.b(i.scrollX,false)}}\\" scroll-y=\\"{{xs.b(i.scrollY,false)}}\\" upper-threshold=\\"{{xs.b(i.upperThreshold,50)}}\\" lower-threshold=\\"{{xs.b(i.lowerThreshold,50)}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{xs.b(i.scrollWithAnimation,false)}}\\" enable-back-to-top=\\"{{xs.b(i.enableBackToTop,false)}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -154,7 +154,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_0_static-image\\">
-  <image src=\\"{{i.src}}\\" mode=\\"{{xs.b(i.mode,'scaleToFill')}}\\" webp=\\"{{xs.b(i.webp,false)}}\\" lazy-load=\\"{{xs.b(i.lazyLoad,false)}}\\" show-menu-by-longpress=\\"{{xs.b(i.showMenuByLongpress,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{xs.b(i.mode,'scaleToFill')}}\\" lazy-load=\\"{{xs.b(i.lazyLoad,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -162,7 +162,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_0_image\\">
-  <image src=\\"{{i.src}}\\" mode=\\"{{xs.b(i.mode,'scaleToFill')}}\\" webp=\\"{{xs.b(i.webp,false)}}\\" lazy-load=\\"{{xs.b(i.lazyLoad,false)}}\\" show-menu-by-longpress=\\"{{xs.b(i.showMenuByLongpress,false)}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{xs.b(i.mode,'scaleToFill')}}\\" lazy-load=\\"{{xs.b(i.lazyLoad,false)}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -178,7 +178,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_1_catch-view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -202,7 +202,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_1_view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -226,7 +226,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_1_scroll-view\\">
-  <scroll-view scroll-x=\\"{{xs.b(i.scrollX,false)}}\\" scroll-y=\\"{{xs.b(i.scrollY,false)}}\\" upper-threshold=\\"{{xs.b(i.upperThreshold,50)}}\\" lower-threshold=\\"{{xs.b(i.lowerThreshold,50)}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{xs.b(i.scrollWithAnimation,false)}}\\" enable-back-to-top=\\"{{xs.b(i.enableBackToTop,false)}}\\" enable-flex=\\"{{xs.b(i.enableFlex,false)}}\\" scroll-anchoring=\\"{{xs.b(i.scrollAnchoring,false)}}\\" refresher-enabled=\\"{{xs.b(i.refresherEnabled,false)}}\\" refresher-threshold=\\"{{xs.b(i.refresherThreshold,45)}}\\" refresher-default-style=\\"{{xs.b(i.refresherDefaultStyle,'black')}}\\" refresher-background=\\"{{xs.b(i.refresherBackground,'#FFF')}}\\" refresher-triggered=\\"{{xs.b(i.refresherTriggered,false)}}\\" enhanced=\\"{{xs.b(i.enhanced,false)}}\\" bounces=\\"{{xs.b(i.bounces,true)}}\\" show-scrollbar=\\"{{xs.b(i.showScrollbar,true)}}\\" paging-enabled=\\"{{xs.b(i.pagingEnabled,false)}}\\" fast-deceleration=\\"{{xs.b(i.fastDeceleration,false)}}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" animation=\\"{{i.animation}}\\" bindtransitionend=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" binddragstart=\\"eh\\" binddragging=\\"eh\\" binddragend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <scroll-view scroll-x=\\"{{xs.b(i.scrollX,false)}}\\" scroll-y=\\"{{xs.b(i.scrollY,false)}}\\" upper-threshold=\\"{{xs.b(i.upperThreshold,50)}}\\" lower-threshold=\\"{{xs.b(i.lowerThreshold,50)}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{xs.b(i.scrollWithAnimation,false)}}\\" enable-back-to-top=\\"{{xs.b(i.enableBackToTop,false)}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -238,7 +238,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_2_catch-view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -262,7 +262,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_2_view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -286,7 +286,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_2_scroll-view\\">
-  <scroll-view scroll-x=\\"{{xs.b(i.scrollX,false)}}\\" scroll-y=\\"{{xs.b(i.scrollY,false)}}\\" upper-threshold=\\"{{xs.b(i.upperThreshold,50)}}\\" lower-threshold=\\"{{xs.b(i.lowerThreshold,50)}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{xs.b(i.scrollWithAnimation,false)}}\\" enable-back-to-top=\\"{{xs.b(i.enableBackToTop,false)}}\\" enable-flex=\\"{{xs.b(i.enableFlex,false)}}\\" scroll-anchoring=\\"{{xs.b(i.scrollAnchoring,false)}}\\" refresher-enabled=\\"{{xs.b(i.refresherEnabled,false)}}\\" refresher-threshold=\\"{{xs.b(i.refresherThreshold,45)}}\\" refresher-default-style=\\"{{xs.b(i.refresherDefaultStyle,'black')}}\\" refresher-background=\\"{{xs.b(i.refresherBackground,'#FFF')}}\\" refresher-triggered=\\"{{xs.b(i.refresherTriggered,false)}}\\" enhanced=\\"{{xs.b(i.enhanced,false)}}\\" bounces=\\"{{xs.b(i.bounces,true)}}\\" show-scrollbar=\\"{{xs.b(i.showScrollbar,true)}}\\" paging-enabled=\\"{{xs.b(i.pagingEnabled,false)}}\\" fast-deceleration=\\"{{xs.b(i.fastDeceleration,false)}}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" animation=\\"{{i.animation}}\\" bindtransitionend=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" binddragstart=\\"eh\\" binddragging=\\"eh\\" binddragend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <scroll-view scroll-x=\\"{{xs.b(i.scrollX,false)}}\\" scroll-y=\\"{{xs.b(i.scrollY,false)}}\\" upper-threshold=\\"{{xs.b(i.upperThreshold,50)}}\\" lower-threshold=\\"{{xs.b(i.lowerThreshold,50)}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{xs.b(i.scrollWithAnimation,false)}}\\" enable-back-to-top=\\"{{xs.b(i.enableBackToTop,false)}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -298,7 +298,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_3_catch-view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -322,7 +322,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_3_view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -346,7 +346,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_3_scroll-view\\">
-  <scroll-view scroll-x=\\"{{xs.b(i.scrollX,false)}}\\" scroll-y=\\"{{xs.b(i.scrollY,false)}}\\" upper-threshold=\\"{{xs.b(i.upperThreshold,50)}}\\" lower-threshold=\\"{{xs.b(i.lowerThreshold,50)}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{xs.b(i.scrollWithAnimation,false)}}\\" enable-back-to-top=\\"{{xs.b(i.enableBackToTop,false)}}\\" enable-flex=\\"{{xs.b(i.enableFlex,false)}}\\" scroll-anchoring=\\"{{xs.b(i.scrollAnchoring,false)}}\\" refresher-enabled=\\"{{xs.b(i.refresherEnabled,false)}}\\" refresher-threshold=\\"{{xs.b(i.refresherThreshold,45)}}\\" refresher-default-style=\\"{{xs.b(i.refresherDefaultStyle,'black')}}\\" refresher-background=\\"{{xs.b(i.refresherBackground,'#FFF')}}\\" refresher-triggered=\\"{{xs.b(i.refresherTriggered,false)}}\\" enhanced=\\"{{xs.b(i.enhanced,false)}}\\" bounces=\\"{{xs.b(i.bounces,true)}}\\" show-scrollbar=\\"{{xs.b(i.showScrollbar,true)}}\\" paging-enabled=\\"{{xs.b(i.pagingEnabled,false)}}\\" fast-deceleration=\\"{{xs.b(i.fastDeceleration,false)}}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" animation=\\"{{i.animation}}\\" bindtransitionend=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" binddragstart=\\"eh\\" binddragging=\\"eh\\" binddragend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <scroll-view scroll-x=\\"{{xs.b(i.scrollX,false)}}\\" scroll-y=\\"{{xs.b(i.scrollY,false)}}\\" upper-threshold=\\"{{xs.b(i.upperThreshold,50)}}\\" lower-threshold=\\"{{xs.b(i.lowerThreshold,50)}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{xs.b(i.scrollWithAnimation,false)}}\\" enable-back-to-top=\\"{{xs.b(i.enableBackToTop,false)}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -358,7 +358,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_4_catch-view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -382,7 +382,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_4_view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -410,7 +410,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_5_catch-view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -434,7 +434,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_5_view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -462,7 +462,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_6_catch-view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -486,11 +486,19 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_6_view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_6_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_6_container\\">
@@ -498,7 +506,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_7_catch-view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -522,11 +530,19 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_7_view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_7_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_7_container\\">
@@ -534,7 +550,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_8_catch-view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -558,11 +574,19 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_8_view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_8_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_8_container\\">
@@ -570,7 +594,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_9_catch-view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -594,11 +618,19 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_9_view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_9_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_9_container\\">
@@ -606,7 +638,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_10_catch-view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -630,11 +662,19 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_10_view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_10_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_10_container\\">
@@ -642,7 +682,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_11_catch-view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -666,11 +706,19 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_11_view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_11_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_11_container\\">
@@ -678,7 +726,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_12_catch-view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -702,11 +750,19 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_12_view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_12_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_12_container\\">
@@ -714,7 +770,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_13_catch-view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -738,11 +794,19 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_13_view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_13_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_13_container\\">
@@ -750,7 +814,7 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_14_catch-view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -774,11 +838,19 @@ page{width:'100%';height:'100%'}
 </template>
 
 <template name=\\"tmpl_14_view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </view>
+</template>
+
+<template name=\\"tmpl_14_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
 </template>
 
 <template name=\\"tmpl_14_container\\">
@@ -797,57 +869,57 @@ page{width:'100%';height:'100%'}
 
 /** filePath: dist/common.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], {
-    0: function(module, __webpack_exports__, __webpack_require__) {
+    10: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        __webpack_exports__[\\"default\\"] = \\"react-mock\\";
+        __webpack_exports__[\\"a\\"] = function() {
+            console.log(\\"testExcludeString\\");
+        };
     },
-    13: function(module, __webpack_exports__, __webpack_require__) {
+    14: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = function() {
             console.log(\\"testExcludeFunction\\");
         };
     },
-    7: function(module, __webpack_exports__, __webpack_require__) {
+    3: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        __webpack_exports__[\\"default\\"] = \\"react-mock\\";
+    },
+    8: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = function() {
             console.log(\\"Main package\\");
-        };
-    },
-    9: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_exports__[\\"a\\"] = function() {
-            console.log(\\"testExcludeString\\");
         };
     }
 } ]);
 
 /** filePath: dist/comp.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 12 ], {
-    36: function(module, __webpack_exports__, __webpack_require__) {
+    37: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
-}, [ [ 36, 0, 1 ] ] ]);
+}, [ [ 37, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
 /** filePath: dist/comp.wxml **/
 <import src=\\"./base.wxml\\" />
-  <template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
+<template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
 
 /** filePath: dist/custom-wrapper.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 13 ], {
-    37: function(module, __webpack_exports__, __webpack_require__) {
+    38: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
-}, [ [ 37, 0, 1 ] ] ]);
+}, [ [ 38, 0, 1 ] ] ]);
 
 /** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -863,37 +935,39 @@ require(\\"../sub-vendors\\");
 
 require(\\"../sub-common/0a099b4ab650a7002eadd1cfdcbd0c58\\");
 
-require(\\"../sub-common/276eac19ba130f3c2def58959d277460\\");
-
 require(\\"../sub-common/42904459d2e00d49c3cf68cf8cb082f4\\");
 
 require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
 
+require(\\"../sub-common/276eac19ba130f3c2def58959d277460\\");
+
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 14 ], {
-    26: function(module, __webpack_exports__, __webpack_require__) {
+    27: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
             return Detail;
         }));
-        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
-        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
-        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
-        var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
+        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
+        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
+        var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
-        var _utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7);
-        var _utils_consoleLogSubVendors__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(8);
-        var _utils_testExcludeString__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(9);
-        var _index_css__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(40);
+        var _utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(8);
+        var _utils_consoleLogSubVendors__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(9);
+        var _utils_testExcludeString__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(10);
+        var _index_css__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(42);
         var _index_css__WEBPACK_IMPORTED_MODULE_9___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_9__);
-        var _css_sub_vendors_css__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(16);
+        var _css_sub_vendors_css__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(17);
         var _css_sub_vendors_css__WEBPACK_IMPORTED_MODULE_10___default = __webpack_require__.n(_css_sub_vendors_css__WEBPACK_IMPORTED_MODULE_10__);
-        var _css_sub_common_css__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(17);
+        var _css_sub_common_css__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(18);
         var _css_sub_common_css__WEBPACK_IMPORTED_MODULE_11___default = __webpack_require__.n(_css_sub_common_css__WEBPACK_IMPORTED_MODULE_11__);
-        var _css_sub_common_module_css__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(10);
+        var _css_sub_common_module_css__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(11);
         var _css_sub_common_module_css__WEBPACK_IMPORTED_MODULE_12___default = __webpack_require__.n(_css_sub_common_module_css__WEBPACK_IMPORTED_MODULE_12__);
-        var _css_sub_vendors_module_css__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(11);
+        var _css_sub_vendors_module_css__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(12);
         var _css_sub_vendors_module_css__WEBPACK_IMPORTED_MODULE_13___default = __webpack_require__.n(_css_sub_vendors_module_css__WEBPACK_IMPORTED_MODULE_13__);
+        var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(1);
+        var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14___default = __webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__);
         var Detail = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(Detail, _Component);
             var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(Detail);
@@ -911,28 +985,30 @@ require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
             }, {
                 key: \\"render\\",
                 value: function render() {
-                    return react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
-                        className: \\"detail\\"
-                    }, react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"Text\\"], {
-                        className: \\"\\\\n          sub-vendors\\\\n          sub-common\\\\n          \\".concat(_css_sub_common_module_css__WEBPACK_IMPORTED_MODULE_12___default.a[\\"sub-common-module\\"], \\"\\\\n          \\").concat(_css_sub_vendors_module_css__WEBPACK_IMPORTED_MODULE_13___default.a[\\"sub-vendors-module\\"], \\"\\\\n        \\")
-                    }, \\"I m detail\\"));
+                    return Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__[\\"jsx\\"])(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
+                        className: \\"detail\\",
+                        children: Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__[\\"jsx\\"])(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"Text\\"], {
+                            className: \\"\\\\n          sub-vendors\\\\n          sub-common\\\\n          \\".concat(_css_sub_common_module_css__WEBPACK_IMPORTED_MODULE_12___default.a[\\"sub-common-module\\"], \\"\\\\n          \\").concat(_css_sub_vendors_module_css__WEBPACK_IMPORTED_MODULE_13___default.a[\\"sub-vendors-module\\"], \\"\\\\n        \\"),
+                            children: \\"I m detail\\"
+                        })
+                    });
                 }
             } ]);
             return Detail;
         }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
     },
-    39: function(module, __webpack_exports__, __webpack_require__) {
+    41: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(26);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(27);
         var config = {
             navigationBarTitleText: \\"\\\\u8be6\\\\u60c5\\\\u9875\\"
         };
         var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"packageA/detail/index\\", {}, config || {}));
     },
-    40: function(module, exports, __webpack_require__) {}
-}, [ [ 39, 0, 4, 5, 6, 7, 8, 1, 3, 2 ] ] ]);
+    42: function(module, exports, __webpack_require__) {}
+}, [ [ 41, 0, 4, 5, 7, 8, 6, 1, 3, 2 ] ] ]);
 
 
 
@@ -941,7 +1017,7 @@ require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
 
 /** filePath: dist/packageA/detail/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
-  <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
+<template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 
 /** filePath: dist/packageA/detail/index.wxss **/
 @import \\"../sub-vendors.wxss\\";
@@ -955,26 +1031,28 @@ require(\\"../sub-vendors\\");
 require(\\"../sub-common/99b10a6beb849fcc5ec5da14c71c6aa9\\");
 
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 16 ], {
-    27: function(module, __webpack_exports__, __webpack_require__) {
+    28: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
             return My;
         }));
-        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
-        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
-        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
-        var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
+        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
+        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
+        var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
-        var _utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7);
-        var _utils_consoleLogSubVendors__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(8);
-        var _utils_consoleLogSubCommon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(12);
-        var _utils_testExcludeString__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(9);
-        var _utils_testExcludeFunction__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(13);
-        var _css_sub_vendors_css__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(16);
+        var _utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(8);
+        var _utils_consoleLogSubVendors__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(9);
+        var _utils_consoleLogSubCommon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(13);
+        var _utils_testExcludeString__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(10);
+        var _utils_testExcludeFunction__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(14);
+        var _css_sub_vendors_css__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(17);
         var _css_sub_vendors_css__WEBPACK_IMPORTED_MODULE_11___default = __webpack_require__.n(_css_sub_vendors_css__WEBPACK_IMPORTED_MODULE_11__);
-        var _css_sub_vendors_module_css__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(11);
+        var _css_sub_vendors_module_css__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(12);
         var _css_sub_vendors_module_css__WEBPACK_IMPORTED_MODULE_12___default = __webpack_require__.n(_css_sub_vendors_module_css__WEBPACK_IMPORTED_MODULE_12__);
+        var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(1);
+        var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13___default = __webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__);
         var My = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(My, _Component);
             var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(My);
@@ -994,25 +1072,28 @@ require(\\"../sub-common/99b10a6beb849fcc5ec5da14c71c6aa9\\");
             }, {
                 key: \\"render\\",
                 value: function render() {
-                    return react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
-                        className: \\"\\\\n          sub-vendors\\\\n          \\".concat(_css_sub_vendors_module_css__WEBPACK_IMPORTED_MODULE_12___default.a[\\"sub-vendors-module\\"], \\"\\\\n        \\")
-                    }, react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"Text\\"], null, \\"I m my\\"));
+                    return Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__[\\"jsx\\"])(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
+                        className: \\"\\\\n          sub-vendors\\\\n          \\".concat(_css_sub_vendors_module_css__WEBPACK_IMPORTED_MODULE_12___default.a[\\"sub-vendors-module\\"], \\"\\\\n        \\"),
+                        children: Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__[\\"jsx\\"])(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"Text\\"], {
+                            children: \\"I m my\\"
+                        })
+                    });
                 }
             } ]);
             return My;
         }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
     },
-    41: function(module, __webpack_exports__, __webpack_require__) {
+    43: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(27);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(28);
         var config = {
             navigationBarTitleText: \\"\\\\u4e2a\\\\u4eba\\\\u4e2d\\\\u5fc3\\\\u9875\\"
         };
         var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"packageA/my/index\\", {}, config || {}));
     }
-}, [ [ 41, 0, 4, 9, 1, 3, 2 ] ] ]);
+}, [ [ 43, 0, 4, 9, 1, 3, 2 ] ] ]);
 
 
 
@@ -1021,7 +1102,7 @@ require(\\"../sub-common/99b10a6beb849fcc5ec5da14c71c6aa9\\");
 
 /** filePath: dist/packageA/my/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
-  <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
+<template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 
 /** filePath: dist/packageA/my/index.wxss **/
 @import \\"../sub-vendors.wxss\\";
@@ -1029,7 +1110,7 @@ require(\\"../sub-common/99b10a6beb849fcc5ec5da14c71c6aa9\\");
 
 /** filePath: dist/packageA/sub-common/0a099b4ab650a7002eadd1cfdcbd0c58.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 5 ], {
-    10: function(module, exports, __webpack_require__) {
+    11: function(module, exports, __webpack_require__) {
         module.exports = {
             \\"sub-common-module\\": \\"sub-common-module__sub-common-module___L8rCm\\"
         };
@@ -1038,7 +1119,7 @@ require(\\"../sub-common/99b10a6beb849fcc5ec5da14c71c6aa9\\");
 
 /** filePath: dist/packageA/sub-common/276eac19ba130f3c2def58959d277460.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    17: function(module, exports, __webpack_require__) {}
+    18: function(module, exports, __webpack_require__) {}
 } ]);
 
 /** filePath: dist/packageA/sub-common/42904459d2e00d49c3cf68cf8cb082f4.js **/
@@ -1046,30 +1127,6 @@ require(\\"../sub-common/99b10a6beb849fcc5ec5da14c71c6aa9\\");
 
 /** filePath: dist/packageA/sub-common/42904459d2e00d49c3cf68cf8cb082f4.wxss **/
 .sub-common-module__sub-common-module___L8rCm{content:'sub-common-module'}
-
-/** filePath: dist/packageA/sub-common/5af326dc7e88f9b2c32d07774f00fe26.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    12: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_exports__[\\"a\\"] = function(subpackage) {
-            console.log(\\"Subpackage: \\".concat(subpackage));
-        };
-    }
-} ]);
-
-/** filePath: dist/packageA/sub-common/68dd8a31b878ce116a2005a66b95fc8c.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    10: function(module, exports, __webpack_require__) {
-        module.exports = {
-            \\"sub-common-module\\": \\"sub-common-module__sub-common-module___L8rCm\\"
-        };
-    }
-} ]);
-
-/** filePath: dist/packageA/sub-common/69741b2500be046f25207856b4a44ce9.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
-    17: function(module, exports, __webpack_require__) {}
-} ]);
 
 /** filePath: dist/packageA/sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], [] ]);
@@ -1079,7 +1136,7 @@ require(\\"../sub-common/99b10a6beb849fcc5ec5da14c71c6aa9\\");
 
 /** filePath: dist/packageA/sub-common/99b10a6beb849fcc5ec5da14c71c6aa9.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
-    12: function(module, __webpack_exports__, __webpack_require__) {
+    13: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = function(subpackage) {
             console.log(\\"Subpackage: \\".concat(subpackage));
@@ -1089,13 +1146,13 @@ require(\\"../sub-common/99b10a6beb849fcc5ec5da14c71c6aa9\\");
 
 /** filePath: dist/packageA/sub-vendors.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    11: function(module, exports, __webpack_require__) {
+    12: function(module, exports, __webpack_require__) {
         module.exports = {
             \\"sub-vendors-module\\": \\"sub-vendors-module__sub-vendors-module___1PTFy\\"
         };
     },
-    16: function(module, exports, __webpack_require__) {},
-    8: function(module, __webpack_exports__, __webpack_require__) {
+    17: function(module, exports, __webpack_require__) {},
+    9: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = function() {
             console.log(\\"This is packageA vendors\\");
@@ -1107,35 +1164,37 @@ require(\\"../sub-common/99b10a6beb849fcc5ec5da14c71c6aa9\\");
 .sub-vendors{content:'sub-vendors'}.sub-vendors-module__sub-vendors-module___1PTFy{content:'sub-vendors-module'}
 
 /** filePath: dist/packageB/list/index.js **/
-require(\\"../sub-common/99b10a6beb849fcc5ec5da14c71c6aa9\\");
-
 require(\\"../sub-common/0a099b4ab650a7002eadd1cfdcbd0c58\\");
 
-require(\\"../sub-common/276eac19ba130f3c2def58959d277460\\");
+require(\\"../sub-common/99b10a6beb849fcc5ec5da14c71c6aa9\\");
 
 require(\\"../sub-common/42904459d2e00d49c3cf68cf8cb082f4\\");
 
 require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
 
+require(\\"../sub-common/276eac19ba130f3c2def58959d277460\\");
+
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 18 ], {
-    28: function(module, __webpack_exports__, __webpack_require__) {
+    29: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
             return My;
         }));
-        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
-        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
-        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
-        var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
+        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
+        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
+        var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
-        var _utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7);
-        var _utils_consoleLogSubCommon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(12);
-        var _utils_testExcludeFunction__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(13);
-        var _css_sub_common_css__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(17);
+        var _utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(8);
+        var _utils_consoleLogSubCommon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(13);
+        var _utils_testExcludeFunction__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(14);
+        var _css_sub_common_css__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(18);
         var _css_sub_common_css__WEBPACK_IMPORTED_MODULE_9___default = __webpack_require__.n(_css_sub_common_css__WEBPACK_IMPORTED_MODULE_9__);
-        var _css_sub_common_module_css__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(10);
+        var _css_sub_common_module_css__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(11);
         var _css_sub_common_module_css__WEBPACK_IMPORTED_MODULE_10___default = __webpack_require__.n(_css_sub_common_module_css__WEBPACK_IMPORTED_MODULE_10__);
+        var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(1);
+        var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11___default = __webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__);
         var My = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(My, _Component);
             var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(My);
@@ -1153,25 +1212,28 @@ require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
             }, {
                 key: \\"render\\",
                 value: function render() {
-                    return react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
-                        className: \\"\\\\n          sub-common\\\\n          \\".concat(_css_sub_common_module_css__WEBPACK_IMPORTED_MODULE_10___default.a[\\"sub-common-module\\"], \\"\\\\n        \\")
-                    }, react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"Text\\"], null, \\"list page\\"));
+                    return Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__[\\"jsx\\"])(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
+                        className: \\"\\\\n          sub-common\\\\n          \\".concat(_css_sub_common_module_css__WEBPACK_IMPORTED_MODULE_10___default.a[\\"sub-common-module\\"], \\"\\\\n        \\"),
+                        children: Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__[\\"jsx\\"])(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"Text\\"], {
+                            children: \\"list page\\"
+                        })
+                    });
                 }
             } ]);
             return My;
         }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
     },
-    42: function(module, __webpack_exports__, __webpack_require__) {
+    44: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(28);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(29);
         var config = {
             navigationBarTitleText: \\"\\\\u5217\\\\u8868\\\\u9875\\"
         };
         var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"packageB/list/index\\", {}, config || {}));
     }
-}, [ [ 42, 0, 9, 5, 6, 7, 8, 1, 3, 2 ] ] ]);
+}, [ [ 44, 0, 5, 9, 7, 8, 6, 1, 3, 2 ] ] ]);
 
 
 
@@ -1180,7 +1242,7 @@ require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
 
 /** filePath: dist/packageB/list/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
-  <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
+<template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 
 /** filePath: dist/packageB/list/index.wxss **/
 @import \\"../sub-common/42904459d2e00d49c3cf68cf8cb082f4.wxss\\";
@@ -1189,7 +1251,7 @@ require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
 
 /** filePath: dist/packageB/sub-common/0a099b4ab650a7002eadd1cfdcbd0c58.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 5 ], {
-    10: function(module, exports, __webpack_require__) {
+    11: function(module, exports, __webpack_require__) {
         module.exports = {
             \\"sub-common-module\\": \\"sub-common-module__sub-common-module___L8rCm\\"
         };
@@ -1198,7 +1260,7 @@ require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
 
 /** filePath: dist/packageB/sub-common/276eac19ba130f3c2def58959d277460.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    17: function(module, exports, __webpack_require__) {}
+    18: function(module, exports, __webpack_require__) {}
 } ]);
 
 /** filePath: dist/packageB/sub-common/42904459d2e00d49c3cf68cf8cb082f4.js **/
@@ -1206,30 +1268,6 @@ require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
 
 /** filePath: dist/packageB/sub-common/42904459d2e00d49c3cf68cf8cb082f4.wxss **/
 .sub-common-module__sub-common-module___L8rCm{content:'sub-common-module'}
-
-/** filePath: dist/packageB/sub-common/5af326dc7e88f9b2c32d07774f00fe26.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    12: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_exports__[\\"a\\"] = function(subpackage) {
-            console.log(\\"Subpackage: \\".concat(subpackage));
-        };
-    }
-} ]);
-
-/** filePath: dist/packageB/sub-common/68dd8a31b878ce116a2005a66b95fc8c.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    10: function(module, exports, __webpack_require__) {
-        module.exports = {
-            \\"sub-common-module\\": \\"sub-common-module__sub-common-module___L8rCm\\"
-        };
-    }
-} ]);
-
-/** filePath: dist/packageB/sub-common/69741b2500be046f25207856b4a44ce9.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
-    17: function(module, exports, __webpack_require__) {}
-} ]);
 
 /** filePath: dist/packageB/sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], [] ]);
@@ -1239,7 +1277,7 @@ require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
 
 /** filePath: dist/packageB/sub-common/99b10a6beb849fcc5ec5da14c71c6aa9.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
-    12: function(module, __webpack_exports__, __webpack_require__) {
+    13: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = function(subpackage) {
             console.log(\\"Subpackage: \\".concat(subpackage));
@@ -1249,23 +1287,25 @@ require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
 
 /** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 20 ], {
-    14: function(module, __webpack_exports__, __webpack_require__) {
+    15: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = \\"taro\\";
     },
-    25: function(module, __webpack_exports__, __webpack_require__) {
+    26: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
             return Index;
         }));
-        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
-        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
-        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
-        var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
+        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
+        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
+        var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
-        var _tarojs_taro__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(14);
-        var _utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(7);
+        var _tarojs_taro__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(15);
+        var _utils_consoleLogMain__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(8);
+        var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(1);
+        var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8___default = __webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__);
         var Index = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(Index, _Component);
             var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(Index);
@@ -1281,50 +1321,54 @@ require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
             }, {
                 key: \\"render\\",
                 value: function render() {
-                    return react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
-                        className: \\"index\\"
-                    }, react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
-                        onClick: function onClick() {
-                            return _tarojs_taro__WEBPACK_IMPORTED_MODULE_6__[\\"a\\"].navigateTo({
-                                url: \\"/packageA/detail/index\\"
-                            });
-                        }
-                    }, \\"Go to detail\\"), react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
-                        onClick: function onClick() {
-                            return _tarojs_taro__WEBPACK_IMPORTED_MODULE_6__[\\"a\\"].navigateTo({
-                                url: \\"/packageA/my/index\\"
-                            });
-                        }
-                    }, \\"Go to my\\"), react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
-                        onClick: function onClick() {
-                            return _tarojs_taro__WEBPACK_IMPORTED_MODULE_6__[\\"a\\"].navigateTo({
-                                url: \\"/packageB/list/index\\"
-                            });
-                        }
-                    }, \\"Go to list\\"));
+                    return Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__[\\"jsxs\\"])(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
+                        className: \\"index\\",
+                        children: [ Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__[\\"jsx\\"])(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
+                            onClick: function onClick() {
+                                return _tarojs_taro__WEBPACK_IMPORTED_MODULE_6__[\\"a\\"].navigateTo({
+                                    url: \\"/packageA/detail/index\\"
+                                });
+                            },
+                            children: \\"Go to detail\\"
+                        }), Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__[\\"jsx\\"])(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
+                            onClick: function onClick() {
+                                return _tarojs_taro__WEBPACK_IMPORTED_MODULE_6__[\\"a\\"].navigateTo({
+                                    url: \\"/packageA/my/index\\"
+                                });
+                            },
+                            children: \\"Go to my\\"
+                        }), Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__[\\"jsx\\"])(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
+                            onClick: function onClick() {
+                                return _tarojs_taro__WEBPACK_IMPORTED_MODULE_6__[\\"a\\"].navigateTo({
+                                    url: \\"/packageB/list/index\\"
+                                });
+                            },
+                            children: \\"Go to list\\"
+                        }) ]
+                    });
                 }
             } ]);
             return Index;
         }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
     },
-    38: function(module, __webpack_exports__, __webpack_require__) {
+    39: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(25);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(26);
         var config = {
             navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
         };
         var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"pages/index/index\\", {}, config || {}));
     }
-}, [ [ 38, 0, 1, 3, 2 ] ] ]);
+}, [ [ 39, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
 /** filePath: dist/pages/index/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
-  <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
+<template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 
 /** filePath: dist/runtime.js **/
 (function(modules) {
@@ -1445,7 +1489,7 @@ require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
 
 /** filePath: dist/taro.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    1: function(module, __webpack_exports__, __webpack_require__) {
+    0: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-runtime-mock\\";
     },
@@ -1453,14 +1497,94 @@ require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-components-mock\\";
     },
-    24: function(module, __webpack_exports__, __webpack_require__) {
+    25: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
     }
 } ]);
 
+/** filePath: dist/utils.wxs **/
+module.exports = {
+  a: function (l, n, s) {
+    var a = [\\"view\\",\\"catch-view\\",\\"cover-view\\",\\"static-view\\",\\"pure-view\\",\\"block\\",\\"text\\",\\"static-text\\",\\"slot\\",\\"slot-view\\",\\"label\\",\\"form\\",\\"scroll-view\\",\\"swiper\\",\\"swiper-item\\"]
+    var b = [\\"static-text\\",\\"slot\\",\\"slot-view\\",\\"label\\",\\"form\\",\\"scroll-view\\",\\"swiper\\",\\"swiper-item\\"]
+    if (a.indexOf(n) === -1) {
+      l = 0
+    }
+    if (b.indexOf(n) > -1) {
+      var u = s.split(',')
+      var depth = 0
+      for (var i = 0; i < u.length; i++) {
+        if (u[i] === n) depth++
+      }
+      l = depth
+    }
+    return 'tmpl_' + l + '_' + n
+  },
+  b: function (a, b) {
+    return a === undefined ? b : a
+  },
+  c: function(i, prefix) {
+    var s = i.focus !== undefined ? 'focus' : 'blur'
+    return prefix + i.nn + '_' + s
+  },
+  d: function (i, v) {
+    return i === undefined ? v : i
+  },
+  e: function (n) {
+    return 'tmpl_' + n + '_container'
+  },
+  f: function (l, n) {
+    var b = [\\"static-text\\",\\"slot\\",\\"slot-view\\",\\"label\\",\\"form\\",\\"scroll-view\\",\\"swiper\\",\\"swiper-item\\"]
+    if (b.indexOf(n) > -1) {
+      if (l) l += ','
+      l += n
+    }
+    return l
+  }
+}
+
 /** filePath: dist/vendors.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
+/*! For license information please see vendors.js.LICENSE.txt */
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , function(module, exports, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__(40);
+    var f = __webpack_require__(3), g = 60103;
+    exports.Fragment = 60107;
+    if (\\"function\\" === typeof Symbol && Symbol.for) {
+        var h = Symbol.for;
+        g = h(\\"react.element\\");
+        exports.Fragment = h(\\"react.fragment\\");
+    }
+    var m = f.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner, n = Object.prototype.hasOwnProperty, p = {
+        key: !0,
+        ref: !0,
+        __self: !0,
+        __source: !0
+    };
+    function q(c, a, k) {
+        var b, d = {}, e = null, l = null;
+        void 0 !== k && (e = \\"\\" + k);
+        void 0 !== a.key && (e = \\"\\" + a.key);
+        void 0 !== a.ref && (l = a.ref);
+        for (b in a) {
+            n.call(a, b) && !p.hasOwnProperty(b) && (d[b] = a[b]);
+        }
+        if (c && c.defaultProps) for (b in a = c.defaultProps, a) {
+            void 0 === d[b] && (d[b] = a[b]);
+        }
+        return {
+            $$typeof: g,
+            type: c,
+            key: e,
+            ref: l,
+            props: d,
+            _owner: m.current
+        };
+    }
+    exports.jsx = q;
+    exports.jsxs = q;
+}, , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _classCallCheck;
@@ -1494,7 +1618,7 @@ require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _inherits;
     }));
-    var _babel_runtime_helpers_esm_setPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
+    var _setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
     function _inherits(subClass, superClass) {
         if (typeof superClass !== \\"function\\" && superClass !== null) {
             throw new TypeError(\\"Super expression must either be null or a function\\");
@@ -1506,27 +1630,27 @@ require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
                 configurable: true
             }
         });
-        if (superClass) Object(_babel_runtime_helpers_esm_setPrototypeOf__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(subClass, superClass);
+        if (superClass) Object(_setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(subClass, superClass);
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _createSuper;
     }));
-    var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
-    var _babel_runtime_helpers_esm_isNativeReflectConstruct__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(20);
-    var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(21);
+    var _getPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
+    var _isNativeReflectConstruct_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
+    var _possibleConstructorReturn_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(22);
     function _createSuper(Derived) {
-        var hasNativeReflectConstruct = Object(_babel_runtime_helpers_esm_isNativeReflectConstruct__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])();
+        var hasNativeReflectConstruct = Object(_isNativeReflectConstruct_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])();
         return function _createSuperInternal() {
-            var Super = Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(Derived), result;
+            var Super = Object(_getPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(Derived), result;
             if (hasNativeReflectConstruct) {
-                var NewTarget = Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(this).constructor;
+                var NewTarget = Object(_getPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(this).constructor;
                 result = Reflect.construct(Super, arguments, NewTarget);
             } else {
                 result = Super.apply(this, arguments);
             }
-            return Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(this, result);
+            return Object(_possibleConstructorReturn_js__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(this, result);
         };
     }
 }, , , , , , , , , function(module, __webpack_exports__, __webpack_require__) {
@@ -1562,7 +1686,7 @@ require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
         if (Reflect.construct.sham) return false;
         if (typeof Proxy === \\"function\\") return true;
         try {
-            Date.prototype.toString.call(Reflect.construct(Date, [], (function() {})));
+            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
             return true;
         } catch (e) {
             return false;
@@ -1573,32 +1697,33 @@ require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _possibleConstructorReturn;
     }));
-    var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
-    var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
+    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(23);
+    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__);
+    var _assertThisInitialized_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
     function _possibleConstructorReturn(self, call) {
-        if (call && (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(call) === \\"object\\" || typeof call === \\"function\\")) {
+        if (call && (_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
         }
-        return Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(self);
+        return Object(_assertThisInitialized_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(self);
     }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _typeof;
-    }));
+}, function(module, exports) {
     function _typeof(obj) {
         \\"@babel/helpers - typeof\\";
         if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-            _typeof = function _typeof(obj) {
+            module.exports = _typeof = function _typeof(obj) {
                 return typeof obj;
             };
+            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
         } else {
-            _typeof = function _typeof(obj) {
+            module.exports = _typeof = function _typeof(obj) {
                 return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
             };
+            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
         }
         return _typeof(obj);
     }
+    module.exports = _typeof;
+    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -1610,6 +1735,88 @@ require(\\"../sub-common/8e16e307f9d7b4c3b6d660c5a76b4ec4\\");
         }
         return self;
     }
+}, , , , , , , , , , , , , , , , function(module, exports, __webpack_require__) {
+    \\"use strict\\";
+    var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+    var hasOwnProperty = Object.prototype.hasOwnProperty;
+    var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+    function toObject(val) {
+        if (val === null || val === undefined) {
+            throw new TypeError(\\"Object.assign cannot be called with null or undefined\\");
+        }
+        return Object(val);
+    }
+    function shouldUseNative() {
+        try {
+            if (!Object.assign) {
+                return false;
+            }
+            var test1 = new String(\\"abc\\");
+            test1[5] = \\"de\\";
+            if (Object.getOwnPropertyNames(test1)[0] === \\"5\\") {
+                return false;
+            }
+            var test2 = {};
+            for (var i = 0; i < 10; i++) {
+                test2[\\"_\\" + String.fromCharCode(i)] = i;
+            }
+            var order2 = Object.getOwnPropertyNames(test2).map((function(n) {
+                return test2[n];
+            }));
+            if (order2.join(\\"\\") !== \\"0123456789\\") {
+                return false;
+            }
+            var test3 = {};
+            \\"abcdefghijklmnopqrst\\".split(\\"\\").forEach((function(letter) {
+                test3[letter] = letter;
+            }));
+            if (Object.keys(Object.assign({}, test3)).join(\\"\\") !== \\"abcdefghijklmnopqrst\\") {
+                return false;
+            }
+            return true;
+        } catch (err) {
+            return false;
+        }
+    }
+    module.exports = shouldUseNative() ? Object.assign : function(target, source) {
+        var from;
+        var to = toObject(target);
+        var symbols;
+        for (var s = 1; s < arguments.length; s++) {
+            from = Object(arguments[s]);
+            for (var key in from) {
+                if (hasOwnProperty.call(from, key)) {
+                    to[key] = from[key];
+                }
+            }
+            if (getOwnPropertySymbols) {
+                symbols = getOwnPropertySymbols(from);
+                for (var i = 0; i < symbols.length; i++) {
+                    if (propIsEnumerable.call(from, symbols[i])) {
+                        to[symbols[i]] = from[symbols[i]];
+                    }
+                }
+            }
+        }
+        return to;
+    };
 } ] ]);
+
+/** filePath: dist/vendors.js.LICENSE.txt **/
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+
+/** @license React v17.0.2
+ * react-jsx-runtime.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 "
 `;
