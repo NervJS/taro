@@ -6,6 +6,8 @@ export const frameworkMeta: Record<string, {
   isNeedRawLoader?: boolean
   extraImportForWeb?: string
   execBeforeCreateWebApp?: string
+  compatComponentImport?: string
+  compatComponentExtra?: string
 }> = {
   vue: {
     importFrameworkStatement: `
@@ -49,6 +51,8 @@ import ReactDOM from 'react-dom'
 `,
     frameworkArgs: 'React, ReactDOM, config',
     creator: 'createReactApp',
-    importFrameworkName: 'React'
+    importFrameworkName: 'React',
+    compatComponentImport: 'import { PullDownRefresh } from "@tarojs/components"',
+    compatComponentExtra: 'config.PullDownRefresh = PullDownRefresh'
   }
 }
