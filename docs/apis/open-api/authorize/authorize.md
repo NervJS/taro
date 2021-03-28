@@ -31,7 +31,7 @@ sidebar_label: authorize
       <td>scope</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}>是</td>
-      <td>需要获取权限的 scope，详见 <a href="authorize#scope-%E5%88%97%E8%A1%A8">scope 列表</a></td>
+      <td>需要获取权限的 scope，详见 <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html#scope-%E5%88%97%E8%A1%A8">scope 列表</a></td>
     </tr>
     <tr>
       <td>complete</td>
