@@ -8,11 +8,11 @@ jest.mock('@react-native-community/netinfo', () => mockRNCNetInfo)
 jest.mock('@react-native-async-storage/async-storage', () => mockRNCAsyncStorage)
 
 jest.mock('react-native', () => {
-  const ReactNaive = jest.requireActual('react-native')
+  const ReactNative = jest.requireActual('react-native')
 
   // Vibration readonly so you need use defineProperty rewrite this property descriptor.
   const Vibration = jest.requireActual('./src/__tests__/__mock__/mockVibrate').default
-  Object.defineProperty(ReactNaive, 'Vibration', {
+  Object.defineProperty(ReactNative, 'Vibration', {
     enumerable: false,
     configurable: false,
     writable: false,
@@ -22,9 +22,18 @@ jest.mock('react-native', () => {
   // mockNativeModules: react-native/Libraries/BatchedBridge/NativeModules
   const RNCCameraRoll = jest.requireActual('./src/__tests__/__mock__/mockRNCCameraRoll').default
   const MockClipboard = jest.requireActual('./src/__tests__/__mock__/mockClipboard').default
-  ReactNaive.NativeModules.RNCCameraRoll = RNCCameraRoll
-  ReactNaive.NativeModules.RNCClipboard = new MockClipboard()
-  Object.defineProperty(ReactNaive.NativeModules, 'ImageLoader', {
+  ReactNative.NativeModules.RNCCameraRoll = RNCCameraRoll
+  ReactNative.NativeModules.RNCClipboard = new MockClipboard()
+  ReactNative.NativeModules.RNCGeolocation = {
+    addListener: jest.fn(),
+    getCurrentPosition: jest.fn(),
+    removeListeners: jest.fn(),
+    requestAuthorization: jest.fn(),
+    setConfiguration: jest.fn(),
+    startObserving: jest.fn(),
+    stopObserving: jest.fn(),
+  }
+  Object.defineProperty(ReactNative.NativeModules, 'ImageLoader', {
     configurable: true,
     enumerable: true,
     get: () => ({
@@ -35,7 +44,7 @@ jest.mock('react-native', () => {
       }),
     }),
   })
-  return ReactNaive
+  return ReactNative
 })
 
 jest.mock('@unimodules/core', () => {

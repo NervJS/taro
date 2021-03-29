@@ -12,7 +12,7 @@ exports[`interactive Mask should render Mask success 1`] = `
   <TouchableWithoutFeedback
     onPress={[MockFunction]}
   >
-    <Component
+    <View
       accessible={true}
       focusable={true}
       onClick={[Function]}
@@ -63,7 +63,7 @@ exports[`interactive Mask should render Mask success 1`] = `
         }
       >
         <TouchableWithoutFeedback>
-          <Component
+          <Text
             accessible={true}
             focusable={false}
             onClick={[Function]}
@@ -87,13 +87,13 @@ exports[`interactive Mask should render Mask success 1`] = `
             >
               Test
             </Text>
-          </Component>
+          </Text>
         </TouchableWithoutFeedback>
         <PressabilityDebugView
           color="red"
         />
       </View>
-    </Component>
+    </View>
   </TouchableWithoutFeedback>
 </Mask>
 `;
@@ -108,7 +108,7 @@ exports[`interactive Popup should render Popup success 1`] = `
     }
   }
 >
-  <Component
+  <Modal
     hardwareAccelerated={false}
     onRequestClose={[MockFunction]}
     onShow={[MockFunction]}
@@ -128,7 +128,7 @@ exports[`interactive Popup should render Popup success 1`] = `
         <TouchableWithoutFeedback
           onPress={[MockFunction]}
         >
-          <Component
+          <View
             accessible={true}
             focusable={true}
             onClick={[Function]}
@@ -239,7 +239,7 @@ exports[`interactive Popup should render Popup success 1`] = `
                       ]
                     }
                   >
-                    <Component
+                    <View
                       accessible={true}
                       focusable={false}
                       onClick={[Function]}
@@ -291,21 +291,21 @@ exports[`interactive Popup should render Popup success 1`] = `
                           }
                         }
                       >
-                        <Component
+                        <View
                           onLayout={[Function]}
                         >
                           <View
                             onLayout={[Function]}
                           >
-                            <Component>
+                            <Text>
                               <Text>
                                 Test
                               </Text>
-                            </Component>
+                            </Text>
                           </View>
-                        </Component>
+                        </View>
                       </View>
-                    </Component>
+                    </View>
                   </AnimatedComponent>
                 </ForwardRef(AnimatedComponentWrapper)>
               </TouchableWithoutFeedback>
@@ -313,11 +313,11 @@ exports[`interactive Popup should render Popup success 1`] = `
                 color="red"
               />
             </View>
-          </Component>
+          </View>
         </TouchableWithoutFeedback>
       </Mask>
     </Modal>
-  </Component>
+  </Modal>
 </Popup>
 `;
 
@@ -372,7 +372,7 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
     }
     visible={false}
   >
-    <Component
+    <Modal
       hardwareAccelerated={false}
       onRequestClose={[MockFunction]}
       transparent={true}
@@ -390,7 +390,7 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
           <TouchableWithoutFeedback
             onPress={[MockFunction]}
           >
-            <Component
+            <View
               accessible={true}
               focusable={true}
               onClick={[Function]}
@@ -507,7 +507,7 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                         ]
                       }
                     >
-                      <Component
+                      <View
                         accessible={true}
                         focusable={false}
                         onClick={[Function]}
@@ -557,13 +557,13 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                             }
                           }
                         >
-                          <Component
+                          <View
                             onLayout={[Function]}
                           >
                             <View
                               onLayout={[Function]}
                             >
-                              <Component
+                              <View
                                 style={
                                   Array [
                                     Object {
@@ -625,7 +625,7 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                                       }
                                       underlayColor="#ECECEC"
                                     >
-                                      <Component
+                                      <View
                                         accessible={true}
                                         focusable={true}
                                         onClick={[Function]}
@@ -681,7 +681,7 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                                             ]
                                           }
                                         >
-                                          <Component
+                                          <Text
                                             style={
                                               Array [
                                                 Object {
@@ -719,12 +719,12 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                                             >
                                               选项一
                                             </Text>
-                                          </Component>
+                                          </Text>
                                           <PressabilityDebugView
                                             color="green"
                                           />
                                         </View>
-                                      </Component>
+                                      </View>
                                     </TouchableHighlight>
                                   </ForwardRef>
                                   <ForwardRef
@@ -767,7 +767,7 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                                       }
                                       underlayColor="#ECECEC"
                                     >
-                                      <Component
+                                      <View
                                         accessible={true}
                                         focusable={true}
                                         onClick={[Function]}
@@ -819,7 +819,7 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                                             ]
                                           }
                                         >
-                                          <Component
+                                          <Text
                                             style={
                                               Array [
                                                 Object {
@@ -857,17 +857,17 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                                             >
                                               选项二
                                             </Text>
-                                          </Component>
+                                          </Text>
                                           <PressabilityDebugView
                                             color="green"
                                           />
                                         </View>
-                                      </Component>
+                                      </View>
                                     </TouchableHighlight>
                                   </ForwardRef>
                                 </View>
-                              </Component>
-                              <Component
+                              </View>
+                              <View
                                 style={
                                   Array [
                                     Object {
@@ -931,7 +931,7 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                                       }
                                       underlayColor="#ECECEC"
                                     >
-                                      <Component
+                                      <View
                                         accessible={true}
                                         focusable={true}
                                         onClick={[Function]}
@@ -987,7 +987,7 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                                             ]
                                           }
                                         >
-                                          <Component
+                                          <Text
                                             style={
                                               Array [
                                                 Object {
@@ -1025,17 +1025,17 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                                             >
                                               取消
                                             </Text>
-                                          </Component>
+                                          </Text>
                                           <PressabilityDebugView
                                             color="green"
                                           />
                                         </View>
-                                      </Component>
+                                      </View>
                                     </TouchableHighlight>
                                   </ForwardRef>
                                 </View>
-                              </Component>
-                              <Component
+                              </View>
+                              <View
                                 style={
                                   Object {
                                     "backgroundColor": "#fff",
@@ -1051,11 +1051,11 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                                     }
                                   }
                                 />
-                              </Component>
+                              </View>
                             </View>
-                          </Component>
+                          </View>
                         </View>
-                      </Component>
+                      </View>
                     </AnimatedComponent>
                   </ForwardRef(AnimatedComponentWrapper)>
                 </TouchableWithoutFeedback>
@@ -1063,11 +1063,11 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                   color="red"
                 />
               </View>
-            </Component>
+            </View>
           </TouchableWithoutFeedback>
         </Mask>
       </Modal>
-    </Component>
+    </Modal>
   </Popup>
 </Index>
 `;
@@ -1093,7 +1093,7 @@ exports[`interactive showModal should render Dialog success 1`] = `
   title="title"
   visible={true}
 >
-  <Component
+  <View
     style={
       Array [
         Object {
@@ -1143,7 +1143,7 @@ exports[`interactive showModal should render Dialog success 1`] = `
         <TouchableWithoutFeedback
           onPress={[MockFunction]}
         >
-          <Component
+          <View
             accessible={true}
             focusable={true}
             onClick={[Function]}
@@ -1204,7 +1204,7 @@ exports[`interactive showModal should render Dialog success 1`] = `
               }
             >
               <TouchableWithoutFeedback>
-                <Component
+                <View
                   accessible={true}
                   focusable={false}
                   onClick={[Function]}
@@ -1248,7 +1248,7 @@ exports[`interactive showModal should render Dialog success 1`] = `
                       ]
                     }
                   >
-                    <Component
+                    <View
                       style={
                         Array [
                           Object {
@@ -1274,7 +1274,7 @@ exports[`interactive showModal should render Dialog success 1`] = `
                           ]
                         }
                       >
-                        <Component
+                        <Text
                           style={
                             Array [
                               Object {
@@ -1304,10 +1304,10 @@ exports[`interactive showModal should render Dialog success 1`] = `
                           >
                             title
                           </Text>
-                        </Component>
+                        </Text>
                       </View>
-                    </Component>
-                    <Component
+                    </View>
+                    <View
                       style={
                         Array [
                           Object {
@@ -1335,16 +1335,45 @@ exports[`interactive showModal should render Dialog success 1`] = `
                           ]
                         }
                       >
-                        <Component
+                        <Text
                           key=".0"
+                          style={
+                            Array [
+                              Object {
+                                "color": "#999999",
+                                "lineHeight": 19.5,
+                              },
+                              Object {
+                                "fontSize": 15,
+                                "textAlign": "center",
+                              },
+                              undefined,
+                              undefined,
+                            ]
+                          }
                         >
-                          <Text>
+                          <Text
+                            style={
+                              Array [
+                                Object {
+                                  "color": "#999999",
+                                  "lineHeight": 19.5,
+                                },
+                                Object {
+                                  "fontSize": 15,
+                                  "textAlign": "center",
+                                },
+                                undefined,
+                                undefined,
+                              ]
+                            }
+                          >
                             Test
                           </Text>
-                        </Component>
+                        </Text>
                       </View>
-                    </Component>
-                    <Component
+                    </View>
+                    <View
                       style={
                         Array [
                           Object {
@@ -1418,7 +1447,7 @@ exports[`interactive showModal should render Dialog success 1`] = `
                             }
                             underlayColor="#EEEEEE"
                           >
-                            <Component
+                            <View
                               accessible={true}
                               focusable={true}
                               onClick={[Function]}
@@ -1468,7 +1497,7 @@ exports[`interactive showModal should render Dialog success 1`] = `
                                   ]
                                 }
                               >
-                                <Component
+                                <Text
                                   style={
                                     Array [
                                       Object {
@@ -1494,12 +1523,12 @@ exports[`interactive showModal should render Dialog success 1`] = `
                                   >
                                     取消
                                   </Text>
-                                </Component>
+                                </Text>
                                 <PressabilityDebugView
                                   color="green"
                                 />
                               </View>
-                            </Component>
+                            </View>
                           </TouchableHighlight>
                         </ForwardRef>
                         <ForwardRef
@@ -1548,7 +1577,7 @@ exports[`interactive showModal should render Dialog success 1`] = `
                             }
                             underlayColor="#EEEEEE"
                           >
-                            <Component
+                            <View
                               accessible={true}
                               focusable={true}
                               onClick={[Function]}
@@ -1606,7 +1635,7 @@ exports[`interactive showModal should render Dialog success 1`] = `
                                   ]
                                 }
                               >
-                                <Component
+                                <Text
                                   style={
                                     Array [
                                       Object {
@@ -1632,30 +1661,30 @@ exports[`interactive showModal should render Dialog success 1`] = `
                                   >
                                     确定
                                   </Text>
-                                </Component>
+                                </Text>
                                 <PressabilityDebugView
                                   color="green"
                                 />
                               </View>
-                            </Component>
+                            </View>
                           </TouchableHighlight>
                         </ForwardRef>
                       </View>
-                    </Component>
+                    </View>
                     <PressabilityDebugView
                       color="red"
                     />
                   </View>
-                </Component>
+                </View>
               </TouchableWithoutFeedback>
               <PressabilityDebugView
                 color="red"
               />
             </View>
-          </Component>
+          </View>
         </TouchableWithoutFeedback>
       </Mask>
     </View>
-  </Component>
+  </View>
 </Index>
 `;

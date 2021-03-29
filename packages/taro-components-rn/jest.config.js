@@ -7,7 +7,7 @@ module.exports = {
     '^.+\\.tsx?$': 'ts-jest'
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(react-native|@bang88/react-native-ultimate-listview|react-native-.*|expo-.*|@expo/.*|@unimodules/.*|unimodules-.*|@react-native-community/.*)/)'
+    'node_modules/(?!(react-native|@react-native|@bang88/react-native-ultimate-listview|react-native-.*|expo-.*|@expo/.*|@unimodules/.*|unimodules-.*|@react-native-community/.*)/)'
   ],
   testMatch: [
     '**/__tests__/**/*.spec.ts?(x)',
