@@ -11,9 +11,11 @@ export default {
   },
   input: {
     'view/index': 'src/components/view/index.tsx',
+    'scroll-view/index': 'src/components/scroll-view/index.tsx',
     'text/index': 'src/components/text/index.tsx',
-    'swiper/index': 'src/components/swiper/index.tsx',
-    'pull-down-refresh/index': 'src/components/pull-down-refresh/index.tsx'
+    'pull-down-refresh/index': 'src/components/pull-down-refresh/index.tsx',
+    'image/index': 'src/components/image/index.tsx',
+    'swiper/index': 'src/components/swiper/index.tsx'
   },
   plugins: [
     typescript(),
