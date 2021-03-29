@@ -43,7 +43,7 @@ function navigate (option: Option | NavigateBackOption, method: 'navigateTo' | '
     } else if (method === 'redirectTo') {
       history.replace((option as Option).url)
     } else if (method === 'navigateBack') {
-      setHistoryBackDelta((option as NavigateBackOption).delta);
+      setHistoryBackDelta((option as NavigateBackOption).delta)
       history.go(-(option as NavigateBackOption).delta)
     }
   } catch (error) {
