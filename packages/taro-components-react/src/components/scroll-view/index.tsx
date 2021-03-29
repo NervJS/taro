@@ -8,7 +8,7 @@ function easeOutScroll (from = 0, to = 0, callback) {
   if (from === to || typeof from !== 'number') {
     return
   }
-  let change = to - from
+  const change = to - from
   const dur = 500
   const sTime = +new Date()
   function linear (t, b, c, d) {
@@ -66,13 +66,13 @@ function scrollHorizontal (left, isAnimation) {
 
 interface IProps {
   className?: string
-  style?: object
+  style?: Record<string, string>
   scrollX: boolean
   scrollY: boolean
   upperThreshold: number
   lowerThreshold: number
   scrollTop: number
-  scrollLeft: Number
+  scrollLeft: number
   scrollIntoView?: string
   scrollWithAnimation: boolean
   enableBackToTop ?: boolean
@@ -83,12 +83,7 @@ interface IProps {
 
 }
 
-
 class ScrollView extends React.Component<IProps> {
-  constructor (props) {
-    super(props)
-  }
-
   _scrollTop: any = null
   _scrollLeft: any = null
   container: any = null
@@ -101,7 +96,7 @@ class ScrollView extends React.Component<IProps> {
     this.handleScroll(this.props, true)
   }
 
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     this.handleScroll(nextProps)
   }
 
@@ -159,12 +154,12 @@ class ScrollView extends React.Component<IProps> {
       scrollX,
       scrollY
     } = this.props
-    let { upperThreshold = 50, lowerThreshold = 50} = this.props
+    let { upperThreshold = 50, lowerThreshold = 50 } = this.props
     const cls = classNames(
       'taro-scroll',
       {
-        [`taro-scroll-view__scroll-x`]: scrollX,
-        [`taro-scroll-view__scroll-y`]: scrollY
+        'taro-scroll-view__scroll-x': scrollX,
+        'taro-scroll-view__scroll-y': scrollY
       },
       className
     )
@@ -228,19 +223,13 @@ class ScrollView extends React.Component<IProps> {
         ref={container => {
           this.container = container
         }}
-        // {
-        // ...omit(this.props, ['className', 'scrollTop', 'scrollLeft'])
-        // }
         style={style}
         className={cls}
         onScroll={_onScroll}
         onTouchMove={
           _onTouchMove
         }
-        // onLoad={e => {
-        //   console.log('onload', e)
-        // }} 
-        >
+      >
         {this.props.children}
       </div>
     )

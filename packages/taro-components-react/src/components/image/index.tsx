@@ -8,12 +8,12 @@ require('intersection-observer')
 interface IProps{
   className?: string,
   src: string,
-  style?: object,
+  style?: Record<string, string>,
   mode: string,
   onError: () => void,
   onLoad: (e) => void,
   lazyLoad?: boolean,
-  imgProps?: object,
+  imgProps?: Record<string, any>,
 }
 
 class Image extends React.Component<IProps> {
@@ -60,7 +60,7 @@ class Image extends React.Component<IProps> {
         height: e.target.height
       }
     })
-    
+
     onLoad && onLoad(e)
   }
 
@@ -87,7 +87,6 @@ class Image extends React.Component<IProps> {
         (mode || 'scaleToFill').toLowerCase().replace(/\s/g, '')
     )
 
-
     return (
       <div className={cls} style={style} {...reset}>
         {lazyLoad ? (
@@ -113,6 +112,5 @@ class Image extends React.Component<IProps> {
     )
   }
 }
-
 
 export default Image
