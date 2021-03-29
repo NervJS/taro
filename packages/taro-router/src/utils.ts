@@ -16,6 +16,6 @@ export function addLeadingSlash (path?: string) {
 // 原因:主要是由于一次性退出多层级页面时,此action只会执行一次,此处进行手动处理
 export let historyBackDelta = 1
 
-export function setHistoryBackDelta(delta = 1) {
+export function setHistoryBackDelta (delta = 1) {
   historyBackDelta = delta
 }
