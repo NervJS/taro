@@ -3,10 +3,10 @@ name: Node CI
 on:
   push:
     branches:
-      - next
+      - fix/testCase
   pull_request:
     branches:
-      - next
+      - fix/testCase
 
 jobs:
   build:
@@ -48,8 +48,8 @@ jobs:
       run: yarn
     - name: bootstrap
       run: yarn run bootstrap:lerna
-    - name: lint
-      run: yarn run lint
+    # - name: lint
+    #   run: yarn run lint
     - name: build
       run: yarn run build
     - name: test
