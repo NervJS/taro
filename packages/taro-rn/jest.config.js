@@ -20,7 +20,7 @@ module.exports = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1'
   },
-  testMatch: ['<rootDir>/src/__tests__/**/*.test.js'],
+  testMatch: ['<rootDir>/src/__tests__/geolocation.test.js'],
   transformIgnorePatterns: ['node_modules/(?!(react-native|@react-native|static-container|react-native-.*|expo-.*|@expo/.*|@unimodules/.*|unimodules-.*|@react-native-community/.*)/)'],
   setupFilesAfterEnv: ['./setup.js'],
   testEnvironment: 'enzyme',

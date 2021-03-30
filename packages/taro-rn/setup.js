@@ -22,17 +22,10 @@ jest.mock('react-native', () => {
   // mockNativeModules: react-native/Libraries/BatchedBridge/NativeModules
   const RNCCameraRoll = jest.requireActual('./src/__tests__/__mock__/mockRNCCameraRoll').default
   const MockClipboard = jest.requireActual('./src/__tests__/__mock__/mockClipboard').default
+  const RNCGeolocation = jest.requireActual('./src/__tests__/__mock__/mockRNCGeolocation').default
   ReactNative.NativeModules.RNCCameraRoll = RNCCameraRoll
   ReactNative.NativeModules.RNCClipboard = new MockClipboard()
-  ReactNative.NativeModules.RNCGeolocation = {
-    addListener: jest.fn(),
-    getCurrentPosition: jest.fn(),
-    removeListeners: jest.fn(),
-    requestAuthorization: jest.fn(),
-    setConfiguration: jest.fn(),
-    startObserving: jest.fn(),
-    stopObserving: jest.fn(),
-  }
+  ReactNative.NativeModules.RNCGeolocation = RNCGeolocation
   Object.defineProperty(ReactNative.NativeModules, 'ImageLoader', {
     configurable: true,
     enumerable: true,
