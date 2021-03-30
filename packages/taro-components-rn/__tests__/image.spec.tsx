@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { shallow } from 'enzyme'
 import * as sinon from 'sinon'
-import ClickableImage, { _Image } from '../src/components/image'
+import ClickableImage, { _Image } from '../src/components/Image'
 
 describe('<Image />', () => {
   it('should Image have src attribute', () => {

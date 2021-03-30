@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Text as ReactNativeText } from 'react-native'
 import { shallow } from 'enzyme'
 import * as sinon from 'sinon'
-import Text from '../src/components/text'
+import Text from '../src/components/Text'
 
 describe('<Text />', () => {
   it('simple structure check', () => {

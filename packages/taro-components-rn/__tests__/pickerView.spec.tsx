@@ -11,7 +11,7 @@ describe('PickerView', () => {
     const years: number[] = []
     const months: number[] = []
     const days: number[] = []
-    for (let i = 1990; i <= date.getFullYear(); i++) {
+    for (let i = 1990; i <= 2020; i++) {
       years.push(i)
     }
     for (let i = 1; i <= 12; i++) {

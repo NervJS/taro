@@ -57,7 +57,7 @@ export default (ctx: IPluginContext) => {
     useConfigName: 'rn',
     async fn ({ config }) {
       const { appPath, nodeModulesPath } = ctx.paths
-      const { deviceType, port, resetCache } = ctx.runOpts
+      const { deviceType, port, resetCache } = ctx.runOpts.options
       const { npm } = ctx.helper
       printDevelopmentTip('rn')
 
