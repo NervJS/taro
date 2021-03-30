@@ -205,7 +205,7 @@ declare namespace Taro {
       /** 资源方 AppID, 不填则表示已登录的当前账号（如小程序中） */
       resourceAppid?: string
       /** 资源方云环境 ID */
-      resourceEnd: string
+      resourceEnv: string
     }
 
     /** 调用云托管参数 */
@@ -471,22 +471,213 @@ declare namespace Taro {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/utils/Cloud.Cloud.html
      */
-    static Cloud(options: cloud.IOptions): cloud
+    static Cloud: new (options: cloud.IOptions) => Cloud
 
     /** 调用云托管服务
      * @supported weapp
      * @example
      * 假设已经初始化了一个叫c1的云开发实例，并发起云托管调用
-     * 
+     *
      * ``` tsx
      * const r = await c1.callContainer({
      *   path: '/path/to/container', // 填入容器的访问路径
      *   method: 'POST',
      * })
      * ```
-     * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/container/Cloud.callContainer.html 
+     * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/container/Cloud.callContainer.html
      */
     static callContainer < R = any, P = any >(params: cloud.CallContainerParam<P>): Promise<cloud.CallContainerResult<R>>
+  }
+
+  class Cloud {
+      /** 在调用云开发各 API 前，需先调用初始化方法 init 一次（全局只需一次，多次调用时只有第一次生效）
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.cloud.init({
+     *   env: 'test-x1dzi'
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/init/client.init.html
+     */
+    init(config?: cloud.IInitConfig): Promise<void>
+
+    /** 调用云函数
+     * @supported weapp
+     * @example
+     * 假设已有一个云函数 add，在小程序端发起对云函数 add 的调用：
+     *
+     * ```tsx
+     * Taro.cloud.callFunction({
+     * // 要调用的云函数名称
+     * name: 'add',
+     *   // 传递给云函数的event参数
+     *   data: {
+     *     x: 1,
+     *     y: 2,
+     *   }
+     * }).then(res => {
+     *   // output: res.result === 3
+     * }).catch(err => {
+     *   // handle error
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/functions/Cloud.callFunction.html
+     */
+    callFunction(param: OQ<cloud.CallFunctionParam>): void
+    callFunction(param: RQ<cloud.CallFunctionParam>): Promise<cloud.CallFunctionResult>
+
+    /** 将本地资源上传至云存储空间，如果上传至同一路径则是覆盖写
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.cloud.uploadFile({
+     *   cloudPath: 'example.png',
+     *   filePath: '', // 文件路径
+     *   success: res => {
+     *     // get resource ID
+     *     console.log(res.fileID)
+     *   },
+     *   fail: err => {
+     *     // handle error
+     *   }
+     * })
+     * ```
+     * @example
+     * ```tsx
+     * Taro.cloud.uploadFile({
+     *   cloudPath: 'example.png',
+     *   filePath: '', // 文件路径
+     * }).then(res => {
+     *   // get resource ID
+     *   console.log(res.fileID)
+     * }).catch(error => {
+     *   // handle error
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/storage/uploadFile/client.uploadFile.html
+     */
+    uploadFile(param: OQ<cloud.UploadFileParam>): Taro.UploadTask
+    uploadFile(param: RQ<cloud.UploadFileParam>): Promise<cloud.UploadFileResult>
+
+    /** 从云存储空间下载文件
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.cloud.downloadFile({
+     *   fileID: 'a7xzcb',
+     *   success: res => {
+     *     // get temp file path
+     *     console.log(res.tempFilePath)
+     *   },
+     *   fail: err => {
+     *     // handle error
+     *   }
+     * })
+     * ```
+     * @example
+     * ```tsx
+     * Taro.cloud.downloadFile({
+     *   fileID: 'a7xzcb'
+     * }).then(res => {
+     *   // get temp file path
+     *   console.log(res.tempFilePath)
+     * }).catch(error => {
+     *   // handle error
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/storage/downloadFile/client.downloadFile.html
+     */
+    downloadFile(param: OQ<cloud.DownloadFileParam>): Taro.DownloadTask
+    downloadFile(param: RQ<cloud.DownloadFileParam>): Promise<cloud.DownloadFileResult>
+
+    /** 用云文件 ID 换取真实链接，公有读的文件获取的链接不会过期，私有的文件获取的链接十分钟有效期。一次最多取 50 个。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.cloud.getTempFileURL({
+     *   fileList: [{
+     *     fileID: 'a7xzcb',
+     *     maxAge: 60 * 60, // one hour
+     *   }]
+     * }).then(res => {
+     *   // get temp file URL
+     *   console.log(res.fileList)
+     * }).catch(error => {
+     *   // handle error
+     * })
+     * ```
+     * @example
+     * ```tsx
+     * Taro.cloud.getTempFileURL({
+     *   fileList: ['cloud://xxx', 'cloud://yyy'],
+     *   success: res => {
+     *     // get temp file URL
+     *     console.log(res.fileList)
+     *   },
+     *   fail: err => {
+     *     // handle error
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/storage/Cloud.getTempFileURL.html
+     */
+    getTempFileURL(param: OQ<cloud.GetTempFileURLParam>): void
+    getTempFileURL(param: RQ<cloud.GetTempFileURLParam>): Promise<cloud.GetTempFileURLResult>
+
+    /** 从云存储空间删除文件，一次最多 50 个
+     * @supported weapp
+     * @example
+     * ```tsx
+     * .cloud.deleteFile({
+     *   fileList: ['a7xzcb']
+     * }).then(res => {
+     *   // handle success
+     *   console.log(res.fileList)
+     * }).catch(error => {
+     *   // handle error
+     * })
+     * ```
+     * @example
+     * ```tsx
+     * Taro.cloud.deleteFile({
+     *   fileList: ['a7xzcb'],
+     *   success: res => {
+     *     // handle success
+     *     console.log(res.fileList)
+     *   },
+     *   fail: err => {
+     *     // handle error
+     *   },
+     *   complete: res => {
+     *     // ...
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/storage/Cloud.deleteFile.html
+     */
+    deleteFile(param: OQ<cloud.DeleteFileParam>): void
+    deleteFile(param: RQ<cloud.DeleteFileParam>): Promise<cloud.DeleteFileResult>
+
+    /** 获取数据库实例
+     * @supported weapp
+     * @example
+     * 以下调用获取默认环境的数据库的引用：
+     *
+     * ```tsx
+     * const db = Taro.cloud.database()
+     * ```
+     * @example
+     * 假设有一个环境名为 test-123，用做测试环境，那么可以如下获取测试环境数据库：
+     *
+     * ```tsx
+     * const testDB = Taro.cloud.database({
+     *   env: 'test-123'
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/Cloud.database.html
+     */
+    database(config?: cloud.IConfig): DB.Database
   }
 
   namespace DB {

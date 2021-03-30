@@ -29,7 +29,12 @@ const baseConfig = {
     resolve(),
     commonjs(),
     typescript(),
-    buble({ transforms: { asyncAwait: false } })
+    buble({
+      transforms: {
+        asyncAwait: false,
+        forOf: false
+      }
+    })
   ]
 }
 const esmConfig = Object.assign({}, baseConfig, {

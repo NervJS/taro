@@ -3,6 +3,7 @@ import { EMPTY_OBJ } from '@tarojs/shared'
 import { document } from '../bom/document'
 import { TaroElement } from './element'
 import { CurrentReconciler } from '../reconciler'
+import { isParentBinded } from '../utils'
 
 interface EventOptions {
   bubbles: boolean;
@@ -107,9 +108,8 @@ export function eventHandler (event: MpEvent) {
     }
     if (typeof CurrentReconciler.batchedEventUpdates === 'function') {
       const type = event.type
-      const isParentBinded = node.parentElement?.__handlers[type]?.length
 
-      if (!isParentBinded || (type === 'touchmove' && !!node.props.catchMove)) {
+      if (!isParentBinded(node, type) || (type === 'touchmove' && !!node.props.catchMove)) {
         // 最上层组件统一 batchUpdate
         CurrentReconciler.batchedEventUpdates(() => {
           if (eventsBatch[type]) {
