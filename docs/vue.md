@@ -444,13 +444,29 @@ export default {
 }
 ```
 
-## 内置组件/Props
+## 属性设置
+
+属性设置遵循小程序规范，使用 `Kebab Case`。
+
+注意：`Boolean` 值的属性需要显式绑定为 `true`，不支持简写。
+
+例子：
+
+```html
+<input type="text" placeholder-style="color: red" :focus="true"/>
+```
+
+## 内置组件
 
 Taro 中使用 Vue，内置组件遵循小程序组件规范，组件的参数和小程序参数完全保持一致。
 
 ## 事件
 
-使用 `@` 修饰符（或 `v-on:`，更多用法可以参考[Vue文档](https://cn.vuejs.org/v2/guide/events.html)）替代小程序事件中的 `bind`，在事件处理函数中可以用 `stopPropagation` 阻止事件冒泡：
+使用 `@` 修饰符（或 `v-on:`，更多用法可以参考[Vue文档](https://cn.vuejs.org/v2/guide/events.html)）替代小程序事件中的 `bind`，在事件处理函数中可以用 `stopPropagation` 阻止事件冒泡。
+
+注意：在 vue 中**点击事件**使用 `@tap` 进行绑定。
+
+例子：
 
 ```html
 <template>
