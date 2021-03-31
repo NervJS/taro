@@ -7,7 +7,6 @@ import PickerViewColumn from '../src/components/PickerViewColumn'
 
 describe('PickerView', () => {
   it('PickerView render', () => {
-    const date = new Date()
     const years: number[] = []
     const months: number[] = []
     const days: number[] = []
