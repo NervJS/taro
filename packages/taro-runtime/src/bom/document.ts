@@ -26,7 +26,7 @@ export class TaroDocument extends TaroElement {
 
   // an ugly fake createElementNS to deal with @vue/runtime-dom's
   // support mounting app to svg container since vue@3.0.8
-  public createElementNS (svgNS: string, type: string) {
+  public createElementNS (_svgNS: string, type: string) {
     return this.createElement(type)
   }
 
