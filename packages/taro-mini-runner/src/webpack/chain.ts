@@ -32,6 +32,7 @@ import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { getPostcssPlugins } from './postcss.conf'
 
 import MiniPlugin from '../plugins/MiniPlugin'
+import BuildNativePlugin from '../plugins/BuildNativePlugin'
 import { IOption, IBuildConfig } from '../utils/types'
 import defaultTerserOptions from '../config/terserOptions'
 
@@ -184,6 +185,10 @@ export const getCopyWebpackPlugin = ({ copy, appPath }: {
 
 export const getMiniPlugin = args => {
   return partial(getPlugin, MiniPlugin)([args])
+}
+
+export const getBuildNativePlugin = args => {
+  return partial(getPlugin, BuildNativePlugin)([args])
 }
 
 export const getProviderPlugin = args => {

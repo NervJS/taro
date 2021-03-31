@@ -153,6 +153,7 @@ ${exampleCommand}
    * @param dist 编译后配置文件的名称，默认为 'project.config.json'
    */
   protected generateProjectConfig (src: string, dist = 'project.config.json') {
+    if (this.config.isBuildNativeComp) return
     this.ctx.generateProjectConfig({
       srcConfigName: src,
       distConfigName: dist

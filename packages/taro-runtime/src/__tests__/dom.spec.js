@@ -234,6 +234,13 @@ describe('DOM', () => {
       expect(div.id).toBe('')
     })
 
+    it('removeAttribute: class', () => {
+      const div = document.createElement('div')
+      div.className = 'test'
+      div.removeAttribute('class')
+      expect(div.className).toBe('')
+    })
+
     it('textContext', () => {
       function App () {
         return (

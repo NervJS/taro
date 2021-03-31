@@ -112,6 +112,7 @@ export default class TaroMiniPlugin {
   dependencies = new Map<string, TaroSingleEntryDependency>()
   loadChunksPlugin: TaroLoadChunksPlugin
   themeLocation: string
+  pageLoaderName = '@tarojs/taro-loader/lib/page'
 
   constructor (options = {} as ITaroMiniPluginOptions) {
     this.options = Object.assign({
@@ -241,7 +242,7 @@ export default class TaroMiniPlugin {
             })
           }
         } else if (module.miniType === META_TYPE.PAGE) {
-          const loaderName = '@tarojs/taro-loader/lib/page'
+          const loaderName = this.pageLoaderName
           if (!isLoaderExist(module.loaders, loaderName)) {
             module.loaders.unshift({
               loader: loaderName,
@@ -719,7 +720,7 @@ export default class TaroMiniPlugin {
 
   generateConfigFile (compilation: webpack.compilation.Compilation, filePath: string, config: Config & { component?: boolean }) {
     const fileConfigName = this.getConfigPath(this.getComponentName(filePath))
-    const unOfficalConfigs = ['enableShareAppMessage', 'enableShareTimeline']
+    const unOfficalConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components']
     unOfficalConfigs.forEach(item => {
       delete config[item]
     })
