@@ -1,12 +1,9 @@
 name: publish
 on:
   # When Release Pull Request is merged
-  push:
-    branches:
-      - feat/react-native
   pull_request:
     branches:
-      - feat/react-native
+      - next
     types: [closed]
 
 env:
@@ -102,7 +99,7 @@ jobs:
       - name: Publish
         if: steps.tag_check.outputs.exists_tag == 'false' && startsWith( env.commitmsg , 'chore(release):' )
         run: |
-          yarn lerna publish from-package --dist-tag beta  --yes
+          yarn lerna publish from-package --yes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
