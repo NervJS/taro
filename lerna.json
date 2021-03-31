@@ -7,6 +7,7 @@
     "packages/eslint-plugin-taro",
     "packages/postcss-plugin-constparse",
     "packages/postcss-pxtransform",
+    "packages/postcss-html-transform",
     "packages/shared",
     "packages/taro",
     "packages/taro-api",
@@ -30,7 +31,8 @@
     "packages/taro-swan",
     "packages/taro-tt",
     "packages/taro-qq",
-    "packages/taro-jd"
+    "packages/taro-jd",
+    "packages/taro-plugin-html"
   ],
   "command": {
     "publish": {
