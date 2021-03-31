@@ -14,7 +14,6 @@ build
 
 # jest
 coverage
-__snapshots__
 
 # tcr-testing
 tcr-testing.sh
