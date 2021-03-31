@@ -716,7 +716,7 @@ export const Zepto = (function () {
             resolve({
               left: rect.left,
               top: rect.top,
-              width: rect.height,
+              width: rect.width,
               height: rect.height
             })
           }).exec()
