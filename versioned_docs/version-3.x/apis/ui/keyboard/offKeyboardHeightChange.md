@@ -1,11 +1,11 @@
 ---
-title: Taro.offNetworkStatusChange(callback)
-sidebar_label: offNetworkStatusChange
+title: Taro.offKeyboardHeightChange(callback)
+sidebar_label: offKeyboardHeightChange
 ---
 
-取消监听网络状态变化事件，参数为空，则取消所有的事件监听。
+取消监听键盘高度变化
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.offNetworkStatusChange.html)
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/keyboard/wx.offKeyboardHeightChange.html)
 
 ## 类型
 
@@ -27,7 +27,7 @@ sidebar_label: offNetworkStatusChange
     <tr>
       <td>callback</td>
       <td><code>(...args: any[]) =&gt; any</code></td>
-      <td>网络状态变化事件的回调函数</td>
+      <td>键盘高度变化的回调函数</td>
     </tr>
   </tbody>
 </table>
@@ -36,4 +36,4 @@ sidebar_label: offNetworkStatusChange
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| Taro.offNetworkStatusChange | ✔️ |  | ✔️ |
+| Taro.offKeyboardHeightChange | ✔️ |  | ✔️ |

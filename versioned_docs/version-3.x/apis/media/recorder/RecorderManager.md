@@ -40,7 +40,7 @@ sidebar_label: RecorderManager
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| RecorderManager.onError | ✔️ |  |  |
+| RecorderManager.onError | ✔️ |  | ✔️ |
 
 ### onFrameRecorded
 
@@ -172,7 +172,7 @@ sidebar_label: RecorderManager
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| RecorderManager.onPause | ✔️ |  |  |
+| RecorderManager.onPause | ✔️ |  | ✔️ |
 
 ### onResume
 
@@ -205,7 +205,7 @@ sidebar_label: RecorderManager
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| RecorderManager.onResume | ✔️ |  |  |
+| RecorderManager.onResume | ✔️ |  | ✔️ |
 
 ### onStart
 
@@ -238,7 +238,7 @@ sidebar_label: RecorderManager
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| RecorderManager.onStart | ✔️ |  |  |
+| RecorderManager.onStart | ✔️ |  | ✔️ |
 
 ### onStop
 
@@ -271,7 +271,7 @@ sidebar_label: RecorderManager
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| RecorderManager.onStop | ✔️ |  |  |
+| RecorderManager.onStop | ✔️ |  | ✔️ |
 
 ### pause
 
@@ -287,7 +287,7 @@ sidebar_label: RecorderManager
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| RecorderManager.pause | ✔️ |  |  |
+| RecorderManager.pause | ✔️ |  | ✔️ |
 
 ### resume
 
@@ -303,7 +303,7 @@ sidebar_label: RecorderManager
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| RecorderManager.resume | ✔️ |  |  |
+| RecorderManager.resume | ✔️ |  | ✔️ |
 
 ### start
 
@@ -334,7 +334,7 @@ sidebar_label: RecorderManager
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| RecorderManager.start | ✔️ |  |  |
+| RecorderManager.start | ✔️ |  | ✔️ |
 
 ### stop
 
@@ -350,7 +350,7 @@ sidebar_label: RecorderManager
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| RecorderManager.stop | ✔️ |  |  |
+| RecorderManager.stop | ✔️ |  | ✔️ |
 
 ## 参数
 
@@ -706,15 +706,15 @@ sidebar_label: RecorderManager
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| RecorderManager.onError | ✔️ |  |  |
+| RecorderManager.onError | ✔️ |  | ✔️ |
 | RecorderManager.onFrameRecorded | ✔️ |  |  |
 | RecorderManager.onInterruptionBegin | ✔️ |  |  |
 | RecorderManager.onInterruptionEnd | ✔️ |  |  |
-| RecorderManager.onPause | ✔️ |  |  |
-| RecorderManager.onResume | ✔️ |  |  |
-| RecorderManager.onStart | ✔️ |  |  |
-| RecorderManager.onStop | ✔️ |  |  |
-| RecorderManager.pause | ✔️ |  |  |
-| RecorderManager.resume | ✔️ |  |  |
-| RecorderManager.start | ✔️ |  |  |
-| RecorderManager.stop | ✔️ |  |  |
+| RecorderManager.onPause | ✔️ |  | ✔️ |
+| RecorderManager.onResume | ✔️ |  | ✔️ |
+| RecorderManager.onStart | ✔️ |  | ✔️ |
+| RecorderManager.onStop | ✔️ |  | ✔️ |
+| RecorderManager.pause | ✔️ |  | ✔️ |
+| RecorderManager.resume | ✔️ |  | ✔️ |
+| RecorderManager.start | ✔️ |  | ✔️ |
+| RecorderManager.stop | ✔️ |  | ✔️ |

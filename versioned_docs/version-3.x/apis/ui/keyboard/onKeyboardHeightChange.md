@@ -67,4 +67,4 @@ Taro.onKeyboardHeightChange(res => {
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| Taro.onKeyboardHeightChange | ✔️ |  |  |
+| Taro.onKeyboardHeightChange | ✔️ |  | ✔️ |

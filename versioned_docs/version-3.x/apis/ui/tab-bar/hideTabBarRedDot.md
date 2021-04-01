@@ -58,4 +58,4 @@ sidebar_label: hideTabBarRedDot
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| Taro.hideTabBarRedDot | ✔️ | ✔️ |  |
+| Taro.hideTabBarRedDot | ✔️ | ✔️ | ✔️ |
