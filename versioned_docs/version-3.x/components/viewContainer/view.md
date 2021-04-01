@@ -141,6 +141,13 @@ export default class PageView extends Component {
       <td style={{ textAlign: "center"}}>否</td>
       <td>手指松开后点击态保留时间，单位毫秒</td>
     </tr>
+    <tr>
+      <td>catchMove</td>
+      <td><code>boolean</code></td>
+      <td style={{ textAlign: "center"}}><code>false</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>阻止滚动穿透</td>
+    </tr>
   </tbody>
 </table>
 
