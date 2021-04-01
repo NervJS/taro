@@ -49,10 +49,15 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
     size: 'default',
     type: 'default',
     hoverStartTime: 20,
-    hoverStayTime: 70
+    hoverStayTime: 70,
+    disabled: false,
   }
 
   $touchable = React.createRef<TouchableWithoutFeedback>()
+
+  isTouchEnd = false
+  pressInTimer: number
+  pressOutTimer: number
 
   state: ButtonState = {
     valve: new Animated.Value(0),
@@ -85,11 +90,35 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   onPressIn = (): void => {
-    this.setState({ isHover: true })
+    const { hoverStartTime, hoverStyle } = this.props
+    this.isTouchEnd = false
+    if (hoverStyle) {
+      this.pressInTimer = setTimeout(() => {
+        this.setState({ isHover: true }, () => {
+          if (this.isTouchEnd) {
+            this.shortPress()
+          }
+        })
+        clearTimeout(this.pressInTimer)
+      }, hoverStartTime)
+    }
+  }
+
+  shortPress = (): void => {
+    const { hoverStayTime } = this.props
+    this.pressOutTimer = setTimeout(() => {
+      this.setState({ isHover: false })
+      clearTimeout(this.pressOutTimer)
+    }, hoverStayTime)
   }
 
   onPressOut = (): void => {
-    this.setState({ isHover: false })
+    const { hoverStyle } = this.props
+    const { isHover } = this.state
+    this.isTouchEnd = true
+    if (hoverStyle && isHover) {
+      this.shortPress()
+    }
   }
 
   _simulateNativePress = (evt: GestureResponderEvent): void => {
@@ -117,8 +146,6 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
       disabled,
       loading,
       hoverStyle,
-      hoverStartTime,
-      hoverStayTime
     } = this.props
 
     const isDefaultSize: boolean = size === 'default'
@@ -147,12 +174,12 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
 
     return (
       <TouchableWithoutFeedback
-        delayPressIn={hoverStartTime}
-        delayPressOut={hoverStayTime}
         onPress={this.onPress}
+        onLongPress={this.onPress}
         onPressIn={this.onPressIn}
         onPressOut={this.onPressOut}
         ref={this.$touchable}
+        disabled={disabled}
       >
         <View
           style={[
