@@ -316,7 +316,6 @@ class App extends Component {
 
 > 注意：React-Native 端 `inputEventDetail` 仅实现参数 `value`，若需实时获取光标位置则可通过 [`onSelectionChange`](https://reactnative.dev/docs/textinput#onselectionchange) 实现。
 
-
 ### inputForceEventDetail
 
 <table>
