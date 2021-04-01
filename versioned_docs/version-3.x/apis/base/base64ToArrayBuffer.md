@@ -43,4 +43,4 @@ const arrayBuffer = Taro.base64ToArrayBuffer(base64)
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| Taro.base64ToArrayBuffer | ✔️ | ✔️ |  |
+| Taro.base64ToArrayBuffer | ✔️ | ✔️ | ✔️ |

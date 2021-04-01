@@ -58,4 +58,4 @@ sidebar_label: hideTabBar
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| Taro.hideTabBar | ✔️ | ✔️ |  |
+| Taro.hideTabBar | ✔️ | ✔️ | ✔️ |

@@ -36,4 +36,4 @@ sidebar_label: offAccelerometerChange
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| Taro.offAccelerometerChange | ✔️ |  |  |
+| Taro.offAccelerometerChange | ✔️ |  | ✔️ |

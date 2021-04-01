@@ -131,6 +131,64 @@ const config = {
 
 ```
 
+# 三、导航
+
+React Native 导航是封装的 React-Navigation 5.x，为了更好的方便业务自定义，支持全局与页面配置中透传React Navigation的配置，但注意以下导航相关设置Taro 3.x 生效。
+### 全局配置 
+
+在全局配置app.config.js 中可增加rn导航的独立配置
+
+```js
+//为了对其他端产生影响，最好加上环境判断
+
+let rnConfig = {}
+
+if(process.env.TARO_ENV === 'rn'){
+  rnConfig = {
+  //deep Linking前缀,https://reactnavigation.org/docs/deep-linking
+  linking:[],
+  //tabBar页面的设置，https://reactnavigation.org/docs/bottom-tab-navigator/#tabbar 对应options的配置，支持以下属性透传，不支持返回react.Node节点设置的方案
+   options:{
+      title，
+      tabBarVisible，
+      tabBarBadge，
+      tabBarBadgeStyle，
+      tabBarTestID
+   },
+   tabBarOptions:{//tabbarOptions的配置，其他参考https://reactnavigation.org/docs/bottom-tab-navigator/#tabbar tabBarOptions
+       
+   },
+   screenOptions:{//全局screenOptions，作用于非所有页面，注意不支持返回React.Node的属性，参考https://reactnavigation.org/docs/stack-navigator/#options
+       
+   }
+  }
+}
+
+export default {
+  pages:[
+    'pages/index/index',
+  ],
+  rn:rnConfig
+}
+```
+
+### 页面配置
+
+除了全局设置页面，也可单独对某个页面进行设置。
+```js
+// 页面config
+rn:{
+  screenOptions:{// 设置当前页面的options，参考https://reactnavigation.org/docs/stack-navigator/#options
+        
+    }
+}
+```
+>  关于透传react navigation的配置有需要注意：
+>  - 不支持直接传入React.Node节点的参数
+>  - 传入的样式对象为 React Native 的样式对比，比如 tabStyle:{ backgroundColor :'#ff0000'}
+> - rn的配置优先于其他配置，比如统一的tabBar里配置了selectedColor ，rn配置里的 activeTintColor ，那么生效的是 activeTintColor
+
+ 
 ## 常见问题
 
 ### 1、box-shadow 能实现吗？

@@ -28,4 +28,4 @@ Taro.getCurrentPages().length
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| Taro.getCurrentPages | ✔️ | ✔️ |  |
+| Taro.getCurrentPages | ✔️ | ✔️ | ✔️ |

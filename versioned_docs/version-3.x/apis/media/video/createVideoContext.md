@@ -47,4 +47,4 @@ videoContext = Taro.createVideoContext('myVideo')
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| Taro.createVideoContext | ✔️ | ✔️ |  |
+| Taro.createVideoContext | ✔️ | ✔️ | ✔️ |

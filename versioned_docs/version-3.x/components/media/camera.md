@@ -103,16 +103,16 @@ ComponentType<CameraProps>
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| CameraProps.mode | ✔️ |  |  |
+| CameraProps.mode | ✔️ |  | ✔️ |
 | CameraProps.resolution | ✔️ |  |  |
-| CameraProps.devicePosition | ✔️ |  |  |
-| CameraProps.flash | ✔️ |  |  |
+| CameraProps.devicePosition | ✔️ |  | ✔️ |
+| CameraProps.flash | ✔️ |  | ✔️ |
 | CameraProps.frameSize | ✔️ |  |  |
 | CameraProps.scanArea | ✔️ |  |  |
-| CameraProps.onStop | ✔️ |  |  |
-| CameraProps.onError | ✔️ |  |  |
-| CameraProps.onInitDone | ✔️ |  |  |
-| CameraProps.onScanCode | ✔️ |  |  |
+| CameraProps.onStop | ✔️ |  | ✔️ |
+| CameraProps.onError | ✔️ |  | ✔️ |
+| CameraProps.onInitDone | ✔️ |  | ✔️ |
+| CameraProps.onScanCode | ✔️ |  | ✔️ |
 
 ### mode
 
@@ -268,4 +268,4 @@ frame-size 的合法值
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| Camera | ✔️ |  |  |
+| Camera | ✔️ |  | ✔️ |

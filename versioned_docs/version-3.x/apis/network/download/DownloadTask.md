@@ -19,7 +19,7 @@ sidebar_label: DownloadTask
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| DownloadTask.abort | ✔️ |  |  |
+| DownloadTask.abort | ✔️ |  | ✔️ |
 
 ### offHeadersReceived
 
@@ -85,7 +85,7 @@ sidebar_label: DownloadTask
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| DownloadTask.offProgressUpdate | ✔️ |  |  |
+| DownloadTask.offProgressUpdate | ✔️ |  | ✔️ |
 
 ### onHeadersReceived
 
@@ -151,7 +151,7 @@ sidebar_label: DownloadTask
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| DownloadTask.onProgressUpdate | ✔️ |  |  |
+| DownloadTask.onProgressUpdate | ✔️ |  | ✔️ |
 
 ## 参数
 
@@ -299,8 +299,8 @@ HTTP Response Header 事件的回调函数
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| DownloadTask.abort | ✔️ |  |  |
+| DownloadTask.abort | ✔️ |  | ✔️ |
 | DownloadTask.offHeadersReceived | ✔️ |  |  |
-| DownloadTask.offProgressUpdate | ✔️ |  |  |
+| DownloadTask.offProgressUpdate | ✔️ |  | ✔️ |
 | DownloadTask.onHeadersReceived | ✔️ |  |  |
-| DownloadTask.onProgressUpdate | ✔️ |  |  |
+| DownloadTask.onProgressUpdate | ✔️ |  | ✔️ |
