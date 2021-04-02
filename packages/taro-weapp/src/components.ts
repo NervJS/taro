@@ -175,7 +175,7 @@ export const components = {
   },
   CoverView: {
     'marker-id': '',
-    slot: '',
+    slot: ''
   },
   // ======== 额外组件 ========
   Editor: {
