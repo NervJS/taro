@@ -5,6 +5,7 @@ export default () => {
     plugins: [
       // platforms
       path.resolve(__dirname, 'platforms', 'h5.js'),
+      path.resolve(__dirname, 'platforms', 'rn.js'),
       path.resolve(__dirname, 'platforms', 'plugin.js'),
 
       // commands

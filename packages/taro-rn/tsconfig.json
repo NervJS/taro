@@ -1,7 +1,9 @@
 {
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "./types"
   ],
+  "exclude": ["src/__tests__/**"],
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
@@ -10,14 +12,13 @@
     "allowJs": true,
     "noImplicitAny": false,
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "downlevelIteration": true,
     "jsx": "react",
     "moduleResolution": "node",
-    "target": "es2015",
-    "skipLibCheck": true,
+    "target": "ES2015",
     "lib": [
-      "es2015",
-      "dom"
+      "ES2015"
     ],
     "typeRoots": [
       "./node_modules/@types",

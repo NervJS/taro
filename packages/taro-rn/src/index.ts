@@ -1,102 +1,12 @@
-/* eslint-disable camelcase */
-import {
-  getEnv,
-  ENV_TYPE,
-  Events,
-  eventCenter,
-  render,
-  internal_safe_get,
-  internal_safe_set
-} from '@tarojs/taro'
-
-import initNativeApi from './native-api'
-import { Component, PureComponent } from './component'
-
-import {
-  Children,
-  createElement,
-  cloneElement,
-  isValidElement,
-  createFactory,
-  version,
-  createRef,
-  forwardRef,
-  memo,
-  createContext,
-  useState,
-  useEffect,
-  useReducer,
-  useCallback,
-  useMemo,
-  useRef,
-  useLayoutEffect,
-  useContext
-} from 'react'
+import * as api from './api'
+import * as lib from './lib'
 
 const Taro = {
-  getEnv,
-  ENV_TYPE,
-  Events,
-  eventCenter,
-  render,
-  initNativeApi,
-  internal_safe_get,
-  internal_safe_set,
-  Component,
-  PureComponent,
-  // react
-  Children,
-  createElement,
-  cloneElement,
-  isValidElement,
-  createFactory,
-  version,
-  createRef,
-  forwardRef,
-  memo,
-  createContext,
-  useState,
-  useEffect,
-  useReducer,
-  useCallback,
-  useMemo,
-  useRef,
-  useLayoutEffect,
-  useContext
+  ...api,
+  ...lib
 }
 
-export {
-  getEnv,
-  ENV_TYPE,
-  Events,
-  eventCenter,
-  render,
-  initNativeApi,
-  internal_safe_get,
-  internal_safe_set,
-  Component,
-  PureComponent,
-  // react
-  Children,
-  createElement,
-  cloneElement,
-  isValidElement,
-  createFactory,
-  version,
-  createRef,
-  forwardRef,
-  memo,
-  createContext,
-  useState,
-  useEffect,
-  useReducer,
-  useCallback,
-  useMemo,
-  useRef,
-  useLayoutEffect,
-  useContext
-}
-
-initNativeApi(Taro)
+export * from './api'
+export * from './lib'
 
 export default Taro
