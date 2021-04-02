@@ -449,6 +449,25 @@ const Slot = {
   name: ''
 }
 
+const PageContainer = {
+  show: 'false',
+  round: 'false',
+  overlay: 'true',
+  duration: '300',
+  'z-index': '100',
+  position: singleQuote('bottom'),
+  'close-on-slide-down': 'false',
+  bindBeforeEnter: '',
+  bindEnter: '',
+  bindAfterEnter: '',
+  bindBeforeLeave: '',
+  bindLeave: '',
+  bindAfterLeave: '',
+  bindClickOverlay: '',
+  'custom-style': '',
+  'overlay-style': ''
+}
+
 export const internalComponents: Record<string, Record<string, string>> = {
   View,
   Icon,
@@ -488,7 +507,8 @@ export const internalComponents: Record<string, Record<string, string>> = {
   Block,
   Map: MapComp,
   Slot,
-  SlotView
+  SlotView,
+  PageContainer
 }
 
 export const controlledComponent = new Set([
