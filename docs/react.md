@@ -684,34 +684,6 @@ function Comp () {
 }
 ```
 
-## 全局变量
-
-在使用 React 时，全局变量推荐使用 **React Redux** 等状态管理工具进行管理。
-
-而有时候一些从原生小程序转换过来的项目，会把全局变量挂载到 `app` 上，然后使用 `getApp()` 获取它们。改造为 React 生态的状态管理方式成本比较大。
-
-因此可以使用入口对象的 `taroGlobalData` 属性对这种写法进行兼容：
-
-```jsx title="app.js"
-class App extends Component {
-  taroGlobalData = {
-    x: 1
-  }
-  render () {
-    return this.props.children
-  }
-}
-```
-
-```jsx title="index.js"
-function Index () {
-  const app = Taro.getApp()
-  console.log(app.x)
-
-  return (...)
-}
-```
-
 ### Taro 3 在小程序端的事件机制
 
 在 Taro 1 & 2 中，Taro 会根据开发者是否使用了 `e.stopPropagation()`，来决定在小程序模板中绑定的事件是以 `bind` 还是以 `catch` 形式。因此事件冒泡是由小程序控制的。
@@ -745,6 +717,34 @@ function Index () {
 ```jsx
 // 这个 View 组件会绑定 catchtouchmove 事件而不是 bindtouchmove
 <View catchMove></View>
+```
+
+## 全局变量
+
+在使用 React 时，全局变量推荐使用 **React Redux** 等状态管理工具进行管理。
+
+而有时候一些从原生小程序转换过来的项目，会把全局变量挂载到 `app` 上，然后使用 `getApp()` 获取它们。改造为 React 生态的状态管理方式成本比较大。
+
+因此可以使用入口对象的 `taroGlobalData` 属性对这种写法进行兼容：
+
+```jsx title="app.js"
+class App extends Component {
+  taroGlobalData = {
+    x: 1
+  }
+  render () {
+    return this.props.children
+  }
+}
+```
+
+```jsx title="index.js"
+function Index () {
+  const app = Taro.getApp()
+  console.log(app.x)
+
+  return (...)
+}
 ```
 
 ## Hooks
