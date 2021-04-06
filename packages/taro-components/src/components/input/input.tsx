@@ -89,7 +89,7 @@ export class Input implements ComponentInterface {
     }
   }
 
-  hanldeInput = (e: TaroEvent<HTMLInputElement>) => {
+  handleInput = (e: TaroEvent<HTMLInputElement>) => {
     e.stopPropagation()
     const {
       type,
@@ -193,7 +193,7 @@ export class Input implements ComponentInterface {
         maxlength={maxlength}
         autofocus={autoFocus}
         name={name}
-        onInput={this.hanldeInput}
+        onInput={this.handleInput}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         onChange={this.handleChange}
