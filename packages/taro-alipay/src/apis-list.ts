@@ -23,7 +23,15 @@ export const noPromiseApis = new Set([
   'openVoucherList',
   'setCanPullDown',
   'setOptionMenu',
-  'showSharePanel'
+  'showSharePanel',
+  'onBLECharacteristicValueChange',
+  'onBLEConnectionStateChanged',
+  'onBluetoothDeviceFound',
+  'onBluetoothAdapterStateChange',
+  'offBLECharacteristicValueChange',
+  'offBLEConnectionStateChanged',
+  'offBluetoothDeviceFound',
+  'offBluetoothAdapterStateChange'
 ])
 
 export const needPromiseApis = new Set([
@@ -54,5 +62,20 @@ export const needPromiseApis = new Set([
   'showAuthGuide',
   'textRiskIdentification',
   'vibrate',
-  'watchShake'
+  'watchShake',
+  'connectBLEDevice',
+  'disconnectBLEDevice',
+  'makeBluetoothPair',
+  'writeBLECharacteristicValue',
+  'readBLECharacteristicValue',
+  'notifyBLECharacteristicValueChange',
+  'getBLEDeviceServices',
+  'getBLEDeviceCharacteristics',
+  'openBluetoothAdapter',
+  'closeBluetoothAdapter',
+  'getBluetoothAdapterState',
+  'startBluetoothDevicesDiscovery',
+  'stopBluetoothDevicesDiscovery',
+  'getBluetoothDevices',
+  'getConnectedBluetoothDevices'
 ])
