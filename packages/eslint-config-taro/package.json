@@ -30,8 +30,5 @@
     "babel-eslint": "^10.0.0"
   },
   "author": "O2Team",
-  "license": "MIT",
-  "devDependencies": {
-    "typescript": "^4.1.0"
-  }
+  "license": "MIT"
 }
