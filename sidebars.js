@@ -596,6 +596,7 @@ module.exports = {
         "label": "用户信息",
         "type": "category",
         "items": [
+          "apis/open-api/user-info/getUserProfile",
           "apis/open-api/user-info/getUserInfo",
           "apis/open-api/user-info/UserInfo"
         ]

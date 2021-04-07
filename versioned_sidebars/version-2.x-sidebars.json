@@ -601,6 +601,7 @@
         "label": "用户信息",
         "type": "category",
         "items": [
+          "version-2.x/apis/open-api/user-info/getUserProfile",
           "version-2.x/apis/open-api/user-info/getUserInfo",
           "version-2.x/apis/open-api/user-info/UserInfo"
         ]

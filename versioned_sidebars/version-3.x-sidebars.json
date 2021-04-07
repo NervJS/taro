@@ -1670,6 +1670,10 @@
           "items": [
             {
               "type": "doc",
+              "id": "version-3.x/apis/open-api/user-info/getUserProfile"
+            },
+            {
+              "type": "doc",
               "id": "version-3.x/apis/open-api/user-info/getUserInfo"
             },
             {
