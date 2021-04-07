@@ -32,8 +32,5 @@
     "query-string": "^6.13.8",
     "universal-router": "^8.3.0",
     "url-parse": "^1.4.7"
-  },
-  "devDependencies": {
-    "@types/history": "^4.7.5"
   }
 }

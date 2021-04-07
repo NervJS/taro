@@ -280,4 +280,22 @@ export declare const components: {
         bindLoad: string;
         bindError: string;
     };
+    PageContainer: {
+        show: string;
+        duration: string;
+        'z-index': string;
+        overlay: string;
+        position: string;
+        round: string;
+        'close-on-slideDown': string;
+        'overlay-style': string;
+        'custom-style': string;
+        bindBeforeEnter: string;
+        bindEnter: string;
+        bindAfterEnter: string;
+        bindBeforeLeave: string;
+        bindLeave: string;
+        bindAfterLeave: string;
+        bindClickOverlay: string;
+    };
 };
