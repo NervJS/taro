@@ -1,5 +1,5 @@
 {
-  "miniprogramRoot": "./dist",
+  "miniprogramRoot": "./",
   "projectname": "<%= projectName %>",
   "appid": "touristappid",
   "setting": {
