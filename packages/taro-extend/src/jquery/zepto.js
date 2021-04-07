@@ -716,7 +716,7 @@ export const Zepto = (function () {
             resolve({
               left: rect.left,
               top: rect.top,
-              width: rect.height,
+              width: rect.width,
               height: rect.height
             })
           }).exec()
@@ -888,12 +888,14 @@ export const Zepto = (function () {
       if (value === undefined) {
         if (isBrowser) {
           let v
-          if (isWindow) {
+          if (isWindow(el)) {
             v = el['inner' + dimensionProperty]
-          } else if (isDocument) {
+          } else if (isDocument(el)) {
             v = el.documentElement['scroll' + dimensionProperty]
           }
-          return Promise.resolve(v)
+          if (typeof v !== 'undefined') {
+            return Promise.resolve(v)
+          }
         }
         return this.offset().then(rect => rect[dimension])
       } else {

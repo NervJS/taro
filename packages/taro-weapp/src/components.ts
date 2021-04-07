@@ -288,5 +288,23 @@ export const components = {
     'ad-intervals': '',
     bindLoad: '',
     bindError: ''
+  },
+  PageContainer: {
+    show: 'false',
+    duration: '300',
+    'z-index': '100',
+    overlay: 'true',
+    position: singleQuote('bottom'),
+    round: 'false',
+    'close-on-slideDown': 'false',
+    'overlay-style': '',
+    'custom-style': '',
+    bindBeforeEnter: '',
+    bindEnter: '',
+    bindAfterEnter: '',
+    bindBeforeLeave: '',
+    bindLeave: '',
+    bindAfterLeave: '',
+    bindClickOverlay: ''
   }
 }

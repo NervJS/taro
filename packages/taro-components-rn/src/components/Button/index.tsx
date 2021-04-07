@@ -66,13 +66,17 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
       Animated.timing(this.state.valve, {
         toValue: 1,
         easing: Easing.linear,
-        duration: 1000
+        duration: 1000,
+        useNativeDriver: true
       }),
       Animated.timing(this.state.valve, {
         toValue: 0,
-        duration: 0
+        duration: 0,
+        useNativeDriver: true
       })
-    ]).start(() => { this.animate() })
+    ]).start(() => {
+      this.animate()
+    })
   }
 
   onPress = (): void => {
@@ -90,20 +94,20 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
 
   _simulateNativePress = (evt: GestureResponderEvent): void => {
     const node = this.$touchable.current
-    node && node.touchableHandlePress(evt)
+    node && node.props.onPress && node.props.onPress(evt)
   }
 
-  componentDidMount () {
+  componentDidMount(): void {
     this.animate()
   }
 
-  componentDidUpdate (prevProps: ButtonProps) {
+  componentDidUpdate(prevProps: ButtonProps): void {
     if (!prevProps.loading && this.props.loading) {
       this.animate()
     }
   }
 
-  render () {
+  render(): JSX.Element {
     const {
       style,
       children,
@@ -114,24 +118,27 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
       loading,
       hoverStyle,
       hoverStartTime,
-      hoverStayTime,
+      hoverStayTime
     } = this.props
 
     const isDefaultSize: boolean = size === 'default'
     const isDefaultType: boolean = type === 'default'
-    const themeColorMap: { default: string[], primary: string[], warn: string[] } = {
+    const themeColorMap: { default: string[]; primary: string[]; warn: string[] } = {
       default: ['#F8F8F8', '#f7f7f7'],
       primary: ['#1AAD19', '#9ED99D'],
-      warn: ['#E64340', '#EC8B89'],
+      warn: ['#E64340', '#EC8B89']
     }
     // Use themeColorMap normally as PLAIN is false (by default),
     // otherwise use rgb(53,53,53) for plain-default-type particularly.
-    const themeColor: string = plain && isDefaultType ? `rgba(53,53,53,${disabled ? 0.6 : 1})` : themeColorMap[type][disabled ? 1 : 0]
+    const themeColor: string =
+      plain && isDefaultType ? `rgba(53,53,53,${disabled ? 0.6 : 1})` : themeColorMap[type][disabled ? 1 : 0]
     const backgroundColor: string = plain ? 'transparent' : themeColor
     const borderStyle: StyleProp<ViewStyle> = plain && { borderWidth: 1, borderColor: themeColor }
     const textColor: string = plain
       ? themeColor
-      : (isDefaultType ? `rgba(0,0,0,${disabled ? 0.3 : 1})` : `rgba(255,255,255,${disabled ? 0.6 : 1})`)
+      : isDefaultType
+        ? `rgba(0,0,0,${disabled ? 0.3 : 1})`
+        : `rgba(255,255,255,${disabled ? 0.6 : 1})`
 
     const rotateDeg: Animated.AnimatedInterpolation = this.state.valve.interpolate({
       inputRange: [0, 1],
@@ -158,24 +165,27 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
           ]}
         >
           {loading && (
-            <Animated.View
-              style={[styles.loading, { transform: [{ rotate: rotateDeg }] }]}
-            >
+            <Animated.View style={[styles.loading, { transform: [{ rotate: rotateDeg }] }]}>
               <Image
-                source={type === 'warn' ? require('../../assets/loading-warn.png') : require('../../assets/loading.png')}
+                source={
+                  type === 'warn' ? require('../../assets/loading-warn.png') : require('../../assets/loading.png')
+                }
                 style={styles.loadingImg}
               />
-            </Animated.View>)
-          }
-          {typeof children === 'string' ? <Text
-            style={[
-              styles.btnText,
-              !isDefaultSize && styles.btnTextMini,
-              { color: textColor }
-            ]}
-          >
-            {children}
-          </Text> : children}
+            </Animated.View>
+          )}
+          {
+            Array.isArray(children) ? (
+              children.map((c: never, i: number) => (
+                <Text key={i} style={[styles.btnText, !isDefaultSize && styles.btnTextMini, { color: textColor }]}>
+                  {c}
+                </Text>
+              ))
+            ) : (['string', 'number'].indexOf(typeof children) > -1) ? (
+              <Text style={[styles.btnText, !isDefaultSize && styles.btnTextMini, { color: textColor }]}>{children}</Text>
+            ) : (
+              children
+            )}
         </View>
       </TouchableWithoutFeedback>
     )

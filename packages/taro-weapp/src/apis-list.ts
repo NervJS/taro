@@ -58,7 +58,15 @@ export const noPromiseApis = new Set([
   'reportPerformance',
   'stopBackgroundAudio',
   'stopRecord',
-  'stopVoice'
+  'stopVoice',
+  'onBluetoothDeviceFound',
+  'onBluetoothAdapterStateChange',
+  'offBluetoothDeviceFound',
+  'offBluetoothAdapterStateChange',
+  'onBLEConnectionStateChange',
+  'onBLECharacteristicValueChange',
+  'offBLEConnectionStateChange',
+  'offBLECharacteristicValueChange'
 ])
 
 export const needPromiseApis = new Set([
@@ -124,5 +132,19 @@ export const needPromiseApis = new Set([
   'updateVoIPChatMuteConfig',
   'updateWeChatApp',
   'sendBizRedPacket',
-  'getUserProfile'
+  'getUserProfile',
+  'stopBluetoothDevicesDiscovery',
+  'startBluetoothDevicesDiscovery',
+  'openBluetoothAdapter',
+  'getConnectedBluetoothDevices',
+  'getBluetoothDevices',
+  'getBluetoothAdapterState',
+  'closeBluetoothAdapter',
+  'writeBLECharacteristicValue',
+  'readBLECharacteristicValue',
+  'notifyBLECharacteristicValueChange',
+  'getBLEDeviceServices',
+  'getBLEDeviceCharacteristics',
+  'createBLEConnection',
+  'closeBLEConnection'
 ])
