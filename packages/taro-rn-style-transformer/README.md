@@ -22,6 +22,10 @@ module.exports = {
         enable: boolean, // 默认true
         config: { /* ... */ } // 插件 pxtransform 配置项，参考尺寸章节
       },
+      // 跟其他端 css module 配置保持统一
+      cssModules: {
+        enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
+      }
     },
   }
 }
