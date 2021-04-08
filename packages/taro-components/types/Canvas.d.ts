@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
-import { StandardProps, CommonEventFunction } from './common'
+import { StandardProps, CommonEventFunction, CanvasTouchEventFunction, CanvasTouchEvent } from './common'
 
-interface CanvasProps extends StandardProps {
+interface CanvasProps extends StandardProps<any, CanvasTouchEvent> {
   /** 指定 canvas 类型，支持 2d 和 webgl
    * @supported weapp
    */
@@ -21,22 +21,22 @@ interface CanvasProps extends StandardProps {
   /** 手指触摸动作开始
    * @supported weapp
    */
-  onTouchStart?: CommonEventFunction
+  onTouchStart?: CanvasTouchEventFunction
 
   /** 手指触摸后移动
    * @supported weapp
    */
-  onTouchMove?: CommonEventFunction
+  onTouchMove?: CanvasTouchEventFunction
 
   /** 手指触摸动作结束
    * @supported weapp
    */
-  onTouchEnd?: CommonEventFunction
+  onTouchEnd?: CanvasTouchEventFunction
 
   /** 手指触摸动作被打断，如来电提醒，弹窗
    * @supported weapp
    */
-  onTouchCancel?: CommonEventFunction
+  onTouchCancel?: CanvasTouchEventFunction
 
   /** 手指长按 500ms 之后触发，触发了长按事件后进行移动不会触发屏幕的滚动
    * @supported weapp
@@ -56,7 +56,7 @@ declare namespace CanvasProps {
 }
 
 /** 画布
- * 
+ *
  * `<Canvas />` 组件的 RN 版本尚未实现。
  * @classification canvas
  * @supported weapp
