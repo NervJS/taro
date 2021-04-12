@@ -54,6 +54,7 @@ interface ITaroMiniPluginOptions {
   modifyMiniConfigs?: Func
   runtimePath?: string | string[]
   onCompilerMake?: Func
+  onParseCreateElement?: Func
   blended: boolean
   alias: Record<string, string>
 }
@@ -302,7 +303,7 @@ export default class TaroMiniPlugin {
       })
     )
 
-    new TaroNormalModulesPlugin().apply(compiler)
+    new TaroNormalModulesPlugin(this.options.onParseCreateElement).apply(compiler)
   }
 
   /**

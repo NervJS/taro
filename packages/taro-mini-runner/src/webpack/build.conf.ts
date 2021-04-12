@@ -80,7 +80,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
 
     modifyMiniConfigs,
     modifyBuildAssets,
-    onCompilerMake
+    onCompilerMake,
+    onParseCreateElement
   } = config
 
   let { copy } = config
@@ -161,6 +162,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     modifyMiniConfigs,
     modifyBuildAssets,
     onCompilerMake,
+    onParseCreateElement,
     minifyXML,
     runtimePath,
     blended,

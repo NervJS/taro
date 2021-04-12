@@ -116,6 +116,15 @@ export default (ctx: IPluginContext) => {
                 }
               })
             },
+            async onParseCreateElement (nodeName, componentConfig) {
+              await ctx.applyPlugins({
+                name: hooks.ON_PARSE_CREATE_ELEMENT,
+                opts: {
+                  nodeName,
+                  componentConfig
+                }
+              })
+            },
             async onBuildFinish ({ error, stats, isWatch }) {
               await ctx.applyPlugins({
                 name: hooks.ON_BUILD_FINISH,
@@ -139,6 +148,7 @@ function registerBuildHooks (ctx) {
     hooks.MODIFY_BUILD_ASSETS,
     hooks.MODIFY_MINI_CONFIGS,
     hooks.ON_COMPILER_MAKE,
+    hooks.ON_PARSE_CREATE_ELEMENT,
     hooks.ON_BUILD_START,
     hooks.ON_BUILD_FINISH
   ].forEach(methodName => {
