@@ -7,11 +7,18 @@ interface IOptions {
   pxtransformBlackList: any[]
 }
 
+interface IComponentConfig {
+  includes: Set<string>
+}
+
 interface OnParseCreateElementArgs {
   nodeName: string
-  componentConfig: {
-    includes: Set<string>
-  }
+  componentConfig: IComponentConfig
+}
+
+interface ModifyComponentConfigArgs {
+  componentConfig: IComponentConfig,
+  config: Record<string, any>
 }
 
 export default (ctx: IPluginContext, options: IOptions) => {
@@ -41,6 +48,14 @@ export default (ctx: IPluginContext, options: IOptions) => {
       const maps = special[nodeName]
       maps.forEach(item => {
         !includes.has(item) && includes.add(item)
+      })
+    }
+  })
+  // 如果组件使用渲染函数而不是模板，我们分析不了使用到的内置组件，所以只能默认加上所有 HTML 对应的小程序组件模板
+  ctx.modifyComponentConfig(({ componentConfig, config }: ModifyComponentConfigArgs) => {
+    if (config.framework === 'vue' || config.framework === 'vue3') {
+      ['audio', 'button', 'canvas', 'form', 'label', 'progress', 'textarea', 'video', 'navigator', 'web-view', 'image', 'input', 'checkbox', 'radio'].forEach(item => {
+        componentConfig.includes.add(item)
       })
     }
   })

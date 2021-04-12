@@ -995,3 +995,7 @@
 .h5-button::after {
   border: none;
 }
+
+.h5-span {
+  display: inline;
+}

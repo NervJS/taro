@@ -108,6 +108,15 @@ export default (ctx: IPluginContext) => {
                 }
               })
             },
+            async modifyComponentConfig (componentConfig, config) {
+              await ctx.applyPlugins({
+                name: hooks.MODIFY_COMPONENT_CONFIG,
+                opts: {
+                  componentConfig,
+                  config
+                }
+              })
+            },
             async onCompilerMake (compilation) {
               await ctx.applyPlugins({
                 name: hooks.ON_COMPILER_MAKE,
@@ -147,6 +156,7 @@ function registerBuildHooks (ctx) {
     hooks.MODIFY_WEBPACK_CHAIN,
     hooks.MODIFY_BUILD_ASSETS,
     hooks.MODIFY_MINI_CONFIGS,
+    hooks.MODIFY_COMPONENT_CONFIG,
     hooks.ON_COMPILER_MAKE,
     hooks.ON_PARSE_CREATE_ELEMENT,
     hooks.ON_BUILD_START,

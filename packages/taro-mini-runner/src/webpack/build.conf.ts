@@ -22,6 +22,7 @@ import getBaseConf from './base.conf'
 import { createTarget } from '../plugins/MiniPlugin'
 import { customVueChain } from './vue'
 import { customVue3Chain } from './vue3'
+import { componentConfig } from '../template/component'
 
 export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const chain = getBaseConf(appPath)
@@ -83,6 +84,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     onCompilerMake,
     onParseCreateElement
   } = config
+
+  config.modifyComponentConfig?.(componentConfig, config)
 
   let { copy } = config
 
