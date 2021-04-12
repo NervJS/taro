@@ -1,13 +1,14 @@
 import { defaultReconciler } from '@tarojs/shared'
 import type { TaroElement } from './dom/element'
 import type { TaroText } from './dom/text'
-import type { DataTree, TaroNode } from './dom/node'
+import type { DataTree, TaroNode, UpdatePayload } from './dom/node'
 import type { TaroRootElement } from './dom/root'
 import type { Instance, PageInstance, PageProps } from './dsl/instance'
 import type { NodeType } from './dom/node_types'
 import type { EventsType } from './emitter/emitter'
 import { TaroEvent, MpEvent } from './dom/event'
 import type { Func } from './utils/types'
+import { FormElement } from './dom/form'
 
 type Inst = Instance<PageProps>
 
@@ -40,6 +41,16 @@ export interface Reconciler<Instance, DOMElement = TaroElement, TextElement = Ta
   modifyDispatchEvent? (event: TaroEvent, tagName: string): void
 
   batchedEventUpdates?(cb: () => void): void
+
+  modifyHydrateData? (data: Record<string, any>): void
+
+  modifySetAttrPayload? (element: TaroElement, key: string, payload: UpdatePayload): void
+
+  modifyRmAttrPayload? (element: TaroElement, key: string, payload: UpdatePayload): void
+
+  modifyAddEventType? (node: TaroNode, type: string)
+
+  modifyFormEvent?(element: FormElement, event: TaroEvent): void
 
   // h5
   createPullDownComponent?(el: Instance, path: string, framework)

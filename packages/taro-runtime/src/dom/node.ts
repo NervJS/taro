@@ -9,6 +9,7 @@ import { TaroElement } from './element'
 import { setInnerHTML } from './html/html'
 import { CurrentReconciler } from '../reconciler'
 import { document } from '../bom/document'
+import type { EventHandler } from './event_target'
 
 const nodeId = incrementId()
 
@@ -250,5 +251,10 @@ export class TaroNode extends TaroEventTarget {
     }
 
     return newNode
+  }
+
+  public addEventListener (type: string, handler: EventHandler, options?: boolean | AddEventListenerOptions) {
+    CurrentReconciler.modifyAddEventType?.(this, type)
+    super.addEventListener(type, handler, options)
   }
 }

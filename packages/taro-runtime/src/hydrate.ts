@@ -3,6 +3,7 @@ import { TaroElement } from './dom/element'
 import { TaroText } from './dom/text'
 import { SPECIAL_NODES } from './constants'
 import { Shortcuts, toCamelCase } from '@tarojs/shared'
+import { CurrentReconciler } from './reconciler'
 import type { PageConfig } from '@tarojs/taro'
 
 export interface MpInstance {
@@ -90,6 +91,8 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
   if (node.cssText !== '' && nodeName !== 'swiper-item') {
     data[Shortcuts.Style] = node.cssText
   }
+
+  CurrentReconciler.modifyHydrateData?.(data)
 
   return data
 }

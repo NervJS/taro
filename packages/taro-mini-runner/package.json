@@ -73,6 +73,7 @@
     "postcss-import": "12.0.1",
     "postcss-loader": "^3.0.0",
     "postcss-pxtransform": "3.2.1",
+    "postcss-html-transform": "3.2.1",
     "postcss-url": "8.0.0",
     "regenerator-runtime": "0.11",
     "request": "^2.88.0",

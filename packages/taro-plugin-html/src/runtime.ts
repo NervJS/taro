@@ -1,11 +1,12 @@
-import { mergeReconciler, Shortcuts } from '@tarojs/shared'
+import { mergeReconciler, Shortcuts, warn } from '@tarojs/shared'
 import {
   isHtmlTags,
   getMappedType,
   getAttrMapFn,
   ensureHtmlClass,
   ensureRect,
-  mapNameByContion
+  mapNameByContion,
+  defineMappedProp
 } from './utils'
 
 interface AttrPayload {
@@ -17,6 +18,8 @@ const hostConfig = {
   modifyHydrateData (data: Record<string, any>) {
     const nodeName = data[Shortcuts.NodeName]
     if (!isHtmlTags(nodeName)) return
+
+    process.env.NODE_ENV !== 'production' && warn(data[Shortcuts.NodeName] === 'select', '请使用 Picker 组件代替 <select>')
 
     // map nodeName
     data[Shortcuts.NodeName] = getMappedType(nodeName, data)
@@ -97,16 +100,31 @@ const hostConfig = {
   modifyAddEventType (node, type) {
     if (!isHtmlTags(node.nodeName)) return
     if (type === 'click') {
-      Object.defineProperty(node.__handlers, 'click', {
-        enumerable: true,
-        configurable: true,
-        get () {
-          return node.__handlers.tap
-        },
-        set (val) {
-          node.__handlers.tap = val
+      defineMappedProp(node.__handlers, 'click', 'tap')
+    } else if (type === 'change' && node.nodeName === 'input') {
+      if (node.props.type === 'checkbox' || node.props.type === 'radio') {
+        defineMappedProp(node.__handlers, 'change', 'tap')
+      } else {
+        defineMappedProp(node.__handlers, 'change', 'input')
+      }
+    }
+  },
+
+  modifyFormEvent (element, event) {
+    const { nodeName, props } = element
+    if (nodeName === 'input' && event.type === 'tap') {
+      if (props.type === 'checkbox') {
+        props.checked = !props.checked
+      } else if (props.type === 'radio' && !props.checked) {
+        props.checked = true
+      }
+      if (event.mpEvent) {
+        const { currentTarget, target } = event.mpEvent
+        currentTarget.checked = props.checked
+        if (target.id === currentTarget.id) {
+          target.checked = props.checked
         }
-      })
+      }
     }
   }
 }

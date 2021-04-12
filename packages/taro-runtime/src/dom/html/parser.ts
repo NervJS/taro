@@ -141,7 +141,7 @@ function format (
       parent?.appendChild(el)
 
       if (!options.html.renderHTMLTag) {
-        el.className = child.tagName
+        el.className = `h5-${child.tagName}`
       }
 
       for (let i = 0; i < child.attributes.length; i++) {

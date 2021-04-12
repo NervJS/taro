@@ -3,7 +3,7 @@ import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
 import { TaroEvent, eventSource } from './event'
-import { isElement, isHasExtractProp } from '../utils'
+import { isElement, isHasExtractProp, shortcutAttr } from '../utils'
 import { Style } from './style'
 import { PROPERTY_THRESHOLD, SPECIAL_NODES } from '../constants'
 import { CurrentReconciler } from '../reconciler'
@@ -81,62 +81,76 @@ export class TaroElement extends TaroNode {
       `元素 ${this.nodeName} 的 属性 ${qualifiedName} 的值数据量过大，可能会影响渲染性能。考虑降低图片转为 base64 的阈值或在 CSS 中使用 base64。`
     )
 
-    if (qualifiedName === 'style') {
-      this.style.cssText = value as string
-      qualifiedName = Shortcuts.Style
-    } else if (qualifiedName === 'id') {
-      eventSource.delete(this.uid)
-      value = String(value)
-      this.props[qualifiedName] = this.uid = value
-      eventSource.set(value, this)
-      qualifiedName = 'uid'
-    } else {
-      // pure-view => static-view
-      if (this.nodeName === 'view' && !isHasExtractProp(this) && !(/class|style|id/.test(qualifiedName)) && !this.isAnyEventBinded()) {
-        this.enqueueUpdate({
-          path: `${this._path}.${Shortcuts.NodeName}`,
-          value: 'static-view'
-        })
-      }
+    const isPureView = this.nodeName === 'view' && !isHasExtractProp(this) && !this.isAnyEventBinded()
 
-      this.props[qualifiedName] = value as string
-      if (qualifiedName === 'class') {
-        qualifiedName = Shortcuts.Class
-      } else if (qualifiedName.startsWith('data-')) {
-        if (this.dataset === EMPTY_OBJ) {
-          this.dataset = Object.create(null)
+    switch (qualifiedName) {
+      case 'style':
+        this.style.cssText = value as string
+        break
+      case 'id':
+        eventSource.delete(this.uid)
+        value = String(value)
+        this.props[qualifiedName] = this.uid = value
+        eventSource.set(value, this)
+        break
+      default:
+        this.props[qualifiedName] = value as string
+
+        if (qualifiedName.startsWith('data-')) {
+          if (this.dataset === EMPTY_OBJ) {
+            this.dataset = Object.create(null)
+          }
+          this.dataset[toCamelCase(qualifiedName.replace(/^data-/, ''))] = value
         }
-        this.dataset[toCamelCase(qualifiedName.replace(/^data-/, ''))] = value
-      }
+        break
     }
+
+    qualifiedName = shortcutAttr(qualifiedName)
 
     CurrentReconciler.setAttribute?.(this, qualifiedName, value)
 
-    this.enqueueUpdate({
+    const payload = {
       path: `${this._path}.${toCamelCase(qualifiedName)}`,
       value
-    })
+    }
+
+    CurrentReconciler.modifySetAttrPayload?.(this, qualifiedName, payload)
+
+    this.enqueueUpdate(payload)
+
+    // pure-view => static-view
+    if (isPureView && isHasExtractProp(this)) {
+      this.enqueueUpdate({
+        path: `${this._path}.${Shortcuts.NodeName}`,
+        value: 'static-view'
+      })
+    }
   }
 
   public removeAttribute (qualifiedName: string) {
+    const isStaticView = this.nodeName === 'view' && isHasExtractProp(this) && !this.isAnyEventBinded()
+
     if (qualifiedName === 'style') {
       this.style.cssText = ''
     } else {
       delete this.props[qualifiedName]
-      if (qualifiedName === 'class') {
-        qualifiedName = Shortcuts.Class
-      }
     }
+
+    qualifiedName = shortcutAttr(qualifiedName)
 
     CurrentReconciler.removeAttribute?.(this, qualifiedName)
 
-    this.enqueueUpdate({
+    const payload = {
       path: `${this._path}.${toCamelCase(qualifiedName)}`,
       value: ''
-    })
+    }
 
-    if (this.nodeName === 'view' && !isHasExtractProp(this) && !this.isAnyEventBinded()) {
-      // static-view => pure-view
+    CurrentReconciler.modifyRmAttrPayload?.(this, qualifiedName, payload)
+
+    this.enqueueUpdate(payload)
+
+    // static-view => pure-view
+    if (isStaticView && !isHasExtractProp(this)) {
       this.enqueueUpdate({
         path: `${this._path}.${Shortcuts.NodeName}`,
         value: 'pure-view'

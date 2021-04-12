@@ -77,3 +77,16 @@ export function ensureRect (props: Record<string, any>, style = ''): string {
   }
   return cssText
 }
+
+export function defineMappedProp (obj, propName, mapName) {
+  Object.defineProperty(obj, propName, {
+    enumerable: true,
+    configurable: true,
+    get () {
+      return obj[mapName]
+    },
+    set (val) {
+      obj[mapName] = val
+    }
+  })
+}

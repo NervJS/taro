@@ -1,3 +1,4 @@
+import { CurrentReconciler } from '../reconciler'
 import { TaroElement } from './element'
 import { TaroEvent } from './event'
 
@@ -17,6 +18,9 @@ export class FormElement extends TaroElement {
       const val = event.mpEvent.detail.value
       this.props.value = val as string
     }
+
+    CurrentReconciler.modifyFormEvent?.(this, event)
+
     return super.dispatchEvent(event)
   }
 }

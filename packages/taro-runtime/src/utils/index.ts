@@ -1,3 +1,4 @@
+import { Shortcuts } from '@tarojs/shared'
 import { TaroElement } from '../dom/element'
 import { TaroText } from '../dom/text'
 import { NodeType } from '../dom/node_types'
@@ -38,4 +39,17 @@ export function isParentBinded (node: TaroElement | null, type: string): boolean
     node = node.parentElement
   }
   return res
+}
+
+export function shortcutAttr (key: string): string {
+  switch (key) {
+    case 'style':
+      return Shortcuts.Style
+    case 'id':
+      return 'uid'
+    case 'class':
+      return Shortcuts.Class
+    default:
+      return key
+  }
 }
