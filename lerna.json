@@ -55,6 +55,6 @@
       "license": "MIT"
     }
   },
-  "version": "3.2.1",
+  "version": "3.3.0-alpha.0",
   "npmClient": "yarn"
 }
