@@ -96,7 +96,8 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
       this.pressInTimer = setTimeout(() => {
         this.setState({ isHover: true }, () => {
           if (this.isTouchEnd) {
-            this.shortPress()
+            // short press
+            this.stopHover()
           }
         })
         clearTimeout(this.pressInTimer)
@@ -104,7 +105,7 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
     }
   }
 
-  shortPress = (): void => {
+  stopHover = (): void => {
     const { hoverStayTime } = this.props
     this.pressOutTimer = setTimeout(() => {
       this.setState({ isHover: false })
@@ -117,7 +118,8 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
     const { isHover } = this.state
     this.isTouchEnd = true
     if (hoverStyle && isHover) {
-      this.shortPress()
+      // long press or error boundary
+      this.stopHover()
     }
   }
 
