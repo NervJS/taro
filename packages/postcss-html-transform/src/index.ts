@@ -15,5 +15,10 @@ function plugin (_opts) {
       }
       rule.selector = rule.selector.replace(reg, '$1.h5-$2')
     })
+    root.walkDecls(function (decl) {
+      if (decl.prop === 'cursor' && decl.value === 'pointer') {
+        decl.remove()
+      }
+    })
   }
 }
