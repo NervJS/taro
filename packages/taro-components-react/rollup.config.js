@@ -22,7 +22,9 @@ export default {
     resolve({
       preferBuiltins: false
     }),
-    postcss(),
+    postcss({
+      inject: { insertAt: 'top' }
+    }),
     commonjs({
       include: 'node_modules/**'
     }),
