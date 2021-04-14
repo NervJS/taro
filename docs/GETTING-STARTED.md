@@ -305,4 +305,17 @@ $ cnpm install -g @tarojs/cli@1.3.9
 
 在使用 Taro 进行多端开发中，请保持 Taro CLI 的版本与你项目的依赖版本一致，否则可能会出现编译错误或者运行时错误。
 
+如果发现不一致的情况可以使用 Taro 升级命令 taro update self [版本号] 和 taro update project [版本号]来分别将 CLI 和项目依赖升级到指定版本；
+或者也可以手动安装相应版本 CLI，修改 package.json 依赖版本号，然后重装依赖来解决。
+
+```bash
+# 使用Taro 升级命令更新CLI版本到最新版本
+$ taro update self [版本号]
+# 使用Taro 升级命令更新CLI版本到指定版本
+$ taro update self
+# 使用Taro 升级命令将项目依赖升级到与@tarojs/cli一致的版本
+$ taro update project 
+# 使用Taro 升级命令将项目依赖升级到指定版本
+$ taro update project [版本号]
+```
 如果你所使用的 Taro CLI 版本为 3.0.9，而项目里使用的依赖版本为 3.0.10，则有可能会出现问题，这时请将你的 Taro CLI 版本更新至项目依赖版本号相同的版本，如果还是出现问题，请向我们提出 [Issue](https://nervjs.github.io/taro-issue-helper/)。
