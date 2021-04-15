@@ -38,6 +38,12 @@ export default class CLI {
       })
       switch (command) {
         case 'build': {
+          let plugin
+          let platform = args.type
+          if (typeof args.plugin === 'string') {
+            plugin = args.plugin
+            platform = 'plugin'
+          }
           kernel.optsPlugins = [
             '@tarojs/plugin-platform-weapp',
             '@tarojs/plugin-platform-alipay',
@@ -48,7 +54,8 @@ export default class CLI {
           ]
           customCommand('build', kernel, {
             _: args._,
-            platform: args.type,
+            platform,
+            plugin,
             isWatch: Boolean(args.watch),
             port: args.port,
             env: args.env,
