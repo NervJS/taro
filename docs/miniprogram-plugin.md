@@ -4,6 +4,8 @@ title: 小程序插件开发
 
 ## 微信小程序插件开发
 
+> 目前微信小程序仅支持使用 `React` 来进行开发
+
 [微信小程序插件开发概述](https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/)
 
 ### 创建插件开发模版
@@ -12,7 +14,7 @@ title: 小程序插件开发
 
 ### 修改 appid
 
-创建完模版后，首先需要修改 `project.conf.json` 的 **appid** 字段和 `src/app.js` 的 **prodiver** 字段为同一 appid。
+创建完模版后，首先需要修改 `project.config.json` 的 **appid** 字段和 `src/app.js` 的 **prodiver** 字段为同一 appid。
 
 ### 项目结构
 
@@ -26,8 +28,8 @@ title: 小程序插件开发
     |   |   └── index          
     |   ├── plugin             插件目录
     |   |   ├── doc            插件文档目录
-    |   |   ├── component      组件插件目录
-    |   |   ├── page           页面插件目录
+    |   |   ├── components     组件插件目录
+    |   |   ├── pages          页面插件目录
     |   |   ├── index.js       接口插件文件
     |   |   └── plugin.json    插件配置文件
     |   ├── app.css            项目总通用样式
@@ -46,7 +48,7 @@ taro build --plugin weapp --watch
 
 在微信开发者工具中添加 Taro 插件项目根目录。
 
-### 使用页面插件
+### 使用插件页面
 
 plugin.json 的 **pages** 字段加入页面插件路径：
 
@@ -66,7 +68,7 @@ plugin.json 的 **pages** 字段加入页面插件路径：
 </Navigator>
 ```
 
-### 使用组件插件
+### 使用插件组件
 
 plugin.json 的 **publicComponents** 字段加入组件插件路径：
 
@@ -90,13 +92,9 @@ export default class Index extends Component {
 }
 ```
 
-### Taro v1.3+ 组件插件接受外部 props 的问题
+#### 插件组件接受外部 props
 
-[#3176](https://github.com/NervJS/taro/issues/3176)
-
-Taro v1.3 对 props 系统进行了改造，使得不能兼容原生组件通过 properties 传入的属性。
-
-目前可以通过把所有需要传入组件插件的 props，通过借助 `extraProps` 属性来解决。
+如果需要给插件传入参数，需要将参数统一放在组件的 `props` 中进行传入。
 
 ```js
 // 常规 props 传递
@@ -107,10 +105,10 @@ const extraProps = {
   name: this.state.name,
   desc: this.state.desc
 }
-<Plugin extraProps={extraProps} />
+<Plugin props={extraProps} />
 ```
 
-### 使用接口插件
+### 使用插件接口
 
 plugin.json 的 **main** 字段加入接口插件路径：
 
@@ -131,19 +129,4 @@ export default class Index extends Component {
     const answer = myPluginInterface.answer
     console.log('answer: ', answer)
   }
-```
-
-## 支付宝小程序插件开发
-
-[支付宝小程序插件开发概述](https://docs.alipay.com/mini/isv/plugin-intro)
-
-### 项目结构
-
-目前支付宝小程序只支持开发页面插件，因此项目结构和普通 Taro 项目的一致。只需在源码目录下再增加 `plugin.json` 和 `plugin-mock.json` 两个文件即可。
-
-### 编译项目
-
-```bin
-taro build --plugin alipay
-taro build --plugin alipay --watch
 ```
