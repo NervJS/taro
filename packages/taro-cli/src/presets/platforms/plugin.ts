@@ -7,20 +7,17 @@ export default (ctx: IPluginContext) => {
     useConfigName: 'mini',
     async fn ({ config }) {
       const {
-        plugin,
-        isWatch
+        options,
+        _
       } = ctx.runOpts
       const { sourcePath, outputPath } = ctx.paths
       const { chalk, fs, PLATFORMS } = ctx.helper
       const { WEAPP, ALIPAY } = PLATFORMS
-
-      const PLUGIN_JSON = 'plugin.json'
-      const PLUGIN_MOCK_JSON = 'plugin-mock.json'
-
       const typeMap = {
         [WEAPP]: '微信',
         [ALIPAY]: '支付宝'
       }
+      const { plugin, isWatch } = options
       if (plugin !== WEAPP && plugin !== ALIPAY) {
         console.log(chalk.red('目前插件编译仅支持 微信/支付宝 小程序！'))
         return
@@ -35,11 +32,14 @@ export default (ctx: IPluginContext) => {
               ...config,
               isBuildPlugin: true,
               isWatch,
-              outputRoot: `${config.outputRoot}/miniprogram`,
-              platform: 'weapp',
+              outputRoot: `${config.outputRoot}`,
+              platform: WEAPP,
               needClearOutput: false
             },
-            platform: 'weapp'
+            options: Object.assign({}, options, {
+              platform: WEAPP
+            }),
+            _
           }
         })
         await ctx.applyPlugins({
@@ -49,11 +49,14 @@ export default (ctx: IPluginContext) => {
               ...config,
               isBuildPlugin: false,
               isWatch,
-              outputRoot: `${config.outputRoot}`,
-              platform: 'weapp',
+              outputRoot: `${config.outputRoot}/miniprogram`,
+              platform: WEAPP,
               needClearOutput: false
             },
-            platform: 'weapp'
+            options: Object.assign({}, options, {
+              platform: WEAPP
+            }),
+            _
           }
         })
       }
@@ -63,9 +66,21 @@ export default (ctx: IPluginContext) => {
           name: 'build',
           opts: {
             platform: 'alipay',
-            isWatch
+            config: {
+              ...config,
+              isWatch,
+              outputRoot: config.outputRoot,
+              platform: ALIPAY,
+              needClearOutput: false
+            },
+            options: Object.assign({}, options, {
+              platform: ALIPAY
+            }),
+            _
           }
         })
+        const PLUGIN_JSON = 'plugin.json'
+        const PLUGIN_MOCK_JSON = 'plugin-mock.json'
         const pluginJson = path.join(sourcePath, PLUGIN_JSON)
         const pluginMockJson = path.join(sourcePath, PLUGIN_MOCK_JSON)
 

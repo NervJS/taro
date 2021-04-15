@@ -13,7 +13,8 @@ export default (ctx: IPluginContext) => {
       '-p, --port [port]': 'Specified port',
       '--platform': 'Specific React-Native build target: android / ios, android is default value',
       '--reset-cache': 'Clear transform cache just for React-Native',
-      '--blended': 'Blended Taro project in an original MiniApp project'
+      '--blended': 'Blended Taro project in an original MiniApp project',
+      '--plugin [typeName]': 'Build Taro plugin project, weapp',
       // '--port [port]': 'Specified port',
     },
     synopsisList: [
