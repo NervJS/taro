@@ -121,8 +121,6 @@ export default function generateEntry ({
   ${importPageList}
   ${`import AppComponentConfig from '${appComponentPath}.config';`}
   ${importPageConfig}
-  import { enableScreens } from 'react-native-screens';
-  enableScreens();
   
   AppComponentConfig.tabBar = ${JSON.stringify(appTabBar)}
 
