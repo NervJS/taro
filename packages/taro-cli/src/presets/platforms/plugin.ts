@@ -31,19 +31,29 @@ export default (ctx: IPluginContext) => {
         await ctx.applyPlugins({
           name: 'build',
           opts: {
-            platform: 'weapp',
-            isBuildPlugin: true,
-            isWatch,
-            outputRoot: `${config.outputRoot}`
+            config: {
+              ...config,
+              isBuildPlugin: true,
+              isWatch,
+              outputRoot: `${config.outputRoot}/miniprogram`,
+              platform: 'weapp',
+              needClearOutput: false
+            },
+            platform: 'weapp'
           }
         })
         await ctx.applyPlugins({
           name: 'build',
           opts: {
-            platform: 'weapp',
-            isBuildPlugin: false,
-            isWatch,
-            outputRoot: `${config.outputRoot}/miniprogram`
+            config: {
+              ...config,
+              isBuildPlugin: false,
+              isWatch,
+              outputRoot: `${config.outputRoot}`,
+              platform: 'weapp',
+              needClearOutput: false
+            },
+            platform: 'weapp'
           }
         })
       }
