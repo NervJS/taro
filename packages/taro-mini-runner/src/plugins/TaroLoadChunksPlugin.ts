@@ -107,7 +107,7 @@ export default class TaroLoadChunksPlugin {
        * 在每个 chunk 文本刚生成后，按判断条件在文本头部插入 require 语句
        */
       compilation.chunkTemplate.hooks.renderWithEntry.tap(PLUGIN_NAME, (modules: ConcatSource, chunk) => {
-        if (chunk.entryModule && chunk.entryModule.miniType !== META_TYPE.EXPORTS) {
+        if (chunk.entryModule) {
           if (this.isBuildPlugin) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
