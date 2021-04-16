@@ -1,6 +1,6 @@
 {
     "name": "@tarojs/runtime-rn",
-    "version": "3.2.1",
+    "version": "3.2.2-beta.0",
     "description": "taro-runtime-rn",
     "main": "dist/index.js",
     "types": "./src/index.ts",
@@ -29,7 +29,7 @@
         "react-native": "*"
     },
     "dependencies": {
-        "@tarojs/components-rn": "3.2.1",
+        "@tarojs/components-rn": "3.2.2-beta.0",
         "@tarojs/router-rn": "3.2.1"
     },
     "resolutions": {

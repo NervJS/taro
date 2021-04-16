@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-style-transformer",
-  "version": "3.2.1",
+  "version": "3.2.2-beta.0",
   "description": "提供Taro RN 统一处理样式文件能力",
   "main": "dist/index.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
-    "@tarojs/helper": "3.2.1",
+    "@tarojs/helper": "3.2.2-beta.0",
     "fbjs": "^2.0.0",
     "less": "^3.12.2",
     "node-sass": "^4.14.1",

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli",
-  "version": "3.2.1",
+  "version": "3.2.2-beta.0",
   "description": "cli tool for taro",
   "main": "index.js",
   "scripts": {
@@ -44,16 +44,16 @@
   "license": "MIT",
   "dependencies": {
     "@hapi/joi": "17.1.1",
-    "@tarojs/helper": "3.2.1",
-    "@tarojs/plugin-platform-alipay": "3.2.1",
-    "@tarojs/plugin-platform-jd": "3.2.1",
-    "@tarojs/plugin-platform-qq": "3.2.1",
-    "@tarojs/plugin-platform-swan": "3.2.1",
-    "@tarojs/plugin-platform-tt": "3.2.1",
-    "@tarojs/plugin-platform-weapp": "3.2.1",
-    "@tarojs/service": "3.2.1",
+    "@tarojs/helper": "3.2.2-beta.0",
+    "@tarojs/plugin-platform-alipay": "3.2.2-beta.0",
+    "@tarojs/plugin-platform-jd": "3.2.2-beta.0",
+    "@tarojs/plugin-platform-qq": "3.2.2-beta.0",
+    "@tarojs/plugin-platform-swan": "3.2.2-beta.0",
+    "@tarojs/plugin-platform-tt": "3.2.2-beta.0",
+    "@tarojs/plugin-platform-weapp": "3.2.2-beta.0",
+    "@tarojs/service": "3.2.2-beta.0",
     "@tarojs/shared": "3.2.1",
-    "@tarojs/taro": "3.2.1",
+    "@tarojs/taro": "3.2.2-beta.0",
     "@tarojs/taroize": "3.2.1",
     "@tarojs/transformer-wx": "^2.0.4",
     "@types/request": "^2.48.1",
@@ -128,7 +128,7 @@
     "xxhashjs": "^0.2.2"
   },
   "devDependencies": {
-    "@tarojs/mini-runner": "3.2.1",
-    "@tarojs/webpack-runner": "3.2.1"
+    "@tarojs/mini-runner": "3.2.2-beta.0",
+    "@tarojs/webpack-runner": "3.2.2-beta.0"
   }
 }
