@@ -20,6 +20,10 @@ export class ClassList extends Set<string> {
     return this
   }
 
+  public get length (): number {
+    return this.size
+  }
+
   public remove (s: string) {
     super.delete(s)
     this._update()

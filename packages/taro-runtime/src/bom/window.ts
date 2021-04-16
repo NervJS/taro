@@ -25,7 +25,9 @@ if (!isBrowser) {
 if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
   (window as any).requestAnimationFrame = raf;
   (window as any).cancelAnimationFrame = caf;
-  (window as any).getComputedStyle = getComputedStyle
+  (window as any).getComputedStyle = getComputedStyle;
+  (window as any).addEventListener = function () {};
+  (window as any).removeEventListener = function () {}
   if (!('Date' in window)) {
     (window as any).Date = Date
   }

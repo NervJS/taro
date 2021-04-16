@@ -253,6 +253,18 @@ export class TaroNode extends TaroEventTarget {
     return newNode
   }
 
+  public contains (node: TaroNode & { id?: string }): boolean {
+    let isContains = false
+    this.childNodes.some(childNode => {
+      const { uid } = childNode
+      if (uid === node.uid || uid === node.id || childNode.contains(node)) {
+        isContains = true
+        return true
+      }
+    })
+    return isContains
+  }
+
   public addEventListener (type: string, handler: EventHandler, options?: boolean | AddEventListenerOptions) {
     CurrentReconciler.modifyAddEventType?.(this, type)
     super.addEventListener(type, handler, options)

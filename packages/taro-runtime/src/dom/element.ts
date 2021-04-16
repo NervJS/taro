@@ -133,6 +133,9 @@ export class TaroElement extends TaroNode {
     if (qualifiedName === 'style') {
       this.style.cssText = ''
     } else {
+      if (!this.props.hasOwnProperty(qualifiedName)) {
+        return
+      }
       delete this.props[qualifiedName]
     }
 
