@@ -1,4 +1,3 @@
-import * as path from 'path'
 import { IPluginContext } from '@tarojs/service'
 
 export default (ctx: IPluginContext) => {
@@ -10,8 +9,7 @@ export default (ctx: IPluginContext) => {
         options,
         _
       } = ctx.runOpts
-      const { sourcePath, outputPath } = ctx.paths
-      const { chalk, fs, PLATFORMS } = ctx.helper
+      const { chalk, PLATFORMS } = ctx.helper
       const { WEAPP, ALIPAY } = PLATFORMS
       const typeMap = {
         [WEAPP]: '微信',
@@ -23,8 +21,8 @@ export default (ctx: IPluginContext) => {
         return
       }
       console.log(chalk.green(`开始编译${typeMap[plugin]}小程序插件`))
-
-      async function buildWxPlugin () {
+      async function buildPlugin (type) {
+        process.env.TARO_ENV = type
         await ctx.applyPlugins({
           name: 'build',
           opts: {
@@ -33,11 +31,11 @@ export default (ctx: IPluginContext) => {
               isBuildPlugin: true,
               isWatch,
               outputRoot: `${config.outputRoot}`,
-              platform: WEAPP,
+              platform: type,
               needClearOutput: false
             },
             options: Object.assign({}, options, {
-              platform: WEAPP
+              platform: type
             }),
             _
           }
@@ -50,59 +48,18 @@ export default (ctx: IPluginContext) => {
               isBuildPlugin: false,
               isWatch,
               outputRoot: `${config.outputRoot}/miniprogram`,
-              platform: WEAPP,
+              platform: type,
               needClearOutput: false
             },
             options: Object.assign({}, options, {
-              platform: WEAPP
+              platform: type
             }),
             _
           }
         })
       }
 
-      async function buildAlipayPlugin () {
-        await ctx.applyPlugins({
-          name: 'build',
-          opts: {
-            platform: 'alipay',
-            config: {
-              ...config,
-              isWatch,
-              outputRoot: config.outputRoot,
-              platform: ALIPAY,
-              needClearOutput: false
-            },
-            options: Object.assign({}, options, {
-              platform: ALIPAY
-            }),
-            _
-          }
-        })
-        const PLUGIN_JSON = 'plugin.json'
-        const PLUGIN_MOCK_JSON = 'plugin-mock.json'
-        const pluginJson = path.join(sourcePath, PLUGIN_JSON)
-        const pluginMockJson = path.join(sourcePath, PLUGIN_MOCK_JSON)
-
-        if (fs.existsSync(pluginJson)) {
-          fs.copyFileSync(pluginJson, path.join(outputPath, PLUGIN_JSON))
-        }
-        if (fs.existsSync(pluginMockJson)) {
-          fs.copyFileSync(pluginMockJson, path.join(outputPath, PLUGIN_MOCK_JSON))
-        }
-      }
-
-      switch (plugin) {
-        case WEAPP:
-          await buildWxPlugin()
-          break
-        case ALIPAY:
-          await buildAlipayPlugin()
-          break
-        default:
-          console.log(chalk.red('输入插件类型错误，目前只支持 weapp/alipay 插件类型'))
-          break
-      }
+      buildPlugin(plugin)
     }
   })
 }
