@@ -41,7 +41,7 @@ interface ITaroMiniPluginOptions {
   appEntry?: string
   sourceDir: string
   isBuildPlugin: boolean
-  pluginConfig?: object
+  pluginConfig?: Record<string, any>
   pluginMainEntry?: string
   commonChunks: string[]
   framework: string
@@ -468,7 +468,7 @@ export default class TaroMiniPlugin {
     }
     if (publicComponents) {
       pluginJSON.publicComponents = Object.assign({}, publicComponents, {
-        "custom-wrapper": "custom-wrapper"
+        'custom-wrapper': 'custom-wrapper'
       })
     }
   }
