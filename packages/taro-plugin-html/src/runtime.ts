@@ -100,12 +100,16 @@ const hostConfig = {
   modifyAddEventType (node, type) {
     if (!isHtmlTags(node.nodeName)) return
     if (type === 'click') {
-      defineMappedProp(node.__handlers, 'click', 'tap')
-    } else if (type === 'change' && node.nodeName === 'input') {
-      if (node.props.type === 'checkbox' || node.props.type === 'radio') {
-        defineMappedProp(node.__handlers, 'change', 'tap')
-      } else {
-        defineMappedProp(node.__handlers, 'change', 'input')
+      defineMappedProp(node.__handlers, type, 'tap')
+    } else if (node.nodeName === 'input') {
+      if (type === 'change') {
+        if (node.props.type === 'checkbox' || node.props.type === 'radio') {
+          defineMappedProp(node.__handlers, type, 'tap')
+        } else {
+          defineMappedProp(node.__handlers, type, 'input')
+        }
+      } else if (type === 'keypress') {
+        defineMappedProp(node.__handlers, type, 'confirm')
       }
     }
   },

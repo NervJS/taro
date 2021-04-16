@@ -75,7 +75,7 @@ export interface MpEvent {
   currentTarget: Target
 }
 
-export function createEvent (event: MpEvent | string, _?: TaroElement) {
+export function createEvent (event: MpEvent | string, node?: TaroElement) {
   if (typeof event === 'string') {
     return new TaroEvent(event, { bubbles: true, cancelable: true })
   }
@@ -87,6 +87,10 @@ export function createEvent (event: MpEvent | string, _?: TaroElement) {
     } else {
       domEv[key] = event[key]
     }
+  }
+  if (domEv.type === 'confirm' && node?.nodeName === 'input') {
+    // eslint-disable-next-line dot-notation
+    domEv['keyCode'] = 13
   }
 
   return domEv
