@@ -1,19 +1,22 @@
 import path from 'path'
 import camelize from 'camelize'
 import { transformCSS } from 'taro-css-to-react-native'
+import { types as Types, template as Template, PluginObj } from 'babel__core'
+import { ConvertPluginPass as PluginPass } from './types'
 
 const STYLE_SHEET_NAME = '_styleSheet'
 const GET_STYLE_FUNC_NAME = '_getStyle'
 const MERGE_STYLES_FUNC_NAME = '_mergeStyles'
 const GET_CLS_NAME_FUNC_NAME = '_getClassName'
 const NAME_SUFFIX = 'styleSheet'
-
 const RN_CSS_EXT = ['.css', '.scss', '.sass', '.less', '.styl', '.stylus']
 
 const isStyle = value => {
   const ext = path.extname(value)
   return RN_CSS_EXT.indexOf(ext) > -1
 }
+
+const isModuleSource = value => value.indexOf('.module.') > -1
 
 const string2Object = str => {
   const entries = str.replace(/;+$/g, '')
@@ -106,19 +109,38 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
 }
 `
 
-export default function ({ types: t, template }) {
+export default function (babel: {
+  types: typeof Types
+  template: typeof Template
+}): PluginObj {
+  const { types: t, template } = babel
+
   const getClassNameFunctionTemplate = template(getClassNameFunction)
   const getStyleFunctionTemplete = template(getStyleFunction)
-  const getClassNameFunctionAst = getClassNameFunctionTemplate()
-  const getStyleFunctionAst = getStyleFunctionTemplete()
+  const getClassNameFunctionStmt = getClassNameFunctionTemplate()
+  const getStyleFunctionStmt = getStyleFunctionTemplete()
 
   function getMap (str) {
     return str.split(/\s+/).map((className) => {
-      return template(`${STYLE_SHEET_NAME}["${className}"]`)().expression
+      // return template(`${STYLE_SHEET_NAME}["${className}"]`)().expression
+      const stmt = template(`${STYLE_SHEET_NAME}["${className}"]`)()
+      if (t.isExpressionStatement(stmt)) {
+        return stmt.expression
+      }
     })
   }
 
-  function getArrayExpression (value) {
+  function getArrayExpression (value, cssModuleStylesheets) {
+    // css module 时 className 处理成 style 属性，所以直接取值跟 style 合并
+    if (t.isJSXExpressionContainer(value)) {
+      if (t.isMemberExpression(value.expression) && t.isIdentifier(value.expression.object)) {
+        // className 表达式包括了 css module 引用时处理成 style 属性
+        if (cssModuleStylesheets.includes(value.expression.object.name)) {
+          return [value.expression]
+        }
+      }
+    }
+
     let str
 
     if (!value || value.value === '') {
@@ -142,11 +164,11 @@ export default function ({ types: t, template }) {
     name: 'transform-react-jsx-to-rn-stylesheet',
     visitor: {
       Program: {
-        enter (astPath, state) {
+        enter (astPath, state: PluginPass) {
           let lastImportAstPath
           let existStyleImport = false
           for (const stmt of astPath.get('body')) {
-            if (t.isImportDeclaration(stmt)) {
+            if (t.isImportDeclaration(stmt.node)) {
               if (isStyle(stmt.node.source.value)) {
                 existStyleImport = true
                 // 在 Program 最开始处理 import 样式
@@ -173,20 +195,25 @@ export default function ({ types: t, template }) {
             lastImportAstPath.insertAfter(expressionAst)
           }
         },
-        exit (astPath, { file }) {
+        exit (astPath, state: PluginPass) {
+          const { file } = state
           const node = astPath.node
           const injectGetStyle = file.get('injectGetStyle')
           // 从最后一个import 开始插入表达式，后续插入的表达式追加在后面
           const lastImportIndex = findLastImportIndex(node.body)
 
           if (injectGetStyle) {
-            node.body.splice(lastImportIndex + 1, 0, getClassNameFunctionAst)
-            node.body.splice(lastImportIndex + 2, 0, getStyleFunctionAst)
+            // @ts-ignore
+            node.body.splice(lastImportIndex + 1, 0, getClassNameFunctionStmt)
+            // @ts-ignore
+            node.body.splice(lastImportIndex + 2, 0, getStyleFunctionStmt)
           }
         }
       },
-      JSXOpeningElement ({ container }, { file }) {
-        const exsitStyleImport = (file.get('styleSheetIdentifiers') || []).length
+      JSXOpeningElement ({ node }, state: PluginPass) {
+        const { file } = state
+        const cssModuleStylesheets = file.get('cssModuleStylesheets') || []
+        const exsitStyleImport = (file.get('styleSheetIdentifiers') || []).concat(cssModuleStylesheets).length
 
         // Check if has "style"
         let hasStyleAttribute = false
@@ -194,18 +221,21 @@ export default function ({ types: t, template }) {
         let hasClassName = false
         let classNameAttribute
 
-        const attributes = container.openingElement.attributes
+        const attributes = node.attributes
         for (let i = 0; i < attributes.length; i++) {
-          const name = attributes[i].name
-          if (name) {
-            if (!hasStyleAttribute) {
-              hasStyleAttribute = name.name === 'style'
-              styleAttribute = hasStyleAttribute && attributes[i]
-            }
+          const attribute = attributes[i]
+          if (t.isJSXAttribute(attribute)) {
+            const name = attribute.name
+            if (name) {
+              if (!hasStyleAttribute) {
+                hasStyleAttribute = name.name === 'style'
+                styleAttribute = hasStyleAttribute && attributes[i]
+              }
 
-            if (!hasClassName) {
-              hasClassName = name.name === 'className'
-              classNameAttribute = hasClassName && attributes[i]
+              if (!hasClassName) {
+                hasClassName = name.name === 'className'
+                classNameAttribute = hasClassName && attributes[i]
+              }
             }
           }
         }
@@ -222,7 +252,7 @@ export default function ({ types: t, template }) {
             file.set('injectGetStyle', true)
           }
 
-          const arrayExpression = getArrayExpression(classNameAttribute.value)
+          const arrayExpression = getArrayExpression(classNameAttribute.value, cssModuleStylesheets)
 
           if (arrayExpression.length === 0) {
             return
@@ -275,7 +305,10 @@ function importDeclaration (astPath, state, t) {
   const specifiers = node.specifiers
   const ext = path.extname(sourceValue)
   const styleSheetIdentifiers = file.get('styleSheetIdentifiers') || []
+  const cssModuleStylesheets = file.get('cssModuleStylesheets') || []
+  const isCSSModule = state.opts?.isCSSModule
 
+  // 是样式文件但不是 css module
   if (isStyle(sourceValue)) {
     // 导入的样式赋值
     let styleSheetName = ''
@@ -284,24 +317,32 @@ function importDeclaration (astPath, state, t) {
       styleSheetName = specifiers[0].local.name
     }
 
-    const cssFileName = path.basename(sourceValue)
-    const cssFileBaseName = path.basename(cssFileName, ext)
-    // 引入样式对应的变量名
-    const styleSheetSource = sourceValue
-    let styleSheetIdentifierName
-    if (styleSheetName) {
-      styleSheetIdentifierName = styleSheetName
+    if (isModuleSource(sourceValue) && isCSSModule) {
+      if (styleSheetName) {
+        cssModuleStylesheets.push(styleSheetName)
+      }
     } else {
-      styleSheetName = camelize(`${cssFileBaseName}${ext}_${NAME_SUFFIX}`)
-      const repeatName = styleSheetIdentifiers.find(identifier => identifier.name === styleSheetName)
-      styleSheetIdentifierName = repeatName ? styleSheetName + '1' : styleSheetName // fix repeat name
-      // styleSheetIdentifierName = camelize(`${cssFileBaseName}${ext}_${NAME_SUFFIX}`)
-    }
-    const styleSheetIdentifier = t.identifier(styleSheetIdentifierName)
+      const cssFileName = path.basename(sourceValue)
+      const cssFileBaseName = path.basename(cssFileName, ext)
+      // 引入样式对应的变量名
+      const styleSheetSource = sourceValue
+      let styleSheetIdentifierName
+      if (styleSheetName) {
+        styleSheetIdentifierName = styleSheetName
+      } else {
+        styleSheetName = camelize(`${cssFileBaseName}${ext}_${NAME_SUFFIX}`)
+        const repeatName = styleSheetIdentifiers.find(identifier => identifier.name === styleSheetName)
+        styleSheetIdentifierName = repeatName ? styleSheetName + '1' : styleSheetName // fix repeat name
+        // styleSheetIdentifierName = camelize(`${cssFileBaseName}${ext}_${NAME_SUFFIX}`)
+      }
+      const styleSheetIdentifier = t.identifier(styleSheetIdentifierName)
 
-    node.specifiers = [t.importDefaultSpecifier(styleSheetIdentifier)]
-    node.source = t.stringLiteral(styleSheetSource)
-    styleSheetIdentifiers.push(styleSheetIdentifier)
+      node.specifiers = [t.importDefaultSpecifier(styleSheetIdentifier)]
+      node.source = t.stringLiteral(styleSheetSource)
+      styleSheetIdentifiers.push(styleSheetIdentifier)
+    }
   }
+
   file.set('styleSheetIdentifiers', styleSheetIdentifiers)
+  file.set('cssModuleStylesheets', cssModuleStylesheets)
 }
