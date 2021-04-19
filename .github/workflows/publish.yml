@@ -64,7 +64,7 @@ jobs:
           echo "Publish by pushing must provide parameter named tag, just like: chore(release): publish 1.0 --tag=beta"
           exit 1
 
-      # ------------------ If event is push but there is no disttag, exit -------------
+      # ------------------ If event is push but there is no dist tag, exit -------------
 
       # Git stash
       - name: Drop current changes
