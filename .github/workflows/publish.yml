@@ -3,7 +3,7 @@ on:
   # When Release Pull Request is merged
   push:
     branches:
-      - feat/use-h5
+      - '**'
   pull_request:
     branches:
       - next
@@ -16,18 +16,9 @@ jobs:
     name: Publish
     runs-on: ubuntu-18.04
     steps:
+      # Setup
       - name: Checkout
         uses: actions/checkout@v2
-      - name : GITHUB CONTEXT
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-      - name: Get commit message
-        run: |
-          COMMIT_MESSAGE=$(git log --format=%s -n 1)
-          echo "commitmsg=${COMMIT_MESSAGE}" >> $GITHUB_ENV
-      - name: Show commit message
-        run : echo "$commitmsg"
       - name: Setup Node ${{ matrix.node_version }}
         uses: actions/setup-node@v1
         with:
@@ -40,15 +31,48 @@ jobs:
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/$GITHUB_REPOSITORY
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: install
+
+      # Log meta
+      - name : GITHUB CONTEXT
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+      # Get commit message
+      - name: Get commit message
+        run: |
+          COMMIT_MESSAGE=$(git log --format=%s -n 1)
+          echo "commitmsg=${COMMIT_MESSAGE}" >> $GITHUB_ENV
+      - name: Show commit message
+        run : echo "$commitmsg"
+
+      # ------------------ If commit message not satisfied, skip -------------
+
+      # Get & check npm publish dist-tag when event is push
+      - name: Get dist tag
+        if: startsWith( env.commitmsg , 'chore(release):' ) && github.event_name == 'push' && contains( env.commitmsg , '--tag=' )
+        run: |
+          TEMP=`echo $commitmsg | grep -oP "\-\-tag=(\w+)"`
+          DIST_TAG=`echo ${TEMP:6}`
+          echo "disttag=${DIST_TAG}" >> $GITHUB_ENV
+      - name: Show dist tag
+        if: startsWith( env.commitmsg , 'chore(release):' ) && github.event_name == 'push' && contains( env.commitmsg , '--tag=' )
+        run : echo "$disttag"
+      - name: Check dist tag
+        if: startsWith( env.commitmsg , 'chore(release):' ) && github.event_name == 'push' && !env.disttag
+        run: |
+          echo "Publish by pushing must provide parameter named tag, just like: chore(release): publish 1.0 --tag=beta"
+          exit 1
+
+      # ------------------ If event is push but there is no disttag, exit -------------
+
+      # Git stash
+      - name: Drop current changes
         if: startsWith( env.commitmsg , 'chore(release):' )
-        run: yarn
-      - name: bootstrap
-        if: startsWith( env.commitmsg , 'chore(release):' )
-        run: yarn run bootstrap:lerna
-      - name: build
-        if: startsWith( env.commitmsg , 'chore(release):' )
-        run: yarn build
+        run: |
+          git add .
+          git stash
+
       # Define ${CURRENT_VERSION}
       - name: Set Current Version
         if: startsWith( env.commitmsg , 'chore(release):' )
@@ -56,6 +80,8 @@ jobs:
         run: |
           CURRENT_VERSION=$(node -p 'require("./lerna.json").version')
           echo "CURRENT_VERSION=${CURRENT_VERSION}" >> $GITHUB_ENV
+
+      # Check git tag
       - name: Tag Check
         if: startsWith( env.commitmsg , 'chore(release):' )
         id: tag_check
@@ -71,6 +97,21 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ------------------ If git tag already exists, skip -------------
+
+      # Bootstrap project
+      - name: install
+        if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false'
+        run: yarn
+      - name: bootstrap
+        if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false'
+        run: yarn run bootstrap:lerna
+      - name: build
+        if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false'
+        run: yarn build
+
+      # Create git tag
       - name: Create Git Tag
         if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false'
         uses: azu/action-package-version-to-git-tag@v1
@@ -80,6 +121,25 @@ jobs:
           github_repo: ${{ github.repository }}
           git_commit_sha: ${{ github.sha }}
           git_tag_prefix: "v"
+
+      # ------------------ Before publish -------------
+
+      # Publish
+      - name: Publish
+        if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false'
+        run: |
+          if [ '${{ github.event_name }}' == 'pull_request' ] ; then
+            yarn lerna publish from-package --yes
+          elif [ '${{ github.event_name }}' == 'push' ] ; then
+            yarn lerna publish from-package --dist-tag ${{ env.disttag }} --yes
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # ------------------ After publish -------------
+
+      # Create relase when event is PR
       - name: Create Release
         id: create_release
         if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false' && github.event.pull_request.merged == true
@@ -94,20 +154,10 @@ jobs:
             ${{ github.event.pull_request.body }}
           draft: false
           prerelease: false
-      - name: Drop current changes
-        if: startsWith( env.commitmsg , 'chore(release):' )
-        run: |
-          git add .
-          git stash
-      - name: Publish
-        if: steps.tag_check.outputs.exists_tag == 'false' && startsWith( env.commitmsg , 'chore(release):' )
-        run: |
-          yarn lerna publish from-package --dist-tag next --yes
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # Create PR page comment when event is PR
       - uses: actions/github-script@0.8.0
-        if: startsWith( env.commitmsg , 'chore(release):' )
+        if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false' && github.event.pull_request.merged == true
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
