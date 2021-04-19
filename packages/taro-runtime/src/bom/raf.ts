@@ -32,7 +32,7 @@ let raf = typeof requestAnimationFrame !== 'undefined' && requestAnimationFrame 
 
 let caf = typeof cancelAnimationFrame !== 'undefined' && cancelAnimationFrame !== null ? cancelAnimationFrame : clearTimeout
 
-if (global) {
+if (typeof global !== 'undefined') {
   raf = raf.bind(global)
   caf = caf.bind(global)
 }
