@@ -476,6 +476,32 @@ class App extends Component {
 }`)
   })
 
+  it('Provide a default stylesheet object when css module enable and import css module sheet only', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import styleSheet from './app.module.scss';
+
+class App extends Component {
+  render() {
+    return <div>
+      <div className={styleSheet.header} />
+      <div className="red" />
+    </div>;
+  }
+}`, false, { isCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
+import styleSheet from './app.module.scss';
+var _styleSheet = {};
+
+class App extends Component {
+  render() {
+    return <div>
+      <div style={styleSheet.header} />
+      <div style={_styleSheet["red"]} />
+    </div>;
+  }\n
+}`)
+  })
+
   it('merge stylesheet when css module disable', () => {
     expect(getTransfromCode(`
 import { createElement, Component } from 'rax';
