@@ -11,7 +11,15 @@
         },
         {
           "type": "doc",
+          "id": "version-3.x/version"
+        },
+        {
+          "type": "doc",
           "id": "version-3.x/team"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/communicate"
         },
         {
           "type": "doc",
@@ -260,17 +268,6 @@
         {
           "type": "doc",
           "id": "version-3.x/CONTRIBUTING"
-        }
-      ]
-    },
-    {
-      "collapsed": true,
-      "type": "category",
-      "label": "迁移指南",
-      "items": [
-        {
-          "type": "doc",
-          "id": "version-3.x/migration"
         }
       ]
     }

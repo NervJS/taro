@@ -1,6 +1,6 @@
 module.exports = {
   docs: {
-    关于Taro: ['README', 'team', 'CONTRIBUTING'],
+    关于Taro: ['README', 'version', 'team', 'communicate', 'CONTRIBUTING'],
     快速开始: ['GETTING-STARTED', 'composition', 'before-dev-remind'],
     基础教程: [
       'react',
@@ -68,8 +68,7 @@ module.exports = {
       'seowhy',
       'join-in',
       'CONTRIBUTING'
-    ],
-    迁移指南: ['migration'],
+    ]
   },
   "components": {
     "关于组件库": [
