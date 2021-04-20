@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack-runner",
-  "version": "3.3.0-alpha.1",
+  "version": "3.3.0-alpha.2",
   "description": "webpack runner for taro",
   "main": "index.js",
   "scripts": {
@@ -32,11 +32,11 @@
   "dependencies": {
     "@babel/core": "7.11.1",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
-    "@tarojs/helper": "3.3.0-alpha.1",
-    "@tarojs/runner-utils": "3.3.0-alpha.1",
-    "@tarojs/runtime": "3.3.0-alpha.1",
-    "@tarojs/shared": "3.3.0-alpha.1",
-    "@tarojs/taro-loader": "3.3.0-alpha.1",
+    "@tarojs/helper": "3.3.0-alpha.2",
+    "@tarojs/runner-utils": "3.3.0-alpha.2",
+    "@tarojs/runtime": "3.3.0-alpha.2",
+    "@tarojs/shared": "3.3.0-alpha.2",
+    "@tarojs/taro-loader": "3.3.0-alpha.2",
     "autoprefixer": "9.7.4",
     "babel-loader": "8.0.6",
     "copy-webpack-plugin": "5.1.1",
@@ -54,8 +54,8 @@
     "open": "7.0.2",
     "ora": "4.0.3",
     "postcss-loader": "3.0.0",
-    "postcss-plugin-constparse": "3.3.0-alpha.1",
-    "postcss-pxtransform": "3.3.0-alpha.1",
+    "postcss-plugin-constparse": "3.3.0-alpha.2",
+    "postcss-pxtransform": "3.3.0-alpha.2",
     "react-refresh": "0.9.0",
     "resolve": "1.15.1",
     "resolve-url-loader": "3.1.1",
@@ -72,9 +72,9 @@
     "webpack-format-messages": "^2.0.5"
   },
   "devDependencies": {
-    "@tarojs/components": "3.3.0-alpha.1",
-    "@tarojs/taro": "3.3.0-alpha.1",
-    "babel-plugin-transform-taroapi": "3.3.0-alpha.1",
-    "babel-preset-taro": "3.3.0-alpha.1"
+    "@tarojs/components": "3.3.0-alpha.2",
+    "@tarojs/taro": "3.3.0-alpha.2",
+    "babel-plugin-transform-taroapi": "3.3.0-alpha.2",
+    "babel-preset-taro": "3.3.0-alpha.2"
   }
 }
