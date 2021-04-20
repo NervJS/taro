@@ -2,15 +2,17 @@
 title: 编译配置
 ---
 
-编译配置存放于项目根目录下 `config` 目录中，包含三个文件
+编译配置存放于项目根目录下的 `config` 目录中，包含三个文件：
 
 - `index.js` 是通用配置
 - `dev.js` 是项目预览时的配置
 - `prod.js` 是项目打包时的配置
 
-## index.js —— 通用配置
+详细的编译配置文档请查阅：[编译配置详情](./config-detail)
 
-```js title="/config/index.js"
+### 默认配置
+
+```js title="config/index.js"
 const config = {
   // 项目名称
   projectName: 'Awesome Next',
@@ -28,7 +30,7 @@ const config = {
   sourceRoot: 'src',
   // 项目产出目录
   outputRoot: 'dist',
-  // 编译插件配置
+  // Taro 插件配置
   plugins: [],
   // 全局变量设置
   defineConstants: {},
@@ -53,10 +55,17 @@ const config = {
         config: {
           limit: 10240
         }
+      },
+      cssModules: {
+        enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
+        config: {
+          namingPattern: 'module', // 转换模式，取值为 global/module
+          generateScopedName: '[name]__[local]___[hash:base64:5]'
+        }
       }
     },
     // 自定义 Webpack 配置
-    webpackChain: {},
+    webpackChain (chain, webpack) {}
   },
   // H5 端专用配置
   h5: {
@@ -65,10 +74,17 @@ const config = {
     postcss: {
       autoprefixer: {
         enable: true
+      },
+      cssModules: {
+        enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
+        config: {
+          namingPattern: 'module', // 转换模式，取值为 global/module
+          generateScopedName: '[name]__[local]___[hash:base64:5]'
+        }
       }
     },
     // 自定义 Webpack 配置
-    webpackChain: {},
+    webpackChain (chain, webpack) {},
     devServer: {}
   }
 };

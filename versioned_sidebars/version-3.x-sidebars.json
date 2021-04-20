@@ -38,11 +38,15 @@
         },
         {
           "type": "doc",
-          "id": "version-3.x/composition"
+          "id": "version-3.x/config"
         },
         {
           "type": "doc",
-          "id": "version-3.x/before-dev-remind"
+          "id": "version-3.x/cli"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/composition"
         }
       ]
     },
@@ -69,6 +73,10 @@
         },
         {
           "type": "doc",
+          "id": "version-3.x/router"
+        },
+        {
+          "type": "doc",
           "id": "version-3.x/tutorial"
         },
         {
@@ -77,7 +85,7 @@
         },
         {
           "type": "doc",
-          "id": "version-3.x/router"
+          "id": "version-3.x/config-detail"
         },
         {
           "type": "doc",
@@ -125,14 +133,6 @@
       "type": "category",
       "label": "进阶指南",
       "items": [
-        {
-          "type": "doc",
-          "id": "version-3.x/config"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/config-detail"
-        },
         {
           "type": "doc",
           "id": "version-3.x/plugin"

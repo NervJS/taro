@@ -1,15 +1,16 @@
 module.exports = {
   docs: {
     关于Taro: ['README', 'version', 'team', 'communicate', 'CONTRIBUTING'],
-    快速开始: ['GETTING-STARTED', 'composition', 'before-dev-remind'],
+    快速开始: ['GETTING-STARTED', 'config', 'cli', 'composition'],
     基础教程: [
       'react',
       'vue',
       'vue3',
       'nerv',
+      'router',
       'tutorial',
       'project-config',
-      'router',
+      'config-detail',
       'size',
       'static-reference',
       {
@@ -19,8 +20,6 @@ module.exports = {
       },
     ],
     进阶指南: [
-      'config',
-      'config-detail',
       'plugin',
       'debug-config',
       'hooks',
