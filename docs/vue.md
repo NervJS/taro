@@ -494,6 +494,18 @@ export default {
 </script>
 ```
 
+## 兼容 `<transition>`
+
+`<transition>` 组件内部使用了 `getComputedStyle`，用于嗅探组件上的动画样式。但是在小程序中没有办法实现 `getComputedStyle`，可以通过以下方法进行 hack：
+
+为元素的 `style` 设置 `transitionDuration` 或 `animationDuration` 指定过渡时间，即可兼容 `<transition>`。
+
+```jsx
+<transition>
+  <view style="animationDuration: 0.5s" />
+</transition>
+```
+
 ## 其它限制
 
 * 由于小程序访问元素位置为异步 API，因此小程序中无法使用内置的 `transition-group` 组件。
