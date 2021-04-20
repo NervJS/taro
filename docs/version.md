@@ -18,13 +18,13 @@ npm info @tarojs/cli
 
 Taro 3.1 的主要改动是打造开放式架构，支持以插件的形式编译到任意小程序平台。
 
-详情请参考 [《Taro 正式发布 3.1 版本》](../../blog/2021-03-10-taro-3-1-lts)。
+详情请参考 [《Taro 正式发布 3.1 版本》](https://docs.taro.zone/blog/2021-03-10-taro-3-1-lts)。
 
 ### Taro 3.2
 
 Taro 3.2 新增了对 ReactNative 的支持。
 
-详情请参考 [《Taro 3.2 版本正式发布：React Native 支持，王者归来》](../../blog/2021-04-08-taro-3.2)。
+详情请参考 [《Taro 3.2 版本正式发布：React Native 支持，王者归来》](https://docs.taro.zone/blog/2021-04-08-taro-3.2)。
 
 ### Taro 1 / 2
 
