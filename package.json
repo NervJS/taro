@@ -132,7 +132,7 @@
     "mock-socket": "^9.0.1",
     "nerv-markdown-loader": "0.0.1",
     "nervjs": "^1.4.6",
-    "node-sass": "^4.7.2",
+    "sass": "^1.32.8",
     "npm-run-all": "^4.1.2",
     "ora": "^2.1.0",
     "power-assert": "^1.6.1",
