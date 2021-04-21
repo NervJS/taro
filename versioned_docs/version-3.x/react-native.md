@@ -3,7 +3,7 @@ title: React Native 端开发流程
 ---
 
 
-> 本篇主要讲解 Taro React Native 端 环境安装-开发-调试-打包-发布 原理及流程。
+> 本篇主要讲解 Taro React Native 端 环境安装-开发-调试-打包-发布 原理及流程，React Native 开发前注意事项请看 [开发前注意](./react-native-remind.md)
 > 
 > Taro3.x 跨端（h5、weapp、rn）开发可参考项目：[Taro 跨平台demo（React Native + Weapp + h5）](https://github.com/wuba/Taro-Mortgage-Calculator)
 

@@ -49,31 +49,6 @@ class App extends Component {
 export default App
 ```
 
-### 入口配置
-
-我们可以新增一个 `app.config.js` 文件进行全局配置，`app.config.js` 的默认导出就是全局配置。
-
-配置规范基于微信小程序的[全局配置](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html)进行制定，所有平台进行统一:
-
-```js  title="app.config.js"
-export default {
-  pages: [
-    'pages/index/index'
-  ],
-  window: {
-    backgroundTextStyle: 'light',
-    navigationBarBackgroundColor: '#fff',
-    navigationBarTitleText: 'WeChat',
-    navigationBarTextStyle: 'black'
-  }
-}
-```
-
-注意：
-
-1. `app.config.js` 里 require 或 import 引用的 js 文件目前**没有经过 Babel 编译语法**。
-2. 多端差异化逻辑可以使用 `process.env.TARO_ENV` 变量作条件判断以实现。
-
 ### onLaunch (options)
 
 > 在小程序环境中对应 app 的 `onLaunch`。
@@ -208,24 +183,6 @@ function Index () {
 
 export default Index
 ```
-
-### 页面配置
-
-对于每一个页面文件(例如 `./pages/index/index.jsx`)，我们可以新增一个 `./pages/index/index.config.js` 的文件进行页面配置，`index.config.js` 的默认导出就是页面配置。
-
-配置规范基于微信小程序的[页面配置](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/page.html)进行制定，所有平台进行统一:
-
-
-```js title="./pages/index/index.config.js"
-export default {
-  navigationBarTitleText: '首页'
-}
-```
-
-注意：
-
-1. `app.config.js` 里 require 或 import 引用的 js 文件目前**没有经过 Babel 编译语法**。
-2. 多端差异化逻辑可以使用 `process.env.TARO_ENV` 变量作条件判断以实现。
 
 ### 路由参数
 

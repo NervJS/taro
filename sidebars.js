@@ -1,25 +1,34 @@
 module.exports = {
   docs: {
     关于Taro: ['README', 'version', 'team', 'communicate', 'CONTRIBUTING'],
-    快速开始: ['GETTING-STARTED', 'config', 'cli', 'composition'],
+    快速开始: ['GETTING-STARTED', 'composition'],
     基础教程: [
+      'folder',
+      {
+        label: '配置',
+        type: 'category',
+        items: ['config', 'size', 'app-config', 'page-config', 'project-config'],
+      },
       'react',
       'vue',
       'vue3',
       'nerv',
       'router',
-      'tutorial',
-      'project-config',
-      'config-detail',
-      'size',
       'static-reference',
       {
         label: '多端开发',
         type: 'category',
-        items: ['envs', 'envs-debug', 'wxcloudbase', 'miniprogram-plugin', 'react-native'],
+        items: ['envs', 'envs-debug', 'wxcloudbase', 'miniprogram-plugin'],
       },
+      {
+        label: 'React Native',
+        type: 'category',
+        items: ['react-native', 'react-native-remind'],
+      },
+      'cli',
     ],
     进阶指南: [
+      'config-detail',
       'plugin',
       'debug-config',
       'hooks',

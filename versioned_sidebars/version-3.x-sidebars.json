@@ -38,14 +38,6 @@
         },
         {
           "type": "doc",
-          "id": "version-3.x/config"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/cli"
-        },
-        {
-          "type": "doc",
           "id": "version-3.x/composition"
         }
       ]
@@ -55,6 +47,37 @@
       "type": "category",
       "label": "基础教程",
       "items": [
+        {
+          "type": "doc",
+          "id": "version-3.x/folder"
+        },
+        {
+          "collapsed": true,
+          "label": "配置",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/config"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/size"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/app-config"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/page-config"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/project-config"
+            }
+          ]
+        },
         {
           "type": "doc",
           "id": "version-3.x/react"
@@ -74,22 +97,6 @@
         {
           "type": "doc",
           "id": "version-3.x/router"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/tutorial"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/project-config"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/config-detail"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/size"
         },
         {
           "type": "doc",
@@ -115,7 +122,14 @@
             {
               "type": "doc",
               "id": "version-3.x/miniprogram-plugin"
-            },
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "React Native",
+          "type": "category",
+          "items": [
             {
               "type": "doc",
               "id": "version-3.x/react-native"
@@ -125,6 +139,10 @@
               "id": "version-3.x/react-native-remind"
             }
           ]
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/cli"
         }
       ]
     },
