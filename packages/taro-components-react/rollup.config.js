@@ -30,7 +30,7 @@ export default {
     }),
     babel({
       extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', 'ts', 'tsx'],
-      runtimeHelpers: true
+      babelHelpers: 'runtime'
     })
   ],
   output: {
