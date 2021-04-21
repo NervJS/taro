@@ -13,7 +13,7 @@ import { addLeadingSlash, addTrailingSlash, formatOpenHost } from './util'
 import { bindDevLogger, bindProdLogger, printBuildError } from './util/logHelper'
 import { BuildConfig, Func } from './util/types'
 import { makeConfig } from './util/chain'
-import { Compiler } from 'webpack-dev-server/node_modules/@types/webpack'
+import type { Compiler } from 'webpack'
 
 export const customizeChain = async (chain, modifyWebpackChainFunc: Func, customizeFunc?: Func) => {
   if (modifyWebpackChainFunc instanceof Function) {

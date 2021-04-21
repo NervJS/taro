@@ -1,7 +1,7 @@
 const { join } = require('path')
 const resolve = require('rollup-plugin-node-resolve')
 const cjs = require('rollup-plugin-commonjs')
-const babel = require('rollup-plugin-babel')
+const babel = require('@rollup/plugin-babel').default
 const cwd = __dirname
 
 const baseConfig = {

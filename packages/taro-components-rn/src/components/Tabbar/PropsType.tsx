@@ -3,7 +3,7 @@ import { StyleProp, ViewStyle } from 'react-native'
 export type EventOnChange = {
   detail: {
     value: boolean;
-  }
+  };
 }
 
 export interface SwitchState {
@@ -43,4 +43,5 @@ export type TabbarConf = {
 export interface TabbarProps {
   conf: TabbarConf;
   homePage: string;
+  onClick?: (...args: any[]) => void;
 }

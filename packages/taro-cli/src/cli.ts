@@ -21,7 +21,9 @@ export default class CLI {
     const args = minimist(process.argv.slice(2), {
       alias: {
         version: ['v'],
-        help: ['h']
+        help: ['h'],
+        port: ['p'],
+        resetCache: ['reset-cache']
       },
       boolean: ['version', 'help']
     })
@@ -50,6 +52,8 @@ export default class CLI {
             isWatch: Boolean(args.watch),
             port: args.port,
             env: args.env,
+            deviceType: args.platform,
+            resetCache: !!args.resetCache,
             blended: Boolean(args.blended),
             h: args.h
           })

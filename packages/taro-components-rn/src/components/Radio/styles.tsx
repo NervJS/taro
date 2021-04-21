@@ -7,17 +7,21 @@ export default StyleSheet.create({
     width: 24,
     height: 24,
     borderColor: '#f3f3f3',
+    backgroundColor: '#ffffff',
     borderWidth: 2,
     borderRadius: 12
   },
   wrapperChecked: {
-    // borderColor: '#2BA245',
-    // backgroundColor: '#2BA245'
+    // borderColor: '#09BB07',
   },
   wrapperIcon: {
     opacity: 0
   },
   wrapperCheckedIcon: {
     opacity: 1
+  },
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center'
   }
 })

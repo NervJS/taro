@@ -23,7 +23,7 @@ export const formatOpenHost = host => {
     result = 'localhost'
     const interfaces = networkInterfaces()
     for (const devName in interfaces) {
-      const isEnd = interfaces[devName].some(item => {
+      const isEnd = interfaces[devName]?.some(item => {
         // 取IPv4, 不为127.0.0.1的内网ip
         if (item.family === 'IPv4' && item.address !== '127.0.0.1' && !item.internal) {
           result = item.address

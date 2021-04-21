@@ -2,30 +2,34 @@ import * as React from 'react'
 import AntPicker from '@ant-design/react-native/lib/picker'
 import regionData from './regions.formatted'
 import { noop } from '../../utils'
-import { RegionProps } from './PropsType'
+import { RegionProps, RegionState } from './PropsType'
+import { TouchableWithoutFeedback } from 'react-native'
 
-export default class RegionSelector extends React.Component<RegionProps, any> {
+export default class RegionSelector extends React.Component<RegionProps, RegionState> {
   static defaultProps = {
     value: [],
   }
 
-  static getDerivedStateFromProps (nextProps: RegionProps, lastState: any) {
-    if (nextProps.value !== lastState.value) {
+  static getDerivedStateFromProps (nextProps: RegionProps, lastState: RegionState): RegionState | null {
+    if (nextProps.value !== lastState.pvalue) {
       return {
-        value: nextProps.value
+        value: nextProps.value,
+        pvalue: nextProps.value
       }
     }
     return null
   }
 
   state = {
-    value: []
+    value: [],
+    pvalue: []
   }
 
-  onChange = (value: string[]) => {
+  onChange = (value: string[]): void => {
     const { onChange = noop } = this.props
     // 通过 value 查找 code
     let tmp: any[] = regionData
+    // eslint-disable-next-line array-callback-return
     const code = value.map((item) => {
       for (let i = 0; i < tmp.length; i++) {
         if (tmp[i].value === item) {
@@ -38,16 +42,16 @@ export default class RegionSelector extends React.Component<RegionProps, any> {
     onChange({ detail: { value, code } })
   }
 
-  onPickerChange = (value: any[]) => {
+  onPickerChange = (value: any[]): void => {
     this.setState({ value })
   }
 
-  onDismiss = () => {
+  onDismiss = (): void => {
     const { onCancel = noop } = this.props
     onCancel()
   }
 
-  render () {
+  render (): JSX.Element {
     const {
       children,
       disabled,
@@ -65,7 +69,7 @@ export default class RegionSelector extends React.Component<RegionProps, any> {
         onDismiss={this.onDismiss}
         disabled={disabled}
       >
-        {children}
+        <TouchableWithoutFeedback>{children}</TouchableWithoutFeedback>
       </AntPicker>
     )
   }
