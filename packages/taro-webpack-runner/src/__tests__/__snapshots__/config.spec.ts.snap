@@ -751,8 +751,8 @@ exports[`config should build from origin and pipe to output 2`] = `
     function createReactApp() {}
     function createVueApp() {}
     function createVue3App() {}
-    var taro_components = __webpack_require__(0);
     var nerv = \\"nervjs-mock\\";
+    var taro_components = __webpack_require__(0);
     var mocks_taro_components = __webpack_require__(8);
     Object(taro_components[\\"c\\"])().then((function() {
         Object(taro_components[\\"d\\"])(taro_runtime_window);
@@ -1551,8 +1551,8 @@ I m irrelevant.
     function createReactApp() {}
     function createVueApp() {}
     function createVue3App() {}
-    var taro_components = __webpack_require__(0);
     var nerv = \\"nervjs-mock\\";
+    var taro_components = __webpack_require__(0);
     var mocks_taro_components = __webpack_require__(8);
     Object(taro_components[\\"c\\"])().then((function() {
         Object(taro_components[\\"d\\"])(taro_runtime_window);
@@ -2351,8 +2351,8 @@ exports[`config should resolved alias 2`] = `
     function createReactApp() {}
     function createVueApp() {}
     function createVue3App() {}
-    var taro_components = __webpack_require__(0);
     var nerv = \\"nervjs-mock\\";
+    var taro_components = __webpack_require__(0);
     var mocks_taro_components = __webpack_require__(8);
     Object(taro_components[\\"c\\"])().then((function() {
         Object(taro_components[\\"d\\"])(taro_runtime_window);
