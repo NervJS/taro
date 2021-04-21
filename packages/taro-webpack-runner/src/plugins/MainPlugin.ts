@@ -16,7 +16,8 @@ interface IMainPluginOptions {
   outputDir: string,
   routerConfig: any,
   entryFileName: string,
-  framework: FRAMEWORK_MAP
+  framework: FRAMEWORK_MAP,
+  useHtmlComponents: boolean
 }
 
 export default class MainPlugin {
@@ -34,7 +35,8 @@ export default class MainPlugin {
       outputDir: '',
       entryFileName: 'app',
       routerConfig: {},
-      framework: FRAMEWORK_MAP.NERV
+      framework: FRAMEWORK_MAP.NERV,
+      useHtmlComponents: false
     })
     this.sourceDir = this.options.sourceDir
     this.outputDir = this.options.outputDir
@@ -75,6 +77,7 @@ export default class MainPlugin {
               framework,
               filename: entryFileName,
               pages: this.pagesConfigList,
+              useHtmlComponents: this.options.useHtmlComponents,
               config: {
                 router: this.options.routerConfig,
                 ...this.appConfig

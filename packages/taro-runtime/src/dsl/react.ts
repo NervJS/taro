@@ -129,7 +129,7 @@ function setReconciler () {
   }
 
   if (isBrowser) {
-    hostConfig.createPullDownComponent = (el, _, R: typeof React) => {
+    hostConfig.createPullDownComponent = (el, _, R: typeof React, customWrapper) => {
       const isReactComponent = isClassComponent(R, el)
 
       return R.forwardRef((props, ref) => {
@@ -140,7 +140,7 @@ function setReconciler () {
           reactReduxForwardedRef: ref
         }
 
-        return R.createElement('taro-pull-to-refresh', null, R.createElement(el, {
+        return R.createElement(customWrapper || 'taro-pull-to-refresh', null, R.createElement(el, {
           ...newProps,
           ...refs
         }))
