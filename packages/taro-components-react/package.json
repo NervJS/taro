@@ -8,7 +8,8 @@
   "types": "types/index.d.ts",
   "sideEffects": [],
   "files": [
-    "dist"
+    "dist",
+    "index.js"
   ],
   "scripts": {
     "build": "rollup -c",
