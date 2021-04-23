@@ -8,7 +8,7 @@ import { history } from './history'
 import { stacks } from './stack'
 import { init, routerConfig } from './init'
 import { bindPageScroll } from './scroll'
-import { setRoutesAlias, addLeadingSlash, historyBackDelta } from './utils'
+import { setRoutesAlias, addLeadingSlash, historyBackDelta, setHistoryBackDelta } from './utils'
 
 export interface Route extends PageConfig {
   path?: string
@@ -150,11 +150,12 @@ export function createRouter (
 
     if (action === 'POP') {
       unloadPage(Current.page)
-      // 最终必须重置为 1
       let delta = historyBackDelta
       while (delta-- > 1) {
         unloadPage(stacks.slice(-1)[0])
       }
+      // 最终必须重置为 1
+      setHistoryBackDelta(1)
       const prev = stacks.find(s => s.path === location.pathname + stringify(qs()))
       if (prev) {
         showPage(prev, pageConfig)
