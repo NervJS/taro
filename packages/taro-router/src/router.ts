@@ -22,7 +22,8 @@ export interface RouterConfig extends AppConfig {
     basename: string,
     customRoutes?: Record<string, string>,
     pathname: string
-  }
+  },
+  PullDownRefresh?: any
 }
 
 function hidePage (page: PageInstance | null) {
@@ -169,7 +170,7 @@ export function createRouter (
       delete config['path']
       delete config['load']
       const page = createPageConfig(
-        enablePullDownRefresh ? CurrentReconciler.createPullDownComponent?.(el, location.pathname, framework) : el,
+        enablePullDownRefresh ? CurrentReconciler.createPullDownComponent?.(el, location.pathname, framework, routerConfig.PullDownRefresh) : el,
         location.pathname + stringify(qs()),
         {},
         config

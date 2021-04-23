@@ -14,6 +14,7 @@
     "packages/taro-api",
     "packages/taro-cli",
     "packages/taro-components",
+    "packages/taro-components-react",
     "packages/taro-components-rn",
     "packages/taro-extend",
     "packages/taro-h5",
@@ -53,6 +54,6 @@
       "license": "MIT"
     }
   },
-  "version": "3.2.1",
+  "version": "3.2.5",
   "npmClient": "yarn"
 }
