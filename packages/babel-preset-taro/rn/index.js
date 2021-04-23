@@ -1,4 +1,3 @@
-
 const reactNativeBabelPreset = require('metro-react-native-babel-preset')
 const { merge } = require('lodash')
 const fs = require('fs')
@@ -91,6 +90,14 @@ function getDefineConstants () {
   return getEnv()
 }
 
+function getCSSModule () {
+  const rnconfig = getRNConfig()
+  if (rnconfig.postcss && rnconfig.postcss.cssModules) {
+    return rnconfig.postcss.cssModules.enable
+  }
+  return false
+}
+
 module.exports = (_, options = {}) => {
   const {
     decoratorsBeforeExport,
@@ -116,7 +123,7 @@ module.exports = (_, options = {}) => {
     [require('@babel/plugin-transform-react-jsx'), {
       runtime: options.reactJsxRuntime || 'automatic'
     }],
-    require('babel-plugin-transform-react-jsx-to-rn-stylesheet'),
+    [require('babel-plugin-transform-react-jsx-to-rn-stylesheet'), { isCSSModule: getCSSModule() }],
     [require('babel-plugin-transform-imports-api').default, {
       packagesApis: new Map([
         ['@tarojs/taro', new Set(nativeInterfaces)],

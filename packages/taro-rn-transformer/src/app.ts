@@ -2,7 +2,7 @@ import * as path from 'path'
 import * as fs from 'fs'
 import { camelCase } from 'lodash'
 import { isEmptyObject } from '@tarojs/helper'
-import { getConfigContent, getConfigFilePath } from './utils'
+import { getConfigContent, getConfigFilePath, parseBase64Image } from './utils'
 import { TransformEntry, AppConfig } from './types/index'
 
 function getPagesResource (appPath: string, basePath: string, pathPrefix: string) {
@@ -69,6 +69,25 @@ export function getAppPages (appPath: string) {
   return res
 }
 
+function getFormatTabBar (appPath: string, projectRoot: string) {
+  const config = getAppConfig(appPath)
+  const tabbar = config?.tabBar || {}
+  const tabList :any = []
+  if (tabbar && tabbar.list && Array.isArray(tabbar.list)) {
+    tabbar.list.forEach((item) => {
+      if (item.iconPath && !item.iconPath.startsWith('data:imag') && !(/^http|https/).test(item.iconPath)) {
+        item.iconPath = parseBase64Image(item.iconPath, projectRoot)
+      }
+      if (item.selectedIconPath && !item.selectedIconPath.startsWith('data:imag') && !(/^http|https/).test(item.selectedIconPath)) {
+        item.selectedIconPath = parseBase64Image(item.selectedIconPath, projectRoot)
+      }
+      tabList.push(item)
+    })
+  }
+  tabbar.list = tabList
+  return tabbar
+}
+
 export default function generateEntry ({
   filename,
   projectRoot,
@@ -94,12 +113,16 @@ export default function generateEntry ({
   const routeList = pages.screenPages
   const appComponentPath = `./${sourceDir}/${entryName}`
 
+  const appTabBar = getFormatTabBar(appPath, basePath)
+
   const code = `import { AppRegistry } from 'react-native'
   import { createReactNativeApp, createPageConfig } from '@tarojs/runtime-rn'
   import Component from '${appComponentPath}'
   ${importPageList}
   ${`import AppComponentConfig from '${appComponentPath}.config';`}
   ${importPageConfig}
+  
+  AppComponentConfig.tabBar = ${JSON.stringify(appTabBar)}
 
   const buildConfig = ${JSON.stringify(appConfig)}
   const config = { appConfig: { ...buildConfig, ...AppComponentConfig } }
