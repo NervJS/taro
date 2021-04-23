@@ -25,7 +25,9 @@ export default function (this: webpack.loader.LoaderContext) {
     creator,
     importFrameworkName,
     extraImportForWeb,
-    execBeforeCreateWebApp
+    execBeforeCreateWebApp,
+    compatComponentImport,
+    compatComponentExtra
   } = frameworkMeta[options.framework]
   const config: AppConfig = options.config
   const pages: Map<string, string> = options.pages
@@ -47,19 +49,22 @@ var tabbarSelectedIconPath = []
     }
   }
 
-  const webComponents = `applyPolyfills().then(function () {
+  const webComponents = `
+import { defineCustomElements, applyPolyfills } from '@tarojs/components/loader'
+import '@tarojs/components/dist/taro-components/taro-components.css'
+${extraImportForWeb || ''}
+applyPolyfills().then(function () {
   defineCustomElements(window)
 })
 `
 
+  const components = options.useHtmlComponents ? compatComponentImport || '' : webComponents
+
   const code = `import { createRouter } from '@tarojs/taro'
 import component from ${stringify(join(dirname(this.resourcePath), options.filename))}
 import { ${creator}, window } from '@tarojs/runtime'
-import { defineCustomElements, applyPolyfills } from '@tarojs/components/loader'
 ${importFrameworkStatement}
-import '@tarojs/components/dist/taro-components/taro-components.css'
-${extraImportForWeb || ''}
-${webComponents}
+${components}
 var config = ${JSON.stringify(config)}
 window.__taroAppConfig = config
 ${config.tabBar ? tabBarCode : ''}
@@ -78,6 +83,7 @@ if (config.tabBar) {
 config.routes = [
   ${config.pages?.map(path => genResource(path, pages, this)).join('')}
 ]
+${options.useHtmlComponents ? compatComponentExtra : ''}
 ${execBeforeCreateWebApp || ''}
 var inst = ${creator}(component, ${frameworkArgs})
 createRouter(inst, config, ${importFrameworkName})

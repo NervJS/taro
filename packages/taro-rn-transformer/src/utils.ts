@@ -1,5 +1,6 @@
 import * as nodePath from 'path'
 import * as fs from 'fs'
+import * as mimeType from 'mime-types'
 import * as parser from '@babel/parser'
 import traverse from '@babel/traverse'
 import { readConfig, resolveMainFilePath } from '@tarojs/helper'
@@ -19,7 +20,7 @@ export function getConfigContent (path: string) {
 }
 
 export function getStyleCode (code: string, basePath: string) {
-  const ast = parser.parse(code, {
+  const ast:any = parser.parse(code, {
     sourceType: 'module',
     plugins: [
       'jsx',
@@ -106,4 +107,17 @@ export function getCommonStyle (appPath: string, basePath: string) {
   if (!codeStr) return styles
   styles = getStyleCode(codeStr, basePath)
   return styles
+}
+
+export function parseBase64Image (iconPath: string, baseRoot: string) {
+  const imagePath = nodePath.join(baseRoot, iconPath)
+  const fileMimeType = mimeType.lookup(imagePath)
+  // 如果不是图片文件，则退出
+  if (!fileMimeType.toString().includes('image')) {
+    return iconPath
+  }
+  const data = fs.readFileSync(imagePath)
+  const buff = Buffer.from(data).toString('base64')
+  const base64 = 'data:' + fileMimeType + ';base64,' + buff
+  return base64
 }
