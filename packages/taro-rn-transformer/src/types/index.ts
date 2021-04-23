@@ -36,7 +36,8 @@ export interface AppConfig {
   subPackages?: SubPackage[]
   subpackages?: SubPackage[],
   designWidth: number,
-  deviceRatio?: Record<number, unknown>
+  deviceRatio?: Record<number, unknown>,
+  tabBar:Record<string, any>
 }
 
 interface SubPackage {
