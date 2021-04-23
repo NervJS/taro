@@ -53,7 +53,6 @@ export const components = {
     'report-submit-timeout': '0'
   },
   Input: {
-    'auto-focus': 'false',
     'always-embed': 'false',
     'adjust-position': 'true',
     'hold-keyboard': 'false',
