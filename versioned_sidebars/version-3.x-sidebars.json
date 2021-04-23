@@ -153,6 +153,10 @@
       "items": [
         {
           "type": "doc",
+          "id": "version-3.x/config-detail"
+        },
+        {
+          "type": "doc",
           "id": "version-3.x/plugin"
         },
         {

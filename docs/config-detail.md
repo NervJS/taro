@@ -313,7 +313,7 @@ module.exports = {
 
 `object`
 
-用于控制对 scss 代码的编译行为，具体配置可以参考 [node-sass](https://www.npmjs.com/package/node-sass)。
+用于控制对 scss 代码的编译行为，默认使用 `dart-sass`，具体配置可以参考 [sass](https://www.npmjs.com/package/sass)。
 
 当需要往所有 scss 文件头部插入 scss 代码时，可以通过以下三个额外参数设置：
 
@@ -773,7 +773,7 @@ module.exports = {
   mini: {
     // ...
     sassLoaderOption: {
-      implementation: require("dart-sass")
+      implementation: require("node-sass")
     }
   }
 }
