@@ -7,10 +7,7 @@ import { memoizeOne } from '../memoize'
 import { createElement, PureComponent } from 'react'
 import { cancelTimeout, requestTimeout } from '../timer'
 import { getRTLOffsetType } from '../domHelpers'
-const IS_SCROLLING_DEBOUNCE_INTERVAL = 150
-
-// For trigger rerender of component use same offset, need to change the value of scrollTop
-const RERENDER_OFFSET = 0.1
+const IS_SCROLLING_DEBOUNCE_INTERVAL = 200
 
 const defaultItemKey = (index) => index // In DEV mode, this Set helps us only log a warning once per component instance.
 // This avoids spamming the console every time a render happens.
@@ -64,7 +61,6 @@ export default function createListComponent ({
         isScrolling: false,
         scrollDirection: 'forward',
         scrollOffset: typeof this.props.initialScrollOffset === 'number' ? this.props.initialScrollOffset : 0,
-        lockedScrollOffset: typeof this.props.initialScrollOffset === 'number' ? this.props.initialScrollOffset : 0,
         scrollUpdateWasRequested: false,
         sizeList: []
       }
@@ -282,7 +278,6 @@ export default function createListComponent ({
             isScrolling: true,
             scrollDirection: prevState.scrollOffset < scrollLeft ? 'forward' : 'backward',
             scrollOffset,
-            lockedScrollOffset: (prevState.lockedScrollOffset === scrollLeft) ? scrollLeft + RERENDER_OFFSET : scrollOffset,
             scrollUpdateWasRequested: false
           }
         }, this._resetIsScrollingDebounced)
@@ -296,26 +291,26 @@ export default function createListComponent ({
           scrollTop,
           scrollLeft
         } = event.currentTarget
-        this.field.scrollHeight = getEstimatedTotalSize(this.props, this)
-        this.field.scrollWidth = scrollWidth
-        this.field.scrollTop = scrollTop
-        this.field.scrollLeft = scrollLeft
-        this.field.clientHeight = clientHeight
-        this.field.clientWidth = scrollWidth
         this.setState(prevState => {
-          if (prevState.scrollOffset === scrollTop) {
+          const diffOffset = this.field.scrollTop - scrollTop
+          if (prevState.scrollOffset === scrollTop || this.field.diffOffset === -diffOffset) {
             // Scroll position may have been updated by cDM/cDU,
             // In which case we don't need to trigger another render,
             // And we don't want to update state.isScrolling.
             return null
           } // Prevent Safari's elastic scrolling from causing visual shaking when scrolling past bounds.
           const scrollOffset = Math.max(0, Math.min(scrollTop, scrollHeight - clientHeight))
+          this.field.scrollHeight = getEstimatedTotalSize(this.props, this)
+          this.field.scrollWidth = scrollWidth
           this.field.scrollTop = scrollOffset
+          this.field.scrollLeft = scrollLeft
+          this.field.clientHeight = clientHeight
+          this.field.clientWidth = scrollWidth
+          this.field.diffOffset = diffOffset
           return {
             isScrolling: true,
             scrollDirection: prevState.scrollOffset < scrollOffset ? 'forward' : 'backward',
             scrollOffset,
-            lockedScrollOffset: (prevState.lockedScrollOffset === scrollOffset) ? scrollOffset + RERENDER_OFFSET : scrollOffset,
             scrollUpdateWasRequested: false
           }
         }, this._resetIsScrollingDebounced)
@@ -369,7 +364,6 @@ export default function createListComponent ({
         return {
           scrollDirection: prevState.scrollOffset < scrollOffset ? 'forward' : 'backward',
           scrollOffset: scrollOffset,
-          lockedScrollOffset: scrollOffset,
           scrollUpdateWasRequested: true
         }
       }, this._resetIsScrollingDebounced)
@@ -402,7 +396,7 @@ export default function createListComponent ({
       this._callPropsCallbacks()
     }
 
-    componentDidUpdate () {
+    componentDidUpdate (prevProps, prevState) {
       const {
         scrollOffset,
         scrollUpdateWasRequested
@@ -441,7 +435,7 @@ export default function createListComponent ({
         }
       }
 
-      this._callPropsCallbacks()
+      this._callPropsCallbacks(prevProps, prevState)
     }
 
     componentWillUnmount () {
@@ -478,7 +472,6 @@ export default function createListComponent ({
         id,
         isScrolling,
         scrollOffset,
-        lockedScrollOffset,
         scrollUpdateWasRequested
       } = this.state // TODO Deprecate direction "horizontal"
 
@@ -540,12 +533,6 @@ export default function createListComponent ({
         } else {
           outerElementProps.scrollTop = scrollOffset
         }
-      } else {
-        if (isHorizontal) {
-          outerElementProps.scrollLeft = lockedScrollOffset
-        } else {
-          outerElementProps.scrollTop = lockedScrollOffset
-        }
       }
 
       if (position === 'relative') {
@@ -586,27 +573,30 @@ export default function createListComponent ({
       }
     }
 
-    _callPropsCallbacks () {
+    _callPropsCallbacks (prevProps, prevState) {
       if (typeof this.props.onItemsRendered === 'function') {
-        const {
-          itemCount
-        } = this.props
+        if (this.props.itemCount > 0) {
+          if (!prevProps && prevProps.itemCount !== this.props.itemCount) {
+            const [overscanStartIndex, overscanStopIndex, visibleStartIndex, visibleStopIndex] = this._getRangeToRender()
 
-        if (itemCount > 0) {
-          const [overscanStartIndex, overscanStopIndex, visibleStartIndex, visibleStopIndex] = this._getRangeToRender()
-
-          this._callOnItemsRendered(overscanStartIndex, overscanStopIndex, visibleStartIndex, visibleStopIndex)
+            this._callOnItemsRendered(overscanStartIndex, overscanStopIndex, visibleStartIndex, visibleStopIndex)
+          }
         }
       }
 
       if (typeof this.props.onScroll === 'function') {
-        const {
-          scrollDirection,
-          scrollOffset,
-          scrollUpdateWasRequested
-        } = this.state
-
-        this._callOnScroll(scrollDirection, scrollOffset, scrollUpdateWasRequested, this.field)
+        if (!prevState ||
+          prevState.scrollDirection !== this.state.scrollDirection ||
+          prevState.scrollOffset !== this.state.scrollOffset ||
+          prevState.scrollUpdateWasRequested !== this.state.scrollUpdateWasRequested
+        ) {
+          this._callOnScroll(
+            this.state.scrollDirection,
+            this.state.scrollOffset,
+            this.state.scrollUpdateWasRequested,
+            this.field
+          )
+        }
       }
     }
     // Lazily create and cache item styles while scrolling,
