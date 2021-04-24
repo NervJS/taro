@@ -130,15 +130,21 @@ export default function (babel: {
     })
   }
 
-  function getArrayExpression (value, cssModuleStylesheets) {
-    // css module 时 className 处理成 style 属性，所以直接取值跟 style 合并
+  function isCSSModuleExpression (value, cssModuleStylesheets) {
     if (t.isJSXExpressionContainer(value)) {
       if (t.isMemberExpression(value.expression) && t.isIdentifier(value.expression.object)) {
         // className 表达式包括了 css module 引用时处理成 style 属性
         if (cssModuleStylesheets.includes(value.expression.object.name)) {
-          return [value.expression]
+          return true
         }
       }
+    }
+  }
+
+  function getArrayExpression (value, cssModuleStylesheets) {
+    // css module 时 className 处理成 style 属性，所以直接取值跟 style 合并
+    if (isCSSModuleExpression(value, cssModuleStylesheets)) {
+      return [value.expression]
     }
 
     let str
@@ -160,13 +166,14 @@ export default function (babel: {
     return str === '' ? [] : getMap(str)
   }
 
+  let existStyleImport = false
+
   return {
     name: 'transform-react-jsx-to-rn-stylesheet',
     visitor: {
       Program: {
         enter (astPath, state: PluginPass) {
           let lastImportAstPath
-          let existStyleImport = false
           for (const stmt of astPath.get('body')) {
             if (t.isImportDeclaration(stmt.node)) {
               if (isStyle(stmt.node.source.value)) {
@@ -189,8 +196,9 @@ export default function (babel: {
               const params = styleSheetIdentifiers.reduce((current, next) => `${current},${next.name}`, '').slice(1)
               expression = `${MergeStylesFunction}\n
               var ${STYLE_SHEET_NAME} = ${MERGE_STYLES_FUNC_NAME}(${params});\n`
+            } else {
+              expression = `var ${STYLE_SHEET_NAME} = {}`
             }
-
             const expressionAst = template.ast(expression)
             lastImportAstPath.insertAfter(expressionAst)
           }
@@ -208,12 +216,12 @@ export default function (babel: {
             // @ts-ignore
             node.body.splice(lastImportIndex + 2, 0, getStyleFunctionStmt)
           }
+          existStyleImport = false
         }
       },
       JSXOpeningElement ({ node }, state: PluginPass) {
         const { file } = state
         const cssModuleStylesheets = file.get('cssModuleStylesheets') || []
-        const exsitStyleImport = (file.get('styleSheetIdentifiers') || []).concat(cssModuleStylesheets).length
 
         // Check if has "style"
         let hasStyleAttribute = false
@@ -240,14 +248,15 @@ export default function (babel: {
           }
         }
 
-        if (hasClassName && exsitStyleImport) {
+        if (hasClassName && existStyleImport) {
           // Remove origin className
           attributes.splice(attributes.indexOf(classNameAttribute), 1)
 
           if (
             classNameAttribute.value &&
             classNameAttribute.value.type === 'JSXExpressionContainer' &&
-            typeof classNameAttribute.value.expression.value !== 'string' // not like className={'container'}
+            typeof classNameAttribute.value.expression.value !== 'string' && // not like className={'container'}
+            !isCSSModuleExpression(classNameAttribute.value, cssModuleStylesheets) // 不含有 css module 变量的表达式
           ) {
             file.set('injectGetStyle', true)
           }

@@ -50,7 +50,6 @@ export declare const components: {
         'report-submit-timeout': string;
     };
     Input: {
-        'auto-focus': string;
         'always-embed': string;
         'adjust-position': string;
         'hold-keyboard': string;

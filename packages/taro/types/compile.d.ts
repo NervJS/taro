@@ -184,6 +184,7 @@ export interface IH5Config {
   imageUrlLoaderOption?: IOption,
   miniCssExtractPluginOption?: IOption,
   esnextModules?: string[],
+  useHtmlComponents?: boolean,
 
   postcss?: IPostcssOption
 }
