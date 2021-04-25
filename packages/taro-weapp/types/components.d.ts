@@ -164,6 +164,10 @@ export declare const components: {
         'ad-type': string;
         'ad-theme': string;
     };
+    CoverView: {
+        'marker-id': string;
+        slot: string;
+    };
     Editor: {
         'read-only': string;
         placeholder: string;
