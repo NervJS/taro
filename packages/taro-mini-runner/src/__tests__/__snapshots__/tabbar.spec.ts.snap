@@ -3846,6 +3846,10 @@ require(\\"./taro\\");
                 \\"ad-type\\": singleQuote(\\"banner\\"),
                 \\"ad-theme\\": singleQuote(\\"white\\")
             },
+            CoverView: {
+                \\"marker-id\\": \\"\\",
+                slot: \\"\\"
+            },
             Editor: {
                 \\"read-only\\": \\"false\\",
                 placeholder: \\"\\",

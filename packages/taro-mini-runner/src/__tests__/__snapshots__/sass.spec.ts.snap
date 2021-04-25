@@ -1480,6 +1480,10 @@ require(\\"./taro\\");
                 \\"ad-type\\": singleQuote(\\"banner\\"),
                 \\"ad-theme\\": singleQuote(\\"white\\")
             },
+            CoverView: {
+                \\"marker-id\\": \\"\\",
+                slot: \\"\\"
+            },
             Editor: {
                 \\"read-only\\": \\"false\\",
                 placeholder: \\"\\",
@@ -4344,6 +4348,10 @@ require(\\"./taro\\");
             Ad: {
                 \\"ad-type\\": singleQuote(\\"banner\\"),
                 \\"ad-theme\\": singleQuote(\\"white\\")
+            },
+            CoverView: {
+                \\"marker-id\\": \\"\\",
+                slot: \\"\\"
             },
             Editor: {
                 \\"read-only\\": \\"false\\",
@@ -7210,6 +7218,10 @@ require(\\"./taro\\");
                 \\"ad-type\\": singleQuote(\\"banner\\"),
                 \\"ad-theme\\": singleQuote(\\"white\\")
             },
+            CoverView: {
+                \\"marker-id\\": \\"\\",
+                slot: \\"\\"
+            },
             Editor: {
                 \\"read-only\\": \\"false\\",
                 placeholder: \\"\\",
@@ -10074,6 +10086,10 @@ require(\\"./taro\\");
             Ad: {
                 \\"ad-type\\": singleQuote(\\"banner\\"),
                 \\"ad-theme\\": singleQuote(\\"white\\")
+            },
+            CoverView: {
+                \\"marker-id\\": \\"\\",
+                slot: \\"\\"
             },
             Editor: {
                 \\"read-only\\": \\"false\\",
