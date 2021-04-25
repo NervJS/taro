@@ -62,9 +62,9 @@ ${main}`
     })
     if (miniPlugin.options.isBuildPlugin) {
       const miniProjectJSONStr = JSON.stringify({
-        'miniprogramRoot': 'miniprogram',
-        'pluginRoot': 'plugin',
-        'compileType': 'plugin'
+        miniprogramRoot: 'miniprogram',
+        pluginRoot: 'plugin',
+        compileType: 'plugin'
       }, null, 2)
       assets['mini.project.json'] = {
         size: () => miniProjectJSONStr.length,
