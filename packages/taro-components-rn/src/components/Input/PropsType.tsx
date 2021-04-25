@@ -1,15 +1,15 @@
 import { ViewStyle, StyleProp } from 'react-native'
 
 export type Event = {
-  target: { value?: string; },
-  detail: { value?: string; }
+  target: { value?: string };
+  detail: { value?: string };
 }
 
 export type EventOnLineChange = {
   detail: {
     height: number;
     lineCount: number;
-  }
+  };
 }
 
 export interface InputState {
@@ -25,8 +25,8 @@ export interface InputProps {
   password?: boolean;
   placeholder?: string;
   disabled?: boolean;
-  maxlength: number;
-  focus?: boolean;
+  maxLength: number;
+  autoFocus?: boolean;
   confirmType: 'done' | 'send' | 'search' | 'next' | 'go';
   confirmHold?: boolean;
   cursor?: number;

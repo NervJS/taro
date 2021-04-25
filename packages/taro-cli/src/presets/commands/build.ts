@@ -10,6 +10,9 @@ export default (ctx: IPluginContext) => {
       '--type [typeName]': 'Build type, weapp/swan/alipay/tt/qq/jd/h5',
       '--watch': 'Watch mode',
       '--env [env]': 'Value for process.env.NODE_ENV',
+      '-p, --port [port]': 'Specified port',
+      '--platform': 'Specific React-Native build target: android / ios, android is default value',
+      '--reset-cache': 'Clear transform cache just for React-Native',
       '--blended': 'Blended Taro project in an original MiniApp project'
       // '--port [port]': 'Specified port',
     },

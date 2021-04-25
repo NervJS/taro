@@ -22,7 +22,7 @@ if (!isBrowser) {
   })
 }
 
-if (process.env.TARO_ENV !== 'h5') {
+if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
   (window as any).requestAnimationFrame = raf;
   (window as any).cancelAnimationFrame = caf;
   (window as any).getComputedStyle = getComputedStyle

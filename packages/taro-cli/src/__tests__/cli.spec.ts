@@ -56,7 +56,9 @@ describe('inspect', () => {
       opts.options = Object.assign({}, baseOpts.options, {
         platform,
         isWatch: true,
-        port: 8080
+        port: 8080,
+        deviceType: undefined,
+        resetCache: false
       })
 
       expect(ins.run).toHaveBeenCalledWith({
