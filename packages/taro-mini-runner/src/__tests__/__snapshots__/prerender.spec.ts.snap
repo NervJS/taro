@@ -1540,6 +1540,7 @@ require(\\"./taro\\");
             \\"report-submit-timeout\\": \\"0\\"
         },
         Input: {
+            \\"auto-focus\\": \\"false\\",
             \\"always-embed\\": \\"false\\",
             \\"adjust-position\\": \\"true\\",
             \\"hold-keyboard\\": \\"false\\",
@@ -1653,10 +1654,6 @@ require(\\"./taro\\");
         Ad: {
             \\"ad-type\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"banner\\"),
             \\"ad-theme\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"white\\")
-        },
-        CoverView: {
-            \\"marker-id\\": \\"\\",
-            slot: \\"\\"
         },
         Editor: {
             \\"read-only\\": \\"false\\",
@@ -5870,6 +5867,7 @@ require(\\"./taro\\");
                 \\"report-submit-timeout\\": \\"0\\"
             },
             Input: {
+                \\"auto-focus\\": \\"false\\",
                 \\"always-embed\\": \\"false\\",
                 \\"adjust-position\\": \\"true\\",
                 \\"hold-keyboard\\": \\"false\\",
@@ -5983,10 +5981,6 @@ require(\\"./taro\\");
             Ad: {
                 \\"ad-type\\": singleQuote(\\"banner\\"),
                 \\"ad-theme\\": singleQuote(\\"white\\")
-            },
-            CoverView: {
-                \\"marker-id\\": \\"\\",
-                slot: \\"\\"
             },
             Editor: {
                 \\"read-only\\": \\"false\\",
@@ -10166,6 +10160,7 @@ require(\\"./taro\\");
                 \\"report-submit-timeout\\": \\"0\\"
             },
             Input: {
+                \\"auto-focus\\": \\"false\\",
                 \\"always-embed\\": \\"false\\",
                 \\"adjust-position\\": \\"true\\",
                 \\"hold-keyboard\\": \\"false\\",
@@ -10279,10 +10274,6 @@ require(\\"./taro\\");
             Ad: {
                 \\"ad-type\\": singleQuote(\\"banner\\"),
                 \\"ad-theme\\": singleQuote(\\"white\\")
-            },
-            CoverView: {
-                \\"marker-id\\": \\"\\",
-                slot: \\"\\"
             },
             Editor: {
                 \\"read-only\\": \\"false\\",

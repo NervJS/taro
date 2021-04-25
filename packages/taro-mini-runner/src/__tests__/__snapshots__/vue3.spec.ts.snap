@@ -1364,6 +1364,7 @@ require(\\"./taro\\");
                 \\"report-submit-timeout\\": \\"0\\"
             },
             Input: {
+                \\"auto-focus\\": \\"false\\",
                 \\"always-embed\\": \\"false\\",
                 \\"adjust-position\\": \\"true\\",
                 \\"hold-keyboard\\": \\"false\\",
@@ -1477,10 +1478,6 @@ require(\\"./taro\\");
             Ad: {
                 \\"ad-type\\": singleQuote(\\"banner\\"),
                 \\"ad-theme\\": singleQuote(\\"white\\")
-            },
-            CoverView: {
-                \\"marker-id\\": \\"\\",
-                slot: \\"\\"
             },
             Editor: {
                 \\"read-only\\": \\"false\\",
