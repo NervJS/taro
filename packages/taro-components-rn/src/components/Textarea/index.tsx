@@ -35,7 +35,7 @@ const _Textarea: React.FC<TextareaProps> = (props: TextareaProps) => {
         'onLineChange',
         'maxlength'
       ])}
-      maxLength={maxlength}
+      maxlength={maxlength}
     />
   )
 }
