@@ -66,7 +66,9 @@ export const noPromiseApis = new Set([
   'onBLEConnectionStateChange',
   'onBLECharacteristicValueChange',
   'offBLEConnectionStateChange',
-  'offBLECharacteristicValueChange'
+  'offBLECharacteristicValueChange',
+  'onCopyUrl',
+  'offCopyUrl'
 ])
 
 export const needPromiseApis = new Set([
