@@ -1654,6 +1654,10 @@ require(\\"./taro\\");
             \\"ad-type\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"banner\\"),
             \\"ad-theme\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"white\\")
         },
+        CoverView: {
+            \\"marker-id\\": \\"\\",
+            slot: \\"\\"
+        },
         Editor: {
             \\"read-only\\": \\"false\\",
             placeholder: \\"\\",
@@ -5980,6 +5984,10 @@ require(\\"./taro\\");
                 \\"ad-type\\": singleQuote(\\"banner\\"),
                 \\"ad-theme\\": singleQuote(\\"white\\")
             },
+            CoverView: {
+                \\"marker-id\\": \\"\\",
+                slot: \\"\\"
+            },
             Editor: {
                 \\"read-only\\": \\"false\\",
                 placeholder: \\"\\",
@@ -10271,6 +10279,10 @@ require(\\"./taro\\");
             Ad: {
                 \\"ad-type\\": singleQuote(\\"banner\\"),
                 \\"ad-theme\\": singleQuote(\\"white\\")
+            },
+            CoverView: {
+                \\"marker-id\\": \\"\\",
+                slot: \\"\\"
             },
             Editor: {
                 \\"read-only\\": \\"false\\",
