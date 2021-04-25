@@ -14,7 +14,7 @@ import Vue from 'vue'
 // 假设我们已经在 './store' 配置好了 vuex
 import store from './store'
 
-const App = new Vue({
+const App = {
   store,
   onShow (options) {
   },
@@ -22,10 +22,12 @@ const App = new Vue({
     // this.$slots.default 是将要会渲染的页面
     return h('block', this.$slots.default)
   }
-})
+}
 
 export default App
 ```
+
+> 注意：自 Taro v3.1 开始，入口组件的写法有 Breaking Changes，详情请见 [3.1.0 发布信息](https://github.com/NervJS/taro/releases/tag/v3.1.0)。
 
 对于一个入口文件(例如`app.js`)而言，我们可以新增一个 `app.config.js` 的文件进行全局配置，`app.config.js` 的默认导出就是小程序的[全局配置](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html):
 
