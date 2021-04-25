@@ -6,7 +6,7 @@
  * ✘ placeholder-style: Only placeholderTextColor(RN).
  * - placeholder-class
  * ✔ disabled
- * ✔ maxLength
+ * ✔ maxlength
  * ✘ cursor-spacing
  * - auto-focus
  * ✔ focus
@@ -58,7 +58,7 @@ const keyboardTypeMap: { [key: string]: string } = {
 class _Input extends React.Component<InputProps, InputState> {
   static defaultProps = {
     type: 'text',
-    maxLength: 140,
+    maxlength: 140,
     confirmType: 'done',
     selectionStart: -1,
     selectionEnd: -1
@@ -182,7 +182,7 @@ class _Input extends React.Component<InputProps, InputState> {
       password,
       placeholder,
       disabled,
-      maxLength,
+      maxlength,
       confirmType,
       confirmHold,
       cursor,
@@ -214,7 +214,7 @@ class _Input extends React.Component<InputProps, InputState> {
           'password',
           'placeholder',
           'disabled',
-          'maxLength',
+          'maxlength',
           'focus',
           'confirmType',
           'confirmHold',
@@ -235,7 +235,7 @@ class _Input extends React.Component<InputProps, InputState> {
         secureTextEntry={!!password}
         placeholder={placeholder}
         editable={!disabled}
-        maxLength={maxLength === -1 ? undefined : maxLength}
+        maxLength={maxlength === -1 ? undefined : maxlength}
         // returnKeyLabel={confirmType}
         returnKeyType={confirmType}
         blurOnSubmit={!_multiline && !confirmHold}
