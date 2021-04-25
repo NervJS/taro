@@ -41,7 +41,7 @@
     "babel-loader": "8.2.1",
     "copy-webpack-plugin": "5.1.1",
     "css-loader": "3.4.2",
-    "csso-webpack-plugin": "2.0.0-beta.3",
+    "csso-webpack-plugin": "2.0.0-beta.1",
     "detect-port": "1.3.0",
     "fibers": "5.0.0",
     "file-loader": "^6.0.0",
