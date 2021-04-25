@@ -3272,9 +3272,9 @@ is-buffer@^1.1.5:
   integrity sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w==
 
 is-core-module@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/is-core-module/-/is-core-module-2.2.0.tgz#97037ef3d52224d85163f5597b2b63d9afed981a"
-  integrity sha512-XRAfAdyyY5F5cOXn7hYQDqh2Xmii+DEfIcQGxK/uNwMHhIkPWO0g8msXcbzLe+MpGoR951MlqM/2iIlU4vKDdQ==
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/is-core-module/-/is-core-module-2.3.0.tgz#d341652e3408bca69c4671b79a0954a3d349f887"
+  integrity sha512-xSphU2KG9867tsYdLD4RWQ1VqdFl4HTO9Thf3I/3dLEfr0dbPTWKsuCKrgqMljg4nPE+Gq0VCnzT3gr0CyBmsw==
   dependencies:
     has "^1.0.3"
 
@@ -3844,9 +3844,9 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
 kolorist@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/kolorist/-/kolorist-1.4.0.tgz#5d04f467590e8a484d5ed9af96e9bb3364a8123b"
-  integrity sha512-f458vL7ZQ+tAZv+6/ewRVznA/qbbtf+JGU/8Kf3Bzpo8vGPkgZ2Y9d0bpO/lX6EZj5e+hdugfSuOGX7WXVHTnw==
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/kolorist/-/kolorist-1.4.1.tgz#5ce60d5fefa23ca55a7e3203e16f7b9ed5b0556a"
+  integrity sha512-jucnNxW4qfamxkbT4hCLRk/WyAQD/aS0KIkY8z5VoQI5K9QF65nj7vTeuFcySO7eibxPQwVWM+mby1Hm9TyokQ==
 
 lazystream@^1.0.0:
   version "1.0.0"
