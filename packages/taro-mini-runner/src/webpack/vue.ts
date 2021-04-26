@@ -35,6 +35,7 @@ export function customVueChain (chain) {
         'cover-image': 'src'
       },
       compilerOptions: {
+        whitespace: 'condense',
         modules: [{
           preTransformNode (el) {
             const nodeName = el.tag
