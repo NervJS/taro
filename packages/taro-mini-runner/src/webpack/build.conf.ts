@@ -96,10 +96,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       from: path.join(sourceRoot, 'plugin', 'doc'),
       to: path.join(outputRoot, 'doc')
     })
-    patterns.push({
-      from: path.join(sourceRoot, 'plugin', 'plugin.json'),
-      to: path.join(outputRoot, 'plugin', 'plugin.json')
-    })
     copy = Object.assign({}, copy, { patterns })
   }
   if (copy) {
@@ -152,6 +148,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     quickappJSON,
     designWidth,
     pluginConfig: entryRes!.pluginConfig,
+    pluginMainEntry: entryRes!.pluginMainEntry,
     isBuildPlugin: Boolean(isBuildPlugin),
     commonChunks: customCommonChunks,
     baseLevel,

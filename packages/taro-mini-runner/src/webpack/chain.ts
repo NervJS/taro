@@ -488,11 +488,13 @@ export const getEntry = ({
   }
   const pluginConfig = fs.readJSONSync(pluginConfigPath)
   const entryObj = {}
+  let pluginMainEntry
   Object.keys(pluginConfig).forEach(key => {
     if (key === 'main') {
       const filePath = path.join(pluginDir, pluginConfig[key])
       const fileName = path.basename(filePath).replace(path.extname(filePath), '')
-      entryObj[`plugin/${fileName}`] = [resolveMainFilePath(filePath.replace(path.extname(filePath), ''))]
+      pluginMainEntry = `plugin/${fileName}`
+      entryObj[pluginMainEntry] = [resolveMainFilePath(filePath.replace(path.extname(filePath), ''))]
     } else if (key === 'publicComponents' || key === 'pages') {
       Object.keys(pluginConfig[key]).forEach(subKey => {
         const filePath = path.join(pluginDir, pluginConfig[key][subKey])
@@ -502,7 +504,8 @@ export const getEntry = ({
   })
   return {
     entry: entryObj,
-    pluginConfig
+    pluginConfig,
+    pluginMainEntry
   }
 }
 
