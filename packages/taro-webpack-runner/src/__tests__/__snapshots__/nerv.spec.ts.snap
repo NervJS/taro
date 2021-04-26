@@ -791,6 +791,14 @@ exports[`nerv should build nerv app 2`] = `
     }, __webpack_require__(12).default || {}) ];
     var inst = createReactApp(src_app, nerv[\\"b\\"], nerv[\\"b\\"], config);
     createRouter(inst, config, nerv[\\"b\\"]);
+    undefined({
+        \\"designWidth\\": 750,
+        \\"deviceRatio\\": {
+            \\"640\\": 1.17,
+            \\"750\\": 1,
+            \\"828\\": .905
+        }
+    });
 } ]);
 "
 `;
