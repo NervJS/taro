@@ -147,6 +147,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     fileType,
     quickappJSON,
     designWidth,
+    deviceRatio,
     pluginConfig: entryRes!.pluginConfig,
     pluginMainEntry: entryRes!.pluginMainEntry,
     isBuildPlugin: Boolean(isBuildPlugin),
