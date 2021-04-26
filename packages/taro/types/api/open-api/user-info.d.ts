@@ -31,6 +31,25 @@ declare namespace Taro {
     }
   }
 
+  namespace getUserProfile {
+    interface Option {
+      /** 显示用户信息的语言 */
+      lang?: keyof UserInfo.language
+      /** 声明获取用户个人信息后的用途，不超过30个字符 */
+      desc: string
+      /** 接口调用成功的回调函数 */
+      success?: (result: SuccessCallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+    }
+
+    interface SuccessCallbackResult extends getUserInfo.SuccessCallbackResult {
+      //
+    }
+  }
+
   /** 获取用户信息。
    *
    * **接口调整说明**
@@ -75,8 +94,13 @@ declare namespace Taro {
    */
   function getUserInfo(option?: getUserInfo.Option): Promise<getUserInfo.SuccessCallbackResult>
 
+  /**
+   * 获取用户信息。每次请求都会弹出授权窗口，用户同意后返回 `userInfo`。
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/user-info/wx.getUserProfile.html
+   */
+  function getUserProfile(option: getUserProfile.Option): Promise<getUserProfile.SuccessCallbackResult>
 
-    
+
   /** 用户信息
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/user-info/UserInfo.html
    */

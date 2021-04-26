@@ -54,7 +54,11 @@ export function customVue3Chain (chain) {
             const nodeName = node.tag
 
             if (capitalize(toCamelCase(nodeName)) in internalComponents) {
-              node.tagType = 0
+              // change only ElementTypes.COMPONENT to ElementTypes.ELEMENT
+              // and leave ElementTypes.SLOT untouched
+              if (node.tagType === 1 /* COMPONENT */) {
+                node.tagType = 0 /* ELEMENT */
+              }
               componentConfig.includes.add(nodeName)
             }
 

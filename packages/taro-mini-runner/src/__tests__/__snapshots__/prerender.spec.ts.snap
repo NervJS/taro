@@ -31,10 +31,10 @@ require(\\"./taro\\");
         return warn;
     }));
     var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
-    var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
-    var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(17);
+    var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
+    var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(18);
     var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(14);
-    var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(19);
+    var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(20);
     var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(13);
     function isString(o) {
         return typeof o === \\"string\\";
@@ -1207,10 +1207,10 @@ require(\\"./taro\\");
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _toConsumableArray;
     }));
-    var _arrayWithoutHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(28);
-    var _iterableToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(29);
-    var _unsupportedIterableToArray__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(30);
-    var _nonIterableSpread__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(31);
+    var _arrayWithoutHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+    var _iterableToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
+    var _unsupportedIterableToArray__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(24);
+    var _nonIterableSpread__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(25);
     function _toConsumableArray(arr) {
         return Object(_arrayWithoutHoles__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(arr) || Object(_iterableToArray__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(arr) || Object(_unsupportedIterableToArray__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(arr) || Object(_nonIterableSpread__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])();
     }
@@ -1254,12 +1254,12 @@ require(\\"./taro\\");
             throw new TypeError(\\"Cannot call a class as a function\\");
         }
     }
-}, , function(module, __webpack_exports__, __webpack_require__) {
+}, , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _inherits;
     }));
-    var _setPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(32);
+    var _setPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
     function _inherits(subClass, superClass) {
         if (typeof superClass !== \\"function\\" && superClass !== null) {
             throw new TypeError(\\"Super expression must either be null or a function\\");
@@ -1278,9 +1278,9 @@ require(\\"./taro\\");
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _createSuper;
     }));
-    var _getPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
-    var _isNativeReflectConstruct__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(33);
-    var _possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(34);
+    var _getPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
+    var _isNativeReflectConstruct__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(27);
+    var _possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(28);
     function _createSuper(Derived) {
         var hasNativeReflectConstruct = Object(_isNativeReflectConstruct__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])();
         return function _createSuperInternal() {
@@ -1324,7 +1324,7 @@ require(\\"./taro\\");
         if (staticProps) _defineProperties(Constructor, staticProps);
         return Constructor;
     }
-}, , , , , , , , , function(module, __webpack_exports__, __webpack_require__) {
+}, , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _arrayWithoutHoles;
@@ -1397,7 +1397,7 @@ require(\\"./taro\\");
         return _possibleConstructorReturn;
     }));
     var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
-    var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(35);
+    var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(29);
     function _possibleConstructorReturn(self, call) {
         if (call && (Object(_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
@@ -1422,7 +1422,7 @@ require(\\"./taro\\");
     var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7);
     var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8);
     var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(1);
-    var _app_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(49);
+    var _app_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(42);
     var _app_css__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(_app_css__WEBPACK_IMPORTED_MODULE_5__);
     var App = function(_Component) {
         Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(App, _Component);
@@ -1456,11 +1456,11 @@ require(\\"./taro\\");
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     (function(global) {
-        var _tarojs_plugin_platform_weapp_dist_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(47);
+        var _tarojs_plugin_platform_weapp_dist_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(41);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
-        var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(36);
+        var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(30);
         var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(1);
-        var react_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(40);
+        var react_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(34);
         var config = {
             pages: [ \\"pages/index/index\\", \\"others/detail/index\\", \\"others/normal/index\\" ],
             window: {
@@ -1479,8 +1479,8 @@ require(\\"./taro\\");
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     var _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-    var noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\" ]);
-    var needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\" ]);
+    var noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\", \\"onBluetoothDeviceFound\\", \\"onBluetoothAdapterStateChange\\", \\"offBluetoothDeviceFound\\", \\"offBluetoothAdapterStateChange\\", \\"onBLEConnectionStateChange\\", \\"onBLECharacteristicValueChange\\", \\"offBLEConnectionStateChange\\", \\"offBLECharacteristicValueChange\\", \\"onCopyUrl\\", \\"offCopyUrl\\" ]);
+    var needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\" ]);
     function initNativeApi(taro) {
         Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"c\\"])(taro, wx, {
             noPromiseApis: noPromiseApis,
@@ -1540,7 +1540,6 @@ require(\\"./taro\\");
             \\"report-submit-timeout\\": \\"0\\"
         },
         Input: {
-            \\"auto-focus\\": \\"false\\",
             \\"always-embed\\": \\"false\\",
             \\"adjust-position\\": \\"true\\",
             \\"hold-keyboard\\": \\"false\\",
@@ -1654,6 +1653,10 @@ require(\\"./taro\\");
         Ad: {
             \\"ad-type\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"banner\\"),
             \\"ad-theme\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"white\\")
+        },
+        CoverView: {
+            \\"marker-id\\": \\"\\",
+            slot: \\"\\"
         },
         Editor: {
             \\"read-only\\": \\"false\\",
@@ -1769,6 +1772,24 @@ require(\\"./taro\\");
             \\"ad-intervals\\": \\"\\",
             bindLoad: \\"\\",
             bindError: \\"\\"
+        },
+        PageContainer: {
+            show: \\"false\\",
+            duration: \\"300\\",
+            \\"z-index\\": \\"100\\",
+            overlay: \\"true\\",
+            position: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"bottom\\"),
+            round: \\"false\\",
+            \\"close-on-slideDown\\": \\"false\\",
+            \\"overlay-style\\": \\"\\",
+            \\"custom-style\\": \\"\\",
+            bindBeforeEnter: \\"\\",
+            bindEnter: \\"\\",
+            bindAfterEnter: \\"\\",
+            bindBeforeLeave: \\"\\",
+            bindLeave: \\"\\",
+            bindAfterLeave: \\"\\",
+            bindClickOverlay: \\"\\"
         }
     };
     var hostConfig = {
@@ -1779,7 +1800,7 @@ require(\\"./taro\\");
     };
     Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"b\\"])(hostConfig);
     Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(components);
-}, , function(module, exports, __webpack_require__) {} ], [ [ 46, 0, 1, 3, 2 ] ] ]);
+}, function(module, exports, __webpack_require__) {} ], [ [ 40, 0, 1, 3, 2 ] ] ]);
 
 
       if (typeof PRERENDER !== 'undefined') {
@@ -2587,13 +2608,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/comp.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    50: function(module, __webpack_exports__, __webpack_require__) {
+    43: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
-}, [ [ 50, 0, 1 ] ] ]);
+}, [ [ 43, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -2604,13 +2625,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    51: function(module, __webpack_exports__, __webpack_require__) {
+    44: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
-}, [ [ 51, 0, 1 ] ] ]);
+}, [ [ 44, 0, 1 ] ] ]);
 
 /** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -2623,102 +2644,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/others/detail/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
-    42: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-            return Index;
-        }));
-        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
-        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
-        var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(10);
-        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
-        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8);
-        var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(11);
-        var react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(1);
-        var _tarojs_components__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(2);
-        var _region__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(9);
-        var Index = function(_Component) {
-            Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(Index, _Component);
-            var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_4__[\\"a\\"])(Index);
-            function Index() {
-                var _this;
-                Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(this, Index);
-                for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-                    args[_key] = arguments[_key];
-                }
-                _this = _super.call.apply(_super, [ this ].concat(args));
-                Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_5__[\\"a\\"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(_this), \\"state\\", {
-                    region: \\"\\\\u8bf7\\\\u9009\\\\u62e9\\\\u7701\\\\u5e02\\\\u533a\\",
-                    range: [],
-                    value: [ 0, 0, 0 ]
-                });
-                Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_5__[\\"a\\"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(_this), \\"onChange\\", (function(e) {}));
-                Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_5__[\\"a\\"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(_this), \\"onColumnChange\\", (function(e) {}));
-                return _this;
-            }
-            Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(Index, [ {
-                key: \\"componentWillMount\\",
-                value: function componentWillMount() {
-                    console.log(\\"mount\\");
-                    var range = this.state.range;
-                    var temp = [];
-                    for (var i = 0; i < _region__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"].length; i++) {
-                        temp.push(_region__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"][i].name);
-                    }
-                    range.push(temp);
-                    temp = [];
-                    for (var _i = 0; _i < _region__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"][0].city.length; _i++) {
-                        temp.push(_region__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"][0].city[_i].name);
-                    }
-                    range.push(temp);
-                    temp = [];
-                    for (var _i2 = 0; _i2 < _region__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"][0].city[0].districtAndCounty.length; _i2++) {
-                        temp.push(_region__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"][0].city[0].districtAndCounty[_i2]);
-                    }
-                    range.push(temp);
-                    this.setState({
-                        range: range
-                    });
-                }
-            }, {
-                key: \\"render\\",
-                value: function render() {
-                    return react__WEBPACK_IMPORTED_MODULE_6__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__[\\"View\\"], null, react__WEBPACK_IMPORTED_MODULE_6__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__[\\"View\\"], {
-                        className: this.state.region == \\"\\\\u8bf7\\\\u9009\\\\u62e9\\\\u7701\\\\u5e02\\\\u533a\\" ? \\"taro-region-picker taro-region-picker-gray\\" : \\"taro-region-picker taro-region-picker-black\\"
-                    }, react__WEBPACK_IMPORTED_MODULE_6__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__[\\"Picker\\"], {
-                        mode: \\"multiSelector\\",
-                        onChange: this.onChange,
-                        onColumnChange: this.onColumnChange,
-                        range: this.state.range,
-                        value: this.state.value
-                    }, react__WEBPACK_IMPORTED_MODULE_6__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__[\\"View\\"], {
-                        style: \\"width: 100%;height:44px;\\"
-                    }, react__WEBPACK_IMPORTED_MODULE_6__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__[\\"Text\\"], null, this.state.region)))), react__WEBPACK_IMPORTED_MODULE_6__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__[\\"View\\"], {
-                        disablePrerender: true
-                    }, react__WEBPACK_IMPORTED_MODULE_6__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__[\\"View\\"], null, react__WEBPACK_IMPORTED_MODULE_6__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__[\\"Text\\"], null, \\"No need to be prerender.\\"))));
-                }
-            } ]);
-            return Index;
-        }(react__WEBPACK_IMPORTED_MODULE_6__[\\"Component\\"]);
-    },
-    54: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        (function(global) {
-            var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-            var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(42);
-            var config = {};
-            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"others/detail/index\\", {
-                root: {
-                    cn: []
-                }
-            }, config || {}));
-            if (typeof PRERENDER !== \\"undefined\\") {
-                global._prerender = inst;
-            }
-        }).call(this, __webpack_require__(15));
-    },
-    9: function(module, __webpack_exports__, __webpack_require__) {
+    10: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var region = [ {
             name: \\"\\\\u5317\\\\u4eac\\\\u5e02\\",
@@ -3907,8 +3833,103 @@ require(\\"./taro\\");
             } ]
         } ];
         __webpack_exports__[\\"a\\"] = region;
+    },
+    36: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+            return Index;
+        }));
+        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
+        var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
+        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8);
+        var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(11);
+        var react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(1);
+        var _tarojs_components__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(2);
+        var _region__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(10);
+        var Index = function(_Component) {
+            Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(Index, _Component);
+            var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_4__[\\"a\\"])(Index);
+            function Index() {
+                var _this;
+                Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(this, Index);
+                for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+                    args[_key] = arguments[_key];
+                }
+                _this = _super.call.apply(_super, [ this ].concat(args));
+                Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_5__[\\"a\\"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(_this), \\"state\\", {
+                    region: \\"\\\\u8bf7\\\\u9009\\\\u62e9\\\\u7701\\\\u5e02\\\\u533a\\",
+                    range: [],
+                    value: [ 0, 0, 0 ]
+                });
+                Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_5__[\\"a\\"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(_this), \\"onChange\\", (function(e) {}));
+                Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_5__[\\"a\\"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(_this), \\"onColumnChange\\", (function(e) {}));
+                return _this;
+            }
+            Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(Index, [ {
+                key: \\"componentWillMount\\",
+                value: function componentWillMount() {
+                    console.log(\\"mount\\");
+                    var range = this.state.range;
+                    var temp = [];
+                    for (var i = 0; i < _region__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"].length; i++) {
+                        temp.push(_region__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"][i].name);
+                    }
+                    range.push(temp);
+                    temp = [];
+                    for (var _i = 0; _i < _region__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"][0].city.length; _i++) {
+                        temp.push(_region__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"][0].city[_i].name);
+                    }
+                    range.push(temp);
+                    temp = [];
+                    for (var _i2 = 0; _i2 < _region__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"][0].city[0].districtAndCounty.length; _i2++) {
+                        temp.push(_region__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"][0].city[0].districtAndCounty[_i2]);
+                    }
+                    range.push(temp);
+                    this.setState({
+                        range: range
+                    });
+                }
+            }, {
+                key: \\"render\\",
+                value: function render() {
+                    return react__WEBPACK_IMPORTED_MODULE_6__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__[\\"View\\"], null, react__WEBPACK_IMPORTED_MODULE_6__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__[\\"View\\"], {
+                        className: this.state.region == \\"\\\\u8bf7\\\\u9009\\\\u62e9\\\\u7701\\\\u5e02\\\\u533a\\" ? \\"taro-region-picker taro-region-picker-gray\\" : \\"taro-region-picker taro-region-picker-black\\"
+                    }, react__WEBPACK_IMPORTED_MODULE_6__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__[\\"Picker\\"], {
+                        mode: \\"multiSelector\\",
+                        onChange: this.onChange,
+                        onColumnChange: this.onColumnChange,
+                        range: this.state.range,
+                        value: this.state.value
+                    }, react__WEBPACK_IMPORTED_MODULE_6__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__[\\"View\\"], {
+                        style: \\"width: 100%;height:44px;\\"
+                    }, react__WEBPACK_IMPORTED_MODULE_6__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__[\\"Text\\"], null, this.state.region)))), react__WEBPACK_IMPORTED_MODULE_6__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__[\\"View\\"], {
+                        disablePrerender: true
+                    }, react__WEBPACK_IMPORTED_MODULE_6__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__[\\"View\\"], null, react__WEBPACK_IMPORTED_MODULE_6__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__[\\"Text\\"], null, \\"No need to be prerender.\\"))));
+                }
+            } ]);
+            return Index;
+        }(react__WEBPACK_IMPORTED_MODULE_6__[\\"Component\\"]);
+    },
+    47: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        (function(global) {
+            var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+            var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(36);
+            var config = {};
+            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"others/detail/index\\", {
+                root: {
+                    cn: []
+                }
+            }, config || {}));
+            if (typeof PRERENDER !== \\"undefined\\") {
+                global._prerender = inst;
+            }
+        }).call(this, __webpack_require__(15));
     }
-}, [ [ 54, 0, 1, 3, 2 ] ] ]);
+}, [ [ 47, 0, 1, 3, 2 ] ] ]);
       if (typeof PRERENDER !== 'undefined') {
         module.exports = global._prerender
       }
@@ -3927,14 +3948,14 @@ require(\\"./taro\\");
 
 /** filePath: dist/others/normal/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
-    43: function(module, __webpack_exports__, __webpack_require__) {
+    37: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
             return Index;
         }));
         var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
         var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
-        var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(10);
+        var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
         var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
         var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8);
         var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(11);
@@ -3964,11 +3985,11 @@ require(\\"./taro\\");
             return Index;
         }(react__WEBPACK_IMPORTED_MODULE_6__[\\"Component\\"]);
     },
-    55: function(module, __webpack_exports__, __webpack_require__) {
+    48: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(43);
+        var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(37);
         var config = {};
         var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"others/normal/index\\", {
             root: {
@@ -3976,7 +3997,7 @@ require(\\"./taro\\");
             }
         }, config || {}));
     }
-}, [ [ 55, 0, 1, 3, 2 ] ] ]);
+}, [ [ 48, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/others/normal/index.json **/
 {\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
@@ -3987,7 +4008,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
-    41: function(module, __webpack_exports__, __webpack_require__) {
+    35: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
             return Index;
@@ -3998,7 +4019,7 @@ require(\\"./taro\\");
         var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8);
         var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(1);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
-        var _index_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(53);
+        var _index_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(46);
         var _index_css__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_6__);
         var Index = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(Index, _Component);
@@ -4018,12 +4039,12 @@ require(\\"./taro\\");
             return Index;
         }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
     },
-    52: function(module, __webpack_exports__, __webpack_require__) {
+    45: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         (function(global) {
             var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-            var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(41);
+            var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(35);
             var config = {
                 navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
             };
@@ -4037,8 +4058,8 @@ require(\\"./taro\\");
             }
         }).call(this, __webpack_require__(15));
     },
-    53: function(module, exports, __webpack_require__) {}
-}, [ [ 52, 0, 1, 3, 2 ] ] ]);
+    46: function(module, exports, __webpack_require__) {}
+}, [ [ 45, 0, 1, 3, 2 ] ] ]);
       if (typeof PRERENDER !== 'undefined') {
         module.exports = global._prerender
       }
@@ -4186,7 +4207,7 @@ require(\\"./taro\\");
         __webpack_require__.r(__webpack_exports__);
         __webpack_exports__[\\"default\\"] = \\"taro-runtime-mock\\";
     },
-    40: function(module, __webpack_exports__, __webpack_require__) {
+    34: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
     }
@@ -4236,84 +4257,6 @@ module.exports = {
 /** filePath: dist/vendors.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
-    var _classCallCheck_index_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _classCallCheck_index_mjs__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"];
-    }));
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    var _createClass_index_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(23);
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _createClass_index_mjs__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"];
-    }));
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    var _inherits_index_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _inherits_index_mjs__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"];
-    }));
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    var _createSuper_index_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _createSuper_index_mjs__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"];
-    }));
-}, , function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    var _assertThisInitialized_index_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _assertThisInitialized_index_mjs__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"];
-    }));
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    var _defineProperty_index_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(27);
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _defineProperty_index_mjs__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"];
-    }));
-}, , , , function(module, exports, __webpack_require__) {
-    (function(window) {
-        var _typeof = __webpack_require__(21);
-        var g;
-        g = function() {
-            return this;
-        }();
-        try {
-            g = g || new Function(\\"return this\\")();
-        } catch (e) {
-            if ((typeof window === \\"undefined\\" ? \\"undefined\\" : _typeof(window)) === \\"object\\") g = window;
-        }
-        module.exports = g;
-    }).call(this, __webpack_require__(3)[\\"window\\"]);
-}, , , , , function(module, exports) {
-    function _getPrototypeOf(o) {
-        module.exports = _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-            return o.__proto__ || Object.getPrototypeOf(o);
-        };
-        module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        return _getPrototypeOf(o);
-    }
-    module.exports = _getPrototypeOf;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-}, function(module, exports) {
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-            module.exports = _typeof = function _typeof(obj) {
-                return typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        } else {
-            module.exports = _typeof = function _typeof(obj) {
-                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        }
-        return _typeof(obj);
-    }
-    module.exports = _typeof;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-}, function(__webpack_module__, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _classCallCheck;
     }));
@@ -4322,7 +4265,7 @@ module.exports = {
             throw new TypeError(\\"Cannot call a class as a function\\");
         }
     }
-}, function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+}, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _createClass;
@@ -4341,12 +4284,12 @@ module.exports = {
         if (staticProps) _defineProperties(Constructor, staticProps);
         return Constructor;
     }
-}, function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+}, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _inherits;
     }));
-    var _babel_runtime_helpers_setPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(37);
+    var _setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(31);
     function _inherits(subClass, superClass) {
         if (typeof superClass !== \\"function\\" && superClass !== null) {
             throw new TypeError(\\"Super expression must either be null or a function\\");
@@ -4358,30 +4301,30 @@ module.exports = {
                 configurable: true
             }
         });
-        if (superClass) _babel_runtime_helpers_setPrototypeOf__WEBPACK_IMPORTED_MODULE_0__(subClass, superClass);
+        if (superClass) Object(_setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(subClass, superClass);
     }
-}, function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+}, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _createSuper;
     }));
-    var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
-    var _babel_runtime_helpers_isNativeReflectConstruct__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(38);
-    var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(39);
+    var _getPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21);
+    var _isNativeReflectConstruct_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(32);
+    var _possibleConstructorReturn_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(33);
     function _createSuper(Derived) {
-        var hasNativeReflectConstruct = _babel_runtime_helpers_isNativeReflectConstruct__WEBPACK_IMPORTED_MODULE_1__();
+        var hasNativeReflectConstruct = Object(_isNativeReflectConstruct_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])();
         return function _createSuperInternal() {
-            var Super = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_0__(Derived), result;
+            var Super = Object(_getPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(Derived), result;
             if (hasNativeReflectConstruct) {
-                var NewTarget = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_0__(this).constructor;
+                var NewTarget = Object(_getPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(this).constructor;
                 result = Reflect.construct(Super, arguments, NewTarget);
             } else {
                 result = Super.apply(this, arguments);
             }
-            return _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__(this, result);
+            return Object(_possibleConstructorReturn_js__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(this, result);
         };
     }
-}, function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+}, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _assertThisInitialized;
@@ -4392,7 +4335,7 @@ module.exports = {
         }
         return self;
     }
-}, function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+}, , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _defineProperty;
@@ -4410,18 +4353,66 @@ module.exports = {
         }
         return obj;
     }
-}, , , , , , , , , , function(module, exports) {
+}, , , , function(module, exports, __webpack_require__) {
+    (function(window) {
+        var _typeof = __webpack_require__(16);
+        var g;
+        g = function() {
+            return this;
+        }();
+        try {
+            g = g || new Function(\\"return this\\")();
+        } catch (e) {
+            if ((typeof window === \\"undefined\\" ? \\"undefined\\" : _typeof(window)) === \\"object\\") g = window;
+        }
+        module.exports = g;
+    }).call(this, __webpack_require__(3)[\\"window\\"]);
+}, function(module, exports) {
+    function _typeof(obj) {
+        \\"@babel/helpers - typeof\\";
+        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
+            module.exports = _typeof = function _typeof(obj) {
+                return typeof obj;
+            };
+            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+        } else {
+            module.exports = _typeof = function _typeof(obj) {
+                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+            };
+            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+        }
+        return _typeof(obj);
+    }
+    module.exports = _typeof;
+    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+}, , , , , function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _getPrototypeOf;
+    }));
+    function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+            return o.__proto__ || Object.getPrototypeOf(o);
+        };
+        return _getPrototypeOf(o);
+    }
+}, , , , , , , , , , function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _setPrototypeOf;
+    }));
     function _setPrototypeOf(o, p) {
-        module.exports = _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
             o.__proto__ = p;
             return o;
         };
-        module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
         return _setPrototypeOf(o, p);
     }
-    module.exports = _setPrototypeOf;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-}, function(module, exports) {
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _isNativeReflectConstruct;
+    }));
     function _isNativeReflectConstruct() {
         if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
         if (Reflect.construct.sham) return false;
@@ -4433,28 +4424,20 @@ module.exports = {
             return false;
         }
     }
-    module.exports = _isNativeReflectConstruct;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-}, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(21)[\\"default\\"];
-    var assertThisInitialized = __webpack_require__(48);
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _possibleConstructorReturn;
+    }));
+    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
+    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__);
+    var _assertThisInitialized_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
     function _possibleConstructorReturn(self, call) {
-        if (call && (_typeof(call) === \\"object\\" || typeof call === \\"function\\")) {
+        if (call && (_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
         }
-        return assertThisInitialized(self);
+        return Object(_assertThisInitialized_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(self);
     }
-    module.exports = _possibleConstructorReturn;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-}, , , , , , , , , function(module, exports) {
-    function _assertThisInitialized(self) {
-        if (self === void 0) {
-            throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
-        }
-        return self;
-    }
-    module.exports = _assertThisInitialized;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
 } ] ]);
 "
 `;
@@ -4473,14 +4456,14 @@ require(\\"./vendors\\");
 require(\\"./taro\\");
 
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    12: function(module, __webpack_exports__, __webpack_require__) {
+    11: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
         var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
-        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
-        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
+        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
         var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
-        var _app_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(23);
+        var _app_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(18);
         var _app_css__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(_app_css__WEBPACK_IMPORTED_MODULE_5__);
         var App = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(App, _Component);
@@ -4511,15 +4494,15 @@ require(\\"./taro\\");
         }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
         __webpack_exports__[\\"a\\"] = App;
     },
-    21: function(module, __webpack_exports__, __webpack_require__) {
+    17: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         (function(global) {
-            var _tarojs_plugin_platform_weapp_dist_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(29);
+            var _tarojs_plugin_platform_weapp_dist_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
             var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-            var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(12);
+            var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(11);
             var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(0);
-            var react_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(16);
+            var react_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(12);
             var config = {
                 pages: [ \\"pages/index/index\\", \\"others/detail/index\\", \\"others/normal/index\\" ],
                 window: {
@@ -4536,8 +4519,8 @@ require(\\"./taro\\");
             }
         }).call(this, __webpack_require__(9));
     },
-    23: function(module, exports, __webpack_require__) {},
-    29: function(module, __webpack_exports__, __webpack_require__) {
+    18: function(module, exports, __webpack_require__) {},
+    24: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         function _arrayLikeToArray(arr, len) {
             if (len == null || len > arr.length) len = arr.length;
@@ -5826,8 +5809,8 @@ require(\\"./taro\\");
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
             taro.miniGlobal = global;
         }
-        var runtime_noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\" ]);
-        var runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\" ]);
+        var runtime_noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\", \\"onBluetoothDeviceFound\\", \\"onBluetoothAdapterStateChange\\", \\"offBluetoothDeviceFound\\", \\"offBluetoothAdapterStateChange\\", \\"onBLEConnectionStateChange\\", \\"onBLECharacteristicValueChange\\", \\"offBLEConnectionStateChange\\", \\"offBLECharacteristicValueChange\\", \\"onCopyUrl\\", \\"offCopyUrl\\" ]);
+        var runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 noPromiseApis: runtime_noPromiseApis,
@@ -5887,7 +5870,6 @@ require(\\"./taro\\");
                 \\"report-submit-timeout\\": \\"0\\"
             },
             Input: {
-                \\"auto-focus\\": \\"false\\",
                 \\"always-embed\\": \\"false\\",
                 \\"adjust-position\\": \\"true\\",
                 \\"hold-keyboard\\": \\"false\\",
@@ -6001,6 +5983,10 @@ require(\\"./taro\\");
             Ad: {
                 \\"ad-type\\": singleQuote(\\"banner\\"),
                 \\"ad-theme\\": singleQuote(\\"white\\")
+            },
+            CoverView: {
+                \\"marker-id\\": \\"\\",
+                slot: \\"\\"
             },
             Editor: {
                 \\"read-only\\": \\"false\\",
@@ -6116,6 +6102,24 @@ require(\\"./taro\\");
                 \\"ad-intervals\\": \\"\\",
                 bindLoad: \\"\\",
                 bindError: \\"\\"
+            },
+            PageContainer: {
+                show: \\"false\\",
+                duration: \\"300\\",
+                \\"z-index\\": \\"100\\",
+                overlay: \\"true\\",
+                position: singleQuote(\\"bottom\\"),
+                round: \\"false\\",
+                \\"close-on-slideDown\\": \\"false\\",
+                \\"overlay-style\\": \\"\\",
+                \\"custom-style\\": \\"\\",
+                bindBeforeEnter: \\"\\",
+                bindEnter: \\"\\",
+                bindAfterEnter: \\"\\",
+                bindBeforeLeave: \\"\\",
+                bindLeave: \\"\\",
+                bindAfterLeave: \\"\\",
+                bindClickOverlay: \\"\\"
             }
         };
         var hostConfig = {
@@ -6127,7 +6131,7 @@ require(\\"./taro\\");
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
     }
-}, [ [ 21, 0, 1, 3, 2 ] ] ]);
+}, [ [ 17, 0, 1, 3, 2 ] ] ]);
 
 
       if (typeof PRERENDER !== 'undefined') {
@@ -6935,13 +6939,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/comp.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    24: function(module, __webpack_exports__, __webpack_require__) {
+    19: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
-}, [ [ 24, 0, 1 ] ] ]);
+}, [ [ 19, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -6952,13 +6956,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    25: function(module, __webpack_exports__, __webpack_require__) {
+    20: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
-}, [ [ 25, 0, 1 ] ] ]);
+}, [ [ 20, 0, 1 ] ] ]);
 
 /** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -6971,7 +6975,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/others/detail/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
-    18: function(module, __webpack_exports__, __webpack_require__) {
+    14: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
             return detail_Index;
@@ -6979,8 +6983,8 @@ require(\\"./taro\\");
         var classCallCheck = __webpack_require__(3);
         var createClass = __webpack_require__(4);
         var assertThisInitialized = __webpack_require__(7);
-        var inherits = __webpack_require__(5);
-        var createSuper = __webpack_require__(6);
+        var inherits = __webpack_require__(6);
+        var createSuper = __webpack_require__(5);
         var defineProperty = __webpack_require__(8);
         var react = __webpack_require__(0);
         var taro_components = __webpack_require__(1);
@@ -8235,12 +8239,12 @@ require(\\"./taro\\");
             return Index;
         }(react[\\"Component\\"]);
     },
-    28: function(module, __webpack_exports__, __webpack_require__) {
+    23: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         (function(global) {
             var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-            var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
+            var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
             var config = {};
             var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"others/detail/index\\", {
                 root: {
@@ -8252,7 +8256,7 @@ require(\\"./taro\\");
             }
         }).call(this, __webpack_require__(9));
     }
-}, [ [ 28, 0, 1, 3, 2 ] ] ]);
+}, [ [ 23, 0, 1, 3, 2 ] ] ]);
       if (typeof PRERENDER !== 'undefined') {
         module.exports = global._prerender
       }
@@ -8271,15 +8275,15 @@ require(\\"./taro\\");
 
 /** filePath: dist/others/normal/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
-    30: function(module, __webpack_exports__, __webpack_require__) {
+    25: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(2);
         var classCallCheck = __webpack_require__(3);
         var createClass = __webpack_require__(4);
         var assertThisInitialized = __webpack_require__(7);
-        var inherits = __webpack_require__(5);
-        var createSuper = __webpack_require__(6);
+        var inherits = __webpack_require__(6);
+        var createSuper = __webpack_require__(5);
         var defineProperty = __webpack_require__(8);
         var react = __webpack_require__(0);
         var taro_components = __webpack_require__(1);
@@ -8313,7 +8317,7 @@ require(\\"./taro\\");
             }
         }, config || {}));
     }
-}, [ [ 30, 0, 1, 3, 2 ] ] ]);
+}, [ [ 25, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/others/normal/index.json **/
 {\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
@@ -8324,18 +8328,18 @@ require(\\"./taro\\");
 
 /** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
-    17: function(module, __webpack_exports__, __webpack_require__) {
+    13: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
             return Index;
         }));
         var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
         var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
-        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
-        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
+        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
         var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1);
-        var _index_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(27);
+        var _index_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(22);
         var _index_css__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_6__);
         var Index = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(Index, _Component);
@@ -8355,12 +8359,12 @@ require(\\"./taro\\");
             return Index;
         }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
     },
-    26: function(module, __webpack_exports__, __webpack_require__) {
+    21: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         (function(global) {
             var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-            var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
+            var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
             var config = {
                 navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
             };
@@ -8374,8 +8378,8 @@ require(\\"./taro\\");
             }
         }).call(this, __webpack_require__(9));
     },
-    27: function(module, exports, __webpack_require__) {}
-}, [ [ 26, 0, 1, 3, 2 ] ] ]);
+    22: function(module, exports, __webpack_require__) {}
+}, [ [ 21, 0, 1, 3, 2 ] ] ]);
       if (typeof PRERENDER !== 'undefined') {
         module.exports = global._prerender
       }
@@ -8518,7 +8522,7 @@ require(\\"./taro\\");
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-components-mock\\";
     },
-    16: function(module, __webpack_exports__, __webpack_require__) {
+    12: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
     },
@@ -8603,9 +8607,59 @@ module.exports = {
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _createSuper;
+    }));
+    function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+            return o.__proto__ || Object.getPrototypeOf(o);
+        };
+        return _getPrototypeOf(o);
+    }
+    function _isNativeReflectConstruct() {
+        if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
+        if (Reflect.construct.sham) return false;
+        if (typeof Proxy === \\"function\\") return true;
+        try {
+            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+    var helpers_typeof = __webpack_require__(10);
+    var typeof_default = __webpack_require__.n(helpers_typeof);
+    var assertThisInitialized = __webpack_require__(7);
+    function _possibleConstructorReturn(self, call) {
+        if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
+            return call;
+        }
+        return Object(assertThisInitialized[\\"a\\"])(self);
+    }
+    function _createSuper(Derived) {
+        var hasNativeReflectConstruct = _isNativeReflectConstruct();
+        return function _createSuperInternal() {
+            var Super = _getPrototypeOf(Derived), result;
+            if (hasNativeReflectConstruct) {
+                var NewTarget = _getPrototypeOf(this).constructor;
+                result = Reflect.construct(Super, arguments, NewTarget);
+            } else {
+                result = Super.apply(this, arguments);
+            }
+            return _possibleConstructorReturn(this, result);
+        };
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _inherits;
     }));
-    var setPrototypeOf = __webpack_require__(13);
+    function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+            o.__proto__ = p;
+            return o;
+        };
+        return _setPrototypeOf(o, p);
+    }
     function _inherits(subClass, superClass) {
         if (typeof superClass !== \\"function\\" && superClass !== null) {
             throw new TypeError(\\"Super expression must either be null or a function\\");
@@ -8617,28 +8671,7 @@ module.exports = {
                 configurable: true
             }
         });
-        if (superClass) setPrototypeOf(subClass, superClass);
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _createSuper;
-    }));
-    var getPrototypeOf = __webpack_require__(10);
-    var isNativeReflectConstruct = __webpack_require__(14);
-    var possibleConstructorReturn = __webpack_require__(15);
-    function _createSuper(Derived) {
-        var hasNativeReflectConstruct = isNativeReflectConstruct();
-        return function _createSuperInternal() {
-            var Super = getPrototypeOf(Derived), result;
-            if (hasNativeReflectConstruct) {
-                var NewTarget = getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else {
-                result = Super.apply(this, arguments);
-            }
-            return possibleConstructorReturn(this, result);
-        };
+        if (superClass) _setPrototypeOf(subClass, superClass);
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
@@ -8671,7 +8704,7 @@ module.exports = {
     }
 }, function(module, exports, __webpack_require__) {
     (function(window) {
-        var _typeof = __webpack_require__(11);
+        var _typeof = __webpack_require__(10);
         var g;
         g = function() {
             return this;
@@ -8683,16 +8716,6 @@ module.exports = {
         }
         module.exports = g;
     }).call(this, __webpack_require__(2)[\\"window\\"]);
-}, function(module, exports) {
-    function _getPrototypeOf(o) {
-        module.exports = _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-            return o.__proto__ || Object.getPrototypeOf(o);
-        };
-        module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        return _getPrototypeOf(o);
-    }
-    module.exports = _getPrototypeOf;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
 }, function(module, exports) {
     function _typeof(obj) {
         \\"@babel/helpers - typeof\\";
@@ -8710,51 +8733,6 @@ module.exports = {
         return _typeof(obj);
     }
     module.exports = _typeof;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-}, , function(module, exports) {
-    function _setPrototypeOf(o, p) {
-        module.exports = _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-            o.__proto__ = p;
-            return o;
-        };
-        module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        return _setPrototypeOf(o, p);
-    }
-    module.exports = _setPrototypeOf;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-}, function(module, exports) {
-    function _isNativeReflectConstruct() {
-        if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
-        if (Reflect.construct.sham) return false;
-        if (typeof Proxy === \\"function\\") return true;
-        try {
-            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-            return true;
-        } catch (e) {
-            return false;
-        }
-    }
-    module.exports = _isNativeReflectConstruct;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-}, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(11)[\\"default\\"];
-    var assertThisInitialized = __webpack_require__(22);
-    function _possibleConstructorReturn(self, call) {
-        if (call && (_typeof(call) === \\"object\\" || typeof call === \\"function\\")) {
-            return call;
-        }
-        return assertThisInitialized(self);
-    }
-    module.exports = _possibleConstructorReturn;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-}, , , , , , , function(module, exports) {
-    function _assertThisInitialized(self) {
-        if (self === void 0) {
-            throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
-        }
-        return self;
-    }
-    module.exports = _assertThisInitialized;
     module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
 } ] ]);
 "
@@ -8774,14 +8752,14 @@ require(\\"./vendors\\");
 require(\\"./taro\\");
 
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    12: function(module, __webpack_exports__, __webpack_require__) {
+    11: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
         var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
-        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
-        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
+        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
         var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
-        var _app_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(23);
+        var _app_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(18);
         var _app_css__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(_app_css__WEBPACK_IMPORTED_MODULE_5__);
         var App = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(App, _Component);
@@ -8812,15 +8790,15 @@ require(\\"./taro\\");
         }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
         __webpack_exports__[\\"a\\"] = App;
     },
-    21: function(module, __webpack_exports__, __webpack_require__) {
+    17: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         (function(global) {
-            var _tarojs_plugin_platform_weapp_dist_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(29);
+            var _tarojs_plugin_platform_weapp_dist_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
             var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-            var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(12);
+            var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(11);
             var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(0);
-            var react_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(16);
+            var react_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(12);
             var config = {
                 pages: [ \\"pages/index/index\\", \\"others/detail/index\\", \\"others/normal/index\\" ],
                 window: {
@@ -8837,8 +8815,8 @@ require(\\"./taro\\");
             }
         }).call(this, __webpack_require__(9));
     },
-    23: function(module, exports, __webpack_require__) {},
-    29: function(module, __webpack_exports__, __webpack_require__) {
+    18: function(module, exports, __webpack_require__) {},
+    24: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         function _arrayLikeToArray(arr, len) {
             if (len == null || len > arr.length) len = arr.length;
@@ -10127,8 +10105,8 @@ require(\\"./taro\\");
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
             taro.miniGlobal = global;
         }
-        var runtime_noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\" ]);
-        var runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\" ]);
+        var runtime_noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\", \\"onBluetoothDeviceFound\\", \\"onBluetoothAdapterStateChange\\", \\"offBluetoothDeviceFound\\", \\"offBluetoothAdapterStateChange\\", \\"onBLEConnectionStateChange\\", \\"onBLECharacteristicValueChange\\", \\"offBLEConnectionStateChange\\", \\"offBLECharacteristicValueChange\\", \\"onCopyUrl\\", \\"offCopyUrl\\" ]);
+        var runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 noPromiseApis: runtime_noPromiseApis,
@@ -10188,7 +10166,6 @@ require(\\"./taro\\");
                 \\"report-submit-timeout\\": \\"0\\"
             },
             Input: {
-                \\"auto-focus\\": \\"false\\",
                 \\"always-embed\\": \\"false\\",
                 \\"adjust-position\\": \\"true\\",
                 \\"hold-keyboard\\": \\"false\\",
@@ -10302,6 +10279,10 @@ require(\\"./taro\\");
             Ad: {
                 \\"ad-type\\": singleQuote(\\"banner\\"),
                 \\"ad-theme\\": singleQuote(\\"white\\")
+            },
+            CoverView: {
+                \\"marker-id\\": \\"\\",
+                slot: \\"\\"
             },
             Editor: {
                 \\"read-only\\": \\"false\\",
@@ -10417,6 +10398,24 @@ require(\\"./taro\\");
                 \\"ad-intervals\\": \\"\\",
                 bindLoad: \\"\\",
                 bindError: \\"\\"
+            },
+            PageContainer: {
+                show: \\"false\\",
+                duration: \\"300\\",
+                \\"z-index\\": \\"100\\",
+                overlay: \\"true\\",
+                position: singleQuote(\\"bottom\\"),
+                round: \\"false\\",
+                \\"close-on-slideDown\\": \\"false\\",
+                \\"overlay-style\\": \\"\\",
+                \\"custom-style\\": \\"\\",
+                bindBeforeEnter: \\"\\",
+                bindEnter: \\"\\",
+                bindAfterEnter: \\"\\",
+                bindBeforeLeave: \\"\\",
+                bindLeave: \\"\\",
+                bindAfterLeave: \\"\\",
+                bindClickOverlay: \\"\\"
             }
         };
         var hostConfig = {
@@ -10428,7 +10427,7 @@ require(\\"./taro\\");
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
     }
-}, [ [ 21, 0, 1, 3, 2 ] ] ]);
+}, [ [ 17, 0, 1, 3, 2 ] ] ]);
 
 
       if (typeof PRERENDER !== 'undefined') {
@@ -11236,13 +11235,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/comp.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    24: function(module, __webpack_exports__, __webpack_require__) {
+    19: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
-}, [ [ 24, 0, 1 ] ] ]);
+}, [ [ 19, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -11253,13 +11252,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    25: function(module, __webpack_exports__, __webpack_require__) {
+    20: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
-}, [ [ 25, 0, 1 ] ] ]);
+}, [ [ 20, 0, 1 ] ] ]);
 
 /** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -11272,7 +11271,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/others/detail/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
-    18: function(module, __webpack_exports__, __webpack_require__) {
+    14: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
             return detail_Index;
@@ -11280,8 +11279,8 @@ require(\\"./taro\\");
         var classCallCheck = __webpack_require__(3);
         var createClass = __webpack_require__(4);
         var assertThisInitialized = __webpack_require__(7);
-        var inherits = __webpack_require__(5);
-        var createSuper = __webpack_require__(6);
+        var inherits = __webpack_require__(6);
+        var createSuper = __webpack_require__(5);
         var defineProperty = __webpack_require__(8);
         var react = __webpack_require__(0);
         var taro_components = __webpack_require__(1);
@@ -12536,12 +12535,12 @@ require(\\"./taro\\");
             return Index;
         }(react[\\"Component\\"]);
     },
-    28: function(module, __webpack_exports__, __webpack_require__) {
+    23: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         (function(global) {
             var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-            var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
+            var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
             var config = {};
             var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"others/detail/index\\", {
                 root: {
@@ -12553,7 +12552,7 @@ require(\\"./taro\\");
             }
         }).call(this, __webpack_require__(9));
     }
-}, [ [ 28, 0, 1, 3, 2 ] ] ]);
+}, [ [ 23, 0, 1, 3, 2 ] ] ]);
       if (typeof PRERENDER !== 'undefined') {
         module.exports = global._prerender
       }
@@ -12572,15 +12571,15 @@ require(\\"./taro\\");
 
 /** filePath: dist/others/normal/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
-    30: function(module, __webpack_exports__, __webpack_require__) {
+    25: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(2);
         var classCallCheck = __webpack_require__(3);
         var createClass = __webpack_require__(4);
         var assertThisInitialized = __webpack_require__(7);
-        var inherits = __webpack_require__(5);
-        var createSuper = __webpack_require__(6);
+        var inherits = __webpack_require__(6);
+        var createSuper = __webpack_require__(5);
         var defineProperty = __webpack_require__(8);
         var react = __webpack_require__(0);
         var taro_components = __webpack_require__(1);
@@ -12614,7 +12613,7 @@ require(\\"./taro\\");
             }
         }, config || {}));
     }
-}, [ [ 30, 0, 1, 3, 2 ] ] ]);
+}, [ [ 25, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/others/normal/index.json **/
 {\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
@@ -12625,18 +12624,18 @@ require(\\"./taro\\");
 
 /** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
-    17: function(module, __webpack_exports__, __webpack_require__) {
+    13: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
             return Index;
         }));
         var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
         var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
-        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
-        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
+        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
         var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1);
-        var _index_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(27);
+        var _index_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(22);
         var _index_css__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_6__);
         var Index = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(Index, _Component);
@@ -12656,12 +12655,12 @@ require(\\"./taro\\");
             return Index;
         }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
     },
-    26: function(module, __webpack_exports__, __webpack_require__) {
+    21: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         (function(global) {
             var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-            var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
+            var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
             var config = {
                 navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
             };
@@ -12675,8 +12674,8 @@ require(\\"./taro\\");
             }
         }).call(this, __webpack_require__(9));
     },
-    27: function(module, exports, __webpack_require__) {}
-}, [ [ 26, 0, 1, 3, 2 ] ] ]);
+    22: function(module, exports, __webpack_require__) {}
+}, [ [ 21, 0, 1, 3, 2 ] ] ]);
       if (typeof PRERENDER !== 'undefined') {
         module.exports = global._prerender
       }
@@ -12819,7 +12818,7 @@ require(\\"./taro\\");
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-components-mock\\";
     },
-    16: function(module, __webpack_exports__, __webpack_require__) {
+    12: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
     },
@@ -12904,9 +12903,59 @@ module.exports = {
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _createSuper;
+    }));
+    function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+            return o.__proto__ || Object.getPrototypeOf(o);
+        };
+        return _getPrototypeOf(o);
+    }
+    function _isNativeReflectConstruct() {
+        if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
+        if (Reflect.construct.sham) return false;
+        if (typeof Proxy === \\"function\\") return true;
+        try {
+            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+    var helpers_typeof = __webpack_require__(10);
+    var typeof_default = __webpack_require__.n(helpers_typeof);
+    var assertThisInitialized = __webpack_require__(7);
+    function _possibleConstructorReturn(self, call) {
+        if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
+            return call;
+        }
+        return Object(assertThisInitialized[\\"a\\"])(self);
+    }
+    function _createSuper(Derived) {
+        var hasNativeReflectConstruct = _isNativeReflectConstruct();
+        return function _createSuperInternal() {
+            var Super = _getPrototypeOf(Derived), result;
+            if (hasNativeReflectConstruct) {
+                var NewTarget = _getPrototypeOf(this).constructor;
+                result = Reflect.construct(Super, arguments, NewTarget);
+            } else {
+                result = Super.apply(this, arguments);
+            }
+            return _possibleConstructorReturn(this, result);
+        };
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _inherits;
     }));
-    var setPrototypeOf = __webpack_require__(13);
+    function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+            o.__proto__ = p;
+            return o;
+        };
+        return _setPrototypeOf(o, p);
+    }
     function _inherits(subClass, superClass) {
         if (typeof superClass !== \\"function\\" && superClass !== null) {
             throw new TypeError(\\"Super expression must either be null or a function\\");
@@ -12918,28 +12967,7 @@ module.exports = {
                 configurable: true
             }
         });
-        if (superClass) setPrototypeOf(subClass, superClass);
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _createSuper;
-    }));
-    var getPrototypeOf = __webpack_require__(10);
-    var isNativeReflectConstruct = __webpack_require__(14);
-    var possibleConstructorReturn = __webpack_require__(15);
-    function _createSuper(Derived) {
-        var hasNativeReflectConstruct = isNativeReflectConstruct();
-        return function _createSuperInternal() {
-            var Super = getPrototypeOf(Derived), result;
-            if (hasNativeReflectConstruct) {
-                var NewTarget = getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else {
-                result = Super.apply(this, arguments);
-            }
-            return possibleConstructorReturn(this, result);
-        };
+        if (superClass) _setPrototypeOf(subClass, superClass);
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
@@ -12972,7 +13000,7 @@ module.exports = {
     }
 }, function(module, exports, __webpack_require__) {
     (function(window) {
-        var _typeof = __webpack_require__(11);
+        var _typeof = __webpack_require__(10);
         var g;
         g = function() {
             return this;
@@ -12984,16 +13012,6 @@ module.exports = {
         }
         module.exports = g;
     }).call(this, __webpack_require__(2)[\\"window\\"]);
-}, function(module, exports) {
-    function _getPrototypeOf(o) {
-        module.exports = _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-            return o.__proto__ || Object.getPrototypeOf(o);
-        };
-        module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        return _getPrototypeOf(o);
-    }
-    module.exports = _getPrototypeOf;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
 }, function(module, exports) {
     function _typeof(obj) {
         \\"@babel/helpers - typeof\\";
@@ -13011,51 +13029,6 @@ module.exports = {
         return _typeof(obj);
     }
     module.exports = _typeof;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-}, , function(module, exports) {
-    function _setPrototypeOf(o, p) {
-        module.exports = _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-            o.__proto__ = p;
-            return o;
-        };
-        module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        return _setPrototypeOf(o, p);
-    }
-    module.exports = _setPrototypeOf;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-}, function(module, exports) {
-    function _isNativeReflectConstruct() {
-        if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
-        if (Reflect.construct.sham) return false;
-        if (typeof Proxy === \\"function\\") return true;
-        try {
-            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-            return true;
-        } catch (e) {
-            return false;
-        }
-    }
-    module.exports = _isNativeReflectConstruct;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-}, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(11)[\\"default\\"];
-    var assertThisInitialized = __webpack_require__(22);
-    function _possibleConstructorReturn(self, call) {
-        if (call && (_typeof(call) === \\"object\\" || typeof call === \\"function\\")) {
-            return call;
-        }
-        return assertThisInitialized(self);
-    }
-    module.exports = _possibleConstructorReturn;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-}, , , , , , , function(module, exports) {
-    function _assertThisInitialized(self) {
-        if (self === void 0) {
-            throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
-        }
-        return self;
-    }
-    module.exports = _assertThisInitialized;
     module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
 } ] ]);
 "

@@ -11,3 +11,4 @@ website/build
 website/package.json
 packages/**/package-lock.json
 coverage
+.history/

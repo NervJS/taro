@@ -50,7 +50,6 @@ export declare const components: {
         'report-submit-timeout': string;
     };
     Input: {
-        'auto-focus': string;
         'always-embed': string;
         'adjust-position': string;
         'hold-keyboard': string;
@@ -164,6 +163,10 @@ export declare const components: {
     Ad: {
         'ad-type': string;
         'ad-theme': string;
+    };
+    CoverView: {
+        'marker-id': string;
+        slot: string;
     };
     Editor: {
         'read-only': string;
@@ -279,5 +282,23 @@ export declare const components: {
         'ad-intervals': string;
         bindLoad: string;
         bindError: string;
+    };
+    PageContainer: {
+        show: string;
+        duration: string;
+        'z-index': string;
+        overlay: string;
+        position: string;
+        round: string;
+        'close-on-slideDown': string;
+        'overlay-style': string;
+        'custom-style': string;
+        bindBeforeEnter: string;
+        bindEnter: string;
+        bindAfterEnter: string;
+        bindBeforeLeave: string;
+        bindLeave: string;
+        bindAfterLeave: string;
+        bindClickOverlay: string;
     };
 };

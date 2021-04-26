@@ -50,12 +50,10 @@
 import * as React from 'react'
 import {
   StyleSheet,
-  ViewStyle
 } from 'react-native'
-// import Swiper from 'react-native-swiper'
-import Swiper from '@manjiz/react-native-swiper'
 import { noop } from '../../utils'
 import { SwiperProps } from './PropsType'
+import Carousel from './carousel'
 
 class _Swiper extends React.Component<SwiperProps> {
   static defaultProps = {
@@ -66,19 +64,12 @@ class _Swiper extends React.Component<SwiperProps> {
   }
 
   onIndexChanged = (index: number): void => {
-    const { onChange = noop } = this.props
+    const { onChange = noop, onAnimationFinish = noop } = this.props
     onChange({ detail: { current: index } })
+    onAnimationFinish({ detail: { current: index } })
   }
 
-  /**
-   * e, state, context(ref to swiper's this)
-   */
-  onMomentumScrollEnd = (e: any, state: { index: number }): void => {
-    const { onAnimationFinish = noop } = this.props
-    onAnimationFinish({ detail: { current: state.index } })
-  }
-
-  render () {
+  render(): any {
     const {
       children,
       style,
@@ -92,42 +83,21 @@ class _Swiper extends React.Component<SwiperProps> {
       vertical,
     } = this.props
 
-    // 从样式中取出部分常用样式
-    let formattedStyle: ViewStyle | undefined
-    const containerStyle: { [key: string]: any } = {}
-    if (style) {
-      const flattenStyle: ViewStyle = StyleSheet.flatten(style)
-      if (flattenStyle) {
-        for (let key in flattenStyle) {
-          if (/width|height|margin.*/.test(key)) {
-            containerStyle[key] = flattenStyle[key as keyof ViewStyle]
-            delete flattenStyle[key as keyof ViewStyle]
-          }
-        }
-        if (containerStyle.width || containerStyle.height) {
-          containerStyle.flex = 0
-        }
-        formattedStyle = flattenStyle
-      }
-    }
-
     return (
-      <Swiper
-        showsPagination={!!indicatorDots}
-        dotColor={indicatorColor}
-        activeDotColor={indicatorActiveColor}
-        autoplay={!!autoplay}
-        index={current}
-        autoplayTimeout={parseFloat((interval / 1000).toFixed(1))}
-        loop={!!circular}
-        horizontal={!vertical}
-        onIndexChanged={this.onIndexChanged}
-        onMomentumScrollEnd={this.onMomentumScrollEnd}
-        containerStyle={containerStyle}
-        style={formattedStyle || style}
+      <Carousel
+        style={StyleSheet.flatten(style)}
+        dots={Boolean(indicatorDots)}
+        dotStyle={{ backgroundColor: indicatorColor }}
+        dotActiveStyle={{ backgroundColor: indicatorActiveColor }}
+        autoplay={Boolean(autoplay)}
+        selectedIndex={current}
+        autoplayInterval={interval}
+        infinite={Boolean(circular)}
+        vertical={Boolean(vertical)}
+        afterChange={this.onIndexChanged}
       >
         {children}
-      </Swiper>
+      </Carousel>
     )
   }
 }

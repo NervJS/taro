@@ -42,7 +42,7 @@ export interface Reconciler<Instance, DOMElement = TaroElement, TextElement = Ta
   batchedEventUpdates?(cb: () => void): void
 
   // h5
-  createPullDownComponent?(el: Instance, path: string, framework)
+  createPullDownComponent?(el: Instance, path: string, framework, customWrapper?: any)
 
   findDOMNode?(instance: Instance): DOMElement | undefined
 

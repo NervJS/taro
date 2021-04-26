@@ -10,13 +10,13 @@ import {
 } from 'react-native'
 import { TextProps } from './PropsType'
 
-const _Text: React.SFC<TextProps> = ({
+const _Text: React.FC<TextProps> = ({
   style,
   children,
   selectable,
   onClick,
   ...otherProps
-}) => {
+}: TextProps) => {
   return (
     <Text
       selectable={!!selectable}

@@ -13,6 +13,7 @@ import {
   getModule,
   mergeOption,
   getMiniPlugin,
+  getBuildNativePlugin,
   getProviderPlugin,
   getMiniCssExtractPlugin,
   getEntry
@@ -75,6 +76,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     addChunkPages,
 
     blended,
+    isBuildNativeComp,
 
     modifyMiniConfigs,
     modifyBuildAssets,
@@ -93,10 +95,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     patterns.push({
       from: path.join(sourceRoot, 'plugin', 'doc'),
       to: path.join(outputRoot, 'doc')
-    })
-    patterns.push({
-      from: path.join(sourceRoot, 'plugin', 'plugin.json'),
-      to: path.join(outputRoot, 'plugin', 'plugin.json')
     })
     copy = Object.assign({}, copy, { patterns })
   }
@@ -138,7 +136,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     customCommonChunks = commonChunks
   }
   plugin.definePlugin = getDefinePlugin([constantsReplaceList])
-  plugin.miniPlugin = getMiniPlugin({
+
+  const miniPluginOptions = {
     sourceDir,
     outputDir,
     constantsReplaceList,
@@ -149,6 +148,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     quickappJSON,
     designWidth,
     pluginConfig: entryRes!.pluginConfig,
+    pluginMainEntry: entryRes!.pluginMainEntry,
     isBuildPlugin: Boolean(isBuildPlugin),
     commonChunks: customCommonChunks,
     baseLevel,
@@ -161,8 +161,10 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     minifyXML,
     runtimePath,
     blended,
+    isBuildNativeComp,
     alias
-  })
+  }
+  plugin.miniPlugin = !isBuildNativeComp ? getMiniPlugin(miniPluginOptions) : getBuildNativePlugin(miniPluginOptions)
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
     filename: `[name]${fileType.style}`,
@@ -175,7 +177,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     navigator: ['@tarojs/runtime', 'navigator'],
     requestAnimationFrame: ['@tarojs/runtime', 'requestAnimationFrame'],
     cancelAnimationFrame: ['@tarojs/runtime', 'cancelAnimationFrame'],
-    Element: ['@tarojs/runtime', 'TaroElement']
+    Element: ['@tarojs/runtime', 'TaroElement'],
+    SVGElement: ['@tarojs/runtime', 'TaroElement']
   })
 
   const isCssoEnabled = !((csso && csso.enable === false))

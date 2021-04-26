@@ -91,6 +91,18 @@ export default class TaroLoadChunksPlugin {
         }
       })
 
+      compilation.chunkTemplate.hooks.renderWithEntry.tap(PLUGIN_NAME, (modules: ConcatSource, chunk) => {
+        if (chunk.entryModule) {
+          const entryModule: TaroNormalModule = chunk.entryModule.rootModule ? chunk.entryModule.rootModule : chunk.entryModule
+          if (entryModule.miniType === META_TYPE.EXPORTS) {
+            const source = new ConcatSource()
+            source.add('module.exports=')
+            source.add(modules)
+            return source
+          }
+        }
+      })
+
       /**
        * 在每个 chunk 文本刚生成后，按判断条件在文本头部插入 require 语句
        */
@@ -150,7 +162,7 @@ export default class TaroLoadChunksPlugin {
 /**
  * @returns chunk.id || chunk.name
  */
-function getIdOrName (chunk: webpack.compilation.Chunk) {
+export function getIdOrName (chunk: webpack.compilation.Chunk) {
   if (typeof chunk.id === 'string') {
     return chunk.id
   }
@@ -160,7 +172,7 @@ function getIdOrName (chunk: webpack.compilation.Chunk) {
 /**
  * 在文本头部加入一些 require 语句
  */
-function addRequireToSource (id: string, modules: ConcatSource, commonChunks: (webpack.compilation.Chunk | { name: string })[]) {
+export function addRequireToSource (id: string, modules: ConcatSource, commonChunks: (webpack.compilation.Chunk | { name: string })[]) {
   const source = new ConcatSource()
   commonChunks.forEach(chunkItem => {
     source.add(`require(${JSON.stringify(promoteRelativePath(path.relative(id, chunkItem.name)))});\n`)
