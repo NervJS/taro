@@ -90,6 +90,16 @@ function loadPage (page: PageInstance | null, pageConfig: Route | undefined) {
   }
 }
 
+function isTabBar(config: RouterConfig) {
+  const { customRoutes = {}, basename = '' } = config.router
+  const routePath = location.pathname.replace(basename, '')
+  const pagePath = Object.entries(customRoutes).find(
+      ([, target]) => target === routePath
+    )?.[0] || routePath
+
+  return pagePath && (config.tabBar?.list || []).some(t => t.pagePath === pagePath)
+}
+
 export function createRouter (
   app: AppInstance,
   config: RouterConfig,
@@ -165,7 +175,11 @@ export function createRouter (
       hidePage(Current.page)
       shouldLoad = true
     } else if (action === 'REPLACE') {
-      unloadPage(Current.page)
+      if (isTabBar(config)) {
+        hidePage(Current.page)
+      } else {
+        unloadPage(Current.page)
+      }
       shouldLoad = true
     }
 
