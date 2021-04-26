@@ -8,7 +8,7 @@ import { history } from './history'
 import { stacks } from './stack'
 import { init, routerConfig } from './init'
 import { bindPageScroll } from './scroll'
-import { setRoutesAlias, addLeadingSlash } from './utils'
+import { setRoutesAlias, addLeadingSlash, historyBackDelta, setHistoryBackDelta } from './utils'
 
 export interface Route extends PageConfig {
   path?: string
@@ -22,7 +22,8 @@ export interface RouterConfig extends AppConfig {
     basename: string,
     customRoutes?: Record<string, string>,
     pathname: string
-  }
+  },
+  PullDownRefresh?: any
 }
 
 function hidePage (page: PageInstance | null) {
@@ -149,6 +150,12 @@ export function createRouter (
 
     if (action === 'POP') {
       unloadPage(Current.page)
+      let delta = historyBackDelta
+      while (delta-- > 1) {
+        unloadPage(stacks.slice(-1)[0])
+      }
+      // 最终必须重置为 1
+      setHistoryBackDelta(1)
       const prev = stacks.find(s => s.path === location.pathname + stringify(qs()))
       if (prev) {
         showPage(prev, pageConfig)
@@ -169,7 +176,7 @@ export function createRouter (
       delete config['path']
       delete config['load']
       const page = createPageConfig(
-        enablePullDownRefresh ? CurrentReconciler.createPullDownComponent?.(el, location.pathname, framework) : el,
+        enablePullDownRefresh ? CurrentReconciler.createPullDownComponent?.(el, location.pathname, framework, routerConfig.PullDownRefresh) : el,
         location.pathname + stringify(qs()),
         {},
         config

@@ -4,23 +4,28 @@ import type { IPluginContext } from '@tarojs/service'
 // 让其它平台插件可以继承此平台
 export { Alipay }
 
+let registedModifyPageTemplate = false
 export default (ctx: IPluginContext) => {
   ctx.registerPlatform({
     name: 'alipay',
     useConfigName: 'mini',
     async fn ({ config }) {
-      modifyPageTemplate(ctx)
-
+      !registedModifyPageTemplate && modifyPageTemplate(ctx)
       const program = new Alipay(ctx, config)
       await program.start()
     }
   })
 }
 
+function getIsBuildPluginPath (filePath, isBuildPlugin) {
+  return isBuildPlugin ? `plugin/${filePath}` : filePath
+}
+
 // 支付宝小程序中，如果某个页面依赖了原生小程序组件，
 // 那么这个页面不能使用公共模板 base.axml，
 // 而需要把公共模板的内容在此页面的模板中复制一份, 。
 function modifyPageTemplate (ctx: IPluginContext) {
+  registedModifyPageTemplate = true
   ctx.modifyBuildAssets(({ assets, miniPlugin }) => {
     const pages: string[] = []
 
@@ -34,7 +39,7 @@ function modifyPageTemplate (ctx: IPluginContext) {
 
     if (!pages.length) return
 
-    const baseXml = assets['base.axml'].source()
+    const baseXml = assets[getIsBuildPluginPath('base.axml', miniPlugin.options.isBuildPlugin)].source()
 
     pages.forEach(page => {
       const templateName = `${page}.axml`
@@ -55,5 +60,24 @@ ${main}`
         source: () => res
       }
     })
+    if (miniPlugin.options.isBuildPlugin) {
+      const miniProjectJSONStr = JSON.stringify({
+        miniprogramRoot: 'miniprogram',
+        pluginRoot: 'plugin',
+        compileType: 'plugin'
+      }, null, 2)
+      assets['mini.project.json'] = {
+        size: () => miniProjectJSONStr.length,
+        source: () => miniProjectJSONStr
+      }
+      const pluginJSON = JSON.parse(assets['/plugin/plugin.json'].source())
+      pluginJSON.publicPages = pluginJSON.pages
+      delete pluginJSON.pages
+      const pluginJSONStr = JSON.stringify(pluginJSON, null, 2)
+      assets['/plugin/plugin.json'] = {
+        size: () => pluginJSONStr.length,
+        source: () => pluginJSONStr
+      }
+    }
   })
 }

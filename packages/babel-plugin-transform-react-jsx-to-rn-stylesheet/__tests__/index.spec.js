@@ -59,9 +59,9 @@ const getStyleFunctionTemplete = `function _getStyle(classNameExpression) {
 }`
 
 describe('jsx style plugin', () => {
-  function getTransfromCode (source, debug = false) {
+  function getTransfromCode (source, debug = false, options = {}) {
     const code = transform(source, {
-      plugins: [jSXStylePlugin, syntaxJSX],
+      plugins: [[jSXStylePlugin, { isCSSModule: options.isCSSModule }], syntaxJSX],
       configFile: false
     }).code
     if (debug) {
@@ -454,22 +454,76 @@ render(<div style={[_styleSheet["header"], {
 }]} />);`)
   })
 
-//   it('transform styleAttribute inline expression string and exsit classNameAttribute', () => {
-//     expect(getTransfromCode(`
-// import { createElement, render } from 'rax';
-// import './app.less';
-// const width = '100px';
-// render(<div className="header" style={\`width:\$\{width\};height:100px;` + `background-color:rgba(0, 0, 0, 0.5);border: 1px solid;\`} />);
-// `, true)).toBe(`import { createElement, render } from 'rax';
-// import appLessStyleSheet from "./app.less";
-// var _styleSheet = appLessStyleSheet;
-// render(<div style={[_styleSheet["header"], {
-//   "width": 100,
-//   "height": 100,
-//   "backgroundColor": "rgba(0, 0, 0, 0.5)",
-//   "borderWidth": 1,
-//   "borderColor": "black",
-//   "borderStyle": "solid"
-// }]} />);`)
-//   })
+  it('ignore merge stylesheet when css module enable', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import './app.scss';
+import styleSheet from './app.module.scss';
+
+class App extends Component {
+  render() {
+    return <div className="header" style={styleSheet.red} />;
+  }
+}`, false, { isCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
+import appScssStyleSheet from "./app.scss";
+import styleSheet from './app.module.scss';
+var _styleSheet = appScssStyleSheet;
+
+class App extends Component {
+  render() {
+    return <div style={[_styleSheet["header"], styleSheet.red]} />;
+  }\n
+}`)
+  })
+
+  it('Provide a default stylesheet object when css module enable and import css module sheet only', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import styleSheet from './app.module.scss';
+
+class App extends Component {
+  render() {
+    return <div>
+      <div className={styleSheet.header} />
+      <div className="red" />
+    </div>;
+  }
+}`, false, { isCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
+import styleSheet from './app.module.scss';
+var _styleSheet = {};
+
+class App extends Component {
+  render() {
+    return <div>
+      <div style={styleSheet.header} />
+      <div style={_styleSheet["red"]} />
+    </div>;
+  }\n
+}`)
+  })
+
+  it('merge stylesheet when css module disable', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import './app.scss';
+import styleSheet from './app.module.scss';
+
+class App extends Component {
+  render() {
+    return <div className="header" style={styleSheet.red} />;
+  }
+}`)).toBe(`import { createElement, Component } from 'rax';
+import appScssStyleSheet from "./app.scss";
+import styleSheet from "./app.module.scss";
+
+${mergeStylesFunctionTemplate}
+
+var _styleSheet = _mergeStyles(appScssStyleSheet, styleSheet);
+
+class App extends Component {
+  render() {
+    return <div style={[_styleSheet["header"], styleSheet.red]} />;
+  }\n
+}`)
+  })
 })

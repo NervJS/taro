@@ -53,7 +53,6 @@ export const components = {
     'report-submit-timeout': '0'
   },
   Input: {
-    'auto-focus': 'false',
     'always-embed': 'false',
     'adjust-position': 'true',
     'hold-keyboard': 'false',
@@ -172,6 +171,10 @@ export const components = {
   Ad: {
     'ad-type': singleQuote('banner'),
     'ad-theme': singleQuote('white')
+  },
+  CoverView: {
+    'marker-id': '',
+    slot: ''
   },
   // ======== 额外组件 ========
   Editor: {
