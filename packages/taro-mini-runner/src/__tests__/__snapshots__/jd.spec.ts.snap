@@ -1308,10 +1308,16 @@ require(\\"./taro\\");
         function initNativeApi(taro) {
             processApis(taro, jd);
         }
+        var components = {
+            Swiper: {
+                \\"easing-function\\": singleQuote(\\"default\\")
+            }
+        };
         var hostConfig = {
             initNativeApi: initNativeApi
         };
         mergeReconciler(hostConfig);
+        mergeInternalComponents(components);
         var taro_runtime = __webpack_require__(1);
         var classCallCheck = __webpack_require__(3);
         var createClass = __webpack_require__(4);
