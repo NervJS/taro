@@ -71,7 +71,10 @@ export abstract class TaroPlatformBase {
   }
 
   private setupImpl () {
-    this.emptyOutputDir()
+    const { needClearOutput } = this.config
+    if (typeof needClearOutput === 'undefined' || !!needClearOutput) {
+      this.emptyOutputDir()
+    }
     this.printDevelopmentTip(this.platform)
     if (this.projectConfigJson) {
       this.generateProjectConfig(this.projectConfigJson)
@@ -144,7 +147,7 @@ ${exampleCommand}
       runtimePath: this.runtimePath,
       taroComponentsPath: this.taroComponentsPath
     }, extraOptions))
-    runner(options)
+    await runner(options)
   }
 
   /**
@@ -153,6 +156,7 @@ ${exampleCommand}
    * @param dist 编译后配置文件的名称，默认为 'project.config.json'
    */
   protected generateProjectConfig (src: string, dist = 'project.config.json') {
+    if (this.config.isBuildNativeComp) return
     this.ctx.generateProjectConfig({
       srcConfigName: src,
       distConfigName: dist

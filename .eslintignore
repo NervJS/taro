@@ -19,8 +19,8 @@ packages/taro-mini-runner/src/__tests__/__snapshots__
 packages/taro-mini-runner/src/__tests__/fixtures
 packages/taro-cli/src/__tests__/fixtures
 packages/taro/types
-packages/taro-components-rn
-packages/taro-rn
-packages/taro-rn-runner
-packages/taro-router-rn
 packages/taro-mini-runner/src/quickapp
+packages/taro-components/src/components
+packages/taro-router/__tests__
+packages/taro-rn-style-transformer/src/transforms/StyleSheet
+packages/taro-rn/src/__tests__

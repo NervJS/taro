@@ -123,6 +123,9 @@ export class TaroElement extends TaroNode {
       this.style.cssText = ''
     } else {
       delete this.props[qualifiedName]
+      if (qualifiedName === 'class') {
+        qualifiedName = Shortcuts.Class
+      }
     }
 
     CurrentReconciler.removeAttribute?.(this, qualifiedName)

@@ -56,6 +56,8 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     miniCssExtractPluginOption = emptyObj,
     esnextModules = [],
 
+    useHtmlComponents = false,
+
     postcss = emptyObj
   } = config
   const sourceDir = path.join(appPath, sourceRoot)
@@ -69,7 +71,8 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     entryFileName,
     sourceDir,
     outputDir,
-    routerConfig: router
+    routerConfig: router,
+    useHtmlComponents
   })
 
   if (enableExtract) {
@@ -110,7 +113,11 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
   const mode = 'development'
 
   if (config.framework === FRAMEWORK_MAP.REACT || config.framework === FRAMEWORK_MAP.NERV) {
-    alias['@tarojs/components$'] = '@tarojs/components/dist-h5/react'
+    if (useHtmlComponents && config.framework === FRAMEWORK_MAP.REACT) {
+      alias['@tarojs/components$'] = '@tarojs/components-react/index'
+    } else {
+      alias['@tarojs/components$'] = '@tarojs/components/dist-h5/react'
+    }
   }
 
   chain.merge({

@@ -1,0 +1,1 @@
+export { setKeepScreenOn } from '../screen'

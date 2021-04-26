@@ -15,15 +15,9 @@
  */
 
 import * as React from 'react'
-import {
-  Image,
-  StyleSheet,
-  ImageSourcePropType,
-  LayoutChangeEvent,
-  ImageResolvedAssetSource
-} from 'react-native'
-import { noop } from '../../utils'
-// import ClickableSimplified from '../ClickableSimplified'
+import { Image, StyleSheet, ImageSourcePropType, LayoutChangeEvent, ImageResolvedAssetSource } from 'react-native'
+import { noop, omit } from '../../utils'
+import ClickableSimplified from '../ClickableSimplified'
 import { ImageProps, ImageState, Mode, ResizeModeMap, ResizeMode } from './PropsType'
 
 const resizeModeMap: ResizeModeMap = {
@@ -35,49 +29,53 @@ const resizeModeMap: ResizeModeMap = {
   // Not supported value...
 }
 
-class _Image extends React.Component<ImageProps, ImageState> {
+export class _Image extends React.Component<ImageProps, ImageState> {
   static defaultProps = {
     src: '',
     mode: Mode.ScaleToFill
   }
 
-  hasLayout: boolean = false
+  hasLayout = false
 
   state: ImageState = {
     ratio: 0,
     layoutWidth: 0
   }
 
-  onError = () => {
+  onError = (): void => {
     const { onError = noop } = this.props
     onError({
       detail: { errMsg: 'something wrong' }
     })
   }
 
-  onLoad = () => {
+  onLoad = (): void => {
     const { src, onLoad } = this.props
     if (!onLoad) return
     if (typeof src === 'string') {
-      Image.getSize(src as string, (width: number, height: number) => {
-        onLoad({
-          detail: { width, height }
-        })
-      }, (err: any) => {
-        onLoad({
-          detail: { width: 0, height: 0 }
-        })
-      })
+      Image.getSize(
+        src as string,
+        (width: number, height: number) => {
+          onLoad({
+            detail: { width, height }
+          })
+        },
+        () => {
+          onLoad({
+            detail: { width: 0, height: 0 }
+          })
+        }
+      )
     } else {
       const iras: ImageResolvedAssetSource = Image.resolveAssetSource(typeof src === 'string' ? { uri: src } : src)
-      const { width, height }: { width: number, height: number } = iras || { width: 0, height: 0 }
+      const { width, height }: { width: number; height: number } = iras || { width: 0, height: 0 }
       onLoad({
         detail: { width, height }
       })
     }
   }
 
-  onLayout = (event: LayoutChangeEvent) => {
+  onLayout = (event: LayoutChangeEvent): void => {
     const { mode, style } = this.props
     const { width: layoutWidth } = event.nativeEvent.layout
     const flattenStyle = StyleSheet.flatten(style) || {}
@@ -87,53 +85,53 @@ class _Image extends React.Component<ImageProps, ImageState> {
         layoutWidth
       })
     }
-    this.hasLayout = true
+    if (this.state.ratio) {
+      this.hasLayout = true
+    }
   }
 
-  loadImg = (props: ImageProps) => {
+  loadImg = (props: ImageProps): void => {
     const { mode, src } = props
     if (mode !== 'widthFix') return
     if (typeof src === 'string') {
-      Image.getSize(props.src, (width, height) => {
-        if (this.hasLayout) return
-        this.setState({
-          ratio: height / width
-        })
-      }, (err: any) => {
-      })
+      Image.getSize(
+        props.src,
+        (width, height) => {
+          if (this.hasLayout) return
+          this.setState({
+            ratio: height / width
+          })
+        }
+      )
     } else {
       const source = typeof props.src === 'string' ? { uri: props.src } : props.src
-      const { width, height }: { width: number, height: number } = Image.resolveAssetSource(source) || {}
-      if (this.hasLayout) return
+      const { width, height }: { width: number; height: number } = Image.resolveAssetSource(source) || {}
+      if (this.hasLayout && !!this.state.ratio) return
       this.setState({
         ratio: height / width
       })
     }
   }
 
-  componentDidMount () {
+  componentDidMount(): void {
     this.loadImg(this.props)
   }
 
-  shouldComponentUpdate (nextProps: ImageProps, nextState: ImageState) {
+  shouldComponentUpdate(nextProps: ImageProps): boolean {
     if (nextProps.src !== this.props.src) {
       this.hasLayout = false
     }
     return true
   }
 
-  componentDidUpdate (prevProps: ImageProps, prevState: ImageState) {
+  componentDidUpdate(prevProps: ImageProps): void {
     if (prevProps.src !== this.props.src) {
       this.loadImg(this.props)
     }
   }
 
-  render () {
-    const {
-      style,
-      src,
-      mode,
-    } = this.props
+  render(): JSX.Element {
+    const { style, src, mode } = this.props
 
     const flattenStyle = StyleSheet.flatten(style) || {}
 
@@ -141,8 +139,8 @@ class _Image extends React.Component<ImageProps, ImageState> {
     const source: ImageSourcePropType = typeof src === 'string' ? { uri: src } : src
 
     const isWidthFix = mode === 'widthFix'
-
-    const rMode: ResizeMode = ((resizeModeMap[mode] || (isWidthFix ? undefined : 'stretch')) as ResizeMode)
+    // @ts-ignore
+    const rMode: ResizeMode = (resizeModeMap[mode] || (isWidthFix ? undefined : 'stretch')) as ResizeMode
 
     const imageHeight = (() => {
       if (isWidthFix) {
@@ -157,6 +155,7 @@ class _Image extends React.Component<ImageProps, ImageState> {
         return flattenStyle.height || 225
       }
     })()
+    const restImageProps = omit(this.props, ['source', 'src', 'resizeMode', 'onLoad', 'onError', 'onLayout', 'style'])
 
     return (
       <Image
@@ -174,11 +173,12 @@ class _Image extends React.Component<ImageProps, ImageState> {
             height: imageHeight
           }
         ]}
+        {...restImageProps}
       />
     )
   }
 }
 
 // export { _Image }
-// export default ClickableSimplified(_Image)
-export default _Image
+export default ClickableSimplified(_Image)
+// export default _Image

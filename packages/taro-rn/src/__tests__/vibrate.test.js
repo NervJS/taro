@@ -1,13 +1,8 @@
-import Vibration from './__mock__/mockVibrate'
-import vibrate from '../api/device/vibrate'
+import * as vibrate from '../lib/vibrate'
 
 const Taro = Object.assign({}, vibrate)
 
 describe('vibrate', () => {
-  beforeEach(() => {
-    jest.setMock('Vibration', Vibration)
-  })
-
   describe('vibrateShort', () => {
     test('能正常震动', () => {
       const expectMsg = 'vibrateShort:ok'

@@ -1,11 +1,12 @@
 import { mergeWith } from 'lodash'
 import { join } from 'path'
 import resolve from 'rollup-plugin-node-resolve'
-import babel from 'rollup-plugin-babel'
 import common from 'rollup-plugin-commonjs'
 import alias from 'rollup-plugin-alias'
 import postcss from 'rollup-plugin-postcss'
 import exportNameOnly from './build/rollup-plugin-export-name-only'
+
+const babel = require('@rollup/plugin-babel').default
 
 const cwd = __dirname
 const baseConfig = {

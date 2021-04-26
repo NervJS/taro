@@ -3,7 +3,6 @@ import * as path from 'path'
 import * as minimist from 'minimist'
 import { Kernel } from '@tarojs/service'
 
-import build from './commands/build'
 import init from './commands/init'
 import customCommand from './commands/customCommand'
 import { getPkgVersion } from './util'
@@ -22,7 +21,9 @@ export default class CLI {
     const args = minimist(process.argv.slice(2), {
       alias: {
         version: ['v'],
-        help: ['h']
+        help: ['h'],
+        port: ['p'],
+        resetCache: ['reset-cache']
       },
       boolean: ['version', 'help']
     })
@@ -37,6 +38,12 @@ export default class CLI {
       })
       switch (command) {
         case 'build': {
+          let plugin
+          let platform = args.type
+          if (typeof args.plugin === 'string') {
+            plugin = args.plugin
+            platform = 'plugin'
+          }
           kernel.optsPlugins = [
             '@tarojs/plugin-platform-weapp',
             '@tarojs/plugin-platform-alipay',
@@ -45,15 +52,17 @@ export default class CLI {
             '@tarojs/plugin-platform-qq',
             '@tarojs/plugin-platform-jd'
           ]
-          build(kernel, {
-            platform: args.type,
+          customCommand('build', kernel, {
+            _: args._,
+            platform,
+            plugin,
             isWatch: Boolean(args.watch),
             port: args.port,
             env: args.env,
+            deviceType: args.platform,
+            resetCache: !!args.resetCache,
             blended: Boolean(args.blended),
-            // plugin: args.plugin,
-            // release: args.release,
-            isHelp: args.h
+            h: args.h
           })
           break
         }

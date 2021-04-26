@@ -723,8 +723,8 @@ exports[`sass should build app with sass 2`] = `
     function createReactApp() {}
     function createVueApp() {}
     function createVue3App() {}
-    var taro_components = __webpack_require__(0);
     var nerv = \\"nervjs-mock\\";
+    var taro_components = __webpack_require__(0);
     var mocks_taro_components = __webpack_require__(7);
     Object(taro_components[\\"c\\"])().then((function() {
         Object(taro_components[\\"d\\"])(taro_runtime_window);

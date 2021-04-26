@@ -1,0 +1,1 @@
+export { uploadFile } from '../file'
