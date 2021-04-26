@@ -105,11 +105,12 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       if (this.options == null) {
         this.options = options
       }
+      this.options.$taroTimestamp = Date.now()
 
-      const path = getPath(id, options)
+      const path = getPath(id, this.options)
       const router = isBrowser ? path : this.route || this.__route__
       Current.router = {
-        params: options,
+        params: this.options,
         path: addLeadingSlash(router),
         onReady: getOnReadyEventKey(id),
         onShow: getOnShowEventKey(id),
@@ -121,7 +122,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
           pageElement = document.getElementById<TaroRootElement>(path)
 
           ensure(pageElement !== null, '没有找到页面实例。')
-          safeExecute(path, 'onLoad', options)
+          safeExecute(path, 'onLoad', this.options)
           if (!isBrowser) {
             pageElement.ctx = this
             pageElement.performUpdate(true, cb)
