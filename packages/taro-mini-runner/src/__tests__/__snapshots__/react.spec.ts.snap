@@ -1627,6 +1627,7 @@ require(\\"./taro\\");
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
         var taro_runtime = __webpack_require__(1);
+        var mocks_taro = \\"taro\\";
         var classCallCheck = __webpack_require__(3);
         var createClass = __webpack_require__(4);
         var inherits = __webpack_require__(6);
@@ -1673,6 +1674,14 @@ require(\\"./taro\\");
         };
         taro_runtime[\\"window\\"].__taroAppConfig = app_config;
         var inst = App(Object(taro_runtime[\\"createReactApp\\"])(lib_src_app, react, taro_react[\\"a\\"], app_config));
+        undefined({
+            designWidth: 750,
+            deviceRatio: {
+                640: 1.17,
+                750: 1,
+                828: .905
+            }
+        });
     }
 }, [ [ 19, 0, 1, 3, 2 ] ] ]);
 

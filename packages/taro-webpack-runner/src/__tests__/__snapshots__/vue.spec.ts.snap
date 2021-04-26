@@ -704,6 +704,14 @@ exports[`vue should build vue app 2`] = `
     }, __webpack_require__(8).default || {}) ];
     var inst = createVueApp(src_app, vue, config);
     createRouter(inst, config, vue);
+    undefined({
+        \\"designWidth\\": 750,
+        \\"deviceRatio\\": {
+            \\"640\\": 1.17,
+            \\"750\\": 1,
+            \\"828\\": .905
+        }
+    });
 } ]);
 "
 `;

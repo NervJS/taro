@@ -31,6 +31,7 @@ export default function (this: webpack.loader.LoaderContext) {
   } = frameworkMeta[options.framework]
   const config: AppConfig = options.config
   const pages: Map<string, string> = options.pages
+  const pxTransformConfig = options.pxTransformConfig
   let tabBarCode = `var tabbarIconPath = []
 var tabbarSelectedIconPath = []
 `
@@ -60,7 +61,7 @@ applyPolyfills().then(function () {
 
   const components = options.useHtmlComponents ? compatComponentImport || '' : webComponents
 
-  const code = `import { createRouter } from '@tarojs/taro'
+  const code = `import { createRouter, initPxTransform } from '@tarojs/taro'
 import component from ${stringify(join(dirname(this.resourcePath), options.filename))}
 import { ${creator}, window } from '@tarojs/runtime'
 ${importFrameworkStatement}
@@ -87,6 +88,10 @@ ${options.useHtmlComponents ? compatComponentExtra : ''}
 ${execBeforeCreateWebApp || ''}
 var inst = ${creator}(component, ${frameworkArgs})
 createRouter(inst, config, ${importFrameworkName})
+initPxTransform({
+  designWidth: ${pxTransformConfig.designWidth},
+  deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)}
+})
 `
 
   return code
