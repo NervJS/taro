@@ -6,7 +6,6 @@ import { Picker } from '../h5/react'
 import { mount } from './test-tools'
 import { waitForChange } from './utils'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const h = React.createElement
 
 describe('Picker', () => {
@@ -25,10 +24,10 @@ describe('Picker', () => {
     scratch = null
   })
 
-  async function srcollToNextItem (wrapper, columnIndex = 0) {
-    const content = wrapper.find('.weui-picker__content')
-    const column = wrapper.findAll('.weui-picker__group')[columnIndex]
-    const cur = wrapper.find('.weui-picker__indicator')
+  async function srcollToNextItem (columnIndex = 0) {
+    const content = document.querySelector('.weui-picker__content')
+    const column = document.querySelectorAll('.weui-picker__group')[columnIndex]
+    const cur = document.querySelector('.weui-picker__indicator')
     const curRect = cur.getBoundingClientRect()
     const startY = curRect.top + curRect.height / 2
     const endY = curRect.top - curRect.height / 2
@@ -72,34 +71,30 @@ describe('Picker', () => {
         <div ref={domRef}>Picker</div>
       </Picker>
     )
-    const wrapper = await mount(app, scratch)
-    const mask = wrapper.find('.weui-mask')
-    const slider = wrapper.find('.weui-picker')
-    const [cancel] = wrapper.findAll('.weui-picker__action')
+    await mount(app, scratch)
+    const overlay = document.querySelector('.weui-picker__overlay')
+    const mask = document.querySelector('.weui-mask')
+    const cancel = document.querySelectorAll('.weui-picker__action')[0]
 
-    assert(mask.style.display === 'none')
-    assert(slider.style.display === 'none')
+    assert(overlay.style.display === 'none')
 
     // 成功打开
     domRef.current.click()
-    await waitForChange(slider)
-    assert(mask.style.display !== 'none')
-    assert(slider.style.display !== 'none')
+    await waitForChange(overlay)
+    assert(overlay.style.display !== 'none')
 
     // 点击蒙层可以关闭
     mask.click()
-    await waitForChange(slider)
-    assert(mask.style.display === 'none')
-    assert(slider.style.display === 'none')
+    await waitForChange(overlay)
+    assert(overlay.style.display === 'none')
     assert(onCancel.callCount === 1)
 
     // 点击取消按钮可以关闭
     domRef.current.click()
-    await waitForChange(slider)
+    await waitForChange(overlay)
     cancel.click()
-    await waitForChange(slider)
-    assert(mask.style.display === 'none')
-    assert(slider.style.display === 'none')
+    await waitForChange(overlay)
+    assert(overlay.style.display === 'none')
     assert(onCancel.callCount === 2)
   })
 
@@ -118,17 +113,16 @@ describe('Picker', () => {
         <div ref={domRef}>Picker</div>
       </Picker>
     )
-    const wrapper = await mount(app, scratch)
-    const { node } = wrapper
-    const slider = wrapper.find('.weui-picker')
-    const [, confirm] = wrapper.findAll('.weui-picker__action')
+    const { node } = await mount(app, scratch)
+    const slider = document.querySelector('.weui-picker')
+    const confirm = document.querySelectorAll('.weui-picker__action')[1]
 
     assert(node.value === selected)
 
     domRef.current.click()
     await waitForChange(slider)
 
-    await srcollToNextItem(wrapper)
+    await srcollToNextItem()
 
     confirm.click()
 
@@ -170,17 +164,16 @@ describe('Picker', () => {
         <div ref={domRef}>Picker</div>
       </Picker>
     )
-    const wrapper = await mount(app, scratch)
-    const { node } = wrapper
-    const slider = wrapper.find('.weui-picker')
-    const [, confirm] = wrapper.findAll('.weui-picker__action')
+    const { node } = await mount(app, scratch)
+    const slider = document.querySelector('.weui-picker')
+    const confirm = document.querySelectorAll('.weui-picker__action')[1]
 
     assert(node.value === selected)
 
     domRef.current.click()
     await waitForChange(slider)
 
-    await srcollToNextItem(wrapper)
+    await srcollToNextItem()
 
     assert(onColumnChange.calledOnceWith({ column: 0, value: 1 }))
 
@@ -204,17 +197,16 @@ describe('Picker', () => {
         <div ref={domRef}>Picker</div>
       </Picker>
     )
-    const wrapper = await mount(app, scratch)
-    const { node } = wrapper
-    const slider = wrapper.find('.weui-picker')
-    const [, confirm] = wrapper.findAll('.weui-picker__action')
+    const { node } = await mount(app, scratch)
+    const slider = document.querySelector('.weui-picker')
+    const confirm = document.querySelectorAll('.weui-picker__action')[1]
 
     assert(node.value === selected)
 
     domRef.current.click()
     await waitForChange(slider)
 
-    await srcollToNextItem(wrapper)
+    await srcollToNextItem()
 
     confirm.click()
 
@@ -236,17 +228,16 @@ describe('Picker', () => {
         <div ref={domRef}>Picker</div>
       </Picker>
     )
-    const wrapper = await mount(app, scratch)
-    const { node } = wrapper
-    const slider = wrapper.find('.weui-picker')
-    const [, confirm] = wrapper.findAll('.weui-picker__action')
+    const { node } = await mount(app, scratch)
+    const slider = document.querySelector('.weui-picker')
+    const confirm = document.querySelectorAll('.weui-picker__action')[1]
 
     assert(node.value === selected)
 
     domRef.current.click()
     await waitForChange(slider)
 
-    await srcollToNextItem(wrapper, 1)
+    await srcollToNextItem(1)
 
     confirm.click()
 
@@ -272,17 +263,16 @@ describe('Picker', () => {
         <div ref={domRef}>Picker</div>
       </Picker>
     )
-    const wrapper = await mount(app, scratch)
-    const { node } = wrapper
-    const slider = wrapper.find('.weui-picker')
-    const [, confirm] = wrapper.findAll('.weui-picker__action')
+    const { node } = await mount(app, scratch)
+    const slider = document.querySelector('.weui-picker')
+    const confirm = document.querySelectorAll('.weui-picker__action')[1]
 
     assert(node.value === selected)
 
     domRef.current.click()
     await waitForChange(slider)
 
-    await srcollToNextItem(wrapper)
+    await srcollToNextItem()
 
     confirm.click()
 
@@ -308,17 +298,16 @@ describe('Picker', () => {
         <div ref={domRef}>Picker</div>
       </Picker>
     )
-    const wrapper = await mount(app, scratch)
-    const { node } = wrapper
-    const slider = wrapper.find('.weui-picker')
-    const [, confirm] = wrapper.findAll('.weui-picker__action')
+    const { node } = await mount(app, scratch)
+    const slider = document.querySelector('.weui-picker')
+    const confirm = document.querySelectorAll('.weui-picker__action')[1]
 
     assert(node.value === selected)
 
     domRef.current.click()
     await waitForChange(slider)
 
-    await srcollToNextItem(wrapper, 1)
+    await srcollToNextItem(1)
 
     confirm.click()
 
@@ -341,17 +330,16 @@ describe('Picker', () => {
         <div ref={domRef}>Picker</div>
       </Picker>
     )
-    const wrapper = await mount(app, scratch)
-    const { node } = wrapper
-    const slider = wrapper.find('.weui-picker')
-    const [, confirm] = wrapper.findAll('.weui-picker__action')
+    const { node } = await mount(app, scratch)
+    const slider = document.querySelector('.weui-picker')
+    const confirm = document.querySelectorAll('.weui-picker__action')[1]
 
     assert(node.value === '2016-09')
 
     domRef.current.click()
     await waitForChange(slider)
 
-    await srcollToNextItem(wrapper)
+    await srcollToNextItem()
 
     confirm.click()
 
@@ -374,17 +362,16 @@ describe('Picker', () => {
         <div ref={domRef}>Picker</div>
       </Picker>
     )
-    const wrapper = await mount(app, scratch)
-    const { node } = wrapper
-    const slider = wrapper.find('.weui-picker')
-    const [, confirm] = wrapper.findAll('.weui-picker__action')
+    const { node } = await mount(app, scratch)
+    const slider = document.querySelector('.weui-picker')
+    const confirm = document.querySelectorAll('.weui-picker__action')[1]
 
     assert(node.value === '2016')
 
     domRef.current.click()
     await waitForChange(slider)
 
-    await srcollToNextItem(wrapper)
+    await srcollToNextItem()
 
     confirm.click()
 

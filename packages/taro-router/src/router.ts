@@ -52,7 +52,6 @@ function showPage (page: PageInstance | null, pageConfig: Route | undefined) {
 
 function unloadPage (page: PageInstance | null) {
   if (page != null) {
-    page.onHide!()
     stacks.pop()
     page.onUnload()
   }
