@@ -1280,7 +1280,7 @@ module.exports = {
   h5: {
     // ...
     sassLoaderOption: {
-      implementation: require("dart-sass")
+      implementation: require("node-sass")
     }
   }
 }
@@ -1300,7 +1300,7 @@ module.exports = {
   h5: {
     // ...
     lessLoaderOption: {
-      lessOptions: { // 如果使用less-loader@5，请移除 lessOptions 这一级直接配置选项。
+      lessOptions: {
         strictMath: true,
         noIeCompat: true
       }
