@@ -60,6 +60,8 @@ interface ITaroMiniPluginOptions {
   onCompilerMake?: Func
   blended: boolean
   alias: Record<string, string>
+  deviceRatio: any
+  designWidth: number
 }
 
 export interface IComponentObj {
@@ -233,7 +235,7 @@ export default class TaroMiniPlugin {
        * 往 NormalModule.loaders 中插入对应的 Taro Loader
        */
       compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (loaderContext, module:/** TaroNormalModule */ any) => {
-        const { framework } = this.options
+        const { framework, designWidth, deviceRatio } = this.options
         if (module.miniType === META_TYPE.ENTRY) {
           const loaderName = '@tarojs/taro-loader'
           if (!isLoaderExist(module.loaders, loaderName)) {
@@ -244,7 +246,13 @@ export default class TaroMiniPlugin {
                 prerender: this.prerenderPages.size > 0,
                 config: this.appConfig,
                 runtimePath: this.options.runtimePath,
-                blended: this.options.blended
+                blended: this.options.blended,
+                pxTransformConfig: {
+                  designWidth: designWidth || 750,
+                  deviceRatio: deviceRatio || {
+                    750: 1
+                  }
+                }
               }
             })
           }

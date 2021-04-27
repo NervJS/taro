@@ -1625,6 +1625,7 @@ require(\\"./taro\\");
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
         var taro_runtime = __webpack_require__(0);
+        var mocks_taro = \\"taro\\";
         var vue = __webpack_require__(1);
         var app = __webpack_require__(4);
         var app_App = Object(vue[\\"createApp\\"])({
@@ -1642,6 +1643,14 @@ require(\\"./taro\\");
         };
         taro_runtime[\\"window\\"].__taroAppConfig = app_config;
         var inst = App(Object(taro_runtime[\\"createVue3App\\"])(lib_src_app, vue[\\"h\\"], app_config));
+        undefined({
+            designWidth: 750,
+            deviceRatio: {
+                640: 1.17,
+                750: 1,
+                828: .905
+            }
+        });
     }
 }, [ [ 7, 0, 1, 2 ] ] ]);
 

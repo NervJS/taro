@@ -13,10 +13,10 @@ exports[`subpackages should process subpackages 2`] = `
         __webpack_require__.d(__webpack_exports__, \\"default\\", (function() {
             return Detail;
         }));
-        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
-        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
-        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
+        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
+        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
         var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1);
         var _index_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(17);
@@ -62,13 +62,13 @@ exports[`subpackages should process subpackages 2`] = `
         __webpack_require__.d(__webpack_exports__, \\"default\\", (function() {
             return Index;
         }));
-        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
-        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
-        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
+        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
+        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
         var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1);
-        var _tarojs_taro__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(6);
+        var _tarojs_taro__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(2);
         var _index_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(16);
         var _index_css__WEBPACK_IMPORTED_MODULE_7___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_7__);
         var Index = function(_Component) {
@@ -353,6 +353,14 @@ exports[`subpackages should process subpackages 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return createRouter;
+    }));
+    var taro_h5 = \\"taro-h5-mock\\";
+    function createRouter() {}
+    var h5 = __webpack_exports__[\\"b\\"] = taro_h5;
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _classCallCheck;
     }));
     function _classCallCheck(instance, Constructor) {
@@ -464,14 +472,6 @@ exports[`subpackages should process subpackages 2`] = `
         });
         if (superClass) _setPrototypeOf(subClass, superClass);
     }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return createRouter;
-    }));
-    var taro_h5 = \\"taro-h5-mock\\";
-    function createRouter() {}
-    var h5 = __webpack_exports__[\\"b\\"] = taro_h5;
 }, function(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(15);
 }, function(module, exports, __webpack_require__) {}, function(module, exports, __webpack_require__) {
@@ -784,11 +784,11 @@ exports[`subpackages should process subpackages 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    var h5 = __webpack_require__(6);
-    var classCallCheck = __webpack_require__(2);
-    var createClass = __webpack_require__(3);
-    var inherits = __webpack_require__(5);
-    var createSuper = __webpack_require__(4);
+    var h5 = __webpack_require__(2);
+    var classCallCheck = __webpack_require__(3);
+    var createClass = __webpack_require__(4);
+    var inherits = __webpack_require__(6);
+    var createSuper = __webpack_require__(5);
     var react = __webpack_require__(0);
     var app = __webpack_require__(8);
     var app_App = function(_Component) {
@@ -873,6 +873,14 @@ exports[`subpackages should process subpackages 2`] = `
     }, __webpack_require__(14).default || {}) ];
     var inst = createReactApp(src_app, react, react[\\"default\\"], config);
     Object(h5[\\"a\\"])(inst, config, react);
+    Object(h5[\\"initPxTransform\\"])({
+        \\"designWidth\\": 750,
+        \\"deviceRatio\\": {
+            \\"640\\": 1.17,
+            \\"750\\": 1,
+            \\"828\\": .905
+        }
+    });
 } ]);
 "
 `;

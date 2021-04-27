@@ -74,7 +74,9 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     sourceDir,
     outputDir,
     routerConfig: router,
-    useHtmlComponents
+    useHtmlComponents,
+    designWidth,
+    deviceRatio
   })
 
   if (enableExtract) {
