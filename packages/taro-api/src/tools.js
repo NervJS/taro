@@ -17,7 +17,7 @@ export function getPreload (taro) {
 export function getInitPxTransform (taro) {
   return function (config) {
     const {
-      designWidth = 700,
+      designWidth = 750,
       deviceRatio = {
         640: 2.34 / 2,
         750: 1,
