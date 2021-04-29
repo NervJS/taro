@@ -73,11 +73,11 @@ $ nrm use cnpm  //switch registry to cnpm
 
 [Watchman](https://facebook.github.io/watchman) 则是由 Facebook 提供的监视文件系统变更的工具。安装此工具可以提高开发时的性能（packager 可以快速捕捉文件的变化从而实现实时刷新）。
 
-### Yarn、React Native 的命令行工具（react-native-cli）
+### Yarn
 Yarn 是 Facebook 提供的替代 npm 的工具，可以加速 node 模块的下载。React Native 的命令行工具用于执行创建、初始化、更新项目、运行打包服务（packager）等任务。
 
 ```sh
-npm install -g yarn react-native-cli
+npm install -g yarn
 ```
 
 安装完 yarn 后同理也要设置镜像源：
