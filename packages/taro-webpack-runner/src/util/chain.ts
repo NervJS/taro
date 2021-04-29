@@ -415,7 +415,8 @@ export const getModule = (appPath: string, {
       importer (url, prev, done) {
         // 让 sass 文件里的 @import 能解析小程序原生样式文体，如 @import "a.wxss";
         const extname = path.extname(url)
-        if (extname === '.scss' || extname === '.sass' || extname === '.css') {
+        // fix: @import 文件可以不带scss/sass缀，如: @import "define";
+        if (extname === '.scss' || extname === '.sass' || extname === '.css' || !extname) {
           return null
         } else {
           const filePath = path.resolve(path.dirname(prev), url)
