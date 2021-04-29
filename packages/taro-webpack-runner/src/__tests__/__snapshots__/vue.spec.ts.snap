@@ -39,7 +39,7 @@ exports[`vue should build vue app 2`] = `
 }, function(module, exports, __webpack_require__) {
     var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(2);
     exports = ___CSS_LOADER_API_IMPORT___(false);
-    exports.push([ module.i, \\".index {\\\\n  color: blue;\\\\n}\\", \\"\\" ]);
+    exports.push([ module.i, \\".index {\\\\n  color: blue;\\\\n}\\\\n\\", \\"\\" ]);
     module.exports = exports;
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
@@ -49,7 +49,7 @@ exports[`vue should build vue app 2`] = `
 }, function(module, exports, __webpack_require__) {
     var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(2);
     exports = ___CSS_LOADER_API_IMPORT___(false);
-    exports.push([ module.i, \\".detail {\\\\n  color: red;\\\\n}\\", \\"\\" ]);
+    exports.push([ module.i, \\".detail {\\\\n  color: red;\\\\n}\\\\n\\", \\"\\" ]);
     module.exports = exports;
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
@@ -704,6 +704,14 @@ exports[`vue should build vue app 2`] = `
     }, __webpack_require__(8).default || {}) ];
     var inst = createVueApp(src_app, vue, config);
     createRouter(inst, config, vue);
+    undefined({
+        \\"designWidth\\": 750,
+        \\"deviceRatio\\": {
+            \\"640\\": 1.17,
+            \\"750\\": 1,
+            \\"828\\": .905
+        }
+    });
 } ]);
 "
 `;

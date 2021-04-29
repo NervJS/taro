@@ -17,10 +17,576 @@ require(\\"./vendors\\");
 require(\\"./taro\\");
 
 (my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    12: function(module, exports, __webpack_require__) {},
-    14: function(module, __webpack_exports__, __webpack_require__) {
+    13: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        (function(navigator) {
+            var _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+            var noPromiseApis = new Set([ \\"offSocketClose\\", \\"offSocketError\\", \\"offSocketMessage\\", \\"offSocketOpen\\", \\"getAppIdSync\\", \\"calculateRoute\\", \\"createWebViewContext\\", \\"hideAddToDesktopMenu\\", \\"hideAllAddToDesktopMenu\\", \\"hideAllFavoriteMenu\\", \\"hideBackHome\\", \\"hideFavoriteMenu\\", \\"openCardDetail\\", \\"openCardList\\", \\"openKBVoucherDetail\\", \\"openMerchantCardList\\", \\"openMerchantTicketList\\", \\"openMerchantVoucherList\\", \\"openTicketDetail\\", \\"openTicketList\\", \\"openVoucherDetail\\", \\"openVoucherList\\", \\"setCanPullDown\\", \\"setOptionMenu\\", \\"showSharePanel\\", \\"onBLECharacteristicValueChange\\", \\"onBLEConnectionStateChanged\\", \\"onBluetoothDeviceFound\\", \\"onBluetoothAdapterStateChange\\", \\"offBLECharacteristicValueChange\\", \\"offBLEConnectionStateChanged\\", \\"offBluetoothDeviceFound\\", \\"offBluetoothAdapterStateChange\\" ]);
+            var needPromiseApis = new Set([ \\"addCardAuth\\", \\"getOpenUserInfo\\", \\"chooseAlipayContact\\", \\"chooseCity\\", \\"chooseContact\\", \\"choosePhoneContact\\", \\"datePicker\\", \\"getAddress\\", \\"getAuthCode\\", \\"getPhoneNumber\\", \\"getRunData\\", \\"getRunScene\\", \\"getServerTime\\", \\"getTitleColor\\", \\"rsa\\", \\"paySignCenter\\", \\"tradePay\\", \\"isCollected\\", \\"multiLevelSelect\\", \\"onLocatedComplete\\", \\"optionsSelect\\", \\"prompt\\", \\"regionPicker\\", \\"setLocatedCity\\", \\"showAuthGuide\\", \\"textRiskIdentification\\", \\"vibrate\\", \\"watchShake\\", \\"connectBLEDevice\\", \\"disconnectBLEDevice\\", \\"makeBluetoothPair\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"openBluetoothAdapter\\", \\"closeBluetoothAdapter\\", \\"getBluetoothAdapterState\\", \\"startBluetoothDevicesDiscovery\\", \\"stopBluetoothDevicesDiscovery\\", \\"getBluetoothDevices\\", \\"getConnectedBluetoothDevices\\" ]);
+            var apiDiff = {
+                showActionSheet: {
+                    options: {
+                        change: [ {
+                            old: \\"itemList\\",
+                            new: \\"items\\"
+                        } ]
+                    }
+                },
+                showToast: {
+                    options: {
+                        change: [ {
+                            old: \\"title\\",
+                            new: \\"content\\"
+                        }, {
+                            old: \\"icon\\",
+                            new: \\"type\\"
+                        } ]
+                    }
+                },
+                showLoading: {
+                    options: {
+                        change: [ {
+                            old: \\"title\\",
+                            new: \\"content\\"
+                        } ]
+                    }
+                },
+                setNavigationBarTitle: {
+                    alias: \\"setNavigationBar\\"
+                },
+                setNavigationBarColor: {
+                    alias: \\"setNavigationBar\\"
+                },
+                saveImageToPhotosAlbum: {
+                    alias: \\"saveImage\\",
+                    options: {
+                        change: [ {
+                            old: \\"filePath\\",
+                            new: \\"url\\"
+                        } ]
+                    }
+                },
+                previewImage: {
+                    options: {
+                        set: [ {
+                            key: \\"current\\",
+                            value: function value(options) {
+                                return options.urls.indexOf(options.current || options.urls[0]);
+                            }
+                        } ]
+                    }
+                },
+                getFileInfo: {
+                    options: {
+                        change: [ {
+                            old: \\"filePath\\",
+                            new: \\"apFilePath\\"
+                        } ]
+                    }
+                },
+                getSavedFileInfo: {
+                    options: {
+                        change: [ {
+                            old: \\"filePath\\",
+                            new: \\"apFilePath\\"
+                        } ]
+                    }
+                },
+                removeSavedFile: {
+                    options: {
+                        change: [ {
+                            old: \\"filePath\\",
+                            new: \\"apFilePath\\"
+                        } ]
+                    }
+                },
+                saveFile: {
+                    options: {
+                        change: [ {
+                            old: \\"tempFilePath\\",
+                            new: \\"apFilePath\\"
+                        } ]
+                    }
+                },
+                openLocation: {
+                    options: {
+                        set: [ {
+                            key: \\"latitude\\",
+                            value: function value(options) {
+                                return String(options.latitude);
+                            }
+                        }, {
+                            key: \\"longitude\\",
+                            value: function value(options) {
+                                return String(options.longitude);
+                            }
+                        } ]
+                    }
+                },
+                uploadFile: {
+                    options: {
+                        change: [ {
+                            old: \\"name\\",
+                            new: \\"fileName\\"
+                        } ]
+                    }
+                },
+                getClipboardData: {
+                    alias: \\"getClipboard\\"
+                },
+                setClipboardData: {
+                    alias: \\"setClipboard\\",
+                    options: {
+                        change: [ {
+                            old: \\"data\\",
+                            new: \\"text\\"
+                        } ]
+                    }
+                },
+                makePhoneCall: {
+                    options: {
+                        change: [ {
+                            old: \\"phoneNumber\\",
+                            new: \\"number\\"
+                        } ]
+                    }
+                },
+                scanCode: {
+                    alias: \\"scan\\",
+                    options: {
+                        change: [ {
+                            old: \\"onlyFromCamera\\",
+                            new: \\"hideAlbum\\"
+                        } ],
+                        set: [ {
+                            key: \\"type\\",
+                            value: function value(options) {
+                                return options.scanType && options.scanType[0].slice(0, -4) || \\"qr\\";
+                            }
+                        } ]
+                    }
+                },
+                setScreenBrightness: {
+                    options: {
+                        change: [ {
+                            old: \\"value\\",
+                            new: \\"brightness\\"
+                        } ]
+                    }
+                },
+                onBLEConnectionStateChange: {
+                    alias: \\"onBLEConnectionStateChanged\\"
+                },
+                offBLEConnectionStateChange: {
+                    alias: \\"offBLEConnectionStateChanged\\"
+                },
+                createBLEConnection: {
+                    alias: \\"connectBLEDevice\\"
+                },
+                closeBLEConnection: {
+                    alias: \\"disconnectBLEDevice\\"
+                }
+            };
+            var nativeRequest = my.canIUse(\\"request\\") ? my.request : my.httpRequest;
+            function request(options) {
+                options = options || {};
+                if (typeof options === \\"string\\") {
+                    options = {
+                        url: options
+                    };
+                }
+                var defaultHeaders = {
+                    \\"content-type\\": \\"application/json\\"
+                };
+                options.headers = defaultHeaders;
+                if (options.header) {
+                    for (var k in options.header) {
+                        var lowerK = k.toLocaleLowerCase();
+                        options.headers[lowerK] = options.header[k];
+                    }
+                    delete options.header;
+                }
+                var originSuccess = options.success;
+                var originFail = options.fail;
+                var originComplete = options.complete;
+                var requestTask;
+                var p = new Promise((function(resolve, reject) {
+                    options.success = function(res) {
+                        res.statusCode = res.status;
+                        delete res.status;
+                        res.header = res.headers;
+                        delete res.headers;
+                        originSuccess && originSuccess(res);
+                        resolve(res);
+                    };
+                    options.fail = function(res) {
+                        originFail && originFail(res);
+                        reject(res);
+                    };
+                    options.complete = function(res) {
+                        originComplete && originComplete(res);
+                    };
+                    requestTask = nativeRequest(options);
+                }));
+                p.abort = function(cb) {
+                    cb && cb();
+                    if (requestTask) {
+                        requestTask.abort();
+                    }
+                    return p;
+                };
+                return p;
+            }
+            function handleSyncApis(key, global, args) {
+                if (key === \\"getStorageSync\\") {
+                    var arg1 = args[0];
+                    if (arg1 != null) {
+                        var res = global[key]({
+                            key: arg1
+                        });
+                        var data = null;
+                        if (res.hasOwnProperty(\\"data\\")) {
+                            data = res.data;
+                        } else if (res.hasOwnProperty(\\"APDataStorage\\")) {
+                            data = res.APDataStorage;
+                        }
+                        return data === null ? \\"\\" : data;
+                    }
+                    return console.error(\\"getStorageSync \\\\u4f20\\\\u5165\\\\u53c2\\\\u6570\\\\u9519\\\\u8bef\\");
+                }
+                if (key === \\"setStorageSync\\") {
+                    var _arg = args[0];
+                    var arg2 = args[1];
+                    if (_arg != null) {
+                        return global[key]({
+                            key: _arg,
+                            data: arg2
+                        });
+                    }
+                    return console.error(\\"setStorageSync \\\\u4f20\\\\u5165\\\\u53c2\\\\u6570\\\\u9519\\\\u8bef\\");
+                }
+                if (key === \\"removeStorageSync\\") {
+                    var _arg2 = args[0];
+                    if (_arg2 != null) {
+                        return global[key]({
+                            key: _arg2
+                        });
+                    }
+                    return console.error(\\"removeStorageSync \\\\u4f20\\\\u5165\\\\u53c2\\\\u6570\\\\u9519\\\\u8bef\\");
+                }
+                if (key === \\"createSelectorQuery\\") {
+                    var query = global[key]();
+                    query.in = function() {
+                        return query;
+                    };
+                    return query;
+                }
+                return global[key].apply(global, args);
+            }
+            function transformMeta(api, options) {
+                var apiAlias = api;
+                if (api === \\"showModal\\") {
+                    options.cancelButtonText = options.cancelText || \\"\\\\u53d6\\\\u6d88\\";
+                    options.confirmButtonText = options.confirmText || \\"\\\\u786e\\\\u5b9a\\";
+                    apiAlias = \\"confirm\\";
+                    if (options.showCancel === false) {
+                        options.buttonText = options.confirmText || \\"\\\\u786e\\\\u5b9a\\";
+                        apiAlias = \\"alert\\";
+                    }
+                } else {
+                    Object.keys(apiDiff).forEach((function(item) {
+                        var apiItem = apiDiff[item];
+                        if (api === item) {
+                            if (apiItem.alias) {
+                                apiAlias = apiItem.alias;
+                            }
+                            if (apiItem.options) {
+                                var change = apiItem.options.change;
+                                var set = apiItem.options.set;
+                                if (change) {
+                                    change.forEach((function(changeItem) {
+                                        options[changeItem.new] = options[changeItem.old];
+                                    }));
+                                }
+                                if (set) {
+                                    set.forEach((function(setItem) {
+                                        options[setItem.key] = typeof setItem.value === \\"function\\" ? setItem.value(options) : setItem.value;
+                                    }));
+                                }
+                            }
+                        }
+                    }));
+                }
+                return {
+                    key: apiAlias,
+                    options: options
+                };
+            }
+            function modifyAsyncResult(key, res) {
+                if (key === \\"saveFile\\") {
+                    res.savedFilePath = res.apFilePath;
+                } else if (key === \\"downloadFile\\") {
+                    res.tempFilePath = res.apFilePath;
+                } else if (key === \\"chooseImage\\") {
+                    res.tempFilePaths = res.apFilePaths;
+                } else if (key === \\"getClipboard\\") {
+                    res.data = res.text;
+                } else if (key === \\"scan\\") {
+                    res.result = res.code;
+                } else if (key === \\"getScreenBrightness\\") {
+                    res.value = res.brightness;
+                    delete res.brightness;
+                }
+            }
+            function initNativeApi(taro) {
+                Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"c\\"])(taro, my, {
+                    noPromiseApis: noPromiseApis,
+                    needPromiseApis: needPromiseApis,
+                    handleSyncApis: handleSyncApis,
+                    transformMeta: transformMeta,
+                    modifyAsyncResult: modifyAsyncResult,
+                    request: request
+                });
+            }
+            var components = {
+                View: {
+                    \\"disable-scroll\\": \\"false\\",
+                    hidden: \\"false\\",
+                    bindAppear: \\"\\",
+                    bindDisappear: \\"\\",
+                    bindFirstAppear: \\"\\"
+                },
+                Text: {
+                    \\"number-of-lines\\": \\"\\"
+                },
+                Map: {
+                    skew: \\"0\\",
+                    rotate: \\"0\\",
+                    polygons: \\"[]\\",
+                    \\"include-padding\\": \\"\\",
+                    \\"ground-overlays\\": \\"\\",
+                    \\"tile-overlay\\": \\"\\",
+                    \\"custom-map-style\\": \\"\\",
+                    setting: \\"{}\\",
+                    optimize: \\"\\",
+                    bindRegionChange: \\"\\",
+                    bindPanelTap: \\"\\"
+                },
+                Button: {
+                    scope: \\"\\",
+                    \\"public-id\\": \\"\\",
+                    bindGetAuthorize: \\"\\",
+                    bindError: \\"\\"
+                },
+                Checkbox: {
+                    bindChange: \\"\\"
+                },
+                Input: {
+                    \\"random-number\\": \\"false\\",
+                    controlled: \\"false\\",
+                    enableNative: \\"false\\"
+                },
+                Slider: {
+                    \\"track-size\\": \\"4\\",
+                    \\"handle-size\\": \\"22\\",
+                    \\"handle-color\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"#ffffff\\")
+                },
+                Switch: {
+                    controlled: \\"false\\"
+                },
+                Textarea: {
+                    \\"show-count\\": \\"true\\",
+                    controlled: \\"false\\",
+                    enableNative: \\"false\\"
+                },
+                MovableView: {
+                    bindChangeEnd: \\"\\"
+                },
+                ScrollView: {
+                    \\"scroll-animation-duration\\": \\"\\",
+                    \\"trap-scroll\\": \\"false\\"
+                },
+                Swiper: {
+                    \\"active-class\\": \\"\\",
+                    \\"changing-class\\": \\"\\",
+                    acceleration: \\"false\\",
+                    \\"disable-programmatic-animation\\": \\"false\\",
+                    \\"disable-touch\\": \\"false\\",
+                    bindAnimationEnd: \\"\\"
+                },
+                Image: {
+                    \\"default-source\\": \\"\\"
+                },
+                Canvas: {
+                    width: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"300px\\"),
+                    height: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"225px\\")
+                },
+                Video: {
+                    \\"poster-size\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"contain\\"),
+                    \\"mobilenet-hint-type\\": \\"1\\",
+                    enableNative: \\"false\\",
+                    bindLoading: \\"\\",
+                    bindUserAction: \\"\\",
+                    bindStop: \\"\\",
+                    bindRenderStart: \\"\\"
+                },
+                Lottie: {
+                    autoplay: \\"false\\",
+                    path: \\"\\",
+                    speed: \\"1.0\\",
+                    repeatCount: \\"0\\",
+                    autoReverse: \\"false\\",
+                    assetsPath: \\"\\",
+                    placeholder: \\"\\",
+                    djangoId: \\"\\",
+                    md5: \\"\\",
+                    optimize: \\"false\\",
+                    bindDataReady: \\"\\",
+                    bindDataFailed: \\"\\",
+                    bindAnimationStart: \\"\\",
+                    bindAnimationEnd: \\"\\",
+                    bindAnimationRepeat: \\"\\",
+                    bindAnimationCancel: \\"\\",
+                    bindDataLoadReady: \\"\\"
+                },
+                Lifestyle: {
+                    \\"public-id\\": \\"\\",
+                    memo: \\"\\",
+                    bindFollow: \\"\\"
+                },
+                LifeFollow: {
+                    sceneId: \\"\\",
+                    checkFollow: \\"\\",
+                    bindCheckFollow: \\"\\",
+                    bindClose: \\"\\"
+                },
+                ContactButton: {
+                    \\"tnt-inst-id\\": \\"\\",
+                    scene: \\"\\",
+                    size: \\"25\\",
+                    color: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"#00A3FF\\"),
+                    icon: \\"\\",
+                    \\"alipay-card-no\\": \\"\\",
+                    \\"ext-info\\": \\"\\"
+                }
+            };
+            var hostConfig = {
+                initNativeApi: initNativeApi,
+                getEventCenter: function getEventCenter(Events) {
+                    if (!my.taroEventCenter) {
+                        my.taroEventCenter = new Events;
+                    }
+                    return my.taroEventCenter;
+                },
+                modifyDispatchEvent: function modifyDispatchEvent(event, tagName) {
+                    if (tagName === \\"SWIPER\\" && event.type === \\"animationend\\") {
+                        event.type = \\"animationfinish\\";
+                    }
+                }
+            };
+            var _navigator = navigator, userAgent = _navigator.userAgent;
+            Object.defineProperty(navigator, \\"userAgent\\", {
+                configurable: true,
+                enumerable: true,
+                get: function get() {
+                    return userAgent || navigator.swuserAgent || \\"\\";
+                }
+            });
+            Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"b\\"])(hostConfig);
+            Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(components);
+        }).call(this, __webpack_require__(1)[\\"navigator\\"]);
+    },
+    14: function(module, exports, __webpack_require__) {},
+    16: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
+        var runtime = __webpack_require__(13);
+        var taro_runtime = __webpack_require__(1);
+        var taro = \\"taro\\";
+        var classCallCheck = __webpack_require__(3);
+        var createClass = __webpack_require__(4);
+        var inherits = __webpack_require__(6);
+        var createSuper = __webpack_require__(5);
+        var react = __webpack_require__(0);
+        var app = __webpack_require__(14);
+        var app_App = function(_Component) {
+            Object(inherits[\\"a\\"])(App, _Component);
+            var _super = Object(createSuper[\\"a\\"])(App);
+            function App() {
+                Object(classCallCheck[\\"a\\"])(this, App);
+                return _super.apply(this, arguments);
+            }
+            Object(createClass[\\"a\\"])(App, [ {
+                key: \\"componentDidMount\\",
+                value: function componentDidMount() {}
+            }, {
+                key: \\"componentDidShow\\",
+                value: function componentDidShow() {}
+            }, {
+                key: \\"componentDidHide\\",
+                value: function componentDidHide() {}
+            }, {
+                key: \\"componentDidCatchError\\",
+                value: function componentDidCatchError() {}
+            }, {
+                key: \\"render\\",
+                value: function render() {
+                    return this.props.children;
+                }
+            } ]);
+            return App;
+        }(react[\\"Component\\"]);
+        var lib_src_app = app_App;
+        var taro_react = __webpack_require__(9);
+        var config = {
+            pages: [ \\"pages/index/index\\", \\"pages/about/index\\" ],
+            window: {
+                backgroundTextStyle: \\"light\\",
+                navigationBarBackgroundColor: \\"#fff\\",
+                navigationBarTitleText: \\"WeChat\\",
+                navigationBarTextStyle: \\"black\\"
+            },
+            tabBar: {
+                backgroundColor: \\"#fff\\",
+                selectedColor: \\"#dc0032\\",
+                list: [ {
+                    pagePath: \\"pages/index/index\\",
+                    text: \\"\\\\u9996\\\\u9875\\",
+                    iconPath: \\"assets/view.png\\",
+                    selectedIconPath: \\"assets/view_red.png\\"
+                }, {
+                    pagePath: \\"pages/about/index\\",
+                    text: \\"\\\\u5173\\\\u4e8e\\",
+                    iconPath: \\"assets/nav.png\\",
+                    selectedIconPath: \\"assets/nav_red.png\\"
+                } ]
+            }
+        };
+        taro_runtime[\\"window\\"].__taroAppConfig = config;
+        var inst = App(Object(taro_runtime[\\"createReactApp\\"])(lib_src_app, react, taro_react[\\"a\\"], config));
+        undefined({
+            designWidth: 750,
+            deviceRatio: {
+                640: 1.17,
+                750: 1,
+                828: .905
+            }
+        });
+    },
+    2: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+            return mergeInternalComponents;
+        }));
+        __webpack_require__.d(__webpack_exports__, \\"b\\", (function() {
+            return mergeReconciler;
+        }));
+        __webpack_require__.d(__webpack_exports__, \\"c\\", (function() {
+            return processApis;
+        }));
+        __webpack_require__.d(__webpack_exports__, \\"d\\", (function() {
+            return singleQuote;
+        }));
         function _arrayLikeToArray(arr, len) {
             if (len == null || len > arr.length) len = arr.length;
             for (var i = 0, arr2 = new Array(len); i < len; i++) {
@@ -1308,535 +1874,8 @@ require(\\"./taro\\");
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
             taro.miniGlobal = global;
         }
-        var runtime_noPromiseApis = new Set([ \\"offSocketClose\\", \\"offSocketError\\", \\"offSocketMessage\\", \\"offSocketOpen\\", \\"getAppIdSync\\", \\"calculateRoute\\", \\"createWebViewContext\\", \\"hideAddToDesktopMenu\\", \\"hideAllAddToDesktopMenu\\", \\"hideAllFavoriteMenu\\", \\"hideBackHome\\", \\"hideFavoriteMenu\\", \\"openCardDetail\\", \\"openCardList\\", \\"openKBVoucherDetail\\", \\"openMerchantCardList\\", \\"openMerchantTicketList\\", \\"openMerchantVoucherList\\", \\"openTicketDetail\\", \\"openTicketList\\", \\"openVoucherDetail\\", \\"openVoucherList\\", \\"setCanPullDown\\", \\"setOptionMenu\\", \\"showSharePanel\\", \\"onBLECharacteristicValueChange\\", \\"onBLEConnectionStateChanged\\", \\"onBluetoothDeviceFound\\", \\"onBluetoothAdapterStateChange\\", \\"offBLECharacteristicValueChange\\", \\"offBLEConnectionStateChanged\\", \\"offBluetoothDeviceFound\\", \\"offBluetoothAdapterStateChange\\" ]);
-        var runtime_needPromiseApis = new Set([ \\"addCardAuth\\", \\"getOpenUserInfo\\", \\"chooseAlipayContact\\", \\"chooseCity\\", \\"chooseContact\\", \\"choosePhoneContact\\", \\"datePicker\\", \\"getAddress\\", \\"getAuthCode\\", \\"getPhoneNumber\\", \\"getRunData\\", \\"getRunScene\\", \\"getServerTime\\", \\"getTitleColor\\", \\"rsa\\", \\"paySignCenter\\", \\"tradePay\\", \\"isCollected\\", \\"multiLevelSelect\\", \\"onLocatedComplete\\", \\"optionsSelect\\", \\"prompt\\", \\"regionPicker\\", \\"setLocatedCity\\", \\"showAuthGuide\\", \\"textRiskIdentification\\", \\"vibrate\\", \\"watchShake\\", \\"connectBLEDevice\\", \\"disconnectBLEDevice\\", \\"makeBluetoothPair\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"openBluetoothAdapter\\", \\"closeBluetoothAdapter\\", \\"getBluetoothAdapterState\\", \\"startBluetoothDevicesDiscovery\\", \\"stopBluetoothDevicesDiscovery\\", \\"getBluetoothDevices\\", \\"getConnectedBluetoothDevices\\" ]);
-        var apiDiff = {
-            showActionSheet: {
-                options: {
-                    change: [ {
-                        old: \\"itemList\\",
-                        new: \\"items\\"
-                    } ]
-                }
-            },
-            showToast: {
-                options: {
-                    change: [ {
-                        old: \\"title\\",
-                        new: \\"content\\"
-                    }, {
-                        old: \\"icon\\",
-                        new: \\"type\\"
-                    } ]
-                }
-            },
-            showLoading: {
-                options: {
-                    change: [ {
-                        old: \\"title\\",
-                        new: \\"content\\"
-                    } ]
-                }
-            },
-            setNavigationBarTitle: {
-                alias: \\"setNavigationBar\\"
-            },
-            setNavigationBarColor: {
-                alias: \\"setNavigationBar\\"
-            },
-            saveImageToPhotosAlbum: {
-                alias: \\"saveImage\\",
-                options: {
-                    change: [ {
-                        old: \\"filePath\\",
-                        new: \\"url\\"
-                    } ]
-                }
-            },
-            previewImage: {
-                options: {
-                    set: [ {
-                        key: \\"current\\",
-                        value: function value(options) {
-                            return options.urls.indexOf(options.current || options.urls[0]);
-                        }
-                    } ]
-                }
-            },
-            getFileInfo: {
-                options: {
-                    change: [ {
-                        old: \\"filePath\\",
-                        new: \\"apFilePath\\"
-                    } ]
-                }
-            },
-            getSavedFileInfo: {
-                options: {
-                    change: [ {
-                        old: \\"filePath\\",
-                        new: \\"apFilePath\\"
-                    } ]
-                }
-            },
-            removeSavedFile: {
-                options: {
-                    change: [ {
-                        old: \\"filePath\\",
-                        new: \\"apFilePath\\"
-                    } ]
-                }
-            },
-            saveFile: {
-                options: {
-                    change: [ {
-                        old: \\"tempFilePath\\",
-                        new: \\"apFilePath\\"
-                    } ]
-                }
-            },
-            openLocation: {
-                options: {
-                    set: [ {
-                        key: \\"latitude\\",
-                        value: function value(options) {
-                            return String(options.latitude);
-                        }
-                    }, {
-                        key: \\"longitude\\",
-                        value: function value(options) {
-                            return String(options.longitude);
-                        }
-                    } ]
-                }
-            },
-            uploadFile: {
-                options: {
-                    change: [ {
-                        old: \\"name\\",
-                        new: \\"fileName\\"
-                    } ]
-                }
-            },
-            getClipboardData: {
-                alias: \\"getClipboard\\"
-            },
-            setClipboardData: {
-                alias: \\"setClipboard\\",
-                options: {
-                    change: [ {
-                        old: \\"data\\",
-                        new: \\"text\\"
-                    } ]
-                }
-            },
-            makePhoneCall: {
-                options: {
-                    change: [ {
-                        old: \\"phoneNumber\\",
-                        new: \\"number\\"
-                    } ]
-                }
-            },
-            scanCode: {
-                alias: \\"scan\\",
-                options: {
-                    change: [ {
-                        old: \\"onlyFromCamera\\",
-                        new: \\"hideAlbum\\"
-                    } ],
-                    set: [ {
-                        key: \\"type\\",
-                        value: function value(options) {
-                            return options.scanType && options.scanType[0].slice(0, -4) || \\"qr\\";
-                        }
-                    } ]
-                }
-            },
-            setScreenBrightness: {
-                options: {
-                    change: [ {
-                        old: \\"value\\",
-                        new: \\"brightness\\"
-                    } ]
-                }
-            },
-            onBLEConnectionStateChange: {
-                alias: \\"onBLEConnectionStateChanged\\"
-            },
-            offBLEConnectionStateChange: {
-                alias: \\"offBLEConnectionStateChanged\\"
-            },
-            createBLEConnection: {
-                alias: \\"connectBLEDevice\\"
-            },
-            closeBLEConnection: {
-                alias: \\"disconnectBLEDevice\\"
-            }
-        };
-        var nativeRequest = my.canIUse(\\"request\\") ? my.request : my.httpRequest;
-        function request(options) {
-            options = options || {};
-            if (typeof options === \\"string\\") {
-                options = {
-                    url: options
-                };
-            }
-            var defaultHeaders = {
-                \\"content-type\\": \\"application/json\\"
-            };
-            options.headers = defaultHeaders;
-            if (options.header) {
-                for (var k in options.header) {
-                    var lowerK = k.toLocaleLowerCase();
-                    options.headers[lowerK] = options.header[k];
-                }
-                delete options.header;
-            }
-            var originSuccess = options.success;
-            var originFail = options.fail;
-            var originComplete = options.complete;
-            var requestTask;
-            var p = new Promise((function(resolve, reject) {
-                options.success = function(res) {
-                    res.statusCode = res.status;
-                    delete res.status;
-                    res.header = res.headers;
-                    delete res.headers;
-                    originSuccess && originSuccess(res);
-                    resolve(res);
-                };
-                options.fail = function(res) {
-                    originFail && originFail(res);
-                    reject(res);
-                };
-                options.complete = function(res) {
-                    originComplete && originComplete(res);
-                };
-                requestTask = nativeRequest(options);
-            }));
-            p.abort = function(cb) {
-                cb && cb();
-                if (requestTask) {
-                    requestTask.abort();
-                }
-                return p;
-            };
-            return p;
-        }
-        function handleSyncApis(key, global, args) {
-            if (key === \\"getStorageSync\\") {
-                var arg1 = args[0];
-                if (arg1 != null) {
-                    var res = global[key]({
-                        key: arg1
-                    });
-                    var data = null;
-                    if (res.hasOwnProperty(\\"data\\")) {
-                        data = res.data;
-                    } else if (res.hasOwnProperty(\\"APDataStorage\\")) {
-                        data = res.APDataStorage;
-                    }
-                    return data === null ? \\"\\" : data;
-                }
-                return console.error(\\"getStorageSync \\\\u4f20\\\\u5165\\\\u53c2\\\\u6570\\\\u9519\\\\u8bef\\");
-            }
-            if (key === \\"setStorageSync\\") {
-                var _arg = args[0];
-                var arg2 = args[1];
-                if (_arg != null) {
-                    return global[key]({
-                        key: _arg,
-                        data: arg2
-                    });
-                }
-                return console.error(\\"setStorageSync \\\\u4f20\\\\u5165\\\\u53c2\\\\u6570\\\\u9519\\\\u8bef\\");
-            }
-            if (key === \\"removeStorageSync\\") {
-                var _arg2 = args[0];
-                if (_arg2 != null) {
-                    return global[key]({
-                        key: _arg2
-                    });
-                }
-                return console.error(\\"removeStorageSync \\\\u4f20\\\\u5165\\\\u53c2\\\\u6570\\\\u9519\\\\u8bef\\");
-            }
-            if (key === \\"createSelectorQuery\\") {
-                var query = global[key]();
-                query.in = function() {
-                    return query;
-                };
-                return query;
-            }
-            return global[key].apply(global, args);
-        }
-        function transformMeta(api, options) {
-            var apiAlias = api;
-            if (api === \\"showModal\\") {
-                options.cancelButtonText = options.cancelText || \\"\\\\u53d6\\\\u6d88\\";
-                options.confirmButtonText = options.confirmText || \\"\\\\u786e\\\\u5b9a\\";
-                apiAlias = \\"confirm\\";
-                if (options.showCancel === false) {
-                    options.buttonText = options.confirmText || \\"\\\\u786e\\\\u5b9a\\";
-                    apiAlias = \\"alert\\";
-                }
-            } else {
-                Object.keys(apiDiff).forEach((function(item) {
-                    var apiItem = apiDiff[item];
-                    if (api === item) {
-                        if (apiItem.alias) {
-                            apiAlias = apiItem.alias;
-                        }
-                        if (apiItem.options) {
-                            var change = apiItem.options.change;
-                            var set = apiItem.options.set;
-                            if (change) {
-                                change.forEach((function(changeItem) {
-                                    options[changeItem.new] = options[changeItem.old];
-                                }));
-                            }
-                            if (set) {
-                                set.forEach((function(setItem) {
-                                    options[setItem.key] = typeof setItem.value === \\"function\\" ? setItem.value(options) : setItem.value;
-                                }));
-                            }
-                        }
-                    }
-                }));
-            }
-            return {
-                key: apiAlias,
-                options: options
-            };
-        }
-        function modifyAsyncResult(key, res) {
-            if (key === \\"saveFile\\") {
-                res.savedFilePath = res.apFilePath;
-            } else if (key === \\"downloadFile\\") {
-                res.tempFilePath = res.apFilePath;
-            } else if (key === \\"chooseImage\\") {
-                res.tempFilePaths = res.apFilePaths;
-            } else if (key === \\"getClipboard\\") {
-                res.data = res.text;
-            } else if (key === \\"scan\\") {
-                res.result = res.code;
-            } else if (key === \\"getScreenBrightness\\") {
-                res.value = res.brightness;
-                delete res.brightness;
-            }
-        }
-        function initNativeApi(taro) {
-            processApis(taro, my, {
-                noPromiseApis: runtime_noPromiseApis,
-                needPromiseApis: runtime_needPromiseApis,
-                handleSyncApis: handleSyncApis,
-                transformMeta: transformMeta,
-                modifyAsyncResult: modifyAsyncResult,
-                request: request
-            });
-        }
-        var components = {
-            View: {
-                \\"disable-scroll\\": \\"false\\",
-                hidden: \\"false\\",
-                bindAppear: \\"\\",
-                bindDisappear: \\"\\",
-                bindFirstAppear: \\"\\"
-            },
-            Text: {
-                \\"number-of-lines\\": \\"\\"
-            },
-            Map: {
-                skew: \\"0\\",
-                rotate: \\"0\\",
-                polygons: \\"[]\\",
-                \\"include-padding\\": \\"\\",
-                \\"ground-overlays\\": \\"\\",
-                \\"tile-overlay\\": \\"\\",
-                \\"custom-map-style\\": \\"\\",
-                setting: \\"{}\\",
-                optimize: \\"\\",
-                bindRegionChange: \\"\\",
-                bindPanelTap: \\"\\"
-            },
-            Button: {
-                scope: \\"\\",
-                \\"public-id\\": \\"\\",
-                bindGetAuthorize: \\"\\",
-                bindError: \\"\\"
-            },
-            Checkbox: {
-                bindChange: \\"\\"
-            },
-            Input: {
-                \\"random-number\\": \\"false\\",
-                controlled: \\"false\\",
-                enableNative: \\"false\\"
-            },
-            Slider: {
-                \\"track-size\\": \\"4\\",
-                \\"handle-size\\": \\"22\\",
-                \\"handle-color\\": singleQuote(\\"#ffffff\\")
-            },
-            Switch: {
-                controlled: \\"false\\"
-            },
-            Textarea: {
-                \\"show-count\\": \\"true\\",
-                controlled: \\"false\\",
-                enableNative: \\"false\\"
-            },
-            MovableView: {
-                bindChangeEnd: \\"\\"
-            },
-            ScrollView: {
-                \\"scroll-animation-duration\\": \\"\\",
-                \\"trap-scroll\\": \\"false\\"
-            },
-            Swiper: {
-                \\"active-class\\": \\"\\",
-                \\"changing-class\\": \\"\\",
-                acceleration: \\"false\\",
-                \\"disable-programmatic-animation\\": \\"false\\",
-                \\"disable-touch\\": \\"false\\",
-                bindAnimationEnd: \\"\\"
-            },
-            Image: {
-                \\"default-source\\": \\"\\"
-            },
-            Canvas: {
-                width: singleQuote(\\"300px\\"),
-                height: singleQuote(\\"225px\\")
-            },
-            Video: {
-                \\"poster-size\\": singleQuote(\\"contain\\"),
-                \\"mobilenet-hint-type\\": \\"1\\",
-                enableNative: \\"false\\",
-                bindLoading: \\"\\",
-                bindUserAction: \\"\\",
-                bindStop: \\"\\",
-                bindRenderStart: \\"\\"
-            },
-            Lottie: {
-                autoplay: \\"false\\",
-                path: \\"\\",
-                speed: \\"1.0\\",
-                repeatCount: \\"0\\",
-                autoReverse: \\"false\\",
-                assetsPath: \\"\\",
-                placeholder: \\"\\",
-                djangoId: \\"\\",
-                md5: \\"\\",
-                optimize: \\"false\\",
-                bindDataReady: \\"\\",
-                bindDataFailed: \\"\\",
-                bindAnimationStart: \\"\\",
-                bindAnimationEnd: \\"\\",
-                bindAnimationRepeat: \\"\\",
-                bindAnimationCancel: \\"\\",
-                bindDataLoadReady: \\"\\"
-            },
-            Lifestyle: {
-                \\"public-id\\": \\"\\",
-                memo: \\"\\",
-                bindFollow: \\"\\"
-            },
-            LifeFollow: {
-                sceneId: \\"\\",
-                checkFollow: \\"\\",
-                bindCheckFollow: \\"\\",
-                bindClose: \\"\\"
-            },
-            ContactButton: {
-                \\"tnt-inst-id\\": \\"\\",
-                scene: \\"\\",
-                size: \\"25\\",
-                color: singleQuote(\\"#00A3FF\\"),
-                icon: \\"\\",
-                \\"alipay-card-no\\": \\"\\",
-                \\"ext-info\\": \\"\\"
-            }
-        };
-        var hostConfig = {
-            initNativeApi: initNativeApi,
-            getEventCenter: function getEventCenter(Events) {
-                if (!my.taroEventCenter) {
-                    my.taroEventCenter = new Events;
-                }
-                return my.taroEventCenter;
-            },
-            modifyDispatchEvent: function modifyDispatchEvent(event, tagName) {
-                if (tagName === \\"SWIPER\\" && event.type === \\"animationend\\") {
-                    event.type = \\"animationfinish\\";
-                }
-            }
-        };
-        mergeReconciler(hostConfig);
-        mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(1);
-        var classCallCheck = __webpack_require__(2);
-        var createClass = __webpack_require__(3);
-        var inherits = __webpack_require__(5);
-        var createSuper = __webpack_require__(4);
-        var react = __webpack_require__(0);
-        var app = __webpack_require__(12);
-        var app_App = function(_Component) {
-            Object(inherits[\\"a\\"])(App, _Component);
-            var _super = Object(createSuper[\\"a\\"])(App);
-            function App() {
-                Object(classCallCheck[\\"a\\"])(this, App);
-                return _super.apply(this, arguments);
-            }
-            Object(createClass[\\"a\\"])(App, [ {
-                key: \\"componentDidMount\\",
-                value: function componentDidMount() {}
-            }, {
-                key: \\"componentDidShow\\",
-                value: function componentDidShow() {}
-            }, {
-                key: \\"componentDidHide\\",
-                value: function componentDidHide() {}
-            }, {
-                key: \\"componentDidCatchError\\",
-                value: function componentDidCatchError() {}
-            }, {
-                key: \\"render\\",
-                value: function render() {
-                    return this.props.children;
-                }
-            } ]);
-            return App;
-        }(react[\\"Component\\"]);
-        var lib_src_app = app_App;
-        var taro_react = __webpack_require__(8);
-        var app_config = {
-            pages: [ \\"pages/index/index\\", \\"pages/about/index\\" ],
-            window: {
-                backgroundTextStyle: \\"light\\",
-                navigationBarBackgroundColor: \\"#fff\\",
-                navigationBarTitleText: \\"WeChat\\",
-                navigationBarTextStyle: \\"black\\"
-            },
-            tabBar: {
-                backgroundColor: \\"#fff\\",
-                selectedColor: \\"#dc0032\\",
-                list: [ {
-                    pagePath: \\"pages/index/index\\",
-                    text: \\"\\\\u9996\\\\u9875\\",
-                    iconPath: \\"assets/view.png\\",
-                    selectedIconPath: \\"assets/view_red.png\\"
-                }, {
-                    pagePath: \\"pages/about/index\\",
-                    text: \\"\\\\u5173\\\\u4e8e\\",
-                    iconPath: \\"assets/nav.png\\",
-                    selectedIconPath: \\"assets/nav_red.png\\"
-                } ]
-            }
-        };
-        taro_runtime[\\"window\\"].__taroAppConfig = app_config;
-        var inst = App(Object(taro_runtime[\\"createReactApp\\"])(lib_src_app, react, taro_react[\\"a\\"], app_config));
     }
-}, [ [ 14, 0, 1, 3, 2 ] ] ]);
+}, [ [ 16, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -1981,13 +2020,13 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/custom-wrapper.js **/
 (my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    13: function(module, __webpack_exports__, __webpack_require__) {
+    15: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
-}, [ [ 13, 0, 1 ] ] ]);
+}, [ [ 15, 0, 1 ] ] ]);
 
 /** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -1998,16 +2037,16 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/pages/about/index.js **/
 (my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    16: function(module, __webpack_exports__, __webpack_require__) {
+    18: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(1);
-        var classCallCheck = __webpack_require__(2);
-        var createClass = __webpack_require__(3);
-        var inherits = __webpack_require__(5);
-        var createSuper = __webpack_require__(4);
+        var classCallCheck = __webpack_require__(3);
+        var createClass = __webpack_require__(4);
+        var inherits = __webpack_require__(6);
+        var createSuper = __webpack_require__(5);
         var react = __webpack_require__(0);
-        var taro_components = __webpack_require__(6);
+        var taro_components = __webpack_require__(7);
         var about_Index = function(_Component) {
             Object(inherits[\\"a\\"])(Index, _Component);
             var _super = Object(createSuper[\\"a\\"])(Index);
@@ -2034,7 +2073,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
             }
         }, config || {}));
     }
-}, [ [ 16, 0, 1, 3, 2 ] ] ]);
+}, [ [ 18, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/about/index.json **/
 {\\"navigationBarTitleText\\":\\"关于\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
@@ -2045,16 +2084,16 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/pages/index/index.js **/
 (my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
-    15: function(module, __webpack_exports__, __webpack_require__) {
+    17: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(1);
-        var classCallCheck = __webpack_require__(2);
-        var createClass = __webpack_require__(3);
-        var inherits = __webpack_require__(5);
-        var createSuper = __webpack_require__(4);
+        var classCallCheck = __webpack_require__(3);
+        var createClass = __webpack_require__(4);
+        var inherits = __webpack_require__(6);
+        var createSuper = __webpack_require__(5);
         var react = __webpack_require__(0);
-        var taro_components = __webpack_require__(6);
+        var taro_components = __webpack_require__(7);
         var index_Index = function(_Component) {
             Object(inherits[\\"a\\"])(Index, _Component);
             var _super = Object(createSuper[\\"a\\"])(Index);
@@ -2081,7 +2120,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
             }
         }, config || {}));
     }
-}, [ [ 15, 0, 1, 3, 2 ] ] ]);
+}, [ [ 17, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
@@ -2207,13 +2246,14 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 (my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
     1: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
-        var _unused_webpack_default_export = \\"taro-runtime-mock\\";
+        __webpack_require__.r(__webpack_exports__);
+        __webpack_exports__[\\"default\\"] = \\"taro-runtime-mock\\";
     },
-    6: function(module, __webpack_exports__, __webpack_require__) {
+    7: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-components-mock\\";
     },
-    8: function(module, __webpack_exports__, __webpack_require__) {
+    9: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
     }
@@ -2241,7 +2281,7 @@ export default {
 }
 
 /** filePath: dist/vendors.js **/
-(my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , function(module, __webpack_exports__, __webpack_require__) {
+(my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _classCallCheck;
@@ -2292,7 +2332,7 @@ export default {
             return false;
         }
     }
-    var helpers_typeof = __webpack_require__(7);
+    var helpers_typeof = __webpack_require__(8);
     var typeof_default = __webpack_require__.n(helpers_typeof);
     function _assertThisInitialized(self) {
         if (self === void 0) {
@@ -3671,8 +3711,8 @@ require(\\"./taro\\");
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
             taro.miniGlobal = global;
         }
-        var runtime_noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\", \\"onBluetoothDeviceFound\\", \\"onBluetoothAdapterStateChange\\", \\"offBluetoothDeviceFound\\", \\"offBluetoothAdapterStateChange\\", \\"onBLEConnectionStateChange\\", \\"onBLECharacteristicValueChange\\", \\"offBLEConnectionStateChange\\", \\"offBLECharacteristicValueChange\\" ]);
-        var runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\" ]);
+        var runtime_noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\", \\"onBluetoothDeviceFound\\", \\"onBluetoothAdapterStateChange\\", \\"offBluetoothDeviceFound\\", \\"offBluetoothAdapterStateChange\\", \\"onBLEConnectionStateChange\\", \\"onBLECharacteristicValueChange\\", \\"offBLEConnectionStateChange\\", \\"offBLECharacteristicValueChange\\", \\"onCopyUrl\\", \\"offCopyUrl\\" ]);
+        var runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 noPromiseApis: runtime_noPromiseApis,
@@ -3846,6 +3886,10 @@ require(\\"./taro\\");
                 \\"ad-type\\": singleQuote(\\"banner\\"),
                 \\"ad-theme\\": singleQuote(\\"white\\")
             },
+            CoverView: {
+                \\"marker-id\\": \\"\\",
+                slot: \\"\\"
+            },
             Editor: {
                 \\"read-only\\": \\"false\\",
                 placeholder: \\"\\",
@@ -3989,6 +4033,7 @@ require(\\"./taro\\");
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
         var taro_runtime = __webpack_require__(1);
+        var mocks_taro = \\"taro\\";
         var classCallCheck = __webpack_require__(2);
         var createClass = __webpack_require__(3);
         var inherits = __webpack_require__(5);
@@ -4050,6 +4095,14 @@ require(\\"./taro\\");
         };
         taro_runtime[\\"window\\"].__taroAppConfig = app_config;
         var inst = App(Object(taro_runtime[\\"createReactApp\\"])(lib_src_app, react, taro_react[\\"a\\"], app_config));
+        undefined({
+            designWidth: 750,
+            deviceRatio: {
+                640: 1.17,
+                750: 1,
+                828: .905
+            }
+        });
     }
 }, [ [ 15, 0, 1, 3, 2 ] ] ]);
 

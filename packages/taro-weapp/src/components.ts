@@ -172,6 +172,10 @@ export const components = {
     'ad-type': singleQuote('banner'),
     'ad-theme': singleQuote('white')
   },
+  CoverView: {
+    'marker-id': '',
+    slot: ''
+  },
   // ======== 额外组件 ========
   Editor: {
     'read-only': 'false',

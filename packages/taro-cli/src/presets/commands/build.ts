@@ -13,7 +13,8 @@ export default (ctx: IPluginContext) => {
       '-p, --port [port]': 'Specified port',
       '--platform': 'Specific React-Native build target: android / ios, android is default value',
       '--reset-cache': 'Clear transform cache just for React-Native',
-      '--blended': 'Blended Taro project in an original MiniApp project'
+      '--blended': 'Blended Taro project in an original MiniApp project',
+      '--plugin [typeName]': 'Build Taro plugin project, weapp'
       // '--port [port]': 'Specified port',
     },
     synopsisList: [
@@ -21,7 +22,9 @@ export default (ctx: IPluginContext) => {
       'taro build --type weapp --watch',
       'taro build --type weapp --env production',
       'taro build --type weapp --blended',
-      'taro build native-components --type weapp'
+      'taro build native-components --type weapp',
+      'taro build --plugin weapp --watch',
+      'taro build --plugin weapp'
     ],
     async fn (opts) {
       const { options, config, _ } = opts

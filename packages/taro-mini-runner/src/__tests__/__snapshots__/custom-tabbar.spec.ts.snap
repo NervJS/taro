@@ -14,8 +14,8 @@ require(\\"./vendors\\");
 require(\\"./taro\\");
 
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    13: function(module, exports, __webpack_require__) {},
-    17: function(module, __webpack_exports__, __webpack_require__) {
+    14: function(module, exports, __webpack_require__) {},
+    18: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         function _arrayLikeToArray(arr, len) {
@@ -1305,8 +1305,8 @@ require(\\"./taro\\");
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
             taro.miniGlobal = global;
         }
-        var runtime_noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\", \\"onBluetoothDeviceFound\\", \\"onBluetoothAdapterStateChange\\", \\"offBluetoothDeviceFound\\", \\"offBluetoothAdapterStateChange\\", \\"onBLEConnectionStateChange\\", \\"onBLECharacteristicValueChange\\", \\"offBLEConnectionStateChange\\", \\"offBLECharacteristicValueChange\\" ]);
-        var runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\" ]);
+        var runtime_noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\", \\"onBluetoothDeviceFound\\", \\"onBluetoothAdapterStateChange\\", \\"offBluetoothDeviceFound\\", \\"offBluetoothAdapterStateChange\\", \\"onBLEConnectionStateChange\\", \\"onBLECharacteristicValueChange\\", \\"offBLEConnectionStateChange\\", \\"offBLECharacteristicValueChange\\", \\"onCopyUrl\\", \\"offCopyUrl\\" ]);
+        var runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 noPromiseApis: runtime_noPromiseApis,
@@ -1480,6 +1480,10 @@ require(\\"./taro\\");
                 \\"ad-type\\": singleQuote(\\"banner\\"),
                 \\"ad-theme\\": singleQuote(\\"white\\")
             },
+            CoverView: {
+                \\"marker-id\\": \\"\\",
+                slot: \\"\\"
+            },
             Editor: {
                 \\"read-only\\": \\"false\\",
                 placeholder: \\"\\",
@@ -1623,12 +1627,13 @@ require(\\"./taro\\");
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
         var taro_runtime = __webpack_require__(1);
+        var mocks_taro = __webpack_require__(7);
         var classCallCheck = __webpack_require__(3);
         var createClass = __webpack_require__(4);
         var inherits = __webpack_require__(6);
         var createSuper = __webpack_require__(5);
         var react = __webpack_require__(0);
-        var app = __webpack_require__(13);
+        var app = __webpack_require__(14);
         var app_App = function(_Component) {
             Object(inherits[\\"a\\"])(App, _Component);
             var _super = Object(createSuper[\\"a\\"])(App);
@@ -1657,7 +1662,7 @@ require(\\"./taro\\");
             return App;
         }(react[\\"Component\\"]);
         var lib_src_app = app_App;
-        var taro_react = __webpack_require__(8);
+        var taro_react = __webpack_require__(9);
         var app_config = {
             pages: [ \\"pages/index/index\\", \\"pages/detail/index\\" ],
             window: {
@@ -1687,8 +1692,16 @@ require(\\"./taro\\");
         };
         taro_runtime[\\"window\\"].__taroAppConfig = app_config;
         var inst = App(Object(taro_runtime[\\"createReactApp\\"])(lib_src_app, react, taro_react[\\"a\\"], app_config));
+        Object(mocks_taro[\\"initPxTransform\\"])({
+            designWidth: 750,
+            deviceRatio: {
+                640: 1.17,
+                750: 1,
+                828: .905
+            }
+        });
     }
-}, [ [ 17, 0, 1, 3, 2 ] ] ]);
+}, [ [ 18, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -2639,21 +2652,27 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 
 /** filePath: dist/common.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.r(__webpack_exports__);
-    __webpack_exports__[\\"default\\"] = \\"react-mock\\";
-} ] ]);
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], {
+    0: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        __webpack_exports__[\\"default\\"] = \\"react-mock\\";
+    },
+    7: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_exports__[\\"a\\"] = \\"taro\\";
+    }
+} ]);
 
 /** filePath: dist/comp.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    14: function(module, __webpack_exports__, __webpack_require__) {
+    15: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
-}, [ [ 14, 0, 1 ] ] ]);
+}, [ [ 15, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -2664,8 +2683,8 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/custom-tab-bar/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    16: function(module, exports, __webpack_require__) {},
-    18: function(module, __webpack_exports__, __webpack_require__) {
+    17: function(module, exports, __webpack_require__) {},
+    21: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(1);
@@ -2675,8 +2694,8 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
         var createSuper = __webpack_require__(5);
         var react = __webpack_require__(0);
         var taro_components = __webpack_require__(2);
-        var taro = \\"taro\\";
-        var custom_tab_bar = __webpack_require__(16);
+        var taro = __webpack_require__(7);
+        var custom_tab_bar = __webpack_require__(17);
         var custom_tab_bar_Index = function(_Component) {
             Object(inherits[\\"a\\"])(Index, _Component);
             var _super = Object(createSuper[\\"a\\"])(Index);
@@ -2689,7 +2708,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
                 value: function render() {
                     return react[\\"default\\"].createElement(taro_components[\\"CoverView\\"], null, react[\\"default\\"].createElement(taro_components[\\"CoverView\\"], {
                         onClick: function onClick() {
-                            taro.switchTab({
+                            taro[\\"a\\"].switchTab({
                                 url: \\"/pages/index/index\\"
                             });
                         }
@@ -2698,7 +2717,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
                         src: \\"../assets/view_red.png\\"
                     })), react[\\"default\\"].createElement(taro_components[\\"CoverView\\"], {
                         onClick: function onClick() {
-                            taro.switchTab({
+                            taro[\\"a\\"].switchTab({
                                 url: \\"/pages/detail/index\\"
                             });
                         }
@@ -2712,7 +2731,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
         }(react[\\"Component\\"]);
         var inst = Component(Object(taro_runtime[\\"createComponentConfig\\"])(custom_tab_bar_Index, \\"custom-tab-bar/index\\"));
     }
-}, [ [ 18, 0, 1, 3, 2 ] ] ]);
+}, [ [ 21, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/custom-tab-bar/index.json **/
 {}
@@ -2726,13 +2745,13 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/custom-wrapper.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
-    15: function(module, __webpack_exports__, __webpack_require__) {
+    16: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
-}, [ [ 15, 0, 1 ] ] ]);
+}, [ [ 16, 0, 1 ] ] ]);
 
 /** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -2964,7 +2983,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-components-mock\\";
     },
-    8: function(module, __webpack_exports__, __webpack_require__) {
+    9: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
     }
@@ -3063,7 +3082,7 @@ module.exports = {
             return false;
         }
     }
-    var helpers_typeof = __webpack_require__(7);
+    var helpers_typeof = __webpack_require__(8);
     var typeof_default = __webpack_require__.n(helpers_typeof);
     function _assertThisInitialized(self) {
         if (self === void 0) {
@@ -3115,7 +3134,7 @@ module.exports = {
         });
         if (superClass) _setPrototypeOf(subClass, superClass);
     }
-}, function(module, exports) {
+}, , function(module, exports) {
     function _typeof(obj) {
         \\"@babel/helpers - typeof\\";
         if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {

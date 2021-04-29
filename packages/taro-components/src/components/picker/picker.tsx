@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Host, State, Watch, Element } from '@stencil/core'
 import classNames from 'classnames'
 import {
@@ -36,6 +35,7 @@ export interface PickerDate {
 export class Picker implements ComponentInterface {
   private index: number[] = []
   private pickerDate: PickerDate
+  private overlay?: HTMLElement
 
   @Element() el: HTMLElement
 
@@ -78,6 +78,16 @@ export class Picker implements ComponentInterface {
       set: val => (this.value = val),
       configurable: true
     })
+
+    if (this.overlay) {
+      document.body.appendChild(this.overlay)
+    }
+  }
+
+  disconnectedCallback () {
+    if (this.overlay) {
+      this.overlay.parentNode?.removeChild(this.overlay)
+    }
   }
 
   @Watch('mode')
@@ -476,19 +486,26 @@ export class Picker implements ComponentInterface {
       <Host>
         <div onClick={this.showPicker}>
           <slot />
-        </div>
-        <div style={shouldDivHidden} class={clsMask} onClick={this.handleCancel} />
-        <div style={shouldDivHidden} class={clsSlider}>
-          <div class='weui-picker__hd'>
-            <div class='weui-picker__action' onClick={this.handleCancel}>
-              取消
-            </div>
-            <div class='weui-picker__action' onClick={this.handleChange}>
-              确定
-            </div>
-          </div>
-          <div class='weui-picker__bd'>{pickerGroup}</div>
           <input type='hidden' name={name} value={formatValue(this.pickerValue)} />
+        </div>
+        <div
+          class='weui-picker__overlay'
+          style={shouldDivHidden}
+          ref={el => { this.overlay = el }}
+        >
+          <div class={clsMask} onClick={this.handleCancel} />
+          <div class={clsSlider}>
+            <div class='weui-picker__hd'>
+              <div class='weui-picker__action' onClick={this.handleCancel}>
+                取消
+              </div>
+              <div class='weui-picker__action' onClick={this.handleChange}>
+                确定
+              </div>
+            </div>
+            <div class='weui-picker__bd'>{pickerGroup}</div>
+            <input type='hidden' name={name} value={formatValue(this.pickerValue)} />
+          </div>
         </div>
       </Host>
     )

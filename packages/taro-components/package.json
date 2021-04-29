@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "3.2.5",
+  "version": "3.2.6",
   "description": "",
   "main:h5": "src/index.js",
   "main": "dist/index.js",
@@ -24,10 +24,10 @@
     "build-h5": "babel -d dist-h5 h5",
     "build": "npm run build-h5 & stencil build --config stencil.config.ts",
     "dev": "stencil build --config stencil.config.ts --watch",
-    "test": "karmatic --files '__tests__/**.spec.js' --coverage false",
-    "test:ci": "karmatic --files '__tests__/**.spec.js' --coverage false",
-    "test:debug": "karmatic debug --files '__tests__/**.spec.js' --coverage false",
-    "test:coverage": "karmatic --files '__tests__/**.spec.js'"
+    "test": "karmatic --files '__tests__/setup.js,__tests__/**.spec.js' --coverage false",
+    "test:ci": "karmatic --files '__tests__/setup.js,__tests__/**.spec.js' --coverage false",
+    "test:debug": "karmatic debug --files '__tests__/setup.js,__tests__/**.spec.js' --coverage false",
+    "test:coverage": "karmatic --files '__tests__/setup.js,__tests__/**.spec.js'"
   },
   "repository": {
     "type": "git",
@@ -38,7 +38,7 @@
   "license": "MIT",
   "dependencies": {
     "@stencil/core": "2.4.0",
-    "@tarojs/taro": "3.2.5",
+    "@tarojs/taro": "3.2.6",
     "better-scroll": "^1.14.1",
     "classnames": "^2.2.5",
     "intersection-observer": "^0.7.0",

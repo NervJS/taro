@@ -8,6 +8,7 @@ import type { NodeType } from './dom/node_types'
 import type { EventsType } from './emitter/emitter'
 import { TaroEvent, MpEvent } from './dom/event'
 import type { Func } from './utils/types'
+import type { EventHandler } from './dom/event_target'
 
 type Inst = Instance<PageProps>
 
@@ -40,6 +41,8 @@ export interface Reconciler<Instance, DOMElement = TaroElement, TextElement = Ta
   modifyDispatchEvent? (event: TaroEvent, tagName: string): void
 
   batchedEventUpdates?(cb: () => void): void
+
+  onAddEvent?(type: string, handler: EventHandler, options: any): void
 
   // h5
   createPullDownComponent?(el: Instance, path: string, framework, customWrapper?: any)

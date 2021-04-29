@@ -809,6 +809,14 @@ exports[`css modules should use css modules with global mode 2`] = `
     }, __webpack_require__(12).default || {}) ];
     var inst = createReactApp(src_app, react, react[\\"default\\"], config);
     createRouter(inst, config, react);
+    undefined({
+        \\"designWidth\\": 750,
+        \\"deviceRatio\\": {
+            \\"640\\": 1.17,
+            \\"750\\": 1,
+            \\"828\\": .905
+        }
+    });
 } ]);
 "
 `;
@@ -1618,6 +1626,14 @@ exports[`css modules should use css modules with module mode 2`] = `
     }, __webpack_require__(12).default || {}) ];
     var inst = createReactApp(src_app, react, react[\\"default\\"], config);
     createRouter(inst, config, react);
+    undefined({
+        \\"designWidth\\": 750,
+        \\"deviceRatio\\": {
+            \\"640\\": 1.17,
+            \\"750\\": 1,
+            \\"828\\": .905
+        }
+    });
 } ]);
 "
 `;

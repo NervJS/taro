@@ -1,4 +1,5 @@
 import { isArray, isObject, warn } from '@tarojs/shared'
+import { CurrentReconciler } from '../reconciler'
 
 interface EventListenerOptions {
   capture?: boolean;
@@ -17,6 +18,7 @@ export class TaroEventTarget {
   public __handlers: Record<string, EventHandler[]> = {}
 
   public addEventListener (type: string, handler: EventHandler, options?: boolean | AddEventListenerOptions) {
+    CurrentReconciler.onAddEvent?.(type, handler, options)
     if (type === 'regionchange') {
       // map 组件的 regionchange 事件非常特殊，详情：https://github.com/NervJS/taro/issues/5766
       this.addEventListener('begin', handler, options)
