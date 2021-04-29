@@ -92,14 +92,14 @@ function loadPage (page: PageInstance | null, pageConfig: Route | undefined, sta
   }
 }
 
-function isTabBar (config: RouterConfig) {
-  const { customRoutes = {}, basename = '' } = config.router
-  const routePath = location.pathname.replace(basename, '')
+function isTabBar (config: RouterConfig): boolean {
+  const { customRoutes = {}, basename = '', pathname } = config.router
+  const routePath = pathname.replace(basename, '')
   const pagePath = Object.entries(customRoutes).find(
     ([, target]) => target === routePath
   )?.[0] || routePath
 
-  return pagePath && (config.tabBar?.list || []).some(t => t.pagePath === pagePath)
+  return Boolean(pagePath) && (config.tabBar?.list || []).some(t => t.pagePath === pagePath)
 }
 
 export function createRouter (
