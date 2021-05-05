@@ -193,11 +193,11 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
         terser ? terser.config : {}
       ]))
     }
-
-    if (isCssoEnabled) {
-      const cssoConfig: any = csso ? csso.config : {}
-      plugin.cssoWebpackPlugin = getCssoWebpackPlugin([cssoConfig])
-    }
+  }
+  
+ if (isCssoEnabled) {
+    const cssoConfig: any = csso ? csso.config : {}
+    plugin.cssoWebpackPlugin = getCssoWebpackPlugin([cssoConfig])
   }
 
   chain.merge({
