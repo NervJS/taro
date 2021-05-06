@@ -1,4 +1,4 @@
-import { findDOM } from '../utils'
+import Nerv from 'nervjs'
 
 /**
  * WXML节点信息API
@@ -13,7 +13,7 @@ function queryBat (queue, cb) {
     /* eslint-disable */
     const container = (
       component !== null ?
-        (findDOM(component) || document) :
+        (Nerv.findDOMNode(component) || document) :
         document
     )
     /* eslint-enable */
@@ -81,6 +81,8 @@ function filter (fields, dom, selector) {
   if (scrollOffset) {
     res.scrollLeft = dom.scrollLeft
     res.scrollTop = dom.scrollTop
+    res.scrollHeight = dom.scrollHeight
+    res.scrollWidth = dom.scrollWidth
   }
   if (properties.length) {
     properties.forEach(prop => {
@@ -93,6 +95,7 @@ function filter (fields, dom, selector) {
     computedStyle.forEach(key => {
       const value = styles.getPropertyValue(key)
       if (value) res[key] = value
+      else res[key] = styles[key]
     })
   }
 
