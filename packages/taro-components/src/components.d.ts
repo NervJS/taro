@@ -191,7 +191,7 @@ export namespace Components {
          */
         "duration": number;
         /**
-          * 给 prewviewImage API 使用，全屏显示 swiper
+          * 给 previewImage API 使用，全屏显示 swiper
          */
         "full": boolean;
         /**
@@ -890,7 +890,7 @@ declare namespace LocalJSX {
          */
         "duration"?: number;
         /**
-          * 给 prewviewImage API 使用，全屏显示 swiper
+          * 给 previewImage API 使用，全屏显示 swiper
          */
         "full"?: boolean;
         /**
