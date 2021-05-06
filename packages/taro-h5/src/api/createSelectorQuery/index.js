@@ -93,6 +93,7 @@ function filter (fields, dom, selector) {
     computedStyle.forEach(key => {
       const value = styles.getPropertyValue(key)
       if (value) res[key] = value
+      else res[key] = styles[key]
     })
   }
 
