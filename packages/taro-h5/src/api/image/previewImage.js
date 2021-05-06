@@ -33,7 +33,9 @@ export async function previewImage (options) {
 
   let children = []
   try {
-    children = await Promise.all(urls.map(loadImage))
+    children = await Promise.all(
+      urls.map(e => loadImage(e, options.fail))
+    )
   } catch (error) {
     if (options.fail) {
       options.fail(error)
@@ -60,8 +62,8 @@ export async function previewImage (options) {
   }
 }
 
-function loadImage (url) {
-  return new Promise((resolve, reject) => {
+function loadImage (url, fail) {
+  return new Promise((resolve) => {
     const item = document.createElement('taro-swiper-item-core')
     item.style.cssText = `
       display: flex;
@@ -72,11 +74,12 @@ function loadImage (url) {
     image.style.maxWidth = '100%'
     image.src = url
     item.appendChild(image)
-    image.addEventListener('load', () => {
-      resolve(item)
-    })
-    image.addEventListener('error', (err) => {
-      reject(err)
-    })
+    // Note: 等待图片加载完后返回，会导致轮播被卡住
+    resolve(item)
+    if (typeof fail === 'function') {
+      image.addEventListener('error', (err) => {
+        fail(err)
+      })
+    }
   })
 }
