@@ -142,7 +142,7 @@ export class TaroRootElement extends TaroElement {
               eventCenter.trigger(eventId)
             })
           })
-          ctx.setData(normalUpdate, () => {
+          Object.keys(normalUpdate).length && ctx.setData(normalUpdate, () => {
             eventCenter.trigger(eventId)
           })
         } else {
