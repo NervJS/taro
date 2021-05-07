@@ -158,3 +158,11 @@ mini: {
   }
 }
 ```
+Taro 3 RN 端没有使用 webpack，所以不能跟其他端一致 ，这里需增加了一个配置支持：
+```js title="/config/index.js"
+rn: {
+  resolve: {
+    include: ['@taro-mobile'],
+  }
+}
+```

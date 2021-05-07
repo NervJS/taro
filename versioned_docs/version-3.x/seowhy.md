@@ -6,9 +6,9 @@ title: 搜外七巧板在线制作小程序
 
 只要你的网站是[搜外6系统](https://6.seowhy.com/)、Wordpress、DedeCMS、帝国CMS、Zblog、PHPCMS 等其中的任意一种，那么，你只需要来搜外七巧板，进行一些简单的配置与美化就可以将自己网站的内容一键连接到小程序里 ，实现一个网站、一个小程序、多渠道展现。
 
-**搜外七巧板官网地址：https://diy.seowhy.com/**
+**官网地址：https://diy.seowhy.com/**
 
-**Taro案例(2000+)：https://diy.seowhy.com/case**
+**Taro案例：https://diy.seowhy.com/case**
 
 ---
 ## 使用搜外七巧板
@@ -63,4 +63,3 @@ title: 搜外七巧板在线制作小程序
 | convertComment |        格式化留言 |
 | parseContent |          格式化内容 |
 | getParams |             获得扩展字段 |
-

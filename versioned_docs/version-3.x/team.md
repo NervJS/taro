@@ -33,8 +33,14 @@ Taro 各个模块的核心开发者。设计并实现 Taro 的核心功能，把
   style={{display: "inline-block", margin: "0 10px 10px 0"}}
   ><img src="//storage.jd.com/taro-jd-com/static/58.png" style={{height: "88px"}}
 /></a>
+<a
+  href="//www.anjuke.com"
+  target="_blank"
+  style={{display: "inline-block", margin: "0 10px 10px 0"}}
+  ><img src="//pic3.58cdn.com.cn/nowater/fangfe/n_v2bcd2cc376dc54a5e9b0ce864424394f9.png" style={{height: "88px"}}
+/></a>
 
-Taro 3 React Native 部分由 58 的团队正在开发，将很快和大家见面了。[RN 相关的 RFC 可以关注](https://github.com/NervJS/taro-rfcs/pull/8)
+Taro 3 React Native 部分由 58 的团队开发。[RN 相关的 RFC 可以关注](https://github.com/NervJS/taro-rfcs/pull/8)
 
 58 同城技术委员会前端分会成立于 2016 年，由各个事业群、部门的前端团队联合组成，旨在促进公司内前端领域技术共享交流、协同共建、代码开源，统一技术标准和开发方案，提高公司整体前端基础建设水平，提升各团队之间沟通协作效率。58 也在积极参与开源社区建设，已对外开源 wwto、Umajs、Picasso 多个项目，更多开源请关注：[https://github.com/wuba](https://github.com/wuba)。
 

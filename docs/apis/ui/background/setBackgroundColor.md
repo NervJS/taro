@@ -82,4 +82,4 @@ Taro.setBackgroundColor({
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| Taro.setBackgroundColor | ✔️ |  |  |
+| Taro.setBackgroundColor | ✔️ |  | ✔️（仅Android） |
