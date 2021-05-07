@@ -29,8 +29,8 @@ export function customVue3Chain (chain) {
   chain
     .plugin('defined')
     .use(webpack.DefinePlugin, [{
-      __VUE_OPTIONS_API__: JSON.stringify(true),
-      __VUE_PROD_DEVTOOLS__: JSON.stringify(false)
+      __VUE_OPTIONS_API__: true,
+      __VUE_PROD_DEVTOOLS__: false
     }])
 
   chain.module
