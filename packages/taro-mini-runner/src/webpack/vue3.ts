@@ -4,6 +4,8 @@ import { toCamelCase, internalComponents, capitalize } from '@tarojs/shared'
 import { componentConfig } from '../template/component'
 import type { RootNode, TemplateChildNode, ElementNode, AttributeNode, DirectiveNode, SimpleExpressionNode } from '@vue/compiler-core'
 
+const CUSTOM_WRAPPER = 'custom-wrapper'
+
 export function customVue3Chain (chain) {
   let vueLoaderPath: string
   try {
@@ -60,6 +62,11 @@ export function customVue3Chain (chain) {
                 node.tagType = 0 /* ELEMENT */
               }
               componentConfig.includes.add(nodeName)
+            }
+
+            if (nodeName === CUSTOM_WRAPPER) {
+              node.tagType = 0 /* ELEMENT */
+              componentConfig.thirdPartyComponents.set(CUSTOM_WRAPPER, new Set())
             }
 
             const usingComponent = componentConfig.thirdPartyComponents.get(nodeName)
