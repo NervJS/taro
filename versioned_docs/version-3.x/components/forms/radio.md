@@ -102,7 +102,7 @@ export default class PageRadio extends Component {
   <view class="container">
     <view class="page-section">
       <text>默认样式</text>
-      <radio value="选中" checked="true">选中</radio>
+      <radio value="选中" :checked="true">选中</radio>
       <radio style="margin-left: 20rpx;" value="未选中">未选中</radio>
     </view>
     <view class="page-section">

@@ -43,7 +43,7 @@ class App extends Components {
 
 ```html
 <template>
-  <live-player src="url" mode="live" autoplay  />
+  <live-player src="url" mode="live" :autoplay="true"  />
 </template>
 ```
   

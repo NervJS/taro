@@ -93,16 +93,16 @@ export default class PageCheckbox extends Component {
 <template>
   <view class="container">
     <view class="page-section">
-          <text>默认样式</text>
-          <checkbox value="选中" checked="true">选中</checkbox>
-          <checkbox style="margin-left: 20rpx;" value="未选中">未选中</checkbox>
-        </view>
-        <view class="page-section">
-          <text>推荐展示样式(Taro 团队成员):</text>
-            <label v-for="item in list" class="checkbox-list__label">
-              <checkbox class="checkbox-list__checkbox" :value="item.value" :checked="item.checked">{{ item.text }}</checkbox>
-            </label>
-        </view>
+      <text>默认样式</text>
+      <checkbox value="选中" :checked="true">选中</checkbox>
+      <checkbox style="margin-left: 20rpx;" value="未选中">未选中</checkbox>
+    </view>
+    <view class="page-section">
+      <text>推荐展示样式(Taro 团队成员):</text>
+      <label v-for="item in list" class="checkbox-list__label">
+        <checkbox class="checkbox-list__checkbox" :value="item.value" :checked="item.checked">{{ item.text }}</checkbox>
+      </label>
+    </view>
   </view>
 </template>
 

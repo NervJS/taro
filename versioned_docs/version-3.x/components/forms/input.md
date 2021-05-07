@@ -59,13 +59,13 @@ class App extends Component {
 <template>
   <view class="example-body">
     <text>可以自动聚焦的 input</text>
-    <input type="text" placeholder="将会获取焦点" focus/>
+    <input type="text" placeholder="将会获取焦点" :focus="true" />
     <text>控制最大输入长度的 input</text>
     <input type="text" placeholder="最大输入长度为 10" maxlength="10"/>
     <text>数字输入的 input</text>
     <input type="number" placeholder="这是一个数字输入框"/>
     <text>密码输入的 input</text>
-    <input type="password" password placeholder="这是一个密码输入框"/>
+    <input type="password" :password="true" placeholder="这是一个密码输入框"/>
     <text>带小数点的 input</text>
     <input type="digit" placeholder="带小数点的数字键盘"/>
     <text>身份证输入的 input</text>

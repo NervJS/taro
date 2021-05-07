@@ -59,7 +59,7 @@ class App extends Components {
       USA
     </label>
     <label class="example-body__label" for="2" key="2">
-      <radio id="2" value="CHN" checked="true" />
+      <radio id="2" value="CHN" :checked="true" />
       CHN
     </label>
   </radio-group>

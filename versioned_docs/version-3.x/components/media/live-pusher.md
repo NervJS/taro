@@ -44,7 +44,7 @@ class App extends Components {
 
 ```html
 <template>
-  <live-pusher url="url" mode="RTC" autopush  />
+  <live-pusher url="url" mode="RTC" :autopush="true"  />
 </template>
 ```
   

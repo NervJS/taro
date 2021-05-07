@@ -44,7 +44,18 @@ class App extends Component {
 
 ```html
 <template>
-  <map id="map" longitude="113.324520" latitude="23.099994" scale="14" :markers="markers" @markertap="markertap" :polyline="polyline" @regionchange="regionchange" show-location style="width: 100%; height: 300px;"></map>
+  <map
+    id="map"
+    style="width: 100%; height: 300px;"
+    longitude="113.324520"
+    latitude="23.099994"
+    scale="14"
+    :markers="markers"
+    :polyline="polyline"
+    :show-location="true"
+    @regionchange="regionchange"
+    @markertap="markertap"
+  />
 </template>
 
 <script>

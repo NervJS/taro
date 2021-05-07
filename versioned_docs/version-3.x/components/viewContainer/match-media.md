@@ -35,10 +35,10 @@ class App extends Components {
   render () {
     return (
       <View>
-        <MatchMedia min-width="300" max-width="600">
+        <MatchMedia minWidth="300" maxWidth="600">
           <view>当页面宽度在 300 ~ 500 px 之间时展示这里</view>
         </MatchMedia>
-        <MatchMedia min-height="400" orientation="landscape">
+        <MatchMedia minHeight="400" orientation="landscape">
           <view>当页面高度不小于 400 px 且屏幕方向为纵向时展示这里</view>
         </MatchMedia>
       </View>
