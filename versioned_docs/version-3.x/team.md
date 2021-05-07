@@ -113,6 +113,12 @@ Taro 3 React Native 部分由 58 的团队开发。[RN 相关的 RFC 可以关�
   style={{display: "inline-block", margin: "0 10px 10px 0"}}
   ><img src="//img12.360buyimg.com/ling/jfs/t1/150151/24/2373/15562/5f05ad52Ec372ce39/80b555a4d0a0a929.png" style={{height: "100px"}}
 /></a>
+<a
+  href="//www.ikandy.cn"
+  target="_blank"
+  style={{display: "inline-block", margin: "0 10px 10px 0"}}
+  ><img src="//www.ikandy.cn/images/home/logo_tianxin.png" style={{height: "100px"}}
+/></a>
 
 
 ## 个人贡献者
