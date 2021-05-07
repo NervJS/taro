@@ -157,19 +157,7 @@
         },
         {
           "type": "doc",
-          "id": "version-3.x/plugin"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/debug-config"
-        },
-        {
-          "type": "doc",
           "id": "version-3.x/hooks"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/jquery-like"
         },
         {
           "type": "doc",
@@ -177,11 +165,34 @@
         },
         {
           "type": "doc",
-          "id": "version-3.x/prerender"
+          "id": "version-3.x/plugin"
         },
         {
           "type": "doc",
-          "id": "version-3.x/virtual-list"
+          "id": "version-3.x/jquery-like"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/debug-config"
+        },
+        {
+          "collapsed": true,
+          "label": "性能优化",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/optimized"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/prerender"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/virtual-list"
+            }
+          ]
         },
         {
           "collapsed": true,

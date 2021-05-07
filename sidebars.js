@@ -29,13 +29,20 @@ module.exports = {
     ],
     进阶指南: [
       'config-detail',
-      'plugin',
-      'debug-config',
       'hooks',
-      'jquery-like',
       'html',
-      'prerender',
-      'virtual-list',
+      'plugin',
+      'jquery-like',
+      'debug-config',
+      {
+        label: '性能优化',
+        type: 'category',
+        items: [
+          'optimized',
+          'prerender',
+          'virtual-list',
+        ]
+      },
       {
         label: '原生混合',
         type: 'category',
