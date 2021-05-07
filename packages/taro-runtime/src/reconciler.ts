@@ -9,6 +9,7 @@ import type { EventsType } from './emitter/emitter'
 import { TaroEvent, MpEvent } from './dom/event'
 import type { Func } from './utils/types'
 import { FormElement } from './dom/form'
+import type { EventHandler } from './dom/event_target'
 
 type Inst = Instance<PageProps>
 
@@ -52,8 +53,10 @@ export interface Reconciler<Instance, DOMElement = TaroElement, TextElement = Ta
 
   modifyFormEvent?(element: FormElement, event: TaroEvent): void
 
+  onAddEvent?(type: string, handler: EventHandler, options: any): void
+
   // h5
-  createPullDownComponent?(el: Instance, path: string, framework)
+  createPullDownComponent?(el: Instance, path: string, framework, customWrapper?: any)
 
   findDOMNode?(instance: Instance): DOMElement | undefined
 

@@ -43,6 +43,19 @@ export class Template extends RecursiveTemplate {
       return `<block>{{ i.${Shortcuts.Childnodes}[index].${Shortcuts.Text} }}</block>`
     }
 
+    if (nodeName === 'picker-view') {
+      return `<picker-view-column name="{{ item.name }}" style="{{ item.st }}" class="{{ item.cl }}" bindtap="eh"  id="{{item.uid}}">
+        <block s-for="{{item.cn}}" s-key="uid">
+          ${child}
+        </block>
+      </picker-view-column>`
+    }
+
     return child
+  }
+
+  modifyTemplateResult = (res: string, nodeName: string) => {
+    if (nodeName === 'picker-view-column') return ''
+    return res
   }
 }

@@ -71,7 +71,10 @@ export abstract class TaroPlatformBase {
   }
 
   private setupImpl () {
-    this.emptyOutputDir()
+    const { needClearOutput } = this.config
+    if (typeof needClearOutput === 'undefined' || !!needClearOutput) {
+      this.emptyOutputDir()
+    }
     this.printDevelopmentTip(this.platform)
     if (this.projectConfigJson) {
       this.generateProjectConfig(this.projectConfigJson)
@@ -144,7 +147,7 @@ ${exampleCommand}
       runtimePath: this.runtimePath,
       taroComponentsPath: this.taroComponentsPath
     }, extraOptions))
-    runner(options)
+    await runner(options)
   }
 
   /**

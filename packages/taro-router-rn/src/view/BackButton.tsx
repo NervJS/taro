@@ -15,7 +15,7 @@ export default class BackButton extends React.PureComponent<BackButtonProps> {
     const { tintColor = '#ffffff' } = this.props
     const color = tintColor.toLowerCase()
     const imageSource = (color === '#ffffff' || color === 'white' || color === '#fff') ? whiteArrow : blackArrow
-    return <View style={{ marginHorizontal: Platform.OS === 'ios' ? 8 : 0 }}>
+    return <View style={{ marginHorizontal: Platform.OS === 'ios' ? 10 : 0, marginRight: 25, marginVertical: 10 }}>
       <Image
         style={{ width: 22, height: 22 }}
         source={{ uri: imageSource }}

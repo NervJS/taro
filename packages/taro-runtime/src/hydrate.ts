@@ -82,6 +82,8 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
 
   if (childNodes.length > 0) {
     data[Shortcuts.Childnodes] = childNodes.map(hydrate)
+  } else {
+    data[Shortcuts.Childnodes] = []
   }
 
   if (node.className !== '') {

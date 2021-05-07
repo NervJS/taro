@@ -25,5 +25,8 @@
   "dependencies": {
     "camelize": "^1.0.0",
     "taro-css-to-react-native": "3.3.0-alpha.2"
+  },
+  "devDependencies": {
+    "@types/babel__core": "^7.1.14"
   }
 }

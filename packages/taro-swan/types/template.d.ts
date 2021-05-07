@@ -16,4 +16,5 @@ export declare class Template extends RecursiveTemplate {
     dataKeymap(keymap: string): string;
     getAttrValue(value: string, key: string, nodeName: string): string;
     modifyLoopBody: (child: string, nodeName: string) => string;
+    modifyTemplateResult: (res: string, nodeName: string) => string;
 }

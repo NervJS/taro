@@ -66,7 +66,9 @@ export const noPromiseApis = new Set([
   'onBLEConnectionStateChange',
   'onBLECharacteristicValueChange',
   'offBLEConnectionStateChange',
-  'offBLECharacteristicValueChange'
+  'offBLECharacteristicValueChange',
+  'onCopyUrl',
+  'offCopyUrl'
 ])
 
 export const needPromiseApis = new Set([
@@ -146,5 +148,6 @@ export const needPromiseApis = new Set([
   'getBLEDeviceServices',
   'getBLEDeviceCharacteristics',
   'createBLEConnection',
-  'closeBLEConnection'
+  'closeBLEConnection',
+  'startFacialRecognitionVerify'
 ])

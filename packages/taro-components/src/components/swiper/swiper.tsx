@@ -79,7 +79,7 @@ export class Swiper implements ComponentInterface {
   @Prop() displayMultipleItems = 1
 
   /**
-   * 给 prewviewImage API 使用，全屏显示 swiper
+   * 给 previewImage API 使用，全屏显示 swiper
    */
   @Prop() full = false
 

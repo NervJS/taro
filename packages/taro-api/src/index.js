@@ -59,11 +59,12 @@ const Taro = {
   useShareTimeline,
   useAddToFavorites,
   useReady,
-  useRouter
+  useRouter,
+  getInitPxTransform
 }
 
 Taro.initPxTransform = getInitPxTransform(Taro)
-Taro.preload = getPreload(Taro)
+Taro.preload = getPreload(Current)
 Taro.pxTransform = getPxTransform(Taro)
 
 export default Taro

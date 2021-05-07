@@ -32,7 +32,7 @@
   "dependencies": {
     "@react-native-community/cli": "^4.13.1",
     "@react-native-community/cli-server-api": "^4.13.1",
-    "@tarojs/helper": "3.1.4",
+    "@tarojs/helper": "3.3.0-alpha.2",
     "@tarojs/rn-style-transformer": "3.3.0-alpha.2",
     "@tarojs/rn-supporter": "3.3.0-alpha.2",
     "@tarojs/rn-transformer": "3.3.0-alpha.2",

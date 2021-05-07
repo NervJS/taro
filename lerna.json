@@ -15,6 +15,7 @@
     "packages/taro-api",
     "packages/taro-cli",
     "packages/taro-components",
+    "packages/taro-components-react",
     "packages/taro-components-rn",
     "packages/taro-extend",
     "packages/taro-h5",

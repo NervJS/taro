@@ -50,7 +50,6 @@ export declare const components: {
         'report-submit-timeout': string;
     };
     Input: {
-        'auto-focus': string;
         'always-embed': string;
         'adjust-position': string;
         'hold-keyboard': string;
@@ -164,6 +163,10 @@ export declare const components: {
     Ad: {
         'ad-type': string;
         'ad-theme': string;
+    };
+    CoverView: {
+        'marker-id': string;
+        slot: string;
     };
     Editor: {
         'read-only': string;

@@ -22,7 +22,7 @@
   "author": "yuche",
   "license": "MIT",
   "dependencies": {
-    "@babel/runtime": "7.12.5",
+    "@babel/runtime": "^7.12.5",
     "@tarojs/runtime": "3.3.0-alpha.2",
     "@tarojs/taro": "3.3.0-alpha.2",
     "lodash": "^4.17.11"
