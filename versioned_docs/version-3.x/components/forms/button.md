@@ -530,7 +530,7 @@ open-type 的合法值
     </tr>
     <tr>
       <td>getPhoneNumber</td>
-      <td>获取用户手机号，可以从 bindgetphonenumber 回调中获取到用户信息<br />Vue3 example: <button @getphonenumber="callback"/><br /><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/getPhoneNumber.html">参考地址</a></td>
+      <td>获取用户手机号，可以从 bindgetphonenumber 回调中获取到用户信息<br />Vue3 example: <code>&lt;button @getphonenumber="callback" /&gt;</code><br /><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/getPhoneNumber.html">参考地址</a></td>
     </tr>
     <tr>
       <td>getUserInfo</td>
