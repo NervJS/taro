@@ -98,7 +98,7 @@ export default class PageView extends Component {
           <text>Vertical Scroll - 纵向滚动</text>
         </view>
         <view class="page-section-spacing">
-          <scroll-view scrollY="true" style="height: 300rpx;" @scrolltoupper="upper" @scrolltolower="lower" @scroll="scroll" :scrollIntoView="toView" :scrollTop="scrollTop">
+          <scroll-view :scroll-y="true" style="height: 300rpx;" @scrolltoupper="upper" @scrolltolower="lower" @scroll="scroll" :scroll-into-view="toView" :scroll-top="scrollTop">
             <view id="demo1" class="scroll-view-item demo-text-1">1</view>
             <view id="demo2"  class="scroll-view-item demo-text-2">2</view>
             <view id="demo3" class="scroll-view-item demo-text-3">3</view>
@@ -110,7 +110,7 @@ export default class PageView extends Component {
           <text>Horizontal Scroll - 横向滚动</text>
         </view>
         <view class="page-section-spacing">
-          <scroll-view class="scroll-view_H" scrollX="true" @scroll="scroll" style="width: 100%">
+          <scroll-view class="scroll-view_H" :scroll-x="true" @scroll="scroll" style="width: 100%">
             <view id="demo21" class="scroll-view-item_H demo-text-1">a</view>
             <view id="demo22"  class="scroll-view-item_H demo-text-2">b</view>
             <view id="demo23" class="scroll-view-item_H demo-text-3">c</view>
@@ -119,7 +119,7 @@ export default class PageView extends Component {
       </view>
     </view>
   </view>
-</template>>
+</template>
 
 <script>
 const order = ['demo1', 'demo2', 'demo3']

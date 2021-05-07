@@ -115,10 +115,10 @@ export default class PageButton extends Component {
     >
       {{ item.text }}
     </button>
-    <button class="btn-max-w" plain type="primary">按钮</button>
-    <button class="btn-max-w" plain type="primary" disabled="true">不可点击的按钮</button>
-    <button class="btn-max-w" plain >按钮</button>
-    <button class="btn-max-w" plain disabled="true" >按钮</button>
+    <button class="btn-max-w" :plain="true" type="primary">按钮</button>
+    <button class="btn-max-w" :plain="true" type="primary" :disabled="true">不可点击的按钮</button>
+    <button class="btn-max-w" :plain="true">按钮</button>
+    <button class="btn-max-w" :plain="true" :disabled="true">按钮</button>
     <button size="mini" type="primary">按钮</button>
     <button size="mini" >按钮</button>
     <button size="mini" type="warn">按钮</button>

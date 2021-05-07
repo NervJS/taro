@@ -54,10 +54,10 @@ export default class PageView extends Component {
 <template>
   <view class='components-page'>
     <text>默认样式</text>
-    <switch checked="true" />
+    <switch :checked="true" />
     <switch />
     <text>推荐展示样式</text>
-    <switch checked="true" />
+    <switch :checked="true" />
     <switch />
   </view>
 </template>

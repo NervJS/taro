@@ -63,10 +63,11 @@ class App extends Component {
     class='test-h'
     indicator-color='#999'
     indicator-active-color='#333'
-    vertical
-    circular
-    indicator-dots
-    autoplay>
+    :vertical="true"
+    :circular="true"
+    :indicator-dots="true"
+    :autoplay="true"
+  >
     <swiper-item>
       <view class='demo-text-1'>1</view>
     </swiper-item>

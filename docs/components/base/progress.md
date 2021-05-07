@@ -53,10 +53,10 @@ export default class PageView extends Component {
 ```html
 <template>
   <view class="components-page">
-    <progress percent="20" stroke-width="2" show-info="true"  />
-    <progress percent="40" stroke-width="2" active="true" />
-    <progress percent="60" stroke-width="2" active="true" />
-    <progress percent="80" stroke-width="2" active="true" activeColor="blue" />
+    <progress percent="20" stroke-width="2" :show-info="true" />
+    <progress percent="40" stroke-width="2" :active="true" />
+    <progress percent="60" stroke-width="2" :active="true" />
+    <progress percent="80" stroke-width="2" :active="true" active-color="blue" />
   </view>
 </template>
 ```

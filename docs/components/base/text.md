@@ -78,8 +78,8 @@ export default class PageView extends Component {
     <view v-for="(item, index) in contents">
       <text>{{item.text}} line {{index + 1}}</text>
     </view>
-    <button class="btn-max-w button_style" plain type="default" @tap="add">add line</button>
-    <button class="btn-max-w button_style" plain type="default" :disabled="contentsLen ? false : true" @tap="remove">remove line</button>
+    <button class="btn-max-w button_style" :plain="true" type="default" @tap="add">add line</button>
+    <button class="btn-max-w button_style" :plain="true" type="default" :disabled="contentsLen ? false : true" @tap="remove">remove line</button>
 </template>
 
 <script>

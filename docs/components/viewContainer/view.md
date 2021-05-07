@@ -62,10 +62,10 @@ export default class PageView extends Component {
 <template>
   <view class="components-page">
     <text>flex-direction: row 横向布局</text>
-    <view class="flex-wrp flex-wrp-row" hoverClass="hover" >
-      <view class="flex-item demo-text-1" hoverStopPropagation="true" />
-      <view class="flex-item demo-text-2" hoverStartTime="1000" hoverClass="hover" />
-      <view class="flex-item demo-text-3" hoverStayTime="1000" hoverClass="hover" />
+    <view class="flex-wrp flex-wrp-row" hover-class="hover" >
+      <view class="flex-item demo-text-1" :hover-stop-propagation="true" />
+      <view class="flex-item demo-text-2" hover-start-time="1000" hover-class="hover" />
+      <view class="flex-item demo-text-3" hover-stayTime="1000" hover-class="hover" />
     </view>
     <text>flex-direction: column 纵向布局</text>
     <view class="flex-wrp flex-wrp-column">

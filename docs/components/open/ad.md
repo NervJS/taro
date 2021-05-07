@@ -31,8 +31,8 @@ class App extends Component {
   render () {
     return (
       <Ad
-        unit-id=''
-        ad-intervals={60}
+        unitId=''
+        adIntervals={60}
         onLoad={() => console.log('ad onLoad')}
         onError={() => console.log('ad onError')}
         onClose={() => console.log('ad onClose')}
