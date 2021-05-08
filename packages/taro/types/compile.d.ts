@@ -150,6 +150,7 @@ export interface IH5RouterConfig {
   basename?: string,
   lazyload?: boolean | ((pagename: string) => boolean),
   renamePagename?: (pagename: string) => string
+  forcePath?: string
 }
 
 export interface IH5Config {
