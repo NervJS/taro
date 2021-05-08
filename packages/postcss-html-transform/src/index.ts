@@ -9,7 +9,7 @@ const reg = new RegExp(`(^| |\\+|,|~|>|\\n)(${tagsCombine})\\b(?=$| |\\.|\\+|,|~
 function plugin (_opts) {
   return function (root) {
     root.walkRules(function (rule) {
-      if (/(^| )\*(?!=)/.test(rule)) {
+      if (/(^| )\*(?![=/*])/.test(rule)) {
         rule.remove()
         return
       }
