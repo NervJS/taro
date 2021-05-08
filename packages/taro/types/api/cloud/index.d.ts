@@ -729,7 +729,7 @@ declare namespace Taro {
        * ```
        * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Database.serverDate.html
        */
-      serverDate(): Database.ServerDate
+      serverDate(options?: Database.ServerDate.IOptions): Database.ServerDate
       /** 构造正则表达式，仅需在普通 js 正则表达式无法满足的情况下使用
        * @supported weapp
        * @example
