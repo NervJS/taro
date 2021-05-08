@@ -1505,3 +1505,22 @@ module.exports = {
   }
 }
 ```
+
+### rn.resolve
+
+`object`
+
+`resolve` 是处理引用文件的配置。下面可以进行 `include` 配置，处理引用 `node_modules` 文件的跨平台处理，默认不处理。
+
+```js
+module.exports = {
+  // ...
+  rn: {
+    // ...
+    resolve: {
+      // ...
+      include: ['test'] // 处理引用 node_modules/test 文件的跨平台处理。
+    }
+  }
+}
+```
