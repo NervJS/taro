@@ -1,0 +1,46 @@
+{
+  "title": {
+    "message": "Taro",
+    "description": "The title in the navbar"
+  },
+  "item.label.文档": {
+    "message": "Document",
+    "description": "Navbar item with label Document"
+  },
+  "item.label.组件库": {
+    "message": "Component",
+    "description": "Navbar item with label Component"
+  },
+  "item.label.API": {
+    "message": "API",
+    "description": "Navbar item with label API"
+  },
+  "item.label.教程": {
+    "message": "Learn",
+    "description": "Navbar item with label Learn"
+  },
+  "item.label.博客": {
+    "message": "Blog",
+    "description": "Navbar item with label Blog"
+  },
+  "item.label.案例": {
+    "message": "Case",
+    "description": "Navbar item with label Case"
+  },
+  "item.label.Taro UI": {
+    "message": "Taro UI",
+    "description": "Navbar item with label Taro UI"
+  },
+  "item.label.物料市场": {
+    "message": "Material market",
+    "description": "Navbar item with label Material market"
+  },
+  "item.label.论坛": {
+    "message": "Forum",
+    "description": "Navbar item with label Forum"
+  },
+  "item.label.京东小程序": {
+    "message": "JD Mini Program",
+    "description": "Navbar item with label JD Mini Program"
+  }
+}
