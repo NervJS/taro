@@ -264,6 +264,11 @@ declare namespace Taro {
      */
     static init(config?: cloud.IInitConfig): void
 
+    /** 声明字符串为 CloudID（开放数据 ID），该接口传入一个字符串，返回一个 CloudID 特殊对象，将该对象传至云函数可以获取其对应的开放数据。
+     * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/open/Cloud.CloudID.html
+     */
+     static CloudID(cloudID: string): void
+
     /** 调用云函数
      * @supported weapp
      * @example
@@ -501,6 +506,11 @@ declare namespace Taro {
      * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/init/client.init.html
      */
     init(config?: cloud.IInitConfig): Promise<void>
+
+    /** 声明字符串为 CloudID（开放数据 ID），该接口传入一个字符串，返回一个 CloudID 特殊对象，将该对象传至云函数可以获取其对应的开放数据。
+     * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/open/Cloud.CloudID.html
+     */
+     static CloudID(cloudID: string): void
 
     /** 调用云函数
      * @supported weapp
