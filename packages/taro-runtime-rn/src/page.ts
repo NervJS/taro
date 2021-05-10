@@ -225,10 +225,11 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
             return EventChannel.pageChannel
           }
         }
-        // 存储对应小程序的实例
-        setPageObject(inst, pageId)
+        const { params = {}, key = '' } = this.props.route
 
-        const { params = {} } = this.props.route
+        // 存储对应小程序的实例
+        setPageObject(inst, key)
+
         Current.router = {
           params: params,
           path: pagePath
@@ -511,9 +512,9 @@ export function setBackgroundTextStyle (options: TextStyleOption) {
 
 export function getCurrentPages () {
   const pages: PageInstance[] = []
-  const routeNames = getCurrentRoute()
-  if (routeNames && routeNames.length > 0) {
-    routeNames.forEach(item => {
+  const routes = getCurrentRoute()
+  if (routes && routes.length > 0) {
+    routes.forEach(item => {
       const inst = getPageObject(item)
       inst && pages.push(inst)
     })
@@ -521,6 +522,5 @@ export function getCurrentPages () {
     const inst = Current.page
     inst && pages.push(inst)
   }
-
   return pages
 }
