@@ -145,10 +145,12 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
       setPageInstance () {
         const pageRef = this.screenRef
+        const { params = {}, key = '' } = this.props.route
         // 和小程序的page实例保持一致
         const inst: PageInstance = {
           config: pageConfig,
           route: pagePath,
+          options: params,
           onReady () {
             const page = pageRef.current
             if (page != null && isFunction(page.componentDidMount)) {
@@ -225,8 +227,6 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
             return EventChannel.pageChannel
           }
         }
-        const { params = {}, key = '' } = this.props.route
-
         // 存储对应小程序的实例
         setPageObject(inst, key)
 
