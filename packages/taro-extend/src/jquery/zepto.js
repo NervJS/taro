@@ -711,8 +711,9 @@ export const Zepto = (function () {
       if (!this.length) return null
       if (document.documentElement !== this[0] && !$.contains(document.documentElement, this[0])) { return { top: 0, left: 0 } }
       if (!isBrowser) {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
           Taro.createSelectorQuery().select('#' + this[0].uid).boundingClientRect(function (rect) {
+            if (!rect) reject(new Error('offset error: ' + '#' + this[0].uid + ' query fail'))
             resolve({
               left: rect.left,
               top: rect.top,
