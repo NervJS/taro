@@ -378,6 +378,7 @@ export namespace Components {
         "tick": (currentTime: number) => Promise<void>;
     }
     interface TaroViewCore {
+        "animation": string;
         "hoverClass": string;
         "hoverStartTime": number;
         "hoverStayTime": number;
@@ -1063,6 +1064,7 @@ declare namespace LocalJSX {
         "enable"?: boolean;
     }
     interface TaroViewCore {
+        "animation"?: string;
         "hoverClass"?: string;
         "hoverStartTime"?: number;
         "hoverStayTime"?: number;
