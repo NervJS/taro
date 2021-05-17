@@ -2,3 +2,140 @@
 title: Taro Introduction
 ---
 
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import { VueIcon, ReactIcon } from './guides/index'
+
+## Introduction
+
+**Taro** is an open cross-platform and cross-framework solution that supports the use of frameworks such as React/Vue/Nerv to develop [WeChat](https://mp.weixin.qq.com/) / [Jingdong](https://mp.jd.com/?entrance=taro) / [Baidu ](https://smartprogram.baidu.com/) / [Alipay](https://mini.open.alipay.com/) / [ByteDance](https://developer.toutiao.com/) / [QQ](https://q.qq.com/) mini program
+ / H5 / RN and other applications.
+
+ Nowadays, there are a variety of ends in the market, such as Web, React Native, and WeChat mini-program.
+ When the business requirements are required to perform on different ends at the same time, the cost of writing multiple sets of code for different ends is obviously very high, so the ability to adapt to multiple ends by writing only one set of code is extremely necessary. 
+
+## Features
+
+### Multi-end conversion support
+
+Taro 3 can support conversion to H5, React Native and any mini-program platform.
+
+- H5
+- ReactNative
+- WeChat Mini Program
+- Jingdong Mini Program
+- Baidu Smart program
+- Alipay Mini Program
+- ByteDance  Mini Program
+- QQ Mini Program
+- DingTalk Mini Program
+- Enterprise WeChat Mini Program
+- Alipay IOT Mini Program
+
+### Framework Support
+
+The full **React / Vue / Vue3 / Nerv** development experience is available in Taro 3, as described in.
+
+- [Basic Tutorial - React](./react)
+- [Basic tutorial - Vue](./vue)
+- [Basic tutorial - Vue3](./vue3)
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label:  <ReactIcon />, value: 'React'},
+    {label: <VueIcon />, value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
+```jsx title="Sample Code"
+import React, { Component } from 'react'
+import { View, Text } from '@tarojs/components'
+
+export default class Index extends Component {
+  state = {
+    msg: 'Hello World！'
+  }
+
+  componentWillMount () { }
+
+  componentDidShow () { }
+
+  componentDidHide () { }
+
+  render () {
+    return (
+      <View className='index'>
+        <Text>{this.state.msg}</Text>
+      </View>
+    )
+  }
+}
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html title="Sample Code"
+<template>
+  <view class="index">
+    <text>{{msg}}</text>
+  </view>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      msg: 'Hello World！'
+    }
+  },
+  created () {},
+  onShow () {},
+  onHide () {}
+}
+</script>
+```
+
+</TabItem>
+</Tabs>
+
+## Taro UI
+
+> Taro 3 can only be used with taro-ui@next version
+>
+> Installation command: `npm i taro-ui@next`
+
+A multi-end UI component library based on the `Taro` framework.
+
+[Taro UI](https://taro-ui.jd.com) Features.
+
+- Based on `Taro` development UI components
+- A set of components can be adapted to run on multiple ends (`ReactNative` end does not support)
+- Provides a friendly API for flexible use of components
+
+## Learning Resources
+
+[[Information] Taro Team Blog ](https://docs.taro.zone/blog)
+
+[[Tutorial] 5 minutes to get started with Taro development](https://docs.taro.zone/docs/guide)
+
+[[Video] 5 minutes to get started with Taro development mini program](https://mp.weixin.qq.com/s?__biz=MzU3NDkzMTI3MA==&mid=2247484205&idx=1&sn=935bb7a35c11c33563eeb7c3aaca3321&chksm=fd2bab04ca5c2212b4cd8aeb5858bd08517aeb31e20727b22d1eee00b394184e7e61359e7dd9&token=1180618535&lang=zh_CN#rd)
+
+
+[[Nuggets booklet] Taro multi-end development implementation principles and practice](https://juejin.im/book/5b73a131f265da28065fb1cd?referrer=5ba228f16fb9a05d3251492d)
+
+For more resources, please click to view [More Resources](./composition.md), if you have good resources or tutorials to share with everyone, please feel free to submit resources to [awesome-taro](https://github.com/NervJS/awesome-taro).
+
+## Use Cases
+
+Taro is already in use in our production environment, and the industry is using Taro extensively to develop multi-site applications.
+
+<Link to="/showcase">To see more cases, please click</Link>
+
+[We are looking for more excellent cases, welcome to click to submit](https://github.com/NervJS/taro/issues/244)
+
+<a href="https://nervjs.github.io/taro-user-cases/"><img src="https://raw.githubusercontent.com/NervJS/taro-user-cases/master/user-cases.jpg" /></a>
+
+import Link from '@docusaurus/Link';
