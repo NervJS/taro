@@ -115,7 +115,7 @@ export default {
   </tbody>
 </table>
 
-### API Support
+### Property Support
 | API | WeChat Mini-Program | H5 | React Native |
 | :---: | :---: | :---: | :---: |
 | RichTextProps.space | ✔️ |  |  |

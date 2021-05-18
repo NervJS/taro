@@ -148,7 +148,7 @@ export default {
   </tbody>
 </table>
 
-### API Support
+### Property Support
 
 | API | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 | React Native |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
