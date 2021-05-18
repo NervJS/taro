@@ -150,7 +150,7 @@ export default {
 
 ### Property Support
 
-| API | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 | React Native |
+| Property | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 | React Native |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | TextProps.selectable | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | TextProps.space | ✔️ | ✔️ |  | ✔️ |  |  |

@@ -118,7 +118,7 @@ export default class PageView extends Component {
 
 ### Property Support
 
-| API | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 | React Native |
+| Property | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 | React Native |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | IconProps.type | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | IconProps.size | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |

@@ -116,7 +116,7 @@ export default {
 </table>
 
 ### Property Support
-| API | WeChat Mini-Program | H5 | React Native |
+| Property | WeChat Mini-Program | H5 | React Native |
 | :---: | :---: | :---: | :---: |
 | RichTextProps.space | ✔️ |  |  |
 
