@@ -52,7 +52,10 @@ import ReactDOM from 'react-dom'
     frameworkArgs: 'React, ReactDOM, config',
     creator: 'createReactApp',
     importFrameworkName: 'React',
-    compatComponentImport: 'import { PullDownRefresh } from "@tarojs/components"',
-    compatComponentExtra: 'config.PullDownRefresh = PullDownRefresh'
+    compatComponentImport: 'import { PullDownRefresh, previewImage } from "@tarojs/components"',
+    compatComponentExtra: `
+config.useHtmlComponents = true
+config.previewImage = previewImage
+config.PullDownRefresh = PullDownRefresh`
   }
 }

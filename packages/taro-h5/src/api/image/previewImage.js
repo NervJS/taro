@@ -9,6 +9,9 @@
  * @param {function} [options.complete] 接口调用结束的回调函数（调用成功、失败都会执行）
  */
 export async function previewImage (options) {
+  if (window.__taroAppConfig.previewImage) {
+    return window.__taroAppConfig.previewImage(options)
+  }
   const container = document.createElement('div')
   container.classList.add('preview-image')
   container.style.cssText = `

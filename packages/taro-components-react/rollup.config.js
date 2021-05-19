@@ -6,8 +6,15 @@ import babel from '@rollup/plugin-babel'
 
 // 供 Loader 使用的运行时入口
 export default {
-  external: d => {
-    return /^react$/.test(d) || /^@tarojs\/taro$/.test(d) || /^@tarojs\/taro-h5$/.test(d) || d.includes('@babel/runtime')
+  external: (d) => {
+    return (
+      /^react$/.test(d) ||
+      /^react-dom$/.test(d) ||
+      /^raf$/.test(d) ||
+      /^@tarojs\/taro$/.test(d) ||
+      /^@tarojs\/taro-h5$/.test(d) ||
+      d.includes('@babel/runtime')
+    )
   },
   input: {
     'view/index': 'src/components/view/index.tsx',
@@ -15,7 +22,8 @@ export default {
     'text/index': 'src/components/text/index.tsx',
     'pull-down-refresh/index': 'src/components/pull-down-refresh/index.tsx',
     'image/index': 'src/components/image/index.tsx',
-    'swiper/index': 'src/components/swiper/index.tsx'
+    'swiper/index': 'src/components/swiper/index.tsx',
+    'react-wx-images-viewer/index': 'src/components/react-wx-images-viewer/index.tsx'
   },
   plugins: [
     typescript(),

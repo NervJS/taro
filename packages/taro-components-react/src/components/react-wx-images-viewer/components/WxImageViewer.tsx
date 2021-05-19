@@ -14,7 +14,7 @@ export interface WxImageViewerProps {
   gap?: number // 间隙
   speed?: number // Duration of transition between slides (in ms)
   onClose: () => void // 关闭组件回调
-  onError: () => void
+  onError: (reason: any) => void
 }
 
 class WxImageViewer extends Component<WxImageViewerProps> {
@@ -29,7 +29,7 @@ class WxImageViewer extends Component<WxImageViewerProps> {
   render () {
     return (
       <WXImageContext.Provider value={{ onClose: this.props.onClose, onError: this.props.onError }}>
-        {ReactDOM.createPortal(<WrapViewer {...this.props} />, document.body)}
+        {ReactDOM.createPortal(<WrapViewer {...(this.props as Required<WxImageViewerProps>)} />, document.body)}
       </WXImageContext.Provider>
     )
   }
