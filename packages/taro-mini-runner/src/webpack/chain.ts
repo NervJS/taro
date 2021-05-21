@@ -35,6 +35,8 @@ import BuildNativePlugin from '../plugins/BuildNativePlugin'
 import { IOption, IBuildConfig } from '../utils/types'
 import defaultTerserOptions from '../config/terserOptions'
 
+import MiniSplitChunksPlugin from '../plugins/MiniSplitChunksPlugin'
+
 interface IRule {
   test?: any
   exclude?: any[]
@@ -183,6 +185,10 @@ export const getCopyWebpackPlugin = ({ copy, appPath }: {
 
 export const getMiniPlugin = args => {
   return partial(getPlugin, MiniPlugin)([args])
+}
+
+export const getMiniSplitChunksPlugin = (args) => {
+  return partial(getPlugin, MiniSplitChunksPlugin)([args])
 }
 
 export const getBuildNativePlugin = args => {
