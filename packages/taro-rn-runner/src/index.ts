@@ -66,6 +66,15 @@ export default async function build (appPath: string, config: any): Promise<any>
     metroConfig.resetCache = config.resetCache
   }
   metroConfig.reporter = new TerminalReporter(entry, sourceRoot, metroConfig.cacheStores[0])
+
+  const onFinish = function (error?) {
+    if (typeof config.onBuildFinish !== 'function') return
+    config.onBuildFinish({
+      error,
+      isWatch: config.isWatch
+    })
+  }
+
   if (config.isWatch) {
     if (!metroConfig.server || (metroConfig.server.useGlobalHotkey === undefined)) {
       if (!metroConfig.server) {
@@ -105,7 +114,7 @@ export default async function build (appPath: string, config: any): Promise<any>
       hmrEnabled: true
     }).then(server => {
       console.log(`React-Native Dev server is running on port: ${metroConfig.server.port}`)
-      console.log('\n\nTo reload the app press "r"\nTo open developer menu press "d"')
+      console.log('\n\nTo reload the app press "r"\nTo open developer menu press "d"\n')
 
       const { messageSocket } = attachToServer(server)
 
@@ -123,7 +132,10 @@ export default async function build (appPath: string, config: any): Promise<any>
           process.exit()
         }
       })
+      onFinish(null)
       return server
+    }).catch(e => {
+      onFinish(e)
     })
   } else {
     const options = {
@@ -159,7 +171,11 @@ export default async function build (appPath: string, config: any): Promise<any>
         ...Server.DEFAULT_BUNDLE_OPTIONS,
         ...requestOptions
       })
-      return await saveAssets(outputAssets, options.platform, concatOutputAssetsDest(config))
+      return await saveAssets(outputAssets, options.platform, concatOutputAssetsDest(config)).then(() => {
+        onFinish(null)
+      })
+    } catch (e) {
+      onFinish(e)
     } finally {
       server.end()
     }
