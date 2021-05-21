@@ -38,6 +38,9 @@ export interface Reconciler<Instance, DOMElement = TaroElement, TextElement = Ta
 
   getEventCenter(Events: EventsType): InstanceType<EventsType>
 
+  // 是否为冒泡事件
+  isBubbleEvent? (eventName: string, tagName: string): boolean
+
   modifyDispatchEvent? (event: TaroEvent, tagName: string): void
 
   batchedEventUpdates?(cb: () => void): void
