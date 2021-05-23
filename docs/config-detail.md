@@ -725,6 +725,50 @@ module.exports = {
 }
 ```
 
+### mini.optimizeMainPackage
+
+`object`
+
+优化主包的体积大小
+
+像下面这样简单配置之后，可以避免主包没有引入的module不被提取到`commonChunks`中，该功能会在打包时分析module和chunk的依赖关系，筛选出主包没有引用到的module把它提取到分包内，下面是提取的两种类型的`分包公共模块`：
+
+* `分包根目录/sub-vendors.(js|wxss)`
+  * 如果该module只被`单个分包`内的多个page引用，则提取到该分包根目录的sub-vendors文件中。
+
+* `分包根目录/sub-common/*.(js|wxss)`
+  * 如果该module被`多个分包`内的page引用，正常情况下会被提取到主包的公共模块中，这里为了保证主包的体积最优，则会先提取成一个公共模块，然后分别复制到对应分包的sub-common文件夹下（因为小程序无法跨分包引入文件，所以这里需要每个分包都复制一份），需要注意的是，这样会导致总包的体积变大一些。
+
+```js
+module.exports = {
+  // ...
+  mini: {
+    // ...
+    optimizeMainPackage: {
+      enable: true
+    }
+  }
+}
+```
+
+如果有不想走分包提取规则的module，可以在exclude中配置，这样该module就会走原来提取的方案，提取到主包中，比如像下面这样（支持绝对路径和函数）：
+
+```js
+module.exports = {
+  // ...
+  mini: {
+    // ...
+    optimizeMainPackage: {
+      enable: true,
+      exclude: [
+        path.resolve(__dirname, 'moduleName.js'),
+        (module) => module.resource.indexOf('moduleName') >= 0
+      ]
+    }
+  }
+}
+```
+
 ### mini.styleLoaderOption
 
 `object`
