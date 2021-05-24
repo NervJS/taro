@@ -66,7 +66,7 @@ class App extends Components {
 </TabItem>
 </Tabs>
 
-## CoverImageProps
+## matchMediaProps
 
 <table>
   <thead>
@@ -127,8 +127,12 @@ class App extends Components {
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| CoverImageProps.src | ✔️ |  |  |
-| CoverImageProps.onLoad | ✔️ |  |  |
-| CoverImageProps.onError | ✔️ |  |  |
+| matchMediaProps.minWidth | ✔️ |  |  |
+| matchMediaProps.maxWidth | ✔️ |  |  |
+| matchMediaProps.width | ✔️ |  |  |
+| matchMediaProps.minHeight | ✔️ |  |  |
+| matchMediaProps.maxHeight | ✔️ |  |  |
+| matchMediaProps.Height | ✔️ |  |  |
+| matchMediaProps.orientation | ✔️ |  |  |
 
 
