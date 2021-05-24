@@ -1,4 +1,7 @@
-import { CurrentReconciler } from '../reconciler'
+import container from '../container'
+import SERVICE_IDENTIFIER from '../constants/identifiers'
+
+import type { IHooks } from '../interface'
 
 /* eslint-disable no-dupe-class-members */
 type Callback1<T1> = (arg1: T1) => any;
@@ -120,4 +123,8 @@ export class Events {
 
 export type EventsType = typeof Events
 
-export const eventCenter = CurrentReconciler.getEventCenter(Events)
+const hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
+const eventCenter = hooks.getEventCenter(Events)
+container.bind<Events>(SERVICE_IDENTIFIER.eventCenter).toConstantValue(eventCenter)
+
+export { eventCenter }

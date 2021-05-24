@@ -1,11 +1,12 @@
+import { isFunction } from '@tarojs/shared'
 import { Scaner, Token } from './scaner'
 import { options } from '../../options'
-import { document } from '../../bom/document'
 import { specialMiniElements, isMiniElements, isBlockElements, isInlineElements } from './tags'
-import { isFunction } from '@tarojs/shared'
 import StyleTagParser from './style'
+import { unquote } from './utils'
 
-import type { TaroElement } from '../element'
+import type { TaroElement } from '../../dom/element'
+import type { TaroDocument } from '../../dom/document'
 
 interface State {
   tokens: Token[]
@@ -69,18 +70,8 @@ function hasTerminalParent (tagName: string, stack: Element[]) {
   return false
 }
 
-export function unquote (str: string) {
-  const car = str.charAt(0)
-  const end = str.length - 1
-  const isQuoteStart = car === '"' || car === "'"
-  if (isQuoteStart && car === str.charAt(end)) {
-    return str.slice(1, end)
-  }
-  return str
-}
-
 function getTagName (tag: string) {
-  if (options.html.renderHTMLTag) {
+  if (options.html!.renderHTMLTag) {
     return tag
   }
 
@@ -108,6 +99,7 @@ function splitEqual (str: string) {
 
 function format (
   children: ChildNode[],
+  document: TaroDocument,
   styleOptions: {
     styleTagParser: StyleTagParser
     descendantList: number[]
@@ -128,8 +120,8 @@ function format (
       // 文本节点
       if (child.type === 'text') {
         const text = document.createTextNode(child.content)
-        if (isFunction(options.html.transformText)) {
-          return options.html.transformText(text, child)
+        if (isFunction(options.html!.transformText)) {
+          return options.html!.transformText(text, child)
         }
         parent?.appendChild(text)
         return text
@@ -140,7 +132,7 @@ function format (
 
       parent?.appendChild(el)
 
-      if (!options.html.renderHTMLTag) {
+      if (!options.html!.renderHTMLTag) {
         el.className = `h5-${child.tagName}`
       }
 
@@ -163,20 +155,20 @@ function format (
       el.setAttribute('style', style + el.style.cssText)
       // console.log('style, ', style)
 
-      format(child.children, {
+      format(child.children, document, {
         styleTagParser,
         descendantList: list
       }, el)
 
-      if (isFunction(options.html.transformElement)) {
-        return options.html.transformElement(el, child)
+      if (isFunction(options.html!.transformElement)) {
+        return options.html!.transformElement(el, child)
       }
 
       return el
     })
 }
 
-export function parser (html: string) {
+export function parser (html: string, document: TaroDocument) {
   const styleTagParser = new StyleTagParser()
   html = styleTagParser.extractStyle(html)
 
@@ -187,7 +179,7 @@ export function parser (html: string) {
   const state = { tokens, options, cursor: 0, stack: [root] }
   parse(state)
 
-  return format(root.children, {
+  return format(root.children, document, {
     styleTagParser,
     descendantList: Array(styleTagParser.styles.length).fill(0)
   })
@@ -235,7 +227,7 @@ function parse (state: State) {
       }
     }
 
-    const isClosingTag = options.html.closingElements.has(tagName)
+    const isClosingTag = options.html!.closingElements.has(tagName)
     let shouldRewindToAutoClose = isClosingTag
     if (shouldRewindToAutoClose) {
       shouldRewindToAutoClose = !hasTerminalParent(tagName, stack)
@@ -273,7 +265,7 @@ function parse (state: State) {
     }
     nodes.push(element)
 
-    const hasChildren = !(attrToken!.close || options.html.voidElements.has(tagName))
+    const hasChildren = !(attrToken!.close || options.html!.voidElements.has(tagName))
     if (hasChildren) {
       stack.push({ tagName, children } as any)
       const innerState: State = { tokens, cursor, stack }

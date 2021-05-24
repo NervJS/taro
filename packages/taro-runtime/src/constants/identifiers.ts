@@ -1,0 +1,30 @@
+const SERVICE_IDENTIFIER = {
+  TaroElement: 'TaroElement',
+  TaroElementFactory: 'Factory<TaroElement>',
+  TaroText: 'TaroText',
+  TaroTextFactory: 'Factory<TaroText>',
+  TaroNodeImpl: 'TaroNodeImpl',
+  TaroElementImpl: 'TaroElementImpl',
+  InnerHTMLImpl: 'InnerHTMLImpl',
+  getBoundingClientRectImpl: 'getBoundingClientRectImpl',
+  Hooks: 'hooks',
+  onRemoveAttribute: 'onRemoveAttribute',
+  getLifecycle: 'getLifecycle',
+  getPathIndex: 'getPathIndex',
+  getEventCenter: 'getEventCenter',
+  isBubbleEvents: 'isBubbleEvents',
+  eventCenter: 'eventCenter',
+  modifyMpEvent: 'modifyMpEvent',
+  modifyTaroEvent: 'modifyTaroEvent',
+  batchedEventUpdates: 'batchedEventUpdates',
+  mergePageInstance: 'mergePageInstance',
+  createPullDownComponent: 'createPullDownComponent',
+  getDOMNode: 'getDOMNode',
+  initNativeApi: 'initNativeApi',
+  modifyHydrateData: 'modifyHydrateData',
+  modifySetAttrPayload: 'modifySetAttrPayload',
+  modifyRmAttrPayload: 'modifyRmAttrPayload',
+  onAddEvent: 'onAddEvent'
+}
+
+export default SERVICE_IDENTIFIER

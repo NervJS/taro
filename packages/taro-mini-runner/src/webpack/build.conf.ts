@@ -16,7 +16,8 @@ import {
   getBuildNativePlugin,
   getProviderPlugin,
   getMiniCssExtractPlugin,
-  getEntry
+  getEntry,
+  getRuntimeConstants
 } from './chain'
 import getBaseConf from './base.conf'
 import { createTarget } from '../plugins/MiniPlugin'
@@ -55,6 +56,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     minifyXML = {},
 
     defineConstants = {},
+    runtime = {},
     env = {},
     cssLoaderOption = {},
     sassLoaderOption = {},
@@ -124,7 +126,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
 
   env.FRAMEWORK = JSON.stringify(framework)
   env.TARO_ENV = JSON.stringify(buildAdapter)
-  const constantsReplaceList = mergeOption([processEnvOption(env), defineConstants])
+  const runtimeConstants = getRuntimeConstants(runtime)
+  const constantsReplaceList = mergeOption([processEnvOption(env), defineConstants, runtimeConstants])
   const entryRes = getEntry({
     sourceDir,
     entry,

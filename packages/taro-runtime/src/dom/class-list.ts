@@ -1,4 +1,4 @@
-import { TaroElement } from './element'
+import type { TaroElement } from './element'
 
 export class ClassList extends Set<string> {
   private el: TaroElement

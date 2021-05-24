@@ -107,6 +107,11 @@ export interface ICompileOption {
   include?: string[]
 }
 
+interface Runtime {
+  enableInnerHTML: boolean
+  enableSizeAPIs: boolean
+}
+
 export interface IMiniAppConfig {
   appOutput?: boolean,
   enableSourceMap?: boolean,
@@ -137,6 +142,7 @@ export interface IMiniAppConfig {
     exclude?: any[],
     include?: any[]
   }
+  runtime?: Runtime
 }
 
 export type TogglableOptions<T = IOption> = {

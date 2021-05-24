@@ -5,5 +5,6 @@ export * from './apis-list';
 export declare const hostConfig: {
     initNativeApi: typeof initNativeApi;
     getEventCenter(Events: any): any;
-    modifyDispatchEvent(event: any, tagName: any): void;
+    modifyTaroEvent(event: any, node: any): void;
+    isBubbleEvents(eventName: any): boolean;
 };

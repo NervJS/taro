@@ -522,3 +522,20 @@ export function getOutput (appPath: string, [{ outputRoot, publicPath, globalObj
 export function getDevtool (enableSourceMap, sourceMapType = 'cheap-module-source-map') {
   return enableSourceMap ? sourceMapType : 'none'
 }
+
+export function getRuntimeConstants (runtime) {
+  const constants = {
+    ENABLE_INNER_HTML: true,
+    ENABLE_SIZE_APIS: false
+  }
+
+  if (runtime.enableInnerHTML !== undefined) {
+    constants.ENABLE_INNER_HTML = runtime.enableInnerHTML
+  }
+
+  if (runtime.enableSizeAPIs !== undefined) {
+    constants.ENABLE_SIZE_APIS = runtime.enableSizeAPIs
+  }
+
+  return constants
+}

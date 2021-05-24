@@ -1,9 +1,9 @@
-import { isFunction, isArray, ensure, capitalize, toCamelCase, internalComponents, hasOwn, isBooleanStringLiteral } from '@tarojs/shared'
-import { AppInstance } from './instance'
+import { isFunction, isArray, ensure } from '@tarojs/shared'
+import container from '../container'
+import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { Current } from '../current'
 import { injectPageInstance, safeExecute } from './common'
 import { isBrowser } from '../env'
-import { options } from '../options'
 
 import type {
   App,
@@ -14,7 +14,8 @@ import type {
 } from '@vue/runtime-core'
 import type { TaroElement } from '../dom/element'
 import type { AppConfig as Config } from '@tarojs/taro'
-import type { Reconciler } from '../reconciler'
+import type { GetLifecycle, IHooks } from '../interface'
+import type { AppInstance } from './instance'
 
 function createVue3Page (h: typeof createElement, id: string) {
   return function (component): VNode {
@@ -62,30 +63,21 @@ function createVue3Page (h: typeof createElement, id: string) {
 }
 
 function setReconciler () {
-  const hostConfig: Partial<Reconciler<any>> = {
-    getLifecyle (instance, lifecycle) {
-      return instance.$options[lifecycle]
-    },
-    removeAttribute (dom, qualifiedName) {
-      const compName = capitalize(toCamelCase(dom.tagName.toLowerCase()))
-      if (
-        compName in internalComponents &&
-        hasOwn(internalComponents[compName], qualifiedName) &&
-        isBooleanStringLiteral(internalComponents[compName][qualifiedName])
-      ) {
-        // avoid attribute being removed because set false value in vue
-        dom.setAttribute(qualifiedName, false)
-      } else {
-        delete dom.props[qualifiedName]
-      }
-    },
-    modifyEventType (event) {
-      event.type = event.type.replace(/-/g, '')
-    }
+  const hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
+
+  const getLifecycle: GetLifecycle = function (instance, lifecycle) {
+    return instance.$options[lifecycle]
   }
 
-  if (isBrowser) {
-    hostConfig.createPullDownComponent = (component, path, h: typeof createElement) => {
+  const modifyMpEvent = function (event) {
+    event.type = event.type.replace(/-/g, '')
+  }
+
+  hooks.getLifecycle = getLifecycle
+  hooks.modifyMpEvent = modifyMpEvent
+
+  if (process.env.TARO_ENV === 'h5') {
+    hooks.createPullDownComponent = (component, path, h: typeof createElement) => {
       const inject = {
         props: {
           tid: String
@@ -112,12 +104,10 @@ function setReconciler () {
       }
     }
 
-    hostConfig.findDOMNode = (el) => {
+    hooks.getDOMNode = (el) => {
       return el.$el as any
     }
   }
-
-  options.reconciler(hostConfig)
 }
 
 export function createVue3App (app: App<TaroElement>, h: typeof createElement, config: Config) {

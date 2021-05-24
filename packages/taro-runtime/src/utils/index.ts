@@ -1,8 +1,16 @@
 import { Shortcuts } from '@tarojs/shared'
-import { TaroElement } from '../dom/element'
-import { TaroText } from '../dom/text'
 import { NodeType } from '../dom/node_types'
-import { TaroNode } from '../dom/node'
+import {
+  ROOT_STR,
+  STYLE,
+  ID,
+  UID,
+  CLASS
+} from '../constants'
+
+import type { TaroElement } from '../dom/element'
+import type { TaroText } from '../dom/text'
+import type { TaroNode } from '../dom/node'
 
 export const incrementId = () => {
   let id = 0
@@ -31,7 +39,7 @@ export function isHasExtractProp (el: TaroElement): boolean {
  */
 export function isParentBinded (node: TaroElement | null, type: string): boolean {
   let res = false
-  while (node?.parentElement && node.parentElement._path !== 'root') {
+  while (node?.parentElement && node.parentElement._path !== ROOT_STR) {
     if (node.parentElement.__handlers[type]?.length) {
       res = true
       break
@@ -43,11 +51,11 @@ export function isParentBinded (node: TaroElement | null, type: string): boolean
 
 export function shortcutAttr (key: string): string {
   switch (key) {
-    case 'style':
+    case STYLE:
       return Shortcuts.Style
-    case 'id':
-      return 'uid'
-    case 'class':
+    case ID:
+      return UID
+    case CLASS:
       return Shortcuts.Class
     default:
       return key

@@ -31,6 +31,7 @@
   },
   "homepage": "https://github.com/NervJS/taro#readme",
   "devDependencies": {
+    "@tarojs/runtime": "3.3.0-alpha.2",
     "@tarojs/service": "3.3.0-alpha.2"
   },
   "dependencies": {

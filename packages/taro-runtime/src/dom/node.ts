@@ -1,98 +1,142 @@
+import { inject, injectable } from 'inversify'
+import { Shortcuts, ensure } from '@tarojs/shared'
+import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { NodeType } from './node_types'
 import { incrementId } from '../utils'
-import { TaroEventTarget } from './event_target'
-import { eventSource } from './event'
-import { TaroRootElement } from './root'
-import { Shortcuts, ensure } from '@tarojs/shared'
-import { hydrate, HydratedData } from '../hydrate'
-import { TaroElement } from './element'
-import { setInnerHTML } from './html/html'
-import { CurrentReconciler } from '../reconciler'
-import { document } from '../bom/document'
-import type { EventHandler } from './event_target'
+import { TaroEventTarget } from './event-target'
+import { hydrate } from '../hydrate'
+import { eventSource } from './event-source'
+import { ElementNames } from '../interface'
+import {
+  STYLE,
+  DATASET,
+  PROPS,
+  OBJECT
+} from '../constants'
+
+import type { UpdatePayload, InstanceNamedFactory } from '../interface'
+import type { TaroDocument } from './document'
+import type { TaroRootElement } from './root'
+import type { TaroElement } from './element'
+import type { TaroNodeImpl } from '../dom-external/node-impl'
+import type { Hooks } from '../hooks'
 
 const nodeId = incrementId()
 
-export interface UpdatePayload {
-  path: string;
-  value: UpdatePayloadValue
-}
-
-export type UpdatePayloadValue = string | boolean | HydratedData
-export type DataTree = Record<string, UpdatePayloadValue | ReturnType<HydratedData>>
-
+@injectable()
 export class TaroNode extends TaroEventTarget {
-  public nodeType: NodeType
-
-  public nodeName: string
-
   public uid: string
-
+  public nodeType: NodeType
+  public nodeName: string
   public parentNode: TaroNode | null = null
-
   public childNodes: TaroNode[] = []
 
-  public constructor (nodeType: NodeType, nodeName: string) {
-    super()
-    this.nodeType = nodeType
-    this.nodeName = nodeName
+  protected _getElement: InstanceNamedFactory
+
+  public constructor (// eslint-disable-next-line @typescript-eslint/indent
+    @inject(SERVICE_IDENTIFIER.TaroNodeImpl) impl: TaroNodeImpl,
+    @inject(SERVICE_IDENTIFIER.TaroElementFactory) getElement: InstanceNamedFactory,
+    @inject(SERVICE_IDENTIFIER.Hooks) hooks: Hooks
+  ) {
+    super(hooks)
+    impl.bind(this)
+    this._getElement = getElement
     this.uid = `_n_${nodeId()}`
     eventSource.set(this.uid, this)
   }
 
-  public get _path () {
-    if (this.parentNode !== null) {
-      const indexOfNode = this.parentNode.childNodes.indexOf(this)
-      const index = CurrentReconciler.getPathIndex(indexOfNode)
+  private hydrate = (node: TaroNode) => () => hydrate(node as TaroElement)
 
-      return `${this.parentNode._path}.${Shortcuts.Childnodes}.${index}`
+  /**
+   * like jQuery's $.empty()
+   */
+  private _empty () {
+    while (this.childNodes.length > 0) {
+      const child = this.childNodes[0]
+      child.parentNode = null
+      eventSource.delete(child.uid)
+      this.childNodes.shift()
+    }
+  }
+
+  protected get _root (): TaroRootElement | null {
+    return this.parentNode?._root || null
+  }
+
+  protected findIndex (refChild: TaroNode): number {
+    const index = this.childNodes.indexOf(refChild)
+
+    ensure(index !== -1, 'The node to be replaced is not a child of this node.')
+
+    return index
+  }
+
+  public get _path (): string {
+    const parentNode = this.parentNode
+
+    if (parentNode) {
+      const indexOfNode = parentNode.findIndex(this)
+      const index = this.hooks.getPathIndex(indexOfNode)
+
+      return `${parentNode._path}.${Shortcuts.Childnodes}.${index}`
     }
 
     return ''
   }
 
-  protected get _root (): TaroRootElement | null {
-    if (this.parentNode !== null) {
-      return this.parentNode._root
-    }
+  public get nextSibling (): TaroNode | null {
+    const parentNode = this.parentNode
+    return parentNode?.childNodes[parentNode.findIndex(this) + 1] || null
+  }
 
-    return null
+  public get previousSibling (): TaroNode | null {
+    const parentNode = this.parentNode
+    return parentNode?.childNodes[parentNode.findIndex(this) - 1] || null
   }
 
   public get parentElement (): TaroElement | null {
     const parentNode = this.parentNode
-    if (parentNode != null && parentNode.nodeType === NodeType.ELEMENT_NODE) {
+    if (parentNode?.nodeType === NodeType.ELEMENT_NODE) {
       return parentNode as TaroElement
     }
     return null
   }
 
-  public get nextSibling () {
-    const parentNode = this.parentNode
-    if (parentNode) {
-      return parentNode.childNodes[this.findIndex(parentNode.childNodes, this) + 1] || null
-    }
-
-    return null
+  public get firstChild (): TaroNode | null {
+    return this.childNodes[0] || null
   }
 
-  public get previousSibling () {
-    const parentNode = this.parentNode
-    if (parentNode) {
-      return parentNode.childNodes[this.findIndex(parentNode.childNodes, this) - 1] || null
-    }
+  public get lastChild (): TaroNode | null {
+    const childNodes = this.childNodes
+    return childNodes[childNodes.length - 1] || null
+  }
 
-    return null
+  /**
+   * @textContent 目前只能置空子元素
+   * @TODO 等待完整 innerHTML 实现
+   */
+  public set textContent (text: string) {
+    this._empty()
+    if (text === '') {
+      this.enqueueUpdate({
+        path: `${this._path}.${Shortcuts.Childnodes}`,
+        value: () => []
+      })
+    } else {
+      const document = this._getElement<TaroDocument>(ElementNames.Document)()
+      this.appendChild(document.createTextNode(text))
+    }
   }
 
   public insertBefore<T extends TaroNode> (newChild: T, refChild?: TaroNode | null, isReplace?: boolean): T {
     newChild.remove()
     newChild.parentNode = this
     let payload: UpdatePayload
+
     if (refChild) {
-      const index = this.findIndex(this.childNodes, refChild)
+      const index = this.findIndex(refChild)
       this.childNodes.splice(index, 0, newChild)
-      if (isReplace === true) {
+      if (isReplace) {
         payload = {
           path: newChild._path,
           value: this.hydrate(newChild)
@@ -111,8 +155,6 @@ export class TaroNode extends TaroEventTarget {
       }
     }
 
-    CurrentReconciler.insertBefore?.(this, newChild, refChild)
-
     this.enqueueUpdate(payload)
 
     if (!eventSource.has(newChild.uid)) {
@@ -122,11 +164,8 @@ export class TaroNode extends TaroEventTarget {
     return newChild
   }
 
-  private hydrate = (node: TaroNode) => () => hydrate(node as TaroElement)
-
   public appendChild (child: TaroNode) {
     this.insertBefore(child)
-    CurrentReconciler.appendChild?.(this, child)
   }
 
   public replaceChild (newChild: TaroNode, oldChild: TaroNode) {
@@ -135,13 +174,12 @@ export class TaroNode extends TaroEventTarget {
       oldChild.remove(true)
       return oldChild
     }
-    CurrentReconciler.removeChild?.(this, newChild, oldChild)
   }
 
   public removeChild<T extends TaroNode> (child: T, isReplace?: boolean): T {
-    const index = this.findIndex(this.childNodes, child)
+    const index = this.findIndex(child)
     this.childNodes.splice(index, 1)
-    if (isReplace !== true) {
+    if (!isReplace) {
       this.enqueueUpdate({
         path: `${this._path}.${Shortcuts.Childnodes}`,
         value: () => this.childNodes.map(hydrate)
@@ -155,18 +193,7 @@ export class TaroNode extends TaroEventTarget {
   }
 
   public remove (isReplace?: boolean) {
-    if (this.parentNode) {
-      this.parentNode.removeChild(this, isReplace)
-    }
-  }
-
-  public get firstChild () {
-    return this.childNodes[0] || null
-  }
-
-  public get lastChild () {
-    const c = this.childNodes
-    return c[c.length - 1] || null
+    this.parentNode?.removeChild(this, isReplace)
   }
 
   public hasChildNodes () {
@@ -174,73 +201,26 @@ export class TaroNode extends TaroEventTarget {
   }
 
   public enqueueUpdate (payload: UpdatePayload) {
-    if (this._root === null) {
-      return
-    }
-
-    this._root.enqueueUpdate(payload)
-  }
-
-  /**
-   * like jQuery's $.empty()
-   */
-  private _empty () {
-    while (this.childNodes.length > 0) {
-      const child = this.childNodes[0]
-      child.parentNode = null
-      eventSource.delete(child.uid)
-      this.childNodes.shift()
-    }
-  }
-
-  /**
-   * @textContent 目前只能置空子元素
-   * @TODO 等待完整 innerHTML 实现
-   */
-  public set textContent (text: string) {
-    this._empty()
-    if (text === '') {
-      this.enqueueUpdate({
-        path: `${this._path}.${Shortcuts.Childnodes}`,
-        value: () => []
-      })
-    } else {
-      this.appendChild(document.createTextNode(text))
-    }
-  }
-
-  public set innerHTML (html: string) {
-    setInnerHTML(this, html)
-  }
-
-  public get innerHTML () {
-    return ''
-  }
-
-  protected findIndex (childeNodes: TaroNode[], refChild: TaroNode) {
-    const index = childeNodes.indexOf(refChild)
-    ensure(index !== -1, 'The node to be replaced is not a child of this node.')
-
-    return index
+    this._root?.enqueueUpdate(payload)
   }
 
   public cloneNode (isDeep = false) {
-    const constructor: any = this.constructor
+    const document = this._getElement<TaroDocument>(ElementNames.Document)()
     let newNode
 
     if (this.nodeType === NodeType.ELEMENT_NODE) {
-      newNode = new constructor(this.nodeType, this.nodeName)
+      newNode = document.createElement(this.nodeName)
     } else if (this.nodeType === NodeType.TEXT_NODE) {
-      newNode = new constructor('')
+      newNode = document.createTextNode('')
     }
 
     for (const key in this) {
       const value: any = this[key]
-      if (['props', 'dataset'].includes(key) && typeof value === 'object') {
+      if ([PROPS, DATASET].includes(key) && typeof value === OBJECT) {
         newNode[key] = { ...value }
       } else if (key === '_value') {
         newNode[key] = value
-      } else if (key === 'style') {
+      } else if (key === STYLE) {
         newNode.style._value = { ...value._value }
         newNode.style._usedStyleProp = new Set(Array.from(value._usedStyleProp))
       }
@@ -263,10 +243,5 @@ export class TaroNode extends TaroEventTarget {
       }
     })
     return isContains
-  }
-
-  public addEventListener (type: string, handler: EventHandler, options?: boolean | AddEventListenerOptions) {
-    CurrentReconciler.modifyAddEventType?.(this, type)
-    super.addEventListener(type, handler, options)
   }
 }

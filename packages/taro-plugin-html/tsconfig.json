@@ -1,7 +1,7 @@
 
 {
   "compilerOptions": {
-    "target": "ES2017",
+    "target": "ES2020",
     "module": "commonjs",
     "removeComments": false,
     "preserveConstEnums": false,

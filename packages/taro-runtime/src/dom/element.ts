@@ -1,93 +1,149 @@
-/* eslint-disable no-dupe-class-members */
-import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase, isFunction } from '@tarojs/shared'
+import { inject, injectable } from 'inversify'
+import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase } from '@tarojs/shared'
+import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
-import { TaroEvent, eventSource } from './event'
+import { eventSource } from './event-source'
 import { isElement, isHasExtractProp, shortcutAttr } from '../utils'
 import { Style } from './style'
-import { PROPERTY_THRESHOLD, SPECIAL_NODES } from '../constants'
-import { CurrentReconciler } from '../reconciler'
 import { treeToArray } from './tree'
 import { ClassList } from './class-list'
+import {
+  ID,
+  CLASS,
+  STYLE,
+  FOCUS,
+  VIEW,
+  STATIC_VIEW,
+  PURE_VIEW,
+  PROPERTY_THRESHOLD,
+  SPECIAL_NODES
+} from '../constants'
 
-interface Attributes {
-  name: string;
-  value: string;
-}
+import type { TaroEvent } from './event'
+import type { Attributes, InstanceNamedFactory } from '../interface'
+import type { TaroNodeImpl } from '../dom-external/node-impl'
+import type { TaroElementImpl } from '../dom-external/element-impl'
+import type { Hooks } from '../hooks'
 
+@injectable()
 export class TaroElement extends TaroNode {
-  public props: Record<string, string> = {}
-
-  public dataset: Record<string, unknown> = EMPTY_OBJ
-
   public tagName: string
-
+  public props: Record<string, any> = {}
   public style: Style
+  public dataset: Record<string, unknown> = EMPTY_OBJ
+  public innerHTML: string
 
-  public constructor (nodeType: NodeType, nodeName: string) {
-    super(nodeType || NodeType.ELEMENT_NODE, nodeName)
-    this.tagName = nodeName.toUpperCase()
+  public constructor (// eslint-disable-next-line @typescript-eslint/indent
+    @inject(SERVICE_IDENTIFIER.TaroNodeImpl) nodeImpl: TaroNodeImpl,
+    @inject(SERVICE_IDENTIFIER.TaroElementFactory) getElement: InstanceNamedFactory,
+    @inject(SERVICE_IDENTIFIER.Hooks) hooks: Hooks,
+    @inject(SERVICE_IDENTIFIER.TaroElementImpl) elementImpl: TaroElementImpl
+  ) {
+    super(nodeImpl, getElement, hooks)
+    elementImpl.bind(this)
+    this.nodeType = NodeType.ELEMENT_NODE
     this.style = new Style(this)
-    CurrentReconciler.onTaroElementCreate?.(this.tagName, nodeType)
   }
 
-  public get id () {
-    return this.getAttribute('id')!
+  private _stopPropagation (event: TaroEvent) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    let target = this
+    // eslint-disable-next-line no-cond-assign
+    while ((target = target.parentNode as this)) {
+      const listeners = target.__handlers[event.type]
+
+      if (!isArray(listeners)) {
+        continue
+      }
+
+      for (let i = listeners.length; i--;) {
+        const l = listeners[i]
+        l._stop = true
+      }
+    }
+  }
+
+  public get id (): string {
+    return this.getAttribute(ID)!
   }
 
   public set id (val: string) {
-    this.setAttribute('id', val)
+    this.setAttribute(ID, val)
   }
 
-  public get classList () {
-    return new ClassList(this.className, this)
-  }
-
-  public get className () {
-    return this.getAttribute('class') || ''
+  public get className (): string {
+    return this.getAttribute(CLASS) || ''
   }
 
   public set className (val: string) {
-    this.setAttribute('class', val)
+    this.setAttribute(CLASS, val)
   }
 
-  public get cssText () {
-    return this.getAttribute('style') || ''
+  public get cssText (): string {
+    return this.getAttribute(STYLE) || ''
   }
 
-  public get children () {
+  public get classList (): ClassList {
+    return new ClassList(this.className, this)
+  }
+
+  public get children (): TaroElement[] {
     return this.childNodes.filter(isElement)
   }
 
-  public hasAttribute (qualifiedName: string) {
+  public get attributes (): Attributes[] {
+    const props = this.props
+    const propKeys = Object.keys(props)
+    const style = this.style.cssText
+    const attrs = propKeys.map(key => ({ name: key, value: props[key] }))
+    return attrs.concat(style ? { name: STYLE, value: style } : [])
+  }
+
+  public get textContent (): string {
+    let text = ''
+    const childNodes = this.childNodes
+
+    for (let i = 0; i < childNodes.length; i++) {
+      text += childNodes[i].textContent
+    }
+
+    return text
+  }
+
+  public set textContent (text: string) {
+    super.textContent = text
+  }
+
+  public hasAttribute (qualifiedName: string): boolean {
     return !isUndefined(this.props[qualifiedName])
   }
 
-  public hasAttributes () {
+  public hasAttributes (): boolean {
     return this.attributes.length > 0
   }
 
   public focus () {
-    this.setAttribute('focus', true)
+    this.setAttribute(FOCUS, true)
   }
 
   public blur () {
-    this.setAttribute('focus', false)
+    this.setAttribute(FOCUS, false)
   }
 
   public setAttribute (qualifiedName: string, value: any): void {
-    warn(
+    process.env.NODE_ENV !== 'production' && warn(
       isString(value) && value.length > PROPERTY_THRESHOLD,
       `元素 ${this.nodeName} 的 属性 ${qualifiedName} 的值数据量过大，可能会影响渲染性能。考虑降低图片转为 base64 的阈值或在 CSS 中使用 base64。`
     )
 
-    const isPureView = this.nodeName === 'view' && !isHasExtractProp(this) && !this.isAnyEventBinded()
+    const isPureView = this.nodeName === VIEW && !isHasExtractProp(this) && !this.isAnyEventBinded()
 
     switch (qualifiedName) {
-      case 'style':
+      case STYLE:
         this.style.cssText = value as string
         break
-      case 'id':
+      case ID:
         eventSource.delete(this.uid)
         value = String(value)
         this.props[qualifiedName] = this.uid = value
@@ -107,14 +163,12 @@ export class TaroElement extends TaroNode {
 
     qualifiedName = shortcutAttr(qualifiedName)
 
-    CurrentReconciler.setAttribute?.(this, qualifiedName, value)
-
     const payload = {
       path: `${this._path}.${toCamelCase(qualifiedName)}`,
       value
     }
 
-    CurrentReconciler.modifySetAttrPayload?.(this, qualifiedName, payload)
+    this.hooks.modifySetAttrPayload?.(this, qualifiedName, payload)
 
     this.enqueueUpdate(payload)
 
@@ -122,17 +176,22 @@ export class TaroElement extends TaroNode {
     if (isPureView && isHasExtractProp(this)) {
       this.enqueueUpdate({
         path: `${this._path}.${Shortcuts.NodeName}`,
-        value: 'static-view'
+        value: STATIC_VIEW
       })
     }
   }
 
   public removeAttribute (qualifiedName: string) {
-    const isStaticView = this.nodeName === 'view' && isHasExtractProp(this) && !this.isAnyEventBinded()
+    const isStaticView = this.nodeName === VIEW && isHasExtractProp(this) && !this.isAnyEventBinded()
 
-    if (qualifiedName === 'style') {
+    if (qualifiedName === STYLE) {
       this.style.cssText = ''
     } else {
+      const isInterrupt = this.hooks.onRemoveAttribute?.(this, qualifiedName)
+      if (isInterrupt) {
+        return
+      }
+
       if (!this.props.hasOwnProperty(qualifiedName)) {
         return
       }
@@ -141,14 +200,12 @@ export class TaroElement extends TaroNode {
 
     qualifiedName = shortcutAttr(qualifiedName)
 
-    CurrentReconciler.removeAttribute?.(this, qualifiedName)
-
     const payload = {
       path: `${this._path}.${toCamelCase(qualifiedName)}`,
       value: ''
     }
 
-    CurrentReconciler.modifyRmAttrPayload?.(this, qualifiedName, payload)
+    this.hooks.modifyRmAttrPayload?.(this, qualifiedName, payload)
 
     this.enqueueUpdate(payload)
 
@@ -156,21 +213,14 @@ export class TaroElement extends TaroNode {
     if (isStaticView && !isHasExtractProp(this)) {
       this.enqueueUpdate({
         path: `${this._path}.${Shortcuts.NodeName}`,
-        value: 'pure-view'
+        value: PURE_VIEW
       })
     }
   }
 
   public getAttribute (qualifiedName: string): string {
-    const attr = qualifiedName === 'style' ? this.style.cssText : this.props[qualifiedName]
+    const attr = qualifiedName === STYLE ? this.style.cssText : this.props[qualifiedName]
     return attr ?? ''
-  }
-
-  public get attributes (): Attributes[] {
-    const propKeys = Object.keys(this.props)
-    const style = this.style.cssText
-    const attrs = propKeys.map(p => ({ name: p, value: this.props[p] }))
-    return attrs.concat(style ? { name: 'style', value: style } : [])
   }
 
   public getElementsByTagName (tagName: string): TaroElement[] {
@@ -187,14 +237,13 @@ export class TaroElement extends TaroNode {
     })
   }
 
-  public dispatchEvent (event: TaroEvent) {
+  public dispatchEvent (event: TaroEvent): boolean {
     const cancelable = event.cancelable
-    if (isFunction(CurrentReconciler.modifyDispatchEvent)) {
-      CurrentReconciler.modifyDispatchEvent(event, this.tagName)
-    }
+
     const listeners = this.__handlers[event.type]
+
     if (!isArray(listeners)) {
-      return
+      return false
     }
 
     for (let i = listeners.length; i--;) {
@@ -221,37 +270,6 @@ export class TaroElement extends TaroNode {
     }
 
     return listeners != null
-  }
-
-  public get textContent () {
-    let text = ''
-    for (let i = 0; i < this.childNodes.length; i++) {
-      const element = this.childNodes[i]
-      text += element.textContent
-    }
-    return text
-  }
-
-  public set textContent (text: string) {
-    super.textContent = text
-  }
-
-  private _stopPropagation (event: TaroEvent) {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    let target = this
-    // eslint-disable-next-line no-cond-assign
-    while ((target = target.parentNode as this)) {
-      const listeners = target.__handlers[event.type]
-
-      if (!isArray(listeners)) {
-        continue
-      }
-
-      for (let i = listeners.length; i--;) {
-        const l = listeners[i]
-        l._stop = true
-      }
-    }
   }
 
   public addEventListener (type, handler, options) {

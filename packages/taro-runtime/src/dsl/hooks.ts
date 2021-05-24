@@ -3,9 +3,9 @@ import { PageContext, R as React } from './react'
 import { getPageInstance, injectPageInstance } from './common'
 import { PageLifeCycle } from './instance'
 import { Current } from '../current'
-import type { Func } from '../utils/types'
+import { HOOKS_APP_ID } from '../constants'
 
-export const HOOKS_APP_ID = 'taro-app'
+import type { Func } from '../interface'
 
 const taroHooks = (lifecycle: keyof PageLifeCycle) => {
   return (fn: Func) => {

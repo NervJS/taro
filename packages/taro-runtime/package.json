@@ -4,6 +4,7 @@
   "description": "taro runtime for mini apps.",
   "main": "dist/runtime.esm.js",
   "module": "dist/runtime.esm.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -23,6 +24,11 @@
   },
   "dependencies": {
     "@tarojs/shared": "3.3.0-alpha.2",
-    "lodash-es": "4.17.15"
+    "inversify": "5.1.1",
+    "lodash-es": "4.17.15",
+    "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "@tarojs/taro": "3.3.0-alpha.2"
   }
 }

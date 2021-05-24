@@ -9,13 +9,18 @@ import {
   defineMappedProp
 } from './utils'
 
-interface AttrPayload {
-  path: string
-  value: any
+import type { ModifyHydrateData, ModifyRmAttrPayload, ModifySetAttrPayload, ModifyTaroEvent, OnAddEvent, TaroElement } from '@tarojs/runtime'
+
+interface IHostConfig {
+  modifyHydrateData: ModifyHydrateData
+  modifySetAttrPayload: ModifySetAttrPayload
+  modifyRmAttrPayload: ModifyRmAttrPayload
+  onAddEvent: OnAddEvent<TaroElement>
+  modifyTaroEvent: ModifyTaroEvent
 }
 
-const hostConfig = {
-  modifyHydrateData (data: Record<string, any>) {
+const hostConfig: IHostConfig = {
+  modifyHydrateData (data) {
     const nodeName = data[Shortcuts.NodeName]
     if (!isHtmlTags(nodeName)) return
 
@@ -50,7 +55,7 @@ const hostConfig = {
     data[Shortcuts.Style] = ensureRect(data, data[Shortcuts.Style])
   },
 
-  modifySetAttrPayload (element, key: string, payload: AttrPayload) {
+  modifySetAttrPayload (element, key, payload) {
     const { nodeName, _path, props } = element
     if (!isHtmlTags(nodeName)) return
 
@@ -67,14 +72,14 @@ const hostConfig = {
     }
 
     if (key === Shortcuts.Class) {
-      payload.value = ensureHtmlClass(nodeName, payload.value)
+      payload.value = ensureHtmlClass(nodeName, payload.value as string)
     } else if (key === Shortcuts.Style || key === 'width' || key === 'height') {
       payload.path = `${_path}.${Shortcuts.Style}`
       payload.value = ensureRect(props, element.style.cssText)
     }
   },
 
-  modifyRmAttrPayload (element, key: string, payload: AttrPayload) {
+  modifyRmAttrPayload (element, key, payload) {
     const { nodeName, _path, props } = element
     if (!isHtmlTags(nodeName)) return
 
@@ -90,14 +95,14 @@ const hostConfig = {
     }
 
     if (key === Shortcuts.Class) {
-      payload.value = ensureHtmlClass(nodeName, payload.value)
+      payload.value = ensureHtmlClass(nodeName, payload.value as string)
     } else if (key === Shortcuts.Style || key === 'width' || key === 'height') {
       payload.path = `${_path}.${Shortcuts.Style}`
       payload.value = ensureRect(props, element.style.cssText)
     }
   },
 
-  modifyAddEventType (node, type) {
+  onAddEvent (type, _handler, _options, node) {
     if (!isHtmlTags(node.nodeName)) return
     if (type === 'click') {
       defineMappedProp(node.__handlers, type, 'tap')
@@ -114,7 +119,7 @@ const hostConfig = {
     }
   },
 
-  modifyFormEvent (element, event) {
+  modifyTaroEvent (event, element) {
     const { nodeName, props } = element
     if (nodeName === 'input' && event.type === 'tap') {
       if (props.type === 'checkbox') {
