@@ -66,13 +66,6 @@ jobs:
 
       # ------------------ If event is push but there is no dist tag, exit -------------
 
-      # Git stash
-      - name: Drop current changes
-        if: startsWith( env.commitmsg , 'chore(release):' )
-        run: |
-          git add .
-          git stash
-
       # Define ${CURRENT_VERSION}
       - name: Set Current Version
         if: startsWith( env.commitmsg , 'chore(release):' )
@@ -110,6 +103,13 @@ jobs:
       - name: build
         if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false'
         run: yarn build
+
+      # Git stash
+      - name: Drop current changes
+        if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false'
+        run: |
+          git add .
+          git stash
 
       # Create git tag
       - name: Create Git Tag
