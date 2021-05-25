@@ -610,7 +610,7 @@ require(\\"./taro\\");
         var EMPTY_OBJ = {};
         var EMPTY_ARR = [];
         var noop = function noop() {};
-        var defaultReconciler = {};
+        var defaultReconciler = Object.create(null);
         var box = function box(v) {
             return {
                 v: v
@@ -710,7 +710,19 @@ require(\\"./taro\\");
             }));
         }
         function mergeReconciler(hostConfig) {
-            Object.assign(defaultReconciler, hostConfig);
+            Object.keys(hostConfig).forEach((function(key) {
+                var value = hostConfig[key];
+                var raw = defaultReconciler[key];
+                if (!raw) {
+                    defaultReconciler[key] = value;
+                } else {
+                    if (isArray(raw)) {
+                        defaultReconciler[key] = raw.push(value);
+                    } else {
+                        defaultReconciler[key] = [ raw, value ];
+                    }
+                }
+            }));
         }
         function unsupport(api) {
             return function() {
@@ -1316,7 +1328,7 @@ require(\\"./taro\\");
             taro.request = link.request.bind(link);
             taro.addInterceptor = link.addInterceptor.bind(link);
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
-            taro.miniGlobal = global;
+            taro.miniGlobal = taro.options.miniGlobal = global;
         }
     },
     13: function(module, __webpack_exports__, __webpack_require__) {
@@ -1772,6 +1784,7 @@ require(\\"./taro\\");
                     \\"ext-info\\": \\"\\"
                 }
             };
+            var BUBBLE_EVENTS = new Set([ \\"touchStart\\", \\"touchMove\\", \\"touchEnd\\", \\"touchCancel\\", \\"tap\\", \\"longTap\\" ]);
             var hostConfig = {
                 initNativeApi: initNativeApi,
                 getEventCenter: function getEventCenter(Events) {
@@ -1780,10 +1793,13 @@ require(\\"./taro\\");
                     }
                     return my.taroEventCenter;
                 },
-                modifyDispatchEvent: function modifyDispatchEvent(event, tagName) {
-                    if (tagName === \\"SWIPER\\" && event.type === \\"animationend\\") {
+                modifyTaroEvent: function modifyTaroEvent(event, node) {
+                    if (node.tagName === \\"SWIPER\\" && event.type === \\"animationend\\") {
                         event.type = \\"animationfinish\\";
                     }
+                },
+                isBubbleEvents: function isBubbleEvents(eventName) {
+                    return BUBBLE_EVENTS.has(eventName);
                 }
             };
             var _navigator = navigator, userAgent = _navigator.userAgent;

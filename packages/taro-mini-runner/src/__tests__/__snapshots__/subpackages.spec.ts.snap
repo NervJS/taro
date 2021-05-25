@@ -597,7 +597,7 @@ require(\\"./taro\\");
         var EMPTY_OBJ = {};
         var EMPTY_ARR = [];
         var noop = function noop() {};
-        var defaultReconciler = {};
+        var defaultReconciler = Object.create(null);
         var box = function box(v) {
             return {
                 v: v
@@ -697,7 +697,19 @@ require(\\"./taro\\");
             }));
         }
         function mergeReconciler(hostConfig) {
-            Object.assign(defaultReconciler, hostConfig);
+            Object.keys(hostConfig).forEach((function(key) {
+                var value = hostConfig[key];
+                var raw = defaultReconciler[key];
+                if (!raw) {
+                    defaultReconciler[key] = value;
+                } else {
+                    if (isArray(raw)) {
+                        defaultReconciler[key] = raw.push(value);
+                    } else {
+                        defaultReconciler[key] = [ raw, value ];
+                    }
+                }
+            }));
         }
         function unsupport(api) {
             return function() {
@@ -1303,7 +1315,7 @@ require(\\"./taro\\");
             taro.request = link.request.bind(link);
             taro.addInterceptor = link.addInterceptor.bind(link);
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
-            taro.miniGlobal = global;
+            taro.miniGlobal = taro.options.miniGlobal = global;
         }
         var runtime_noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\", \\"onBluetoothDeviceFound\\", \\"onBluetoothAdapterStateChange\\", \\"offBluetoothDeviceFound\\", \\"offBluetoothAdapterStateChange\\", \\"onBLEConnectionStateChange\\", \\"onBLECharacteristicValueChange\\", \\"offBLEConnectionStateChange\\", \\"offBLECharacteristicValueChange\\", \\"onCopyUrl\\", \\"offCopyUrl\\" ]);
         var runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\" ]);
@@ -1619,10 +1631,7 @@ require(\\"./taro\\");
             }
         };
         var hostConfig = {
-            initNativeApi: initNativeApi,
-            onTaroElementCreate: function onTaroElementCreate(tagName) {
-                warn(tagName === \\"MAP\\", \\"\\\\u5fae\\\\u4fe1\\\\u5c0f\\\\u7a0b\\\\u5e8f map \\\\u7ec4\\\\u4ef6\\\\u7684 \`setting\` \\\\u5c5e\\\\u6027\\\\u9700\\\\u8981\\\\u4f20\\\\u9012\\\\u4e00\\\\u4e2a\\\\u9ed8\\\\u8ba4\\\\u503c\\\\u3002\\\\u8be6\\\\u60c5\\\\uff1a\\\\n https://developers.weixin.qq.com/miniprogram/dev/component/map.html\\");
-            }
+            initNativeApi: initNativeApi
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);

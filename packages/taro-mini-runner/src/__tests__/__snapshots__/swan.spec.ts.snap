@@ -600,7 +600,7 @@ require(\\"./taro\\");
         var EMPTY_OBJ = {};
         var EMPTY_ARR = [];
         var noop = function noop() {};
-        var defaultReconciler = {};
+        var defaultReconciler = Object.create(null);
         var box = function box(v) {
             return {
                 v: v
@@ -700,7 +700,19 @@ require(\\"./taro\\");
             }));
         }
         function mergeReconciler(hostConfig) {
-            Object.assign(defaultReconciler, hostConfig);
+            Object.keys(hostConfig).forEach((function(key) {
+                var value = hostConfig[key];
+                var raw = defaultReconciler[key];
+                if (!raw) {
+                    defaultReconciler[key] = value;
+                } else {
+                    if (isArray(raw)) {
+                        defaultReconciler[key] = raw.push(value);
+                    } else {
+                        defaultReconciler[key] = [ raw, value ];
+                    }
+                }
+            }));
         }
         function unsupport(api) {
             return function() {
@@ -1306,7 +1318,7 @@ require(\\"./taro\\");
             taro.request = link.request.bind(link);
             taro.addInterceptor = link.addInterceptor.bind(link);
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
-            taro.miniGlobal = global;
+            taro.miniGlobal = taro.options.miniGlobal = global;
         }
         var runtime_noPromiseApis = new Set([ \\"getEnvInfoSync\\", \\"isLoginSync\\", \\"createARCameraContext\\", \\"createAnimationVideo\\", \\"createRtcRoomContext\\", \\"getURLQuery\\", \\"setURLQuery\\" ]);
         var runtime_needPromiseApis = new Set([ \\"addEventOnCalendar\\", \\"chooseAlbum\\", \\"closeCommunityEditor\\", \\"getSwanId\\", \\"requestPolymerPayment\\", \\"navigateBackSmartProgram\\", \\"navigateToSmartProgram\\", \\"setPageInfo\\", \\"closeReplyEditor\\", \\"deleteBookShelf\\", \\"deleteEventOnCalendar\\", \\"getSystemRiskInfo\\", \\"insertBookshelf\\", \\"loadSubPackage\\", \\"openCommunityEditor\\", \\"openReplyEditor\\", \\"openShare\\", \\"setDocumentTitle\\", \\"setMetaDescription\\", \\"setMetaKeywords\\", \\"shareFile\\", \\"subscribeService\\", \\"updateBookshelfReadTime\\" ]);
