@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/mini-runner",
-  "version": "3.3.0-alpha.3",
+  "version": "3.3.0-alpha.4",
   "description": "Mini app runner for taro",
   "main": "index.js",
   "scripts": {
@@ -36,18 +36,18 @@
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
     "@babel/core": "^7.11.1",
-    "@tarojs/helper": "3.3.0-alpha.3",
-    "@tarojs/plugin-platform-alipay": "3.3.0-alpha.3",
-    "@tarojs/plugin-platform-jd": "3.3.0-alpha.3",
-    "@tarojs/plugin-platform-qq": "3.3.0-alpha.3",
-    "@tarojs/plugin-platform-swan": "3.3.0-alpha.3",
-    "@tarojs/plugin-platform-tt": "3.3.0-alpha.3",
-    "@tarojs/plugin-platform-weapp": "3.3.0-alpha.3",
-    "@tarojs/runner-utils": "3.3.0-alpha.3",
-    "@tarojs/runtime": "3.3.0-alpha.3",
-    "@tarojs/shared": "3.3.0-alpha.3",
-    "@tarojs/taro": "3.3.0-alpha.3",
-    "@tarojs/taro-loader": "3.3.0-alpha.3",
+    "@tarojs/helper": "3.3.0-alpha.4",
+    "@tarojs/plugin-platform-alipay": "3.3.0-alpha.4",
+    "@tarojs/plugin-platform-jd": "3.3.0-alpha.4",
+    "@tarojs/plugin-platform-qq": "3.3.0-alpha.4",
+    "@tarojs/plugin-platform-swan": "3.3.0-alpha.4",
+    "@tarojs/plugin-platform-tt": "3.3.0-alpha.4",
+    "@tarojs/plugin-platform-weapp": "3.3.0-alpha.4",
+    "@tarojs/runner-utils": "3.3.0-alpha.4",
+    "@tarojs/runtime": "3.3.0-alpha.4",
+    "@tarojs/shared": "3.3.0-alpha.4",
+    "@tarojs/taro": "3.3.0-alpha.4",
+    "@tarojs/taro-loader": "3.3.0-alpha.4",
     "babel-loader": "8.2.1",
     "copy-webpack-plugin": "5.1.2",
     "css": "2.2.4",
@@ -67,10 +67,10 @@
     "mini-css-extract-plugin": "0.8.0",
     "miniprogram-simulate": "^1.1.5",
     "ora": "^3.4.0",
-    "postcss-html-transform": "3.3.0-alpha.3",
+    "postcss-html-transform": "3.3.0-alpha.4",
     "postcss-import": "12.0.1",
     "postcss-loader": "^3.0.0",
-    "postcss-pxtransform": "3.3.0-alpha.3",
+    "postcss-pxtransform": "3.3.0-alpha.4",
     "postcss-url": "8.0.0",
     "regenerator-runtime": "0.11",
     "request": "^2.88.0",
@@ -93,8 +93,8 @@
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "7.10.4",
     "@babel/preset-env": "^7.11.0",
-    "@tarojs/components": "3.3.0-alpha.3",
-    "@tarojs/react": "3.3.0-alpha.3",
-    "babel-preset-taro": "3.3.0-alpha.3"
+    "@tarojs/components": "3.3.0-alpha.4",
+    "@tarojs/react": "3.3.0-alpha.4",
+    "babel-preset-taro": "3.3.0-alpha.4"
   }
 }
