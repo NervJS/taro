@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - next
+      - feat/use-h5
   pull_request:
     branches:
       - next
