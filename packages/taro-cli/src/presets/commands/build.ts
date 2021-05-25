@@ -163,7 +163,8 @@ function registerBuildHooks (ctx) {
     hooks.ON_COMPILER_MAKE,
     hooks.ON_PARSE_CREATE_ELEMENT,
     hooks.ON_BUILD_START,
-    hooks.ON_BUILD_FINISH
+    hooks.ON_BUILD_FINISH,
+    hooks.MODIFY_RUNNER_OPTS
   ].forEach(methodName => {
     ctx.registerMethod(methodName)
   })

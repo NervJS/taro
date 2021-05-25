@@ -26,7 +26,7 @@ export default (ctx: IPluginContext, options: IOptions) => {
     name: 'onSetupClose',
     fn (platform: TaroPlatformBase) {
       injectRuntimePath(platform)
-      modifyPostcssConfigs(platform, options)
+      modifyPostcssConfigs(platform.config, options)
     }
   })
   // React 收集使用到的小程序组件
@@ -59,6 +59,10 @@ export default (ctx: IPluginContext, options: IOptions) => {
       })
     }
   })
+  // 修改 H5 postcss options
+  ctx.modifyRunnerOpts(({ opts }) => {
+    modifyPostcssConfigs(opts, options, true)
+  })
 }
 
 function injectRuntimePath (platform: TaroPlatformBase) {
@@ -70,20 +74,27 @@ function injectRuntimePath (platform: TaroPlatformBase) {
   }
 }
 
-function modifyPostcssConfigs (platform: TaroPlatformBase, options: IOptions) {
-  platform.config.postcss ||= {}
-  const postcssConfig = platform.config.postcss
+function modifyPostcssConfigs (config: Record<string, any>, options: IOptions, isH5?: boolean) {
+  config.postcss ||= {}
+  const postcssConfig = config.postcss
 
-  postcssConfig.htmltransform = {
-    enable: true
+  if (!isH5) {
+    postcssConfig.htmltransform = {
+      enable: true
+    }
   }
 
-  const pxtransformConfig = postcssConfig.pxtransform
+  if (options.pxtransformBlackList) {
+    postcssConfig.pxtransform ||= {
+      enable: true
+    }
+    const pxtransformConfig = postcssConfig.pxtransform
 
-  if (pxtransformConfig?.enable && options.pxtransformBlackList) {
-    pxtransformConfig.config ||= {}
-    const config = pxtransformConfig.config
-    config.selectorBlackList ||= []
-    config.selectorBlackList = config.selectorBlackList.concat(options.pxtransformBlackList)
+    if (pxtransformConfig.enable) {
+      pxtransformConfig.config ||= {}
+      const config = pxtransformConfig.config
+      config.selectorBlackList ||= []
+      config.selectorBlackList = config.selectorBlackList.concat(options.pxtransformBlackList)
+    }
   }
 }
