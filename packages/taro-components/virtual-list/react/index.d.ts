@@ -21,6 +21,8 @@ interface VirtualListProps extends StandardProps {
   initialScrollOffset?: number
   /** 列表内部容器组件类型，默认值为 View。 */
   innerElementType?: ComponentType
+  /** 顶部区域 */
+  renderTop?: ReactNode
   /** 底部区域 */
   renderBottom?: ReactNode
   /** 滚动方向。vertical 为垂直滚动，horizontal 为平行滚动。默认为 vertical。 */
