@@ -12,7 +12,7 @@ interface InputProps extends StandardProps, FormItemProps {
    * @supported weapp, h5, rn
    * @rn 部分支持
    */
-  type?: 'text' | 'number' | 'idcard' | 'digit'
+  type?: 'text' | 'number' | 'idcard' | 'digit' | 'password'
 
   /** 是否是密码类型
    * @supported weapp, h5, rn
