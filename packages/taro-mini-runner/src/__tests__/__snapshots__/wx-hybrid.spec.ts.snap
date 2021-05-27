@@ -599,351 +599,6 @@ require(\\"./taro\\");
                 obj.url += (hasMark ? \\"&\\" : \\"?\\") + \`\${routerParamsPrivateKey}=\${cacheKey}\`;
             }
         }
-        const weixinAdapter = {
-            if: \\"wx:if\\",
-            else: \\"wx:else\\",
-            elseif: \\"wx:elif\\",
-            for: \\"wx:for\\",
-            forItem: \\"wx:for-item\\",
-            forIndex: \\"wx:for-index\\",
-            key: \\"wx:key\\",
-            xs: \\"wxs\\",
-            type: \\"weapp\\"
-        };
-        class BaseTemplate {
-            constructor() {
-                this.exportExpr = \\"module.exports =\\";
-                this.supportXS = false;
-                this.Adapter = weixinAdapter;
-                this.internalComponents = internalComponents;
-                this.focusComponents = focusComponents;
-                this.voidElements = voidElements;
-                this.nestElements = nestElements;
-                this.buildPageTemplate = baseTempPath => {
-                    const template = \`<import src=\\"\${baseTempPath}\\"/>\\\\n<template is=\\"taro_tmpl\\" data=\\"{{\${this.dataKeymap(\\"root:root\\")}}}\\" />\`;
-                    return template;
-                };
-                this.buildBaseComponentTemplate = ext => {
-                    const data = !this.isSupportRecursive && this.supportXS ? this.dataKeymap(\\"i:i,l:l\\") : this.dataKeymap(\\"i:i\\");
-                    return \`<import src=\\"./base\${ext}\\" />\\\\n<template is=\\"tmpl_0_\${\\"container\\"}\\" data=\\"{{\${data}}}\\" />\`;
-                };
-                this.buildCustomComponentTemplate = ext => {
-                    const Adapter = this.Adapter;
-                    const data = !this.isSupportRecursive && this.supportXS ? \`\${this.dataKeymap(\\"i:item,l:''\\")}\` : this.dataKeymap(\\"i:item\\");
-                    return \`<import src=\\"./base\${ext}\\" />\\\\n  <block \${Adapter.for}=\\"{{i.\${\\"cn\\"}}}\\" \${Adapter.key}=\\"uid\\">\\\\n    <template is=\\"tmpl_0_container\\" data=\\"{{\${data}}}\\" />\\\\n  </block>\`;
-                };
-                this.buildXScript = () => \`\${this.exportExpr} {\\\\n  a: \${this.buildXSTmplName()},\\\\n  b: function (a, b) {\\\\n    return a === undefined ? b : a\\\\n  },\\\\n  c: function(i, prefix) {\\\\n    var s = i.focus !== undefined ? 'focus' : 'blur'\\\\n    return prefix + i.\${\\"nn\\"} + '_' + s\\\\n  },\\\\n  d: function (i, v) {\\\\n    return i === undefined ? v : i\\\\n  },\\\\n  e: function (n) {\\\\n    return 'tmpl_' + n + '_\${\\"container\\"}'\\\\n  },\\\\n  \${this.buildXSTmpExtra()}\\\\n}\`;
-            }
-            buildAttribute(attrs, nodeName) {
-                return Object.keys(attrs).map(k => \`\${k}=\\"\${k.startsWith(\\"bind\\") || k.startsWith(\\"on\\") || k.startsWith(\\"catch\\") ? attrs[k] : \`{\${this.getAttrValue(attrs[k], k, nodeName)}}\`}\\" \`).join(\\"\\");
-            }
-            replacePropName(name, value, _componentName) {
-                if (value === \\"eh\\") return name.toLowerCase();
-                return name;
-            }
-            createMiniComponents(components) {
-                const result = Object.create(null);
-                for (const key in components) {
-                    if (hasOwn(components, key)) {
-                        let component = components[key];
-                        const compName = toDashed(key);
-                        const newComp = Object.create(null);
-                        if (isFunction(this.modifyCompProps)) {
-                            component = this.modifyCompProps(compName, component);
-                        }
-                        for (let prop in component) {
-                            if (hasOwn(component, prop)) {
-                                let propValue = component[prop];
-                                if (prop.startsWith(\\"bind\\") || specialEvents.has(prop)) {
-                                    propValue = \\"eh\\";
-                                } else if (propValue === \\"\\") {
-                                    propValue = \`i.\${toCamelCase(prop)}\`;
-                                } else if (isBooleanStringLiteral(propValue) || isNumber(+propValue)) {
-                                    propValue = this.supportXS ? \`xs.b(i.\${toCamelCase(prop)},\${propValue})\` : \`i.\${toCamelCase(prop)}===undefined?\${propValue}:i.\${toCamelCase(prop)}\`;
-                                } else {
-                                    propValue = \`i.\${toCamelCase(prop)}||\${propValue || singleQuote(\\"\\")}\`;
-                                }
-                                prop = this.replacePropName(prop, propValue, compName);
-                                newComp[prop] = propValue;
-                            }
-                        }
-                        if (compName !== \\"block\\") {
-                            Object.assign(newComp, styles, this.getEvents());
-                        }
-                        if (compName === \\"swiper-item\\") {
-                            delete newComp.style;
-                        }
-                        if (compName === \\"view\\") {
-                            const reg = /^(bind|on)(touchmove|TouchMove)$/;
-                            const comp = Object.assign({}, newComp);
-                            Object.keys(comp).forEach(originKey => {
-                                if (!reg.test(originKey)) return;
-                                const key = originKey.replace(reg, \\"catch$2\\");
-                                comp[key] = comp[originKey];
-                                delete comp[originKey];
-                            });
-                            result[\\"catch-view\\"] = comp;
-                        }
-                        if (compName === \\"view\\" || compName === \\"text\\" || compName === \\"image\\") {
-                            const comp = {};
-                            Object.keys(newComp).forEach(key => {
-                                const value = newComp[key];
-                                if (value !== \\"eh\\") comp[key] = value;
-                            });
-                            result[\`static-\${compName}\`] = comp;
-                            if (compName === \\"view\\") {
-                                result[\\"pure-view\\"] = {
-                                    style: comp.style,
-                                    class: comp.class
-                                };
-                            }
-                        }
-                        if (compName === \\"slot\\" || compName === \\"slot-view\\") {
-                            result[compName] = {
-                                slot: \\"i.name\\"
-                            };
-                        } else {
-                            result[compName] = newComp;
-                        }
-                    }
-                }
-                return result;
-            }
-            buildBaseTemplate() {
-                const Adapter = this.Adapter;
-                const data = !this.isSupportRecursive && this.supportXS ? \`\${this.dataKeymap(\\"i:item,l:''\\")}\` : this.dataKeymap(\\"i:item\\");
-                return \`\${this.buildXsTemplate()}\\\\n<template name=\\"taro_tmpl\\">\\\\n  <block \${Adapter.for}=\\"{{root.cn}}\\" \${Adapter.key}=\\"uid\\">\\\\n    <template is=\\"tmpl_0_\${\\"container\\"}\\" data=\\"{{\${data}}}\\" />\\\\n  </block>\\\\n</template>\\\\n\`;
-            }
-            buildThirdPartyAttr(attrs) {
-                return Array.from(attrs).reduce((str, attr) => {
-                    if (attr.startsWith(\\"@\\")) {
-                        let value = attr.slice(1);
-                        if (value.indexOf(\\"-\\") > -1) {
-                            value = \`:\${value}\`;
-                        }
-                        return str + \`bind\${value}=\\"eh\\" \`;
-                    } else if (attr.startsWith(\\"bind\\")) {
-                        return str + \`\${attr}=\\"eh\\" \`;
-                    } else if (attr.startsWith(\\"on\\")) {
-                        let value = toKebabCase(attr.slice(2));
-                        if (value.indexOf(\\"-\\") > -1) {
-                            value = \`:\${value}\`;
-                        }
-                        return str + \`bind\${value}=\\"eh\\" \`;
-                    }
-                    return str + \`\${attr}=\\"{{i.\${toCamelCase(attr)}}}\\" \`;
-                }, \\"\\");
-            }
-            buildComponentTemplate(comp, level) {
-                return this.focusComponents.has(comp.nodeName) ? this.buildFocusComponentTemplte(comp, level) : this.buildStandardComponentTemplate(comp, level);
-            }
-            buildFocusComponentTemplte(comp, level) {
-                const attrs = Object.assign({}, comp.attributes);
-                const templateName = this.supportXS ? \`xs.c(i, 'tmpl_\${level}_')\` : \`i.focus ? 'tmpl_\${level}_\${comp.nodeName}_focus' : 'tmpl_\${level}_\${comp.nodeName}_blur'\`;
-                delete attrs.focus;
-                return \`\\\\n<template name=\\"tmpl_\${level}_\${comp.nodeName}\\">\\\\n  <template is=\\"{{\${templateName}}}\\" data=\\"{{\${this.dataKeymap(\\"i:i\\")}}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_\${level}_\${comp.nodeName}_focus\\">\\\\n  <\${comp.nodeName} \${this.buildAttribute(comp.attributes, comp.nodeName)} id=\\"{{i.uid}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_\${level}_\${comp.nodeName}_blur\\">\\\\n  <\${comp.nodeName} \${this.buildAttribute(attrs, comp.nodeName)} id=\\"{{i.uid}}\\" />\\\\n</template>\\\\n\`;
-            }
-            buildStandardComponentTemplate(comp, level) {
-                const {isSupportRecursive: isSupportRecursive, Adapter: Adapter} = this;
-                const nextLevel = isSupportRecursive ? 0 : level + 1;
-                const data = !this.isSupportRecursive && this.supportXS ? \`\${this.dataKeymap(\\"i:item,l:l\\")}\` : this.dataKeymap(\\"i:item\\");
-                let child = this.supportXS ? \`<template is=\\"{{xs.e(\${isSupportRecursive ? 0 : \\"cid+1\\"})}}\\" data=\\"{{\${data}}}\\" />\` : \`<template is=\\"tmpl_\${nextLevel}_\${\\"container\\"}\\" data=\\"{{\${data}}}\\" />\`;
-                if (isFunction(this.modifyLoopBody)) {
-                    child = this.modifyLoopBody(child, comp.nodeName);
-                }
-                let children = this.voidElements.has(comp.nodeName) ? \\"\\" : \`\\\\n    <block \${Adapter.for}=\\"{{i.\${\\"cn\\"}}}\\" \${Adapter.key}=\\"uid\\">\\\\n      \${child}\\\\n    </block>\\\\n  \`;
-                if (isFunction(this.modifyLoopContainer)) {
-                    children = this.modifyLoopContainer(children, comp.nodeName);
-                }
-                let nodeName = \\"\\";
-                switch (comp.nodeName) {
-                  case \\"slot\\":
-                  case \\"slot-view\\":
-                  case \\"catch-view\\":
-                  case \\"static-view\\":
-                  case \\"pure-view\\":
-                    nodeName = \\"view\\";
-                    break;
-
-                  case \\"static-text\\":
-                    nodeName = \\"text\\";
-                    break;
-
-                  case \\"static-image\\":
-                    nodeName = \\"image\\";
-                    break;
-
-                  default:
-                    nodeName = comp.nodeName;
-                    break;
-                }
-                let res = \`\\\\n<template name=\\"tmpl_\${level}_\${comp.nodeName}\\">\\\\n  <\${nodeName} \${this.buildAttribute(comp.attributes, comp.nodeName)} id=\\"{{i.uid}}\\">\${children}</\${nodeName}>\\\\n</template>\\\\n\`;
-                if (isFunction(this.modifyTemplateResult)) {
-                    res = this.modifyTemplateResult(res, comp.nodeName, level, children);
-                }
-                return res;
-            }
-            buildPlainTextTemplate(level) {
-                return \`\\\\n<template name=\\"tmpl_\${level}_#text\\" data=\\"{{\${this.dataKeymap(\\"i:i\\")}}}\\">\\\\n  <block>{{i.\${\\"v\\"}}}</block>\\\\n</template>\\\\n\`;
-            }
-            buildThirdPartyTemplate(level, componentConfig) {
-                const {Adapter: Adapter, isSupportRecursive: isSupportRecursive, supportXS: supportXS, nestElements: nestElements} = this;
-                const nextLevel = isSupportRecursive ? 0 : level + 1;
-                let template = \\"\\";
-                const data = !isSupportRecursive && supportXS ? \`\${this.dataKeymap(\\"i:item,l:l\\")}\` : this.dataKeymap(\\"i:item\\");
-                componentConfig.thirdPartyComponents.forEach((attrs, compName) => {
-                    if (compName === \\"custom-wrapper\\") {
-                        template += \`\\\\n<template name=\\"tmpl_\${level}_\${compName}\\">\\\\n  <\${compName} i=\\"{{i}}\\" l=\\"{{l}}\\" id=\\"{{i.uid}}\\">\\\\n  </\${compName}>\\\\n</template>\\\\n  \`;
-                    } else {
-                        if (!isSupportRecursive && supportXS && nestElements.has(compName) && level + 1 > nestElements.get(compName)) return;
-                        const child = supportXS ? \`<template is=\\"{{xs.e(\${isSupportRecursive ? 0 : \\"cid+1\\"})}}\\" data=\\"{{\${data}}}\\" />\` : \`<template is=\\"tmpl_\${nextLevel}_\${\\"container\\"}\\" data=\\"{{\${data}}}\\" />\`;
-                        template += \`\\\\n<template name=\\"tmpl_\${level}_\${compName}\\">\\\\n  <\${compName} \${this.buildThirdPartyAttr(attrs)} id=\\"{{i.uid}}\\">\\\\n    <block \${Adapter.for}=\\"{{i.\${\\"cn\\"}}}\\" \${Adapter.key}=\\"uid\\">\\\\n      \${child}\\\\n    </block>\\\\n  </\${compName}>\\\\n</template>\\\\n  \`;
-                    }
-                });
-                return template;
-            }
-            buildContainerTemplate(level, restart = false) {
-                let tmpl = \\"\\";
-                if (restart) {
-                    tmpl = \`<block \${this.Adapter.if}=\\"{{i.nn === '#text'}}\\">\\\\n    <template is=\\"tmpl_0_#text\\" data=\\"{{i:i}}\\" />\\\\n  </block>\\\\n  <block \${this.Adapter.else}>\\\\n    \${!this.isSupportRecursive && this.supportXS ? '<comp i=\\"{{i}}\\" l=\\"{{l}}\\" />' : '<comp i=\\"{{i}}\\" />'}\\\\n  </block>\`;
-                } else {
-                    const xs = !this.isSupportRecursive ? \`xs.a(\${level}, i.\${\\"nn\\"}, l)\` : \`xs.a(\${level}, i.\${\\"nn\\"})\`;
-                    const data = !this.isSupportRecursive ? \`\${this.dataKeymap(\`i:i,cid:\${level},l:xs.f(l,i.\${\\"nn\\"})\`)}\` : \`\${this.dataKeymap(\\"i:i\\")}\`;
-                    tmpl = this.supportXS ? \`<template is=\\"{{\${xs}}}\\" data=\\"{{\${data}}}\\" />\` : \`<template is=\\"{{'tmpl_\${level}_' + i.\${\\"nn\\"}}}\\" data=\\"{{\${this.dataKeymap(\\"i:i\\")}}}\\" />\`;
-                }
-                return \`\\\\n<template name=\\"tmpl_\${level}_\${\\"container\\"}\\">\\\\n  \${tmpl}\\\\n</template>\\\\n\`;
-            }
-            dataKeymap(keymap) {
-                return keymap;
-            }
-            getEvents() {
-                return events;
-            }
-            getAttrValue(value, _key, _nodeName) {
-                return \`{\${value}}\`;
-            }
-            buildXsTemplate() {
-                return \\"\\";
-            }
-            mergeComponents(ctx, patch) {
-                ctx.helper.recursiveMerge(this.internalComponents, patch);
-            }
-            buildXSTmplName() {
-                return \`function (l, n) {\\\\n    return 'tmpl_' + l + '_' + n\\\\n  }\`;
-            }
-            buildXSTmpExtra() {
-                return \\"\\";
-            }
-        }
-        class RecursiveTemplate extends BaseTemplate {
-            constructor() {
-                super(...arguments);
-                this.isSupportRecursive = true;
-                this.buildTemplate = componentConfig => {
-                    let template = this.buildBaseTemplate();
-                    if (!this.miniComponents) {
-                        this.miniComponents = this.createMiniComponents(this.internalComponents);
-                    }
-                    const ZERO_FLOOR = 0;
-                    const components = Object.keys(this.miniComponents).filter(c => componentConfig.includes.size && !componentConfig.includeAll ? componentConfig.includes.has(c) : true);
-                    template = components.reduce((current, nodeName) => {
-                        const attributes = this.miniComponents[nodeName];
-                        return current + this.buildComponentTemplate({
-                            nodeName: nodeName,
-                            attributes: attributes
-                        }, ZERO_FLOOR);
-                    }, template);
-                    template += this.buildPlainTextTemplate(ZERO_FLOOR);
-                    template += this.buildThirdPartyTemplate(ZERO_FLOOR, componentConfig);
-                    template += this.buildContainerTemplate(ZERO_FLOOR);
-                    return template;
-                };
-            }
-        }
-        class UnRecursiveTemplate extends BaseTemplate {
-            constructor() {
-                super(...arguments);
-                this.isSupportRecursive = false;
-                this._baseLevel = 16;
-                this.buildTemplate = componentConfig => {
-                    this.componentConfig = componentConfig;
-                    if (!this.miniComponents) {
-                        this.miniComponents = this.createMiniComponents(this.internalComponents);
-                    }
-                    const components = Object.keys(this.miniComponents).filter(c => componentConfig.includes.size && !componentConfig.includeAll ? componentConfig.includes.has(c) : true);
-                    let template = this.buildBaseTemplate();
-                    for (let i = 0; i < this.baseLevel; i++) {
-                        template += this.supportXS ? this.buildOptimizeFloor(i, components, this.baseLevel === i + 1) : this.buildFloor(i, components, this.baseLevel === i + 1);
-                    }
-                    return template;
-                };
-            }
-            set baseLevel(lv) {
-                this._baseLevel = lv;
-            }
-            get baseLevel() {
-                return this._baseLevel;
-            }
-            buildFloor(level, components, restart = false) {
-                if (restart) return this.buildContainerTemplate(level, restart);
-                let template = components.reduce((current, nodeName) => {
-                    const attributes = this.miniComponents[nodeName];
-                    return current + this.buildComponentTemplate({
-                        nodeName: nodeName,
-                        attributes: attributes
-                    }, level);
-                }, \\"\\");
-                template += this.buildPlainTextTemplate(level);
-                template += this.buildThirdPartyTemplate(level, this.componentConfig);
-                template += this.buildContainerTemplate(level, restart);
-                return template;
-            }
-            buildOptimizeFloor(level, components, restart = false) {
-                if (restart) return this.buildContainerTemplate(level, restart);
-                let template = components.reduce((current, nodeName) => {
-                    if (level !== 0) {
-                        if (!this.nestElements.has(nodeName)) {
-                            return current;
-                        } else {
-                            const max = this.nestElements.get(nodeName);
-                            if (max > 0 && level >= max) {
-                                return current;
-                            }
-                        }
-                    }
-                    const attributes = this.miniComponents[nodeName];
-                    return current + this.buildComponentTemplate({
-                        nodeName: nodeName,
-                        attributes: attributes
-                    }, level);
-                }, \\"\\");
-                if (level === 0) template += this.buildPlainTextTemplate(level);
-                template += this.buildThirdPartyTemplate(level, this.componentConfig);
-                template += this.buildContainerTemplate(level);
-                return template;
-            }
-            buildXSTmplName() {
-                const isLoopComps = [ ...Array.from(this.nestElements.keys()), ...Array.from(this.componentConfig.thirdPartyComponents.keys()) ];
-                const isLoopCompsSet = new Set(isLoopComps);
-                const hasMaxComps = [];
-                this.nestElements.forEach((max, comp) => {
-                    if (max > 1) {
-                        hasMaxComps.push(comp);
-                    } else if (max === 1 && isLoopCompsSet.has(comp)) {
-                        isLoopCompsSet.delete(comp);
-                    }
-                });
-                return \`function (l, n, s) {\\\\n    var a = \${JSON.stringify(Array.from(isLoopCompsSet))}\\\\n    var b = \${JSON.stringify(hasMaxComps)}\\\\n    if (a.indexOf(n) === -1) {\\\\n      l = 0\\\\n    }\\\\n    if (b.indexOf(n) > -1) {\\\\n      var u = s.split(',')\\\\n      var depth = 0\\\\n      for (var i = 0; i < u.length; i++) {\\\\n        if (u[i] === n) depth++\\\\n      }\\\\n      l = depth\\\\n    }\\\\n    return 'tmpl_' + l + '_' + n\\\\n  }\`;
-            }
-            buildXSTmpExtra() {
-                const hasMaxComps = [];
-                this.nestElements.forEach((max, comp) => {
-                    if (max > 1) hasMaxComps.push(comp);
-                });
-                return \`f: function (l, n) {\\\\n    var b = \${JSON.stringify(hasMaxComps)}\\\\n    if (b.indexOf(n) > -1) {\\\\n      if (l) l += ','\\\\n      l += n\\\\n    }\\\\n    return l\\\\n  }\`;
-            }
-        }
-        const noPromiseApis = new Set([ \\"clearStorageSync\\", \\"getBatteryInfoSync\\", \\"getExtConfigSync\\", \\"getFileSystemManager\\", \\"getLaunchOptionsSync\\", \\"getStorageInfoSync\\", \\"getStorageSync\\", \\"getSystemInfoSync\\", \\"offAccelerometerChange\\", \\"offAppHide\\", \\"offAppShow\\", \\"offAudioInterruptionBegin\\", \\"offAudioInterruptionEnd\\", \\"offBLECharacteristicValueChange\\", \\"offBLEConnectionStateChange\\", \\"offBluetoothAdapterStateChange\\", \\"offBluetoothDeviceFound\\", \\"offCompassChange\\", \\"offError\\", \\"offGetWifiList\\", \\"offGyroscopeChange\\", \\"offMemoryWarning\\", \\"offNetworkStatusChange\\", \\"offPageNotFound\\", \\"offUnhandledRejection\\", \\"offUserCaptureScreen\\", \\"onAccelerometerChange\\", \\"onAppHide\\", \\"onAppShow\\", \\"onAudioInterruptionBegin\\", \\"onAudioInterruptionEnd\\", \\"onBLECharacteristicValueChange\\", \\"onBLEConnectionStateChange\\", \\"onBeaconServiceChange\\", \\"onBeaconUpdate\\", \\"onBluetoothAdapterStateChange\\", \\"onBluetoothDeviceFound\\", \\"onCompassChange\\", \\"onDeviceMotionChange\\", \\"onError\\", \\"onGetWifiList\\", \\"onGyroscopeChange\\", \\"onMemoryWarning\\", \\"onNetworkStatusChange\\", \\"onPageNotFound\\", \\"onSocketClose\\", \\"onSocketError\\", \\"onSocketMessage\\", \\"onSocketOpen\\", \\"onUnhandledRejection\\", \\"onUserCaptureScreen\\", \\"removeStorageSync\\", \\"reportAnalytics\\", \\"setStorageSync\\", \\"arrayBufferToBase64\\", \\"base64ToArrayBuffer\\", \\"canIUse\\", \\"createAnimation\\", \\"createCameraContext\\", \\"createCanvasContext\\", \\"createInnerAudioContext\\", \\"createIntersectionObserver\\", \\"createInterstitialAd\\", \\"createLivePlayerContext\\", \\"createMapContext\\", \\"createSelectorQuery\\", \\"createVideoContext\\", \\"getBackgroundAudioManager\\", \\"getMenuButtonBoundingClientRect\\", \\"getRecorderManager\\", \\"getUpdateManager\\" ]);
         const needPromiseApis = new Set([ \\"addPhoneContact\\", \\"authorize\\", \\"canvasGetImageData\\", \\"canvasPutImageData\\", \\"canvasToTempFilePath\\", \\"checkSession\\", \\"chooseAddress\\", \\"chooseImage\\", \\"chooseInvoiceTitle\\", \\"chooseLocation\\", \\"chooseVideo\\", \\"clearStorage\\", \\"closeBLEConnection\\", \\"closeBluetoothAdapter\\", \\"closeSocket\\", \\"compressImage\\", \\"connectSocket\\", \\"createBLEConnection\\", \\"downloadFile\\", \\"getAvailableAudioSources\\", \\"getBLEDeviceCharacteristics\\", \\"getBLEDeviceServices\\", \\"getBatteryInfo\\", \\"getBeacons\\", \\"getBluetoothAdapterState\\", \\"getBluetoothDevices\\", \\"getClipboardData\\", \\"getConnectedBluetoothDevices\\", \\"getConnectedWifi\\", \\"getExtConfig\\", \\"getFileInfo\\", \\"getImageInfo\\", \\"getLocation\\", \\"getNetworkType\\", \\"getSavedFileInfo\\", \\"getSavedFileList\\", \\"getScreenBrightness\\", \\"getSetting\\", \\"getStorage\\", \\"getStorageInfo\\", \\"getSystemInfo\\", \\"getUserInfo\\", \\"getWifiList\\", \\"hideHomeButton\\", \\"hideShareMenu\\", \\"hideTabBar\\", \\"hideTabBarRedDot\\", \\"loadFontFace\\", \\"login\\", \\"makePhoneCall\\", \\"navigateBack\\", \\"navigateBackMiniProgram\\", \\"navigateTo\\", \\"navigateToBookshelf\\", \\"navigateToMiniProgram\\", \\"notifyBLECharacteristicValueChange\\", \\"hideKeyboard\\", \\"hideLoading\\", \\"hideNavigationBarLoading\\", \\"hideToast\\", \\"openBluetoothAdapter\\", \\"openDocument\\", \\"openLocation\\", \\"openSetting\\", \\"pageScrollTo\\", \\"previewImage\\", \\"queryBookshelf\\", \\"reLaunch\\", \\"readBLECharacteristicValue\\", \\"redirectTo\\", \\"removeSavedFile\\", \\"removeStorage\\", \\"removeTabBarBadge\\", \\"requestSubscribeMessage\\", \\"saveFile\\", \\"saveImageToPhotosAlbum\\", \\"saveVideoToPhotosAlbum\\", \\"scanCode\\", \\"sendSocketMessage\\", \\"setBackgroundColor\\", \\"setBackgroundTextStyle\\", \\"setClipboardData\\", \\"setEnableDebug\\", \\"setInnerAudioOption\\", \\"setKeepScreenOn\\", \\"setNavigationBarColor\\", \\"setNavigationBarTitle\\", \\"setScreenBrightness\\", \\"setStorage\\", \\"setTabBarBadge\\", \\"setTabBarItem\\", \\"setTabBarStyle\\", \\"showActionSheet\\", \\"showFavoriteGuide\\", \\"showLoading\\", \\"showModal\\", \\"showShareMenu\\", \\"showTabBar\\", \\"showTabBarRedDot\\", \\"showToast\\", \\"startBeaconDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"startDeviceMotionListening\\", \\"startPullDownRefresh\\", \\"stopBeaconDiscovery\\", \\"stopBluetoothDevicesDiscovery\\", \\"stopCompass\\", \\"startCompass\\", \\"startAccelerometer\\", \\"stopAccelerometer\\", \\"showNavigationBarLoading\\", \\"stopDeviceMotionListening\\", \\"stopPullDownRefresh\\", \\"switchTab\\", \\"uploadFile\\", \\"vibrateLong\\", \\"vibrateShort\\", \\"writeBLECharacteristicValue\\" ]);
         function getCanIUseWebp(taro) {
             return function() {
@@ -996,11 +651,10 @@ require(\\"./taro\\");
             };
         }
         function processApis(taro, global, config = {}) {
-            const patchNoPromiseApis = config.noPromiseApis || [];
             const patchNeedPromiseApis = config.needPromiseApis || [];
-            const _noPromiseApis = new Set([ ...patchNoPromiseApis, ...noPromiseApis ]);
             const _needPromiseApis = new Set([ ...patchNeedPromiseApis, ...needPromiseApis ]);
-            const apis = [ ..._noPromiseApis, ..._needPromiseApis ];
+            const preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
+            const apis = Object.keys(global).filter(api => preserved.indexOf(api) === -1);
             apis.forEach(key => {
                 if (_needPromiseApis.has(key)) {
                     const originKey = key;
@@ -1067,13 +721,17 @@ require(\\"./taro\\");
                         taro[key] = unsupport(key);
                         return;
                     }
-                    taro[key] = (...args) => {
-                        if (config.handleSyncApis) {
-                            return config.handleSyncApis(key, global, args);
-                        } else {
-                            return global[key].apply(global, args);
-                        }
-                    };
+                    if (typeof global[key] === \\"function\\") {
+                        taro[key] = (...args) => {
+                            if (config.handleSyncApis) {
+                                return config.handleSyncApis(key, global, args);
+                            } else {
+                                return global[key].apply(global, args);
+                            }
+                        };
+                    } else {
+                        taro[key] = global[key];
+                    }
                 }
             });
             !config.isOnlyPromisify && equipCommonApis(taro, global, config);
@@ -1098,11 +756,9 @@ require(\\"./taro\\");
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
             taro.miniGlobal = taro.options.miniGlobal = global;
         }
-        const runtime_noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\", \\"onBluetoothDeviceFound\\", \\"onBluetoothAdapterStateChange\\", \\"offBluetoothDeviceFound\\", \\"offBluetoothAdapterStateChange\\", \\"onBLEConnectionStateChange\\", \\"onBLECharacteristicValueChange\\", \\"offBLEConnectionStateChange\\", \\"offBLECharacteristicValueChange\\", \\"onCopyUrl\\", \\"offCopyUrl\\" ]);
         const runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
-                noPromiseApis: runtime_noPromiseApis,
                 needPromiseApis: runtime_needPromiseApis
             });
             taro.cloud = wx.cloud;
