@@ -2,6 +2,7 @@ import { TaroElement } from '../dom/element'
 import { TaroText } from '../dom/text'
 import { NodeType } from '../dom/node_types'
 import { TaroNode } from '../dom/node'
+import { CurrentReconciler } from '../reconciler'
 
 export const incrementId = () => {
   let id = 0
@@ -28,7 +29,11 @@ export function isHasExtractProp (el: TaroElement): boolean {
  * @param node 当前组件
  * @param type 事件类型
  */
-export function isParentBinded (node: TaroElement | null, type: string): boolean {
+export function isParentBinded (node: TaroElement, type: string): boolean {
+  if (CurrentReconciler.isBubbleEvent?.(type, node.tagName) === false) {
+    return false
+  }
+
   let res = false
   while (node?.parentElement && node.parentElement._path !== 'root') {
     if (node.parentElement.__handlers[type]?.length) {

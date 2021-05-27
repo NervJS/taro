@@ -473,6 +473,7 @@ export default function createListComponent ({
         useIsScrolling,
         width,
         position,
+        renderTop,
         renderBottom,
         ...rest
       } = this.props
@@ -546,6 +547,7 @@ export default function createListComponent ({
       if (position === 'relative') {
         const pre = getItemOffset(this.props, startIndex, this)
         return createElement(outerElementType || outerTagName || 'div', outerElementProps,
+          renderTop,
           createElement(itemElementType || itemTagName || 'div', {
             key: `${id}-pre`,
             id: `${id}-pre`,
@@ -566,6 +568,7 @@ export default function createListComponent ({
         )
       } else {
         return createElement(outerElementType || outerTagName || 'div', outerElementProps,
+          renderTop,
           createElement(innerElementType || innerTagName || 'div', {
             ref: innerRef,
             key: `${id}-inner`,

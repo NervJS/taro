@@ -104,6 +104,22 @@ describe('event', () => {
     expect(containerSpy).toBeCalledTimes(0)
   })
 
+  it('非冒泡事件不会在父元素触发', () => {
+    const eventName = 'unknown'
+    const container = document.createElement('container')
+    const div = document.createElement('div')
+    container.appendChild(div)
+    const containerSpy = jest.fn()
+    const divSpy = jest.fn()
+    container.addEventListener(eventName, containerSpy)
+    div.addEventListener(eventName, divSpy)
+    const event = runtime.createEvent({ type: eventName }, div)
+    div.dispatchEvent(event)
+    container.dispatchEvent(event) // buble event
+    expect(divSpy).toBeCalledTimes(1)
+    expect(containerSpy).toBeCalledTimes(1)
+  })
+
   it('preventDefault', () => {
     const container = document.createElement('container')
     const div = document.createElement('div')

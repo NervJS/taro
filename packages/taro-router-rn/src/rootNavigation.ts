@@ -135,19 +135,19 @@ export function isTabPage (path = ''): boolean {
 export function getCurrentRoute () {
   const routeState = navigationRef.current?.getRootState()
   const routes = routeState?.routes
-  const routeName: string[] = []
+  const routeKeys: string[] = []
   if (routes) {
     routes.forEach(item => {
       if (item.name === 'tabNav') {
         const index = item.state?.index ?? 0
-        const names = item.state?.routeNames ?? []
-        names && routeName.push(names[index])
+        const tabRoutes: Record<string, any>[] = item.state?.routes ?? []
+        tabRoutes && routeKeys.push(tabRoutes[index].key)
       } else {
-        routeName.push(item.name)
+        routeKeys.push(item.key)
       }
     })
   }
-  return routeName
+  return routeKeys
 }
 
 export const getRouteEventChannel = (routeChannel) => {
