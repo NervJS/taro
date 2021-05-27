@@ -12,7 +12,7 @@ import build from '../../index'
 //   join: () => string
 // }
 
-function readDir (fs: IFs, dir: string) {
+export function readDir (fs: IFs, dir: string) {
   let files: string[] = []
   const list = fs.readdirSync(dir)
   list.forEach(item => {

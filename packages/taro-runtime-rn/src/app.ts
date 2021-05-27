@@ -34,8 +34,11 @@ export function createReactNativeApp (component: React.ComponentClass, config: R
           props = { ref }
         }
         return React.createElement(TCNProvider, { ...this.props },
-          React.createElement(AppCompoent, { ...props },
-            createRouter(routerConfig)
+          React.createElement(AppCompoent, {
+            ...props,
+            ...this.props
+          },
+          createRouter(routerConfig)
           ))
       }
     }
