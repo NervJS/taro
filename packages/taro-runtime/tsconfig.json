@@ -16,7 +16,8 @@
     "sourceMap": true,
     "baseUrl": ".",
     "rootDir": "./src",
-    "declaration": true
+    "declaration": true,
+    "emitDecoratorMetadata": true
   },
   "exclude": [
     "__tests__",
