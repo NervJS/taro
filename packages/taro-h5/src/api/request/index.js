@@ -93,8 +93,10 @@ function _request (options) {
       if (options.responseType === 'arraybuffer') {
         return response.arrayBuffer()
       }
-      if (options.dataType === 'json' || typeof options.dataType === 'undefined') {
-        return response.json()
+      if (res.statusCode !== 204) {
+        if (options.dataType === 'json' || typeof options.dataType === 'undefined') {
+          return response.json()
+        }
       }
       if (options.responseType === 'text') {
         return response.text()
