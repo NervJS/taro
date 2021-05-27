@@ -1,32 +1,23 @@
-
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "commonjs",
-    "removeComments": false,
-    "preserveConstEnums": false,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "noImplicitAny": false,
-    "allowSyntheticDefaultImports": true,
-    "outDir": "dist",
+    "target": "es2017",
+    "module": "ES2015",
     "rootDir": "./src",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "strictNullChecks": true,
-    "resolveJsonModule": true,
+    "outDir": "dist",
     "sourceMap": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "removeComments": false,
+    "strictNullChecks": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node"
   },
   "include": [
     "./src"
   ],
   "exclude": [
-    "__tests__",
-    "node_modules",
-    "dist",
-    "tests",
-    "jest",
     "**/*.test.ts",
     "**/*.spec.ts"
   ],
