@@ -29,6 +29,7 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/runtime": "3.3.0-alpha.4"
+    "@tarojs/runtime": "3.3.0-alpha.4",
+    "@babel/runtime": "^7.11.2"
   }
 }
