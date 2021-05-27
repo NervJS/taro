@@ -11,7 +11,7 @@ import { ConcatSource } from 'webpack-sources'
 import { urlToRequest } from 'loader-utils'
 import { minify } from 'html-minifier'
 import { AppConfig, Config } from '@tarojs/taro'
-import { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared'
+import { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import {
   resolveMainFilePath,
   readConfig,

@@ -1,7 +1,7 @@
+import typescript from 'rollup-plugin-typescript2'
+
 const { join } = require('path')
-const buble = require('rollup-plugin-buble')
-// const alias = require('rollup-plugin-alias')
-const typescript = require('rollup-plugin-typescript2')
+
 const cwd = __dirname
 
 const baseConfig = {
@@ -21,11 +21,6 @@ const baseConfig = {
           preserveConstEnums: true
         }
       }
-    }),
-    buble({
-      transforms: {
-        asyncAwait: false
-      }
     })
   ]
 }
@@ -40,15 +35,20 @@ const esmConfig = Object.assign({}, baseConfig, {
   ]
 })
 
-function rollup () {
-  const target = process.env.TARGET
-
-  if (target === 'umd') {
-    return baseConfig
-  } else if (target === 'esm') {
-    return esmConfig
-  } else {
-    return [baseConfig, esmConfig]
-  }
+// template 只在编译时使用
+const templateConfig = {
+  input: join(cwd, 'src/template.ts'),
+  output: [
+    {
+      file: join(cwd, 'dist/template.js'),
+      format: 'cjs',
+      sourcemap: true,
+      exports: 'named'
+    }
+  ],
+  plugins: [
+    typescript()
+  ]
 }
-module.exports = rollup()
+
+module.exports = [baseConfig, esmConfig, templateConfig]
