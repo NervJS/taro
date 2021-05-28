@@ -33,7 +33,7 @@
         "@tarojs/router-rn": "3.3.0-alpha.6"
     },
     "resolutions": {
-        "@types/react": "16.9.49"
+      "@types/react": "^17.0.0"
     },
     "devDependencies": {
         "@types/react-native": "0.63.51"
