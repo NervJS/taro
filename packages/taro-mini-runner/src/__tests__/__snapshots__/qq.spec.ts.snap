@@ -45,33 +45,6 @@ require(\\"./taro\\");
         function _toConsumableArray(arr) {
             return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
         }
-        function arrayLikeToArray_arrayLikeToArray(arr, len) {
-            if (len == null || len > arr.length) len = arr.length;
-            for (var i = 0, arr2 = new Array(len); i < len; i++) {
-                arr2[i] = arr[i];
-            }
-            return arr2;
-        }
-        function arrayWithoutHoles_arrayWithoutHoles(arr) {
-            if (Array.isArray(arr)) return arrayLikeToArray_arrayLikeToArray(arr);
-        }
-        function iterableToArray_iterableToArray(iter) {
-            if (typeof Symbol !== \\"undefined\\" && iter[Symbol.iterator] != null || iter[\\"@@iterator\\"] != null) return Array.from(iter);
-        }
-        function unsupportedIterableToArray_unsupportedIterableToArray(o, minLen) {
-            if (!o) return;
-            if (typeof o === \\"string\\") return arrayLikeToArray_arrayLikeToArray(o, minLen);
-            var n = Object.prototype.toString.call(o).slice(8, -1);
-            if (n === \\"Object\\" && o.constructor) n = o.constructor.name;
-            if (n === \\"Map\\" || n === \\"Set\\") return Array.from(o);
-            if (n === \\"Arguments\\" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray_arrayLikeToArray(o, minLen);
-        }
-        function nonIterableSpread_nonIterableSpread() {
-            throw new TypeError(\\"Invalid attempt to spread non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
-        }
-        function toConsumableArray_toConsumableArray(arr) {
-            return arrayWithoutHoles_arrayWithoutHoles(arr) || iterableToArray_iterableToArray(arr) || unsupportedIterableToArray_unsupportedIterableToArray(arr) || nonIterableSpread_nonIterableSpread();
-        }
         function _typeof(obj) {
             \\"@babel/helpers - typeof\\";
             if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
@@ -726,7 +699,7 @@ require(\\"./taro\\");
         function processApis(taro, global) {
             var config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
             var patchNeedPromiseApis = config.needPromiseApis || [];
-            var _needPromiseApis = new Set([].concat(toConsumableArray_toConsumableArray(patchNeedPromiseApis), toConsumableArray_toConsumableArray(needPromiseApis)));
+            var _needPromiseApis = new Set([].concat(_toConsumableArray(patchNeedPromiseApis), _toConsumableArray(needPromiseApis)));
             var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
             var apis = Object.keys(global).filter((function(api) {
                 return preserved.indexOf(api) === -1;
@@ -3072,33 +3045,6 @@ require(\\"./taro\\");
         function _toConsumableArray(arr) {
             return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
         }
-        function arrayLikeToArray_arrayLikeToArray(arr, len) {
-            if (len == null || len > arr.length) len = arr.length;
-            for (var i = 0, arr2 = new Array(len); i < len; i++) {
-                arr2[i] = arr[i];
-            }
-            return arr2;
-        }
-        function arrayWithoutHoles_arrayWithoutHoles(arr) {
-            if (Array.isArray(arr)) return arrayLikeToArray_arrayLikeToArray(arr);
-        }
-        function iterableToArray_iterableToArray(iter) {
-            if (typeof Symbol !== \\"undefined\\" && iter[Symbol.iterator] != null || iter[\\"@@iterator\\"] != null) return Array.from(iter);
-        }
-        function unsupportedIterableToArray_unsupportedIterableToArray(o, minLen) {
-            if (!o) return;
-            if (typeof o === \\"string\\") return arrayLikeToArray_arrayLikeToArray(o, minLen);
-            var n = Object.prototype.toString.call(o).slice(8, -1);
-            if (n === \\"Object\\" && o.constructor) n = o.constructor.name;
-            if (n === \\"Map\\" || n === \\"Set\\") return Array.from(o);
-            if (n === \\"Arguments\\" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray_arrayLikeToArray(o, minLen);
-        }
-        function nonIterableSpread_nonIterableSpread() {
-            throw new TypeError(\\"Invalid attempt to spread non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
-        }
-        function toConsumableArray_toConsumableArray(arr) {
-            return arrayWithoutHoles_arrayWithoutHoles(arr) || iterableToArray_iterableToArray(arr) || unsupportedIterableToArray_unsupportedIterableToArray(arr) || nonIterableSpread_nonIterableSpread();
-        }
         function _typeof(obj) {
             \\"@babel/helpers - typeof\\";
             if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
@@ -3753,7 +3699,7 @@ require(\\"./taro\\");
         function processApis(taro, global) {
             var config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
             var patchNeedPromiseApis = config.needPromiseApis || [];
-            var _needPromiseApis = new Set([].concat(toConsumableArray_toConsumableArray(patchNeedPromiseApis), toConsumableArray_toConsumableArray(needPromiseApis)));
+            var _needPromiseApis = new Set([].concat(_toConsumableArray(patchNeedPromiseApis), _toConsumableArray(needPromiseApis)));
             var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
             var apis = Object.keys(global).filter((function(api) {
                 return preserved.indexOf(api) === -1;

@@ -29,7 +29,7 @@ require(\\"./taro\\");
             if (Array.isArray(arr)) return _arrayLikeToArray(arr);
         }
         function _iterableToArray(iter) {
-            if (typeof Symbol !== \\"undefined\\" && iter[Symbol.iterator] != null || iter[\\"@@iterator\\"] != null) return Array.from(iter);
+            if (typeof Symbol !== \\"undefined\\" && Symbol.iterator in Object(iter)) return Array.from(iter);
         }
         function _unsupportedIterableToArray(o, minLen) {
             if (!o) return;
@@ -2429,7 +2429,7 @@ require(\\"./taro\\");
             if (Array.isArray(arr)) return _arrayLikeToArray(arr);
         }
         function _iterableToArray(iter) {
-            if (typeof Symbol !== \\"undefined\\" && iter[Symbol.iterator] != null || iter[\\"@@iterator\\"] != null) return Array.from(iter);
+            if (typeof Symbol !== \\"undefined\\" && Symbol.iterator in Object(iter)) return Array.from(iter);
         }
         function _unsupportedIterableToArray(o, minLen) {
             if (!o) return;
