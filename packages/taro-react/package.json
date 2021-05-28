@@ -26,8 +26,8 @@
   "dependencies": {
     "@tarojs/runtime": "3.3.0-alpha.5",
     "@tarojs/shared": "3.3.0-alpha.5",
-    "react-reconciler": "0.25.1",
-    "scheduler": "^0.17.0"
+    "react-reconciler": "0.26.1",
+    "scheduler": "^0.20.1"
   },
   "publishConfig": {
     "access": "public"
