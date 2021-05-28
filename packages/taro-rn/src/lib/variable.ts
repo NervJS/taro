@@ -1,6 +1,7 @@
 // import merge from 'lodash/merge'
 // import _cell from './Cell/variable'
 // import _dialog from './Dialog/variable'
+// color
 
 const _global = {
   // color
