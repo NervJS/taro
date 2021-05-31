@@ -30,11 +30,7 @@ module.exports = {
     ENABLE_SIZE_APIS: true,
     'ts-jest': {
       diagnostics: false,
-      tsConfig: {
-        jsx: 'react',
-        allowJs: true,
-        target: 'ES6'
-      }
+      tsConfig: 'tsconfig.test.json'
     }
   },
   testPathIgnorePatterns: [
