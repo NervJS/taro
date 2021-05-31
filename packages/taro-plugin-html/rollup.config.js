@@ -3,7 +3,7 @@ const typescript = require('rollup-plugin-typescript2')
 const cwd = __dirname
 
 const base = {
-  external: ['@tarojs/shared'],
+  external: ['@tarojs/shared', 'path', '@babel/parser', '@babel/traverse', '@babel/types', '@babel/generator'],
   plugins: [typescript()]
 }
 

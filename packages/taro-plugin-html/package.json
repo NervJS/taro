@@ -29,6 +29,10 @@
   },
   "homepage": "https://github.com/NervJS/taro#readme",
   "devDependencies": {
+    "@babel/generator": "^7.14.3",
+    "@babel/parser": "^7.14.4",
+    "@babel/traverse": "^7.14.2",
+    "@babel/types": "^7.14.4",
     "@tarojs/runtime": "3.3.0-alpha.6",
     "@tarojs/service": "3.3.0-alpha.6"
   },

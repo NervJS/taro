@@ -1,10 +1,15 @@
 
 import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
 import { isArray, isString } from '@tarojs/shared'
-import { isHtmlTags } from './utils'
+import * as path from 'path'
+import * as parser from '@babel/parser'
+import traverse from '@babel/traverse'
+import * as t from '@babel/types'
+import generator from '@babel/generator'
 
 interface IOptions {
-  pxtransformBlackList: any[]
+  pxtransformBlackList?: any[]
+  modifyElements?(inline: string[], block: string[]): void
 }
 
 interface IComponentConfig {
@@ -22,6 +27,12 @@ interface ModifyComponentConfigArgs {
 }
 
 export default (ctx: IPluginContext, options: IOptions) => {
+  const inlineElements = ['i', 'abbr', 'select', 'acronym', 'small', 'bdi', 'kbd', 'strong', 'big', 'map', 'sub', 'sup', 'br', 'mark', 'meter', 'template', 'cite', 'object', 'time', 'code', 'output', 'u', 'data', 'picture', 'tt', 'datalist', 'var', 'dfn', 'del', 'q', 'em', 's', 'embed', 'samp', 'b']
+  const blockElements = ['body', 'svg', 'address', 'fieldset', 'li', 'span', 'article', 'figcaption', 'main', 'aside', 'figure', 'nav', 'blockquote', 'footer', 'ol', 'details', 'p', 'dialog', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'pre', 'dd', 'header', 'section', 'div', 'hgroup', 'table', 'dl', 'hr', 'ul', 'dt', 'view', 'view-block']
+  const specialElements = ['slot', 'form', 'iframe', 'img', 'audio', 'video', 'canvas', 'a', 'input', 'label', 'textarea', 'progress', 'button']
+
+  patchMappingElements(ctx, options, inlineElements, blockElements)
+
   ctx.registerMethod({
     name: 'onSetupClose',
     fn (platform: TaroPlatformBase) {
@@ -31,7 +42,11 @@ export default (ctx: IPluginContext, options: IOptions) => {
   })
   // React 收集使用到的小程序组件
   ctx.onParseCreateElement(({ nodeName, componentConfig }: OnParseCreateElementArgs) => {
-    if (!isHtmlTags(nodeName)) return
+    if (!(
+      inlineElements.includes(nodeName) ||
+      blockElements.includes(nodeName) ||
+      specialElements.includes(nodeName)
+    )) return
 
     const simple = ['audio', 'button', 'canvas', 'form', 'label', 'progress', 'textarea', 'video']
     const special = {
@@ -97,4 +112,40 @@ function modifyPostcssConfigs (config: Record<string, any>, options: IOptions, i
       config.selectorBlackList = config.selectorBlackList.concat(options.pxtransformBlackList)
     }
   }
+}
+
+function patchMappingElements (ctx: IPluginContext, options: IOptions, inlineElements: string[], blockElements: string[]) {
+  if (typeof options.modifyElements !== 'function') return
+
+  const helper = ctx.helper
+  const filePath = path.resolve(__dirname, './runtime.js')
+  const content = helper.fs.readFileSync(filePath).toString()
+  const ast = parser.parse(content, { sourceType: 'unambiguous' })
+
+  options.modifyElements(inlineElements, blockElements)
+
+  traverse(ast, {
+    VariableDeclarator (path) {
+      const node = path.node
+      const varid = node.id
+      if (varid.type === 'Identifier') {
+        if (varid.name === 'inlineElements') {
+          node.init = getNewExpression(inlineElements)
+        }
+        if (varid.name === 'blockElements') {
+          node.init = getNewExpression(blockElements)
+        }
+      }
+    }
+  })
+
+  const str = generator(ast).code
+  helper.fs.writeFileSync(filePath, str)
+}
+
+function getNewExpression (elements: string[]) {
+  return t.newExpression(
+    t.identifier('Set'),
+    [t.arrayExpression(elements.map(el => t.stringLiteral(el)))]
+  )
 }
