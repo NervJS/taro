@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-taro",
-  "version": "3.0.10",
+  "version": "3.2.10",
   "description": "Taro specific linting rules for ESLint",
   "main": "index.js",
   "files": [
@@ -10,6 +10,7 @@
     "react.js",
     "nerv.js",
     "vue.js",
+    "vue3.js",
     "README.md"
   ],
   "repository": {
@@ -25,12 +26,9 @@
     "eslint": "*"
   },
   "dependencies": {
-    "@typescript-eslint/parser": "^2.x",
+    "@typescript-eslint/parser": "^4.15.1",
     "babel-eslint": "^10.0.0"
   },
   "author": "O2Team",
-  "license": "MIT",
-  "devDependencies": {
-    "typescript": "^3.7.5"
-  }
+  "license": "MIT"
 }

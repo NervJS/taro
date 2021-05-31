@@ -11,10 +11,11 @@ import baseDevServerOption from './config/devServer.conf'
 import prodConf from './config/prod.conf'
 import { addLeadingSlash, addTrailingSlash, formatOpenHost } from './util'
 import { bindDevLogger, bindProdLogger, printBuildError } from './util/logHelper'
-import { BuildConfig } from './util/types'
+import { BuildConfig, Func } from './util/types'
 import { makeConfig } from './util/chain'
+import type { Compiler } from 'webpack'
 
-export const customizeChain = async (chain, modifyWebpackChainFunc: Function, customizeFunc?: Function) => {
+export const customizeChain = async (chain, modifyWebpackChainFunc: Func, customizeFunc?: Func) => {
   if (modifyWebpackChainFunc instanceof Function) {
     await modifyWebpackChainFunc(chain, webpack)
   }
@@ -128,7 +129,7 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
 
   const webpackConfig = webpackChain.toConfig()
   WebpackDevServer.addDevServerEntrypoints(webpackConfig, devServerOptions)
-  const compiler = webpack(webpackConfig)
+  const compiler = webpack(webpackConfig) as Compiler
   bindDevLogger(devUrl, compiler)
   const server = new WebpackDevServer(compiler, devServerOptions)
   compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
@@ -155,7 +156,7 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
       })
     }
   })
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     server.listen(devServerOptions.port, (devServerOptions.host as string), err => {
       if (err) {
         reject(err)

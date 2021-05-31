@@ -7,6 +7,8 @@
 [![](https://img.shields.io/npm/dt/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
 [![](https://img.shields.io/travis/NervJS/taro.svg?style=flat-square)](https://travis-ci.org/NervJS/taro)
 
+[简体中文](./README.md) | [English](./README_EN.md)
+
 > 👽 Taro['tɑ:roʊ]，泰罗·奥特曼，宇宙警备队总教官，实力最强的奥特曼。
 
 ## 简介
@@ -57,7 +59,7 @@ import { View, Text } from '@tarojs/components'
 
 export default class Index extends Component {
   state = {
-    msg: 'Hello World！'
+    msg: 'Hello World！ '
   }
   componentWillUnmount () { }
 
@@ -92,7 +94,7 @@ export default class Index extends Component {
 export default {
   data () {
     return {
-      msg: 'Hello World！'
+      msg: 'Hello World!'
     }
   },
   created () {},
@@ -130,7 +132,7 @@ Taro 非常欢迎社区开发者为 Taro 贡献代码，在贡献之前请先阅
 
 ## 特别鸣谢
 
-[![nanjingboy](https://avatars1.githubusercontent.com/u/1390888?s=100&v=4)](https://github.com/nanjingboy/) | [![jsNewbee](https://avatars3.githubusercontent.com/u/20449400?s=100&v=4)](https://github.com/js-newbee/) | [![Qiyu8](https://avatars2.githubusercontent.com/u/15245051?s=100&v=4)](https://github.com/Qiyu8/) | [![Garfield550](https://avatars2.githubusercontent.com/u/3471836?s=100&v=4)](https://github.com/Qiyu8/)
+[![nanjingboy](https://avatars1.githubusercontent.com/u/1390888?s=100&v=4)](https://github.com/nanjingboy/) | [![jsNewbee](https://avatars3.githubusercontent.com/u/20449400?s=100&v=4)](https://github.com/js-newbee/) | [![Qiyu8](https://avatars2.githubusercontent.com/u/15245051?s=100&v=4)](https://github.com/Qiyu8/) | [![Garfield550](https://avatars2.githubusercontent.com/u/3471836?s=100&v=4)](https://github.com/Garfield550/)
 :---:|:---:|:---:|:---:
 [nanjingboy](https://github.com/nanjingboy/) | [jsNewbee](https://github.com/js-newbee/) |  [Qiyu8](https://github.com/Qiyu8/) |  [Garfield Lee](https://github.com/Garfield550/)
 

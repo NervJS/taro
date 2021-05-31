@@ -31,7 +31,8 @@ const schema = Joi.object().keys({
       Joi.object().keys({
         from: Joi.string().required(),
         to: Joi.string().required(),
-        ignore: Joi.string()
+        ignore: Joi.array().items(Joi.string()),
+        transform: Joi.func()
       })
     ),
 
@@ -40,7 +41,7 @@ const schema = Joi.object().keys({
     })
   }),
 
-  framework: Joi.any().valid('nerv', 'react', 'vue', 'vue3'),
+  framework: Joi.any().valid('nerv', 'react', 'vue', 'vue3').required(),
 
   mini: Joi.object().keys({
     baseLevel: Joi.number().integer().positive(),

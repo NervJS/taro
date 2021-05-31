@@ -1,0 +1,1 @@
+export { hideKeyboard } from '../keyboard'

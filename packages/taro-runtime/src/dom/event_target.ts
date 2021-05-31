@@ -1,4 +1,5 @@
 import { isArray, isObject, warn } from '@tarojs/shared'
+import { CurrentReconciler } from '../reconciler'
 
 interface EventListenerOptions {
   capture?: boolean;
@@ -17,7 +18,13 @@ export class TaroEventTarget {
   public __handlers: Record<string, EventHandler[]> = {}
 
   public addEventListener (type: string, handler: EventHandler, options?: boolean | AddEventListenerOptions) {
-    warn(type === 'regionchange', 'map 组件的 regionchange 事件非常特殊，请使用 begin/end 事件替代。详情：https://github.com/NervJS/taro/issues/5766')
+    CurrentReconciler.onAddEvent?.(type, handler, options)
+    if (type === 'regionchange') {
+      // map 组件的 regionchange 事件非常特殊，详情：https://github.com/NervJS/taro/issues/5766
+      this.addEventListener('begin', handler, options)
+      this.addEventListener('end', handler, options)
+      return
+    }
     type = type.toLowerCase()
     const handlers = this.__handlers[type]
     let isCapture = Boolean(options)
@@ -64,5 +71,13 @@ export class TaroEventTarget {
     warn(index === -1, `事件: '${type}' 没有注册在 DOM 中，因此不会被移除。`)
 
     handlers.splice(index, 1)
+  }
+
+  public isAnyEventBinded () {
+    const isAnyEventBinded = Object.keys(this.__handlers).find(key => {
+      const handler = this.__handlers[key]
+      return handler.length
+    })
+    return isAnyEventBinded
   }
 }

@@ -114,12 +114,19 @@ interface ButtonProps extends StandardProps {
   /** 打开 APP 时，向 APP 传递的参数
    *
    * 生效时机：`open-type="launchApp"`
-   * @supported weapp
+   * @supported weapp, qq
    */
   appParameter?: string
 
+  /** 微信小程序子商户能力中，添加 business-id 字段指向子商户
+   *
+   * 生效时机：`open-type="contact"`
+   * @supported weapp
+   */
+  businessId?: string
+
   /** 支付宝小程序 scope
-   * 
+   *
    * 生效时机：`open-type="getAuthorize"`
    * @supported weapp
    */
@@ -140,7 +147,7 @@ interface ButtonProps extends StandardProps {
   onGetUserInfo?: CommonEventFunction<ButtonProps.onGetUserInfoEventDetail>
 
   /** 支付宝获取会员基础信息授权回调
-   * 
+   *
    * 生效时机：`open-type="getAuthorize"`
    * @supported alipay
    */
@@ -182,7 +189,7 @@ interface ButtonProps extends StandardProps {
   onOpenSetting?: CommonEventFunction<ButtonProps.onOpenSettingEventDetail>
 
   /** 打开 APP 成功的回调
-   * 
+   *
    * 生效时机：`open-type="launchApp"`
    * @supported weapp
    */
@@ -343,7 +350,7 @@ declare namespace ButtonProps {
     /** 小程序消息指定的查询参数 */
     query: Record<string, any>
   }
-  
+
   interface onGetPhoneNumberEventDetail {
     /* 获取用户手机号的调用状态 */
     errMsg: string
@@ -352,7 +359,7 @@ declare namespace ButtonProps {
     /** 加密算法的初始向量 */
     iv: string
   }
-  
+
   interface onOpenSettingEventDetail {
     /* 打开授权设置页的调用状态 */
     errMsg: string

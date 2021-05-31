@@ -27,14 +27,14 @@ class App extends Component {
 }
 <%}-%>
 <% if (framework === 'vue') { -%>
-const App = new Vue({
+const App = {
   onShow (options) {
   },
   render(h) {
     // this.$slots.default 是将要会渲染的页面
     return h('block', this.$slots.default)
   }
-})
+}
 <%}-%>
 <% if (framework === 'vue3') { -%>
 const App = createApp({

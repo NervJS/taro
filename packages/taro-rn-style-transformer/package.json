@@ -1,0 +1,38 @@
+{
+  "name": "@tarojs/rn-style-transformer",
+  "version": "3.2.10",
+  "description": "提供Taro RN 统一处理样式文件能力",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest",
+    "test:ci": "jest --silent --coverage false",
+    "build": "tsc",
+    "dev": "tsc -w",
+    "lint": "eslint ."
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=12.0.0",
+    "npm": ">=6.0.0"
+  },
+  "dependencies": {
+    "@tarojs/helper": "3.2.10",
+    "fbjs": "^2.0.0",
+    "less": "^3.12.2",
+    "node-sass": "^4.14.1",
+    "postcss": "^7.0.35",
+    "postcss-import": "^12.0.1",
+    "postcss-pxtransform": "3.2.10",
+    "postcss-reporter": "^6.0.1",
+    "prop-types": "^15.7.2",
+    "stylelint": "^13.8.0",
+    "stylelint-config-taro-rn": "3.2.10",
+    "stylelint-taro-rn": "3.2.10",
+    "stylus": "^0.54.8",
+    "taro-css-to-react-native": "3.2.10"
+  },
+  "devDependencies": {
+    "@types/less": "^3.0.2",
+    "@types/postcss-import": "^12.0.0"
+  }
+}

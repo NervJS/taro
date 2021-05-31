@@ -45,6 +45,7 @@ const VirtualList = React.forwardRef((props, ref) => {
   const {
     direction = 'ltr',
     innerElementType = View,
+    itemElementType = View,
     initialScrollOffset = 0,
     overscanCount = 1,
     ...rest
@@ -53,6 +54,7 @@ const VirtualList = React.forwardRef((props, ref) => {
   return React.createElement(FixedSizeList, {
     ref,
     ...rest,
+    itemElementType,
     innerElementType,
     outerElementType: OuterScrollView,
     direction,

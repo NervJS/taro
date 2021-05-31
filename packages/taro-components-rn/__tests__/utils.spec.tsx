@@ -1,4 +1,3 @@
-import { StyleSheet } from 'react-native'
 import utils from '../src/utils'
 
 describe('Utils', () => {
@@ -18,9 +17,8 @@ describe('Utils', () => {
       const result = utils.dismemberStyle({
         alignSelf: 'center',
         flex: 1,
-        // @ts-ignore
         unknownProperty: 'unknownProperty'
-      })
+      } as any)
       // @todo so much properties!!!
       expect(result).toHaveProperty('wrapperStyle.alignSelf')
       expect(result).toHaveProperty('innerStyle.flex')

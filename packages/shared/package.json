@@ -1,12 +1,12 @@
 {
   "name": "@tarojs/shared",
-  "version": "3.0.10",
+  "version": "3.2.10",
   "description": "> TODO: description",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/shared#readme",
   "license": "MIT",
   "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "module": "dist/shared.esm.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"

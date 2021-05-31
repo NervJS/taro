@@ -1,0 +1,1 @@
+export { getSetting } from '../permission'

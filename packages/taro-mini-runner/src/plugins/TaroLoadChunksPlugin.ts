@@ -21,7 +21,8 @@ interface IOptions {
   framework: string,
   addChunkPages?: AddPageChunks,
   pages: Set<IComponent>,
-  isBuildQuickapp: boolean
+  isBuildQuickapp: boolean,
+  needAddCommon?: string[]
 }
 
 interface NormalModule {
@@ -36,6 +37,8 @@ export default class TaroLoadChunksPlugin {
   addChunkPages?: AddPageChunks
   pages: Set<IComponent>
   isBuildQuickapp: boolean
+  isCompDepsFound: boolean
+  needAddCommon: string[]
 
   constructor (options: IOptions) {
     this.commonChunks = options.commonChunks
@@ -44,6 +47,7 @@ export default class TaroLoadChunksPlugin {
     this.addChunkPages = options.addChunkPages
     this.pages = options.pages
     this.isBuildQuickapp = options.isBuildQuickapp
+    this.needAddCommon = options.needAddCommon || []
   }
 
   apply (compiler: webpack.Compiler) {
@@ -58,18 +62,19 @@ export default class TaroLoadChunksPlugin {
          * 收集 common chunks 中使用到 @tarojs/components 中的组件
          */
         commonChunks = chunks.filter(chunk => this.commonChunks.includes(chunk.name)).reverse()
+
+        this.isCompDepsFound = false
         for (const chunk of commonChunks) {
-          Array.from((chunk.modulesIterable as Set<NormalModule>)).some(m => {
-            if (m.rawRequest === taroJsComponents) {
-              const includes = componentConfig.includes
-              if (Array.isArray(m.usedExports)) {
-                m.usedExports.map(toDashed).map(includes.add.bind(includes))
-              } else {
-                componentConfig.includeAll = true
-              }
-              return true
-            }
-          })
+          this.collectComponents(chunk)
+        }
+        if (!this.isCompDepsFound) {
+          // common chunks 找不到再去别的 chunk 中找
+          chunks
+            .filter(chunk => !this.commonChunks.includes(chunk.name))
+            .some(chunk => {
+              this.collectComponents(chunk)
+              return this.isCompDepsFound
+            })
         }
 
         /**
@@ -89,6 +94,18 @@ export default class TaroLoadChunksPlugin {
         }
       })
 
+      compilation.chunkTemplate.hooks.renderWithEntry.tap(PLUGIN_NAME, (modules: ConcatSource, chunk) => {
+        if (chunk.entryModule) {
+          const entryModule: TaroNormalModule = chunk.entryModule.rootModule ? chunk.entryModule.rootModule : chunk.entryModule
+          if (entryModule.miniType === META_TYPE.EXPORTS) {
+            const source = new ConcatSource()
+            source.add('module.exports=')
+            source.add(modules)
+            return source
+          }
+        }
+      })
+
       /**
        * 在每个 chunk 文本刚生成后，按判断条件在文本头部插入 require 语句
        */
@@ -100,6 +117,13 @@ export default class TaroLoadChunksPlugin {
 
           const entryModule: TaroNormalModule = chunk.entryModule.rootModule ? chunk.entryModule.rootModule : chunk.entryModule
           const { miniType } = entryModule
+          if (this.needAddCommon.length) {
+            for (const item of this.needAddCommon) {
+              if (getIdOrName(chunk) === item) {
+                return addRequireToSource(item, modules, commonChunks)
+              }
+            }
+          }
 
           if (miniType === META_TYPE.ENTRY) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
@@ -128,12 +152,27 @@ export default class TaroLoadChunksPlugin {
       })
     })
   }
+
+  collectComponents (chunk) {
+    Array.from((chunk.modulesIterable as Set<NormalModule>)).some(m => {
+      if (m.rawRequest === taroJsComponents) {
+        this.isCompDepsFound = true
+        const includes = componentConfig.includes
+        if (Array.isArray(m.usedExports)) {
+          m.usedExports.map(toDashed).map(includes.add.bind(includes))
+        } else {
+          componentConfig.includeAll = true
+        }
+        return true
+      }
+    })
+  }
 }
 
 /**
  * @returns chunk.id || chunk.name
  */
-function getIdOrName (chunk: webpack.compilation.Chunk) {
+export function getIdOrName (chunk: webpack.compilation.Chunk) {
   if (typeof chunk.id === 'string') {
     return chunk.id
   }
@@ -143,7 +182,7 @@ function getIdOrName (chunk: webpack.compilation.Chunk) {
 /**
  * 在文本头部加入一些 require 语句
  */
-function addRequireToSource (id: string, modules: ConcatSource, commonChunks: (webpack.compilation.Chunk | { name: string })[]) {
+export function addRequireToSource (id: string, modules: ConcatSource, commonChunks: (webpack.compilation.Chunk | { name: string })[]) {
   const source = new ConcatSource()
   commonChunks.forEach(chunkItem => {
     source.add(`require(${JSON.stringify(promoteRelativePath(path.relative(id, chunkItem.name)))});\n`)

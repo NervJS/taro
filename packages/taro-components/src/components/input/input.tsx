@@ -1,8 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Element } from '@stencil/core'
 import { EventHandler, TaroEvent } from '../../../types'
 
-function getTrueType (type: string, confirmType: string, password: boolean) {
+function getTrueType (type: string | undefined, confirmType: string, password: boolean) {
+  if (typeof type === 'undefined') {
+    return 'text';
+  }
   if (!type) {
     throw new Error('unexpected type')
   }
@@ -28,7 +30,7 @@ export class Input implements ComponentInterface {
   private fileListener: EventHandler
 
   @Prop() value: string
-  @Prop() type = 'text'
+  @Prop() type = undefined
   @Prop() password = false
   @Prop() placeholder: string
   @Prop() disabled = false
@@ -81,13 +83,13 @@ export class Input implements ComponentInterface {
     })
   }
 
-  componentDidUnload () {
+  disconnectedCallback () {
     if (this.type === 'file') {
       this.inputRef.removeEventListener('change', this.fileListener)
     }
   }
 
-  hanldeInput = (e: TaroEvent<HTMLInputElement>) => {
+  handleInput = (e: TaroEvent<HTMLInputElement>) => {
     e.stopPropagation()
     const {
       type,
@@ -191,7 +193,7 @@ export class Input implements ComponentInterface {
         maxlength={maxlength}
         autofocus={autoFocus}
         name={name}
-        onInput={this.hanldeInput}
+        onInput={this.handleInput}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         onChange={this.handleChange}

@@ -9,11 +9,11 @@ import {
 import styles from './styles'
 import { PanelProps } from './PropsType'
 
-const TabbarPanel: React.SFC<PanelProps> = ({
+const TabbarPanel: React.FC<PanelProps> = ({
   children,
   style,
   ...reset
-}) => {
+}: PanelProps) => {
   return (
     <View {...reset} style={[styles.panel, style]}>
       {children}

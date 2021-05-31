@@ -4,6 +4,8 @@ import { toCamelCase, internalComponents, capitalize } from '@tarojs/shared'
 import { componentConfig } from '../template/component'
 import type { RootNode, TemplateChildNode, ElementNode, AttributeNode, DirectiveNode, SimpleExpressionNode } from '@vue/compiler-core'
 
+const CUSTOM_WRAPPER = 'custom-wrapper'
+
 export function customVue3Chain (chain) {
   let vueLoaderPath: string
   try {
@@ -54,7 +56,17 @@ export function customVue3Chain (chain) {
             const nodeName = node.tag
 
             if (capitalize(toCamelCase(nodeName)) in internalComponents) {
+              // change only ElementTypes.COMPONENT to ElementTypes.ELEMENT
+              // and leave ElementTypes.SLOT untouched
+              if (node.tagType === 1 /* COMPONENT */) {
+                node.tagType = 0 /* ELEMENT */
+              }
               componentConfig.includes.add(nodeName)
+            }
+
+            if (nodeName === CUSTOM_WRAPPER) {
+              node.tagType = 0 /* ELEMENT */
+              componentConfig.thirdPartyComponents.set(CUSTOM_WRAPPER, new Set())
             }
 
             const usingComponent = componentConfig.thirdPartyComponents.get(nodeName)
@@ -65,7 +77,11 @@ export function customVue3Chain (chain) {
                 } else if ((prop as any).type === 7 /* DIRECTIVE */) {
                   prop = prop as DirectiveNode
                   if (prop.arg?.type === 4 /* SimpleExpression */) {
-                    usingComponent.add((prop.arg as SimpleExpressionNode).content)
+                    let value = (prop.arg as SimpleExpressionNode).content
+                    if (prop.name === 'on') {
+                      value = `on${value}`
+                    }
+                    usingComponent.add(value)
                   }
                 }
               })

@@ -1,6 +1,5 @@
-import { TaroElement, Style, document, FormElement } from '@tarojs/runtime'
+import { TaroElement, Style, FormElement } from '@tarojs/runtime'
 import { isFunction, isString, isObject, isNumber, internalComponents, capitalize, toCamelCase } from '@tarojs/shared'
-import { CommonEvent } from '@tarojs/components'
 
 export type Props = Record<string, unknown>
 
@@ -26,11 +25,11 @@ export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props)
   }
 }
 
-function eventProxy (e: CommonEvent) {
-  const el = document.getElementById(e.currentTarget.id)
-  const handlers = el!.__handlers[e.type]
-  handlers[0](e)
-}
+// function eventProxy (e: CommonEvent) {
+//   const el = document.getElementById(e.currentTarget.id)
+//   const handlers = el!.__handlers[e.type]
+//   handlers[0](e)
+// }
 
 function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: unknown) {
   const isCapture = name.endsWith('Capture')
@@ -47,11 +46,16 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
 
   if (isFunction(value)) {
     if (!oldValue) {
-      dom.addEventListener(eventName, eventProxy, isCapture)
+      dom.addEventListener(eventName, value, isCapture)
     }
-    dom.__handlers[eventName][0] = value
+    if (eventName === 'regionchange') {
+      dom.__handlers.begin[0] = value
+      dom.__handlers.end[0] = value
+    } else {
+      dom.__handlers[eventName][0] = value
+    }
   } else {
-    dom.removeEventListener(eventName, eventProxy)
+    dom.removeEventListener(eventName, oldValue as any)
   }
 }
 

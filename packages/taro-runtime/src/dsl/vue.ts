@@ -50,7 +50,7 @@ export function connectVuePage (Vue: VueConstructor, id: string) {
 }
 
 function setReconciler () {
-  const hostConfig: Reconciler<VueInstance> = {
+  const hostConfig: Partial<Reconciler<VueInstance>> = {
     getLifecyle (instance, lifecycle) {
       return instance.$options[lifecycle]
     },
@@ -102,7 +102,7 @@ function setReconciler () {
 
 let Vue
 
-export function createVueApp (App: VueInstance, vue: V, config: AppConfig) {
+export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: AppConfig) {
   Vue = vue
   ensure(!!Vue, '构建 Vue 项目请把 process.env.FRAMEWORK 设置为 \'vue\'')
 
@@ -120,7 +120,7 @@ export function createVueApp (App: VueInstance, vue: V, config: AppConfig) {
         const page = pages.pop()!
         elements.push(page(h))
       }
-      return h(App.$options, { ref: 'app' }, elements.slice())
+      return h(App, { ref: 'app' }, elements.slice())
     },
     methods: {
       mount (component: ComponentOptions<VueCtor>, id: string, cb: () => void) {
@@ -145,7 +145,7 @@ export function createVueApp (App: VueInstance, vue: V, config: AppConfig) {
       }
     }
   })
-
+  wrapper.$mount(document.getElementById('app') as any)
   const app: AppInstance = Object.create({
     mount (component: ComponentOptions<VueCtor>, id: string, cb: () => void) {
       const page = connectVuePage(Vue, id)(component)
@@ -167,12 +167,11 @@ export function createVueApp (App: VueInstance, vue: V, config: AppConfig) {
       writable: true,
       enumerable: true,
       value (options) {
-        wrapper.$mount(document.getElementById('app') as any)
-        appInstance = wrapper.$refs.app as VueAppInstance
         Current.router = {
           params: options?.query,
           ...options
         }
+        appInstance = wrapper.$refs.app as VueAppInstance
         if (appInstance != null && isFunction(appInstance.$options.onLaunch)) {
           appInstance.$options.onLaunch.call(appInstance, options)
         }

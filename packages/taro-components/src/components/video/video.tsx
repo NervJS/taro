@@ -1,11 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Host, Watch, Listen, Element } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Host, Watch, Listen, Element, Method } from '@stencil/core'
 import classNames from 'classnames'
 import {
   formatTime,
   calcDist,
   normalizeNumber,
-  throttle
+  throttle,
+  screenFn
 } from './utils'
 
 @Component({
@@ -29,7 +30,6 @@ export class Video implements ComponentInterface {
   private lastPercentage
   private nextPercentage
   private gestureType = 'none'
-  private wrapperElement: HTMLElement
 
   @Element() el: HTMLTaroVideoCoreElement
 
@@ -78,6 +78,9 @@ export class Video implements ComponentInterface {
    */
   @Prop() objectFit: 'contain' | 'fill' | 'cover' = 'contain'
 
+  /**
+   * 若不设置，宽度大于 240 时才会显示
+   */
   @Prop() showProgress = true
 
   /**
@@ -140,6 +143,7 @@ export class Video implements ComponentInterface {
   @State() isPlaying = false
   @State() isFirst = true
   @State() isFullScreen = false
+  @State() fullScreenTimestamp = new Date().getTime()
   @State() isMute = false
 
   @Event({
@@ -184,30 +188,18 @@ export class Video implements ComponentInterface {
     }
     // 目前只支持 danmuList 初始化弹幕列表，还未支持更新弹幕列表
     this.danmuRef.sendDanmu(this.danmuList)
+
+    if (document.addEventListener) {
+      document.addEventListener(screenFn.fullscreenchange, this.handleFullScreenChange)
+    }
   }
 
   componentDidRender () {
-    const parentElement = this.el.parentElement as HTMLElement
-    const parentTagName = parentElement.tagName
-    if (this.isFullScreen) {
-      if (parentTagName !== 'BODY') {
-        parentElement.removeChild(this.el)
-        document.body.appendChild(this.el)
-      }
-    } else {
-      if (parentTagName !== 'DIV' || !parentElement.className.includes('taro-video')) {
-        if (!this.wrapperElement) {
-          const container = document.createElement('div')
-          container.className = 'taro-video'
-          parentElement.removeChild(this.el)
-          container.appendChild(this.el)
-          parentElement.appendChild(container)
-          this.wrapperElement = container
-        } else {
-          parentElement.removeChild(this.el)
-          this.wrapperElement.appendChild(this.el)
-        }
-      }
+  }
+
+  disconnectedCallback () {
+    if (document.removeEventListener) {
+      document.removeEventListener(screenFn.fullscreenchange, this.handleFullScreenChange)
     }
   }
 
@@ -380,21 +372,47 @@ export class Video implements ComponentInterface {
     })
   }
 
-  play = () => {
-    this.videoRef.play()
+  /** 播放视频 */
+  @Method() async play () {
+    this._play()
   }
 
-  pause = () => {
+  _play = () => this.videoRef.play()
+
+  /** 暂停视频 */
+  @Method() async pause () {
+    this._pause()
+  }
+
+  _pause = () => this.videoRef.pause()
+
+  /** 停止视频 */
+  @Method() async stop () {
+    this._stop()
+  }
+
+  _stop = () => {
     this.videoRef.pause()
+    this._seek(0)
   }
 
-  stop = () => {
-    this.videoRef.pause()
-    this.seek(0)
+  /** 跳转到指定位置 */
+  @Method() async seek (position: number) {
+    this._seek(position)
   }
 
-  seek = (position: number) => {
+  _seek = (position: number) => {
     this.videoRef.currentTime = position
+  }
+
+  /** 进入全屏。若有自定义内容需在全屏时展示，需将内容节点放置到 video 节点内。 */
+  @Method() async requestFullScreen () {
+    this.toggleFullScreen(true)
+  }
+
+  /** 退出全屏 */
+  @Method() async exitFullScreen () {
+    this.toggleFullScreen(false)
   }
 
   onTouchStartContainer = (e: TouchEvent) => {
@@ -419,14 +437,27 @@ export class Video implements ComponentInterface {
     this.toggleFullScreen()
   }
 
-  toggleFullScreen = (nextFullScreenState?) => {
-    const isFullScreen = nextFullScreenState === undefined ? !this.isFullScreen : nextFullScreenState
+  handleFullScreenChange = e => {
+    // 全屏后，"退出"走的是浏览器事件，在此同步状态
+    const timestamp = new Date().getTime()
+    if (!e.detail && this.isFullScreen && !document[screenFn.fullscreenElement] && timestamp - this.fullScreenTimestamp > 100) {
+      this.toggleFullScreen(false)
+    }
+  }
+
+  toggleFullScreen = (isFullScreen = !this.isFullScreen) => {
     this.isFullScreen = isFullScreen
     this.controlsRef.toggleVisibility(true)
+    this.fullScreenTimestamp = new Date().getTime()
     this.onFullScreenChange.emit({
-      fullScreen: isFullScreen,
+      fullScreen: this.isFullScreen,
       direction: 'vertical'
     })
+    if (this.isFullScreen && !document[screenFn.fullscreenElement]) {
+      setTimeout(() => {
+        this.videoRef[screenFn.requestFullscreen]({ navigationUI: 'show' })
+      }, 0)
+    }
   }
 
   toggleMute = (e: MouseEvent) => {
@@ -478,7 +509,11 @@ export class Video implements ComponentInterface {
           style={{
             'object-fit': objectFit
           }}
-          ref={dom => (this.videoRef = dom as HTMLVideoElement)}
+          ref={dom => {
+            if (dom) {
+              this.videoRef = dom as HTMLVideoElement
+            }
+          }}
           src={src}
           autoplay={autoplay}
           loop={loop}
@@ -498,6 +533,22 @@ export class Video implements ComponentInterface {
           暂时不支持播放该视频
         </video>
 
+        <taro-video-danmu
+          ref={dom => {
+            if (dom) {
+              this.danmuRef = dom as HTMLTaroVideoDanmuElement
+            }
+          }}
+          enable={_enableDanmu}
+        />
+
+        {isFirst && showCenterPlayBtn && !isPlaying && (
+          <div class='taro-video-cover'>
+            <div class='taro-video-cover-play-button' onClick={() => this.play()} />
+            <p class='taro-video-cover-duration'>{durationTime}</p>
+          </div>
+        )}
+
         <taro-video-control
           ref={dom => {
             if (dom) {
@@ -508,9 +559,9 @@ export class Video implements ComponentInterface {
           currentTime={this.currentTime}
           duration={this.duration || this._duration || undefined}
           isPlaying={this.isPlaying}
-          pauseFunc={this.pause}
-          playFunc={this.play}
-          seekFunc={this.seek}
+          pauseFunc={this._pause}
+          playFunc={this._play}
+          seekFunc={this._seek}
           showPlayBtn={this.showPlayBtn}
           showProgress={this.showProgress}
         >
@@ -540,22 +591,6 @@ export class Video implements ComponentInterface {
             />
           )}
         </taro-video-control>
-
-        <taro-video-danmu
-          ref={dom => {
-            if (dom) {
-              this.danmuRef = dom as HTMLTaroVideoDanmuElement
-            }
-          }}
-          enable={_enableDanmu}
-        />
-
-        {isFirst && showCenterPlayBtn && !isPlaying && (
-          <div class='taro-video-cover'>
-            <div class='taro-video-cover-play-button' onClick={this.play} />
-            <p class='taro-video-cover-duration'>{durationTime}</p>
-          </div>
-        )}
 
         <div class='taro-video-toast taro-video-toast-volume' ref={dom => {
           if (dom) {

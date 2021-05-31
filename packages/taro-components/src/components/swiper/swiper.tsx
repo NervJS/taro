@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Watch, Host } from '@stencil/core'
-import Swipers from 'swiper'
+import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Watch, Host, Element, State } from '@stencil/core'
+import SwiperJS from 'swiper'
 import classNames from 'classnames'
 
 let INSTANCE_ID = 0
@@ -8,14 +8,16 @@ let INSTANCE_ID = 0
 @Component({
   tag: 'taro-swiper-core',
   styleUrls: [
-    '../../../node_modules/swiper/dist/css/swiper.min.css',
     './style/index.scss'
   ]
 })
 export class Swiper implements ComponentInterface {
   private _id = INSTANCE_ID++
-  private swiper
 
+  @Element() el: HTMLElement
+  @State() swiperWrapper: HTMLElement | null
+  @State() private swiper: SwiperJS
+  @State() isWillLoadCalled = false
   /**
    * 是否显示面板指示点
    */
@@ -77,7 +79,7 @@ export class Swiper implements ComponentInterface {
   @Prop() displayMultipleItems = 1
 
   /**
-   * 给 prewviewImage API 使用，全屏显示 swiper
+   * 给 previewImage API 使用，全屏显示 swiper
    */
   @Prop() full = false
 
@@ -91,11 +93,15 @@ export class Swiper implements ComponentInterface {
 
   @Watch('current')
   watchCurrent (newVal) {
+    if (!this.isWillLoadCalled) return
+
     const n = parseInt(newVal, 10)
     if (isNaN(n)) return
 
     if (this.circular) {
-      this.swiper.slideToLoop(n) // 更新下标
+      if (!this.swiper.isBeginning && !this.swiper.isEnd) {
+        this.swiper.slideToLoop(n) // 更新下标
+      }
     } else {
       this.swiper.slideTo(n) // 更新下标
     }
@@ -103,6 +109,8 @@ export class Swiper implements ComponentInterface {
 
   @Watch('autoplay')
   watchAutoplay (newVal) {
+    if (!this.isWillLoadCalled) return
+
     if (this.swiper.autoplay.running === newVal) return
 
     if (newVal) {
@@ -118,12 +126,37 @@ export class Swiper implements ComponentInterface {
 
   @Watch('duration')
   watchDuration (newVal) {
+    if (!this.isWillLoadCalled) return
     this.swiper.params.speed = newVal
   }
 
   @Watch('interval')
   watchInterval (newVal) {
+    if (!this.isWillLoadCalled) return
+
     this.swiper.params.autoplay.delay = newVal
+  }
+
+  @Watch('swiperWrapper')
+  watchSwiperWrapper (newVal?: HTMLElement) {
+    if (!this.isWillLoadCalled) return
+    if (!newVal) return
+    this.el.appendChild = <T extends Node>(newChild: T): T => {
+      return newVal.appendChild(newChild)
+    }
+    this.el.insertBefore = <T extends Node>(newChild: T, refChild: Node | null): T => {
+      return newVal.insertBefore(newChild, refChild)
+    }
+    this.el.replaceChild = <T extends Node>(newChild: Node, oldChild: T): T => {
+      return newVal.replaceChild(newChild, oldChild)
+    }
+    this.el.removeChild = <T extends Node>(oldChild: T): T => {
+      return newVal.removeChild(oldChild)
+    }
+  }
+
+  componentWillLoad () {
+    this.isWillLoadCalled = true
   }
 
   componentDidLoad () {
@@ -150,6 +183,9 @@ export class Swiper implements ComponentInterface {
       observer: true,
       observeParents: true,
       on: {
+        slideTo () {
+          that.current = this.realIndex
+        },
         // slideChange 事件在 swiper.slideTo 改写 current 时不触发，因此用 slideChangeTransitionEnd 事件代替
         slideChangeTransitionEnd () {
           that.onChange.emit({
@@ -168,6 +204,11 @@ export class Swiper implements ComponentInterface {
             if (that.autoplay && e.target.contains(this.$el[0])) {
               this.slideTo(that.current)
             }
+          } else if (e.target && e.target.className === 'swiper-wrapper') {
+            if (e.addedNodes.length > 0 || e.removedNodes.length > 0) {
+              this.loopDestroy()
+              this.loopCreate()
+            }
           }
         }
       }
@@ -181,7 +222,8 @@ export class Swiper implements ComponentInterface {
       }
     }
 
-    this.swiper = new Swipers(`.taro-swiper-${this._id} > .swiper-container`, options)
+    this.swiper = new SwiperJS(`.taro-swiper-${this._id} > .swiper-container`, options)
+    this.swiperWrapper = this.el.querySelector(`.taro-swiper-${this._id} > .swiper-container > .swiper-wrapper`)
   }
 
   componentWillUpdate () {

@@ -1,7 +1,11 @@
 const path = require('path')
 const apis = require('@tarojs/taro-h5/dist/taroApis')
+const presetForReactNative = require('./rn')
 
 module.exports = (_, options = {}) => {
+  if (process.env.TARO_ENV === 'rn') {
+    return presetForReactNative(_, options)
+  }
   const presets = []
   const plugins = []
   const isReact = options.framework === 'react'
@@ -10,11 +14,20 @@ module.exports = (_, options = {}) => {
   const isVue3 = options.framework === 'vue3'
   const moduleName = options.framework.charAt(0).toUpperCase() + options.framework.slice(1)
 
-  if (isNerv || isReact) {
+  if (isNerv) {
     presets.push([require('@babel/preset-react'), {
       pragma: `${moduleName}.createElement`,
       pragmaFrag: `${moduleName}.Fragment`
     }])
+  }
+
+  if (isReact) {
+    presets.push([require('@babel/preset-react'), {
+      runtime: options.reactJsxRuntime || 'automatic'
+    }])
+    if (process.env.TARO_ENV === 'h5' && process.env.NODE_ENV !== 'production' && options.hot !== false) {
+      plugins.push([require('react-refresh/babel')])
+    }
   }
 
   if (options.ts) {

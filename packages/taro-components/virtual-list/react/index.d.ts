@@ -1,6 +1,6 @@
-import { Component, ComponentType, CSSProperties } from 'react'
-import { StandardProps, BaseEventOrigFunction } from '../types/common'
-import { ScrollViewProps } from '../types/ScrollView'
+import { Component, ComponentType, CSSProperties, ReactNode } from 'react'
+import { StandardProps, BaseEventOrigFunction } from '../../types/common'
+import { ScrollViewProps } from '../../types/ScrollView'
 
 interface VirtualListProps extends StandardProps {
   /** 列表的高度。 */
@@ -13,10 +13,18 @@ interface VirtualListProps extends StandardProps {
   itemData: any[]
   /** 列表单项的大小，垂直滚动时为高度，水平滚动时为宽度。 */
   itemSize: number
+  /** 解开高度列表单项大小限制，默认值使用: itemSize (请注意，初始高度与实际高度差异过大会导致隐患)。 */
+  unlimitedSize?: boolean
+  /** 布局方式，默认采用 "absolute" */
+  position?: 'absolute' | 'relative'
   /** 初始滚动偏移值，水平滚动影响 scrollLeft，垂直滚动影响 scrollTop。 */
   initialScrollOffset?: number
   /** 列表内部容器组件类型，默认值为 View。 */
   innerElementType?: ComponentType
+  /** 顶部区域 */
+  renderTop?: ReactNode
+  /** 底部区域 */
+  renderBottom?: ReactNode
   /** 滚动方向。vertical 为垂直滚动，horizontal 为平行滚动。默认为 vertical。 */
   layout?: 'vertical' | 'horizontal'
   /** 列表滚动时调用函数 */
@@ -28,6 +36,8 @@ interface VirtualListProps extends StandardProps {
   /** 是否注入 isScrolling 属性到 children 组件。这个参数一般用于实现滚动骨架屏（或其它 placeholder） 时比较有用。 */
   useIsScrolling?: boolean
   children?: ComponentType<{
+    /** 组件 ID */
+    id: string
     /** 单项的样式，样式必须传入组件的 style 中 */
     style?: CSSProperties
     /** 组件渲染的数据 */
@@ -54,6 +64,15 @@ interface VirtualListEvent<T> {
   scrollOffset: number
   /** 当滚动是由 scrollTo() 或 scrollToItem() 调用时返回 true，否则返回 false */
   scrollUpdateWasRequested: boolean
+  /** 当前只有 React 支持 */
+  detail?: {
+    scrollLeft: number
+    scrollTop: number
+    scrollHeight: number
+    scrollWidth: number
+    clientWidth: number
+    clientHeight: number
+  }
 }
 
 /**
@@ -67,9 +86,9 @@ interface VirtualListEvent<T> {
  *   return Array(100).fill(0).map((_, i) => i + offset);
  * }
  *
- * const Row = React.memo(({ index, style, data }) => {
+ * const Row = React.memo(({ id, index, style, data }) => {
  *   return (
- *     <View className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} style={style}>
+ *     <View id={id} className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} style={style}>
  *       Row {index}
  *     </View>
  *   );

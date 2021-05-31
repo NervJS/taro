@@ -3,6 +3,8 @@ import classNames from 'classnames'
 import resolvePathname from 'resolve-pathname'
 import { splitUrl } from '../../utils'
 import { TabbarItem } from './tabbar-item'
+
+// IGNORE: 由于 @tarojs/taro 与 @tarojs/components 中存在循环依赖，暂时使用 commonjs 引用
 const Taro = require('@tarojs/taro')
 
 // const removeLeadingSlash = str => str.replace(/^\.?\//, '')
@@ -43,6 +45,7 @@ export interface Conf {
   customRoutes: Record<string, string>
   mode: 'hash' | 'browser'
   basename: string
+  homePage: string
   currentPagename: string
 }
 
@@ -91,7 +94,7 @@ export class Tabbar implements ComponentInterface {
       throw new Error('tabBar 配置错误')
     }
 
-    this.homePage = addLeadingSlash(this.homePage)
+    this.homePage = addLeadingSlash(this.conf.homePage)
     for (const key in customRoutes) {
       this.customRoutes.push([key, customRoutes[key]])
     }
@@ -275,8 +278,8 @@ export class Tabbar implements ComponentInterface {
     Taro.eventCenter.off('__taroRemoveTabBarBadge', this.removeTabBarBadgeHandler)
     Taro.eventCenter.off('__taroShowTabBarRedDotHandler', this.showTabBarRedDotHandler)
     Taro.eventCenter.off('__taroHideTabBarRedDotHandler', this.hideTabBarRedDotHandler)
-    Taro.eventCenter.off('__taroShowTabBarHandler', this.showTabBarHandler)
-    Taro.eventCenter.off('__taroHideTabBarHandler', this.hideTabBarHandler)
+    Taro.eventCenter.off('__taroShowTabBar', this.showTabBarHandler)
+    Taro.eventCenter.off('__taroHideTabBar', this.hideTabBarHandler)
   }
 
   componentDidLoad () {
@@ -285,7 +288,7 @@ export class Tabbar implements ComponentInterface {
     this.routerChangeHandler()
   }
 
-  componentDidUnload () {
+  disconnectedCallback () {
     this.removeEvent()
   }
 
@@ -332,7 +335,8 @@ export class Tabbar implements ComponentInterface {
                 iconPath={iconPath}
                 text={item.text}
                 badgeText={item.badgeText}
-                showRedDot={item.showRedDot} />
+                showRedDot={item.showRedDot}
+              />
             )
           })}
         </div>

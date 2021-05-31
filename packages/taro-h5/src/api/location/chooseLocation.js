@@ -82,12 +82,12 @@ const chooseLocation = ({ success, fail, complete } = {}) => {
     const choosenLocation = {}
     const onSuccess = res => {
       success && success(res)
-      complete && complete()
+      complete && complete(res)
       resolve(res)
     }
     const onError = res => {
       fail && fail(res)
-      complete && complete()
+      complete && complete(res)
       reject(res)
     }
 
@@ -96,6 +96,20 @@ const chooseLocation = ({ success, fail, complete } = {}) => {
       const errMsg = 'chooseLocation:fail LOCATION_APIKEY needed'
       console.warn('chooseLocation api 依赖腾讯地图定位api，需要在defineConstants中配置LOCATION_APIKEY')
       return onError({ errMsg })
+    }
+
+    const onMessage = event => {
+      // 接收位置信息，用户选择确认位置点后选点组件会触发该事件，回传用户的位置信息
+      /** @type {OriginalLocationObject} */
+      const loc = event.data
+
+      // 防止其他应用也会向该页面post信息，需判断module是否为'locationPicker'
+      if (!loc || loc.module !== 'locationPicker') return
+
+      choosenLocation.name = loc.poiname
+      choosenLocation.address = loc.poiaddress
+      choosenLocation.latitude = loc.latlng.lat
+      choosenLocation.longitude = loc.latlng.lng
     }
 
     const chooser = createLocaltionChooser(res => {
@@ -121,19 +135,6 @@ const chooseLocation = ({ success, fail, complete } = {}) => {
 
     document.body.appendChild(chooser.container)
 
-    const onMessage = event => {
-      // 接收位置信息，用户选择确认位置点后选点组件会触发该事件，回传用户的位置信息
-      /** @type {OriginalLocationObject} */
-      const loc = event.data
-
-      // 防止其他应用也会向该页面post信息，需判断module是否为'locationPicker'
-      if (!loc || loc.module !== 'locationPicker') return
-
-      choosenLocation.name = loc.poiname
-      choosenLocation.address = loc.poiaddress
-      choosenLocation.latitude = loc.latlng.lat
-      choosenLocation.longitude = loc.latlng.lng
-    }
     window.addEventListener('message', onMessage, false)
     chooser.show()
   })

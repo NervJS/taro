@@ -12,4 +12,4 @@ const filterFunc = item => {
   return (basename === '.' || basename[0] !== '.') && !item.startsWith('/Users/chengshuai/Work/taro/packages/taro-cli')
 }
 
-klaw('../../src', { filter: filterFunc }).on('data', item => console.log(item))
+klaw('../..', { filter: filterFunc }).on('data', item => console.log(item))

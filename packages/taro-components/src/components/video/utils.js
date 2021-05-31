@@ -23,3 +23,71 @@ export const throttle = (fn, threshhold) => {
     }
   }
 }
+
+/**
+ * @returns: {requestFullscreen: 'requestFullscreen', exitFullscreen: 'exitFullscreen', ...}
+ */
+export const screenFn = (function () {
+  let val
+  const fnMap = [
+    [
+      'requestFullscreen',
+      'exitFullscreen',
+      'fullscreenElement',
+      'fullscreenEnabled',
+      'fullscreenchange',
+      'fullscreenerror'
+    ],
+    // New WebKit
+    [
+      'webkitRequestFullscreen',
+      'webkitExitFullscreen',
+      'webkitFullscreenElement',
+      'webkitFullscreenEnabled',
+      'webkitfullscreenchange',
+      'webkitfullscreenerror'
+    ],
+    // Old WebKit
+    [
+      'webkitRequestFullScreen',
+      'webkitCancelFullScreen',
+      'webkitCurrentFullScreenElement',
+      'webkitCancelFullScreen',
+      'webkitfullscreenchange',
+      'webkitfullscreenerror'
+    ],
+    [
+      'mozRequestFullScreen',
+      'mozCancelFullScreen',
+      'mozFullScreenElement',
+      'mozFullScreenEnabled',
+      'mozfullscreenchange',
+      'mozfullscreenerror'
+    ],
+    [
+      'msRequestFullscreen',
+      'msExitFullscreen',
+      'msFullscreenElement',
+      'msFullscreenEnabled',
+      'MSFullscreenChange',
+      'MSFullscreenError'
+    ]
+  ]
+
+  let i = 0
+  const l = fnMap.length
+  const ret = {}
+  // This for loop essentially checks the current document object for the property/methods above.
+  for (; i < l; i++) {
+    val = fnMap[i]
+    if (val && val[1] in document) {
+      for (i = 0; i < val.length; i++) {
+        ret[fnMap[0][i]] = val[i]
+      }
+      return ret
+    }
+  }
+  // If it doesn't find any of them, this whole function returns {}
+  // and the fn variable is set to this returned value.
+  return ret
+})()

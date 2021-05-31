@@ -1,6 +1,7 @@
-import others from '../api/others'
+import { base64ToArrayBuffer } from '../lib/base64ToArrayBuffer'
+import { arrayBufferToBase64 } from '../lib/arrayBufferToBase64'
 
-const Taro = Object.assign({}, others)
+const Taro = { base64ToArrayBuffer, arrayBufferToBase64 }
 
 describe('base64 and arrayBuffer', () => {
   describe('arrayBufferToBase64', () => {

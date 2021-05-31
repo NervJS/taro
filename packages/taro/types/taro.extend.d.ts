@@ -8,17 +8,17 @@ declare namespace Taro {
     /**
      * 监听一个事件，接受参数
      */
-    on(eventName: string | symbol, listener: (...args: any[]) => void): this
+    on(eventName: string, listener: (...args: any[]) => void): this
 
     /**
      * 添加一个事件监听，并在事件触发完成之后移除Callbacks链
      */
-    once(eventName: string | symbol, listener: (...args: any[]) => void): this
+    once(eventName: string, listener: (...args: any[]) => void): this
 
     /**
      * 取消监听一个事件
      */
-    off(eventName: string | symbol, listener?: (...args: any[]) => void): this
+    off(eventName: string, listener?: (...args: any[]) => void): this
 
     /**
      * 取消监听的所有事件
@@ -28,7 +28,7 @@ declare namespace Taro {
     /**
      * 触发一个事件，传参
      */
-    trigger(eventName: string | symbol, ...args: any[]): boolean
+    trigger(eventName: string, ...args: any[]): boolean
   }
 
   // eventCenter
@@ -97,12 +97,17 @@ declare namespace Taro {
   function setIsUsingDiff (flag: boolean)
 
   interface Current {
-    app: AppInstance | null,
-    router: RouterInfo | null,
-    page: PageInstance | null,
-    onReady: string,
-    onHide: string,
+    app: AppInstance | null
+    router: RouterInfo | null
+    page: PageInstance | null
+    onReady: string
+    onHide: string
     onShow: string
+    preloadData?: Record<any, any>
+    /**
+     * RN 私有对象navigationRef，用于使用底层接口控制路由
+     */
+    rnNavigationRef?: React.RefObject<any>
   }
 
   const Current: Current
