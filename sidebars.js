@@ -26,6 +26,7 @@ module.exports = {
         items: ['react-native', 'react-native-remind'],
       },
       'cli',
+      'use-h5'
     ],
     进阶指南: [
       'config-detail',

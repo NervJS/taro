@@ -603,6 +603,8 @@ export default {
 
 ## 内置组件
 
+> 自 Taro v3.3+，支持使用 H5 标签进行开发，详情请见 [使用 HTML 标签](use-h5)
+
 Taro 中使用小程序规范的内置组件进行开发，如 `<View />`、`<Text />`、`<Button />` 等。
 
 在 React 中使用这些内置组件前，必须从 `@tarojs/components` 进行引入，组件的 props 遵从**大驼峰式命名规范**：
