@@ -145,7 +145,7 @@ export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: Ap
       }
     }
   })
-
+  wrapper.$mount(document.getElementById('app') as any)
   const app: AppInstance = Object.create({
     mount (component: ComponentOptions<VueCtor>, id: string, cb: () => void) {
       const page = connectVuePage(Vue, id)(component)
@@ -171,7 +171,6 @@ export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: Ap
           params: options?.query,
           ...options
         }
-        wrapper.$mount(document.getElementById('app') as any)
         appInstance = wrapper.$refs.app as VueAppInstance
         if (appInstance != null && isFunction(appInstance.$options.onLaunch)) {
           appInstance.$options.onLaunch.call(appInstance, options)
