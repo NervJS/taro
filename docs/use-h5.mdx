@@ -139,6 +139,13 @@ import '@tarojs/taro/html.css';
 
 HTML 标准和小程序标准存在着很大的差异，有一些 Taro 能够抹平，但仍有部分差异无法处理。
 
+### 表单组件
+
+HTML 标签和小程序组件两种规范之间，存在较大差异的部分主要是表单组件。
+
+1. 在使用 `<input type='checkbox'>` 或 `<input type='radio'>` 时，需要手动补充 `<CheckboxGroup>`、`<RadioGroup>` 组件。
+2. HTML 使用 `<select>` + `<option>` 实现选择器，而小程序使用 `<Picker>`。两者差异巨大，因此不作映射。当用户使用了 `<select>` 时，会提示用户直接使用 `<Picker>` 组件。
+
 ### 不能同步获取元素尺寸
 
 在 H5 中我们可以调用 DOM API **同步**获取元素的尺寸：
