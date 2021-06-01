@@ -1597,6 +1597,8 @@ require(\\"./taro\\");
             \\"adjust-position\\": \\"true\\",
             \\"hold-keyboard\\": \\"false\\",
             \\"disable-default-padding\\": \\"false\\",
+            \\"confirm-type\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"return\\"),
+            \\"confirm-hold\\": \\"false\\",
             bindKeyboardHeightChange: \\"\\"
         },
         ScrollView: {
@@ -5966,6 +5968,8 @@ require(\\"./taro\\");
                 \\"adjust-position\\": \\"true\\",
                 \\"hold-keyboard\\": \\"false\\",
                 \\"disable-default-padding\\": \\"false\\",
+                \\"confirm-type\\": singleQuote(\\"return\\"),
+                \\"confirm-hold\\": \\"false\\",
                 bindKeyboardHeightChange: \\"\\"
             },
             ScrollView: {
@@ -10301,6 +10305,8 @@ require(\\"./taro\\");
                 \\"adjust-position\\": \\"true\\",
                 \\"hold-keyboard\\": \\"false\\",
                 \\"disable-default-padding\\": \\"false\\",
+                \\"confirm-type\\": singleQuote(\\"return\\"),
+                \\"confirm-hold\\": \\"false\\",
                 bindKeyboardHeightChange: \\"\\"
             },
             ScrollView: {
