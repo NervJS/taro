@@ -10,6 +10,7 @@ import generator from '@babel/generator'
 interface IOptions {
   pxtransformBlackList?: any[]
   modifyElements?(inline: string[], block: string[]): void
+  enableSizeAPIs?: boolean
 }
 
 interface IComponentConfig {
@@ -33,6 +34,15 @@ export default (ctx: IPluginContext, options: IOptions) => {
 
   patchMappingElements(ctx, options, inlineElements, blockElements)
 
+  // 默认允许使用 getBoundingClientRect 等 API
+  ctx.modifyWebpackChain(({ chain }) => {
+    chain
+      .plugin('definePlugin')
+      .tap(args => {
+        args[0].ENABLE_SIZE_APIS = options.enableSizeAPIs ?? true
+        return args
+      })
+  })
   ctx.registerMethod({
     name: 'onSetupClose',
     fn (platform: TaroPlatformBase) {
