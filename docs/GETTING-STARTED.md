@@ -300,6 +300,8 @@ $ NODE_ENV=production taro build --type jd --watch # Mac
 
 ### 企业微信小程序
 
+> Taro v3.1+ 开始支持
+
 使用 Taro 插件能支持编译企业微信小程序，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-weapp-qy)。
 
 #### 安装插件
@@ -349,6 +351,8 @@ $ NODE_ENV=production taro build --type qywx --watch # Mac
 
 ### 钉钉小程序
 
+> Taro v3.1+ 开始支持
+
 使用 Taro 插件能支持编译钉钉小程序，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-alipay-dd)。
 
 #### 安装插件
@@ -397,6 +401,8 @@ $ NODE_ENV=production taro build --type dd --watch # Mac
 同支付宝小程序。开发者工具的编译模式设置为钉钉。
 
 ### 支付宝 IOT 小程序
+
+> Taro v3.1+ 开始支持
 
 使用 Taro 插件能支持编译支付宝 IOT 小程序，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-alipay-iot)。
 
@@ -468,6 +474,8 @@ $ npx taro build --type h5
 ```
 
 ### React Native
+
+> Taro v3.2+ 开始支持
 
 请参考 [React Native 端开发流程](./react-native)
 
