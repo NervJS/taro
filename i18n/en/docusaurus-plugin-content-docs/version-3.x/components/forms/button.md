@@ -184,7 +184,7 @@ export default {
 <table>
   <thead>
     <tr>
-     <th>Property</th>
+      <th>Property</th>
       <th>Type</th>
       <th style={{ textAlign: "center"}}>Default</th>
       <th style={{ textAlign: "center"}}>Required</th>
