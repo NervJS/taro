@@ -19,7 +19,6 @@ import {
   nestElements,
   styles,
   events,
-  specialEvents,
   singleQuote
 } from './components'
 import { Shortcuts } from './shortcuts'
@@ -115,7 +114,7 @@ export class BaseTemplate {
         for (let prop in component) {
           if (hasOwn(component, prop)) {
             let propValue = component[prop]
-            if (prop.startsWith('bind') || specialEvents.has(prop)) {
+            if (prop.startsWith('bind')) {
               propValue = 'eh'
             } else if (propValue === '') {
               propValue = `i.${toCamelCase(prop)}`
