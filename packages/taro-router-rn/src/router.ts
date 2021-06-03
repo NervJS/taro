@@ -1,9 +1,11 @@
 /* eslint-disable react/no-children-prop */
 import * as React from 'react'
+import { StyleProp, ViewStyle } from 'react-native'
 import { camelCase } from 'lodash'
 import { NavigationContainer } from '@react-navigation/native'
+import { BackBehavior } from '@react-navigation/routers/src/TabRouter'
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack'
-import { StackHeaderOptions } from '@react-navigation/stack/src/types'
+import { StackHeaderOptions, StackCardMode, StackHeaderMode } from '@react-navigation/stack/src/types'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { navigationRef } from './rootNavigation'
 import CustomTabBar from './view/TabBar'
@@ -52,7 +54,19 @@ interface RNConfig {
   linking?: string[],
   screenOptions?: Record<string, any>,
   tabBarOptions?: Record<string, any>,
-  options?: Record<string, any>
+  options?: Record<string, any>,
+  tabProps?:{
+    backBehavior?: BackBehavior;
+    lazy?: boolean,
+    detachInactiveScreens?:boolean,
+    sceneContainerStyle?: StyleProp<ViewStyle>
+  },
+  stackProps?:{
+    keyboardHandlingEnabled?:boolean,
+    mode?: StackCardMode;
+    headerMode?: StackHeaderMode;
+    detachInactiveScreens?:boolean,
+  }
 }
 
 export interface RouterConfig {
@@ -248,9 +262,12 @@ function createTabStack (config: RouterConfig, parentProps: any) {
   }, userTabBarOptions)
 
   const tabNames = getTabNames(config)
+  const tabProps = config.rnConfig?.tabProps || {}
+
   const tabInitRouteName = getTabInitRoute() || getInitTabRoute(config) || tabNames[0]
   return React.createElement(Tab.Navigator,
     {
+      ...tabProps,
       tabBarOptions: tabBarOptions,
       tabBar: (props) => createTabBar(props, userOptions),
       initialRouteName: tabInitRouteName,
@@ -322,8 +339,10 @@ function createTabNavigate (config: RouterConfig) {
     screeList.push(screenNode)
   })
   const linking = getLinkingConfig(config)
+  const stackProps = config.rnConfig?.stackProps
   const tabStack = React.createElement(Stack.Navigator,
     {
+      ...stackProps,
       screenOptions: () => {
         const options = getCurrentOptions()
         const defaultOptions = getStackOptions(config)
@@ -352,8 +371,10 @@ function createStackNavigate (config: RouterConfig) {
     screenChild.push(screenNode)
   })
   const linking = getLinkingConfig(config)
+  const stackProps = config.rnConfig?.stackProps
   const stackNav = React.createElement(Stack.Navigator,
     {
+      ...stackProps,
       screenOptions: getStackOptions(config),
       children: screenChild,
       initialRouteName: getInitRouteName(config)
