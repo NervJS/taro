@@ -82,9 +82,10 @@ Taro.navigateTo({
 })
 ```
 ```tsx
+const scope = useScope()
 被打开页面添加一个监听器，获取前一个页面传送的数据
 useEffect(()=>{
-  const eventChannel = this.$scope.getOpenerEventChannel()
+  const eventChannel = scope.getOpenerEventChannel()
   eventChannel.on("acceptDataFromOpenerPage",(res)=>{
     console.log(res)
   })
