@@ -22,9 +22,7 @@ export function isRtlFunc ({ direction }) {
 }
 export function getRectSize (id, success = () => {}, fail = () => {}) {
   const query = Taro.createSelectorQuery()
-  query.select(id).fields({
-    size: true
-  }, (res) => {
+  query.select(id).boundingClientRect((res) => {
     if (res) {
       success(res)
     } else {
