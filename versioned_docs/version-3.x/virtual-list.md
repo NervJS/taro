@@ -510,3 +510,4 @@ export default {
 ## 相关问题
 
 * 百度小程序暂时不支持使用虚拟列表组件，详见 [#7254](https://github.com/NervJS/taro/issues/7254)
+* 虚拟列表组件需要实现一份 `Vue3` 版本（待实现），详见 [Vue3 其它限制](https://taro-docs.jd.com/taro/docs/vue3#其它限制)
