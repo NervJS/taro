@@ -74,6 +74,8 @@ export const components = {
     'adjust-position': 'true',
     'hold-keyboard': 'false',
     'disable-default-padding': 'false',
+    'confirm-type': singleQuote('return'),
+    'confirm-hold': 'false',
     bindKeyboardHeightChange: ''
   },
   ScrollView: {

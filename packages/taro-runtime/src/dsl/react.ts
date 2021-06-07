@@ -166,9 +166,6 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
   const isReactComponent = isClassComponent(R, App)
 
   setReconciler()
-
-  let wrapper: AppWrapper
-
   class AppWrapper extends R.Component {
     // run createElement() inside the render function to make sure that owner is right
     private pages: Array<() => PageComponent> = []
@@ -213,6 +210,9 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
     }
   }
 
+  // eslint-disable-next-line react/no-render-return-value
+  const wrapper: AppWrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById('app'))
+
   const app: AppInstance = Object.create({
     render (cb: () => void) {
       wrapper.forceUpdate(cb)
@@ -242,8 +242,6 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
           params: options?.query,
           ...options
         }
-        // eslint-disable-next-line react/no-render-return-value
-        wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById('app'))
         const app = ref.current
 
         // For taroize
