@@ -186,7 +186,6 @@ require(\\"./taro\\");
             bindAnimationEnd: \\"\\",
             bindTransitionEnd: \\"\\"
         };
-        var specialEvents = new Set([ \\"htouchmove\\", \\"vtouchmove\\" ]);
         function singleQuote(s) {
             return \\"'\\".concat(s, \\"'\\");
         }
@@ -404,8 +403,8 @@ require(\\"./taro\\");
             animation: \\"true\\",
             bindChange: \\"\\",
             bindScale: \\"\\",
-            htouchmove: \\"\\",
-            vtouchmove: \\"\\",
+            bindHTouchMove: \\"\\",
+            bindVTouchMove: \\"\\",
             width: singleQuote(\\"10px\\"),
             height: singleQuote(\\"10px\\")
         }, touchEvents), animationEvents);
@@ -791,7 +790,7 @@ require(\\"./taro\\");
                                 for (var prop in component) {
                                     if (hasOwn(component, prop)) {
                                         var propValue = component[prop];
-                                        if (prop.startsWith(\\"bind\\") || specialEvents.has(prop)) {
+                                        if (prop.startsWith(\\"bind\\")) {
                                             propValue = \\"eh\\";
                                         } else if (propValue === \\"\\") {
                                             propValue = \\"i.\\".concat(toCamelCase(prop));
@@ -1394,6 +1393,8 @@ require(\\"./taro\\");
                 \\"adjust-position\\": \\"true\\",
                 \\"hold-keyboard\\": \\"false\\",
                 \\"disable-default-padding\\": \\"false\\",
+                \\"confirm-type\\": singleQuote(\\"return\\"),
+                \\"confirm-hold\\": \\"false\\",
                 bindKeyboardHeightChange: \\"\\"
             },
             ScrollView: {
@@ -3090,7 +3091,6 @@ require(\\"./taro\\");
             bindAnimationEnd: \\"\\",
             bindTransitionEnd: \\"\\"
         };
-        var specialEvents = new Set([ \\"htouchmove\\", \\"vtouchmove\\" ]);
         function singleQuote(s) {
             return \\"'\\".concat(s, \\"'\\");
         }
@@ -3308,8 +3308,8 @@ require(\\"./taro\\");
             animation: \\"true\\",
             bindChange: \\"\\",
             bindScale: \\"\\",
-            htouchmove: \\"\\",
-            vtouchmove: \\"\\",
+            bindHTouchMove: \\"\\",
+            bindVTouchMove: \\"\\",
             width: singleQuote(\\"10px\\"),
             height: singleQuote(\\"10px\\")
         }, touchEvents), animationEvents);
@@ -3695,7 +3695,7 @@ require(\\"./taro\\");
                                 for (var prop in component) {
                                     if (hasOwn(component, prop)) {
                                         var propValue = component[prop];
-                                        if (prop.startsWith(\\"bind\\") || specialEvents.has(prop)) {
+                                        if (prop.startsWith(\\"bind\\")) {
                                             propValue = \\"eh\\";
                                         } else if (propValue === \\"\\") {
                                             propValue = \\"i.\\".concat(toCamelCase(prop));
@@ -4298,6 +4298,8 @@ require(\\"./taro\\");
                 \\"adjust-position\\": \\"true\\",
                 \\"hold-keyboard\\": \\"false\\",
                 \\"disable-default-padding\\": \\"false\\",
+                \\"confirm-type\\": singleQuote(\\"return\\"),
+                \\"confirm-hold\\": \\"false\\",
                 bindKeyboardHeightChange: \\"\\"
             },
             ScrollView: {
@@ -5994,7 +5996,6 @@ require(\\"./taro\\");
             bindAnimationEnd: \\"\\",
             bindTransitionEnd: \\"\\"
         };
-        var specialEvents = new Set([ \\"htouchmove\\", \\"vtouchmove\\" ]);
         function singleQuote(s) {
             return \\"'\\".concat(s, \\"'\\");
         }
@@ -6212,8 +6213,8 @@ require(\\"./taro\\");
             animation: \\"true\\",
             bindChange: \\"\\",
             bindScale: \\"\\",
-            htouchmove: \\"\\",
-            vtouchmove: \\"\\",
+            bindHTouchMove: \\"\\",
+            bindVTouchMove: \\"\\",
             width: singleQuote(\\"10px\\"),
             height: singleQuote(\\"10px\\")
         }, touchEvents), animationEvents);
@@ -6599,7 +6600,7 @@ require(\\"./taro\\");
                                 for (var prop in component) {
                                     if (hasOwn(component, prop)) {
                                         var propValue = component[prop];
-                                        if (prop.startsWith(\\"bind\\") || specialEvents.has(prop)) {
+                                        if (prop.startsWith(\\"bind\\")) {
                                             propValue = \\"eh\\";
                                         } else if (propValue === \\"\\") {
                                             propValue = \\"i.\\".concat(toCamelCase(prop));
@@ -7202,6 +7203,8 @@ require(\\"./taro\\");
                 \\"adjust-position\\": \\"true\\",
                 \\"hold-keyboard\\": \\"false\\",
                 \\"disable-default-padding\\": \\"false\\",
+                \\"confirm-type\\": singleQuote(\\"return\\"),
+                \\"confirm-hold\\": \\"false\\",
                 bindKeyboardHeightChange: \\"\\"
             },
             ScrollView: {
@@ -8898,7 +8901,6 @@ require(\\"./taro\\");
             bindAnimationEnd: \\"\\",
             bindTransitionEnd: \\"\\"
         };
-        var specialEvents = new Set([ \\"htouchmove\\", \\"vtouchmove\\" ]);
         function singleQuote(s) {
             return \\"'\\".concat(s, \\"'\\");
         }
@@ -9116,8 +9118,8 @@ require(\\"./taro\\");
             animation: \\"true\\",
             bindChange: \\"\\",
             bindScale: \\"\\",
-            htouchmove: \\"\\",
-            vtouchmove: \\"\\",
+            bindHTouchMove: \\"\\",
+            bindVTouchMove: \\"\\",
             width: singleQuote(\\"10px\\"),
             height: singleQuote(\\"10px\\")
         }, touchEvents), animationEvents);
@@ -9503,7 +9505,7 @@ require(\\"./taro\\");
                                 for (var prop in component) {
                                     if (hasOwn(component, prop)) {
                                         var propValue = component[prop];
-                                        if (prop.startsWith(\\"bind\\") || specialEvents.has(prop)) {
+                                        if (prop.startsWith(\\"bind\\")) {
                                             propValue = \\"eh\\";
                                         } else if (propValue === \\"\\") {
                                             propValue = \\"i.\\".concat(toCamelCase(prop));
@@ -10106,6 +10108,8 @@ require(\\"./taro\\");
                 \\"adjust-position\\": \\"true\\",
                 \\"hold-keyboard\\": \\"false\\",
                 \\"disable-default-padding\\": \\"false\\",
+                \\"confirm-type\\": singleQuote(\\"return\\"),
+                \\"confirm-hold\\": \\"false\\",
                 bindKeyboardHeightChange: \\"\\"
             },
             ScrollView: {
