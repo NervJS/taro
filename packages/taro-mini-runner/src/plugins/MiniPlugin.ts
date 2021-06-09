@@ -282,7 +282,8 @@ export default class TaroMiniPlugin {
                 name: module.name,
                 prerender: this.prerenderPages.has(module.name),
                 config: this.filesConfig,
-                appConfig: this.appConfig
+                appConfig: this.appConfig,
+                runtimePath: this.options.runtimePath
               }
             })
           }
@@ -294,7 +295,8 @@ export default class TaroMiniPlugin {
               options: {
                 framework,
                 name: module.name,
-                prerender: this.prerenderPages.has(module.name)
+                prerender: this.prerenderPages.has(module.name),
+                runtimePath: this.options.runtimePath
               }
             })
           }
