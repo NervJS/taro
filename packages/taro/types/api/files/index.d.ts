@@ -474,6 +474,88 @@ declare namespace Taro {
       /** 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 */
       encoding?: keyof FileSystemManager.encoding,
     ): string | ArrayBuffer
+    /** 获取文件的状态信息
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.fstat.html
+     */
+    fstat(option: FileSystemManager.FstatOption): void
+    /** FileSystemManager.fstat 的同步版本
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.fstatSync.html
+     */
+    fstatSync(option: FileSystemManager.FstatSyncOption): Stats
+    /**关闭文件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.close.html
+     */
+    close(option: FileSystemManager.CloseOption): void
+    /**FileSystemManager.close 的同步版本
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.closeSync.html
+     */
+    closeSync(option: FileSystemManager.CloseSyncOption): void
+    /**对文件内容进行截断操作
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.ftruncate.html
+     */
+    ftruncate(option: FileSystemManager.FtruncateOption): void
+    /**FileSystemManager.ftruncate 的同步版本
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.ftruncateSync.html
+     */
+    ftruncateSync(option: FileSystemManager.FtruncateSyncOption): void
+    /**打开文件，返回文件描述符
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.open.html
+     */
+    open(option: FileSystemManager.OpenOption): void
+    /**FileSystemManager.ftruncate 的同步版本
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.ftruncateSync.html
+     */
+    openSync(option: FileSystemManager.OpenSyncOption): string /** 文件描述符 */
+    /** 读文件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.read.html
+     */
+    read(option: FileSystemManager.ReadOption): void
+    /** FileSystemManager.read 的同步版本
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readSync.html
+     */
+    readSync(
+      option: FileSystemManager.ReadSyncOption
+    ): {
+      /** 实际读取的字节数 */
+      bytesRead: number
+      /** 被写入的缓存区的对象，即接口入参的 arrayBuffer */
+      arrayBuffer: ArrayBuffer
+    }
+    /** 对文件内容进行截断操作
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.truncate.html
+     */
+    truncate(option: FileSystemManager.TruncateOption): void
+    /** truncate 的同步版本
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.truncateSync.html
+     */
+    truncateSync(option: FileSystemManager.TruncateSyncOption): void
+    /** 写入文件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.write.html
+     */
+    write(option: FileSystemManager.WriteOption): void
+    /** write 的同步版本
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.writeSync.html
+     */
+    writeSync(
+      option: FileSystemManager.WriteSyncOption
+    ): {
+      /** 实际被写入到文件中的字节数（注意，被写入的字节数不一定与被写入的字符串字符数相同） */
+      bytesWritten: number
+    }
   }
 
   namespace FileSystemManager {
@@ -494,6 +576,21 @@ declare namespace Taro {
       'utf-8'
       utf8
       latin1
+    }
+    /** 文件系统标志 */
+    interface flag {
+      a /**打开文件用于追加。 如果文件不存在，则创建该文件	*/
+      ax /**类似于 'a'，但如果路径存在，则失败	*/
+      'a+' /**打开文件用于读取和追加。 如果文件不存在，则创建该文件	*/
+      'ax+' /**类似于 'a+'，但如果路径存在，则失败	*/
+      as /**打开文件用于追加（在同步模式中）。 如果文件不存在，则创建该文件	*/
+      'as+' /**打开文件用于读取和追加（在同步模式中）。 如果文件不存在，则创建该文件	*/
+      r /**打开文件用于读取。 如果文件不存在，则会发生异常	*/
+      'r+' /**打开文件用于读取和写入。 如果文件不存在，则会发生异常	*/
+      w /**打开文件用于写入。 如果文件不存在则创建文件，如果文件存在则截断文件	*/
+      wx /**类似于 'w'，但如果路径存在，则失败	*/
+      'w+' /**打开文件用于读取和写入。 如果文件不存在则创建文件，如果文件存在则截断文件	*/
+      'wx+' /**类似于 'w+'，但如果路径存在，则失败*/
     }
     interface AccessOption {
       /** 要判断是否存在的文件/目录路径 */
@@ -878,6 +975,247 @@ declare namespace Taro {
        * - 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有写权限;
        * - 'fail the maximum size of the file storage limit is exceeded': 存储空间不足; */
       errMsg: string
+    }
+    interface FstatOption {
+      /** 文件描述符。fd 通过 FileSystemManager.open 或 FileSystemManager.openSync 接口获得 */
+      fd: string
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (result: FstatFailCallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: FstatSuccessCallbackResult) => void
+    }
+
+    interface FstatFailCallbackResult extends General.CallbackResult {
+      /** 错误信息
+       *
+       * 可选值：
+       * - 'bad file descriptor':	无效的文件描述符;
+       * - 'fail permission denied':	指定的 fd 路径没有读权限; */
+      errMsg: string
+    }
+    interface FstatSuccessCallbackResult extends General.CallbackResult {
+      /** Stats 对象，包含了文件的状态信息 */
+      stats: Stats
+      /** 调用结果 */
+      errMsg: string
+    }
+    interface FstatSyncOption {
+      /** 文件描述符。fd 通过 FileSystemManager.open 或 FileSystemManager.openSync 接口获得 */
+      fd: string
+    }
+    interface CloseOption {
+      /** 需要被关闭的文件描述符。fd 通过 FileSystemManager.open 或 FileSystemManager.openSync 接口获得 */
+      fd: string
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (result: CloseFailCallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.CallbackResult) => void
+    }
+    interface CloseFailCallbackResult extends General.CallbackResult {
+      /** 错误信息
+       *
+       * 可选值：
+       * - 'bad file descriptor':	无效的文件描述符 */
+      errMsg: string
+    }
+    interface CloseSyncOption {
+      /** 需要被关闭的文件描述符。fd 通过 FileSystemManager.open 或 FileSystemManager.openSync 接口获得 */
+      fd: string
+    }
+    interface FtruncateOption {
+      /** 文件描述符。fd 通过 FileSystemManager.open 或 FileSystemManager.openSync 接口获得 */
+      fd: string
+      /** 截断位置，默认0。如果 length 小于文件长度（单位：字节），则只有前面 length 个字节会保留在文件中，其余内容会被删除；如果 length 大于文件长度，则会对其进行扩展，并且扩展部分将填充空字节（'\0'） */
+      length: number
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (result: FtruncateFailCallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.CallbackResult) => void
+    }
+    interface FtruncateFailCallbackResult extends General.CallbackResult {
+      /** 错误信息
+       *
+       * 可选值：
+       * - 'bad file descriptor':	无效的文件描述符
+       * - 'fail permission denied':	指定的 fd 没有写权限
+       * - 'fail the maximum size of the file storage limit is exceeded':	存储空间不足
+       * - 'fail sdcard not mounted	android sdcard': 挂载失败 */
+      errMsg: string
+    }
+    interface FtruncateSyncOption {
+      /** 文件描述符。fd 通过 FileSystemManager.open 或 FileSystemManager.openSync 接口获得 */
+      fd: string
+      /**截断位置，默认0。如果 length 小于文件长度（单位：字节），则只有前面 length 个字节会保留在文件中，其余内容会被删除；如果 length 大于文件长度，则会对其进行扩展，并且扩展部分将填充空字节（'\0'） */
+      length: number
+    }
+
+    interface OpenOption {
+      /** 文件路径 (本地路径) */
+      filePath: string
+      /** 文件系统标志，默认值: 'r' */
+      flag?: keyof FileSystemManager.flag
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (result: OpenFailCallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: OpenSuccessCallbackResult) => void
+    }
+    interface OpenFailCallbackResult extends General.CallbackResult {
+      /** 错误信息
+       *
+       * 可选值：
+       * - 'fail no such file or directory "${filePath}"':	上级目录不存在 */
+      errMsg: string
+    }
+    interface OpenSuccessCallbackResult extends General.CallbackResult {
+      /** 文件描述符 */
+      fd: string
+      /** 调用结果 */
+      errMsg: string
+    }
+    interface OpenSyncOption {
+      /** 文件路径 (本地路径) */
+      filePath: string
+      /** 文件系统标志，默认值: 'r' */
+      flag?: keyof FileSystemManager.flag
+    }
+    interface ReadOption {
+      /** 文件描述符。fd 通过 FileSystemManager.open 或 FileSystemManager.openSync 接口获得 */
+      fd: string
+      /** 数据写入的缓冲区，必须是 ArrayBuffer 实例 */
+      arrayBuffer: ArrayBuffer
+      /** 缓冲区中的写入偏移量，默认0 */
+      offset?: number
+      /** 要从文件中读取的字节数，默认0 */
+      length?: number
+      /** 文件读取的起始位置，如不传或传 null，则会从当前文件指针的位置读取。如果 position 是正整数，则文件指针位置会保持不变并从 position 读取文件。 */
+      position?: number
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (result: ReadFailCallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: ReadSuccessCallbackResult) => void
+    }
+    interface ReadFailCallbackResult extends General.CallbackResult {
+      /** 错误信息
+       *
+       * 可选值：
+       * - 'bad file descriptor':	无效的文件描述符	
+        - 'fail permission denied':	指定的 fd 路径没有读权限	
+        - 'fail the value of "offset" is out of range':	传入的 offset 不合法	
+        - 'fail the value of "length" is out of range':	传入的 length 不合法	
+        - 'fail sdcard not mounted':	android sdcard 挂载失败	
+        - 'bad file descriptor':	无效的文件描述符 
+       *  */
+      errMsg: string
+    }
+    interface ReadSuccessCallbackResult extends General.CallbackResult {
+      /** 实际读取的字节数 */
+      bytesRead: string
+      /** 被写入的缓存区的对象，即接口入参的 arrayBuffer */
+      arrayBuffer: ArrayBuffer
+      /** 调用结果 */
+      errMsg: string
+    }
+    interface ReadSyncOption {
+      /** 文件描述符。fd 通过 FileSystemManager.open 或 FileSystemManager.openSync 接口获得 */
+      fd: string
+      /** 数据写入的缓冲区，必须是 ArrayBuffer 实例 */
+      arrayBuffer: ArrayBuffer
+      /** 缓冲区中的写入偏移量，默认0 */
+      offset?: number
+      /** 要从文件中读取的字节数，默认0 */
+      length?: number
+      /** 文件读取的起始位置，如不传或传 null，则会从当前文件指针的位置读取。如果 position 是正整数，则文件指针位置会保持不变并从 position 读取文件。 */
+      position?: number
+    }
+    interface TruncateOption {
+      /** 要截断的文件路径 (本地路径) */
+      filePath: string
+      /** 截断位置，默认0。如果 length 小于文件长度（字节），则只有前面 length 个字节会保留在文件中，其余内容会被删除；如果 length 大于文件长度，则会对其进行扩展，并且扩展部分将填充空字节（'\0'） */
+      length?: number
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (result: TruncateFailCallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.CallbackResult) => void
+    }
+    interface TruncateFailCallbackResult extends General.CallbackResult {
+      /** 错误信息
+       *
+       * 可选值：
+       * - 'fail no such file or directory, open ${filePath}':	指定的 filePath 所在目录不存在	
+        - 'fail illegal operation on a directory, open "${filePath}"':	指定的 filePath 是一个已经存在的目录
+        - 'fail permission denied, open ${dirPath}':	指定的 filePath 路径没有写权限	
+        - 'fail the maximum size of the file storage limit is exceeded':	存储空间不足	
+        - 'fail sdcard not mounted':	android sdcard 挂载失败	
+       *  */
+      errMsg: string
+    }
+    interface TruncateSyncOption {
+      /** 要截断的文件路径 (本地路径) */
+      filePath: string
+      /** 截断位置，默认0。如果 length 小于文件长度（字节），则只有前面 length 个字节会保留在文件中，其余内容会被删除；如果 length 大于文件长度，则会对其进行扩展，并且扩展部分将填充空字节（'\0'） */
+      length?: number
+    }
+    interface WriteOption {
+      /** 文件描述符。fd 通过 FileSystemManager.open 或 FileSystemManager.openSync 接口获得 */
+      fd: string
+      /** 写入的内容，类型为 String 或 ArrayBuffer */
+      data: string | ArrayBuffer
+      /** 只在 data 类型是 ArrayBuffer 时有效，决定 arrayBuffe 中要被写入的部位，即 arrayBuffer 中的索引，默认0 */
+      offset?: number
+      /** 只在 data 类型是 ArrayBuffer 时有效，指定要写入的字节数，默认为 arrayBuffer 从0开始偏移 offset 个字节后剩余的字节数 */
+      length?: number
+      /** 只在 data 类型是 String 时有效，指定写入文件的字符编码，默认为 utf8 */
+      encoding?: keyof FileSystemManager.encoding
+      /** 指定文件开头的偏移量，即数据要被写入的位置。当 position 不传或者传入非 Number 类型的值时，数据会被写入当前指针所在位置。 */
+      position?: number
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (result: WriteFailCallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: WriteSuccessCallbackResult) => void
+    }
+    interface WriteFailCallbackResult extends General.CallbackResult {
+      /** 错误信息
+       *
+       * 可选值：
+       * 'bad file descriptor':	无效的文件描述符
+       * 'fail permission denied':	指定的 fd 路径没有写权限
+       * 'fail sdcard not mounted':	android sdcard 挂载失败
+       *  */
+      errMsg: string
+    }
+    interface WriteSuccessCallbackResult extends General.CallbackResult {
+      /** 实际被写入到文件中的字节数（注意，被写入的字节数不一定与被写入的字符串字符数相同） */
+      bytesWritten: number
+      /** 调用结果 */
+      errMsg: string
+    }
+    interface WriteSyncOption {
+      /** 文件描述符。fd 通过 FileSystemManager.open 或 FileSystemManager.openSync 接口获得 */
+      fd: string
+      /** 写入的内容，类型为 String 或 ArrayBuffer */
+      data: string | ArrayBuffer
+      /** 只在 data 类型是 ArrayBuffer 时有效，决定 arrayBuffe 中要被写入的部位，即 arrayBuffer 中的索引，默认0 */
+      offset?: number
+      /** 只在 data 类型是 ArrayBuffer 时有效，指定要写入的字节数，默认为 arrayBuffer 从0开始偏移 offset 个字节后剩余的字节数 */
+      length?: number
+      /** 只在 data 类型是 String 时有效，指定写入文件的字符编码，默认为 utf8 */
+      encoding?: keyof FileSystemManager.encoding
+      /** 指定文件开头的偏移量，即数据要被写入的位置。当 position 不传或者传入非 Number 类型的值时，数据会被写入当前指针所在位置。 */
+      position?: number
     }
   }
 
