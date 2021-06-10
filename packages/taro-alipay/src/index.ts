@@ -32,7 +32,7 @@ function modifyPageTemplate (ctx: IPluginContext) {
     // 筛选出使用了自定义组件的页面
     miniPlugin.pages.forEach(page => {
       const config = miniPlugin.filesConfig[miniPlugin.getConfigFilePath(page.name)].content
-      if (config?.hasOwnProperty('usingComponents') && Object.keys(config.usingComponents).length) {
+      if (!page.isNative && config?.hasOwnProperty('usingComponents') && Object.keys(config.usingComponents).length) {
         pages.push(page.name)
       }
     })
@@ -43,7 +43,8 @@ function modifyPageTemplate (ctx: IPluginContext) {
 
     pages.forEach(page => {
       const templateName = `${page}.axml`
-      const src = assets[templateName].source()
+      const assetsItem = assets[templateName]
+      const src = assetsItem._value ? assetsItem._value.toString() : assetsItem.source()
       let relativePath
       const templateCaller = src.replace(/<import src="(.*)base\.axml"\/>/, function (_, $1) {
         relativePath = $1
