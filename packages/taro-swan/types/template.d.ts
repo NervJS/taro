@@ -1,4 +1,6 @@
 import { RecursiveTemplate } from '@tarojs/shared/dist/template';
+
+export declare function buildFlattenView(depth?: number): string;
 export declare class Template extends RecursiveTemplate {
     supportXS: boolean;
     Adapter: {
