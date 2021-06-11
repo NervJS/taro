@@ -1,4 +1,5 @@
 import { internalComponents } from './components'
+import { BUBBLE_EVENTS } from './events'
 
 export const EMPTY_OBJ: any = {}
 
@@ -6,7 +7,12 @@ export const EMPTY_ARR = []
 
 export const noop = (..._: unknown[]) => {}
 
-export const defaultReconciler = {}
+export const defaultReconciler = {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  isBubbleEvent (eventName: string) {
+    return BUBBLE_EVENTS.has(eventName)
+  }
+}
 
 /**
  * Boxed value.
