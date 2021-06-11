@@ -282,7 +282,8 @@ export default class TaroMiniPlugin {
                 name: module.name,
                 prerender: this.prerenderPages.has(module.name),
                 config: this.filesConfig,
-                appConfig: this.appConfig
+                appConfig: this.appConfig,
+                runtimePath: this.options.runtimePath
               }
             })
           }
@@ -294,7 +295,8 @@ export default class TaroMiniPlugin {
               options: {
                 framework,
                 name: module.name,
-                prerender: this.prerenderPages.has(module.name)
+                prerender: this.prerenderPages.has(module.name),
+                runtimePath: this.options.runtimePath
               }
             })
           }
@@ -1144,6 +1146,7 @@ export default class TaroMiniPlugin {
   injectCommonStyles ({ assets }: webpack.compilation.Compilation) {
     const styleExt = this.options.fileType.style
     const appStyle = `app${styleExt}`
+    const REG_STYLE_EXT = new RegExp(`\\.(${styleExt.replace('.', '')})(\\?.*)?$`)
 
     if (!assets[appStyle]) return
 
@@ -1153,7 +1156,7 @@ export default class TaroMiniPlugin {
 
     Object.keys(assets).forEach(assetName => {
       const fileName = path.basename(assetName, path.extname(assetName))
-      if (REG_STYLE.test(assetName) && this.options.commonChunks.includes(fileName)) {
+      if ((REG_STYLE.test(assetName) || REG_STYLE_EXT.test(assetName)) && this.options.commonChunks.includes(fileName)) {
         source.add('\n')
         source.add(`@import ${JSON.stringify(urlToRequest(assetName))};`)
         assets[appStyle] = {
