@@ -125,14 +125,12 @@ function modifyPostcssConfigs (config: Record<string, any>, options: IOptions, i
 }
 
 function patchMappingElements (ctx: IPluginContext, options: IOptions, inlineElements: string[], blockElements: string[]) {
-  if (typeof options.modifyElements !== 'function') return
-
   const helper = ctx.helper
   const filePath = path.resolve(__dirname, './runtime.js')
   const content = helper.fs.readFileSync(filePath).toString()
   const ast = parser.parse(content, { sourceType: 'unambiguous' })
 
-  options.modifyElements(inlineElements, blockElements)
+  options.modifyElements?.(inlineElements, blockElements)
 
   traverse(ast, {
     VariableDeclarator (path) {
