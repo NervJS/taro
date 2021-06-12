@@ -66,7 +66,7 @@ export class Template extends RecursiveTemplate {
   }
 
   modifyLoopBody = (child: string, nodeName: string) => {
-    if (nodeName === 'pure-view') {
+    if (nodeName === 'view') {
       // fix issue #6015
       return buildFlattenView()
     }
