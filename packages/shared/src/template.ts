@@ -153,7 +153,11 @@ export class BaseTemplate {
           result['catch-view'] = comp
         }
 
-        if (compName === 'view' || compName === 'text' || compName === 'image') {
+        if (
+          (compName === 'view' && process.env.TARO_ENV === 'swan') ||
+          compName === 'text' ||
+          compName === 'image'
+        ) {
           const comp: Record<any, any> = {}
           Object.keys(newComp).forEach(key => {
             const value = newComp[key]
