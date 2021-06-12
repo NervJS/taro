@@ -9,7 +9,7 @@ const swanSpecialAttrs = {
   textarea: ['value']
 }
 
-export function buildFlattenView (depth = 16): string {
+export function buildFlattenView (depth = 8): string {
   if (depth === 0) {
     return '<template is="{{xs.e(0)}}" data="{{{i:item}}}" />'
   }

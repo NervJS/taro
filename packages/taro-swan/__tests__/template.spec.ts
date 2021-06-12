@@ -1,7 +1,7 @@
 import { buildFlattenView } from '../src/template'
 
 describe('swan template', () => {
-  it('#buildFlattenPureView', async () => {
+  it('#buildFlattenView', async () => {
     const template1 = buildFlattenView(0)
     const expect1 = '<template is="{{xs.e(0)}}" data="{{{i:item}}}" />'
 
