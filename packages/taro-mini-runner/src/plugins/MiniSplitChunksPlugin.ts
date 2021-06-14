@@ -231,7 +231,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
         const subVendorsWxssPath = path.join(subRoot, `${SUB_VENDORS_NAME}${FileExtsMap.STYLE}`)
         const source = new ConcatSource()
 
-        if (assets[subVendorsWxssPath]) {
+        if (assets[this.formatSystemPath(subVendorsWxssPath)]) {
           const subVendorsAbsolutePath = path.resolve(this.distPath, subVendorsWxssPath)
           const relativePath = this.getRealRelativePath(wxssAbsulutePath, subVendorsAbsolutePath)
 
@@ -243,7 +243,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
             const wxssFileName = `${moduleName}${FileExtsMap.STYLE}`
             const wxssFilePath = path.join(SUB_COMMON_DIR, wxssFileName)
 
-            if (assets[wxssFilePath]) {
+            if (assets[this.formatSystemPath(wxssFilePath)]) {
               const moduleAbsulutePath = path.resolve(this.distPath, subRoot, SUB_COMMON_DIR, wxssFileName)
               const relativePath = this.getRealRelativePath(wxssAbsulutePath, moduleAbsulutePath)
 
@@ -375,7 +375,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
    * match *\/sub-vendors
    */
   matchSubVendors (chunk: webpack.compilation.Chunk): boolean {
-    const subVendorsRegExps = this.subRoots.map(subRoot => new RegExp(`^${path.join(subRoot, SUB_VENDORS_NAME)}$`))
+    const subVendorsRegExps = this.subRoots.map(subRoot => new RegExp(`^${this.formatSystemPath(path.join(subRoot, SUB_VENDORS_NAME))}$`))
     const isSubVendors = subVendorsRegExps.find(subVendorsRegExp => subVendorsRegExp.test(chunk.name))
 
     return !!isSubVendors
@@ -440,7 +440,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
 
           return chunks.every(chunk => new RegExp(`^${subRoot}\\/`).test(chunk.name))
         },
-        name: path.join(subRoot, SUB_VENDORS_NAME),
+        name: this.formatSystemPath(path.join(subRoot, SUB_VENDORS_NAME)),
         minChunks: 2,
         priority: 10000
       }
@@ -455,7 +455,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
     const subCommonCacheGroup = {}
 
     this.subCommonDeps.forEach((depInfo: DepInfo, depName: string) => {
-      const cacheGroupName = path.join(SUB_COMMON_DIR, depName)
+      const cacheGroupName = this.formatSystemPath(path.join(SUB_COMMON_DIR, depName))
 
       subCommonCacheGroup[cacheGroupName] = {
         name: cacheGroupName,
@@ -517,5 +517,12 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
    */
   getRealRelativePath (from: string, to: string): string {
     return promoteRelativePath(path.relative(from, to))
+  }
+
+  /**
+   * 将window系统下的路径分隔符转成/
+   */
+  formatSystemPath (p) {
+    return p.replace(/\\/g, '/')
   }
 }
