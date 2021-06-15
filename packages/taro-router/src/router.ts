@@ -23,7 +23,8 @@ export interface RouterConfig extends AppConfig {
     mode: 'hash' | 'browser'
     basename: string,
     customRoutes?: Record<string, string>,
-    pathname: string
+    pathname: string,
+    forcePath?: string
   },
   PullDownRefresh?: any
 }
@@ -120,7 +121,7 @@ export function createRouter (
     routerConfig.router.pathname = location.pathname
     let element
     try {
-      element = await router.resolve(location.pathname)
+      element = await router.resolve(config.router.forcePath || location.pathname)
     } catch (error) {
       if (error.status === 404) {
         app.onPageNotFound?.({

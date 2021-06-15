@@ -1,4 +1,5 @@
 import { camelCase } from 'lodash'
+import { parseUrl } from 'query-string'
 import { TaroTabBarConfig, CallbackResult, OptionsFunc } from './types'
 
 const globalAny: any = global
@@ -108,4 +109,15 @@ export function getTabBarPages (): string[] {
     pages.push(camelCase(path))
   })
   return pages
+}
+
+// 处理url转换成pageName与params
+export function handleUrl (url: string): Record<string, any> {
+  const path = url.split('?')[0]
+  const pageName = camelCase(path.startsWith('/') ? path : `/${path}`)
+  const params = parseUrl(url.startsWith('/') ? url.substr(1) : url).query || {}
+  return {
+    pageName,
+    params
+  }
 }

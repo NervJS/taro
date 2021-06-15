@@ -3,11 +3,12 @@ import type { PageConfig } from '@tarojs/taro'
 
 export interface MpInstance {
   config: PageConfig
-  setData: (data: unknown, cb: () => void) => void;
-  route?: string;
-  __route__: string;
-  options?: Record<string, unknown>
-  __data__: any,
+  setData: (data: unknown, cb: () => void) => void
+  route?: string
+  __route__: string
+  $taroParams?: Record<string, unknown>
+  $taroPath: string
+  __data__: any
   data: any
   selectComponent: (selector: string) => any
 }
