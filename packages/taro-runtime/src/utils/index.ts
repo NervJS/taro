@@ -5,7 +5,8 @@ import {
   STYLE,
   ID,
   UID,
-  CLASS
+  CLASS,
+  COMMENT
 } from '../constants'
 
 import type { TaroElement } from '../dom/element'
@@ -23,6 +24,10 @@ export function isElement (node: TaroNode): node is TaroElement {
 
 export function isText (node: TaroNode): node is TaroText {
   return node.nodeType === NodeType.TEXT_NODE
+}
+
+export function isComment (node: TaroNode): boolean {
+  return node.nodeName === COMMENT
 }
 
 export function isHasExtractProp (el: TaroElement): boolean {

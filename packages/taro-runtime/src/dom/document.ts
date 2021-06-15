@@ -7,7 +7,8 @@ import { eventSource } from '../dom/event-source'
 import { ElementNames, InstanceFactory, InstanceNamedFactory } from '../interface'
 import {
   ROOT_STR,
-  DOCUMENT_ELEMENT_NAME
+  DOCUMENT_ELEMENT_NAME,
+  COMMENT
 } from '../constants'
 
 import type { FormElement } from '../dom/form'
@@ -71,6 +72,8 @@ export class TaroDocument extends TaroElement {
 
   // @TODO: @PERF: 在 hydrate 移除掉空的 node
   public createComment (): TaroText {
-    return this._getText('')
+    const textnode = this._getText('')
+    textnode.nodeName = COMMENT
+    return textnode
   }
 }

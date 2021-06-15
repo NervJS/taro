@@ -1,5 +1,5 @@
 import { Shortcuts, toCamelCase } from '@tarojs/shared'
-import { isText, isHasExtractProp } from './utils'
+import { isText, isHasExtractProp, isComment } from './utils'
 import {
   SPECIAL_NODES,
   VIEW,
@@ -35,7 +35,7 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     [Shortcuts.NodeName]: nodeName,
     uid: node.uid
   }
-  const { props, childNodes } = node
+  const { props } = node
 
   if (!node.isAnyEventBinded() && SPECIAL_NODES.indexOf(nodeName) > -1) {
     data[Shortcuts.NodeName] = `static-${nodeName}`
@@ -59,6 +59,11 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
       data[Shortcuts.NodeName] = CATCH_VIEW
     }
   }
+
+  let { childNodes } = node
+
+  // 过滤 comment 节点
+  childNodes = childNodes.filter(node => !isComment(node))
 
   if (childNodes.length > 0) {
     data[Shortcuts.Childnodes] = childNodes.map(hydrate)

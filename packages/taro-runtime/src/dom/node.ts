@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify'
 import { Shortcuts, ensure } from '@tarojs/shared'
 import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { NodeType } from './node_types'
-import { incrementId } from '../utils'
+import { incrementId, isComment } from '../utils'
 import { TaroEventTarget } from './event-target'
 import { hydrate } from '../hydrate'
 import { eventSource } from './event-source'
@@ -75,7 +75,9 @@ export class TaroNode extends TaroEventTarget {
     const parentNode = this.parentNode
 
     if (parentNode) {
-      const indexOfNode = parentNode.findIndex(this)
+      // 计算路径时，先过滤掉 comment 节点
+      const list = parentNode.childNodes.filter(node => !isComment(node))
+      const indexOfNode = list.indexOf(this)
       const index = this.hooks.getPathIndex(indexOfNode)
 
       return `${parentNode._path}.${Shortcuts.Childnodes}.${index}`
