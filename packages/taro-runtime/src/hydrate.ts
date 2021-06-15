@@ -10,7 +10,8 @@ export interface MpInstance {
   setData: (data: unknown, cb: () => void) => void;
   route?: string;
   __route__: string;
-  options?: Record<string, unknown>
+  $taroParams?: Record<string, unknown>
+  $taroPath: string
   __data__: any,
   data: any
   selectComponent: (selector: string) => any

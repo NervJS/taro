@@ -1,9 +1,8 @@
 // RootNavigation.js
 import * as React from 'react'
 import { camelCase } from 'lodash'
-import { parseUrl } from 'query-string'
 import { StackActions, NavigationContainerRef } from '@react-navigation/native'
-import { getTabBarPages, setTabInitRoute } from './utils/index'
+import { getTabBarPages, setTabInitRoute, handleUrl } from './utils/index'
 import { CallbackResult, BaseOption } from './utils/types'
 // import { getOpenerEventChannel } from './getOpenerEventChannel'
 
@@ -46,17 +45,6 @@ export function switchTab (option: NavigateOption): Promise<CallbackResult> {
 
 export function reLaunch (option: NavigateOption): Promise<CallbackResult> {
   return navigate(option, 'reLaunch')
-}
-
-// 处理url转换成pageName与params
-export function handleUrl (url: string): Record<string, unknown> {
-  const path = url.split('?')[0]
-  const pageName = camelCase(path.startsWith('/') ? path : `/${path}`)
-  const params = parseUrl(url.startsWith('/') ? url.substr(1) : url).query || {}
-  return {
-    pageName,
-    params
-  }
 }
 
 export function navigate (option: NavigateOption | NavigateBackOption, method: NavigateMethod): Promise<CallbackResult> {
@@ -135,19 +123,19 @@ export function isTabPage (path = ''): boolean {
 export function getCurrentRoute () {
   const routeState = navigationRef.current?.getRootState()
   const routes = routeState?.routes
-  const routeName: string[] = []
+  const routeKeys: string[] = []
   if (routes) {
     routes.forEach(item => {
       if (item.name === 'tabNav') {
         const index = item.state?.index ?? 0
-        const names = item.state?.routeNames ?? []
-        names && routeName.push(names[index])
+        const tabRoutes: Record<string, any>[] = item.state?.routes ?? []
+        tabRoutes && routeKeys.push(tabRoutes[index].key)
       } else {
-        routeName.push(item.name)
+        routeKeys.push(item.key)
       }
     })
   }
-  return routeName
+  return routeKeys
 }
 
 export const getRouteEventChannel = (routeChannel) => {

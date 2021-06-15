@@ -63,7 +63,6 @@ require(\\"./taro\\");
             bindAnimationEnd: \\"\\",
             bindTransitionEnd: \\"\\"
         };
-        const specialEvents = new Set([ \\"htouchmove\\", \\"vtouchmove\\" ]);
         function singleQuote(s) {
             return \`'\${s}'\`;
         }
@@ -281,8 +280,8 @@ require(\\"./taro\\");
             animation: \\"true\\",
             bindChange: \\"\\",
             bindScale: \\"\\",
-            htouchmove: \\"\\",
-            vtouchmove: \\"\\",
+            bindHTouchMove: \\"\\",
+            bindVTouchMove: \\"\\",
             width: singleQuote(\\"10px\\"),
             height: singleQuote(\\"10px\\")
         }, touchEvents), animationEvents);
@@ -473,10 +472,15 @@ require(\\"./taro\\");
         const focusComponents = new Set([ \\"input\\", \\"textarea\\" ]);
         const voidElements = new Set([ \\"progress\\", \\"icon\\", \\"rich-text\\", \\"input\\", \\"textarea\\", \\"slider\\", \\"switch\\", \\"audio\\", \\"ad\\", \\"official-account\\", \\"open-data\\", \\"navigation-bar\\" ]);
         const nestElements = new Map([ [ \\"view\\", -1 ], [ \\"catch-view\\", -1 ], [ \\"cover-view\\", -1 ], [ \\"static-view\\", -1 ], [ \\"pure-view\\", -1 ], [ \\"block\\", -1 ], [ \\"text\\", -1 ], [ \\"static-text\\", 6 ], [ \\"slot\\", 8 ], [ \\"slot-view\\", 8 ], [ \\"label\\", 6 ], [ \\"form\\", 4 ], [ \\"scroll-view\\", 4 ], [ \\"swiper\\", 4 ], [ \\"swiper-item\\", 4 ] ]);
+        const BUBBLE_EVENTS = new Set([ \\"touchstart\\", \\"touchmove\\", \\"touchcancel\\", \\"touchend\\", \\"touchforcechange\\", \\"tap\\", \\"longpress\\", \\"longtap\\", \\"transitionend\\", \\"animationstart\\", \\"animationiteration\\", \\"animationend\\" ]);
         const EMPTY_OBJ = {};
         const EMPTY_ARR = [];
         const noop = (..._) => {};
-        const defaultReconciler = {};
+        const defaultReconciler = {
+            isBubbleEvent(eventName) {
+                return BUBBLE_EVENTS.has(eventName);
+            }
+        };
         const box = v => ({
             v: v
         });
@@ -642,7 +646,7 @@ require(\\"./taro\\");
                         for (let prop in component) {
                             if (hasOwn(component, prop)) {
                                 let propValue = component[prop];
-                                if (prop.startsWith(\\"bind\\") || specialEvents.has(prop)) {
+                                if (prop.startsWith(\\"bind\\")) {
                                     propValue = \\"eh\\";
                                 } else if (propValue === \\"\\") {
                                     propValue = \`i.\${toCamelCase(prop)}\`;
@@ -1168,6 +1172,8 @@ require(\\"./taro\\");
                 \\"adjust-position\\": \\"true\\",
                 \\"hold-keyboard\\": \\"false\\",
                 \\"disable-default-padding\\": \\"false\\",
+                \\"confirm-type\\": singleQuote(\\"return\\"),
+                \\"confirm-hold\\": \\"false\\",
                 bindKeyboardHeightChange: \\"\\"
             },
             ScrollView: {

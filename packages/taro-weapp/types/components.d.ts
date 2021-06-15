@@ -71,6 +71,8 @@ export declare const components: {
         'adjust-position': string;
         'hold-keyboard': string;
         'disable-default-padding': string;
+        'confirm-type': string;
+        'confirm-hold': string;
         bindKeyboardHeightChange: string;
     };
     ScrollView: {
