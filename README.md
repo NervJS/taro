@@ -7,6 +7,8 @@
 [![](https://img.shields.io/npm/dt/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
 [![](https://img.shields.io/travis/NervJS/taro.svg?style=flat-square)](https://travis-ci.org/NervJS/taro)
 
+[简体中文](./README.md) | [English](./README_EN.md)
+
 > 👽 Taro['tɑ:roʊ]，泰罗·奥特曼，宇宙警备队总教官，实力最强的奥特曼。
 
 ## 简介
@@ -57,7 +59,7 @@ import { View, Text } from '@tarojs/components'
 
 export default class Index extends Component {
   state = {
-    msg: 'Hello World！'
+    msg: 'Hello World！ '
   }
   componentWillUnmount () { }
 
@@ -92,7 +94,7 @@ export default class Index extends Component {
 export default {
   data () {
     return {
-      msg: 'Hello World！'
+      msg: 'Hello World!'
     }
   },
   created () {},

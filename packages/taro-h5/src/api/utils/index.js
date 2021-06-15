@@ -193,7 +193,7 @@ function processOpenapi (apiName, defaultOptions, formatResult = res => res, for
     options = options || {}
     const obj = Object.assign({}, defaultOptions, options)
     const p = new Promise((resolve, reject) => {
-      ;['fail', 'success', 'complete'].forEach(k => {
+      ['fail', 'success', 'complete'].forEach(k => {
         obj[k] = oriRes => {
           const res = formatResult(oriRes)
           options[k] && options[k](res)
@@ -218,6 +218,9 @@ const easeInOut = t => t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t 
 
 const getTimingFunc = (easeFunc, frameCnt) => {
   return x => {
+    if (frameCnt <= 1) {
+      return easeFunc(1)
+    }
     const t = x / (frameCnt - 1)
     return easeFunc(t)
   }

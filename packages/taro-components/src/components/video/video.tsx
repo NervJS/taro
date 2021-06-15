@@ -509,7 +509,11 @@ export class Video implements ComponentInterface {
           style={{
             'object-fit': objectFit
           }}
-          ref={dom => (this.videoRef = dom as HTMLVideoElement)}
+          ref={dom => {
+            if (dom) {
+              this.videoRef = dom as HTMLVideoElement
+            }
+          }}
           src={src}
           autoplay={autoplay}
           loop={loop}

@@ -166,6 +166,10 @@ declare namespace Taro {
       mp3
       /** aac 格式 */
       aac
+      /** wav 格式 */
+      wav
+      /** pcm 格式 */
+      PCM
     }
     /** 录音通道数 */
     interface numberOfChannels {

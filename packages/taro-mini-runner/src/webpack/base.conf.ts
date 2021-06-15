@@ -32,7 +32,9 @@ export default (appPath: string) => {
 
   chain.resolve
     .plugin('MultiPlatformPlugin')
-    .use(MultiPlatformPlugin, ['described-resolve', 'resolve'])
+    .use(MultiPlatformPlugin, ['described-resolve', 'resolve', {
+      chain
+    }])
 
   return chain
 }

@@ -1,13 +1,35 @@
+const { jsWithTs: tsjPreset } = require('ts-jest/presets')
+
 module.exports = {
   verbose: true,
   preset: 'react-native',
   transform: {
-    '^.+\\.js$': 'babel-jest'
+    ...tsjPreset.transform
   },
-  transformIgnorePatterns: ['node_modules/(?!(react-native|react-navigation|react-navigation-stack|react-native-screens|react-native-safe-area-view|react-navigation-tabs)/)'],
+  collectCoverage: true,
+  moduleFileExtensions: [
+    'ts',
+    'tsx',
+    'js'
+  ],
+  globals: {
+    'ts-jest': {
+      diagnostics: false,
+      tsConfig: {
+        jsx: 'react',
+        allowJs: true,
+        target: 'ES6'
+      }
+    }
+  },
+  testPathIgnorePatterns: [
+    'node_modules',
+    'utils'
+  ],
   setupTestFrameworkScriptFile: 'jest-enzyme',
   testEnvironment: 'enzyme',
   testEnvironmentOptions: {
     enzymeAdapter: 'react16'
-  }
+  },
+  testMatch: ['**/__tests__/?(*.)+(spec|test).[jt]s?(x)']
 }

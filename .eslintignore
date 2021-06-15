@@ -11,9 +11,16 @@ packages/taro-transformer-wx/tt.js
 packages/taro-transformer-wx/t.js
 packages/taro-cli/src/jdreact/template/*.js
 packages/taro-cli/templates
-/packages/taro-components/loader
+packages/taro-cli/src/rn
+packages/taro-components/loader
 packages/taro-webpack-runner/src/__tests__/__snapshots__
 packages/taro-webpack-runner/src/__tests__/fixtures
 packages/taro-mini-runner/src/__tests__/__snapshots__
 packages/taro-mini-runner/src/__tests__/fixtures
 packages/taro-cli/src/__tests__/fixtures
+packages/taro/types
+packages/taro-mini-runner/src/quickapp
+packages/taro-components/src/components
+packages/taro-router/__tests__
+packages/taro-rn-style-transformer/src/transforms/StyleSheet
+packages/taro-rn/src/__tests__

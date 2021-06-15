@@ -1,0 +1,74 @@
+img[src=""] {
+  opacity: 0;
+}
+
+.taro-img {
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  font-size: 0;
+  width: 320px;
+  height: 240px;
+}
+
+.taro-img.taro-img__widthfix {
+  height: 100%;
+}
+
+.taro-img__mode-scaletofill {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+.taro-img__mode-aspectfit {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+.taro-img__mode-aspectfill {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.taro-img__mode-widthfix {
+  width: 100%;
+}
+
+.taro-img__mode-top {
+  width: 100%;
+}
+
+.taro-img__mode-bottom {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
+.taro-img__mode-left {
+  height: 100%;
+}
+
+.taro-img__mode-right {
+  position: absolute;
+  height: 100%;
+  right: 0;
+}
+
+.taro-img__mode-topright {
+  position: absolute;
+  right: 0;
+}
+
+.taro-img__mode-bottomleft {
+  position: absolute;
+  bottom: 0;
+}
+
+.taro-img__mode-bottomright {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}

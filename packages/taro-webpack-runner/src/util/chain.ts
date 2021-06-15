@@ -1,3 +1,5 @@
+import * as fs from 'fs-extra'
+import * as path from 'path'
 import { recursiveMerge, REG_SCRIPTS, REG_SASS_SASS, REG_SASS_SCSS, REG_LESS, REG_STYLUS, REG_STYLE, REG_MEDIA, REG_FONT, REG_IMAGE } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
@@ -11,6 +13,7 @@ import { join, resolve } from 'path'
 import * as TerserPlugin from 'terser-webpack-plugin'
 import * as webpack from 'webpack'
 import { PostcssOption, IPostcssOption, ICopyOptions } from '@tarojs/taro/types/compile'
+import * as ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
 
 import MainPlugin from '../plugins/MainPlugin'
 import { getPostcssPlugins } from '../config/postcss.conf'
@@ -210,11 +213,12 @@ export const getCssoWebpackPlugin = ([cssoOption]) => {
 }
 export const getCopyWebpackPlugin = ({ copy, appPath }: { copy: ICopyOptions; appPath: string }) => {
   const args = [
-    copy.patterns.map(({ from, to }) => {
+    copy.patterns.map(({ from, to, ...extra }) => {
       return {
         from,
         to: resolve(appPath, to),
-        context: appPath
+        context: appPath,
+        ...extra
       }
     }),
     copy.options
@@ -224,6 +228,10 @@ export const getCopyWebpackPlugin = ({ copy, appPath }: { copy: ICopyOptions; ap
 
 export const getMainPlugin = args => {
   return partial(getPlugin, MainPlugin)([args])
+}
+
+export const getFastRefreshPlugin = () => {
+  return partial(getPlugin, ReactRefreshWebpackPlugin)([])
 }
 
 const styleModuleReg = /(.*\.module).*\.(css|s[ac]ss|less|styl)\b/
@@ -398,27 +406,45 @@ export const getModule = (appPath: string, {
 
   const resolveUrlLoader = getResolveUrlLoader([{}])
 
-  const sassLoader = getSassLoader([
-    {
-      sourceMap: true,
-      implementation: sass,
-      sassOptions: {
-        indentedSyntax: true,
-        outputStyle: 'expanded'
+  const baseSassOptions = {
+    sourceMap: true,
+    implementation: sass,
+    sassOptions: {
+      outputStyle: 'expanded',
+      fiber: false,
+      importer (url, prev, done) {
+        // 让 sass 文件里的 @import 能解析小程序原生样式文体，如 @import "a.wxss";
+        const extname = path.extname(url)
+        // fix: @import 文件可以不带scss/sass缀，如: @import "define";
+        if (extname === '.scss' || extname === '.sass' || extname === '.css' || !extname) {
+          return null
+        } else {
+          const filePath = path.resolve(path.dirname(prev), url)
+          fs.access(filePath, fs.constants.F_OK, (err) => {
+            if (err) {
+              console.log(err)
+              return null
+            } else {
+              fs.readFile(filePath)
+                .then(res => {
+                  done({ contents: res.toString() })
+                })
+                .catch(err => {
+                  console.log(err)
+                  return null
+                })
+            }
+          })
+        }
       }
-    },
-    sassLoaderOption
-  ])
-  const scssLoader = getSassLoader([
-    {
-      sourceMap: true,
-      implementation: sass,
-      sassOptions: {
-        outputStyle: 'expanded'
-      }
-    },
-    sassLoaderOption
-  ])
+    }
+  }
+  const sassLoader = getSassLoader([baseSassOptions, {
+    sassOptions: {
+      indentedSyntax: true
+    }
+  }, sassLoaderOption])
+  const scssLoader = getSassLoader([baseSassOptions, sassLoaderOption])
 
   const lessLoader = getLessLoader([{ sourceMap: enableSourceMap }, lessLoaderOption])
 

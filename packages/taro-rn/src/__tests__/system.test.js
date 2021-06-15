@@ -1,6 +1,7 @@
-import system from '../api/system'
+import { getSystemInfo } from '../lib/getSystemInfo'
+import { getSystemInfoSync } from '../lib/getSystemInfoSync'
 
-const Taro = Object.assign({}, system)
+const Taro = { getSystemInfo, getSystemInfoSync }
 
 describe('system', () => {
   describe('getSystemInfoSync', () => {
@@ -9,6 +10,7 @@ describe('system', () => {
         brand: null,
         model: null,
         pixelRatio: expect.any(Number),
+        safeArea: expect.any(Object),
         screenWidth: expect.any(Number),
         screenHeight: expect.any(Number),
         windowWidth: expect.any(Number),
@@ -36,6 +38,7 @@ describe('system', () => {
         brand: null,
         model: null,
         pixelRatio: expect.any(Number),
+        safeArea: expect.any(Object),
         screenWidth: expect.any(Number),
         screenHeight: expect.any(Number),
         windowWidth: expect.any(Number),

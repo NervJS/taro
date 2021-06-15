@@ -70,7 +70,11 @@ module.exports = {
           }
         ],
         'no-useless-constructor': 'off',
-        '@typescript-eslint/no-useless-constructor': 'warn'
+        '@typescript-eslint/no-useless-constructor': 'warn',
+
+        // https://github.com/typescript-eslint/typescript-eslint/issues/2471
+        'no-shadow': 'off',
+        '@typescript-eslint/no-shadow': 'error'
       }
     }
   ]

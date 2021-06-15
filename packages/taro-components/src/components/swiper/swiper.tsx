@@ -8,7 +8,6 @@ let INSTANCE_ID = 0
 @Component({
   tag: 'taro-swiper-core',
   styleUrls: [
-    '../../../node_modules/swiper/dist/css/swiper.min.css',
     './style/index.scss'
   ]
 })
@@ -18,6 +17,7 @@ export class Swiper implements ComponentInterface {
   @Element() el: HTMLElement
   @State() swiperWrapper: HTMLElement | null
   @State() private swiper: SwiperJS
+  @State() isWillLoadCalled = false
   /**
    * 是否显示面板指示点
    */
@@ -79,7 +79,7 @@ export class Swiper implements ComponentInterface {
   @Prop() displayMultipleItems = 1
 
   /**
-   * 给 prewviewImage API 使用，全屏显示 swiper
+   * 给 previewImage API 使用，全屏显示 swiper
    */
   @Prop() full = false
 
@@ -93,6 +93,8 @@ export class Swiper implements ComponentInterface {
 
   @Watch('current')
   watchCurrent (newVal) {
+    if (!this.isWillLoadCalled) return
+
     const n = parseInt(newVal, 10)
     if (isNaN(n)) return
 
@@ -107,6 +109,8 @@ export class Swiper implements ComponentInterface {
 
   @Watch('autoplay')
   watchAutoplay (newVal) {
+    if (!this.isWillLoadCalled) return
+
     if (this.swiper.autoplay.running === newVal) return
 
     if (newVal) {
@@ -122,16 +126,20 @@ export class Swiper implements ComponentInterface {
 
   @Watch('duration')
   watchDuration (newVal) {
+    if (!this.isWillLoadCalled) return
     this.swiper.params.speed = newVal
   }
 
   @Watch('interval')
   watchInterval (newVal) {
+    if (!this.isWillLoadCalled) return
+
     this.swiper.params.autoplay.delay = newVal
   }
 
   @Watch('swiperWrapper')
   watchSwiperWrapper (newVal?: HTMLElement) {
+    if (!this.isWillLoadCalled) return
     if (!newVal) return
     this.el.appendChild = <T extends Node>(newChild: T): T => {
       return newVal.appendChild(newChild)
@@ -145,6 +153,10 @@ export class Swiper implements ComponentInterface {
     this.el.removeChild = <T extends Node>(oldChild: T): T => {
       return newVal.removeChild(oldChild)
     }
+  }
+
+  componentWillLoad () {
+    this.isWillLoadCalled = true
   }
 
   componentDidLoad () {
@@ -171,9 +183,11 @@ export class Swiper implements ComponentInterface {
       observer: true,
       observeParents: true,
       on: {
+        slideTo () {
+          that.current = this.realIndex
+        },
         // slideChange 事件在 swiper.slideTo 改写 current 时不触发，因此用 slideChangeTransitionEnd 事件代替
         slideChangeTransitionEnd () {
-          that.current = this.realIndex
           that.onChange.emit({
             current: this.realIndex,
             source: ''

@@ -25,7 +25,9 @@ function createVue3Page (h: typeof createElement, id: string) {
       created () {
         injectPageInstance(this, id)
         // vue3 组件 created 时机比小程序页面 onShow 慢，因此在 created 后再手动触发一次 onShow。
-        safeExecute(id, 'onShow')
+        this.$nextTick(() => {
+          safeExecute(id, 'onShow')
+        })
       }
     }
 
@@ -60,7 +62,7 @@ function createVue3Page (h: typeof createElement, id: string) {
 }
 
 function setReconciler () {
-  const hostConfig: Reconciler<any> = {
+  const hostConfig: Partial<Reconciler<any>> = {
     getLifecyle (instance, lifecycle) {
       return instance.$options[lifecycle]
     },
@@ -76,6 +78,9 @@ function setReconciler () {
       } else {
         delete dom.props[qualifiedName]
       }
+    },
+    modifyEventType (event) {
+      event.type = event.type.replace(/-/g, '')
     }
   }
 
@@ -126,7 +131,9 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
   app._component.render = function () {
     return pages.slice()
   }
-
+  if (!isBrowser) {
+    appInstance = app.mount('#app')
+  }
   const appConfig: AppInstance = Object.create({
     mount (component: Component, id: string, cb: () => void) {
       const page = createVue3Page(h, id)(component)
@@ -159,7 +166,9 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
           params: options?.query,
           ...options
         }
-        appInstance = app.mount('#app')
+        if (isBrowser) {
+          appInstance = app.mount('#app')
+        }
         const onLaunch = appInstance?.$options?.onLaunch
         isFunction(onLaunch) && onLaunch.call(appInstance, options)
       }
