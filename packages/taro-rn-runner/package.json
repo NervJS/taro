@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-runner",
-  "version": "3.2.10",
+  "version": "3.2.12",
   "description": "ReactNative build tool for taro",
   "main": "index.js",
   "repository": {
@@ -30,19 +30,19 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
-    "@react-native-community/cli": "^4.13.1",
-    "@react-native-community/cli-server-api": "^4.13.1",
-    "@tarojs/helper": "3.2.10",
-    "@tarojs/rn-style-transformer": "3.2.10",
-    "@tarojs/rn-supporter": "3.2.10",
-    "@tarojs/rn-transformer": "3.2.10",
+    "@react-native-community/cli": "^5.0.1",
+    "@react-native-community/cli-server-api": "^5.0.1",
+    "@tarojs/helper": "3.2.12",
+    "@tarojs/rn-style-transformer": "3.2.12",
+    "@tarojs/rn-supporter": "3.2.12",
+    "@tarojs/rn-transformer": "3.2.12",
     "fs-extra": "^9.0.1",
     "lodash": "^4.17.4",
-    "metro": "^0.58.0",
-    "metro-cache": "^0.58.0",
-    "metro-config": "^0.58.0",
-    "metro-core": "^0.58.0",
-    "metro-react-native-babel-transformer": "^0.58.0",
-    "metro-resolver": "^0.58.0"
+    "metro": "^0.64.0",
+    "metro-cache": "^0.64.0",
+    "metro-config": "^0.64.0",
+    "metro-core": "^0.64.0",
+    "metro-react-native-babel-transformer": "^0.64.0",
+    "metro-resolver": "^0.64.0"
   }
 }

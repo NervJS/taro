@@ -73,7 +73,7 @@ export namespace Components {
         "name": string;
         "password": boolean;
         "placeholder": string;
-        "type": undefined;
+        "type": string;
         "value": string;
     }
     interface TaroLabelCore {
@@ -759,7 +759,7 @@ declare namespace LocalJSX {
         "onKeydown"?: (event: CustomEvent<any>) => void;
         "password"?: boolean;
         "placeholder"?: string;
-        "type"?: undefined;
+        "type"?: string;
         "value"?: string;
     }
     interface TaroLabelCore {
