@@ -41,7 +41,7 @@
     "babel-plugin-transform-react-jsx-to-rn-stylesheet": "3.2.12",
     "babel-plugin-transform-taroapi": "3.2.12",
     "core-js": "^3.6.5",
-    "metro-react-native-babel-preset": "^0.63.0",
+    "metro-react-native-babel-preset": "^0.64.0",
     "react-refresh": "0.9.0"
   },
   "devDependencies": {
