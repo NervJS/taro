@@ -10,5 +10,6 @@ export const needPromiseApis = new Set([
   'hideInteractionBar',
   'pay',
   'navigateToVideoView',
-  'showInteractionBar'
+  'showInteractionBar',
+  'openEcGood'
 ])
