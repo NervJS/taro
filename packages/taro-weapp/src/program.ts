@@ -32,7 +32,10 @@ export default class Weapp extends TaroPlatformBase {
     super(ctx, config)
 
     this.setupTransaction.addWrapper({
-      close: this.modifyTemplate
+      close () {
+        this.modifyTemplate()
+        this.modifyWebpackConfig()
+      }
     })
   }
 
@@ -44,5 +47,18 @@ export default class Weapp extends TaroPlatformBase {
     template.mergeComponents(this.ctx, components)
     template.voidElements.add('voip-room')
     template.focusComponents.add('editor')
+  }
+
+  /**
+   * 修改 Webpack 配置
+   */
+  modifyWebpackConfig () {
+    this.ctx.modifyWebpackChain(({ chain }) => {
+      // 解决微信小程序 sourcemap 映射失败的问题，#9412
+      chain.output.devtoolModuleFilenameTemplate((info) => {
+        const resourcePath = info.resourcePath.replace(/[/\\]/g, '_')
+        return `webpack://${info.namespace}/${resourcePath}`
+      })
+    })
   }
 }

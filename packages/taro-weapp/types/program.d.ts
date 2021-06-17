@@ -27,4 +27,8 @@ export default class Weapp extends TaroPlatformBase {
      * 增加组件或修改组件属性
      */
     modifyTemplate(): void;
+    /**
+     * 修改 Webpack 配置
+     */
+    modifyWebpackConfig(): void;
 }
