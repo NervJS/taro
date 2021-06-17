@@ -314,5 +314,6 @@ export const components = {
     bindLeave: '',
     bindAfterLeave: '',
     bindClickOverlay: ''
-  }
+  },
+  KeyboardAccessory: {}
 }

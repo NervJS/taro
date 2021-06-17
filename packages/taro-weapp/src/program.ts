@@ -46,6 +46,7 @@ export default class Weapp extends TaroPlatformBase {
     const template = this.template
     template.mergeComponents(this.ctx, components)
     template.voidElements.add('voip-room')
+    template.voidElements.delete('textarea')
     template.focusComponents.add('editor')
   }
 

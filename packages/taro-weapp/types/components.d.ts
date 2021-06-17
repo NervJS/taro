@@ -306,4 +306,5 @@ export declare const components: {
         bindAfterLeave: string;
         bindClickOverlay: string;
     };
+    KeyboardAccessory: {};
 };
