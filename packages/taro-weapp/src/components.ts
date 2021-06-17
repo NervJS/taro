@@ -156,6 +156,9 @@ export const components = {
     // 'picture-in-picture-show-progress': 'false',
     'enable-auto-rotation': 'false',
     'show-screen-lock-button': 'false',
+    'show-snapshot-button': 'false',
+    'show-background-playback-button': 'false',
+    'background-poster': '',
     bindProgress: '',
     bindLoadedMetadata: '',
     bindControlsToggle: '',
@@ -311,5 +314,6 @@ export const components = {
     bindLeave: '',
     bindAfterLeave: '',
     bindClickOverlay: ''
-  }
+  },
+  KeyboardAccessory: {}
 }
