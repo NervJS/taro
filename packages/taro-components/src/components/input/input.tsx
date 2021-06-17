@@ -2,14 +2,14 @@ import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Element } 
 import { EventHandler, TaroEvent } from '../../../types'
 
 function getTrueType (type: string | undefined, confirmType: string, password: boolean) {
+  if (confirmType === 'search') type = 'search'
+  if (password) type = 'password'
   if (typeof type === 'undefined') {
     return 'text';
   }
   if (!type) {
     throw new Error('unexpected type')
   }
-  if (confirmType === 'search') type = 'search'
-  if (password) type = 'password'
   if (type === 'digit') type = 'number'
 
   return type
@@ -30,7 +30,7 @@ export class Input implements ComponentInterface {
   private fileListener: EventHandler
 
   @Prop() value: string
-  @Prop() type = undefined
+  @Prop() type: string
   @Prop() password = false
   @Prop() placeholder: string
   @Prop() disabled = false
