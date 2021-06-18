@@ -46,6 +46,25 @@ function concatOutputAssetsDest (config: any): string | undefined {
   return res
 }
 
+function getOutputSourceMapOption (config: any): Record<string, any> {
+  if (!config?.deviceType || !config?.output) {
+    return {}
+  }
+  if (config.deviceType === 'ios') {
+    return {
+      sourceMapUrl: config.output.iosSourceMapUrl,
+      sourcemapOutput: config.output.iosSourcemapOutput,
+      sourcemapSourcesRoot: config.output.iosSourcemapSourcesRoot
+    }
+  } else {
+    return {
+      sourceMapUrl: config.output.androidSourceMapUrl,
+      sourcemapOutput: config.output.androidSourcemapOutput,
+      sourcemapSourcesRoot: config.output.androidSourcemapSourcesRoot
+    }
+  }
+}
+
 // TODO: 返回值
 // HttpServer | {code: string, map: string}
 // IBuildConfig
@@ -152,9 +171,12 @@ export default async function build (appPath: string, config: any): Promise<any>
 
     const server = new Server(metroConfig)
 
+    const sourceMapOption = getOutputSourceMapOption(config)
+
     try {
       const requestOptions = {
         ...commonOptions,
+        ...sourceMapOption,
         entryFile: options.entry,
         inlineSourceMap: false,
         createModuleIdFactory: metroConfig.serializer.createModuleIdFactory
@@ -162,6 +184,7 @@ export default async function build (appPath: string, config: any): Promise<any>
       const bundle = await outputBundle.build(server, requestOptions)
       const outputOptions = {
         ...commonOptions,
+        ...sourceMapOption,
         bundleOutput: options.out
       }
       await outputBundle.save(bundle, outputOptions, console.log)
