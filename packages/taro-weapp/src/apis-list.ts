@@ -76,5 +76,6 @@ export const needPromiseApis = new Set([
   'getBLEDeviceCharacteristics',
   'createBLEConnection',
   'closeBLEConnection',
-  'startFacialRecognitionVerify'
+  'startFacialRecognitionVerify',
+  'choosePoi'
 ])

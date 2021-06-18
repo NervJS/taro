@@ -1016,12 +1016,12 @@ babel-plugin-polyfill-corejs2@^0.2.2:
     semver "^6.1.1"
 
 babel-plugin-polyfill-corejs3@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/babel-plugin-polyfill-corejs3/-/babel-plugin-polyfill-corejs3-0.2.2.tgz#7424a1682ee44baec817327710b1b094e5f8f7f5"
-  integrity sha512-l1Cf8PKk12eEk5QP/NQ6TH8A1pee6wWDJ96WjxrMXFLHLOBFzYM4moG80HFgduVhTqAFez4alnZKEhP/bYHg0A==
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/babel-plugin-polyfill-corejs3/-/babel-plugin-polyfill-corejs3-0.2.3.tgz#72add68cf08a8bf139ba6e6dfc0b1d504098e57b"
+  integrity sha512-rCOFzEIJpJEAU14XCcV/erIf/wZQMmMT5l5vXOpL5uoznyOGfDIjPj6FVytMvtzaKSTSVKouOCTPJ5OMUZH30g==
   dependencies:
     "@babel/helper-define-polyfill-provider" "^0.2.2"
-    core-js-compat "^3.9.1"
+    core-js-compat "^3.14.0"
 
 babel-plugin-polyfill-regenerator@^0.2.2:
   version "0.2.2"
@@ -1116,9 +1116,9 @@ call-bind@^1.0.0:
     get-intrinsic "^1.0.2"
 
 caniuse-lite@^1.0.30001219:
-  version "1.0.30001237"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001237.tgz#4b7783661515b8e7151fc6376cfd97f0e427b9e5"
-  integrity sha512-pDHgRndit6p1NR2GhzMbQ6CkRrp4VKuSsqbcLeOQppYPKOYkKT/6ZvZDvKJUqcmtyWIAHuZq3SVS2vc1egCZzw==
+  version "1.0.30001238"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001238.tgz#e6a8b45455c5de601718736d0242feef0ecdda15"
+  integrity sha512-bZGam2MxEt7YNsa2VwshqWQMwrYs5tR5WZQRYSuFxsBQunWjBuXhN4cS9nV5FFb1Z9y+DoQcQ0COyQbv6A+CKw==
 
 chalk@3.0.0:
   version "3.0.0"
@@ -1221,7 +1221,7 @@ copy-descriptor@^0.1.0:
   resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
 
-core-js-compat@^3.14.0, core-js-compat@^3.9.1:
+core-js-compat@^3.14.0:
   version "3.14.0"
   resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.14.0.tgz#b574dabf29184681d5b16357bd33d104df3d29a5"
   integrity sha512-R4NS2eupxtiJU+VwgkF9WTpnSfZW4pogwKHd8bclWU2sp93Pr5S1uYJI84cMOubJRou7bcfL0vmwtLslWN5p3A==

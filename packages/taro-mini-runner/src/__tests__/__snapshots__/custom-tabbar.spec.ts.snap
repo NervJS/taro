@@ -814,7 +814,7 @@ require(\\"./taro\\");
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
             taro.miniGlobal = taro.options.miniGlobal = global;
         }
-        var runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\" ]);
+        var runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\", \\"choosePoi\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: runtime_needPromiseApis
@@ -971,6 +971,9 @@ require(\\"./taro\\");
                 \\"picture-in-picture-mode\\": \\"[]\\",
                 \\"enable-auto-rotation\\": \\"false\\",
                 \\"show-screen-lock-button\\": \\"false\\",
+                \\"show-snapshot-button\\": \\"false\\",
+                \\"show-background-playback-button\\": \\"false\\",
+                \\"background-poster\\": \\"\\",
                 bindProgress: \\"\\",
                 bindLoadedMetadata: \\"\\",
                 bindControlsToggle: \\"\\",
@@ -1125,7 +1128,8 @@ require(\\"./taro\\");
                 bindLeave: \\"\\",
                 bindAfterLeave: \\"\\",
                 bindClickOverlay: \\"\\"
-            }
+            },
+            KeyboardAccessory: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi

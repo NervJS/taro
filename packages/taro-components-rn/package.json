@@ -49,7 +49,7 @@
     "expo-constants": "~9.2.0",
     "expo-file-system": "~9.2.0",
     "jest-expo": "^39.0.0",
-    "metro-react-native-babel-preset": "^0.65.2",
+    "metro-react-native-babel-preset": "^0.64.0",
     "pre-commit": "^1.2.2",
     "react-native": "^0.64.0",
     "react-native-mock-render": "^0.1.9",

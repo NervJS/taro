@@ -17,6 +17,7 @@ if (!isBrowser) {
   ]
 
   globalProperties.forEach(property => {
+    if (property === 'atob') return
     if (!Object.prototype.hasOwnProperty.call(window, property)) {
       window[property] = global[property]
     }

@@ -814,7 +814,7 @@ require(\\"./taro\\");
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
             taro.miniGlobal = taro.options.miniGlobal = global;
         }
-        var runtime_utils_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\" ]);
+        var runtime_utils_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\", \\"choosePoi\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: runtime_utils_needPromiseApis
@@ -971,6 +971,9 @@ require(\\"./taro\\");
                 \\"picture-in-picture-mode\\": \\"[]\\",
                 \\"enable-auto-rotation\\": \\"false\\",
                 \\"show-screen-lock-button\\": \\"false\\",
+                \\"show-snapshot-button\\": \\"false\\",
+                \\"show-background-playback-button\\": \\"false\\",
+                \\"background-poster\\": \\"\\",
                 bindProgress: \\"\\",
                 bindLoadedMetadata: \\"\\",
                 bindControlsToggle: \\"\\",
@@ -1125,7 +1128,8 @@ require(\\"./taro\\");
                 bindLeave: \\"\\",
                 bindAfterLeave: \\"\\",
                 bindClickOverlay: \\"\\"
-            }
+            },
+            KeyboardAccessory: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi
@@ -1287,23 +1291,35 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_input_focus\\">
-  <input value=\\"{{i.value}}\\" type=\\"{{xs.b(i.type,'')}}\\" password=\\"{{xs.b(i.password,false)}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" focus=\\"{{xs.b(i.focus,false)}}\\" confirm-type=\\"{{xs.b(i.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(i.confirmHold,false)}}\\" cursor=\\"{{xs.b(i.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <input value=\\"{{i.value}}\\" type=\\"{{xs.b(i.type,'')}}\\" password=\\"{{xs.b(i.password,false)}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" focus=\\"{{xs.b(i.focus,false)}}\\" confirm-type=\\"{{xs.b(i.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(i.confirmHold,false)}}\\" cursor=\\"{{xs.b(i.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\"></input>
 </template>
 
 <template name=\\"tmpl_0_input_blur\\">
-  <input value=\\"{{i.value}}\\" type=\\"{{xs.b(i.type,'')}}\\" password=\\"{{xs.b(i.password,false)}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" confirm-type=\\"{{xs.b(i.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(i.confirmHold,false)}}\\" cursor=\\"{{xs.b(i.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <input value=\\"{{i.value}}\\" type=\\"{{xs.b(i.type,'')}}\\" password=\\"{{xs.b(i.password,false)}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" confirm-type=\\"{{xs.b(i.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(i.confirmHold,false)}}\\" cursor=\\"{{xs.b(i.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\"></input>
 </template>
 
 <template name=\\"tmpl_0_textarea\\">
-  <template is=\\"{{xs.c(i, 'tmpl_0_')}}\\" data=\\"{{i:i}}\\" />
+  <template is=\\"{{xs.c(i, 'tmpl_0_')}}\\" data=\\"{{i:i,cid:cid}}\\" />
 </template>
 
 <template name=\\"tmpl_0_textarea_focus\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'textarea-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" auto-focus=\\"{{xs.b(i.autoFocus,false)}}\\" focus=\\"{{xs.b(i.focus,false)}}\\" auto-height=\\"{{xs.b(i.autoHeight,false)}}\\" fixed=\\"{{xs.b(i.fixed,false)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" cursor=\\"{{xs.b(i.cursor,-1)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'textarea-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" auto-focus=\\"{{xs.b(i.autoFocus,false)}}\\" focus=\\"{{xs.b(i.focus,false)}}\\" auto-height=\\"{{xs.b(i.autoHeight,false)}}\\" fixed=\\"{{xs.b(i.fixed,false)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" cursor=\\"{{xs.b(i.cursor,-1)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <keyboard-accessory style=\\"{{i.cn[0].st}}\\" class=\\"{{i.cn[0].cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.cn[0].uid}}\\">
+      <block wx:for=\\"{{i.cn[0].cn}}\\" wx:key=\\"uid\\">
+        <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+      </block>
+    </keyboard-accessory>
+    </textarea>
 </template>
 
 <template name=\\"tmpl_0_textarea_blur\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'textarea-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" auto-focus=\\"{{xs.b(i.autoFocus,false)}}\\" auto-height=\\"{{xs.b(i.autoHeight,false)}}\\" fixed=\\"{{xs.b(i.fixed,false)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" cursor=\\"{{xs.b(i.cursor,-1)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'textarea-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" auto-focus=\\"{{xs.b(i.autoFocus,false)}}\\" auto-height=\\"{{xs.b(i.autoHeight,false)}}\\" fixed=\\"{{xs.b(i.fixed,false)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" cursor=\\"{{xs.b(i.cursor,-1)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <keyboard-accessory style=\\"{{i.cn[0].st}}\\" class=\\"{{i.cn[0].cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.cn[0].uid}}\\">
+      <block wx:for=\\"{{i.cn[0].cn}}\\" wx:key=\\"uid\\">
+        <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+      </block>
+    </keyboard-accessory>
+    </textarea>
 </template>
 
 <template name=\\"tmpl_0_scroll-view\\">
@@ -3815,7 +3831,7 @@ require(\\"./taro\\");
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
             taro.miniGlobal = taro.options.miniGlobal = global;
         }
-        var runtime_utils_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\" ]);
+        var runtime_utils_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\", \\"choosePoi\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: runtime_utils_needPromiseApis
@@ -3972,6 +3988,9 @@ require(\\"./taro\\");
                 \\"picture-in-picture-mode\\": \\"[]\\",
                 \\"enable-auto-rotation\\": \\"false\\",
                 \\"show-screen-lock-button\\": \\"false\\",
+                \\"show-snapshot-button\\": \\"false\\",
+                \\"show-background-playback-button\\": \\"false\\",
+                \\"background-poster\\": \\"\\",
                 bindProgress: \\"\\",
                 bindLoadedMetadata: \\"\\",
                 bindControlsToggle: \\"\\",
@@ -4126,7 +4145,8 @@ require(\\"./taro\\");
                 bindLeave: \\"\\",
                 bindAfterLeave: \\"\\",
                 bindClickOverlay: \\"\\"
-            }
+            },
+            KeyboardAccessory: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi
@@ -4288,23 +4308,35 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_input_focus\\">
-  <input value=\\"{{i.value}}\\" type=\\"{{xs.b(i.type,'')}}\\" password=\\"{{xs.b(i.password,false)}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" focus=\\"{{xs.b(i.focus,false)}}\\" confirm-type=\\"{{xs.b(i.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(i.confirmHold,false)}}\\" cursor=\\"{{xs.b(i.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <input value=\\"{{i.value}}\\" type=\\"{{xs.b(i.type,'')}}\\" password=\\"{{xs.b(i.password,false)}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" focus=\\"{{xs.b(i.focus,false)}}\\" confirm-type=\\"{{xs.b(i.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(i.confirmHold,false)}}\\" cursor=\\"{{xs.b(i.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\"></input>
 </template>
 
 <template name=\\"tmpl_0_input_blur\\">
-  <input value=\\"{{i.value}}\\" type=\\"{{xs.b(i.type,'')}}\\" password=\\"{{xs.b(i.password,false)}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" confirm-type=\\"{{xs.b(i.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(i.confirmHold,false)}}\\" cursor=\\"{{xs.b(i.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <input value=\\"{{i.value}}\\" type=\\"{{xs.b(i.type,'')}}\\" password=\\"{{xs.b(i.password,false)}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" confirm-type=\\"{{xs.b(i.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(i.confirmHold,false)}}\\" cursor=\\"{{xs.b(i.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\"></input>
 </template>
 
 <template name=\\"tmpl_0_textarea\\">
-  <template is=\\"{{xs.c(i, 'tmpl_0_')}}\\" data=\\"{{i:i}}\\" />
+  <template is=\\"{{xs.c(i, 'tmpl_0_')}}\\" data=\\"{{i:i,cid:cid}}\\" />
 </template>
 
 <template name=\\"tmpl_0_textarea_focus\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'textarea-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" auto-focus=\\"{{xs.b(i.autoFocus,false)}}\\" focus=\\"{{xs.b(i.focus,false)}}\\" auto-height=\\"{{xs.b(i.autoHeight,false)}}\\" fixed=\\"{{xs.b(i.fixed,false)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" cursor=\\"{{xs.b(i.cursor,-1)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'textarea-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" auto-focus=\\"{{xs.b(i.autoFocus,false)}}\\" focus=\\"{{xs.b(i.focus,false)}}\\" auto-height=\\"{{xs.b(i.autoHeight,false)}}\\" fixed=\\"{{xs.b(i.fixed,false)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" cursor=\\"{{xs.b(i.cursor,-1)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <keyboard-accessory style=\\"{{i.cn[0].st}}\\" class=\\"{{i.cn[0].cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.cn[0].uid}}\\">
+      <block wx:for=\\"{{i.cn[0].cn}}\\" wx:key=\\"uid\\">
+        <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+      </block>
+    </keyboard-accessory>
+    </textarea>
 </template>
 
 <template name=\\"tmpl_0_textarea_blur\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'textarea-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" auto-focus=\\"{{xs.b(i.autoFocus,false)}}\\" auto-height=\\"{{xs.b(i.autoHeight,false)}}\\" fixed=\\"{{xs.b(i.fixed,false)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" cursor=\\"{{xs.b(i.cursor,-1)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'textarea-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" auto-focus=\\"{{xs.b(i.autoFocus,false)}}\\" auto-height=\\"{{xs.b(i.autoHeight,false)}}\\" fixed=\\"{{xs.b(i.fixed,false)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" cursor=\\"{{xs.b(i.cursor,-1)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <keyboard-accessory style=\\"{{i.cn[0].st}}\\" class=\\"{{i.cn[0].cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.cn[0].uid}}\\">
+      <block wx:for=\\"{{i.cn[0].cn}}\\" wx:key=\\"uid\\">
+        <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+      </block>
+    </keyboard-accessory>
+    </textarea>
 </template>
 
 <template name=\\"tmpl_0_scroll-view\\">
