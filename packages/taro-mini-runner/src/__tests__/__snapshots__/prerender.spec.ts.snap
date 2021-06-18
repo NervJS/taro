@@ -776,20 +776,12 @@ require(\\"./taro\\");
                 return this.focusComponents.has(comp.nodeName) ? this.buildFocusComponentTemplte(comp, level) : this.buildStandardComponentTemplate(comp, level);
             }
         }, {
-            key: \\"buildFocusComponentTemplte\\",
-            value: function buildFocusComponentTemplte(comp, level) {
-                var attrs = Object.assign({}, comp.attributes);
-                var templateName = this.supportXS ? \\"xs.c(i, 'tmpl_\\".concat(level, \\"_')\\") : \\"i.focus ? 'tmpl_\\".concat(level, \\"_\\").concat(comp.nodeName, \\"_focus' : 'tmpl_\\").concat(level, \\"_\\").concat(comp.nodeName, \\"_blur'\\");
-                delete attrs.focus;
-                return '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(comp.nodeName, '\\">\\\\n  <template is=\\"{{').concat(templateName, '}}\\" data=\\"{{').concat(this.dataKeymap(\\"i:i\\"), '}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_focus\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(comp.attributes, comp.nodeName), ' id=\\"{{i.uid}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_blur\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(attrs, comp.nodeName), ' id=\\"{{i.uid}}\\" />\\\\n</template>\\\\n');
-            }
-        }, {
-            key: \\"buildStandardComponentTemplate\\",
-            value: function buildStandardComponentTemplate(comp, level) {
-                var isSupportRecursive = this.isSupportRecursive, Adapter = this.Adapter;
+            key: \\"getChildren\\",
+            value: function getChildren(comp, level) {
+                var isSupportRecursive = this.isSupportRecursive, Adapter = this.Adapter, supportXS = this.supportXS;
                 var nextLevel = isSupportRecursive ? 0 : level + 1;
-                var data = !this.isSupportRecursive && this.supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
-                var child = this.supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
+                var data = !this.isSupportRecursive && supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
+                var child = supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
                 if (isFunction(this.modifyLoopBody)) {
                     child = this.modifyLoopBody(child, comp.nodeName);
                 }
@@ -797,6 +789,21 @@ require(\\"./taro\\");
                 if (isFunction(this.modifyLoopContainer)) {
                     children = this.modifyLoopContainer(children, comp.nodeName);
                 }
+                return children;
+            }
+        }, {
+            key: \\"buildFocusComponentTemplte\\",
+            value: function buildFocusComponentTemplte(comp, level) {
+                var children = this.getChildren(comp, level);
+                var attrs = Object.assign({}, comp.attributes);
+                var templateName = this.supportXS ? \\"xs.c(i, 'tmpl_\\".concat(level, \\"_')\\") : \\"i.focus ? 'tmpl_\\".concat(level, \\"_\\").concat(comp.nodeName, \\"_focus' : 'tmpl_\\").concat(level, \\"_\\").concat(comp.nodeName, \\"_blur'\\");
+                delete attrs.focus;
+                return '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(comp.nodeName, '\\">\\\\n  <template is=\\"{{').concat(templateName, '}}\\" data=\\"{{').concat(this.dataKeymap(\\"i:i\\")).concat(children ? \\",cid:cid\\" : \\"\\", '}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_focus\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(comp.attributes, comp.nodeName), ' id=\\"{{i.uid}}\\">').concat(children, \\"</\\").concat(comp.nodeName, '>\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_blur\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(attrs, comp.nodeName), ' id=\\"{{i.uid}}\\">').concat(children, \\"</\\").concat(comp.nodeName, \\">\\\\n</template>\\\\n\\");
+            }
+        }, {
+            key: \\"buildStandardComponentTemplate\\",
+            value: function buildStandardComponentTemplate(comp, level) {
+                var children = this.getChildren(comp, level);
                 var nodeName = \\"\\";
                 switch (comp.nodeName) {
                   case \\"slot\\":
@@ -1515,7 +1522,7 @@ require(\\"./taro\\");
     \\"use strict\\";
     var _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
     var noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\", \\"onBluetoothDeviceFound\\", \\"onBluetoothAdapterStateChange\\", \\"offBluetoothDeviceFound\\", \\"offBluetoothAdapterStateChange\\", \\"onBLEConnectionStateChange\\", \\"onBLECharacteristicValueChange\\", \\"offBLEConnectionStateChange\\", \\"offBLECharacteristicValueChange\\", \\"onCopyUrl\\", \\"offCopyUrl\\" ]);
-    var needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\" ]);
+    var needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\", \\"choosePoi\\" ]);
     function initNativeApi(taro) {
         Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"c\\"])(taro, wx, {
             noPromiseApis: noPromiseApis,
@@ -1673,6 +1680,9 @@ require(\\"./taro\\");
             \\"picture-in-picture-mode\\": \\"[]\\",
             \\"enable-auto-rotation\\": \\"false\\",
             \\"show-screen-lock-button\\": \\"false\\",
+            \\"show-snapshot-button\\": \\"false\\",
+            \\"show-background-playback-button\\": \\"false\\",
+            \\"background-poster\\": \\"\\",
             bindProgress: \\"\\",
             bindLoadedMetadata: \\"\\",
             bindControlsToggle: \\"\\",
@@ -1827,7 +1837,8 @@ require(\\"./taro\\");
             bindLeave: \\"\\",
             bindAfterLeave: \\"\\",
             bindClickOverlay: \\"\\"
-        }
+        },
+        KeyboardAccessory: {}
     };
     var hostConfig = {
         initNativeApi: initNativeApi,
@@ -5454,20 +5465,12 @@ require(\\"./taro\\");
                     return this.focusComponents.has(comp.nodeName) ? this.buildFocusComponentTemplte(comp, level) : this.buildStandardComponentTemplate(comp, level);
                 }
             }, {
-                key: \\"buildFocusComponentTemplte\\",
-                value: function buildFocusComponentTemplte(comp, level) {
-                    var attrs = Object.assign({}, comp.attributes);
-                    var templateName = this.supportXS ? \\"xs.c(i, 'tmpl_\\".concat(level, \\"_')\\") : \\"i.focus ? 'tmpl_\\".concat(level, \\"_\\").concat(comp.nodeName, \\"_focus' : 'tmpl_\\").concat(level, \\"_\\").concat(comp.nodeName, \\"_blur'\\");
-                    delete attrs.focus;
-                    return '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(comp.nodeName, '\\">\\\\n  <template is=\\"{{').concat(templateName, '}}\\" data=\\"{{').concat(this.dataKeymap(\\"i:i\\"), '}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_focus\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(comp.attributes, comp.nodeName), ' id=\\"{{i.uid}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_blur\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(attrs, comp.nodeName), ' id=\\"{{i.uid}}\\" />\\\\n</template>\\\\n');
-                }
-            }, {
-                key: \\"buildStandardComponentTemplate\\",
-                value: function buildStandardComponentTemplate(comp, level) {
-                    var isSupportRecursive = this.isSupportRecursive, Adapter = this.Adapter;
+                key: \\"getChildren\\",
+                value: function getChildren(comp, level) {
+                    var isSupportRecursive = this.isSupportRecursive, Adapter = this.Adapter, supportXS = this.supportXS;
                     var nextLevel = isSupportRecursive ? 0 : level + 1;
-                    var data = !this.isSupportRecursive && this.supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
-                    var child = this.supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
+                    var data = !this.isSupportRecursive && supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
+                    var child = supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
                     if (isFunction(this.modifyLoopBody)) {
                         child = this.modifyLoopBody(child, comp.nodeName);
                     }
@@ -5475,6 +5478,21 @@ require(\\"./taro\\");
                     if (isFunction(this.modifyLoopContainer)) {
                         children = this.modifyLoopContainer(children, comp.nodeName);
                     }
+                    return children;
+                }
+            }, {
+                key: \\"buildFocusComponentTemplte\\",
+                value: function buildFocusComponentTemplte(comp, level) {
+                    var children = this.getChildren(comp, level);
+                    var attrs = Object.assign({}, comp.attributes);
+                    var templateName = this.supportXS ? \\"xs.c(i, 'tmpl_\\".concat(level, \\"_')\\") : \\"i.focus ? 'tmpl_\\".concat(level, \\"_\\").concat(comp.nodeName, \\"_focus' : 'tmpl_\\").concat(level, \\"_\\").concat(comp.nodeName, \\"_blur'\\");
+                    delete attrs.focus;
+                    return '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(comp.nodeName, '\\">\\\\n  <template is=\\"{{').concat(templateName, '}}\\" data=\\"{{').concat(this.dataKeymap(\\"i:i\\")).concat(children ? \\",cid:cid\\" : \\"\\", '}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_focus\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(comp.attributes, comp.nodeName), ' id=\\"{{i.uid}}\\">').concat(children, \\"</\\").concat(comp.nodeName, '>\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_blur\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(attrs, comp.nodeName), ' id=\\"{{i.uid}}\\">').concat(children, \\"</\\").concat(comp.nodeName, \\">\\\\n</template>\\\\n\\");
+                }
+            }, {
+                key: \\"buildStandardComponentTemplate\\",
+                value: function buildStandardComponentTemplate(comp, level) {
+                    var children = this.getChildren(comp, level);
                     var nodeName = \\"\\";
                     switch (comp.nodeName) {
                       case \\"slot\\":
@@ -5885,7 +5903,7 @@ require(\\"./taro\\");
             taro.miniGlobal = global;
         }
         var runtime_noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\", \\"onBluetoothDeviceFound\\", \\"onBluetoothAdapterStateChange\\", \\"offBluetoothDeviceFound\\", \\"offBluetoothAdapterStateChange\\", \\"onBLEConnectionStateChange\\", \\"onBLECharacteristicValueChange\\", \\"offBLEConnectionStateChange\\", \\"offBLECharacteristicValueChange\\", \\"onCopyUrl\\", \\"offCopyUrl\\" ]);
-        var runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\" ]);
+        var runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\", \\"choosePoi\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 noPromiseApis: runtime_noPromiseApis,
@@ -6043,6 +6061,9 @@ require(\\"./taro\\");
                 \\"picture-in-picture-mode\\": \\"[]\\",
                 \\"enable-auto-rotation\\": \\"false\\",
                 \\"show-screen-lock-button\\": \\"false\\",
+                \\"show-snapshot-button\\": \\"false\\",
+                \\"show-background-playback-button\\": \\"false\\",
+                \\"background-poster\\": \\"\\",
                 bindProgress: \\"\\",
                 bindLoadedMetadata: \\"\\",
                 bindControlsToggle: \\"\\",
@@ -6197,7 +6218,8 @@ require(\\"./taro\\");
                 bindLeave: \\"\\",
                 bindAfterLeave: \\"\\",
                 bindClickOverlay: \\"\\"
-            }
+            },
+            KeyboardAccessory: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
@@ -9790,20 +9812,12 @@ require(\\"./taro\\");
                     return this.focusComponents.has(comp.nodeName) ? this.buildFocusComponentTemplte(comp, level) : this.buildStandardComponentTemplate(comp, level);
                 }
             }, {
-                key: \\"buildFocusComponentTemplte\\",
-                value: function buildFocusComponentTemplte(comp, level) {
-                    var attrs = Object.assign({}, comp.attributes);
-                    var templateName = this.supportXS ? \\"xs.c(i, 'tmpl_\\".concat(level, \\"_')\\") : \\"i.focus ? 'tmpl_\\".concat(level, \\"_\\").concat(comp.nodeName, \\"_focus' : 'tmpl_\\").concat(level, \\"_\\").concat(comp.nodeName, \\"_blur'\\");
-                    delete attrs.focus;
-                    return '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(comp.nodeName, '\\">\\\\n  <template is=\\"{{').concat(templateName, '}}\\" data=\\"{{').concat(this.dataKeymap(\\"i:i\\"), '}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_focus\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(comp.attributes, comp.nodeName), ' id=\\"{{i.uid}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_blur\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(attrs, comp.nodeName), ' id=\\"{{i.uid}}\\" />\\\\n</template>\\\\n');
-                }
-            }, {
-                key: \\"buildStandardComponentTemplate\\",
-                value: function buildStandardComponentTemplate(comp, level) {
-                    var isSupportRecursive = this.isSupportRecursive, Adapter = this.Adapter;
+                key: \\"getChildren\\",
+                value: function getChildren(comp, level) {
+                    var isSupportRecursive = this.isSupportRecursive, Adapter = this.Adapter, supportXS = this.supportXS;
                     var nextLevel = isSupportRecursive ? 0 : level + 1;
-                    var data = !this.isSupportRecursive && this.supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
-                    var child = this.supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
+                    var data = !this.isSupportRecursive && supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
+                    var child = supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
                     if (isFunction(this.modifyLoopBody)) {
                         child = this.modifyLoopBody(child, comp.nodeName);
                     }
@@ -9811,6 +9825,21 @@ require(\\"./taro\\");
                     if (isFunction(this.modifyLoopContainer)) {
                         children = this.modifyLoopContainer(children, comp.nodeName);
                     }
+                    return children;
+                }
+            }, {
+                key: \\"buildFocusComponentTemplte\\",
+                value: function buildFocusComponentTemplte(comp, level) {
+                    var children = this.getChildren(comp, level);
+                    var attrs = Object.assign({}, comp.attributes);
+                    var templateName = this.supportXS ? \\"xs.c(i, 'tmpl_\\".concat(level, \\"_')\\") : \\"i.focus ? 'tmpl_\\".concat(level, \\"_\\").concat(comp.nodeName, \\"_focus' : 'tmpl_\\").concat(level, \\"_\\").concat(comp.nodeName, \\"_blur'\\");
+                    delete attrs.focus;
+                    return '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(comp.nodeName, '\\">\\\\n  <template is=\\"{{').concat(templateName, '}}\\" data=\\"{{').concat(this.dataKeymap(\\"i:i\\")).concat(children ? \\",cid:cid\\" : \\"\\", '}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_focus\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(comp.attributes, comp.nodeName), ' id=\\"{{i.uid}}\\">').concat(children, \\"</\\").concat(comp.nodeName, '>\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_blur\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(attrs, comp.nodeName), ' id=\\"{{i.uid}}\\">').concat(children, \\"</\\").concat(comp.nodeName, \\">\\\\n</template>\\\\n\\");
+                }
+            }, {
+                key: \\"buildStandardComponentTemplate\\",
+                value: function buildStandardComponentTemplate(comp, level) {
+                    var children = this.getChildren(comp, level);
                     var nodeName = \\"\\";
                     switch (comp.nodeName) {
                       case \\"slot\\":
@@ -10221,7 +10250,7 @@ require(\\"./taro\\");
             taro.miniGlobal = global;
         }
         var runtime_noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\", \\"onBluetoothDeviceFound\\", \\"onBluetoothAdapterStateChange\\", \\"offBluetoothDeviceFound\\", \\"offBluetoothAdapterStateChange\\", \\"onBLEConnectionStateChange\\", \\"onBLECharacteristicValueChange\\", \\"offBLEConnectionStateChange\\", \\"offBLECharacteristicValueChange\\", \\"onCopyUrl\\", \\"offCopyUrl\\" ]);
-        var runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\" ]);
+        var runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\", \\"choosePoi\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 noPromiseApis: runtime_noPromiseApis,
@@ -10379,6 +10408,9 @@ require(\\"./taro\\");
                 \\"picture-in-picture-mode\\": \\"[]\\",
                 \\"enable-auto-rotation\\": \\"false\\",
                 \\"show-screen-lock-button\\": \\"false\\",
+                \\"show-snapshot-button\\": \\"false\\",
+                \\"show-background-playback-button\\": \\"false\\",
+                \\"background-poster\\": \\"\\",
                 bindProgress: \\"\\",
                 bindLoadedMetadata: \\"\\",
                 bindControlsToggle: \\"\\",
@@ -10533,7 +10565,8 @@ require(\\"./taro\\");
                 bindLeave: \\"\\",
                 bindAfterLeave: \\"\\",
                 bindClickOverlay: \\"\\"
-            }
+            },
+            KeyboardAccessory: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,

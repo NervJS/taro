@@ -148,6 +148,9 @@ export declare const components: {
         'picture-in-picture-mode': string;
         'enable-auto-rotation': string;
         'show-screen-lock-button': string;
+        'show-snapshot-button': string;
+        'show-background-playback-button': string;
+        'background-poster': string;
         bindProgress: string;
         bindLoadedMetadata: string;
         bindControlsToggle: string;
@@ -303,4 +306,5 @@ export declare const components: {
         bindAfterLeave: string;
         bindClickOverlay: string;
     };
+    KeyboardAccessory: {};
 };
