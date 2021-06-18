@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack-runner",
-  "version": "3.2.12",
+  "version": "3.2.13",
   "description": "webpack runner for taro",
   "main": "index.js",
   "scripts": {
@@ -32,11 +32,11 @@
   "dependencies": {
     "@babel/core": "^7.11.1",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
-    "@tarojs/helper": "3.2.12",
-    "@tarojs/runner-utils": "3.2.12",
-    "@tarojs/runtime": "3.2.12",
-    "@tarojs/shared": "3.2.12",
-    "@tarojs/taro-loader": "3.2.12",
+    "@tarojs/helper": "3.2.13",
+    "@tarojs/runner-utils": "3.2.13",
+    "@tarojs/runtime": "3.2.13",
+    "@tarojs/shared": "3.2.13",
+    "@tarojs/taro-loader": "3.2.13",
     "autoprefixer": "9.7.4",
     "babel-loader": "8.2.1",
     "copy-webpack-plugin": "5.1.1",
@@ -54,8 +54,8 @@
     "open": "7.0.2",
     "ora": "4.0.3",
     "postcss-loader": "3.0.0",
-    "postcss-plugin-constparse": "3.2.12",
-    "postcss-pxtransform": "3.2.12",
+    "postcss-plugin-constparse": "3.2.13",
+    "postcss-pxtransform": "3.2.13",
     "react-refresh": "0.9.0",
     "resolve": "1.15.1",
     "resolve-url-loader": "3.1.1",
@@ -72,9 +72,9 @@
     "webpack-format-messages": "^2.0.5"
   },
   "devDependencies": {
-    "@tarojs/components": "3.2.12",
-    "@tarojs/taro": "3.2.12",
-    "babel-plugin-transform-taroapi": "3.2.12",
-    "babel-preset-taro": "3.2.12"
+    "@tarojs/components": "3.2.13",
+    "@tarojs/taro": "3.2.13",
+    "babel-plugin-transform-taroapi": "3.2.13",
+    "babel-preset-taro": "3.2.13"
   }
 }
