@@ -51,12 +51,14 @@ function getOutputSourceMapOption (config: any): Record<string, any> {
     return {}
   }
   if (config.deviceType === 'ios') {
+    fse.ensureDirSync(path.dirname(config.output.iosSourcemapOutput))
     return {
       sourceMapUrl: config.output.iosSourceMapUrl,
       sourcemapOutput: config.output.iosSourcemapOutput,
       sourcemapSourcesRoot: config.output.iosSourcemapSourcesRoot
     }
   } else {
+    fse.ensureDirSync(path.dirname(config.output.androidSourcemapOutput))
     return {
       sourceMapUrl: config.output.androidSourceMapUrl,
       sourcemapOutput: config.output.androidSourcemapOutput,
