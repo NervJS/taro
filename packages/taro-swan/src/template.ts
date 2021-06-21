@@ -63,7 +63,7 @@ export class Template extends RecursiveTemplate {
         .map(k => `${k}="${k.startsWith('bind') || k.startsWith('on') || k.startsWith('catch') ? adComponent[k] : `{${getAttrValue(adComponent[k], k, nodeName)}}`}" `)
         .join('')
       return `<ad s-if={{item.nn==='ad'}} ${attributesStr} id="{{item.uid}}"></ad>
-          <template s-else is="{{xs.e(0)}}" data="{{{ i:item }}}" />`
+          <template s-if={{item.nn!='ad'}} is="{{xs.e(0)}}" data="{{{ i:item }}}" />`
     }
 
     return child
