@@ -51,6 +51,21 @@ export class Template extends RecursiveTemplate {
       </picker-view-column>`
     }
 
+    if (nodeName === 'video') {
+      const adComponent = this.miniComponents['ad']
+
+      function getAttrValue(value: string, _key: string, _nodeName: string) {
+        value = value.replace('i.', 'item.')
+        return `{${value}}`
+      }
+
+      const attributesStr = Object.keys(adComponent)
+        .map(k => `${k}="${k.startsWith('bind') || k.startsWith('on') || k.startsWith('catch') ? adComponent[k] : `{${getAttrValue(adComponent[k], k, nodeName)}}`}" `)
+        .join('')
+      return `<ad s-if={{item.nn==='ad'}} ${attributesStr} id="{{item.uid}}"></ad>
+          <template s-else is="{{xs.e(0)}}" data="{{{ i:item }}}" />`
+    }
+
     return child
   }
 
