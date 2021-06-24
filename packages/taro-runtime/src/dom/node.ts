@@ -226,7 +226,7 @@ export class TaroNode extends TaroEventTarget {
     switch (position) {
       case 'beforebegin':
         for (const n of parsedNodes) {
-          this.parentNode.insertBefore(n, this)
+          this.parentNode?.insertBefore(n, this)
         }
         break
       case 'afterbegin':
