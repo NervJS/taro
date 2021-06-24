@@ -7,6 +7,7 @@ import { Shortcuts, ensure } from '@tarojs/shared'
 import { hydrate, HydratedData } from '../hydrate'
 import { TaroElement } from './element'
 import { setInnerHTML } from './html/html'
+import { parser } from './html/parser'
 import { CurrentReconciler } from '../reconciler'
 import { document } from '../bom/document'
 
@@ -216,7 +217,41 @@ export class TaroNode extends TaroEventTarget {
     return ''
   }
 
-  protected findIndex (childeNodes: TaroNode[], refChild: TaroNode) {
+  public insertAdjacentHTML (
+    position: 'beforebegin' | 'afterbegin' | 'beforeend' | 'afterend',
+    html: string
+  ) {
+    const parsedNodes = parser(html)
+
+    switch (position) {
+      case 'beforebegin':
+        for (const n of parsedNodes) {
+          this.parentNode.insertBefore(n, this)
+        }
+        break
+      case 'afterbegin':
+        for (const n of parsedNodes) {
+          if (this.hasChildNodes()) {
+            this.childNodes[0].insertBefore(n)
+          } else {
+           this.appendChild(n)
+          }
+        }
+        break
+      case 'beforeend':
+        for (const n of parsedNodes) {
+          this.appendChild(n)
+        }
+        break
+      case 'afterend':
+        for (const n of parsedNodes) {
+          this.parentNode?.appendChild(n)
+        }
+        break
+    }
+  }
+
+  protected findIndex(childeNodes: TaroNode[], refChild: TaroNode) {
     const index = childeNodes.indexOf(refChild)
     ensure(index !== -1, 'The node to be replaced is not a child of this node.')
 
