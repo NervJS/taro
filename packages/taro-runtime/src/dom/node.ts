@@ -217,37 +217,37 @@ export class TaroNode extends TaroEventTarget {
     return ''
   }
 
+  /**
+   * An implementation of `Element.insertAdjacentHTML()`
+   * to support Vue 3 with a version of or greater than `vue@3.1.2`
+   */ 
   public insertAdjacentHTML (
     position: 'beforebegin' | 'afterbegin' | 'beforeend' | 'afterend',
     html: string
   ) {
     const parsedNodes = parser(html)
 
-    switch (position) {
-      case 'beforebegin':
-        for (const n of parsedNodes) {
+    for (let i = 0; i < parsedNodes.length; i++) {
+      const n = parsedNodes[i]
+
+      switch (position) {
+        case 'beforebegin':
           this.parentNode?.insertBefore(n, this)
-        }
-        break
-      case 'afterbegin':
-        for (const n of parsedNodes) {
+          break
+        case 'afterbegin':
           if (this.hasChildNodes()) {
             this.childNodes[0].insertBefore(n)
           } else {
             this.appendChild(n)
           }
-        }
-        break
-      case 'beforeend':
-        for (const n of parsedNodes) {
+          break
+        case 'beforeend':
           this.appendChild(n)
-        }
-        break
-      case 'afterend':
-        for (const n of parsedNodes) {
+          break
+        case 'afterend':
           this.parentNode?.appendChild(n)
-        }
-        break
+          break
+      }
     }
   }
 
