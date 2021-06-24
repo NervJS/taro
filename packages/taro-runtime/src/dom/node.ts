@@ -220,7 +220,7 @@ export class TaroNode extends TaroEventTarget {
   /**
    * An implementation of `Element.insertAdjacentHTML()`
    * to support Vue 3 with a version of or greater than `vue@3.1.2`
-   */ 
+   */
   public insertAdjacentHTML (
     position: 'beforebegin' | 'afterbegin' | 'beforeend' | 'afterend',
     html: string
