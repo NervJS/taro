@@ -234,7 +234,7 @@ export class TaroNode extends TaroEventTarget {
           if (this.hasChildNodes()) {
             this.childNodes[0].insertBefore(n)
           } else {
-           this.appendChild(n)
+            this.appendChild(n)
           }
         }
         break
@@ -251,7 +251,7 @@ export class TaroNode extends TaroEventTarget {
     }
   }
 
-  protected findIndex(childeNodes: TaroNode[], refChild: TaroNode) {
+  protected findIndex (childeNodes: TaroNode[], refChild: TaroNode) {
     const index = childeNodes.indexOf(refChild)
     ensure(index !== -1, 'The node to be replaced is not a child of this node.')
 
