@@ -9,7 +9,6 @@ import * as HtmlWebpackPlugin from 'html-webpack-plugin'
 import { partial } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import { join, resolve } from 'path'
 import * as TerserPlugin from 'terser-webpack-plugin'
 import * as webpack from 'webpack'
 import { PostcssOption, IPostcssOption, ICopyOptions } from '@tarojs/taro/types/compile'
@@ -216,7 +215,7 @@ export const getCopyWebpackPlugin = ({ copy, appPath }: { copy: ICopyOptions; ap
     copy.patterns.map(({ from, to, ...extra }) => {
       return {
         from,
-        to: resolve(appPath, to),
+        to: path.resolve(appPath, to),
         context: appPath,
         ...extra
       }
@@ -550,7 +549,7 @@ export const getModule = (appPath: string, {
 
 export const getOutput = (appPath: string, [{ outputRoot, publicPath, chunkDirectory }, customOutput]) => {
   return {
-    path: join(appPath, outputRoot),
+    path: path.resolve(appPath, outputRoot),
     filename: 'js/[name].js',
     chunkFilename: `${chunkDirectory}/[name].js`,
     publicPath,

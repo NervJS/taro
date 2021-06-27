@@ -72,7 +72,7 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
   const routerMode = routerConfig.mode || 'hash'
   const routerBasename = routerConfig.basename || '/'
   const publicPath = conf.publicPath ? addLeadingSlash(addTrailingSlash(conf.publicPath)) : '/'
-  const outputPath = path.join(appPath, conf.outputRoot as string)
+  const outputPath = path.resolve(appPath, conf.outputRoot as string)
   const customDevServerOption = config.devServer || {}
   const webpackChain = devConf(appPath, config)
   const onBuildFinish = config.onBuildFinish
