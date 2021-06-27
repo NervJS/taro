@@ -516,7 +516,7 @@ export const getEntry = ({
 
 export function getOutput (appPath: string, [{ outputRoot, publicPath, globalObject }, customOutput]) {
   return {
-    path: path.join(appPath, outputRoot),
+    path: path.resolve(appPath, outputRoot),
     publicPath,
     filename: '[name].js',
     chunkFilename: '[name].js',

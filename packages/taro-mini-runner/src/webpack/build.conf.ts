@@ -92,13 +92,13 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const plugin: any = {}
   const minimizer: any[] = []
   const sourceDir = path.join(appPath, sourceRoot)
-  const outputDir = path.join(appPath, outputRoot)
+  const outputDir = path.resolve(appPath, outputRoot)
   const taroBaseReg = /@tarojs[\\/][a-z]+/
   if (isBuildPlugin) {
     const patterns = copy ? copy.patterns : []
     patterns.push({
       from: path.join(sourceRoot, 'plugin', 'doc'),
-      to: path.join(outputRoot, 'doc')
+      to: path.resolve(outputRoot, 'doc')
     })
     copy = Object.assign({}, copy, { patterns })
   }

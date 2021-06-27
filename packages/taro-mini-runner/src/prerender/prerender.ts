@@ -4,7 +4,7 @@ import { NodeVM } from 'vm2'
 import { omitBy } from 'lodash'
 import * as webpack from 'webpack'
 import * as fs from 'fs'
-import { join } from 'path'
+import { resolve } from 'path'
 import { IBuildConfig } from '../utils/types'
 import { printPrerenderSuccess, printPrerenderFail } from '../utils/logHelper'
 
@@ -169,7 +169,7 @@ export class Prerender {
   }
 
   private getRealPath (path: string, ext = '.js') {
-    return join(this.outputPath, path + ext).replace(/\\/g, '\\\\')
+    return resolve(this.outputPath, path + ext).replace(/\\/g, '\\\\')
   }
 
   private buildSandbox () {
