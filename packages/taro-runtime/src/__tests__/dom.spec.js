@@ -123,30 +123,6 @@ describe('DOM', () => {
       container.textContent = ''
       expect(container.hasChildNodes()).toBe(false)
     })
-
-    it('insertAdjacentHTML', () => {
-      const container = document.createElement('container')
-      const div = document.createElement('div')
-      const text = document.createTextNode('text')
-      container.appendChild(div)
-      container.firstChild.appendChild(text)
-
-      const divBeforeInsert = container.firstChild
-      divBeforeInsert.insertAdjacentHTML('beforebegin', '<view />')
-      divBeforeInsert.insertAdjacentHTML('afterbegin', '<button />')
-      divBeforeInsert.insertAdjacentHTML('beforeend', '<input />')
-      divBeforeInsert.insertAdjacentHTML('afterend', '<image />')
-
-      expect(container.childNodes.length).toBe(3)
-      expect(container.childNodes[0].nodeName).toBe('view')
-      expect(container.childNodes[1].nodeName).toBe('div')
-      expect(container.childNodes[2].nodeName).toBe('image')
-
-      const divAfterInsert = container.childNodes[1]
-      expect(divAfterInsert.childNodes.length).toBe(3)
-      expect(divAfterInsert.firstChild.nodeName).toBe('button')
-      expect(divAfterInsert.lastChild.nodeName).toBe('input')
-    })
   })
 
   describe('text', () => {
