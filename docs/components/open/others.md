@@ -15,4 +15,4 @@ sidebar_label: 其他
 
 [支付宝小程序](https://docs.alipay.com/mini/component/overview)。
 
-[字节跳动小程序](https://developer.toutiao.com/docs/comp/)。
+[字节跳动小程序](https://microapp.bytedance.com/docs/zh-CN/mini-app/develop/component/all)。
