@@ -108,6 +108,28 @@ describe('html with <style>', () => {
     expect(el1.style.cssText).toBe('font-size: 10;')
   })
 
+  it('attributes selector with space', () => {
+    const html = `
+      <style>
+        [name = "title"]   {
+          color: red;
+        }
+        [name = "body"][content = 'hello-world'] {
+          font-size: 10;
+        }
+      </style>
+      <div>
+        <div name="title"></div>
+        <div name="body" content="hello-world"></div>
+      </div>
+    `
+    const res = parser(html)
+    const el0 = res[0].children[0]
+    const el1 = res[0].children[1]
+    expect(el0.style.cssText).toBe('color: red;')
+    expect(el1.style.cssText).toBe('font-size: 10;')
+  })
+
   it('combination', () => {
     const html = `
       <style>
