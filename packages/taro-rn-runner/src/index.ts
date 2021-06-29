@@ -16,7 +16,7 @@ import saveAssets from '@react-native-community/cli/build/commands/bundle/saveAs
 import * as outputBundle from 'metro/src/shared/output/bundle'
 
 function concatOutputFileName (config: any): string {
-  let output = path.resolve(config.outputRoot, 'index.bundle')
+  let output = path.join(config.outputRoot, 'index.bundle')
   if (config.output) {
     const outputType = typeof config.output
     if (outputType === 'string') {
@@ -30,7 +30,7 @@ function concatOutputFileName (config: any): string {
       console.error(`invalid value for 'rn.output' configuration: ${JSON.stringify(config.output)}`)
     }
   }
-  const res = path.isAbsolute(output) ? output : path.resolve('.', output)
+  const res = path.isAbsolute(output) ? output : path.join('.', output)
   fse.ensureDirSync(path.dirname(res))
   return res
 }
@@ -41,7 +41,7 @@ function concatOutputAssetsDest (config: any): string | undefined {
   }
   const assetDest = config.deviceType === 'ios' ? config.output.iosAssetsDest : config.output.androidAssetsDest
   if (!assetDest) return undefined
-  const res = path.isAbsolute(assetDest) ? assetDest : path.resolve('.', assetDest)
+  const res = path.isAbsolute(assetDest) ? assetDest : path.join('.', assetDest)
   fse.ensureDirSync(path.dirname(res))
   return res
 }
