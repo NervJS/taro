@@ -157,7 +157,7 @@
     "style-loader": "^0.20.3",
     "stylelint": "^13.6.1",
     "ts-jest": "26.4.0",
-    "typescript": "4.2.4",
+    "typescript": "4.3.4",
     "vue": "^2.6.11",
     "vue-loader": "^15.9.3",
     "vue-template-compiler": "^2.6.11",
