@@ -49,6 +49,7 @@
   },
   "devDependencies": {
     "@stencil/sass": "1.4.1",
+    "@types/react-native": "0.64.10",
     "jquery": "^3.4.1",
     "karmatic": "^2.1.0",
     "simulant": "^0.2.2",
