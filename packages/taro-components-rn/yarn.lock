@@ -6497,10 +6497,10 @@ react-native-swipeout@^2.3.6:
     prop-types "^15.5.10"
     react-tween-state "^0.1.5"
 
-react-native-webview@^10.10.2:
-  version "10.10.2"
-  resolved "https://registry.nlark.com/react-native-webview/download/react-native-webview-10.10.2.tgz?cache=0&sync_timestamp=1621859915767&other_urls=https%3A%2F%2Fregistry.nlark.com%2Freact-native-webview%2Fdownload%2Freact-native-webview-10.10.2.tgz#13208aef17c9ccfd28355363688f4cbe2143f10a"
-  integrity sha1-EyCK7xfJzP0oNVNjaI9MviFD8Qo=
+react-native-webview@^11.6.4:
+  version "11.6.4"
+  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-11.6.4.tgz#bd2d072ea0157b3fcb10961b5d1866470b22c3c3"
+  integrity sha512-ahW9KL/iBooDRdQwBgPEWOl5Awjwvmo5FtV83WzbgUpQxDJ+ZRzZDpbmwcjLtd6R67yWg6dk1inqKQTrmkWiXQ==
   dependencies:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
