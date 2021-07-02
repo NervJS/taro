@@ -1,0 +1,105 @@
+---
+title: 从原生小程序迁移过来？
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import { VueIcon, ReactIcon } from './guides/index'
+
+本篇将讲述 Taro 开发和原生小程序开发的主要差异。希望能帮助掌握原生小程序开发，但不太了解 Taro 的同学快速进行迁移。
+
+## 全局变量
+
+在使用 React/Vue 时，全局变量推荐使用 **React Redux**、**Vuex** 等状态管理工具进行管理。
+
+而有时候一些从原生小程序转换过来的项目，会把全局变量挂载到 `app` 上，然后使用 `getApp()` 获取它们。改造为 **React Redux**、**Vuex** 等状态管理方式成本比较大。
+
+因此可以使用入口对象的 `taroGlobalData` 属性对这种写法进行兼容：
+
+```jsx title="app.js"
+class App extends Component {
+  taroGlobalData = {
+    x: 1
+  }
+  render () {
+    return this.props.children
+  }
+}
+```
+
+```jsx title="index.js"
+function Index () {
+  const app = Taro.getApp()
+  console.log(app.x)
+
+  return (...)
+}
+```
+
+## API 的 scope
+
+在原生小程序开发中，在自定义组件中调用一些 API，如 `createCanvasContext`、`createSelectorQuery` 等时，需要传入指向自定义组件自身的 `this`，这里暂且称为 `scope`。
+
+但是 Taro 3 使用 `<template>` 标签进行渲染，一般不会使用上自定义组件，因此一般不需要传入。
+
+只有两种情况会使用上自定义组件，这时需要正确传入 `scope`，否则此类 API 的调用会失败。
+
+### 1. 层级过深
+
+对于[模板不支持递归](platform-plugin-template#递归与非递归模板)的小程序（微信、QQ、京东小程序等），当页面元素嵌套层级超过一定层数（默认为 16 层，可以通过配置 [baseLevel](config-detail#minibaselevel) 修改），会创建一个自定义组件协助递归。
+
+此自定义组件的 `scope` 没有暴露给开发者，因此层级过深且需要调用此类 API 时，需要使用 `<CustomWrapper>` 组件包裹。
+
+相关讨论：[#9357](https://github.com/NervJS/taro/issues/9357)。
+
+### 2. 使用了 `<CustomWrapper>`
+
+[`<CustomWrapper>`](optimized#2-customwrapper-组件) 组件常用于优化更新性能。它本质上是一个小程序自定义组件。
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label:  <ReactIcon />, value: 'React'},
+    {label: <VueIcon />, value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
+```jsx title="示例代码"
+<CustomWrapper id='demo' />
+
+const page = Taro.getCurrentInstance().page
+// 获取到 CustomWrapper 这个自定义组件对象，也就是所说的 scope
+const scope = page.selectComponent('#demo')
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html title="示例代码"
+<template>
+  <custom-wrapper id="demo" />
+</template>
+
+<script>
+import Taro from '@tarojs/taro'
+
+export default {
+  onReady () {
+    const page = Taro.getCurrentInstance().page
+    // 获取到 CustomWrapper 这个自定义组件对象，也就是所说的 scope
+    const scope = page.selectComponent('#demo')
+  }
+}
+</script>
+```
+
+</TabItem>
+</Tabs>
+
+## dataset
+
+小程序的 `dataset` 概念在 Taro 中得到部分实现，详细请看：
+
+- [React dataset](react-overall#dataset)
+- [Vue dataset](vue-overall#dataset)

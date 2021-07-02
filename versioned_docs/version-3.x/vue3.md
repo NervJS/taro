@@ -4,55 +4,9 @@ title: Vue3
 
 Taro 可以使用 Vue 3 进行开发，开发者可以使用 `taro init` 命令创建 Vue3 的 **default** 模板或 **vuex** 模板进行体验。
 
-具体用法可以参考 [Taro Vue 文档](./vue.md)，本篇将着重介绍在 Taro 中使用 Vue3 与使用 Vue 的主要差别。
-
-Vue3 新特性可参阅 [Vue3 文档](https://v3.vuejs.org/guide/migration/introduction.html#notable-new-features)。
-
-Taro 是如何兼容 Vue3 的，可参阅 [Taro RFC](https://github.com/NervJS/taro-rfcs/blob/master/rfcs/0001-vue-3-support.md)。
-
-## 入口组件
-
-由于 Vue3 Global API 有变化（[0009-global-api-change](https://github.com/vuejs/rfcs/blob/master/active-rfcs/0009-global-api-change.md)），Vue3 的入口组件写法将会变成：
-
-```js title="src/app.js"
-import { createApp } from 'vue'
-
-const app = createApp({
-  onShow (options) {
-    // ...
-  }
-  // 入口组件不需要实现 render 方法，即使实现了也会被 taro 所覆盖
-})
-
-export app
-```
-
-## 页面组件
-
-页面组件使用 Vue SFC 正常导出一个 Vue3 组件即可。
+具体用法可以参考 Taro Vue 系列文档。
 
 开发者可以自行选择使用 options 式配置或 [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html) 组织逻辑，浏览 [Vue 3 文档](https://v3.vuejs.org/) 以了解更多的 Vue3 改动。
-
-```html
-<template>
-  <view class="index">
-    <text>{{ msg }}</text>
-  </view>
-</template>
-
-<script>
-import { ref } from 'vue'
-
-export default {
-  setup () {
-    const msg = ref('Hello world')
-    return {
-      msg
-    }
-  }
-}
-</script>
-```
 
 ## 其它限制
 
@@ -67,4 +21,8 @@ export default {
 
 ## 相关阅读
 
-[使用 Vue3 开发小程序](https://taro-club.jd.com/topic/2267/%E4%BD%BF%E7%94%A8-vue3-%E5%BC%80%E5%8F%91%E5%B0%8F%E7%A8%8B%E5%BA%8F) by lillian
+Vue3 新特性可参阅 [Vue3 文档](https://v3.vuejs.org/guide/migration/introduction.html#notable-new-features)。
+
+Taro 是如何兼容 Vue3 的，可参阅 [Taro RFC](https://github.com/NervJS/taro-rfcs/blob/master/rfcs/0001-vue-3-support.md)。
+
+[《使用 Vue3 开发小程序》](https://taro-club.jd.com/topic/2267/%E4%BD%BF%E7%94%A8-vue3-%E5%BC%80%E5%8F%91%E5%B0%8F%E7%A8%8B%E5%BA%8F) by lillian

@@ -79,16 +79,50 @@
           ]
         },
         {
-          "type": "doc",
-          "id": "version-3.x/react"
+          "collapsed": true,
+          "label": "React",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/react-overall"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/react-entry"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/react-page"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/hooks"
+            }
+          ]
         },
         {
-          "type": "doc",
-          "id": "version-3.x/vue"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/vue3"
+          "collapsed": true,
+          "label": "Vue",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/vue-overall"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/vue-entry"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/vue-page"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/vue3"
+            }
+          ]
         },
         {
           "type": "doc",
@@ -143,6 +177,14 @@
         {
           "type": "doc",
           "id": "version-3.x/cli"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/use-h5"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/come-from-miniapp"
         }
       ]
     },
@@ -154,10 +196,6 @@
         {
           "type": "doc",
           "id": "version-3.x/config-detail"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/hooks"
         },
         {
           "type": "doc",
@@ -986,6 +1024,10 @@
             {
               "type": "doc",
               "id": "version-3.x/apis/ui/keyboard/onKeyboardHeightChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/ui/keyboard/offKeyboardHeightChange"
             },
             {
               "type": "doc",
