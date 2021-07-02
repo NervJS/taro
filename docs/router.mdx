@@ -1,0 +1,107 @@
+---
+title: 路由功能
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import { VueIcon, ReactIcon } from './guides/index'
+
+本篇将介绍如何在 Taro 中配置路由、实现路由跳转和传参等方法。
+
+## 路由配置
+
+Taro 遵循微信小程序的路由规范。只需要修改全局配置的 [pages](app-config#pages) 属性，配置为 Taro 应用中每个页面的路径即可。
+
+> Taro 没有实现浏览器的 history API，因此不能使用 react-router、vue-router 等路由库。
+
+## 路由跳转
+
+可以通过 Taro 提供的 API 来跳转到目的页面。路由 API 的详细用法请查看 API 文档的 [导航](./apis/route/navigateTo) 章节。
+
+```jsx title="示例代码"
+// 跳转到目的页面，打开新页面
+Taro.navigateTo({
+  url: '/pages/page/path/name'
+})
+
+// 跳转到目的页面，在当前页面打开
+Taro.redirectTo({
+  url: '/pages/page/path/name'
+})
+```
+
+### 路由传参
+
+可以通过在所有跳转的 `url` 后面添加查询字符串参数进行跳转传参，例如：
+
+```jsx
+// 传入参数 id=2&type=test
+Taro.navigateTo({
+  url: '/pages/page/path/name?id=2&type=test'
+})
+```
+
+### 获取路由参数
+
+跳转成功后，在目标页面的**生命周期**方法中，可以通过 `Taro.getCurrentInstance().router.params` 获取路由参数。
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label:  <ReactIcon />, value: 'React'},
+    {label: <VueIcon />, value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
+```jsx title="示例代码"
+import React, { Component } from 'react'
+import { View } from '@tarojs/components'
+
+class Index extends Component {
+  // 建议在页面初始化时把 getCurrentInstance() 的结果保存下来供后面使用，
+  // 而不是频繁地调用此 API
+  $instance = getCurrentInstance()
+
+  componentDidMount () {
+    // 获取路由参数
+    console.log($instance.router.params) // 输出 { id: 2, type: 'test' }
+  }
+
+  render () {
+    return (
+      <View className='index' />
+    )
+  }
+}
+
+export default Index
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html title="示例代码"
+<template>
+  <view className='index' />
+</template>
+
+<script>
+import Taro from '@tarojs/taro'
+
+export default {
+  created () {
+    // 建议在页面初始化时把 getCurrentInstance() 的结果保存下来供后面使用，
+    // 而不是频繁地调用此 API
+    this.$instance = Taro.getCurrentInstance()
+  },
+  mounted () {
+    // 获取路由参数
+    console.log(this.$instance.router.params) // 输出 { id: 2, type: 'test' }
+  }
+}
+</script>
+```
+
+</TabItem>
+</Tabs>

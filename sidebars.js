@@ -9,9 +9,21 @@ module.exports = {
         type: 'category',
         items: ['config', 'size', 'app-config', 'page-config', 'project-config'],
       },
-      'react',
-      'vue',
-      'vue3',
+      {
+        label: 'React',
+        type: 'category',
+        items: [
+          'react-overall',
+          'react-entry',
+          'react-page',
+          'hooks'
+        ],
+      },
+      {
+        label: 'Vue',
+        type: 'category',
+        items: ['vue-overall', 'vue-entry', 'vue-page', 'vue3'],
+      },
       'nerv',
       'router',
       'static-reference',
@@ -26,11 +38,11 @@ module.exports = {
         items: ['react-native', 'react-native-remind'],
       },
       'cli',
-      'use-h5'
+      'use-h5',
+      'come-from-miniapp'
     ],
     进阶指南: [
       'config-detail',
-      'hooks',
       'html',
       'plugin',
       'jquery-like',

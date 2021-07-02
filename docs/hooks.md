@@ -18,9 +18,9 @@ title: Hooks
 
 * [TodoMVC](https://github.com/NervJS/taro-todomvc-hooks)，主要展示组件间通信
 
-## API
+## 用法
 
-在 Taro 中使用 Hooks API 很简单，Taro 的专有 Hooks（例如 usePageScroll, useReachBottom）从 @tarojs/taro 中引入，框架自己的 Hooks （例如 useEffect, useState）从对应的框架引入。
+在 Taro 中使用 Hooks API 很简单，Taro 的专有 Hooks（例如 `usePageScroll`, `useReachBottom`）从 `@tarojs/taro` 中引入，框架自己的 Hooks （例如 `useEffect`, `useState`）从对应的框架引入。
 
 ```js
 import { usePageScroll, useReachBottom } from '@tarojs/taro' // Taro 专有 Hooks
@@ -29,7 +29,172 @@ import { useState, useEffect } from 'react' // 框架 Hooks （基础 Hooks）
 // import { useState, useEffect } from 'nervjs' // 框架 Hooks （基础 Hooks）
 ```
 
-### `useState`
+## Taro Hooks
+
+### useRouter
+
+等同于 Class Component 的 `getCurrentInstance().router`。
+
+```jsx title="示例代码"
+// { path: '', params: { ... } }
+const router = useRouter()
+```
+
+### useReady
+
+等同于页面的 `onReady` 生命周期钩子。
+
+从此生命周期开始可以使用 createCanvasContext 或 createSelectorQuery 等 API 访问小程序渲染层的 DOM 节点。
+
+```js title="示例代码"
+useReady(() => {
+  const query = wx.createSelectorQuery()
+})
+```
+
+### useDidShow
+
+页面显示/切入前台时触发。等同于 `componentDidShow` 页面生命周期钩子。
+
+```jsx title="示例代码"
+useDidShow(() => {
+  console.log('componentDidShow')
+})
+```
+
+### useDidHide
+
+页面隐藏/切入后台时触发。等同于 `componentDidHide` 页面生命周期钩子。
+
+```jsx title="示例代码"
+useDidHide(() => {
+  console.log('componentDidHide')
+})
+```
+
+### usePullDownRefresh
+
+监听用户下拉动作。等同于 `onPullDownRefresh` 页面生命周期钩子。
+
+```jsx title="示例代码"
+usePullDownRefresh(() => {
+  console.log('onPullDownRefresh')
+})
+```
+
+### useReachBottom
+
+监听用户上拉触底事件。等同于 `onReachBottom` 页面生命周期钩子。
+
+```jsx title="示例代码"
+useReachBottom(() => {
+  console.log('onReachBottom')
+})
+```
+
+### usePageScroll
+
+监听用户滑动页面事件。等同于 `onPageScroll` 页面生命周期钩子。
+
+```jsx title="示例代码"
+usePageScroll(res => {
+  console.log(res.scrollTop)
+})
+```
+
+### useResize
+
+小程序屏幕旋转时触发。等同于 `onResize` 页面生命周期钩子。
+
+```jsx title="示例代码"
+useResize(res => {
+  console.log(res.size.windowWidth)
+  console.log(res.size.windowHeight)
+})
+```
+
+### useShareAppMessage
+
+监听用户点击页面内转发按钮（Button 组件 openType='share'）或右上角菜单“转发”按钮的行为，并自定义转发内容。等同于 `onShareAppMessage` 页面生命周期钩子。
+
+**【Breaking】Taro 3.0.3 开始，使用此 Hook 时必须为页面配置 `enableShareAppMessage: true`**
+
+```jsx title="示例代码"
+// page.js
+function Index () {
+  useShareAppMessage(res => {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: '自定义转发标题',
+      path: '/page/user?id=123'
+    }
+  })
+}
+// page.config.js
+export default {
+  enableShareAppMessage: true
+}
+```
+
+### useTabItemTap
+
+点击 tab 时触发。等同于 `onTabItemTap` 页面生命周期钩子。
+
+```jsx title="示例代码"
+useTabItemTap(item => {
+  console.log(item.index)
+  console.log(item.pagePath)
+  console.log(item.text)
+})
+```
+
+### useAddToFavorites
+
+监听用户点击右上角菜单“收藏”按钮的行为，并自定义收藏内容。等同于 `onAddToFavorites` 页面生命周期钩子。
+
+> Taro 3.0.3 开始支持
+> 只有微信小程序支持，本接口为 Beta 版本，安卓 7.0.15 版本起支持，暂只在安卓平台支持
+
+```jsx title="示例代码"
+useAddToFavorites(res => {
+  // webview 页面返回 webviewUrl
+  console.log('WebviewUrl: ', res.webviewUrl)
+  return {
+    title: '自定义标题',
+    imageUrl: 'http://demo.png',
+    query: 'name=xxx&age=xxx',
+  }
+})
+```
+
+### useShareTimeline
+
+监听右上角菜单“分享到朋友圈”按钮的行为，并自定义分享内容。等同于 `onShareTimeline` 页面生命周期钩子。
+
+> Taro 3.0.3 开始支持
+> 只有微信小程序支持，基础库 2.11.3 开始支持，本接口为 Beta 版本，暂只在 Android 平台支持
+
+**使用时，必须为页面配置 `enableShareTimeline: true`**
+
+```jsx title="示例代码"
+// page.js
+function Index () {
+  useShareTimeline(() => {
+    console.log('onShareTimeline')
+  })
+}
+// page.config.js
+export default {
+  enableShareTimeline: true
+}
+```
+
+## React Hooks
+
+### useState
 
 ```js
 const [state, setState] = useState(initialState);
@@ -95,7 +260,7 @@ const [state, setState] = useState(() => {
 });
 ```
 
-### `useEffect`
+### useEffect
 
 ```js
 useEffect(didUpdate);
@@ -165,7 +330,7 @@ useEffect(
 >Taro 会在自带的 ESLint 中配置 [`eslint-plugin-react-hooks`](https://www.npmjs.com/package/eslint-plugin-react-hooks#installation) 中的 [`exhaustive-deps`](https://github.com/facebook/react/issues/14920) 规则。此规则会在添加错误依赖时发出警告并给出修复建议。
 
 
-### `useReducer` {#usereducer}
+### useReducer
 
 ```js
 const [state, dispatch] = useReducer(reducer, initialArg, init);
@@ -211,7 +376,7 @@ function Counter({initialState}) {
 
 有两种不同初始化 `useReducer` state 的方式，你可以根据使用场景选择其中的一种。将初始 state 作为第二个参数传入 `useReducer` 是最简单的方法：
 
-```js{3}
+```jsx
   const [state, dispatch] = useReducer(
     reducer,
     {count: initialCount}
@@ -228,7 +393,7 @@ function Counter({initialState}) {
 
 这么做可以将用于计算 state 的逻辑提取到 reducer 外部，这也为将来对重置 state 的 action 做处理提供了便利：
 
-```js{1-3,11-12,19,24}
+```jsx {1-3,11-12,19,24}
 function init(initialCount) {
   return {count: initialCount};
 }
@@ -262,7 +427,7 @@ function Counter({initialCount}) {
 }
 ```
 
-### `useCallback`
+### useCallback
 
 ```js
 const memoizedCallback = useCallback(
@@ -280,7 +445,7 @@ const memoizedCallback = useCallback(
 `useCallback(fn, deps)` 相当于 `useMemo(() => fn, deps)`。
 
 
-### `useMemo` {#usememo}
+### useMemo
 
 ```js
 const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
@@ -295,7 +460,7 @@ const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
 如果没有提供依赖项数组，`useMemo` 在每次渲染时都会计算新的值。
 
 
-### `useRef`
+### useRef
 
 ```js
 const refContainer = useRef(initialValue);
@@ -331,7 +496,7 @@ function TextInputWithFocusButton() {
 
 请记住，当 ref 对象内容发生变化时，`useRef` 并*不会*通知你。变更 `.current` 属性不会引发组件重新渲染。如果想要在 Taro 绑定或解绑 DOM 节点的 ref 时运行某些代码，则需要使用[回调 ref](https://zh-hans.reactjs.org/docs/hooks-faq.html#how-can-i-measure-a-dom-node) 来实现。
 
-### `useLayoutEffect`
+### useLayoutEffect
 
 其函数签名与 `useEffect` 相同，但它会在所有的 DOM 变更之后同步调用 effect。可以使用它来读取 DOM 布局并同步触发重渲染。在浏览器执行绘制之前，`useLayoutEffect` 内部的更新计划将被同步刷新。
 
@@ -342,7 +507,7 @@ function TextInputWithFocusButton() {
 > 如果你正在将代码从 class 组件迁移到使用 Hook 的函数组件，则需要注意 `useLayoutEffect` 与 `componentDidMount`、`componentDidUpdate` 的调用阶段是一样的。但是，我们推荐你**一开始先用 `useEffect`**，只有当它出问题的时再尝试使用 `useLayoutEffect`。
 
 
-### `useContext`
+### useContext
 
 ```jsx
 const value = useContext(MyContext)
@@ -361,164 +526,6 @@ const value = useContext(MyContext)
 
 > 如果你在接触 Hook 前已经对 context API 比较熟悉，那应该可以理解，`useContext(MyContext)` 相当于 class 组件中的 `static contextType = MyContext` 或者 `<MyContext.Consumer>`。
 > `useContext(MyContext)` 只是让你能够读取 context 的值以及订阅 context 的变化。你仍然需要在上层组件树中使用 `<MyContext.Provider>` 来为下层组件提供 context。
-
-### `useDidShow`
-
-```jsx
-useDidShow(() => {
-  console.log('componentDidShow')
-})
-```
-
-`useDidShow` 是 Taro 专有的 Hook，等同于 `componentDidShow` 页面生命周期钩子
-
-### `useDidHide`
-
-```jsx
-useDidHide(() => {
-  console.log('componentDidHide')
-})
-```
-
-`useDidHide` 是 Taro 专有的 Hook，等同于 `componentDidHide` 页面生命周期钩子
-
-### `usePullDownRefresh`
-
-```jsx
-usePullDownRefresh(() => {
-  console.log('onPullDownRefresh')
-})
-```
-
-`usePullDownRefresh` 是 Taro 专有的 Hook，等同于 `onPullDownRefresh` 页面生命周期钩子
-
-### `useReachBottom`
-
-```jsx
-useReachBottom(() => {
-  console.log('onReachBottom')
-})
-```
-
-`useReachBottom` 是 Taro 专有的 Hook，等同于 `onReachBottom` 页面生命周期钩子
-
-### `usePageScroll`
-
-```jsx
-usePageScroll(res => {
-  console.log(res.scrollTop)
-})
-```
-
-`usePageScroll` 是 Taro 专有的 Hook，等同于 `onPageScroll` 页面生命周期钩子
-
-### `useResize`
-
-```jsx
-useResize(res => {
-  console.log(res.size.windowWidth)
-  console.log(res.size.windowHeight)
-})
-```
-
-`useResize` 是 Taro 专有的 Hook，等同于 `onResize` 页面生命周期钩子
-
-### `useShareAppMessage`
-
-**【Breaking】Taro 3.0.3 开始，使用此 Hook 时必须为页面配置 `enableShareAppMessage: true`**
-
-```jsx
-// page.js
-function Index () {
-  useShareAppMessage(res => {
-    if (res.from === 'button') {
-      // 来自页面内转发按钮
-      console.log(res.target)
-    }
-    return {
-      title: '自定义转发标题',
-      path: '/page/user?id=123'
-    }
-  })
-}
-// page.config.js
-export default {
-  enableShareAppMessage: true
-}
-```
-
-`useShareAppMessage` 是 Taro 专有的 Hook，等同于 `onShareAppMessage` 页面生命周期钩子
-
-### `useTabItemTap`
-
-```jsx
-useTabItemTap(item => {
-  console.log(item.index)
-  console.log(item.pagePath)
-  console.log(item.text)
-})
-```
-
-`useTabItemTap` 是 Taro 专有的 Hook，等同于 `onTabItemTap` 页面生命周期钩子
-
-### `useAddToFavorites`
-
-> Taro 3.0.3 开始支持
-> 只有微信小程序支持，本接口为 Beta 版本，安卓 7.0.15 版本起支持，暂只在安卓平台支持
-
-```jsx
-useAddToFavorites(res => {
-  // webview 页面返回 webviewUrl
-  console.log('WebviewUrl: ', res.webviewUrl)
-  return {
-    title: '自定义标题',
-    imageUrl: 'http://demo.png',
-    query: 'name=xxx&age=xxx',
-  }
-})
-```
-
-`useAddToFavorites` 是 Taro 专有的 Hook，等同于 `onAddToFavorites` 页面生命周期钩子
-
-### `useShareTimeline`
-
-> Taro 3.0.3 开始支持
-> 只有微信小程序支持，基础库 2.11.3 开始支持，本接口为 Beta 版本，暂只在 Android 平台支持
-
-**使用时，必须为页面配置 `enableShareTimeline: true`**
-
-```jsx
-// page.js
-function Index () {
-  useShareTimeline(() => {
-    console.log('onShareTimeline')
-  })
-}
-// page.config.js
-export default {
-  enableShareTimeline: true
-}
-```
-
-`useShareTimeline` 是 Taro 专有的 Hook，等同于 `onShareTimeline` 页面生命周期钩子
-
-### `useRouter`
-
-```jsx
-const router = useRouter() // { path: '', params: { ... } }
-```
-
-`useRouter` 是 Taro 专有的 Hook，等同于页面为类时的 `getCurrentInstance().router`
-
-### `useReady`
-
-```js
-useReady(() => {
-  const query = wx.createSelectorQuery()
-})
-```
-
-`useReady` 是 Taro 专有的 Hook，等同于页面的 `onReady` 生命周期钩子。
 
 ## 相关阅读
 
