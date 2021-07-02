@@ -197,7 +197,7 @@ Vue 组件的生命周期方法在 Taro 中都支持使用。
 
 ##### 1. beforeMount ()
 
-[onLoad](./vue#onload-options) 之后，页面组件渲染到 Taro 的虚拟 DOM 之前触发。
+[onLoad](vue-page#onload-options) 之后，页面组件渲染到 Taro 的虚拟 DOM 之前触发。
 
 ##### 2. mounted ()
 
@@ -205,7 +205,7 @@ Vue 组件的生命周期方法在 Taro 中都支持使用。
 
 此时能访问到 Taro 的虚拟 DOM（使用 Vue ref、document.getElementById 等手段），并支持对其进行操作（设置 DOM 的 style 等）。
 
-但此时不代表 Taro 的虚拟 DOM 数据已经完成从逻辑层 `setData` 到视图层。因此这时**无法通过 `createSelectorQuery` 等方法获取小程序渲染层 DOM 节点。** 只能在 [onReady](./vue#onready-) 生命周期中获取。
+但此时不代表 Taro 的虚拟 DOM 数据已经完成从逻辑层 `setData` 到视图层。因此这时**无法通过 `createSelectorQuery` 等方法获取小程序渲染层 DOM 节点。** 只能在 [onReady](vue-page#onready-) 生命周期中获取。
 
 ### 小程序页面的方法
 
@@ -353,26 +353,3 @@ export default {
 * 由于小程序访问元素位置为异步 API，因此小程序中无法使用内置的 `transition-group` 组件。
 * 小程序中不支持 `<style scoped>`，建议使用 cssModules 代替。[#6662](https://github.com/NervJS/taro/issues/6662)
 * 所有组件的 `id` 必须在整个应用中保持唯一（即使他们在不同的页面），否则可能导致事件不触发的问题，[#7317](https://github.com/NervJS/taro/issues/7317)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

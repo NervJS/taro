@@ -51,7 +51,7 @@ title: 目录结构
 | app.css | 否 | 小程序全局样式 |
 | app.config.js | 是 | 小程序全局配置 |
 
-代码示例请根据你选择的框架进行查看：[React](./react), [Vue](./vue), [Vue3](./vue3), [Nerv](./nerv)。
+代码示例请根据你选择的框架进行查看：[React](./react-overall), [Vue](./vue-overall), [Vue3](./vue3), [Nerv](./nerv)。
 
 #### 1. 小程序全局配置
 

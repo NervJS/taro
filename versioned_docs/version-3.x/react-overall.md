@@ -177,7 +177,7 @@ React 组件的生命周期方法在 Taro 中都支持使用。
 
 ##### 1. componentWillMount ()
 
-[onLoad](./react#onload-options) 之后，页面组件渲染到 Taro 的虚拟 DOM 之前触发。
+[onLoad](react-page#onload-options) 之后，页面组件渲染到 Taro 的虚拟 DOM 之前触发。
 
 ##### 2. componentDidMount ()
 
@@ -185,7 +185,7 @@ React 组件的生命周期方法在 Taro 中都支持使用。
 
 此时能访问到 Taro 的虚拟 DOM（使用 React ref、document.getElementById 等手段），并支持对其进行操作（设置 DOM 的 style 等）。
 
-但此时不代表 Taro 的虚拟 DOM 数据已经完成从逻辑层 `setData` 到视图层。因此这时**无法通过 `createSelectorQuery` 等方法获取小程序渲染层 DOM 节点。** 只能在 [onReady](./react#onready-) 生命周期中获取。
+但此时不代表 Taro 的虚拟 DOM 数据已经完成从逻辑层 `setData` 到视图层。因此这时**无法通过 `createSelectorQuery` 等方法获取小程序渲染层 DOM 节点。** 只能在 [onReady](react-page#onready-) 生命周期中获取。
 
 ### 小程序页面的方法
 
