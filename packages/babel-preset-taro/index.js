@@ -8,6 +8,7 @@ module.exports = (_, options = {}) => {
   }
   const presets = []
   const plugins = []
+  const overrides = []
   const isReact = options.framework === 'react'
   const isNerv = options.framework === 'nerv'
   const isVue = options.framework === 'vue'
@@ -36,9 +37,18 @@ module.exports = (_, options = {}) => {
       config.jsxPragma = moduleName
     }
     if (isVue || isVue3) {
-      config.allExtensions = true
+      overrides.push({
+        include: /(?:\.ts$|=ts(?![^&]))/,
+        presets: [[require('@babel/preset-typescript'), { allExtensions: true }]]
+      })
+
+      overrides.push({
+        include: /(?:\.tsx$|=tsx(?![^&]))/,
+        presets: [[require('@babel/preset-typescript'), { allExtensions: true, isTSX: true }]]
+      })
+    } else {
+      presets.push([require('@babel/preset-typescript'), config])
     }
-    presets.push([require('@babel/preset-typescript'), config])
   }
 
   const runtimePath = process.env.NODE_ENV === 'jest' || process.env.NODE_ENV === 'test' ? false : path.dirname(require.resolve('@babel/runtime/package.json'))
@@ -144,6 +154,6 @@ module.exports = (_, options = {}) => {
       exclude: [/@babel[/|\\\\]runtime/, /core-js/],
       presets,
       plugins
-    }]
+    }, ...overrides]
   }
 }
