@@ -49,3 +49,5 @@ Taro 每周会发布 **patch 版本**，进行小型特性新增和问题修复�
 如何从 Taro 1 / 2 升级到 Taro 3 请参考：[从旧版本迁移到 Taro Next](./migration)。
 
 关于各版本间更详尽的迁移的指南请参考：[《Taro 版本升级权威指南》](/blog/2020-09-01-taro-versions)。
+
+社区贡献的一键升级工具：[taro2-to-3](https://github.com/SyMind/taro2-to-3)，by @SyMind。

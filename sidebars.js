@@ -1,6 +1,6 @@
 module.exports = {
   docs: {
-    关于Taro: ['README', 'version', 'team', 'communicate', 'CONTRIBUTING'],
+    关于Taro: ['README', 'version', 'team', 'communicate'],
     快速开始: ['GETTING-STARTED', 'composition'],
     基础教程: [
       'folder',
@@ -46,7 +46,6 @@ module.exports = {
       'html',
       'plugin',
       'jquery-like',
-      'debug-config',
       {
         label: '性能优化',
         type: 'category',
@@ -83,19 +82,23 @@ module.exports = {
           'platform-plugin-template',
           'platform-plugin-reconciler'
         ]
-      }
+      },
+      'debug-config'
     ],
     社区生态: [
+      'treasures',
       'redux',
       'css-modules',
       'css-in-js',
-      'template',
       'vant',
+      'template',
       'youshu',
       'report',
-      'seowhy',
-      'join-in',
-      'CONTRIBUTING'
+      'seowhy'
+    ],
+    CONTRIBUTING: [
+      'CONTRIBUTING',
+      'join-in'
     ]
   },
   "components": {

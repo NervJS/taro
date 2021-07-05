@@ -4,7 +4,7 @@ title: 渲染 HTML
 
 > 请注意：本章节所有内容只在小程序端起效果。
 
-Taro 可以直接通过 `Element#innerHTML` 或 Vue 的 `v-html` 或 React/Nerv 的 `dangerouslySetInnerHTML` 直接渲染 HTML:  
+Taro 可以直接通过 `Element#innerHTML` 或 Vue 的 `v-html` 或 React/Nerv 的 `dangerouslySetInnerHTML` 直接渲染 HTML:
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -44,7 +44,7 @@ export default {
 }
 </script>
 ```
-  
+
 </TabItem>
 
 
@@ -101,7 +101,7 @@ export default {
 }
 </script>
 ```
-  
+
   </TabItem>
 
 </Tabs>
@@ -202,7 +202,7 @@ export default {
 }
 </script>
 ```
-  
+
   </TabItem>
 
 </Tabs>
@@ -270,9 +270,7 @@ HashSet 中包含的 HTML 标签可以自动闭合，且不能被嵌套。
 
 该函数第一个参数的值为 Taro 默认处理好的 [TaroElement](https://github.com/NervJS/taro/blob/7349f716111accb6a39c72ed0f1e6cbc166fa32b/packages/taro-runtime/src/dom/element.ts#L15)，第二个参数是 HTML 解析器解析好的 [Element](https://github.com/NervJS/taro/blob/7349f716111accb6a39c72ed0f1e6cbc166fa32b/packages/taro-runtime/src/dom/html/parser.ts#L38-L43)，最后返回的 `TaroElement` 对象参与 HTML 元素渲染。
 
-### 示例：
-
-```js
+```js title="代码示例"
 // 给所有 img 标签添加 aotu 类
 Taro.options.html.transformElement = (el) => {
   if (el.nodeName === 'image') {
