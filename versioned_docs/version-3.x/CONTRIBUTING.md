@@ -1,3 +1,7 @@
+---
+title: 贡献指南
+---
+
 我们非常欢迎社区的开发者向 Taro 做出贡献，我们的共建倡议[《Taro 邀你加入社区共建》](https://github.com/NervJS/taro/issues/4714)。
 
 - 提交 RFC 或者查看相关的 RFC，你可以查看 [taro-rfcs 仓库](https://github.com/NervJS/taro-rfcs)

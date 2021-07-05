@@ -336,6 +336,10 @@ export default {
 </TabItem>
 </Tabs>
 
+## v-html
+
+在小程序端，使用 `v-html` 时有一些额外的配置选项和需要注意的地方，详情请参考[《渲染 HTML》](html)。
+
 ## 兼容 `<transition>`
 
 `<transition>` 组件内部使用了 `getComputedStyle`，用于嗅探组件上的动画样式。但是在小程序中没有办法实现 `getComputedStyle`，可以通过以下方法进行 hack：

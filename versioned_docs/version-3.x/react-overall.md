@@ -255,6 +255,10 @@ export default class Test extends React.Component {
 
 [Hooks 文档](./hooks.md)
 
+## dangerouslySetInnerHTML
+
+在小程序端，使用 `dangerouslySetInnerHTML` 时有一些额外的配置选项和需要注意的地方，详情请参考[《渲染 HTML》](html)。
+
 ## Minified React error
 
 因为 development 版本的 React 体积较大，为了减少小程序体积，方便开发时真机预览。Taro 在构建小程序时默认使用 production 版本的 React 相关依赖。

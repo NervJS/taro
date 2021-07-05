@@ -20,10 +20,6 @@
         {
           "type": "doc",
           "id": "version-3.x/communicate"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/CONTRIBUTING"
         }
       ]
     },
@@ -210,10 +206,6 @@
           "id": "version-3.x/jquery-like"
         },
         {
-          "type": "doc",
-          "id": "version-3.x/debug-config"
-        },
-        {
           "collapsed": true,
           "label": "性能优化",
           "type": "category",
@@ -292,6 +284,10 @@
               "id": "version-3.x/platform-plugin-reconciler"
             }
           ]
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/debug-config"
         }
       ]
     },
@@ -300,6 +296,10 @@
       "type": "category",
       "label": "社区生态",
       "items": [
+        {
+          "type": "doc",
+          "id": "version-3.x/treasures"
+        },
         {
           "type": "doc",
           "id": "version-3.x/redux"
@@ -314,11 +314,11 @@
         },
         {
           "type": "doc",
-          "id": "version-3.x/template"
+          "id": "version-3.x/vant"
         },
         {
           "type": "doc",
-          "id": "version-3.x/vant"
+          "id": "version-3.x/template"
         },
         {
           "type": "doc",
@@ -331,14 +331,21 @@
         {
           "type": "doc",
           "id": "version-3.x/seowhy"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "CONTRIBUTING",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.x/CONTRIBUTING"
         },
         {
           "type": "doc",
           "id": "version-3.x/join-in"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/CONTRIBUTING"
         }
       ]
     }
