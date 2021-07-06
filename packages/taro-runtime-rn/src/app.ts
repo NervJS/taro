@@ -26,13 +26,16 @@ export function createReactNativeApp (component: React.ComponentClass, config: R
   const isReactComponent = isClassComponent(component)
 
   const NewAppComponent = (AppCompoent) => {
-    return class Entry extends React.Component {
+    return class Entry extends React.Component <any, any> {
       render () {
         let props: React.Props<any> | null = null
 
         if (isReactComponent) {
           props = { ref }
         }
+        const { initPath = '', initParams = {} } = this.props
+        routerConfig.initPath = initPath
+        routerConfig.initParams = initParams
         return React.createElement(TCNProvider, { ...this.props },
           React.createElement(AppCompoent, {
             ...props,

@@ -19,7 +19,6 @@ import {
   nestElements,
   styles,
   events,
-  specialEvents,
   singleQuote
 } from './components'
 import { Shortcuts } from './shortcuts'
@@ -115,7 +114,7 @@ export class BaseTemplate {
         for (let prop in component) {
           if (hasOwn(component, prop)) {
             let propValue = component[prop]
-            if (prop.startsWith('bind') || specialEvents.has(prop)) {
+            if (prop.startsWith('bind')) {
               propValue = 'eh'
             } else if (propValue === '') {
               propValue = `i.${toCamelCase(prop)}`
@@ -229,36 +228,15 @@ export class BaseTemplate {
       : this.buildStandardComponentTemplate(comp, level)
   }
 
-  protected buildFocusComponentTemplte (comp: Component, level: number) {
-    const attrs = { ...comp.attributes }
-    const templateName = this.supportXS
-      ? `xs.c(i, 'tmpl_${level}_')`
-      : `i.focus ? 'tmpl_${level}_${comp.nodeName}_focus' : 'tmpl_${level}_${comp.nodeName}_blur'`
-    delete attrs.focus
-    return `
-<template name="tmpl_${level}_${comp.nodeName}">
-  <template is="{{${templateName}}}" data="{{${this.dataKeymap('i:i')}}}" />
-</template>
-
-<template name="tmpl_${level}_${comp.nodeName}_focus">
-  <${comp.nodeName} ${this.buildAttribute(comp.attributes, comp.nodeName)} id="{{i.uid}}" />
-</template>
-
-<template name="tmpl_${level}_${comp.nodeName}_blur">
-  <${comp.nodeName} ${this.buildAttribute(attrs, comp.nodeName)} id="{{i.uid}}" />
-</template>
-`
-  }
-
-  protected buildStandardComponentTemplate (comp: Component, level: number) {
-    const { isSupportRecursive, Adapter } = this
+  private getChildren (comp: Component, level: number): string {
+    const { isSupportRecursive, Adapter, supportXS } = this
     const nextLevel = isSupportRecursive ? 0 : level + 1
 
-    const data = !this.isSupportRecursive && this.supportXS
+    const data = !this.isSupportRecursive && supportXS
       ? `${this.dataKeymap('i:item,l:l')}`
       : this.dataKeymap('i:item')
 
-    let child = this.supportXS
+    let child = supportXS
       ? `<template is="{{xs.e(${isSupportRecursive ? 0 : 'cid+1'})}}" data="{{${data}}}" />`
       : `<template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${data}}}" />`
 
@@ -277,6 +255,36 @@ export class BaseTemplate {
     if (isFunction(this.modifyLoopContainer)) {
       children = this.modifyLoopContainer(children, comp.nodeName)
     }
+
+    return children
+  }
+
+  protected buildFocusComponentTemplte (comp: Component, level: number) {
+    const children = this.getChildren(comp, level)
+
+    const attrs = { ...comp.attributes }
+    const templateName = this.supportXS
+      ? `xs.c(i, 'tmpl_${level}_')`
+      : `i.focus ? 'tmpl_${level}_${comp.nodeName}_focus' : 'tmpl_${level}_${comp.nodeName}_blur'`
+    delete attrs.focus
+
+    return `
+<template name="tmpl_${level}_${comp.nodeName}">
+  <template is="{{${templateName}}}" data="{{${this.dataKeymap('i:i')}${children ? ',cid:cid' : ''}}}" />
+</template>
+
+<template name="tmpl_${level}_${comp.nodeName}_focus">
+  <${comp.nodeName} ${this.buildAttribute(comp.attributes, comp.nodeName)} id="{{i.uid}}">${children}</${comp.nodeName}>
+</template>
+
+<template name="tmpl_${level}_${comp.nodeName}_blur">
+  <${comp.nodeName} ${this.buildAttribute(attrs, comp.nodeName)} id="{{i.uid}}">${children}</${comp.nodeName}>
+</template>
+`
+  }
+
+  protected buildStandardComponentTemplate (comp: Component, level: number) {
+    const children = this.getChildren(comp, level)
 
     let nodeName = ''
     switch (comp.nodeName) {

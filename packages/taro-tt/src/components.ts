@@ -6,7 +6,8 @@ export const components = {
     size: '24'
   },
   Button: {
-    bindGetPhoneNumber: ''
+    bindGetPhoneNumber: '',
+    'data-channel': ''
   },
   Form: {
     'report-submit-timeout': '0'
