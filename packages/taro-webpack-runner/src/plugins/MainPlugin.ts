@@ -75,7 +75,7 @@ export default class MainPlugin {
         const { framework, entryFileName, designWidth, deviceRatio } = this.options
         const { dir, name } = path.parse(module.resource)
         if (path.join(dir, name) === this.appEntry) {
-          module.loaders.unshift({
+          module.loaders.push({
             loader: '@tarojs/taro-loader/lib/h5',
             options: {
               framework,
