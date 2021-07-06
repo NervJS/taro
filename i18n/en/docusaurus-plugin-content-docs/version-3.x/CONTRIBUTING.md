@@ -10,17 +10,17 @@ Before submitting your code for contribution, you need to spend some time readin
 
 ## Taro 组成
 
-| NPM 包           |   描述 |
+| NPM Package          |   Description |
 | ------------- |:------------- |
-| [`babel-preset-taro`](https://www.npmjs.com/package/babel-preset-taro)      |  给 Taro 项目使用的 babel preset |
-| [`@tarojs/taro`](https://www.npmjs.com/package/@tarojs/taro)      |  暴露给应用开发者的 Taro 核心 API  |
-| [`@tarojs/shared`](https://www.npmjs.com/package/@tarojs/shared)      |  Taro 内部使用的 utils  |
-| [`@tarojs/api`](https://www.npmjs.com/package/@tarojs/api)      |  暴露给 @tarojs/taro 的所有端的公有 API  |
-| [`@tarojs/taro-h5`](https://www.npmjs.com/package/@tarojs/taro-h5) |  暴露给 @tarojs/taro 的 H5 端 API  |
-| [`@tarojs/router`](https://www.npmjs.com/package/@tarojs/router) |  Taro H5 路由  |
-| [`@tarojs/react`](https://www.npmjs.com/package/@tarojs/react) | 基于 react-reconciler 的小程序专用 React 渲染器  |
-| [`@tarojs/cli`](https://www.npmjs.com/package/@tarojs/cli) | Taro 开发工具   |
-| [`@tarojs/extend`](https://www.npmjs.com/package/@tarojs/extend) | Taro 扩展，包含 jQuery API 等   |
+| [`babel-preset-taro`](https://www.npmjs.com/package/babel-preset-taro)      |   The babel preset for Taro projects |
+| [`@tarojs/taro`](https://www.npmjs.com/package/@tarojs/taro)      |  Taro's core API for application developers |
+| [`@tarojs/shared`](https://www.npmjs.com/package/@tarojs/shared)      |   The utils used internally by Taro  |
+| [`@tarojs/api`](https://www.npmjs.com/package/@tarojs/api)      |  Public API for all platform of @tarojs/taro   |
+| [`@tarojs/taro-h5`](https://www.npmjs.com/package/@tarojs/taro-h5) |  H5 API for @tarojs/taro  |
+| [`@tarojs/router`](https://www.npmjs.com/package/@tarojs/router) |  Taro H5 Router  |
+| [`@tarojs/react`](https://www.npmjs.com/package/@tarojs/react) | React renderer for mini program based on react-reconciler  |
+| [`@tarojs/cli`](https://www.npmjs.com/package/@tarojs/cli) | Taro Development Tools  |
+| [`@tarojs/extend`](https://www.npmjs.com/package/@tarojs/extend) | Taro extensions, including jQuery API, etc.  |
 | [`@tarojs/helper`](https://www.npmjs.com/package/@tarojs/helper) | Internal use of auxiliary method sets for CLI and runner  |
 | [`@tarojs/service`](https://www.npmjs.com/package/@tarojs/service) | Taro Plugin Kernel  |
 | [`@tarojs/taro-loader`](https://www.npmjs.com/package/@tarojs/taro-loader) | Webpack loader exposed for use by @tarojs/mini-runner and @tarojs/webpack-runner |
