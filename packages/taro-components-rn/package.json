@@ -64,8 +64,6 @@
     "expo-av": "~8.6.0",
     "expo-barcode-scanner": "~9.0.0",
     "expo-camera": "~9.0.0",
-    "react": "*",
-    "react-native": "*",
     "react-native-webview": "^11.6.4"
   },
   "resolutions": {

@@ -29,8 +29,6 @@
   "license": "MIT",
   "peerDependencies": {
     "@react-native-community/masked-view": "^0.1.10",
-    "react": "*",
-    "react-native": "*",
     "react-native-gesture-handler": "^1.8.0",
     "react-native-reanimated": "^1.13.1",
     "react-native-safe-area-context": "^3.1.8",
