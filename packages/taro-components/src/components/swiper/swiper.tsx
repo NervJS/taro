@@ -157,8 +157,10 @@ export class Swiper implements ComponentInterface {
 
   @Watch("circular")
   watchCircular () {
-    this.swiper.destroy()
-    this.handleInit()
+    if (this.swiper) {
+      this.swiper.destroy()
+      this.handleInit()
+    }
   }
 
   componentWillLoad () {
@@ -175,6 +177,13 @@ export class Swiper implements ComponentInterface {
       this.swiper.autoplay.paused = false
     }
     this.swiper.update() // 更新子元素
+  }
+
+  componentDidRender () {
+    if (this.swiper && this.circular) {
+      this.swiper.loopDestroy()
+      this.swiper.loopCreate()
+    }
   }
 
   handleInit () {
@@ -229,9 +238,6 @@ export class Swiper implements ComponentInterface {
               this.loopDestroy()
               this.loopCreate()
             }
-          } else if (target.children && target.children[0] === this.el) {
-            this.loopDestroy()
-            this.loopCreate()
           }
         }
       }
