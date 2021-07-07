@@ -83,7 +83,7 @@
     "eslint-config-taro": "3.2.14",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-react": "^7.4.0",
-    "eslint-plugin-react-hooks": "^1.6.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-taro": "3.2.14",
     "eslint-plugin-vue": "^6.2.2",
     "fbjs": "^1.0.0",
