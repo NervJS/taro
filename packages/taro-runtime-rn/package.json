@@ -28,8 +28,6 @@
         "url": "https://github.com/NervJS/taro/issues"
     },
     "peerDependencies": {
-        "react": "*",
-        "react-native": "*"
     },
     "dependencies": {
         "@tarojs/components-rn": "3.2.15",

@@ -86,8 +86,6 @@
     "expo-location": "^9.0.1",
     "expo-permissions": "~9.3.0",
     "expo-sensors": "^9.1.0",
-    "react": "*",
-    "react-native": "*",
     "react-native-image-resizer": "^1.4.0",
     "react-native-safe-area-context": "^3.1.8",
     "react-native-syan-image-picker": "0.4.10",
