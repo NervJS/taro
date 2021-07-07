@@ -30,7 +30,7 @@
     "classnames": "^2.2.5",
     "intersection-observer": "^0.7.0",
     "resolve-pathname": "^3.0.0",
-    "swiper": "4.4.2",
+    "swiper": "6.5.1",
     "weui": "^1.1.2"
   }
 }

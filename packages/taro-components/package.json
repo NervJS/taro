@@ -44,7 +44,7 @@
     "intersection-observer": "^0.7.0",
     "omit.js": "^1.0.0",
     "resolve-pathname": "^3.0.0",
-    "swiper": "4.4.2",
+    "swiper": "6.5.1",
     "weui": "^1.1.2"
   },
   "devDependencies": {
