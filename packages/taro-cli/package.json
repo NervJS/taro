@@ -75,7 +75,7 @@
     "cli-highlight": "^2.1.4",
     "cross-spawn": "^7.0.3",
     "css-to-react-native-transform": "^1.4.0",
-    "css-what": "^3.2.0",
+    "css-what": "^5.0.1",
     "download-git-repo": "^2.0.0",
     "ejs": "^2.6.1",
     "envinfo": "^6.0.1",

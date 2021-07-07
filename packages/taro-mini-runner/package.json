@@ -52,7 +52,7 @@
     "copy-webpack-plugin": "5.1.2",
     "css": "2.2.4",
     "css-loader": "^3.0.0",
-    "css-what": "3.3.0",
+    "css-what": "5.0.1",
     "csso-webpack-plugin": "2.0.0-beta.1",
     "file-loader": "^6.0.0",
     "fs-extra": "^8.0.1",
