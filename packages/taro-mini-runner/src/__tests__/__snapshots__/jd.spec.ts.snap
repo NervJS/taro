@@ -1328,6 +1328,9 @@ require(\\"./taro\\");
         var components = {
             Swiper: {
                 \\"easing-function\\": singleQuote(\\"default\\")
+            },
+            Canvas: {
+                type: \\"\\"
             }
         };
         var hostConfig = {
