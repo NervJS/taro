@@ -90,11 +90,15 @@ sidebar_label: requestPayment
   <tbody>
     <tr>
       <td>MD5</td>
-      <td>MD5</td>
+      <td>仅在微信支付 v2 版本接口适用</td>
     </tr>
     <tr>
       <td>HMAC-SHA256</td>
-      <td>HMAC-SHA256</td>
+      <td>仅在微信支付 v2 版本接口适用</td>
+    </tr>
+    <tr>
+      <td>RSA</td>
+      <td>仅在微信支付 v3 版本接口适用</td>
     </tr>
   </tbody>
 </table>
