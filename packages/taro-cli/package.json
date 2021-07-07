@@ -94,7 +94,7 @@
     "inquirer": "^5.2.0",
     "klaw": "^2.1.1",
     "latest-version": "^5.1.0",
-    "lodash": "4.17.20",
+    "lodash": "4.17.21",
     "mem-fs": "^1.1.3",
     "mem-fs-editor": "^4.0.0",
     "minimatch": "^3.0.4",
