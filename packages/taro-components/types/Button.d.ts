@@ -1,5 +1,6 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
+import { StyleProp, ViewStyle } from 'react-native'
 
 interface ButtonProps extends StandardProps {
   /** 按钮的大小
@@ -53,7 +54,7 @@ interface ButtonProps extends StandardProps {
    * @default none
    * @supported rn
    */
-  hoverStyle?: string
+  hoverStyle?: StyleProp<ViewStyle>
 
   /** 指定是否阻止本节点的祖先节点出现点击态
    * @default false
