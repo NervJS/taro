@@ -77,7 +77,7 @@
     "resolve": "^1.11.1",
     "resolve-url-loader": "3.1.2",
     "sass": "1.32.11",
-    "sass-loader": "10.1.1",
+    "sass-loader": "7.3.1",
     "sax": "1.2.4",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
