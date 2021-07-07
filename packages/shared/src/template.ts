@@ -268,7 +268,7 @@ export class BaseTemplate {
       : `i.focus ? 'tmpl_${level}_${comp.nodeName}_focus' : 'tmpl_${level}_${comp.nodeName}_blur'`
     delete attrs.focus
 
-    return `
+    let res = `
 <template name="tmpl_${level}_${comp.nodeName}">
   <template is="{{${templateName}}}" data="{{${this.dataKeymap('i:i')}${children ? ',cid:cid' : ''}}}" />
 </template>
@@ -281,6 +281,11 @@ export class BaseTemplate {
   <${comp.nodeName} ${this.buildAttribute(attrs, comp.nodeName)} id="{{i.uid}}">${children}</${comp.nodeName}>
 </template>
 `
+    if (isFunction(this.modifyTemplateResult)) {
+      res = this.modifyTemplateResult(res, comp.nodeName, level, children)
+    }
+
+    return res
   }
 
   protected buildStandardComponentTemplate (comp: Component, level: number) {
