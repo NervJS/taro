@@ -906,7 +906,11 @@ require(\\"./taro\\");
                     var attrs = Object.assign({}, comp.attributes);
                     var templateName = this.supportXS ? \\"xs.c(i, 'tmpl_\\".concat(level, \\"_')\\") : \\"i.focus ? 'tmpl_\\".concat(level, \\"_\\").concat(comp.nodeName, \\"_focus' : 'tmpl_\\").concat(level, \\"_\\").concat(comp.nodeName, \\"_blur'\\");
                     delete attrs.focus;
-                    return '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(comp.nodeName, '\\">\\\\n  <template is=\\"{{').concat(templateName, '}}\\" data=\\"{{').concat(this.dataKeymap(\\"i:i\\")).concat(children ? \\",cid:cid\\" : \\"\\", '}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_focus\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(comp.attributes, comp.nodeName), ' id=\\"{{i.uid}}\\">').concat(children, \\"</\\").concat(comp.nodeName, '>\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_blur\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(attrs, comp.nodeName), ' id=\\"{{i.uid}}\\">').concat(children, \\"</\\").concat(comp.nodeName, \\">\\\\n</template>\\\\n\\");
+                    var res = '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(comp.nodeName, '\\">\\\\n  <template is=\\"{{').concat(templateName, '}}\\" data=\\"{{').concat(this.dataKeymap(\\"i:i\\")).concat(children ? \\",cid:cid\\" : \\"\\", '}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_focus\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(comp.attributes, comp.nodeName), ' id=\\"{{i.uid}}\\">').concat(children, \\"</\\").concat(comp.nodeName, '>\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_blur\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(attrs, comp.nodeName), ' id=\\"{{i.uid}}\\">').concat(children, \\"</\\").concat(comp.nodeName, \\">\\\\n</template>\\\\n\\");
+                    if (isFunction(this.modifyTemplateResult)) {
+                        res = this.modifyTemplateResult(res, comp.nodeName, level, children);
+                    }
+                    return res;
                 }
             }, {
                 key: \\"buildStandardComponentTemplate\\",
@@ -1630,11 +1634,11 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_input_focus\\">
-  <input value=\\"{= i.value =}\\" type=\\"{{ xs.b(i.type,'') }}\\" password=\\"{{ xs.b(i.password,false) }}\\" placeholder=\\"{{ i.placeholder }}\\" placeholder-style=\\"{{ i.placeholderStyle }}\\" placeholder-class=\\"{{ xs.b(i.placeholderClass,'input-placeholder') }}\\" disabled=\\"{{ i.disabled }}\\" maxlength=\\"{{ xs.b(i.maxlength,140) }}\\" cursor-spacing=\\"{{ xs.b(i.cursorSpacing,0) }}\\" focus=\\"{{ xs.b(i.focus,false) }}\\" confirm-type=\\"{{ xs.b(i.confirmType,'done') }}\\" confirm-hold=\\"{{ xs.b(i.confirmHold,false) }}\\" cursor=\\"{{ xs.b(i.cursor,i.value.length) }}\\" selection-start=\\"{{ xs.b(i.selectionStart,-1) }}\\" selection-end=\\"{{ xs.b(i.selectionEnd,-1) }}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{ i.name }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\"></input>
+  <input value=\\"{= i.value =}\\" type=\\"{{ xs.b(i.type,'') }}\\" password=\\"{{ xs.b(i.password,false) }}\\" placeholder=\\"{{ i.placeholder }}\\" placeholder-style=\\"{{ i.placeholderStyle }}\\" placeholder-class=\\"{{ xs.b(i.placeholderClass,'input-placeholder') }}\\" disabled=\\"{{ i.disabled }}\\" maxlength=\\"{{ xs.b(i.maxlength,140) }}\\" cursor-spacing=\\"{{ xs.b(i.cursorSpacing,0) }}\\" focus=\\"{{ xs.b(i.focus,false) }}\\" confirm-type=\\"{{ xs.b(i.confirmType,'done') }}\\" confirm-hold=\\"{{ xs.b(i.confirmHold,false) }}\\" cursor=\\"{{ xs.b(i.cursor,i.value.length) }}\\" selection-start=\\"{{ xs.b(i.selectionStart,-1) }}\\" selection-end=\\"{{ xs.b(i.selectionEnd,-1) }}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{ i.name }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\" id=\\"{{xs.f(i.uid)}}\\"></input>
 </template>
 
 <template name=\\"tmpl_0_input_blur\\">
-  <input value=\\"{= i.value =}\\" type=\\"{{ xs.b(i.type,'') }}\\" password=\\"{{ xs.b(i.password,false) }}\\" placeholder=\\"{{ i.placeholder }}\\" placeholder-style=\\"{{ i.placeholderStyle }}\\" placeholder-class=\\"{{ xs.b(i.placeholderClass,'input-placeholder') }}\\" disabled=\\"{{ i.disabled }}\\" maxlength=\\"{{ xs.b(i.maxlength,140) }}\\" cursor-spacing=\\"{{ xs.b(i.cursorSpacing,0) }}\\" confirm-type=\\"{{ xs.b(i.confirmType,'done') }}\\" confirm-hold=\\"{{ xs.b(i.confirmHold,false) }}\\" cursor=\\"{{ xs.b(i.cursor,i.value.length) }}\\" selection-start=\\"{{ xs.b(i.selectionStart,-1) }}\\" selection-end=\\"{{ xs.b(i.selectionEnd,-1) }}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{ i.name }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\"></input>
+  <input value=\\"{= i.value =}\\" type=\\"{{ xs.b(i.type,'') }}\\" password=\\"{{ xs.b(i.password,false) }}\\" placeholder=\\"{{ i.placeholder }}\\" placeholder-style=\\"{{ i.placeholderStyle }}\\" placeholder-class=\\"{{ xs.b(i.placeholderClass,'input-placeholder') }}\\" disabled=\\"{{ i.disabled }}\\" maxlength=\\"{{ xs.b(i.maxlength,140) }}\\" cursor-spacing=\\"{{ xs.b(i.cursorSpacing,0) }}\\" confirm-type=\\"{{ xs.b(i.confirmType,'done') }}\\" confirm-hold=\\"{{ xs.b(i.confirmHold,false) }}\\" cursor=\\"{{ xs.b(i.cursor,i.value.length) }}\\" selection-start=\\"{{ xs.b(i.selectionStart,-1) }}\\" selection-end=\\"{{ xs.b(i.selectionEnd,-1) }}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{ i.name }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\" id=\\"{{xs.f(i.uid)}}\\"></input>
 </template>
 
 <template name=\\"tmpl_0_textarea\\">
@@ -2489,7 +2493,9 @@ module.exports = {
   e: function (n) {
     return 'tmpl_' + n + '_container'
   },
-  
+  f: function (s) {
+    return s[0] === '_' ? s.slice(1) : s
+  }
 }
 
 /** filePath: dist/vendors.js **/
