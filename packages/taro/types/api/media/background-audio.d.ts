@@ -268,5 +268,9 @@ declare namespace Taro {
     onError(callback?: () => void): void
     /** 音频加载中事件，当音频因为数据不足，需要停下来加载时会触发 */
     onWaiting(callback?: () => void): void
+    /** 背景音频开始跳转操作事件 */
+    onSeeking(callback?: () => void): void
+    /** 背景音频完成跳转操作事件 */
+    onSeeked(callback?: () => void): void
   }
 }
