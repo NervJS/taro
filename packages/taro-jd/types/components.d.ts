@@ -5,4 +5,7 @@ export declare const components: {
     Canvas: {
         type: string;
     };
+    Button: {
+        bindGetPhoneNumber: string;
+    };
 };

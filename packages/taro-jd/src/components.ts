@@ -7,5 +7,8 @@ export const components = {
   },
   Canvas: {
     type: ''
+  },
+  Button: {
+    bindGetPhoneNumber: ''
   }
 }
