@@ -133,6 +133,10 @@
           "id": "version-3.x/static-reference"
         },
         {
+          "type": "doc",
+          "id": "version-3.x/h5"
+        },
+        {
           "collapsed": true,
           "label": "多端开发",
           "type": "category",

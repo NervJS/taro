@@ -27,6 +27,7 @@ module.exports = {
       'nerv',
       'router',
       'static-reference',
+      'h5',
       {
         label: '多端开发',
         type: 'category',

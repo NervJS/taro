@@ -1162,7 +1162,6 @@ module.exports = {
 
 用于控制是否生成 js、css 对应的 sourceMap。
 
-
 ### h5.sourceMapType
 
 `string`
@@ -1170,6 +1169,16 @@ module.exports = {
 默认值：`'cheap-module-eval-source-map'`
 
 具体配置请参考 [Webpack devtool 配置](https://webpack.js.org/configuration/devtool/#devtool)。
+
+### h5.useHtmlComponents
+
+> Taro 3.2.4 开始支持
+
+`boolean`
+
+默认值：`false`
+
+用于控制在 H5 端是否使用兼容性组件库，详情请看 [React 兼容性组件库](h5#react-兼容性组件库)。
 
 ### h5.enableExtract
 
