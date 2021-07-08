@@ -323,3 +323,27 @@ describe('html with tag should be skipped', () => {
     expect(res[1].childNodes[0]._value).toBe('hello world')
   })
 })
+
+describe('sort style', () => {
+  it('cssText should be sort', () => {
+    const html = `
+      <style>
+        #id {
+          color: blue;
+        }
+        .class {
+          font-size: 12px;
+        }
+        div {
+          color: red;
+          font-size: 14px;
+        }
+      </style>
+      <div id="id" class="class"></div>
+    `
+    const res = parser(html)
+    const node = res[0]
+
+    expect(node.style.cssText).toBe('color: blue;font-size: 12px;')
+  })
+})
