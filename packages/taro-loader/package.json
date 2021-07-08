@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-loader",
-  "version": "3.2.12",
+  "version": "3.2.15",
   "description": "> TODO: description",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-loader#readme",
@@ -26,7 +26,7 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/helper": "3.2.12",
+    "@tarojs/helper": "3.2.15",
     "acorn": "^8.0.4",
     "acorn-walk": "^8.0.0",
     "loader-utils": "^1.2.3"
@@ -35,6 +35,6 @@
     "access": "public"
   },
   "devDependencies": {
-    "@tarojs/taro": "3.2.12"
+    "@tarojs/taro": "3.2.15"
   }
 }

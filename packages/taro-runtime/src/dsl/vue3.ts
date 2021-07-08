@@ -53,7 +53,7 @@ function createVue3Page (h: typeof createElement, id: string) {
         class: isBrowser ? 'taro_page' : ''
       },
       [
-        h(component, {
+        h(Object.assign({}, component), {
           tid: id
         })
       ]

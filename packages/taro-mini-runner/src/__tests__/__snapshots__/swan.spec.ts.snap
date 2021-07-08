@@ -884,20 +884,12 @@ require(\\"./taro\\");
                     return this.focusComponents.has(comp.nodeName) ? this.buildFocusComponentTemplte(comp, level) : this.buildStandardComponentTemplate(comp, level);
                 }
             }, {
-                key: \\"buildFocusComponentTemplte\\",
-                value: function buildFocusComponentTemplte(comp, level) {
-                    var attrs = Object.assign({}, comp.attributes);
-                    var templateName = this.supportXS ? \\"xs.c(i, 'tmpl_\\".concat(level, \\"_')\\") : \\"i.focus ? 'tmpl_\\".concat(level, \\"_\\").concat(comp.nodeName, \\"_focus' : 'tmpl_\\").concat(level, \\"_\\").concat(comp.nodeName, \\"_blur'\\");
-                    delete attrs.focus;
-                    return '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(comp.nodeName, '\\">\\\\n  <template is=\\"{{').concat(templateName, '}}\\" data=\\"{{').concat(this.dataKeymap(\\"i:i\\"), '}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_focus\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(comp.attributes, comp.nodeName), ' id=\\"{{i.uid}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_blur\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(attrs, comp.nodeName), ' id=\\"{{i.uid}}\\" />\\\\n</template>\\\\n');
-                }
-            }, {
-                key: \\"buildStandardComponentTemplate\\",
-                value: function buildStandardComponentTemplate(comp, level) {
-                    var isSupportRecursive = this.isSupportRecursive, Adapter = this.Adapter;
+                key: \\"getChildren\\",
+                value: function getChildren(comp, level) {
+                    var isSupportRecursive = this.isSupportRecursive, Adapter = this.Adapter, supportXS = this.supportXS;
                     var nextLevel = isSupportRecursive ? 0 : level + 1;
-                    var data = !this.isSupportRecursive && this.supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
-                    var child = this.supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
+                    var data = !this.isSupportRecursive && supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
+                    var child = supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
                     if (isFunction(this.modifyLoopBody)) {
                         child = this.modifyLoopBody(child, comp.nodeName);
                     }
@@ -905,6 +897,25 @@ require(\\"./taro\\");
                     if (isFunction(this.modifyLoopContainer)) {
                         children = this.modifyLoopContainer(children, comp.nodeName);
                     }
+                    return children;
+                }
+            }, {
+                key: \\"buildFocusComponentTemplte\\",
+                value: function buildFocusComponentTemplte(comp, level) {
+                    var children = this.getChildren(comp, level);
+                    var attrs = Object.assign({}, comp.attributes);
+                    var templateName = this.supportXS ? \\"xs.c(i, 'tmpl_\\".concat(level, \\"_')\\") : \\"i.focus ? 'tmpl_\\".concat(level, \\"_\\").concat(comp.nodeName, \\"_focus' : 'tmpl_\\").concat(level, \\"_\\").concat(comp.nodeName, \\"_blur'\\");
+                    delete attrs.focus;
+                    var res = '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(comp.nodeName, '\\">\\\\n  <template is=\\"{{').concat(templateName, '}}\\" data=\\"{{').concat(this.dataKeymap(\\"i:i\\")).concat(children ? \\",cid:cid\\" : \\"\\", '}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_focus\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(comp.attributes, comp.nodeName), ' id=\\"{{i.uid}}\\">').concat(children, \\"</\\").concat(comp.nodeName, '>\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_blur\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(attrs, comp.nodeName), ' id=\\"{{i.uid}}\\">').concat(children, \\"</\\").concat(comp.nodeName, \\">\\\\n</template>\\\\n\\");
+                    if (isFunction(this.modifyTemplateResult)) {
+                        res = this.modifyTemplateResult(res, comp.nodeName, level, children);
+                    }
+                    return res;
+                }
+            }, {
+                key: \\"buildStandardComponentTemplate\\",
+                value: function buildStandardComponentTemplate(comp, level) {
+                    var children = this.getChildren(comp, level);
                     var nodeName = \\"\\";
                     switch (comp.nodeName) {
                       case \\"slot\\":
@@ -1623,11 +1634,11 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_input_focus\\">
-  <input value=\\"{= i.value =}\\" type=\\"{{ xs.b(i.type,'') }}\\" password=\\"{{ xs.b(i.password,false) }}\\" placeholder=\\"{{ i.placeholder }}\\" placeholder-style=\\"{{ i.placeholderStyle }}\\" placeholder-class=\\"{{ xs.b(i.placeholderClass,'input-placeholder') }}\\" disabled=\\"{{ i.disabled }}\\" maxlength=\\"{{ xs.b(i.maxlength,140) }}\\" cursor-spacing=\\"{{ xs.b(i.cursorSpacing,0) }}\\" focus=\\"{{ xs.b(i.focus,false) }}\\" confirm-type=\\"{{ xs.b(i.confirmType,'done') }}\\" confirm-hold=\\"{{ xs.b(i.confirmHold,false) }}\\" cursor=\\"{{ xs.b(i.cursor,i.value.length) }}\\" selection-start=\\"{{ xs.b(i.selectionStart,-1) }}\\" selection-end=\\"{{ xs.b(i.selectionEnd,-1) }}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{ i.name }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <input value=\\"{= i.value =}\\" type=\\"{{ xs.b(i.type,'') }}\\" password=\\"{{ xs.b(i.password,false) }}\\" placeholder=\\"{{ i.placeholder }}\\" placeholder-style=\\"{{ i.placeholderStyle }}\\" placeholder-class=\\"{{ xs.b(i.placeholderClass,'input-placeholder') }}\\" disabled=\\"{{ i.disabled }}\\" maxlength=\\"{{ xs.b(i.maxlength,140) }}\\" cursor-spacing=\\"{{ xs.b(i.cursorSpacing,0) }}\\" focus=\\"{{ xs.b(i.focus,false) }}\\" confirm-type=\\"{{ xs.b(i.confirmType,'done') }}\\" confirm-hold=\\"{{ xs.b(i.confirmHold,false) }}\\" cursor=\\"{{ xs.b(i.cursor,i.value.length) }}\\" selection-start=\\"{{ xs.b(i.selectionStart,-1) }}\\" selection-end=\\"{{ xs.b(i.selectionEnd,-1) }}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{ i.name }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\" id=\\"{{xs.f(i.uid)}}\\"></input>
 </template>
 
 <template name=\\"tmpl_0_input_blur\\">
-  <input value=\\"{= i.value =}\\" type=\\"{{ xs.b(i.type,'') }}\\" password=\\"{{ xs.b(i.password,false) }}\\" placeholder=\\"{{ i.placeholder }}\\" placeholder-style=\\"{{ i.placeholderStyle }}\\" placeholder-class=\\"{{ xs.b(i.placeholderClass,'input-placeholder') }}\\" disabled=\\"{{ i.disabled }}\\" maxlength=\\"{{ xs.b(i.maxlength,140) }}\\" cursor-spacing=\\"{{ xs.b(i.cursorSpacing,0) }}\\" confirm-type=\\"{{ xs.b(i.confirmType,'done') }}\\" confirm-hold=\\"{{ xs.b(i.confirmHold,false) }}\\" cursor=\\"{{ xs.b(i.cursor,i.value.length) }}\\" selection-start=\\"{{ xs.b(i.selectionStart,-1) }}\\" selection-end=\\"{{ xs.b(i.selectionEnd,-1) }}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{ i.name }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <input value=\\"{= i.value =}\\" type=\\"{{ xs.b(i.type,'') }}\\" password=\\"{{ xs.b(i.password,false) }}\\" placeholder=\\"{{ i.placeholder }}\\" placeholder-style=\\"{{ i.placeholderStyle }}\\" placeholder-class=\\"{{ xs.b(i.placeholderClass,'input-placeholder') }}\\" disabled=\\"{{ i.disabled }}\\" maxlength=\\"{{ xs.b(i.maxlength,140) }}\\" cursor-spacing=\\"{{ xs.b(i.cursorSpacing,0) }}\\" confirm-type=\\"{{ xs.b(i.confirmType,'done') }}\\" confirm-hold=\\"{{ xs.b(i.confirmHold,false) }}\\" cursor=\\"{{ xs.b(i.cursor,i.value.length) }}\\" selection-start=\\"{{ xs.b(i.selectionStart,-1) }}\\" selection-end=\\"{{ xs.b(i.selectionEnd,-1) }}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{ i.name }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\" id=\\"{{xs.f(i.uid)}}\\"></input>
 </template>
 
 <template name=\\"tmpl_0_textarea\\">
@@ -1635,11 +1646,11 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_textarea_focus\\">
-  <textarea value=\\"{= i.value =}\\" placeholder=\\"{{ i.placeholder }}\\" placeholder-style=\\"{{ i.placeholderStyle }}\\" placeholder-class=\\"{{ xs.b(i.placeholderClass,'textarea-placeholder') }}\\" disabled=\\"{{ i.disabled }}\\" maxlength=\\"{{ xs.b(i.maxlength,140) }}\\" auto-focus=\\"{{ xs.b(i.autoFocus,false) }}\\" focus=\\"{{ xs.b(i.focus,false) }}\\" auto-height=\\"{{ xs.b(i.autoHeight,false) }}\\" fixed=\\"{{ xs.b(i.fixed,false) }}\\" cursor-spacing=\\"{{ xs.b(i.cursorSpacing,0) }}\\" cursor=\\"{{ xs.b(i.cursor,-1) }}\\" selection-start=\\"{{ xs.b(i.selectionStart,-1) }}\\" selection-end=\\"{{ xs.b(i.selectionEnd,-1) }}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{ i.name }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{= i.value =}\\" placeholder=\\"{{ i.placeholder }}\\" placeholder-style=\\"{{ i.placeholderStyle }}\\" placeholder-class=\\"{{ xs.b(i.placeholderClass,'textarea-placeholder') }}\\" disabled=\\"{{ i.disabled }}\\" maxlength=\\"{{ xs.b(i.maxlength,140) }}\\" auto-focus=\\"{{ xs.b(i.autoFocus,false) }}\\" focus=\\"{{ xs.b(i.focus,false) }}\\" auto-height=\\"{{ xs.b(i.autoHeight,false) }}\\" fixed=\\"{{ xs.b(i.fixed,false) }}\\" cursor-spacing=\\"{{ xs.b(i.cursorSpacing,0) }}\\" cursor=\\"{{ xs.b(i.cursor,-1) }}\\" selection-start=\\"{{ xs.b(i.selectionStart,-1) }}\\" selection-end=\\"{{ xs.b(i.selectionEnd,-1) }}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{ i.name }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\"></textarea>
 </template>
 
 <template name=\\"tmpl_0_textarea_blur\\">
-  <textarea value=\\"{= i.value =}\\" placeholder=\\"{{ i.placeholder }}\\" placeholder-style=\\"{{ i.placeholderStyle }}\\" placeholder-class=\\"{{ xs.b(i.placeholderClass,'textarea-placeholder') }}\\" disabled=\\"{{ i.disabled }}\\" maxlength=\\"{{ xs.b(i.maxlength,140) }}\\" auto-focus=\\"{{ xs.b(i.autoFocus,false) }}\\" auto-height=\\"{{ xs.b(i.autoHeight,false) }}\\" fixed=\\"{{ xs.b(i.fixed,false) }}\\" cursor-spacing=\\"{{ xs.b(i.cursorSpacing,0) }}\\" cursor=\\"{{ xs.b(i.cursor,-1) }}\\" selection-start=\\"{{ xs.b(i.selectionStart,-1) }}\\" selection-end=\\"{{ xs.b(i.selectionEnd,-1) }}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{ i.name }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{= i.value =}\\" placeholder=\\"{{ i.placeholder }}\\" placeholder-style=\\"{{ i.placeholderStyle }}\\" placeholder-class=\\"{{ xs.b(i.placeholderClass,'textarea-placeholder') }}\\" disabled=\\"{{ i.disabled }}\\" maxlength=\\"{{ xs.b(i.maxlength,140) }}\\" auto-focus=\\"{{ xs.b(i.autoFocus,false) }}\\" auto-height=\\"{{ xs.b(i.autoHeight,false) }}\\" fixed=\\"{{ xs.b(i.fixed,false) }}\\" cursor-spacing=\\"{{ xs.b(i.cursorSpacing,0) }}\\" cursor=\\"{{ xs.b(i.cursor,-1) }}\\" selection-start=\\"{{ xs.b(i.selectionStart,-1) }}\\" selection-end=\\"{{ xs.b(i.selectionEnd,-1) }}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{ i.name }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\"></textarea>
 </template>
 
 <template name=\\"tmpl_0_scroll-view\\">
@@ -2482,7 +2493,9 @@ module.exports = {
   e: function (n) {
     return 'tmpl_' + n + '_container'
   },
-  
+  f: function (s) {
+    return s[0] === '_' ? s.slice(1) : s
+  }
 }
 
 /** filePath: dist/vendors.js **/

@@ -169,9 +169,16 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
             case 'behaviors':
               break
             case 'data': {
-              this.state = {
-                ...confValue,
-                ...this.state
+              if (isApp) {
+                this[confKey] = confValue
+                if (!appOptions.includes(confKey)) {
+                  this.defineProperty(this.taroGlobalData, confKey, this)
+                }
+              } else {
+                this.state = {
+                  ...confValue,
+                  ...this.state
+                }
               }
               break
             }
