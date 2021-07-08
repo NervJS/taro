@@ -89,11 +89,13 @@ export default async function build (appPath: string, config: any): Promise<any>
   metroConfig.reporter = new TerminalReporter(entry, sourceRoot, metroConfig.cacheStores[0])
 
   const onFinish = function (error?) {
-    if (typeof config.onBuildFinish !== 'function') return
-    config.onBuildFinish({
-      error,
-      isWatch: config.isWatch
-    })
+    if (typeof config.onBuildFinish === 'function') {
+      config.onBuildFinish({
+        error,
+        isWatch: config.isWatch
+      })
+    }
+    if (error instanceof Error) throw error
   }
 
   if (config.isWatch) {
