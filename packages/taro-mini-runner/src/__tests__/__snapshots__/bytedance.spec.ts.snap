@@ -881,20 +881,12 @@ require(\\"./taro\\");
                     return this.focusComponents.has(comp.nodeName) ? this.buildFocusComponentTemplte(comp, level) : this.buildStandardComponentTemplate(comp, level);
                 }
             }, {
-                key: \\"buildFocusComponentTemplte\\",
-                value: function buildFocusComponentTemplte(comp, level) {
-                    var attrs = Object.assign({}, comp.attributes);
-                    var templateName = this.supportXS ? \\"xs.c(i, 'tmpl_\\".concat(level, \\"_')\\") : \\"i.focus ? 'tmpl_\\".concat(level, \\"_\\").concat(comp.nodeName, \\"_focus' : 'tmpl_\\").concat(level, \\"_\\").concat(comp.nodeName, \\"_blur'\\");
-                    delete attrs.focus;
-                    return '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(comp.nodeName, '\\">\\\\n  <template is=\\"{{').concat(templateName, '}}\\" data=\\"{{').concat(this.dataKeymap(\\"i:i\\"), '}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_focus\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(comp.attributes, comp.nodeName), ' id=\\"{{i.uid}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_blur\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(attrs, comp.nodeName), ' id=\\"{{i.uid}}\\" />\\\\n</template>\\\\n');
-                }
-            }, {
-                key: \\"buildStandardComponentTemplate\\",
-                value: function buildStandardComponentTemplate(comp, level) {
-                    var isSupportRecursive = this.isSupportRecursive, Adapter = this.Adapter;
+                key: \\"getChildren\\",
+                value: function getChildren(comp, level) {
+                    var isSupportRecursive = this.isSupportRecursive, Adapter = this.Adapter, supportXS = this.supportXS;
                     var nextLevel = isSupportRecursive ? 0 : level + 1;
-                    var data = !this.isSupportRecursive && this.supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
-                    var child = this.supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
+                    var data = !this.isSupportRecursive && supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
+                    var child = supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
                     if (isFunction(this.modifyLoopBody)) {
                         child = this.modifyLoopBody(child, comp.nodeName);
                     }
@@ -902,6 +894,25 @@ require(\\"./taro\\");
                     if (isFunction(this.modifyLoopContainer)) {
                         children = this.modifyLoopContainer(children, comp.nodeName);
                     }
+                    return children;
+                }
+            }, {
+                key: \\"buildFocusComponentTemplte\\",
+                value: function buildFocusComponentTemplte(comp, level) {
+                    var children = this.getChildren(comp, level);
+                    var attrs = Object.assign({}, comp.attributes);
+                    var templateName = this.supportXS ? \\"xs.c(i, 'tmpl_\\".concat(level, \\"_')\\") : \\"i.focus ? 'tmpl_\\".concat(level, \\"_\\").concat(comp.nodeName, \\"_focus' : 'tmpl_\\").concat(level, \\"_\\").concat(comp.nodeName, \\"_blur'\\");
+                    delete attrs.focus;
+                    var res = '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(comp.nodeName, '\\">\\\\n  <template is=\\"{{').concat(templateName, '}}\\" data=\\"{{').concat(this.dataKeymap(\\"i:i\\")).concat(children ? \\",cid:cid\\" : \\"\\", '}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_focus\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(comp.attributes, comp.nodeName), ' id=\\"{{i.uid}}\\">').concat(children, \\"</\\").concat(comp.nodeName, '>\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_blur\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(attrs, comp.nodeName), ' id=\\"{{i.uid}}\\">').concat(children, \\"</\\").concat(comp.nodeName, \\">\\\\n</template>\\\\n\\");
+                    if (isFunction(this.modifyTemplateResult)) {
+                        res = this.modifyTemplateResult(res, comp.nodeName, level, children);
+                    }
+                    return res;
+                }
+            }, {
+                key: \\"buildStandardComponentTemplate\\",
+                value: function buildStandardComponentTemplate(comp, level) {
+                    var children = this.getChildren(comp, level);
                     var nodeName = \\"\\";
                     switch (comp.nodeName) {
                       case \\"slot\\":
@@ -1312,7 +1323,7 @@ require(\\"./taro\\");
             taro.miniGlobal = global;
         }
         var runtime_noPromiseApis = new Set([ \\"canIPutStuffOverComponent\\" ]);
-        var runtime_needPromiseApis = new Set([ \\"checkFollowState\\", \\"exitMiniProgram\\", \\"followOfficialAccount\\", \\"getMenuButtonLayout\\", \\"hideInteractionBar\\", \\"pay\\", \\"navigateToVideoView\\", \\"showInteractionBar\\" ]);
+        var runtime_needPromiseApis = new Set([ \\"checkFollowState\\", \\"exitMiniProgram\\", \\"followOfficialAccount\\", \\"getMenuButtonLayout\\", \\"hideInteractionBar\\", \\"pay\\", \\"navigateToVideoView\\", \\"showInteractionBar\\", \\"openEcGood\\" ]);
         function initNativeApi(taro) {
             processApis(taro, tt, {
                 noPromiseApis: runtime_noPromiseApis,
@@ -1324,7 +1335,8 @@ require(\\"./taro\\");
                 size: \\"24\\"
             },
             Button: {
-                bindGetPhoneNumber: \\"\\"
+                bindGetPhoneNumber: \\"\\",
+                \\"data-channel\\": \\"\\"
             },
             Form: {
                 \\"report-submit-timeout\\": \\"0\\"
@@ -1504,11 +1516,11 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_input_focus\\">
-  <input value=\\"{{i.value}}\\" type=\\"{{i.type===undefined?'':i.type}}\\" password=\\"{{i.password===undefined?false:i.password}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'input-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" confirm-type=\\"{{i.confirmType===undefined?'done':i.confirmType}}\\" confirm-hold=\\"{{i.confirmHold===undefined?false:i.confirmHold}}\\" cursor=\\"{{i.cursor===undefined?i.value.length:i.cursor}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <input value=\\"{{i.value}}\\" type=\\"{{i.type===undefined?'':i.type}}\\" password=\\"{{i.password===undefined?false:i.password}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'input-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" confirm-type=\\"{{i.confirmType===undefined?'done':i.confirmType}}\\" confirm-hold=\\"{{i.confirmHold===undefined?false:i.confirmHold}}\\" cursor=\\"{{i.cursor===undefined?i.value.length:i.cursor}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\"></input>
 </template>
 
 <template name=\\"tmpl_0_input_blur\\">
-  <input value=\\"{{i.value}}\\" type=\\"{{i.type===undefined?'':i.type}}\\" password=\\"{{i.password===undefined?false:i.password}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'input-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" confirm-type=\\"{{i.confirmType===undefined?'done':i.confirmType}}\\" confirm-hold=\\"{{i.confirmHold===undefined?false:i.confirmHold}}\\" cursor=\\"{{i.cursor===undefined?i.value.length:i.cursor}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <input value=\\"{{i.value}}\\" type=\\"{{i.type===undefined?'':i.type}}\\" password=\\"{{i.password===undefined?false:i.password}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'input-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" confirm-type=\\"{{i.confirmType===undefined?'done':i.confirmType}}\\" confirm-hold=\\"{{i.confirmHold===undefined?false:i.confirmHold}}\\" cursor=\\"{{i.cursor===undefined?i.value.length:i.cursor}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\"></input>
 </template>
 
 <template name=\\"tmpl_0_textarea\\">
@@ -1516,11 +1528,11 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_textarea_focus\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\"></textarea>
 </template>
 
 <template name=\\"tmpl_0_textarea_blur\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\" />
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\"></textarea>
 </template>
 
 <template name=\\"tmpl_0_scroll-view\\">

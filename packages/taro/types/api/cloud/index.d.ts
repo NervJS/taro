@@ -1887,62 +1887,62 @@ declare namespace Taro {
       /** 逻辑命令字面量 */
       interface LOGIC_COMMANDS_LITERAL {
         /** 与 */
-        and
+        and: any
         /** 或 */
-        or
+        or: any
         /** 非 */
-        not
+        not: any
         /** 都不 */
-        nor
+        nor: any
       }
 
       /** 查询命令字面量 */
       interface QUERY_COMMANDS_LITERAL {
         // normal
         /** 等于 */
-        eq
+        eq: any
         /** 不等于 */
-        neq
+        neq: any
         /** 大于 */
-        gt
+        gt: any
         /** 大于等于 */
-        gte
+        gte: any
         /** 小于 */
-        lt
+        lt: any
         /** 小于等于 */
-        lte
+        lte: any
         /** 范围内 */
-        in
+        in: any
         /** 范围外 */
-        nin
+        nin: any
 
         // geo
         /** 附近排序 */
-        geoNear
+        geoNear: any
         /** 指定区域内 */
-        geoWithin
+        geoWithin: any
         /** 相交区域 */
-        geoIntersects
+        geoIntersects: any
       }
 
       /** 更新命令字面量 */
       interface UPDATE_COMMANDS_LITERAL {
         /** 等于 */
-        set
+        set: any
         /** 删除 */
-        remove
+        remove: any
         /** 自增 */
-        inc
+        inc: any
         /** 自乘 */
-        mul
+        mul: any
         /** 尾部添加 */
-        push
+        push: any
         /** 尾部删除 */
-        pop
+        pop: any
         /** 头部删除 */
-        shift
+        shift: any
         /** 头部添加 */
-        unshift
+        unshift: any
       }
 
       /** 按从近到远的顺序，找出字段值在给定点的附近的记录参数 */

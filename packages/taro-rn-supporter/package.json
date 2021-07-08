@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-supporter",
-  "version": "3.2.12",
+  "version": "3.2.15",
   "description": "Taro rn supporter",
   "main": "dist/index.js",
   "scripts": {
@@ -31,11 +31,11 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
-    "@tarojs/helper": "3.2.12",
-    "@tarojs/rn-style-transformer": "3.2.12",
+    "@tarojs/helper": "3.2.15",
+    "@tarojs/rn-style-transformer": "3.2.15",
     "lodash": "^4.17.20",
-    "metro": "0.58.0",
-    "metro-react-native-babel-transformer": "^0.58.0",
-    "metro-resolver": "^0.58.0"
+    "metro": "^0.64.0",
+    "metro-react-native-babel-transformer": "^0.64.0",
+    "metro-resolver": "^0.64.0"
   }
 }
