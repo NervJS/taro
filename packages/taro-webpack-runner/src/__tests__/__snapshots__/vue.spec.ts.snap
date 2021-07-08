@@ -536,6 +536,7 @@ exports[`vue should build vue app 2`] = `
     }
     var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
+    function initPxTransform() {}
     var h5 = taro_h5;
     var vue = \\"vue-mock\\";
     var app = __webpack_require__(7);
@@ -594,7 +595,7 @@ exports[`vue should build vue app 2`] = `
     }, __webpack_require__(15).default || {}) ];
     var inst = createVueApp(src_app, vue, config);
     createRouter(inst, config, vue);
-    undefined({
+    initPxTransform({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {
             \\"640\\": 1.17,

@@ -638,6 +638,7 @@ exports[`css modules should use css modules with global mode 2`] = `
     }
     var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
+    function initPxTransform() {}
     var h5 = taro_h5;
     var classCallCheck = __webpack_require__(3);
     var createClass = __webpack_require__(4);
@@ -720,7 +721,7 @@ exports[`css modules should use css modules with global mode 2`] = `
     }, __webpack_require__(17).default || {}) ];
     var inst = createReactApp(src_app, react, react[\\"default\\"], config);
     createRouter(inst, config, react);
-    undefined({
+    initPxTransform({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {
             \\"640\\": 1.17,
@@ -1366,6 +1367,7 @@ exports[`css modules should use css modules with module mode 2`] = `
     }
     var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
+    function initPxTransform() {}
     var h5 = taro_h5;
     var classCallCheck = __webpack_require__(3);
     var createClass = __webpack_require__(4);
@@ -1448,7 +1450,7 @@ exports[`css modules should use css modules with module mode 2`] = `
     }, __webpack_require__(17).default || {}) ];
     var inst = createReactApp(src_app, react, react[\\"default\\"], config);
     createRouter(inst, config, react);
-    undefined({
+    initPxTransform({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {
             \\"640\\": 1.17,
