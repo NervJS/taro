@@ -145,7 +145,9 @@ export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: Ap
       }
     }
   })
-  wrapper.$mount(document.getElementById('app') as any)
+  if (!isBrowser) {
+    wrapper.$mount(document.getElementById('app') as any)
+  }
   const app: AppInstance = Object.create({
     mount (component: ComponentOptions<VueCtor>, id: string, cb: () => void) {
       const page = connectVuePage(Vue, id)(component)
@@ -170,6 +172,10 @@ export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: Ap
         Current.router = {
           params: options?.query,
           ...options
+        }
+        if (isBrowser) {
+          // 由于 H5 路由初始化的时候会清除 app 下的 dom 元素，所以需要在路由初始化后再执行 render
+          wrapper.$mount(document.getElementById('app') as any)
         }
         appInstance = wrapper.$refs.app as VueAppInstance
         if (appInstance != null && isFunction(appInstance.$options.onLaunch)) {

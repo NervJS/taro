@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro",
-  "version": "3.2.10",
+  "version": "3.2.15",
   "description": "Taro framework",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro#readme",
   "main": "index.js",
@@ -26,8 +26,8 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/api": "3.2.10",
-    "@tarojs/runtime": "3.2.10",
-    "@tarojs/taro-h5": "3.2.10"
+    "@tarojs/api": "3.2.15",
+    "@tarojs/runtime": "3.2.15",
+    "@tarojs/taro-h5": "3.2.15"
   }
 }

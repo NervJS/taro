@@ -29,11 +29,16 @@ export default function (this: webpack.loader.LoaderContext) {
   const componentPath = isNeedRawLoader
     ? `${raw}!${this.resourcePath}`
     : this.request.split('!').slice(1).join('!')
+  const runtimePath = Array.isArray(options.runtimePath) ? options.runtimePath : [options.runtimePath]
+  const setReconciler = runtimePath.reduce((res, item) => {
+    return res + `import '${item}'\n`
+  }, '')
   const prerender = `
 if (typeof PRERENDER !== 'undefined') {
   global._prerender = inst
 }`
-  return `import { createPageConfig, ${creator}, window } from '@tarojs/runtime'
+  return `${setReconciler}
+import { createPageConfig, ${creator}, window } from '@tarojs/runtime'
 import component from ${stringify(componentPath)}
 ${importFrameworkStatement}
 var config = ${configString};

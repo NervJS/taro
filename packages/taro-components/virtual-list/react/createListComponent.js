@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro'
+import { createSelectorQuery } from '@tarojs/taro'
 /* eslint-disable no-sequences */
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-void */
@@ -21,10 +21,8 @@ export function isRtlFunc ({ direction }) {
   return direction === 'rtl'
 }
 export function getRectSize (id, success = () => {}, fail = () => {}) {
-  const query = Taro.createSelectorQuery()
-  query.select(id).fields({
-    size: true
-  }, (res) => {
+  const query = createSelectorQuery()
+  query.select(id).boundingClientRect((res) => {
     if (res) {
       success(res)
     } else {
