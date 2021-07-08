@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router-rn",
-  "version": "3.2.13",
+  "version": "3.2.15",
   "description": "Taro-router-rn",
   "main": "dist/index.js",
   "typings": "src/index.ts",
@@ -29,8 +29,6 @@
   "license": "MIT",
   "peerDependencies": {
     "@react-native-community/masked-view": "^0.1.10",
-    "react": "*",
-    "react-native": "*",
     "react-native-gesture-handler": "^1.8.0",
     "react-native-reanimated": "^1.13.1",
     "react-native-safe-area-context": "^3.1.8",
@@ -49,10 +47,10 @@
     "react-native-screens": "^2.11.0"
   },
   "resolutions": {
-    "@types/react": "16.9.49",
+    "@types/react": "17.0.11",
     "@types/node": "^14.14.41"
   },
   "devDependencies": {
-    "@types/react-native": "0.63.51"
+    "@types/react-native": "0.64.10"
   }
 }
