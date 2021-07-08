@@ -125,12 +125,11 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>, chain: any
     ? false
     : true
 
-  if (mode === 'production') {
-    if (isCssoEnabled) {
-      const cssoConfig: any = csso ? csso.config : {}
-      plugin.cssoWebpackPlugin = getCssoWebpackPlugin([cssoConfig])
-    }
+ if (isCssoEnabled) {
+    const cssoConfig: any = csso ? csso.config : {}
+    plugin.cssoWebpackPlugin = getCssoWebpackPlugin([cssoConfig])
   }
+
   const taroBaseReg = new RegExp(`@tarojs[\\/]taro|@tarojs[\\/]${buildAdapter}`)
   return {
     mode,
