@@ -96,7 +96,7 @@ function _request (options) {
       if (options.dataType === 'json' || typeof options.dataType === 'undefined') {
         return response.json()
       }
-      if (options.responseType === 'text') {
+      if (options.responseType === 'text' || options.dataType === 'text') {
         return response.text()
       }
       return Promise.resolve(null)
