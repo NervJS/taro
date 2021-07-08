@@ -9,26 +9,7 @@ const RN_CSS_EXT = ['.css', '.scss', '.sass', '.less', '.styl', '.stylus']
 // const reactNativeVersionString = reactNativePKG.version
 // const reactNativeMinorVersion = semver.minor(reactNativeVersionString)
 
-let upstreamTransformer = null
-// if (reactNativeMinorVersion >= 59) {
-upstreamTransformer = require('metro-react-native-babel-transformer')
-// } else if (reactNativeMinorVersion >= 56) {
-//   upstreamTransformer = require('metro/src/reactNativeTransformer')
-// } else if (reactNativeMinorVersion >= 52) {
-//   upstreamTransformer = require('metro/src/transformer')
-// } else if (reactNativeMinorVersion >= 47) {
-//   upstreamTransformer = require('metro-bundler/src/transformer')
-// } else if (reactNativeMinorVersion === 46) {
-//   upstreamTransformer = require('metro-bundler/build/transformer')
-// } else {
-//   // handle RN <= 0.45
-//   const oldUpstreamTransformer = require('react-native/packager/transformer')
-//   upstreamTransformer = {
-//     transform ({ src, filename, options }) {
-//       return oldUpstreamTransformer.transform(src, filename, options)
-//     }
-//   }
-// }
+const upstreamTransformer = require('metro-react-native-babel-transformer')
 
 const getSingleStyleTransform = styleTransformIns()
 

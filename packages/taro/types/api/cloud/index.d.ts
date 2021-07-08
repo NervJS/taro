@@ -264,6 +264,11 @@ declare namespace Taro {
      */
     static init(config?: cloud.IInitConfig): void
 
+    /** 声明字符串为 CloudID（开放数据 ID），该接口传入一个字符串，返回一个 CloudID 特殊对象，将该对象传至云函数可以获取其对应的开放数据。
+     * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/open/Cloud.CloudID.html
+     */
+     static CloudID(cloudID: string): void
+
     /** 调用云函数
      * @supported weapp
      * @example
@@ -501,6 +506,11 @@ declare namespace Taro {
      * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/init/client.init.html
      */
     init(config?: cloud.IInitConfig): Promise<void>
+
+    /** 声明字符串为 CloudID（开放数据 ID），该接口传入一个字符串，返回一个 CloudID 特殊对象，将该对象传至云函数可以获取其对应的开放数据。
+     * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/open/Cloud.CloudID.html
+     */
+     static CloudID(cloudID: string): void
 
     /** 调用云函数
      * @supported weapp
@@ -1877,62 +1887,62 @@ declare namespace Taro {
       /** 逻辑命令字面量 */
       interface LOGIC_COMMANDS_LITERAL {
         /** 与 */
-        and
+        and: any
         /** 或 */
-        or
+        or: any
         /** 非 */
-        not
+        not: any
         /** 都不 */
-        nor
+        nor: any
       }
 
       /** 查询命令字面量 */
       interface QUERY_COMMANDS_LITERAL {
         // normal
         /** 等于 */
-        eq
+        eq: any
         /** 不等于 */
-        neq
+        neq: any
         /** 大于 */
-        gt
+        gt: any
         /** 大于等于 */
-        gte
+        gte: any
         /** 小于 */
-        lt
+        lt: any
         /** 小于等于 */
-        lte
+        lte: any
         /** 范围内 */
-        in
+        in: any
         /** 范围外 */
-        nin
+        nin: any
 
         // geo
         /** 附近排序 */
-        geoNear
+        geoNear: any
         /** 指定区域内 */
-        geoWithin
+        geoWithin: any
         /** 相交区域 */
-        geoIntersects
+        geoIntersects: any
       }
 
       /** 更新命令字面量 */
       interface UPDATE_COMMANDS_LITERAL {
         /** 等于 */
-        set
+        set: any
         /** 删除 */
-        remove
+        remove: any
         /** 自增 */
-        inc
+        inc: any
         /** 自乘 */
-        mul
+        mul: any
         /** 尾部添加 */
-        push
+        push: any
         /** 尾部删除 */
-        pop
+        pop: any
         /** 头部删除 */
-        shift
+        shift: any
         /** 头部添加 */
-        unshift
+        unshift: any
       }
 
       /** 按从近到远的顺序，找出字段值在给定点的附近的记录参数 */

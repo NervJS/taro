@@ -102,15 +102,18 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
       Current.page = this as any
       this.config = pageConfig || {}
-      if (this.options == null) {
-        this.options = options
-      }
-      this.options.$taroTimestamp = Date.now()
+      options.$taroTimestamp = Date.now()
 
-      const path = getPath(id, this.options)
-      const router = isBrowser ? path : this.route || this.__route__
+      // this.$taroPath 是页面唯一标识，不可变，因此页面参数 options 也不可变
+      this.$taroPath = getPath(id, options)
+      // this.$taroParams 作为暴露给开发者的页面参数对象，可以被随意修改
+      if (this.$taroParams == null) {
+        this.$taroParams = Object.assign({}, options)
+      }
+
+      const router = isBrowser ? this.$taroPath : this.route || this.__route__
       Current.router = {
-        params: this.options,
+        params: this.$taroParams,
         path: addLeadingSlash(router),
         onReady: getOnReadyEventKey(id),
         onShow: getOnShowEventKey(id),
@@ -118,11 +121,11 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       }
 
       const mount = () => {
-        Current.app!.mount!(component, path, () => {
-          pageElement = document.getElementById<TaroRootElement>(path)
+        Current.app!.mount!(component, this.$taroPath, () => {
+          pageElement = document.getElementById<TaroRootElement>(this.$taroPath)
 
           ensure(pageElement !== null, '没有找到页面实例。')
-          safeExecute(path, 'onLoad', this.options)
+          safeExecute(this.$taroPath, 'onLoad', this.$taroParams)
           if (!isBrowser) {
             pageElement.ctx = this
             pageElement.performUpdate(true, cb)
@@ -136,21 +139,18 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       }
     },
     onReady () {
-      const path = getPath(id, this.options)
-
       raf(() => {
         eventCenter.trigger(getOnReadyEventKey(id))
       })
 
-      safeExecute(path, 'onReady')
+      safeExecute(this.$taroPath, 'onReady')
       this.onReady.called = true
     },
     onUnload () {
-      const path = getPath(id, this.options)
       unmounting = true
-      Current.app!.unmount!(path, () => {
+      Current.app!.unmount!(this.$taroPath, () => {
         unmounting = false
-        instances.delete(path)
+        instances.delete(this.$taroPath)
         if (pageElement) {
           pageElement.ctx = null
         }
@@ -163,10 +163,9 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     onShow () {
       Current.page = this as any
       this.config = pageConfig || {}
-      const path = getPath(id, this.options)
-      const router = isBrowser ? path : this.route || this.__route__
+      const router = isBrowser ? this.$taroPath : this.route || this.__route__
       Current.router = {
-        params: this.options,
+        params: this.$taroParams,
         path: addLeadingSlash(router),
         onReady: getOnReadyEventKey(id),
         onShow: getOnShowEventKey(id),
@@ -177,54 +176,43 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
         eventCenter.trigger(getOnShowEventKey(id))
       })
 
-      safeExecute(path, 'onShow')
+      safeExecute(this.$taroPath, 'onShow')
     },
     onHide () {
       Current.page = null
       Current.router = null
-      const path = getPath(id, this.options)
-      safeExecute(path, 'onHide')
+      safeExecute(this.$taroPath, 'onHide')
       eventCenter.trigger(getOnHideEventKey(id))
     },
     onPullDownRefresh () {
-      const path = getPath(id, this.options)
-      return safeExecute(path, 'onPullDownRefresh')
+      return safeExecute(this.$taroPath, 'onPullDownRefresh')
     },
     onReachBottom () {
-      const path = getPath(id, this.options)
-      return safeExecute(path, 'onReachBottom')
+      return safeExecute(this.$taroPath, 'onReachBottom')
     },
     onPageScroll (options) {
-      const path = getPath(id, this.options)
-      return safeExecute(path, 'onPageScroll', options)
+      return safeExecute(this.$taroPath, 'onPageScroll', options)
     },
     onResize (options) {
-      const path = getPath(id, this.options)
-      return safeExecute(path, 'onResize', options)
+      return safeExecute(this.$taroPath, 'onResize', options)
     },
     onTabItemTap (options) {
-      const path = getPath(id, this.options)
-      return safeExecute(path, 'onTabItemTap', options)
+      return safeExecute(this.$taroPath, 'onTabItemTap', options)
     },
     onTitleClick () {
-      const path = getPath(id, this.options)
-      return safeExecute(path, 'onTitleClick')
+      return safeExecute(this.$taroPath, 'onTitleClick')
     },
     onOptionMenuClick () {
-      const path = getPath(id, this.options)
-      return safeExecute(path, 'onOptionMenuClick')
+      return safeExecute(this.$taroPath, 'onOptionMenuClick')
     },
     onPopMenuClick () {
-      const path = getPath(id, this.options)
-      return safeExecute(path, 'onPopMenuClick')
+      return safeExecute(this.$taroPath, 'onPopMenuClick')
     },
     onPullIntercept () {
-      const path = getPath(id, this.options)
-      return safeExecute(path, 'onPullIntercept')
+      return safeExecute(this.$taroPath, 'onPullIntercept')
     },
     onAddToFavorites () {
-      const path = getPath(id, this.options)
-      return safeExecute(path, 'onAddToFavorites')
+      return safeExecute(this.$taroPath, 'onAddToFavorites')
     }
   }
 
@@ -241,16 +229,14 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
           options.target!.dataset = element.dataset
         }
       }
-      const path = getPath(id, this.options)
-      return safeExecute(path, 'onShareAppMessage', options)
+      return safeExecute(this.$taroPath, 'onShareAppMessage', options)
     }
   }
   if (component.onShareTimeline ||
       component.prototype?.onShareTimeline ||
       component.enableShareTimeline) {
     config.onShareTimeline = function () {
-      const path = getPath(id, this.options)
-      return safeExecute(path, 'onShareTimeline')
+      return safeExecute(this.$taroPath, 'onShareTimeline')
     }
   }
 
