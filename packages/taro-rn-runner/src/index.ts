@@ -46,6 +46,27 @@ function concatOutputAssetsDest (config: any): string | undefined {
   return res
 }
 
+function getOutputSourceMapOption (config: any): Record<string, any> {
+  if (!config?.deviceType || !config?.output) {
+    return {}
+  }
+  if (config.deviceType === 'ios') {
+    fse.ensureDirSync(path.dirname(config.output.iosSourcemapOutput))
+    return {
+      sourceMapUrl: config.output.iosSourceMapUrl,
+      sourcemapOutput: config.output.iosSourcemapOutput,
+      sourcemapSourcesRoot: config.output.iosSourcemapSourcesRoot
+    }
+  } else {
+    fse.ensureDirSync(path.dirname(config.output.androidSourcemapOutput))
+    return {
+      sourceMapUrl: config.output.androidSourceMapUrl,
+      sourcemapOutput: config.output.androidSourcemapOutput,
+      sourcemapSourcesRoot: config.output.androidSourcemapSourcesRoot
+    }
+  }
+}
+
 // TODO: 返回值
 // HttpServer | {code: string, map: string}
 // IBuildConfig
@@ -68,11 +89,13 @@ export default async function build (appPath: string, config: any): Promise<any>
   metroConfig.reporter = new TerminalReporter(entry, sourceRoot, metroConfig.cacheStores[0])
 
   const onFinish = function (error?) {
-    if (typeof config.onBuildFinish !== 'function') return
-    config.onBuildFinish({
-      error,
-      isWatch: config.isWatch
-    })
+    if (typeof config.onBuildFinish === 'function') {
+      config.onBuildFinish({
+        error,
+        isWatch: config.isWatch
+      })
+    }
+    if (error instanceof Error) throw error
   }
 
   if (config.isWatch) {
@@ -152,9 +175,12 @@ export default async function build (appPath: string, config: any): Promise<any>
 
     const server = new Server(metroConfig)
 
+    const sourceMapOption = getOutputSourceMapOption(config)
+
     try {
       const requestOptions = {
         ...commonOptions,
+        ...sourceMapOption,
         entryFile: options.entry,
         inlineSourceMap: false,
         createModuleIdFactory: metroConfig.serializer.createModuleIdFactory
@@ -162,6 +188,7 @@ export default async function build (appPath: string, config: any): Promise<any>
       const bundle = await outputBundle.build(server, requestOptions)
       const outputOptions = {
         ...commonOptions,
+        ...sourceMapOption,
         bundleOutput: options.out
       }
       await outputBundle.save(bundle, outputOptions, console.log)

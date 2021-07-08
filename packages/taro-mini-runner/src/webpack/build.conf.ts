@@ -13,6 +13,7 @@ import {
   getModule,
   mergeOption,
   getMiniPlugin,
+  getMiniSplitChunksPlugin,
   getBuildNativePlugin,
   getProviderPlugin,
   getMiniCssExtractPlugin,
@@ -74,6 +75,9 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     terser,
     commonChunks,
     addChunkPages,
+    optimizeMainPackage = {
+      enable: false
+    },
 
     blended,
     isBuildNativeComp,
@@ -136,6 +140,13 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     customCommonChunks = commonChunks
   }
   plugin.definePlugin = getDefinePlugin([constantsReplaceList])
+
+  /** 需要在miniPlugin前，否则无法获取entry地址 */
+  if (optimizeMainPackage.enable) {
+    plugin.miniSplitChunksPlugin = getMiniSplitChunksPlugin({
+      exclude: optimizeMainPackage.exclude
+    })
+  }
 
   const miniPluginOptions = {
     sourceDir,

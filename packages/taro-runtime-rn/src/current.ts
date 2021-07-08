@@ -1,4 +1,6 @@
+import * as React from 'react'
 import { AppInstance, PageInstance } from './instance'
+import { navigationRef as rnNavigationRef } from '@tarojs/router-rn'
 interface Router {
   params: Record<string, unknown>,
   path: string
@@ -7,13 +9,15 @@ interface Router {
 interface Current {
   app: AppInstance | null,
   router: Router | null,
-  page: PageInstance | null
+  page: PageInstance | null,
+  rnNavigationRef: React.RefObject<any>,
 }
 
 export const Current: Current = {
   app: null,
   router: null,
-  page: null
+  page: null,
+  rnNavigationRef // RN 导航实例私有对象
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
