@@ -748,7 +748,11 @@ require(\\"./taro\\");
                 const attrs = Object.assign({}, comp.attributes);
                 const templateName = this.supportXS ? \`xs.c(i, 'tmpl_\${level}_')\` : \`i.focus ? 'tmpl_\${level}_\${comp.nodeName}_focus' : 'tmpl_\${level}_\${comp.nodeName}_blur'\`;
                 delete attrs.focus;
-                return \`\\\\n<template name=\\"tmpl_\${level}_\${comp.nodeName}\\">\\\\n  <template is=\\"{{\${templateName}}}\\" data=\\"{{\${this.dataKeymap(\\"i:i\\")}\${children ? \\",cid:cid\\" : \\"\\"}}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_\${level}_\${comp.nodeName}_focus\\">\\\\n  <\${comp.nodeName} \${this.buildAttribute(comp.attributes, comp.nodeName)} id=\\"{{i.uid}}\\">\${children}</\${comp.nodeName}>\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_\${level}_\${comp.nodeName}_blur\\">\\\\n  <\${comp.nodeName} \${this.buildAttribute(attrs, comp.nodeName)} id=\\"{{i.uid}}\\">\${children}</\${comp.nodeName}>\\\\n</template>\\\\n\`;
+                let res = \`\\\\n<template name=\\"tmpl_\${level}_\${comp.nodeName}\\">\\\\n  <template is=\\"{{\${templateName}}}\\" data=\\"{{\${this.dataKeymap(\\"i:i\\")}\${children ? \\",cid:cid\\" : \\"\\"}}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_\${level}_\${comp.nodeName}_focus\\">\\\\n  <\${comp.nodeName} \${this.buildAttribute(comp.attributes, comp.nodeName)} id=\\"{{i.uid}}\\">\${children}</\${comp.nodeName}>\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_\${level}_\${comp.nodeName}_blur\\">\\\\n  <\${comp.nodeName} \${this.buildAttribute(attrs, comp.nodeName)} id=\\"{{i.uid}}\\">\${children}</\${comp.nodeName}>\\\\n</template>\\\\n\`;
+                if (isFunction(this.modifyTemplateResult)) {
+                    res = this.modifyTemplateResult(res, comp.nodeName, level, children);
+                }
+                return res;
             }
             buildStandardComponentTemplate(comp, level) {
                 const children = this.getChildren(comp, level);
