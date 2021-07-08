@@ -24,11 +24,6 @@ export const animationEvents = {
   bindTransitionEnd: ''
 }
 
-export const specialEvents = new Set([
-  'htouchmove',
-  'vtouchmove'
-])
-
 export function singleQuote (s: string) {
   return `'${s}'`
 }
@@ -274,8 +269,8 @@ const MovableView = {
   animation: 'true',
   bindChange: '',
   bindScale: '',
-  htouchmove: '',
-  vtouchmove: '',
+  bindHTouchMove: '',
+  bindVTouchMove: '',
   width: singleQuote('10px'),
   height: singleQuote('10px'),
   ...touchEvents,

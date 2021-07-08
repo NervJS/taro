@@ -73,7 +73,7 @@ export namespace Components {
         "name": string;
         "password": boolean;
         "placeholder": string;
-        "type": undefined;
+        "type": string;
         "value": string;
     }
     interface TaroLabelCore {
@@ -378,6 +378,7 @@ export namespace Components {
         "tick": (currentTime: number) => Promise<void>;
     }
     interface TaroViewCore {
+        "animation": string;
         "hoverClass": string;
         "hoverStartTime": number;
         "hoverStayTime": number;
@@ -758,7 +759,7 @@ declare namespace LocalJSX {
         "onKeydown"?: (event: CustomEvent<any>) => void;
         "password"?: boolean;
         "placeholder"?: string;
-        "type"?: undefined;
+        "type"?: string;
         "value"?: string;
     }
     interface TaroLabelCore {
@@ -1063,6 +1064,7 @@ declare namespace LocalJSX {
         "enable"?: boolean;
     }
     interface TaroViewCore {
+        "animation"?: string;
         "hoverClass"?: string;
         "hoverStartTime"?: number;
         "hoverStayTime"?: number;

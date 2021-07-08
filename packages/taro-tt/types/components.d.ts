@@ -4,6 +4,7 @@ export declare const components: {
     };
     Button: {
         bindGetPhoneNumber: string;
+        'data-channel': string;
     };
     Form: {
         'report-submit-timeout': string;

@@ -79,7 +79,12 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
     ScreenPage = React.forwardRef((props, ref) => {
       const newProps: React.Props<any> = { ...props }
       newProps.ref = ref
-      return h(View, { ...newProps }, h(Page, { ...props }, null))
+      return h(View, {
+        style: {
+          minHeight: '100%'
+        },
+        ...newProps
+      }, h(Page, { ...props }, null))
     })
   }
 

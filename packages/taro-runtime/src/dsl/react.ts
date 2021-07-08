@@ -166,9 +166,6 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
   const isReactComponent = isClassComponent(R, App)
 
   setReconciler()
-
-  let wrapper: AppWrapper
-
   class AppWrapper extends R.Component {
     // run createElement() inside the render function to make sure that owner is right
     private pages: Array<() => PageComponent> = []
@@ -213,6 +210,12 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
     }
   }
 
+  let wrapper: AppWrapper
+  if (!isBrowser) {
+    // eslint-disable-next-line react/no-render-return-value
+    wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById('app'))
+  }
+
   const app: AppInstance = Object.create({
     render (cb: () => void) {
       wrapper.forceUpdate(cb)
@@ -242,8 +245,11 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
           params: options?.query,
           ...options
         }
-        // eslint-disable-next-line react/no-render-return-value
-        wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById('app'))
+        if (isBrowser) {
+          // 由于 H5 路由初始化的时候会清除 app 下的 dom 元素，所以需要在路由初始化后执行 render
+          // eslint-disable-next-line react/no-render-return-value
+          wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById('app'))
+        }
         const app = ref.current
 
         // For taroize
