@@ -1331,6 +1331,9 @@ require(\\"./taro\\");
             },
             Canvas: {
                 type: \\"\\"
+            },
+            Button: {
+                bindGetPhoneNumber: \\"\\"
             }
         };
         var hostConfig = {
