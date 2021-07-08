@@ -98,7 +98,7 @@ function _request (options) {
           return response.json()
         }
       }
-      if (options.responseType === 'text') {
+      if (options.responseType === 'text' || options.dataType === 'text') {
         return response.text()
       }
       return Promise.resolve(null)
