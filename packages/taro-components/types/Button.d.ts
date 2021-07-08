@@ -331,6 +331,8 @@ declare namespace ButtonProps {
     iv: string
     /* 用户信息的调用状态 */
     errMsg: string
+    /** 敏感数据对应的云 ID，开通[云开发](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html)的小程序才会返回，可通过云调用直接获取开放数据，详细见[云调用直接获取开放数据](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#method-cloud) */
+    cloudID?: string
   }
 
   /** 性别的合法值 */

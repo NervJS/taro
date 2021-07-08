@@ -22,7 +22,6 @@ function createVue3Page (h: typeof createElement, id: string) {
       props: {
         tid: String
       },
-      mixins: [component],
       created () {
         injectPageInstance(this, id)
         // vue3 组件 created 时机比小程序页面 onShow 慢，因此在 created 后再手动触发一次 onShow。
@@ -30,6 +29,20 @@ function createVue3Page (h: typeof createElement, id: string) {
           safeExecute(id, 'onShow')
         })
       }
+    }
+
+    if (isArray(component.mixins)) {
+      const mixins = component.mixins
+      const idx = mixins.length - 1
+      if (!mixins[idx].props?.tid) {
+        // mixins 里还没注入过，直接推入数组
+        component.mixins.push(inject)
+      } else {
+        // mixins 里已经注入过，代替前者
+        component.mixins[idx] = inject
+      }
+    } else {
+      component.mixins = [inject]
     }
 
     return h(
@@ -40,7 +53,7 @@ function createVue3Page (h: typeof createElement, id: string) {
         class: isBrowser ? 'taro_page' : ''
       },
       [
-        h(inject, {
+        h(Object.assign({}, component), {
           tid: id
         })
       ]
