@@ -10,3 +10,4 @@ export declare const PageMeta = "page-meta";
 export declare const VoipRoom = "voip-room";
 export declare const AdCustom = "ad-custom";
 export declare const PageContainer = "page-container";
+export declare const KeyboardAccessory = "keyboard-accessory";

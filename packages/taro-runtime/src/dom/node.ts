@@ -7,6 +7,7 @@ import { Shortcuts, ensure } from '@tarojs/shared'
 import { hydrate, HydratedData } from '../hydrate'
 import { TaroElement } from './element'
 import { setInnerHTML } from './html/html'
+import { parser } from './html/parser'
 import { CurrentReconciler } from '../reconciler'
 import { document } from '../bom/document'
 
@@ -214,6 +215,40 @@ export class TaroNode extends TaroEventTarget {
 
   public get innerHTML () {
     return ''
+  }
+
+  /**
+   * An implementation of `Element.insertAdjacentHTML()`
+   * to support Vue 3 with a version of or greater than `vue@3.1.2`
+   */
+  public insertAdjacentHTML (
+    position: 'beforebegin' | 'afterbegin' | 'beforeend' | 'afterend',
+    html: string
+  ) {
+    const parsedNodes = parser(html)
+
+    for (let i = 0; i < parsedNodes.length; i++) {
+      const n = parsedNodes[i]
+
+      switch (position) {
+        case 'beforebegin':
+          this.parentNode?.insertBefore(n, this)
+          break
+        case 'afterbegin':
+          if (this.hasChildNodes()) {
+            this.childNodes[0].insertBefore(n)
+          } else {
+            this.appendChild(n)
+          }
+          break
+        case 'beforeend':
+          this.appendChild(n)
+          break
+        case 'afterend':
+          this.parentNode?.appendChild(n)
+          break
+      }
+    }
   }
 
   protected findIndex (childeNodes: TaroNode[], refChild: TaroNode) {

@@ -35,6 +35,7 @@ export default class Alipay extends TaroPlatformBase {
         this.modifyMiniConfigs()
         this.modifyComponents()
         this.modifyWebpackConfig()
+        this.generateProjectConfig('project.alipay.json', 'mini.project.json')
       }
     })
   }

@@ -155,11 +155,38 @@ export class Swiper implements ComponentInterface {
     }
   }
 
+  @Watch("circular")
+  watchCircular () {
+    if (this.swiper) {
+      this.swiper.destroy()
+      this.handleInit()
+    }
+  }
+
   componentWillLoad () {
     this.isWillLoadCalled = true
   }
 
   componentDidLoad () {
+    this.handleInit()
+  }
+
+  componentWillUpdate () {
+    if (this.autoplay && !this.swiper.autoplay.paused) {
+      this.swiper.autoplay.run()
+      this.swiper.autoplay.paused = false
+    }
+    this.swiper.update() // 更新子元素
+  }
+
+  componentDidRender () {
+    if (this.swiper && this.circular) {
+      this.swiper.loopDestroy()
+      this.swiper.loopCreate()
+    }
+  }
+
+  handleInit () {
     const {
       autoplay,
       current,
@@ -200,11 +227,13 @@ export class Swiper implements ComponentInterface {
           })
         },
         observerUpdate (e) {
-          if (e.target && e.target.className === 'taro_page' && e.target.style.display === 'block') {
-            if (that.autoplay && e.target.contains(this.$el[0])) {
+          const target = e.target
+          const className = target && typeof target.className === 'string' ? target.className : ''
+          if (className.includes('taro_page') && target.style.display === 'block') {
+            if (that.autoplay && target.contains(this.$el[0])) {
               this.slideTo(that.current)
             }
-          } else if (e.target && e.target.className === 'swiper-wrapper') {
+          } else if (className.includes('swiper-wrapper')) {
             if (e.addedNodes.length > 0 || e.removedNodes.length > 0) {
               this.loopDestroy()
               this.loopCreate()
@@ -224,14 +253,6 @@ export class Swiper implements ComponentInterface {
 
     this.swiper = new SwiperJS(`.taro-swiper-${this._id} > .swiper-container`, options)
     this.swiperWrapper = this.el.querySelector(`.taro-swiper-${this._id} > .swiper-container > .swiper-wrapper`)
-  }
-
-  componentWillUpdate () {
-    if (this.autoplay && !this.swiper.autoplay.paused) {
-      this.swiper.autoplay.run()
-      this.swiper.autoplay.paused = false
-    }
-    this.swiper.update() // 更新子元素
   }
 
   render () {

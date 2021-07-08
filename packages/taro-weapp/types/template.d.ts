@@ -14,4 +14,6 @@ export declare class Template extends UnRecursiveTemplate {
     };
     buildXsTemplate(): string;
     replacePropName(name: string, value: string, componentName: string): string;
+    modifyLoopContainer: (children: any, nodeName: any) => any;
+    modifyTemplateResult: (res: string, nodeName: string) => string;
 }
