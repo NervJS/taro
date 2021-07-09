@@ -81,7 +81,13 @@ export function switchTab (option: Option) {
   return navigateTo(option)
 }
 
-export function reLaunch (option: Option) {
+export async function reLaunch (option: Option) {
+  // 模拟小程序reLaunch效果，清空已有路由
+  if (stacks.length > 1) {
+    navigateBack({delta: stacks.length - 1});
+    // 如果不添加延时会导致redirectTo时还是在当前路由操作
+    await new Promise(resolve => setTimeout(resolve, 10));
+  }
   return redirectTo(option)
 }
 
