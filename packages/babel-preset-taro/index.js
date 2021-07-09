@@ -31,6 +31,10 @@ module.exports = (_, options = {}) => {
     }
   }
 
+  if (isVue || isVue3) {
+    plugins.push([require('@vue/babel-plugin-jsx')])
+  }
+
   if (options.ts) {
     const config = {}
     if (isNerv || isReact) {
@@ -38,17 +42,11 @@ module.exports = (_, options = {}) => {
     }
     if (isVue || isVue3) {
       overrides.push({
-        include: /(?:\.ts$|=ts(?![^&]))/,
-        presets: [[require('@babel/preset-typescript'), { allExtensions: true }]]
-      })
-
-      overrides.push({
-        include: /(?:\.tsx$|=tsx(?![^&]))/,
+        include: /\.vue$/,
         presets: [[require('@babel/preset-typescript'), { allExtensions: true, isTSX: true }]]
       })
-    } else {
-      presets.push([require('@babel/preset-typescript'), config])
     }
+    presets.push([require('@babel/preset-typescript'), config])
   }
 
   const runtimePath = process.env.NODE_ENV === 'jest' || process.env.NODE_ENV === 'test' ? false : path.dirname(require.resolve('@babel/runtime/package.json'))
