@@ -102,6 +102,7 @@ const siteConfigGithub = {
           position: 'left',
         },
         {href: 'https://github.com/NervJS/taro/discussions', label: '论坛', position: 'left'},
+        {href: 'https://nutui.jd.com/#/', label: 'NutUI', position: 'right'},
         {href: 'https://taro-ui.jd.com', label: 'Taro UI', position: 'right'},
         {href: 'https://taro-ext.jd.com', label: '物料市场', position: 'right'},
         {to: 'showcase', label: '案例', position: 'right'},
