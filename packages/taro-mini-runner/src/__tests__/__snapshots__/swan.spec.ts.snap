@@ -1327,10 +1327,45 @@ require(\\"./taro\\");
         }
         var runtime_noPromiseApis = new Set([ \\"getEnvInfoSync\\", \\"isLoginSync\\", \\"createARCameraContext\\", \\"createAnimationVideo\\", \\"createRtcRoomContext\\", \\"getURLQuery\\", \\"setURLQuery\\" ]);
         var runtime_needPromiseApis = new Set([ \\"addEventOnCalendar\\", \\"chooseAlbum\\", \\"closeCommunityEditor\\", \\"getSwanId\\", \\"requestPolymerPayment\\", \\"navigateBackSmartProgram\\", \\"navigateToSmartProgram\\", \\"setPageInfo\\", \\"closeReplyEditor\\", \\"deleteBookShelf\\", \\"deleteEventOnCalendar\\", \\"getSystemRiskInfo\\", \\"insertBookshelf\\", \\"loadSubPackage\\", \\"openCommunityEditor\\", \\"openReplyEditor\\", \\"openShare\\", \\"setDocumentTitle\\", \\"setMetaDescription\\", \\"setMetaKeywords\\", \\"shareFile\\", \\"subscribeService\\", \\"updateBookshelfReadTime\\" ]);
+        var apiDiff = {
+            login: {
+                alias: \\"getLoginCode\\"
+            }
+        };
+        function transformMeta(api, options) {
+            var apiAlias = api;
+            Object.keys(apiDiff).forEach((function(item) {
+                var apiItem = apiDiff[item];
+                if (api === item) {
+                    if (apiItem.alias) {
+                        apiAlias = apiItem.alias;
+                    }
+                    if (apiItem.options) {
+                        var change = apiItem.options.change;
+                        var set = apiItem.options.set;
+                        if (change) {
+                            change.forEach((function(changeItem) {
+                                options[changeItem.new] = options[changeItem.old];
+                            }));
+                        }
+                        if (set) {
+                            set.forEach((function(setItem) {
+                                options[setItem.key] = typeof setItem.value === \\"function\\" ? setItem.value(options) : setItem.value;
+                            }));
+                        }
+                    }
+                }
+            }));
+            return {
+                key: apiAlias,
+                options: options
+            };
+        }
         function initNativeApi(taro) {
             processApis(taro, swan, {
                 noPromiseApis: runtime_noPromiseApis,
-                needPromiseApis: runtime_needPromiseApis
+                needPromiseApis: runtime_needPromiseApis,
+                transformMeta: transformMeta
             });
         }
         var components = {
