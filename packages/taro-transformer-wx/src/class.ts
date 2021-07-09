@@ -974,6 +974,9 @@ class Transformer {
     } else if (t.isMemberExpression(expr) && !t.isThisExpression(expr.object)) {
       // @TODO: 新旧 props 系统在事件处理上耦合太深，快应用应用新 props 把旧 props 系统逻辑全部清楚
       this.buildAnonyMousFunc(path, attr, expr)
+    } else if (t.isCallExpression(expr) && !code.startsWith('this')) {
+      // 非类实例方法 bind 应该转换为 anonymous func
+      this.buildAnonyMousFunc(path, attr, expr)
     }
   }
 
