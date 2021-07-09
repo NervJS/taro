@@ -3,32 +3,39 @@ import { inject, injectable, optional } from 'inversify'
 import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { ElementNames, InstanceNamedFactory } from '../interface'
 
+import type { Ctx, GetDoc } from '../interface'
 import type { setInnerHTML } from '../dom-external/inner-html/html'
 import type { TaroDocument } from '../dom/document'
+import type { insertAdjacentHTMLImpl, IPosition } from './node'
 
 type SetInnerHTML = typeof setInnerHTML
-interface GetDoc {
-  (): TaroDocument
-}
+type InsertAdjacentHTMLImpl = typeof insertAdjacentHTMLImpl
 
 @injectable()
 export class TaroNodeImpl {
-  public innerHTMLImpl: SetInnerHTML
+  ctx: Ctx
   public getDoc: GetDoc
+  public innerHTMLImpl: SetInnerHTML
+  public adjacentImpl: InsertAdjacentHTMLImpl
 
   constructor (// eslint-disable-next-line @typescript-eslint/indent
     @inject(SERVICE_IDENTIFIER.TaroElementFactory) getElement: InstanceNamedFactory,
-    @inject(SERVICE_IDENTIFIER.InnerHTMLImpl) @optional() innerHTMLImpl: SetInnerHTML
+    @inject(SERVICE_IDENTIFIER.InnerHTMLImpl) @optional() innerHTMLImpl: SetInnerHTML,
+    @inject(SERVICE_IDENTIFIER.insertAdjacentHTMLImpl) @optional() adjacentImpl: InsertAdjacentHTMLImpl
   ) {
     this.getDoc = () => getElement<TaroDocument>(ElementNames.Document)()
     this.innerHTMLImpl = innerHTMLImpl
+    this.adjacentImpl = adjacentImpl
   }
 
-  public bind (ctx: Record<string, any>) {
-    this.bindInnerHTML(ctx, this.innerHTMLImpl, this.getDoc)
+  public bind (ctx: Ctx) {
+    this.ctx = ctx
+    this.bindInnerHTML()
+    this.bindAdjacentHTML()
   }
 
-  private bindInnerHTML (ctx: Record<string, any>, impl: SetInnerHTML, getDoc: GetDoc) {
+  private bindInnerHTML () {
+    const { ctx, innerHTMLImpl: impl, getDoc } = this
     Object.defineProperty(ctx, 'innerHTML', {
       configurable: true,
       enumerable: true,
@@ -43,5 +50,16 @@ export class TaroNodeImpl {
         return ''
       }
     })
+  }
+
+  private bindAdjacentHTML () {
+    const { ctx, adjacentImpl: impl, getDoc } = this
+    ctx.insertAdjacentHTML = function (position: IPosition, html: string) {
+      if (isFunction(impl)) {
+        impl.call(ctx, position, html, getDoc)
+      } else {
+        process.env.NODE_ENV !== 'production' && warn(true, '请实现 node.insertAdjacentHTML')
+      }
+    }
   }
 }

@@ -6,6 +6,7 @@ const SERVICE_IDENTIFIER = {
   TaroNodeImpl: 'TaroNodeImpl',
   TaroElementImpl: 'TaroElementImpl',
   InnerHTMLImpl: 'InnerHTMLImpl',
+  insertAdjacentHTMLImpl: 'insertAdjacentHTMLImpl',
   getBoundingClientRectImpl: 'getBoundingClientRectImpl',
   Hooks: 'hooks',
   onRemoveAttribute: 'onRemoveAttribute',

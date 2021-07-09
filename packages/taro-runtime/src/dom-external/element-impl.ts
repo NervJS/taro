@@ -2,6 +2,7 @@ import { isFunction, warn } from '@tarojs/shared'
 import { inject, injectable, optional } from 'inversify'
 import SERVICE_IDENTIFIER from '../constants/identifiers'
 
+import type { Ctx } from '../interface'
 import type { getBoundingClientRectImpl } from './element'
 
 @injectable()
@@ -14,11 +15,11 @@ export class TaroElementImpl {
     this.rectImpl = rectImpl
   }
 
-  bind (ctx: Record<string, any>) {
+  bind (ctx: Ctx) {
     this.bindRect(ctx)
   }
 
-  bindRect (ctx: Record<string, any>) {
+  bindRect (ctx: Ctx) {
     const impl = this.rectImpl
     ctx.getBoundingClientRect = async function (...args: any[]) {
       if (isFunction(impl)) {

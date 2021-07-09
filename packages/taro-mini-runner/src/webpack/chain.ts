@@ -532,11 +532,16 @@ export function getDevtool (enableSourceMap, sourceMapType = 'cheap-module-sourc
 export function getRuntimeConstants (runtime) {
   const constants = {
     ENABLE_INNER_HTML: true,
+    ENABLE_ADJACENT_HTML: true,
     ENABLE_SIZE_APIS: false
   }
 
   if (runtime.enableInnerHTML !== undefined) {
     constants.ENABLE_INNER_HTML = runtime.enableInnerHTML
+  }
+
+  if (runtime.enableAdjacentHTML !== undefined) {
+    constants.ENABLE_ADJACENT_HTML = runtime.enableAdjacentHTML
   }
 
   if (runtime.enableSizeAPIs !== undefined) {
