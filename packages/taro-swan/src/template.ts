@@ -56,15 +56,6 @@ export class Template extends RecursiveTemplate {
 
   modifyTemplateResult = (res: string, nodeName: string) => {
     if (nodeName === 'picker-view-column') return ''
-    if (nodeName === 'input') {
-      return res.replace(/ id="{{i.uid}}"/g, 'id="{{xs.f(i.uid)}}"')
-    }
     return res
-  }
-
-  buildXSTmpExtra () {
-    return `f: function (s) {
-    return s[0] === '_' ? s.slice(1) : s
-  }`
   }
 }

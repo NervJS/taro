@@ -17,5 +17,4 @@ export declare class Template extends RecursiveTemplate {
     getAttrValue(value: string, key: string, nodeName: string): string;
     modifyLoopBody: (child: string, nodeName: string) => string;
     modifyTemplateResult: (res: string, nodeName: string) => string;
-    buildXSTmpExtra(): string;
 }

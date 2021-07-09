@@ -45,5 +45,8 @@ export default class Swan extends TaroPlatformBase {
    */
   modifyComponents () {
     this.template.mergeComponents(this.ctx, components)
+    delete this.template.internalComponents.Input.cursor
+    delete this.template.internalComponents.Input['selection-start']
+    delete this.template.internalComponents.Input['selection-end']
   }
 }
