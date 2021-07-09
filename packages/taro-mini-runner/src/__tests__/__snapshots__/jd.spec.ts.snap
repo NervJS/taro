@@ -820,6 +820,12 @@ require(\\"./taro\\");
         var components = {
             Swiper: {
                 \\"easing-function\\": singleQuote(\\"default\\")
+            },
+            Canvas: {
+                type: \\"\\"
+            },
+            Button: {
+                bindGetPhoneNumber: \\"\\"
             }
         };
         var hostConfig = {
