@@ -10,7 +10,14 @@
     "dev": "tsc -w",
     "lint": "eslint ."
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
   "engines": {
     "node": ">=12.0.0",
     "npm": ">=6.0.0"

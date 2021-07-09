@@ -55,17 +55,10 @@ export class Template extends RecursiveTemplate {
   modifyLoopBody = (child: string, nodeName: string) => {
     if (nodeName === 'picker-view') {
       return `<picker-view-column>
-        <view a:for="{{item.cn}}" a:key="id">
+        <view a:for="{{item.cn}}" a:key="uid">
           ${child}
         </view>
       </picker-view-column>`
-    }
-    if (nodeName === 'swiper') {
-      return `<swiper-item>
-        <block a:for="{{item.cn}}" a:key="id">
-          ${child}
-        </block>
-      </swiper-item>`
     }
     return child
   }
@@ -76,11 +69,28 @@ export class Template extends RecursiveTemplate {
   <view>${children}</view>
   `
     }
+    if (nodeName === 'swiper') {
+      return `
+    <block a:for="{{xs.f(i.cn)}}" a:key="uid">
+      <swiper-item class="{{item.cl}}" style="{{item.st}}" id="{{item.uid}}">
+        <block a:for="{{item.cn}}" a:key="uid">
+          <template is="{{xs.e(0)}}" data="{{i:item}}" />
+        </block>
+      </swiper-item>
+    </block>
+  `
+    }
     return children
   }
 
   modifyTemplateResult = (res: string, nodeName: string) => {
     if (nodeName === 'picker-view-column' || nodeName === 'swiper-item') return ''
     return res
+  }
+
+  buildXSTmpExtra () {
+    return `f: function (l) {
+    return l.filter(function (i) {return i.nn === 'swiper-item'})
+  }`
   }
 }

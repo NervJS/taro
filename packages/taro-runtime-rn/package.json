@@ -21,21 +21,20 @@
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/NervJS/taro/tree/master/packages/taro-runtime-rn"
+        "url": "git+https://github.com/NervJS/taro.git"
     },
     "author": "yechunxi",
-    "peerDependencies": {
-        "react": "*",
-        "react-native": "*"
+    "bugs": {
+        "url": "https://github.com/NervJS/taro/issues"
     },
     "dependencies": {
         "@tarojs/components-rn": "3.3.0-beta.0",
         "@tarojs/router-rn": "3.3.0-beta.0"
     },
     "resolutions": {
-        "@types/react": "^17.0.0"
+        "@types/react": "17.0.11"
     },
     "devDependencies": {
-        "@types/react-native": "0.63.51"
+        "@types/react-native": "0.64.10"
     }
 }

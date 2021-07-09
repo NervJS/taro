@@ -51,12 +51,14 @@ function getOutputSourceMapOption (config: any): Record<string, any> {
     return {}
   }
   if (config.deviceType === 'ios') {
+    fse.ensureDirSync(path.dirname(config.output.iosSourcemapOutput))
     return {
       sourceMapUrl: config.output.iosSourceMapUrl,
       sourcemapOutput: config.output.iosSourcemapOutput,
       sourcemapSourcesRoot: config.output.iosSourcemapSourcesRoot
     }
   } else {
+    fse.ensureDirSync(path.dirname(config.output.androidSourcemapOutput))
     return {
       sourceMapUrl: config.output.androidSourceMapUrl,
       sourcemapOutput: config.output.androidSourcemapOutput,
@@ -87,11 +89,13 @@ export default async function build (appPath: string, config: any): Promise<any>
   metroConfig.reporter = new TerminalReporter(entry, sourceRoot, metroConfig.cacheStores[0])
 
   const onFinish = function (error?) {
-    if (typeof config.onBuildFinish !== 'function') return
-    config.onBuildFinish({
-      error,
-      isWatch: config.isWatch
-    })
+    if (typeof config.onBuildFinish === 'function') {
+      config.onBuildFinish({
+        error,
+        isWatch: config.isWatch
+      })
+    }
+    if (error instanceof Error) throw error
   }
 
   if (config.isWatch) {
