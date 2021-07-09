@@ -2,6 +2,7 @@ import 'weui'
 import Nerv from 'nervjs'
 import omit from 'omit.js'
 import classNames from 'classnames'
+import { Timer } from '@tarojs/utils'
 
 import './style/index.css'
 
@@ -36,6 +37,11 @@ class Input extends Nerv.Component {
     // input hook
     this.isOnComposition = false
     this.onInputExcuted = false
+
+    const onInputDelay = this.props.onInputDelay
+    if (onInputDelay && typeof onInputDelay === 'number' && this.onInputDelay > 0) {
+      this.timer = Timer.delay(onInputDelay)
+    }
   }
 
   componentDidMount () {
@@ -49,6 +55,9 @@ class Input extends Nerv.Component {
     // 修复无法选择文件
     if (this.props.type === 'file') {
       this.inputRef.removeEventListener('change', this.onInput)
+    }
+    if (this.timer) {
+      this.timer.clear()
     }
   }
 
@@ -86,8 +95,8 @@ class Input extends Nerv.Component {
       //   )
       // }
 
-      if (onChange) return onChange(e)
-      if (onInput) return onInput(e)
+      if (onChange) return this.timer ? this.timer.run(onChange, e) : onChange(e)
+      if (onInput) return this.timer ? this.timer.run(onInput, e) : onInput(e)
     }
   }
 
