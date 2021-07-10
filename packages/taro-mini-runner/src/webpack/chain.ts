@@ -299,13 +299,14 @@ export const getModule = (appPath: string, {
   const postcssLoader = getPostcssLoader([
     { sourceMap: enableSourceMap },
     {
-      ident: 'postcss',
-      plugins: getPostcssPlugins(appPath, {
-        isBuildQuickapp,
-        designWidth,
-        deviceRatio,
-        postcssOption
-      })
+      postcssOptions: {
+        plugins: getPostcssPlugins(appPath, {
+          isBuildQuickapp,
+          designWidth,
+          deviceRatio,
+          postcssOption
+        })
+      }
     }
   ])
 
