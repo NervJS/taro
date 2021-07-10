@@ -346,7 +346,7 @@ describe('sort style', () => {
       </style>
       <div id="id" class="class"></div>
     `
-    const res = parser(html)
+    const res = parser(html, document)
     const node = res[0]
 
     expect(node.style.cssText).toBe('color: blue;font-size: 12px;')

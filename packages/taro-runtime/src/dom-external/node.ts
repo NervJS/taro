@@ -23,7 +23,7 @@ export function insertAdjacentHTMLImpl (
         break
       case 'afterbegin':
         if (this.hasChildNodes()) {
-          this.childNodes[0].insertBefore(n)
+          this.insertBefore(n, this.childNodes[0])
         } else {
           this.appendChild(n)
         }

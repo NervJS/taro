@@ -27,6 +27,7 @@ module.exports = {
   ],
   globals: {
     ENABLE_INNER_HTML: true,
+    ENABLE_ADJACENT_HTML: true,
     ENABLE_SIZE_APIS: true,
     'ts-jest': {
       diagnostics: false,
