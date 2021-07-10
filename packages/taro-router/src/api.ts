@@ -78,7 +78,7 @@ export function navigateBack (options: NavigateBackOption = { delta: 1 }) {
 }
 
 export function switchTab (option: Option) {
-  return navigateTo(option)
+  return reLaunch(option)
 }
 
 export async function reLaunch (option: Option) {
