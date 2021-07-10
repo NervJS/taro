@@ -147,11 +147,6 @@ const getExtractCssLoader = () => {
     loader: MiniCssExtractPlugin.loader
   }
 }
-const getQuickappStyleLoader = () => {
-  return {
-    loader: require.resolve(path.resolve(__dirname, '../loaders/quickappStyleLoader'))
-  }
-}
 export const getMiniCssExtractPlugin = pipe(mergeOption, listify, partial(getPlugin, MiniCssExtractPlugin))
 export const getDefinePlugin = pipe(mergeOption, listify, partial(getPlugin, webpack.DefinePlugin))
 export const getTerserPlugin = ([enableSourceMap, terserOptions]) => {
@@ -252,7 +247,6 @@ export const getModule = (appPath: string, {
     cssLoaderOption
   ]
   const extractCssLoader = getExtractCssLoader()
-  const quickappStyleLoader = getQuickappStyleLoader()
   const miniTemplateLoader = getMiniTemplateLoader([{
     buildAdapter
   }])
@@ -323,12 +317,7 @@ export const getModule = (appPath: string, {
     include?;
     use;
   }[] = [{
-    use: isBuildQuickapp ? [
-      extractCssLoader,
-      quickappStyleLoader,
-      cssLoader,
-      postcssLoader
-    ] : [
+    use: [
       extractCssLoader,
       cssLoader,
       postcssLoader

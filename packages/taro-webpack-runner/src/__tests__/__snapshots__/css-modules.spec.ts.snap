@@ -266,8 +266,7 @@ exports[`css modules should use css modules with global mode 2`] = `
     };
     options.singleton = false;
     var update = api(content, options);
-    var exported = content.locals ? content.locals : {};
-    module.exports = exported;
+    module.exports = content.locals || {};
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
     var isOldIE = function isOldIE() {
@@ -398,7 +397,7 @@ exports[`css modules should use css modules with global mode 2`] = `
         } else {
             style.removeAttribute(\\"media\\");
         }
-        if (sourceMap && btoa) {
+        if (sourceMap && typeof btoa !== \\"undefined\\") {
             css += \\"\\\\n/*# sourceMappingURL=data:application/json;base64,\\".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), \\" */\\");
         }
         if (style.styleSheet) {
@@ -995,8 +994,7 @@ exports[`css modules should use css modules with module mode 2`] = `
     };
     options.singleton = false;
     var update = api(content, options);
-    var exported = content.locals ? content.locals : {};
-    module.exports = exported;
+    module.exports = content.locals || {};
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
     var isOldIE = function isOldIE() {
@@ -1127,7 +1125,7 @@ exports[`css modules should use css modules with module mode 2`] = `
         } else {
             style.removeAttribute(\\"media\\");
         }
-        if (sourceMap && btoa) {
+        if (sourceMap && typeof btoa !== \\"undefined\\") {
             css += \\"\\\\n/*# sourceMappingURL=data:application/json;base64,\\".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), \\" */\\");
         }
         if (style.styleSheet) {
