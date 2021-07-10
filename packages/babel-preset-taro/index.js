@@ -32,7 +32,14 @@ module.exports = (_, options = {}) => {
   }
 
   if (isVue || isVue3) {
-    plugins.push([require('@vue/babel-plugin-jsx')])
+    if (options.vueJsx !== false) {
+      const jsxOptions = typeof options.vueJsx === 'object' ? options.vueJsx : {}
+      if (isVue) {
+        presets.push([require('@vue/babel-preset-jsx'), jsxOptions])
+      } else {
+        plugins.push([require('@vue/babel-plugin-jsx'), jsxOptions])
+      }
+    }
   }
 
   if (options.ts) {

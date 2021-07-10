@@ -33,8 +33,51 @@ describe('babel-preset-taro', () => {
 
     const [override] = config.overrides
 
-    const [, preset] = override.presets
-    expect(preset).toBeUndefined()
+    const [, [jsxPreset, jsxOptions]] = override.presets
+    expect(jsxPreset === require('@vue/babel-preset-jsx')).toBeTruthy()
+    expect(jsxOptions).toEqual({})
+  })
+
+  it('vue3', () => {
+    const config = babelPresetTaro({}, {
+      framework: 'vue3'
+    })
+
+    expect(config.sourceType).toBe('unambiguous')
+
+    const [override] = config.overrides
+
+    const [[jsxPlugin, jsxOptions]] = override.plugins
+    expect(jsxPlugin === require('@vue/babel-plugin-jsx')).toBeTruthy()
+    expect(jsxOptions).toEqual({})
+  })
+
+  it('vue without jsx', () => {
+    const config = babelPresetTaro({}, {
+      framework: 'vue',
+      vueJsx: false
+    })
+
+    expect(config.sourceType).toBe('unambiguous')
+
+    const [override] = config.overrides
+
+    const [, jsxPreset] = override.presets
+    expect(jsxPreset).toBeUndefined()
+  })
+
+  it('vue3 without jsx', () => {
+    const config = babelPresetTaro({}, {
+      framework: 'vue3',
+      vueJsx: false
+    })
+
+    expect(config.sourceType).toBe('unambiguous')
+
+    const [override] = config.overrides
+
+    const [[jsxPlugin, jsxOptions]] = override.plugins
+    expect(jsxPlugin === require('@vue/babel-plugin-jsx')).toBeFalsy()
   })
 
   it('typescript react', () => {
@@ -72,16 +115,12 @@ describe('babel-preset-taro', () => {
     })
 
     const [override, vueOverride] = config.overrides
-    const [, [ts, tsConfig]] = override.presets
+    const [, , [ts, tsConfig]] = override.presets
 
     expect(typeof ts.default === 'function').toBeTruthy()
     expect(tsConfig.hasOwnProperty('jsxPragma') === false).toBeTruthy()
 
     expect(vueOverride.include.test('a.vue')).toBeTruthy()
-
-    const [[jsxPlugin]] = override.plugins
-
-    expect(jsxPlugin === require('@vue/babel-plugin-jsx')).toBeTruthy()
   })
 
   it('can change env options', () => {

@@ -36,6 +36,7 @@
     "@tarojs/helper": "3.3.0",
     "@tarojs/taro-h5": "3.3.0",
     "@vue/babel-plugin-jsx": "^1.0.6",
+    "@vue/babel-preset-jsx": "^1.2.4",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "babel-plugin-global-define": "^1.0.3",
     "babel-plugin-transform-imports-api": "^1.0.0",
