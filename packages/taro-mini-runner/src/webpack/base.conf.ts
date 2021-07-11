@@ -5,6 +5,15 @@ import { MultiPlatformPlugin } from '@tarojs/runner-utils'
 export default (appPath: string) => {
   const chain = new Chain()
   chain.merge({
+    externals: [
+      /** 快应用自身使用的npm包 */
+      function (context, request, callback) {
+        if (/^@system\./.test(request)) {
+          return callback(null, 'commonjs ' + request)
+        }
+        callback()
+      }
+    ],
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.vue'],
       mainFields: ['browser', 'module', 'main'],

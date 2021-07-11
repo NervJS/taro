@@ -49,6 +49,7 @@ ${creator}(App, ${frameworkArgsCopy})
 ${config.enableShareTimeline ? 'component.enableShareTimeline = true' : ''}
 ${config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : ''}
 var inst = Page(createPageConfig(component, '${options.name}', {}, config || {}))
+exportRes = inst
 ${options.prerender ? prerender : ''}
 `
 }

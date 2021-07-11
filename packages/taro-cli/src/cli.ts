@@ -50,7 +50,8 @@ export default class CLI {
             '@tarojs/plugin-platform-swan',
             '@tarojs/plugin-platform-tt',
             '@tarojs/plugin-platform-qq',
-            '@tarojs/plugin-platform-jd'
+            '@tarojs/plugin-platform-jd',
+            '@tarojs/plugin-platform-quickapp'
           ]
           customCommand('build', kernel, {
             _: args._,

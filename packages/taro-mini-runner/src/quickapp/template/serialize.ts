@@ -11,9 +11,9 @@ const createAttrsCode = (attrs) => {
   if (attrsKey.length) {
     attrsCode = ' ' + attrsKey.map(name => {
       if (!attrs[name] && ~ATTRS_NAME.indexOf(name)) {
-        return `${name}='true'`
+        return `${name}="true"`
       }
-      return name === 'else' ? `${name}` : `${name}='${attrs[name]}'`
+      return name === 'else' ? `${name}` : `${name}="${attrs[name]}"`
     }).join(' ')
   }
   return attrsCode

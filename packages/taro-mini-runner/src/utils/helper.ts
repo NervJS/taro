@@ -5,13 +5,16 @@ import {
   promoteRelativePath,
   REG_STYLE,
   REG_SCRIPT,
-  removeHeadSlash
+  removeHeadSlash,
+  printLog,
+  processTypeEnum
 } from '@tarojs/helper'
+import { Config } from '@tarojs/taro'
 
 export function getTaroJsQuickAppComponentsPath (nodeModulesPath: string): string {
   const taroJsQuickAppComponentsPkg = getInstalledNpmPkgPath(taroJsQuickAppComponents, nodeModulesPath)
   if (!taroJsQuickAppComponentsPkg) {
-    // printLog(processTypeEnum.ERROR, '包安装', `缺少包 ${taroJsQuickAppComponents}，请安装！`)
+    printLog(processTypeEnum.ERROR, '包安装', `缺少包 ${taroJsQuickAppComponents}，请安装！`)
     process.exit(0)
   }
   return path.join(path.dirname(taroJsQuickAppComponentsPkg as string), 'src/components')
@@ -60,7 +63,7 @@ export function generateQuickAppUx ({
     }
   }
   if (template) {
-    uxTxt += `<template>\n${template}\n</template>\n`
+    uxTxt += `${template}\n`
   }
   if (script) {
     if (REG_SCRIPT.test(script)) {
@@ -77,6 +80,11 @@ export function generateQuickAppManifest ({
   quickappJSON,
   pageConfigs,
   designWidth
+}: {
+  appConfig: Config,
+  quickappJSON: Record<string, any>,
+  pageConfigs: Record<string, Config>,
+  designWidth: number
 }) {
   // 生成 router
   const pages = (appConfig.pages as string[]).concat()
@@ -109,10 +117,9 @@ export function generateQuickAppManifest ({
   // 生成 display
   const display = JSON.parse(JSON.stringify(appConfig.window || {}))
   display.pages = {}
-  pageConfigs.forEach((item, page) => {
-    if (item) {
-      display.pages[removeHeadSlash(path.dirname(page))] = item
-    }
+  Object.keys(pageConfigs).forEach((page) => {
+    const item = pageConfigs[page]
+    display.pages[removeHeadSlash(path.dirname(page))] = item
   })
   quickappJSON.router = router
   quickappJSON.display = display

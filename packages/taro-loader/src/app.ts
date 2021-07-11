@@ -33,7 +33,10 @@ var app = ${createApp}
 app.onLaunch()
 exports.taroApp = app
 `
-    : `var inst = App(${createApp})`
+    : `
+var inst = App(${createApp})
+exportRes = inst
+`
 
   return `${setReconciler}
 import { ${creator}, window } from '@tarojs/runtime'

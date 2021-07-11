@@ -129,11 +129,11 @@ export default class TaroLoadChunksPlugin {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
 
-          if (this.isBuildQuickapp &&
-            (miniType === META_TYPE.PAGE || miniType === META_TYPE.COMPONENT)
-          ) {
-            return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
-          }
+          // if (this.isBuildQuickapp &&
+          //   (miniType === META_TYPE.PAGE || miniType === META_TYPE.COMPONENT)
+          // ) {
+          //   return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
+          // }
 
           // addChunkPages
           if (fileChunks.size &&

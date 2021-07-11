@@ -190,7 +190,12 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     requestAnimationFrame: ['@tarojs/runtime', 'requestAnimationFrame'],
     cancelAnimationFrame: ['@tarojs/runtime', 'cancelAnimationFrame'],
     Element: ['@tarojs/runtime', 'TaroElement'],
-    SVGElement: ['@tarojs/runtime', 'TaroElement']
+    SVGElement: ['@tarojs/runtime', 'TaroElement'],
+    ...isBuildQuickapp ? {
+      App: [path.resolve(__dirname, '..', 'quickapp/mock/mini-app'), 'App'],
+      Page: [path.resolve(__dirname, '..', 'quickapp/mock/mini-page'), 'Page'],
+      Component: [path.resolve(__dirname, '..', 'quickapp/mock/mini-component'), 'Component']
+    } : {}
   })
 
   const isCssoEnabled = !((csso && csso.enable === false))
