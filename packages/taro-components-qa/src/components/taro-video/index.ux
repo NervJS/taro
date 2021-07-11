@@ -18,8 +18,7 @@
       @seeked="handleSeeked"
       @timeupdate="handleTimeUpdate"
       @fullscreenchange="handleFullScreen"
-    >
-    </video>
+    ></video>
   </div>
 </template>
 
@@ -77,7 +76,7 @@
     }),
 
     onInit () {
-     
+
     },
 
     handlePrepared () {

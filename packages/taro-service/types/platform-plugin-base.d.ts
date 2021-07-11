@@ -67,6 +67,10 @@ export declare abstract class TaroPlatformBase {
      */
     protected recursiveReplaceObjectKeys(obj: any, keyMap: any): void;
     /**
+     * 递归遍历修改config
+     */
+    protected traverseModifyConfig (obj: any, func: (key: string, value: any, parent: any) => void);
+    /**
      * 调用 mini-runner 开启编译
      */
     start(): Promise<void>;

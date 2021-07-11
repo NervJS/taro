@@ -4,7 +4,7 @@ import { normalizePath } from '@tarojs/helper'
 import * as path from 'path'
 import * as acorn from 'acorn'
 import * as walk from 'acorn-walk'
-import { frameworkMeta } from './utils'
+import { frameworkMeta, quickAppExportStr } from './utils'
 
 interface PageConfig {
   content: any
@@ -40,6 +40,7 @@ var config = ${configString};
 ${config.enableShareTimeline ? 'component.enableShareTimeline = true' : ''}
 ${config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : ''}
 var inst = Page(createPageConfig(component, '${options.name}', {root:{cn:[]}}, config || {}))
+${quickAppExportStr}
 ${options.prerender ? prerender : ''}
 `
 }

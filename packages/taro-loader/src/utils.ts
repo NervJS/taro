@@ -82,3 +82,9 @@ class App extends React.Component {
     compatComponentExtra: 'config.PullDownRefresh = PullDownRefresh'
   }
 }
+
+export const quickAppExportStr = `
+if (typeof exportRes !== 'undefined') {
+  exportRes = inst
+}
+`

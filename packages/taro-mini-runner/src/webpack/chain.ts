@@ -325,8 +325,8 @@ export const getModule = (appPath: string, {
   }[] = [{
     use: isBuildQuickapp ? [
       extractCssLoader,
-      quickappStyleLoader,
       cssLoader,
+      quickappStyleLoader,
       postcssLoader
     ] : [
       extractCssLoader,

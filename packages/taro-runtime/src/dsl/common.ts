@@ -5,7 +5,7 @@ import { Current } from '../current'
 import { document } from '../bom/document'
 import { TaroRootElement } from '../dom/root'
 import { MpInstance } from '../hydrate'
-import { Instance, PageInstance, PageProps } from './instance'
+import { ComponentInstance, Instance, PageInstance, PageProps } from './instance'
 import { incrementId } from '../utils'
 import { perf } from '../perf'
 import { PAGE_INIT } from '../constants'
@@ -144,7 +144,10 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       })
 
       safeExecute(this.$taroPath, 'onReady')
-      this.onReady.called = true
+
+      if (this.onReady) { // 快应用是undefined
+        this.onReady.called = true
+      }
     },
     onUnload () {
       unmounting = true
@@ -257,7 +260,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
   const id = componentName ?? `taro_component_${pageId()}`
   let componentElement: TaroRootElement | null = null
 
-  const config: any = {
+  const config: ComponentInstance = {
     attached () {
       perf.start(PAGE_INIT)
       const path = getPath(id, { id: this.getPageId() })
@@ -330,6 +333,41 @@ export function createRecursiveComponentConfig (componentName?: string) {
     },
     methods: {
       eh: eventHandler
+    }
+  }
+}
+
+export function createQuickAppConfig () {
+  return {
+    props: {
+      i: Object,
+      parentIsText: Boolean
+    },
+    eh (event) {
+      // 快应用的event.type是只读的
+      const mpEvent = {
+        type: event.type,
+        target: event.target,
+        currentTarget: event.currentTarget,
+        detail: event.detail
+      }
+      const extraKeys = Object.keys(event)
+        .filter(Object.hasOwnProperty.bind(event))
+        .filter(k => k[0] !== '_')
+        .filter(k => {
+          return k !== 'type' && k !== 'detail' && k !== 'target' && k !== 'currentTarget'
+        })
+      const extraData = {}
+      extraKeys.forEach(k => {
+        extraData[k] = event[k]
+        mpEvent[k] = event[k]
+      })
+
+      if (!('detail' in event)) {
+        mpEvent.detail = extraData
+      }
+
+      return eventHandler.call(this, mpEvent)
     }
   }
 }

@@ -2,12 +2,11 @@
     <div
       class="{{class}}"
       style="{{customstyle}}"
-      itemId="{{itemid}}"
       onclick="handleClick">
       <slot></slot>
     </div>
   </template>
-    
+
   <script>
     export default {
       props: {
@@ -21,13 +20,8 @@
           required: false,
           default: ''
         },
-        itemid: {
-          type: String,
-          required: false,
-          default: ''
-        }
       },
-  
+
       onInit () {
       },
       handleClick (e) {
@@ -35,8 +29,7 @@
       }
     }
   </script>
-  
+
   <style>
 
   </style>
-  

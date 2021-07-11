@@ -2,7 +2,7 @@ import * as webpack from 'webpack'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import { normalizePath } from '@tarojs/helper'
 import * as path from 'path'
-import { frameworkMeta } from './utils'
+import { frameworkMeta, quickAppExportStr } from './utils'
 
 export default function (this: webpack.loader.LoaderContext) {
   const options = getOptions(this)
@@ -22,6 +22,7 @@ if (typeof PRERENDER !== 'undefined') {
   return `import { createComponentConfig } from '@tarojs/runtime'
 import component from ${stringify(componentPath)}
 var inst = Component(createComponentConfig(component, '${options.name}'))
+${quickAppExportStr}
 ${options.prerender ? prerender : ''}
 `
 }

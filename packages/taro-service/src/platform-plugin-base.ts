@@ -183,6 +183,19 @@ ${exampleCommand}
   }
 
   /**
+   * 递归遍历修改config
+   */
+  protected traverseModifyConfig (obj, func: (key: string, value: any, parent: any) => void) {
+    for (const key in obj) {
+      const value = obj[key]
+      if (typeof value === 'object' && value !== null) {
+        this.traverseModifyConfig(value, func)
+      }
+      func(key, value, obj)
+    }
+  }
+
+  /**
    * 调用 mini-runner 开启编译
    */
   public async start () {

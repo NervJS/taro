@@ -1,7 +1,7 @@
 import * as webpack from 'webpack'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import * as path from 'path'
-import { frameworkMeta } from './utils'
+import { frameworkMeta, quickAppExportStr } from './utils'
 
 interface PageConfig {
   content: any
@@ -49,6 +49,7 @@ ${creator}(App, ${frameworkArgsCopy})
 ${config.enableShareTimeline ? 'component.enableShareTimeline = true' : ''}
 ${config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : ''}
 var inst = Page(createPageConfig(component, '${options.name}', {}, config || {}))
+${quickAppExportStr}
 ${options.prerender ? prerender : ''}
 `
 }
