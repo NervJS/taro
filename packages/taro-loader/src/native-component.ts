@@ -35,6 +35,7 @@ import component from ${stringify(componentPath)}
 ${importFrameworkStatement}
 var config = ${configString};
 var inst = Component(createNativeComponentConfig(component, ${frameworkArgs}))
+exportRes = inst
 ${options.prerender ? prerender : ''}
 `
 }

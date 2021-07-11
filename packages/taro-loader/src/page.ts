@@ -40,6 +40,7 @@ var config = ${configString};
 ${config.enableShareTimeline ? 'component.enableShareTimeline = true' : ''}
 ${config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : ''}
 var inst = Page(createPageConfig(component, '${options.name}', {root:{cn:[]}}, config || {}))
+exportRes = inst
 ${options.prerender ? prerender : ''}
 `
 }

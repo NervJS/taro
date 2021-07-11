@@ -95,6 +95,13 @@ export function createEvent (event: MpEvent | string, _?: TaroElement) {
 const eventsBatch = {}
 
 export function eventHandler (event: MpEvent) {
+  // 快应用的event.type是只读的
+  event = {
+    type: event.type,
+    detail: event.detail,
+    target: event.target,
+    currentTarget: event.currentTarget
+  }
   CurrentReconciler.modifyEventType?.(event)
 
   if (event.currentTarget == null) {

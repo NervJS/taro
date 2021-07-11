@@ -4,6 +4,7 @@ import { Component as Vue3Component } from '@vue/runtime-core'
 import { CombinedVueInstance } from 'vue/types/vue'
 import { MpEvent } from '../dom/event'
 import { TaroElement } from '../dom/element'
+import { Func } from '../utils/types'
 
 export interface Instance<T = Record<string, any>> extends Component<T>, Show, PageInstance {
   tid?: string
@@ -80,4 +81,18 @@ export interface AppInstance extends Show {
   unmount? (id: string, cb: () => void): void
   onPageNotFound? (res: any): void
   taroGlobalData?: Record<any, any>
+}
+
+export interface ComponentInstance {
+  externalClasses?: string[]
+  behaviors?: any
+  data?: Record<string, unknown>
+  options?: Record<string, unknown>
+  attached?(): void
+  detached?(): void
+  pageLifetimes?: {
+    show?(): void
+    hide?(): void
+  }
+  methods?: Record<string, Func>
 }

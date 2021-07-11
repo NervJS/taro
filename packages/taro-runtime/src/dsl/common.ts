@@ -5,7 +5,7 @@ import { Current } from '../current'
 import { document } from '../bom/document'
 import { TaroRootElement } from '../dom/root'
 import { MpInstance } from '../hydrate'
-import { Instance, PageInstance, PageProps } from './instance'
+import { ComponentInstance, Instance, PageInstance, PageProps } from './instance'
 import { incrementId } from '../utils'
 import { perf } from '../perf'
 import { PAGE_INIT } from '../constants'
@@ -144,7 +144,10 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       })
 
       safeExecute(this.$taroPath, 'onReady')
-      this.onReady.called = true
+
+      if (this.onReady) { // 快应用是undefined
+        this.onReady.called = true
+      }
     },
     onUnload () {
       unmounting = true
@@ -257,7 +260,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
   const id = componentName ?? `taro_component_${pageId()}`
   let componentElement: TaroRootElement | null = null
 
-  const config: any = {
+  const config: ComponentInstance = {
     attached () {
       perf.start(PAGE_INIT)
       const path = getPath(id, { id: this.getPageId() })
@@ -331,5 +334,32 @@ export function createRecursiveComponentConfig (componentName?: string) {
     methods: {
       eh: eventHandler
     }
+  }
+}
+
+export function createQuickAppConfig () {
+  function quickappGetNodeName (nn: string) {
+    switch (nn) {
+      case 'slot':
+      case 'slot-view':
+      case 'catch-view':
+      case 'static-view':
+      case 'pure-view':
+        return 'view'
+      case 'static-text':
+        return 'text'
+      case 'static-image':
+        return 'image'
+      default:
+        return nn
+    }
+  }
+
+  return {
+    props: {
+      i: Object
+    },
+    eh: eventHandler,
+    quickappGetNodeName
   }
 }

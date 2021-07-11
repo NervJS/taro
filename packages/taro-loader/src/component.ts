@@ -22,6 +22,7 @@ if (typeof PRERENDER !== 'undefined') {
   return `import { createComponentConfig } from '@tarojs/runtime'
 import component from ${stringify(componentPath)}
 var inst = Component(createComponentConfig(component, '${options.name}'))
+exportRes = inst
 ${options.prerender ? prerender : ''}
 `
 }

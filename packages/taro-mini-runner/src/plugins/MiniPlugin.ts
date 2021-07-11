@@ -39,6 +39,8 @@ import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 import { componentConfig } from '../template/component'
 import { validatePrerenderPages, PrerenderConfig } from '../prerender/prerender'
 import { AddPageChunks, IComponent, IFileType, Func } from '../utils/types'
+import { generateQuickAppManifest, generateQuickAppUx, getTaroJsQuickAppComponentsPath } from '../utils/helper'
+import rewriterTemplate from '../quickapp/template-rewriter'
 
 const PLUGIN_NAME = 'TaroMiniPlugin'
 
@@ -47,6 +49,8 @@ interface ITaroMiniPluginOptions {
   constantsReplaceList: {
     [key: string]: any
   }
+  outputDir: string
+  nodeModulesPath: string
   sourceDir: string
   isBuildPlugin: boolean
   pluginConfig?: Record<string, any>
@@ -57,6 +61,7 @@ interface ITaroMiniPluginOptions {
   prerender?: PrerenderConfig
   addChunkPages?: AddPageChunks
   isBuildQuickapp: boolean
+  quickappJSON: any
   minifyXML?: {
     collapseWhitespace?: boolean
   }
@@ -78,7 +83,7 @@ export interface IComponentObj {
   type?: string
 }
 
-interface FilesConfig {
+export interface FilesConfig {
   [configName: string]: {
     content: Config
     path: string
@@ -320,6 +325,21 @@ export default class TaroMiniPlugin {
           }
         })
       })
+
+      /**
+       * 快应用sourcemap会报错
+       */
+      compilation.hooks.afterOptimizeAssets.tap(PLUGIN_NAME, assets => {
+        if (this.options.isBuildQuickapp) {
+          Object.keys(assets).forEach(assetPath => {
+            const styleExt = fileType.style + '.map'
+            const scriptExt = fileType.script + '.map'
+            if (assetPath.endsWith(styleExt) || assetPath.endsWith(scriptExt)) {
+              delete assets[assetPath]
+            }
+          })
+        }
+      })
     })
 
     compiler.hooks.emit.tapAsync(
@@ -448,10 +468,16 @@ export default class TaroMiniPlugin {
         }
       }
     })
-    if (!template.isSupportRecursive) {
+    if (this.options.isBuildQuickapp) {
+      this.addEntry(path.resolve(__dirname, '..', 'template/quickapp-base'), this.getIsBuildPluginPath('base', true), META_TYPE.STATIC)
+    } else if (!template.isSupportRecursive) {
       this.addEntry(path.resolve(__dirname, '..', 'template/comp'), this.getIsBuildPluginPath('comp', true), META_TYPE.STATIC)
     }
-    this.addEntry(path.resolve(__dirname, '..', 'template/custom-wrapper'), this.getIsBuildPluginPath('custom-wrapper', true), META_TYPE.STATIC)
+    if (this.options.isBuildQuickapp) {
+      this.addEntry(path.resolve(__dirname, '..', 'template/quickapp-wrapper'), this.getIsBuildPluginPath('custom-wrapper', true), META_TYPE.STATIC)
+    } else {
+      this.addEntry(path.resolve(__dirname, '..', 'template/custom-wrapper'), this.getIsBuildPluginPath('custom-wrapper', true), META_TYPE.STATIC)
+    }
     normalFiles.forEach(item => {
       this.addEntry(item.path, item.name, META_TYPE.NORMAL)
     })
@@ -614,10 +640,16 @@ export default class TaroMiniPlugin {
   addEntries () {
     const { template } = this.options
     this.addEntry(this.appEntry, 'app', META_TYPE.ENTRY)
-    if (!template.isSupportRecursive) {
-      this.addEntry(path.resolve(__dirname, '..', 'template/comp'), 'comp', META_TYPE.STATIC)
+    if (this.options.isBuildQuickapp) {
+      this.addEntry(path.resolve(__dirname, '..', 'template/quickapp-base'), this.getIsBuildPluginPath('base', false), META_TYPE.STATIC)
+    } else if (!template.isSupportRecursive) {
+      this.addEntry(path.resolve(__dirname, '..', 'template/comp'), this.getIsBuildPluginPath('comp', false), META_TYPE.STATIC)
     }
-    this.addEntry(path.resolve(__dirname, '..', 'template/custom-wrapper'), 'custom-wrapper', META_TYPE.STATIC)
+    if (this.options.isBuildQuickapp) {
+      this.addEntry(path.resolve(__dirname, '..', 'template/quickapp-wrapper'), this.getIsBuildPluginPath('custom-wrapper', false), META_TYPE.STATIC)
+    } else {
+      this.addEntry(path.resolve(__dirname, '..', 'template/custom-wrapper'), this.getIsBuildPluginPath('custom-wrapper', false), META_TYPE.STATIC)
+    }
     this.pages.forEach(item => {
       if (item.isNative) {
         this.addEntry(item.path, item.name, META_TYPE.NORMAL)
@@ -897,7 +929,13 @@ export default class TaroMiniPlugin {
     if (!this.options.blended && !isBuildPlugin) {
       const appConfigPath = this.getConfigFilePath(this.appEntry)
       const appConfigName = path.basename(appConfigPath).replace(path.extname(appConfigPath), '')
-      this.generateConfigFile(compilation, this.appEntry, this.filesConfig[appConfigName].content)
+
+      if (this.options.isBuildQuickapp) {
+        this.generateQuickAppManifestFile(compilation)
+        this.generateTemplateFile(compilation, this.appEntry, () => '')
+      } else {
+        this.generateConfigFile(compilation, this.appEntry, this.filesConfig[appConfigName].content)
+      }
     }
     if (!template.isSupportRecursive) {
       // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
@@ -1014,7 +1052,30 @@ export default class TaroMiniPlugin {
     }
   }
 
+  generateQuickAppManifestFile (compilation: webpack.compilation.Compilation) {
+    const pageConfigs = Array.from(this.pages).reduce<Record<string, Config>>((obj, { name }) => {
+      const content = this.filesConfig[this.getConfigFilePath(name)].content
+      obj[name] = content
+      return obj
+    }, {})
+    const quickappJSON = generateQuickAppManifest({
+      appConfig: this.appConfig,
+      pageConfigs,
+      designWidth: this.options.designWidth,
+      quickappJSON: this.options.quickappJSON
+    })
+    const quickappJSONStr = JSON.stringify(quickappJSON).replace(/\\\\/g, '/')
+    compilation.assets['./manifest.json'] = {
+      size: () => quickappJSONStr.length,
+      source: () => quickappJSONStr
+    }
+  }
+
   generateConfigFile (compilation: webpack.compilation.Compilation, filePath: string, config: Config & { component?: boolean }) {
+    if (this.options.isBuildQuickapp) {
+      return
+    }
+
     const fileConfigName = this.getConfigPath(this.getComponentName(filePath))
     const unOfficalConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components']
     unOfficalConfigs.forEach(item => {
@@ -1029,13 +1090,70 @@ export default class TaroMiniPlugin {
 
   generateTemplateFile (compilation: webpack.compilation.Compilation, filePath: string, templateFn: (...args) => string, ...options) {
     let templStr = templateFn(...options)
-    const fileTemplName = this.getTemplatePath(this.getComponentName(filePath))
+    let taroSelfComponents
+
+    if (Array.isArray(templStr)) {
+      taroSelfComponents = templStr[1]
+      templStr = templStr[0]
+    }
+
+    const componentName = this.getComponentName(filePath)
+    const fileScriptName = this.getScriptPath(componentName)
+    const fileTemplName = this.getTemplatePath(componentName)
+    const fileStyleName = this.getStylePath(componentName)
 
     if (this.options.minifyXML?.collapseWhitespace) {
       templStr = minify(templStr, {
         collapseWhitespace: true,
         keepClosingSlash: true
       })
+    }
+
+    if (this.options.isBuildQuickapp) {
+      let hitScriptItem
+      templStr = generateQuickAppUx({
+        template: templStr
+      })
+      templStr = templStr ? rewriterTemplate(templStr) : templStr
+
+      if (taroSelfComponents) {
+        taroSelfComponents.forEach(item => {
+          const taroJsQuickAppComponentsPath = getTaroJsQuickAppComponentsPath(this.options.nodeModulesPath)
+          const absolutePath = path.join(taroJsQuickAppComponentsPath, item, `index${this.options.fileType.templ}`)
+
+          if (!fs.existsSync(absolutePath)) {
+            return
+          }
+
+          const componentPath = this.getComponentName(absolutePath)
+          const templatePath = this.getTemplatePath(this.getComponentName(componentPath))
+          const content = fs.readFileSync(absolutePath).toString()
+          compilation.assets[templatePath] = {
+            size: () => content.length,
+            source: () => content
+          }
+
+          const importPath = promoteRelativePath(path.relative(componentName, componentPath))
+          templStr = `<import name="${item}" src="${importPath}"></import>\n` + templStr
+        })
+      }
+
+      Object.keys(compilation.assets).forEach(item => {
+        if (fileStyleName.indexOf(item) >= 0) {
+          const relativeStylePath = promoteRelativePath(path.relative(fileTemplName, fileStyleName))
+          templStr = `<style src='${relativeStylePath}'></style>\n` + templStr
+        }
+        if (fileScriptName.indexOf(item) >= 0) {
+          const assetItem = compilation.assets[item]
+          let scriptContent = assetItem.source()
+          scriptContent = `let exportRes;\n${scriptContent}\nexport default exportRes;`
+          hitScriptItem = item
+          templStr += `\n<script>${scriptContent}</script>`
+        }
+      })
+      if (hitScriptItem) {
+        delete compilation.assets[hitScriptItem]
+      }
     }
 
     compilation.assets[fileTemplName] = {
@@ -1096,6 +1214,11 @@ export default class TaroMiniPlugin {
   /** 处理 config 文件后缀 */
   getConfigPath (filePath: string) {
     return this.getTargetFilePath(filePath, this.options.fileType.config)
+  }
+
+  /** 处理 config 文件后缀 */
+  getScriptPath (filePath: string) {
+    return this.getTargetFilePath(filePath, this.options.fileType.script)
   }
 
   /** 处理 extname */
