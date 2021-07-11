@@ -526,4 +526,71 @@ class App extends Component {
   }\n
 }`)
   })
+
+  it('transform multiple className to multiple style', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import './app.css';
+
+class App extends Component {
+  render() {
+    return <div className="container" headerClassName="header" />;
+  }
+}`)).toBe(`import { createElement, Component } from 'rax';
+import appCssStyleSheet from "./app.css";
+var _styleSheet = appCssStyleSheet;
+
+class App extends Component {
+  render() {
+    return <div style={_styleSheet["container"]} headerStyle={_styleSheet["header"]} />;
+  }
+
+}`)
+  })
+
+  it('transform multiple className to multiple style as array', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import './app.css';
+
+class App extends Component {
+  render() {
+    return <div className="container" headerClassName="header" style={{ color: "red" }} headerStyle={{ color: "green" }} />;
+  }
+}`)).toBe(`import { createElement, Component } from 'rax';
+import appCssStyleSheet from "./app.css";
+var _styleSheet = appCssStyleSheet;
+
+class App extends Component {
+  render() {
+    return <div style={[_styleSheet["container"], {
+      color: "red"
+    }]} headerStyle={[_styleSheet["header"], {
+      color: "green"
+    }]} />;
+  }
+
+}`)
+  })
+
+  it('Non CSS code keeps the original value', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import './app.css';
+
+class App extends Component {
+  render() {
+    return <StatusBar barStyle="dark-content" />;
+  }
+}`)).toBe(`import { createElement, Component } from 'rax';
+import appCssStyleSheet from "./app.css";
+var _styleSheet = appCssStyleSheet;
+
+class App extends Component {
+  render() {
+    return <StatusBar barStyle={"dark-content"} />;
+  }
+
+}`)
+  })
 })
