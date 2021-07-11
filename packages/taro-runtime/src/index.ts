@@ -15,7 +15,7 @@ export { connectReactPage, createReactApp, createNativeComponentConfig } from '.
 export { connectVuePage, createVueApp } from './dsl/vue'
 export { createVue3App } from './dsl/vue3'
 export * from './dsl/instance'
-export { createPageConfig, injectPageInstance, createComponentConfig, createRecursiveComponentConfig, stringify } from './dsl/common'
+export { createPageConfig, injectPageInstance, createComponentConfig, createRecursiveComponentConfig, createQuickAppConfig, stringify } from './dsl/common'
 export { Current, getCurrentInstance } from './current'
 export { Style } from './dom/style'
 export * from './dsl/hooks'

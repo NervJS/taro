@@ -25,16 +25,16 @@ import { Shortcuts } from './shortcuts'
 import { isBooleanStringLiteral, isNumber, isFunction } from './is'
 import { toCamelCase, toKebabCase, toDashed, hasOwn, indent } from './utils'
 
-interface Component {
+export interface Component {
   nodeName: string;
   attributes: Attributes;
 }
 
-interface Components {
+export interface Components {
   [key: string]: Record<string, string>;
 }
 
-interface ComponentConfig {
+export interface ComponentConfig {
   includes: Set<string>
   exclude: Set<string>
   thirdPartyComponents: Map<string, Set<string>>

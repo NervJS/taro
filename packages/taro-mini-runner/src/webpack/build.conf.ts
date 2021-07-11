@@ -198,7 +198,12 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     requestAnimationFrame: ['@tarojs/runtime', 'requestAnimationFrame'],
     cancelAnimationFrame: ['@tarojs/runtime', 'cancelAnimationFrame'],
     Element: ['@tarojs/runtime', 'TaroElement'],
-    SVGElement: ['@tarojs/runtime', 'TaroElement']
+    SVGElement: ['@tarojs/runtime', 'TaroElement'],
+    ...isBuildQuickapp ? {
+      App: [path.resolve(__dirname, '..', 'quickapp/script/app'), 'App'],
+      Page: [path.resolve(__dirname, '..', 'quickapp/script/page'), 'Page'],
+      Component: [path.resolve(__dirname, '..', 'quickapp/script/component'), 'Component']
+    } : {}
   })
 
   const isCssoEnabled = !((csso && csso.enable === false))

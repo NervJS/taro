@@ -81,3 +81,17 @@ export interface AppInstance extends Show {
   onPageNotFound? (res: any): void
   taroGlobalData?: Record<any, any>
 }
+
+export interface ComponentInstance {
+  externalClasses?: string[]
+  behaviors?: any
+  data?: Record<string, unknown>
+  options?: Record<string, unknown>
+  attached?(): void
+  detached?(): void
+  pageLifetimes?: {
+    show?(): void
+    hide?(): void
+  }
+  methods?: Record<string, (...args: any[]) => any>
+}

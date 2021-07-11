@@ -2,7 +2,7 @@ import * as webpack from 'webpack'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import { normalizePath } from '@tarojs/helper'
 
-import { frameworkMeta } from './utils'
+import { frameworkMeta, quickAppExportStr } from './utils'
 
 export default function (this: webpack.loader.LoaderContext) {
   const stringify = (s: string): string => stringifyRequest(this, s)
@@ -33,7 +33,10 @@ var app = ${createApp}
 app.onLaunch()
 exports.taroApp = app
 `
-    : `var inst = App(${createApp})`
+    : `
+var inst = App(${createApp})
+${quickAppExportStr}
+`
 
   return `${setReconciler}
 import { ${creator}, window } from '@tarojs/runtime'

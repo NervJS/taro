@@ -155,6 +155,7 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/plugin-platform-tt',
   '@tarojs/plugin-platform-qq',
   '@tarojs/plugin-platform-jd',
+  '@tarojs/plugin-platform-quickapp',
   'nervjs',
   'nerv-devtools'
 ]

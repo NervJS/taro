@@ -51,6 +51,7 @@
     "@tarojs/plugin-platform-swan": "3.3.3",
     "@tarojs/plugin-platform-tt": "3.3.3",
     "@tarojs/plugin-platform-weapp": "3.3.3",
+    "@tarojs/plugin-platform-quickapp": "3.3.3",
     "@tarojs/service": "3.3.3",
     "@tarojs/shared": "3.3.3",
     "@tarojs/taro": "3.3.3",

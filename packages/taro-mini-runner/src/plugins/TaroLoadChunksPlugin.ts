@@ -103,6 +103,25 @@ export default class TaroLoadChunksPlugin {
             source.add(modules)
             return source
           }
+          // webpack4不支持addEntry时指定library，在这里模拟一下，导出快应用需要的exports
+          if (this.isBuildQuickapp) {
+            if (
+              entryModule.miniType === META_TYPE.ENTRY ||
+              entryModule.miniType === META_TYPE.PAGE ||
+              entryModule.miniType === META_TYPE.COMPONENT
+            ) {
+              const source = new ConcatSource()
+              source.add(`
+(function webpackUniversalModuleDefinition(root, factory) {
+  module.exports = Object.assign({}, factory().default, {private:{root:{cn:[]}}}); // 快应用会修改原对象
+})(global, function() {
+return `)
+              source.add(modules)
+              source.add(`
+});`)
+              return source
+            }
+          }
         }
       })
 
@@ -126,12 +145,6 @@ export default class TaroLoadChunksPlugin {
           }
 
           if (miniType === META_TYPE.ENTRY) {
-            return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
-          }
-
-          if (this.isBuildQuickapp &&
-            (miniType === META_TYPE.PAGE || miniType === META_TYPE.COMPONENT)
-          ) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
 

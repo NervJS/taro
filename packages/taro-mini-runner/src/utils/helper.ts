@@ -7,6 +7,7 @@ import {
   REG_SCRIPT,
   removeHeadSlash
 } from '@tarojs/helper'
+import { Config } from '@tarojs/taro'
 
 export function getTaroJsQuickAppComponentsPath (nodeModulesPath: string): string {
   const taroJsQuickAppComponentsPkg = getInstalledNpmPkgPath(taroJsQuickAppComponents, nodeModulesPath)
@@ -77,6 +78,11 @@ export function generateQuickAppManifest ({
   quickappJSON,
   pageConfigs,
   designWidth
+}: {
+  appConfig: Config,
+  quickappJSON: Record<string, any>,
+  pageConfigs: Record<string, Config>,
+  designWidth: number
 }) {
   // 生成 router
   const pages = (appConfig.pages as string[]).concat()
@@ -109,10 +115,9 @@ export function generateQuickAppManifest ({
   // 生成 display
   const display = JSON.parse(JSON.stringify(appConfig.window || {}))
   display.pages = {}
-  pageConfigs.forEach((item, page) => {
-    if (item) {
-      display.pages[removeHeadSlash(path.dirname(page))] = item
-    }
+  Object.keys(pageConfigs).forEach((page) => {
+    const item = pageConfigs[page]
+    display.pages[removeHeadSlash(path.dirname(page))] = item
   })
   quickappJSON.router = router
   quickappJSON.display = display

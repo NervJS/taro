@@ -13,7 +13,7 @@ import { eventCenter } from '../emitter/emitter'
 import { raf } from '../bom/raf'
 
 import type { PageConfig } from '@tarojs/taro'
-import type { Instance, PageInstance, PageProps } from './instance'
+import type { Instance, PageInstance, PageProps, ComponentInstance } from './instance'
 import type { Func, IHooks, MpInstance } from '../interface'
 import type { TaroRootElement } from '../dom/root'
 
@@ -144,7 +144,10 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       })
 
       safeExecute(this.$taroPath, 'onReady')
-      this.onReady.called = true
+
+      if (this.onReady) {
+        this.onReady.called = true
+      }
     },
     onUnload () {
       unmounting = true
@@ -257,7 +260,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
   const id = componentName ?? `taro_component_${pageId()}`
   let componentElement: TaroRootElement | null = null
 
-  const config: any = {
+  const config: ComponentInstance = {
     attached () {
       perf.start(PAGE_INIT)
       const path = getPath(id, { id: this.getPageId?.() || pageId() })
@@ -315,5 +318,71 @@ export function createRecursiveComponentConfig (componentName?: string) {
     methods: {
       eh: eventHandler
     }
+  }
+}
+
+export function createQuickAppConfig () {
+  function isTextNode (nn: string) {
+    return nn === '#text'
+  }
+
+  function isTextElement (nn: string) {
+    return nn === 'text' || nn === 'static-text'
+  }
+
+  function nodeName ([nn, nnParent]: string[]) {
+    if (isTextNode(nn) || isTextElement(nn)) {
+      return isTextElement(nnParent) ? 'span' : 'text'
+    }
+
+    switch (nn) {
+      case 'slot-view':
+      case 'catch-view':
+      case 'static-view':
+      case 'pure-view':
+        return 'view'
+      case 'static-image':
+        return 'image'
+      default:
+        return nn
+    }
+  }
+
+  return {
+    props: {
+      i: Object,
+      nn: {
+        type: String,
+        default: 'view'
+      }
+    },
+    eh (event) {
+      // 快应用的event.type是只读的
+      const mpEvent = {
+        type: event.type,
+        target: event.target,
+        currentTarget: event.currentTarget,
+        detail: event.detail
+      }
+      const extraKeys = Object.keys(event)
+        .filter(Object.hasOwnProperty.bind(event))
+        .filter(k => k[0] !== '_')
+        .filter(k => {
+          return k !== 'type' && k !== 'detail' && k !== 'target' && k !== 'currentTarget'
+        })
+      const extraData = {}
+      extraKeys.forEach(k => {
+        extraData[k] = event[k]
+        mpEvent[k] = event[k]
+      })
+
+      if (!('detail' in event)) {
+        mpEvent.detail = extraData
+      }
+
+      return eventHandler.call(this, mpEvent)
+    },
+    // 过滤器
+    nodeName
   }
 }

@@ -169,6 +169,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "@rollup/plugin-json": "^4.1.0",
     "@types/babel__traverse": "^7.0.7",
     "@types/react-reconciler": "0.26.1",
     "rollup-plugin-copy": "^3.4.0"

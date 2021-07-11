@@ -2,7 +2,7 @@ import * as webpack from 'webpack'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import { normalizePath } from '@tarojs/helper'
 import * as path from 'path'
-import { frameworkMeta } from './utils'
+import { frameworkMeta, quickAppExportStr } from './utils'
 import { getPageConfig } from './page'
 
 export default function (this: webpack.loader.LoaderContext) {
@@ -38,6 +38,7 @@ hooks.initNativeApiImpls = [defaultReconciler.initNativeApi]
 var component = require(${stringify(componentPath)}).default
 var config = ${configString};
 var inst = Component(createNativeComponentConfig(component, ${frameworkArgs}))
+${quickAppExportStr}
 ${options.prerender ? prerender : ''}
 `
 }
