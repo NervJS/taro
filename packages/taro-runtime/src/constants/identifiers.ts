@@ -14,6 +14,7 @@ const SERVICE_IDENTIFIER = {
   getPathIndex: 'getPathIndex',
   getEventCenter: 'getEventCenter',
   isBubbleEvents: 'isBubbleEvents',
+  getSpecialNodes: 'getSpecialNodes',
   eventCenter: 'eventCenter',
   modifyMpEvent: 'modifyMpEvent',
   modifyTaroEvent: 'modifyTaroEvent',

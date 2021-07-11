@@ -10,6 +10,7 @@ import type {
   ModifyMpEvent,
   ModifyTaroEvent,
   IsBubbleEvents,
+  GetSpecialNodes,
   BatchedEventUpdates,
   MergePageInstance,
   CreatePullDownComponent,
@@ -37,6 +38,9 @@ export class Hooks implements IHooks {
 
   @inject(SERVICE_IDENTIFIER.isBubbleEvents)
   public isBubbleEvents: IsBubbleEvents
+
+  @inject(SERVICE_IDENTIFIER.getSpecialNodes)
+  public getSpecialNodes: GetSpecialNodes
 
   @inject(SERVICE_IDENTIFIER.onRemoveAttribute) @optional()
   public onRemoveAttribute?: OnRemoveAttribute

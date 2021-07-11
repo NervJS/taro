@@ -16,8 +16,7 @@ import {
   VIEW,
   STATIC_VIEW,
   PURE_VIEW,
-  PROPERTY_THRESHOLD,
-  SPECIAL_NODES
+  PROPERTY_THRESHOLD
 } from '../constants'
 
 import type { TaroEvent } from './event'
@@ -274,6 +273,8 @@ export class TaroElement extends TaroNode {
 
   public addEventListener (type, handler, options) {
     const name = this.nodeName
+    const SPECIAL_NODES = this.hooks.getSpecialNodes()
+
     if (!this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
       this.enqueueUpdate({
         path: `${this._path}.${Shortcuts.NodeName}`,
@@ -288,6 +289,8 @@ export class TaroElement extends TaroNode {
     super.removeEventListener(type, handler)
 
     const name = this.nodeName
+    const SPECIAL_NODES = this.hooks.getSpecialNodes()
+
     if (!this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
       this.enqueueUpdate({
         path: `${this._path}.${Shortcuts.NodeName}`,

@@ -3,7 +3,6 @@ export const TARO_RUNTIME = 'Taro runtime'
 export const HOOKS_APP_ID = 'taro-app'
 export const SET_DATA = '小程序 setData'
 export const PAGE_INIT = '页面初始化'
-export const SPECIAL_NODES = ['view', 'text', 'image']
 export const ROOT_STR = 'root'
 export const HTML = 'html'
 export const HEAD = 'head'

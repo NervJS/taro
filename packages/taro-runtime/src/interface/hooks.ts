@@ -21,6 +21,10 @@ export interface IsBubbleEvents {
   (eventName: string): boolean
 }
 
+export interface GetSpecialNodes {
+  (): string[]
+}
+
 export interface OnRemoveAttribute {
   (element: TaroElement, qualifiedName: string): void
 }
@@ -81,6 +85,8 @@ export interface IHooks {
   getEventCenter: GetEventCenter
 
   isBubbleEvents: IsBubbleEvents
+
+  getSpecialNodes: GetSpecialNodes
 
   /** 解决 Vue2 布尔值属性值的设置问题 */
   onRemoveAttribute?: OnRemoveAttribute
