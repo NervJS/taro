@@ -1,5 +1,5 @@
 import { processApis } from '@tarojs/shared'
-import { noPromiseApis, needPromiseApis } from './apis-list'
+import { needPromiseApis } from './apis-list'
 
 declare const swan: any
 
@@ -42,7 +42,6 @@ export function transformMeta (api: string, options: Record<string, any>) {
 
 export function initNativeApi (taro) {
   processApis(taro, swan, {
-    noPromiseApis,
     needPromiseApis,
     transformMeta
   })

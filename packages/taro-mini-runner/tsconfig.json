@@ -25,6 +25,8 @@
   ],
   "exclude": [
     "./src/__tests__",
-    "./src/template/comp.ts"
+    "./src/template/comp.ts",
+    "./src/quickapp",
+    "./src/loaders/quickappStyleLoader.ts"
   ]
 }

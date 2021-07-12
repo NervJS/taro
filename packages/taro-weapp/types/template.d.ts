@@ -1,4 +1,4 @@
-import { UnRecursiveTemplate } from '@tarojs/shared';
+import { UnRecursiveTemplate } from '@tarojs/shared/dist/template';
 export declare class Template extends UnRecursiveTemplate {
     supportXS: boolean;
     Adapter: {

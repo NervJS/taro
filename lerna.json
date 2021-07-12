@@ -9,6 +9,7 @@
     "packages/eslint-plugin-taro",
     "packages/postcss-plugin-constparse",
     "packages/postcss-pxtransform",
+    "packages/postcss-html-transform",
     "packages/shared",
     "packages/taro",
     "packages/taro-api",
@@ -43,7 +44,8 @@
     "packages/taro-swan",
     "packages/taro-tt",
     "packages/taro-qq",
-    "packages/taro-jd"
+    "packages/taro-jd",
+    "packages/taro-plugin-html"
   ],
   "command": {
     "publish": {
@@ -54,6 +56,6 @@
       "license": "MIT"
     }
   },
-  "version": "3.2.16",
+  "version": "3.3.0",
   "npmClient": "yarn"
 }

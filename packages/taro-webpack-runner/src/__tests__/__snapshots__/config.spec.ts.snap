@@ -256,8 +256,7 @@ exports[`config should build from origin and pipe to output 2`] = `
     };
     options.singleton = false;
     var update = api(content, options);
-    var exported = content.locals ? content.locals : {};
-    module.exports = exported;
+    module.exports = content.locals || {};
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
     var isOldIE = function isOldIE() {
@@ -388,7 +387,7 @@ exports[`config should build from origin and pipe to output 2`] = `
         } else {
             style.removeAttribute(\\"media\\");
         }
-        if (sourceMap && btoa) {
+        if (sourceMap && typeof btoa !== \\"undefined\\") {
             css += \\"\\\\n/*# sourceMappingURL=data:application/json;base64,\\".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), \\" */\\");
         }
         if (style.styleSheet) {
@@ -978,8 +977,7 @@ I m irrelevant.
     };
     options.singleton = false;
     var update = api(content, options);
-    var exported = content.locals ? content.locals : {};
-    module.exports = exported;
+    module.exports = content.locals || {};
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
     var isOldIE = function isOldIE() {
@@ -1110,7 +1108,7 @@ I m irrelevant.
         } else {
             style.removeAttribute(\\"media\\");
         }
-        if (sourceMap && btoa) {
+        if (sourceMap && typeof btoa !== \\"undefined\\") {
             css += \\"\\\\n/*# sourceMappingURL=data:application/json;base64,\\".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), \\" */\\");
         }
         if (style.styleSheet) {
@@ -1700,8 +1698,7 @@ exports[`config should resolved alias 2`] = `
     };
     options.singleton = false;
     var update = api(content, options);
-    var exported = content.locals ? content.locals : {};
-    module.exports = exported;
+    module.exports = content.locals || {};
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
     var isOldIE = function isOldIE() {
@@ -1832,7 +1829,7 @@ exports[`config should resolved alias 2`] = `
         } else {
             style.removeAttribute(\\"media\\");
         }
-        if (sourceMap && btoa) {
+        if (sourceMap && typeof btoa !== \\"undefined\\") {
             css += \\"\\\\n/*# sourceMappingURL=data:application/json;base64,\\".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), \\" */\\");
         }
         if (style.styleSheet) {

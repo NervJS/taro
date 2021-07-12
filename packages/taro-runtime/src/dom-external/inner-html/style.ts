@@ -1,6 +1,8 @@
-import { TaroNode } from '../node'
-import { NodeType } from '../node_types'
-import { unquote, ParsedTaroElement } from './parser'
+import { NodeType } from '../../dom/node_types'
+import { unquote } from './utils'
+
+import type { TaroNode } from '../../dom/node'
+import type { ParsedTaroElement } from './parser'
 
 const LEFT_BRACKET = '{'
 const RIGHT_BRACKET = '}'

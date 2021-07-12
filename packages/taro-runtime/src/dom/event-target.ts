@@ -1,24 +1,22 @@
+import { inject, injectable } from 'inversify'
 import { isArray, isObject, warn } from '@tarojs/shared'
-import { CurrentReconciler } from '../reconciler'
+import SERVICE_IDENTIFIER from '../constants/identifiers'
 
-interface EventListenerOptions {
-  capture?: boolean;
-}
+import type { EventHandler, AddEventListenerOptions, IHooks } from '../interface'
 
-interface AddEventListenerOptions extends EventListenerOptions {
-  once?: boolean;
-  passive?: boolean;
-}
-
-export interface EventHandler extends Function {
-  _stop?: boolean;
-}
-
+@injectable()
 export class TaroEventTarget {
   public __handlers: Record<string, EventHandler[]> = {}
+  public hooks: IHooks
+
+  public constructor (// eslint-disable-next-line @typescript-eslint/indent
+    @inject(SERVICE_IDENTIFIER.Hooks) hooks: IHooks
+  ) {
+    this.hooks = hooks
+  }
 
   public addEventListener (type: string, handler: EventHandler, options?: boolean | AddEventListenerOptions) {
-    CurrentReconciler.onAddEvent?.(type, handler, options)
+    this.hooks.onAddEvent?.(type, handler, options, this)
     if (type === 'regionchange') {
       // map 组件的 regionchange 事件非常特殊，详情：https://github.com/NervJS/taro/issues/5766
       this.addEventListener('begin', handler, options)
@@ -46,7 +44,7 @@ export class TaroEventTarget {
       return
     }
 
-    warn(isCapture, 'The event capture feature is unimplemented.')
+    process.env.NODE_ENV !== 'production' && warn(isCapture, 'Taro 暂未实现 event 的 capture 特性。')
 
     if (isArray(handlers)) {
       handlers.push(handler)
@@ -68,16 +66,14 @@ export class TaroEventTarget {
 
     const index = handlers.indexOf(handler)
 
-    warn(index === -1, `事件: '${type}' 没有注册在 DOM 中，因此不会被移除。`)
+    process.env.NODE_ENV !== 'production' && warn(index === -1, `事件: '${type}' 没有注册在 DOM 中，因此不会被移除。`)
 
     handlers.splice(index, 1)
   }
 
-  public isAnyEventBinded () {
-    const isAnyEventBinded = Object.keys(this.__handlers).find(key => {
-      const handler = this.__handlers[key]
-      return handler.length
-    })
-    return isAnyEventBinded
+  public isAnyEventBinded (): boolean {
+    const handlers = this.__handlers
+    const isAnyEventBinded = Object.keys(handlers).find(key => handlers[key].length)
+    return Boolean(isAnyEventBinded)
   }
 }

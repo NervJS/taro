@@ -5,7 +5,8 @@ module.exports = {
     'power-assert'
   ],
   plugins: [
-    '@babel/plugin-proposal-class-properties'
+    ['@babel/plugin-proposal-class-properties', { loose: false }],
+    ['@babel/plugin-proposal-private-methods', { loose: false }]
   ],
   babelrcRoots: ['./h5/*']
 }

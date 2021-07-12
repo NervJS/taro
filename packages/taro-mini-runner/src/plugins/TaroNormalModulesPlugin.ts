@@ -3,11 +3,19 @@ import webpack from 'webpack'
 import TaroNormalModule from './TaroNormalModule'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { componentConfig } from '../template/component'
+import { Func } from '../utils/types'
+
 const walk = require('acorn-walk')
 
 const PLUGIN_NAME = 'TaroNormalModulesPlugin'
 
 export default class TaroNormalModulesPlugin {
+  onParseCreateElement: Func | undefined
+
+  constructor (onParseCreateElement: Func | undefined) {
+    this.onParseCreateElement = onParseCreateElement
+  }
+
   apply (compiler: webpack.Compiler) {
     compiler.hooks.compilation.tap(PLUGIN_NAME, (_, { normalModuleFactory }) => {
       normalModuleFactory.hooks.createModule.tap(PLUGIN_NAME, data => {
@@ -21,7 +29,7 @@ export default class TaroNormalModulesPlugin {
       normalModuleFactory.hooks.parser.for('javascript/auto').tap(PLUGIN_NAME, (parser) => {
         parser.hooks.program.tap(PLUGIN_NAME, (ast) => {
           walk.simple(ast, {
-            CallExpression (node) {
+            CallExpression: node => {
               const callee = node.callee
               if (callee.type === 'MemberExpression') {
                 if (callee.property.name !== 'createElement') {
@@ -36,6 +44,9 @@ export default class TaroNormalModulesPlugin {
 
               const [type, prop] = node.arguments
               const componentName = type.name
+
+              this.onParseCreateElement?.(type.value, componentConfig)
+
               if (componentName === 'CustomWrapper' && !componentConfig.thirdPartyComponents.get('custom-wrapper')) {
                 componentConfig.thirdPartyComponents.set('custom-wrapper', new Set())
               }

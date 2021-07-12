@@ -1,8 +1,17 @@
-import { TaroElement } from '../dom/element'
-import { TaroText } from '../dom/text'
+import { Shortcuts } from '@tarojs/shared'
 import { NodeType } from '../dom/node_types'
-import { TaroNode } from '../dom/node'
-import { CurrentReconciler } from '../reconciler'
+import {
+  ROOT_STR,
+  STYLE,
+  ID,
+  UID,
+  CLASS,
+  COMMENT
+} from '../constants'
+
+import type { TaroElement } from '../dom/element'
+import type { TaroText } from '../dom/text'
+import type { TaroNode } from '../dom/node'
 
 export const incrementId = () => {
   let id = 0
@@ -17,6 +26,10 @@ export function isText (node: TaroNode): node is TaroText {
   return node.nodeType === NodeType.TEXT_NODE
 }
 
+export function isComment (node: TaroNode): boolean {
+  return node.nodeName === COMMENT
+}
+
 export function isHasExtractProp (el: TaroElement): boolean {
   const res = Object.keys(el.props).find(prop => {
     return !(/^(class|style|id)$/.test(prop) || prop.startsWith('data-'))
@@ -29,13 +42,9 @@ export function isHasExtractProp (el: TaroElement): boolean {
  * @param node 当前组件
  * @param type 事件类型
  */
-export function isParentBinded (node: TaroElement, type: string): boolean {
-  if (CurrentReconciler.isBubbleEvent?.(type, node.tagName) === false) {
-    return false
-  }
-
+export function isParentBinded (node: TaroElement | null, type: string): boolean {
   let res = false
-  while (node?.parentElement && node.parentElement._path !== 'root') {
+  while (node?.parentElement && node.parentElement._path !== ROOT_STR) {
     if (node.parentElement.__handlers[type]?.length) {
       res = true
       break
@@ -43,4 +52,17 @@ export function isParentBinded (node: TaroElement, type: string): boolean {
     node = node.parentElement
   }
   return res
+}
+
+export function shortcutAttr (key: string): string {
+  switch (key) {
+    case STYLE:
+      return Shortcuts.Style
+    case ID:
+      return UID
+    case CLASS:
+      return Shortcuts.Class
+    default:
+      return key
+  }
 }

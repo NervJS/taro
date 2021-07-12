@@ -1,5 +1,5 @@
 import { processApis } from '@tarojs/shared'
-import { noPromiseApis, needPromiseApis } from './apis-list'
+import { needPromiseApis } from './apis-list'
 
 declare const my: any
 
@@ -326,7 +326,6 @@ export function modifyAsyncResult (key, res) {
 
 export function initNativeApi (taro) {
   processApis(taro, my, {
-    noPromiseApis,
     needPromiseApis,
     handleSyncApis,
     transformMeta,

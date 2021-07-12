@@ -1,21 +1,22 @@
 import type * as React from 'react'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { AppConfig, PageInstance } from '@tarojs/taro'
 import { isFunction, ensure, EMPTY_OBJ } from '@tarojs/shared'
+import container from '../container'
+import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { Current } from '../current'
-import { AppInstance, ReactPageComponent, PageProps, Instance, ReactAppInstance } from './instance'
 import { document } from '../bom/document'
 import { getPageInstance, injectPageInstance, safeExecute, addLeadingSlash } from './common'
 import { isBrowser } from '../env'
-import { options } from '../options'
-import { Reconciler, CurrentReconciler } from '../reconciler'
 import { incrementId } from '../utils'
-import { HOOKS_APP_ID } from './hooks'
-import type { Func } from '../utils/types'
+import { HOOKS_APP_ID } from '../constants'
 import { eventHandler } from '../dom/event'
-import { TaroRootElement } from '../dom/root'
+
+import type { AppConfig, PageInstance } from '@tarojs/taro'
+import type { AppInstance, ReactPageComponent, PageProps, Instance, ReactAppInstance } from './instance'
+import type { IHooks } from '../interface'
+import type { TaroRootElement } from '../dom/root'
 
 declare const getCurrentPages: () => PageInstance[]
+const hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
 
 function isClassComponent (R: typeof React, component): boolean {
   return isFunction(component.render) ||
@@ -53,15 +54,15 @@ export function connectReactPage (
       }
 
       static getDerivedStateFromError (error: Error) {
-        console.warn(error)
+        process.env.NODE_ENV !== 'production' && console.warn(error)
         return { hasError: true }
       }
 
       // React 16 uncaught error 会导致整个应用 crash，
       // 目前把错误缩小到页面
       componentDidCatch (error: Error, info: React.ErrorInfo) {
-        console.warn(error)
-        console.error(info.componentStack)
+        process.env.NODE_ENV !== 'production' && console.warn(error)
+        process.env.NODE_ENV !== 'production' && console.error(info.componentStack)
       }
 
       render () {
@@ -95,41 +96,48 @@ let ReactDOM
 type PageComponent = React.CElement<PageProps, React.Component<PageProps, any, any>>
 
 function setReconciler () {
-  const hostConfig: Partial<Reconciler<React.FunctionComponent<PageProps> | React.ComponentClass<PageProps>>> = {
-    getLifecyle (instance, lifecycle) {
-      if (lifecycle === 'onShow') {
-        lifecycle = 'componentDidShow'
-      } else if (lifecycle === 'onHide') {
-        lifecycle = 'componentDidHide'
-      }
-      return instance[lifecycle] as Func
-    },
-    mergePageInstance (prev, next) {
-      if (!prev || !next) return
-
-      // 子组件使用 lifecycle hooks 注册了生命周期后，会存在 prev，里面是注册的生命周期回调。
-
-      // prev 使用 Object.create(null) 创建，H5 的 fast-refresh 可能也会导致存在 prev，要排除这些意外产生的 prev
-      if ('constructor' in prev) return
-
-      Object.keys(prev).forEach(item => {
-        if (isFunction(next[item])) {
-          next[item] = [next[item], ...prev[item]]
-        } else {
-          next[item] = [...(next[item] || []), ...prev[item]]
-        }
-      })
-    },
-    modifyEventType (event) {
-      event.type = event.type.replace(/-/g, '')
-    },
-    batchedEventUpdates (cb) {
-      ReactDOM.unstable_batchedUpdates(cb)
-    }
+  const getLifecycle = function (instance, lifecycle) {
+    lifecycle = lifecycle.replace(/^on(Show|Hide)$/, 'componentDid$1')
+    return instance[lifecycle]
   }
 
-  if (isBrowser) {
-    hostConfig.createPullDownComponent = (el, _, R: typeof React, customWrapper) => {
+  const modifyMpEvent = function (event) {
+    event.type = event.type.replace(/-/g, '')
+  }
+
+  const batchedEventUpdates = function (cb) {
+    ReactDOM.unstable_batchedUpdates(cb)
+  }
+
+  const mergePageInstance = function (prev, next) {
+    if (!prev || !next) return
+
+    // 子组件使用 lifecycle hooks 注册了生命周期后，会存在 prev，里面是注册的生命周期回调。
+
+    // prev 使用 Object.create(null) 创建，H5 的 fast-refresh 可能也会导致存在 prev，要排除这些意外产生的 prev
+    if ('constructor' in prev) return
+
+    Object.keys(prev).forEach(item => {
+      if (isFunction(next[item])) {
+        next[item] = [next[item], ...prev[item]]
+      } else {
+        next[item] = [...(next[item] || []), ...prev[item]]
+      }
+    })
+  }
+
+  hooks.getLifecycle = getLifecycle
+  hooks.modifyMpEvent = modifyMpEvent
+  hooks.batchedEventUpdates = batchedEventUpdates
+  hooks.mergePageInstance = mergePageInstance
+
+  if (process.env.TARO_ENV === 'h5') {
+    hooks.createPullDownComponent = (
+      el: React.FunctionComponent<PageProps> | React.ComponentClass<PageProps>,
+      _,
+      R: typeof React,
+      customWrapper
+    ) => {
       const isReactComponent = isClassComponent(R, el)
 
       return R.forwardRef((props, ref) => {
@@ -140,19 +148,21 @@ function setReconciler () {
           reactReduxForwardedRef: ref
         }
 
-        return R.createElement(customWrapper || 'taro-pull-to-refresh', null, R.createElement(el, {
-          ...newProps,
-          ...refs
-        }))
+        return R.createElement(
+          customWrapper || 'taro-pull-to-refresh',
+          null,
+          R.createElement(el, {
+            ...newProps,
+            ...refs
+          })
+        )
       })
     }
 
-    hostConfig.findDOMNode = (inst) => {
+    hooks.getDOMNode = (inst) => {
       return ReactDOM.findDOMNode(inst)
     }
   }
-
-  options.reconciler(hostConfig)
 }
 
 const pageKeyId = incrementId()
@@ -294,7 +304,7 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
         }
 
         // app useDidShow
-        triggerAppHook('componentDidShow')
+        triggerAppHook('onShow')
       }
     },
 
@@ -308,7 +318,7 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
         }
 
         // app useDidHide
-        triggerAppHook('componentDidHide')
+        triggerAppHook('onHide')
       }
     },
 
@@ -328,7 +338,7 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
     const instance = getPageInstance(HOOKS_APP_ID)
     if (instance) {
       const app = ref.current
-      const func = CurrentReconciler.getLifecyle(instance, lifecycle)
+      const func = hooks.getLifecycle(instance, lifecycle)
       if (Array.isArray(func)) {
         func.forEach(cb => cb.apply(app))
       }
