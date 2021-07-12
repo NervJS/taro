@@ -63,7 +63,7 @@ function isEqualSignChar (char: string) {
 
 function shouldBeIgnore (tagName: string) {
   const name = tagName.toLowerCase()
-  if (options.html.skipElements.has(name)) {
+  if (options.html!.skipElements.has(name)) {
     return true
   }
   return false

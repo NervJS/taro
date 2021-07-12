@@ -1,0 +1,42 @@
+{
+  "name": "@tarojs/plugin-html",
+  "version": "3.3.0-beta.1",
+  "description": "Taro 小程序端支持使用 HTML 标签的插件",
+  "main": "index.js",
+  "scripts": {
+    "dev": "rollup -c -w",
+    "build": "rollup -c",
+    "test": "jest",
+    "test:dev": "jest --watch"
+  },
+  "files": [
+    "src",
+    "dist",
+    "index.js",
+    "package.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "keywords": [
+    "Taro"
+  ],
+  "author": "luckyadam",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "homepage": "https://github.com/NervJS/taro#readme",
+  "devDependencies": {
+    "@babel/generator": "^7.14.3",
+    "@babel/parser": "^7.14.4",
+    "@babel/traverse": "^7.14.2",
+    "@babel/types": "^7.14.4",
+    "@tarojs/runtime": "3.3.0-beta.1",
+    "@tarojs/service": "3.3.0-beta.1"
+  },
+  "dependencies": {
+    "@tarojs/shared": "3.3.0-beta.1"
+  }
+}

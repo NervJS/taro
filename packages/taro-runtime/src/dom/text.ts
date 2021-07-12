@@ -1,13 +1,25 @@
+import { inject, injectable } from 'inversify'
+import { Shortcuts } from '@tarojs/shared'
+import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
-import { Shortcuts } from '@tarojs/shared'
 
+import type { TaroNodeImpl } from '../dom-external/node-impl'
+import type { InstanceNamedFactory } from '../interface'
+import type { Hooks } from '../hooks'
+
+@injectable()
 export class TaroText extends TaroNode {
-  private _value: string
+  public _value: string
 
-  public constructor (text: string) {
-    super(NodeType.TEXT_NODE, '#text')
-    this._value = text
+  public constructor (// eslint-disable-next-line @typescript-eslint/indent
+    @inject(SERVICE_IDENTIFIER.TaroNodeImpl) nodeImpl: TaroNodeImpl,
+    @inject(SERVICE_IDENTIFIER.TaroElementFactory) getElement: InstanceNamedFactory,
+    @inject(SERVICE_IDENTIFIER.Hooks) hooks: Hooks
+  ) {
+    super(nodeImpl, getElement, hooks)
+    this.nodeType = NodeType.TEXT_NODE
+    this.nodeName = '#text'
   }
 
   public set textContent (text: string) {
@@ -18,7 +30,7 @@ export class TaroText extends TaroNode {
     })
   }
 
-  public get textContent () {
+  public get textContent (): string {
     return this._value
   }
 
@@ -26,7 +38,7 @@ export class TaroText extends TaroNode {
     this.textContent = text
   }
 
-  public get nodeValue () {
+  public get nodeValue (): string {
     return this._value
   }
 }

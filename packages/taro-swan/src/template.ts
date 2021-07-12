@@ -1,4 +1,5 @@
-import { RecursiveTemplate, isArray, Shortcuts } from '@tarojs/shared'
+import { isArray, Shortcuts } from '@tarojs/shared'
+import { RecursiveTemplate } from '@tarojs/shared/dist/template'
 
 const swanSpecialAttrs = {
   'scroll-view': ['scrollTop', 'scrollLeft', 'scrollIntoView'],

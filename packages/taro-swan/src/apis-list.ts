@@ -1,13 +1,3 @@
-export const noPromiseApis = new Set([
-  'getEnvInfoSync',
-  'isLoginSync',
-  'createARCameraContext',
-  'createAnimationVideo',
-  'createRtcRoomContext',
-  'getURLQuery',
-  'setURLQuery'
-])
-
 export const needPromiseApis = new Set([
   'addEventOnCalendar',
   'chooseAlbum',

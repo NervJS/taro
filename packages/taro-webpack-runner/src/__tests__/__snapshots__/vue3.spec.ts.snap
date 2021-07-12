@@ -224,7 +224,7 @@ exports[`vue3 should build vue3 app 2`] = `
         } else {
             style.removeAttribute(\\"media\\");
         }
-        if (sourceMap && btoa) {
+        if (sourceMap && typeof btoa !== \\"undefined\\") {
             css += \\"\\\\n/*# sourceMappingURL=data:application/json;base64,\\".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), \\" */\\");
         }
         if (style.styleSheet) {
@@ -389,8 +389,7 @@ exports[`vue3 should build vue3 app 2`] = `
     options.insert = \\"head\\";
     options.singleton = false;
     var update = api(content, options);
-    var exported = content.locals ? content.locals : {};
-    module.exports = exported;
+    module.exports = content.locals || {};
 }, function(module, exports, __webpack_require__) {
     var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(2);
     exports = ___CSS_LOADER_API_IMPORT___(false);
@@ -420,8 +419,7 @@ exports[`vue3 should build vue3 app 2`] = `
     };
     options.singleton = false;
     var update = api(content, options);
-    var exported = content.locals ? content.locals : {};
-    module.exports = exported;
+    module.exports = content.locals || {};
 }, function(module, exports, __webpack_require__) {
     var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(2);
     exports = ___CSS_LOADER_API_IMPORT___(false);

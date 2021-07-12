@@ -18,7 +18,7 @@ function unmountComponentAtNode (dom: TaroElement) {
     root.unmount(() => {
       ContainerMap.delete(dom)
     })
-  })
+  }, null)
 
   return true
 }

@@ -15,7 +15,7 @@ import { ConcatSource } from 'webpack-sources'
 import { urlToRequest } from 'loader-utils'
 import { minify } from 'html-minifier'
 import { AppConfig, Config } from '@tarojs/taro'
-import { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared'
+import { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import {
   resolveMainFilePath,
   readConfig,
@@ -66,6 +66,7 @@ interface ITaroMiniPluginOptions {
   modifyMiniConfigs?: Func
   runtimePath?: string | string[]
   onCompilerMake?: Func
+  onParseCreateElement?: Func
   blended: boolean
   alias: Record<string, string>
   deviceRatio: any
@@ -336,7 +337,7 @@ export default class TaroMiniPlugin {
       })
     )
 
-    new TaroNormalModulesPlugin().apply(compiler)
+    new TaroNormalModulesPlugin(this.options.onParseCreateElement).apply(compiler)
   }
 
   /**
