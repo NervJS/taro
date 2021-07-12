@@ -1,4 +1,4 @@
-import { UnRecursiveTemplate } from '@tarojs/shared'
+import { UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 
 export class Template extends UnRecursiveTemplate {
   supportXS = true
@@ -25,5 +25,21 @@ export class Template extends UnRecursiveTemplate {
       return nameLowerCase
     }
     return name
+  }
+
+  modifyLoopContainer = (children, nodeName) => {
+    if (nodeName !== 'textarea') return children
+    return `
+    <keyboard-accessory style="{{i.cn[0].st}}" class="{{i.cn[0].cl}}" bindtap="eh"  id="{{i.cn[0].uid}}">
+      <block wx:for="{{i.cn[0].cn}}" wx:key="uid">
+        <template is="{{xs.e(cid+1)}}" data="{{i:item,l:l}}" />
+      </block>
+    </keyboard-accessory>
+    `
+  }
+
+  modifyTemplateResult = (res: string, nodeName: string) => {
+    if (nodeName === 'keyboard-accessory') return ''
+    return res
   }
 }

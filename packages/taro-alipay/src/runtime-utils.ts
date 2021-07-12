@@ -9,6 +9,15 @@ import {
 
 declare const my: any
 
+const BUBBLE_EVENTS = new Set([
+  'touchStart',
+  'touchMove',
+  'touchEnd',
+  'touchCancel',
+  'tap',
+  'longTap'
+])
+
 export {
   initNativeApi,
   handleSyncApis,
@@ -26,9 +35,12 @@ export const hostConfig = {
     }
     return my.taroEventCenter
   },
-  modifyDispatchEvent (event, tagName) {
-    if (tagName === 'SWIPER' && event.type === 'animationend') {
+  modifyTaroEvent (event, node) {
+    if (node.tagName === 'SWIPER' && event.type === 'animationend') {
       event.type = 'animationfinish'
     }
+  },
+  isBubbleEvents (eventName) {
+    return BUBBLE_EVENTS.has(eventName)
   }
 }

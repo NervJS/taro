@@ -2,6 +2,8 @@ import { REG_VUE, chalk } from '@tarojs/helper'
 import { toCamelCase, internalComponents, capitalize } from '@tarojs/shared'
 import { componentConfig } from '../template/component'
 
+const CUSTOM_WRAPPER = 'custom-wrapper'
+
 export function customVueChain (chain) {
   let vueLoaderPath: string
   try {
@@ -41,6 +43,10 @@ export function customVueChain (chain) {
             const nodeName = el.tag
             if (capitalize(toCamelCase(nodeName)) in internalComponents) {
               componentConfig.includes.add(nodeName)
+            }
+
+            if (nodeName === CUSTOM_WRAPPER) {
+              componentConfig.thirdPartyComponents.set(CUSTOM_WRAPPER, new Set())
             }
 
             const usingComponent = componentConfig.thirdPartyComponents.get(nodeName)

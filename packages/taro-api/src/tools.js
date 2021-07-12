@@ -2,12 +2,12 @@ export function Behavior (options) {
   return options
 }
 
-export function getPreload (taro) {
+export function getPreload (current) {
   return function (key, val) {
     if (typeof key === 'object') {
-      taro.preloadData = key
+      current.preloadData = key
     } else if (key !== undefined && val !== undefined) {
-      taro.preloadData = {
+      current.preloadData = {
         [key]: val
       }
     }

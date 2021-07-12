@@ -1,7 +1,3 @@
-export const noPromiseApis = new Set([
-  'canIPutStuffOverComponent'
-])
-
 export const needPromiseApis = new Set([
   'checkFollowState',
   'exitMiniProgram',
@@ -10,5 +6,6 @@ export const needPromiseApis = new Set([
   'hideInteractionBar',
   'pay',
   'navigateToVideoView',
-  'showInteractionBar'
+  'showInteractionBar',
+  'openEcGood'
 ])

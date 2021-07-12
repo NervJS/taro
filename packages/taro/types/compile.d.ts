@@ -107,6 +107,11 @@ export interface ICompileOption {
   include?: string[]
 }
 
+interface Runtime {
+  enableInnerHTML: boolean
+  enableSizeAPIs: boolean
+}
+
 export interface IMiniAppConfig {
   appOutput?: boolean,
   enableSourceMap?: boolean,
@@ -132,11 +137,16 @@ export interface IMiniAppConfig {
   customFilesTypes?: IMINI_APP_FILE_TYPE,
   commonChunks?: string[] | ((commonChunks: string[]) => string[]),
   addChunkPages?: ((pages: Map<string, string[]>, pagesNames?: string[]) => void),
+  optimizeMainPackage?: {
+    enable?: boolean,
+    exclude?: any[]
+  },
 
   compile?: {
     exclude?: any[],
     include?: any[]
   }
+  runtime?: Runtime
 }
 
 export type TogglableOptions<T = IOption> = {
@@ -150,6 +160,7 @@ export interface IH5RouterConfig {
   basename?: string,
   lazyload?: boolean | ((pagename: string) => boolean),
   renamePagename?: (pagename: string) => string
+  forcePath?: string
 }
 
 export interface IH5Config {

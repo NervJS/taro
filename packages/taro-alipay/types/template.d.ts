@@ -1,4 +1,4 @@
-import { RecursiveTemplate } from '@tarojs/shared';
+import { RecursiveTemplate } from '@tarojs/shared/dist/template';
 export declare class Template extends RecursiveTemplate {
     exportExpr: string;
     supportXS: boolean;
@@ -26,4 +26,5 @@ export declare class Template extends RecursiveTemplate {
     modifyLoopBody: (child: string, nodeName: string) => string;
     modifyLoopContainer: (children: string, nodeName: string) => string;
     modifyTemplateResult: (res: string, nodeName: string) => string;
+    buildXSTmpExtra(): string;
 }

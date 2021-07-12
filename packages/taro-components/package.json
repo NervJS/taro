@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "3.2.7",
+  "version": "3.3.0-beta.1",
   "description": "",
   "main:h5": "src/index.js",
   "main": "dist/index.js",
@@ -38,13 +38,13 @@
   "license": "MIT",
   "dependencies": {
     "@stencil/core": "2.4.0",
-    "@tarojs/taro": "3.2.7",
+    "@tarojs/taro": "3.3.0-beta.1",
     "better-scroll": "^1.14.1",
     "classnames": "^2.2.5",
     "intersection-observer": "^0.7.0",
     "omit.js": "^1.0.0",
     "resolve-pathname": "^3.0.0",
-    "swiper": "4.4.2",
+    "swiper": "6.7.5",
     "weui": "^1.1.2"
   },
   "devDependencies": {

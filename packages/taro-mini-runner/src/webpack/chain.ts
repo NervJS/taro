@@ -35,6 +35,8 @@ import BuildNativePlugin from '../plugins/BuildNativePlugin'
 import { IOption, IBuildConfig } from '../utils/types'
 import defaultTerserOptions from '../config/terserOptions'
 
+import MiniSplitChunksPlugin from '../plugins/MiniSplitChunksPlugin'
+
 interface IRule {
   test?: any
   exclude?: any[]
@@ -145,11 +147,6 @@ const getExtractCssLoader = () => {
     loader: MiniCssExtractPlugin.loader
   }
 }
-const getQuickappStyleLoader = () => {
-  return {
-    loader: require.resolve(path.resolve(__dirname, '../loaders/quickappStyleLoader'))
-  }
-}
 export const getMiniCssExtractPlugin = pipe(mergeOption, listify, partial(getPlugin, MiniCssExtractPlugin))
 export const getDefinePlugin = pipe(mergeOption, listify, partial(getPlugin, webpack.DefinePlugin))
 export const getTerserPlugin = ([enableSourceMap, terserOptions]) => {
@@ -183,6 +180,10 @@ export const getCopyWebpackPlugin = ({ copy, appPath }: {
 
 export const getMiniPlugin = args => {
   return partial(getPlugin, MiniPlugin)([args])
+}
+
+export const getMiniSplitChunksPlugin = (args) => {
+  return partial(getPlugin, MiniSplitChunksPlugin)([args])
 }
 
 export const getBuildNativePlugin = args => {
@@ -246,7 +247,6 @@ export const getModule = (appPath: string, {
     cssLoaderOption
   ]
   const extractCssLoader = getExtractCssLoader()
-  const quickappStyleLoader = getQuickappStyleLoader()
   const miniTemplateLoader = getMiniTemplateLoader([{
     buildAdapter
   }])
@@ -258,7 +258,7 @@ export const getModule = (appPath: string, {
     implementation: sass,
     sassOptions: {
       outputStyle: 'expanded',
-      fiber: require('fibers'),
+      fiber: false,
       importer (url, prev, done) {
         // 让 sass 文件里的 @import 能解析小程序原生样式文体，如 @import "a.wxss";
         const extname = path.extname(url)
@@ -299,13 +299,14 @@ export const getModule = (appPath: string, {
   const postcssLoader = getPostcssLoader([
     { sourceMap: enableSourceMap },
     {
-      ident: 'postcss',
-      plugins: getPostcssPlugins(appPath, {
-        isBuildQuickapp,
-        designWidth,
-        deviceRatio,
-        postcssOption
-      })
+      postcssOptions: {
+        plugins: getPostcssPlugins(appPath, {
+          isBuildQuickapp,
+          designWidth,
+          deviceRatio,
+          postcssOption
+        })
+      }
     }
   ])
 
@@ -317,12 +318,7 @@ export const getModule = (appPath: string, {
     include?;
     use;
   }[] = [{
-    use: isBuildQuickapp ? [
-      extractCssLoader,
-      quickappStyleLoader,
-      cssLoader,
-      postcssLoader
-    ] : [
+    use: [
       extractCssLoader,
       cssLoader,
       postcssLoader
@@ -521,4 +517,26 @@ export function getOutput (appPath: string, [{ outputRoot, publicPath, globalObj
 
 export function getDevtool (enableSourceMap, sourceMapType = 'cheap-module-source-map') {
   return enableSourceMap ? sourceMapType : 'none'
+}
+
+export function getRuntimeConstants (runtime) {
+  const constants = {
+    ENABLE_INNER_HTML: true,
+    ENABLE_ADJACENT_HTML: true,
+    ENABLE_SIZE_APIS: false
+  }
+
+  if (runtime.enableInnerHTML !== undefined) {
+    constants.ENABLE_INNER_HTML = runtime.enableInnerHTML
+  }
+
+  if (runtime.enableAdjacentHTML !== undefined) {
+    constants.ENABLE_ADJACENT_HTML = runtime.enableAdjacentHTML
+  }
+
+  if (runtime.enableSizeAPIs !== undefined) {
+    constants.ENABLE_SIZE_APIS = runtime.enableSizeAPIs
+  }
+
+  return constants
 }

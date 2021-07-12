@@ -1,4 +1,5 @@
 import { internalComponents } from './components'
+import { isArray } from './is'
 
 export const EMPTY_OBJ: any = {}
 
@@ -6,7 +7,7 @@ export const EMPTY_ARR = []
 
 export const noop = (..._: unknown[]) => {}
 
-export const defaultReconciler = {}
+export const defaultReconciler = Object.create(null)
 
 /**
  * Boxed value.
@@ -85,7 +86,7 @@ export function ensure (condition: boolean, msg: string): asserts condition {
 export function warn (condition: boolean, msg: string) {
   if (process.env.NODE_ENV !== 'production') {
     if (condition) {
-      console.warn(msg)
+      console.warn(`[taro warn] ${msg}`)
     }
   }
 }
@@ -155,7 +156,19 @@ export function mergeInternalComponents (components) {
 }
 
 export function mergeReconciler (hostConfig) {
-  Object.assign(defaultReconciler, hostConfig)
+  Object.keys(hostConfig).forEach(key => {
+    const value = hostConfig[key]
+    const raw = defaultReconciler[key]
+    if (!raw) {
+      defaultReconciler[key] = value
+    } else {
+      if (isArray(raw)) {
+        defaultReconciler[key] = raw.push(value)
+      } else {
+        defaultReconciler[key] = [raw, value]
+      }
+    }
+  })
 }
 
 export function unsupport (api) {

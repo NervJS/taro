@@ -395,12 +395,13 @@ export const getModule = (appPath: string, {
   const postcssLoader = getPostcssLoader([
     { sourceMap: enableSourceMap },
     {
-      ident: 'postcss',
-      plugins: getPostcssPlugins(appPath, {
-        designWidth,
-        deviceRatio,
-        postcssOption
-      })
+      postcssOptions: {
+        plugins: getPostcssPlugins(appPath, {
+          designWidth,
+          deviceRatio,
+          postcssOption
+        })
+      }
     }
   ])
 
@@ -411,7 +412,7 @@ export const getModule = (appPath: string, {
     implementation: sass,
     sassOptions: {
       outputStyle: 'expanded',
-      fiber: require('fibers'),
+      fiber: false,
       importer (url, prev, done) {
         // 让 sass 文件里的 @import 能解析小程序原生样式文体，如 @import "a.wxss";
         const extname = path.extname(url)

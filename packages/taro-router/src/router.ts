@@ -1,14 +1,16 @@
 /* eslint-disable dot-notation */
 import UniversalRouter, { Routes } from 'universal-router'
 import { LocationListener, LocationState } from 'history'
-import { AppConfig, PageConfig } from '@tarojs/taro'
-import { createPageConfig, Current, PageInstance, eventCenter, CurrentReconciler, AppInstance, stringify, requestAnimationFrame } from '@tarojs/runtime'
+import { createPageConfig, Current, eventCenter, container, SERVICE_IDENTIFIER, stringify, requestAnimationFrame } from '@tarojs/runtime'
 import { qs } from './qs'
 import { history } from './history'
 import { stacks } from './stack'
 import { init, routerConfig } from './init'
 import { bindPageScroll } from './scroll'
 import { setRoutesAlias, addLeadingSlash, historyBackDelta, setHistoryBackDelta } from './utils'
+
+import type { AppConfig, PageConfig } from '@tarojs/taro'
+import type { PageInstance, AppInstance, IHooks } from '@tarojs/runtime'
 
 export interface Route extends PageConfig {
   path?: string
@@ -21,7 +23,8 @@ export interface RouterConfig extends AppConfig {
     mode: 'hash' | 'browser'
     basename: string,
     customRoutes?: Record<string, string>,
-    pathname: string
+    pathname: string,
+    forcePath?: string
   },
   PullDownRefresh?: any
 }
@@ -99,6 +102,7 @@ export function createRouter (
 
   const routes: Routes = []
   const alias = config.router.customRoutes ?? {}
+  const runtimeHooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
 
   setRoutesAlias(alias)
   for (let i = 0; i < config.routes.length; i++) {
@@ -117,7 +121,7 @@ export function createRouter (
     routerConfig.router.pathname = location.pathname
     let element
     try {
-      element = await router.resolve(location.pathname)
+      element = await router.resolve(config.router.forcePath || location.pathname)
     } catch (error) {
       if (error.status === 404) {
         app.onPageNotFound?.({
@@ -175,7 +179,7 @@ export function createRouter (
       delete config['path']
       delete config['load']
       const page = createPageConfig(
-        enablePullDownRefresh ? CurrentReconciler.createPullDownComponent?.(el, location.pathname, framework, routerConfig.PullDownRefresh) : el,
+        enablePullDownRefresh ? runtimeHooks.createPullDownComponent?.(el, location.pathname, framework, routerConfig.PullDownRefresh) : el,
         location.pathname + stringify(qs()),
         {},
         config

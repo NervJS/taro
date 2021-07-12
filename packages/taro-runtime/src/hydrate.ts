@@ -1,38 +1,18 @@
-import { isText, isHasExtractProp } from './utils'
-import { TaroElement } from './dom/element'
-import { TaroText } from './dom/text'
-import { SPECIAL_NODES } from './constants'
 import { Shortcuts, toCamelCase } from '@tarojs/shared'
-import type { PageConfig } from '@tarojs/taro'
+import { isText, isHasExtractProp, isComment } from './utils'
+import {
+  VIEW,
+  CLASS,
+  STYLE,
+  ID,
+  PURE_VIEW,
+  CATCHMOVE,
+  CATCH_VIEW
+} from './constants'
 
-export interface MpInstance {
-  config: PageConfig
-  setData: (data: unknown, cb: () => void) => void;
-  route?: string;
-  __route__: string;
-  options?: Record<string, unknown>
-  __data__: any,
-  data: any
-  selectComponent: (selector: string) => any
-}
-
-interface MiniElementData {
-  [Shortcuts.Childnodes]?: MiniData[]
-  [Shortcuts.NodeName]: string
-  [Shortcuts.Class]?: string
-  [Shortcuts.Style]?: string
-  uid: string
-  [key: string]: unknown
-}
-
-interface MiniTextData {
-  [Shortcuts.Text]: string
-  [Shortcuts.NodeName]: string
-}
-
-export type MiniData = MiniElementData | MiniTextData
-
-export type HydratedData = () => MiniData | MiniData[]
+import type { MiniData, MiniElementData } from './interface'
+import type { TaroElement } from './dom/element'
+import type { TaroText } from './dom/text'
 
 /**
  * React also has a fancy function's name for this: `hydrate()`.
@@ -54,12 +34,13 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     [Shortcuts.NodeName]: nodeName,
     uid: node.uid
   }
-  const { props, childNodes } = node
+  const { props } = node
+  const SPECIAL_NODES = node.hooks.getSpecialNodes()
 
   if (!node.isAnyEventBinded() && SPECIAL_NODES.indexOf(nodeName) > -1) {
     data[Shortcuts.NodeName] = `static-${nodeName}`
-    if (nodeName === 'view' && !isHasExtractProp(node)) {
-      data[Shortcuts.NodeName] = 'pure-view'
+    if (nodeName === VIEW && !isHasExtractProp(node)) {
+      data[Shortcuts.NodeName] = PURE_VIEW
     }
   }
 
@@ -67,17 +48,22 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     const propInCamelCase = toCamelCase(prop)
     if (
       !prop.startsWith('data-') && // 在 node.dataset 的数据
-      prop !== 'class' &&
-      prop !== 'style' &&
-      prop !== 'id' &&
-      propInCamelCase !== 'catchMove'
+      prop !== CLASS &&
+      prop !== STYLE &&
+      prop !== ID &&
+      propInCamelCase !== CATCHMOVE
     ) {
       data[propInCamelCase] = props[prop]
     }
-    if (nodeName === 'view' && propInCamelCase === 'catchMove' && props[prop] !== 'false') {
-      data[Shortcuts.NodeName] = 'catch-view'
+    if (nodeName === VIEW && propInCamelCase === CATCHMOVE && props[prop] !== 'false') {
+      data[Shortcuts.NodeName] = CATCH_VIEW
     }
   }
+
+  let { childNodes } = node
+
+  // 过滤 comment 节点
+  childNodes = childNodes.filter(node => !isComment(node))
 
   if (childNodes.length > 0) {
     data[Shortcuts.Childnodes] = childNodes.map(hydrate)
@@ -92,6 +78,8 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
   if (node.cssText !== '' && nodeName !== 'swiper-item') {
     data[Shortcuts.Style] = node.cssText
   }
+
+  node.hooks.modifyHydrateData?.(data)
 
   return data
 }

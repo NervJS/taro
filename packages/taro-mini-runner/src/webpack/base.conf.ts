@@ -7,7 +7,7 @@ export default (appPath: string) => {
   chain.merge({
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.vue'],
-      mainFields: ['browser', 'module', 'main'],
+      mainFields: ['browser', 'module', 'jsnext:main', 'main'],
       symlinks: true,
       modules: [
         'node_modules',

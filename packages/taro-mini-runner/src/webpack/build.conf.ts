@@ -13,15 +13,18 @@ import {
   getModule,
   mergeOption,
   getMiniPlugin,
+  getMiniSplitChunksPlugin,
   getBuildNativePlugin,
   getProviderPlugin,
   getMiniCssExtractPlugin,
-  getEntry
+  getEntry,
+  getRuntimeConstants
 } from './chain'
 import getBaseConf from './base.conf'
 import { createTarget } from '../plugins/MiniPlugin'
 import { customVueChain } from './vue'
 import { customVue3Chain } from './vue3'
+import { componentConfig } from '../template/component'
 
 export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const chain = getBaseConf(appPath)
@@ -54,6 +57,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     minifyXML = {},
 
     defineConstants = {},
+    runtime = {},
     env = {},
     cssLoaderOption = {},
     sassLoaderOption = {},
@@ -74,14 +78,20 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     terser,
     commonChunks,
     addChunkPages,
+    optimizeMainPackage = {
+      enable: false
+    },
 
     blended,
     isBuildNativeComp,
 
     modifyMiniConfigs,
     modifyBuildAssets,
-    onCompilerMake
+    onCompilerMake,
+    onParseCreateElement
   } = config
+
+  config.modifyComponentConfig?.(componentConfig, config)
 
   let { copy } = config
 
@@ -120,7 +130,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
 
   env.FRAMEWORK = JSON.stringify(framework)
   env.TARO_ENV = JSON.stringify(buildAdapter)
-  const constantsReplaceList = mergeOption([processEnvOption(env), defineConstants])
+  const runtimeConstants = getRuntimeConstants(runtime)
+  const constantsReplaceList = mergeOption([processEnvOption(env), defineConstants, runtimeConstants])
   const entryRes = getEntry({
     sourceDir,
     entry,
@@ -136,6 +147,13 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     customCommonChunks = commonChunks
   }
   plugin.definePlugin = getDefinePlugin([constantsReplaceList])
+
+  /** 需要在miniPlugin前，否则无法获取entry地址 */
+  if (optimizeMainPackage.enable) {
+    plugin.miniSplitChunksPlugin = getMiniSplitChunksPlugin({
+      exclude: optimizeMainPackage.exclude
+    })
+  }
 
   const miniPluginOptions = {
     sourceDir,
@@ -159,6 +177,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     modifyMiniConfigs,
     modifyBuildAssets,
     onCompilerMake,
+    onParseCreateElement,
     minifyXML,
     runtimePath,
     blended,

@@ -16,80 +16,6 @@ interface IProcessApisIOptions {
   [propName: string]: any
 }
 
-const noPromiseApis = new Set<string>([
-  'clearStorageSync',
-  'getBatteryInfoSync',
-  'getExtConfigSync',
-  'getFileSystemManager',
-  'getLaunchOptionsSync',
-  'getStorageInfoSync',
-  'getStorageSync',
-  'getSystemInfoSync',
-  'offAccelerometerChange',
-  'offAppHide',
-  'offAppShow',
-  'offAudioInterruptionBegin',
-  'offAudioInterruptionEnd',
-  'offBLECharacteristicValueChange',
-  'offBLEConnectionStateChange',
-  'offBluetoothAdapterStateChange',
-  'offBluetoothDeviceFound',
-  'offCompassChange',
-  'offError',
-  'offGetWifiList',
-  'offGyroscopeChange',
-  'offMemoryWarning',
-  'offNetworkStatusChange',
-  'offPageNotFound',
-  'offUnhandledRejection',
-  'offUserCaptureScreen',
-  'onAccelerometerChange',
-  'onAppHide',
-  'onAppShow',
-  'onAudioInterruptionBegin',
-  'onAudioInterruptionEnd',
-  'onBLECharacteristicValueChange',
-  'onBLEConnectionStateChange',
-  'onBeaconServiceChange',
-  'onBeaconUpdate',
-  'onBluetoothAdapterStateChange',
-  'onBluetoothDeviceFound',
-  'onCompassChange',
-  'onDeviceMotionChange',
-  'onError',
-  'onGetWifiList',
-  'onGyroscopeChange',
-  'onMemoryWarning',
-  'onNetworkStatusChange',
-  'onPageNotFound',
-  'onSocketClose',
-  'onSocketError',
-  'onSocketMessage',
-  'onSocketOpen',
-  'onUnhandledRejection',
-  'onUserCaptureScreen',
-  'removeStorageSync',
-  'reportAnalytics',
-  'setStorageSync',
-  'arrayBufferToBase64',
-  'base64ToArrayBuffer',
-  'canIUse',
-  'createAnimation',
-  'createCameraContext',
-  'createCanvasContext',
-  'createInnerAudioContext',
-  'createIntersectionObserver',
-  'createInterstitialAd',
-  'createLivePlayerContext',
-  'createMapContext',
-  'createSelectorQuery',
-  'createVideoContext',
-  'getBackgroundAudioManager',
-  'getMenuButtonBoundingClientRect',
-  'getRecorderManager',
-  'getUpdateManager'
-])
-
 const needPromiseApis = new Set<string>([
   'addPhoneContact',
   'authorize',
@@ -266,11 +192,22 @@ function getNormalRequest (global) {
 }
 
 function processApis (taro, global, config: IProcessApisIOptions = {}) {
-  const patchNoPromiseApis = config.noPromiseApis || []
   const patchNeedPromiseApis = config.needPromiseApis || []
-  const _noPromiseApis = new Set<string>([...patchNoPromiseApis, ...noPromiseApis])
   const _needPromiseApis = new Set<string>([...patchNeedPromiseApis, ...needPromiseApis])
-  const apis = [..._noPromiseApis, ..._needPromiseApis]
+  const preserved = [
+    'getEnv',
+    'interceptors',
+    'Current',
+    'getCurrentInstance',
+    'options',
+    'nextTick',
+    'eventCenter',
+    'Events',
+    'preload',
+    'webpackJsonp'
+  ]
+
+  const apis = Object.keys(global).filter(api => preserved.indexOf(api) === -1)
 
   apis.forEach(key => {
     if (_needPromiseApis.has(key)) {
@@ -350,12 +287,16 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
         taro[key] = unsupport(key)
         return
       }
-      taro[key] = (...args) => {
-        if (config.handleSyncApis) {
-          return config.handleSyncApis(key, global, args)
-        } else {
-          return global[key].apply(global, args)
+      if (typeof global[key] === 'function') {
+        taro[key] = (...args) => {
+          if (config.handleSyncApis) {
+            return config.handleSyncApis(key, global, args)
+          } else {
+            return global[key].apply(global, args)
+          }
         }
+      } else {
+        taro[key] = global[key]
       }
     }
   })
@@ -389,7 +330,7 @@ function equipCommonApis (taro, global, apis: Record<string, any> = {}) {
   taro.request = link.request.bind(link)
   taro.addInterceptor = link.addInterceptor.bind(link)
   taro.cleanInterceptors = link.cleanInterceptors.bind(link)
-  taro.miniGlobal = global
+  taro.miniGlobal = taro.options.miniGlobal = global
 }
 
 export {

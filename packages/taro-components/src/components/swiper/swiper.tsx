@@ -1,7 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Watch, Host, Element, State } from '@stencil/core'
-import SwiperJS from 'swiper'
+import SwiperJS from 'swiper/swiper-bundle.esm.js'
 import classNames from 'classnames'
+
+import type ISwiper from 'swiper'
 
 let INSTANCE_ID = 0
 
@@ -16,7 +18,7 @@ export class Swiper implements ComponentInterface {
 
   @Element() el: HTMLElement
   @State() swiperWrapper: HTMLElement | null
-  @State() private swiper: SwiperJS
+  @State() private swiper: ISwiper
   @State() isWillLoadCalled = false
   /**
    * 是否显示面板指示点
@@ -79,7 +81,7 @@ export class Swiper implements ComponentInterface {
   @Prop() displayMultipleItems = 1
 
   /**
-   * 给 prewviewImage API 使用，全屏显示 swiper
+   * 给 previewImage API 使用，全屏显示 swiper
    */
   @Prop() full = false
 
@@ -114,10 +116,12 @@ export class Swiper implements ComponentInterface {
     if (this.swiper.autoplay.running === newVal) return
 
     if (newVal) {
-      if (this.swiper.params.autoplay.disableOnInteraction === true) {
-        this.swiper.params.autoplay.disableOnInteraction = false
+      if (typeof this.swiper.params.autoplay === 'object') {
+        if (this.swiper.params.autoplay.disableOnInteraction === true) {
+          this.swiper.params.autoplay.disableOnInteraction = false
+        }
+        this.swiper.params.autoplay.delay = this.interval
       }
-      this.swiper.params.autoplay.delay = this.interval
       this.swiper.autoplay.start()
     } else {
       this.swiper.autoplay.stop()
@@ -134,7 +138,9 @@ export class Swiper implements ComponentInterface {
   watchInterval (newVal) {
     if (!this.isWillLoadCalled) return
 
-    this.swiper.params.autoplay.delay = newVal
+    if (typeof this.swiper.params.autoplay === 'object') {
+      this.swiper.params.autoplay.delay = newVal
+    }
   }
 
   @Watch('swiperWrapper')
@@ -155,11 +161,37 @@ export class Swiper implements ComponentInterface {
     }
   }
 
+  @Watch("circular")
+  watchCircular () {
+    if (this.swiper) {
+      this.swiper.destroy()
+      this.handleInit()
+    }
+  }
+
   componentWillLoad () {
     this.isWillLoadCalled = true
   }
 
   componentDidLoad () {
+    this.handleInit()
+  }
+
+  componentWillUpdate () {
+    if (this.autoplay && !this.swiper.autoplay.running) {
+      this.swiper.autoplay.start()
+    }
+    this.swiper.update() // 更新子元素
+  }
+
+  componentDidRender () {
+    if (this.swiper && this.circular) {
+      ;(this.swiper as any).loopDestroy()
+      ;(this.swiper as any).loopCreate()
+    }
+  }
+
+  handleInit () {
     const {
       autoplay,
       current,
@@ -199,12 +231,14 @@ export class Swiper implements ComponentInterface {
             source: ''
           })
         },
-        observerUpdate (e) {
-          if (e.target && e.target.className === 'taro_page' && e.target.style.display === 'block') {
-            if (that.autoplay && e.target.contains(this.$el[0])) {
+        observerUpdate (_swiper, e) {
+          const target = e.target
+          const className = target && typeof target.className === 'string' ? target.className : ''
+          if (className.includes('taro_page') && target.style.display === 'block') {
+            if (that.autoplay && target.contains(this.$el[0])) {
               this.slideTo(that.current)
             }
-          } else if (e.target && e.target.className === 'swiper-wrapper') {
+          } else if (className.includes('swiper-wrapper')) {
             if (e.addedNodes.length > 0 || e.removedNodes.length > 0) {
               this.loopDestroy()
               this.loopCreate()
@@ -224,14 +258,6 @@ export class Swiper implements ComponentInterface {
 
     this.swiper = new SwiperJS(`.taro-swiper-${this._id} > .swiper-container`, options)
     this.swiperWrapper = this.el.querySelector(`.taro-swiper-${this._id} > .swiper-container > .swiper-wrapper`)
-  }
-
-  componentWillUpdate () {
-    if (this.autoplay && !this.swiper.autoplay.paused) {
-      this.swiper.autoplay.run()
-      this.swiper.autoplay.paused = false
-    }
-    this.swiper.update() // 更新子元素
   }
 
   render () {
