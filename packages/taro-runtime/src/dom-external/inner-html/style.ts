@@ -1,6 +1,8 @@
-import { TaroNode } from '../node'
-import { NodeType } from '../node_types'
-import { unquote, ParsedTaroElement } from './parser'
+import { NodeType } from '../../dom/node_types'
+import { unquote } from './utils'
+
+import type { TaroNode } from '../../dom/node'
+import type { ParsedTaroElement } from './parser'
 
 const LEFT_BRACKET = '{'
 const RIGHT_BRACKET = '}'
@@ -122,8 +124,7 @@ export default class StyleTagParser {
   }
 
   matchStyle (tagName: string, el: ParsedTaroElement, list: number[]): string {
-    // todo: 这里应该要比较选择器权重
-    const res = this.styles.reduce((str, { content, selectorList }, i) => {
+    const res = sortStyles(this.styles).reduce((str, { content, selectorList }, i) => {
       let idx = list[i]
       let selector = selectorList[idx]
       const nextSelector = selectorList[idx + 1]
@@ -229,4 +230,38 @@ function getPreviousElement (el: TaroNode) {
   } else {
     return getPreviousElement(prev)
   }
+}
+
+// 根据 css selector 权重排序: 权重大的靠后
+// @WARN 不考虑伪类
+// https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Cascade_and_inheritance#specificity_2
+function sortStyles (styles: IStyle[]) {
+  return styles.sort((s1, s2) => {
+    const hundreds1 = getHundredsWeight(s1.selectorList)
+    const hundreds2 = getHundredsWeight(s2.selectorList)
+
+    if (hundreds1 !== hundreds2) return hundreds1 - hundreds2
+
+    const tens1 = getTensWeight(s1.selectorList)
+    const tens2 = getTensWeight(s2.selectorList)
+
+    if (tens1 !== tens2) return tens1 - tens2
+
+    const ones1 = getOnesWeight(s1.selectorList)
+    const ones2 = getOnesWeight(s2.selectorList)
+
+    return ones1 - ones2
+  })
+}
+
+function getHundredsWeight (selectors: ISelector[]) {
+  return selectors.reduce((pre, cur) => pre + (cur.id ? 1 : 0), 0)
+}
+
+function getTensWeight (selectors: ISelector[]) {
+  return selectors.reduce((pre, cur) => pre + cur.class.length + cur.attrs.length, 0)
+}
+
+function getOnesWeight (selectors: ISelector[]) {
+  return selectors.reduce((pre, cur) => pre + (cur.tag ? 1 : 0), 0)
 }

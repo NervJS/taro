@@ -1,4 +1,4 @@
-import { UnRecursiveTemplate } from '@tarojs/shared';
+import { UnRecursiveTemplate } from '@tarojs/shared/dist/template';
 export declare class Template extends UnRecursiveTemplate {
     supportXS: boolean;
     Adapter: {
@@ -11,5 +11,5 @@ export declare class Template extends UnRecursiveTemplate {
         key: string;
         type: string;
     };
-    replacePropName(name: any, value: any): any;
+    replacePropName(name: any, value: any, componentName: any): any;
 }

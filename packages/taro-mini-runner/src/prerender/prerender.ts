@@ -8,7 +8,7 @@ import { join } from 'path'
 import { IBuildConfig } from '../utils/types'
 import { printPrerenderSuccess, printPrerenderFail } from '../utils/logHelper'
 
-import type { IAdapter } from '@tarojs/shared'
+import type { IAdapter } from '@tarojs/shared/dist/template'
 
 type Attributes = Record<string, string>
 

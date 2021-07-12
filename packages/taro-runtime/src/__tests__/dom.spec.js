@@ -151,21 +151,21 @@ describe('DOM', () => {
 
   describe('text', () => {
     it('nodeValue', () => {
-      const t = new runtime.TaroText('t1')
+      const t = document.createTextNode('t1')
       expect(t.nodeValue).toBe('t1')
       t.textContent = 't2'
       expect(t.nodeValue).toBe('t2')
     })
 
     it('textContext', () => {
-      const t = new runtime.TaroText('t1')
+      const t = document.createTextNode('t1')
       expect(t.textContent).toBe('t1')
       t.nodeValue = 't2'
       expect(t.textContent).toBe('t2')
     })
 
     it('nodeType', () => {
-      const t = new runtime.TaroText('t1')
+      const t = document.createTextNode('t1')
       expect(t.nodeType).toBe(3)
     })
   })

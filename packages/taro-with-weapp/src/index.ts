@@ -108,7 +108,7 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
 
       private eventDistoryList: Func[] = []
 
-      private current = getCurrentInstance()
+      private current: any = getCurrentInstance()
 
       public observers?: Record<string, Func>
 

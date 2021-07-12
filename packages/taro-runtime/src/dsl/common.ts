@@ -1,41 +1,41 @@
 /* eslint-disable dot-notation */
-import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray, warn } from '@tarojs/shared'
+import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray } from '@tarojs/shared'
+import container from '../container'
+import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { eventHandler } from '../dom/event'
 import { Current } from '../current'
 import { document } from '../bom/document'
-import { TaroRootElement } from '../dom/root'
-import { MpInstance } from '../hydrate'
-import { Instance, PageInstance, PageProps } from './instance'
 import { incrementId } from '../utils'
 import { perf } from '../perf'
 import { PAGE_INIT } from '../constants'
 import { isBrowser } from '../env'
 import { eventCenter } from '../emitter/emitter'
 import { raf } from '../bom/raf'
-import { CurrentReconciler } from '../reconciler'
 
 import type { PageConfig } from '@tarojs/taro'
-import type { Func } from '../utils/types'
+import type { Instance, PageInstance, PageProps } from './instance'
+import type { Func, IHooks, MpInstance } from '../interface'
+import type { TaroRootElement } from '../dom/root'
 
 const instances = new Map<string, Instance>()
+const pageId = incrementId()
+const hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
 
 export function injectPageInstance (inst: Instance<PageProps>, id: string) {
-  CurrentReconciler.mergePageInstance?.(instances.get(id), inst)
+  hooks.mergePageInstance?.(instances.get(id), inst)
   instances.set(id, inst)
 }
 
-export function getPageInstance (id: string) {
+export function getPageInstance (id: string): Instance | undefined {
   return instances.get(id)
 }
 
-export function addLeadingSlash (path?: string) {
+export function addLeadingSlash (path?: string): string {
   if (path == null) {
     return ''
   }
   return path.charAt(0) === '/' ? path : '/' + path
 }
-
-const pageId = incrementId()
 
 export function safeExecute (path: string, lifecycle: keyof PageInstance, ...args: unknown[]) {
   const instance = instances.get(path)
@@ -44,7 +44,7 @@ export function safeExecute (path: string, lifecycle: keyof PageInstance, ...arg
     return
   }
 
-  const func = CurrentReconciler.getLifecyle(instance, lifecycle)
+  const func = hooks.getLifecycle(instance, lifecycle)
 
   if (isArray(func)) {
     const res = func.map(fn => fn.apply(instance, args))
@@ -314,14 +314,6 @@ export function createRecursiveComponentConfig (componentName?: string) {
       l: {
         type: String,
         value: ''
-      }
-    },
-    observers: {
-      i (val: Record<string, unknown>) {
-        warn(
-          val[Shortcuts.NodeName] === '#text',
-          `请在此元素外再套一层非 Text 元素：<text>${val[Shortcuts.Text]}</text>，详情：https://github.com/NervJS/taro/issues/6054`
-        )
       }
     },
     options: {

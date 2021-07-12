@@ -1,9 +1,11 @@
 import 'weui'
 import React from 'react'
 import classNames from 'classnames'
-import Swipers from 'swiper'
+import Swipers from 'swiper/swiper-bundle.esm.js'
 
-import 'swiper/dist/css/swiper.min.css'
+import type ISwiper from 'swiper'
+
+import 'swiper/swiper-bundle.min.css'
 import './style/index.css'
 
 let INSTANCE_ID = 0
@@ -67,7 +69,7 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
   _$width = 0
   _$height = 0
   $el: HTMLDivElement | null
-  mySwiper: any
+  mySwiper: ISwiper
 
   componentDidMount () {
     const {
@@ -123,7 +125,7 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
           } catch (err) {}
           that.handleOnAnimationFinish(e)
         },
-        observerUpdate: (e) => {
+        observerUpdate: (_swiper, e) => {
           if (e.target && e.target.className === 'taro_page' && e.target.style.display === 'block' && e.target.contains(this.$el)) {
             if (this.props.autoplay) {
               setTimeout(() => {
@@ -139,7 +141,6 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
     if (autoplay) {
       opt.autoplay = {
         delay: parseInt(String(interval), 10),
-        stopOnLastSlide: true,
         disableOnInteraction: false
       }
     }
@@ -149,7 +150,7 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
       opt.spaceBetween = spaceBetween
     }
 
-    this.mySwiper = new Swipers(this.$el, opt)
+    this.mySwiper = new Swipers(this.$el!, opt)
     setTimeout(() => {
       this.mySwiper.update()
     }, 500)
@@ -159,8 +160,8 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
     if (this.mySwiper) {
       const nextCurrent = typeof nextProps.current === 'number' ? nextProps.current : this._$current || 0
 
-      this.mySwiper.loopDestroy()
-      this.mySwiper.loopCreate()
+      ;(this.mySwiper as any).loopDestroy()
+      ;(this.mySwiper as any).loopCreate()
       // 是否衔接滚动模式
       if (nextProps.circular) {
         if (!this.mySwiper.isBeginning && !this.mySwiper.isEnd) {
@@ -174,14 +175,14 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
       // 判断是否需要停止或开始自动轮播
       if (autoplay.running !== nextProps.autoplay) {
         if (nextProps.autoplay) {
+          if (typeof this.mySwiper.params.autoplay === 'object') {
+            this.mySwiper.params.autoplay.disableOnInteraction = false
+            this.mySwiper.params.autoplay.delay = parseInt(String(this.props.interval) || '3000', 10)
+          }
           autoplay.start()
         } else {
           autoplay.stop()
         }
-      }
-      if (nextProps.autoplay && !autoplay.paused) {
-        autoplay.run()
-        autoplay.paused = false
       }
 
       this.mySwiper.update() // 更新子元素
@@ -190,13 +191,13 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
 
   componentDidUpdate (preProps) {
     if (preProps.children.length === 0 && (this.props.children as any).length > 0) {
-      this.mySwiper.loopDestroy()
-      this.mySwiper.loopCreate()
+      (this.mySwiper as any).loopDestroy()
+      ;(this.mySwiper as any).loopCreate()
     }
     if (!this.mySwiper) return
     if (this.props.autoplay) {
       if (this._$width !== this.mySwiper.width || this._$height !== this.mySwiper.height) {
-        this.mySwiper.autoplay.run()
+        this.mySwiper.autoplay.start()
       }
     }
     this._$width = this.mySwiper.width
