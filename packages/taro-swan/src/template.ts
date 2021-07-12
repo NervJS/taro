@@ -71,10 +71,4 @@ export class Template extends RecursiveTemplate {
     }
     return res
   }
-
-  buildXSTmpExtra() {
-    return `f: function (s) {
-    return s[0] === '_' ? s.slice(1) : s
-  }`
-  }
 }
