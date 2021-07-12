@@ -13,12 +13,9 @@ export class Template extends UnRecursiveTemplate {
     type: 'jd'
   }
 
-  replacePropName (name, value, componentName) {
-    if (value === 'eh') {
-      const nameLowerCase = name.toLowerCase()
-      if (nameLowerCase === 'bindlongtap' && componentName !== 'canvas') return 'bindlongpress'
-      return nameLowerCase
-    }
+  replacePropName (name, value) {
+    if (name === 'bingdlongtap') return 'bindlongpress'
+    if (value === 'eh') return name.toLowerCase()
     return name
   }
 }
