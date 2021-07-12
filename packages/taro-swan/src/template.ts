@@ -52,15 +52,10 @@ export class Template extends RecursiveTemplate {
     }
 
     if (nodeName === 'video') {
-      const adComponent = this.miniComponents['ad']
-
-      function getAttrValue(value: string, _key: string, _nodeName: string) {
-        value = value.replace('i.', 'item.')
-        return `{${value}}`
-      }
+      const adComponent = this.miniComponents.ad
 
       const attributesStr = Object.keys(adComponent)
-        .map(k => `${k}="${k.startsWith('bind') || k.startsWith('on') || k.startsWith('catch') ? adComponent[k] : `{${getAttrValue(adComponent[k], k, nodeName)}}`}" `)
+        .map(k => `${k}="${k.startsWith('bind') || k.startsWith('on') || k.startsWith('catch') ? adComponent[k] : `{{${adComponent[k].replace('i.', 'item.')}}}`}" `)
         .join('')
       return `<ad s-if={{item.nn==='ad'}} ${attributesStr} id="{{item.uid}}"></ad>
           <template s-if={{item.nn!='ad'}} is="{{xs.e(0)}}" data="{{{ i:item }}}" />`
@@ -77,7 +72,7 @@ export class Template extends RecursiveTemplate {
     return res
   }
 
-  buildXSTmpExtra () {
+  buildXSTmpExtra() {
     return `f: function (s) {
     return s[0] === '_' ? s.slice(1) : s
   }`
