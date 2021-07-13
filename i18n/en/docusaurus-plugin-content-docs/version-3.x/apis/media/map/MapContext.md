@@ -683,13 +683,13 @@ The callback function for a successful API call
     <tr>
       <td>points</td>
       <td><code>MapPostion[]</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
       <td>List of coordinate points to be displayed in the visible area</td>
     </tr>
     <tr>
       <td>padding</td>
       <td><code>number[]</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td style={{ textAlign: "center"}}>No</td>
       <td>Distance between the edge of the rectangle formed by coordinate points and the edge of the map (in pixel). The format is [top, right, bottom, left]. Only the first item of the array can be identified on Android. The padding is consistent for top, bottom, left, and right. Padding parameters are currently not supported on developer tools.</td>
     </tr>
     <tr>

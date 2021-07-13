@@ -30,7 +30,7 @@ Closes all pages and opens a page in the app.
     <tr>
       <td>url</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
       <td>Path to a page to be navigated to in the app. Parameters can be appended after the path. You can use "?" to separate the path from parameters, "=" to connect a parameter key and a parameter value, and "&" to separate different parameters. For example, 'path?key=value&key2=value2'.
       </td>
     </tr>

@@ -36,7 +36,7 @@ For example, when the parent component's setData triggers the triggerEvent of th
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 this.setData({ number: 1 }) // Executes directly in the current synchronous process.
