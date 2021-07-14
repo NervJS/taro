@@ -751,14 +751,22 @@ taro build --type rn --platform android
 
 通过修改配置 `./config/index.js` 指定资源输出目录，如
 
-```json
+```js
+{
   rn: {
     output: {
+      iosSourceMapUrl: '', // sourcemap 文件url
+      iosSourcemapOutput: '../taro-native-shell/ios/main.map', // sourcemap 文件输出路径
+      iosSourcemapSourcesRoot: '', // 将 sourcemap 资源路径转为相对路径时的根目录
+      androidSourceMapUrl: '',
+      androidSourcemapOutput: '../taro-native-shell/android/app/src/main/assets/index.android.map',
+      androidSourcemapSourcesRoot: '',
       ios: '../taro-native-shell/ios/main.jsbundle',
       iosAssetsDest: '../taro-native-shell/ios',
       android: '../taro-native-shell/android/app/src/main/assets/index.android.bundle',
       androidAssetsDest: '../taro-native-shell/android/app/src/main/res'
     },
+  }
 }
 ```
 
@@ -823,7 +831,7 @@ React Native 不支持路径中带 @ 符号，具体可以查看 [#14980](https:
 ### The development server returned response error code 500
 
 ![image](https://user-images.githubusercontent.com/25324938/41452372-42c1e766-708f-11e8-96ce-323eaa1eb03f.jpeg)
-多半是依赖的问题，进入 `.rn_temp/` 目录，然后删除 npm 依赖，在重新安装就可以了。
+多半是依赖的问题，删除 npm 依赖，再重新安装就可以了。
 也可以试一下以下命令：
 
 ```shell
