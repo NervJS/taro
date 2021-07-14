@@ -16,7 +16,8 @@ module.exports = {
           'react-overall',
           'react-entry',
           'react-page',
-          'hooks'
+          'hooks',
+          'react-devtools'
         ],
       },
       {

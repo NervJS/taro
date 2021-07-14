@@ -94,6 +94,10 @@
             {
               "type": "doc",
               "id": "version-3.x/hooks"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/react-devtools"
             }
           ]
         },
