@@ -187,6 +187,7 @@ class _Video extends Component<Props, any> {
         enumerable: true,
         value: { errMsg: e },
       })
+      // @ts-ignore
       this.props.onError(error)
     }
   };
