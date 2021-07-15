@@ -9,17 +9,6 @@ import {
 
 declare const my: any
 
-export {
-  initNativeApi,
-  handleSyncApis,
-  transformMeta,
-  modifyAsyncResult,
-  request
-}
-export * from './components'
-export * from './apis-list'
-
-// 见 https://opendocs.alipay.com/mini/framework/events
 const BUBBLE_EVENTS = new Set([
   'touchStart',
   'touchMove',
@@ -29,21 +18,29 @@ const BUBBLE_EVENTS = new Set([
   'longTap'
 ])
 
+export {
+  initNativeApi,
+  handleSyncApis,
+  transformMeta,
+  modifyAsyncResult,
+  request
+}
+export * from './components'
+export * from './apis-list'
 export const hostConfig = {
   initNativeApi,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  isBubbleEvent (eventName: string, tagName: string) {
-    return BUBBLE_EVENTS.has(eventName)
-  },
   getEventCenter (Events) {
     if (!my.taroEventCenter) {
       my.taroEventCenter = new Events()
     }
     return my.taroEventCenter
   },
-  modifyDispatchEvent (event, tagName) {
-    if (tagName === 'SWIPER' && event.type === 'animationend') {
+  modifyTaroEvent (event, node) {
+    if (node.tagName === 'SWIPER' && event.type === 'animationend') {
       event.type = 'animationfinish'
     }
+  },
+  isBubbleEvents (eventName) {
+    return BUBBLE_EVENTS.has(eventName)
   }
 }

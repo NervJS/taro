@@ -97,8 +97,7 @@ describe('findDOMNode', () => {
 
   it('findDOMNode should not throw an error when called within a component that is not mounted', () => {
     class Bar extends React.Component {
-      // eslint-disable-next-line react/no-deprecated
-      componentWillMount () {
+      UNSAFE_componentWillMount () {
         expect(findDOMNode(this)).toBeNull()
       }
 

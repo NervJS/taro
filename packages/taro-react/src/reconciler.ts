@@ -6,8 +6,6 @@ import { noop, EMPTY_ARR } from '@tarojs/shared'
 import { Props, updateProps } from './props'
 
 const {
-  unstable_scheduleCallback: scheduleDeferredCallback,
-  unstable_cancelCallback: cancelDeferredCallback,
   unstable_now: now
 } = scheduler
 
@@ -21,6 +19,7 @@ const hostConfig: HostConfig<
   TaroElement, // Container
   TaroElement, // Instance
   TaroText, // TextInstance
+  TaroElement, // SuspenseInstance
   TaroElement, // HydratableInstance
   TaroElement, // PublicInstance
   Record<string, any>, // HostContext
@@ -110,16 +109,31 @@ const hostConfig: HostConfig<
     instance.style['display'] = display
   },
 
+  clearContainer (element) {
+    if (element.childNodes.length > 0) {
+      element.textContent = ''
+    }
+  },
+
+  queueMicrotask: typeof Promise !== 'undefined'
+  ? callback =>
+      Promise.resolve(null)
+        .then(callback)
+        .catch(function (error) {
+          setTimeout(() => {
+            throw error
+          })
+        })
+  : setTimeout,
+
   shouldSetTextContent: returnFalse,
-  shouldDeprioritizeSubtree: returnFalse,
-  prepareForCommit: noop,
+  prepareForCommit (..._: any[]) { return null },
   resetAfterCommit: noop,
   commitMount: noop,
   now,
-  scheduleDeferredCallback,
-  cancelDeferredCallback,
-  clearTimeout: clearTimeout,
-  setTimeout: setTimeout,
+  cancelTimeout: clearTimeout,
+  scheduleTimeout: setTimeout,
+  preparePortalMount: noop,
   noTimeout: -1,
   supportsMutation: true,
   supportsPersistence: false,

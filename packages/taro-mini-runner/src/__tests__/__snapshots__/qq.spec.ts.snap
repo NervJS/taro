@@ -14,8 +14,8 @@ require(\\"./vendors\\");
 require(\\"./taro\\");
 
 (qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    13: function(module, exports, __webpack_require__) {},
-    20: function(module, __webpack_exports__, __webpack_require__) {
+    12: function(module, exports, __webpack_require__) {},
+    19: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         function _arrayLikeToArray(arr, len) {
@@ -44,89 +44,6 @@ require(\\"./taro\\");
         }
         function _toConsumableArray(arr) {
             return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-        }
-        function _setPrototypeOf(o, p) {
-            _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-                o.__proto__ = p;
-                return o;
-            };
-            return _setPrototypeOf(o, p);
-        }
-        function _inherits(subClass, superClass) {
-            if (typeof superClass !== \\"function\\" && superClass !== null) {
-                throw new TypeError(\\"Super expression must either be null or a function\\");
-            }
-            subClass.prototype = Object.create(superClass && superClass.prototype, {
-                constructor: {
-                    value: subClass,
-                    writable: true,
-                    configurable: true
-                }
-            });
-            if (superClass) _setPrototypeOf(subClass, superClass);
-        }
-        function _getPrototypeOf(o) {
-            _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-                return o.__proto__ || Object.getPrototypeOf(o);
-            };
-            return _getPrototypeOf(o);
-        }
-        function _isNativeReflectConstruct() {
-            if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
-            if (Reflect.construct.sham) return false;
-            if (typeof Proxy === \\"function\\") return true;
-            try {
-                Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-                return true;
-            } catch (e) {
-                return false;
-            }
-        }
-        var helpers_typeof = __webpack_require__(9);
-        var typeof_default = __webpack_require__.n(helpers_typeof);
-        function _assertThisInitialized(self) {
-            if (self === void 0) {
-                throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
-            }
-            return self;
-        }
-        function _possibleConstructorReturn(self, call) {
-            if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
-                return call;
-            }
-            return _assertThisInitialized(self);
-        }
-        function _createSuper(Derived) {
-            var hasNativeReflectConstruct = _isNativeReflectConstruct();
-            return function _createSuperInternal() {
-                var Super = _getPrototypeOf(Derived), result;
-                if (hasNativeReflectConstruct) {
-                    var NewTarget = _getPrototypeOf(this).constructor;
-                    result = Reflect.construct(Super, arguments, NewTarget);
-                } else {
-                    result = Super.apply(this, arguments);
-                }
-                return _possibleConstructorReturn(this, result);
-            };
-        }
-        function _classCallCheck(instance, Constructor) {
-            if (!(instance instanceof Constructor)) {
-                throw new TypeError(\\"Cannot call a class as a function\\");
-            }
-        }
-        function _defineProperties(target, props) {
-            for (var i = 0; i < props.length; i++) {
-                var descriptor = props[i];
-                descriptor.enumerable = descriptor.enumerable || false;
-                descriptor.configurable = true;
-                if (\\"value\\" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, descriptor.key, descriptor);
-            }
-        }
-        function _createClass(Constructor, protoProps, staticProps) {
-            if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-            if (staticProps) _defineProperties(Constructor, staticProps);
-            return Constructor;
         }
         function _typeof(obj) {
             \\"@babel/helpers - typeof\\";
@@ -595,15 +512,10 @@ require(\\"./taro\\");
         var focusComponents = new Set([ \\"input\\", \\"textarea\\" ]);
         var voidElements = new Set([ \\"progress\\", \\"icon\\", \\"rich-text\\", \\"input\\", \\"textarea\\", \\"slider\\", \\"switch\\", \\"audio\\", \\"ad\\", \\"official-account\\", \\"open-data\\", \\"navigation-bar\\" ]);
         var nestElements = new Map([ [ \\"view\\", -1 ], [ \\"catch-view\\", -1 ], [ \\"cover-view\\", -1 ], [ \\"static-view\\", -1 ], [ \\"pure-view\\", -1 ], [ \\"block\\", -1 ], [ \\"text\\", -1 ], [ \\"static-text\\", 6 ], [ \\"slot\\", 8 ], [ \\"slot-view\\", 8 ], [ \\"label\\", 6 ], [ \\"form\\", 4 ], [ \\"scroll-view\\", 4 ], [ \\"swiper\\", 4 ], [ \\"swiper-item\\", 4 ] ]);
-        var BUBBLE_EVENTS = new Set([ \\"touchstart\\", \\"touchmove\\", \\"touchcancel\\", \\"touchend\\", \\"touchforcechange\\", \\"tap\\", \\"longpress\\", \\"longtap\\", \\"transitionend\\", \\"animationstart\\", \\"animationiteration\\", \\"animationend\\" ]);
         var EMPTY_OBJ = {};
         var EMPTY_ARR = [];
         var noop = function noop() {};
-        var defaultReconciler = {
-            isBubbleEvent: function isBubbleEvent(eventName) {
-                return BUBBLE_EVENTS.has(eventName);
-            }
-        };
+        var defaultReconciler = Object.create(null);
         var box = function box(v) {
             return {
                 v: v
@@ -703,7 +615,19 @@ require(\\"./taro\\");
             }));
         }
         function mergeReconciler(hostConfig) {
-            Object.assign(defaultReconciler, hostConfig);
+            Object.keys(hostConfig).forEach((function(key) {
+                var value = hostConfig[key];
+                var raw = defaultReconciler[key];
+                if (!raw) {
+                    defaultReconciler[key] = value;
+                } else {
+                    if (isArray(raw)) {
+                        defaultReconciler[key] = raw.push(value);
+                    } else {
+                        defaultReconciler[key] = [ raw, value ];
+                    }
+                }
+            }));
         }
         function unsupport(api) {
             return function() {
@@ -720,443 +644,6 @@ require(\\"./taro\\");
                 obj.url += (hasMark ? \\"&\\" : \\"?\\") + \\"\\".concat(routerParamsPrivateKey, \\"=\\").concat(cacheKey);
             }
         }
-        var weixinAdapter = {
-            if: \\"wx:if\\",
-            else: \\"wx:else\\",
-            elseif: \\"wx:elif\\",
-            for: \\"wx:for\\",
-            forItem: \\"wx:for-item\\",
-            forIndex: \\"wx:for-index\\",
-            key: \\"wx:key\\",
-            xs: \\"wxs\\",
-            type: \\"weapp\\"
-        };
-        var shared_esm_BaseTemplate = function() {
-            function BaseTemplate() {
-                var _this = this;
-                _classCallCheck(this, BaseTemplate);
-                this.exportExpr = \\"module.exports =\\";
-                this.supportXS = false;
-                this.Adapter = weixinAdapter;
-                this.internalComponents = internalComponents;
-                this.focusComponents = focusComponents;
-                this.voidElements = voidElements;
-                this.nestElements = nestElements;
-                this.buildPageTemplate = function(baseTempPath) {
-                    var template = '<import src=\\"'.concat(baseTempPath, '\\"/>\\\\n<template is=\\"taro_tmpl\\" data=\\"{{').concat(_this.dataKeymap(\\"root:root\\"), '}}\\" />');
-                    return template;
-                };
-                this.buildBaseComponentTemplate = function(ext) {
-                    var data = !_this.isSupportRecursive && _this.supportXS ? _this.dataKeymap(\\"i:i,l:l\\") : _this.dataKeymap(\\"i:i\\");
-                    return '<import src=\\"./base'.concat(ext, '\\" />\\\\n<template is=\\"tmpl_0_', \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
-                };
-                this.buildCustomComponentTemplate = function(ext) {
-                    var Adapter = _this.Adapter;
-                    var data = !_this.isSupportRecursive && _this.supportXS ? \\"\\".concat(_this.dataKeymap(\\"i:item,l:''\\")) : _this.dataKeymap(\\"i:item\\");
-                    return '<import src=\\"./base'.concat(ext, '\\" />\\\\n  <block ').concat(Adapter.for, '=\\"{{i.', \\"cn\\", '}}\\" ').concat(Adapter.key, '=\\"uid\\">\\\\n    <template is=\\"tmpl_0_container\\" data=\\"{{').concat(data, '}}\\" />\\\\n  </block>');
-                };
-                this.buildXScript = function() {
-                    return \\"\\".concat(_this.exportExpr, \\" {\\\\n  a: \\").concat(_this.buildXSTmplName(), \\",\\\\n  b: function (a, b) {\\\\n    return a === undefined ? b : a\\\\n  },\\\\n  c: function(i, prefix) {\\\\n    var s = i.focus !== undefined ? 'focus' : 'blur'\\\\n    return prefix + i.\\", \\"nn\\", \\" + '_' + s\\\\n  },\\\\n  d: function (i, v) {\\\\n    return i === undefined ? v : i\\\\n  },\\\\n  e: function (n) {\\\\n    return 'tmpl_' + n + '_\\", \\"container\\", \\"'\\\\n  },\\\\n  \\").concat(_this.buildXSTmpExtra(), \\"\\\\n}\\");
-                };
-            }
-            _createClass(BaseTemplate, [ {
-                key: \\"buildAttribute\\",
-                value: function buildAttribute(attrs, nodeName) {
-                    var _this2 = this;
-                    return Object.keys(attrs).map((function(k) {
-                        return \\"\\".concat(k, '=\\"').concat(k.startsWith(\\"bind\\") || k.startsWith(\\"on\\") || k.startsWith(\\"catch\\") ? attrs[k] : \\"{\\".concat(_this2.getAttrValue(attrs[k], k, nodeName), \\"}\\"), '\\" ');
-                    })).join(\\"\\");
-                }
-            }, {
-                key: \\"replacePropName\\",
-                value: function replacePropName(name, value, _componentName) {
-                    if (value === \\"eh\\") return name.toLowerCase();
-                    return name;
-                }
-            }, {
-                key: \\"createMiniComponents\\",
-                value: function createMiniComponents(components) {
-                    var _this3 = this;
-                    var result = Object.create(null);
-                    for (var key in components) {
-                        if (hasOwn(components, key)) {
-                            (function() {
-                                var component = components[key];
-                                var compName = toDashed(key);
-                                var newComp = Object.create(null);
-                                if (isFunction(_this3.modifyCompProps)) {
-                                    component = _this3.modifyCompProps(compName, component);
-                                }
-                                for (var prop in component) {
-                                    if (hasOwn(component, prop)) {
-                                        var propValue = component[prop];
-                                        if (prop.startsWith(\\"bind\\")) {
-                                            propValue = \\"eh\\";
-                                        } else if (propValue === \\"\\") {
-                                            propValue = \\"i.\\".concat(toCamelCase(prop));
-                                        } else if (isBooleanStringLiteral(propValue) || isNumber(+propValue)) {
-                                            propValue = _this3.supportXS ? \\"xs.b(i.\\".concat(toCamelCase(prop), \\",\\").concat(propValue, \\")\\") : \\"i.\\".concat(toCamelCase(prop), \\"===undefined?\\").concat(propValue, \\":i.\\").concat(toCamelCase(prop));
-                                        } else {
-                                            propValue = \\"i.\\".concat(toCamelCase(prop), \\"||\\").concat(propValue || singleQuote(\\"\\"));
-                                        }
-                                        prop = _this3.replacePropName(prop, propValue, compName);
-                                        newComp[prop] = propValue;
-                                    }
-                                }
-                                if (compName !== \\"block\\") {
-                                    Object.assign(newComp, styles, _this3.getEvents());
-                                }
-                                if (compName === \\"swiper-item\\") {
-                                    delete newComp.style;
-                                }
-                                if (compName === \\"view\\") {
-                                    var reg = /^(bind|on)(touchmove|TouchMove)$/;
-                                    var comp = Object.assign({}, newComp);
-                                    Object.keys(comp).forEach((function(originKey) {
-                                        if (!reg.test(originKey)) return;
-                                        var key = originKey.replace(reg, \\"catch$2\\");
-                                        comp[key] = comp[originKey];
-                                        delete comp[originKey];
-                                    }));
-                                    result[\\"catch-view\\"] = comp;
-                                }
-                                if (compName === \\"view\\" || compName === \\"text\\" || compName === \\"image\\") {
-                                    var _comp = {};
-                                    Object.keys(newComp).forEach((function(key) {
-                                        var value = newComp[key];
-                                        if (value !== \\"eh\\") _comp[key] = value;
-                                    }));
-                                    result[\\"static-\\".concat(compName)] = _comp;
-                                    if (compName === \\"view\\") {
-                                        result[\\"pure-view\\"] = {
-                                            style: _comp.style,
-                                            class: _comp.class
-                                        };
-                                    }
-                                }
-                                if (compName === \\"slot\\" || compName === \\"slot-view\\") {
-                                    result[compName] = {
-                                        slot: \\"i.name\\"
-                                    };
-                                } else {
-                                    result[compName] = newComp;
-                                }
-                            })();
-                        }
-                    }
-                    return result;
-                }
-            }, {
-                key: \\"buildBaseTemplate\\",
-                value: function buildBaseTemplate() {
-                    var Adapter = this.Adapter;
-                    var data = !this.isSupportRecursive && this.supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:''\\")) : this.dataKeymap(\\"i:item\\");
-                    return \\"\\".concat(this.buildXsTemplate(), '\\\\n<template name=\\"taro_tmpl\\">\\\\n  <block ').concat(Adapter.for, '=\\"{{root.cn}}\\" ').concat(Adapter.key, '=\\"uid\\">\\\\n    <template is=\\"tmpl_0_', \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />\\\\n  </block>\\\\n</template>\\\\n');
-                }
-            }, {
-                key: \\"buildThirdPartyAttr\\",
-                value: function buildThirdPartyAttr(attrs) {
-                    return Array.from(attrs).reduce((function(str, attr) {
-                        if (attr.startsWith(\\"@\\")) {
-                            var value = attr.slice(1);
-                            if (value.indexOf(\\"-\\") > -1) {
-                                value = \\":\\".concat(value);
-                            }
-                            return str + \\"bind\\".concat(value, '=\\"eh\\" ');
-                        } else if (attr.startsWith(\\"bind\\")) {
-                            return str + \\"\\".concat(attr, '=\\"eh\\" ');
-                        } else if (attr.startsWith(\\"on\\")) {
-                            var _value = toKebabCase(attr.slice(2));
-                            if (_value.indexOf(\\"-\\") > -1) {
-                                _value = \\":\\".concat(_value);
-                            }
-                            return str + \\"bind\\".concat(_value, '=\\"eh\\" ');
-                        }
-                        return str + \\"\\".concat(attr, '=\\"{{i.').concat(toCamelCase(attr), '}}\\" ');
-                    }), \\"\\");
-                }
-            }, {
-                key: \\"buildComponentTemplate\\",
-                value: function buildComponentTemplate(comp, level) {
-                    return this.focusComponents.has(comp.nodeName) ? this.buildFocusComponentTemplte(comp, level) : this.buildStandardComponentTemplate(comp, level);
-                }
-            }, {
-                key: \\"getChildren\\",
-                value: function getChildren(comp, level) {
-                    var isSupportRecursive = this.isSupportRecursive, Adapter = this.Adapter, supportXS = this.supportXS;
-                    var nextLevel = isSupportRecursive ? 0 : level + 1;
-                    var data = !this.isSupportRecursive && supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
-                    var child = supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
-                    if (isFunction(this.modifyLoopBody)) {
-                        child = this.modifyLoopBody(child, comp.nodeName);
-                    }
-                    var children = this.voidElements.has(comp.nodeName) ? \\"\\" : \\"\\\\n    <block \\".concat(Adapter.for, '=\\"{{i.', \\"cn\\", '}}\\" ').concat(Adapter.key, '=\\"uid\\">\\\\n      ').concat(child, \\"\\\\n    </block>\\\\n  \\");
-                    if (isFunction(this.modifyLoopContainer)) {
-                        children = this.modifyLoopContainer(children, comp.nodeName);
-                    }
-                    return children;
-                }
-            }, {
-                key: \\"buildFocusComponentTemplte\\",
-                value: function buildFocusComponentTemplte(comp, level) {
-                    var children = this.getChildren(comp, level);
-                    var attrs = Object.assign({}, comp.attributes);
-                    var templateName = this.supportXS ? \\"xs.c(i, 'tmpl_\\".concat(level, \\"_')\\") : \\"i.focus ? 'tmpl_\\".concat(level, \\"_\\").concat(comp.nodeName, \\"_focus' : 'tmpl_\\").concat(level, \\"_\\").concat(comp.nodeName, \\"_blur'\\");
-                    delete attrs.focus;
-                    var res = '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(comp.nodeName, '\\">\\\\n  <template is=\\"{{').concat(templateName, '}}\\" data=\\"{{').concat(this.dataKeymap(\\"i:i\\")).concat(children ? \\",cid:cid\\" : \\"\\", '}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_focus\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(comp.attributes, comp.nodeName), ' id=\\"{{i.uid}}\\">').concat(children, \\"</\\").concat(comp.nodeName, '>\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_blur\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(attrs, comp.nodeName), ' id=\\"{{i.uid}}\\">').concat(children, \\"</\\").concat(comp.nodeName, \\">\\\\n</template>\\\\n\\");
-                    if (isFunction(this.modifyTemplateResult)) {
-                        res = this.modifyTemplateResult(res, comp.nodeName, level, children);
-                    }
-                    return res;
-                }
-            }, {
-                key: \\"buildStandardComponentTemplate\\",
-                value: function buildStandardComponentTemplate(comp, level) {
-                    var children = this.getChildren(comp, level);
-                    var nodeName = \\"\\";
-                    switch (comp.nodeName) {
-                      case \\"slot\\":
-                      case \\"slot-view\\":
-                      case \\"catch-view\\":
-                      case \\"static-view\\":
-                      case \\"pure-view\\":
-                        nodeName = \\"view\\";
-                        break;
-
-                      case \\"static-text\\":
-                        nodeName = \\"text\\";
-                        break;
-
-                      case \\"static-image\\":
-                        nodeName = \\"image\\";
-                        break;
-
-                      default:
-                        nodeName = comp.nodeName;
-                        break;
-                    }
-                    var res = '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(comp.nodeName, '\\">\\\\n  <').concat(nodeName, \\" \\").concat(this.buildAttribute(comp.attributes, comp.nodeName), ' id=\\"{{i.uid}}\\">').concat(children, \\"</\\").concat(nodeName, \\">\\\\n</template>\\\\n\\");
-                    if (isFunction(this.modifyTemplateResult)) {
-                        res = this.modifyTemplateResult(res, comp.nodeName, level, children);
-                    }
-                    return res;
-                }
-            }, {
-                key: \\"buildPlainTextTemplate\\",
-                value: function buildPlainTextTemplate(level) {
-                    return '\\\\n<template name=\\"tmpl_'.concat(level, '_#text\\" data=\\"{{').concat(this.dataKeymap(\\"i:i\\"), '}}\\">\\\\n  <block>{{i.', \\"v\\", \\"}}</block>\\\\n</template>\\\\n\\");
-                }
-            }, {
-                key: \\"buildThirdPartyTemplate\\",
-                value: function buildThirdPartyTemplate(level, componentConfig) {
-                    var _this4 = this;
-                    var Adapter = this.Adapter, isSupportRecursive = this.isSupportRecursive, supportXS = this.supportXS, nestElements = this.nestElements;
-                    var nextLevel = isSupportRecursive ? 0 : level + 1;
-                    var template = \\"\\";
-                    var data = !isSupportRecursive && supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
-                    componentConfig.thirdPartyComponents.forEach((function(attrs, compName) {
-                        if (compName === \\"custom-wrapper\\") {
-                            template += '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(compName, '\\">\\\\n  <').concat(compName, ' i=\\"{{i}}\\" l=\\"{{l}}\\" id=\\"{{i.uid}}\\">\\\\n  </').concat(compName, \\">\\\\n</template>\\\\n  \\");
-                        } else {
-                            if (!isSupportRecursive && supportXS && nestElements.has(compName) && level + 1 > nestElements.get(compName)) return;
-                            var child = supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
-                            template += '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(compName, '\\">\\\\n  <').concat(compName, \\" \\").concat(_this4.buildThirdPartyAttr(attrs), ' id=\\"{{i.uid}}\\">\\\\n    <block ').concat(Adapter.for, '=\\"{{i.', \\"cn\\", '}}\\" ').concat(Adapter.key, '=\\"uid\\">\\\\n      ').concat(child, \\"\\\\n    </block>\\\\n  </\\").concat(compName, \\">\\\\n</template>\\\\n  \\");
-                        }
-                    }));
-                    return template;
-                }
-            }, {
-                key: \\"buildContainerTemplate\\",
-                value: function buildContainerTemplate(level) {
-                    var restart = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-                    var tmpl = \\"\\";
-                    if (restart) {
-                        tmpl = \\"<block \\".concat(this.Adapter.if, '=\\"{{i.nn === \\\\'#text\\\\'}}\\">\\\\n    <template is=\\"tmpl_0_#text\\" data=\\"{{i:i}}\\" />\\\\n  </block>\\\\n  <block ').concat(this.Adapter.else, \\">\\\\n    \\").concat(!this.isSupportRecursive && this.supportXS ? '<comp i=\\"{{i}}\\" l=\\"{{l}}\\" />' : '<comp i=\\"{{i}}\\" />', \\"\\\\n  </block>\\");
-                    } else {
-                        var xs = !this.isSupportRecursive ? \\"xs.a(\\".concat(level, \\", i.\\", \\"nn\\", \\", l)\\") : \\"xs.a(\\".concat(level, \\", i.\\", \\"nn\\", \\")\\");
-                        var data = !this.isSupportRecursive ? \\"\\".concat(this.dataKeymap(\\"i:i,cid:\\".concat(level, \\",l:xs.f(l,i.\\", \\"nn\\", \\")\\"))) : \\"\\".concat(this.dataKeymap(\\"i:i\\"));
-                        tmpl = this.supportXS ? '<template is=\\"{{'.concat(xs, '}}\\" data=\\"{{').concat(data, '}}\\" />') : \\"<template is=\\\\\\"{{'tmpl_\\".concat(level, \\"_' + i.\\", \\"nn\\", '}}\\" data=\\"{{').concat(this.dataKeymap(\\"i:i\\"), '}}\\" />');
-                    }
-                    return '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\", \\"container\\", '\\">\\\\n  ').concat(tmpl, \\"\\\\n</template>\\\\n\\");
-                }
-            }, {
-                key: \\"dataKeymap\\",
-                value: function dataKeymap(keymap) {
-                    return keymap;
-                }
-            }, {
-                key: \\"getEvents\\",
-                value: function getEvents() {
-                    return events;
-                }
-            }, {
-                key: \\"getAttrValue\\",
-                value: function getAttrValue(value, _key, _nodeName) {
-                    return \\"{\\".concat(value, \\"}\\");
-                }
-            }, {
-                key: \\"buildXsTemplate\\",
-                value: function buildXsTemplate() {
-                    return \\"\\";
-                }
-            }, {
-                key: \\"mergeComponents\\",
-                value: function mergeComponents(ctx, patch) {
-                    ctx.helper.recursiveMerge(this.internalComponents, patch);
-                }
-            }, {
-                key: \\"buildXSTmplName\\",
-                value: function buildXSTmplName() {
-                    return \\"function (l, n) {\\\\n    return 'tmpl_' + l + '_' + n\\\\n  }\\";
-                }
-            }, {
-                key: \\"buildXSTmpExtra\\",
-                value: function buildXSTmpExtra() {
-                    return \\"\\";
-                }
-            } ]);
-            return BaseTemplate;
-        }();
-        var shared_esm_RecursiveTemplate = function(_BaseTemplate) {
-            _inherits(RecursiveTemplate, _BaseTemplate);
-            var _super = _createSuper(RecursiveTemplate);
-            function RecursiveTemplate() {
-                var _this5;
-                _classCallCheck(this, RecursiveTemplate);
-                _this5 = _super.apply(this, arguments);
-                _this5.isSupportRecursive = true;
-                _this5.buildTemplate = function(componentConfig) {
-                    var template = _this5.buildBaseTemplate();
-                    if (!_this5.miniComponents) {
-                        _this5.miniComponents = _this5.createMiniComponents(_this5.internalComponents);
-                    }
-                    var ZERO_FLOOR = 0;
-                    var components = Object.keys(_this5.miniComponents).filter((function(c) {
-                        return componentConfig.includes.size && !componentConfig.includeAll ? componentConfig.includes.has(c) : true;
-                    }));
-                    template = components.reduce((function(current, nodeName) {
-                        var attributes = _this5.miniComponents[nodeName];
-                        return current + _this5.buildComponentTemplate({
-                            nodeName: nodeName,
-                            attributes: attributes
-                        }, ZERO_FLOOR);
-                    }), template);
-                    template += _this5.buildPlainTextTemplate(ZERO_FLOOR);
-                    template += _this5.buildThirdPartyTemplate(ZERO_FLOOR, componentConfig);
-                    template += _this5.buildContainerTemplate(ZERO_FLOOR);
-                    return template;
-                };
-                return _this5;
-            }
-            return RecursiveTemplate;
-        }(shared_esm_BaseTemplate);
-        var shared_esm_UnRecursiveTemplate = function(_BaseTemplate2) {
-            _inherits(UnRecursiveTemplate, _BaseTemplate2);
-            var _super2 = _createSuper(UnRecursiveTemplate);
-            function UnRecursiveTemplate() {
-                var _this6;
-                _classCallCheck(this, UnRecursiveTemplate);
-                _this6 = _super2.apply(this, arguments);
-                _this6.isSupportRecursive = false;
-                _this6._baseLevel = 16;
-                _this6.buildTemplate = function(componentConfig) {
-                    _this6.componentConfig = componentConfig;
-                    if (!_this6.miniComponents) {
-                        _this6.miniComponents = _this6.createMiniComponents(_this6.internalComponents);
-                    }
-                    var components = Object.keys(_this6.miniComponents).filter((function(c) {
-                        return componentConfig.includes.size && !componentConfig.includeAll ? componentConfig.includes.has(c) : true;
-                    }));
-                    var template = _this6.buildBaseTemplate();
-                    for (var i = 0; i < _this6.baseLevel; i++) {
-                        template += _this6.supportXS ? _this6.buildOptimizeFloor(i, components, _this6.baseLevel === i + 1) : _this6.buildFloor(i, components, _this6.baseLevel === i + 1);
-                    }
-                    return template;
-                };
-                return _this6;
-            }
-            _createClass(UnRecursiveTemplate, [ {
-                key: \\"baseLevel\\",
-                get: function get() {
-                    return this._baseLevel;
-                },
-                set: function set(lv) {
-                    this._baseLevel = lv;
-                }
-            }, {
-                key: \\"buildFloor\\",
-                value: function buildFloor(level, components) {
-                    var _this7 = this;
-                    var restart = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-                    if (restart) return this.buildContainerTemplate(level, restart);
-                    var template = components.reduce((function(current, nodeName) {
-                        var attributes = _this7.miniComponents[nodeName];
-                        return current + _this7.buildComponentTemplate({
-                            nodeName: nodeName,
-                            attributes: attributes
-                        }, level);
-                    }), \\"\\");
-                    template += this.buildPlainTextTemplate(level);
-                    template += this.buildThirdPartyTemplate(level, this.componentConfig);
-                    template += this.buildContainerTemplate(level, restart);
-                    return template;
-                }
-            }, {
-                key: \\"buildOptimizeFloor\\",
-                value: function buildOptimizeFloor(level, components) {
-                    var _this8 = this;
-                    var restart = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-                    if (restart) return this.buildContainerTemplate(level, restart);
-                    var template = components.reduce((function(current, nodeName) {
-                        if (level !== 0) {
-                            if (!_this8.nestElements.has(nodeName)) {
-                                return current;
-                            } else {
-                                var max = _this8.nestElements.get(nodeName);
-                                if (max > 0 && level >= max) {
-                                    return current;
-                                }
-                            }
-                        }
-                        var attributes = _this8.miniComponents[nodeName];
-                        return current + _this8.buildComponentTemplate({
-                            nodeName: nodeName,
-                            attributes: attributes
-                        }, level);
-                    }), \\"\\");
-                    if (level === 0) template += this.buildPlainTextTemplate(level);
-                    template += this.buildThirdPartyTemplate(level, this.componentConfig);
-                    template += this.buildContainerTemplate(level);
-                    return template;
-                }
-            }, {
-                key: \\"buildXSTmplName\\",
-                value: function buildXSTmplName() {
-                    var isLoopComps = [].concat(_toConsumableArray(Array.from(this.nestElements.keys())), _toConsumableArray(Array.from(this.componentConfig.thirdPartyComponents.keys())));
-                    var isLoopCompsSet = new Set(isLoopComps);
-                    var hasMaxComps = [];
-                    this.nestElements.forEach((function(max, comp) {
-                        if (max > 1) {
-                            hasMaxComps.push(comp);
-                        } else if (max === 1 && isLoopCompsSet.has(comp)) {
-                            isLoopCompsSet.delete(comp);
-                        }
-                    }));
-                    return \\"function (l, n, s) {\\\\n    var a = \\".concat(JSON.stringify(Array.from(isLoopCompsSet)), \\"\\\\n    var b = \\").concat(JSON.stringify(hasMaxComps), \\"\\\\n    if (a.indexOf(n) === -1) {\\\\n      l = 0\\\\n    }\\\\n    if (b.indexOf(n) > -1) {\\\\n      var u = s.split(',')\\\\n      var depth = 0\\\\n      for (var i = 0; i < u.length; i++) {\\\\n        if (u[i] === n) depth++\\\\n      }\\\\n      l = depth\\\\n    }\\\\n    return 'tmpl_' + l + '_' + n\\\\n  }\\");
-                }
-            }, {
-                key: \\"buildXSTmpExtra\\",
-                value: function buildXSTmpExtra() {
-                    var hasMaxComps = [];
-                    this.nestElements.forEach((function(max, comp) {
-                        if (max > 1) hasMaxComps.push(comp);
-                    }));
-                    return \\"f: function (l, n) {\\\\n    var b = \\".concat(JSON.stringify(hasMaxComps), \\"\\\\n    if (b.indexOf(n) > -1) {\\\\n      if (l) l += ','\\\\n      l += n\\\\n    }\\\\n    return l\\\\n  }\\");
-                }
-            } ]);
-            return UnRecursiveTemplate;
-        }(shared_esm_BaseTemplate);
-        var noPromiseApis = new Set([ \\"clearStorageSync\\", \\"getBatteryInfoSync\\", \\"getExtConfigSync\\", \\"getFileSystemManager\\", \\"getLaunchOptionsSync\\", \\"getStorageInfoSync\\", \\"getStorageSync\\", \\"getSystemInfoSync\\", \\"offAccelerometerChange\\", \\"offAppHide\\", \\"offAppShow\\", \\"offAudioInterruptionBegin\\", \\"offAudioInterruptionEnd\\", \\"offBLECharacteristicValueChange\\", \\"offBLEConnectionStateChange\\", \\"offBluetoothAdapterStateChange\\", \\"offBluetoothDeviceFound\\", \\"offCompassChange\\", \\"offError\\", \\"offGetWifiList\\", \\"offGyroscopeChange\\", \\"offMemoryWarning\\", \\"offNetworkStatusChange\\", \\"offPageNotFound\\", \\"offUnhandledRejection\\", \\"offUserCaptureScreen\\", \\"onAccelerometerChange\\", \\"onAppHide\\", \\"onAppShow\\", \\"onAudioInterruptionBegin\\", \\"onAudioInterruptionEnd\\", \\"onBLECharacteristicValueChange\\", \\"onBLEConnectionStateChange\\", \\"onBeaconServiceChange\\", \\"onBeaconUpdate\\", \\"onBluetoothAdapterStateChange\\", \\"onBluetoothDeviceFound\\", \\"onCompassChange\\", \\"onDeviceMotionChange\\", \\"onError\\", \\"onGetWifiList\\", \\"onGyroscopeChange\\", \\"onMemoryWarning\\", \\"onNetworkStatusChange\\", \\"onPageNotFound\\", \\"onSocketClose\\", \\"onSocketError\\", \\"onSocketMessage\\", \\"onSocketOpen\\", \\"onUnhandledRejection\\", \\"onUserCaptureScreen\\", \\"removeStorageSync\\", \\"reportAnalytics\\", \\"setStorageSync\\", \\"arrayBufferToBase64\\", \\"base64ToArrayBuffer\\", \\"canIUse\\", \\"createAnimation\\", \\"createCameraContext\\", \\"createCanvasContext\\", \\"createInnerAudioContext\\", \\"createIntersectionObserver\\", \\"createInterstitialAd\\", \\"createLivePlayerContext\\", \\"createMapContext\\", \\"createSelectorQuery\\", \\"createVideoContext\\", \\"getBackgroundAudioManager\\", \\"getMenuButtonBoundingClientRect\\", \\"getRecorderManager\\", \\"getUpdateManager\\" ]);
         var needPromiseApis = new Set([ \\"addPhoneContact\\", \\"authorize\\", \\"canvasGetImageData\\", \\"canvasPutImageData\\", \\"canvasToTempFilePath\\", \\"checkSession\\", \\"chooseAddress\\", \\"chooseImage\\", \\"chooseInvoiceTitle\\", \\"chooseLocation\\", \\"chooseVideo\\", \\"clearStorage\\", \\"closeBLEConnection\\", \\"closeBluetoothAdapter\\", \\"closeSocket\\", \\"compressImage\\", \\"connectSocket\\", \\"createBLEConnection\\", \\"downloadFile\\", \\"getAvailableAudioSources\\", \\"getBLEDeviceCharacteristics\\", \\"getBLEDeviceServices\\", \\"getBatteryInfo\\", \\"getBeacons\\", \\"getBluetoothAdapterState\\", \\"getBluetoothDevices\\", \\"getClipboardData\\", \\"getConnectedBluetoothDevices\\", \\"getConnectedWifi\\", \\"getExtConfig\\", \\"getFileInfo\\", \\"getImageInfo\\", \\"getLocation\\", \\"getNetworkType\\", \\"getSavedFileInfo\\", \\"getSavedFileList\\", \\"getScreenBrightness\\", \\"getSetting\\", \\"getStorage\\", \\"getStorageInfo\\", \\"getSystemInfo\\", \\"getUserInfo\\", \\"getWifiList\\", \\"hideHomeButton\\", \\"hideShareMenu\\", \\"hideTabBar\\", \\"hideTabBarRedDot\\", \\"loadFontFace\\", \\"login\\", \\"makePhoneCall\\", \\"navigateBack\\", \\"navigateBackMiniProgram\\", \\"navigateTo\\", \\"navigateToBookshelf\\", \\"navigateToMiniProgram\\", \\"notifyBLECharacteristicValueChange\\", \\"hideKeyboard\\", \\"hideLoading\\", \\"hideNavigationBarLoading\\", \\"hideToast\\", \\"openBluetoothAdapter\\", \\"openDocument\\", \\"openLocation\\", \\"openSetting\\", \\"pageScrollTo\\", \\"previewImage\\", \\"queryBookshelf\\", \\"reLaunch\\", \\"readBLECharacteristicValue\\", \\"redirectTo\\", \\"removeSavedFile\\", \\"removeStorage\\", \\"removeTabBarBadge\\", \\"requestSubscribeMessage\\", \\"saveFile\\", \\"saveImageToPhotosAlbum\\", \\"saveVideoToPhotosAlbum\\", \\"scanCode\\", \\"sendSocketMessage\\", \\"setBackgroundColor\\", \\"setBackgroundTextStyle\\", \\"setClipboardData\\", \\"setEnableDebug\\", \\"setInnerAudioOption\\", \\"setKeepScreenOn\\", \\"setNavigationBarColor\\", \\"setNavigationBarTitle\\", \\"setScreenBrightness\\", \\"setStorage\\", \\"setTabBarBadge\\", \\"setTabBarItem\\", \\"setTabBarStyle\\", \\"showActionSheet\\", \\"showFavoriteGuide\\", \\"showLoading\\", \\"showModal\\", \\"showShareMenu\\", \\"showTabBar\\", \\"showTabBarRedDot\\", \\"showToast\\", \\"startBeaconDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"startDeviceMotionListening\\", \\"startPullDownRefresh\\", \\"stopBeaconDiscovery\\", \\"stopBluetoothDevicesDiscovery\\", \\"stopCompass\\", \\"startCompass\\", \\"startAccelerometer\\", \\"stopAccelerometer\\", \\"showNavigationBarLoading\\", \\"stopDeviceMotionListening\\", \\"stopPullDownRefresh\\", \\"switchTab\\", \\"uploadFile\\", \\"vibrateLong\\", \\"vibrateShort\\", \\"writeBLECharacteristicValue\\" ]);
         function getCanIUseWebp(taro) {
             return function() {
@@ -1210,18 +697,19 @@ require(\\"./taro\\");
         }
         function processApis(taro, global) {
             var config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-            var patchNoPromiseApis = config.noPromiseApis || [];
             var patchNeedPromiseApis = config.needPromiseApis || [];
-            var _noPromiseApis = new Set([].concat(_toConsumableArray(patchNoPromiseApis), _toConsumableArray(noPromiseApis)));
             var _needPromiseApis = new Set([].concat(_toConsumableArray(patchNeedPromiseApis), _toConsumableArray(needPromiseApis)));
-            var apis = [].concat(_toConsumableArray(_noPromiseApis), _toConsumableArray(_needPromiseApis));
+            var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
+            var apis = Object.keys(global).filter((function(api) {
+                return preserved.indexOf(api) === -1;
+            }));
             apis.forEach((function(key) {
                 if (_needPromiseApis.has(key)) {
                     var originKey = key;
                     taro[originKey] = function() {
                         var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-                        for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key2 = 1; _key2 < _len; _key2++) {
-                            args[_key2 - 1] = arguments[_key2];
+                        for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+                            args[_key - 1] = arguments[_key];
                         }
                         var key = originKey;
                         if (typeof options === \\"string\\") {
@@ -1287,16 +775,20 @@ require(\\"./taro\\");
                         taro[key] = unsupport(key);
                         return;
                     }
-                    taro[key] = function() {
-                        for (var _len2 = arguments.length, args = new Array(_len2), _key3 = 0; _key3 < _len2; _key3++) {
-                            args[_key3] = arguments[_key3];
-                        }
-                        if (config.handleSyncApis) {
-                            return config.handleSyncApis(key, global, args);
-                        } else {
-                            return global[key].apply(global, args);
-                        }
-                    };
+                    if (typeof global[key] === \\"function\\") {
+                        taro[key] = function() {
+                            for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+                                args[_key2] = arguments[_key2];
+                            }
+                            if (config.handleSyncApis) {
+                                return config.handleSyncApis(key, global, args);
+                            } else {
+                                return global[key].apply(global, args);
+                            }
+                        };
+                    } else {
+                        taro[key] = global[key];
+                    }
                 }
             }));
             !config.isOnlyPromisify && equipCommonApis(taro, global, config);
@@ -1320,13 +812,11 @@ require(\\"./taro\\");
             taro.request = link.request.bind(link);
             taro.addInterceptor = link.addInterceptor.bind(link);
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
-            taro.miniGlobal = global;
+            taro.miniGlobal = taro.options.miniGlobal = global;
         }
-        var runtime_utils_noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\", \\"onBluetoothDeviceFound\\", \\"onBluetoothAdapterStateChange\\", \\"offBluetoothDeviceFound\\", \\"offBluetoothAdapterStateChange\\", \\"onBLEConnectionStateChange\\", \\"onBLECharacteristicValueChange\\", \\"offBLEConnectionStateChange\\", \\"offBLECharacteristicValueChange\\", \\"onCopyUrl\\", \\"offCopyUrl\\" ]);
         var runtime_utils_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\", \\"choosePoi\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
-                noPromiseApis: runtime_utils_noPromiseApis,
                 needPromiseApis: runtime_utils_needPromiseApis
             });
             taro.cloud = wx.cloud;
@@ -1642,16 +1132,11 @@ require(\\"./taro\\");
             KeyboardAccessory: {}
         };
         var hostConfig = {
-            initNativeApi: initNativeApi,
-            onTaroElementCreate: function onTaroElementCreate(tagName) {
-                warn(tagName === \\"MAP\\", \\"\\\\u5fae\\\\u4fe1\\\\u5c0f\\\\u7a0b\\\\u5e8f map \\\\u7ec4\\\\u4ef6\\\\u7684 \`setting\` \\\\u5c5e\\\\u6027\\\\u9700\\\\u8981\\\\u4f20\\\\u9012\\\\u4e00\\\\u4e2a\\\\u9ed8\\\\u8ba4\\\\u503c\\\\u3002\\\\u8be6\\\\u60c5\\\\uff1a\\\\n https://developers.weixin.qq.com/miniprogram/dev/component/map.html\\");
-            }
+            initNativeApi: initNativeApi
         };
-        var syncApis = new Set([ \\"createAppBox\\" ]);
         var asyncApis = new Set([ \\"getQQRunData\\", \\"requestWxPayment\\", \\"setAvatar\\", \\"shareInvite\\", \\"updateBookshelfReadTime\\" ]);
         function runtime_initNativeApi(taro) {
             processApis(taro, qq, {
-                noPromiseApis: new Set([].concat(_toConsumableArray(runtime_utils_noPromiseApis), _toConsumableArray(syncApis))),
                 needPromiseApis: new Set([].concat(_toConsumableArray(runtime_utils_needPromiseApis), _toConsumableArray(asyncApis)))
             });
             taro.cloud = qq.cloud;
@@ -1685,7 +1170,7 @@ require(\\"./taro\\");
         var inherits = __webpack_require__(6);
         var createSuper = __webpack_require__(5);
         var react = __webpack_require__(0);
-        var app = __webpack_require__(13);
+        var app = __webpack_require__(12);
         var app_App = function(_Component) {
             Object(inherits[\\"a\\"])(App, _Component);
             var _super = Object(createSuper[\\"a\\"])(App);
@@ -1714,7 +1199,7 @@ require(\\"./taro\\");
             return App;
         }(react[\\"Component\\"]);
         var lib_src_app = app_App;
-        var taro_react = __webpack_require__(10);
+        var taro_react = __webpack_require__(9);
         var app_config = {
             pages: [ \\"pages/index/index\\" ],
             window: {
@@ -1734,27 +1219,8 @@ require(\\"./taro\\");
                 828: .905
             }
         });
-    },
-    9: function(module, exports) {
-        function _typeof(obj) {
-            \\"@babel/helpers - typeof\\";
-            if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-                module.exports = _typeof = function _typeof(obj) {
-                    return typeof obj;
-                };
-                module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-            } else {
-                module.exports = _typeof = function _typeof(obj) {
-                    return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-                };
-                module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-            }
-            return _typeof(obj);
-        }
-        module.exports = _typeof;
-        module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
     }
-}, [ [ 20, 0, 1, 3, 2 ] ] ]);
+}, [ [ 19, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -2587,13 +2053,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/comp.js **/
 (qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    14: function(module, __webpack_exports__, __webpack_require__) {
+    13: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
-}, [ [ 14, 0, 1 ] ] ]);
+}, [ [ 13, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -2604,13 +2070,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.js **/
 (qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    15: function(module, __webpack_exports__, __webpack_require__) {
+    14: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
-}, [ [ 15, 0, 1 ] ] ]);
+}, [ [ 14, 0, 1 ] ] ]);
 
 /** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -2623,15 +2089,15 @@ require(\\"./taro\\");
 
 /** filePath: dist/pages/index/index.js **/
 (qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 8 ], [ , , , , , , , , function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(16);
-}, , , , , , , , function(module, exports, __webpack_require__) {
+    module.exports = __webpack_require__(15);
+}, , , , , , , function(module, exports, __webpack_require__) {
     var g = function() {
         return this;
     }() || Function(\\"return this\\")();
     var hadRuntime = g.regeneratorRuntime && Object.getOwnPropertyNames(g).indexOf(\\"regeneratorRuntime\\") >= 0;
     var oldRuntime = hadRuntime && g.regeneratorRuntime;
     g.regeneratorRuntime = undefined;
-    module.exports = __webpack_require__(17);
+    module.exports = __webpack_require__(16);
     if (hadRuntime) {
         g.regeneratorRuntime = oldRuntime;
     } else {
@@ -3109,7 +2575,7 @@ require(\\"./taro\\");
         }(function() {
             return this;
         }() || Function(\\"return this\\")());
-    }).call(this, __webpack_require__(18)(module));
+    }).call(this, __webpack_require__(17)(module));
 }, function(module, exports) {
     module.exports = function(module) {
         if (!module.webpackPolyfill) {
@@ -3173,7 +2639,7 @@ require(\\"./taro\\");
     var createSuper = __webpack_require__(5);
     var react = __webpack_require__(0);
     var taro_components = __webpack_require__(2);
-    var index = __webpack_require__(19);
+    var index = __webpack_require__(18);
     var index_Index = function(_Component) {
         Object(inherits[\\"a\\"])(Index, _Component);
         var _super = Object(createSuper[\\"a\\"])(Index);
@@ -3239,7 +2705,7 @@ require(\\"./taro\\");
             cn: []
         }
     }, config || {}));
-} ], [ [ 21, 0, 1, 3, 2 ] ] ]);
+} ], [ [ 20, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
@@ -3374,13 +2840,13 @@ require(\\"./taro\\");
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-runtime-mock\\";
     },
-    10: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
-    },
     2: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-components-mock\\";
+    },
+    9: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
     }
 } ]);
 
@@ -3565,8 +3031,8 @@ require(\\"./vendors\\");
 require(\\"./taro\\");
 
 (qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    13: function(module, exports, __webpack_require__) {},
-    20: function(module, __webpack_exports__, __webpack_require__) {
+    12: function(module, exports, __webpack_require__) {},
+    19: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         function _arrayLikeToArray(arr, len) {
@@ -3595,89 +3061,6 @@ require(\\"./taro\\");
         }
         function _toConsumableArray(arr) {
             return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-        }
-        function _setPrototypeOf(o, p) {
-            _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-                o.__proto__ = p;
-                return o;
-            };
-            return _setPrototypeOf(o, p);
-        }
-        function _inherits(subClass, superClass) {
-            if (typeof superClass !== \\"function\\" && superClass !== null) {
-                throw new TypeError(\\"Super expression must either be null or a function\\");
-            }
-            subClass.prototype = Object.create(superClass && superClass.prototype, {
-                constructor: {
-                    value: subClass,
-                    writable: true,
-                    configurable: true
-                }
-            });
-            if (superClass) _setPrototypeOf(subClass, superClass);
-        }
-        function _getPrototypeOf(o) {
-            _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-                return o.__proto__ || Object.getPrototypeOf(o);
-            };
-            return _getPrototypeOf(o);
-        }
-        function _isNativeReflectConstruct() {
-            if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
-            if (Reflect.construct.sham) return false;
-            if (typeof Proxy === \\"function\\") return true;
-            try {
-                Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-                return true;
-            } catch (e) {
-                return false;
-            }
-        }
-        var helpers_typeof = __webpack_require__(9);
-        var typeof_default = __webpack_require__.n(helpers_typeof);
-        function _assertThisInitialized(self) {
-            if (self === void 0) {
-                throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
-            }
-            return self;
-        }
-        function _possibleConstructorReturn(self, call) {
-            if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
-                return call;
-            }
-            return _assertThisInitialized(self);
-        }
-        function _createSuper(Derived) {
-            var hasNativeReflectConstruct = _isNativeReflectConstruct();
-            return function _createSuperInternal() {
-                var Super = _getPrototypeOf(Derived), result;
-                if (hasNativeReflectConstruct) {
-                    var NewTarget = _getPrototypeOf(this).constructor;
-                    result = Reflect.construct(Super, arguments, NewTarget);
-                } else {
-                    result = Super.apply(this, arguments);
-                }
-                return _possibleConstructorReturn(this, result);
-            };
-        }
-        function _classCallCheck(instance, Constructor) {
-            if (!(instance instanceof Constructor)) {
-                throw new TypeError(\\"Cannot call a class as a function\\");
-            }
-        }
-        function _defineProperties(target, props) {
-            for (var i = 0; i < props.length; i++) {
-                var descriptor = props[i];
-                descriptor.enumerable = descriptor.enumerable || false;
-                descriptor.configurable = true;
-                if (\\"value\\" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, descriptor.key, descriptor);
-            }
-        }
-        function _createClass(Constructor, protoProps, staticProps) {
-            if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-            if (staticProps) _defineProperties(Constructor, staticProps);
-            return Constructor;
         }
         function _typeof(obj) {
             \\"@babel/helpers - typeof\\";
@@ -4146,15 +3529,10 @@ require(\\"./taro\\");
         var focusComponents = new Set([ \\"input\\", \\"textarea\\" ]);
         var voidElements = new Set([ \\"progress\\", \\"icon\\", \\"rich-text\\", \\"input\\", \\"textarea\\", \\"slider\\", \\"switch\\", \\"audio\\", \\"ad\\", \\"official-account\\", \\"open-data\\", \\"navigation-bar\\" ]);
         var nestElements = new Map([ [ \\"view\\", -1 ], [ \\"catch-view\\", -1 ], [ \\"cover-view\\", -1 ], [ \\"static-view\\", -1 ], [ \\"pure-view\\", -1 ], [ \\"block\\", -1 ], [ \\"text\\", -1 ], [ \\"static-text\\", 6 ], [ \\"slot\\", 8 ], [ \\"slot-view\\", 8 ], [ \\"label\\", 6 ], [ \\"form\\", 4 ], [ \\"scroll-view\\", 4 ], [ \\"swiper\\", 4 ], [ \\"swiper-item\\", 4 ] ]);
-        var BUBBLE_EVENTS = new Set([ \\"touchstart\\", \\"touchmove\\", \\"touchcancel\\", \\"touchend\\", \\"touchforcechange\\", \\"tap\\", \\"longpress\\", \\"longtap\\", \\"transitionend\\", \\"animationstart\\", \\"animationiteration\\", \\"animationend\\" ]);
         var EMPTY_OBJ = {};
         var EMPTY_ARR = [];
         var noop = function noop() {};
-        var defaultReconciler = {
-            isBubbleEvent: function isBubbleEvent(eventName) {
-                return BUBBLE_EVENTS.has(eventName);
-            }
-        };
+        var defaultReconciler = Object.create(null);
         var box = function box(v) {
             return {
                 v: v
@@ -4254,7 +3632,19 @@ require(\\"./taro\\");
             }));
         }
         function mergeReconciler(hostConfig) {
-            Object.assign(defaultReconciler, hostConfig);
+            Object.keys(hostConfig).forEach((function(key) {
+                var value = hostConfig[key];
+                var raw = defaultReconciler[key];
+                if (!raw) {
+                    defaultReconciler[key] = value;
+                } else {
+                    if (isArray(raw)) {
+                        defaultReconciler[key] = raw.push(value);
+                    } else {
+                        defaultReconciler[key] = [ raw, value ];
+                    }
+                }
+            }));
         }
         function unsupport(api) {
             return function() {
@@ -4271,443 +3661,6 @@ require(\\"./taro\\");
                 obj.url += (hasMark ? \\"&\\" : \\"?\\") + \\"\\".concat(routerParamsPrivateKey, \\"=\\").concat(cacheKey);
             }
         }
-        var weixinAdapter = {
-            if: \\"wx:if\\",
-            else: \\"wx:else\\",
-            elseif: \\"wx:elif\\",
-            for: \\"wx:for\\",
-            forItem: \\"wx:for-item\\",
-            forIndex: \\"wx:for-index\\",
-            key: \\"wx:key\\",
-            xs: \\"wxs\\",
-            type: \\"weapp\\"
-        };
-        var shared_esm_BaseTemplate = function() {
-            function BaseTemplate() {
-                var _this = this;
-                _classCallCheck(this, BaseTemplate);
-                this.exportExpr = \\"module.exports =\\";
-                this.supportXS = false;
-                this.Adapter = weixinAdapter;
-                this.internalComponents = internalComponents;
-                this.focusComponents = focusComponents;
-                this.voidElements = voidElements;
-                this.nestElements = nestElements;
-                this.buildPageTemplate = function(baseTempPath) {
-                    var template = '<import src=\\"'.concat(baseTempPath, '\\"/>\\\\n<template is=\\"taro_tmpl\\" data=\\"{{').concat(_this.dataKeymap(\\"root:root\\"), '}}\\" />');
-                    return template;
-                };
-                this.buildBaseComponentTemplate = function(ext) {
-                    var data = !_this.isSupportRecursive && _this.supportXS ? _this.dataKeymap(\\"i:i,l:l\\") : _this.dataKeymap(\\"i:i\\");
-                    return '<import src=\\"./base'.concat(ext, '\\" />\\\\n<template is=\\"tmpl_0_', \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
-                };
-                this.buildCustomComponentTemplate = function(ext) {
-                    var Adapter = _this.Adapter;
-                    var data = !_this.isSupportRecursive && _this.supportXS ? \\"\\".concat(_this.dataKeymap(\\"i:item,l:''\\")) : _this.dataKeymap(\\"i:item\\");
-                    return '<import src=\\"./base'.concat(ext, '\\" />\\\\n  <block ').concat(Adapter.for, '=\\"{{i.', \\"cn\\", '}}\\" ').concat(Adapter.key, '=\\"uid\\">\\\\n    <template is=\\"tmpl_0_container\\" data=\\"{{').concat(data, '}}\\" />\\\\n  </block>');
-                };
-                this.buildXScript = function() {
-                    return \\"\\".concat(_this.exportExpr, \\" {\\\\n  a: \\").concat(_this.buildXSTmplName(), \\",\\\\n  b: function (a, b) {\\\\n    return a === undefined ? b : a\\\\n  },\\\\n  c: function(i, prefix) {\\\\n    var s = i.focus !== undefined ? 'focus' : 'blur'\\\\n    return prefix + i.\\", \\"nn\\", \\" + '_' + s\\\\n  },\\\\n  d: function (i, v) {\\\\n    return i === undefined ? v : i\\\\n  },\\\\n  e: function (n) {\\\\n    return 'tmpl_' + n + '_\\", \\"container\\", \\"'\\\\n  },\\\\n  \\").concat(_this.buildXSTmpExtra(), \\"\\\\n}\\");
-                };
-            }
-            _createClass(BaseTemplate, [ {
-                key: \\"buildAttribute\\",
-                value: function buildAttribute(attrs, nodeName) {
-                    var _this2 = this;
-                    return Object.keys(attrs).map((function(k) {
-                        return \\"\\".concat(k, '=\\"').concat(k.startsWith(\\"bind\\") || k.startsWith(\\"on\\") || k.startsWith(\\"catch\\") ? attrs[k] : \\"{\\".concat(_this2.getAttrValue(attrs[k], k, nodeName), \\"}\\"), '\\" ');
-                    })).join(\\"\\");
-                }
-            }, {
-                key: \\"replacePropName\\",
-                value: function replacePropName(name, value, _componentName) {
-                    if (value === \\"eh\\") return name.toLowerCase();
-                    return name;
-                }
-            }, {
-                key: \\"createMiniComponents\\",
-                value: function createMiniComponents(components) {
-                    var _this3 = this;
-                    var result = Object.create(null);
-                    for (var key in components) {
-                        if (hasOwn(components, key)) {
-                            (function() {
-                                var component = components[key];
-                                var compName = toDashed(key);
-                                var newComp = Object.create(null);
-                                if (isFunction(_this3.modifyCompProps)) {
-                                    component = _this3.modifyCompProps(compName, component);
-                                }
-                                for (var prop in component) {
-                                    if (hasOwn(component, prop)) {
-                                        var propValue = component[prop];
-                                        if (prop.startsWith(\\"bind\\")) {
-                                            propValue = \\"eh\\";
-                                        } else if (propValue === \\"\\") {
-                                            propValue = \\"i.\\".concat(toCamelCase(prop));
-                                        } else if (isBooleanStringLiteral(propValue) || isNumber(+propValue)) {
-                                            propValue = _this3.supportXS ? \\"xs.b(i.\\".concat(toCamelCase(prop), \\",\\").concat(propValue, \\")\\") : \\"i.\\".concat(toCamelCase(prop), \\"===undefined?\\").concat(propValue, \\":i.\\").concat(toCamelCase(prop));
-                                        } else {
-                                            propValue = \\"i.\\".concat(toCamelCase(prop), \\"||\\").concat(propValue || singleQuote(\\"\\"));
-                                        }
-                                        prop = _this3.replacePropName(prop, propValue, compName);
-                                        newComp[prop] = propValue;
-                                    }
-                                }
-                                if (compName !== \\"block\\") {
-                                    Object.assign(newComp, styles, _this3.getEvents());
-                                }
-                                if (compName === \\"swiper-item\\") {
-                                    delete newComp.style;
-                                }
-                                if (compName === \\"view\\") {
-                                    var reg = /^(bind|on)(touchmove|TouchMove)$/;
-                                    var comp = Object.assign({}, newComp);
-                                    Object.keys(comp).forEach((function(originKey) {
-                                        if (!reg.test(originKey)) return;
-                                        var key = originKey.replace(reg, \\"catch$2\\");
-                                        comp[key] = comp[originKey];
-                                        delete comp[originKey];
-                                    }));
-                                    result[\\"catch-view\\"] = comp;
-                                }
-                                if (compName === \\"view\\" || compName === \\"text\\" || compName === \\"image\\") {
-                                    var _comp = {};
-                                    Object.keys(newComp).forEach((function(key) {
-                                        var value = newComp[key];
-                                        if (value !== \\"eh\\") _comp[key] = value;
-                                    }));
-                                    result[\\"static-\\".concat(compName)] = _comp;
-                                    if (compName === \\"view\\") {
-                                        result[\\"pure-view\\"] = {
-                                            style: _comp.style,
-                                            class: _comp.class
-                                        };
-                                    }
-                                }
-                                if (compName === \\"slot\\" || compName === \\"slot-view\\") {
-                                    result[compName] = {
-                                        slot: \\"i.name\\"
-                                    };
-                                } else {
-                                    result[compName] = newComp;
-                                }
-                            })();
-                        }
-                    }
-                    return result;
-                }
-            }, {
-                key: \\"buildBaseTemplate\\",
-                value: function buildBaseTemplate() {
-                    var Adapter = this.Adapter;
-                    var data = !this.isSupportRecursive && this.supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:''\\")) : this.dataKeymap(\\"i:item\\");
-                    return \\"\\".concat(this.buildXsTemplate(), '\\\\n<template name=\\"taro_tmpl\\">\\\\n  <block ').concat(Adapter.for, '=\\"{{root.cn}}\\" ').concat(Adapter.key, '=\\"uid\\">\\\\n    <template is=\\"tmpl_0_', \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />\\\\n  </block>\\\\n</template>\\\\n');
-                }
-            }, {
-                key: \\"buildThirdPartyAttr\\",
-                value: function buildThirdPartyAttr(attrs) {
-                    return Array.from(attrs).reduce((function(str, attr) {
-                        if (attr.startsWith(\\"@\\")) {
-                            var value = attr.slice(1);
-                            if (value.indexOf(\\"-\\") > -1) {
-                                value = \\":\\".concat(value);
-                            }
-                            return str + \\"bind\\".concat(value, '=\\"eh\\" ');
-                        } else if (attr.startsWith(\\"bind\\")) {
-                            return str + \\"\\".concat(attr, '=\\"eh\\" ');
-                        } else if (attr.startsWith(\\"on\\")) {
-                            var _value = toKebabCase(attr.slice(2));
-                            if (_value.indexOf(\\"-\\") > -1) {
-                                _value = \\":\\".concat(_value);
-                            }
-                            return str + \\"bind\\".concat(_value, '=\\"eh\\" ');
-                        }
-                        return str + \\"\\".concat(attr, '=\\"{{i.').concat(toCamelCase(attr), '}}\\" ');
-                    }), \\"\\");
-                }
-            }, {
-                key: \\"buildComponentTemplate\\",
-                value: function buildComponentTemplate(comp, level) {
-                    return this.focusComponents.has(comp.nodeName) ? this.buildFocusComponentTemplte(comp, level) : this.buildStandardComponentTemplate(comp, level);
-                }
-            }, {
-                key: \\"getChildren\\",
-                value: function getChildren(comp, level) {
-                    var isSupportRecursive = this.isSupportRecursive, Adapter = this.Adapter, supportXS = this.supportXS;
-                    var nextLevel = isSupportRecursive ? 0 : level + 1;
-                    var data = !this.isSupportRecursive && supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
-                    var child = supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
-                    if (isFunction(this.modifyLoopBody)) {
-                        child = this.modifyLoopBody(child, comp.nodeName);
-                    }
-                    var children = this.voidElements.has(comp.nodeName) ? \\"\\" : \\"\\\\n    <block \\".concat(Adapter.for, '=\\"{{i.', \\"cn\\", '}}\\" ').concat(Adapter.key, '=\\"uid\\">\\\\n      ').concat(child, \\"\\\\n    </block>\\\\n  \\");
-                    if (isFunction(this.modifyLoopContainer)) {
-                        children = this.modifyLoopContainer(children, comp.nodeName);
-                    }
-                    return children;
-                }
-            }, {
-                key: \\"buildFocusComponentTemplte\\",
-                value: function buildFocusComponentTemplte(comp, level) {
-                    var children = this.getChildren(comp, level);
-                    var attrs = Object.assign({}, comp.attributes);
-                    var templateName = this.supportXS ? \\"xs.c(i, 'tmpl_\\".concat(level, \\"_')\\") : \\"i.focus ? 'tmpl_\\".concat(level, \\"_\\").concat(comp.nodeName, \\"_focus' : 'tmpl_\\").concat(level, \\"_\\").concat(comp.nodeName, \\"_blur'\\");
-                    delete attrs.focus;
-                    var res = '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(comp.nodeName, '\\">\\\\n  <template is=\\"{{').concat(templateName, '}}\\" data=\\"{{').concat(this.dataKeymap(\\"i:i\\")).concat(children ? \\",cid:cid\\" : \\"\\", '}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_focus\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(comp.attributes, comp.nodeName), ' id=\\"{{i.uid}}\\">').concat(children, \\"</\\").concat(comp.nodeName, '>\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_blur\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(attrs, comp.nodeName), ' id=\\"{{i.uid}}\\">').concat(children, \\"</\\").concat(comp.nodeName, \\">\\\\n</template>\\\\n\\");
-                    if (isFunction(this.modifyTemplateResult)) {
-                        res = this.modifyTemplateResult(res, comp.nodeName, level, children);
-                    }
-                    return res;
-                }
-            }, {
-                key: \\"buildStandardComponentTemplate\\",
-                value: function buildStandardComponentTemplate(comp, level) {
-                    var children = this.getChildren(comp, level);
-                    var nodeName = \\"\\";
-                    switch (comp.nodeName) {
-                      case \\"slot\\":
-                      case \\"slot-view\\":
-                      case \\"catch-view\\":
-                      case \\"static-view\\":
-                      case \\"pure-view\\":
-                        nodeName = \\"view\\";
-                        break;
-
-                      case \\"static-text\\":
-                        nodeName = \\"text\\";
-                        break;
-
-                      case \\"static-image\\":
-                        nodeName = \\"image\\";
-                        break;
-
-                      default:
-                        nodeName = comp.nodeName;
-                        break;
-                    }
-                    var res = '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(comp.nodeName, '\\">\\\\n  <').concat(nodeName, \\" \\").concat(this.buildAttribute(comp.attributes, comp.nodeName), ' id=\\"{{i.uid}}\\">').concat(children, \\"</\\").concat(nodeName, \\">\\\\n</template>\\\\n\\");
-                    if (isFunction(this.modifyTemplateResult)) {
-                        res = this.modifyTemplateResult(res, comp.nodeName, level, children);
-                    }
-                    return res;
-                }
-            }, {
-                key: \\"buildPlainTextTemplate\\",
-                value: function buildPlainTextTemplate(level) {
-                    return '\\\\n<template name=\\"tmpl_'.concat(level, '_#text\\" data=\\"{{').concat(this.dataKeymap(\\"i:i\\"), '}}\\">\\\\n  <block>{{i.', \\"v\\", \\"}}</block>\\\\n</template>\\\\n\\");
-                }
-            }, {
-                key: \\"buildThirdPartyTemplate\\",
-                value: function buildThirdPartyTemplate(level, componentConfig) {
-                    var _this4 = this;
-                    var Adapter = this.Adapter, isSupportRecursive = this.isSupportRecursive, supportXS = this.supportXS, nestElements = this.nestElements;
-                    var nextLevel = isSupportRecursive ? 0 : level + 1;
-                    var template = \\"\\";
-                    var data = !isSupportRecursive && supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
-                    componentConfig.thirdPartyComponents.forEach((function(attrs, compName) {
-                        if (compName === \\"custom-wrapper\\") {
-                            template += '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(compName, '\\">\\\\n  <').concat(compName, ' i=\\"{{i}}\\" l=\\"{{l}}\\" id=\\"{{i.uid}}\\">\\\\n  </').concat(compName, \\">\\\\n</template>\\\\n  \\");
-                        } else {
-                            if (!isSupportRecursive && supportXS && nestElements.has(compName) && level + 1 > nestElements.get(compName)) return;
-                            var child = supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
-                            template += '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(compName, '\\">\\\\n  <').concat(compName, \\" \\").concat(_this4.buildThirdPartyAttr(attrs), ' id=\\"{{i.uid}}\\">\\\\n    <block ').concat(Adapter.for, '=\\"{{i.', \\"cn\\", '}}\\" ').concat(Adapter.key, '=\\"uid\\">\\\\n      ').concat(child, \\"\\\\n    </block>\\\\n  </\\").concat(compName, \\">\\\\n</template>\\\\n  \\");
-                        }
-                    }));
-                    return template;
-                }
-            }, {
-                key: \\"buildContainerTemplate\\",
-                value: function buildContainerTemplate(level) {
-                    var restart = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-                    var tmpl = \\"\\";
-                    if (restart) {
-                        tmpl = \\"<block \\".concat(this.Adapter.if, '=\\"{{i.nn === \\\\'#text\\\\'}}\\">\\\\n    <template is=\\"tmpl_0_#text\\" data=\\"{{i:i}}\\" />\\\\n  </block>\\\\n  <block ').concat(this.Adapter.else, \\">\\\\n    \\").concat(!this.isSupportRecursive && this.supportXS ? '<comp i=\\"{{i}}\\" l=\\"{{l}}\\" />' : '<comp i=\\"{{i}}\\" />', \\"\\\\n  </block>\\");
-                    } else {
-                        var xs = !this.isSupportRecursive ? \\"xs.a(\\".concat(level, \\", i.\\", \\"nn\\", \\", l)\\") : \\"xs.a(\\".concat(level, \\", i.\\", \\"nn\\", \\")\\");
-                        var data = !this.isSupportRecursive ? \\"\\".concat(this.dataKeymap(\\"i:i,cid:\\".concat(level, \\",l:xs.f(l,i.\\", \\"nn\\", \\")\\"))) : \\"\\".concat(this.dataKeymap(\\"i:i\\"));
-                        tmpl = this.supportXS ? '<template is=\\"{{'.concat(xs, '}}\\" data=\\"{{').concat(data, '}}\\" />') : \\"<template is=\\\\\\"{{'tmpl_\\".concat(level, \\"_' + i.\\", \\"nn\\", '}}\\" data=\\"{{').concat(this.dataKeymap(\\"i:i\\"), '}}\\" />');
-                    }
-                    return '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\", \\"container\\", '\\">\\\\n  ').concat(tmpl, \\"\\\\n</template>\\\\n\\");
-                }
-            }, {
-                key: \\"dataKeymap\\",
-                value: function dataKeymap(keymap) {
-                    return keymap;
-                }
-            }, {
-                key: \\"getEvents\\",
-                value: function getEvents() {
-                    return events;
-                }
-            }, {
-                key: \\"getAttrValue\\",
-                value: function getAttrValue(value, _key, _nodeName) {
-                    return \\"{\\".concat(value, \\"}\\");
-                }
-            }, {
-                key: \\"buildXsTemplate\\",
-                value: function buildXsTemplate() {
-                    return \\"\\";
-                }
-            }, {
-                key: \\"mergeComponents\\",
-                value: function mergeComponents(ctx, patch) {
-                    ctx.helper.recursiveMerge(this.internalComponents, patch);
-                }
-            }, {
-                key: \\"buildXSTmplName\\",
-                value: function buildXSTmplName() {
-                    return \\"function (l, n) {\\\\n    return 'tmpl_' + l + '_' + n\\\\n  }\\";
-                }
-            }, {
-                key: \\"buildXSTmpExtra\\",
-                value: function buildXSTmpExtra() {
-                    return \\"\\";
-                }
-            } ]);
-            return BaseTemplate;
-        }();
-        var shared_esm_RecursiveTemplate = function(_BaseTemplate) {
-            _inherits(RecursiveTemplate, _BaseTemplate);
-            var _super = _createSuper(RecursiveTemplate);
-            function RecursiveTemplate() {
-                var _this5;
-                _classCallCheck(this, RecursiveTemplate);
-                _this5 = _super.apply(this, arguments);
-                _this5.isSupportRecursive = true;
-                _this5.buildTemplate = function(componentConfig) {
-                    var template = _this5.buildBaseTemplate();
-                    if (!_this5.miniComponents) {
-                        _this5.miniComponents = _this5.createMiniComponents(_this5.internalComponents);
-                    }
-                    var ZERO_FLOOR = 0;
-                    var components = Object.keys(_this5.miniComponents).filter((function(c) {
-                        return componentConfig.includes.size && !componentConfig.includeAll ? componentConfig.includes.has(c) : true;
-                    }));
-                    template = components.reduce((function(current, nodeName) {
-                        var attributes = _this5.miniComponents[nodeName];
-                        return current + _this5.buildComponentTemplate({
-                            nodeName: nodeName,
-                            attributes: attributes
-                        }, ZERO_FLOOR);
-                    }), template);
-                    template += _this5.buildPlainTextTemplate(ZERO_FLOOR);
-                    template += _this5.buildThirdPartyTemplate(ZERO_FLOOR, componentConfig);
-                    template += _this5.buildContainerTemplate(ZERO_FLOOR);
-                    return template;
-                };
-                return _this5;
-            }
-            return RecursiveTemplate;
-        }(shared_esm_BaseTemplate);
-        var shared_esm_UnRecursiveTemplate = function(_BaseTemplate2) {
-            _inherits(UnRecursiveTemplate, _BaseTemplate2);
-            var _super2 = _createSuper(UnRecursiveTemplate);
-            function UnRecursiveTemplate() {
-                var _this6;
-                _classCallCheck(this, UnRecursiveTemplate);
-                _this6 = _super2.apply(this, arguments);
-                _this6.isSupportRecursive = false;
-                _this6._baseLevel = 16;
-                _this6.buildTemplate = function(componentConfig) {
-                    _this6.componentConfig = componentConfig;
-                    if (!_this6.miniComponents) {
-                        _this6.miniComponents = _this6.createMiniComponents(_this6.internalComponents);
-                    }
-                    var components = Object.keys(_this6.miniComponents).filter((function(c) {
-                        return componentConfig.includes.size && !componentConfig.includeAll ? componentConfig.includes.has(c) : true;
-                    }));
-                    var template = _this6.buildBaseTemplate();
-                    for (var i = 0; i < _this6.baseLevel; i++) {
-                        template += _this6.supportXS ? _this6.buildOptimizeFloor(i, components, _this6.baseLevel === i + 1) : _this6.buildFloor(i, components, _this6.baseLevel === i + 1);
-                    }
-                    return template;
-                };
-                return _this6;
-            }
-            _createClass(UnRecursiveTemplate, [ {
-                key: \\"baseLevel\\",
-                get: function get() {
-                    return this._baseLevel;
-                },
-                set: function set(lv) {
-                    this._baseLevel = lv;
-                }
-            }, {
-                key: \\"buildFloor\\",
-                value: function buildFloor(level, components) {
-                    var _this7 = this;
-                    var restart = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-                    if (restart) return this.buildContainerTemplate(level, restart);
-                    var template = components.reduce((function(current, nodeName) {
-                        var attributes = _this7.miniComponents[nodeName];
-                        return current + _this7.buildComponentTemplate({
-                            nodeName: nodeName,
-                            attributes: attributes
-                        }, level);
-                    }), \\"\\");
-                    template += this.buildPlainTextTemplate(level);
-                    template += this.buildThirdPartyTemplate(level, this.componentConfig);
-                    template += this.buildContainerTemplate(level, restart);
-                    return template;
-                }
-            }, {
-                key: \\"buildOptimizeFloor\\",
-                value: function buildOptimizeFloor(level, components) {
-                    var _this8 = this;
-                    var restart = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-                    if (restart) return this.buildContainerTemplate(level, restart);
-                    var template = components.reduce((function(current, nodeName) {
-                        if (level !== 0) {
-                            if (!_this8.nestElements.has(nodeName)) {
-                                return current;
-                            } else {
-                                var max = _this8.nestElements.get(nodeName);
-                                if (max > 0 && level >= max) {
-                                    return current;
-                                }
-                            }
-                        }
-                        var attributes = _this8.miniComponents[nodeName];
-                        return current + _this8.buildComponentTemplate({
-                            nodeName: nodeName,
-                            attributes: attributes
-                        }, level);
-                    }), \\"\\");
-                    if (level === 0) template += this.buildPlainTextTemplate(level);
-                    template += this.buildThirdPartyTemplate(level, this.componentConfig);
-                    template += this.buildContainerTemplate(level);
-                    return template;
-                }
-            }, {
-                key: \\"buildXSTmplName\\",
-                value: function buildXSTmplName() {
-                    var isLoopComps = [].concat(_toConsumableArray(Array.from(this.nestElements.keys())), _toConsumableArray(Array.from(this.componentConfig.thirdPartyComponents.keys())));
-                    var isLoopCompsSet = new Set(isLoopComps);
-                    var hasMaxComps = [];
-                    this.nestElements.forEach((function(max, comp) {
-                        if (max > 1) {
-                            hasMaxComps.push(comp);
-                        } else if (max === 1 && isLoopCompsSet.has(comp)) {
-                            isLoopCompsSet.delete(comp);
-                        }
-                    }));
-                    return \\"function (l, n, s) {\\\\n    var a = \\".concat(JSON.stringify(Array.from(isLoopCompsSet)), \\"\\\\n    var b = \\").concat(JSON.stringify(hasMaxComps), \\"\\\\n    if (a.indexOf(n) === -1) {\\\\n      l = 0\\\\n    }\\\\n    if (b.indexOf(n) > -1) {\\\\n      var u = s.split(',')\\\\n      var depth = 0\\\\n      for (var i = 0; i < u.length; i++) {\\\\n        if (u[i] === n) depth++\\\\n      }\\\\n      l = depth\\\\n    }\\\\n    return 'tmpl_' + l + '_' + n\\\\n  }\\");
-                }
-            }, {
-                key: \\"buildXSTmpExtra\\",
-                value: function buildXSTmpExtra() {
-                    var hasMaxComps = [];
-                    this.nestElements.forEach((function(max, comp) {
-                        if (max > 1) hasMaxComps.push(comp);
-                    }));
-                    return \\"f: function (l, n) {\\\\n    var b = \\".concat(JSON.stringify(hasMaxComps), \\"\\\\n    if (b.indexOf(n) > -1) {\\\\n      if (l) l += ','\\\\n      l += n\\\\n    }\\\\n    return l\\\\n  }\\");
-                }
-            } ]);
-            return UnRecursiveTemplate;
-        }(shared_esm_BaseTemplate);
-        var noPromiseApis = new Set([ \\"clearStorageSync\\", \\"getBatteryInfoSync\\", \\"getExtConfigSync\\", \\"getFileSystemManager\\", \\"getLaunchOptionsSync\\", \\"getStorageInfoSync\\", \\"getStorageSync\\", \\"getSystemInfoSync\\", \\"offAccelerometerChange\\", \\"offAppHide\\", \\"offAppShow\\", \\"offAudioInterruptionBegin\\", \\"offAudioInterruptionEnd\\", \\"offBLECharacteristicValueChange\\", \\"offBLEConnectionStateChange\\", \\"offBluetoothAdapterStateChange\\", \\"offBluetoothDeviceFound\\", \\"offCompassChange\\", \\"offError\\", \\"offGetWifiList\\", \\"offGyroscopeChange\\", \\"offMemoryWarning\\", \\"offNetworkStatusChange\\", \\"offPageNotFound\\", \\"offUnhandledRejection\\", \\"offUserCaptureScreen\\", \\"onAccelerometerChange\\", \\"onAppHide\\", \\"onAppShow\\", \\"onAudioInterruptionBegin\\", \\"onAudioInterruptionEnd\\", \\"onBLECharacteristicValueChange\\", \\"onBLEConnectionStateChange\\", \\"onBeaconServiceChange\\", \\"onBeaconUpdate\\", \\"onBluetoothAdapterStateChange\\", \\"onBluetoothDeviceFound\\", \\"onCompassChange\\", \\"onDeviceMotionChange\\", \\"onError\\", \\"onGetWifiList\\", \\"onGyroscopeChange\\", \\"onMemoryWarning\\", \\"onNetworkStatusChange\\", \\"onPageNotFound\\", \\"onSocketClose\\", \\"onSocketError\\", \\"onSocketMessage\\", \\"onSocketOpen\\", \\"onUnhandledRejection\\", \\"onUserCaptureScreen\\", \\"removeStorageSync\\", \\"reportAnalytics\\", \\"setStorageSync\\", \\"arrayBufferToBase64\\", \\"base64ToArrayBuffer\\", \\"canIUse\\", \\"createAnimation\\", \\"createCameraContext\\", \\"createCanvasContext\\", \\"createInnerAudioContext\\", \\"createIntersectionObserver\\", \\"createInterstitialAd\\", \\"createLivePlayerContext\\", \\"createMapContext\\", \\"createSelectorQuery\\", \\"createVideoContext\\", \\"getBackgroundAudioManager\\", \\"getMenuButtonBoundingClientRect\\", \\"getRecorderManager\\", \\"getUpdateManager\\" ]);
         var needPromiseApis = new Set([ \\"addPhoneContact\\", \\"authorize\\", \\"canvasGetImageData\\", \\"canvasPutImageData\\", \\"canvasToTempFilePath\\", \\"checkSession\\", \\"chooseAddress\\", \\"chooseImage\\", \\"chooseInvoiceTitle\\", \\"chooseLocation\\", \\"chooseVideo\\", \\"clearStorage\\", \\"closeBLEConnection\\", \\"closeBluetoothAdapter\\", \\"closeSocket\\", \\"compressImage\\", \\"connectSocket\\", \\"createBLEConnection\\", \\"downloadFile\\", \\"getAvailableAudioSources\\", \\"getBLEDeviceCharacteristics\\", \\"getBLEDeviceServices\\", \\"getBatteryInfo\\", \\"getBeacons\\", \\"getBluetoothAdapterState\\", \\"getBluetoothDevices\\", \\"getClipboardData\\", \\"getConnectedBluetoothDevices\\", \\"getConnectedWifi\\", \\"getExtConfig\\", \\"getFileInfo\\", \\"getImageInfo\\", \\"getLocation\\", \\"getNetworkType\\", \\"getSavedFileInfo\\", \\"getSavedFileList\\", \\"getScreenBrightness\\", \\"getSetting\\", \\"getStorage\\", \\"getStorageInfo\\", \\"getSystemInfo\\", \\"getUserInfo\\", \\"getWifiList\\", \\"hideHomeButton\\", \\"hideShareMenu\\", \\"hideTabBar\\", \\"hideTabBarRedDot\\", \\"loadFontFace\\", \\"login\\", \\"makePhoneCall\\", \\"navigateBack\\", \\"navigateBackMiniProgram\\", \\"navigateTo\\", \\"navigateToBookshelf\\", \\"navigateToMiniProgram\\", \\"notifyBLECharacteristicValueChange\\", \\"hideKeyboard\\", \\"hideLoading\\", \\"hideNavigationBarLoading\\", \\"hideToast\\", \\"openBluetoothAdapter\\", \\"openDocument\\", \\"openLocation\\", \\"openSetting\\", \\"pageScrollTo\\", \\"previewImage\\", \\"queryBookshelf\\", \\"reLaunch\\", \\"readBLECharacteristicValue\\", \\"redirectTo\\", \\"removeSavedFile\\", \\"removeStorage\\", \\"removeTabBarBadge\\", \\"requestSubscribeMessage\\", \\"saveFile\\", \\"saveImageToPhotosAlbum\\", \\"saveVideoToPhotosAlbum\\", \\"scanCode\\", \\"sendSocketMessage\\", \\"setBackgroundColor\\", \\"setBackgroundTextStyle\\", \\"setClipboardData\\", \\"setEnableDebug\\", \\"setInnerAudioOption\\", \\"setKeepScreenOn\\", \\"setNavigationBarColor\\", \\"setNavigationBarTitle\\", \\"setScreenBrightness\\", \\"setStorage\\", \\"setTabBarBadge\\", \\"setTabBarItem\\", \\"setTabBarStyle\\", \\"showActionSheet\\", \\"showFavoriteGuide\\", \\"showLoading\\", \\"showModal\\", \\"showShareMenu\\", \\"showTabBar\\", \\"showTabBarRedDot\\", \\"showToast\\", \\"startBeaconDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"startDeviceMotionListening\\", \\"startPullDownRefresh\\", \\"stopBeaconDiscovery\\", \\"stopBluetoothDevicesDiscovery\\", \\"stopCompass\\", \\"startCompass\\", \\"startAccelerometer\\", \\"stopAccelerometer\\", \\"showNavigationBarLoading\\", \\"stopDeviceMotionListening\\", \\"stopPullDownRefresh\\", \\"switchTab\\", \\"uploadFile\\", \\"vibrateLong\\", \\"vibrateShort\\", \\"writeBLECharacteristicValue\\" ]);
         function getCanIUseWebp(taro) {
             return function() {
@@ -4761,18 +3714,19 @@ require(\\"./taro\\");
         }
         function processApis(taro, global) {
             var config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-            var patchNoPromiseApis = config.noPromiseApis || [];
             var patchNeedPromiseApis = config.needPromiseApis || [];
-            var _noPromiseApis = new Set([].concat(_toConsumableArray(patchNoPromiseApis), _toConsumableArray(noPromiseApis)));
             var _needPromiseApis = new Set([].concat(_toConsumableArray(patchNeedPromiseApis), _toConsumableArray(needPromiseApis)));
-            var apis = [].concat(_toConsumableArray(_noPromiseApis), _toConsumableArray(_needPromiseApis));
+            var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
+            var apis = Object.keys(global).filter((function(api) {
+                return preserved.indexOf(api) === -1;
+            }));
             apis.forEach((function(key) {
                 if (_needPromiseApis.has(key)) {
                     var originKey = key;
                     taro[originKey] = function() {
                         var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-                        for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key2 = 1; _key2 < _len; _key2++) {
-                            args[_key2 - 1] = arguments[_key2];
+                        for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+                            args[_key - 1] = arguments[_key];
                         }
                         var key = originKey;
                         if (typeof options === \\"string\\") {
@@ -4838,16 +3792,20 @@ require(\\"./taro\\");
                         taro[key] = unsupport(key);
                         return;
                     }
-                    taro[key] = function() {
-                        for (var _len2 = arguments.length, args = new Array(_len2), _key3 = 0; _key3 < _len2; _key3++) {
-                            args[_key3] = arguments[_key3];
-                        }
-                        if (config.handleSyncApis) {
-                            return config.handleSyncApis(key, global, args);
-                        } else {
-                            return global[key].apply(global, args);
-                        }
-                    };
+                    if (typeof global[key] === \\"function\\") {
+                        taro[key] = function() {
+                            for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+                                args[_key2] = arguments[_key2];
+                            }
+                            if (config.handleSyncApis) {
+                                return config.handleSyncApis(key, global, args);
+                            } else {
+                                return global[key].apply(global, args);
+                            }
+                        };
+                    } else {
+                        taro[key] = global[key];
+                    }
                 }
             }));
             !config.isOnlyPromisify && equipCommonApis(taro, global, config);
@@ -4871,13 +3829,11 @@ require(\\"./taro\\");
             taro.request = link.request.bind(link);
             taro.addInterceptor = link.addInterceptor.bind(link);
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
-            taro.miniGlobal = global;
+            taro.miniGlobal = taro.options.miniGlobal = global;
         }
-        var runtime_utils_noPromiseApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\", \\"onGyroscopeChange\\", \\"offGyroscopeChange\\", \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\", \\"onBluetoothDeviceFound\\", \\"onBluetoothAdapterStateChange\\", \\"offBluetoothDeviceFound\\", \\"offBluetoothAdapterStateChange\\", \\"onBLEConnectionStateChange\\", \\"onBLECharacteristicValueChange\\", \\"offBLEConnectionStateChange\\", \\"offBLECharacteristicValueChange\\", \\"onCopyUrl\\", \\"offCopyUrl\\" ]);
         var runtime_utils_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\", \\"choosePoi\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
-                noPromiseApis: runtime_utils_noPromiseApis,
                 needPromiseApis: runtime_utils_needPromiseApis
             });
             taro.cloud = wx.cloud;
@@ -5193,16 +4149,11 @@ require(\\"./taro\\");
             KeyboardAccessory: {}
         };
         var hostConfig = {
-            initNativeApi: initNativeApi,
-            onTaroElementCreate: function onTaroElementCreate(tagName) {
-                warn(tagName === \\"MAP\\", \\"\\\\u5fae\\\\u4fe1\\\\u5c0f\\\\u7a0b\\\\u5e8f map \\\\u7ec4\\\\u4ef6\\\\u7684 \`setting\` \\\\u5c5e\\\\u6027\\\\u9700\\\\u8981\\\\u4f20\\\\u9012\\\\u4e00\\\\u4e2a\\\\u9ed8\\\\u8ba4\\\\u503c\\\\u3002\\\\u8be6\\\\u60c5\\\\uff1a\\\\n https://developers.weixin.qq.com/miniprogram/dev/component/map.html\\");
-            }
+            initNativeApi: initNativeApi
         };
-        var syncApis = new Set([ \\"createAppBox\\" ]);
         var asyncApis = new Set([ \\"getQQRunData\\", \\"requestWxPayment\\", \\"setAvatar\\", \\"shareInvite\\", \\"updateBookshelfReadTime\\" ]);
         function runtime_initNativeApi(taro) {
             processApis(taro, qq, {
-                noPromiseApis: new Set([].concat(_toConsumableArray(runtime_utils_noPromiseApis), _toConsumableArray(syncApis))),
                 needPromiseApis: new Set([].concat(_toConsumableArray(runtime_utils_needPromiseApis), _toConsumableArray(asyncApis)))
             });
             taro.cloud = qq.cloud;
@@ -5236,7 +4187,7 @@ require(\\"./taro\\");
         var inherits = __webpack_require__(6);
         var createSuper = __webpack_require__(5);
         var react = __webpack_require__(0);
-        var app = __webpack_require__(13);
+        var app = __webpack_require__(12);
         var app_App = function(_Component) {
             Object(inherits[\\"a\\"])(App, _Component);
             var _super = Object(createSuper[\\"a\\"])(App);
@@ -5265,7 +4216,7 @@ require(\\"./taro\\");
             return App;
         }(react[\\"Component\\"]);
         var lib_src_app = app_App;
-        var taro_react = __webpack_require__(10);
+        var taro_react = __webpack_require__(9);
         var app_config = {
             pages: [ \\"pages/index/index\\" ],
             window: {
@@ -5285,27 +4236,8 @@ require(\\"./taro\\");
                 828: .905
             }
         });
-    },
-    9: function(module, exports) {
-        function _typeof(obj) {
-            \\"@babel/helpers - typeof\\";
-            if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-                module.exports = _typeof = function _typeof(obj) {
-                    return typeof obj;
-                };
-                module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-            } else {
-                module.exports = _typeof = function _typeof(obj) {
-                    return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-                };
-                module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-            }
-            return _typeof(obj);
-        }
-        module.exports = _typeof;
-        module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
     }
-}, [ [ 20, 0, 1, 3, 2 ] ] ]);
+}, [ [ 19, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -6138,13 +5070,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/comp.js **/
 (qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    14: function(module, __webpack_exports__, __webpack_require__) {
+    13: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
-}, [ [ 14, 0, 1 ] ] ]);
+}, [ [ 13, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -6155,13 +5087,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.js **/
 (qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    15: function(module, __webpack_exports__, __webpack_require__) {
+    14: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
-}, [ [ 15, 0, 1 ] ] ]);
+}, [ [ 14, 0, 1 ] ] ]);
 
 /** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -6174,15 +5106,15 @@ require(\\"./taro\\");
 
 /** filePath: dist/pages/index/index.js **/
 (qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 8 ], [ , , , , , , , , function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(16);
-}, , , , , , , , function(module, exports, __webpack_require__) {
+    module.exports = __webpack_require__(15);
+}, , , , , , , function(module, exports, __webpack_require__) {
     var g = function() {
         return this;
     }() || Function(\\"return this\\")();
     var hadRuntime = g.regeneratorRuntime && Object.getOwnPropertyNames(g).indexOf(\\"regeneratorRuntime\\") >= 0;
     var oldRuntime = hadRuntime && g.regeneratorRuntime;
     g.regeneratorRuntime = undefined;
-    module.exports = __webpack_require__(17);
+    module.exports = __webpack_require__(16);
     if (hadRuntime) {
         g.regeneratorRuntime = oldRuntime;
     } else {
@@ -6660,7 +5592,7 @@ require(\\"./taro\\");
         }(function() {
             return this;
         }() || Function(\\"return this\\")());
-    }).call(this, __webpack_require__(18)(module));
+    }).call(this, __webpack_require__(17)(module));
 }, function(module, exports) {
     module.exports = function(module) {
         if (!module.webpackPolyfill) {
@@ -6724,7 +5656,7 @@ require(\\"./taro\\");
     var createSuper = __webpack_require__(5);
     var react = __webpack_require__(0);
     var taro_components = __webpack_require__(2);
-    var index = __webpack_require__(19);
+    var index = __webpack_require__(18);
     var index_Index = function(_Component) {
         Object(inherits[\\"a\\"])(Index, _Component);
         var _super = Object(createSuper[\\"a\\"])(Index);
@@ -6790,7 +5722,7 @@ require(\\"./taro\\");
             cn: []
         }
     }, config || {}));
-} ], [ [ 21, 0, 1, 3, 2 ] ] ]);
+} ], [ [ 20, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
@@ -6925,13 +5857,13 @@ require(\\"./taro\\");
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-runtime-mock\\";
     },
-    10: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
-    },
     2: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-components-mock\\";
+    },
+    9: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
     }
 } ]);
 

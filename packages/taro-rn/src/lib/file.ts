@@ -35,11 +35,12 @@ const createFormData = (filePath, body, name) => {
   const data = new FormData()
   const uri = isAndroid ? filePath : filePath.replace('file://', '')
   const fileObj = { uri: uri, type: 'application/octet-stream', name: 'file' }
-  data.append(name, fileObj)
 
   Object.keys(body).forEach(key => {
     data.append(key, body[key])
   })
+  
+  data.append(name, fileObj)
 
   return data
 }

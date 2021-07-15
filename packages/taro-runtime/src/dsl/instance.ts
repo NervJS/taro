@@ -1,9 +1,9 @@
 import type { Component, ComponentClass } from 'react'
 import VueCtor, { ComponentOptions, VNode } from 'vue'
-import { Component as Vue3Component } from '@vue/runtime-core'
-import { CombinedVueInstance } from 'vue/types/vue'
-import { MpEvent } from '../dom/event'
-import { TaroElement } from '../dom/element'
+import type { Component as Vue3Component } from '@vue/runtime-core'
+import type { CombinedVueInstance } from 'vue/types/vue'
+import type { MpEvent } from '../interface'
+import type { TaroElement } from '../dom/element'
 
 export interface Instance<T = Record<string, any>> extends Component<T>, Show, PageInstance {
   tid?: string

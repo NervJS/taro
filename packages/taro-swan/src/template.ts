@@ -1,4 +1,5 @@
-import { RecursiveTemplate, isArray, Shortcuts } from '@tarojs/shared'
+import { isArray, Shortcuts } from '@tarojs/shared'
+import { RecursiveTemplate } from '@tarojs/shared/dist/template'
 
 const swanSpecialAttrs = {
   'scroll-view': ['scrollTop', 'scrollLeft', 'scrollIntoView'],
@@ -56,15 +57,6 @@ export class Template extends RecursiveTemplate {
 
   modifyTemplateResult = (res: string, nodeName: string) => {
     if (nodeName === 'picker-view-column') return ''
-    if (nodeName === 'input') {
-      return res.replace(/ id="{{i.uid}}"/g, 'id="{{xs.f(i.uid)}}"')
-    }
     return res
-  }
-
-  buildXSTmpExtra () {
-    return `f: function (s) {
-    return s[0] === '_' ? s.slice(1) : s
-  }`
   }
 }

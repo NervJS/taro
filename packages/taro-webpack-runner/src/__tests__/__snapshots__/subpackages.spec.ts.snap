@@ -218,8 +218,12 @@ exports[`subpackages should process subpackages 2`] = `
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return createRouter;
     }));
+    __webpack_require__.d(__webpack_exports__, \\"c\\", (function() {
+        return initPxTransform;
+    }));
     var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
+    function initPxTransform() {}
     var h5 = __webpack_exports__[\\"b\\"] = taro_h5;
 }, function(module, exports) {
     function _typeof(obj) {
@@ -265,8 +269,7 @@ exports[`subpackages should process subpackages 2`] = `
     };
     options.singleton = false;
     var update = api(content, options);
-    var exported = content.locals ? content.locals : {};
-    module.exports = exported;
+    module.exports = content.locals || {};
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
     var isOldIE = function isOldIE() {
@@ -397,7 +400,7 @@ exports[`subpackages should process subpackages 2`] = `
         } else {
             style.removeAttribute(\\"media\\");
         }
-        if (sourceMap && btoa) {
+        if (sourceMap && typeof btoa !== \\"undefined\\") {
             css += \\"\\\\n/*# sourceMappingURL=data:application/json;base64,\\".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), \\" */\\");
         }
         if (style.styleSheet) {
@@ -778,7 +781,7 @@ exports[`subpackages should process subpackages 2`] = `
     }, __webpack_require__(19).default || {}) ];
     var inst = createReactApp(src_app, react, react[\\"default\\"], config);
     Object(h5[\\"a\\"])(inst, config, react);
-    Object(h5[\\"initPxTransform\\"])({
+    Object(h5[\\"c\\"])({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {
             \\"640\\": 1.17,
