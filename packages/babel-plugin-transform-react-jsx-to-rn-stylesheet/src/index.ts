@@ -171,6 +171,19 @@ export default function (babel: {
     return str === '' ? [] : getMap(str)
   }
 
+  function getMatchRule (enableMultipleClassName: boolean) {
+    if (enableMultipleClassName) {
+      return {
+        styleMatchRule: /[sS]tyle$/,
+        classNameMathRule: /[cC]lassName$/
+      }
+    }
+
+    return {
+      styleMatchRule: /^style$/,
+      classNameMathRule: /^className$/
+    }
+  }
   let existStyleImport = false
 
   return {
@@ -225,7 +238,9 @@ export default function (babel: {
         }
       },
       JSXOpeningElement ({ node }, state: PluginPass) {
-        const { file } = state
+        const { file, opts } = state
+        const { enableMultipleClassName } = opts
+        const { styleMatchRule, classNameMathRule } = getMatchRule(enableMultipleClassName)
         const cssModuleStylesheets = file.get('cssModuleStylesheets') || []
 
         const styleNameMapping: any = {}
@@ -236,10 +251,10 @@ export default function (babel: {
           if (!t.isJSXAttribute(attribute)) continue
           const name = attribute.name
           if (!name || typeof name.name !== 'string') continue
-          const attrNameString = name.name as string
+          const attrNameString = name.name
 
-          if (attrNameString.toLocaleLowerCase().endsWith('style')) {
-            const prefix = attrNameString.replace(/[sS]tyle$/, '') || DEFAULT_STYLE_KEY
+          if (attrNameString.match(styleMatchRule)) {
+            const prefix = attrNameString.replace(styleMatchRule, '') || DEFAULT_STYLE_KEY
             styleNameMapping[prefix] = Object.assign(styleNameMapping[prefix] || {}, {
               hasStyleAttribute: true,
               styleAttribute: attribute
@@ -247,8 +262,8 @@ export default function (babel: {
           }
 
           // 以className结尾的时候
-          if (attrNameString.toLocaleLowerCase().endsWith('classname')) {
-            const prefix = attrNameString.replace(/[cC]lassName$/, '') || DEFAULT_STYLE_KEY
+          if (attrNameString.match(classNameMathRule)) {
+            const prefix = attrNameString.replace(classNameMathRule, '') || DEFAULT_STYLE_KEY
             styleNameMapping[prefix] = Object.assign(styleNameMapping[prefix] || {}, {
               hasClassName: true,
               classNameAttribute: attribute
