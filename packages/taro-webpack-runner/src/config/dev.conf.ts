@@ -61,7 +61,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     postcss = emptyObj
   } = config
   const sourceDir = path.join(appPath, sourceRoot)
-  const outputDir = path.join(appPath, outputRoot)
+  const outputDir = path.resolve(appPath, outputRoot)
   const plugin = {} as any
 
   const isMultiRouterMode = get(router, 'mode') === 'multi'

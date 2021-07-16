@@ -63,7 +63,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     terser
   } = config
   const sourceDir = path.join(appPath, sourceRoot)
-  const outputDir = path.join(appPath, outputRoot)
+  const outputDir = path.resolve(appPath, outputRoot)
   const isMultiRouterMode = get(router, 'mode') === 'multi'
 
   const plugin: any = {}
