@@ -23,7 +23,7 @@ import {
 } from './components'
 import { Shortcuts } from './shortcuts'
 import { isBooleanStringLiteral, isNumber, isFunction } from './is'
-import { toCamelCase, toKebabCase, toDashed, hasOwn } from './utils'
+import { toCamelCase, toKebabCase, toDashed, hasOwn, indent } from './utils'
 
 interface Component {
   nodeName: string;
@@ -252,7 +252,7 @@ export class BaseTemplate {
       ? ''
       : `
     <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="uid">
-      ${child}
+      ${indent(child, 8)}
     </block>
   `
 
