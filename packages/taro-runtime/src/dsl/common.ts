@@ -221,7 +221,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       component.prototype?.onShareAppMessage ||
       component.enableShareAppMessage) {
     config.onShareAppMessage = function (options) {
-      const target = options.target
+      const target = options?.target
       if (target != null) {
         const id = target.id
         const element = document.getElementById(id)
