@@ -260,7 +260,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
   const config: any = {
     attached () {
       perf.start(PAGE_INIT)
-      const path = getPath(id, { id: this.getPageId() })
+      const path = getPath(id, { id: this.getPageId?.() || pageId() })
       Current.app!.mount!(component, path, () => {
         componentElement = document.getElementById<TaroRootElement>(path)
         ensure(componentElement !== null, '没有找到组件实例。')
@@ -279,14 +279,6 @@ export function createComponentConfig (component: React.ComponentClass, componen
           componentElement.ctx = null
         }
       })
-    },
-    pageLifetimes: {
-      show () {
-        safeExecute(id, 'onShow')
-      },
-      hide () {
-        safeExecute(id, 'onHide')
-      }
     },
     methods: {
       eh: eventHandler
