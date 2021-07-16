@@ -52,17 +52,17 @@ export const setClipboardData = ({ data, success, fail, complete }) => {
        * https://stackoverflow.com/questions/34045777/copy-to-clipboard-using-javascript-in-ios/34046084
        */
       if (typeof document.execCommand === 'function') {
-        const input = document.createElement('input')
-        input.readOnly = true
-        input.value = data
-        input.style.position = 'absolute'
-        input.style.width = '100px'
-        input.style.left = '-10000px'
-        document.body.appendChild(input)
-        input.select()
-        input.setSelectionRange(0, input.value.length)
+        const textarea = document.createElement('textarea')
+        textarea.readOnly = true
+        textarea.value = data
+        textarea.style.position = 'absolute'
+        textarea.style.width = '100px'
+        textarea.style.left = '-10000px'
+        document.body.appendChild(textarea)
+        textarea.select()
+        textarea.setSelectionRange(0, textarea.value.length)
         document.execCommand('copy')
-        document.body.removeChild(input)
+        document.body.removeChild(textarea)
       } else {
         throw new Error('Unsupported Function: \'document.execCommand\'.')
       }
