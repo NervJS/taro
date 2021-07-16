@@ -154,7 +154,7 @@ export class BaseTemplate {
         }
 
         if (
-          (compName === 'view' && process.env.TARO_ENV === 'swan') ||
+          (compName === 'view' && process.env.TARO_ENV !== 'swan') ||
           compName === 'text' ||
           compName === 'image'
         ) {
