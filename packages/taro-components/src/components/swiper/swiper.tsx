@@ -111,12 +111,12 @@ export class Swiper implements ComponentInterface {
 
   @Watch('autoplay')
   watchAutoplay (newVal) {
-    if (!this.isWillLoadCalled) return
+    if (!this.isWillLoadCalled || !this.swiper) return
 
     if (this.swiper.autoplay.running === newVal) return
 
     if (newVal) {
-      if (typeof this.swiper.params.autoplay === 'object') {
+      if (this.swiper.params && typeof this.swiper.params.autoplay === 'object') {
         if (this.swiper.params.autoplay.disableOnInteraction === true) {
           this.swiper.params.autoplay.disableOnInteraction = false
         }
@@ -178,6 +178,7 @@ export class Swiper implements ComponentInterface {
   }
 
   componentWillUpdate () {
+    if (!this.swiper) return
     if (this.autoplay && !this.swiper.autoplay.running) {
       this.swiper.autoplay.start()
     }
