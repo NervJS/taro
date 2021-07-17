@@ -1,4 +1,3 @@
-
 /**
  * 在新页面中全屏预览图片。预览的过程中用户可以进行保存图片、发送给朋友等操作。
  * @param {Object} options
@@ -67,13 +66,23 @@ function loadImage (url, fail) {
     const item = document.createElement('taro-swiper-item-core')
     item.style.cssText = `
       display: flex;
-      align-items: center;
+      align-items: start;
       justify-content: center;
+      overflow-y: scroll;
     `
     const image = new Image()
     image.style.maxWidth = '100%'
     image.src = url
-    item.appendChild(image)
+    const div = document.createElement('div')
+    div.style.cssText = `
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 100%;
+      min-height: 100%;
+    `
+    div.appendChild(image)
+    item.appendChild(div)
     // Note: 等待图片加载完后返回，会导致轮播被卡住
     resolve(item)
     if (typeof fail === 'function') {
