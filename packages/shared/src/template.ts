@@ -483,7 +483,29 @@ export class BaseTemplate {
 }
 
 export class RecursiveTemplate extends BaseTemplate {
-  isSupportRecursive = true
+  public isSupportRecursive = true
+
+  public flattenLevel = 8
+
+  buildFlattenView = (level = this.flattenLevel): string => {
+    if (level === 0) {
+      return '<template is="{{xs.e(0)}}" data="{{{i:item}}}" />'
+    }
+
+    const child = this.buildFlattenView(level - 1)
+
+    const template =
+`<view s-if="{{item.nn==='view'&&(item.st||item.cl)}}" hover-class="{{xs.b(item.hoverClass,'none')}}" hover-stop-propagation="{{xs.b(item.hoverStopPropagation,false)}}" hover-start-time="{{xs.b(item.hoverStartTime,50)}}" hover-stay-time="{{xs.b(item.hoverStayTime,400)}}" animation="{{item.animation}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh" id="{{item.uid}}">
+  <block s-for="{{item.cn}}" s-key="uid">
+    ${indent(child, 4)}
+  </block>
+</view>
+<block s-else>
+  <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
+</block>`
+
+    return template
+  }
 
   public buildTemplate = (componentConfig: ComponentConfig) => {
     let template = this.buildBaseTemplate()

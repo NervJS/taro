@@ -1140,11 +1140,9 @@ require(\\"./taro\\");
         var hostConfig = {
             initNativeApi: initNativeApi
         };
-        var syncApis = new Set([ \\"createAppBox\\" ]);
         var asyncApis = new Set([ \\"getQQRunData\\", \\"requestWxPayment\\", \\"setAvatar\\", \\"shareInvite\\", \\"updateBookshelfReadTime\\" ]);
         function runtime_initNativeApi(taro) {
             processApis(taro, qq, {
-                noPromiseApis: new Set([].concat(_toConsumableArray(undefined), _toConsumableArray(syncApis))),
                 needPromiseApis: new Set([].concat(_toConsumableArray(runtime_utils_needPromiseApis), _toConsumableArray(asyncApis)))
             });
             taro.cloud = qq.cloud;
@@ -4165,11 +4163,9 @@ require(\\"./taro\\");
         var hostConfig = {
             initNativeApi: initNativeApi
         };
-        var syncApis = new Set([ \\"createAppBox\\" ]);
         var asyncApis = new Set([ \\"getQQRunData\\", \\"requestWxPayment\\", \\"setAvatar\\", \\"shareInvite\\", \\"updateBookshelfReadTime\\" ]);
         function runtime_initNativeApi(taro) {
             processApis(taro, qq, {
-                noPromiseApis: new Set([].concat(_toConsumableArray(undefined), _toConsumableArray(syncApis))),
                 needPromiseApis: new Set([].concat(_toConsumableArray(runtime_utils_needPromiseApis), _toConsumableArray(asyncApis)))
             });
             taro.cloud = qq.cloud;

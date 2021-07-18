@@ -54,6 +54,7 @@ interface ITaroMiniPluginOptions {
   commonChunks: string[]
   framework: string
   baseLevel: number
+  flattenLevel: number
   prerender?: PrerenderConfig
   addChunkPages?: AddPageChunks
   isBuildQuickapp: boolean
@@ -147,9 +148,12 @@ export default class TaroMiniPlugin {
       minifyXML: {}
     }, options)
 
-    const { template, baseLevel } = this.options
+    const { template, baseLevel, flattenLevel } = this.options
     if (template.isSupportRecursive === false && baseLevel > 0) {
       (template as UnRecursiveTemplate).baseLevel = baseLevel
+    }
+    if (template.isSupportRecursive) {
+      (template as RecursiveTemplate).flattenLevel = flattenLevel
     }
     this.prerenderPages = new Set()
   }

@@ -62,6 +62,7 @@ export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   onBuildFinish: Func
   framework: string,
   baseLevel: number,
+  flattenLevel: number,
   prerender?: PrerenderConfig
   template: RecursiveTemplate | UnRecursiveTemplate
   runtimePath?: string | string[]
