@@ -232,17 +232,19 @@ export class Swiper implements ComponentInterface {
             source: ''
           })
         },
-        observerUpdate (_swiper, e) {
+        observerUpdate (_swiper: ISwiper, e) {
           const target = e.target
           const className = target && typeof target.className === 'string' ? target.className : ''
           if (className.includes('taro_page') && target.style.display === 'block') {
-            if (that.autoplay && target.contains(this.$el[0])) {
-              this.slideTo(that.current)
+            if (that.autoplay && target.contains(_swiper.$el[0])) {
+              _swiper.slideTo(that.current)
             }
           } else if (className.includes('swiper-wrapper')) {
             if (e.addedNodes.length > 0 || e.removedNodes.length > 0) {
-              this.loopDestroy()
-              this.loopCreate()
+              // @ts-ignore
+              _swiper.loopDestroy()
+              // @ts-ignore
+              _swiper.loopCreate()
             }
           }
         }
