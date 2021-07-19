@@ -1,5 +1,7 @@
 import Taro from '@tarojs/taro'
 
+const ALIPAY = 'alipay'
+
 export default class WebSocket {
   url: string
   readyState: number
@@ -38,11 +40,23 @@ export default class WebSocket {
           this.onmessage(res)
         })
 
-        ws.onOpen(res => {
-          this.readyState = this.OPEN
-          this.onopen(res)
-        })
+        if (this.readyState !== this.OPEN) {
+          ws.onOpen(res => {
+            this.readyState = this.OPEN
+            this.onopen(res)
+          })
+        } else {
+          // 支付宝全局的 onSocketOpen 已触发过了，直接调用 onopen
+          this.onopen({})
+        }
       })
+
+    // 支付宝只支持一个 socket 连接，且 onSocketOpen 的触发时机比 connectSocket 回调的时机早
+    if (process.env.TARO_ENV === ALIPAY) {
+      Taro.onSocketOpen(() => {
+        this.readyState = this.OPEN
+      })
+    }
   }
 
   public send (data) {

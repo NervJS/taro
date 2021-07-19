@@ -3,6 +3,7 @@ import { isArray, isString } from '@tarojs/shared'
 
 import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
 
+const spawn = require('cross-spawn')
 const detectPort = require('detect-port')
 
 interface IOptions {
@@ -23,7 +24,8 @@ export default function (ctx: IPluginContext, options: IOptions) {
 
     if (availablePort === port) {
       // eslint-disable-next-line no-console
-      console.log(chalk.yellow('\n提示  ') + `端口 ${port} 未被监听，请先在命令行启动 react-devtools\n`)
+      console.log(chalk.yellow('\n提示  ') + '正在启动 react-devtools...\n')
+      spawn(require.resolve('react-devtools/bin'), { env: { ...process.env, PORT: port } })
     }
   })
 
