@@ -3,7 +3,7 @@ title: React DevTools
 ---
 
 :::note
-Taro v3.3.1 开始支持，暂不支持支付宝小程序。
+Taro v3.3.1 开始支持。
 :::
 
 在开发小程序时可以使用 [React DevTools](https://github.com/facebook/react/blob/main/packages/react-devtools/README.md)。
