@@ -42,11 +42,12 @@ function hidePage (page: PageInstance | null) {
 function showPage (page: PageInstance | null, pageConfig: Route | undefined) {
   if (page != null) {
     page.onShow!()
-    const pageEl = document.getElementById(page.path!)
+    let pageEl = document.getElementById(page.path!)
     if (pageEl) {
       pageEl.style.display = 'block'
     } else {
       page.onLoad(qs())
+      pageEl = document.getElementById(page.path!)
       pageOnReady(pageEl, page, false)
     }
     bindPageScroll(page, pageConfig || {})
@@ -81,9 +82,6 @@ function loadPage (page: PageInstance | null, pageConfig: Route | undefined) {
       pageEl.style.display = 'block'
     } else {
       page.onLoad(qs())
-      requestAnimationFrame(() => {
-        page.onReady!()
-      })
       pageEl = document.getElementById(page.path!)
       pageOnReady(pageEl, page)
     }
