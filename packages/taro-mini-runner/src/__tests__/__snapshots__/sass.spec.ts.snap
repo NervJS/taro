@@ -736,7 +736,7 @@ require(\\"./taro\\");
                                 (_b = options.success) === null || _b === void 0 ? void 0 : _b.call(options, res);
                                 if (key === \\"connectSocket\\") {
                                     resolve(Promise.resolve().then((function() {
-                                        return Object.assign(task, res);
+                                        return task ? Object.assign(task, res) : res;
                                     })));
                                 } else {
                                     resolve(res);
@@ -3124,7 +3124,7 @@ require(\\"./taro\\");
                                 (_b = options.success) === null || _b === void 0 ? void 0 : _b.call(options, res);
                                 if (key === \\"connectSocket\\") {
                                     resolve(Promise.resolve().then((function() {
-                                        return Object.assign(task, res);
+                                        return task ? Object.assign(task, res) : res;
                                     })));
                                 } else {
                                     resolve(res);
@@ -5512,7 +5512,7 @@ require(\\"./taro\\");
                                 (_b = options.success) === null || _b === void 0 ? void 0 : _b.call(options, res);
                                 if (key === \\"connectSocket\\") {
                                     resolve(Promise.resolve().then((function() {
-                                        return Object.assign(task, res);
+                                        return task ? Object.assign(task, res) : res;
                                     })));
                                 } else {
                                     resolve(res);
@@ -7900,7 +7900,7 @@ require(\\"./taro\\");
                                 (_b = options.success) === null || _b === void 0 ? void 0 : _b.call(options, res);
                                 if (key === \\"connectSocket\\") {
                                     resolve(Promise.resolve().then((function() {
-                                        return Object.assign(task, res);
+                                        return task ? Object.assign(task, res) : res;
                                     })));
                                 } else {
                                     resolve(res);

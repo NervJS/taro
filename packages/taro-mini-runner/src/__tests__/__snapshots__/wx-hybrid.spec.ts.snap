@@ -682,7 +682,7 @@ require(\\"./taro\\");
                                 (_a = config.modifyAsyncResult) === null || _a === void 0 ? void 0 : _a.call(config, key, res);
                                 (_b = options.success) === null || _b === void 0 ? void 0 : _b.call(options, res);
                                 if (key === \\"connectSocket\\") {
-                                    resolve(Promise.resolve().then(() => Object.assign(task, res)));
+                                    resolve(Promise.resolve().then(() => task ? Object.assign(task, res) : res));
                                 } else {
                                     resolve(res);
                                 }
