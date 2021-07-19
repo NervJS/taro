@@ -39,14 +39,14 @@ function hidePage (page: PageInstance | null) {
   }
 }
 
-function showPage (page: PageInstance | null, pageConfig: Route | undefined) {
+function showPage (page: PageInstance | null, pageConfig: Route | undefined, stacksIndex = 0) {
   if (page != null) {
     page.onShow!()
     let pageEl = document.getElementById(page.path!)
     if (pageEl) {
       pageEl.style.display = 'block'
     } else {
-      page.onLoad(qs())
+      page.onLoad(qs(stacksIndex))
       pageEl = document.getElementById(page.path!)
       pageOnReady(pageEl, page, false)
     }
@@ -75,13 +75,13 @@ function pageOnReady (pageEl: Element | null, page: PageInstance, onLoad = true)
   }
 }
 
-function loadPage (page: PageInstance | null, pageConfig: Route | undefined) {
+function loadPage (page: PageInstance | null, pageConfig: Route | undefined, stacksIndex = 0) {
   if (page !== null) {
     let pageEl = document.getElementById(page.path!)
     if (pageEl) {
       pageEl.style.display = 'block'
     } else {
-      page.onLoad(qs())
+      page.onLoad(qs(stacksIndex))
       pageEl = document.getElementById(page.path!)
       pageOnReady(pageEl, page)
     }
@@ -157,9 +157,12 @@ export function createRouter (
       }
       // 最终必须重置为 1
       setHistoryBackDelta(1)
-      const prev = stacks.find(s => s.path === location.pathname + stringify(qs()))
+      const prevIndex = stacks.findIndex((s, i) => {
+        return s.path === location.pathname + stringify(qs(i))
+      })
+      const prev = stacks[prevIndex]
       if (prev) {
-        showPage(prev, pageConfig)
+        showPage(prev, pageConfig, prevIndex)
       } else {
         shouldLoad = true
       }
@@ -178,11 +181,11 @@ export function createRouter (
       delete config['load']
       const page = createPageConfig(
         enablePullDownRefresh ? runtimeHooks.createPullDownComponent?.(el, location.pathname, framework, routerConfig.PullDownRefresh) : el,
-        location.pathname + stringify(qs()),
+        location.pathname + stringify(qs(stacks.length)),
         {},
         config
       )
-      loadPage(page, pageConfig)
+      loadPage(page, pageConfig, stacks.length)
     }
   }
 
@@ -192,7 +195,7 @@ export function createRouter (
 
   render(history.location, 'PUSH')
 
-  app.onShow!(qs())
+  app.onShow!(qs(stacks.length))
 
   return history.listen(render)
 }
