@@ -321,6 +321,30 @@ export function modifyAsyncResult (key, res) {
   } else if (key === 'getScreenBrightness') {
     res.value = res.brightness
     delete res.brightness
+  } else if (key === 'connectSocket') {
+    res.onClose = function (cb) {
+      my.onSocketClose(cb)
+    }
+
+    res.onError = function (cb) {
+      my.onSocketError(cb)
+    }
+
+    res.onMessage = function (cb) {
+      my.onSocketMessage(cb)
+    }
+
+    res.onOpen = function (cb) {
+      my.onSocketOpen(cb)
+    }
+
+    res.send = function (opt) {
+      my.sendSocketMessage(opt)
+    }
+
+    res.close = function () {
+      my.closeSocket()
+    }
   }
 }
 

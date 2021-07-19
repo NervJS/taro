@@ -247,7 +247,7 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
             options.success?.(res)
             if (key === 'connectSocket') {
               resolve(
-                Promise.resolve().then(() => Object.assign(task, res))
+                Promise.resolve().then(() => task ? Object.assign(task, res) : res)
               )
             } else {
               resolve(res)
