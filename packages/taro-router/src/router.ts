@@ -157,9 +157,11 @@ export function createRouter (
       }
       // 最终必须重置为 1
       setHistoryBackDelta(1)
-      const prevIndex = stacks.findIndex((s, i) => {
-        return s.path === location.pathname + stringify(qs(i))
-      })
+      const prevIndex = stacks.reduceRight((p, s, i) => {
+        if (p !== 0) return p
+        else if (s.path === location.pathname + stringify(qs(i))) return i
+        else return 0
+      }, 0)
       const prev = stacks[prevIndex]
       if (prev) {
         showPage(prev, pageConfig, prevIndex)
