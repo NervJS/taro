@@ -12,10 +12,10 @@ Taro v3.3.1 开始支持，暂不支持支付宝小程序。
 
 ### 1. 安装
 
-在项目中安装 react-devtools（开发者可以自由选择版本）、Taro 插件：
+在项目中安装 Taro 插件 `@tarojs/plugin-react-devtools`：
 
 ```sh
-$ yarn add --dev react-devtools @tarojs/plugin-react-devtools
+$ yarn add --dev @tarojs/plugin-react-devtools
 ```
 
 ### 2. 配置 Taro 插件
@@ -31,26 +31,11 @@ config = {
 }
 ```
 
-### 3. 启动 react-devtools 工具
-
-配置 npm script，如：
-
-```json title="packages.json"
-{
-  "scripts": {
-    "devtools": "react-devtools"
-  },
-  ...
-}
-```
-
-然后启动 `react-devtools`：
+### 3. 编译项目
 
 ```sh
-$ npm run devtools
+$ taro build --type weapp --watch
 ```
-
-### 4. 编译项目
 
 ## 插件参数
 
@@ -70,16 +55,11 @@ $ npm run devtools
 
 默认值：`8097`
 
-backend 连接的 Websocket 端口。
-
-如果修改了此选项，需要同时修改 frontend 的端口，如：
-
-```
-$ PORT=8998 react-devtools
-```
+React DevTools 使用的 Websocket 端口。
 
 ## 注意事项
 
+- 强制锁定了 `react-devtools` 的版本，更新版本需要修改 `@tarojs/plugin-react-devtools` 插件的代码。
 - [为了识别 custom hooks](https://github.com/facebook/react/blob/main/packages/react-devtools/OVERVIEW.md#inspecting-hooks)，backend 会对部分符合条件的函数式组件执行 `shallow rendering`，开发者需要注意代码是否存在副作用。
 
 另外，目前对 devtools 功能的支持不够全面，有些功能需要针对小程序环境魔改 backend 才能实现，欢迎共建～
