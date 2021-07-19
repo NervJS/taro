@@ -180,3 +180,82 @@ class App extends Component {
 }]} />);
   }
 }
+
+```
+
+support multiple className to style
+
+
+.babelrc
+``` json
+
+{
+  "plugins": ["transform-react-jsx-to-rn-stylesheet", { enableMultipleClassName: true }]
+}
+
+```
+
+
+
+``` js
+
+import { createElement, Component } from 'rax';
+import './app.css';
+
+class App extends Component {
+  render() {
+    return <div className="container" headerClassName="header" />;
+  }
+}
+
+/*  ↓ ↓ ↓ ↓ ↓ ↓  */
+
+import { createElement, Component } from 'rax';
+import appCssStyleSheet from "./app.css";
+var _styleSheet = appCssStyleSheet;
+
+class App extends Component {
+  render() {
+    return <div style={_styleSheet["container"]} headerStyle={_styleSheet["header"]} />;
+  }
+
+}
+
+```
+
+the `enableMultipleClassName` option will match 'attribute' end with 'className' | 'style', and transform className to style. 
+
+but use the error css value in style attribute
+
+like this:
+
+``` js
+
+import { createElement, Component } from 'rax';
+import './app.css';
+
+class App extends Component {
+  render() {
+    return <StatusBar barStyle="dark-content" />;
+  }
+}
+
+```
+
+the plugin can't transform 'dark-content' to css value, so this transformation will be ignored
+
+
+``` js
+import { createElement, Component } from 'rax';
+import appCssStyleSheet from "./app.css";
+var _styleSheet = appCssStyleSheet;
+
+class App extends Component {
+  render() {
+    return <StatusBar barStyle={"dark-content"} />;
+  }
+
+}
+
+
+```
