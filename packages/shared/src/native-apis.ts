@@ -11,6 +11,7 @@ interface IProcessApisIOptions {
   needPromiseApis?: Set<string>
   handleSyncApis?: (key: string, global: IObject, args: any[]) => any
   transformMeta?: (key: string, options: IObject) => { key: string, options: IObject },
+  modifyApis?: (apis: Set<string>) => void
   modifyAsyncResult?: (key: string, res) => void
   isOnlyPromisify?: boolean
   [propName: string]: any
@@ -207,7 +208,11 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
     'webpackJsonp'
   ]
 
-  const apis = Object.keys(global).filter(api => preserved.indexOf(api) === -1)
+  const apis = new Set(Object.keys(global).filter(api => preserved.indexOf(api) === -1))
+
+  if (config.modifyApis) {
+    config.modifyApis(apis)
+  }
 
   apis.forEach(key => {
     if (_needPromiseApis.has(key)) {
@@ -282,8 +287,15 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
         return p
       }
     } else {
+      let platformKey = key
+
+      // 改变 key 或 option 字段，如需要把支付宝标准的字段对齐微信标准的字段
+      if (config.transformMeta) {
+        platformKey = config.transformMeta(key, {}).key
+      }
+
       // API 不存在
-      if (!global.hasOwnProperty(key)) {
+      if (!global.hasOwnProperty(platformKey)) {
         taro[key] = unsupport(key)
         return
       }
@@ -292,11 +304,11 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
           if (config.handleSyncApis) {
             return config.handleSyncApis(key, global, args)
           } else {
-            return global[key].apply(global, args)
+            return global[platformKey].apply(global, args)
           }
         }
       } else {
-        taro[key] = global[key]
+        taro[key] = global[platformKey]
       }
     }
   })

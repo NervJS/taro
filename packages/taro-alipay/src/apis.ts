@@ -307,6 +307,17 @@ export function transformMeta (api: string, options: Record<string, any>) {
   }
 }
 
+export function modifyApis (apis: Set<string>) {
+  Object.keys(apiDiff).map(key => {
+    apis.add(key)
+    const platformKey = apiDiff[key].alias
+    platformKey && apis.delete(platformKey)
+  })
+  apis.add('showModal')
+  apis.delete('confirm')
+  apis.delete('alert')
+}
+
 export function modifyAsyncResult (key, res) {
   if (key === 'saveFile') {
     res.savedFilePath = res.apFilePath
@@ -353,6 +364,7 @@ export function initNativeApi (taro) {
     needPromiseApis,
     handleSyncApis,
     transformMeta,
+    modifyApis,
     modifyAsyncResult,
     request
   })
