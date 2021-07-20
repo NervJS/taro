@@ -1,5 +1,5 @@
 import { stacks } from './stack'
-import { history } from './history'
+import { history, parsePath } from './history'
 import { routesAlias, addLeadingSlash, setHistoryBackDelta } from './utils'
 
 interface Base {
@@ -39,9 +39,9 @@ function navigate (option: Option | NavigateBackOption, method: 'navigateTo' | '
   }
   try {
     if (method === 'navigateTo') {
-      history.push((option as Option).url)
+      history.push(parsePath((option as Option).url), { timestamp: Date.now() })
     } else if (method === 'redirectTo') {
-      history.replace((option as Option).url)
+      history.replace(parsePath((option as Option).url), { timestamp: Date.now() })
     } else if (method === 'navigateBack') {
       setHistoryBackDelta((option as NavigateBackOption).delta)
       history.go(-(option as NavigateBackOption).delta)
@@ -49,14 +49,18 @@ function navigate (option: Option | NavigateBackOption, method: 'navigateTo' | '
   } catch (error) {
     failReason = error
   }
+
+  const unlisten = history.listen(() => {
+    complete && complete()
+    unlisten()
+  })
+
   return new Promise<void>((resolve, reject) => {
     if (failReason) {
       fail && fail(failReason)
-      complete && complete()
       reject(failReason)
     } else {
       success && success()
-      complete && complete()
       resolve()
     }
   })

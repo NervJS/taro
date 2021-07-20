@@ -45,7 +45,8 @@
     "packages/taro-tt",
     "packages/taro-qq",
     "packages/taro-jd",
-    "packages/taro-plugin-html"
+    "packages/taro-plugin-html",
+    "packages/taro-plugin-react-devtools"
   ],
   "command": {
     "publish": {
