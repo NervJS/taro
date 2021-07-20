@@ -70,6 +70,7 @@ class _Container extends React.Component<PageContainerProps, any> {
 
   render(): JSX.Element {
     const { children, overlay, round, position, overlayStyle, customStyle } = this.props
+    const _height = position === 'top' || position === 'bottom' ? {} : { height: ScreenHeight }
     let _radiusStyle = {}
     if (round) {
       if (position === 'top') {
@@ -84,6 +85,7 @@ class _Container extends React.Component<PageContainerProps, any> {
         }
       }
     }
+
     return (
       <View
         style={StyleSheet.flatten([
@@ -98,10 +100,10 @@ class _Container extends React.Component<PageContainerProps, any> {
         <Animated.View
           style={StyleSheet.flatten([
             {
-              height: position === 'top' || position === 'bottom' ? 300 : ScreenHeight,
+              ..._height,
+              ..._radiusStyle,
               width: ScreenWidth,
               backgroundColor: '#fff',
-              ..._radiusStyle,
               overflow: 'hidden',
               transform: [
                 {

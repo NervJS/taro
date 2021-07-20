@@ -10,7 +10,7 @@ import { PageContainerProps } from './PropsType'
 class _PageContainer extends React.Component<PageContainerProps, any> {
   static defaultProps = {
     show: false,
-    duration: 350,
+    duration: 300,
     overlay: true,
     round: false,
     position: 'bottom'
@@ -49,7 +49,7 @@ class _PageContainer extends React.Component<PageContainerProps, any> {
       <Modal
         visible={show}
         transparent={true}
-        animationType="none"
+        animationType="fade"
         onRequestClose={onRequestClose}
         onShow={onEnter}
         // onDismiss={onLeave} // NOTE: 该属性只支持 iOS，故不用该属性
