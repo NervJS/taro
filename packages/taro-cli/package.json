@@ -119,7 +119,7 @@
     "stylelint": "13.6.1",
     "tapable": "^1.1.3",
     "taro-css-to-react-native": "^2.0.4",
-    "through2": "^2.0.3",
+    "through2": "^4.0.2",
     "vinyl": "^2.1.0",
     "vinyl-fs": "^3.0.2",
     "xml2js": "^0.4.19",
