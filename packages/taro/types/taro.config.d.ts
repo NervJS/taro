@@ -106,7 +106,7 @@ declare namespace Taro {
     allowsBounceVertical?: 'YES' | 'NO'
   }
 
-  interface TarbarList {
+  interface TabBarItem {
     /**
      * 页面路径，必须在 pages 中先定义
      */
@@ -155,7 +155,7 @@ declare namespace Taro {
      */
     custom?: boolean
 
-    list: TarbarList[]
+    list: TabBarItem[]
   }
 
   interface NetworkTimeout {
