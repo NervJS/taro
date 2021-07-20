@@ -1,4 +1,4 @@
-import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Element } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Element, State, Watch } from '@stencil/core'
 import { EventHandler, TaroEvent } from '../../../types'
 
 function getTrueType (type: string | undefined, confirmType: string, password: boolean) {
@@ -39,7 +39,23 @@ export class Input implements ComponentInterface {
   @Prop() confirmType = 'done'
   @Prop() name: string
 
+  @State() _value: string
+
   @Element() el: HTMLElement
+
+  @Watch('value')
+  watchHandler (newValue: string, oldValue: string) {
+    if (newValue !== oldValue) {
+      this._value = newValue
+    }
+  }
+
+  @Watch('autoFocus')
+  watchFocus (newValue: boolean, oldValue: boolean) {
+    if (!oldValue && newValue) {
+      this.inputRef.focus()
+    }
+  }
 
   @Event({
     eventName: 'input'
@@ -65,6 +81,10 @@ export class Input implements ComponentInterface {
     eventName: 'keydown'
   }) onKeyDown: EventEmitter
 
+  componentWillLoad () {
+    this._value = this.value
+  }
+
   componentDidLoad () {
     if (this.type === 'file') {
       this.fileListener = () => {
@@ -78,7 +98,9 @@ export class Input implements ComponentInterface {
 
     Object.defineProperty(this.el, 'value', {
       get: () => this.inputRef.value,
-      set: value => (this.value = value),
+      set: value => {
+        this._value = value
+      },
       configurable: true
     })
   }
@@ -117,6 +139,8 @@ export class Input implements ComponentInterface {
       //     }
       //   )
       // }
+
+      this._value = value
 
       this.onInput.emit({
         value,
@@ -168,7 +192,7 @@ export class Input implements ComponentInterface {
 
   render () {
     const {
-      value,
+      _value,
       type,
       password,
       placeholder,
@@ -186,7 +210,7 @@ export class Input implements ComponentInterface {
           autoFocus && input?.focus()
         }}
         class='weui-input'
-        value={fixControlledValue(value)}
+        value={fixControlledValue(_value)}
         type={getTrueType(type, confirmType, password)}
         placeholder={placeholder}
         disabled={disabled}

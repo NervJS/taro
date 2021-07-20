@@ -671,9 +671,12 @@ require(\\"./taro\\");
         var patchNeedPromiseApis = config.needPromiseApis || [];
         var _needPromiseApis = new Set([].concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(patchNeedPromiseApis), Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(needPromiseApis)));
         var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
-        var apis = Object.keys(global).filter((function(api) {
+        var apis = new Set(Object.keys(global).filter((function(api) {
             return preserved.indexOf(api) === -1;
-        }));
+        })));
+        if (config.modifyApis) {
+            config.modifyApis(apis);
+        }
         apis.forEach((function(key) {
             if (_needPromiseApis.has(key)) {
                 var originKey = key;
@@ -707,7 +710,7 @@ require(\\"./taro\\");
                             (_b = options.success) === null || _b === void 0 ? void 0 : _b.call(options, res);
                             if (key === \\"connectSocket\\") {
                                 resolve(Promise.resolve().then((function() {
-                                    return Object.assign(task, res);
+                                    return task ? Object.assign(task, res) : res;
                                 })));
                             } else {
                                 resolve(res);
@@ -742,7 +745,11 @@ require(\\"./taro\\");
                     return p;
                 };
             } else {
-                if (!global.hasOwnProperty(key)) {
+                var platformKey = key;
+                if (config.transformMeta) {
+                    platformKey = config.transformMeta(key, {}).key;
+                }
+                if (!global.hasOwnProperty(platformKey)) {
                     taro[key] = unsupport(key);
                     return;
                 }
@@ -754,11 +761,11 @@ require(\\"./taro\\");
                         if (config.handleSyncApis) {
                             return config.handleSyncApis(key, global, args);
                         } else {
-                            return global[key].apply(global, args);
+                            return global[platformKey].apply(global, args);
                         }
                     };
                 } else {
-                    taro[key] = global[key];
+                    taro[key] = global[platformKey];
                 }
             }
         }));
@@ -942,7 +949,7 @@ require(\\"./taro\\");
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     var _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-    var needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\", \\"choosePoi\\" ]);
+    var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\" ]);
     function initNativeApi(taro) {
         Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"c\\"])(taro, wx, {
             needPromiseApis: needPromiseApis
@@ -4681,9 +4688,12 @@ require(\\"./taro\\");
             var patchNeedPromiseApis = config.needPromiseApis || [];
             var _needPromiseApis = new Set([].concat(_toConsumableArray(patchNeedPromiseApis), _toConsumableArray(needPromiseApis)));
             var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
-            var apis = Object.keys(global).filter((function(api) {
+            var apis = new Set(Object.keys(global).filter((function(api) {
                 return preserved.indexOf(api) === -1;
-            }));
+            })));
+            if (config.modifyApis) {
+                config.modifyApis(apis);
+            }
             apis.forEach((function(key) {
                 if (_needPromiseApis.has(key)) {
                     var originKey = key;
@@ -4717,7 +4727,7 @@ require(\\"./taro\\");
                                 (_b = options.success) === null || _b === void 0 ? void 0 : _b.call(options, res);
                                 if (key === \\"connectSocket\\") {
                                     resolve(Promise.resolve().then((function() {
-                                        return Object.assign(task, res);
+                                        return task ? Object.assign(task, res) : res;
                                     })));
                                 } else {
                                     resolve(res);
@@ -4752,7 +4762,11 @@ require(\\"./taro\\");
                         return p;
                     };
                 } else {
-                    if (!global.hasOwnProperty(key)) {
+                    var platformKey = key;
+                    if (config.transformMeta) {
+                        platformKey = config.transformMeta(key, {}).key;
+                    }
+                    if (!global.hasOwnProperty(platformKey)) {
                         taro[key] = unsupport(key);
                         return;
                     }
@@ -4764,11 +4778,11 @@ require(\\"./taro\\");
                             if (config.handleSyncApis) {
                                 return config.handleSyncApis(key, global, args);
                             } else {
-                                return global[key].apply(global, args);
+                                return global[platformKey].apply(global, args);
                             }
                         };
                     } else {
-                        taro[key] = global[key];
+                        taro[key] = global[platformKey];
                     }
                 }
             }));
@@ -4795,7 +4809,7 @@ require(\\"./taro\\");
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
             taro.miniGlobal = taro.options.miniGlobal = global;
         }
-        var runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\", \\"choosePoi\\" ]);
+        var runtime_needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: runtime_needPromiseApis
@@ -8500,9 +8514,12 @@ require(\\"./taro\\");
             var patchNeedPromiseApis = config.needPromiseApis || [];
             var _needPromiseApis = new Set([].concat(_toConsumableArray(patchNeedPromiseApis), _toConsumableArray(needPromiseApis)));
             var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
-            var apis = Object.keys(global).filter((function(api) {
+            var apis = new Set(Object.keys(global).filter((function(api) {
                 return preserved.indexOf(api) === -1;
-            }));
+            })));
+            if (config.modifyApis) {
+                config.modifyApis(apis);
+            }
             apis.forEach((function(key) {
                 if (_needPromiseApis.has(key)) {
                     var originKey = key;
@@ -8536,7 +8553,7 @@ require(\\"./taro\\");
                                 (_b = options.success) === null || _b === void 0 ? void 0 : _b.call(options, res);
                                 if (key === \\"connectSocket\\") {
                                     resolve(Promise.resolve().then((function() {
-                                        return Object.assign(task, res);
+                                        return task ? Object.assign(task, res) : res;
                                     })));
                                 } else {
                                     resolve(res);
@@ -8571,7 +8588,11 @@ require(\\"./taro\\");
                         return p;
                     };
                 } else {
-                    if (!global.hasOwnProperty(key)) {
+                    var platformKey = key;
+                    if (config.transformMeta) {
+                        platformKey = config.transformMeta(key, {}).key;
+                    }
+                    if (!global.hasOwnProperty(platformKey)) {
                         taro[key] = unsupport(key);
                         return;
                     }
@@ -8583,11 +8604,11 @@ require(\\"./taro\\");
                             if (config.handleSyncApis) {
                                 return config.handleSyncApis(key, global, args);
                             } else {
-                                return global[key].apply(global, args);
+                                return global[platformKey].apply(global, args);
                             }
                         };
                     } else {
-                        taro[key] = global[key];
+                        taro[key] = global[platformKey];
                     }
                 }
             }));
@@ -8614,7 +8635,7 @@ require(\\"./taro\\");
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
             taro.miniGlobal = taro.options.miniGlobal = global;
         }
-        var runtime_needPromiseApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\", \\"sendBizRedPacket\\", \\"getUserProfile\\", \\"stopBluetoothDevicesDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"openBluetoothAdapter\\", \\"getConnectedBluetoothDevices\\", \\"getBluetoothDevices\\", \\"getBluetoothAdapterState\\", \\"closeBluetoothAdapter\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"createBLEConnection\\", \\"closeBLEConnection\\", \\"startFacialRecognitionVerify\\", \\"choosePoi\\" ]);
+        var runtime_needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: runtime_needPromiseApis
