@@ -1,4 +1,4 @@
-import { isArray, Shortcuts } from '@tarojs/shared'
+import { isArray, Shortcuts, indent } from '@tarojs/shared'
 import { RecursiveTemplate } from '@tarojs/shared/dist/template'
 
 const swanSpecialAttrs = {
@@ -9,8 +9,13 @@ const swanSpecialAttrs = {
   textarea: ['value']
 }
 
+interface TemplateOptions {
+  flattenViewLevel?: number
+}
+
 export class Template extends RecursiveTemplate {
   supportXS = true
+
   Adapter = {
     if: 's-if',
     else: 's-else',
@@ -21,6 +26,22 @@ export class Template extends RecursiveTemplate {
     key: 's-key',
     xs: 'sjs',
     type: 'swan'
+  }
+
+  flattenViewLevel: number
+
+  constructor (options?: TemplateOptions) {
+    super()
+    this.flattenViewLevel = options?.flattenViewLevel ?? 8
+  }
+
+  createMiniComponents (components): any {
+    const result = super.createMiniComponents(components)
+
+    delete result['pure-view']
+    delete result['static-view']
+
+    return result
   }
 
   buildXsTemplate () {
@@ -37,6 +58,26 @@ export class Template extends RecursiveTemplate {
     }
 
     return `{ ${value} }`
+  }
+
+  buildFlattenView = (level = this.flattenViewLevel): string => {
+    if (level === 0) {
+      return '<template is="{{xs.e(0)}}" data="{{{i:item}}}" />'
+    }
+
+    const child = this.buildFlattenView(level - 1)
+
+    const template =
+`<view s-if="{{item.nn==='view'&&(item.st||item.cl)}}" hover-class="{{xs.b(item.hoverClass,'none')}}" hover-stop-propagation="{{xs.b(item.hoverStopPropagation,false)}}" hover-start-time="{{xs.b(item.hoverStartTime,50)}}" hover-stay-time="{{xs.b(item.hoverStayTime,400)}}" animation="{{item.animation}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh" id="{{item.uid}}">
+  <block s-for="{{item.cn}}" s-key="uid">
+    ${indent(child, 4)}
+  </block>
+</view>
+<block s-else>
+  <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
+</block>`
+
+    return template
   }
 
   modifyLoopBody = (child: string, nodeName: string) => {
