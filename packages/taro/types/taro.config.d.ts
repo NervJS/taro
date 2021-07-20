@@ -2,7 +2,7 @@ declare namespace Taro {
   /**
    * 微信小程序全局 Window 配置和页面配置的公共项目
    */
-  interface CommonPageConfig {
+  interface CommonConfig {
     /**
      * 导航栏背景颜色，HexColor
      * default: #000000
@@ -55,7 +55,7 @@ declare namespace Taro {
     onReachBottomDistance?: number
   }
 
-  interface PageConfig extends CommonPageConfig {
+  interface PageConfig extends CommonConfig {
     /**
      * 设置为 true 则页面整体不能上下滚动；
      * 只在页面配置中有效，无法在 app.json 中设置该项
@@ -85,7 +85,7 @@ declare namespace Taro {
     enableShareTimeline?: boolean
   }
 
-  interface WindowConfig extends CommonPageConfig {
+  interface WindowConfig extends CommonConfig {
     /**
      * 屏幕旋转设置
      * 支持 auto / portrait / landscape
