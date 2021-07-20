@@ -23,6 +23,7 @@ export default {
     NODE_ENV: '"production"'
   },
   baseLevel: undefined,
+  flattenLevel: undefined,
   postcss: {
     pxtransform: {
       enable: true,

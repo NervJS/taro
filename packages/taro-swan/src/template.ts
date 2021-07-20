@@ -40,6 +40,11 @@ export class Template extends RecursiveTemplate {
   }
 
   modifyLoopBody = (child: string, nodeName: string) => {
+    if (nodeName === 'view') {
+      // fix issue #6015
+      return this.buildFlattenView()
+    }
+
     if (nodeName === 'text' || nodeName === 'static-text') {
       return `<block>{{ i.${Shortcuts.Childnodes}[index].${Shortcuts.Text} }}</block>`
     }

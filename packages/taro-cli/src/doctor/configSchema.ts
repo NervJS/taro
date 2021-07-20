@@ -45,6 +45,7 @@ const schema = Joi.object().keys({
 
   mini: Joi.object().keys({
     baseLevel: Joi.number().integer().positive(),
+    flattenLevel: Joi.number().integer().positive(),
     compile: Joi.object().keys({
       exclude: Joi.array().items(Joi.string(), Joi.function()),
       include: Joi.array().items(Joi.string(), Joi.function())
