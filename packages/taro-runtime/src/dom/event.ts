@@ -63,9 +63,9 @@ export class TaroEvent {
   get target () {
     const element = document.getElementById(this.mpEvent?.target.id)
     return {
-      dataset: element !== null ? element.dataset : EMPTY_OBJ,
       ...this.mpEvent?.target,
-      ...this.mpEvent?.detail
+      ...this.mpEvent?.detail,
+      dataset: element !== null ? element.dataset : EMPTY_OBJ
     }
   }
 
@@ -77,9 +77,9 @@ export class TaroEvent {
     }
 
     return {
-      dataset: element.dataset,
       ...this.mpEvent?.currentTarget,
-      ...this.mpEvent?.detail
+      ...this.mpEvent?.detail,
+      dataset: element.dataset
     }
   }
 }

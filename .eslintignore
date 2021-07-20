@@ -25,3 +25,4 @@ packages/taro-router/__tests__
 packages/taro-rn-style-transformer/src/transforms/StyleSheet
 packages/taro-rn/src/__tests__
 packages/taro-runtime/src/polyfill
+packages/taro-plugin-react-devtools/src/backend
