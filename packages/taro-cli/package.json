@@ -114,7 +114,7 @@
     "request": "^2.88.0",
     "resolve": "^1.6.0",
     "sax": "^1.2.4",
-    "semver": "^5.5.0",
+    "semver": "^7.3.5",
     "shelljs": "^0.8.1",
     "stylelint": "13.6.1",
     "tapable": "^1.1.3",
