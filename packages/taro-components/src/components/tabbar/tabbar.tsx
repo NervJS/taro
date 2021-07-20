@@ -148,7 +148,7 @@ export class Tabbar implements ComponentInterface {
 
   switchTab = (index: number) => {
     this.selectedIndex = index
-    Taro.navigateTo({
+    Taro.reLaunch({
       url: this.list[index].pagePath
     })
   }
