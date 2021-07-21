@@ -32,6 +32,7 @@ import TabItem from '@theme/TabItem'
 class App extends Components {
   render () {
     return (
+      {/*如果是支付宝小程序，则要加上id属性，值和canvasId一致*/}
       <Canvas style='width: 300px; height: 200px;' canvasId='canvas' />
     )
   }
@@ -43,6 +44,7 @@ class App extends Components {
 
 ```html
 <template>
+  <!-- 如果是支付宝小程序，则要加上id属性，值和canvasId一致 -->
   <canvas style="width: 300px; height: 200px;" canvas-id="canvas" />
 </template>
 ```
