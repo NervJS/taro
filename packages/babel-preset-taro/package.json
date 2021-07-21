@@ -33,6 +33,7 @@
     "@babel/preset-react": "7.12.13",
     "@babel/preset-typescript": "7.12.17",
     "@babel/runtime": "^7.11.2",
+    "@babel/runtime-corejs3": "^7.14.8",
     "@tarojs/helper": "3.3.0",
     "@tarojs/taro-h5": "3.3.0",
     "@vue/babel-plugin-jsx": "^1.0.6",

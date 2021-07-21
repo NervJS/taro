@@ -108,7 +108,6 @@ module.exports = (_, options = {}) => {
     debug,
     modules,
     targets,
-    useBuiltIns,
     ignoreBrowserslistConfig,
     configPath,
     include,
@@ -117,8 +116,14 @@ module.exports = (_, options = {}) => {
     forceAllTransforms
   }
 
-  if (useBuiltIns) {
-    envOptions.corejs = 3
+  let transformRuntimeCorejs = false
+  if (useBuiltIns === 'usage') {
+    transformRuntimeCorejs = 3
+  } else {
+    envOptions.useBuiltIns = useBuiltIns
+    if (useBuiltIns === 'entry') {
+      envOptions.corejs = '3'
+    }
   }
 
   if (process.env.NODE_ENV === 'test') {
@@ -137,7 +142,7 @@ module.exports = (_, options = {}) => {
 
   plugins.push([require('@babel/plugin-transform-runtime'), {
     regenerator: true,
-    corejs: envOptions.corejs,
+    corejs: transformRuntimeCorejs,
     helpers: true,
     useESModules: process.env.NODE_ENV !== 'test',
     absoluteRuntime,
@@ -156,7 +161,7 @@ module.exports = (_, options = {}) => {
   return {
     sourceType: 'unambiguous',
     overrides: [{
-      exclude: [/@babel[/|\\\\]runtime/, /core-js/],
+      exclude: [/@babel[/|\\\\]runtime/, /core-js/, /\bwebpack\/buildin\b/],
       presets,
       plugins
     }, ...overrides]
