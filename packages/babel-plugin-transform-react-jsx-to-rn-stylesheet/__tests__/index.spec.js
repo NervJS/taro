@@ -60,8 +60,9 @@ const getStyleFunctionTemplete = `function _getStyle(classNameExpression) {
 
 describe('jsx style plugin', () => {
   function getTransfromCode (source, debug = false, options = {}) {
+    const { isCSSModule, enableMultipleClassName = false } = options
     const code = transform(source, {
-      plugins: [[jSXStylePlugin, { isCSSModule: options.isCSSModule }], syntaxJSX],
+      plugins: [[jSXStylePlugin, { isCSSModule, enableMultipleClassName }], syntaxJSX],
       configFile: false
     }).code
     if (debug) {
@@ -524,6 +525,94 @@ class App extends Component {
   render() {
     return <div style={[_styleSheet["header"], styleSheet.red]} />;
   }\n
+}`)
+  })
+
+  it('disableMultipleClassName and transform multiple className to multiple style', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import './app.css';
+
+class App extends Component {
+  render() {
+    return <div className="container" headerClassName="header" />;
+  }
+}`, false, { enableMultipleClassName: false })).toBe(`import { createElement, Component } from 'rax';
+import appCssStyleSheet from "./app.css";
+var _styleSheet = appCssStyleSheet;
+
+class App extends Component {
+  render() {
+    return <div headerClassName="header" style={_styleSheet["container"]} />;
+  }
+
+}`)
+  })
+
+  it('enableMultipleClassName and transform multiple className to multiple style', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import './app.css';
+
+class App extends Component {
+  render() {
+    return <div className="container" headerClassName="header" />;
+  }
+}`, false, { enableMultipleClassName: true })).toBe(`import { createElement, Component } from 'rax';
+import appCssStyleSheet from "./app.css";
+var _styleSheet = appCssStyleSheet;
+
+class App extends Component {
+  render() {
+    return <div style={_styleSheet["container"]} headerStyle={_styleSheet["header"]} />;
+  }
+
+}`)
+  })
+
+  it('enableMultipleClassName and transform multiple className to multiple style as array', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import './app.css';
+
+class App extends Component {
+  render() {
+    return <div className="container" headerClassName="header" style={{ color: "red" }} headerStyle={{ color: "green" }} />;
+  }
+}`, false, { enableMultipleClassName: true })).toBe(`import { createElement, Component } from 'rax';
+import appCssStyleSheet from "./app.css";
+var _styleSheet = appCssStyleSheet;
+
+class App extends Component {
+  render() {
+    return <div style={[_styleSheet["container"], {
+      color: "red"
+    }]} headerStyle={[_styleSheet["header"], {
+      color: "green"
+    }]} />;
+  }
+
+}`)
+  })
+
+  it('enableMultipleClassName and transform error css value', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import './app.css';
+
+class App extends Component {
+  render() {
+    return <StatusBar barStyle="dark-content" />;
+  }
+}`, false, { enableMultipleClassName: true })).toBe(`import { createElement, Component } from 'rax';
+import appCssStyleSheet from "./app.css";
+var _styleSheet = appCssStyleSheet;
+
+class App extends Component {
+  render() {
+    return <StatusBar barStyle={"dark-content"} />;
+  }
+
 }`)
   })
 })
