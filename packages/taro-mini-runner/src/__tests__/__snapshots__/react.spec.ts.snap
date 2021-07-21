@@ -706,9 +706,12 @@ require(\\"./taro\\");
             var patchNeedPromiseApis = config.needPromiseApis || [];
             var _needPromiseApis = new Set([].concat(_toConsumableArray(patchNeedPromiseApis), _toConsumableArray(needPromiseApis)));
             var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
-            var apis = Object.keys(global).filter((function(api) {
+            var apis = new Set(Object.keys(global).filter((function(api) {
                 return preserved.indexOf(api) === -1;
-            }));
+            })));
+            if (config.modifyApis) {
+                config.modifyApis(apis);
+            }
             apis.forEach((function(key) {
                 if (_needPromiseApis.has(key)) {
                     var originKey = key;
@@ -742,7 +745,7 @@ require(\\"./taro\\");
                                 (_b = options.success) === null || _b === void 0 ? void 0 : _b.call(options, res);
                                 if (key === \\"connectSocket\\") {
                                     resolve(Promise.resolve().then((function() {
-                                        return Object.assign(task, res);
+                                        return task ? Object.assign(task, res) : res;
                                     })));
                                 } else {
                                     resolve(res);
@@ -777,7 +780,11 @@ require(\\"./taro\\");
                         return p;
                     };
                 } else {
-                    if (!global.hasOwnProperty(key)) {
+                    var platformKey = key;
+                    if (config.transformMeta) {
+                        platformKey = config.transformMeta(key, {}).key;
+                    }
+                    if (!global.hasOwnProperty(platformKey)) {
                         taro[key] = unsupport(key);
                         return;
                     }
@@ -789,11 +796,11 @@ require(\\"./taro\\");
                             if (config.handleSyncApis) {
                                 return config.handleSyncApis(key, global, args);
                             } else {
-                                return global[key].apply(global, args);
+                                return global[platformKey].apply(global, args);
                             }
                         };
                     } else {
-                        taro[key] = global[key];
+                        taro[key] = global[platformKey];
                     }
                 }
             }));
