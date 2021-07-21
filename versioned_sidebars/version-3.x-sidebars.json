@@ -71,6 +71,10 @@
             {
               "type": "doc",
               "id": "version-3.x/project-config"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/babel-config"
             }
           ]
         },

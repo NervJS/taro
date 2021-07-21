@@ -7,7 +7,7 @@ module.exports = {
       {
         label: '配置',
         type: 'category',
-        items: ['config', 'size', 'app-config', 'page-config', 'project-config'],
+        items: ['config', 'size', 'app-config', 'page-config', 'project-config', 'babel-config'],
       },
       {
         label: 'React',

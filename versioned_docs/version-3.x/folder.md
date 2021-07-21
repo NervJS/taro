@@ -35,6 +35,11 @@ title: 目录结构
 
 ## 编译配置
 
+    └── config                      项目编译配置目录
+        ├── index.js                默认配置
+        ├── dev.js                  开发环境配置
+        └── prod.js                 生产环境配置
+
 用于配置 Taro 项目的编译行为、修改 Webpack 配置等，详情请参考[编译配置](./config)和[编译配置详情](./config-detail)。
 
 ## 源码组织
@@ -42,6 +47,11 @@ title: 目录结构
 和小程序规范一样，Taro 包含一个描述整体程序的 `app` 和多个描述各自页面的 `page`。
 
 ### app
+
+    └── src                         源码目录
+        ├── app.js                  项目入口文件
+        ├── app.css                 项目总通用样式
+        └── app.config.js           项目入口配置
 
 小程序的主体由下面三个文件组成：
 
@@ -66,6 +76,13 @@ import './app.css';
 ```
 
 ### page
+
+    └── src                         源码目录
+        └── pages                   页面文件目录
+            └── index               index 页面目录
+                ├── index.js        index 页面逻辑
+                ├── index.css       index 页面样式
+                └── index.config.js index 页面配置
 
 一个小程序页面由三个文件组成，如下：
 
@@ -93,12 +110,18 @@ import './index.css';
 
 ## 项目配置
 
+    └──project.config.json         微信小程序项目配置 project.config.json
+
 各类小程序平台均有自己的项目配置文件，Taro 支持对它们进行适配，详情请参考[项目配置](./project-config)。
 
 ## Babel 配置
 
-Babel 配置请参考 [Github](https://github.com/NervJS/taro/blob/next/packages/babel-preset-taro/index.js)
+    └── babel.config.js             Babel 配置
+
+请参考 [Babel 配置](./babel-config)
 
 ## ESLint 配置
+
+    └── .eslintrc                   ESLint 配置
 
 ESLint 配置请参考 [Github](https://github.com/NervJS/taro/blob/next/packages/eslint-plugin-taro/index.js)
