@@ -50,19 +50,20 @@ function navigate (option: Option | NavigateBackOption, method: 'navigateTo' | '
     failReason = error
   }
 
-  const unlisten = history.listen(() => {
-    complete && complete()
-    unlisten()
-  })
-
   return new Promise<void>((resolve, reject) => {
     if (failReason) {
       fail && fail(failReason)
+      complete && complete()
       reject(failReason)
-    } else {
-      success && success()
-      resolve()
+      return
     }
+
+    const unlisten = history.listen(() => {
+      success && success()
+      complete && complete()
+      resolve()
+      unlisten()
+    })
   })
 }
 
