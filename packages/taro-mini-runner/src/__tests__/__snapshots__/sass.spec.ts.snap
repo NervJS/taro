@@ -644,6 +644,12 @@ require(\\"./taro\\");
                 obj.url += (hasMark ? \\"&\\" : \\"?\\") + \\"\\".concat(routerParamsPrivateKey, \\"=\\").concat(cacheKey);
             }
         }
+        function indent(str, size) {
+            return str.split(\\"\\\\n\\").map((function(line, index) {
+                var indent = index === 0 ? \\"\\" : Array(size).fill(\\" \\").join(\\"\\");
+                return indent + line;
+            })).join(\\"\\\\n\\");
+        }
         var needPromiseApis = new Set([ \\"addPhoneContact\\", \\"authorize\\", \\"canvasGetImageData\\", \\"canvasPutImageData\\", \\"canvasToTempFilePath\\", \\"checkSession\\", \\"chooseAddress\\", \\"chooseImage\\", \\"chooseInvoiceTitle\\", \\"chooseLocation\\", \\"chooseVideo\\", \\"clearStorage\\", \\"closeBLEConnection\\", \\"closeBluetoothAdapter\\", \\"closeSocket\\", \\"compressImage\\", \\"connectSocket\\", \\"createBLEConnection\\", \\"downloadFile\\", \\"getAvailableAudioSources\\", \\"getBLEDeviceCharacteristics\\", \\"getBLEDeviceServices\\", \\"getBatteryInfo\\", \\"getBeacons\\", \\"getBluetoothAdapterState\\", \\"getBluetoothDevices\\", \\"getClipboardData\\", \\"getConnectedBluetoothDevices\\", \\"getConnectedWifi\\", \\"getExtConfig\\", \\"getFileInfo\\", \\"getImageInfo\\", \\"getLocation\\", \\"getNetworkType\\", \\"getSavedFileInfo\\", \\"getSavedFileList\\", \\"getScreenBrightness\\", \\"getSetting\\", \\"getStorage\\", \\"getStorageInfo\\", \\"getSystemInfo\\", \\"getUserInfo\\", \\"getWifiList\\", \\"hideHomeButton\\", \\"hideShareMenu\\", \\"hideTabBar\\", \\"hideTabBarRedDot\\", \\"loadFontFace\\", \\"login\\", \\"makePhoneCall\\", \\"navigateBack\\", \\"navigateBackMiniProgram\\", \\"navigateTo\\", \\"navigateToBookshelf\\", \\"navigateToMiniProgram\\", \\"notifyBLECharacteristicValueChange\\", \\"hideKeyboard\\", \\"hideLoading\\", \\"hideNavigationBarLoading\\", \\"hideToast\\", \\"openBluetoothAdapter\\", \\"openDocument\\", \\"openLocation\\", \\"openSetting\\", \\"pageScrollTo\\", \\"previewImage\\", \\"queryBookshelf\\", \\"reLaunch\\", \\"readBLECharacteristicValue\\", \\"redirectTo\\", \\"removeSavedFile\\", \\"removeStorage\\", \\"removeTabBarBadge\\", \\"requestSubscribeMessage\\", \\"saveFile\\", \\"saveImageToPhotosAlbum\\", \\"saveVideoToPhotosAlbum\\", \\"scanCode\\", \\"sendSocketMessage\\", \\"setBackgroundColor\\", \\"setBackgroundTextStyle\\", \\"setClipboardData\\", \\"setEnableDebug\\", \\"setInnerAudioOption\\", \\"setKeepScreenOn\\", \\"setNavigationBarColor\\", \\"setNavigationBarTitle\\", \\"setScreenBrightness\\", \\"setStorage\\", \\"setTabBarBadge\\", \\"setTabBarItem\\", \\"setTabBarStyle\\", \\"showActionSheet\\", \\"showFavoriteGuide\\", \\"showLoading\\", \\"showModal\\", \\"showShareMenu\\", \\"showTabBar\\", \\"showTabBarRedDot\\", \\"showToast\\", \\"startBeaconDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"startDeviceMotionListening\\", \\"startPullDownRefresh\\", \\"stopBeaconDiscovery\\", \\"stopBluetoothDevicesDiscovery\\", \\"stopCompass\\", \\"startCompass\\", \\"startAccelerometer\\", \\"stopAccelerometer\\", \\"showNavigationBarLoading\\", \\"stopDeviceMotionListening\\", \\"stopPullDownRefresh\\", \\"switchTab\\", \\"uploadFile\\", \\"vibrateLong\\", \\"vibrateShort\\", \\"writeBLECharacteristicValue\\" ]);
         function getCanIUseWebp(taro) {
             return function() {
@@ -700,9 +706,12 @@ require(\\"./taro\\");
             var patchNeedPromiseApis = config.needPromiseApis || [];
             var _needPromiseApis = new Set([].concat(_toConsumableArray(patchNeedPromiseApis), _toConsumableArray(needPromiseApis)));
             var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
-            var apis = Object.keys(global).filter((function(api) {
+            var apis = new Set(Object.keys(global).filter((function(api) {
                 return preserved.indexOf(api) === -1;
-            }));
+            })));
+            if (config.modifyApis) {
+                config.modifyApis(apis);
+            }
             apis.forEach((function(key) {
                 if (_needPromiseApis.has(key)) {
                     var originKey = key;
@@ -736,7 +745,7 @@ require(\\"./taro\\");
                                 (_b = options.success) === null || _b === void 0 ? void 0 : _b.call(options, res);
                                 if (key === \\"connectSocket\\") {
                                     resolve(Promise.resolve().then((function() {
-                                        return Object.assign(task, res);
+                                        return task ? Object.assign(task, res) : res;
                                     })));
                                 } else {
                                     resolve(res);
@@ -771,7 +780,11 @@ require(\\"./taro\\");
                         return p;
                     };
                 } else {
-                    if (!global.hasOwnProperty(key)) {
+                    var platformKey = key;
+                    if (config.transformMeta) {
+                        platformKey = config.transformMeta(key, {}).key;
+                    }
+                    if (!global.hasOwnProperty(platformKey)) {
                         taro[key] = unsupport(key);
                         return;
                     }
@@ -783,11 +796,11 @@ require(\\"./taro\\");
                             if (config.handleSyncApis) {
                                 return config.handleSyncApis(key, global, args);
                             } else {
-                                return global[key].apply(global, args);
+                                return global[platformKey].apply(global, args);
                             }
                         };
                     } else {
-                        taro[key] = global[key];
+                        taro[key] = global[platformKey];
                     }
                 }
             }));
@@ -3032,6 +3045,12 @@ require(\\"./taro\\");
                 obj.url += (hasMark ? \\"&\\" : \\"?\\") + \\"\\".concat(routerParamsPrivateKey, \\"=\\").concat(cacheKey);
             }
         }
+        function indent(str, size) {
+            return str.split(\\"\\\\n\\").map((function(line, index) {
+                var indent = index === 0 ? \\"\\" : Array(size).fill(\\" \\").join(\\"\\");
+                return indent + line;
+            })).join(\\"\\\\n\\");
+        }
         var needPromiseApis = new Set([ \\"addPhoneContact\\", \\"authorize\\", \\"canvasGetImageData\\", \\"canvasPutImageData\\", \\"canvasToTempFilePath\\", \\"checkSession\\", \\"chooseAddress\\", \\"chooseImage\\", \\"chooseInvoiceTitle\\", \\"chooseLocation\\", \\"chooseVideo\\", \\"clearStorage\\", \\"closeBLEConnection\\", \\"closeBluetoothAdapter\\", \\"closeSocket\\", \\"compressImage\\", \\"connectSocket\\", \\"createBLEConnection\\", \\"downloadFile\\", \\"getAvailableAudioSources\\", \\"getBLEDeviceCharacteristics\\", \\"getBLEDeviceServices\\", \\"getBatteryInfo\\", \\"getBeacons\\", \\"getBluetoothAdapterState\\", \\"getBluetoothDevices\\", \\"getClipboardData\\", \\"getConnectedBluetoothDevices\\", \\"getConnectedWifi\\", \\"getExtConfig\\", \\"getFileInfo\\", \\"getImageInfo\\", \\"getLocation\\", \\"getNetworkType\\", \\"getSavedFileInfo\\", \\"getSavedFileList\\", \\"getScreenBrightness\\", \\"getSetting\\", \\"getStorage\\", \\"getStorageInfo\\", \\"getSystemInfo\\", \\"getUserInfo\\", \\"getWifiList\\", \\"hideHomeButton\\", \\"hideShareMenu\\", \\"hideTabBar\\", \\"hideTabBarRedDot\\", \\"loadFontFace\\", \\"login\\", \\"makePhoneCall\\", \\"navigateBack\\", \\"navigateBackMiniProgram\\", \\"navigateTo\\", \\"navigateToBookshelf\\", \\"navigateToMiniProgram\\", \\"notifyBLECharacteristicValueChange\\", \\"hideKeyboard\\", \\"hideLoading\\", \\"hideNavigationBarLoading\\", \\"hideToast\\", \\"openBluetoothAdapter\\", \\"openDocument\\", \\"openLocation\\", \\"openSetting\\", \\"pageScrollTo\\", \\"previewImage\\", \\"queryBookshelf\\", \\"reLaunch\\", \\"readBLECharacteristicValue\\", \\"redirectTo\\", \\"removeSavedFile\\", \\"removeStorage\\", \\"removeTabBarBadge\\", \\"requestSubscribeMessage\\", \\"saveFile\\", \\"saveImageToPhotosAlbum\\", \\"saveVideoToPhotosAlbum\\", \\"scanCode\\", \\"sendSocketMessage\\", \\"setBackgroundColor\\", \\"setBackgroundTextStyle\\", \\"setClipboardData\\", \\"setEnableDebug\\", \\"setInnerAudioOption\\", \\"setKeepScreenOn\\", \\"setNavigationBarColor\\", \\"setNavigationBarTitle\\", \\"setScreenBrightness\\", \\"setStorage\\", \\"setTabBarBadge\\", \\"setTabBarItem\\", \\"setTabBarStyle\\", \\"showActionSheet\\", \\"showFavoriteGuide\\", \\"showLoading\\", \\"showModal\\", \\"showShareMenu\\", \\"showTabBar\\", \\"showTabBarRedDot\\", \\"showToast\\", \\"startBeaconDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"startDeviceMotionListening\\", \\"startPullDownRefresh\\", \\"stopBeaconDiscovery\\", \\"stopBluetoothDevicesDiscovery\\", \\"stopCompass\\", \\"startCompass\\", \\"startAccelerometer\\", \\"stopAccelerometer\\", \\"showNavigationBarLoading\\", \\"stopDeviceMotionListening\\", \\"stopPullDownRefresh\\", \\"switchTab\\", \\"uploadFile\\", \\"vibrateLong\\", \\"vibrateShort\\", \\"writeBLECharacteristicValue\\" ]);
         function getCanIUseWebp(taro) {
             return function() {
@@ -3088,9 +3107,12 @@ require(\\"./taro\\");
             var patchNeedPromiseApis = config.needPromiseApis || [];
             var _needPromiseApis = new Set([].concat(_toConsumableArray(patchNeedPromiseApis), _toConsumableArray(needPromiseApis)));
             var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
-            var apis = Object.keys(global).filter((function(api) {
+            var apis = new Set(Object.keys(global).filter((function(api) {
                 return preserved.indexOf(api) === -1;
-            }));
+            })));
+            if (config.modifyApis) {
+                config.modifyApis(apis);
+            }
             apis.forEach((function(key) {
                 if (_needPromiseApis.has(key)) {
                     var originKey = key;
@@ -3124,7 +3146,7 @@ require(\\"./taro\\");
                                 (_b = options.success) === null || _b === void 0 ? void 0 : _b.call(options, res);
                                 if (key === \\"connectSocket\\") {
                                     resolve(Promise.resolve().then((function() {
-                                        return Object.assign(task, res);
+                                        return task ? Object.assign(task, res) : res;
                                     })));
                                 } else {
                                     resolve(res);
@@ -3159,7 +3181,11 @@ require(\\"./taro\\");
                         return p;
                     };
                 } else {
-                    if (!global.hasOwnProperty(key)) {
+                    var platformKey = key;
+                    if (config.transformMeta) {
+                        platformKey = config.transformMeta(key, {}).key;
+                    }
+                    if (!global.hasOwnProperty(platformKey)) {
                         taro[key] = unsupport(key);
                         return;
                     }
@@ -3171,11 +3197,11 @@ require(\\"./taro\\");
                             if (config.handleSyncApis) {
                                 return config.handleSyncApis(key, global, args);
                             } else {
-                                return global[key].apply(global, args);
+                                return global[platformKey].apply(global, args);
                             }
                         };
                     } else {
-                        taro[key] = global[key];
+                        taro[key] = global[platformKey];
                     }
                 }
             }));
@@ -5420,6 +5446,12 @@ require(\\"./taro\\");
                 obj.url += (hasMark ? \\"&\\" : \\"?\\") + \\"\\".concat(routerParamsPrivateKey, \\"=\\").concat(cacheKey);
             }
         }
+        function indent(str, size) {
+            return str.split(\\"\\\\n\\").map((function(line, index) {
+                var indent = index === 0 ? \\"\\" : Array(size).fill(\\" \\").join(\\"\\");
+                return indent + line;
+            })).join(\\"\\\\n\\");
+        }
         var needPromiseApis = new Set([ \\"addPhoneContact\\", \\"authorize\\", \\"canvasGetImageData\\", \\"canvasPutImageData\\", \\"canvasToTempFilePath\\", \\"checkSession\\", \\"chooseAddress\\", \\"chooseImage\\", \\"chooseInvoiceTitle\\", \\"chooseLocation\\", \\"chooseVideo\\", \\"clearStorage\\", \\"closeBLEConnection\\", \\"closeBluetoothAdapter\\", \\"closeSocket\\", \\"compressImage\\", \\"connectSocket\\", \\"createBLEConnection\\", \\"downloadFile\\", \\"getAvailableAudioSources\\", \\"getBLEDeviceCharacteristics\\", \\"getBLEDeviceServices\\", \\"getBatteryInfo\\", \\"getBeacons\\", \\"getBluetoothAdapterState\\", \\"getBluetoothDevices\\", \\"getClipboardData\\", \\"getConnectedBluetoothDevices\\", \\"getConnectedWifi\\", \\"getExtConfig\\", \\"getFileInfo\\", \\"getImageInfo\\", \\"getLocation\\", \\"getNetworkType\\", \\"getSavedFileInfo\\", \\"getSavedFileList\\", \\"getScreenBrightness\\", \\"getSetting\\", \\"getStorage\\", \\"getStorageInfo\\", \\"getSystemInfo\\", \\"getUserInfo\\", \\"getWifiList\\", \\"hideHomeButton\\", \\"hideShareMenu\\", \\"hideTabBar\\", \\"hideTabBarRedDot\\", \\"loadFontFace\\", \\"login\\", \\"makePhoneCall\\", \\"navigateBack\\", \\"navigateBackMiniProgram\\", \\"navigateTo\\", \\"navigateToBookshelf\\", \\"navigateToMiniProgram\\", \\"notifyBLECharacteristicValueChange\\", \\"hideKeyboard\\", \\"hideLoading\\", \\"hideNavigationBarLoading\\", \\"hideToast\\", \\"openBluetoothAdapter\\", \\"openDocument\\", \\"openLocation\\", \\"openSetting\\", \\"pageScrollTo\\", \\"previewImage\\", \\"queryBookshelf\\", \\"reLaunch\\", \\"readBLECharacteristicValue\\", \\"redirectTo\\", \\"removeSavedFile\\", \\"removeStorage\\", \\"removeTabBarBadge\\", \\"requestSubscribeMessage\\", \\"saveFile\\", \\"saveImageToPhotosAlbum\\", \\"saveVideoToPhotosAlbum\\", \\"scanCode\\", \\"sendSocketMessage\\", \\"setBackgroundColor\\", \\"setBackgroundTextStyle\\", \\"setClipboardData\\", \\"setEnableDebug\\", \\"setInnerAudioOption\\", \\"setKeepScreenOn\\", \\"setNavigationBarColor\\", \\"setNavigationBarTitle\\", \\"setScreenBrightness\\", \\"setStorage\\", \\"setTabBarBadge\\", \\"setTabBarItem\\", \\"setTabBarStyle\\", \\"showActionSheet\\", \\"showFavoriteGuide\\", \\"showLoading\\", \\"showModal\\", \\"showShareMenu\\", \\"showTabBar\\", \\"showTabBarRedDot\\", \\"showToast\\", \\"startBeaconDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"startDeviceMotionListening\\", \\"startPullDownRefresh\\", \\"stopBeaconDiscovery\\", \\"stopBluetoothDevicesDiscovery\\", \\"stopCompass\\", \\"startCompass\\", \\"startAccelerometer\\", \\"stopAccelerometer\\", \\"showNavigationBarLoading\\", \\"stopDeviceMotionListening\\", \\"stopPullDownRefresh\\", \\"switchTab\\", \\"uploadFile\\", \\"vibrateLong\\", \\"vibrateShort\\", \\"writeBLECharacteristicValue\\" ]);
         function getCanIUseWebp(taro) {
             return function() {
@@ -5476,9 +5508,12 @@ require(\\"./taro\\");
             var patchNeedPromiseApis = config.needPromiseApis || [];
             var _needPromiseApis = new Set([].concat(_toConsumableArray(patchNeedPromiseApis), _toConsumableArray(needPromiseApis)));
             var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
-            var apis = Object.keys(global).filter((function(api) {
+            var apis = new Set(Object.keys(global).filter((function(api) {
                 return preserved.indexOf(api) === -1;
-            }));
+            })));
+            if (config.modifyApis) {
+                config.modifyApis(apis);
+            }
             apis.forEach((function(key) {
                 if (_needPromiseApis.has(key)) {
                     var originKey = key;
@@ -5512,7 +5547,7 @@ require(\\"./taro\\");
                                 (_b = options.success) === null || _b === void 0 ? void 0 : _b.call(options, res);
                                 if (key === \\"connectSocket\\") {
                                     resolve(Promise.resolve().then((function() {
-                                        return Object.assign(task, res);
+                                        return task ? Object.assign(task, res) : res;
                                     })));
                                 } else {
                                     resolve(res);
@@ -5547,7 +5582,11 @@ require(\\"./taro\\");
                         return p;
                     };
                 } else {
-                    if (!global.hasOwnProperty(key)) {
+                    var platformKey = key;
+                    if (config.transformMeta) {
+                        platformKey = config.transformMeta(key, {}).key;
+                    }
+                    if (!global.hasOwnProperty(platformKey)) {
                         taro[key] = unsupport(key);
                         return;
                     }
@@ -5559,11 +5598,11 @@ require(\\"./taro\\");
                             if (config.handleSyncApis) {
                                 return config.handleSyncApis(key, global, args);
                             } else {
-                                return global[key].apply(global, args);
+                                return global[platformKey].apply(global, args);
                             }
                         };
                     } else {
-                        taro[key] = global[key];
+                        taro[key] = global[platformKey];
                     }
                 }
             }));
@@ -7808,6 +7847,12 @@ require(\\"./taro\\");
                 obj.url += (hasMark ? \\"&\\" : \\"?\\") + \\"\\".concat(routerParamsPrivateKey, \\"=\\").concat(cacheKey);
             }
         }
+        function indent(str, size) {
+            return str.split(\\"\\\\n\\").map((function(line, index) {
+                var indent = index === 0 ? \\"\\" : Array(size).fill(\\" \\").join(\\"\\");
+                return indent + line;
+            })).join(\\"\\\\n\\");
+        }
         var needPromiseApis = new Set([ \\"addPhoneContact\\", \\"authorize\\", \\"canvasGetImageData\\", \\"canvasPutImageData\\", \\"canvasToTempFilePath\\", \\"checkSession\\", \\"chooseAddress\\", \\"chooseImage\\", \\"chooseInvoiceTitle\\", \\"chooseLocation\\", \\"chooseVideo\\", \\"clearStorage\\", \\"closeBLEConnection\\", \\"closeBluetoothAdapter\\", \\"closeSocket\\", \\"compressImage\\", \\"connectSocket\\", \\"createBLEConnection\\", \\"downloadFile\\", \\"getAvailableAudioSources\\", \\"getBLEDeviceCharacteristics\\", \\"getBLEDeviceServices\\", \\"getBatteryInfo\\", \\"getBeacons\\", \\"getBluetoothAdapterState\\", \\"getBluetoothDevices\\", \\"getClipboardData\\", \\"getConnectedBluetoothDevices\\", \\"getConnectedWifi\\", \\"getExtConfig\\", \\"getFileInfo\\", \\"getImageInfo\\", \\"getLocation\\", \\"getNetworkType\\", \\"getSavedFileInfo\\", \\"getSavedFileList\\", \\"getScreenBrightness\\", \\"getSetting\\", \\"getStorage\\", \\"getStorageInfo\\", \\"getSystemInfo\\", \\"getUserInfo\\", \\"getWifiList\\", \\"hideHomeButton\\", \\"hideShareMenu\\", \\"hideTabBar\\", \\"hideTabBarRedDot\\", \\"loadFontFace\\", \\"login\\", \\"makePhoneCall\\", \\"navigateBack\\", \\"navigateBackMiniProgram\\", \\"navigateTo\\", \\"navigateToBookshelf\\", \\"navigateToMiniProgram\\", \\"notifyBLECharacteristicValueChange\\", \\"hideKeyboard\\", \\"hideLoading\\", \\"hideNavigationBarLoading\\", \\"hideToast\\", \\"openBluetoothAdapter\\", \\"openDocument\\", \\"openLocation\\", \\"openSetting\\", \\"pageScrollTo\\", \\"previewImage\\", \\"queryBookshelf\\", \\"reLaunch\\", \\"readBLECharacteristicValue\\", \\"redirectTo\\", \\"removeSavedFile\\", \\"removeStorage\\", \\"removeTabBarBadge\\", \\"requestSubscribeMessage\\", \\"saveFile\\", \\"saveImageToPhotosAlbum\\", \\"saveVideoToPhotosAlbum\\", \\"scanCode\\", \\"sendSocketMessage\\", \\"setBackgroundColor\\", \\"setBackgroundTextStyle\\", \\"setClipboardData\\", \\"setEnableDebug\\", \\"setInnerAudioOption\\", \\"setKeepScreenOn\\", \\"setNavigationBarColor\\", \\"setNavigationBarTitle\\", \\"setScreenBrightness\\", \\"setStorage\\", \\"setTabBarBadge\\", \\"setTabBarItem\\", \\"setTabBarStyle\\", \\"showActionSheet\\", \\"showFavoriteGuide\\", \\"showLoading\\", \\"showModal\\", \\"showShareMenu\\", \\"showTabBar\\", \\"showTabBarRedDot\\", \\"showToast\\", \\"startBeaconDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"startDeviceMotionListening\\", \\"startPullDownRefresh\\", \\"stopBeaconDiscovery\\", \\"stopBluetoothDevicesDiscovery\\", \\"stopCompass\\", \\"startCompass\\", \\"startAccelerometer\\", \\"stopAccelerometer\\", \\"showNavigationBarLoading\\", \\"stopDeviceMotionListening\\", \\"stopPullDownRefresh\\", \\"switchTab\\", \\"uploadFile\\", \\"vibrateLong\\", \\"vibrateShort\\", \\"writeBLECharacteristicValue\\" ]);
         function getCanIUseWebp(taro) {
             return function() {
@@ -7864,9 +7909,12 @@ require(\\"./taro\\");
             var patchNeedPromiseApis = config.needPromiseApis || [];
             var _needPromiseApis = new Set([].concat(_toConsumableArray(patchNeedPromiseApis), _toConsumableArray(needPromiseApis)));
             var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
-            var apis = Object.keys(global).filter((function(api) {
+            var apis = new Set(Object.keys(global).filter((function(api) {
                 return preserved.indexOf(api) === -1;
-            }));
+            })));
+            if (config.modifyApis) {
+                config.modifyApis(apis);
+            }
             apis.forEach((function(key) {
                 if (_needPromiseApis.has(key)) {
                     var originKey = key;
@@ -7900,7 +7948,7 @@ require(\\"./taro\\");
                                 (_b = options.success) === null || _b === void 0 ? void 0 : _b.call(options, res);
                                 if (key === \\"connectSocket\\") {
                                     resolve(Promise.resolve().then((function() {
-                                        return Object.assign(task, res);
+                                        return task ? Object.assign(task, res) : res;
                                     })));
                                 } else {
                                     resolve(res);
@@ -7935,7 +7983,11 @@ require(\\"./taro\\");
                         return p;
                     };
                 } else {
-                    if (!global.hasOwnProperty(key)) {
+                    var platformKey = key;
+                    if (config.transformMeta) {
+                        platformKey = config.transformMeta(key, {}).key;
+                    }
+                    if (!global.hasOwnProperty(platformKey)) {
                         taro[key] = unsupport(key);
                         return;
                     }
@@ -7947,11 +7999,11 @@ require(\\"./taro\\");
                             if (config.handleSyncApis) {
                                 return config.handleSyncApis(key, global, args);
                             } else {
-                                return global[key].apply(global, args);
+                                return global[platformKey].apply(global, args);
                             }
                         };
                     } else {
-                        taro[key] = global[key];
+                        taro[key] = global[platformKey];
                     }
                 }
             }));

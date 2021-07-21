@@ -18,7 +18,7 @@ export default class Swan extends TaroPlatformBase {
     xs: '.sjs'
   }
 
-  template = new Template()
+  template: Template
 
   /**
    * 1. setupTransaction - init
@@ -37,6 +37,10 @@ export default class Swan extends TaroPlatformBase {
         ctx.generateFrameworkInfo()
         this.generateProjectConfig(PROJECT_JSON, PROJECT_JSON)
       }
+    })
+
+    this.template = new Template({
+      flattenViewLevel: config.flattenViewLevel
     })
   }
 

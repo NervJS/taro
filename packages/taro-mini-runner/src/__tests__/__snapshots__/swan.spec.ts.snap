@@ -647,6 +647,12 @@ require(\\"./taro\\");
                 obj.url += (hasMark ? \\"&\\" : \\"?\\") + \\"\\".concat(routerParamsPrivateKey, \\"=\\").concat(cacheKey);
             }
         }
+        function indent(str, size) {
+            return str.split(\\"\\\\n\\").map((function(line, index) {
+                var indent = index === 0 ? \\"\\" : Array(size).fill(\\" \\").join(\\"\\");
+                return indent + line;
+            })).join(\\"\\\\n\\");
+        }
         var needPromiseApis = new Set([ \\"addPhoneContact\\", \\"authorize\\", \\"canvasGetImageData\\", \\"canvasPutImageData\\", \\"canvasToTempFilePath\\", \\"checkSession\\", \\"chooseAddress\\", \\"chooseImage\\", \\"chooseInvoiceTitle\\", \\"chooseLocation\\", \\"chooseVideo\\", \\"clearStorage\\", \\"closeBLEConnection\\", \\"closeBluetoothAdapter\\", \\"closeSocket\\", \\"compressImage\\", \\"connectSocket\\", \\"createBLEConnection\\", \\"downloadFile\\", \\"getAvailableAudioSources\\", \\"getBLEDeviceCharacteristics\\", \\"getBLEDeviceServices\\", \\"getBatteryInfo\\", \\"getBeacons\\", \\"getBluetoothAdapterState\\", \\"getBluetoothDevices\\", \\"getClipboardData\\", \\"getConnectedBluetoothDevices\\", \\"getConnectedWifi\\", \\"getExtConfig\\", \\"getFileInfo\\", \\"getImageInfo\\", \\"getLocation\\", \\"getNetworkType\\", \\"getSavedFileInfo\\", \\"getSavedFileList\\", \\"getScreenBrightness\\", \\"getSetting\\", \\"getStorage\\", \\"getStorageInfo\\", \\"getSystemInfo\\", \\"getUserInfo\\", \\"getWifiList\\", \\"hideHomeButton\\", \\"hideShareMenu\\", \\"hideTabBar\\", \\"hideTabBarRedDot\\", \\"loadFontFace\\", \\"login\\", \\"makePhoneCall\\", \\"navigateBack\\", \\"navigateBackMiniProgram\\", \\"navigateTo\\", \\"navigateToBookshelf\\", \\"navigateToMiniProgram\\", \\"notifyBLECharacteristicValueChange\\", \\"hideKeyboard\\", \\"hideLoading\\", \\"hideNavigationBarLoading\\", \\"hideToast\\", \\"openBluetoothAdapter\\", \\"openDocument\\", \\"openLocation\\", \\"openSetting\\", \\"pageScrollTo\\", \\"previewImage\\", \\"queryBookshelf\\", \\"reLaunch\\", \\"readBLECharacteristicValue\\", \\"redirectTo\\", \\"removeSavedFile\\", \\"removeStorage\\", \\"removeTabBarBadge\\", \\"requestSubscribeMessage\\", \\"saveFile\\", \\"saveImageToPhotosAlbum\\", \\"saveVideoToPhotosAlbum\\", \\"scanCode\\", \\"sendSocketMessage\\", \\"setBackgroundColor\\", \\"setBackgroundTextStyle\\", \\"setClipboardData\\", \\"setEnableDebug\\", \\"setInnerAudioOption\\", \\"setKeepScreenOn\\", \\"setNavigationBarColor\\", \\"setNavigationBarTitle\\", \\"setScreenBrightness\\", \\"setStorage\\", \\"setTabBarBadge\\", \\"setTabBarItem\\", \\"setTabBarStyle\\", \\"showActionSheet\\", \\"showFavoriteGuide\\", \\"showLoading\\", \\"showModal\\", \\"showShareMenu\\", \\"showTabBar\\", \\"showTabBarRedDot\\", \\"showToast\\", \\"startBeaconDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"startDeviceMotionListening\\", \\"startPullDownRefresh\\", \\"stopBeaconDiscovery\\", \\"stopBluetoothDevicesDiscovery\\", \\"stopCompass\\", \\"startCompass\\", \\"startAccelerometer\\", \\"stopAccelerometer\\", \\"showNavigationBarLoading\\", \\"stopDeviceMotionListening\\", \\"stopPullDownRefresh\\", \\"switchTab\\", \\"uploadFile\\", \\"vibrateLong\\", \\"vibrateShort\\", \\"writeBLECharacteristicValue\\" ]);
         function getCanIUseWebp(taro) {
             return function() {
@@ -703,9 +709,12 @@ require(\\"./taro\\");
             var patchNeedPromiseApis = config.needPromiseApis || [];
             var _needPromiseApis = new Set([].concat(_toConsumableArray(patchNeedPromiseApis), _toConsumableArray(needPromiseApis)));
             var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
-            var apis = Object.keys(global).filter((function(api) {
+            var apis = new Set(Object.keys(global).filter((function(api) {
                 return preserved.indexOf(api) === -1;
-            }));
+            })));
+            if (config.modifyApis) {
+                config.modifyApis(apis);
+            }
             apis.forEach((function(key) {
                 if (_needPromiseApis.has(key)) {
                     var originKey = key;
@@ -739,7 +748,7 @@ require(\\"./taro\\");
                                 (_b = options.success) === null || _b === void 0 ? void 0 : _b.call(options, res);
                                 if (key === \\"connectSocket\\") {
                                     resolve(Promise.resolve().then((function() {
-                                        return Object.assign(task, res);
+                                        return task ? Object.assign(task, res) : res;
                                     })));
                                 } else {
                                     resolve(res);
@@ -774,7 +783,11 @@ require(\\"./taro\\");
                         return p;
                     };
                 } else {
-                    if (!global.hasOwnProperty(key)) {
+                    var platformKey = key;
+                    if (config.transformMeta) {
+                        platformKey = config.transformMeta(key, {}).key;
+                    }
+                    if (!global.hasOwnProperty(platformKey)) {
                         taro[key] = unsupport(key);
                         return;
                     }
@@ -786,11 +799,11 @@ require(\\"./taro\\");
                             if (config.handleSyncApis) {
                                 return config.handleSyncApis(key, global, args);
                             } else {
-                                return global[key].apply(global, args);
+                                return global[platformKey].apply(global, args);
                             }
                         };
                     } else {
-                        taro[key] = global[key];
+                        taro[key] = global[platformKey];
                     }
                 }
             }));
@@ -1011,6 +1024,9 @@ require(\\"./taro\\");
             initNativeApi: initNativeApi,
             getPathIndex: function getPathIndex(indexOfNode) {
                 return \\"\\".concat(indexOfNode);
+            },
+            getSpecialNodes: function getSpecialNodes() {
+                return [ \\"text\\", \\"image\\" ];
             }
         };
         mergeReconciler(hostConfig);
@@ -1095,26 +1111,66 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_0_static-view\\">
-  <view hover-class=\\"{{ xs.b(i.hoverClass,'none') }}\\" hover-stop-propagation=\\"{{ xs.b(i.hoverStopPropagation,false) }}\\" hover-start-time=\\"{{ xs.b(i.hoverStartTime,50) }}\\" hover-stay-time=\\"{{ xs.b(i.hoverStayTime,400) }}\\" animation=\\"{{ i.animation }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\"  id=\\"{{i.uid}}\\">
-    <block s-for=\\"{{i.cn}}\\" s-key=\\"uid\\">
-      <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
-    </block>
-  </view>
-</template>
-
-<template name=\\"tmpl_0_pure-view\\">
-  <view style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\"  id=\\"{{i.uid}}\\">
-    <block s-for=\\"{{i.cn}}\\" s-key=\\"uid\\">
-      <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
-    </block>
-  </view>
-</template>
-
 <template name=\\"tmpl_0_view\\">
   <view hover-class=\\"{{ xs.b(i.hoverClass,'none') }}\\" hover-stop-propagation=\\"{{ xs.b(i.hoverStopPropagation,false) }}\\" hover-start-time=\\"{{ xs.b(i.hoverStartTime,50) }}\\" hover-stay-time=\\"{{ xs.b(i.hoverStayTime,400) }}\\" animation=\\"{{ i.animation }}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block s-for=\\"{{i.cn}}\\" s-key=\\"uid\\">
-      <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+      <view s-if=\\"{{item.nn==='view'&&(item.st||item.cl)}}\\" hover-class=\\"{{xs.b(item.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,400)}}\\" animation=\\"{{item.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" id=\\"{{item.uid}}\\">
+          <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+            <view s-if=\\"{{item.nn==='view'&&(item.st||item.cl)}}\\" hover-class=\\"{{xs.b(item.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,400)}}\\" animation=\\"{{item.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" id=\\"{{item.uid}}\\">
+              <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                <view s-if=\\"{{item.nn==='view'&&(item.st||item.cl)}}\\" hover-class=\\"{{xs.b(item.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,400)}}\\" animation=\\"{{item.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" id=\\"{{item.uid}}\\">
+                  <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                    <view s-if=\\"{{item.nn==='view'&&(item.st||item.cl)}}\\" hover-class=\\"{{xs.b(item.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,400)}}\\" animation=\\"{{item.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" id=\\"{{item.uid}}\\">
+                      <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                        <view s-if=\\"{{item.nn==='view'&&(item.st||item.cl)}}\\" hover-class=\\"{{xs.b(item.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,400)}}\\" animation=\\"{{item.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" id=\\"{{item.uid}}\\">
+                          <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                            <view s-if=\\"{{item.nn==='view'&&(item.st||item.cl)}}\\" hover-class=\\"{{xs.b(item.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,400)}}\\" animation=\\"{{item.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" id=\\"{{item.uid}}\\">
+                              <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                                <view s-if=\\"{{item.nn==='view'&&(item.st||item.cl)}}\\" hover-class=\\"{{xs.b(item.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,400)}}\\" animation=\\"{{item.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" id=\\"{{item.uid}}\\">
+                                  <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                                    <view s-if=\\"{{item.nn==='view'&&(item.st||item.cl)}}\\" hover-class=\\"{{xs.b(item.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,400)}}\\" animation=\\"{{item.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" id=\\"{{item.uid}}\\">
+                                      <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                                        <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+                                      </block>
+                                    </view>
+                                    <block s-else>
+                                      <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+                                    </block>
+                                  </block>
+                                </view>
+                                <block s-else>
+                                  <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+                                </block>
+                              </block>
+                            </view>
+                            <block s-else>
+                              <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+                            </block>
+                          </block>
+                        </view>
+                        <block s-else>
+                          <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+                        </block>
+                      </block>
+                    </view>
+                    <block s-else>
+                      <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+                    </block>
+                  </block>
+                </view>
+                <block s-else>
+                  <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+                </block>
+              </block>
+            </view>
+            <block s-else>
+              <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+            </block>
+          </block>
+        </view>
+        <block s-else>
+          <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+        </block>
     </block>
   </view>
 </template>
