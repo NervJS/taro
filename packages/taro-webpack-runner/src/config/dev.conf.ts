@@ -107,7 +107,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
   }
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
 
-  if (config.devServer?.hot !== false) {
+  if (config.framework === FRAMEWORK_MAP.REACT && config.devServer?.hot !== false) {
     // 默认开启 fast-refresh
     plugin.fastRefreshPlugin = getFastRefreshPlugin()
   }
