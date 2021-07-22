@@ -6,7 +6,7 @@ import * as webpack from 'webpack'
 import * as SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
 import { ConcatSource } from 'webpack-sources'
 import { AppConfig, SubPackage } from '@tarojs/taro'
-import { resolveMainFilePath, readConfig, promoteRelativePath } from '@tarojs/helper'
+import { resolveMainFilePath, readConfig, promoteRelativePath, normalizePath } from '@tarojs/helper'
 import { isString, isFunction, isArray } from '@tarojs/shared'
 
 const PLUGIN_NAME = 'MiniSplitChunkPlugin'
@@ -91,6 +91,14 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
           const modules = Array.from(subChunk.modulesIterable)
 
           modules.map((module: any) => {
+            if (this.isExternalModule(module)) {
+              return
+            }
+
+            if (!this.hasModuleId(module)) {
+              return
+            }
+
             if (this.hasExclude() && this.isExcludeModule(module)) {
               return
             }
@@ -231,7 +239,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
         const subVendorsWxssPath = path.join(subRoot, `${SUB_VENDORS_NAME}${FileExtsMap.STYLE}`)
         const source = new ConcatSource()
 
-        if (assets[this.formatSystemPath(subVendorsWxssPath)]) {
+        if (assets[normalizePath(subVendorsWxssPath)]) {
           const subVendorsAbsolutePath = path.resolve(this.distPath, subVendorsWxssPath)
           const relativePath = this.getRealRelativePath(wxssAbsulutePath, subVendorsAbsolutePath)
 
@@ -243,7 +251,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
             const wxssFileName = `${moduleName}${FileExtsMap.STYLE}`
             const wxssFilePath = path.join(SUB_COMMON_DIR, wxssFileName)
 
-            if (assets[this.formatSystemPath(wxssFilePath)]) {
+            if (assets[normalizePath(wxssFilePath)]) {
               const moduleAbsulutePath = path.resolve(this.distPath, subRoot, SUB_COMMON_DIR, wxssFileName)
               const relativePath = this.getRealRelativePath(wxssAbsulutePath, moduleAbsulutePath)
 
@@ -375,7 +383,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
    * match *\/sub-vendors
    */
   matchSubVendors (chunk: webpack.compilation.Chunk): boolean {
-    const subVendorsRegExps = this.subRoots.map(subRoot => new RegExp(`^${this.formatSystemPath(path.join(subRoot, SUB_VENDORS_NAME))}$`))
+    const subVendorsRegExps = this.subRoots.map(subRoot => new RegExp(`^${normalizePath(path.join(subRoot, SUB_VENDORS_NAME))}$`))
     const isSubVendors = subVendorsRegExps.find(subVendorsRegExp => subVendorsRegExp.test(chunk.name))
 
     return !!isSubVendors
@@ -440,7 +448,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
 
           return chunks.every(chunk => new RegExp(`^${subRoot}\\/`).test(chunk.name))
         },
-        name: this.formatSystemPath(path.join(subRoot, SUB_VENDORS_NAME)),
+        name: normalizePath(path.join(subRoot, SUB_VENDORS_NAME)),
         minChunks: 2,
         priority: 10000
       }
@@ -455,7 +463,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
     const subCommonCacheGroup = {}
 
     this.subCommonDeps.forEach((depInfo: DepInfo, depName: string) => {
-      const cacheGroupName = this.formatSystemPath(path.join(SUB_COMMON_DIR, depName))
+      const cacheGroupName = normalizePath(path.join(SUB_COMMON_DIR, depName))
 
       subCommonCacheGroup[cacheGroupName] = {
         name: cacheGroupName,
@@ -520,9 +528,24 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   }
 
   /**
-   * 将window系统下的路径分隔符转成/
+   * 判断module为external module
    */
-  formatSystemPath (p) {
-    return p.replace(/\\/g, '/')
+  isExternalModule (module: any) {
+    return !!module.external
+  }
+
+  /**
+   * 判断是否存在resource和_identifier
+   */
+  hasModuleId (module: any) {
+    if (module.resource) {
+      return true
+    }
+
+    if (module._identifier) {
+      return true
+    }
+
+    return false
   }
 }
