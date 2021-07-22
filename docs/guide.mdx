@@ -1594,7 +1594,8 @@ export default {
     'pages/node_detail/node_detail',
     'pages/thread_detail/thread_detail'
   ],
-  // 在 `subpackages` 字段添加分包
+  // 在 `subpackages` 字段添加分包，如果目标是支付宝小程序，还需要加一个字段subPackages值和subpackages一致
+  // 不能在pages根目录也不能在pages目录外，需要在pages根目录另外新建文件夹做分包
   "subpackages": [
     {
       "root": "pages",
@@ -1615,6 +1616,7 @@ export default {
       pagePath: 'pages/hot/hot',
       text: '热门'
     }, {
+      // 如果是分包的子页面，就不能在tabBar中使用
       'iconPath': 'resource/node.png',
       'selectedIconPath': 'resource/node_on.png',
       pagePath: 'pages/nodes/nodes',
