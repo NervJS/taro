@@ -3692,6 +3692,14 @@ anymatch@^3.0.0, anymatch@^3.0.3, anymatch@~3.1.2:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
+apachelp@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/apachelp/-/apachelp-0.2.0.tgz#f6236735eeb58f8966f2f0369e1cddd57346509b"
+  integrity sha512-3JOUT7kUOyE48hNvAjdjcJGsgEtMtH4Q3MplY0lcFIcDEpmfQXvbiKq6jzx9gfTSolJ5hwiFAqWH1k/zdYyXkQ==
+  dependencies:
+    chalk "^4.1.1"
+    minimist "^1.2.5"
+
 append-buffer@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/append-buffer/-/append-buffer-1.0.2.tgz#d8220cf466081525efea50614f3de6514dfa58f1"
