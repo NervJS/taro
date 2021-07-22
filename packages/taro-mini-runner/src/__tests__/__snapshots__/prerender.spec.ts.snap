@@ -27,8 +27,8 @@ require(\\"./taro\\");
     __webpack_require__.d(__webpack_exports__, \\"d\\", (function() {
         return singleQuote;
     }));
-    var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
-    var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(20);
+    var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+    var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
     function isString(o) {
         return typeof o === \\"string\\";
     }
@@ -810,15 +810,15 @@ require(\\"./taro\\");
         }
         return arr2;
     }
-}, , , function(module, __webpack_exports__, __webpack_require__) {
+}, , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _toConsumableArray;
     }));
-    var _arrayWithoutHoles_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
-    var _iterableToArray_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
-    var _unsupportedIterableToArray_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(18);
-    var _nonIterableSpread_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(19);
+    var _arrayWithoutHoles_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
+    var _iterableToArray_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
+    var _unsupportedIterableToArray_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(17);
+    var _nonIterableSpread_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(18);
     function _toConsumableArray(arr) {
         return Object(_arrayWithoutHoles_js__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(arr) || Object(_iterableToArray_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(arr) || Object(_unsupportedIterableToArray_js__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(arr) || Object(_nonIterableSpread_js__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])();
     }
@@ -919,14 +919,14 @@ require(\\"./taro\\");
         return App;
     }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
     __webpack_exports__[\\"a\\"] = App;
-}, , , , , , , , , , function(module, __webpack_exports__, __webpack_require__) {
+}, , , , , , , , , , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     (function(global) {
         var _tarojs_plugin_platform_weapp_dist_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(33);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
-        var _tarojs_taro__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(21);
-        var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(22);
+        var _tarojs_taro__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(20);
+        var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(21);
         var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(1);
         var react_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(26);
         var config = {
@@ -3766,7 +3766,7 @@ module.exports = {
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _inherits;
     }));
-    var _setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(23);
+    var _setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
     function _inherits(subClass, superClass) {
         if (typeof superClass !== \\"function\\" && superClass !== null) {
             throw new TypeError(\\"Super expression must either be null or a function\\");
@@ -3785,9 +3785,9 @@ module.exports = {
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _createSuper;
     }));
-    var _getPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
-    var _isNativeReflectConstruct_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
-    var _possibleConstructorReturn_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(25);
+    var _getPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
+    var _isNativeReflectConstruct_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
+    var _possibleConstructorReturn_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(24);
     function _createSuper(Derived) {
         var hasNativeReflectConstruct = Object(_isNativeReflectConstruct_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])();
         return function _createSuperInternal() {
@@ -3832,7 +3832,6 @@ module.exports = {
     }
 }, , function(module, exports, __webpack_require__) {
     (function(window) {
-        var _typeof = __webpack_require__(13);
         var g;
         g = function() {
             return this;
@@ -3840,28 +3839,10 @@ module.exports = {
         try {
             g = g || new Function(\\"return this\\")();
         } catch (e) {
-            if ((typeof window === \\"undefined\\" ? \\"undefined\\" : _typeof(window)) === \\"object\\") g = window;
+            if (typeof window === \\"object\\") g = window;
         }
         module.exports = g;
     }).call(this, __webpack_require__(3)[\\"window\\"]);
-}, function(module, exports) {
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-            module.exports = _typeof = function _typeof(obj) {
-                return typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        } else {
-            module.exports = _typeof = function _typeof(obj) {
-                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        }
-        return _typeof(obj);
-    }
-    module.exports = _typeof;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
 }, , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -3906,7 +3887,7 @@ module.exports = {
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _possibleConstructorReturn;
     }));
-    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
     var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__);
     var _assertThisInitialized_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8);
     function _possibleConstructorReturn(self, call) {
@@ -3915,6 +3896,24 @@ module.exports = {
         }
         return Object(_assertThisInitialized_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(self);
     }
+}, function(module, exports) {
+    function _typeof(obj) {
+        \\"@babel/helpers - typeof\\";
+        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
+            module.exports = _typeof = function _typeof(obj) {
+                return typeof obj;
+            };
+            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+        } else {
+            module.exports = _typeof = function _typeof(obj) {
+                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+            };
+            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+        }
+        return _typeof(obj);
+    }
+    module.exports = _typeof;
+    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
 } ] ]);
 "
 `;
@@ -3933,11 +3932,11 @@ require(\\"./vendors\\");
 require(\\"./taro\\");
 
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    11: function(module, __webpack_exports__, __webpack_require__) {
+    10: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro\\";
     },
-    12: function(module, __webpack_exports__, __webpack_require__) {
+    11: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
         var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
@@ -3981,8 +3980,8 @@ require(\\"./taro\\");
         (function(global) {
             var _tarojs_plugin_platform_weapp_dist_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
             var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-            var _tarojs_taro__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(11);
-            var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(12);
+            var _tarojs_taro__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(10);
+            var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(11);
             var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
             var react_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(13);
             var config = {
@@ -7639,7 +7638,7 @@ module.exports = {
             return false;
         }
     }
-    var helpers_typeof = __webpack_require__(10);
+    var helpers_typeof = __webpack_require__(12);
     var typeof_default = __webpack_require__.n(helpers_typeof);
     var assertThisInitialized = __webpack_require__(7);
     function _possibleConstructorReturn(self, call) {
@@ -7717,7 +7716,6 @@ module.exports = {
     }
 }, function(module, exports, __webpack_require__) {
     (function(window) {
-        var _typeof = __webpack_require__(10);
         var g;
         g = function() {
             return this;
@@ -7725,11 +7723,11 @@ module.exports = {
         try {
             g = g || new Function(\\"return this\\")();
         } catch (e) {
-            if ((typeof window === \\"undefined\\" ? \\"undefined\\" : _typeof(window)) === \\"object\\") g = window;
+            if (typeof window === \\"object\\") g = window;
         }
         module.exports = g;
     }).call(this, __webpack_require__(2)[\\"window\\"]);
-}, function(module, exports) {
+}, , , function(module, exports) {
     function _typeof(obj) {
         \\"@babel/helpers - typeof\\";
         if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
@@ -7765,11 +7763,11 @@ require(\\"./vendors\\");
 require(\\"./taro\\");
 
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    11: function(module, __webpack_exports__, __webpack_require__) {
+    10: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro\\";
     },
-    12: function(module, __webpack_exports__, __webpack_require__) {
+    11: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
         var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
@@ -7813,8 +7811,8 @@ require(\\"./taro\\");
         (function(global) {
             var _tarojs_plugin_platform_weapp_dist_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
             var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-            var _tarojs_taro__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(11);
-            var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(12);
+            var _tarojs_taro__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(10);
+            var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(11);
             var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
             var react_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(13);
             var config = {
@@ -11471,7 +11469,7 @@ module.exports = {
             return false;
         }
     }
-    var helpers_typeof = __webpack_require__(10);
+    var helpers_typeof = __webpack_require__(12);
     var typeof_default = __webpack_require__.n(helpers_typeof);
     var assertThisInitialized = __webpack_require__(7);
     function _possibleConstructorReturn(self, call) {
@@ -11549,7 +11547,6 @@ module.exports = {
     }
 }, function(module, exports, __webpack_require__) {
     (function(window) {
-        var _typeof = __webpack_require__(10);
         var g;
         g = function() {
             return this;
@@ -11557,11 +11554,11 @@ module.exports = {
         try {
             g = g || new Function(\\"return this\\")();
         } catch (e) {
-            if ((typeof window === \\"undefined\\" ? \\"undefined\\" : _typeof(window)) === \\"object\\") g = window;
+            if (typeof window === \\"object\\") g = window;
         }
         module.exports = g;
     }).call(this, __webpack_require__(2)[\\"window\\"]);
-}, function(module, exports) {
+}, , , function(module, exports) {
     function _typeof(obj) {
         \\"@babel/helpers - typeof\\";
         if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {

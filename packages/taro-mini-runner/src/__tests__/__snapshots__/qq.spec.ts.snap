@@ -2597,13 +2597,13 @@ require(\\"./taro\\");
             if (!module.children) module.children = [];
             Object.defineProperty(module, \\"loaded\\", {
                 enumerable: true,
-                get: function get() {
+                get: function() {
                     return module.l;
                 }
             });
             Object.defineProperty(module, \\"id\\", {
                 enumerable: true,
-                get: function get() {
+                get: function() {
                     return module.i;
                 }
             });
@@ -5627,13 +5627,13 @@ require(\\"./taro\\");
             if (!module.children) module.children = [];
             Object.defineProperty(module, \\"loaded\\", {
                 enumerable: true,
-                get: function get() {
+                get: function() {
                     return module.l;
                 }
             });
             Object.defineProperty(module, \\"id\\", {
                 enumerable: true,
-                get: function get() {
+                get: function() {
                     return module.i;
                 }
             });
