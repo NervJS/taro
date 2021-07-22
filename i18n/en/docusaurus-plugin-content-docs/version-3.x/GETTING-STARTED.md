@@ -473,47 +473,50 @@ Please refer to [React Native Development Process](./react-native)
 
 ## Progressive Introduction Tutorial
 
-我们提供了一个由浅入深的实战教程，请参考[《guide》](./guide)。
+We have provided a hands-on tutorial from the beginning to the end, please refer to[《guide》](./guide)。
 
 ## Common Problems
 
 ### Keep the version of the CLI consistent with the dependency version
 
-在使用 Taro 进行多端开发中，请保持 Taro CLI 的版本与你项目的依赖版本一致，否则可能会出现编译错误或者运行时错误。
+When using Taro for multi-site development, keep the version of the Taro CLI consistent with the version of your project's dependencies, otherwise you may get compilation errors or runtime errors.
 
-如果发现不一致的情况可以使用 Taro 升级命令 taro update self [版本号] 和 taro update project [版本号]来分别将 CLI 和项目依赖升级到指定版本；
-或者也可以手动安装相应版本 CLI，修改 package.json 依赖版本号，然后重装依赖来解决。
+If you find inconsistencies you can use the Taro upgrade command taro update self [version] and taro update project [version]to upgrade the CLI and project dependencies to the specified version, respectively.
+
+Alternatively, you can manually install the appropriate version of the CLI, modify the package.json dependency version number, and reinstall the dependency to resolve it.
+
+
 
 ```bash
-# 使用Taro 升级命令更新CLI版本到最新版本
-$ taro update self [版本号]
-# 使用Taro 升级命令更新CLI版本到指定版本
+# Use the Taro upgrade command to update the CLI version to the latest version
+$ taro update self [version number]
+# Use the Taro upgrade command to update the CLI version to the specified version
 $ taro update self
-# 使用Taro 升级命令将项目依赖升级到与@tarojs/cli一致的版本
+# Use the Taro upgrade command to upgrade project dependencies to a version consistent with @tarojs/cli
 $ taro update project 
-# 使用Taro 升级命令将项目依赖升级到指定版本
-$ taro update project [版本号]
+# Use the Taro upgrade command to upgrade project dependencies to the specified version
+$ taro update project [version number]
 ```
-如果你所使用的 Taro CLI 版本为 3.0.9，而项目里使用的依赖版本为 3.0.10，则有可能会出现问题，这时请将你的 Taro CLI 版本更新至项目依赖版本号相同的版本，如果还是出现问题，请向我们提出 [Issue](https://nervjs.github.io/taro-issue-helper/)。
+If you are using Taro CLI version 3.0.9 and the dependency version used in your project is 3.0.10, you may have problems. In this case, please update your Taro CLI version to the same version as the project dependency version number, and if you still have problems, please [Issue](https://nervjs.github.io/taro-issue-helper/) to the community.
 
-### Taro 多版本共存问题
+### Taro multi-version coexistence issue
 
-很多开发者曾经使用 Taro 旧版本开发过项目，已经在全局安装了 Taro，但是想同时体验到 Taro 3，应该如何进行操作？
+Many developers have worked on projects with older versions of Taro and already have Taro installed globally, but want to experience Taro 3 at the same time, how should I proceed?
 
-我们提供了两种思路：
+We offer two ideas:
 
-- 如果是需要新创建 Taro 3 项目，可以使用 [nvm](https://github.com/nvm-sh/nvm) 来管理 node 版本，通过安装不同 node 版本来安装不同版本的 Taro CLI，从而解决 Taro 多版本共存的问题
-- 如果是部分已有项目需要升级到 Taro 3，可以在这些项目本地安装相应版本的 Taro CLI，这样通过 `yarn` 或者 `npm` 执行命令的话就会直接使用本地安装的 Taro CLI，安装方式 `yarn add @tarojs/cli`
+- If you need to create a new Taro 3 project, you can use [nvm](https://github.com/nvm-sh/nvm) to manage node versions and install different versions of the Taro CLI by installing different node versions, thus solving the problem of multiple versions of Taro coexisting.
+- If some of the existing projects need to upgrade to Taro 3, you can install the corresponding version of Taro CLI locally in these projects, so that the locally installed Taro CLI will be used directly if you execute the command via `yarn` or `npm`, by `yarn add @tarojs/cli`
 
-### 回到某个版本
+### Back to a certain version
 
-需要安装某个固定版本，或者回到某个版本，例如我们要安装 `1.3.9` ， 则如下：
+To install a fixed version, or to go back to a certain version, e.g. if we want to install `1.3.9`, we would do the following.
 
 ```bash
-# 使用 npm 安装 CLI
+# Use npm install CLI
 $ npm install -g @tarojs/cli@1.3.9
-# OR 使用 yarn 安装 CLI
+# OR use yarn npm CLI
 $ yarn global add @tarojs/cli@1.3.9
-# OR 安装了 cnpm，使用 cnpm 安装 CLI
+# OR installed cnpm, use cnpm install CLI
 $ cnpm install -g @tarojs/cli@1.3.9
 ```
