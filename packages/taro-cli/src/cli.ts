@@ -25,7 +25,7 @@ export default class CLI {
         port: ['p'],
         resetCache: ['reset-cache']
       },
-      boolean: ['version', 'help']
+      boolean: ['version', 'help', 'qr']
     })
     const _ = args._
     const command = _[0]
@@ -61,6 +61,7 @@ export default class CLI {
             env: args.env,
             deviceType: args.platform,
             resetCache: !!args.resetCache,
+            qr: Boolean(args.qr),
             blended: Boolean(args.blended),
             h: args.h
           })
