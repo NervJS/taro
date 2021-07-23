@@ -80,7 +80,7 @@ export class Template extends RecursiveTemplate {
     return template
   }
 
-  modifyLoopBody = (child: string, nodeName: string) => {
+  modifyLoopBody = (child: string, nodeName: string): string => {
     if (nodeName === 'view') {
       // fix issue #6015
       return this.buildFlattenView()
@@ -91,7 +91,7 @@ export class Template extends RecursiveTemplate {
     }
 
     if (nodeName === 'picker-view') {
-      return `<picker-view-column name="{{ item.name }}" style="{{ item.st }}" class="{{ item.cl }}" bindtap="eh"  id="{{item.uid}}">
+      return `<picker-view-column id="{{item.uid}}" name="{{ item.name }}" style="{{ item.st }}" class="{{ item.cl }}" bindtap="eh">
         <block s-for="{{item.cn}}" s-key="uid">
           ${child}
         </block>
@@ -109,6 +109,22 @@ export class Template extends RecursiveTemplate {
     }
 
     return child
+  }
+
+  modifyLoopContainer = (children: string, nodeName: string): string => {
+    if (nodeName === 'swiper') {
+      return `
+    <block s-for="{{i.cn}}" s-key="uid">
+      <swiper-item id="{{item.uid}}" item-id="{{ item.itemId }}" class="{{ item.cl }}" bindtap="eh">
+        <block s-for="{{item.cn}}" s-key="uid">
+          <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
+        </block>
+      </swiper-item>
+    </block>
+    `
+    }
+
+    return children
   }
 
   modifyTemplateResult = (res: string, nodeName: string) => {
