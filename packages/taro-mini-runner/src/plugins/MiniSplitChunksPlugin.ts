@@ -74,6 +74,10 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation: any) => {
       compilation.hooks.optimizeChunks.tap(PLUGIN_NAME, (chunks: webpack.compilation.Chunk[]) => {
+        const splitChunksOriginConfig = {
+          ...compiler?.options?.optimization?.splitChunks
+        }
+
         this.subCommonDeps = new Map()
         this.chunkSubCommons = new Map()
         this.subPackagesVendors = new Map()
@@ -84,6 +88,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
         const subChunks = chunks.filter(chunk => this.isSubChunk(chunk))
 
         if (subChunks.length === 0) {
+          this.options = SplitChunksPlugin.normalizeOptions(splitChunksOriginConfig)
           return
         }
 
@@ -149,9 +154,9 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
          * 用新的option配置生成新的cacheGroups配置
          */
         this.options = SplitChunksPlugin.normalizeOptions({
-          ...compiler?.options?.optimization?.splitChunks,
+          ...splitChunksOriginConfig,
           cacheGroups: {
-            ...compiler?.options?.optimization?.splitChunks?.cacheGroups,
+            ...splitChunksOriginConfig?.cacheGroups,
             ...this.getSubPackageVendorsCacheGroup(),
             ...this.getSubCommonCacheGroup()
           }
