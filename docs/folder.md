@@ -118,7 +118,7 @@ import './index.css';
 
     └── babel.config.js             Babel 配置
 
-请参考 [Babel 配置](babel-config)
+请参考 [Babel 配置](./babel-config)
 
 ## ESLint 配置
 

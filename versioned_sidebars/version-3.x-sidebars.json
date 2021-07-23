@@ -296,10 +296,6 @@
               "id": "version-3.x/platform-plugin-reconciler"
             }
           ]
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/debug-config"
         }
       ]
     },
@@ -353,11 +349,23 @@
       "items": [
         {
           "type": "doc",
+          "id": "version-3.x/join-in"
+        },
+        {
+          "type": "doc",
           "id": "version-3.x/CONTRIBUTING"
         },
         {
           "type": "doc",
-          "id": "version-3.x/join-in"
+          "id": "version-3.x/codebase-overview"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/debug-config"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/implement-note"
         }
       ]
     }

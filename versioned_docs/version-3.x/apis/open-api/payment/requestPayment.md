@@ -99,7 +99,7 @@ sidebar_label: requestPayment
     <tr>
       <td>RSA</td>
       <td>仅在微信支付 v3 版本接口适用</td>
-    </tr>    
+    </tr>
   </tbody>
 </table>
 

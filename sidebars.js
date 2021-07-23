@@ -84,8 +84,7 @@ module.exports = {
           'platform-plugin-template',
           'platform-plugin-reconciler'
         ]
-      },
-      'debug-config'
+      }
     ],
     社区生态: [
       'treasures',
@@ -99,8 +98,11 @@ module.exports = {
       'seowhy'
     ],
     CONTRIBUTING: [
+      'join-in',
       'CONTRIBUTING',
-      'join-in'
+      'codebase-overview',
+      'debug-config',
+      'implement-note'
     ]
   },
   "components": {
