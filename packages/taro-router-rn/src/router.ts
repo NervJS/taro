@@ -128,7 +128,7 @@ function getStackOptions (config: RouterConfig) {
   const bgColor = windowOptions.navigationBarBackgroundColor || '#000000'
   const headerTitleAlign: StackHeaderOptions['headerTitleAlign'] = 'center'
   const defaultOptions = {
-    title: title,
+    title: ' ', // 防止页面跳转时，标题闪现 windowOptions.navigationBarTitleText
     headerShown: windowOptions.navigationStyle !== 'custom',
     headerTitle: (props) => getHeaderView(title, headColor, props),
     headerStyle: {
