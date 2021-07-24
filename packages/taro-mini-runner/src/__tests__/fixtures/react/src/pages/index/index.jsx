@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Input, Textarea, Swiper, SwiperItem } from '@tarojs/components'
+import { View, Text, Input, Textarea, Swiper, SwiperItem, Canvas, Video, CoverImage, CoverView } from '@tarojs/components'
 import './index.css'
 
 export default class Index extends Component {
@@ -28,6 +28,14 @@ export default class Index extends Component {
             <Text>Swiper item</Text>
           </SwiperItem>
         </Swiper>
+
+        <Video />
+
+        <Canvas>
+          <CoverView>
+            <CoverImage />
+          </CoverView>
+        </Canvas>
       </View>
     )
   }

@@ -16,12 +16,18 @@ export declare class Template extends RecursiveTemplate {
         type: string;
     };
     flattenViewLevel: number;
+    flattenCoverLevel: number;
+    legacyMiniComponents: {
+        [key: string]: Record<string, string>;
+    };
     constructor(options?: TemplateOptions);
     createMiniComponents(components: any): any;
     buildXsTemplate(): string;
     dataKeymap(keymap: string): string;
     getAttrValue(value: string, key: string, nodeName: string): string;
+    buildFlattenNodeAttributes(nodeName: string): string;
     buildFlattenView: (level?: number) => string;
+    buildFlattenCover: (level?: number) => string;
     modifyLoopBody: (child: string, nodeName: string) => string;
     modifyLoopContainer: (children: string, nodeName: string) => string;
     modifyTemplateResult: (res: string, nodeName: string) => string;
