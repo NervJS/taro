@@ -26,3 +26,4 @@ export declare class Template extends RecursiveTemplate {
     modifyLoopContainer: (children: string, nodeName: string) => string;
     modifyTemplateResult: (res: string, nodeName: string) => string;
 }
+export {};

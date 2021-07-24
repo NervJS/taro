@@ -1031,7 +1031,7 @@ require(\\"./taro\\");
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(1);
+        var taro_runtime = __webpack_require__(2);
         var mocks_taro = \\"taro\\";
         var classCallCheck = __webpack_require__(3);
         var createClass = __webpack_require__(4);
@@ -1223,6 +1223,26 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_0_swiper\\">
+  <swiper indicator-dots=\\"{{ xs.b(i.indicatorDots,false) }}\\" indicator-color=\\"{{ xs.b(i.indicatorColor,'rgba(0, 0, 0, .3)') }}\\" indicator-active-color=\\"{{ xs.b(i.indicatorActiveColor,'#000000') }}\\" autoplay=\\"{{ xs.b(i.autoplay,false) }}\\" current=\\"{{ xs.b(i.current,0) }}\\" interval=\\"{{ xs.b(i.interval,5000) }}\\" duration=\\"{{ xs.b(i.duration,500) }}\\" circular=\\"{{ xs.b(i.circular,false) }}\\" vertical=\\"{{ xs.b(i.vertical,false) }}\\" previous-margin=\\"{{ xs.b(i.previousMargin,'0px') }}\\" next-margin=\\"{{ xs.b(i.nextMargin,'0px') }}\\" display-multiple-items=\\"{{ xs.b(i.displayMultipleItems,1) }}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block s-for=\\"{{i.cn}}\\" s-key=\\"uid\\">
+      <swiper-item id=\\"{{item.uid}}\\" item-id=\\"{{ item.itemId }}\\" class=\\"{{ item.cl }}\\" bindtap=\\"eh\\">
+        <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+          <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+        </block>
+      </swiper-item>
+    </block>
+    </swiper>
+</template>
+
+<template name=\\"tmpl_0_swiper-item\\">
+  <swiper-item item-id=\\"{{ i.itemId }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block s-for=\\"{{i.cn}}\\" s-key=\\"uid\\">
+      <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+    </block>
+  </swiper-item>
+</template>
+
 <template name=\\"tmpl_0_static-image\\">
   <image src=\\"{{ i.src }}\\" mode=\\"{{ xs.b(i.mode,'scaleToFill') }}\\" lazy-load=\\"{{ xs.b(i.lazyLoad,false) }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\"  id=\\"{{i.uid}}\\">
     <block s-for=\\"{{i.cn}}\\" s-key=\\"uid\\">
@@ -1260,7 +1280,7 @@ require(\\"./taro\\");
     13: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
 }, [ [ 13, 0, 1 ] ] ]);
@@ -1791,7 +1811,7 @@ require(\\"./taro\\");
 }, function(module, exports, __webpack_require__) {}, , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    var taro_runtime = __webpack_require__(1);
+    var taro_runtime = __webpack_require__(2);
     var regenerator = __webpack_require__(8);
     var regenerator_default = __webpack_require__.n(regenerator);
     function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
@@ -1828,7 +1848,7 @@ require(\\"./taro\\");
     var inherits = __webpack_require__(6);
     var createSuper = __webpack_require__(5);
     var react = __webpack_require__(0);
-    var taro_components = __webpack_require__(2);
+    var taro_components = __webpack_require__(1);
     var index = __webpack_require__(17);
     var index_Index = function(_Component) {
         Object(inherits[\\"a\\"])(Index, _Component);
@@ -1882,7 +1902,7 @@ require(\\"./taro\\");
                     value: \\"\\"
                 }), react[\\"default\\"].createElement(taro_components[\\"Textarea\\"], {
                     value: \\"\\"
-                }));
+                }), react[\\"default\\"].createElement(taro_components[\\"Swiper\\"], null, react[\\"default\\"].createElement(taro_components[\\"SwiperItem\\"], null, react[\\"default\\"].createElement(taro_components[\\"Text\\"], null, \\"Swiper item\\"))));
             }
         } ]);
         return Index;
@@ -2025,11 +2045,11 @@ require(\\"./taro\\");
 (swan[\\"webpackJsonp\\"] = swan[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
     1: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
-        var _unused_webpack_default_export = \\"taro-runtime-mock\\";
+        var _unused_webpack_default_export = \\"taro-components-mock\\";
     },
     2: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
-        var _unused_webpack_default_export = \\"taro-components-mock\\";
+        var _unused_webpack_default_export = \\"taro-runtime-mock\\";
     },
     9: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";

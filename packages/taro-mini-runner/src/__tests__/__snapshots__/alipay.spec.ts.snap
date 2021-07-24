@@ -1509,6 +1509,18 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_0_swiper\\">
+  <swiper indicator-dots=\\"{{xs.b(i.indicatorDots,false)}}\\" indicator-color=\\"{{xs.b(i.indicatorColor,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(i.indicatorActiveColor,'#000000')}}\\" autoplay=\\"{{xs.b(i.autoplay,false)}}\\" current=\\"{{xs.b(i.current,0)}}\\" interval=\\"{{xs.b(i.interval,5000)}}\\" duration=\\"{{xs.b(i.duration,500)}}\\" circular=\\"{{xs.b(i.circular,false)}}\\" vertical=\\"{{xs.b(i.vertical,false)}}\\" previous-margin=\\"{{xs.b(i.previousMargin,'0px')}}\\" next-margin=\\"{{xs.b(i.nextMargin,'0px')}}\\" display-multiple-items=\\"{{xs.b(i.displayMultipleItems,1)}}\\" onChange=\\"eh\\" onTransition=\\"eh\\" onAnimationFinish=\\"eh\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block a:for=\\"{{xs.f(i.cn)}}\\" a:key=\\"uid\\">
+      <swiper-item class=\\"{{item.cl}}\\" style=\\"{{item.st}}\\" id=\\"{{item.uid}}\\">
+        <block a:for=\\"{{item.cn}}\\" a:key=\\"uid\\">
+          <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
+        </block>
+      </swiper-item>
+    </block>
+  </swiper>
+</template>
+
 <template name=\\"tmpl_0_static-image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{xs.b(i.mode,'scaleToFill')}}\\" lazy-load=\\"{{xs.b(i.lazyLoad,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
     <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
@@ -2172,7 +2184,7 @@ require(\\"./taro\\");
                     value: \\"\\"
                 }), react[\\"default\\"].createElement(taro_components[\\"Textarea\\"], {
                     value: \\"\\"
-                }));
+                }), react[\\"default\\"].createElement(taro_components[\\"Swiper\\"], null, react[\\"default\\"].createElement(taro_components[\\"SwiperItem\\"], null, react[\\"default\\"].createElement(taro_components[\\"Text\\"], null, \\"Swiper item\\"))));
             }
         } ]);
         return Index;

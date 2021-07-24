@@ -1001,6 +1001,22 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_0_swiper\\">
+  <swiper indicator-dots=\\"{{i.indicatorDots===undefined?false:i.indicatorDots}}\\" indicator-color=\\"{{i.indicatorColor===undefined?'rgba(0, 0, 0, .3)':i.indicatorColor}}\\" indicator-active-color=\\"{{i.indicatorActiveColor===undefined?'#000000':i.indicatorActiveColor}}\\" autoplay=\\"{{i.autoplay===undefined?false:i.autoplay}}\\" current=\\"{{i.current===undefined?0:i.current}}\\" interval=\\"{{i.interval===undefined?5000:i.interval}}\\" duration=\\"{{i.duration===undefined?500:i.duration}}\\" circular=\\"{{i.circular===undefined?false:i.circular}}\\" vertical=\\"{{i.vertical===undefined?false:i.vertical}}\\" previous-margin=\\"{{i.previousMargin===undefined?'0px':i.previousMargin}}\\" next-margin=\\"{{i.nextMargin===undefined?'0px':i.nextMargin}}\\" display-multiple-items=\\"{{i.displayMultipleItems===undefined?1:i.displayMultipleItems}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_1_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper>
+</template>
+
+<template name=\\"tmpl_0_swiper-item\\">
+  <swiper-item item-id=\\"{{i.itemId}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_1_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper-item>
+</template>
+
 <template name=\\"tmpl_0_static-image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
@@ -1103,6 +1119,22 @@ require(\\"./taro\\");
       <template is=\\"tmpl_2_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_1_swiper\\">
+  <swiper indicator-dots=\\"{{i.indicatorDots===undefined?false:i.indicatorDots}}\\" indicator-color=\\"{{i.indicatorColor===undefined?'rgba(0, 0, 0, .3)':i.indicatorColor}}\\" indicator-active-color=\\"{{i.indicatorActiveColor===undefined?'#000000':i.indicatorActiveColor}}\\" autoplay=\\"{{i.autoplay===undefined?false:i.autoplay}}\\" current=\\"{{i.current===undefined?0:i.current}}\\" interval=\\"{{i.interval===undefined?5000:i.interval}}\\" duration=\\"{{i.duration===undefined?500:i.duration}}\\" circular=\\"{{i.circular===undefined?false:i.circular}}\\" vertical=\\"{{i.vertical===undefined?false:i.vertical}}\\" previous-margin=\\"{{i.previousMargin===undefined?'0px':i.previousMargin}}\\" next-margin=\\"{{i.nextMargin===undefined?'0px':i.nextMargin}}\\" display-multiple-items=\\"{{i.displayMultipleItems===undefined?1:i.displayMultipleItems}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_2_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper>
+</template>
+
+<template name=\\"tmpl_1_swiper-item\\">
+  <swiper-item item-id=\\"{{i.itemId}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_2_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper-item>
 </template>
 
 <template name=\\"tmpl_1_static-image\\">
@@ -1209,6 +1241,22 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_2_swiper\\">
+  <swiper indicator-dots=\\"{{i.indicatorDots===undefined?false:i.indicatorDots}}\\" indicator-color=\\"{{i.indicatorColor===undefined?'rgba(0, 0, 0, .3)':i.indicatorColor}}\\" indicator-active-color=\\"{{i.indicatorActiveColor===undefined?'#000000':i.indicatorActiveColor}}\\" autoplay=\\"{{i.autoplay===undefined?false:i.autoplay}}\\" current=\\"{{i.current===undefined?0:i.current}}\\" interval=\\"{{i.interval===undefined?5000:i.interval}}\\" duration=\\"{{i.duration===undefined?500:i.duration}}\\" circular=\\"{{i.circular===undefined?false:i.circular}}\\" vertical=\\"{{i.vertical===undefined?false:i.vertical}}\\" previous-margin=\\"{{i.previousMargin===undefined?'0px':i.previousMargin}}\\" next-margin=\\"{{i.nextMargin===undefined?'0px':i.nextMargin}}\\" display-multiple-items=\\"{{i.displayMultipleItems===undefined?1:i.displayMultipleItems}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_3_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper>
+</template>
+
+<template name=\\"tmpl_2_swiper-item\\">
+  <swiper-item item-id=\\"{{i.itemId}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_3_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper-item>
+</template>
+
 <template name=\\"tmpl_2_static-image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
@@ -1311,6 +1359,22 @@ require(\\"./taro\\");
       <template is=\\"tmpl_4_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_3_swiper\\">
+  <swiper indicator-dots=\\"{{i.indicatorDots===undefined?false:i.indicatorDots}}\\" indicator-color=\\"{{i.indicatorColor===undefined?'rgba(0, 0, 0, .3)':i.indicatorColor}}\\" indicator-active-color=\\"{{i.indicatorActiveColor===undefined?'#000000':i.indicatorActiveColor}}\\" autoplay=\\"{{i.autoplay===undefined?false:i.autoplay}}\\" current=\\"{{i.current===undefined?0:i.current}}\\" interval=\\"{{i.interval===undefined?5000:i.interval}}\\" duration=\\"{{i.duration===undefined?500:i.duration}}\\" circular=\\"{{i.circular===undefined?false:i.circular}}\\" vertical=\\"{{i.vertical===undefined?false:i.vertical}}\\" previous-margin=\\"{{i.previousMargin===undefined?'0px':i.previousMargin}}\\" next-margin=\\"{{i.nextMargin===undefined?'0px':i.nextMargin}}\\" display-multiple-items=\\"{{i.displayMultipleItems===undefined?1:i.displayMultipleItems}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_4_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper>
+</template>
+
+<template name=\\"tmpl_3_swiper-item\\">
+  <swiper-item item-id=\\"{{i.itemId}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_4_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper-item>
 </template>
 
 <template name=\\"tmpl_3_static-image\\">
@@ -1417,6 +1481,22 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_4_swiper\\">
+  <swiper indicator-dots=\\"{{i.indicatorDots===undefined?false:i.indicatorDots}}\\" indicator-color=\\"{{i.indicatorColor===undefined?'rgba(0, 0, 0, .3)':i.indicatorColor}}\\" indicator-active-color=\\"{{i.indicatorActiveColor===undefined?'#000000':i.indicatorActiveColor}}\\" autoplay=\\"{{i.autoplay===undefined?false:i.autoplay}}\\" current=\\"{{i.current===undefined?0:i.current}}\\" interval=\\"{{i.interval===undefined?5000:i.interval}}\\" duration=\\"{{i.duration===undefined?500:i.duration}}\\" circular=\\"{{i.circular===undefined?false:i.circular}}\\" vertical=\\"{{i.vertical===undefined?false:i.vertical}}\\" previous-margin=\\"{{i.previousMargin===undefined?'0px':i.previousMargin}}\\" next-margin=\\"{{i.nextMargin===undefined?'0px':i.nextMargin}}\\" display-multiple-items=\\"{{i.displayMultipleItems===undefined?1:i.displayMultipleItems}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_5_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper>
+</template>
+
+<template name=\\"tmpl_4_swiper-item\\">
+  <swiper-item item-id=\\"{{i.itemId}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_5_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper-item>
+</template>
+
 <template name=\\"tmpl_4_static-image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
@@ -1519,6 +1599,22 @@ require(\\"./taro\\");
       <template is=\\"tmpl_6_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_5_swiper\\">
+  <swiper indicator-dots=\\"{{i.indicatorDots===undefined?false:i.indicatorDots}}\\" indicator-color=\\"{{i.indicatorColor===undefined?'rgba(0, 0, 0, .3)':i.indicatorColor}}\\" indicator-active-color=\\"{{i.indicatorActiveColor===undefined?'#000000':i.indicatorActiveColor}}\\" autoplay=\\"{{i.autoplay===undefined?false:i.autoplay}}\\" current=\\"{{i.current===undefined?0:i.current}}\\" interval=\\"{{i.interval===undefined?5000:i.interval}}\\" duration=\\"{{i.duration===undefined?500:i.duration}}\\" circular=\\"{{i.circular===undefined?false:i.circular}}\\" vertical=\\"{{i.vertical===undefined?false:i.vertical}}\\" previous-margin=\\"{{i.previousMargin===undefined?'0px':i.previousMargin}}\\" next-margin=\\"{{i.nextMargin===undefined?'0px':i.nextMargin}}\\" display-multiple-items=\\"{{i.displayMultipleItems===undefined?1:i.displayMultipleItems}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_6_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper>
+</template>
+
+<template name=\\"tmpl_5_swiper-item\\">
+  <swiper-item item-id=\\"{{i.itemId}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_6_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper-item>
 </template>
 
 <template name=\\"tmpl_5_static-image\\">
@@ -1625,6 +1721,22 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_6_swiper\\">
+  <swiper indicator-dots=\\"{{i.indicatorDots===undefined?false:i.indicatorDots}}\\" indicator-color=\\"{{i.indicatorColor===undefined?'rgba(0, 0, 0, .3)':i.indicatorColor}}\\" indicator-active-color=\\"{{i.indicatorActiveColor===undefined?'#000000':i.indicatorActiveColor}}\\" autoplay=\\"{{i.autoplay===undefined?false:i.autoplay}}\\" current=\\"{{i.current===undefined?0:i.current}}\\" interval=\\"{{i.interval===undefined?5000:i.interval}}\\" duration=\\"{{i.duration===undefined?500:i.duration}}\\" circular=\\"{{i.circular===undefined?false:i.circular}}\\" vertical=\\"{{i.vertical===undefined?false:i.vertical}}\\" previous-margin=\\"{{i.previousMargin===undefined?'0px':i.previousMargin}}\\" next-margin=\\"{{i.nextMargin===undefined?'0px':i.nextMargin}}\\" display-multiple-items=\\"{{i.displayMultipleItems===undefined?1:i.displayMultipleItems}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_7_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper>
+</template>
+
+<template name=\\"tmpl_6_swiper-item\\">
+  <swiper-item item-id=\\"{{i.itemId}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_7_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper-item>
+</template>
+
 <template name=\\"tmpl_6_static-image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
@@ -1727,6 +1839,22 @@ require(\\"./taro\\");
       <template is=\\"tmpl_8_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_7_swiper\\">
+  <swiper indicator-dots=\\"{{i.indicatorDots===undefined?false:i.indicatorDots}}\\" indicator-color=\\"{{i.indicatorColor===undefined?'rgba(0, 0, 0, .3)':i.indicatorColor}}\\" indicator-active-color=\\"{{i.indicatorActiveColor===undefined?'#000000':i.indicatorActiveColor}}\\" autoplay=\\"{{i.autoplay===undefined?false:i.autoplay}}\\" current=\\"{{i.current===undefined?0:i.current}}\\" interval=\\"{{i.interval===undefined?5000:i.interval}}\\" duration=\\"{{i.duration===undefined?500:i.duration}}\\" circular=\\"{{i.circular===undefined?false:i.circular}}\\" vertical=\\"{{i.vertical===undefined?false:i.vertical}}\\" previous-margin=\\"{{i.previousMargin===undefined?'0px':i.previousMargin}}\\" next-margin=\\"{{i.nextMargin===undefined?'0px':i.nextMargin}}\\" display-multiple-items=\\"{{i.displayMultipleItems===undefined?1:i.displayMultipleItems}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_8_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper>
+</template>
+
+<template name=\\"tmpl_7_swiper-item\\">
+  <swiper-item item-id=\\"{{i.itemId}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_8_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper-item>
 </template>
 
 <template name=\\"tmpl_7_static-image\\">
@@ -1833,6 +1961,22 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_8_swiper\\">
+  <swiper indicator-dots=\\"{{i.indicatorDots===undefined?false:i.indicatorDots}}\\" indicator-color=\\"{{i.indicatorColor===undefined?'rgba(0, 0, 0, .3)':i.indicatorColor}}\\" indicator-active-color=\\"{{i.indicatorActiveColor===undefined?'#000000':i.indicatorActiveColor}}\\" autoplay=\\"{{i.autoplay===undefined?false:i.autoplay}}\\" current=\\"{{i.current===undefined?0:i.current}}\\" interval=\\"{{i.interval===undefined?5000:i.interval}}\\" duration=\\"{{i.duration===undefined?500:i.duration}}\\" circular=\\"{{i.circular===undefined?false:i.circular}}\\" vertical=\\"{{i.vertical===undefined?false:i.vertical}}\\" previous-margin=\\"{{i.previousMargin===undefined?'0px':i.previousMargin}}\\" next-margin=\\"{{i.nextMargin===undefined?'0px':i.nextMargin}}\\" display-multiple-items=\\"{{i.displayMultipleItems===undefined?1:i.displayMultipleItems}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_9_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper>
+</template>
+
+<template name=\\"tmpl_8_swiper-item\\">
+  <swiper-item item-id=\\"{{i.itemId}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_9_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper-item>
+</template>
+
 <template name=\\"tmpl_8_static-image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
@@ -1935,6 +2079,22 @@ require(\\"./taro\\");
       <template is=\\"tmpl_10_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_9_swiper\\">
+  <swiper indicator-dots=\\"{{i.indicatorDots===undefined?false:i.indicatorDots}}\\" indicator-color=\\"{{i.indicatorColor===undefined?'rgba(0, 0, 0, .3)':i.indicatorColor}}\\" indicator-active-color=\\"{{i.indicatorActiveColor===undefined?'#000000':i.indicatorActiveColor}}\\" autoplay=\\"{{i.autoplay===undefined?false:i.autoplay}}\\" current=\\"{{i.current===undefined?0:i.current}}\\" interval=\\"{{i.interval===undefined?5000:i.interval}}\\" duration=\\"{{i.duration===undefined?500:i.duration}}\\" circular=\\"{{i.circular===undefined?false:i.circular}}\\" vertical=\\"{{i.vertical===undefined?false:i.vertical}}\\" previous-margin=\\"{{i.previousMargin===undefined?'0px':i.previousMargin}}\\" next-margin=\\"{{i.nextMargin===undefined?'0px':i.nextMargin}}\\" display-multiple-items=\\"{{i.displayMultipleItems===undefined?1:i.displayMultipleItems}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_10_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper>
+</template>
+
+<template name=\\"tmpl_9_swiper-item\\">
+  <swiper-item item-id=\\"{{i.itemId}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_10_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper-item>
 </template>
 
 <template name=\\"tmpl_9_static-image\\">
@@ -2041,6 +2201,22 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_10_swiper\\">
+  <swiper indicator-dots=\\"{{i.indicatorDots===undefined?false:i.indicatorDots}}\\" indicator-color=\\"{{i.indicatorColor===undefined?'rgba(0, 0, 0, .3)':i.indicatorColor}}\\" indicator-active-color=\\"{{i.indicatorActiveColor===undefined?'#000000':i.indicatorActiveColor}}\\" autoplay=\\"{{i.autoplay===undefined?false:i.autoplay}}\\" current=\\"{{i.current===undefined?0:i.current}}\\" interval=\\"{{i.interval===undefined?5000:i.interval}}\\" duration=\\"{{i.duration===undefined?500:i.duration}}\\" circular=\\"{{i.circular===undefined?false:i.circular}}\\" vertical=\\"{{i.vertical===undefined?false:i.vertical}}\\" previous-margin=\\"{{i.previousMargin===undefined?'0px':i.previousMargin}}\\" next-margin=\\"{{i.nextMargin===undefined?'0px':i.nextMargin}}\\" display-multiple-items=\\"{{i.displayMultipleItems===undefined?1:i.displayMultipleItems}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_11_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper>
+</template>
+
+<template name=\\"tmpl_10_swiper-item\\">
+  <swiper-item item-id=\\"{{i.itemId}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_11_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper-item>
+</template>
+
 <template name=\\"tmpl_10_static-image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
@@ -2143,6 +2319,22 @@ require(\\"./taro\\");
       <template is=\\"tmpl_12_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_11_swiper\\">
+  <swiper indicator-dots=\\"{{i.indicatorDots===undefined?false:i.indicatorDots}}\\" indicator-color=\\"{{i.indicatorColor===undefined?'rgba(0, 0, 0, .3)':i.indicatorColor}}\\" indicator-active-color=\\"{{i.indicatorActiveColor===undefined?'#000000':i.indicatorActiveColor}}\\" autoplay=\\"{{i.autoplay===undefined?false:i.autoplay}}\\" current=\\"{{i.current===undefined?0:i.current}}\\" interval=\\"{{i.interval===undefined?5000:i.interval}}\\" duration=\\"{{i.duration===undefined?500:i.duration}}\\" circular=\\"{{i.circular===undefined?false:i.circular}}\\" vertical=\\"{{i.vertical===undefined?false:i.vertical}}\\" previous-margin=\\"{{i.previousMargin===undefined?'0px':i.previousMargin}}\\" next-margin=\\"{{i.nextMargin===undefined?'0px':i.nextMargin}}\\" display-multiple-items=\\"{{i.displayMultipleItems===undefined?1:i.displayMultipleItems}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_12_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper>
+</template>
+
+<template name=\\"tmpl_11_swiper-item\\">
+  <swiper-item item-id=\\"{{i.itemId}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_12_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper-item>
 </template>
 
 <template name=\\"tmpl_11_static-image\\">
@@ -2249,6 +2441,22 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_12_swiper\\">
+  <swiper indicator-dots=\\"{{i.indicatorDots===undefined?false:i.indicatorDots}}\\" indicator-color=\\"{{i.indicatorColor===undefined?'rgba(0, 0, 0, .3)':i.indicatorColor}}\\" indicator-active-color=\\"{{i.indicatorActiveColor===undefined?'#000000':i.indicatorActiveColor}}\\" autoplay=\\"{{i.autoplay===undefined?false:i.autoplay}}\\" current=\\"{{i.current===undefined?0:i.current}}\\" interval=\\"{{i.interval===undefined?5000:i.interval}}\\" duration=\\"{{i.duration===undefined?500:i.duration}}\\" circular=\\"{{i.circular===undefined?false:i.circular}}\\" vertical=\\"{{i.vertical===undefined?false:i.vertical}}\\" previous-margin=\\"{{i.previousMargin===undefined?'0px':i.previousMargin}}\\" next-margin=\\"{{i.nextMargin===undefined?'0px':i.nextMargin}}\\" display-multiple-items=\\"{{i.displayMultipleItems===undefined?1:i.displayMultipleItems}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_13_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper>
+</template>
+
+<template name=\\"tmpl_12_swiper-item\\">
+  <swiper-item item-id=\\"{{i.itemId}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_13_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper-item>
+</template>
+
 <template name=\\"tmpl_12_static-image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
@@ -2353,6 +2561,22 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
+<template name=\\"tmpl_13_swiper\\">
+  <swiper indicator-dots=\\"{{i.indicatorDots===undefined?false:i.indicatorDots}}\\" indicator-color=\\"{{i.indicatorColor===undefined?'rgba(0, 0, 0, .3)':i.indicatorColor}}\\" indicator-active-color=\\"{{i.indicatorActiveColor===undefined?'#000000':i.indicatorActiveColor}}\\" autoplay=\\"{{i.autoplay===undefined?false:i.autoplay}}\\" current=\\"{{i.current===undefined?0:i.current}}\\" interval=\\"{{i.interval===undefined?5000:i.interval}}\\" duration=\\"{{i.duration===undefined?500:i.duration}}\\" circular=\\"{{i.circular===undefined?false:i.circular}}\\" vertical=\\"{{i.vertical===undefined?false:i.vertical}}\\" previous-margin=\\"{{i.previousMargin===undefined?'0px':i.previousMargin}}\\" next-margin=\\"{{i.nextMargin===undefined?'0px':i.nextMargin}}\\" display-multiple-items=\\"{{i.displayMultipleItems===undefined?1:i.displayMultipleItems}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_14_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper>
+</template>
+
+<template name=\\"tmpl_13_swiper-item\\">
+  <swiper-item item-id=\\"{{i.itemId}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_14_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper-item>
+</template>
+
 <template name=\\"tmpl_13_static-image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
     <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
@@ -2455,6 +2679,22 @@ require(\\"./taro\\");
       <template is=\\"tmpl_15_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_14_swiper\\">
+  <swiper indicator-dots=\\"{{i.indicatorDots===undefined?false:i.indicatorDots}}\\" indicator-color=\\"{{i.indicatorColor===undefined?'rgba(0, 0, 0, .3)':i.indicatorColor}}\\" indicator-active-color=\\"{{i.indicatorActiveColor===undefined?'#000000':i.indicatorActiveColor}}\\" autoplay=\\"{{i.autoplay===undefined?false:i.autoplay}}\\" current=\\"{{i.current===undefined?0:i.current}}\\" interval=\\"{{i.interval===undefined?5000:i.interval}}\\" duration=\\"{{i.duration===undefined?500:i.duration}}\\" circular=\\"{{i.circular===undefined?false:i.circular}}\\" vertical=\\"{{i.vertical===undefined?false:i.vertical}}\\" previous-margin=\\"{{i.previousMargin===undefined?'0px':i.previousMargin}}\\" next-margin=\\"{{i.nextMargin===undefined?'0px':i.nextMargin}}\\" display-multiple-items=\\"{{i.displayMultipleItems===undefined?1:i.displayMultipleItems}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_15_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper>
+</template>
+
+<template name=\\"tmpl_14_swiper-item\\">
+  <swiper-item item-id=\\"{{i.itemId}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"uid\\">
+      <template is=\\"tmpl_15_container\\" data=\\"{{i:item}}\\" />
+    </block>
+  </swiper-item>
 </template>
 
 <template name=\\"tmpl_14_static-image\\">
@@ -3139,7 +3379,7 @@ require(\\"./taro\\");
                     value: \\"\\"
                 }), react[\\"default\\"].createElement(taro_components[\\"Textarea\\"], {
                     value: \\"\\"
-                }));
+                }), react[\\"default\\"].createElement(taro_components[\\"Swiper\\"], null, react[\\"default\\"].createElement(taro_components[\\"SwiperItem\\"], null, react[\\"default\\"].createElement(taro_components[\\"Text\\"], null, \\"Swiper item\\"))));
             }
         } ]);
         return Index;
