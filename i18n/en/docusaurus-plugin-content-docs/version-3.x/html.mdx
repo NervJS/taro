@@ -1,0 +1,284 @@
+---
+title: Rendering HTML
+---
+
+> Please note: All the contents of this section will only work on the applet side.
+
+Taro can render HTML directly via `Element#innerHTML` or Vue's `v-html` or React/Nerv's `dangerouslySetInnerHTML`:
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
+```jsx
+function helloWorld() {
+  const html = `<h1 style="color: red">Wallace is way taller than other reporters.</h1>`
+
+  return <View dangerouslySetInnerHTML={{ __html: html }}></View>
+}
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <view v-html="html"></view>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      html: `<h1 style="color: red">Wallace is way taller than other reporters.</h1>`
+    }
+  }
+}
+</script>
+```
+
+</TabItem>
+
+
+</Tabs>
+
+
+
+## Custom HTML styles
+
+Setting HTML directly will not make the HTML tags take on the browser's default style, Taro provides two built-in styles that we can introduce directly to take effect.
+
+* `@tarojs/taro/html.css`: [W3C HTML4 built-in styles
+](https://www.w3.org/TR/CSS2/sample.html), Only HTML4 tag style, smaller size, high compatibility, can adapt to most cases.
+* `@tarojs/taro/html5.css`: [Chrome(Blink) HTML5 built-in styles](https://chromium.googlesource.com/chromium/blink/+/master/Source/core/css/html.css), Rich built-in styles, including most HTML5 tags, large size, not necessarily support all applet containers.
+
+In order for the built-in tag styles to work, we also need to set the CSS class of the HTML container to `.taro_html`:
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'},
+  ]}>
+  <TabItem value="React">
+
+```jsx
+import '@tarojs/taro/html.css'
+
+function helloWorld() {
+  const html = `<h1 style="color: red">Wallace is way taller than other reporters.</h1>`
+
+  return <View className="taro_html" dangerouslySetInnerHTML={{ __html: html }}></View>
+}
+```
+
+  </TabItem>
+
+  <TabItem value="Vue">
+
+```html
+<template>
+  <view v-html="html" class="taro_html"></view>
+</template>
+
+<script>
+import '@tarojs/taro/html.css'
+
+export default {
+  data () {
+    return {
+      html: `<h1 style="color: red">Wallace is way taller than other reporters.</h1>`
+    }
+  }
+}
+</script>
+```
+
+  </TabItem>
+
+</Tabs>
+
+
+Likewise, we can write our own CSS styles, and the class names of the HTML tags that Taro renders are consistent with the HTML tag names, for example, if we have a container CSS class named `my_css` and we want to set the style of the `h1` tag, then we do this
+
+```css
+.my_css .h1 {
+  font-size: 30px;
+}
+```
+
+You may prefer the default style of other browsers.
+
+* [Firefox](https://dxr.mozilla.org/mozilla-central/source/layout/style/res/html.css)
+* [Internet Explorer](https://web.archive.org/web/20170122223926/https://www.iecss.com/)
+* [Safari/Chrome(Webkit)](https://trac.webkit.org/browser/trunk/Source/WebCore/css/html.css)
+* [Opera](https://web.archive.org/web/20161031005401/https://www.iecss.com/opera-10.51.css)
+* [W3C HTML5 Spec](https://www.w3.org/TR/html5/rendering.html)
+* [normalize.css](https://github.com/necolas/normalize.css/blob/master/normalize.css)
+
+## HTML Escape
+
+By default, Taro's HTML interface only accepts escaped HTML strings, and we recommend returning the escaped HTML directly on the server side.
+
+* [he](https://www.npmjs.com/package/he): Larger size, but more relaxed open source protocol
+* [entities](https://www.npmjs.com/package/entities): Smaller size, but more stringent open source protocol
+
+You may need `transformText` from [Advanced Options](#Advanced Options) in conjunction with HTML escaping for string rendering.
+
+
+## Binding events
+
+For scoping and security reasons, Taro removes all events and JavaScript from the HTML string. But we still have a way to bind events to HTML:
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'},
+  ]}>
+  <TabItem value="React">
+
+```jsx
+import '@tarojs/taro/html.css'
+
+function helloWorld() {
+  const html = `<h1 id="test">Wallace is way taller than other reporters.</h1>`
+
+  useEffect(() => {
+    const el = document.getElementById('test')
+    function testOnTap (event) {
+      // do something
+      ...
+    }
+    el.addEventListener('tap', testOnTap)
+
+    return () => {
+      el.removeEventListener('tap', testOnTap)
+    }
+  }, [])
+
+  return <View className="taro_html" dangerouslySetInnerHTML={{ __html: html }}></View>
+}
+```
+
+  </TabItem>
+
+  <TabItem value="Vue">
+
+
+```html
+<template>
+  <view v-html="html" class="taro_html"></view>
+</template>
+
+<script>
+import '@tarojs/taro/html.css'
+
+export default {
+  data () {
+    return {
+      html: `<h1 id="test">Wallace is way taller than other reporters.</h1>`
+    }
+  },
+  mounted () {
+    const el = document.getElementById('test')
+    el.addEventListener('tap', this.testOnTap)
+  },
+  testOnTap (event) {
+    // do something
+    ...
+  },
+  beforeDestroy () {
+    const el = document.getElementById('test')
+    el.removeEventListener('tap', this.testOnTap)
+  }
+}
+</script>
+```
+
+  </TabItem>
+
+</Tabs>
+
+<!--END_DOCUSAURUS_CODE_TABS-->
+
+You may need to use `transformElement` in [Advanced Options](#Advanced Options) if the element to be dynamically bound to the event does not have an ID.
+
+## Advanced Options
+
+If the built-in functionality does not meet the needs or the rendering results are not as expected, Taro also provides advanced options for HTML rendering, which can be accessed via `Taro.options.html` :
+
+```js
+import Taro from '@tarojs/taro'
+
+// Do not parse the contents of the souce tag
+Taro.options.html.skipElements.add('source')
+```
+
+### skipElements
+
+Type: `Set<string>`
+
+Default Value: `new Set(['style', 'script'])`
+
+HTML tags contained in the HashSet will not be parsed.
+
+
+### voidElements
+
+Type: `Set<string>`
+
+Default Value: `new Set([
+  '!doctype', 'area', 'base', 'br', 'col', 'command',
+  'embed', 'hr', 'img', 'input', 'keygen', 'link',
+  'meta', 'param', 'source', 'track', 'wbr'
+])`
+
+HTML tags contained in a HashSet do not require closure tags, such as `<img />`.
+
+### closingElements
+
+Type: `Set<string>`
+
+Default Value: `new Set([
+  'html', 'head', 'body', 'p', 'dt', 'dd', 'li', 'option',
+  'thead', 'th', 'tbody', 'tr', 'td', 'tfoot', 'colgroup'
+])`
+
+HTML tags contained in a HashSet can be automatically closed and cannot be nested.
+
+### transformText
+
+Type: `(taroText: TaroText, text: Text) => TaroText`
+
+Default Value: `void`
+
+The first argument to this function takes the value of [TaroText](https://github.com/NervJS/taro/blob/7349f716111accb6a39c72ed0f1e6cbc166fa32b/packages/taro-runtime/src/dom/text.ts#L5), which is processed by Taro by default, the second argument is [Text](https://github.com/NervJS/taro/blob/7349f716111accb6a39c72ed0f1e6cbc166fa32b/packages/taro-runtime/src/dom/html/parser.ts#L33-L36), which is parsed by the HTML parser, and the final `TaroText` object returned is involved in the rendering of the string in HTML.
+
+### transformElement
+
+Type: `(taroElement: TaroElement, element: Element) => TaroElement`
+
+Default Value: `void`
+
+The first parameter of this function takes the value of [TaroElement](https://github.com/NervJS/taro/blob/7349f716111accb6a39c72ed0f1e6cbc166fa32b/packages/taro-runtime/src/dom/element.ts#L15) processed by Taro by default, the second parameter is the [Element](https://github.com/NervJS/taro/blob/7349f716111accb6a39c72ed0f1e6cbc166fa32b/packages/taro-runtime/src/dom/html/parser.ts#L38-L43) parsed by the HTML parser, and the last returned `TaroElement` object participates in the HTML element rendering.
+
+### Example:
+
+```js
+// Adding the aotu class to all img tags
+Taro.options.html.transformElement = (el) => {
+  if (el.nodeName === 'image') {
+    el.setAttribute('class', 'aotu')
+  }
+  return el
+}
+```
