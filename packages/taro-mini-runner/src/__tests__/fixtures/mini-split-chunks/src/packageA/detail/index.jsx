@@ -8,6 +8,7 @@ import '../../css/sub-vendors.css'
 import '../../css/sub-common.css'
 import subCommonStyles from '../../css/sub-common.module.css'
 import vendorsStyles from '../../css/sub-vendors.module.css'
+import _ from 'lodash'
 
 export default class Detail extends Component {
   componentDidMount() {
