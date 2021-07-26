@@ -120,7 +120,7 @@ export default {
 
 在小程序中，从调用 `Taro.navigateTo` 等路由跳转 API 后，到小程序页面触发 `onLoad` 会有一定延时，因此一些网络请求可以提前到发起跳转的前一刻去请求。
 
-Taro 3 提供了 `Tato.preload` API，可以把需要预加载的内容作为参数传入，然后在新页面加载后通过 `Taro.getCurrentInstance().preloadData` 获取到预加载的内容。
+Taro 3 提供了 `Taro.preload` API，可以把需要预加载的内容作为参数传入，然后在新页面加载后通过 `Taro.getCurrentInstance().preloadData` 获取到预加载的内容。
 
 例子：
 
