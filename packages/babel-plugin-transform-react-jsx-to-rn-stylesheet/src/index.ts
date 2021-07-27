@@ -135,20 +135,62 @@ export default function (babel: {
     })
   }
 
-  function isCSSModuleExpression (value, cssModuleStylesheets) {
-    if (t.isJSXExpressionContainer(value)) {
-      if (t.isMemberExpression(value.expression) && t.isIdentifier(value.expression.object)) {
-        // className 表达式包括了 css module 引用时处理成 style 属性
-        if (cssModuleStylesheets.includes(value.expression.object.name)) {
-          return true
+  function isCSSMemberOrBindings (expression, cssModuleStylesheets, astPath) {
+    if (t.isIdentifier(expression)) {
+      if (cssModuleStylesheets.includes(expression.name)) {
+        return true
+      } else {
+        const binding = astPath.scope.getBinding(expression.name)
+        if (binding) {
+          const { node } = binding.path
+          if (isCSSMemberOrBindings(node.init, cssModuleStylesheets, astPath)) {
+            return true
+          }
+        }
+      }
+    }
+
+    if (t.isMemberExpression(expression) && t.isIdentifier(expression.object)) {
+      if (cssModuleStylesheets.includes(expression.object.name)) {
+        return true
+      } else {
+        const binding = astPath.scope.getBinding(expression.object.name)
+        if (binding) {
+          const { node } = binding.path
+          if (isCSSMemberOrBindings(node.init, cssModuleStylesheets, astPath)) {
+            return true
+          }
+        }
+      }
+    }
+
+    // 解构
+    if (t.isObjectExpression(expression)) {
+      for (const prop of expression.properties) {
+        if (t.isSpreadElement(prop)) {
+          if (isCSSMemberOrBindings(prop.argument, cssModuleStylesheets, astPath)) {
+            return true
+          }
         }
       }
     }
   }
 
-  function getArrayExpression (value, cssModuleStylesheets) {
+  function isJSXCSSModuleExpression (value, cssModuleStylesheets, astPath) {
+    if (t.isJSXExpressionContainer(value)) {
+      // 1. memberExpression a. 导入. b. 赋值. like `className="{style.red}"` or `const a = style; className="{a.red}"`
+      // 2. 解构 like `className="{{ ...style.red }}"`
+      // 3. memberExpression 和 解构. like `const a = { ...style }; className="{a.red}"
+
+      if (isCSSMemberOrBindings(value.expression, cssModuleStylesheets, astPath)) {
+        return true
+      }
+    }
+  }
+
+  function getArrayExpression (value, cssModuleStylesheets, astPath) {
     // css module 时 className 处理成 style 属性，所以直接取值跟 style 合并
-    if (isCSSModuleExpression(value, cssModuleStylesheets)) {
+    if (isJSXCSSModuleExpression(value, cssModuleStylesheets, astPath)) {
       return [value.expression]
     }
 
@@ -237,7 +279,8 @@ export default function (babel: {
           existStyleImport = false
         }
       },
-      JSXOpeningElement ({ node }, state: PluginPass) {
+      JSXOpeningElement (astPath, state: PluginPass) {
+        const { node } = astPath
         const { file, opts } = state
         const { enableMultipleClassName } = opts
         const { styleMatchRule, classNameMathRule } = getMatchRule(enableMultipleClassName)
@@ -280,12 +323,12 @@ export default function (babel: {
               classNameAttribute.value &&
               classNameAttribute.value.type === 'JSXExpressionContainer' &&
               typeof classNameAttribute.value.expression.value !== 'string' && // not like className={'container'}
-              !isCSSModuleExpression(classNameAttribute.value, cssModuleStylesheets) // 不含有 css module 变量的表达式
+              !isJSXCSSModuleExpression(classNameAttribute.value, cssModuleStylesheets, astPath) // 不含有 css module 变量的表达式
             ) {
               file.set('injectGetStyle', true)
             }
 
-            const arrayExpression = getArrayExpression(classNameAttribute.value, cssModuleStylesheets)
+            const arrayExpression = getArrayExpression(classNameAttribute.value, cssModuleStylesheets, astPath)
 
             if (arrayExpression.length === 0) {
               return
