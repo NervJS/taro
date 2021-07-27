@@ -45,7 +45,31 @@ export class Hooks implements IHooks {
   @inject(SERVICE_IDENTIFIER.onRemoveAttribute) @optional()
   public onRemoveAttribute?: OnRemoveAttribute
 
-  @inject(SERVICE_IDENTIFIER.modifyMpEvent) @optional()
+  @inject(SERVICE_IDENTIFIER.batchedEventUpdates) @optional()
+  public batchedEventUpdates?: BatchedEventUpdates
+
+  @inject(SERVICE_IDENTIFIER.mergePageInstance) @optional()
+  public mergePageInstance?: MergePageInstance
+
+  @inject(SERVICE_IDENTIFIER.createPullDownComponent) @optional()
+  public createPullDownComponent?: CreatePullDownComponent
+
+  @inject(SERVICE_IDENTIFIER.getDOMNode) @optional()
+  public getDOMNode?: GetDOMNode
+
+  @inject(SERVICE_IDENTIFIER.modifyHydrateData) @optional()
+  public modifyHydrateData?: ModifyHydrateData
+
+  @inject(SERVICE_IDENTIFIER.modifySetAttrPayload) @optional()
+  public modifySetAttrPayload?: ModifySetAttrPayload
+
+  @inject(SERVICE_IDENTIFIER.modifyRmAttrPayload) @optional()
+  public modifyRmAttrPayload?: ModifyRmAttrPayload
+
+  @inject(SERVICE_IDENTIFIER.onAddEvent) @optional()
+  public onAddEvent?: OnAddEvent
+
+  @multiInject(SERVICE_IDENTIFIER.modifyMpEvent) @optional()
   private modifyMpEventImpls?: ModifyMpEvent[]
 
   public modifyMpEvent (e: MpEvent) {
@@ -59,30 +83,10 @@ export class Hooks implements IHooks {
     this.modifyTaroEventImpls?.forEach(fn => fn(e, element))
   }
 
-  @inject(SERVICE_IDENTIFIER.batchedEventUpdates) @optional()
-  public batchedEventUpdates?: BatchedEventUpdates
+  @multiInject(SERVICE_IDENTIFIER.initNativeApi) @optional()
+  public initNativeApiImpls?: InitNativeApi[]
 
-  @inject(SERVICE_IDENTIFIER.mergePageInstance) @optional()
-  public mergePageInstance?: MergePageInstance
-
-  @inject(SERVICE_IDENTIFIER.createPullDownComponent) @optional()
-  public createPullDownComponent?: CreatePullDownComponent
-
-  @inject(SERVICE_IDENTIFIER.getDOMNode) @optional()
-  public getDOMNode?: GetDOMNode
-
-  @inject(SERVICE_IDENTIFIER.initNativeApi) @optional()
-  public initNativeApi?: InitNativeApi
-
-  @inject(SERVICE_IDENTIFIER.modifyHydrateData) @optional()
-  public modifyHydrateData?: ModifyHydrateData
-
-  @inject(SERVICE_IDENTIFIER.modifySetAttrPayload) @optional()
-  public modifySetAttrPayload?: ModifySetAttrPayload
-
-  @inject(SERVICE_IDENTIFIER.modifyRmAttrPayload) @optional()
-  public modifyRmAttrPayload?: ModifyRmAttrPayload
-
-  @inject(SERVICE_IDENTIFIER.onAddEvent) @optional()
-  public onAddEvent?: OnAddEvent
+  public initNativeApi (taro: Record<string, any>) {
+    this.initNativeApiImpls?.forEach(fn => fn(taro))
+  }
 }

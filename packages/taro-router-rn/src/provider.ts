@@ -35,8 +35,8 @@ export class PageProvider extends React.Component<any> {
       const winRnTitle = this.isTabBarPage() ? winRnOptions?.options?.title || '' : title
 
       const headerTitle = pageConfig.navigationBarTitleText || winRnTitle || winOptions?.navigationBarTitleText || ''
-      const color = pageConfig.navigationBarTextStyle || headerTintColor || winOptions?.navigationBarTextStyle || 'black'
-      const bgColor = pageConfig.navigationBarBackgroundColor || headerStyle?.backgroundColor || winOptions?.navigationBarBackgroundColor || '#ffffff'
+      const color = pageConfig.navigationBarTextStyle || headerTintColor || winOptions?.navigationBarTextStyle || 'white'
+      const bgColor = pageConfig.navigationBarBackgroundColor || headerStyle?.backgroundColor || winOptions?.navigationBarBackgroundColor || '#000000'
       let showHeader = headerShown
       if (pageConfig.navigationStyle) {
         showHeader = pageConfig.navigationStyle !== 'custom'

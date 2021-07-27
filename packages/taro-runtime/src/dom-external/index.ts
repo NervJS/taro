@@ -11,13 +11,13 @@ declare const ENABLE_SIZE_APIS: boolean
 
 const domExternal = new ContainerModule(bind => {
   if (process.env.TARO_ENV !== 'h5') {
-    if (ENABLE_INNER_HTML) {
+    if (typeof ENABLE_INNER_HTML !== 'undefined' && ENABLE_INNER_HTML) {
       bind(SERVICE_IDENTIFIER.InnerHTMLImpl).toFunction(setInnerHTML)
-      if (ENABLE_ADJACENT_HTML) {
+      if (typeof ENABLE_ADJACENT_HTML !== 'undefined' && ENABLE_ADJACENT_HTML) {
         bind(SERVICE_IDENTIFIER.insertAdjacentHTMLImpl).toFunction(insertAdjacentHTMLImpl)
       }
     }
-    if (ENABLE_SIZE_APIS) {
+    if (typeof ENABLE_SIZE_APIS !== 'undefined' && ENABLE_SIZE_APIS) {
       bind(SERVICE_IDENTIFIER.getBoundingClientRectImpl).toFunction(getBoundingClientRectImpl)
     }
   }

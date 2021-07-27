@@ -108,7 +108,7 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
           that._$current = this.realIndex
           that.handleOnChange(e)
         },
-        transitionEnd: () => {
+        transitionEnd () {
           const e = createEvent('touchend')
           try {
             Object.defineProperty(e, 'detail', {
@@ -125,12 +125,19 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
           } catch (err) {}
           that.handleOnAnimationFinish(e)
         },
-        observerUpdate: (_swiper, e) => {
-          if (e.target && e.target.className === 'taro_page' && e.target.style.display === 'block' && e.target.contains(this.$el)) {
-            if (this.props.autoplay) {
-              setTimeout(() => {
-                this.mySwiper.slideTo(this._$current)
-              }, 1000)
+        observerUpdate (_swiper: ISwiper, e) {
+          const target = e.target
+          const className = target && typeof target.className === 'string' ? target.className : ''
+          if (className.includes('taro_page') && target.style.display === 'block') {
+            if (that.props.autoplay && target.contains(_swiper.$el[0])) {
+              _swiper.slideTo(that._$current)
+            }
+          } else if (className.includes('swiper-wrapper')) {
+            if (e.addedNodes.length > 0 || e.removedNodes.length > 0) {
+              // @ts-ignore
+              _swiper.loopDestroy()
+              // @ts-ignore
+              _swiper.loopCreate()
             }
           }
         }

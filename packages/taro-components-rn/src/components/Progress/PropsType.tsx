@@ -10,6 +10,7 @@ export interface ProgressProps {
   style?: StyleProp<ViewStyle>;
   percent: number;
   showInfo?: boolean;
+  borderRadius?: string | number;
   strokeWidth: number;
   activeColor: string;
   backgroundColor: string;

@@ -1,6 +1,6 @@
 import { getSystemInfoSync } from '../getSystemInfoSync'
 
-export function getSystemInfo(opts?: Taro.getSystemInfo.Option): Promise<Taro.getSystemInfo.Result> {
+export function getSystemInfo(opts: Taro.getSystemInfo.Option  = {}): Promise<Taro.getSystemInfo.Result> {
   const { success, fail, complete }: any = opts
   try {
     const res = {

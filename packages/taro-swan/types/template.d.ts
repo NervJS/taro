@@ -1,4 +1,7 @@
 import { RecursiveTemplate } from '@tarojs/shared/dist/template';
+interface TemplateOptions {
+    flattenViewLevel?: number;
+}
 export declare class Template extends RecursiveTemplate {
     supportXS: boolean;
     Adapter: {
@@ -12,9 +15,13 @@ export declare class Template extends RecursiveTemplate {
         xs: string;
         type: string;
     };
+    flattenViewLevel: number;
+    constructor(options?: TemplateOptions);
+    createMiniComponents(components: any): any;
     buildXsTemplate(): string;
     dataKeymap(keymap: string): string;
     getAttrValue(value: string, key: string, nodeName: string): string;
+    buildFlattenView: (level?: number) => string;
     modifyLoopBody: (child: string, nodeName: string) => string;
     modifyTemplateResult: (res: string, nodeName: string) => string;
 }
