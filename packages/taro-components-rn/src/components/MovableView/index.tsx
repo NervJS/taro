@@ -7,9 +7,9 @@ import { AnimatedValueProps, MovableViewProps } from './PropsType'
 class _MovableView extends React.Component<MovableViewProps, any> {
   static defaultProps = {
     direction: 'none',
-    onDragStart: (): void => {},
-    onDragEnd: (): void => {},
-    onChange: (): void => {},
+    onDragStart: (): void => { },
+    onDragEnd: (): void => { },
+    onChange: (): void => { },
     disabled: false,
     animation: true
   }
@@ -22,7 +22,6 @@ class _MovableView extends React.Component<MovableViewProps, any> {
     super(props)
     this.state = {
       pan: new Animated.ValueXY(),
-      disabled: props.disabled,
       xOffset: 0,
       yOffset: 0
     }
@@ -31,20 +30,25 @@ class _MovableView extends React.Component<MovableViewProps, any> {
 
   createPanResponder = (): void => {
     this.panResponder = PanResponder.create({
-      onMoveShouldSetPanResponder: () => !this.state.disabled,
-      onMoveShouldSetPanResponderCapture: () => !this.state.disabled,
+      onMoveShouldSetPanResponder: () => !this.props.disabled,
+      onMoveShouldSetPanResponderCapture: () => !this.props.disabled,
       onPanResponderGrant: () => {
         const { pan } = this.state
-        pan.setOffset({ x: pan.x._value, y: pan.y._value })
+        const { direction } = this.props
+        pan.setOffset({
+          x: direction === 'all' || direction === 'horizontal' ? pan.x._value : 0,
+          y: direction === 'all' || direction === 'vertical' ? pan.y._value : 0
+        })
         this.props.onDragStart && this.props.onDragStart()
       },
       onPanResponderMove: (e, gestureState) => {
+        const { direction } = this.props
         Animated.event(
           [
             null,
             {
-              ...(this.props.direction !== 'none' && this.props.direction !== 'vertical' ? { dx: this.state.pan.x } : {}),
-              ...(this.props.direction !== 'none' && this.props.direction !== 'horizontal' ? { dy: this.state.pan.y } : {}),
+              dx: direction === 'all' || direction === 'horizontal' ? this.state.pan.x : new Animated.Value(0),
+              dy: direction === 'all' || direction === 'vertical' ? this.state.pan.y : new Animated.Value(0),
             }
           ],
           {
@@ -77,13 +81,6 @@ class _MovableView extends React.Component<MovableViewProps, any> {
   componentWillUnmount(): void {
     const { pan } = this.state
     pan.removeAllListeners()
-  }
-
-  changeDisableStatus = (): void => {
-    const { disabled } = this.state
-    this.setState({
-      disabled: !disabled
-    })
   }
 
   _onLayout = (event: LayoutChangeEvent): void => {
