@@ -112,7 +112,7 @@ export function createRouter (
     })
   }
 
-  const router = new UniversalRouter(routes)
+  const router = new UniversalRouter(routes, { baseUrl: config.router.basename || '' })
   app.onLaunch!()
 
   const render: LocationListener<LocationState> = async ({ location, action }) => {
