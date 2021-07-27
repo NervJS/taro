@@ -85,9 +85,9 @@ function loadPage (page: PageInstance | null, pageConfig: Route | undefined, sta
       pageEl = document.getElementById(page.path!)
       pageOnReady(pageEl, page)
     }
+    stacks.push(page)
     page.onShow!()
     bindPageScroll(page, pageConfig || {})
-    stacks.push(page)
   }
 }
 
