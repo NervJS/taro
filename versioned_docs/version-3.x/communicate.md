@@ -4,13 +4,11 @@ title: 沟通与反馈
 
 ## 开发交流
 
-微信扫码添加 `凹凸实验室-小助手`
+选择下列对应的群，使用微信扫码添加，会收到入群二维码，再扫群码添加即可。
 
-- 发送 `taro` 加入 Taro 技术交流群
-- 发送 `rn` 加入 Taro ReactNative 技术交流群
-- 发送 `taroui` 加入 Taro UI 技术交流群
-
-<img src="https://storage.jd.com/taro-jd-com/static/wechaty.png" width="220px" />
+| Taro  | Taro Vue | Taro RN | Taro x NutUI |
+| ------ | ------ | ------ | ------ |
+| <img src="https://storage.360buyimg.com/taro-resource/Taro-Taro.png" width="220px" /> | <img src="https://storage.360buyimg.com/taro-resource/Taro-Vue.png" width="220px" /> | <img src="https://storage.360buyimg.com/taro-resource/Taro-RN.png" width="220px" /> | <img src="https://storage.360buyimg.com/taro-resource/NutUIxTaro.png" width="220px" /> |
 
 ## 问题反馈与建议
 
