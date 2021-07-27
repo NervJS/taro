@@ -22,7 +22,6 @@ class _MovableView extends React.Component<MovableViewProps, any> {
     super(props)
     this.state = {
       pan: new Animated.ValueXY(),
-      disabled: props.disabled,
       xOffset: 0,
       yOffset: 0
     }
@@ -31,8 +30,8 @@ class _MovableView extends React.Component<MovableViewProps, any> {
 
   createPanResponder = (): void => {
     this.panResponder = PanResponder.create({
-      onMoveShouldSetPanResponder: () => !this.state.disabled,
-      onMoveShouldSetPanResponderCapture: () => !this.state.disabled,
+      onMoveShouldSetPanResponder: () => !this.props.disabled,
+      onMoveShouldSetPanResponderCapture: () => !this.props.disabled,
       onPanResponderGrant: () => {
         const { pan } = this.state
         pan.setOffset({ x: pan.x._value, y: pan.y._value })
@@ -77,13 +76,6 @@ class _MovableView extends React.Component<MovableViewProps, any> {
   componentWillUnmount(): void {
     const { pan } = this.state
     pan.removeAllListeners()
-  }
-
-  changeDisableStatus = (): void => {
-    const { disabled } = this.state
-    this.setState({
-      disabled: !disabled
-    })
   }
 
   _onLayout = (event: LayoutChangeEvent): void => {
