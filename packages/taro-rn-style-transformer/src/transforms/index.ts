@@ -6,7 +6,7 @@ import postcssTransform, { Config as PostcssConfig, getPostcssPlugins } from './
 import sassTransform, { Config as SassConfig, SassExternalConfig, processByExternal } from './sass'
 import lessTransform, { Config as LessConfig } from './less'
 import stylusTransform, { Config as StylusConfig, defaultOptions as stylusDefaultOptions } from './stylus'
-import { StyleSheetValidation } from './StyleSheet'
+import StyleSheetValidation from './StyleSheet/StyleSheetValidation'
 import { TransformOptions } from '../types'
 
 export function getWrapedCSS (css) {
