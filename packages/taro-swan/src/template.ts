@@ -92,6 +92,13 @@ export class Template extends RecursiveTemplate {
     ${indent(child, 4)}
   </block>
 </view>
+<text s-elif="{{item.nn==='text'&&(item.st||item.cl)}}}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('text')}>
+  <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
+</text>
+<button s-elif="{{item.nn==='text'&&(item.st||item.cl)}}}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('button')}>
+  <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
+</button>
+<input s-elif="{{item.nn==='text'&&(item.st||item.cl)}}}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('input')} />
 <block s-else>
   <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
 </block>`
