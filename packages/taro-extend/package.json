@@ -2,9 +2,9 @@
   "name": "@tarojs/extend",
   "version": "3.3.3",
   "description": "Taro extend functionality",
-  "author": "yuche <i@yuche.me>",
+  "author": "O2Team",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-extend#readme",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "main": "src/index.js",
   "files": [
     "src"

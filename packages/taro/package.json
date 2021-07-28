@@ -24,7 +24,7 @@
     "taro"
   ],
   "author": "O2Team",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "dependencies": {
     "@tarojs/api": "3.3.3",
     "@tarojs/runtime": "3.3.3",

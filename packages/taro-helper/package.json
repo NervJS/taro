@@ -25,8 +25,8 @@
   "keywords": [
     "taro"
   ],
-  "author": "luckyadam",
-  "license": "MIT",
+  "author": "O2Team",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },

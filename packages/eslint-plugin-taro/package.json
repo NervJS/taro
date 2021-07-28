@@ -27,7 +27,7 @@
     "eslint": "*"
   },
   "author": "O2Team",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "dependencies": {
     "has": "^1.0.1"
   }

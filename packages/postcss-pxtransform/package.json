@@ -8,8 +8,8 @@
     "postcss-plugin",
     "pxtransform"
   ],
-  "author": "Pines-Cheng <spider.cs.nuc@gmail.com>",
-  "license": "MIT",
+  "author": "O2Team",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"

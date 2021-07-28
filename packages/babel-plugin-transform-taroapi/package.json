@@ -1,9 +1,10 @@
 {
   "name": "babel-plugin-transform-taroapi",
   "version": "3.3.3",
+  "author": "O2Team",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc"
   },
-  "license": "MIT"
+  "license": "Apache-2.0"
 }

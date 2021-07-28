@@ -3,8 +3,8 @@
   "version": "3.3.3",
   "description": "transform html tag name selector",
   "main": "index.js",
-  "author": "drchan",
-  "license": "MIT",
+  "author": "O2Team",
+  "license": "Apache-2.0",
   "files": [
     "index.js",
     "dist"

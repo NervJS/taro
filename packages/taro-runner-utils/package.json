@@ -20,7 +20,7 @@
     "taro"
   ],
   "author": "garfield550",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "dependencies": {
     "@tarojs/helper": "3.3.3",
     "scss-bundle": "^3.0.2"

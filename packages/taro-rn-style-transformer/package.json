@@ -2,6 +2,7 @@
   "name": "@tarojs/rn-style-transformer",
   "version": "3.3.3",
   "description": "提供Taro RN 统一处理样式文件能力",
+  "author": "O2Team",
   "main": "dist/index.js",
   "scripts": {
     "test": "jest",
@@ -14,7 +15,7 @@
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
