@@ -477,12 +477,14 @@ export function pageScrollTo (options: ScrollOption = {}) {
   let errMsg = 'pageScrollTo:ok'
   try {
     eventCenter.trigger('__taroPageScrollTo', { path, scrollTop })
-    success && success({ errMsg })
+    success?.({ errMsg })
+    complete?.({ errMsg })
+    return Promise.resolve({ errMsg })
   } catch (error) {
     errMsg = 'pageScrollTo:fail'
-    fail && fail({ errMsg })
-  } finally {
-    complete && complete({ errMsg })
+    fail?.({ errMsg })
+    complete?.({ errMsg })
+    return Promise.reject(error)
   }
 }
 
