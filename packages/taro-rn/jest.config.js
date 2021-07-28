@@ -1,4 +1,3 @@
-
 module.exports = {
   ...require('jest-expo/jest-preset'),
   verbose: true,

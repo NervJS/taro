@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 import { FlatList, NativeSyntheticEvent, NativeScrollEvent, ListRenderItemInfo } from 'react-native'
 import { noop } from '../../utils'
