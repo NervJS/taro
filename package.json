@@ -95,7 +95,7 @@
     "@vue/runtime-dom": "3.0.0",
     "@wojtekmaj/enzyme-adapter-react-17": "0.6.1",
     "@zerollup/ts-transform-paths": "^1.7.3",
-    "apachelp": "^0.2.0",
+    "apachelp": "^0.3.0",
     "babel-core": "6.26.3",
     "babel-eslint": "10.0.1",
     "babel-jest": "24.9.0",
