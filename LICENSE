@@ -210,7 +210,16 @@ for text of these licenses.
 MIT License
 -----------
 
-packages/taro-rn-style-transformer/src/transforms/StyleSheet/*
-packages/taro-plugin-react-devtools/src/backend/index.js
 packages/css-to-react-native/src/css-to-react-native/*
 packages/taro/types/api/*
+packages/taro-components/src/components/swiper/style/swiper.min.css
+packages/taro-extend/src/jquery/*
+packages/taro-rn-style-transformer/src/transforms/StyleSheet/*
+packages/taro-router/types/index.d.ts
+packages/taro-plugin-react-devtools/src/backend/index.js
+
+
+Apache Software Foundation License 2.0
+--------------------------------------
+
+packages/taro-runtime/src/polyfill/reflect-metadata.js

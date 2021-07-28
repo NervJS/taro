@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "license": "MIT",
   "scripts": {
     "clean": "rm -rf node_modules/@jdreact/* && rm -rf node_modules/react-native && rm -rf scripts",
     "update": "npm run clean && npm install",
