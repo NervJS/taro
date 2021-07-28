@@ -216,19 +216,21 @@ export class Swiper implements ComponentInterface {
     const list = wrapper.querySelectorAll('taro-swiper-item-core:not(.swiper-slide-duplicate)')
     if (list.length >= 1) {
       this.observerFirst.observe(list[0], {
-        attributes: true
+        characterData: true
       })
     } else if (list.length >= 2) {
       this.observerLast.observe(list[list.length - 1], {
-        attributes: true
+        characterData: true
       })
     }
   }
 
   handleSwiperLoop = debounce(() => {
     if (this.swiper && this.circular) {
-      ;(this.swiper as any).loopDestroy()
-      ;(this.swiper as any).loopCreate()
+      // @ts-ignore
+      this.swiper.loopDestroy()
+      // @ts-ignore
+      this.swiper.loopCreate()
     }
   }, 500)
 
