@@ -35,9 +35,11 @@ $ npm run bootstrap
 4. 当相关包有测试用例时，请给你提交的代码也添加相应的测试用例；
 5. 提交代码 commit 时，commit 信息需要遵循 [Angular Style Commit Message Conventions](https://gist.github.com/stephenparish/9941e89d80e2bc58a153)。
 6. 如果提交的代码非常多或功能复杂，可以把 PR 分成几个 commit 一起提交。我们在合并时会根据情况 squash。
- 
- ## Credits
+
+## Credits
 
 感谢以下所有给 Taro 贡献过代码的开发者：
 
-<a href="https://github.com/NervJS/taro/graphs/contributors"><img src="https://opencollective.com/taro/contributors.svg?width=890&button=false" /></a>
+[![contributors](https://opencollective.com/taro/contributors.svg?width=890&button=false)](https://github.com/NervJS/taro/graphs/contributors)
+
+同时欢迎各位贡献者加入 [Taro 开发者社区](http://storage.jd.com/taro-jd-com/static/contact_taro_devlop_qr.png)
