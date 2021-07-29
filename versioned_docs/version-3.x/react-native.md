@@ -238,7 +238,27 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 ## 开发
 
-### 编译
+### 1.安装 Native 依赖
+
+```shell
+# iOS 运行
+yarn podInstall
+
+# android 运行
+yarn upgradePeerdeps
+```
+
+### 2.安装 Native APP
+
+```shell
+# iOS 运行
+yarn ios
+
+# android 运行
+yarn android
+```
+
+### 3.启动 JS Bundle Server
 
 RN 编译预览模式:
 
