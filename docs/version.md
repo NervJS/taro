@@ -18,7 +18,7 @@ npm info @tarojs/cli
 
 Taro 3.3 的主要改动是支持使用 HTML 标签进行开发。
 
-详情请参考 [《Taro 3.3 alpha 发布：用 ant-design 开发小程序？》](http://localhost:3000/taro/blog/2021-04-22-Taro-3.3-alpha)。
+详情请参考 [《Taro 3.3 alpha 发布：用 ant-design 开发小程序？》](https://docs.taro.zone/blog/2021-04-22-Taro-3.3-alpha)。
 
 ### Taro 3.2
 
