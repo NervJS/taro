@@ -503,6 +503,58 @@ class App extends Component {
 }`)
   })
 
+  it('Processing module style assignment When css module enable', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import './app.scss';
+import styleSheet from './app.module.scss';
+
+class App extends Component {
+  render() {
+    const a = styleSheet.red
+    return <div className={a} />;
+  }
+}`, false, { isCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
+import appScssStyleSheet from "./app.scss";
+import styleSheet from './app.module.scss';
+var _styleSheet = appScssStyleSheet;
+
+class App extends Component {
+  render() {
+    const a = styleSheet.red;
+    return <div style={a} />;
+  }\n
+}`)
+  })
+
+  it('Processing module style spread and assign When css module enable', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import './app.scss';
+import styleSheet from './app.module.scss';
+
+class App extends Component {
+  render() {
+    const a = { ...styleSheet.red };
+    const b = a;
+    return <div className={{ ...b }} />;
+  }
+}`, false, { isCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
+import appScssStyleSheet from "./app.scss";
+import styleSheet from './app.module.scss';
+var _styleSheet = appScssStyleSheet;
+
+class App extends Component {
+  render() {
+    const a = { ...styleSheet.red
+    };
+    const b = a;
+    return <div style={{ ...b
+    }} />;
+  }\n
+}`)
+  })
+
   it('merge stylesheet when css module disable', () => {
     expect(getTransfromCode(`
 import { createElement, Component } from 'rax';

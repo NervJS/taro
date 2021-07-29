@@ -39,6 +39,7 @@ class _Progress extends React.Component<ProgressProps, ProgressState> {
     activeColor: '#09BB07',
     backgroundColor: '#EBEBEB',
     activeMode: 'backwards',
+    borderRadius: 0,
   }
 
   static getDerivedStateFromProps (props: ProgressProps, state: ProgressState): ProgressState| null {
@@ -109,6 +110,7 @@ class _Progress extends React.Component<ProgressProps, ProgressState> {
       style,
       percent,
       showInfo,
+      borderRadius,
       strokeWidth,
       activeColor,
       backgroundColor,
@@ -133,7 +135,9 @@ class _Progress extends React.Component<ProgressProps, ProgressState> {
             styles.barThumb, {
               width,
               height: '100%',
-              backgroundColor: activeColor
+              backgroundColor: activeColor,
+              borderBottomRightRadius: Number(borderRadius),
+              borderTopRightRadius: Number(borderRadius),
             }
           ]} />
         </View>
