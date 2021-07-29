@@ -125,6 +125,10 @@
             {
               "type": "doc",
               "id": "version-3.x/vue3"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/vue-devtools"
             }
           ]
         },

@@ -23,7 +23,7 @@ module.exports = {
       {
         label: 'Vue',
         type: 'category',
-        items: ['vue-overall', 'vue-entry', 'vue-page', 'vue3'],
+        items: ['vue-overall', 'vue-entry', 'vue-page', 'vue3', 'vue-devtools'],
       },
       'nerv',
       'router',
