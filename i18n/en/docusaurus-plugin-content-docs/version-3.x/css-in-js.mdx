@@ -1,0 +1,138 @@
+---
+title: Use CSS-in-JS
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+## linaria
+
+There is a common CSS-in-JS solution in the React community: [styled-components](https://github.com/styled-components/styled-components)。Unfortunately, however, `styled-components` uses the `<style>` tag to dynamically control styles, and there is no similar solution in applets. But we can achieve the same functionality with [linaria](https://github.com/callstack/linaria), `linaria` mainly provides the following features.
+
+* API that approximates `styled-components`
+* TypeScript support
+* Zero runtime
+
+Using `linaria` is also very simple, first installing the dependencies via NPM: 
+
+```bash
+$ npm i linaria
+```
+
+Next, configure `babel.config.js` in the project root directory:
+
+```js title="babel.config.js"
+module.exports = {
+  presets: [
+    ['taro', {
+      framework: 'react',
+      ts: true
+    }],
+    'linaria/babel' // Add to babel-preset
+  ]
+}
+```
+
+After that, configure `config/index.js`
+
+```js title="config/index.js"
+const config = {
+  mini: {
+    webpackChain(chain, webpack) {
+      // linaria/loader options refer to https://github.com/callstack/linaria/blob/master/docs/BUNDLERS_INTEGRATION.md#webpack
+      chain.module
+        .rule('script')
+        .use('linariaLoader')
+        .loader('linaria/loader')
+        .options({
+          sourceMap: process.env.NODE_ENV !== 'production',
+        })
+    }
+  },
+  h5: {
+    webpackChain(chain, webpack) {
+      chain.module
+        .rule('script')
+        .use('linariaLoader')
+        .loader('linaria/loader')
+        .options({
+          sourceMap: process.env.NODE_ENV !== 'production',
+        })
+    }
+  }
+}
+```
+
+Finally, create a new `linaria.config.js` in the root of the project
+
+```js title="linaria.config.js"
+// linaria configuration details: https://github.com/callstack/linaria/blob/master/docs/CONFIGURATION.md#options
+module.exports = {
+  rules: [
+    {
+      action: require("linaria/evaluators").shaker,
+    },
+    {
+      test: /node_modules[\/\\](?!@tarojs)/,
+      action: "ignore"
+    }
+  ]
+}
+```
+
+In the business code we can use it like this.
+
+<Tabs
+  defaultValue="JS"
+  values={[
+    {label: 'JavaScript', value: 'JS'},
+    {label: 'TypeScript', value: 'TS'}
+  ]}>
+<TabItem value="JS">
+
+```jsx
+import React from 'react'
+import { View } from '@tarojs/components'
+import { styled } from 'linaria/react'
+
+const Title = styled(View)`
+  color: ${props => props.color}
+`;
+
+const Index = () => {
+  return <Title color='red'>
+    Hello World!
+  </Title>
+}
+
+export default Index
+```
+
+</TabItem>
+
+<TabItem value="TS">
+
+```tsx
+import React from 'react'
+import { View } from '@tarojs/components'
+import { styled } from 'linaria/react'
+
+const Title = styled(View)<{ color: string }>`
+  color: ${props => props.color}
+`;
+
+const Index: React.FC = () => {
+  return <Title color='red'>
+    Hello World!
+  </Title>
+}
+
+export default Index
+```
+
+</TabItem>
+</Tabs>
+
+## Fower
+
+The community has another option **Fower**，[Documentation](https://fower.vercel.app/zh-cn/docs/use-with-taro)

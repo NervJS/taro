@@ -1,5 +1,5 @@
 ---
-title: use Redux
+title: Use Redux
 ---
 
 You can freedomly use [Redux](https://redux.js.org/) which is a very popular  tool in `React` community to solve data management problems for complex projects.
