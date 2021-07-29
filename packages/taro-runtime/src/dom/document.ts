@@ -70,6 +70,11 @@ export class TaroDocument extends TaroElement {
     return null
   }
 
+  public querySelectorAll () {
+    // fake hack
+    return []
+  }
+
   // @TODO: @PERF: 在 hydrate 移除掉空的 node
   public createComment (): TaroText {
     const textnode = this._getText('')

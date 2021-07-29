@@ -246,4 +246,9 @@ export class TaroNode extends TaroEventTarget {
     })
     return isContains
   }
+
+  public get ownerDocument () {
+    const document = this._getElement<TaroDocument>(ElementNames.Document)()
+    return document
+  }
 }
