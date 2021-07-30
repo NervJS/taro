@@ -43,6 +43,7 @@
     "metro-config": "^0.64.0",
     "metro-core": "^0.64.0",
     "metro-react-native-babel-transformer": "^0.64.0",
-    "metro-resolver": "^0.64.0"
+    "metro-resolver": "^0.64.0",
+    "qrcode-terminal": "^0.12.0"
   }
 }
