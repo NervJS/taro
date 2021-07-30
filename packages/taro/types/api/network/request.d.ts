@@ -74,6 +74,8 @@ declare namespace Taro {
       statusCode: number
       /** 调用结果 */
       errMsg: string
+      /** cookies */
+      cookies?: string[]
     }
 
     /** 返回的数据格式 */
