@@ -93,6 +93,8 @@ declare namespace Taro {
     interface Option {
       /** 文件路径，可通过 downloadFile 获得 */
       filePath: string
+      /** 是否显示右上角菜单 */
+      showMenu?: boolean
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: General.CallbackResult) => void
       /** 接口调用失败的回调函数 */
