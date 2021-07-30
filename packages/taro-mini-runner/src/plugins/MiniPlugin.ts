@@ -233,7 +233,7 @@ export default class TaroMiniPlugin {
           }))
         })
         await Promise.all(promises)
-        await this.options.onCompilerMake?.(compilation)
+        await this.options.onCompilerMake?.(compilation, this)
       })
     )
 

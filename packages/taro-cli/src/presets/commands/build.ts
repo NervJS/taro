@@ -122,11 +122,12 @@ export default (ctx: IPluginContext) => {
                 }
               })
             },
-            async onCompilerMake (compilation) {
+            async onCompilerMake (compilation, plugin) {
               await ctx.applyPlugins({
                 name: hooks.ON_COMPILER_MAKE,
                 opts: {
-                  compilation
+                  compilation,
+                  plugin
                 }
               })
             },
