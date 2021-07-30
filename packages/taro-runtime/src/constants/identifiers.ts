@@ -26,7 +26,8 @@ const SERVICE_IDENTIFIER = {
   modifyHydrateData: 'modifyHydrateData',
   modifySetAttrPayload: 'modifySetAttrPayload',
   modifyRmAttrPayload: 'modifyRmAttrPayload',
-  onAddEvent: 'onAddEvent'
+  onAddEvent: 'onAddEvent',
+  patchElement: 'patchElement'
 }
 
 export default SERVICE_IDENTIFIER
