@@ -1818,11 +1818,6 @@
   dependencies:
     flow-bin "0.113.0"
 
-"@react-native-community/viewpager@^4.2.2":
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/@react-native-community/viewpager/-/viewpager-4.2.4.tgz#fd17ba88e0cefc7e6c8ebfff6d4afd2b887f1b2c"
-  integrity sha512-r7iOPPys5MS88VZuqipDadvAAjeW+PE+myhjvboH8rjNHxUUuofJW2uiiRKMSE0/qEyklIpLOCY+S0ZLHHe8Qg==
-
 "@react-native/assets@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@react-native/assets/-/assets-1.0.0.tgz#c6f9bf63d274bafc8e970628de24986b30a55c8e"
@@ -6487,6 +6482,11 @@ react-native-modal-popover@^0.0.12:
     "@types/prop-types" "^15.5.5"
     lodash.debounce "^4.0.8"
     prop-types "^15.6.2"
+
+react-native-pager-view@^5.4.0:
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-5.4.0.tgz#8e30a391a68da26e59f4ae724341b9208924b2ee"
+  integrity sha512-pYy3I8p5s6cPaymT1GibuDRHmicY3JdHHZyTH+Fra1S0wupaJhoZy33f2prrMJqQfk9kaqwCsb3pVmj4GuJTjA==
 
 react-native-swipeout@^2.3.6:
   version "2.3.6"

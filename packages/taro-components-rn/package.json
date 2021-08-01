@@ -29,7 +29,6 @@
     "@ant-design/react-native": "4.0.7",
     "@react-native-community/picker": "^1.8.1",
     "@react-native-community/slider": "4.0.0-rc.1",
-    "@react-native-community/viewpager": "^4.2.2",
     "@unimodules/core": "~5.5.1",
     "@unimodules/react-native-adapter": "~5.6.0",
     "expo-asset": "^8.2.0",
@@ -38,6 +37,7 @@
     "expo-camera": "~9.0.0",
     "prop-types": "^15.6.2",
     "react-native-maps": "^0.25.0",
+    "react-native-pager-view": "^5.4.0",
     "react-native-webview": "^11.6.4",
     "unimodules-permissions-interface": "~5.3.0"
   },
@@ -60,10 +60,10 @@
   "peerDependencies": {
     "@react-native-community/picker": "^1.8.1",
     "@react-native-community/slider": "4.0.0-rc.1",
-    "@react-native-community/viewpager": "^4.2.2",
     "expo-av": "~8.6.0",
     "expo-barcode-scanner": "~9.0.0",
     "expo-camera": "~9.0.0",
+    "react-native-pager-view": "^5.4.0",
     "react-native-webview": "^11.6.4"
   },
   "resolutions": {
