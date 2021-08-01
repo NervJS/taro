@@ -27,8 +27,8 @@
   "license": "MIT",
   "dependencies": {
     "@ant-design/react-native": "4.0.7",
-    "@react-native-community/picker": "^1.8.1",
     "@react-native-community/slider": "4.0.0-rc.1",
+    "@react-native-picker/picker": "^1.16.4",
     "@unimodules/core": "~5.5.1",
     "@unimodules/react-native-adapter": "~5.6.0",
     "expo-asset": "^8.2.0",
@@ -58,8 +58,8 @@
     "sinon": "^9.2.1"
   },
   "peerDependencies": {
-    "@react-native-community/picker": "^1.8.1",
     "@react-native-community/slider": "4.0.0-rc.1",
+    "@react-native-picker/picker": "^1.16.4",
     "expo-av": "~8.6.0",
     "expo-barcode-scanner": "~9.0.0",
     "expo-camera": "~9.0.0",

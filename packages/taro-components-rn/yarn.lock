@@ -1806,17 +1806,17 @@
     sudo-prompt "^9.0.0"
     wcwidth "^1.0.1"
 
-"@react-native-community/picker@^1.8.1":
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/@react-native-community/picker/-/picker-1.8.1.tgz#94f14f0aad98fa7592967b941be97deec95c3805"
-  integrity sha512-Sj9DzX1CSnmYiuEQ5fQhExoo4XjSKoZkqLPAAybycq6RHtCuWppf+eJXRMCOJki25BlKSSt+qVqg0fIe//ujNQ==
-
 "@react-native-community/slider@4.0.0-rc.1":
   version "4.0.0-rc.1"
   resolved "https://registry.yarnpkg.com/@react-native-community/slider/-/slider-4.0.0-rc.1.tgz#18a47b1c866ceaf3dafae6e9a4029cc64b9ccd6b"
   integrity sha512-tMmH43BfBLk5bJDbo46LrViqYF5b9eNyvWAkkAizgaxfyLOwLMszngWxhywocJgfOwJNzEB5H+mrpD8k3XAxRA==
   dependencies:
     flow-bin "0.113.0"
+
+"@react-native-picker/picker@^1.16.4":
+  version "1.16.4"
+  resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-1.16.4.tgz#85712375dbf0a38e8c20ee1b2d71253c0a1cd520"
+  integrity sha512-V/8XNlTU3QJ/mdY+mCQnuCCZJfIOpgfSnfFDinftWDi66mGuf6tRd+sfCOeKqjug38sdJm9CeNry/66W0EYodw==
 
 "@react-native/assets@1.0.0":
   version "1.0.0"
