@@ -1,8 +1,8 @@
 import { Gyroscope } from 'expo-sensors'
 
-const gyroCase: any = {
-    callbacks: [],
-}
+const _callbacks = new Set()
+let _listener: any
+
 const intervalMap: any = {
     game: 20,
     ui: 60,
@@ -19,13 +19,13 @@ function startGyroscope(opts: Taro.startGyroscope.Option = {}): Promise<Taro.Gen
     const res = { errMsg: 'startGyroscope:ok' }
     try {
         // 适配微信小程序行为：重复 start 失败
-        if (gyroCase.listener) {
+        if (_listener) {
             throw new Error('startGyroscope:fail')
         }
-        gyroCase.listener = Gyroscope.addListener(e => {
-            gyroCase.callbacks.forEach((cb: Taro.onGyroscopeChange.Callback) => {
+        _listener = Gyroscope.addListener(e => {
+            _callbacks.forEach((cb: Taro.onGyroscopeChange.Callback) => {
                 cb?.(e)
-            });
+            })
         })
         success?.(res)
         complete?.(res)
@@ -47,8 +47,8 @@ function stopGyroscope(opts: Taro.stopGyroscope.Option = {}): Promise<Taro.Gener
     const { success, fail, complete } = opts
     const res = { errMsg: 'stopGyroscope:ok' }
     try {
-        gyroCase.listener.remove()
-        gyroCase.listener = null
+        _listener.remove()
+        _listener = null
         success?.(res)
         complete?.(res)
         return Promise.resolve(res)
@@ -65,7 +65,7 @@ function stopGyroscope(opts: Taro.stopGyroscope.Option = {}): Promise<Taro.Gener
  * @param opts 
  */
 function onGyroscopeChange(fnc: Taro.onGyroscopeChange.Callback): void {
-    gyroCase.callbacks.push(fnc)
+    _callbacks.add(fnc)
 }
 
 /**
@@ -74,11 +74,9 @@ function onGyroscopeChange(fnc: Taro.onGyroscopeChange.Callback): void {
  */
 function offGyroscopeChange(fnc?: Taro.onGyroscopeChange.Callback) {
     if (fnc && typeof fnc === 'function') {
-        gyroCase.callbacks = gyroCase.callbacks.filter((cb: Taro.onGyroscopeChange.Callback) => {
-            return cb !== fnc
-        })
+        _callbacks.delete(fnc)
     } else if (fnc === undefined) {
-        gyroCase.callbacks = []
+        _callbacks.clear()
     } else {
         console.warn('offGyroscopeChange failed')
     }

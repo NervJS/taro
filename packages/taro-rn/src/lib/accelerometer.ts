@@ -1,8 +1,8 @@
 import { Accelerometer } from 'expo-sensors'
 
-const accCase: any = {
-  callbacks: [],
-}
+const _callbacks = new Set()
+let _listener: any
+
 const intervalMap: any = {
   game: 20,
   ui: 60,
@@ -11,16 +11,16 @@ const intervalMap: any = {
 
 function offAccelerometerChange(fnc?: Taro.onAccelerometerChange.Callback): void {
   if (fnc && typeof fnc === 'function') {
-    accCase.callbacks = accCase.callbacks.filter((cb: (...args: any[]) => any) => cb !== fnc)
+    _callbacks.delete(fnc)
   } else if (fnc === undefined) {
-    accCase.callbacks = []
+    _callbacks.clear()
   } else {
     console.warn('offAccelerometerChange failed')
   }
 }
 
 function onAccelerometerChange(fnc: Taro.onAccelerometerChange.Callback): void {
-  accCase.callbacks.push(fnc)
+  _callbacks.add(fnc)
 }
 
 /**
@@ -33,13 +33,13 @@ function startAccelerometer(opts: Taro.startAccelerometer.Option = {}): Promise<
   const res = { errMsg: 'startAccelerometer:ok' }
   try {
     // 适配微信小程序行为：重复 start 失败
-    if (accCase.listener) {
+    if (_listener) {
       throw new Error('startAccelerometer:fail')
     }
-    accCase.listener = Accelerometer.addListener((e: Taro.onAccelerometerChange.Result) => {
-      accCase.callbacks.forEach((cb: (...args: any[]) => any) => {
+    _listener = Accelerometer.addListener((e: Taro.onAccelerometerChange.Result) => {
+      _callbacks.forEach((cb: (...args: any[]) => any) => {
         cb?.(e)
-      });
+      })
     })
     success?.(res)
     complete?.(res)
@@ -61,8 +61,8 @@ function stopAccelerometer(opts: Taro.stopAccelerometer.Option = {}): Promise<Ta
   const { success, fail, complete } = opts
   const res = { errMsg: 'stopAccelerometer:ok' }
   try {
-    accCase.listener.remove()
-    accCase.listener = null
+    _listener.remove()
+    _listener = null
     success?.(res)
     complete?.(res)
     return Promise.resolve(res)
