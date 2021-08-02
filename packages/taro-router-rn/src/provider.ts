@@ -18,11 +18,31 @@ export class PageProvider extends React.Component<any> {
     // setOptions  在导航navigationRef 并没有暴露出来
     if (navigationRef && navigationRef?.current) {
       navigationRef.current.setOptions = this.props.navigation.setOptions
-      //
     }
+    this.handleConfig()
   }
 
   componentDidMount (): void {
+    const { navigation } = this.props
+    this.unSubscribleFocus = this.props.navigation.addListener('focus', () => {
+      if (navigationRef && navigationRef?.current) {
+        navigationRef.current.setOptions = navigation.setOptions
+      }
+      // 若是tabBar页面，确保tabbar内容最新
+      if (this.isTabBarPage()) {
+        const tabBarVisible = getTabVisible()
+        navigation.setOptions({
+          tabBarVisible: tabBarVisible
+        })
+      }
+    })
+  }
+
+  componentWillUnmount (): void {
+    if (this.unSubscribleFocus) { this.unSubscribleFocus() }
+  }
+
+  handleConfig () {
     const { navigation, pageConfig } = this.props
     if (navigation && navigation.setOptions) {
       const config = globalAny.__taroAppConfig?.appConfig || {}
@@ -72,23 +92,7 @@ export class PageProvider extends React.Component<any> {
           navigation.setOptions(navBarParams)
         }
       }
-      this.unSubscribleFocus = this.props.navigation.addListener('focus', () => {
-        if (navigationRef && navigationRef?.current) {
-          navigationRef.current.setOptions = navigation.setOptions
-        }
-        // 若是tabBar页面，确保tabbar内容最新
-        if (this.isTabBarPage()) {
-          const tabBarVisible = getTabVisible()
-          navigation.setOptions({
-            tabBarVisible: tabBarVisible
-          })
-        }
-      })
     }
-  }
-
-  componentWillUnmount (): void {
-    if (this.unSubscribleFocus) { this.unSubscribleFocus() }
   }
 
   isTabBarPage (): boolean {
