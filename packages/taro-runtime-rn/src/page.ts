@@ -8,7 +8,7 @@ import { Current } from './current'
 import { Instance, PageInstance } from './instance'
 import { eventCenter } from './emmiter'
 import EventChannel from './EventChannel'
-import { PageConfig, HooksMethods, ScrollOption, BaseOption, BackgroundOption, TextStyleOption } from './types/index'
+import { PageConfig, HooksMethods, ScrollOption, BaseOption, BackgroundOption, TextStyleOption, CallbackResult } from './types/index'
 
 const compId = incrementId()
 
@@ -434,35 +434,39 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
   return pageComponet
 }
 
-export function startPullDownRefresh (options: BaseOption = {}) {
+export function startPullDownRefresh (options: BaseOption = {}): Promise<CallbackResult> {
   const currentPage = Current.page
   const path = currentPage?.route
   const { success, fail, complete } = options
   let errMsg = 'startPullDownRefresh:ok'
   try {
     eventCenter.trigger('__taroPullDownRefresh', { path, refresh: true })
-    success && success({ errMsg })
+    success?.({ errMsg })
+    complete?.({ errMsg })
+    return Promise.resolve({ errMsg })
   } catch (error) {
     errMsg = 'startPullDownRefresh:fail'
-    fail && fail({ errMsg })
-  } finally {
-    complete && complete({ errMsg })
+    fail?.({ errMsg })
+    complete?.({ errMsg })
+    return Promise.reject(error)
   }
 }
 
-export function stopPullDownRefresh (options: BaseOption = {}) {
+export function stopPullDownRefresh (options: BaseOption = {}): Promise<CallbackResult> {
   const currentPage = Current.page
   const path = currentPage?.route
   const { success, fail, complete } = options
   let errMsg = 'stopPullDownRefresh:ok'
   try {
     eventCenter.trigger('__taroPullDownRefresh', { path, refresh: false })
-    success && success({ errMsg })
+    success?.({ errMsg })
+    complete?.({ errMsg })
+    return Promise.resolve({ errMsg })
   } catch (error) {
     errMsg = 'stopPullDownRefresh:fail'
-    fail && fail({ errMsg })
-  } finally {
-    complete && complete({ errMsg })
+    fail?.({ errMsg })
+    complete?.({ errMsg })
+    return Promise.reject(error)
   }
 }
 
@@ -473,12 +477,14 @@ export function pageScrollTo (options: ScrollOption = {}) {
   let errMsg = 'pageScrollTo:ok'
   try {
     eventCenter.trigger('__taroPageScrollTo', { path, scrollTop })
-    success && success({ errMsg })
+    success?.({ errMsg })
+    complete?.({ errMsg })
+    return Promise.resolve({ errMsg })
   } catch (error) {
     errMsg = 'pageScrollTo:fail'
-    fail && fail({ errMsg })
-  } finally {
-    complete && complete({ errMsg })
+    fail?.({ errMsg })
+    complete?.({ errMsg })
+    return Promise.reject(error)
   }
 }
 
