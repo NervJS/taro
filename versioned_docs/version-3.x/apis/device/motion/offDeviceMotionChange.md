@@ -36,4 +36,4 @@ sidebar_label: offDeviceMotionChange
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| Taro.offDeviceMotionChange | ✔️ |  |  |
+| Taro.offDeviceMotionChange | ✔️ |  | ✔️ |
