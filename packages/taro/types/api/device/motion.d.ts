@@ -76,6 +76,6 @@ declare namespace Taro {
    */
   function offDeviceMotionChange(
     /** 设备方向变化事件的回调函数 */
-    callback: (...args: any[]) => any,
+    callback?: (...args: any[]) => any,
   ): void
 }
