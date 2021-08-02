@@ -16,7 +16,6 @@ const intervalMap: any = {
  */
 function startGyroscope(opts: Taro.startGyroscope.Option = {}): Promise<Taro.General.CallbackResult> {
     const { interval = 'normal', success, fail, complete } = opts
-    gyroCase.interval = interval
     const res = { errMsg: 'startGyroscope:ok' }
     try {
         // 适配微信小程序行为：重复 start 失败

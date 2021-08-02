@@ -30,7 +30,6 @@ function onAccelerometerChange(fnc: Taro.onAccelerometerChange.Callback): void {
  */
 function startAccelerometer(opts: Taro.startAccelerometer.Option = {}): Promise<Taro.General.CallbackResult> {
   const { interval = 'normal', success, fail, complete } = opts
-  accCase.interval = interval
   const res = { errMsg: 'startAccelerometer:ok' }
   try {
     // 适配微信小程序行为：重复 start 失败
