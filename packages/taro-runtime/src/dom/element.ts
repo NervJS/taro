@@ -43,6 +43,7 @@ export class TaroElement extends TaroNode {
     elementImpl.bind(this)
     this.nodeType = NodeType.ELEMENT_NODE
     this.style = new Style(this)
+    hooks.patchElement(this)
   }
 
   private _stopPropagation (event: TaroEvent) {
