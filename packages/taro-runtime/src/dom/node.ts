@@ -146,7 +146,10 @@ export class TaroNode extends TaroEventTarget {
       } else {
         payload = {
           path: `${this._path}.${Shortcuts.Childnodes}`,
-          value: () => this.childNodes.map(hydrate)
+          value: () => {
+            const childNodes = this.childNodes.filter(node => !isComment(node))
+            return childNodes.map(hydrate)
+          }
         }
       }
     } else {
@@ -184,7 +187,10 @@ export class TaroNode extends TaroEventTarget {
     if (!isReplace) {
       this.enqueueUpdate({
         path: `${this._path}.${Shortcuts.Childnodes}`,
-        value: () => this.childNodes.map(hydrate)
+        value: () => {
+          const childNodes = this.childNodes.filter(node => !isComment(node))
+          return childNodes.map(hydrate)
+        }
       })
     }
     child.parentNode = null
