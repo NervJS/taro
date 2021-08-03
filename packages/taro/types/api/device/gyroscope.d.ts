@@ -69,11 +69,11 @@ declare namespace Taro {
     }
   }
   /** 取消监听陀螺仪数据变化事件。
-   * @supported weapp
+   * @supported weapp, rn
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/gyroscope/wx.offGyroscopeChange.html
    */
   function offGyroscopeChange(
     /** 陀螺仪数据变化事件的回调函数 */
-    callback: (...args: any[]) => any,
+    callback?: (...args: any[]) => any,
   ): void
 }
