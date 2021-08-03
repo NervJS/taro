@@ -13,1200 +13,1290 @@ require(\\"./vendors\\");
 
 require(\\"./taro\\");
 
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    11: function(module, exports, __webpack_require__) {},
-    15: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        function _arrayLikeToArray(arr, len) {
-            if (len == null || len > arr.length) len = arr.length;
-            for (var i = 0, arr2 = new Array(len); i < len; i++) {
-                arr2[i] = arr[i];
-            }
-            return arr2;
-        }
-        function _arrayWithoutHoles(arr) {
-            if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-        }
-        function _iterableToArray(iter) {
-            if (typeof Symbol !== \\"undefined\\" && iter[Symbol.iterator] != null || iter[\\"@@iterator\\"] != null) return Array.from(iter);
-        }
-        function _unsupportedIterableToArray(o, minLen) {
-            if (!o) return;
-            if (typeof o === \\"string\\") return _arrayLikeToArray(o, minLen);
-            var n = Object.prototype.toString.call(o).slice(8, -1);
-            if (n === \\"Object\\" && o.constructor) n = o.constructor.name;
-            if (n === \\"Map\\" || n === \\"Set\\") return Array.from(o);
-            if (n === \\"Arguments\\" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-        }
-        function _nonIterableSpread() {
-            throw new TypeError(\\"Invalid attempt to spread non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
-        }
-        function _toConsumableArray(arr) {
-            return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-        }
-        function _typeof(obj) {
-            \\"@babel/helpers - typeof\\";
-            if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-                _typeof = function _typeof(obj) {
-                    return typeof obj;
-                };
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], [ function(module, exports, __webpack_require__) {
+    \\"use strict\\";
+    var _toConsumableArray = __webpack_require__(13);
+    var _typeof = __webpack_require__(18);
+    Object.defineProperty(exports, \\"__esModule\\", {
+        value: true
+    });
+    function isString(o) {
+        return typeof o === \\"string\\";
+    }
+    function isUndefined(o) {
+        return typeof o === \\"undefined\\";
+    }
+    function isNull(o) {
+        return o === null;
+    }
+    function isObject(o) {
+        return o !== null && _typeof(o) === \\"object\\";
+    }
+    function isBoolean(o) {
+        return o === true || o === false;
+    }
+    function isFunction(o) {
+        return typeof o === \\"function\\";
+    }
+    function isNumber(o) {
+        return typeof o === \\"number\\";
+    }
+    function isBooleanStringLiteral(o) {
+        return o === \\"true\\" || o === \\"false\\";
+    }
+    var isArray = Array.isArray;
+    (function(Shortcuts) {
+        Shortcuts[\\"Container\\"] = \\"container\\";
+        Shortcuts[\\"Childnodes\\"] = \\"cn\\";
+        Shortcuts[\\"Text\\"] = \\"v\\";
+        Shortcuts[\\"NodeType\\"] = \\"nt\\";
+        Shortcuts[\\"NodeName\\"] = \\"nn\\";
+        Shortcuts[\\"Style\\"] = \\"st\\";
+        Shortcuts[\\"Class\\"] = \\"cl\\";
+        Shortcuts[\\"Src\\"] = \\"src\\";
+    })(exports.Shortcuts || (exports.Shortcuts = {}));
+    var styles = {
+        style: \\"i.\\".concat(\\"st\\"),
+        class: \\"i.\\".concat(\\"cl\\")
+    };
+    var events = {
+        bindtap: \\"eh\\"
+    };
+    var touchEvents = {
+        bindTouchStart: \\"\\",
+        bindTouchMove: \\"\\",
+        bindTouchEnd: \\"\\",
+        bindTouchCancel: \\"\\",
+        bindLongTap: \\"\\"
+    };
+    var animationEvents = {
+        bindAnimationStart: \\"\\",
+        bindAnimationIteration: \\"\\",
+        bindAnimationEnd: \\"\\",
+        bindTransitionEnd: \\"\\"
+    };
+    function singleQuote(s) {
+        return \\"'\\".concat(s, \\"'\\");
+    }
+    var View = Object.assign(Object.assign({
+        \\"hover-class\\": singleQuote(\\"none\\"),
+        \\"hover-stop-propagation\\": \\"false\\",
+        \\"hover-start-time\\": \\"50\\",
+        \\"hover-stay-time\\": \\"400\\",
+        animation: \\"\\"
+    }, touchEvents), animationEvents);
+    var Icon = {
+        type: \\"\\",
+        size: \\"23\\",
+        color: \\"\\"
+    };
+    var MapComp = Object.assign({
+        longitude: \\"\\",
+        latitude: \\"\\",
+        scale: \\"16\\",
+        markers: \\"[]\\",
+        covers: \\"\\",
+        polyline: \\"[]\\",
+        circles: \\"[]\\",
+        controls: \\"[]\\",
+        \\"include-points\\": \\"[]\\",
+        \\"show-location\\": \\"\\",
+        \\"layer-style\\": \\"1\\",
+        bindMarkerTap: \\"\\",
+        bindControlTap: \\"\\",
+        bindCalloutTap: \\"\\",
+        bindUpdated: \\"\\"
+    }, touchEvents);
+    var Progress = {
+        percent: \\"\\",
+        \\"stroke-width\\": \\"6\\",
+        color: singleQuote(\\"#09BB07\\"),
+        activeColor: singleQuote(\\"#09BB07\\"),
+        backgroundColor: singleQuote(\\"#EBEBEB\\"),
+        active: \\"false\\",
+        \\"active-mode\\": singleQuote(\\"backwards\\"),
+        \\"show-info\\": \\"false\\"
+    };
+    var RichText = {
+        nodes: \\"[]\\"
+    };
+    var Text = {
+        selectable: \\"false\\",
+        space: \\"\\",
+        decode: \\"false\\"
+    };
+    var Button = {
+        size: singleQuote(\\"default\\"),
+        type: \\"\\",
+        plain: \\"false\\",
+        disabled: \\"\\",
+        loading: \\"false\\",
+        \\"form-type\\": \\"\\",
+        \\"open-type\\": \\"\\",
+        \\"hover-class\\": singleQuote(\\"button-hover\\"),
+        \\"hover-stop-propagation\\": \\"false\\",
+        \\"hover-start-time\\": \\"20\\",
+        \\"hover-stay-time\\": \\"70\\",
+        name: \\"\\"
+    };
+    var Checkbox = {
+        value: \\"\\",
+        disabled: \\"\\",
+        checked: \\"false\\",
+        color: singleQuote(\\"#09BB07\\"),
+        name: \\"\\"
+    };
+    var CheckboxGroup = {
+        bindChange: \\"\\",
+        name: \\"\\"
+    };
+    var Form = {
+        \\"report-submit\\": \\"false\\",
+        bindSubmit: \\"\\",
+        bindReset: \\"\\",
+        name: \\"\\"
+    };
+    var Input = {
+        value: \\"\\",
+        type: singleQuote(\\"\\"),
+        password: \\"false\\",
+        placeholder: \\"\\",
+        \\"placeholder-style\\": \\"\\",
+        \\"placeholder-class\\": singleQuote(\\"input-placeholder\\"),
+        disabled: \\"\\",
+        maxlength: \\"140\\",
+        \\"cursor-spacing\\": \\"0\\",
+        focus: \\"false\\",
+        \\"confirm-type\\": singleQuote(\\"done\\"),
+        \\"confirm-hold\\": \\"false\\",
+        cursor: \\"i.value.length\\",
+        \\"selection-start\\": \\"-1\\",
+        \\"selection-end\\": \\"-1\\",
+        bindInput: \\"\\",
+        bindFocus: \\"\\",
+        bindBlur: \\"\\",
+        bindConfirm: \\"\\",
+        name: \\"\\"
+    };
+    var Label = {
+        for: \\"\\",
+        name: \\"\\"
+    };
+    var Picker = {
+        mode: singleQuote(\\"selector\\"),
+        disabled: \\"\\",
+        range: \\"\\",
+        \\"range-key\\": \\"\\",
+        value: \\"\\",
+        start: \\"\\",
+        end: \\"\\",
+        fields: singleQuote(\\"day\\"),
+        \\"custom-item\\": \\"\\",
+        name: \\"\\",
+        bindCancel: \\"\\",
+        bindChange: \\"\\",
+        bindColumnChange: \\"\\"
+    };
+    var PickerView = {
+        value: \\"\\",
+        \\"indicator-style\\": \\"\\",
+        \\"indicator-class\\": \\"\\",
+        \\"mask-style\\": \\"\\",
+        \\"mask-class\\": \\"\\",
+        bindChange: \\"\\",
+        name: \\"\\"
+    };
+    var PickerViewColumn = {
+        name: \\"\\"
+    };
+    var Radio = {
+        value: \\"\\",
+        checked: \\"false\\",
+        disabled: \\"\\",
+        color: singleQuote(\\"#09BB07\\"),
+        name: \\"\\"
+    };
+    var RadioGroup = {
+        bindChange: \\"\\",
+        name: \\"\\"
+    };
+    var Slider = {
+        min: \\"0\\",
+        max: \\"100\\",
+        step: \\"1\\",
+        disabled: \\"\\",
+        value: \\"0\\",
+        activeColor: singleQuote(\\"#1aad19\\"),
+        backgroundColor: singleQuote(\\"#e9e9e9\\"),
+        \\"block-size\\": \\"28\\",
+        \\"block-color\\": singleQuote(\\"#ffffff\\"),
+        \\"show-value\\": \\"false\\",
+        bindChange: \\"\\",
+        bindChanging: \\"\\",
+        name: \\"\\"
+    };
+    var Switch = {
+        checked: \\"false\\",
+        disabled: \\"\\",
+        type: singleQuote(\\"switch\\"),
+        color: singleQuote(\\"#04BE02\\"),
+        bindChange: \\"\\",
+        name: \\"\\"
+    };
+    var Textarea = {
+        value: \\"\\",
+        placeholder: \\"\\",
+        \\"placeholder-style\\": \\"\\",
+        \\"placeholder-class\\": singleQuote(\\"textarea-placeholder\\"),
+        disabled: \\"\\",
+        maxlength: \\"140\\",
+        \\"auto-focus\\": \\"false\\",
+        focus: \\"false\\",
+        \\"auto-height\\": \\"false\\",
+        fixed: \\"false\\",
+        \\"cursor-spacing\\": \\"0\\",
+        cursor: \\"-1\\",
+        \\"selection-start\\": \\"-1\\",
+        \\"selection-end\\": \\"-1\\",
+        bindFocus: \\"\\",
+        bindBlur: \\"\\",
+        bindLineChange: \\"\\",
+        bindInput: \\"\\",
+        bindConfirm: \\"\\",
+        name: \\"\\"
+    };
+    var CoverImage = {
+        src: \\"\\",
+        bindLoad: \\"eh\\",
+        bindError: \\"eh\\"
+    };
+    var CoverView = Object.assign({
+        \\"scroll-top\\": \\"false\\"
+    }, touchEvents);
+    var MovableArea = {
+        \\"scale-area\\": \\"false\\"
+    };
+    var MovableView = Object.assign(Object.assign({
+        direction: \\"none\\",
+        inertia: \\"false\\",
+        \\"out-of-bounds\\": \\"false\\",
+        x: \\"\\",
+        y: \\"\\",
+        damping: \\"20\\",
+        friction: \\"2\\",
+        disabled: \\"\\",
+        scale: \\"false\\",
+        \\"scale-min\\": \\"0.5\\",
+        \\"scale-max\\": \\"10\\",
+        \\"scale-value\\": \\"1\\",
+        animation: \\"true\\",
+        bindChange: \\"\\",
+        bindScale: \\"\\",
+        bindHTouchMove: \\"\\",
+        bindVTouchMove: \\"\\",
+        width: singleQuote(\\"10px\\"),
+        height: singleQuote(\\"10px\\")
+    }, touchEvents), animationEvents);
+    var ScrollView = Object.assign(Object.assign({
+        \\"scroll-x\\": \\"false\\",
+        \\"scroll-y\\": \\"false\\",
+        \\"upper-threshold\\": \\"50\\",
+        \\"lower-threshold\\": \\"50\\",
+        \\"scroll-top\\": \\"\\",
+        \\"scroll-left\\": \\"\\",
+        \\"scroll-into-view\\": \\"\\",
+        \\"scroll-with-animation\\": \\"false\\",
+        \\"enable-back-to-top\\": \\"false\\",
+        bindScrollToUpper: \\"\\",
+        bindScrollToLower: \\"\\",
+        bindScroll: \\"\\"
+    }, touchEvents), animationEvents);
+    var Swiper = Object.assign({
+        \\"indicator-dots\\": \\"false\\",
+        \\"indicator-color\\": singleQuote(\\"rgba(0, 0, 0, .3)\\"),
+        \\"indicator-active-color\\": singleQuote(\\"#000000\\"),
+        autoplay: \\"false\\",
+        current: \\"0\\",
+        interval: \\"5000\\",
+        duration: \\"500\\",
+        circular: \\"false\\",
+        vertical: \\"false\\",
+        \\"previous-margin\\": \\"'0px'\\",
+        \\"next-margin\\": \\"'0px'\\",
+        \\"display-multiple-items\\": \\"1\\",
+        bindChange: \\"\\",
+        bindTransition: \\"\\",
+        bindAnimationFinish: \\"\\"
+    }, touchEvents);
+    var SwiperItem = {
+        \\"item-id\\": \\"\\"
+    };
+    var Navigator = {
+        url: \\"\\",
+        \\"open-type\\": singleQuote(\\"navigate\\"),
+        delta: \\"1\\",
+        \\"hover-class\\": singleQuote(\\"navigator-hover\\"),
+        \\"hover-stop-propagation\\": \\"false\\",
+        \\"hover-start-time\\": \\"50\\",
+        \\"hover-stay-time\\": \\"600\\",
+        bindSuccess: \\"\\",
+        bindFail: \\"\\",
+        bindComplete: \\"\\"
+    };
+    var Audio = {
+        id: \\"\\",
+        src: \\"\\",
+        loop: \\"false\\",
+        controls: \\"false\\",
+        poster: \\"\\",
+        name: \\"\\",
+        author: \\"\\",
+        bindError: \\"\\",
+        bindPlay: \\"\\",
+        bindPause: \\"\\",
+        bindTimeUpdate: \\"\\",
+        bindEnded: \\"\\"
+    };
+    var Camera = {
+        \\"device-position\\": singleQuote(\\"back\\"),
+        flash: singleQuote(\\"auto\\"),
+        bindStop: \\"\\",
+        bindError: \\"\\"
+    };
+    var Image = Object.assign({
+        src: \\"\\",
+        mode: singleQuote(\\"scaleToFill\\"),
+        \\"lazy-load\\": \\"false\\",
+        bindError: \\"\\",
+        bindLoad: \\"\\"
+    }, touchEvents);
+    var LivePlayer = {
+        src: \\"\\",
+        autoplay: \\"false\\",
+        muted: \\"false\\",
+        orientation: singleQuote(\\"vertical\\"),
+        \\"object-fit\\": singleQuote(\\"contain\\"),
+        \\"background-mute\\": \\"false\\",
+        \\"min-cache\\": \\"1\\",
+        \\"max-cache\\": \\"3\\",
+        animation: \\"\\",
+        bindStateChange: \\"\\",
+        bindFullScreenChange: \\"\\",
+        bindNetStatus: \\"\\"
+    };
+    var Video = {
+        src: \\"\\",
+        duration: \\"\\",
+        controls: \\"true\\",
+        \\"danmu-list\\": \\"\\",
+        \\"danmu-btn\\": \\"\\",
+        \\"enable-danmu\\": \\"\\",
+        autoplay: \\"false\\",
+        loop: \\"false\\",
+        muted: \\"false\\",
+        \\"initial-time\\": \\"0\\",
+        \\"page-gesture\\": \\"false\\",
+        direction: \\"\\",
+        \\"show-progress\\": \\"true\\",
+        \\"show-fullscreen-btn\\": \\"true\\",
+        \\"show-play-btn\\": \\"true\\",
+        \\"show-center-play-btn\\": \\"true\\",
+        \\"enable-progress-gesture\\": \\"true\\",
+        \\"object-fit\\": singleQuote(\\"contain\\"),
+        poster: \\"\\",
+        \\"show-mute-btn\\": \\"false\\",
+        animation: \\"\\",
+        bindPlay: \\"\\",
+        bindPause: \\"\\",
+        bindEnded: \\"\\",
+        bindTimeUpdate: \\"\\",
+        bindFullScreenChange: \\"\\",
+        bindWaiting: \\"\\",
+        bindError: \\"\\"
+    };
+    var Canvas = Object.assign({
+        \\"canvas-id\\": \\"\\",
+        \\"disable-scroll\\": \\"false\\",
+        bindError: \\"\\"
+    }, touchEvents);
+    var Ad = {
+        \\"unit-id\\": \\"\\",
+        \\"ad-intervals\\": \\"\\",
+        bindLoad: \\"\\",
+        bindError: \\"\\",
+        bindClose: \\"\\"
+    };
+    var WebView = {
+        src: \\"\\",
+        bindMessage: \\"\\",
+        bindLoad: \\"\\",
+        bindError: \\"\\"
+    };
+    var Block = {};
+    var SlotView = {
+        name: \\"\\"
+    };
+    var Slot = {
+        name: \\"\\"
+    };
+    var internalComponents = {
+        View: View,
+        Icon: Icon,
+        Progress: Progress,
+        RichText: RichText,
+        Text: Text,
+        Button: Button,
+        Checkbox: Checkbox,
+        CheckboxGroup: CheckboxGroup,
+        Form: Form,
+        Input: Input,
+        Label: Label,
+        Picker: Picker,
+        PickerView: PickerView,
+        PickerViewColumn: PickerViewColumn,
+        Radio: Radio,
+        RadioGroup: RadioGroup,
+        Slider: Slider,
+        Switch: Switch,
+        CoverImage: CoverImage,
+        Textarea: Textarea,
+        CoverView: CoverView,
+        MovableArea: MovableArea,
+        MovableView: MovableView,
+        ScrollView: ScrollView,
+        Swiper: Swiper,
+        SwiperItem: SwiperItem,
+        Navigator: Navigator,
+        Audio: Audio,
+        Camera: Camera,
+        Image: Image,
+        LivePlayer: LivePlayer,
+        Video: Video,
+        Canvas: Canvas,
+        Ad: Ad,
+        WebView: WebView,
+        Block: Block,
+        Map: MapComp,
+        Slot: Slot,
+        SlotView: SlotView
+    };
+    var controlledComponent = new Set([ \\"input\\", \\"checkbox\\", \\"picker\\", \\"picker-view\\", \\"radio\\", \\"slider\\", \\"switch\\", \\"textarea\\" ]);
+    var focusComponents = new Set([ \\"input\\", \\"textarea\\" ]);
+    var voidElements = new Set([ \\"progress\\", \\"icon\\", \\"rich-text\\", \\"input\\", \\"textarea\\", \\"slider\\", \\"switch\\", \\"audio\\", \\"ad\\", \\"official-account\\", \\"open-data\\", \\"navigation-bar\\" ]);
+    var nestElements = new Map([ [ \\"view\\", -1 ], [ \\"catch-view\\", -1 ], [ \\"cover-view\\", -1 ], [ \\"static-view\\", -1 ], [ \\"pure-view\\", -1 ], [ \\"block\\", -1 ], [ \\"text\\", -1 ], [ \\"static-text\\", 6 ], [ \\"slot\\", 8 ], [ \\"slot-view\\", 8 ], [ \\"label\\", 6 ], [ \\"form\\", 4 ], [ \\"scroll-view\\", 4 ], [ \\"swiper\\", 4 ], [ \\"swiper-item\\", 4 ] ]);
+    var EMPTY_OBJ = {};
+    var EMPTY_ARR = [];
+    var noop = function noop() {};
+    var defaultReconciler = Object.create(null);
+    var box = function box(v) {
+        return {
+            v: v
+        };
+    };
+    var unbox = function unbox(b) {
+        return b.v;
+    };
+    function toDashed(s) {
+        return s.replace(/([a-z0-9])([A-Z])/g, \\"$1-$2\\").toLowerCase();
+    }
+    function toCamelCase(s) {
+        var camel = \\"\\";
+        var nextCap = false;
+        for (var i = 0; i < s.length; i++) {
+            if (s[i] !== \\"-\\") {
+                camel += nextCap ? s[i].toUpperCase() : s[i];
+                nextCap = false;
             } else {
-                _typeof = function _typeof(obj) {
-                    return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+                nextCap = true;
+            }
+        }
+        return camel;
+    }
+    var toKebabCase = function toKebabCase(string) {
+        return string.replace(/([a-z])([A-Z])/g, \\"$1-$2\\").toLowerCase();
+    };
+    function capitalize(s) {
+        return s.charAt(0).toUpperCase() + s.slice(1);
+    }
+    var hasOwnProperty = Object.prototype.hasOwnProperty;
+    var hasOwn = function hasOwn(val, key) {
+        return hasOwnProperty.call(val, key);
+    };
+    var reportIssue = \\"\\\\u5982\\\\u6709\\\\u7591\\\\u95ee\\\\uff0c\\\\u8bf7\\\\u63d0\\\\u4ea4 issue \\\\u81f3\\\\uff1ahttps://github.com/nervjs/taro/issues\\";
+    function ensure(condition, msg) {
+        if (!condition) {
+            throw new Error(msg + \\"\\\\n\\" + reportIssue);
+        }
+    }
+    function warn(condition, msg) {
+        if (false) {}
+    }
+    function queryToJson(str) {
+        var dec = decodeURIComponent;
+        var qp = str.split(\\"&\\");
+        var ret = {};
+        var name;
+        var val;
+        for (var i = 0, l = qp.length, item; i < l; ++i) {
+            item = qp[i];
+            if (item.length) {
+                var s = item.indexOf(\\"=\\");
+                if (s < 0) {
+                    name = dec(item);
+                    val = \\"\\";
+                } else {
+                    name = dec(item.slice(0, s));
+                    val = dec(item.slice(s + 1));
+                }
+                if (typeof ret[name] === \\"string\\") {
+                    ret[name] = [ ret[name] ];
+                }
+                if (Array.isArray(ret[name])) {
+                    ret[name].push(val);
+                } else {
+                    ret[name] = val;
+                }
+            }
+        }
+        return ret;
+    }
+    var _uniqueId = 1;
+    var _loadTime = (new Date).getTime().toString();
+    function getUniqueKey() {
+        return _loadTime + _uniqueId++;
+    }
+    var cacheData = {};
+    function cacheDataSet(key, val) {
+        cacheData[key] = val;
+    }
+    function cacheDataGet(key, delelteAfterGet) {
+        var temp = cacheData[key];
+        delelteAfterGet && delete cacheData[key];
+        return temp;
+    }
+    function cacheDataHas(key) {
+        return key in cacheData;
+    }
+    function mergeInternalComponents(components) {
+        Object.keys(components).forEach((function(name) {
+            if (name in internalComponents) {
+                Object.assign(internalComponents[name], components[name]);
+            } else {
+                internalComponents[name] = components[name];
+            }
+        }));
+    }
+    function mergeReconciler(hostConfig) {
+        Object.keys(hostConfig).forEach((function(key) {
+            var value = hostConfig[key];
+            var raw = defaultReconciler[key];
+            if (!raw) {
+                defaultReconciler[key] = value;
+            } else {
+                if (isArray(raw)) {
+                    defaultReconciler[key] = raw.push(value);
+                } else {
+                    defaultReconciler[key] = [ raw, value ];
+                }
+            }
+        }));
+    }
+    function unsupport(api) {
+        return function() {
+            console.warn(\\"\\\\u5c0f\\\\u7a0b\\\\u5e8f\\\\u6682\\\\u4e0d\\\\u652f\\\\u6301 \\".concat(api));
+        };
+    }
+    function setUniqueKeyToRoute(key, obj) {
+        var routerParamsPrivateKey = \\"__key_\\";
+        var useDataCacheApis = [ \\"navigateTo\\", \\"redirectTo\\", \\"reLaunch\\", \\"switchTab\\" ];
+        if (useDataCacheApis.indexOf(key) > -1) {
+            var url = obj.url = obj.url || \\"\\";
+            var hasMark = url.indexOf(\\"?\\") > -1;
+            var cacheKey = getUniqueKey();
+            obj.url += (hasMark ? \\"&\\" : \\"?\\") + \\"\\".concat(routerParamsPrivateKey, \\"=\\").concat(cacheKey);
+        }
+    }
+    function indent(str, size) {
+        return str.split(\\"\\\\n\\").map((function(line, index) {
+            var indent = index === 0 ? \\"\\" : Array(size).fill(\\" \\").join(\\"\\");
+            return indent + line;
+        })).join(\\"\\\\n\\");
+    }
+    var needPromiseApis = new Set([ \\"addPhoneContact\\", \\"authorize\\", \\"canvasGetImageData\\", \\"canvasPutImageData\\", \\"canvasToTempFilePath\\", \\"checkSession\\", \\"chooseAddress\\", \\"chooseImage\\", \\"chooseInvoiceTitle\\", \\"chooseLocation\\", \\"chooseVideo\\", \\"clearStorage\\", \\"closeBLEConnection\\", \\"closeBluetoothAdapter\\", \\"closeSocket\\", \\"compressImage\\", \\"connectSocket\\", \\"createBLEConnection\\", \\"downloadFile\\", \\"getAvailableAudioSources\\", \\"getBLEDeviceCharacteristics\\", \\"getBLEDeviceServices\\", \\"getBatteryInfo\\", \\"getBeacons\\", \\"getBluetoothAdapterState\\", \\"getBluetoothDevices\\", \\"getClipboardData\\", \\"getConnectedBluetoothDevices\\", \\"getConnectedWifi\\", \\"getExtConfig\\", \\"getFileInfo\\", \\"getImageInfo\\", \\"getLocation\\", \\"getNetworkType\\", \\"getSavedFileInfo\\", \\"getSavedFileList\\", \\"getScreenBrightness\\", \\"getSetting\\", \\"getStorage\\", \\"getStorageInfo\\", \\"getSystemInfo\\", \\"getUserInfo\\", \\"getWifiList\\", \\"hideHomeButton\\", \\"hideShareMenu\\", \\"hideTabBar\\", \\"hideTabBarRedDot\\", \\"loadFontFace\\", \\"login\\", \\"makePhoneCall\\", \\"navigateBack\\", \\"navigateBackMiniProgram\\", \\"navigateTo\\", \\"navigateToBookshelf\\", \\"navigateToMiniProgram\\", \\"notifyBLECharacteristicValueChange\\", \\"hideKeyboard\\", \\"hideLoading\\", \\"hideNavigationBarLoading\\", \\"hideToast\\", \\"openBluetoothAdapter\\", \\"openDocument\\", \\"openLocation\\", \\"openSetting\\", \\"pageScrollTo\\", \\"previewImage\\", \\"queryBookshelf\\", \\"reLaunch\\", \\"readBLECharacteristicValue\\", \\"redirectTo\\", \\"removeSavedFile\\", \\"removeStorage\\", \\"removeTabBarBadge\\", \\"requestSubscribeMessage\\", \\"saveFile\\", \\"saveImageToPhotosAlbum\\", \\"saveVideoToPhotosAlbum\\", \\"scanCode\\", \\"sendSocketMessage\\", \\"setBackgroundColor\\", \\"setBackgroundTextStyle\\", \\"setClipboardData\\", \\"setEnableDebug\\", \\"setInnerAudioOption\\", \\"setKeepScreenOn\\", \\"setNavigationBarColor\\", \\"setNavigationBarTitle\\", \\"setScreenBrightness\\", \\"setStorage\\", \\"setTabBarBadge\\", \\"setTabBarItem\\", \\"setTabBarStyle\\", \\"showActionSheet\\", \\"showFavoriteGuide\\", \\"showLoading\\", \\"showModal\\", \\"showShareMenu\\", \\"showTabBar\\", \\"showTabBarRedDot\\", \\"showToast\\", \\"startBeaconDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"startDeviceMotionListening\\", \\"startPullDownRefresh\\", \\"stopBeaconDiscovery\\", \\"stopBluetoothDevicesDiscovery\\", \\"stopCompass\\", \\"startCompass\\", \\"startAccelerometer\\", \\"stopAccelerometer\\", \\"showNavigationBarLoading\\", \\"stopDeviceMotionListening\\", \\"stopPullDownRefresh\\", \\"switchTab\\", \\"uploadFile\\", \\"vibrateLong\\", \\"vibrateShort\\", \\"writeBLECharacteristicValue\\" ]);
+    function getCanIUseWebp(taro) {
+        return function() {
+            if (typeof taro.getSystemInfoSync !== \\"function\\") {
+                console.error(\\"\\\\u4e0d\\\\u652f\\\\u6301 API canIUseWebp\\");
+                return false;
+            }
+            var _taro$getSystemInfoSy = taro.getSystemInfoSync(), platform = _taro$getSystemInfoSy.platform;
+            var platformLower = platform.toLowerCase();
+            if (platformLower === \\"android\\" || platformLower === \\"devtools\\") {
+                return true;
+            }
+            return false;
+        };
+    }
+    function getNormalRequest(global) {
+        return function request(options) {
+            options = options || {};
+            if (typeof options === \\"string\\") {
+                options = {
+                    url: options
                 };
             }
-            return _typeof(obj);
-        }
-        function isString(o) {
-            return typeof o === \\"string\\";
-        }
-        function isUndefined(o) {
-            return typeof o === \\"undefined\\";
-        }
-        function isNull(o) {
-            return o === null;
-        }
-        function isObject(o) {
-            return o !== null && _typeof(o) === \\"object\\";
-        }
-        function isBoolean(o) {
-            return o === true || o === false;
-        }
-        function isFunction(o) {
-            return typeof o === \\"function\\";
-        }
-        function isNumber(o) {
-            return typeof o === \\"number\\";
-        }
-        function isBooleanStringLiteral(o) {
-            return o === \\"true\\" || o === \\"false\\";
-        }
-        var isArray = Array.isArray;
-        var styles = {
-            style: \\"i.\\".concat(\\"st\\"),
-            class: \\"i.\\".concat(\\"cl\\")
-        };
-        var events = {
-            bindtap: \\"eh\\"
-        };
-        var touchEvents = {
-            bindTouchStart: \\"\\",
-            bindTouchMove: \\"\\",
-            bindTouchEnd: \\"\\",
-            bindTouchCancel: \\"\\",
-            bindLongTap: \\"\\"
-        };
-        var animationEvents = {
-            bindAnimationStart: \\"\\",
-            bindAnimationIteration: \\"\\",
-            bindAnimationEnd: \\"\\",
-            bindTransitionEnd: \\"\\"
-        };
-        function singleQuote(s) {
-            return \\"'\\".concat(s, \\"'\\");
-        }
-        var View = Object.assign(Object.assign({
-            \\"hover-class\\": singleQuote(\\"none\\"),
-            \\"hover-stop-propagation\\": \\"false\\",
-            \\"hover-start-time\\": \\"50\\",
-            \\"hover-stay-time\\": \\"400\\",
-            animation: \\"\\"
-        }, touchEvents), animationEvents);
-        var Icon = {
-            type: \\"\\",
-            size: \\"23\\",
-            color: \\"\\"
-        };
-        var MapComp = Object.assign({
-            longitude: \\"\\",
-            latitude: \\"\\",
-            scale: \\"16\\",
-            markers: \\"[]\\",
-            covers: \\"\\",
-            polyline: \\"[]\\",
-            circles: \\"[]\\",
-            controls: \\"[]\\",
-            \\"include-points\\": \\"[]\\",
-            \\"show-location\\": \\"\\",
-            \\"layer-style\\": \\"1\\",
-            bindMarkerTap: \\"\\",
-            bindControlTap: \\"\\",
-            bindCalloutTap: \\"\\",
-            bindUpdated: \\"\\"
-        }, touchEvents);
-        var Progress = {
-            percent: \\"\\",
-            \\"stroke-width\\": \\"6\\",
-            color: singleQuote(\\"#09BB07\\"),
-            activeColor: singleQuote(\\"#09BB07\\"),
-            backgroundColor: singleQuote(\\"#EBEBEB\\"),
-            active: \\"false\\",
-            \\"active-mode\\": singleQuote(\\"backwards\\"),
-            \\"show-info\\": \\"false\\"
-        };
-        var RichText = {
-            nodes: \\"[]\\"
-        };
-        var Text = {
-            selectable: \\"false\\",
-            space: \\"\\",
-            decode: \\"false\\"
-        };
-        var Button = {
-            size: singleQuote(\\"default\\"),
-            type: \\"\\",
-            plain: \\"false\\",
-            disabled: \\"\\",
-            loading: \\"false\\",
-            \\"form-type\\": \\"\\",
-            \\"open-type\\": \\"\\",
-            \\"hover-class\\": singleQuote(\\"button-hover\\"),
-            \\"hover-stop-propagation\\": \\"false\\",
-            \\"hover-start-time\\": \\"20\\",
-            \\"hover-stay-time\\": \\"70\\",
-            name: \\"\\"
-        };
-        var Checkbox = {
-            value: \\"\\",
-            disabled: \\"\\",
-            checked: \\"false\\",
-            color: singleQuote(\\"#09BB07\\"),
-            name: \\"\\"
-        };
-        var CheckboxGroup = {
-            bindChange: \\"\\",
-            name: \\"\\"
-        };
-        var Form = {
-            \\"report-submit\\": \\"false\\",
-            bindSubmit: \\"\\",
-            bindReset: \\"\\",
-            name: \\"\\"
-        };
-        var Input = {
-            value: \\"\\",
-            type: singleQuote(\\"\\"),
-            password: \\"false\\",
-            placeholder: \\"\\",
-            \\"placeholder-style\\": \\"\\",
-            \\"placeholder-class\\": singleQuote(\\"input-placeholder\\"),
-            disabled: \\"\\",
-            maxlength: \\"140\\",
-            \\"cursor-spacing\\": \\"0\\",
-            focus: \\"false\\",
-            \\"confirm-type\\": singleQuote(\\"done\\"),
-            \\"confirm-hold\\": \\"false\\",
-            cursor: \\"i.value.length\\",
-            \\"selection-start\\": \\"-1\\",
-            \\"selection-end\\": \\"-1\\",
-            bindInput: \\"\\",
-            bindFocus: \\"\\",
-            bindBlur: \\"\\",
-            bindConfirm: \\"\\",
-            name: \\"\\"
-        };
-        var Label = {
-            for: \\"\\",
-            name: \\"\\"
-        };
-        var Picker = {
-            mode: singleQuote(\\"selector\\"),
-            disabled: \\"\\",
-            range: \\"\\",
-            \\"range-key\\": \\"\\",
-            value: \\"\\",
-            start: \\"\\",
-            end: \\"\\",
-            fields: singleQuote(\\"day\\"),
-            \\"custom-item\\": \\"\\",
-            name: \\"\\",
-            bindCancel: \\"\\",
-            bindChange: \\"\\",
-            bindColumnChange: \\"\\"
-        };
-        var PickerView = {
-            value: \\"\\",
-            \\"indicator-style\\": \\"\\",
-            \\"indicator-class\\": \\"\\",
-            \\"mask-style\\": \\"\\",
-            \\"mask-class\\": \\"\\",
-            bindChange: \\"\\",
-            name: \\"\\"
-        };
-        var PickerViewColumn = {
-            name: \\"\\"
-        };
-        var Radio = {
-            value: \\"\\",
-            checked: \\"false\\",
-            disabled: \\"\\",
-            color: singleQuote(\\"#09BB07\\"),
-            name: \\"\\"
-        };
-        var RadioGroup = {
-            bindChange: \\"\\",
-            name: \\"\\"
-        };
-        var Slider = {
-            min: \\"0\\",
-            max: \\"100\\",
-            step: \\"1\\",
-            disabled: \\"\\",
-            value: \\"0\\",
-            activeColor: singleQuote(\\"#1aad19\\"),
-            backgroundColor: singleQuote(\\"#e9e9e9\\"),
-            \\"block-size\\": \\"28\\",
-            \\"block-color\\": singleQuote(\\"#ffffff\\"),
-            \\"show-value\\": \\"false\\",
-            bindChange: \\"\\",
-            bindChanging: \\"\\",
-            name: \\"\\"
-        };
-        var Switch = {
-            checked: \\"false\\",
-            disabled: \\"\\",
-            type: singleQuote(\\"switch\\"),
-            color: singleQuote(\\"#04BE02\\"),
-            bindChange: \\"\\",
-            name: \\"\\"
-        };
-        var Textarea = {
-            value: \\"\\",
-            placeholder: \\"\\",
-            \\"placeholder-style\\": \\"\\",
-            \\"placeholder-class\\": singleQuote(\\"textarea-placeholder\\"),
-            disabled: \\"\\",
-            maxlength: \\"140\\",
-            \\"auto-focus\\": \\"false\\",
-            focus: \\"false\\",
-            \\"auto-height\\": \\"false\\",
-            fixed: \\"false\\",
-            \\"cursor-spacing\\": \\"0\\",
-            cursor: \\"-1\\",
-            \\"selection-start\\": \\"-1\\",
-            \\"selection-end\\": \\"-1\\",
-            bindFocus: \\"\\",
-            bindBlur: \\"\\",
-            bindLineChange: \\"\\",
-            bindInput: \\"\\",
-            bindConfirm: \\"\\",
-            name: \\"\\"
-        };
-        var CoverImage = {
-            src: \\"\\",
-            bindLoad: \\"eh\\",
-            bindError: \\"eh\\"
-        };
-        var CoverView = Object.assign({
-            \\"scroll-top\\": \\"false\\"
-        }, touchEvents);
-        var MovableArea = {
-            \\"scale-area\\": \\"false\\"
-        };
-        var MovableView = Object.assign(Object.assign({
-            direction: \\"none\\",
-            inertia: \\"false\\",
-            \\"out-of-bounds\\": \\"false\\",
-            x: \\"\\",
-            y: \\"\\",
-            damping: \\"20\\",
-            friction: \\"2\\",
-            disabled: \\"\\",
-            scale: \\"false\\",
-            \\"scale-min\\": \\"0.5\\",
-            \\"scale-max\\": \\"10\\",
-            \\"scale-value\\": \\"1\\",
-            animation: \\"true\\",
-            bindChange: \\"\\",
-            bindScale: \\"\\",
-            bindHTouchMove: \\"\\",
-            bindVTouchMove: \\"\\",
-            width: singleQuote(\\"10px\\"),
-            height: singleQuote(\\"10px\\")
-        }, touchEvents), animationEvents);
-        var ScrollView = Object.assign(Object.assign({
-            \\"scroll-x\\": \\"false\\",
-            \\"scroll-y\\": \\"false\\",
-            \\"upper-threshold\\": \\"50\\",
-            \\"lower-threshold\\": \\"50\\",
-            \\"scroll-top\\": \\"\\",
-            \\"scroll-left\\": \\"\\",
-            \\"scroll-into-view\\": \\"\\",
-            \\"scroll-with-animation\\": \\"false\\",
-            \\"enable-back-to-top\\": \\"false\\",
-            bindScrollToUpper: \\"\\",
-            bindScrollToLower: \\"\\",
-            bindScroll: \\"\\"
-        }, touchEvents), animationEvents);
-        var Swiper = Object.assign({
-            \\"indicator-dots\\": \\"false\\",
-            \\"indicator-color\\": singleQuote(\\"rgba(0, 0, 0, .3)\\"),
-            \\"indicator-active-color\\": singleQuote(\\"#000000\\"),
-            autoplay: \\"false\\",
-            current: \\"0\\",
-            interval: \\"5000\\",
-            duration: \\"500\\",
-            circular: \\"false\\",
-            vertical: \\"false\\",
-            \\"previous-margin\\": \\"'0px'\\",
-            \\"next-margin\\": \\"'0px'\\",
-            \\"display-multiple-items\\": \\"1\\",
-            bindChange: \\"\\",
-            bindTransition: \\"\\",
-            bindAnimationFinish: \\"\\"
-        }, touchEvents);
-        var SwiperItem = {
-            \\"item-id\\": \\"\\"
-        };
-        var Navigator = {
-            url: \\"\\",
-            \\"open-type\\": singleQuote(\\"navigate\\"),
-            delta: \\"1\\",
-            \\"hover-class\\": singleQuote(\\"navigator-hover\\"),
-            \\"hover-stop-propagation\\": \\"false\\",
-            \\"hover-start-time\\": \\"50\\",
-            \\"hover-stay-time\\": \\"600\\",
-            bindSuccess: \\"\\",
-            bindFail: \\"\\",
-            bindComplete: \\"\\"
-        };
-        var Audio = {
-            id: \\"\\",
-            src: \\"\\",
-            loop: \\"false\\",
-            controls: \\"false\\",
-            poster: \\"\\",
-            name: \\"\\",
-            author: \\"\\",
-            bindError: \\"\\",
-            bindPlay: \\"\\",
-            bindPause: \\"\\",
-            bindTimeUpdate: \\"\\",
-            bindEnded: \\"\\"
-        };
-        var Camera = {
-            \\"device-position\\": singleQuote(\\"back\\"),
-            flash: singleQuote(\\"auto\\"),
-            bindStop: \\"\\",
-            bindError: \\"\\"
-        };
-        var Image = Object.assign({
-            src: \\"\\",
-            mode: singleQuote(\\"scaleToFill\\"),
-            \\"lazy-load\\": \\"false\\",
-            bindError: \\"\\",
-            bindLoad: \\"\\"
-        }, touchEvents);
-        var LivePlayer = {
-            src: \\"\\",
-            autoplay: \\"false\\",
-            muted: \\"false\\",
-            orientation: singleQuote(\\"vertical\\"),
-            \\"object-fit\\": singleQuote(\\"contain\\"),
-            \\"background-mute\\": \\"false\\",
-            \\"min-cache\\": \\"1\\",
-            \\"max-cache\\": \\"3\\",
-            animation: \\"\\",
-            bindStateChange: \\"\\",
-            bindFullScreenChange: \\"\\",
-            bindNetStatus: \\"\\"
-        };
-        var Video = {
-            src: \\"\\",
-            duration: \\"\\",
-            controls: \\"true\\",
-            \\"danmu-list\\": \\"\\",
-            \\"danmu-btn\\": \\"\\",
-            \\"enable-danmu\\": \\"\\",
-            autoplay: \\"false\\",
-            loop: \\"false\\",
-            muted: \\"false\\",
-            \\"initial-time\\": \\"0\\",
-            \\"page-gesture\\": \\"false\\",
-            direction: \\"\\",
-            \\"show-progress\\": \\"true\\",
-            \\"show-fullscreen-btn\\": \\"true\\",
-            \\"show-play-btn\\": \\"true\\",
-            \\"show-center-play-btn\\": \\"true\\",
-            \\"enable-progress-gesture\\": \\"true\\",
-            \\"object-fit\\": singleQuote(\\"contain\\"),
-            poster: \\"\\",
-            \\"show-mute-btn\\": \\"false\\",
-            animation: \\"\\",
-            bindPlay: \\"\\",
-            bindPause: \\"\\",
-            bindEnded: \\"\\",
-            bindTimeUpdate: \\"\\",
-            bindFullScreenChange: \\"\\",
-            bindWaiting: \\"\\",
-            bindError: \\"\\"
-        };
-        var Canvas = Object.assign({
-            \\"canvas-id\\": \\"\\",
-            \\"disable-scroll\\": \\"false\\",
-            bindError: \\"\\"
-        }, touchEvents);
-        var Ad = {
-            \\"unit-id\\": \\"\\",
-            \\"ad-intervals\\": \\"\\",
-            bindLoad: \\"\\",
-            bindError: \\"\\",
-            bindClose: \\"\\"
-        };
-        var WebView = {
-            src: \\"\\",
-            bindMessage: \\"\\",
-            bindLoad: \\"\\",
-            bindError: \\"\\"
-        };
-        var Block = {};
-        var SlotView = {
-            name: \\"\\"
-        };
-        var Slot = {
-            name: \\"\\"
-        };
-        var internalComponents = {
-            View: View,
-            Icon: Icon,
-            Progress: Progress,
-            RichText: RichText,
-            Text: Text,
-            Button: Button,
-            Checkbox: Checkbox,
-            CheckboxGroup: CheckboxGroup,
-            Form: Form,
-            Input: Input,
-            Label: Label,
-            Picker: Picker,
-            PickerView: PickerView,
-            PickerViewColumn: PickerViewColumn,
-            Radio: Radio,
-            RadioGroup: RadioGroup,
-            Slider: Slider,
-            Switch: Switch,
-            CoverImage: CoverImage,
-            Textarea: Textarea,
-            CoverView: CoverView,
-            MovableArea: MovableArea,
-            MovableView: MovableView,
-            ScrollView: ScrollView,
-            Swiper: Swiper,
-            SwiperItem: SwiperItem,
-            Navigator: Navigator,
-            Audio: Audio,
-            Camera: Camera,
-            Image: Image,
-            LivePlayer: LivePlayer,
-            Video: Video,
-            Canvas: Canvas,
-            Ad: Ad,
-            WebView: WebView,
-            Block: Block,
-            Map: MapComp,
-            Slot: Slot,
-            SlotView: SlotView
-        };
-        var controlledComponent = new Set([ \\"input\\", \\"checkbox\\", \\"picker\\", \\"picker-view\\", \\"radio\\", \\"slider\\", \\"switch\\", \\"textarea\\" ]);
-        var focusComponents = new Set([ \\"input\\", \\"textarea\\" ]);
-        var voidElements = new Set([ \\"progress\\", \\"icon\\", \\"rich-text\\", \\"input\\", \\"textarea\\", \\"slider\\", \\"switch\\", \\"audio\\", \\"ad\\", \\"official-account\\", \\"open-data\\", \\"navigation-bar\\" ]);
-        var nestElements = new Map([ [ \\"view\\", -1 ], [ \\"catch-view\\", -1 ], [ \\"cover-view\\", -1 ], [ \\"static-view\\", -1 ], [ \\"pure-view\\", -1 ], [ \\"block\\", -1 ], [ \\"text\\", -1 ], [ \\"static-text\\", 6 ], [ \\"slot\\", 8 ], [ \\"slot-view\\", 8 ], [ \\"label\\", 6 ], [ \\"form\\", 4 ], [ \\"scroll-view\\", 4 ], [ \\"swiper\\", 4 ], [ \\"swiper-item\\", 4 ] ]);
-        var EMPTY_OBJ = {};
-        var EMPTY_ARR = [];
-        var noop = function noop() {};
-        var defaultReconciler = Object.create(null);
-        var box = function box(v) {
-            return {
-                v: v
-            };
-        };
-        var unbox = function unbox(b) {
-            return b.v;
-        };
-        function toDashed(s) {
-            return s.replace(/([a-z0-9])([A-Z])/g, \\"$1-$2\\").toLowerCase();
-        }
-        function toCamelCase(s) {
-            var camel = \\"\\";
-            var nextCap = false;
-            for (var i = 0; i < s.length; i++) {
-                if (s[i] !== \\"-\\") {
-                    camel += nextCap ? s[i].toUpperCase() : s[i];
-                    nextCap = false;
-                } else {
-                    nextCap = true;
-                }
-            }
-            return camel;
-        }
-        var toKebabCase = function toKebabCase(string) {
-            return string.replace(/([a-z])([A-Z])/g, \\"$1-$2\\").toLowerCase();
-        };
-        function capitalize(s) {
-            return s.charAt(0).toUpperCase() + s.slice(1);
-        }
-        var shared_esm_hasOwnProperty = Object.prototype.hasOwnProperty;
-        var hasOwn = function hasOwn(val, key) {
-            return shared_esm_hasOwnProperty.call(val, key);
-        };
-        var reportIssue = \\"\\\\u5982\\\\u6709\\\\u7591\\\\u95ee\\\\uff0c\\\\u8bf7\\\\u63d0\\\\u4ea4 issue \\\\u81f3\\\\uff1ahttps://github.com/nervjs/taro/issues\\";
-        function ensure(condition, msg) {
-            if (!condition) {
-                throw new Error(msg + \\"\\\\n\\" + reportIssue);
-            }
-        }
-        function warn(condition, msg) {
-            if (false) {}
-        }
-        function queryToJson(str) {
-            var dec = decodeURIComponent;
-            var qp = str.split(\\"&\\");
-            var ret = {};
-            var name;
-            var val;
-            for (var i = 0, l = qp.length, item; i < l; ++i) {
-                item = qp[i];
-                if (item.length) {
-                    var s = item.indexOf(\\"=\\");
-                    if (s < 0) {
-                        name = dec(item);
-                        val = \\"\\";
-                    } else {
-                        name = dec(item.slice(0, s));
-                        val = dec(item.slice(s + 1));
-                    }
-                    if (typeof ret[name] === \\"string\\") {
-                        ret[name] = [ ret[name] ];
-                    }
-                    if (Array.isArray(ret[name])) {
-                        ret[name].push(val);
-                    } else {
-                        ret[name] = val;
-                    }
-                }
-            }
-            return ret;
-        }
-        var _uniqueId = 1;
-        var _loadTime = (new Date).getTime().toString();
-        function getUniqueKey() {
-            return _loadTime + _uniqueId++;
-        }
-        var cacheData = {};
-        function cacheDataSet(key, val) {
-            cacheData[key] = val;
-        }
-        function cacheDataGet(key, delelteAfterGet) {
-            var temp = cacheData[key];
-            delelteAfterGet && delete cacheData[key];
-            return temp;
-        }
-        function cacheDataHas(key) {
-            return key in cacheData;
-        }
-        function mergeInternalComponents(components) {
-            Object.keys(components).forEach((function(name) {
-                if (name in internalComponents) {
-                    Object.assign(internalComponents[name], components[name]);
-                } else {
-                    internalComponents[name] = components[name];
-                }
+            var originSuccess = options.success;
+            var originFail = options.fail;
+            var originComplete = options.complete;
+            var requestTask;
+            var p = new Promise((function(resolve, reject) {
+                options.success = function(res) {
+                    originSuccess && originSuccess(res);
+                    resolve(res);
+                };
+                options.fail = function(res) {
+                    originFail && originFail(res);
+                    reject(res);
+                };
+                options.complete = function(res) {
+                    originComplete && originComplete(res);
+                };
+                requestTask = global.request(options);
             }));
+            p.abort = function(cb) {
+                cb && cb();
+                if (requestTask) {
+                    requestTask.abort();
+                }
+                return p;
+            };
+            return p;
+        };
+    }
+    function processApis(taro, global) {
+        var config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+        var patchNeedPromiseApis = config.needPromiseApis || [];
+        var _needPromiseApis = new Set([].concat(_toConsumableArray(patchNeedPromiseApis), _toConsumableArray(needPromiseApis)));
+        var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
+        var apis = new Set(Object.keys(global).filter((function(api) {
+            return preserved.indexOf(api) === -1;
+        })));
+        if (config.modifyApis) {
+            config.modifyApis(apis);
         }
-        function mergeReconciler(hostConfig) {
-            Object.keys(hostConfig).forEach((function(key) {
-                var value = hostConfig[key];
-                var raw = defaultReconciler[key];
-                if (!raw) {
-                    defaultReconciler[key] = value;
-                } else {
-                    if (isArray(raw)) {
-                        defaultReconciler[key] = raw.push(value);
-                    } else {
-                        defaultReconciler[key] = [ raw, value ];
+        apis.forEach((function(key) {
+            if (_needPromiseApis.has(key)) {
+                var originKey = key;
+                taro[originKey] = function() {
+                    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+                    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+                        args[_key - 1] = arguments[_key];
                     }
-                }
-            }));
-        }
-        function unsupport(api) {
-            return function() {
-                console.warn(\\"\\\\u5c0f\\\\u7a0b\\\\u5e8f\\\\u6682\\\\u4e0d\\\\u652f\\\\u6301 \\".concat(api));
-            };
-        }
-        function setUniqueKeyToRoute(key, obj) {
-            var routerParamsPrivateKey = \\"__key_\\";
-            var useDataCacheApis = [ \\"navigateTo\\", \\"redirectTo\\", \\"reLaunch\\", \\"switchTab\\" ];
-            if (useDataCacheApis.indexOf(key) > -1) {
-                var url = obj.url = obj.url || \\"\\";
-                var hasMark = url.indexOf(\\"?\\") > -1;
-                var cacheKey = getUniqueKey();
-                obj.url += (hasMark ? \\"&\\" : \\"?\\") + \\"\\".concat(routerParamsPrivateKey, \\"=\\").concat(cacheKey);
-            }
-        }
-        function indent(str, size) {
-            return str.split(\\"\\\\n\\").map((function(line, index) {
-                var indent = index === 0 ? \\"\\" : Array(size).fill(\\" \\").join(\\"\\");
-                return indent + line;
-            })).join(\\"\\\\n\\");
-        }
-        var needPromiseApis = new Set([ \\"addPhoneContact\\", \\"authorize\\", \\"canvasGetImageData\\", \\"canvasPutImageData\\", \\"canvasToTempFilePath\\", \\"checkSession\\", \\"chooseAddress\\", \\"chooseImage\\", \\"chooseInvoiceTitle\\", \\"chooseLocation\\", \\"chooseVideo\\", \\"clearStorage\\", \\"closeBLEConnection\\", \\"closeBluetoothAdapter\\", \\"closeSocket\\", \\"compressImage\\", \\"connectSocket\\", \\"createBLEConnection\\", \\"downloadFile\\", \\"getAvailableAudioSources\\", \\"getBLEDeviceCharacteristics\\", \\"getBLEDeviceServices\\", \\"getBatteryInfo\\", \\"getBeacons\\", \\"getBluetoothAdapterState\\", \\"getBluetoothDevices\\", \\"getClipboardData\\", \\"getConnectedBluetoothDevices\\", \\"getConnectedWifi\\", \\"getExtConfig\\", \\"getFileInfo\\", \\"getImageInfo\\", \\"getLocation\\", \\"getNetworkType\\", \\"getSavedFileInfo\\", \\"getSavedFileList\\", \\"getScreenBrightness\\", \\"getSetting\\", \\"getStorage\\", \\"getStorageInfo\\", \\"getSystemInfo\\", \\"getUserInfo\\", \\"getWifiList\\", \\"hideHomeButton\\", \\"hideShareMenu\\", \\"hideTabBar\\", \\"hideTabBarRedDot\\", \\"loadFontFace\\", \\"login\\", \\"makePhoneCall\\", \\"navigateBack\\", \\"navigateBackMiniProgram\\", \\"navigateTo\\", \\"navigateToBookshelf\\", \\"navigateToMiniProgram\\", \\"notifyBLECharacteristicValueChange\\", \\"hideKeyboard\\", \\"hideLoading\\", \\"hideNavigationBarLoading\\", \\"hideToast\\", \\"openBluetoothAdapter\\", \\"openDocument\\", \\"openLocation\\", \\"openSetting\\", \\"pageScrollTo\\", \\"previewImage\\", \\"queryBookshelf\\", \\"reLaunch\\", \\"readBLECharacteristicValue\\", \\"redirectTo\\", \\"removeSavedFile\\", \\"removeStorage\\", \\"removeTabBarBadge\\", \\"requestSubscribeMessage\\", \\"saveFile\\", \\"saveImageToPhotosAlbum\\", \\"saveVideoToPhotosAlbum\\", \\"scanCode\\", \\"sendSocketMessage\\", \\"setBackgroundColor\\", \\"setBackgroundTextStyle\\", \\"setClipboardData\\", \\"setEnableDebug\\", \\"setInnerAudioOption\\", \\"setKeepScreenOn\\", \\"setNavigationBarColor\\", \\"setNavigationBarTitle\\", \\"setScreenBrightness\\", \\"setStorage\\", \\"setTabBarBadge\\", \\"setTabBarItem\\", \\"setTabBarStyle\\", \\"showActionSheet\\", \\"showFavoriteGuide\\", \\"showLoading\\", \\"showModal\\", \\"showShareMenu\\", \\"showTabBar\\", \\"showTabBarRedDot\\", \\"showToast\\", \\"startBeaconDiscovery\\", \\"startBluetoothDevicesDiscovery\\", \\"startDeviceMotionListening\\", \\"startPullDownRefresh\\", \\"stopBeaconDiscovery\\", \\"stopBluetoothDevicesDiscovery\\", \\"stopCompass\\", \\"startCompass\\", \\"startAccelerometer\\", \\"stopAccelerometer\\", \\"showNavigationBarLoading\\", \\"stopDeviceMotionListening\\", \\"stopPullDownRefresh\\", \\"switchTab\\", \\"uploadFile\\", \\"vibrateLong\\", \\"vibrateShort\\", \\"writeBLECharacteristicValue\\" ]);
-        function getCanIUseWebp(taro) {
-            return function() {
-                if (typeof taro.getSystemInfoSync !== \\"function\\") {
-                    console.error(\\"\\\\u4e0d\\\\u652f\\\\u6301 API canIUseWebp\\");
-                    return false;
-                }
-                var _taro$getSystemInfoSy = taro.getSystemInfoSync(), platform = _taro$getSystemInfoSy.platform;
-                var platformLower = platform.toLowerCase();
-                if (platformLower === \\"android\\" || platformLower === \\"devtools\\") {
-                    return true;
-                }
-                return false;
-            };
-        }
-        function getNormalRequest(global) {
-            return function request(options) {
-                options = options || {};
-                if (typeof options === \\"string\\") {
-                    options = {
-                        url: options
-                    };
-                }
-                var originSuccess = options.success;
-                var originFail = options.fail;
-                var originComplete = options.complete;
-                var requestTask;
-                var p = new Promise((function(resolve, reject) {
-                    options.success = function(res) {
-                        originSuccess && originSuccess(res);
-                        resolve(res);
-                    };
-                    options.fail = function(res) {
-                        originFail && originFail(res);
-                        reject(res);
-                    };
-                    options.complete = function(res) {
-                        originComplete && originComplete(res);
-                    };
-                    requestTask = global.request(options);
-                }));
-                p.abort = function(cb) {
-                    cb && cb();
-                    if (requestTask) {
-                        requestTask.abort();
+                    var key = originKey;
+                    if (typeof options === \\"string\\") {
+                        if (args.length) {
+                            return global[key].apply(global, [ options ].concat(args));
+                        }
+                        return global[key](options);
+                    }
+                    if (config.transformMeta) {
+                        var transformResult = config.transformMeta(key, options);
+                        key = transformResult.key;
+                        options = transformResult.options;
+                        if (!global.hasOwnProperty(key)) {
+                            return unsupport(key)();
+                        }
+                    }
+                    var task = null;
+                    var obj = Object.assign({}, options);
+                    setUniqueKeyToRoute(key, options);
+                    var p = new Promise((function(resolve, reject) {
+                        obj.success = function(res) {
+                            var _a, _b;
+                            (_a = config.modifyAsyncResult) === null || _a === void 0 ? void 0 : _a.call(config, key, res);
+                            (_b = options.success) === null || _b === void 0 ? void 0 : _b.call(options, res);
+                            if (key === \\"connectSocket\\") {
+                                resolve(Promise.resolve().then((function() {
+                                    return task ? Object.assign(task, res) : res;
+                                })));
+                            } else {
+                                resolve(res);
+                            }
+                        };
+                        obj.fail = function(res) {
+                            var _a;
+                            (_a = options.fail) === null || _a === void 0 ? void 0 : _a.call(options, res);
+                            reject(res);
+                        };
+                        obj.complete = function(res) {
+                            var _a;
+                            (_a = options.complete) === null || _a === void 0 ? void 0 : _a.call(options, res);
+                        };
+                        if (args.length) {
+                            task = global[key].apply(global, [ obj ].concat(args));
+                        } else {
+                            task = global[key](obj);
+                        }
+                    }));
+                    if (key === \\"uploadFile\\" || key === \\"downloadFile\\") {
+                        p.progress = function(cb) {
+                            task === null || task === void 0 ? void 0 : task.onProgressUpdate(cb);
+                            return p;
+                        };
+                        p.abort = function(cb) {
+                            cb === null || cb === void 0 ? void 0 : cb();
+                            task === null || task === void 0 ? void 0 : task.abort();
+                            return p;
+                        };
                     }
                     return p;
                 };
-                return p;
-            };
-        }
-        function processApis(taro, global) {
-            var config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-            var patchNeedPromiseApis = config.needPromiseApis || [];
-            var _needPromiseApis = new Set([].concat(_toConsumableArray(patchNeedPromiseApis), _toConsumableArray(needPromiseApis)));
-            var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
-            var apis = new Set(Object.keys(global).filter((function(api) {
-                return preserved.indexOf(api) === -1;
-            })));
-            if (config.modifyApis) {
-                config.modifyApis(apis);
-            }
-            apis.forEach((function(key) {
-                if (_needPromiseApis.has(key)) {
-                    var originKey = key;
-                    taro[originKey] = function() {
-                        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-                        for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-                            args[_key - 1] = arguments[_key];
+            } else {
+                var platformKey = key;
+                if (config.transformMeta) {
+                    platformKey = config.transformMeta(key, {}).key;
+                }
+                if (!global.hasOwnProperty(platformKey)) {
+                    taro[key] = unsupport(key);
+                    return;
+                }
+                if (typeof global[key] === \\"function\\") {
+                    taro[key] = function() {
+                        for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+                            args[_key2] = arguments[_key2];
                         }
-                        var key = originKey;
-                        if (typeof options === \\"string\\") {
-                            if (args.length) {
-                                return global[key].apply(global, [ options ].concat(args));
-                            }
-                            return global[key](options);
+                        if (config.handleSyncApis) {
+                            return config.handleSyncApis(key, global, args);
+                        } else {
+                            return global[platformKey].apply(global, args);
                         }
-                        if (config.transformMeta) {
-                            var transformResult = config.transformMeta(key, options);
-                            key = transformResult.key;
-                            options = transformResult.options;
-                            if (!global.hasOwnProperty(key)) {
-                                return unsupport(key)();
-                            }
-                        }
-                        var task = null;
-                        var obj = Object.assign({}, options);
-                        setUniqueKeyToRoute(key, options);
-                        var p = new Promise((function(resolve, reject) {
-                            obj.success = function(res) {
-                                var _a, _b;
-                                (_a = config.modifyAsyncResult) === null || _a === void 0 ? void 0 : _a.call(config, key, res);
-                                (_b = options.success) === null || _b === void 0 ? void 0 : _b.call(options, res);
-                                if (key === \\"connectSocket\\") {
-                                    resolve(Promise.resolve().then((function() {
-                                        return task ? Object.assign(task, res) : res;
-                                    })));
-                                } else {
-                                    resolve(res);
-                                }
-                            };
-                            obj.fail = function(res) {
-                                var _a;
-                                (_a = options.fail) === null || _a === void 0 ? void 0 : _a.call(options, res);
-                                reject(res);
-                            };
-                            obj.complete = function(res) {
-                                var _a;
-                                (_a = options.complete) === null || _a === void 0 ? void 0 : _a.call(options, res);
-                            };
-                            if (args.length) {
-                                task = global[key].apply(global, [ obj ].concat(args));
-                            } else {
-                                task = global[key](obj);
-                            }
-                        }));
-                        if (key === \\"uploadFile\\" || key === \\"downloadFile\\") {
-                            p.progress = function(cb) {
-                                task === null || task === void 0 ? void 0 : task.onProgressUpdate(cb);
-                                return p;
-                            };
-                            p.abort = function(cb) {
-                                cb === null || cb === void 0 ? void 0 : cb();
-                                task === null || task === void 0 ? void 0 : task.abort();
-                                return p;
-                            };
-                        }
-                        return p;
                     };
                 } else {
-                    var platformKey = key;
-                    if (config.transformMeta) {
-                        platformKey = config.transformMeta(key, {}).key;
-                    }
-                    if (!global.hasOwnProperty(platformKey)) {
-                        taro[key] = unsupport(key);
-                        return;
-                    }
-                    if (typeof global[key] === \\"function\\") {
-                        taro[key] = function() {
-                            for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-                                args[_key2] = arguments[_key2];
-                            }
-                            if (config.handleSyncApis) {
-                                return config.handleSyncApis(key, global, args);
-                            } else {
-                                return global[platformKey].apply(global, args);
-                            }
-                        };
-                    } else {
-                        taro[key] = global[platformKey];
-                    }
+                    taro[key] = global[platformKey];
                 }
-            }));
-            !config.isOnlyPromisify && equipCommonApis(taro, global, config);
+            }
+        }));
+        !config.isOnlyPromisify && equipCommonApis(taro, global, config);
+    }
+    function equipCommonApis(taro, global) {
+        var apis = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+        taro.canIUseWebp = getCanIUseWebp(taro);
+        taro.getCurrentPages = getCurrentPages || unsupport(\\"getCurrentPages\\");
+        taro.getApp = getApp || unsupport(\\"getApp\\");
+        taro.env = global.env || {};
+        try {
+            taro.requirePlugin = requirePlugin || unsupport(\\"requirePlugin\\");
+        } catch (error) {
+            taro.requirePlugin = unsupport(\\"requirePlugin\\");
         }
-        function equipCommonApis(taro, global) {
-            var apis = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-            taro.canIUseWebp = getCanIUseWebp(taro);
-            taro.getCurrentPages = getCurrentPages || unsupport(\\"getCurrentPages\\");
-            taro.getApp = getApp || unsupport(\\"getApp\\");
-            taro.env = global.env || {};
-            try {
-                taro.requirePlugin = requirePlugin || unsupport(\\"requirePlugin\\");
-            } catch (error) {
-                taro.requirePlugin = unsupport(\\"requirePlugin\\");
-            }
-            var request = apis.request ? apis.request : getNormalRequest(global);
-            function taroInterceptor(chain) {
-                return request(chain.requestParams);
-            }
-            var link = new taro.Link(taroInterceptor);
-            taro.request = link.request.bind(link);
-            taro.addInterceptor = link.addInterceptor.bind(link);
-            taro.cleanInterceptors = link.cleanInterceptors.bind(link);
-            taro.miniGlobal = taro.options.miniGlobal = global;
+        var request = apis.request ? apis.request : getNormalRequest(global);
+        function taroInterceptor(chain) {
+            return request(chain.requestParams);
         }
-        var runtime_needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\" ]);
-        function initNativeApi(taro) {
-            processApis(taro, wx, {
-                needPromiseApis: runtime_needPromiseApis
-            });
-            taro.cloud = wx.cloud;
+        var link = new taro.Link(taroInterceptor);
+        taro.request = link.request.bind(link);
+        taro.addInterceptor = link.addInterceptor.bind(link);
+        taro.cleanInterceptors = link.cleanInterceptors.bind(link);
+        taro.miniGlobal = taro.options.miniGlobal = global;
+    }
+    exports.EMPTY_ARR = EMPTY_ARR;
+    exports.EMPTY_OBJ = EMPTY_OBJ;
+    exports.animationEvents = animationEvents;
+    exports.box = box;
+    exports.cacheDataGet = cacheDataGet;
+    exports.cacheDataHas = cacheDataHas;
+    exports.cacheDataSet = cacheDataSet;
+    exports.capitalize = capitalize;
+    exports.controlledComponent = controlledComponent;
+    exports.defaultReconciler = defaultReconciler;
+    exports.ensure = ensure;
+    exports.events = events;
+    exports.focusComponents = focusComponents;
+    exports.getUniqueKey = getUniqueKey;
+    exports.hasOwn = hasOwn;
+    exports.indent = indent;
+    exports.internalComponents = internalComponents;
+    exports.isArray = isArray;
+    exports.isBoolean = isBoolean;
+    exports.isBooleanStringLiteral = isBooleanStringLiteral;
+    exports.isFunction = isFunction;
+    exports.isNull = isNull;
+    exports.isNumber = isNumber;
+    exports.isObject = isObject;
+    exports.isString = isString;
+    exports.isUndefined = isUndefined;
+    exports.mergeInternalComponents = mergeInternalComponents;
+    exports.mergeReconciler = mergeReconciler;
+    exports.nestElements = nestElements;
+    exports.noop = noop;
+    exports.processApis = processApis;
+    exports.queryToJson = queryToJson;
+    exports.setUniqueKeyToRoute = setUniqueKeyToRoute;
+    exports.singleQuote = singleQuote;
+    exports.styles = styles;
+    exports.toCamelCase = toCamelCase;
+    exports.toDashed = toDashed;
+    exports.toKebabCase = toKebabCase;
+    exports.touchEvents = touchEvents;
+    exports.unbox = unbox;
+    exports.unsupport = unsupport;
+    exports.voidElements = voidElements;
+    exports.warn = warn;
+}, , , , , , , , function(module, exports) {
+    function _arrayLikeToArray(arr, len) {
+        if (len == null || len > arr.length) len = arr.length;
+        for (var i = 0, arr2 = new Array(len); i < len; i++) {
+            arr2[i] = arr[i];
         }
-        var components = {
-            Progress: {
-                \\"border-radius\\": \\"0\\",
-                \\"font-size\\": \\"16\\",
-                duration: \\"30\\",
-                bindActiveEnd: \\"\\"
-            },
-            RichText: {
-                space: \\"\\"
-            },
-            Text: {
-                \\"user-select\\": \\"false\\"
-            },
-            Map: {
-                polygons: \\"[]\\",
-                subkey: \\"\\",
-                rotate: \\"0\\",
-                skew: \\"0\\",
-                \\"enable-3D\\": \\"false\\",
-                \\"show-compass\\": \\"false\\",
-                \\"show-scale\\": \\"false\\",
-                \\"enable-overlooking\\": \\"false\\",
-                \\"enable-zoom\\": \\"true\\",
-                \\"enable-scroll\\": \\"true\\",
-                \\"enable-rotate\\": \\"false\\",
-                \\"enable-satellite\\": \\"false\\",
-                \\"enable-traffic\\": \\"false\\",
-                setting: \\"[]\\",
-                bindLabelTap: \\"\\",
-                bindRegionChange: \\"\\",
-                bindPoiTap: \\"\\"
-            },
-            Button: {
-                lang: \\"en\\",
-                \\"session-from\\": \\"\\",
-                \\"send-message-title\\": \\"\\",
-                \\"send-message-path\\": \\"\\",
-                \\"send-message-img\\": \\"\\",
-                \\"app-parameter\\": \\"\\",
-                \\"show-message-card\\": \\"false\\",
-                \\"business-id\\": \\"\\",
-                bindGetUserInfo: \\"\\",
-                bindContact: \\"\\",
-                bindGetPhoneNumber: \\"\\",
-                bindError: \\"\\",
-                bindOpenSetting: \\"\\",
-                bindLaunchApp: \\"\\"
-            },
-            Form: {
-                \\"report-submit-timeout\\": \\"0\\"
-            },
-            Input: {
-                \\"always-embed\\": \\"false\\",
-                \\"adjust-position\\": \\"true\\",
-                \\"hold-keyboard\\": \\"false\\",
-                bindKeyboardHeightChange: \\"\\"
-            },
-            Picker: {
-                \\"header-text\\": \\"\\"
-            },
-            PickerView: {
-                bindPickStart: \\"\\",
-                bindPickEnd: \\"\\"
-            },
-            Slider: {
-                color: singleQuote(\\"#e9e9e9\\"),
-                \\"selected-color\\": singleQuote(\\"#1aad19\\")
-            },
-            Textarea: {
-                \\"show-confirm-bar\\": \\"true\\",
-                \\"adjust-position\\": \\"true\\",
-                \\"hold-keyboard\\": \\"false\\",
-                \\"disable-default-padding\\": \\"false\\",
-                \\"confirm-type\\": singleQuote(\\"return\\"),
-                \\"confirm-hold\\": \\"false\\",
-                bindKeyboardHeightChange: \\"\\"
-            },
-            ScrollView: {
-                \\"enable-flex\\": \\"false\\",
-                \\"scroll-anchoring\\": \\"false\\",
-                \\"refresher-enabled\\": \\"false\\",
-                \\"refresher-threshold\\": \\"45\\",
-                \\"refresher-default-style\\": singleQuote(\\"black\\"),
-                \\"refresher-background\\": singleQuote(\\"#FFF\\"),
-                \\"refresher-triggered\\": \\"false\\",
-                enhanced: \\"false\\",
-                bounces: \\"true\\",
-                \\"show-scrollbar\\": \\"true\\",
-                \\"paging-enabled\\": \\"false\\",
-                \\"fast-deceleration\\": \\"false\\",
-                bindDragStart: \\"\\",
-                bindDragging: \\"\\",
-                bindDragEnd: \\"\\",
-                bindRefresherPulling: \\"\\",
-                bindRefresherRefresh: \\"\\",
-                bindRefresherRestore: \\"\\",
-                bindRefresherAbort: \\"\\"
-            },
-            Swiper: {
-                \\"snap-to-edge\\": \\"false\\",
-                \\"easing-function\\": singleQuote(\\"default\\")
-            },
-            SwiperItem: {
-                \\"skip-hidden-item-layout\\": \\"false\\"
-            },
-            Navigator: {
-                target: singleQuote(\\"self\\"),
-                \\"app-id\\": \\"\\",
-                path: \\"\\",
-                \\"extra-data\\": \\"\\",
-                version: singleQuote(\\"version\\")
-            },
-            Camera: {
-                mode: singleQuote(\\"normal\\"),
-                resolution: singleQuote(\\"medium\\"),
-                \\"frame-size\\": singleQuote(\\"medium\\"),
-                bindInitDone: \\"\\",
-                bindScanCode: \\"\\"
-            },
-            Image: {
-                webp: \\"false\\",
-                \\"show-menu-by-longpress\\": \\"false\\"
-            },
-            LivePlayer: {
-                mode: singleQuote(\\"live\\"),
-                \\"sound-mode\\": singleQuote(\\"speaker\\"),
-                \\"auto-pause-if-navigate\\": \\"true\\",
-                \\"auto-pause-if-open-native\\": \\"true\\",
-                \\"picture-in-picture-mode\\": \\"[]\\",
-                bindstatechange: \\"\\",
-                bindfullscreenchange: \\"\\",
-                bindnetstatus: \\"\\",
-                bindAudioVolumeNotify: \\"\\",
-                bindEnterPictureInPicture: \\"\\",
-                bindLeavePictureInPicture: \\"\\"
-            },
-            Video: {
-                title: \\"\\",
-                \\"play-btn-position\\": singleQuote(\\"bottom\\"),
-                \\"enable-play-gesture\\": \\"false\\",
-                \\"auto-pause-if-navigate\\": \\"true\\",
-                \\"auto-pause-if-open-native\\": \\"true\\",
-                \\"vslide-gesture\\": \\"false\\",
-                \\"vslide-gesture-in-fullscreen\\": \\"true\\",
-                \\"ad-unit-id\\": \\"\\",
-                \\"poster-for-crawler\\": \\"\\",
-                \\"show-casting-button\\": \\"false\\",
-                \\"picture-in-picture-mode\\": \\"[]\\",
-                \\"enable-auto-rotation\\": \\"false\\",
-                \\"show-screen-lock-button\\": \\"false\\",
-                \\"show-snapshot-button\\": \\"false\\",
-                \\"show-background-playback-button\\": \\"false\\",
-                \\"background-poster\\": \\"\\",
-                bindProgress: \\"\\",
-                bindLoadedMetadata: \\"\\",
-                bindControlsToggle: \\"\\",
-                bindEnterPictureInPicture: \\"\\",
-                bindLeavePictureInPicture: \\"\\",
-                bindSeekComplete: \\"\\",
-                bindAdLoad: \\"\\",
-                bindAdError: \\"\\",
-                bindAdClose: \\"\\",
-                bindAdPlay: \\"\\"
-            },
-            Canvas: {
-                type: \\"\\"
-            },
-            Ad: {
-                \\"ad-type\\": singleQuote(\\"banner\\"),
-                \\"ad-theme\\": singleQuote(\\"white\\")
-            },
-            CoverView: {
-                \\"marker-id\\": \\"\\",
-                slot: \\"\\"
-            },
-            Editor: {
-                \\"read-only\\": \\"false\\",
-                placeholder: \\"\\",
-                \\"show-img-size\\": \\"false\\",
-                \\"show-img-toolbar\\": \\"false\\",
-                \\"show-img-resize\\": \\"false\\",
-                focus: \\"false\\",
-                bindReady: \\"\\",
-                bindFocus: \\"\\",
-                bindBlur: \\"\\",
-                bindInput: \\"\\",
-                bindStatusChange: \\"\\",
-                name: \\"\\"
-            },
-            MatchMedia: {
-                \\"min-width\\": \\"\\",
-                \\"max-width\\": \\"\\",
-                width: \\"\\",
-                \\"min-height\\": \\"\\",
-                \\"max-height\\": \\"\\",
-                height: \\"\\",
-                orientation: \\"\\"
-            },
-            FunctionalPageNavigator: {
-                version: singleQuote(\\"release\\"),
-                name: \\"\\",
-                args: \\"\\",
-                bindSuccess: \\"\\",
-                bindFail: \\"\\",
-                bindCancel: \\"\\"
-            },
-            LivePusher: {
-                url: \\"\\",
-                mode: singleQuote(\\"RTC\\"),
-                autopush: \\"false\\",
-                muted: \\"false\\",
-                \\"enable-camera\\": \\"true\\",
-                \\"auto-focus\\": \\"true\\",
-                orientation: singleQuote(\\"vertical\\"),
-                beauty: \\"0\\",
-                whiteness: \\"0\\",
-                aspect: singleQuote(\\"9:16\\"),
-                \\"min-bitrate\\": \\"200\\",
-                \\"max-bitrate\\": \\"1000\\",
-                \\"audio-quality\\": singleQuote(\\"high\\"),
-                \\"waiting-image\\": \\"\\",
-                \\"waiting-image-hash\\": \\"\\",
-                zoom: \\"false\\",
-                \\"device-position\\": singleQuote(\\"front\\"),
-                \\"background-mute\\": \\"false\\",
-                mirror: \\"false\\",
-                \\"remote-mirror\\": \\"false\\",
-                \\"local-mirror\\": \\"false\\",
-                \\"audio-reverb-type\\": \\"0\\",
-                \\"enable-mic\\": \\"true\\",
-                \\"enable-agc\\": \\"false\\",
-                \\"enable-ans\\": \\"false\\",
-                \\"audio-volume-type\\": singleQuote(\\"voicecall\\"),
-                \\"video-width\\": \\"360\\",
-                \\"video-height\\": \\"640\\",
-                \\"beauty-style\\": singleQuote(\\"smooth\\"),
-                filter: singleQuote(\\"standard\\"),
-                animation: \\"\\",
-                bindStateChange: \\"\\",
-                bindNetStatus: \\"\\",
-                bindBgmStart: \\"\\",
-                bindBgmProgress: \\"\\",
-                bindBgmComplete: \\"\\",
-                bindAudioVolumeNotify: \\"\\"
-            },
-            OfficialAccount: {
-                bindLoad: \\"\\",
-                bindError: \\"\\"
-            },
-            OpenData: {
-                type: \\"\\",
-                \\"open-gid\\": \\"\\",
-                lang: singleQuote(\\"en\\"),
-                \\"default-text\\": \\"\\",
-                \\"default-avatar\\": \\"\\",
-                bindError: \\"\\"
-            },
-            NavigationBar: {
-                title: \\"\\",
-                loading: \\"false\\",
-                \\"front-color\\": \\"\\",
-                \\"background-color\\": \\"\\",
-                \\"color-animation-duration\\": \\"0\\",
-                \\"color-animation-timing-func\\": singleQuote(\\"linear\\")
-            },
-            PageMeta: {
-                \\"background-text-style\\": \\"\\",
-                \\"background-color\\": \\"\\",
-                \\"background-color-top\\": \\"\\",
-                \\"background-color-bottom\\": \\"\\",
-                \\"scroll-top\\": singleQuote(\\"\\"),
-                \\"scroll-duration\\": \\"300\\",
-                \\"page-style\\": singleQuote(\\"\\"),
-                \\"root-font-size\\": singleQuote(\\"\\"),
-                bindResize: \\"\\",
-                bindScroll: \\"\\",
-                bindScrollDone: \\"\\"
-            },
-            VoipRoom: {
-                openid: \\"\\",
-                mode: singleQuote(\\"camera\\"),
-                \\"device-position\\": singleQuote(\\"front\\"),
-                bindError: \\"\\"
-            },
-            AdCustom: {
-                \\"unit-id\\": \\"\\",
-                \\"ad-intervals\\": \\"\\",
-                bindLoad: \\"\\",
-                bindError: \\"\\"
-            },
-            PageContainer: {
-                show: \\"false\\",
-                duration: \\"300\\",
-                \\"z-index\\": \\"100\\",
-                overlay: \\"true\\",
-                position: singleQuote(\\"bottom\\"),
-                round: \\"false\\",
-                \\"close-on-slideDown\\": \\"false\\",
-                \\"overlay-style\\": \\"\\",
-                \\"custom-style\\": \\"\\",
-                bindBeforeEnter: \\"\\",
-                bindEnter: \\"\\",
-                bindAfterEnter: \\"\\",
-                bindBeforeLeave: \\"\\",
-                bindLeave: \\"\\",
-                bindAfterLeave: \\"\\",
-                bindClickOverlay: \\"\\"
-            },
-            KeyboardAccessory: {}
-        };
-        var hostConfig = {
-            initNativeApi: initNativeApi
-        };
-        mergeReconciler(hostConfig);
-        mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(0);
-        var mocks_taro = \\"taro\\";
-        var classCallCheck = __webpack_require__(2);
-        var createClass = __webpack_require__(3);
-        var inherits = __webpack_require__(5);
-        var createSuper = __webpack_require__(4);
-        var react = __webpack_require__(1);
-        var app = __webpack_require__(11);
-        var app_App = function(_Component) {
-            Object(inherits[\\"a\\"])(App, _Component);
-            var _super = Object(createSuper[\\"a\\"])(App);
-            function App() {
-                Object(classCallCheck[\\"a\\"])(this, App);
-                return _super.apply(this, arguments);
-            }
-            Object(createClass[\\"a\\"])(App, [ {
-                key: \\"componentDidMount\\",
-                value: function componentDidMount() {}
-            }, {
-                key: \\"componentDidShow\\",
-                value: function componentDidShow() {}
-            }, {
-                key: \\"componentDidHide\\",
-                value: function componentDidHide() {}
-            }, {
-                key: \\"componentDidCatchError\\",
-                value: function componentDidCatchError() {}
-            }, {
-                key: \\"render\\",
-                value: function render() {
-                    return this.props.children;
-                }
-            } ]);
-            return App;
-        }(react[\\"Component\\"]);
-        var lib_src_app = app_App;
-        var taro_react = __webpack_require__(8);
-        var app_config = {
-            pages: [ \\"pages/index/index\\" ],
-            window: {
-                backgroundTextStyle: \\"light\\",
-                navigationBarBackgroundColor: \\"#fff\\",
-                navigationBarTitleText: \\"WeChat\\",
-                navigationBarTextStyle: \\"black\\"
-            }
-        };
-        taro_runtime[\\"window\\"].__taroAppConfig = app_config;
-        var inst = App(Object(taro_runtime[\\"createReactApp\\"])(lib_src_app, react, taro_react[\\"a\\"], app_config));
-        undefined({
-            designWidth: 750,
-            deviceRatio: {
-                640: 1.17,
-                750: 1,
-                828: .905
+        return arr2;
+    }
+    module.exports = _arrayLikeToArray;
+    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+}, , , , , function(module, exports, __webpack_require__) {
+    var arrayWithoutHoles = __webpack_require__(14);
+    var iterableToArray = __webpack_require__(15);
+    var unsupportedIterableToArray = __webpack_require__(16);
+    var nonIterableSpread = __webpack_require__(17);
+    function _toConsumableArray(arr) {
+        return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
+    }
+    module.exports = _toConsumableArray;
+    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+}, function(module, exports, __webpack_require__) {
+    var arrayLikeToArray = __webpack_require__(8);
+    function _arrayWithoutHoles(arr) {
+        if (Array.isArray(arr)) return arrayLikeToArray(arr);
+    }
+    module.exports = _arrayWithoutHoles;
+    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+}, function(module, exports) {
+    function _iterableToArray(iter) {
+        if (typeof Symbol !== \\"undefined\\" && iter[Symbol.iterator] != null || iter[\\"@@iterator\\"] != null) return Array.from(iter);
+    }
+    module.exports = _iterableToArray;
+    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+}, function(module, exports, __webpack_require__) {
+    var arrayLikeToArray = __webpack_require__(8);
+    function _unsupportedIterableToArray(o, minLen) {
+        if (!o) return;
+        if (typeof o === \\"string\\") return arrayLikeToArray(o, minLen);
+        var n = Object.prototype.toString.call(o).slice(8, -1);
+        if (n === \\"Object\\" && o.constructor) n = o.constructor.name;
+        if (n === \\"Map\\" || n === \\"Set\\") return Array.from(o);
+        if (n === \\"Arguments\\" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray(o, minLen);
+    }
+    module.exports = _unsupportedIterableToArray;
+    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+}, function(module, exports) {
+    function _nonIterableSpread() {
+        throw new TypeError(\\"Invalid attempt to spread non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
+    }
+    module.exports = _nonIterableSpread;
+    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+}, function(module, exports) {
+    function _typeof(obj) {
+        \\"@babel/helpers - typeof\\";
+        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
+            module.exports = _typeof = function _typeof(obj) {
+                return typeof obj;
+            };
+            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+        } else {
+            module.exports = _typeof = function _typeof(obj) {
+                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+            };
+            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+        }
+        return _typeof(obj);
+    }
+    module.exports = _typeof;
+    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+}, function(module, exports, __webpack_require__) {}, , , , function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.r(__webpack_exports__);
+    var dist = __webpack_require__(0);
+    var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\" ]);
+    function initNativeApi(taro) {
+        Object(dist[\\"processApis\\"])(taro, wx, {
+            needPromiseApis: needPromiseApis,
+            modifyApis: function modifyApis(apis) {
+                apis.delete(\\"lanDebug\\");
             }
         });
+        taro.cloud = wx.cloud;
     }
-}, [ [ 15, 0, 1, 3, 2 ] ] ]);
+    var components = {
+        Progress: {
+            \\"border-radius\\": \\"0\\",
+            \\"font-size\\": \\"16\\",
+            duration: \\"30\\",
+            bindActiveEnd: \\"\\"
+        },
+        RichText: {
+            space: \\"\\"
+        },
+        Text: {
+            \\"user-select\\": \\"false\\"
+        },
+        Map: {
+            polygons: \\"[]\\",
+            subkey: \\"\\",
+            rotate: \\"0\\",
+            skew: \\"0\\",
+            \\"enable-3D\\": \\"false\\",
+            \\"show-compass\\": \\"false\\",
+            \\"show-scale\\": \\"false\\",
+            \\"enable-overlooking\\": \\"false\\",
+            \\"enable-zoom\\": \\"true\\",
+            \\"enable-scroll\\": \\"true\\",
+            \\"enable-rotate\\": \\"false\\",
+            \\"enable-satellite\\": \\"false\\",
+            \\"enable-traffic\\": \\"false\\",
+            setting: \\"[]\\",
+            bindLabelTap: \\"\\",
+            bindRegionChange: \\"\\",
+            bindPoiTap: \\"\\"
+        },
+        Button: {
+            lang: \\"en\\",
+            \\"session-from\\": \\"\\",
+            \\"send-message-title\\": \\"\\",
+            \\"send-message-path\\": \\"\\",
+            \\"send-message-img\\": \\"\\",
+            \\"app-parameter\\": \\"\\",
+            \\"show-message-card\\": \\"false\\",
+            \\"business-id\\": \\"\\",
+            bindGetUserInfo: \\"\\",
+            bindContact: \\"\\",
+            bindGetPhoneNumber: \\"\\",
+            bindError: \\"\\",
+            bindOpenSetting: \\"\\",
+            bindLaunchApp: \\"\\"
+        },
+        Form: {
+            \\"report-submit-timeout\\": \\"0\\"
+        },
+        Input: {
+            \\"always-embed\\": \\"false\\",
+            \\"adjust-position\\": \\"true\\",
+            \\"hold-keyboard\\": \\"false\\",
+            bindKeyboardHeightChange: \\"\\"
+        },
+        Picker: {
+            \\"header-text\\": \\"\\"
+        },
+        PickerView: {
+            bindPickStart: \\"\\",
+            bindPickEnd: \\"\\"
+        },
+        Slider: {
+            color: Object(dist[\\"singleQuote\\"])(\\"#e9e9e9\\"),
+            \\"selected-color\\": Object(dist[\\"singleQuote\\"])(\\"#1aad19\\")
+        },
+        Textarea: {
+            \\"show-confirm-bar\\": \\"true\\",
+            \\"adjust-position\\": \\"true\\",
+            \\"hold-keyboard\\": \\"false\\",
+            \\"disable-default-padding\\": \\"false\\",
+            \\"confirm-type\\": Object(dist[\\"singleQuote\\"])(\\"return\\"),
+            \\"confirm-hold\\": \\"false\\",
+            bindKeyboardHeightChange: \\"\\"
+        },
+        ScrollView: {
+            \\"enable-flex\\": \\"false\\",
+            \\"scroll-anchoring\\": \\"false\\",
+            \\"refresher-enabled\\": \\"false\\",
+            \\"refresher-threshold\\": \\"45\\",
+            \\"refresher-default-style\\": Object(dist[\\"singleQuote\\"])(\\"black\\"),
+            \\"refresher-background\\": Object(dist[\\"singleQuote\\"])(\\"#FFF\\"),
+            \\"refresher-triggered\\": \\"false\\",
+            enhanced: \\"false\\",
+            bounces: \\"true\\",
+            \\"show-scrollbar\\": \\"true\\",
+            \\"paging-enabled\\": \\"false\\",
+            \\"fast-deceleration\\": \\"false\\",
+            bindDragStart: \\"\\",
+            bindDragging: \\"\\",
+            bindDragEnd: \\"\\",
+            bindRefresherPulling: \\"\\",
+            bindRefresherRefresh: \\"\\",
+            bindRefresherRestore: \\"\\",
+            bindRefresherAbort: \\"\\"
+        },
+        Swiper: {
+            \\"snap-to-edge\\": \\"false\\",
+            \\"easing-function\\": Object(dist[\\"singleQuote\\"])(\\"default\\")
+        },
+        SwiperItem: {
+            \\"skip-hidden-item-layout\\": \\"false\\"
+        },
+        Navigator: {
+            target: Object(dist[\\"singleQuote\\"])(\\"self\\"),
+            \\"app-id\\": \\"\\",
+            path: \\"\\",
+            \\"extra-data\\": \\"\\",
+            version: Object(dist[\\"singleQuote\\"])(\\"version\\")
+        },
+        Camera: {
+            mode: Object(dist[\\"singleQuote\\"])(\\"normal\\"),
+            resolution: Object(dist[\\"singleQuote\\"])(\\"medium\\"),
+            \\"frame-size\\": Object(dist[\\"singleQuote\\"])(\\"medium\\"),
+            bindInitDone: \\"\\",
+            bindScanCode: \\"\\"
+        },
+        Image: {
+            webp: \\"false\\",
+            \\"show-menu-by-longpress\\": \\"false\\"
+        },
+        LivePlayer: {
+            mode: Object(dist[\\"singleQuote\\"])(\\"live\\"),
+            \\"sound-mode\\": Object(dist[\\"singleQuote\\"])(\\"speaker\\"),
+            \\"auto-pause-if-navigate\\": \\"true\\",
+            \\"auto-pause-if-open-native\\": \\"true\\",
+            \\"picture-in-picture-mode\\": \\"[]\\",
+            bindstatechange: \\"\\",
+            bindfullscreenchange: \\"\\",
+            bindnetstatus: \\"\\",
+            bindAudioVolumeNotify: \\"\\",
+            bindEnterPictureInPicture: \\"\\",
+            bindLeavePictureInPicture: \\"\\"
+        },
+        Video: {
+            title: \\"\\",
+            \\"play-btn-position\\": Object(dist[\\"singleQuote\\"])(\\"bottom\\"),
+            \\"enable-play-gesture\\": \\"false\\",
+            \\"auto-pause-if-navigate\\": \\"true\\",
+            \\"auto-pause-if-open-native\\": \\"true\\",
+            \\"vslide-gesture\\": \\"false\\",
+            \\"vslide-gesture-in-fullscreen\\": \\"true\\",
+            \\"ad-unit-id\\": \\"\\",
+            \\"poster-for-crawler\\": \\"\\",
+            \\"show-casting-button\\": \\"false\\",
+            \\"picture-in-picture-mode\\": \\"[]\\",
+            \\"enable-auto-rotation\\": \\"false\\",
+            \\"show-screen-lock-button\\": \\"false\\",
+            \\"show-snapshot-button\\": \\"false\\",
+            \\"show-background-playback-button\\": \\"false\\",
+            \\"background-poster\\": \\"\\",
+            bindProgress: \\"\\",
+            bindLoadedMetadata: \\"\\",
+            bindControlsToggle: \\"\\",
+            bindEnterPictureInPicture: \\"\\",
+            bindLeavePictureInPicture: \\"\\",
+            bindSeekComplete: \\"\\",
+            bindAdLoad: \\"\\",
+            bindAdError: \\"\\",
+            bindAdClose: \\"\\",
+            bindAdPlay: \\"\\"
+        },
+        Canvas: {
+            type: \\"\\"
+        },
+        Ad: {
+            \\"ad-type\\": Object(dist[\\"singleQuote\\"])(\\"banner\\"),
+            \\"ad-theme\\": Object(dist[\\"singleQuote\\"])(\\"white\\")
+        },
+        CoverView: {
+            \\"marker-id\\": \\"\\",
+            slot: \\"\\"
+        },
+        Editor: {
+            \\"read-only\\": \\"false\\",
+            placeholder: \\"\\",
+            \\"show-img-size\\": \\"false\\",
+            \\"show-img-toolbar\\": \\"false\\",
+            \\"show-img-resize\\": \\"false\\",
+            focus: \\"false\\",
+            bindReady: \\"\\",
+            bindFocus: \\"\\",
+            bindBlur: \\"\\",
+            bindInput: \\"\\",
+            bindStatusChange: \\"\\",
+            name: \\"\\"
+        },
+        MatchMedia: {
+            \\"min-width\\": \\"\\",
+            \\"max-width\\": \\"\\",
+            width: \\"\\",
+            \\"min-height\\": \\"\\",
+            \\"max-height\\": \\"\\",
+            height: \\"\\",
+            orientation: \\"\\"
+        },
+        FunctionalPageNavigator: {
+            version: Object(dist[\\"singleQuote\\"])(\\"release\\"),
+            name: \\"\\",
+            args: \\"\\",
+            bindSuccess: \\"\\",
+            bindFail: \\"\\",
+            bindCancel: \\"\\"
+        },
+        LivePusher: {
+            url: \\"\\",
+            mode: Object(dist[\\"singleQuote\\"])(\\"RTC\\"),
+            autopush: \\"false\\",
+            muted: \\"false\\",
+            \\"enable-camera\\": \\"true\\",
+            \\"auto-focus\\": \\"true\\",
+            orientation: Object(dist[\\"singleQuote\\"])(\\"vertical\\"),
+            beauty: \\"0\\",
+            whiteness: \\"0\\",
+            aspect: Object(dist[\\"singleQuote\\"])(\\"9:16\\"),
+            \\"min-bitrate\\": \\"200\\",
+            \\"max-bitrate\\": \\"1000\\",
+            \\"audio-quality\\": Object(dist[\\"singleQuote\\"])(\\"high\\"),
+            \\"waiting-image\\": \\"\\",
+            \\"waiting-image-hash\\": \\"\\",
+            zoom: \\"false\\",
+            \\"device-position\\": Object(dist[\\"singleQuote\\"])(\\"front\\"),
+            \\"background-mute\\": \\"false\\",
+            mirror: \\"false\\",
+            \\"remote-mirror\\": \\"false\\",
+            \\"local-mirror\\": \\"false\\",
+            \\"audio-reverb-type\\": \\"0\\",
+            \\"enable-mic\\": \\"true\\",
+            \\"enable-agc\\": \\"false\\",
+            \\"enable-ans\\": \\"false\\",
+            \\"audio-volume-type\\": Object(dist[\\"singleQuote\\"])(\\"voicecall\\"),
+            \\"video-width\\": \\"360\\",
+            \\"video-height\\": \\"640\\",
+            \\"beauty-style\\": Object(dist[\\"singleQuote\\"])(\\"smooth\\"),
+            filter: Object(dist[\\"singleQuote\\"])(\\"standard\\"),
+            animation: \\"\\",
+            bindStateChange: \\"\\",
+            bindNetStatus: \\"\\",
+            bindBgmStart: \\"\\",
+            bindBgmProgress: \\"\\",
+            bindBgmComplete: \\"\\",
+            bindAudioVolumeNotify: \\"\\"
+        },
+        OfficialAccount: {
+            bindLoad: \\"\\",
+            bindError: \\"\\"
+        },
+        OpenData: {
+            type: \\"\\",
+            \\"open-gid\\": \\"\\",
+            lang: Object(dist[\\"singleQuote\\"])(\\"en\\"),
+            \\"default-text\\": \\"\\",
+            \\"default-avatar\\": \\"\\",
+            bindError: \\"\\"
+        },
+        NavigationBar: {
+            title: \\"\\",
+            loading: \\"false\\",
+            \\"front-color\\": \\"\\",
+            \\"background-color\\": \\"\\",
+            \\"color-animation-duration\\": \\"0\\",
+            \\"color-animation-timing-func\\": Object(dist[\\"singleQuote\\"])(\\"linear\\")
+        },
+        PageMeta: {
+            \\"background-text-style\\": \\"\\",
+            \\"background-color\\": \\"\\",
+            \\"background-color-top\\": \\"\\",
+            \\"background-color-bottom\\": \\"\\",
+            \\"scroll-top\\": Object(dist[\\"singleQuote\\"])(\\"\\"),
+            \\"scroll-duration\\": \\"300\\",
+            \\"page-style\\": Object(dist[\\"singleQuote\\"])(\\"\\"),
+            \\"root-font-size\\": Object(dist[\\"singleQuote\\"])(\\"\\"),
+            bindResize: \\"\\",
+            bindScroll: \\"\\",
+            bindScrollDone: \\"\\"
+        },
+        VoipRoom: {
+            openid: \\"\\",
+            mode: Object(dist[\\"singleQuote\\"])(\\"camera\\"),
+            \\"device-position\\": Object(dist[\\"singleQuote\\"])(\\"front\\"),
+            bindError: \\"\\"
+        },
+        AdCustom: {
+            \\"unit-id\\": \\"\\",
+            \\"ad-intervals\\": \\"\\",
+            bindLoad: \\"\\",
+            bindError: \\"\\"
+        },
+        PageContainer: {
+            show: \\"false\\",
+            duration: \\"300\\",
+            \\"z-index\\": \\"100\\",
+            overlay: \\"true\\",
+            position: Object(dist[\\"singleQuote\\"])(\\"bottom\\"),
+            round: \\"false\\",
+            \\"close-on-slideDown\\": \\"false\\",
+            \\"overlay-style\\": \\"\\",
+            \\"custom-style\\": \\"\\",
+            bindBeforeEnter: \\"\\",
+            bindEnter: \\"\\",
+            bindAfterEnter: \\"\\",
+            bindBeforeLeave: \\"\\",
+            bindLeave: \\"\\",
+            bindAfterLeave: \\"\\",
+            bindClickOverlay: \\"\\"
+        },
+        KeyboardAccessory: {}
+    };
+    var hostConfig = {
+        initNativeApi: initNativeApi
+    };
+    Object(dist[\\"mergeReconciler\\"])(hostConfig);
+    Object(dist[\\"mergeInternalComponents\\"])(components);
+    var taro_runtime = __webpack_require__(1);
+    var mocks_taro = \\"taro\\";
+    var classCallCheck = __webpack_require__(3);
+    var createClass = __webpack_require__(4);
+    var inherits = __webpack_require__(6);
+    var createSuper = __webpack_require__(5);
+    var react = __webpack_require__(2);
+    var app = __webpack_require__(19);
+    var app_App = function(_Component) {
+        Object(inherits[\\"a\\"])(App, _Component);
+        var _super = Object(createSuper[\\"a\\"])(App);
+        function App() {
+            Object(classCallCheck[\\"a\\"])(this, App);
+            return _super.apply(this, arguments);
+        }
+        Object(createClass[\\"a\\"])(App, [ {
+            key: \\"componentDidMount\\",
+            value: function componentDidMount() {}
+        }, {
+            key: \\"componentDidShow\\",
+            value: function componentDidShow() {}
+        }, {
+            key: \\"componentDidHide\\",
+            value: function componentDidHide() {}
+        }, {
+            key: \\"componentDidCatchError\\",
+            value: function componentDidCatchError() {}
+        }, {
+            key: \\"render\\",
+            value: function render() {
+                return this.props.children;
+            }
+        } ]);
+        return App;
+    }(react[\\"Component\\"]);
+    var lib_src_app = app_App;
+    var taro_react = __webpack_require__(10);
+    var config = {
+        pages: [ \\"pages/index/index\\" ],
+        window: {
+            backgroundTextStyle: \\"light\\",
+            navigationBarBackgroundColor: \\"#fff\\",
+            navigationBarTitleText: \\"WeChat\\",
+            navigationBarTextStyle: \\"black\\"
+        }
+    };
+    taro_runtime[\\"window\\"].__taroAppConfig = config;
+    var inst = App(Object(taro_runtime[\\"createReactApp\\"])(lib_src_app, react, taro_react[\\"a\\"], config));
+    undefined({
+        designWidth: 750,
+        deviceRatio: {
+            640: 1.17,
+            750: 1,
+            828: .905
+        }
+    });
+} ], [ [ 23, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -1995,21 +2085,23 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/common.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ , function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.r(__webpack_exports__);
-    __webpack_exports__[\\"default\\"] = \\"react-mock\\";
-} ] ]);
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], {
+    2: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        __webpack_exports__[\\"default\\"] = \\"react-mock\\";
+    }
+} ]);
 
 /** filePath: dist/comp.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    12: function(module, __webpack_exports__, __webpack_require__) {
+    20: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
-}, [ [ 12, 0, 1 ] ] ]);
+}, [ [ 20, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -2020,13 +2112,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    13: function(module, __webpack_exports__, __webpack_require__) {
+    21: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
-}, [ [ 13, 0, 1 ] ] ]);
+}, [ [ 21, 0, 1 ] ] ]);
 
 /** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -2039,18 +2131,18 @@ require(\\"./taro\\");
 
 /** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
-    14: function(module, exports, __webpack_require__) {},
-    16: function(module, __webpack_exports__, __webpack_require__) {
+    22: function(module, exports, __webpack_require__) {},
+    24: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var taro_runtime = __webpack_require__(0);
-        var classCallCheck = __webpack_require__(2);
-        var createClass = __webpack_require__(3);
-        var inherits = __webpack_require__(5);
-        var createSuper = __webpack_require__(4);
-        var react = __webpack_require__(1);
-        var taro_components = __webpack_require__(6);
-        var index = __webpack_require__(14);
+        var taro_runtime = __webpack_require__(1);
+        var classCallCheck = __webpack_require__(3);
+        var createClass = __webpack_require__(4);
+        var inherits = __webpack_require__(6);
+        var createSuper = __webpack_require__(5);
+        var react = __webpack_require__(2);
+        var taro_components = __webpack_require__(7);
+        var index = __webpack_require__(22);
         var index_Index = function(_Component) {
             Object(inherits[\\"a\\"])(Index, _Component);
             var _super = Object(createSuper[\\"a\\"])(Index);
@@ -2082,7 +2174,7 @@ require(\\"./taro\\");
             }
         }, config || {}));
     }
-}, [ [ 16, 0, 1, 3, 2 ] ] ]);
+}, [ [ 24, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
@@ -2213,17 +2305,17 @@ require(\\"./taro\\");
 
 /** filePath: dist/taro.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    0: function(module, __webpack_exports__, __webpack_require__) {
+    1: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-runtime-mock\\";
     },
-    6: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        var _unused_webpack_default_export = \\"taro-components-mock\\";
-    },
-    8: function(module, __webpack_exports__, __webpack_require__) {
+    10: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
+    },
+    7: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        var _unused_webpack_default_export = \\"taro-components-mock\\";
     }
 } ]);
 
@@ -2269,7 +2361,7 @@ module.exports = {
 }
 
 /** filePath: dist/vendors.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , function(module, __webpack_exports__, __webpack_require__) {
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _classCallCheck;
@@ -2320,7 +2412,7 @@ module.exports = {
             return false;
         }
     }
-    var helpers_typeof = __webpack_require__(7);
+    var helpers_typeof = __webpack_require__(9);
     var typeof_default = __webpack_require__.n(helpers_typeof);
     function _assertThisInitialized(self) {
         if (self === void 0) {
@@ -2372,7 +2464,7 @@ module.exports = {
         });
         if (superClass) _setPrototypeOf(subClass, superClass);
     }
-}, , function(module, exports) {
+}, , , function(module, exports) {
     function _typeof(obj) {
         \\"@babel/helpers - typeof\\";
         if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {

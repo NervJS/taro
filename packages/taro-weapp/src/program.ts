@@ -2,9 +2,12 @@ import { TaroPlatformBase } from '@tarojs/service'
 import { Template } from './template'
 import { components } from './components'
 
+import type { IOptions } from './index'
+
 const PACKAGE_NAME = '@tarojs/plugin-platform-weapp'
 
 export default class Weapp extends TaroPlatformBase {
+  template: Template
   platform = 'weapp'
   globalObject = 'wx'
   projectConfigJson: string = this.config.projectConfigName || 'project.config.json'
@@ -18,8 +21,6 @@ export default class Weapp extends TaroPlatformBase {
     xs: '.wxs'
   }
 
-  template = new Template()
-
   /**
    * 1. setupTransaction - init
    * 2. setup
@@ -28,9 +29,9 @@ export default class Weapp extends TaroPlatformBase {
    * 5. build
    * 6. buildTransaction - close
    */
-  constructor (ctx, config) {
+  constructor (ctx, config, pluginOptions: IOptions) {
     super(ctx, config)
-
+    this.template = new Template(pluginOptions)
     this.setupTransaction.addWrapper({
       close () {
         this.modifyTemplate()

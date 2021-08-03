@@ -1,6 +1,4 @@
 import * as path from 'path'
-import * as fs from 'fs-extra'
-import * as mkdirp from 'mkdirp'
 import * as md5 from 'md5'
 import * as webpack from 'webpack'
 import * as SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
@@ -262,6 +260,21 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
 
               source.add(`@import ${JSON.stringify(`${relativePath}`)};\n`)
             }
+
+            // 复制sub-common下的资源到分包下
+            for (const key in FileExtsMap) {
+              const ext = FileExtsMap[key]
+              const assetName = path.join(SUB_COMMON_DIR, `${moduleName}${ext}`)
+              const subAssetName = path.join(subRoot, assetName)
+              const assetSource = assets[normalizePath(assetName)]
+
+              if (assetSource) {
+                assets[normalizePath(subAssetName)] = {
+                  size: () => assetSource.source().length,
+                  source: () => assetSource.source()
+                }
+              }
+            }
           })
         }
 
@@ -276,55 +289,16 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
           source: () => source.source()
         }
       })
-    }))
-
-    compiler.hooks.afterEmit.tap(PLUGIN_NAME, () => {
-      const subCommonPath = path.resolve(this.distPath, SUB_COMMON_DIR)
-
-      if (!fs.pathExistsSync(subCommonPath)) {
-        return
-      }
-
-      this.subCommonDeps.forEach((subCommonDep, depName) => {
-        const chunks = [...subCommonDep.chunks]
-        const needCopySubRoots = chunks.reduce((set: Set<string>, chunkName: string) => {
-          const subRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}\\/`).test(chunkName))
-
-          if (subRoot) {
-            set.add(subRoot)
-          }
-          return set
-        }, new Set())
-
-        /**
-         * sub-common下模块copy到对应分包路径下：分包/sub-common
-         */
-        needCopySubRoots.forEach(needCopySubRoot => {
-          for (const key in FileExtsMap) {
-            const ext = FileExtsMap[key]
-            const fileNameWithExt = `${depName}${ext}`
-            const sourcePath = path.resolve(subCommonPath, fileNameWithExt)
-            const targetDirPath = path.resolve(this.distPath, needCopySubRoot, SUB_COMMON_DIR)
-            const targetPath = path.resolve(targetDirPath, fileNameWithExt)
-
-            /**
-             * 检查是否存在目录，没有则创建
-             */
-            mkdirp.sync(targetDirPath)
-
-            if (fs.pathExistsSync(sourcePath)) {
-              fs.outputFileSync(targetPath, fs.readFileSync(sourcePath))
-            }
-          }
-        })
-      })
 
       /**
-       * 复制完成后清理根目录的sub-common
+       * 根目录下的sub-common资源删掉不输出
        */
-      fs.emptyDirSync(subCommonPath)
-      fs.removeSync(subCommonPath)
-    })
+      for (const assetPath in assets) {
+        if (new RegExp(`^${SUB_COMMON_DIR}\\/.*`).test(assetPath)) {
+          delete assets[assetPath]
+        }
+      }
+    }))
   }
 
   /**
