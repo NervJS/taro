@@ -1,3 +1,9 @@
+/**
+ *
+ * Based on original code from: https://github.com/qiu8310/minapp/blob/master/packages/minapp-wx/typing/wx.d.ts
+ * Lincenced under MIT license: https://github.com/qiu8310/minapp/issues/69
+ *
+ */
 declare namespace Taro {
   /** 开始监听设备方向的变化。
    * @supported weapp, h5, rn

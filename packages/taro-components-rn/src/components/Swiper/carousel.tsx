@@ -1,4 +1,12 @@
 /**
+ *
+ * Based on ant-design-mobile-rn from Alipay under MIT license.
+ *
+ * Copyright (c) 2016 Alipay.com, https://www.alipay.com/
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
  * 注意：Carousel 组件由组件 @ant-design/react-native/lib/carousel 私有化并修改而成
  * https://github.com/ant-design/ant-design-mobile-rn/tree/master/components/carousel
  *

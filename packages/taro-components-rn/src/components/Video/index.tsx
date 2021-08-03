@@ -1,10 +1,4 @@
-/**
- * Video组件的样式参考了[uni-app](https://github.com/dcloudio/uni-app/tree/master/packages/uni-h5)的实现
- */
-
 import React, { Component } from 'react'
-// import Danmu from './danmu'
-// import Controls from './controls'
 import { formatTime } from './utils'
 import { VideoProps } from '@tarojs/components/types/Video'
 import {

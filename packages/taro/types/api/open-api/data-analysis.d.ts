@@ -1,3 +1,9 @@
+/**
+ *
+ * Based on original code from: https://github.com/qiu8310/minapp/blob/master/packages/minapp-wx/typing/wx.d.ts
+ * Lincenced under MIT license: https://github.com/qiu8310/minapp/issues/69
+ *
+ */
 declare namespace Taro {
   /** 自定义分析数据上报接口。使用前，需要在小程序管理后台自定义分析中新建事件，配置好事件名与字段。
    * @supported weapp

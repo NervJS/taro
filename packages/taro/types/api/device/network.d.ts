@@ -1,3 +1,9 @@
+/**
+ *
+ * Based on original code from: https://github.com/qiu8310/minapp/blob/master/packages/minapp-wx/typing/wx.d.ts
+ * Lincenced under MIT license: https://github.com/qiu8310/minapp/issues/69
+ *
+ */
 declare namespace Taro {
   namespace onNetworkStatusChange {
     /** 网络状态变化事件的回调函数 */

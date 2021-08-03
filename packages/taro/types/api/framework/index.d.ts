@@ -1,3 +1,9 @@
+/**
+ *
+ * Based on original code from: https://github.com/qiu8310/minapp/blob/master/packages/minapp-wx/typing/wx.d.ts
+ * Lincenced under MIT license: https://github.com/qiu8310/minapp/issues/69
+ *
+ */
 declare namespace Taro {
   /** 注册小程序中的一个页面。接受一个 `Object` 类型参数，其指定页面的初始数据、生命周期回调、事件处理函数等。 */
   interface Page {

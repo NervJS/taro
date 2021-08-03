@@ -19,7 +19,7 @@
   "keywords": [
     "taro"
   ],
-  "author": "garfield550",
+  "author": "O2Team",
   "license": "Apache-2.0",
   "dependencies": {
     "@tarojs/helper": "3.3.3",

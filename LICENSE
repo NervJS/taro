@@ -212,11 +212,17 @@ MIT License
 
 packages/css-to-react-native/src/css-to-react-native/*
 packages/taro/types/api/*
+packages/taro-components/h5/react/utils/reactify-wc.js
 packages/taro-components/src/components/swiper/style/swiper.min.css
+packages/taro-components/virtual-list/memoize.js
+packages/taro-components-rn/src/components/Swiper/carousel.tsx
 packages/taro-extend/src/jquery/*
+packages/taro-h5/src/api/image/previewImage.js
 packages/taro-rn-style-transformer/src/transforms/StyleSheet/*
 packages/taro-router/types/index.d.ts
+packages/taro-runtime/src/bom/raf.ts
 packages/taro-plugin-react-devtools/src/backend/index.js
+packages/taro-plugin-vue-devtools/src/backend/*
 
 
 Apache Software Foundation License 2.0

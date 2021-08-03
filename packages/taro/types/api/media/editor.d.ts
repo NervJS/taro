@@ -1,3 +1,9 @@
+/**
+ *
+ * Based on original code from: https://github.com/qiu8310/minapp/blob/master/packages/minapp-wx/typing/wx.d.ts
+ * Lincenced under MIT license: https://github.com/qiu8310/minapp/issues/69
+ *
+ */
 declare namespace Taro {
   /** `EditorContext` 实例，可通过 `Taro.createSelectorQuery` 获取。
    * `EditorContext` 通过 `id` 跟一个 `editor` 组件绑定，操作对应的 `editor` 组件。

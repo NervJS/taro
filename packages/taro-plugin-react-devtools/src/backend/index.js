@@ -1,4 +1,7 @@
 /**
+
+Based on react-devtools-core from Facebook, Inc. and its affiliates
+
 react-devtools-core@4.14.0
 
 MIT License

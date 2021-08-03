@@ -6,6 +6,9 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable eqeqeq */
 /* eslint-disable prefer-const */
+//
+// Based on Zepto.js from Thomas Fuchs
+//
 //     Zepto.js
 //     (c) 2010-2017 Thomas Fuchs
 //     Zepto.js may be freely distributed under the MIT license.
