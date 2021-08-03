@@ -55,7 +55,7 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     ) {
       data[propInCamelCase] = props[prop]
     }
-    if (nodeName === VIEW && propInCamelCase === CATCHMOVE && props[prop] !== 'false') {
+    if (nodeName === VIEW && propInCamelCase === CATCHMOVE && props[prop] !== false) {
       data[Shortcuts.NodeName] = CATCH_VIEW
     }
   }
