@@ -1,6 +1,7 @@
 import { Gyroscope } from 'expo-sensors'
+import { createCallbackManager } from '../utils'
 
-const _callbacks = new Set()
+const _cbManager = createCallbackManager()
 let _listener: any
 
 const intervalMap: any = {
@@ -20,23 +21,23 @@ function startGyroscope(opts: Taro.startGyroscope.Option = {}): Promise<Taro.Gen
     try {
         // 适配微信小程序行为：重复 start 失败
         if (_listener) {
+            console.error('startGyroscope:fail')
             throw new Error('startGyroscope:fail')
         }
         _listener = Gyroscope.addListener(e => {
-            _callbacks.forEach((cb: Taro.onGyroscopeChange.Callback) => {
-                cb?.(e)
-            })
+            _cbManager.trigger(e)
         })
         success?.(res)
         complete?.(res)
+
+        Gyroscope.setUpdateInterval(intervalMap[interval])
+        return Promise.resolve(res)
     } catch (error) {
         res.errMsg = 'startGyroscope:fail'
         fail?.(res)
         complete?.(res)
         return Promise.reject(res)
     }
-    Gyroscope.setUpdateInterval(intervalMap[interval])
-    return Promise.resolve(res)
 }
 
 /**
@@ -65,7 +66,7 @@ function stopGyroscope(opts: Taro.stopGyroscope.Option = {}): Promise<Taro.Gener
  * @param opts 
  */
 function onGyroscopeChange(fnc: Taro.onGyroscopeChange.Callback): void {
-    _callbacks.add(fnc)
+    _cbManager.add(fnc)
 }
 
 /**
@@ -74,9 +75,9 @@ function onGyroscopeChange(fnc: Taro.onGyroscopeChange.Callback): void {
  */
 function offGyroscopeChange(fnc?: Taro.onGyroscopeChange.Callback) {
     if (fnc && typeof fnc === 'function') {
-        _callbacks.delete(fnc)
+        _cbManager.remove(fnc)
     } else if (fnc === undefined) {
-        _callbacks.clear()
+        _cbManager.clear()
     } else {
         console.warn('offGyroscopeChange failed')
     }

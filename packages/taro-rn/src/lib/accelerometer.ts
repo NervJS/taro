@@ -1,6 +1,7 @@
 import { Accelerometer } from 'expo-sensors'
+import { createCallbackManager } from '../utils'
 
-const _callbacks = new Set()
+const _cbManager = createCallbackManager()
 let _listener: any
 
 const intervalMap: any = {
@@ -11,16 +12,16 @@ const intervalMap: any = {
 
 function offAccelerometerChange(fnc?: Taro.onAccelerometerChange.Callback): void {
   if (fnc && typeof fnc === 'function') {
-    _callbacks.delete(fnc)
+    _cbManager.remove(fnc)
   } else if (fnc === undefined) {
-    _callbacks.clear()
+    _cbManager.clear()
   } else {
     console.warn('offAccelerometerChange failed')
   }
 }
 
 function onAccelerometerChange(fnc: Taro.onAccelerometerChange.Callback): void {
-  _callbacks.add(fnc)
+  _cbManager.add(fnc)
 }
 
 /**
@@ -34,23 +35,24 @@ function startAccelerometer(opts: Taro.startAccelerometer.Option = {}): Promise<
   try {
     // 适配微信小程序行为：重复 start 失败
     if (_listener) {
+      console.error('startAccelerometer:fail')
       throw new Error('startAccelerometer:fail')
     }
     _listener = Accelerometer.addListener((e: Taro.onAccelerometerChange.Result) => {
-      _callbacks.forEach((cb: (...args: any[]) => any) => {
-        cb?.(e)
-      })
+      _cbManager.trigger(e)
     })
     success?.(res)
     complete?.(res)
+
+    Accelerometer.setUpdateInterval(intervalMap[interval])
+    return Promise.resolve(res)
   } catch (error) {
     res.errMsg = 'startAccelerometer:fail'
     fail?.(res)
     complete?.(res)
+
     return Promise.reject(res)
   }
-  Accelerometer.setUpdateInterval(intervalMap[interval])
-  return Promise.resolve(res)
 }
 
 /**
@@ -65,11 +67,13 @@ function stopAccelerometer(opts: Taro.stopAccelerometer.Option = {}): Promise<Ta
     _listener = null
     success?.(res)
     complete?.(res)
+
     return Promise.resolve(res)
   } catch (error) {
     res.errMsg = 'stopAccelerometer:fail'
     fail?.(res)
     complete?.(res)
+
     return Promise.reject(res)
   }
 }
