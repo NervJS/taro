@@ -1,4 +1,5 @@
 import { Weapp } from '@tarojs/plugin-platform-weapp';
+import type { IOptions } from '@tarojs/plugin-platform-weapp';
 export default class QQ extends Weapp {
     platform: string;
     globalObject: string;
@@ -19,6 +20,6 @@ export default class QQ extends Weapp {
      * 5. build
      * 6. buildTransaction - close
      */
-    constructor(ctx: any, config: any);
+    constructor(ctx: any, config: any, pluginOptions: IOptions);
     beforeBuild(): void;
 }
