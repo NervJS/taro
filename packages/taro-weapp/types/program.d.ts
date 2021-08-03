@@ -1,6 +1,8 @@
 import { TaroPlatformBase } from '@tarojs/service';
 import { Template } from './template';
+import type { IOptions } from './index';
 export default class Weapp extends TaroPlatformBase {
+    template: Template;
     platform: string;
     globalObject: string;
     projectConfigJson: string;
@@ -13,7 +15,6 @@ export default class Weapp extends TaroPlatformBase {
         script: string;
         xs: string;
     };
-    template: Template;
     /**
      * 1. setupTransaction - init
      * 2. setup
@@ -22,7 +23,7 @@ export default class Weapp extends TaroPlatformBase {
      * 5. build
      * 6. buildTransaction - close
      */
-    constructor(ctx: any, config: any);
+    constructor(ctx: any, config: any, pluginOptions: IOptions);
     /**
      * 增加组件或修改组件属性
      */
