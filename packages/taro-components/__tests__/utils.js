@@ -7,7 +7,7 @@ export function waitForChange (dom) {
       timer = setTimeout(() => {
         observer.disconnect()
         resolve()
-      }, 500)
+      }, 1000)
     })
 
     setTimeout(() => {
