@@ -21,3 +21,7 @@ export const getStorageSync = temporarilyNotSupport('getStorageSync', 'getStorag
 export const getStorageInfoSync = temporarilyNotSupport('getStorageInfoSync', 'getStorageInfo')
 export const removeStorageSync = temporarilyNotSupport('removeStorageSync', 'removeStorage')
 export const clearStorageSync = temporarilyNotSupport('clearStorageSync', 'clearStorage')
+
+// 屏幕
+export const onUserCaptureScreen = temporarilyNotSupport('onUserCaptureScreen', '', false)
+export const offUserCaptureScreen = temporarilyNotSupport('offUserCaptureScreen', '', false)

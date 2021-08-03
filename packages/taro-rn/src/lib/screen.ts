@@ -53,11 +53,3 @@ export async function getScreenBrightness (opts: Taro.getScreenBrightness.Option
     return errorHandler(fail, complete)(res)
   }
 }
-
-/**
- * @todo
- * 监听用户主动截屏事件。用户使用系统截屏按键截屏时触发
- */
-export function onUserCaptureScreen():void {
-  console.log('onUserCaptureScreen has not finished')
-}
