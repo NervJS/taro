@@ -8,15 +8,15 @@ import { errorHandler, shouleBeObject, successHandler } from '../utils'
  * @param {number} opts.value - 屏幕亮度值，范围 0 ~ 1。0 最暗，1 最亮
  */
 export async function setScreenBrightness (opts: Taro.setScreenBrightness.Option): Promise<Taro.General.CallbackResult> {
+  const { value, success, fail, complete } = opts
   let res = { errMsg: 'setScreenBrightness:ok' }
 
   const isObject = shouleBeObject(opts)
   if (!isObject.res) {
     res = { errMsg: `setScreenBrightness${isObject.msg}` }
-    return Promise.reject(res)
+    return errorHandler(fail, complete)(res)
   }
 
-  const { value, success, fail, complete } = opts
   try {
     await (Brightness as any).setBrightnessAsync(value)
     return successHandler(success, complete)(res)
@@ -30,23 +30,23 @@ export async function setScreenBrightness (opts: Taro.setScreenBrightness.Option
  * 获取屏幕亮度
  * @param opts
  */
-export async function getScreenBrightness (opts: Taro.getScreenBrightness.Option = {}): Promise<Taro.getScreenBrightness.SuccessCallbackOption> {
+export async function getScreenBrightness (opts: Taro.getScreenBrightness.Option = {}): Promise<Taro.General.CallbackResult> {
+  const { success, fail, complete } = opts
   const isObject = shouleBeObject(opts)
   if (!isObject.res) {
     const res = { errMsg: `getScreenBrightness${isObject.msg}` }
-    return Promise.reject(res)
+    return errorHandler(fail, complete)(res)
   }
 
-  const { success, fail, complete } = opts
   try {
     const value = await Brightness.getBrightnessAsync()
     const res = {
       errMsg: 'getScreenBrightness: ok',
       value
     }
-    success?.(res)
-    complete?.(res)
-    return Promise.resolve(res)
+
+    // @ts-ignore
+    return successHandler(success, complete)(res)
   } catch (e) {
     const res = {
       errMsg: `getScreenBrightness:fail invalid ${e}`
