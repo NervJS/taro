@@ -52,16 +52,27 @@ title: Taro 仓库概览
 | `babel-plugin-transform-taroapi` | Babel 插件，让 API 可以被 `tree-shaking` |
 | `postcss-plugin-constparse` | PostCSS 插件，用于处理 `tabbar` 的高度 |
 
+### RN
+
+| 路径 | 描述 |
+| ------------- |:------------- |
+| `@tarojs/components-rn` | RN 组件库 |
+| `@tarojs/rn-runner` | RN 编译工具，主要用于设置、调用 metro |
+| `@tarojs/rn-style-transformer` | RN 样式转换工具，让 RN 支持sass、less、stylus、postcss |
+| `@tarojs/rn-supporter` | RN 基础 metro 配置 |
+| `@tarojs/rn-transformer` | RN 应用入口及页面转换工具，让 RN 支持 Taro 定义的 app 及 page config |
+| `@tarojs/router-rn` | RN 路由 |
+| `@tarojs/runtime-rn` | RN 运行时封装 |
+| `@tarojs/taro-rn` | RN 端根据微信小程序规范实现的 API |
+| `babel-plugin-transform-react-jsx-to-rn-stylesheet` | Babel 插件，让 jsx 支持 className 属性 |
+| `taro-css-to-react-native` | 将 css 转为 RN 的 stylesheet |
+
 ### 其它
 
 | 路径 | 描述 |
 | ------------- |:------------- |
 | `@tarojs/taroize` | 小程序转 Taro 的编译器  |
 | `@tarojs/with-weapp` | 小程序转 Taro 的运行时适配器  |
-
-### RN
-
-待补充
 
 ## 如何开发
 
