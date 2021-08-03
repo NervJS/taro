@@ -61,6 +61,7 @@ export default class CLI {
             env: args.env,
             deviceType: args.platform,
             resetCache: !!args.resetCache,
+            qr: !!args.qr,
             blended: Boolean(args.blended),
             h: args.h
           })
