@@ -37,6 +37,7 @@ module.exports = [
   'hideToast',
   'makePhoneCall',
   'offAccelerometerChange',
+  'offDeviceMotionChange',
   'offGyroscopeChange',
   'offKeyboardHeightChange',
   'offNetworkStatusChange',
