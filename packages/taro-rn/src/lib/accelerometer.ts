@@ -1,5 +1,5 @@
 import { Accelerometer } from 'expo-sensors'
-import { createCallbackManager } from '../utils'
+import { createCallbackManager, errorHandler, successHandler } from '../utils'
 
 const _cbManager = createCallbackManager()
 let _listener: any
@@ -41,17 +41,12 @@ function startAccelerometer(opts: Taro.startAccelerometer.Option = {}): Promise<
     _listener = Accelerometer.addListener((e: Taro.onAccelerometerChange.Result) => {
       _cbManager.trigger(e)
     })
-    success?.(res)
-    complete?.(res)
-
     Accelerometer.setUpdateInterval(intervalMap[interval])
-    return Promise.resolve(res)
+
+    return successHandler(success, complete)(res)
   } catch (error) {
     res.errMsg = 'startAccelerometer:fail'
-    fail?.(res)
-    complete?.(res)
-
-    return Promise.reject(res)
+    return errorHandler(fail, complete)(res)
   }
 }
 
@@ -65,16 +60,10 @@ function stopAccelerometer(opts: Taro.stopAccelerometer.Option = {}): Promise<Ta
   try {
     _listener.remove()
     _listener = null
-    success?.(res)
-    complete?.(res)
-
-    return Promise.resolve(res)
+    return successHandler(success, complete)(res)
   } catch (error) {
     res.errMsg = 'stopAccelerometer:fail'
-    fail?.(res)
-    complete?.(res)
-
-    return Promise.reject(res)
+    return errorHandler(fail, complete)(res)
   }
 }
 

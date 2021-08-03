@@ -1,5 +1,5 @@
 import { Gyroscope } from 'expo-sensors'
-import { createCallbackManager } from '../utils'
+import { createCallbackManager, errorHandler, successHandler } from '../utils'
 
 const _cbManager = createCallbackManager()
 let _listener: any
@@ -27,16 +27,12 @@ function startGyroscope(opts: Taro.startGyroscope.Option = {}): Promise<Taro.Gen
         _listener = Gyroscope.addListener(e => {
             _cbManager.trigger(e)
         })
-        success?.(res)
-        complete?.(res)
-
         Gyroscope.setUpdateInterval(intervalMap[interval])
-        return Promise.resolve(res)
+        
+        return successHandler(success, complete)(res)
     } catch (error) {
         res.errMsg = 'startGyroscope:fail'
-        fail?.(res)
-        complete?.(res)
-        return Promise.reject(res)
+        return errorHandler(fail, complete)(res)
     }
 }
 
@@ -50,14 +46,10 @@ function stopGyroscope(opts: Taro.stopGyroscope.Option = {}): Promise<Taro.Gener
     try {
         _listener.remove()
         _listener = null
-        success?.(res)
-        complete?.(res)
-        return Promise.resolve(res)
+        return successHandler(success, complete)(res)
     } catch (error) {
         res.errMsg = 'stopGyroscope:fail'
-        fail?.(res)
-        complete?.(res)
-        return Promise.reject(res)
+        return errorHandler(fail, complete)(res)
     }
 }
 
