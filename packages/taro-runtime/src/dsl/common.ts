@@ -376,6 +376,14 @@ export function createQuickAppConfig () {
         mpEvent[k] = event[k]
       })
 
+      const touchAndMouseKeys = ['touches', 'changedTouches', 'clientX', 'clientY', 'pageX', 'pageY', 'offsetX', 'offsetY']
+      touchAndMouseKeys.forEach(k => {
+        if (k in event) {
+          extraData[k] = event[k]
+          mpEvent[k] = event[k]
+        }
+      })
+
       if (!('detail' in event)) {
         mpEvent.detail = extraData
       }
