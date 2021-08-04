@@ -1,0 +1,134 @@
+---
+title: 使用  NutUI 京东风格组件库
+---
+
+
+> 注意：NutUI 目前必须使用 **taro 3.x 版本 + vue3** 技术栈 进行开发。
+
+为了给开发者提供更高效便捷的开发方式，Taro 和 NutUI 合力，现已可以用 [NutUI](https://nutui.jd.com/#/starttaro) 开发小程序了，[NutUI](https://nutui.jd.com/#/starttaro) 提供了30+ 组件涵盖了日常业务开发使用的大部分组件。
+
+Taro3 支持使用 [NutUI](https://nutui.jd.com/#/starttaro) 组件库进行开发，示例仓库：[taro3-nutui](https://github.com/jdf2e/nutui-demo/tree/master/taro)。
+
+## 预览体验
+
+<img src="https://img12.360buyimg.com/imagetools/jfs/t1/162421/39/13392/9425/6052ea60E592310a9/264bdff23ef5fe95.png" width="200" alt="NutUI" />
+<img src="https://storage.360buyimg.com/jdc-article/gh_f2231eb941be_258.jpg" width="200" alt="NutUI" />
+
+## 如何使用
+
+
+### 安装
+
+* 通过 Npm 或 Yarn 安装
+
+#### 安装 Taro 脚手架
+
+``` bash
+# 使用 npm 安装 CLI
+npm install -g @tarojs/cli
+
+# OR 使用 yarn 安装 CLI
+yarn global add @tarojs/cli
+
+# OR 安装了 cnpm，使用 cnpm 安装 CLI
+cnpm install -g @tarojs/cli
+```
+
+> 值得一提的是，如果安装过程出现sass相关的安装错误，请在安装 mirror-config-china 后重试。
+
+``` bash
+npm install -g mirror-config-china
+```
+
+### 检查是否安装成功
+
+``` bash
+taro -v
+```
+
+### 项目初始化
+
+使用命令创建模板：
+
+``` bash
+taro init myApp
+```
+
+#### 按照下方图片依次选择，选择 Vue3 + NutUI 模板
+
+<img src="https://storage.360buyimg.com/jdc-article/taro.jpg" />
+
+### NPM 使用示例
+
+```javascript
+import { createApp } from "vue";
+import App from "./App.vue";
+import NutUI from "@nutui/nutui-taro";
+import "@nutui/nutui-taro/dist/style.css";
+createApp(App).use(NutUI);
+```
+
+> 注意：这种方式将会导入所有组件
+
+### 推荐使用按需加载
+
+```javascript
+import { createApp } from "vue";
+import App from "./App.vue";
+import { Button, Cell, Icon } from "@nutui/nutui-taro";
+import "@nutui/nutui-taro/dist/style.css";
+createApp(App).use(Button).use(Cell).use(Icon);
+```
+
+
+### 定制化主题使用
+
+#### 首先需要在 **app.ts** 文件中配置 使用 scss 样式文件如：
+
+```javascript
+import { createApp } from "vue";
+import App from "./App.vue";
+import { Button, Cell, Icon } from "@nutui/nutui-taro";
+// 定制化主题必须使用 scss 
+import "@nutui/nutui-taro/dist/style.scss";
+createApp(App).use(Button).use(Cell).use(Icon);
+```
+
+#### 创建定制化主题样式文件 ```assets/styles/custom_theme.scss``` ，样式变量覆盖表参考 [nutui variables](https://github.com/jdf2e/nutui/blob/next/src/packages/styles/variables.scss)
+
+```custom_theme.scss```
+``` scss
+$primary-color: #478EF2;
+$primary-color-end: #496AF2;
+```
+
+
+
+#### 然后需要在 **config/index.js** 文件中配置 scss 文件全局覆盖如：
+
+``` javascript
+const path = require('path');
+const config = {
+  deviceRatio: {
+    640: 2.34 / 2,
+    750: 1,
+    828: 1.81 / 2,
+    375: 2 / 1
+  },
+  sass: {
+		resource: [
+			path.resolve(__dirname, '..', 'src/assets/styles/custom_theme.scss')
+		]
+	},
+  // ...
+```
+
+#### vue 文件中使用查看效果
+
+``` html
+<template>
+  <view>
+      <nut-button type="primary" >nutui</nut-button>
+  </view>
+</template>
+```
