@@ -326,6 +326,10 @@
         },
         {
           "type": "doc",
+          "id": "version-3.x/nutui"
+        },
+        {
+          "type": "doc",
           "id": "version-3.x/vant"
         },
         {
