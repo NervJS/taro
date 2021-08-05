@@ -48,6 +48,8 @@ describe('html with <style>', () => {
         #foo {
           color: red;
           font-size: 10;
+          transition: color ease-in 300ms;
+          border: 1px solid red;
         }
       </style>
       <div class="parent">
@@ -57,7 +59,7 @@ describe('html with <style>', () => {
     `
     const res = parser(html, document)
     const el = res[0].children[1]
-    expect(el.style.cssText).toBe('color: red;font-size: 10;')
+    expect(el.style.cssText).toBe('color: red;font-size: 10;transition: color ease-in 300ms;border: 1px solid red;')
   })
 
   it('class selector', () => {
