@@ -103,7 +103,7 @@ export default class DateSelector extends React.Component<DateProps, DateState> 
         maxDate={formatTimeStr(end)}
         onChange={this.onChange}
         onValueChange={this.onValueChange}
-        //@ts-ignore
+        // @ts-ignore
         onOk={this.onOk}
         onVisibleChange={this.onVisibleChange}
         disabled={disabled}

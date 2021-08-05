@@ -1,11 +1,46 @@
 import * as React from 'react'
 import AntPicker from '@ant-design/react-native/lib/picker'
-import regionData from './regions.formatted'
+import { PickerData } from '@ant-design/react-native/lib/picker/PropsType'
+import { RegionObj, regionData } from './regionData'
 import { noop } from '../../utils'
 import { RegionProps, RegionState } from './PropsType'
 import { TouchableWithoutFeedback } from 'react-native'
 
+function formateRegionData(clObj:RegionObj[] = [], customItem?:string, depth = 2):PickerData[] {
+  const l = depth
+  const obj:PickerData[] = []
+  if (customItem) {
+    const objClone:PickerData = {
+      value: customItem,
+      label: customItem
+    }
+    const panding = { ...objClone }
+    let loop = panding
+    while (depth-- > 0) {
+      loop.children = [{ ...objClone }]
+      loop = loop.children[0]
+    }
+    obj.push(panding)
+  }
+  for (let i = 0; i < clObj.length; i++) {
+    const region:PickerData = {
+      value: clObj[i].n,
+      label: clObj[i].n,
+    }
+    if (clObj[i].s) {
+      region.children = formateRegionData(clObj[i].s, customItem, l - 1)
+    }
+    obj.push(region)
+  }
+  return obj
+}
+
 export default class RegionSelector extends React.Component<RegionProps, RegionState> {
+  constructor (props: RegionProps) {
+    super(props)
+    this.regionData = formateRegionData(regionData, props.customItem)
+  }
+
   static defaultProps = {
     value: [],
   }
@@ -25,22 +60,23 @@ export default class RegionSelector extends React.Component<RegionProps, RegionS
     pvalue: []
   }
 
-  dismissByOk = false;
+  dismissByOk = false
+
+  regionData
 
   onChange = (value: string[]): void => {
     const { onChange = noop } = this.props
     // 通过 value 查找 code
-    let tmp: any[] = regionData
-    // eslint-disable-next-line array-callback-return
+    let tmp: RegionObj[] = regionData
     const code = value.map((item) => {
       for (let i = 0; i < tmp.length; i++) {
-        if (tmp[i].value === item) {
-          const code = tmp[i].code
-          tmp = tmp[i].children || []
+        if (tmp[i].n === item) {
+          const code = tmp[i].c
+          tmp = tmp[i].s || []
           return code
         }
       }
-    })
+    }).filter(c => !!c)
     onChange({ detail: { value, code } })
   }
 
@@ -71,7 +107,7 @@ export default class RegionSelector extends React.Component<RegionProps, RegionS
 
     return (
       <AntPicker
-        data={regionData}
+        data={this.regionData}
         value={value}
         onChange={this.onChange}
         onPickerChange={this.onPickerChange}

@@ -82,7 +82,7 @@ export default class TimeSelector extends React.Component<TimeProps, any> {
         maxDate={formatTimeStr(end)}
         onChange={this.onChange}
         onValueChange={this.onValueChange}
-        //@ts-ignore
+        // @ts-ignore
         onOk={this.onOk}
         onVisibleChange={this.onVisibleChange}
         disabled={disabled}
