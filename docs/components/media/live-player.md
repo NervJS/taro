@@ -125,7 +125,7 @@ class App extends Components {
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>3</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>进最小缓冲区，单位s</td>
+      <td>进最大缓冲区，单位s</td>
     </tr>
     <tr>
       <td>soundMode</td>

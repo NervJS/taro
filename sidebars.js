@@ -91,6 +91,7 @@ module.exports = {
       'redux',
       'css-modules',
       'css-in-js',
+      'nutui',
       'vant',
       'template',
       'youshu',

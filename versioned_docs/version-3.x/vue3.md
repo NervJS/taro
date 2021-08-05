@@ -25,6 +25,6 @@ Vue3 新特性可参阅 [Vue3 文档](https://v3.vuejs.org/guide/migration/intro
 
 Taro 是如何兼容 Vue3 的，可参阅 [Taro RFC](https://github.com/NervJS/taro-rfcs/blob/master/rfcs/0001-vue-3-support.md)。
 
-[《使用 Vue3 开发小程序》](https://taro-club.jd.com/topic/2267/%E4%BD%BF%E7%94%A8-vue3-%E5%BC%80%E5%8F%91%E5%B0%8F%E7%A8%8B%E5%BA%8F) by lillian
+[《使用 Vue3 开发小程序》](https://taro-club.jd.com/topic/2267/%E4%BD%BF%E7%94%A8-vue3-%E5%BC%80%E5%8F%91%E5%B0%8F%E7%A8%8B%E5%BA%8F) by lillian。
 
-[ NutUI开发示例 ](https://github.com/jdf2e/nutui-demo/tree/master/taro) by jdf2e
+[ NutUI 开发示例 ](https://github.com/jdf2e/nutui-demo/tree/master/taro) by jdf2e。
