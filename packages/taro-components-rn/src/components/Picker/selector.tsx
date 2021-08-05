@@ -27,8 +27,10 @@ export default class Selector extends React.Component<SelectorProps, SelectorSta
     pRange: [],
     range: [],
     value: 0,
-    preValue: ''
+    preValue: '',
   }
+
+  dismissByOk = false
 
   static getDerivedStateFromProps (nextProps: SelectorProps, lastState: SelectorState): SelectorState | null {
     let ret: any = null
@@ -66,13 +68,16 @@ export default class Selector extends React.Component<SelectorProps, SelectorSta
     this.setState({ value: selectedIndex })
   }
 
-  onDismiss = (): void => {
-    const { onCancel = noop } = this.props
-    onCancel()
+  onOk = (): void => {
+    this.dismissByOk = true
   }
 
   onVisibleChange = (visible: boolean): void => {
-    !visible && this.onDismiss()
+    if (!visible && !this.dismissByOk) {
+      const { onCancel = noop } = this.props
+      onCancel()
+    }
+    this.dismissByOk = false
   }
 
   render (): JSX.Element {
@@ -94,7 +99,7 @@ export default class Selector extends React.Component<SelectorProps, SelectorSta
         cols={1}
         onChange={this.onChange}
         onPickerChange={this.onPickerChange}
-        onDismiss={this.onDismiss}
+        onOk={this.onOk}
         onVisibleChange={this.onVisibleChange}
         disabled={disabled}
       >

@@ -25,6 +25,8 @@ export default class RegionSelector extends React.Component<RegionProps, RegionS
     pvalue: []
   }
 
+  dismissByOk = false;
+
   onChange = (value: string[]): void => {
     const { onChange = noop } = this.props
     // 通过 value 查找 code
@@ -46,9 +48,16 @@ export default class RegionSelector extends React.Component<RegionProps, RegionS
     this.setState({ value })
   }
 
-  onDismiss = (): void => {
-    const { onCancel = noop } = this.props
-    onCancel()
+  onOk = (): void => {
+    this.dismissByOk = true
+  }
+
+  onVisibleChange = (visible: boolean): void => {
+    if (!visible && !this.dismissByOk) {
+      const { onCancel = noop } = this.props
+      onCancel()
+    }
+    this.dismissByOk = false
   }
 
   render (): JSX.Element {
@@ -66,7 +75,8 @@ export default class RegionSelector extends React.Component<RegionProps, RegionS
         value={value}
         onChange={this.onChange}
         onPickerChange={this.onPickerChange}
-        onDismiss={this.onDismiss}
+        onOk={this.onOk}
+        onVisibleChange={this.onVisibleChange}
         disabled={disabled}
       >
         <TouchableWithoutFeedback>{children}</TouchableWithoutFeedback>
