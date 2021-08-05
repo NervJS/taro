@@ -1,9 +1,9 @@
 import * as React from 'react'
 import AntPicker from '@ant-design/react-native/lib/picker'
 import { PickerData } from '@ant-design/react-native/lib/picker/PropsType'
-import { RegionObj, regionData } from './regionData'
+import { regionData } from './regionData'
 import { noop } from '../../utils'
-import { RegionProps, RegionState } from './PropsType'
+import { RegionProps, RegionState, RegionObj } from './PropsType'
 import { TouchableWithoutFeedback } from 'react-native'
 
 function formateRegionData(clObj:RegionObj[] = [], customItem?:string, depth = 2):PickerData[] {
@@ -24,11 +24,11 @@ function formateRegionData(clObj:RegionObj[] = [], customItem?:string, depth = 2
   }
   for (let i = 0; i < clObj.length; i++) {
     const region:PickerData = {
-      value: clObj[i].n,
-      label: clObj[i].n,
+      value: clObj[i].value,
+      label: clObj[i].value,
     }
-    if (clObj[i].s) {
-      region.children = formateRegionData(clObj[i].s, customItem, l - 1)
+    if (clObj[i].children) {
+      region.children = formateRegionData(clObj[i].children, customItem, l - 1)
     }
     obj.push(region)
   }
@@ -38,7 +38,7 @@ function formateRegionData(clObj:RegionObj[] = [], customItem?:string, depth = 2
 export default class RegionSelector extends React.Component<RegionProps, RegionState> {
   constructor (props: RegionProps) {
     super(props)
-    this.regionData = formateRegionData(regionData, props.customItem)
+    this.regionData = formateRegionData(props.regionData || regionData, props.customItem)
   }
 
   static defaultProps = {
@@ -62,22 +62,24 @@ export default class RegionSelector extends React.Component<RegionProps, RegionS
 
   dismissByOk = false
 
-  regionData
+  regionData: PickerData[]
 
   onChange = (value: string[]): void => {
     const { onChange = noop } = this.props
     // 通过 value 查找 code
     let tmp: RegionObj[] = regionData
+    const postcode:(string|undefined)[] = []
     const code = value.map((item) => {
       for (let i = 0; i < tmp.length; i++) {
-        if (tmp[i].n === item) {
-          const code = tmp[i].c
-          tmp = tmp[i].s || []
+        if (tmp[i].value === item) {
+          const code = tmp[i].code
+          postcode.push(tmp[i].postcode)
+          tmp = tmp[i].children || []
           return code
         }
       }
-    }).filter(c => !!c)
-    onChange({ detail: { value, code } })
+    }).filter(code => !!code)
+    onChange({ detail: { value, code, postcode } })
   }
 
   onPickerChange = (value: any[]): void => {
