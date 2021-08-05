@@ -336,11 +336,11 @@ export function createQuickAppConfig () {
     }
 
     switch (nn) {
-      case 'slot-view':
+      case 'view':
       case 'catch-view':
       case 'static-view':
       case 'pure-view':
-        return 'view'
+        return 'div'
       case 'static-image':
         return 'image'
       default:
