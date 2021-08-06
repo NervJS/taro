@@ -67,7 +67,7 @@ export default class RegionSelector extends React.Component<RegionProps, RegionS
   onChange = (value: string[]): void => {
     const { onChange = noop } = this.props
     // 通过 value 查找 code
-    let tmp: RegionObj[] = regionData
+    let tmp: RegionObj[] = this.props.regionData || regionData
     const postcode:(string|undefined)[] = []
     const code = value.map((item) => {
       for (let i = 0; i < tmp.length; i++) {
