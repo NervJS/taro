@@ -9,7 +9,7 @@
  */
 
 import * as React from 'react'
-import { TouchableWithoutFeedback, Platform, GestureResponderEvent } from 'react-native'
+import { TouchableWithoutFeedback, GestureResponderEvent } from 'react-native'
 import Icon from '../Icon'
 import View from '../View'
 import styles from './styles'
@@ -60,7 +60,6 @@ class _Radio extends React.Component<RadioProps, RadioState> {
     const { style, color } = this.props
 
     const isChecked: boolean = this.state.checked
-    const iconSize: number = Platform.OS === 'ios' ? 24 : 21
 
     return (
       <TouchableWithoutFeedback onPress={this.onPress} ref={this.$touchable}>
@@ -70,7 +69,7 @@ class _Radio extends React.Component<RadioProps, RadioState> {
           >
             <Icon
               type="success"
-              size={iconSize}
+              size={24}
               color={color}
               style={[styles.wrapperIcon, isChecked && styles.wrapperCheckedIcon]}
             />

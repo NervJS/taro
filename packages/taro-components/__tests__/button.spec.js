@@ -67,7 +67,7 @@ describe('Button', () => {
     const wrapper = await mount(<App />, scratch)
     const node = wrapper.node
 
-    assert(node.type === '')
+    assert(!node.type) /** local: '', ci: undefined */
     assert(node.plain === true)
     assert(node.loading === true)
     assert(node.size === 'mini')

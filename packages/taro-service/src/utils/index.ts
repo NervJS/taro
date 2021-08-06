@@ -38,7 +38,7 @@ export function mergePlugins (dist: PluginItem[], src: PluginItem[]) {
   return () => {
     const srcObj = convertPluginsToObject(src)()
     const distObj = convertPluginsToObject(dist)()
-    return merge(srcObj, distObj)
+    return merge(distObj, srcObj)
   }
 }
 

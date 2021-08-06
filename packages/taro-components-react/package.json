@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-react",
-  "version": "3.3.0",
+  "version": "3.3.2",
   "description": "",
   "main:h5": "src/index.js",
   "main": "dist/index.js",
@@ -24,13 +24,13 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.13.10",
-    "@tarojs/taro": "3.3.0",
-    "@tarojs/taro-h5": "3.3.0",
+    "@tarojs/taro": "3.3.2",
+    "@tarojs/taro-h5": "3.3.2",
     "better-scroll": "^1.14.1",
     "classnames": "^2.2.5",
     "intersection-observer": "^0.7.0",
     "resolve-pathname": "^3.0.0",
-    "swiper": "6.7.5",
+    "swiper": "6.8.0",
     "weui": "^1.1.2"
   }
 }

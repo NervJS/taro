@@ -5,7 +5,7 @@
  * 依赖 @react-native-community/viewpager 实现，因此使用时需在壳工程中引入该组件
  *
  */
-import ViewPager from '@react-native-community/viewpager'
+import ViewPager from 'react-native-pager-view'
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { CarouselProps, PaginationProps } from './PropsType'

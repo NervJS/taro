@@ -196,7 +196,7 @@ export default function <P extends Record<string, any>>(WrappedComponent: React.
             'onTouchEnd'
           ])}
           {...this.panResponder.panHandlers}
-          style={[style, isHover && hoverStyle]}
+          style={[{ backgroundColor: 'transparent' }, style, isHover && hoverStyle]}
         />
       )
     }

@@ -9,7 +9,8 @@ export default StyleSheet.create({
     borderColor: '#f3f3f3',
     backgroundColor: '#ffffff',
     borderWidth: 2,
-    borderRadius: 12
+    borderRadius: 12,
+    overflow: 'hidden',
   },
   wrapperChecked: {
     // borderColor: '#09BB07',

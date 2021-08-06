@@ -44,9 +44,16 @@ export class Input implements ComponentInterface {
   @Element() el: HTMLElement
 
   @Watch('value')
-  watchHandler(newValue: string, oldValue: string) {
+  watchHandler (newValue: string, oldValue: string) {
     if (newValue !== oldValue) {
       this._value = newValue
+    }
+  }
+
+  @Watch('autoFocus')
+  watchFocus (newValue: boolean, oldValue: boolean) {
+    if (!oldValue && newValue) {
+      this.inputRef.focus()
     }
   }
 

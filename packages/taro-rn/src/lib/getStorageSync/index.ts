@@ -1,0 +1,1 @@
+export { getStorageSync } from '../unsupportedApi'

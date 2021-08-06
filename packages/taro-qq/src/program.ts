@@ -1,6 +1,8 @@
 import { Weapp } from '@tarojs/plugin-platform-weapp'
 import { components } from './components'
 
+import type { IOptions } from '@tarojs/plugin-platform-weapp'
+
 const PACKAGE_NAME = '@tarojs/plugin-platform-qq'
 
 export default class QQ extends Weapp {
@@ -24,8 +26,8 @@ export default class QQ extends Weapp {
    * 5. build
    * 6. buildTransaction - close
    */
-  constructor (ctx, config) {
-    super(ctx, config)
+  constructor (ctx, config, pluginOptions: IOptions) {
+    super(ctx, config, pluginOptions)
 
     this.buildTransaction.addWrapper({
       init: this.beforeBuild

@@ -48,6 +48,8 @@
   "devDependencies": {
     "@babel/cli": "7.10.5",
     "@babel/core": "^7.11.1",
+    "@babel/generator": "7.14.5",
+    "@babel/parser": "7.14.5",
     "@babel/plugin-proposal-class-properties": "7.10.4",
     "@babel/plugin-proposal-decorators": "7.10.5",
     "@babel/plugin-proposal-do-expressions": "7.10.4",
@@ -58,6 +60,8 @@
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-react": "7.12.13",
     "@babel/preset-typescript": "7.13.0",
+    "@babel/traverse": "7.14.5",
+    "@babel/types": "7.14.5",
     "@commitlint/cli": "^7.2.1",
     "@commitlint/config-conventional": "^9.0.1",
     "@rollup/plugin-babel": "5.2.1",
@@ -166,6 +170,7 @@
   },
   "dependencies": {
     "@types/babel__traverse": "^7.0.7",
-    "@types/react-reconciler": "0.26.1"
+    "@types/react-reconciler": "0.26.1",
+    "rollup-plugin-copy": "^3.4.0"
   }
 }

@@ -24,6 +24,7 @@ interface SwiperProps {
   duration?: number
   current?: number
   displayMultipleItems?: number
+  circular?: boolean
   vertical?: boolean
   spaceBetween?: any
   previousMargin?: string
@@ -70,6 +71,9 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
   _$height = 0
   $el: HTMLDivElement | null
   mySwiper: ISwiper
+  observer: MutationObserver
+  observerFirst: MutationObserver
+  observerLast: MutationObserver
 
   componentDidMount () {
     const {
@@ -108,7 +112,7 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
           that._$current = this.realIndex
           that.handleOnChange(e)
         },
-        transitionEnd: () => {
+        transitionEnd () {
           const e = createEvent('touchend')
           try {
             Object.defineProperty(e, 'detail', {
@@ -125,12 +129,12 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
           } catch (err) {}
           that.handleOnAnimationFinish(e)
         },
-        observerUpdate: (_swiper, e) => {
-          if (e.target && e.target.className === 'taro_page' && e.target.style.display === 'block' && e.target.contains(this.$el)) {
-            if (this.props.autoplay) {
-              setTimeout(() => {
-                this.mySwiper.slideTo(this._$current)
-              }, 1000)
+        observerUpdate (_swiper: ISwiper, e) {
+          const target = e.target
+          const className = target && typeof target.className === 'string' ? target.className : ''
+          if (className.includes('taro_page') && target.style.display === 'block') {
+            if (that.props.autoplay && target.contains(_swiper.$el[0])) {
+              _swiper.slideTo(that._$current)
             }
           }
         }
@@ -154,14 +158,22 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
     setTimeout(() => {
       this.mySwiper.update()
     }, 500)
+
+    if (!this.mySwiper || !this.props.circular) return
+
+    const wrapper = this.mySwiper.$wrapperEl[0]
+    this.observer = new MutationObserver(this.handleSwiperLoopListen)
+
+    this.observer.observe(wrapper, {
+      childList: true
+    })
   }
 
   UNSAFE_componentWillReceiveProps (nextProps) {
     if (this.mySwiper) {
       const nextCurrent = typeof nextProps.current === 'number' ? nextProps.current : this._$current || 0
 
-      ;(this.mySwiper as any).loopDestroy()
-      ;(this.mySwiper as any).loopCreate()
+      this.handleSwiperLoop()
       // 是否衔接滚动模式
       if (nextProps.circular) {
         if (!this.mySwiper.isBeginning && !this.mySwiper.isEnd) {
@@ -207,6 +219,9 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
   componentWillUnmount () {
     this.$el = null
     if (this.mySwiper) this.mySwiper.destroy()
+    this.observer.disconnect && this.observer.disconnect()
+    this.observerFirst.disconnect && this.observerFirst.disconnect()
+    this.observerLast.disconnect && this.observerLast.disconnect()
   }
 
   handleOnChange (e: Event) {
@@ -222,6 +237,33 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
   parsePX (s = '0px') {
     return parseFloat(s.replace(/r*px/i, ''))
   }
+
+  handleSwiperLoopListen = () => {
+    this.observerFirst?.disconnect && this.observerFirst.disconnect()
+    this.observerLast?.disconnect && this.observerLast.disconnect()
+    this.observerFirst = new MutationObserver(this.handleSwiperLoop)
+    this.observerLast = new MutationObserver(this.handleSwiperLoop)
+    const wrapper = this.mySwiper.$wrapperEl[0]
+    const list = wrapper.querySelectorAll('taro-swiper-item-core:not(.swiper-slide-duplicate)')
+    if (list.length >= 1) {
+      this.observerFirst.observe(list[0], {
+        characterData: true
+      })
+    } else if (list.length >= 2) {
+      this.observerLast.observe(list[list.length - 1], {
+        characterData: true
+      })
+    }
+  }
+
+  handleSwiperLoop = debounce(() => {
+    if (this.mySwiper && this.props.circular) {
+      // @ts-ignore
+      this.mySwiper.loopDestroy()
+      // @ts-ignore
+      this.mySwiper.loopCreate()
+    }
+  }, 500)
 
   render () {
     const {
@@ -270,3 +312,14 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
 }
 
 export { Swiper, SwiperItem }
+
+function debounce (fn, delay: number) {
+  let timer: NodeJS.Timeout
+
+  return function (...arrs) {
+    clearTimeout(timer)
+    timer = setTimeout(function () {
+      fn(...arrs)
+    }, delay)
+  }
+}

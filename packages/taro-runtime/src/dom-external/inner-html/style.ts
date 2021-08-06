@@ -54,7 +54,15 @@ export default class StyleTagParser {
     while (lb > -1) {
       const rb = style.indexOf(RIGHT_BRACKET)
       const selectors = style.slice(0, lb).trim()
-      let content = style.slice(lb + 1, rb).replace(/ /g, '')
+
+      let content = style.slice(lb + 1, rb)
+      content = content.replace(/:(.*);/g, function (_, $1) {
+        const t = $1.trim().replace(/ +/g, '+++')
+        return `:${t};`
+      })
+      content = content.replace(/ /g, '')
+      content = content.replace(/\+\+\+/g, ' ')
+
       if (!(/;$/.test(content))) {
         content += ';'
       }
