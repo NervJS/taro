@@ -13,6 +13,7 @@ export interface SwitchState {
 export interface SwitchProps {
   style?: StyleProp<ViewStyle>;
   checked?: boolean;
+  disabled?: boolean;
   type: 'switch' | 'checkbox';
   color: string;
   onChange?: (evt: EventOnChange) => void;
