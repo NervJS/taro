@@ -216,6 +216,11 @@ interface PickerRegionProps extends PickerStandardProps {
    */
   customItem?: string
   /**
+   * 自定义省市区数据
+   * @supported rn
+   */
+  regionData?: PickerRegionProps.RegionData[]
+  /**
    * value 改变时触发 change 事件，event.detail = {value, code, postcode}，其中字段 code 是统计用区划代码，postcode 是邮政编码
    * @supported weapp, h5, rn
    */
@@ -229,6 +234,11 @@ declare namespace PickerRegionProps {
     /** 统计用区划代码 */
     code: string[]
     /** 邮政编码 */
+    postcode?: string
+  }
+  interface RegionData {
+    value: string
+    code: string
     postcode?: string
   }
 }
