@@ -7,7 +7,7 @@ import { history, parsePath } from './history'
 import { stacks } from './stack'
 import { init, routerConfig } from './init'
 import { bindPageScroll } from './scroll'
-import { setRoutesAlias, addLeadingSlash, historyBackDelta, setHistoryBackDelta } from './utils'
+import { setRoutesAlias, addLeadingSlash, historyBackDelta, setHistoryBackDelta, throttle } from './utils'
 
 import type { AppConfig, PageConfig } from '@tarojs/taro'
 import type { PageInstance, AppInstance, IHooks } from '@tarojs/runtime'
@@ -115,7 +115,7 @@ export function createRouter (
   const router = new UniversalRouter(routes, { baseUrl: config.router.basename || '' })
   app.onLaunch!()
 
-  const render: LocationListener<LocationState> = async ({ location, action }) => {
+  const render: LocationListener<LocationState> = throttle(async ({ location, action }) => {
     routerConfig.router.pathname = location.pathname
     let element
     try {
@@ -189,7 +189,7 @@ export function createRouter (
       )
       loadPage(page, pageConfig, stacks.length)
     }
-  }
+  }, 500)
 
   if (history.location.pathname === '/') {
     history.replace(parsePath(routes[0].path as string + history.location.search))
