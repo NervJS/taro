@@ -141,4 +141,20 @@ const hostConfig: HostConfig<
   supportsHydration: false
 }
 
-export const TaroReconciler = Reconciler(hostConfig)
+const TaroReconciler = Reconciler(hostConfig)
+
+if (process.env.NODE_ENV !== 'production') {
+  const foundDevTools = TaroReconciler.injectIntoDevTools({
+    bundleType: 1,
+    version: '17.0.2',
+    rendererPackageName: 'taro-react'
+  })
+  if (!foundDevTools) {
+    // eslint-disable-next-line no-console
+    console.info('%cDownload the React DevTools ' + 'for a better development experience: ' + 'https://reactjs.org/link/react-devtools', 'font-weight:bold')
+  }
+}
+
+export {
+  TaroReconciler
+}

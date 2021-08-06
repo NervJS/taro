@@ -8,5 +8,8 @@ export const hostConfig = {
   initNativeApi,
   getPathIndex (indexOfNode) {
     return `${indexOfNode}`
+  },
+  getSpecialNodes (): string[] {
+    return ['text', 'image']
   }
 }

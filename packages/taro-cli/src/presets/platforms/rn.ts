@@ -57,7 +57,7 @@ export default (ctx: IPluginContext) => {
     useConfigName: 'rn',
     async fn ({ config }) {
       const { appPath, nodeModulesPath } = ctx.paths
-      const { deviceType = 'android', port, resetCache } = ctx.runOpts.options
+      const { deviceType = 'android', port, resetCache, qr } = ctx.runOpts.options
       const { npm } = ctx.helper
       printDevelopmentTip('rn')
 
@@ -67,6 +67,7 @@ export default (ctx: IPluginContext) => {
         nodeModulesPath,
         deviceType,
         port,
+        qr,
         resetCache,
         buildAdapter: config.platform,
         globalObject: 'global' // TODO: 是否可以去掉？

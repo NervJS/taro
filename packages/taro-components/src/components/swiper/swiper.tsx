@@ -111,12 +111,12 @@ export class Swiper implements ComponentInterface {
 
   @Watch('autoplay')
   watchAutoplay (newVal) {
-    if (!this.isWillLoadCalled) return
+    if (!this.isWillLoadCalled || !this.swiper) return
 
     if (this.swiper.autoplay.running === newVal) return
 
     if (newVal) {
-      if (typeof this.swiper.params.autoplay === 'object') {
+      if (this.swiper.params && typeof this.swiper.params.autoplay === 'object') {
         if (this.swiper.params.autoplay.disableOnInteraction === true) {
           this.swiper.params.autoplay.disableOnInteraction = false
         }
@@ -169,15 +169,28 @@ export class Swiper implements ComponentInterface {
     }
   }
 
+  @State() observer: MutationObserver
+  @State() observerFirst: MutationObserver
+  @State() observerLast: MutationObserver
+
   componentWillLoad () {
     this.isWillLoadCalled = true
   }
 
   componentDidLoad () {
     this.handleInit()
+    if (!this.swiper || !this.circular) return
+
+    const wrapper = this.swiper.$wrapperEl[0]
+    this.observer = new MutationObserver(this.handleSwiperLoopListen)
+
+    this.observer.observe(wrapper, {
+      childList: true
+    })
   }
 
   componentWillUpdate () {
+    if (!this.swiper) return
     if (this.autoplay && !this.swiper.autoplay.running) {
       this.swiper.autoplay.start()
     }
@@ -185,11 +198,41 @@ export class Swiper implements ComponentInterface {
   }
 
   componentDidRender () {
-    if (this.swiper && this.circular) {
-      ;(this.swiper as any).loopDestroy()
-      ;(this.swiper as any).loopCreate()
+    this.handleSwiperLoop()
+  }
+
+  disconnectedCallback () {
+    this.observer.disconnect && this.observer.disconnect()
+    this.observerFirst.disconnect && this.observerFirst.disconnect()
+    this.observerLast.disconnect && this.observerLast.disconnect()
+  }
+
+  handleSwiperLoopListen = () => {
+    this.observerFirst?.disconnect && this.observerFirst.disconnect()
+    this.observerLast?.disconnect && this.observerLast.disconnect()
+    this.observerFirst = new MutationObserver(this.handleSwiperLoop)
+    this.observerLast = new MutationObserver(this.handleSwiperLoop)
+    const wrapper = this.swiper.$wrapperEl[0]
+    const list = wrapper.querySelectorAll('taro-swiper-item-core:not(.swiper-slide-duplicate)')
+    if (list.length >= 1) {
+      this.observerFirst.observe(list[0], {
+        characterData: true
+      })
+    } else if (list.length >= 2) {
+      this.observerLast.observe(list[list.length - 1], {
+        characterData: true
+      })
     }
   }
+
+  handleSwiperLoop = debounce(() => {
+    if (this.swiper && this.circular) {
+      // @ts-ignore
+      this.swiper.loopDestroy()
+      // @ts-ignore
+      this.swiper.loopCreate()
+    }
+  }, 500)
 
   handleInit () {
     const {
@@ -231,17 +274,12 @@ export class Swiper implements ComponentInterface {
             source: ''
           })
         },
-        observerUpdate (_swiper, e) {
+        observerUpdate (_swiper: ISwiper, e) {
           const target = e.target
           const className = target && typeof target.className === 'string' ? target.className : ''
           if (className.includes('taro_page') && target.style.display === 'block') {
-            if (that.autoplay && target.contains(this.$el[0])) {
-              this.slideTo(that.current)
-            }
-          } else if (className.includes('swiper-wrapper')) {
-            if (e.addedNodes.length > 0 || e.removedNodes.length > 0) {
-              this.loopDestroy()
-              this.loopCreate()
+            if (that.autoplay && target.contains(_swiper.$el[0])) {
+              _swiper.slideTo(that.current)
             }
           }
         }
@@ -308,5 +346,16 @@ export class Swiper implements ComponentInterface {
         </div>
       </Host>
     )
+  }
+}
+
+function debounce (fn, delay: number) {
+  let timer: NodeJS.Timeout
+
+  return function (...arrs) {
+    clearTimeout(timer)
+    timer = setTimeout(function () {
+      fn(...arrs)
+    }, delay)
   }
 }

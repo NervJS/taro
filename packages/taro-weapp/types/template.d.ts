@@ -1,5 +1,7 @@
 import { UnRecursiveTemplate } from '@tarojs/shared/dist/template';
+import type { IOptions } from './index';
 export declare class Template extends UnRecursiveTemplate {
+    pluginOptions: IOptions;
     supportXS: boolean;
     Adapter: {
         if: string;
@@ -12,8 +14,9 @@ export declare class Template extends UnRecursiveTemplate {
         xs: string;
         type: string;
     };
+    constructor(pluginOptions: IOptions);
     buildXsTemplate(): string;
     replacePropName(name: string, value: string, componentName: string): string;
-    modifyLoopContainer: (children: any, nodeName: any) => any;
-    modifyTemplateResult: (res: string, nodeName: string) => string;
+    buildXSTepFocus(nn: string): string;
+    modifyTemplateResult: (res: string, nodeName: string, _level: any, children: any) => string;
 }

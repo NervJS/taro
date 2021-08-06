@@ -123,9 +123,9 @@ function getHeaderView (title: string, color: string, props: any) {
 // screen配置的内容
 function getStackOptions (config: RouterConfig) {
   const windowOptions = config.window || {}
-  const title = windowOptions.navigationBarTitleText || ''
-  const headColor = windowOptions.navigationBarTextStyle || 'black'
-  const bgColor = windowOptions.navigationBarBackgroundColor || '#ffffff'
+  const title = ''
+  const headColor = windowOptions.navigationBarTextStyle || 'white'
+  const bgColor = windowOptions.navigationBarBackgroundColor || '#000000'
   const headerTitleAlign: StackHeaderOptions['headerTitleAlign'] = 'center'
   const defaultOptions = {
     title: title,

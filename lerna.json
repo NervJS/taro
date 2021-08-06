@@ -45,7 +45,9 @@
     "packages/taro-tt",
     "packages/taro-qq",
     "packages/taro-jd",
-    "packages/taro-plugin-html"
+    "packages/taro-plugin-html",
+    "packages/taro-plugin-react-devtools",
+    "packages/taro-plugin-vue-devtools"
   ],
   "command": {
     "publish": {
@@ -56,6 +58,6 @@
       "license": "MIT"
     }
   },
-  "version": "3.3.0",
+  "version": "3.3.2",
   "npmClient": "yarn"
 }
