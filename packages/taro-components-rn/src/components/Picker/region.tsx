@@ -79,7 +79,9 @@ export default class RegionSelector extends React.Component<RegionProps, RegionS
         }
       }
     }).filter(code => !!code)
-    onChange({ detail: { value, code, postcode } })
+    const detail:Record<string, any> = { value, code }
+    if (postcode[2]) detail.postcode = postcode[2]
+    onChange({ detail })
   }
 
   onPickerChange = (value: any[]): void => {
