@@ -1,7 +1,7 @@
 import { now, requestAnimationFrame, cancelAnimationFrame } from '@tarojs/runtime'
 
 export function cancelTimeout (timeoutID) {
-  cancelAnimationFrame(timeoutID.id)
+  () => cancelAnimationFrame(timeoutID.id)
 }
 
 export function requestTimeout (callback, delay) {

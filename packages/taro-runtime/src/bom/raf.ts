@@ -30,7 +30,7 @@ let raf = typeof requestAnimationFrame !== 'undefined' && requestAnimationFrame 
   return setTimeout(function () { callback(lastTime = nextTime) }, nextTime - _now)
 }
 
-let caf = typeof cancelAnimationFrame !== 'undefined' && cancelAnimationFrame !== null && cancelAnimationFrame ? cancelAnimationFrame : clearTimeout
+let caf = typeof cancelAnimationFrame !== 'undefined' && cancelAnimationFrame !== null ? cancelAnimationFrame : clearTimeout
 
 if (typeof global !== 'undefined') {
   raf = raf.bind(global)
