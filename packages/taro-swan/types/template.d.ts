@@ -25,3 +25,4 @@ export declare class Template extends RecursiveTemplate {
     modifyLoopBody: (child: string, nodeName: string) => string;
     modifyTemplateResult: (res: string, nodeName: string) => string;
 }
+export {};
