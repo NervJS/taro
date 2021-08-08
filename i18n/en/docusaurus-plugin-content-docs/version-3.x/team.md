@@ -113,6 +113,12 @@ The Taro 3 React Native part was developed by the team at 58. [ ReactNative-rela
   style={{display: "inline-block", margin: "0 10px 10px 0"}}
   ><img src="//img12.360buyimg.com/ling/jfs/t1/150151/24/2373/15562/5f05ad52Ec372ce39/80b555a4d0a0a929.png" style={{height: "100px"}}
 /></a>
+<a
+  href="//www.ikandy.cn"
+  target="_blank"
+  style={{display: "inline-block", margin: "0 10px 10px 0"}}
+  ><img src="//storage.360buyimg.com/taro-resource/team/tx-tech.jpg" style={{height: "100px"}}
+/></a>
 
 
 ## Individual Contributors

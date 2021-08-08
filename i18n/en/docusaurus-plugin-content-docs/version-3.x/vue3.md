@@ -54,7 +54,7 @@ export default {
 </script>
 ```
 
-## 其它限制
+## Other limitations
 
 * `<style scoped>` is not supported in the mini-program, it is recommended to use cssModules instead.[#6662](https://github.com/NervJS/taro/issues/6662)
 * Elements cannot be inserted outside the DOM tree of a page component, so `<teleport>` is not supported

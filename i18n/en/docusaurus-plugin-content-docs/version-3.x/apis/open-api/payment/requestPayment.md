@@ -90,11 +90,15 @@ Initiates a request for payment via WeChat Pay. For more information, see [WeCha
   <tbody>
     <tr>
       <td>MD5</td>
-      <td>MD5</td>
+      <td>Only available in WeChat Pay v2 interface</td>
     </tr>
     <tr>
       <td>HMAC-SHA256</td>
-      <td>HMAC-SHA256</td>
+      <td>Only available in WeChat Pay v2 interface</td>
+    </tr>
+    <tr>
+      <td>RSA</td>
+      <td>Only available in WeChat Pay v3 interface</td>
     </tr>
   </tbody>
 </table>

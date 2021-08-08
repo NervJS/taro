@@ -1,0 +1,157 @@
+---
+title: Entry Component
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import { VueIcon, ReactIcon } from './guides/index'
+
+Every Taro application needs an entry component (Vue component) to register the application. The portal file is by default `app.js` in the `src` directory.
+
+In the entry component we can set the global state or access the lifecycle of the mini program entry instance.
+
+#### Note:
+
+1. Since Taro v3.1, the Vue2 entry component has been written with **Breaking Changes**, see [3.1.0 Release Information](https://github.com/NervJS/taro/releases/tag/v3.1.0) for details.
+2. Due to a change in the Vue3 Global API ([0009-global-api-change](https://github.com/vuejs/rfcs/blob/master/active-rfcs/0009-global-api-change.md)), the Vue3's entry component is written differently than Vue2.
+
+## Example Code
+
+<Tabs
+  defaultValue="vue"
+  values={[
+    {label: 'Vue2', value: 'vue'},
+    {label: 'Vue3', value: 'vue3'}
+  ]}>
+<TabItem value="vue">
+
+```js title="app.js"
+import Vue from 'vue'
+// Assuming we have configured the vuex in '. /store' is configured with vuex
+import store from './store'
+
+const App = {
+  store,
+
+  // All Vue lifecycle methods can be used
+  mounted () {},
+
+  // Corresponds to onLaunch
+  onLaunch () {},
+
+  // Corresponds to onShow
+  onShow (options) {},
+
+  // Corresponds to onHide
+  onHide () {},
+
+  render(h) {
+    // this.$slots.default is the page that will be rendered
+    return h('block', this.$slots.default)
+  }
+}
+
+export default App
+```
+
+</TabItem>
+
+<TabItem value="vue3">
+
+```jsx  title="app.js"
+import { createApp } from 'vue'
+
+const app = createApp({
+  // All Vue lifecycle methods can be used
+  mounted () {},
+
+  // Corresponds to onLaunch
+  onLaunch () {},
+
+  // Corresponds to onShow
+  onShow (options) {},
+
+  // Corresponds to onHide
+  onHide () {},
+
+ // The entry component does not need to implement the render method, and even if it does, it will be overridden by taro
+ })
+
+export app
+```
+
+</TabItem>
+</Tabs>
+
+## Entry Component Configuration
+
+Please refer to the [global configuration](./app-config)
+
+## Lifecycle
+
+> In Vue2 and Vue3, the additional lifecycle methods added by Taro are written in the same way
+
+In addition to supporting Vue's lifecycle methods, the entry component additionally supports the following lifecycles according to the applet's standards.
+
+### onLaunch (options)
+
+> `onLaunch` for the corresponding app in the mini program environment.
+
+The program initialization parameters are accessible through `getCurrentInstance().router.params` during this lifecycle
+
+#### Parameters
+
+##### options
+
+| Proerty | Type | Description |
+| - | - | - |
+| path | string | Path for launch mini program |
+| scene | number | Scene values for launch mini program |
+| query | Object | Parameters for launch mini program |
+| shareTicket | string | shareTicket，See Get More Forwarding Information |
+| referrerInfo | Object | Source information. Source information. Returned when accessing an mini program from another mini program, public number or app. Otherwise returns {} |
+
+
+##### options.referrerInfo
+
+##### options.referrerInfo
+
+| Proerty | Type |  Description |
+| - | - | - |
+| appId | string | Source mini program, or public number (in WeChat)） |
+| extraData | Object | The data passed from the source mini program is supported by WeChat and Baidu smart program at scene=1037 or 1038  |
+| sourceServiceId | string | Source plugin, visible when in plugin run mode |
+
+> The options parameter may vary from field to field in different mini program
+>
+> Scene values , there are differences in WeChat mini program and Baidu smart program, please refer to them respectively  [Wechat mini program](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html) 和 [Baidu smart program Documents](https://smartprogram.baidu.com/docs/data/scene/)
+
+### onShow (options)
+
+Triggered when the page is displayed/cut to the foreground
+
+As with the `onLaunch` lifecycle, program initialization parameters can be accessed during this lifecycle by accessing the `options` parameter or calling `getCurrentInstance().router`.
+
+The parameters are basically the same as those obtained in `onLaunch`, but with two additional parameters in **Baidu Smart program** as follows.
+
+| Property | Type | Description |
+| - - - - - |
+| entryType | string | The source identifier of the display, with values such as user/ schema /sys :<br />user: means that the display is brought up by home before or after <br />switching or unlocking the screen; <br/>schema: means that the display is brought up by protocol;<br/>sys: other |
+| appURL | string | The protocol to be used when displaying, only present if entryType value is schema|
+
+### onHide ()
+
+Triggered when the program cuts the background.
+
+### onPageNotFound (Object)
+
+Triggered when the page to be opened by the program does not exist.
+
+#### Parameters
+##### Object
+
+| Proerty | Type | Description |
+| - | - | - |
+| path | string | Path to non-existent page |
+| query | Object | Open the query parameter of a non-existent page |
+| isEntryPage | boolean | Whether the first page of this launch (e.g. coming in from a portal such as sharing, the first page is the developer-configured sharing page) |

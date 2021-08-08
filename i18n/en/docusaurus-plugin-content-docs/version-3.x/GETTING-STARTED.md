@@ -295,10 +295,12 @@ Developers need to pay attention to the project settings of the developer tools�
 
 #### Jingdong Mini-program related reading
 
-- [《使用 Taro 快速开发京东小程序》](/blog/2020-04-27-taro-build-jd)
-- [《京东小程序 Taro 开发对比原生开发测评》](/blog/2020-04-27-taro-vs-jd)
+- [《Rapid development of Jingdong mini program using Taro》](/blog/2020-04-27-taro-build-jd)
+- [《Jingdong mini Program Taro Development vs. Native Development Review》](/blog/2020-04-27-taro-vs-jd)
 
 ### Enterprise WeChat Mini-program
+
+> Taro v3.1+ support started
 
 The Taro plugin can support compiling enterprise WeChat Mini-program. [Github](https://github.com/NervJS/taro-plugin-platform-weapp-qy)。
 
@@ -349,6 +351,8 @@ Same as WeChat mini-program. The compile mode of developer tool is set to Enterp
 
 ### DingTalk Mini Program
 
+> Taro v3.1+ support started
+
 The Taro plugin can support compiling pinned dingtalk mini-program. Plugin documentation can be found at [Github](https://github.com/NervJS/taro-plugin-platform-alipay-dd)。
 
 #### Installing Plugins
@@ -397,6 +401,8 @@ $ NODE_ENV=production taro build --type dd --watch # Mac
 Same as Alipay mini-program. The compile mode of developer tool is set to DingTalk.
 
 ### Alipay IOT Mini-Program
+
+> Taro v3.1+ support started
 
 The Taro plugin supports compiling Alipay IOT Mini-Program, Plugin documentation can be found at [Github](https://github.com/NervJS/taro-plugin-platform-alipay-iot)。
 
@@ -468,6 +474,8 @@ $ npx taro build --type h5
 ```
 
 ### React Native
+
+> Taro v3.2+ support started
 
 Please refer to [React Native Development Process](./react-native)
 

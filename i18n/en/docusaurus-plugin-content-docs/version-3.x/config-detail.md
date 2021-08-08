@@ -434,7 +434,7 @@ The configuration related to the compilation process of the mini program
 
 `array`
 
-Configure the applet compilation process to **exclude files that do not need to be compiled by Taro**, the array can contain specific file paths or can be a judgment function, same as [Rule.exclude](https://webpack.js.org/configuration/module/#ruleexclude).
+Configure the mini program compilation process to **exclude files that do not need to be compiled by Taro**, the array can contain specific file paths or can be a judgment function, same as [Rule.exclude](https://webpack.js.org/configuration/module/#ruleexclude).
 
 Assuming that a file is to be excluded, the specific path of the file to be excluded can be configured as follows.
 
@@ -482,7 +482,7 @@ For example, Taro does not compile files in `node_modules` by default, you can u
 
 Customize the Webpack configuration.
 
-This function receives **three arguments**. The first argument is the webpackChain object, which can be modified by referring to the [webpack-chain](https://github.com/neutrinojs/webpack-chain) API, the second argument is the `webpack` instance, and the third argument `PARSE_AST_ TYPE` is the set of file types that the applet is compiled with.
+This function receives **three arguments**. The first argument is the webpackChain object, which can be modified by referring to the [webpack-chain](https://github.com/neutrinojs/webpack-chain) API, the second argument is the `webpack` instance, and the third argument `PARSE_AST_ TYPE` is the set of file types that the mini program is compiled with.
 
 The third parameter takes the following values:
 
@@ -590,7 +590,7 @@ Specifies whether the code related to the React framework uses the development e
 
 `object`
 
-About the configuration related to compressing applet xml files.
+About the configuration related to compressing mini program xml files.
 
 #### mini.minifyXML.collapseWhitespace
 
@@ -706,7 +706,7 @@ module.exports = {
 
 Specify the public files that need to be referenced separately for certain pages.
 
-For example, when using applet sub-packaging, in order to reduce the size of the main package, the sub-packaged pages want to introduce their own public files and don't want to put them directly inside the main package. Then we can first use the [webpackChain configuration](./config-detail#miniwebpackchain) to abstract the public files of the sub-package separately, and then configure the introduction of the public files of the sub-package via `mini.addChunkPages` for the sub-package page, which is used in the following way.
+For example, when using mini program sub-packaging, in order to reduce the size of the main package, the sub-packaged pages want to introduce their own public files and don't want to put them directly inside the main package. Then we can first use the [webpackChain configuration](./config-detail#miniwebpackchain) to abstract the public files of the sub-package separately, and then configure the introduction of the public files of the sub-package via `mini.addChunkPages` for the sub-package page, which is used in the following way.
 
 `mini.addChunkPages` is configured as a function that accepts two parameters
 
@@ -722,6 +722,50 @@ module.exports = {
     // ...
     addChunkPages (pages: Map<string, string[]>, pagesNames: string[]) {
       pages.set('pages/index/index', ['eating', 'morning'])
+    }
+  }
+}
+```
+
+### mini.optimizeMainPackage
+
+`object`
+
+Optimize the size of the main package
+
+After a simple configuration like the following, you can avoid that modules not introduced in the main package are not extracted into `commonChunks`, this function will analyze the dependencies of modules and chunks during packaging, filter out the modules not referenced in the main package to extract it into the sub-package, the following are the two types of `sub-package public modules` extracted.
+
+* `sub-package root/sub-vendors.(js|wxss)`
+  * If the module is only referenced by multiple pages within a `single subpackage`, it is extracted to the sub-vendors file in the root of that subpackage.
+
+* ` sub-package root/sub-common/*. (js|wxss)`
+  * If the module is referenced by pages in `multiple sub-packages`, it will normally be extracted to the public module of the main package, but here, to ensure the optimal size of the main package, it will first be extracted to a public module, and then copied to the sub-common folder of the corresponding sub-package (because the mini program cannot introduce files across sub-packages, so here you need to make a copy of each sub-package) It is important to note that this will result in a larger size of the total package.
+
+```js
+module.exports = {
+  // ...
+  mini: {
+    // ...
+    optimizeMainPackage: {
+      enable: true
+    }
+  }
+}
+```
+
+If there is a module that does not want to go through the sub-package extraction rules, you can configure it in exclude so that the module will go through the original extraction scheme and be extracted into the main package, like the following (absolute paths and functions are supported).
+
+```js
+module.exports = {
+  // ...
+  mini: {
+    // ...
+    optimizeMainPackage: {
+      enable: true,
+      exclude: [
+        path.resolve(__dirname, 'moduleName.js'),
+        (module) => module.resource.indexOf('moduleName') >= 0
+      ]
     }
   }
 }
@@ -1129,6 +1173,18 @@ Default value: `'cheap-module-eval-source-map'`
 
 Detail configuration refer to [Webpack devtool configuration](https://webpack.js.org/configuration/devtool/#devtool)。
 
+
+### h5.useHtmlComponents
+
+> Taro 3.2.4 started to support
+
+`boolean`
+
+Default value: `false`
+
+Used to control whether to use the compatibility component library on the H5 side, for details see [React Compatibility Component Library](./h5#React Compatibility Component Library)。
+
+
 ### h5.enableExtract
 
 `boolean`
@@ -1503,6 +1559,24 @@ module.exports = {
     stylus: {
       options: { /* ... */ },
       additionalData: '', // {String|Function}
+    }
+  }
+}
+```
+### rn.resolve
+
+`object`
+
+`resolve` is the configuration to handle referencing files. The following `include` configuration can be made to handle cross-platform handling of referenced `node_modules` files, which are not handled by default.
+
+```js
+module.exports = {
+  // ...
+  rn: {
+    // ...
+    resolve: {
+      // ...
+      include: ['test'] // Handles cross-platform handling of references to node_modules/test files.
     }
   }
 }

@@ -1,91 +1,92 @@
 ---
-title: Project Template
+title: Project Initialization Template
 ---
 
-> 自 `1.3.9` 开始支持
+> Supported since `1.3.9`
 
-一直以来，在使用 Taro CLI 的 `taro init` 命令创建项目时，CLI 会提供若干内置模板给开发者选择。但是很多团队都有自己独特的业务场景，需要使用和维护的模板也不尽一致，因此从 `1.3.9` 开始我们把项目模板打包成一个能力赋予给开发者。
+When creating a project using the Taro CLI's `taro init` command, the CLI has always provided several built-in templates for developers to choose from. However, many teams have their own unique business scenarios and need to use and maintain different templates, so starting with `1.3.9` we have packaged the project templates into a single capability for developers.
 
-`1.3.9` 对 CLI 的模板功能做了以下修改：
+`1.3.9` has made the following changes to the template functionality of the CLI.
 
-1. CLI 只保留最基础的 `default` 模板，其它模板被移除。
-2. CLI 会从 CLI 全局配置中读取**模版源**配置项，然后从模板源拉取模板供开发者选择。
-3. 开发者可以通过修改**模板源**来使用自己的模板。
+1. only the most basic `default` template is retained by the CLI, all other templates are removed.
+2. The CLI reads **template source** configuration items from the CLI global configuration, and then pulls templates from the template source for developers to choose from. 3.
+3. Developers can use their own templates by modifying the **Template Source**.
 
-## 模板源
+## Template Source
 
-模板源为 CLI 配置项的 **templateSource** 字段，可以使用 [taro config](./GETTING-STARTED.md#cli-%E9%85%8D%E7%BD%AE) 命令对其进行操作。
+The template source is the **templateSource** field of the CLI configuration entry, which can be manipulated using the [taro config](./GETTING-STARTED.md#cli-%E9%85%8D%E7%BD%AE) command to manipulate it.
 
-### 默认模版源
+### Default tTemplate Source
 
-默认模板源为 [taro-project-templates](https://github.com/NervJS/taro-project-templates) 仓库，原本内置的模板都被抽离到此处。
+The default template source is the [taro-project-templates](https://github.com/NervJS/taro-project-templates) repository, where the original built-in templates are extracted.
 
-### 配置模板源
+### Configuring the template source
 
-模板源支持两种格式，**git 模板源** 和 **url 模板源**。
+The template source supports two formats, **git template source** and **url template source**.
 
-#### git 模板源
+#### git template source
 
 * GitHub - github:owner/name
 * GitLab - gitlab:owner/name
 * Direct - direct:url
 
 ```sh
-# 初始化项目时可以使用 --clone 选项指定拉取远程模板时使用git clone
+# The --clone option can be used when initializing a project to specify the remote template to be pulled
+# git clone
 taro init --clone
 ```
 
-#### url 模板源
+#### url template source
 
-指向某 zip 包的 url。
+The url to a zip package.
 
-## 编写模板
+## Write templates
 
-### 模板组织格式
+### Template Organization Format
 
-模板目录组织支持两种，分别是**单模板模式**和**模板组模式**。
+Two types of template directory organization are supported, **single template mode** and **template group mode**.
 
-#### 单模板模式
+#### Single Template Mode
 
 ##### git
 
-仓库根目录存在 package.json。
+The package.json exists in the repository root.
 
-模板名为仓库名。
+The template name is the name of the repository.
 
-##### zip 包
+##### zip package
 
-zip 包解压出单文件夹，文件夹根目录包含 package.json。
+The zip package extracts a single folder with package.json in the root folder.
 
-模板名为 zip 包解压出的文件夹名。
+The template name is the name of the folder from which the zip package was extracted.
 
 ![template](https://storage.jd.com/cjj-test/QQ20190717-154634.png)
 
-#### 模板组模式
+#### Template group mode
 
 ##### git
 
-如[默认模板源](https://github.com/NervJS/taro-project-templates)，仓库根目录下存放着若干模板。
+For example, in [Default template source](https://github.com/NervJS/taro-project-templates), several templates are stored in the root directory of the repository.
 
-模板名对应根目录下所有文件夹名。
+The template names correspond to the names of all folders in the root directory.
 
-##### zip 包
+##### zip package
 
-zip 包解压出单文件夹，文件夹内包含若干模板。
+The zip package extracts a single folder, which contains several templates.
 
-模板名对应文件夹内所有文件夹名。
+The template names correspond to the names of all the folders within the folder.
 
 ![templates](https://storage.jd.com/cjj-test/QQ20190717-152451.png)
 
-### 静态模板
+### Static templates
 
-静态模板表示不带逻辑的模板，CLI 会遍历整个模板文件夹，把文件一一拷贝到目标位置。
+Static templates represent templates without logic, the CLI will traverse the entire template folder and copy the files one by one to the target location.
 
-### 动态模板
+### Dynamic templates
 
-很多情况下需要为模板加入一些逻辑，从而根据不同的环境生成不同的模板内容。
+In many cases it is necessary to add some logic to the template to generate different template content depending on the environment.
 
-开发者可以在模板根目录加入 **template_creator.js** 文件，文件对外 exports 包含 handler 与 basePageFiles 字段的对象：
+Developers can add a **template_creator.js** file to the template root directory, which contains objects for the handler and basePageFiles fields in the external exports.
 
 ```js {5,16} title="template_creator.js"
 function createWhenTs (params) {
@@ -114,25 +115,25 @@ module.exports = {
 }
 ```
 
-#### 模板语言
+#### Template Language
 
-请使用 [ejs](https://ejs.co/) 作为模板语言，各模板文件都将接收到全局模板参数。
+Please use [ejs](https://ejs.co/) as the template language, each template file will receive the global template parameters.
 
-##### 默认全局模板参数（模板中可直接使用的变量）
+##### Default global template parameters (variables that can be used directly in the template)
 
-|     变量     |   类型   |   说明   |
-| :---------  | :------- | :------- |
-| projectName | string | 项目名 |
-| description | string | 项目描述 |
-| version | string | Taro CLI 版本 |
-| date | string | 模板创建时间戳 |
-| css | 'none' or 'sass' or 'stylus' or 'less' | 样式预处理工具 |
-| cssExt | string | 样式文件后缀 |
-| typescript | boolean | 是否使用 TS |
-| pageName | string | `taro create` 时传入的页面名称，默认 'index' |
-| template | string | 模板名称 |
+| Variables | Type | Description |
+| :--------- | :------- | :------- |
+| projectName | string | project name |
+| description | string | Project description |
+| version | string | Taro CLI version |
+| date | string | Template creation timestamp |
+| css | 'none' or 'sass' or 'stylus' or 'less' | Style preprocessor |
+| cssExt | string | Style file suffix |
+| typescript | boolean | whether to use TS |
+| pageName | string | The name of the page passed in during `taro create`, default 'index' |
+| template | string | The name of the template |
 
-##### 例子
+##### Example
 
 ```ejs title="index.js"
 <%if (typescript) {-%>
@@ -144,57 +145,56 @@ import { View, Text } from '@tarojs/components'
 import './<%= pageName %>.<%= cssExt %>'
 ```
 
-#### handler 字段
+#### handler field
 
-handler 用于控制是否生成某文件，或给文件传入特定参数。
+The handler is used to control whether a file is generated or not, or to pass specific parameters to the file.
 
 ##### handler: object
 
-|   属性   |  类型  |  value  |
-|  :----- |  :--- |  :-----  |
-| 文件路径 | function | 处理函数 |
+| property | type | value |
+| :----- | :--- | :----- |
+| file path | function | handler |
 
-> 文件路径以 “/” 开头，代表模板文件夹根目录
+> The file path starts with "/", representing the root of the template folder
 
-##### 处理函数
+##### Handler functions
 
 params: object
 
-|     属性     |   类型   |   说明   |
-| :---------  | :------- | :------- |
-| projectName | string | 项目名 |
-| description | string | 项目描述 |
-| version | string | Taro CLI 版本 |
-| date | string | 模板创建时间戳 |
-| css | 'none' or 'sass' or 'stylus' or 'less' | 样式预处理工具 |
-| typescript | boolean | 是否使用 TS |
-| pageName | string | 页面名称 |
-| template | string | 模板名称 |
-| templatePath | string | 模板路径 |
-| projectPath | string | 目标路径 |
-| period | 'createApp' or 'createPage' | `taro init` 创建项目或 `taro create` 创建页面 |
+| Properties | Type | Description |
+| :--------- | :------- | :------- |
+| projectName | string | project name |
+| description | string | Project description |
+| version | string | Taro CLI version |
+| date | string | Template creation timestamp |
+| css | 'none' or 'sass' or 'stylus' or 'less' | style preprocessor |
+| typescript | boolean | whether to use TS |
+| pageName | string | pageName |
+| template | string | template name |
+| templatePath | string | template path |
+| projectPath | string | target path |
+| period | 'createApp' or 'createPage' | `taro init` to create a project or `taro create` to create a page |
 
 return: boolean/object
 
-返回值说明
+Return Value Description
 
-|   取值    |   说明   |
-| :------  | :------- |
-|   true   |  创建文件 |
-|   false  | 不创建文件 |
-|  object  | 创建文件，返回的 object 的字段会被合并到全局模板参数中。|
+| Return Value | Description |
+| :------ | :------- |
+| true | create file |
+| false | do not create file |
+| object | Creates a file, the fields of the returned object will be merged into the global template parameter. | object
 
-若返回值为 object，其中某些属性有特殊作用：
+If the returned value is object, some of the attributes have special roles.
 
-|       属性      |    类型   |          说明          |
+| attribute | type | description |
 | :-------------- | :------ | :-------------------- |
-|   setPageName   | string  | 将替换当前文件的输出路径 |
-|    changeExt    | boolean | 是否自动替换文件后缀 |
+| setPageName | string | will replace the output path of the current file |
+| changeExt | boolean | Whether to automatically replace the file suffix |
 
+##### Example
 
-##### 例子
-
-当用户选择了使用 typescript 时，才生成 **global.d.ts** 和 **tsconfig.json** 文件。
+The **global.d.ts** and **tsconfig.json** files are generated only when the user has chosen to use typescript.
 
 ```js title="template_creator.js"
 function createWhenTs (params) {
@@ -209,15 +209,15 @@ const handler = {
 module.exports = { handler }
 ```
 
-#### basePageFiles 字段
+#### basePageFiles field
 
-basePageFiles 告诉 CLI，当用户使用 `taro create` 命令创建页面时，创建以下文件。
+basePageFiles tells the CLI to create the following files when the user creates a page using the `taro create` command.
 
-##### 例子
+##### Example
 
-结合 handler 字段，创建新页面。
+In combination with the handler field, new pages are created.
 
-当用户使用命令 `taro create --page=detail` 时，会创建 **/src/pages/detail/detail.jsx** 与 **/src/pages/detail/detail.css** 两个文件。
+When the user uses the command `taro create --page=detail`, two files **/src/pages/detail/detail.jsx** and **/src/pages/detail/detail.css** are created.
 
 ```js title="template_creator.js"
 const handler = {

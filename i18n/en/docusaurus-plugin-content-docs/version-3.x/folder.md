@@ -52,7 +52,7 @@ The mini program contains the following files:
 | app.css | no | mini program global style |
 | app.config.js | yes | mini program global configuration |
 
-Eamples are available for viewing according to the framework of your choice：[React](./react), [Vue](./vue), [Vue3](./vue3), [Nerv](./nerv)。
+Eamples are available for viewing according to the framework of your choice：[React](./react-overall), [Vue](./vue-overall), [Vue3](./vue3), [Nerv](./nerv)。
 
 #### 1. Mini Program Global Configuration
 
@@ -68,7 +68,7 @@ import './app.css';
 
 ### page
 
-A mini program page consists of four files:
+A mini program page consists of three files:
 
 | File | Required | Funtions |
 | :-- | :-- | :-- |

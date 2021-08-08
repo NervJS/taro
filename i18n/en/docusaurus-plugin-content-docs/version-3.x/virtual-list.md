@@ -507,3 +507,4 @@ Whether to inject the `isScrolling` property into the `item` component. This par
 ## Related Questions
 
 * Baidu smart program temporarily does not support the use of virtual list components, see [#7254](https://github.com/NervJS/taro/issues/7254)
+* The virtual list component needs to implement a version of `Vue3` (to be implemented), see [Vue3 Other Restrictions](https://taro-docs.jd.com/taro/docs/vue3#Other Limitations)

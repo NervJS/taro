@@ -1,0 +1,172 @@
+---
+title: Entry Component
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import { VueIcon, ReactIcon } from './guides/index'
+
+Every Taro application needs an entry component to register the application. The default entry file is `app.js` in the `src` directory.
+
+In the entry component we can set the global state or access the lifecycle of the mini program entry instance.
+
+## Example Code
+
+<Tabs
+  defaultValue="class"
+  values={[
+    {label: 'Class Component', value: 'class'},
+    {label: 'Functional Component', value: 'functional'}
+  ]}>
+<TabItem value="class">
+
+```jsx title="app.js"
+import React, { Component } from 'react'
+
+// If we use the Redux
+import { Provider } from 'react-redux'
+import configStore from './store'
+
+// Global Style
+import './app.css'
+
+const store = configStore()
+
+class App extends Component {
+  // All React component methods can be used
+  componentDidMount () {}
+
+  // onLaunch
+  onLaunch () {}
+
+  //  onShow
+  componentDidShow () {}
+
+  //  onHide
+  componentDidHide () {}
+
+  render () {
+    // Nothing will be rendered in the entry component, but we can do something like state management here
+    return (
+      <Provider store={store}>
+        /* this.props.children is the page that will be rendered */
+        {this.props.children}
+      </Provider>
+    )
+  }
+}
+
+export default App
+```
+
+</TabItem>
+
+<TabItem value="functional">
+
+```jsx  title="app.js"
+import React, { useEffect } from 'react'
+
+// The additional hooks added to Taro should be brought in from '@tarojs/taro'
+import { useDidShow, useDidHide } from '@tarojs/taro'
+
+// Global Style
+import { Provider } from 'react-redux'
+import configStore from './store'
+
+// Global Style
+import './app.css'
+
+const store = configStore()
+
+function App (props) {
+  // All React Hooks can be used
+  useEffect(() => {})
+
+  // onShow
+  useDidShow(() => {})
+
+  //  onHide
+  useDidHide(() => {})
+
+  return (
+    // Nothing will be rendered in the entry component, but we can do something like state management here
+    <Provider store={store}>
+      {/* props.children is the page that will be rendered */}
+      {props.children}
+    </Provider>
+  )
+}
+
+export default App
+```
+
+</TabItem>
+</Tabs>
+
+## Entry Component Configuration
+
+Please refer to the [global configuration](./app-config)
+
+## Life cycle methods
+
+In addition to supporting React's lifecycle methods, the portal component additionally supports the following lifecycles according to the applet's standards.
+
+### onLaunch (options)
+
+> `onLaunch` of the corresponding app in the mini program environment.
+
+rogram initialization parameters can be accessed during this lifecycle by accessing the `options` parameter or by calling `getCurrentInstance().router`.
+
+#### Parameters
+
+##### options
+
+| Proerty | Type | Description |
+| - | - | - |
+| path | string | Path for launch mini-program |
+| scene | number | Scene values for launch mini-program |
+| query | Object | Parameters for launch mini-program |
+| shareTicket | string | shareTicket，See Get More Forwarding Information |
+| referrerInfo | Object | Source information. Source information. Returned when accessing an mini-program from another mini-program, public number or app. Otherwise returns {} |
+
+##### options.referrerInfo
+
+| Proerty | Type |  Description |
+| - | - | - |
+| appId | string | Source mini-program, or public number (in WeChat)） |
+| extraData | Object | The data passed from the source mini-program is supported by WeChat and Baidu smart-program at scene=1037 or 1038  |
+| sourceServiceId | string | Source plugin, visible when in plugin run mode |
+
+>  The options parameter may vary from field to field in different mini-program
+>
+> Scene values , there are differences in WeChat Mini-program and Baidu Smart-program, please refer to them respectively  [Wechat Mini-program](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html) 和 [Baidu Smart-program Documents](https://smartprogram.baidu.com/docs/data/scene/)
+
+### componentDidShow (options)
+
+Triggered when the program is started, or foregrounded.
+
+As with the `onLaunch` lifecycle, program initialization parameters can be accessed during this lifecycle by accessing the `options` parameter or calling `getCurrentInstance().router`.
+
+The parameters are basically the same as those obtained in `onLaunch`, but with two additional parameters in **Baidu Smart-program** as follows.
+
+| Proerty | Type | Description |
+| - | - | - |
+| entryType | string | Source identifier, take the value of user/ schema /sys :<br />user：Indicates before and after passing home<br/>Switching or unlocking the screen, etc. to bring up.<br/>schema：Indicates a protocol call-up;<br />sys：Other |
+| appURL | string | The call-up protocol at the time of the presentation, which exists only if the value of entryType is schema |
+
+### componentDidHide ()
+
+Triggered when the program switches to the background.
+
+### onPageNotFound (Object)
+
+Triggered when the page to be opened by the program does not exist.
+
+#### Parameters
+##### Object
+
+| Proerty | Type | Description |
+| - | - | - |
+| path | string | Path to non-existent page |
+| query | Object | Open the query parameter of a non-existent page |
+| isEntryPage | boolean | Whether it is the first page of this launch |

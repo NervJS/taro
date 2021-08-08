@@ -1,0 +1,106 @@
+---
+title: Migrated from native mini program?
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import { VueIcon, ReactIcon } from './guides/index'
+
+This article will talk about the main differences between Taro development and native mini program development. I hope it will help students who master native mini program development but don't know much about Taro to migrate quickly.
+
+## Global Variables
+
+When using React/Vue, global variables are recommended to be managed with state management tools like **React Redux**, **Vuex**.
+
+And sometimes some projects converted from native  mini program will mount global variables to `app` and use `getApp()` to get them. It is more expensive to convert to **React Redux**, **Vuex** and other state management methods.
+
+This writing style can therefore be made compatible using the `taroGlobalData` property of the entry object.
+
+```jsx title="app.js"
+class App extends Component {
+  taroGlobalData = {
+    x: 1
+  }
+  render () {
+    return this.props.children
+  }
+}
+```
+
+```jsx title="index.js"
+function Index () {
+  const app = Taro.getApp()
+  console.log(app.x)
+
+  return (...)
+}
+```
+
+## API Scope
+
+In native mini program development, when calling some APIs in custom components, such as `createCanvasContext`, `createSelectorQuery`, etc., you need to pass in `this` that points to the custom component itself, which is tentatively called `scope`.
+
+However, Taro 3 uses the `<template>` tag for rendering and does not normally use custom components, so you don't need to pass it in.
+
+There are only two cases where a custom component will be used, and you need to pass `scope` correctly, otherwise such API calls will fail.
+
+
+### 1. Hierarchy Too Deep
+
+For mini program without recursion support (platform-plugin-template#recursive vs. non-recursive template) (WeChat, QQ, Jingdong mini program, etc.), when the page element nesting level exceeds a certain number of levels (default is 16, which can be modified by configuring [baseLevel](config-detail#minibaselevel)), a custom component will be created to assist recursion.
+
+The `scope` of this custom component is not exposed to the developer, so it needs to be wrapped with a `<CustomWrapper>` component if the hierarchy is too deep and you need to call this API.
+
+Related discussion [#9357](https://github.com/NervJS/taro/issues/9357)。
+
+### 2. Use `<CustomWrapper>`
+
+[`<CustomWrapper>`](optimized#2-customwrapper-component) It is often used to optimize update performance. It is essentially an mini program custom component.
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label:  <ReactIcon />, value: 'React'},
+    {label: <VueIcon />, value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
+```jsx title="Sample Code"
+<CustomWrapper id='demo' />
+
+const page = Taro.getCurrentInstance().page
+// Get the CustomWrapper custom component object, which is also known as scope
+const scope = page.selectComponent('#demo')
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html title="Sample Code"
+<template>
+  <custom-wrapper id="demo" />
+</template>
+
+<script>
+import Taro from '@tarojs/taro'
+
+export default {
+  onReady () {
+    const page = Taro.getCurrentInstance().page
+    // Get the CustomWrapper custom component object, which is also known as scope
+    const scope = page.selectComponent('#demo')
+  }
+}
+</script>
+```
+
+</TabItem>
+</Tabs>
+
+## dataset
+
+The `dataset` concept for mini program is partially implemented in Taro, for details see.
+
+- [React dataset](react-overall#dataset)
+- [Vue dataset](vue-overall#dataset)

@@ -397,13 +397,13 @@ The event handler function can return an Object for customizing the shared conte
 
 #### componentWillPreload()
 
-> Currently only WeChat mini-program are supported
+> Currently only WeChat mini program are supported
 
 [Preload](best-practice.md#Preload)
 
 #### onTitleClick()
 
-> Only supported by Alipay mini-program, supported by base library since 1.3.0
+> Only supported by Alipay mini program, supported by base library since 1.3.0
 
 Click on the title to trigger
 

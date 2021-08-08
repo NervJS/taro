@@ -45,3 +45,5 @@ Major features are first publicized and comments are collected through [Taro-RFC
 How to upgrade from Taro 1 / 2 to Taro 3 please refer to：[Migrate from old version to Taro Next](./migration)。
 
 For a more detailed guide on migration between versions, please refer to：[《The definitive guide to Taro version upgrades》](/blog/2020-09-01-taro-versions)。
+
+Community-contributed one-click upgrade tool: [taro2-to-3](https://github.com/SyMind/taro2-to-3), by @SyMind.
