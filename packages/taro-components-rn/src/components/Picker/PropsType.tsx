@@ -61,4 +61,12 @@ export interface MultiSelectorState {
 type RegionOnChangeEventExtra = { code: string[]; postcode?: string[] }
 export interface RegionProps extends CommonProps<string[], RegionOnChangeEventExtra> {
   customItem?: string;
+  regionData?: RegionObj[];
+}
+
+export interface RegionObj {
+  value: string
+  code: string
+  postcode?: string
+  children?: RegionObj[]
 }
