@@ -1,4 +1,5 @@
 import { ComponentConfig, Attributes, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
+import { toKebabCase, toCamelCase } from '@tarojs/shared'
 import { components as internalComponents } from './components'
 
 export class Template extends UnRecursiveTemplate {
@@ -32,7 +33,7 @@ export class Template extends UnRecursiveTemplate {
     }
   }
 
-  private buildCompTempl (mergedAttributes: Attributes) {
+  private buildCompTempl (mergedAttributes: Attributes, componentConfig: ComponentConfig) {
     const Adapter = this.Adapter
 
     // 给文本标签用
@@ -41,7 +42,7 @@ export class Template extends UnRecursiveTemplate {
     }
 
     const buildAttributesStr = (iName: string) => {
-      return Object.keys(mergedAttributes)
+      const baseAttrStr = Object.keys(mergedAttributes)
         .map(k => {
           if (k === 'value') {
             return `${k}="{{${iName}.v || (${mergedAttributes[k].replace(/i\./g, `${iName}.`)})}}"`
@@ -49,6 +50,19 @@ export class Template extends UnRecursiveTemplate {
           return `${k}="${k.startsWith('bind') || k.startsWith('on') || k.startsWith('catch') ? mergedAttributes[k] : `{{${mergedAttributes[k].replace(/i\./g, `${iName}.`)}}}`}"`
         })
         .join(' ')
+      let thirdAttrStr = ''
+      componentConfig.thirdPartyComponents.forEach(v => {
+        v.forEach(attr => {
+          if (attr.startsWith('on')) {
+            // 自定义事件取不到id，直接忽略
+            // const value = attr.slice(2).toLowerCase()
+            // thirdAttrStr += `on${value}="eh" `
+          } else {
+            thirdAttrStr += `${toKebabCase(attr)}="{{${iName}.${toCamelCase(attr)}}}" `
+          }
+        })
+      })
+      return baseAttrStr + ' ' + thirdAttrStr
     }
 
     let templ = ''
@@ -90,7 +104,7 @@ export class Template extends UnRecursiveTemplate {
     const template = `
 <import name="base" src="./base"></import>
 <template>
-${this.buildCompTempl(mergedAttributes)}
+${this.buildCompTempl(mergedAttributes, componentConfig)}
 </template>
 `
 

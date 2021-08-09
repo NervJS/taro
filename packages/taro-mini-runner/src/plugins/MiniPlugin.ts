@@ -648,7 +648,10 @@ export default class TaroMiniPlugin {
     }
     this.pages.forEach(item => {
       if (item.isNative) {
-        this.addEntry(item.path, item.name, META_TYPE.NORMAL)
+        // 快应用的模版和js逻辑在同一个文件里
+        if (!this.options.isBuildQuickapp) {
+          this.addEntry(item.path, item.name, META_TYPE.NORMAL)
+        }
         if (item.stylePath && fs.existsSync(item.stylePath)) {
           this.addEntry(item.stylePath, this.getStylePath(item.name), META_TYPE.NORMAL)
         }
@@ -661,7 +664,10 @@ export default class TaroMiniPlugin {
     })
     this.components.forEach(item => {
       if (item.isNative) {
-        this.addEntry(item.path, item.name, META_TYPE.NORMAL)
+        // 快应用的模版和js逻辑在同一个文件里
+        if (!this.options.isBuildQuickapp) {
+          this.addEntry(item.path, item.name, META_TYPE.NORMAL)
+        }
         if (item.stylePath && fs.existsSync(item.stylePath)) {
           this.addEntry(item.stylePath, this.getStylePath(item.name), META_TYPE.NORMAL)
         }
@@ -929,9 +935,8 @@ export default class TaroMiniPlugin {
       this.generateTemplateFile(compilation, this.appEntry, () => '')
     } else {
       if (!this.options.blended && !isBuildPlugin) {
-        const appConfigPath = this.getConfigFilePath(this.appEntry)
-        const appConfigName = path.basename(appConfigPath).replace(path.extname(appConfigPath), '')
-        this.generateConfigFile(compilation, this.appEntry, this.filesConfig[appConfigName].content)
+        const appName = path.basename(this.appEntry).replace(path.extname(this.appEntry), '')
+        this.generateConfigFile(compilation, this.appEntry, this.filesConfig[appName].content)
       }
       if (!template.isSupportRecursive) {
         // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
@@ -989,7 +994,7 @@ export default class TaroMiniPlugin {
     this.components.forEach(component => {
       const importBaseTemplatePath = promoteRelativePath(path.relative(component.path, path.join(sourceDir, this.getTemplatePath(baseTemplateName))))
       const config = this.filesConfig[this.getConfigFilePath(component.name)]
-      if (config) {
+      if (config && !this.options.isBuildQuickapp) {
         this.generateConfigFile(compilation, component.path, config.content)
       }
       if (!component.isNative) {
@@ -1007,7 +1012,7 @@ export default class TaroMiniPlugin {
           independentName = name
         }
       })
-      if (config) {
+      if (config && !this.options.isBuildQuickapp) {
         let importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, this.getTargetFilePath(this.getIsBuildPluginPath(baseCompName, isBuildPlugin), ''))))
         let importCustomWrapperPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, this.getTargetFilePath(this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), ''))))
         if (isIndependent) {
@@ -1080,6 +1085,13 @@ export default class TaroMiniPlugin {
     const fileScriptName = this.getScriptPath(componentName)
     const fileStyleName = this.getStylePath(componentName)
 
+    // 处理usingComponents
+    const usingComponents = this.filesConfig[this.getConfigFilePath(componentName)]?.content.usingComponents ?? {}
+    templStr = Object.keys(usingComponents).map(name => {
+      const path = usingComponents[name]
+      return `<import name="${name}" src="${path}"></import>`
+    }).join('\n') + templStr
+
     let baseTemplInfo: {
       fileTemplName: string,
       templStr: string
@@ -1149,10 +1161,6 @@ ${this.getCommonStyleAssets(compilation).map(assetName => {
   }
 
   generateConfigFile (compilation: webpack.compilation.Compilation, filePath: string, config: Config & { component?: boolean }) {
-    if (this.options.isBuildQuickapp) {
-      return
-    }
-
     const fileConfigName = this.getConfigPath(this.getComponentName(filePath))
     const unOfficalConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components']
     unOfficalConfigs.forEach(item => {
