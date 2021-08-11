@@ -47,7 +47,6 @@ export default (ctx: IPluginContext, options: IOptions) => {
     name: 'onSetupClose',
     fn (platform: TaroPlatformBase) {
       injectRuntimePath(platform)
-      modifyPostcssConfigs(platform.config, options)
     }
   })
   // React 收集使用到的小程序组件
@@ -86,7 +85,7 @@ export default (ctx: IPluginContext, options: IOptions) => {
   })
   // 修改 H5 postcss options
   ctx.modifyRunnerOpts(({ opts }) => {
-    modifyPostcssConfigs(opts, options, true)
+    modifyPostcssConfigs(opts, options, opts.platform === 'h5')
   })
 }
 
