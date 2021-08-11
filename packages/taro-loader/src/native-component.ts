@@ -30,9 +30,12 @@ if (typeof PRERENDER !== 'undefined') {
 }`
 
   return `${setReconciler}
-import { createNativeComponentConfig } from '@tarojs/runtime'
-import component from ${stringify(componentPath)}
+import { defaultReconciler } from '@tarojs/shared'
+import { createNativeComponentConfig, container, SERVICE_IDENTIFIER } from '@tarojs/runtime'
 ${importFrameworkStatement}
+var hooks = container.get(SERVICE_IDENTIFIER.Hooks)
+hooks.initNativeApiImpls = [defaultReconciler.initNativeApi]
+var component = require(${stringify(componentPath)}).default
 var config = ${configString};
 var inst = Component(createNativeComponentConfig(component, ${frameworkArgs}))
 ${options.prerender ? prerender : ''}
