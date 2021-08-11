@@ -304,6 +304,12 @@ export default class Kernel extends EventEmitter {
       opts.config = this.runWithPlatform(opts.options.platform)
     }
     await this.applyPlugins({
+      name: 'modifyRunnerOpts',
+      opts: {
+        opts: opts?.config
+      }
+    })
+    await this.applyPlugins({
       name,
       opts
     })
