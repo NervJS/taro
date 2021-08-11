@@ -13,12 +13,6 @@ export default (ctx: IPluginContext, options: IOptions) => {
     name: 'weapp',
     useConfigName: 'mini',
     async fn ({ config }) {
-      await ctx.applyPlugins({
-        name: 'modifyRunnerOpts',
-        opts: {
-          opts: config
-        }
-      })
       const program = new Weapp(ctx, config, options || {})
       await program.start()
     }
