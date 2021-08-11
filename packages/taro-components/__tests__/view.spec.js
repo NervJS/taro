@@ -44,7 +44,7 @@ describe('View', () => {
 
     const { node } = await mount(app, scratch)
 
-    assert(node.childNodes.length === 3)
+    assert(node.textContent === 'i m div')
   })
 
   it('should update props successfully', async () => {

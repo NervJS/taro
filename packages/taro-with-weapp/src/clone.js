@@ -2,6 +2,19 @@ const json = JSON
 
 export const clone = (obj) => json.parse(stringify(obj))
 
+const isArray = Array.isArray || function (x) {
+  return {}.toString.call(x) === '[object Array]'
+}
+
+const objectKeys = Object.keys || function (obj) {
+  const has = Object.prototype.hasOwnProperty || function () { return true }
+  const keys = []
+  for (const key in obj) {
+    if (has.call(obj, key)) keys.push(key)
+  }
+  return keys
+}
+
 function stringify (obj, opts) {
   if (!opts) opts = {}
   if (typeof opts === 'function') opts = { cmp: opts }
@@ -68,17 +81,4 @@ function stringify (obj, opts) {
       return '{' + out.join(',') + indent + '}'
     }
   })({ '': obj }, '', obj, 0)
-};
-
-const isArray = Array.isArray || function (x) {
-  return {}.toString.call(x) === '[object Array]'
-}
-
-const objectKeys = Object.keys || function (obj) {
-  const has = Object.prototype.hasOwnProperty || function () { return true }
-  const keys = []
-  for (const key in obj) {
-    if (has.call(obj, key)) keys.push(key)
-  }
-  return keys
 }

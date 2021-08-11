@@ -6,6 +6,8 @@ import { IPlugin, IPaths, IHook, ICommand, IPlatform } from '../src/utils/types'
 
 export { default as Kernel } from './Kernel'
 
+export { TaroPlatformBase } from './platform-plugin-base'
+
 export declare interface IPluginContext {
   /**
    * 获取当前所有挂载的插件
@@ -66,7 +68,7 @@ export declare interface IPluginContext {
   /**
    * 修改编译后的结果
    */
-  modifyBuildAssets: (fn: (args: { assets: any }) => void) => void
+  modifyBuildAssets: (fn: (args: { assets: any, miniPlugin: any }) => void) => void
   /**
    * 修改编译过程中的页面组件配置
    */

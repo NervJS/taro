@@ -8,6 +8,7 @@ export default {
   },
   props: {
     range: Array,
+    rangeKey: String,
     value: [Number, String, Array]
   },
   mounted () {

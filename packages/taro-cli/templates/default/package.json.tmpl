@@ -40,8 +40,8 @@
     "@tarojs/runtime": "<%= version %>",
     "@tarojs/taro": "<%= version %>",<% if (framework === 'react') {%>
     "@tarojs/react": "<%= version %>",
-    "react-dom": "^16.10.0",
-    "react": "^16.10.0"<%}%><% if (framework === 'nerv') {%>
+    "react-dom": "^17.0.0",
+    "react": "^17.0.0"<%}%><% if (framework === 'nerv') {%>
     "nervjs": "^1.5.0"<%}%><% if (framework === 'vue') {%>
     "vue-template-compiler": "^2.5.0",
     "vue": "^2.5.0"<%}%><% if (framework === 'vue3') {%>
@@ -49,7 +49,7 @@
   },
   "devDependencies": {
     "@types/webpack-env": "^1.13.6",<% if (framework === 'react' || framework === 'nerv') {%>
-    "@types/react": "^16.0.0",<%}%>
+    "@types/react": "^17.0.2",<%}%>
     "@tarojs/mini-runner": "<%= version %>",
     "@babel/core": "^7.8.0",
     "@tarojs/webpack-runner": "<%= version %>",
@@ -63,10 +63,10 @@
     "eslint": "^6.8.0",<% if (framework === 'react' || framework === 'nerv') {%>
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-import": "^2.12.0",
-    "eslint-plugin-react-hooks": "^1.6.1",<%}%>
+    "eslint-plugin-react-hooks": "^4.2.0",<%}%>
     "stylelint": "9.3.0"<% if (typescript) {%>,
-    "@typescript-eslint/parser": "^2.x",
-    "@typescript-eslint/eslint-plugin": "^2.x",
-    "typescript": "^3.7.0"<%}%>
+    "@typescript-eslint/parser": "^4.15.1",
+    "@typescript-eslint/eslint-plugin": "^4.15.1",
+    "typescript": "^4.1.0"<%}%>
   }
 }

@@ -21,7 +21,7 @@ const FRAME_DURATION = 17
 export const pageScrollTo = ({ scrollTop, selector, duration = 300, success, fail, complete }) => {
   return new Promise((resolve, reject) => {
     try {
-      if (!scrollTop && !selector) {
+      if (scrollTop === undefined && !selector) {
         throw Error('"scrollTop" 或 "selector" 需要其之一')
       }
 
@@ -58,7 +58,12 @@ export const pageScrollTo = ({ scrollTop, selector, duration = 300, success, fai
         console.warn('"scrollTop" 或 "selector" 建议只设一个值，全部设置会忽略selector')
       }
       const from = scrollFunc()
-      const to = scrollTop || document.querySelector(selector).offsetTop
+      let to
+      if (typeof scrollTop === 'number') {
+        to = scrollTop
+      } else {
+        to = document.querySelector(selector).offsetTop
+      }
       const delta = to - from
 
       const frameCnt = duration / FRAME_DURATION

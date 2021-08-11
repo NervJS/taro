@@ -1,11 +1,11 @@
 /**
  * ✔ checked
+ * ✔ disabled
  * ✔ type
  * ✔ onChange(bindchange) :isChecked
  * ✔ color
  *
  * @warn When type="switch", use native Switch
- * @see https://wechat.design/brand/color
  * @example
  *  <Switch
  *    checked={this.state.isSwitchChecked}
@@ -26,7 +26,8 @@ import { SwitchProps, SwitchState } from './PropsType'
 class _Switch extends React.Component<SwitchProps, SwitchState> {
   static defaultProps = {
     type: 'switch',
-    color: '#04BE02'
+    color: '#04BE02',
+    disabled: false,
   }
 
   // $touchable: Checkbox | Switch | null
@@ -57,11 +58,12 @@ class _Switch extends React.Component<SwitchProps, SwitchState> {
     this.onCheckedChange(item.checked)
   }
 
-  render () {
+  render (): JSX.Element {
     const {
       style,
       type,
-      color
+      color,
+      disabled
     } = this.props
 
     if (type === 'checkbox') {
@@ -69,6 +71,7 @@ class _Switch extends React.Component<SwitchProps, SwitchState> {
         <Checkbox
           onChange={this.onCheckboxToggle}
           checked={this.state.checked}
+          disabled={disabled}
           ref={this.$touchable as React.RefObject<Checkbox>}
         />
       )
@@ -78,8 +81,10 @@ class _Switch extends React.Component<SwitchProps, SwitchState> {
       <Switch
         value={this.state.checked}
         onValueChange={this.onCheckedChange}
-        onTintColor={color}
+        trackColor={{ false: '#FFFFFF', true: color }}
+        ios_backgroundColor="#FFFFFF"
         style={style}
+        disabled={disabled}
         ref={this.$touchable as React.RefObject<Switch>}
       />
     )

@@ -15,17 +15,15 @@ import Input from '../Input'
 import { omit } from '../../utils'
 import { TextareaProps } from './PropsType'
 
-const _Textarea: React.SFC<TextareaProps> = (props) => {
-  const {
-    autoHeight,
-    onLineChange
-  } = props
-
+const _Textarea: React.FC<TextareaProps> = (props: TextareaProps) => {
+  const { autoHeight, onLineChange, autoFocus, maxlength } = props
   return (
     <Input
       _multiline={true}
       _autoHeight={autoHeight}
       _onLineChange={onLineChange}
+      autoFocus={!!autoFocus}
+      confirmType="next"
       onBlur={() => Keyboard.dismiss()}
       {...omit(props, [
         'type',
@@ -34,8 +32,10 @@ const _Textarea: React.SFC<TextareaProps> = (props) => {
         'confirmHold',
         // props
         'autoHeight',
-        'onLineChange'
+        'onLineChange',
+        'maxlength'
       ])}
+      maxlength={maxlength}
     />
   )
 }

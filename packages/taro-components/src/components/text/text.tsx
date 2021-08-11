@@ -14,7 +14,9 @@ export class Text implements ComponentInterface {
       'taro-text__selectable': this.selectable
     })
     return (
-      <Host class={cls} />
+      <Host class={cls}>
+        <slot></slot>
+      </Host>
     )
   }
 }

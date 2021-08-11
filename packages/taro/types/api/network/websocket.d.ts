@@ -65,15 +65,13 @@ declare namespace Taro {
    */
   function onSocketOpen(
     /** WebSocket 连接打开事件的回调函数 */
-    callback: onSocketOpen.Callback,
+    callback: onSocketOpen.Callback
   ): void
 
   namespace onSocketMessage {
     /** WebSocket 接受到服务器的消息事件的回调函数 */
-    type Callback < T = any > = (
-      result: CallbackResult<T>,
-    ) => void
-    interface CallbackResult < T extends any | string | ArrayBuffer = any > {
+    type Callback<T = any> = (result: CallbackResult<T>) => void
+    interface CallbackResult<T extends any | string | ArrayBuffer = any> {
       /** 服务器返回的消息 */
       data: T
     }
@@ -94,7 +92,7 @@ declare namespace Taro {
    */
   function onSocketMessage<T = any>(
     /** WebSocket 接受到服务器的消息事件的回调函数 */
-    callback: onSocketMessage.Callback<T>,
+    callback: onSocketMessage.Callback<T>
   ): void
 
   namespace onSocketError {
@@ -123,7 +121,7 @@ declare namespace Taro {
    */
   function onSocketError(
     /** WebSocket 错误事件的回调函数 */
-    callback: (result: onSocketError.Callback) => void,
+    callback: (result: onSocketError.Callback) => void
   ): void
 
   namespace onSocketClose {
@@ -157,7 +155,7 @@ declare namespace Taro {
    */
   function onSocketClose(
     /** WebSocket 连接关闭事件的回调函数 */
-    callback: onSocketClose.Callback,
+    callback: onSocketClose.Callback
   ): void
 
   namespace connectSocket {
@@ -273,9 +271,7 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
     /** WebSocket 连接关闭事件的回调函数 */
-    type OnCloseCallback = (
-      result: OnCloseCallbackResult,
-    ) => void
+    type OnCloseCallback = (result: OnCloseCallbackResult) => void
     interface OnCloseCallbackResult {
       /** 一个数字值表示关闭连接的状态号，表示连接被关闭的原因。 */
       code: number
@@ -283,18 +279,14 @@ declare namespace Taro {
       reason: string
     }
     /** WebSocket 错误事件的回调函数 */
-    type OnErrorCallback = (
-      result: OnErrorCallbackResult,
-    ) => void
+    type OnErrorCallback = (result: OnErrorCallbackResult) => void
     interface OnErrorCallbackResult extends General.CallbackResult {
       /** 错误信息 */
       errMsg: string
     }
     /** WebSocket 接受到服务器的消息事件的回调函数 */
-    type OnMessageCallback< T = any > = (
-      result: OnMessageCallbackResult<T>,
-    ) => void
-    interface OnMessageCallbackResult< T extends any | string | ArrayBuffer = any >{
+    type OnMessageCallback<T = any> = (result: OnMessageCallbackResult<T>) => void
+    interface OnMessageCallbackResult<T extends any | string | ArrayBuffer = any> {
       /** 服务器返回的消息 */
       data: T
     }
@@ -331,7 +323,7 @@ declare namespace Taro {
      */
     onClose(
       /** WebSocket 连接关闭事件的回调函数 */
-      callback: SocketTask.OnCloseCallback,
+      callback: SocketTask.OnCloseCallback
     ): void
     /** 监听 WebSocket 错误事件
      * @supported weapp, h5, rn, alipay, swan
@@ -339,7 +331,7 @@ declare namespace Taro {
      */
     onError(
       /** WebSocket 错误事件的回调函数 */
-      callback: SocketTask.OnErrorCallback,
+      callback: SocketTask.OnErrorCallback
     ): void
     /** 监听 WebSocket 接受到服务器的消息事件
      * @supported weapp, h5, rn, alipay, swan
@@ -347,7 +339,7 @@ declare namespace Taro {
      */
     onMessage<T = any>(
       /** WebSocket 接受到服务器的消息事件的回调函数 */
-      callback: SocketTask.OnMessageCallback<T>,
+      callback: SocketTask.OnMessageCallback<T>
     ): void
     /** 监听 WebSocket 连接打开事件
      * @supported weapp, h5, rn, alipay, swan
@@ -355,7 +347,7 @@ declare namespace Taro {
      */
     onOpen(
       /** WebSocket 连接打开事件的回调函数 */
-      callback: SocketTask.OnOpenCallback,
+      callback: SocketTask.OnOpenCallback
     ): void
     /** 通过 WebSocket 连接发送数据
      * @supported weapp, h5, rn, alipay, swan

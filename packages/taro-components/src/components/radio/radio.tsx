@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Host, Watch, Element } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Host, Watch, Element, State } from '@stencil/core'
 
 @Component({
   tag: 'taro-radio-core'
@@ -11,16 +11,19 @@ export class Radio implements ComponentInterface {
   @Prop({ mutable: true }) id: string
   @Prop({ mutable: true }) checked = false
   @Prop() disabled: boolean = false
+  @State() isWillLoadCalled = false
 
   @Element() el: HTMLElement
 
   @Watch('checked')
   watchChecked (newVal) {
+    if (!this.isWillLoadCalled) return
     newVal && this.onChange.emit({ value: this.value })
   }
 
   @Watch('id')
   watchId (newVal) {
+    if (!this.isWillLoadCalled) return
     if (newVal) this.inputEl.setAttribute('id', newVal)
   }
 
@@ -31,6 +34,10 @@ export class Radio implements ComponentInterface {
 
   componentDidRender () {
     this.id && this.el.removeAttribute('id')
+  }
+
+  componentWillLoad () {
+    this.isWillLoadCalled = true
   }
 
   handleClick = () => {

@@ -1,13 +1,20 @@
-import CameraRoll from './__mock__/mockCameraRoll'
-import Taro from '../index.js'
+// import CameraRoll from './__mock__/mockCameraRoll'
+import '@unimodules/core'
+import 'react-native'
+import 'react-native-unimodules'
+import { getImageInfo } from '../lib/getImageInfo'
+import { saveImageToPhotosAlbum } from '../lib/saveImageToPhotosAlbum'
+import { saveVideoToPhotosAlbum } from '../lib/saveVideoToPhotosAlbum'
 
-Taro.initNativeApi(Taro)
+const Taro = {
+  getImageInfo,
+  saveImageToPhotosAlbum,
+  saveVideoToPhotosAlbum,
+}
+
+// 原生模块导出缺少 react_native_1.NativeModules.RNCCameraRoll setup mock
 
 describe('media', () => {
-  beforeEach(() => {
-    jest.setMock('CameraRoll', CameraRoll)
-  })
-
   describe('getImageInfo', () => {
     test('能正确获取图片信息', () => {
       const url = 'https://img12.360buyimg.com/ling/jfs/t19387/224/2632923601/58290/3bbe4eda/5b03f63cN17d4a46c.png'
@@ -28,14 +35,14 @@ describe('media', () => {
           width,
           height,
           path: url,
-          orientation: null,
-          type: null
+          orientation: 'up',
+          type: ''
         }
         expect(success.mock.calls.length).toBe(1)
-        expect(success.mock.calls[0][0]).toEqual(expectRes)
+        expect(success.mock.calls[0][0]).toMatchObject(expectRes)
         expect(fail.mock.calls.length).toBe(0)
         expect(complete.mock.calls.length).toBe(1)
-        expect(complete.mock.calls[0][0]).toEqual(expectRes)
+        expect(complete.mock.calls[0][0]).toMatchObject(expectRes)
         expect(res.width).toEqual(width)
         expect(res.height).toEqual(height)
         expect(res.path).toEqual(url)

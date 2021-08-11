@@ -4,17 +4,14 @@ export default () => {
   return {
     plugins: [
       // platforms
-      path.resolve(__dirname, '../../presets', 'platforms', 'weapp.ts'),
-      path.resolve(__dirname, '../../presets', 'platforms', 'tt.ts'),
-      path.resolve(__dirname, '../../presets', 'platforms', 'alipay.ts'),
-      path.resolve(__dirname, '../../presets', 'platforms', 'swan.ts'),
-      path.resolve(__dirname, '../../presets', 'platforms', 'jd.ts'),
-      path.resolve(__dirname, '../../presets', 'platforms', 'qq.ts'),
-      path.resolve(__dirname, '../../presets', 'platforms', 'quickapp.ts'),
+      require.resolve('@tarojs/plugin-platform-weapp'),
+      require.resolve('@tarojs/plugin-platform-alipay'),
+      require.resolve('@tarojs/plugin-platform-swan'),
+      require.resolve('@tarojs/plugin-platform-tt'),
+      require.resolve('@tarojs/plugin-platform-qq'),
+      require.resolve('@tarojs/plugin-platform-jd'),
       path.resolve(__dirname, '../../presets', 'platforms', 'h5.ts'),
-      path.resolve(__dirname, '../../presets', 'platforms', 'rn.ts'),
       path.resolve(__dirname, '../../presets', 'platforms', 'plugin.ts'),
-      path.resolve(__dirname, '../../presets', 'platforms', 'ui.ts'),
 
       // commands
       path.resolve(__dirname, '../../presets', 'commands', 'build.ts'),

@@ -64,6 +64,14 @@ const createUploadTask = ({ url, filePath, formData, name, header, timeout, file
     })
   }
 
+  /**
+   * 中断任务
+   */
+  const abort = () => {
+    clearTimeout(timeoutInter)
+    xhr.abort()
+  }
+
   const send = () => {
     xhr.send(form)
     timeoutInter = setTimeout(() => {
@@ -89,14 +97,6 @@ const createUploadTask = ({ url, filePath, formData, name, header, timeout, file
         errMsg: `${apiName}:fail ${e.message}`
       })
     })
-
-  /**
-   * 中断任务
-   */
-  const abort = () => {
-    clearTimeout(timeoutInter)
-    xhr.abort()
-  }
 
   /**
    * 监听 HTTP Response Header 事件。会比请求完成事件更早

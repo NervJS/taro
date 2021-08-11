@@ -1,16 +1,19 @@
+// eslint-disable-next-line no-use-before-define
 import * as React from 'react'
 import { TextInput } from 'react-native'
 import { shallow } from 'enzyme'
 import * as sinon from 'sinon'
-import { Input } from '../src'
+// import { Input } from '../src'
+import Input from '../src/components/Input'
 
 describe('<Input /> & <Textarea>', () => {
   describe('events', () => {
     it('onKeyDown', () => {
       const spy = sinon.spy()
       const wrapper = shallow(<Input onKeyDown={spy} />)
+      // eslint-disable-next-line
       // @ts-ignore
-      wrapper.find(TextInput).props().onKeyPress({ nativeEvent: { key: 'Enter' } })
+      wrapper.find(TextInput).props().onKeyPress({ nativeEvent: { key: 'Enter' } } as any)
       expect(spy.calledOnce).toBe(true)
       expect(spy.args[0][0]).toMatchObject({
         which: 13,

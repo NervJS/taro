@@ -315,7 +315,7 @@ declare namespace Taro {
      * @since 2.8.0
      */
     style?: 'v2'
-    /** 
+    /**
      * 配置 darkmode 为 true，即表示当前小程序已适配 DarkMode
      * @since 2.11.0
      */
@@ -325,6 +325,10 @@ declare namespace Taro {
      * @since 2.11.0
      */
     themeLocation?: string
+    /**
+     * 接受一个数组，每一项都是字符串，来指定编译为原生小程序组件的组件入口
+     */
+    components?: string[]
   }
 
   interface Config extends PageConfig, AppConfig {

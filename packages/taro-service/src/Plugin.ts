@@ -7,7 +7,7 @@ export default class Plugin {
   id: string
   path: string
   ctx: Kernel
-  optsSchema: Function
+  optsSchema: (...args: any[]) => void
 
   constructor (opts) {
     this.id = opts.id
@@ -49,7 +49,7 @@ export default class Plugin {
     if (this.ctx.methods.has(name)) {
       throw new Error(`已存在方法 ${name}`)
     }
-    this.ctx.methods.set(name, fn || function (fn: Function) {
+    this.ctx.methods.set(name, fn || function (fn: (...args: any[]) => void) {
       this.register({
         name,
         fn

@@ -97,13 +97,17 @@ declare namespace Taro {
   function setIsUsingDiff (flag: boolean)
 
   interface Current {
-    app: AppInstance | null,
-    router: RouterInfo | null,
-    page: PageInstance | null,
-    onReady: string,
-    onHide: string,
-    onShow: string,
+    app: AppInstance | null
+    router: RouterInfo | null
+    page: PageInstance | null
+    onReady: string
+    onHide: string
+    onShow: string
     preloadData?: Record<any, any>
+    /**
+     * RN 私有对象navigationRef，用于使用底层接口控制路由
+     */
+    rnNavigationRef?: React.RefObject<any>
   }
 
   const Current: Current

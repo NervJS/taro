@@ -95,9 +95,9 @@ declare namespace Taro {
     ) => void
     interface GetRegionSuccessCallbackResult extends General.CallbackResult {
       /** 东北角经纬度 */
-      northeast: number
+      northeast: MapPostion
       /** 西南角经纬度 */
-      southwest: number
+      southwest: MapPostion
       /** 调用结果 */
       errMsg: string
     }

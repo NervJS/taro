@@ -53,6 +53,15 @@ jest.mock('@tarojs/helper', () => {
   }
 })
 
+jest.mock('sass', () => {
+  const originalModule = jest.requireActual('node-sass')
+  return {
+    __esModule: true,
+    ...originalModule,
+    printLog () {}
+  }
+})
+
 jest.mock('../../utils/logHelper', () => {
   const originalModule = jest.requireActual('../../utils/logHelper')
   return {

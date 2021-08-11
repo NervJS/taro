@@ -15,8 +15,8 @@
     "sourceMap": true,
     "baseUrl": ".",
     "rootDir": ".",
-    "jsx": "react",<% if (framework === 'react') {%>
-    "jsxFactory": "React.createElement",<%}%><% if (framework === 'nerv') {%>
+    "jsx": "react-jsx",<% if (framework === 'nerv') {%>
+    "jsx": "react",
     "jsxFactory": "Nerv.createElement",<%}%>
     "allowJs": true,
     "resolveJsonModule": true,

@@ -8,7 +8,7 @@ export type FormValues = {
 export type EventOnSubmit = {
   detail: {
     value: any;
-  }
+  };
 }
 
 export interface FormProps {

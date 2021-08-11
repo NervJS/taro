@@ -54,7 +54,7 @@ export async function mount (node, wrapper) {
           }
         }))
 
-        await waitForChange(this.ref.current)
+        await waitForChange(ReactDOM.findDOMNode(this.ref.current))
       }
 
       find = (selector) => {

@@ -16,7 +16,10 @@ interface IMainPluginOptions {
   outputDir: string,
   routerConfig: any,
   entryFileName: string,
-  framework: FRAMEWORK_MAP
+  framework: FRAMEWORK_MAP,
+  useHtmlComponents: boolean,
+  deviceRatio: any
+  designWidth: number
 }
 
 export default class MainPlugin {
@@ -34,7 +37,10 @@ export default class MainPlugin {
       outputDir: '',
       entryFileName: 'app',
       routerConfig: {},
-      framework: FRAMEWORK_MAP.NERV
+      framework: FRAMEWORK_MAP.NERV,
+      useHtmlComponents: false,
+      deviceRatio: {},
+      designWidth: 750
     })
     this.sourceDir = this.options.sourceDir
     this.outputDir = this.options.outputDir
@@ -66,18 +72,23 @@ export default class MainPlugin {
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
       compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (loaderContext, module: any) => {
-        const { framework, entryFileName } = this.options
+        const { framework, entryFileName, designWidth, deviceRatio } = this.options
         const { dir, name } = path.parse(module.resource)
         if (path.join(dir, name) === this.appEntry) {
-          module.loaders.unshift({
+          module.loaders.push({
             loader: '@tarojs/taro-loader/lib/h5',
             options: {
               framework,
               filename: entryFileName,
               pages: this.pagesConfigList,
+              useHtmlComponents: this.options.useHtmlComponents,
               config: {
                 router: this.options.routerConfig,
                 ...this.appConfig
+              },
+              pxTransformConfig: {
+                designWidth,
+                deviceRatio
               }
             }
           })

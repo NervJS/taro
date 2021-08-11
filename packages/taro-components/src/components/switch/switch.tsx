@@ -12,11 +12,13 @@ export class Switch implements ComponentInterface {
   @Prop() name: string
   @Prop() disabled = false
   @State() isChecked: boolean
+  @State() isWillLoadCalled = false
 
   @Element() el: HTMLElement
 
   @Watch('checked')
   function (newVal: boolean, oldVal: boolean) {
+    if (!this.isWillLoadCalled) return
     if (newVal !== oldVal) this.isChecked = newVal
   }
 
@@ -26,6 +28,7 @@ export class Switch implements ComponentInterface {
   onChange: EventEmitter
 
   componentWillLoad () {
+    this.isWillLoadCalled = true
     this.isChecked = this.checked
   }
 

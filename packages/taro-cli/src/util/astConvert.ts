@@ -61,7 +61,7 @@ export function convertArrayToAstExpression (arr: any[]): any[] {
   })
 }
 
-export function convertSourceStringToAstExpression (str: string, opts: object = {}) {
+export function convertSourceStringToAstExpression (str: string, opts: Record<string, any> = {}) {
   return template(str, Object.assign({}, babylonConfig, opts))()
 }
 

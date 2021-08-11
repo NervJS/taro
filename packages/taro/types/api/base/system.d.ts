@@ -17,6 +17,8 @@ declare namespace Taro {
       brand: string
       /** 允许微信使用摄像头的开关 */
       cameraAuthorized: boolean
+      /** 是否已打开调试。可通过右上角菜单或 Taro.setEnableDebug 打开调试。 */
+      enableDebug: boolean
       /** 用户字体大小（单位px）。以微信客户端「我-设置-通用-字体大小」中的设置为准 */
       fontSizeSetting: number
       /** 微信设置的语言 */
@@ -51,6 +53,8 @@ declare namespace Taro {
       statusBarHeight: number
       /** 操作系统及版本 */
       system: string
+      /** 系统当前主题，取值为light或dark，全局配置"darkmode":true时才能获取，否则为 undefined （不支持小游戏） */
+      theme?: 'light' | 'dark' 
       /** 微信版本号 */
       version: string
       /** Wi-Fi 的系统开关 */

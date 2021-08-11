@@ -29,9 +29,11 @@ export class Slider implements ComponentInterface {
   @State() touchId: number | null = null
   @State() percent = 0
   @State() ogPercent: number
+  @State() isWillLoadCalled = false
 
   @Watch('value')
   function (newVal) {
+    if (!this.isWillLoadCalled) return
     const { max, min } = this
     if (newVal !== null && newVal !== this.val) {
       const val = Math.max(min, Math.min(newVal, max))
@@ -69,6 +71,7 @@ export class Slider implements ComponentInterface {
   onChanging: EventEmitter
 
   componentWillLoad () {
+    this.isWillLoadCalled = true
     const { value, max, min } = this
     if (value === null) return
 

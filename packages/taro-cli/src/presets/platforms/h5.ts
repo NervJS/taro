@@ -1,7 +1,7 @@
 import * as path from 'path'
 import { merge, get } from 'lodash'
 import { IPluginContext } from '@tarojs/service'
-
+import { MODIFY_RUNNER_OPTS } from '../constant'
 import { getPkgVersion } from '../../util'
 
 export default (ctx: IPluginContext) => {
@@ -32,6 +32,12 @@ export default (ctx: IPluginContext) => {
         outputRoot: config.outputRoot || OUTPUT_DIR
       })
       h5RunnerOpts.entry = merge(defaultEntry, customEntry)
+      await ctx.applyPlugins({
+        name: MODIFY_RUNNER_OPTS,
+        opts: {
+          opts: h5RunnerOpts
+        }
+      })
       const webpackRunner = await npm.getNpmPkg('@tarojs/webpack-runner', appPath)
       webpackRunner(appPath, h5RunnerOpts)
     }

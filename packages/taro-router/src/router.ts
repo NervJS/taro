@@ -1,18 +1,20 @@
 /* eslint-disable dot-notation */
 import UniversalRouter, { Routes } from 'universal-router'
-import { LocationListener, LocationState } from 'history'
-import { AppConfig, PageConfig } from '@tarojs/taro'
-import { createPageConfig, Current, PageInstance, eventCenter, CurrentReconciler, AppInstance, stringify, requestAnimationFrame } from '@tarojs/runtime'
+import { Listener as LocationListener, State as LocationState, Action as LocationAction } from 'history'
+import { createPageConfig, Current, eventCenter, container, SERVICE_IDENTIFIER, stringify, requestAnimationFrame } from '@tarojs/runtime'
 import { qs } from './qs'
-import { history } from './history'
+import { history, parsePath } from './history'
 import { stacks } from './stack'
 import { init, routerConfig } from './init'
 import { bindPageScroll } from './scroll'
-import { setRoutesAlias, addLeadingSlash } from './utils'
+import { setRoutesAlias, addLeadingSlash, historyBackDelta, setHistoryBackDelta, throttle } from './utils'
+
+import type { AppConfig, PageConfig } from '@tarojs/taro'
+import type { PageInstance, AppInstance, IHooks } from '@tarojs/runtime'
 
 export interface Route extends PageConfig {
-  path: string
-  load: () => Promise<any>
+  path?: string
+  load?: () => Promise<any>
 }
 
 export interface RouterConfig extends AppConfig {
@@ -21,8 +23,10 @@ export interface RouterConfig extends AppConfig {
     mode: 'hash' | 'browser'
     basename: string,
     customRoutes?: Record<string, string>,
-    pathname: string
-  }
+    pathname: string,
+    forcePath?: string
+  },
+  PullDownRefresh?: any
 }
 
 function hidePage (page: PageInstance | null) {
@@ -35,14 +39,15 @@ function hidePage (page: PageInstance | null) {
   }
 }
 
-function showPage (page: PageInstance | null, pageConfig: Route | undefined) {
+function showPage (page: PageInstance | null, pageConfig: Route | undefined, stacksIndex = 0) {
   if (page != null) {
     page.onShow!()
-    const pageEl = document.getElementById(page.path!)
+    let pageEl = document.getElementById(page.path!)
     if (pageEl) {
       pageEl.style.display = 'block'
     } else {
-      page.onLoad(qs())
+      page.onLoad(qs(stacksIndex))
+      pageEl = document.getElementById(page.path!)
       pageOnReady(pageEl, page, false)
     }
     bindPageScroll(page, pageConfig || {})
@@ -51,7 +56,6 @@ function showPage (page: PageInstance | null, pageConfig: Route | undefined) {
 
 function unloadPage (page: PageInstance | null) {
   if (page != null) {
-    page.onHide!()
     stacks.pop()
     page.onUnload()
   }
@@ -71,22 +75,19 @@ function pageOnReady (pageEl: Element | null, page: PageInstance, onLoad = true)
   }
 }
 
-function loadPage (page: PageInstance | null, pageConfig: Route | undefined) {
+function loadPage (page: PageInstance | null, pageConfig: Route | undefined, stacksIndex = 0) {
   if (page !== null) {
     let pageEl = document.getElementById(page.path!)
     if (pageEl) {
       pageEl.style.display = 'block'
     } else {
-      page.onLoad(qs())
-      requestAnimationFrame(() => {
-        page.onReady!()
-      })
+      page.onLoad(qs(stacksIndex))
       pageEl = document.getElementById(page.path!)
       pageOnReady(pageEl, page)
     }
+    stacks.push(page)
     page.onShow!()
     bindPageScroll(page, pageConfig || {})
-    stacks.push(page)
   }
 }
 
@@ -99,6 +100,7 @@ export function createRouter (
 
   const routes: Routes = []
   const alias = config.router.customRoutes ?? {}
+  const runtimeHooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
 
   setRoutesAlias(alias)
   for (let i = 0; i < config.routes.length; i++) {
@@ -110,12 +112,24 @@ export function createRouter (
     })
   }
 
-  const router = new UniversalRouter(routes)
+  const router = new UniversalRouter(routes, { baseUrl: config.router.basename || '' })
   app.onLaunch!()
 
-  const render: LocationListener<LocationState> = async (location, action) => {
+  const render: LocationListener<LocationState> = throttle(async ({ location, action }) => {
     routerConfig.router.pathname = location.pathname
-    const element = await router.resolve(location.pathname)
+    let element
+    try {
+      element = await router.resolve(config.router.forcePath || location.pathname)
+    } catch (error) {
+      if (error.status === 404) {
+        app.onPageNotFound?.({
+          path: location.pathname
+        })
+      } else {
+        throw new Error(error)
+      }
+    }
+    if (!element) return
     const pageConfig = config.routes.find(r => {
       const path = addLeadingSlash(r.path)
       return path === location.pathname || alias[path] === location.pathname
@@ -137,9 +151,20 @@ export function createRouter (
 
     if (action === 'POP') {
       unloadPage(Current.page)
-      const prev = stacks.find(s => s.path === location.pathname + stringify(qs()))
+      let delta = historyBackDelta
+      while (delta-- > 1) {
+        unloadPage(stacks.slice(-1)[0])
+      }
+      // 最终必须重置为 1
+      setHistoryBackDelta(1)
+      const prevIndex = stacks.reduceRight((p, s, i) => {
+        if (p !== 0) return p
+        else if (s.path === location.pathname + stringify(qs(i))) return i
+        else return 0
+      }, 0)
+      const prev = stacks[prevIndex]
       if (prev) {
-        showPage(prev, pageConfig)
+        showPage(prev, pageConfig, prevIndex)
       } else {
         shouldLoad = true
       }
@@ -157,22 +182,22 @@ export function createRouter (
       delete config['path']
       delete config['load']
       const page = createPageConfig(
-        enablePullDownRefresh ? CurrentReconciler.createPullDownComponent?.(el, location.pathname, framework) : el,
-        location.pathname + stringify(qs()),
+        enablePullDownRefresh ? runtimeHooks.createPullDownComponent?.(el, location.pathname, framework, routerConfig.PullDownRefresh) : el,
+        location.pathname + stringify(qs(stacks.length)),
         {},
         config
       )
-      loadPage(page, pageConfig)
+      loadPage(page, pageConfig, stacks.length)
     }
-  }
+  }, 500)
 
   if (history.location.pathname === '/') {
-    history.replace(routes[0].path as string + history.location.search)
+    history.replace(parsePath(routes[0].path as string + history.location.search))
   }
 
-  render(history.location, 'PUSH')
+  render({ location: history.location, action: LocationAction.Push })
 
-  app.onShow!(qs())
+  app.onShow!(qs(stacks.length))
 
   return history.listen(render)
 }

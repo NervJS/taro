@@ -62,6 +62,29 @@ declare namespace Taro {
     buffer: ArrayBuffer,
   ): string
 
-  function preload (options: Record<any, any>)
-  function preload (key: string, value: string)
+  /**
+   * 跳转预加载 API
+   * @param options 预加载的数据
+   * @example
+   * ```tsx
+   * Taro.preload({ key: 'value' })
+   * ```
+   */
+  function preload (options: Record<string, any>)
+
+  /**
+   * 跳转预加载 API
+   * @param key 预加载的数据 key
+   * @param value 预加载的数据 value
+   * @example
+   * ```tsx
+   * Taro.preload('key', 'value')
+   * ```
+   */
+  function preload (key: string, value: any)
+
+  /**
+   * 预加载的数据
+   */
+  const preloadData: Record<string, any>
 }

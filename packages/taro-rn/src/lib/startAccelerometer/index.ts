@@ -1,0 +1,1 @@
+export { startAccelerometer } from '../accelerometer'

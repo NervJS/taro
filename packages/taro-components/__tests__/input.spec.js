@@ -47,7 +47,8 @@ describe('Input', () => {
         disabled,
         value,
         placeholder,
-        autoFocus
+        autoFocus,
+        type: 'text'
       }
 
       constructor (props) {

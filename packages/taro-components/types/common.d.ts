@@ -1,8 +1,8 @@
-import {CSSProperties, LegacyRef} from 'react';
+import { CSSProperties, LegacyRef } from 'react'
 
 export type Omit<T, K extends keyof T> = Pick<T, ({ [P in keyof T]: P } & { [P in K]: never } & { [x: string]: never })[keyof T]>;
 
-export interface StandardProps<T = any> extends EventProps {
+export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> = ITouchEvent> extends EventProps<TouchEvent> {
   /** 组件的唯一标示, 保持整个页面唯一 */
   id?: string
   /** 同 `class`，在 React/Nerv 里一般使用 `className` 作为 `class` 的代称 */
@@ -33,18 +33,18 @@ export interface FormItemProps {
   name?: string
 }
 
-export interface EventProps {
+export interface EventProps<TouchEvent extends BaseTouchEvent<any> = ITouchEvent> {
   /** 手指触摸动作开始 */
-  onTouchStart?: (event: ITouchEvent) => void
+  onTouchStart?: (event: TouchEvent) => void
 
   /** 手指触摸后移动 */
-  onTouchMove?: (event: ITouchEvent) => void
+  onTouchMove?: (event: TouchEvent) => void
 
   /** 手指触摸动作被打断，如来电提醒，弹窗 */
-  onTouchCancel?: (event: ITouchEvent) => void
+  onTouchCancel?: (event: TouchEvent) => void
 
   /** 手指触摸动作结束 */
-  onTouchEnd?: (event: ITouchEvent) => void
+  onTouchEnd?: (event: TouchEvent) => void
 
   /** 手指触摸后马上离开 */
   onClick?: (event: ITouchEvent) => void
@@ -75,11 +75,13 @@ export type BaseEventOrigFunction<T> = (event: BaseEventOrig<T>) => void
 
 export type TouchEventFunction = (event: ITouchEvent) => void
 
+export type CanvasTouchEventFunction = (event: CanvasTouchEvent) => void
+
 export type CommonEvent<T = any> = BaseEventOrig<T>
 
 export type CommonEventFunction<T = any> = BaseEventOrigFunction<T>
 
-export interface BaseEventOrig<T> {
+export interface BaseEventOrig<T = any> {
   /** 事件类型 */
   type: string
 
@@ -102,13 +104,17 @@ export interface BaseEventOrig<T> {
   stopPropagation: () => void
 }
 
-export interface ITouchEvent<T = any> extends BaseEventOrig<T> {
+interface BaseTouchEvent<TouchDetail, T = any> extends BaseEventOrig<T> {
   /** 触摸事件，当前停留在屏幕中的触摸点信息的数组 */
-  touches: Array<ITouch>
+  touches: Array<TouchDetail>
 
   /** 触摸事件，当前变化的触摸点信息的数组 */
-  changedTouches: Array<CanvasTouch>
+  changedTouches: Array<TouchDetail>
 }
+
+export type CanvasTouchEvent = BaseTouchEvent<CanvasTouch, never>
+
+export type ITouchEvent = BaseTouchEvent<ITouch>
 
 export interface CanvasTouch {
   identifier: number

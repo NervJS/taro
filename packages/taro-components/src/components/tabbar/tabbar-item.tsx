@@ -1,16 +1,27 @@
 import classNames from 'classnames'
-import { h } from '@stencil/core'
+import { FunctionalComponent, h } from '@stencil/core'
 
-export const TabbarItem = (props) => {
-  const {
-    index = null,
-    isSelected = false,
-    textColor = {},
-    iconPath = '',
-    badgeText = null,
-    showRedDot = false,
-    text
-  } = props
+type TabbarItemProps = {
+  index: number
+  isSelected?: boolean
+  textColor?: string
+  badgeText?: string
+  iconPath: string
+  showRedDot?: boolean
+  text?: string
+  onSelect: (index: number) => void
+}
+
+export const TabbarItem: FunctionalComponent<TabbarItemProps> = ({
+  index,
+  isSelected = false,
+  textColor,
+  iconPath,
+  badgeText,
+  showRedDot = false,
+  text,
+  onSelect
+}) => {
   const className = classNames('weui-tabbar__item', {
     'weui-bar__item_on': isSelected
   })
@@ -26,27 +37,30 @@ export const TabbarItem = (props) => {
   }
 
   function onClick () {
-    props.onSelect(props.index)
+    onSelect(index)
   }
 
-  return <a key={index} href='javascript:;' class={className} onClick={onClick}>
-    <span style={{ display: 'inline-block', position: 'relative' }}>
-      <img src={iconPath} alt='' class='weui-tabbar__icon' />
-      {badgeText &&
-      <span
-        class='weui-badge taro-tabbar-badge'
-        style={badgeStyle}>
-        {badgeText}
+  return (
+    <a key={index} href='javascript:;' class={className} onClick={onClick}>
+      <span style={{ display: 'inline-block', position: 'relative' }}>
+        <img src={iconPath} alt='' class='weui-tabbar__icon' />
+        {!!badgeText && (
+          <span
+            class='weui-badge taro-tabbar-badge'
+            style={badgeStyle}>
+            {badgeText}
+          </span>
+        )}
+        {showRedDot && (
+          <span
+            class='weui-badge weui-badge_dot'
+            style={dotStyle}
+          />
+        )}
       </span>
-      }
-      {showRedDot &&
-      <span
-        class='weui-badge weui-badge_dot'
-        style={dotStyle}
-      />}
-    </span>
-    <p class='weui-tabbar__label' style={{ color: textColor }}>
-      {text}
-    </p>
-  </a>
+      <p class='weui-tabbar__label' style={{ color: textColor }}>
+        {text}
+      </p>
+    </a>
+  )
 }

@@ -1,9 +1,9 @@
 import { findDOM } from '../utils/index'
 
 /**
-* 创建 canvas 的绘图上下文 CanvasContext 对象
-* @param {string} canvasId 要获取上下文的 <canvas> 组件 canvas-id 属性
-*/
+ * 创建 canvas 的绘图上下文 CanvasContext 对象
+ * @param {string} canvasId 要获取上下文的 <canvas> 组件 canvas-id 属性
+ */
 const createCanvasContext = (canvasId, inst) => {
   /** @type {HTMLCanvasElement} */
   const canvas = findDOM(inst).querySelector(`canvas[canvas-id="${canvasId}"]`)
@@ -22,7 +22,7 @@ const createCanvasContext = (canvasId, inst) => {
    * @type {Action[]}
    */
   const actions = []
-  const enqueueActions = func => {
+  const enqueueActions = (func) => {
     return (...args) => {
       actions.push({
         func,
@@ -43,22 +43,24 @@ const createCanvasContext = (canvasId, inst) => {
    * @param {Function} [callback] 绘制完成后执行的回调函数
    * @todo 每次draw都会读取width和height
    */
-  const draw = (reserve = false, callback) => {
+  const draw = async (reserve = false, callback) => {
     try {
       if (!reserve) {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
       }
-      actions.forEach(({ func, args }) => {
-        func.apply(ctx, args)
-      })
+
+      // 部分 action 是异步的
+      for (const { func, args } of actions) {
+        await func.apply(ctx, args)
+      }
+
       emptyActions()
       callback && callback()
-      return Promise.resolve()
     } catch (e) {
-      /* eslint-disable prefer-promise-reject-errors */
-      return Promise.reject({
+      /* eslint-disable no-throw-literal */
+      throw {
         errMsg: e.message
-      })
+      }
     }
   }
 
@@ -67,94 +69,152 @@ const createCanvasContext = (canvasId, inst) => {
      * 设置填充色。
      * @param {String} color 填充的颜色，默认颜色为 black。
      */
-    ['setFillStyle', (color) => {
-      ctx.fillStyle = color
-    }],
+    [
+      'setFillStyle',
+      (color) => {
+        ctx.fillStyle = color
+      }
+    ],
     /**
-    * 设置字体的字号。
-    * @param {Number} fontSize 字体的字号
-    */
-    ['setFontSize', (fontSize) => {
-      ctx.font = fontSize
-    }],
+     * 设置字体的字号。
+     * @param {Number} fontSize 字体的字号
+     */
+    [
+      'setFontSize',
+      (fontSize) => {
+        ctx.font = fontSize
+      },
+      true
+    ],
     /**
-    * 设置全局画笔透明度。
-    * @param {Number} alpha 透明度。范围 0-1，0 表示完全透明，1 表示完全不透明。
-    */
-    ['setGlobalAlpha', (alpha) => {
-      ctx.globalAlpha = alpha
-    }],
+     * 设置全局画笔透明度。
+     * @param {Number} alpha 透明度。范围 0-1，0 表示完全透明，1 表示完全不透明。
+     */
+    [
+      'setGlobalAlpha',
+      (alpha) => {
+        ctx.globalAlpha = alpha
+      }
+    ],
     /**
-    * 设置虚线样式。
-    * @param {Number[]} pattern 一组描述交替绘制线段和间距（坐标空间单位）长度的数字
-    * @param {Number} offset 虚线偏移量
-    */
-    ['setLineDash', (pattern, offset) => {
-      ctx.setLineDash(pattern)
-      ctx.lineDashOffset = offset
-    }],
+     * 设置虚线样式。
+     * @param {Number[]} pattern 一组描述交替绘制线段和间距（坐标空间单位）长度的数字
+     * @param {Number} offset 虚线偏移量
+     */
+    [
+      'setLineDash',
+      (pattern, offset) => {
+        ctx.setLineDash(pattern)
+        ctx.lineDashOffset = offset
+      }
+    ],
     /**
-    * 设置线条的端点样式ind
-    * @param {String} lineCap 线条的结束端点样式
-    */
-    ['setLineCap', (lineCap) => {
-      ctx.lineCap = lineCap
-    }],
+     * 设置线条的端点样式ind
+     * @param {String} lineCap 线条的结束端点样式
+     */
+    [
+      'setLineCap',
+      (lineCap) => {
+        ctx.lineCap = lineCap
+      }
+    ],
     /**
-    * 设置线条的交点样式
-    * @param {String} lineJoin 线条的结束交点样式
-    */
-    ['setLineJoin', (lineJoin) => {
-      ctx.lineJoin = lineJoin
-    }],
+     * 设置线条的交点样式
+     * @param {String} lineJoin 线条的结束交点样式
+     */
+    [
+      'setLineJoin',
+      (lineJoin) => {
+        ctx.lineJoin = lineJoin
+      }
+    ],
     /**
-    * 设置线条的宽度
-    * @param {number} lineWidth 线条的宽度，单位px
-    */
-    ['setLineWidth', (lineWidth) => {
-      ctx.lineWidth = lineWidth
-    }],
+     * 设置线条的宽度
+     * @param {number} lineWidth 线条的宽度，单位px
+     */
+    [
+      'setLineWidth',
+      (lineWidth) => {
+        ctx.lineWidth = lineWidth
+      }
+    ],
     /**
-    * 设置最大斜接长度。斜接长度指的是在两条线交汇处内角和外角之间的距离。当 CanvasContext.setLineJoin() 为 miter 时才有效。超过最大倾斜长度的，连接处将以 lineJoin 为 bevel 来显示。
-    * @param {number} miterLimit 最大斜接长度
-    */
-    ['setMiterLimit', (miterLimit) => {
-      ctx.miterLimit = miterLimit
-    }],
+     * 设置最大斜接长度。斜接长度指的是在两条线交汇处内角和外角之间的距离。当 CanvasContext.setLineJoin() 为 miter 时才有效。超过最大倾斜长度的，连接处将以 lineJoin 为 bevel 来显示。
+     * @param {number} miterLimit 最大斜接长度
+     */
+    [
+      'setMiterLimit',
+      (miterLimit) => {
+        ctx.miterLimit = miterLimit
+      }
+    ],
     /**
-    * 设定阴影样式。
-    * @param {number} offsetX 阴影相对于形状在水平方向的偏移，默认值为 0。
-    * @param {number} offsetY 阴影相对于形状在竖直方向的偏移，默认值为 0。
-    * @param {number} blur 阴影的模糊级别，数值越大越模糊。范围 0- 100。，默认值为 0。
-    * @param {string} color 阴影的颜色。默认值为 black。
-    */
-    ['setShadow', (offsetX, offsetY, blur, color) => {
-      ctx.shadowOffsetX = offsetX
-      ctx.shadowOffsetY = offsetY
-      ctx.shadowColor = blur
-      ctx.shadowBlur = color
-    }],
+     * 设定阴影样式。
+     * @param {number} offsetX 阴影相对于形状在水平方向的偏移，默认值为 0。
+     * @param {number} offsetY 阴影相对于形状在竖直方向的偏移，默认值为 0。
+     * @param {number} blur 阴影的模糊级别，数值越大越模糊。范围 0- 100。，默认值为 0。
+     * @param {string} color 阴影的颜色。默认值为 black。
+     */
+    [
+      'setShadow',
+      (offsetX, offsetY, blur, color) => {
+        ctx.shadowOffsetX = offsetX
+        ctx.shadowOffsetY = offsetY
+        ctx.shadowColor = blur
+        ctx.shadowBlur = color
+      }
+    ],
     /**
-    * 设置描边颜色。
-    * @param {String} color 描边的颜色，默认颜色为 black。
-    */
-    ['setStrokeStyle', (color) => {
-      ctx.strokeStyle = color
-    }],
+     * 设置描边颜色。
+     * @param {String} color 描边的颜色，默认颜色为 black。
+     */
+    [
+      'setStrokeStyle',
+      (color) => {
+        ctx.strokeStyle = color
+      }
+    ],
     /**
-    * 设置文字的对齐
-    * @param {String} align 文字的对齐方式
-    */
-    ['setTextAlign', (align) => {
-      ctx.textAlign = align
-    }],
+     * 设置文字的对齐
+     * @param {String} align 文字的对齐方式
+     */
+    [
+      'setTextAlign',
+      (align) => {
+        ctx.textAlign = align
+      },
+      true
+    ],
     /**
-    * 设置文字的竖直对齐
-    * @param {string} textBaseline 文字的竖直对齐方式
-    */
-    ['setTextBaseline', (textBaseline) => {
-      ctx.textBaseline = textBaseline
-    }]
+     * 设置文字的竖直对齐
+     * @param {string} textBaseline 文字的竖直对齐方式
+     */
+    [
+      'setTextBaseline',
+      (textBaseline) => {
+        ctx.textBaseline = textBaseline
+      },
+      true
+    ],
+    [
+      'drawImage',
+      (url, ...extra) => {
+        // 需要转换为 Image
+        if (typeof url === 'string') {
+          const img = new Image()
+          img.src = url
+          return new Promise((resolve, reject) => {
+            img.onload = () => {
+              ctx.drawImage(img, ...extra)
+              resolve()
+            }
+            img.onerror = reject
+          })
+        }
+
+        ctx.drawImage(url, ...extra)
+      }
+    ]
   ]
 
   const functionProperties = [
@@ -165,10 +225,8 @@ const createCanvasContext = (canvasId, inst) => {
     ['clearRect'],
     ['clip'],
     ['closePath'],
-    ['createCircularGradient', true],
     ['createLinearGradient', true],
     ['createPattern', true],
-    ['drawImage'],
     ['fill'],
     ['fillRect'],
     ['fillText'],
@@ -190,34 +248,43 @@ const createCanvasContext = (canvasId, inst) => {
   ]
 
   const valueProperties = [
-    'fillStyle',
-    'font',
-    'globalAlpha',
-    'lineCap',
-    'lineDashOffset',
-    'lineJoin',
-    'lineWidth',
-    'miterLimit',
-    'shadowOffsetX',
-    'shadowOffsetY',
-    'shadowColor',
-    'shadowBlur',
-    'strokeStyle',
-    'textAlign',
-    'textBaseline',
-    'direction',
-    'globalCompositeOperation',
-    'imageSmoothingEnabled ',
-    'imageSmoothingQuality',
-    'filter'
+    ['fillStyle'],
+    ['font', true],
+    ['globalAlpha'],
+    ['lineCap'],
+    ['lineDashOffset'],
+    ['lineJoin'],
+    ['lineWidth'],
+    ['miterLimit'],
+    ['shadowOffsetX'],
+    ['shadowOffsetY'],
+    ['shadowColor'],
+    ['shadowBlur'],
+    ['strokeStyle'],
+    ['textAlign', true],
+    ['textBaseline', true],
+    ['direction', true],
+    ['globalCompositeOperation'],
+    ['imageSmoothingEnabled '],
+    ['imageSmoothingQuality'],
+    ['filter']
   ]
 
-  const CanvasContext = {}
+  const CanvasContext = { __raw__: ctx }
 
-  customProperties.forEach(([funcName, func]) => {
+  customProperties.forEach(([funcName, func, setImmediatly]) => {
     Object.defineProperty(CanvasContext, funcName, {
       get () {
-        return enqueueActions(func)
+        const fn = enqueueActions(func)
+
+        return (...args) => {
+          // 立即触发
+          if (setImmediatly) {
+            func.apply(ctx, args)
+          }
+
+          return fn(...args)
+        }
       },
       enumerable: true
     })
@@ -232,18 +299,35 @@ const createCanvasContext = (canvasId, inst) => {
     })
   })
 
-  valueProperties.forEach(propertyName => {
+  valueProperties.forEach(([propertyName, setImmediatly]) => {
     Object.defineProperty(CanvasContext, propertyName, {
       get () {
         return ctx[propertyName]
       },
       set (value) {
+        if (setImmediatly) {
+          ctx[propertyName] = value
+        }
+
         enqueueActions(() => {
           ctx[propertyName] = value
         })()
         return true
       }
     })
+  })
+
+  Object.defineProperty(CanvasContext, 'createCircularGradient', {
+    /**
+     * @param {number} x
+     * @param {number} y
+     * @param {number} r
+     */
+    value: (x, y, r) => {
+      const radialGradient = ctx.createRadialGradient(x, y, 0, x, y, r)
+
+      return radialGradient
+    }
   })
 
   Object.defineProperty(CanvasContext, 'draw', {

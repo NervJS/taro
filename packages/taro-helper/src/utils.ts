@@ -40,7 +40,7 @@ export function isQuickAppPkg (name: string): boolean {
   return /^@(system|service)\.[a-zA-Z]{1,}/.test(name)
 }
 
-export function isAliasPath (name: string, pathAlias: object = {}): boolean {
+export function isAliasPath (name: string, pathAlias: Record<string, any> = {}): boolean {
   const prefixs = Object.keys(pathAlias)
   if (prefixs.length === 0) {
     return false
@@ -48,7 +48,7 @@ export function isAliasPath (name: string, pathAlias: object = {}): boolean {
   return prefixs.includes(name) || (new RegExp(`^(${prefixs.join('|')})/`).test(name))
 }
 
-export function replaceAliasPath (filePath: string, name: string, pathAlias: object = {}) {
+export function replaceAliasPath (filePath: string, name: string, pathAlias: Record<string, any> = {}) {
   // 后续的 path.join 在遇到符号链接时将会解析为真实路径，如果
   // 这里的 filePath 没有做同样的处理，可能会导致 import 指向
   // 源代码文件，导致文件被意外修改
@@ -167,7 +167,7 @@ export function getTaroPath (): string {
   return taroPath
 }
 
-export function getConfig (): object {
+export function getConfig (): Record<string, any> {
   const configPath = path.join(getTaroPath(), 'config.json')
   if (fs.existsSync(configPath)) {
     return require(configPath)
@@ -241,7 +241,7 @@ export function resolveScriptPath (p: string): string {
   return resolveMainFilePath(p)
 }
 
-export function generateEnvList (env: object): object {
+export function generateEnvList (env: Record<string, any>): Record<string, any> {
   const res = { }
   if (env && !isEmptyObject(env)) {
     for (const key in env) {
@@ -255,7 +255,7 @@ export function generateEnvList (env: object): object {
   return res
 }
 
-export function generateConstantsList (constants: object): object {
+export function generateConstantsList (constants: Record<string, any>): Record<string, any> {
   const res = { }
   if (constants && !isEmptyObject(constants)) {
     for (const key in constants) {
@@ -390,7 +390,7 @@ export const applyArrayedVisitors = obj => {
 }
 
 export function unzip (zipPath) {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     yauzl.open(zipPath, { lazyEntries: true }, (err, zipfile) => {
       if (err) throw err
       zipfile.on('close', () => {

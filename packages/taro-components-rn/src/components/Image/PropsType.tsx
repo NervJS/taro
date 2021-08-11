@@ -1,4 +1,4 @@
-import { StyleProp, ImageStyle } from 'react-native';
+import { StyleProp, ImageStyle } from 'react-native'
 
 export interface ImageState {
   ratio: number;
@@ -35,20 +35,20 @@ export type ResizeMode = 'cover' | 'contain' | 'stretch' | 'repeat' | 'center' |
 export type EventError = {
   detail: {
     errMsg: string;
-  }
+  };
 }
 
 export type EventLoad = {
   detail: {
     width: number;
     height: number;
-  }
+  };
 }
 
 export interface ImageProps {
   style?: StyleProp<ImageStyle>;
   src: string;
-  mode: Mode;
+  mode?: Mode;
   onError?: (event: EventError) => void;
   onLoad?: (event: EventLoad) => void;
 }

@@ -1,13 +1,15 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Element } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Element, State, Watch } from '@stencil/core'
 import { EventHandler, TaroEvent } from '../../../types'
 
-function getTrueType (type: string, confirmType: string, password: boolean) {
+function getTrueType (type: string | undefined, confirmType: string, password: boolean) {
+  if (confirmType === 'search') type = 'search'
+  if (password) type = 'password'
+  if (typeof type === 'undefined') {
+    return 'text';
+  }
   if (!type) {
     throw new Error('unexpected type')
   }
-  if (confirmType === 'search') type = 'search'
-  if (password) type = 'password'
   if (type === 'digit') type = 'number'
 
   return type
@@ -28,7 +30,7 @@ export class Input implements ComponentInterface {
   private fileListener: EventHandler
 
   @Prop() value: string
-  @Prop() type = 'text'
+  @Prop() type: string
   @Prop() password = false
   @Prop() placeholder: string
   @Prop() disabled = false
@@ -37,7 +39,23 @@ export class Input implements ComponentInterface {
   @Prop() confirmType = 'done'
   @Prop() name: string
 
+  @State() _value: string
+
   @Element() el: HTMLElement
+
+  @Watch('value')
+  watchHandler (newValue: string, oldValue: string) {
+    if (newValue !== oldValue) {
+      this._value = newValue
+    }
+  }
+
+  @Watch('autoFocus')
+  watchFocus (newValue: boolean, oldValue: boolean) {
+    if (!oldValue && newValue) {
+      this.inputRef.focus()
+    }
+  }
 
   @Event({
     eventName: 'input'
@@ -63,6 +81,10 @@ export class Input implements ComponentInterface {
     eventName: 'keydown'
   }) onKeyDown: EventEmitter
 
+  componentWillLoad () {
+    this._value = this.value
+  }
+
   componentDidLoad () {
     if (this.type === 'file') {
       this.fileListener = () => {
@@ -76,18 +98,20 @@ export class Input implements ComponentInterface {
 
     Object.defineProperty(this.el, 'value', {
       get: () => this.inputRef.value,
-      set: value => (this.value = value),
+      set: value => {
+        this._value = value
+      },
       configurable: true
     })
   }
 
-  componentDidUnload () {
+  disconnectedCallback () {
     if (this.type === 'file') {
       this.inputRef.removeEventListener('change', this.fileListener)
     }
   }
 
-  hanldeInput = (e: TaroEvent<HTMLInputElement>) => {
+  handleInput = (e: TaroEvent<HTMLInputElement>) => {
     e.stopPropagation()
     const {
       type,
@@ -115,6 +139,8 @@ export class Input implements ComponentInterface {
       //     }
       //   )
       // }
+
+      this._value = value
 
       this.onInput.emit({
         value,
@@ -166,7 +192,7 @@ export class Input implements ComponentInterface {
 
   render () {
     const {
-      value,
+      _value,
       type,
       password,
       placeholder,
@@ -184,14 +210,14 @@ export class Input implements ComponentInterface {
           autoFocus && input?.focus()
         }}
         class='weui-input'
-        value={fixControlledValue(value)}
+        value={fixControlledValue(_value)}
         type={getTrueType(type, confirmType, password)}
         placeholder={placeholder}
         disabled={disabled}
         maxlength={maxlength}
         autofocus={autoFocus}
         name={name}
-        onInput={this.hanldeInput}
+        onInput={this.handleInput}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         onChange={this.handleChange}

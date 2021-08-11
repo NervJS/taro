@@ -1,5 +1,5 @@
 import { Bundler, BundleResult } from 'scss-bundle'
-import * as fs from 'fs-extra'
+import { fs } from '@tarojs/helper'
 import * as path from 'path'
 
 interface LoaderOption {
@@ -116,7 +116,7 @@ export async function getSassLoaderOption (
   }
   return {
     ...sassLoaderOption,
-    prependData: sassLoaderOption.data ? `${sassLoaderOption.data}${bundledContent}` : bundledContent
+    additionalData: sassLoaderOption.data ? `${sassLoaderOption.data}${bundledContent}` : bundledContent
   }
 }
 
