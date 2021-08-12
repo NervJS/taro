@@ -29,6 +29,10 @@ export interface OnRemoveAttribute {
   (element: TaroElement, qualifiedName: string): void
 }
 
+export interface ModifyBindEventName {
+  (eventName: string, compName: string): string
+}
+
 export interface ModifyMpEvent {
   (event: MpEvent): void
 }
@@ -94,6 +98,8 @@ export interface IHooks {
 
   /** 解决 Vue2 布尔值属性值的设置问题 */
   onRemoveAttribute?: OnRemoveAttribute
+
+  modifyBindEventName: ModifyBindEventName
 
   /**
    * @multi-inject

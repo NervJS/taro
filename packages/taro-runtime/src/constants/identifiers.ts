@@ -16,6 +16,7 @@ const SERVICE_IDENTIFIER = {
   isBubbleEvents: 'isBubbleEvents',
   getSpecialNodes: 'getSpecialNodes',
   eventCenter: 'eventCenter',
+  modifyBindEventName: 'modifyBindEventName',
   modifyMpEvent: 'modifyMpEvent',
   modifyTaroEvent: 'modifyTaroEvent',
   batchedEventUpdates: 'batchedEventUpdates',

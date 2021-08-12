@@ -7,6 +7,7 @@ import type {
   GetLifecycle,
   GetPathIndex,
   GetEventCenter,
+  ModifyBindEventName,
   ModifyMpEvent,
   ModifyTaroEvent,
   IsBubbleEvents,
@@ -69,6 +70,9 @@ export class Hooks implements IHooks {
 
   @inject(SERVICE_IDENTIFIER.onAddEvent) @optional()
   public onAddEvent?: OnAddEvent
+
+  @inject(SERVICE_IDENTIFIER.modifyBindEventName)
+  public modifyBindEventName: ModifyBindEventName
 
   @multiInject(SERVICE_IDENTIFIER.modifyMpEvent) @optional()
   private modifyMpEventImpls?: ModifyMpEvent[]

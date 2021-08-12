@@ -936,7 +936,7 @@ export default class TaroMiniPlugin {
     } else {
       if (!this.options.blended && !isBuildPlugin) {
         const appName = path.basename(this.appEntry).replace(path.extname(this.appEntry), '')
-        this.generateConfigFile(compilation, this.appEntry, this.filesConfig[appName].content)
+        this.generateConfigFile(compilation, this.appEntry, this.filesConfig[this.getConfigFilePath(appName)].content)
       }
       if (!template.isSupportRecursive) {
         // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归

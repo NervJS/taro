@@ -1,5 +1,5 @@
-import { TaroElement, Style, FormElement } from '@tarojs/runtime'
-import { isFunction, isString, isObject, isNumber, internalComponents, capitalize, toCamelCase } from '@tarojs/shared'
+import { TaroElement, Style, FormElement, container, IHooks, SERVICE_IDENTIFIER } from '@tarojs/runtime'
+import { isFunction, isString, isObject, isNumber, capitalize, toCamelCase } from '@tarojs/shared'
 
 export type Props = Record<string, unknown>
 
@@ -40,9 +40,8 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
 
   const compName = capitalize(toCamelCase(dom.tagName.toLowerCase()))
 
-  if (eventName === 'click' && compName in internalComponents) {
-    eventName = 'tap'
-  }
+  const runtimeHooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
+  eventName = runtimeHooks.modifyBindEventName(eventName, compName)
 
   if (isFunction(value)) {
     if (!oldValue) {
