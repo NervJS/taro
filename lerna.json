@@ -17,7 +17,6 @@
     "packages/taro-components",
     "packages/taro-components-react",
     "packages/taro-components-rn",
-    "packages/taro-components-qa",
     "packages/taro-extend",
     "packages/taro-h5",
     "packages/taro-helper",
