@@ -6,6 +6,7 @@
 [![](https://img.shields.io/npm/l/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
 [![](https://img.shields.io/npm/dt/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
 [![](https://img.shields.io/travis/NervJS/taro.svg?style=flat-square)](https://travis-ci.org/NervJS/taro)
+[![GitHub contributors](https://img.shields.io/github/contributors/NervJS/taro)](https://github.com/NervJS/taro)
 
 [简体中文](./README.md) | [English](./README_EN.md)
 
