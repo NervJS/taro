@@ -43,7 +43,7 @@
     "@tarojs/plugin-platform-swan": "3.3.3",
     "@tarojs/plugin-platform-tt": "3.3.3",
     "@tarojs/plugin-platform-weapp": "3.3.3",
-    "@tarojs/plugin-platform-quickapp": "3.3.2",
+    "@tarojs/plugin-platform-quickapp": "3.3.3",
     "@tarojs/runner-utils": "3.3.3",
     "@tarojs/runtime": "3.3.3",
     "@tarojs/shared": "3.3.3",

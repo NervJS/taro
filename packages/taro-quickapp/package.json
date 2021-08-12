@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-quickapp",
-  "version": "3.3.2",
+  "version": "3.3.3",
   "description": "快应用平台插件",
   "author": "drchan",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-quickapp#readme",
@@ -27,10 +27,10 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/components": "3.3.2",
-    "@tarojs/service": "3.3.2",
-    "@tarojs/shared": "3.3.2",
-    "@tarojs/taro": "3.3.2",
+    "@tarojs/components": "3.3.3",
+    "@tarojs/service": "3.3.3",
+    "@tarojs/shared": "3.3.3",
+    "@tarojs/taro": "3.3.3",
     "ora": "^2.0.0",
     "request": "^2.88.0"
   }
