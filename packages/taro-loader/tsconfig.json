@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "module": "commonjs",
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
+    "outDir": "lib",
+    "skipLibCheck": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strictNullChecks": true,
+    "resolveJsonModule": true,
+    "traceResolution": false,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "rootDir": "./src",
+    "types": ["jest"]
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "__tests__",
+    "node_modules",
+    "lib",
+    "tests",
+    "jest",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ],
+  "compileOnSave": false
+}
+  

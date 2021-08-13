@@ -1,0 +1,81 @@
+<template>
+  <div
+    class="{{class}}"
+    style="{{customstyle}}"
+    id="{{id}}"
+    onclick="handleClick"
+  >
+    <slot></slot>
+  </div>
+</template>
+
+<script>
+  import router from '@system.router'
+  
+  export default {
+    props: {
+      class: {
+        type: String,
+        required: false,
+        default: 'taro_navigator'
+      },
+      customstyle: {
+        type: Object,
+        required: false,
+        default: {}
+      },
+      id: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      url: {
+        type: String,
+        required: true,
+        default: ''
+      },
+      opentype: {
+        type: String,
+        required: false,
+        default: 'navigate'
+      }
+    },
+
+    data: () => ({
+    }),
+    onInit () {
+    },
+    handleClick (e) {
+      let params = this.getUrlParams(this.url)
+      switch (this.opentype) {
+        case 'redirect':
+          router.replace({uri: this.url, params})
+          break
+        case 'reLaunch':
+          router.clear()
+          router.replace({uri: this.url, params})
+          break
+        case 'navigateBack':
+          router.back()
+          break
+        default: 
+          router.push({uri: this.url, params})
+
+      } 
+      this.$emit('click', e)
+    },
+    getUrlParams (url = '') {
+      let params = {}
+      url && url.replace(/(\w+)=(\w+)/ig, function (a, b, c) {
+        params[b] = unescape(c)
+      })
+      return params
+    }
+  }
+</script>
+
+<style>
+  .taro_navigator {
+    height: 30px;
+  }
+</style>

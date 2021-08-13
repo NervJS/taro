@@ -1,0 +1,53 @@
+<template>
+  <richtext 
+    class="taro_rich_text {{class}}" 
+    style="{{customstyle}}" 
+    id="{{id}}"
+    type="html" 
+    onclick="handleClick"
+  >
+    {{nodes}}
+  </richtext>
+</template>
+
+<script>
+  export default {
+    props: {
+      type: {
+        type: String,
+        required: false,
+        default: 'html'
+      },
+      class: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      id: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      customstyle: {
+        type: Object,
+        required: false,
+        default: {}
+      },
+      nodes: {
+        type: String,
+        required: true,
+        default: ''
+      }
+    },
+    handleClick(e) {
+      this.$emit('click', e)
+    }
+  }
+</script>
+
+<style>
+  .taro_rich_text {
+    padding: 30px;
+    background-color: #ffffff;
+  }
+</style>

@@ -1,0 +1,49 @@
+{
+  "name": "@tarojs/rn-runner",
+  "version": "3.3.3",
+  "description": "ReactNative build tool for taro",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint .",
+    "test": "jest --silent",
+    "test:dev": "jest --watch",
+    "test:ci": "jest --silent --coverage false",
+    "test:coverage": "jest --coverage"
+  },
+  "keywords": [
+    "taro"
+  ],
+  "author": "luckyadam",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "homepage": "https://github.com/NervJS/taro#readme",
+  "engines": {
+    "node": ">=12.0.0",
+    "npm": ">=6.0.0"
+  },
+  "dependencies": {
+    "@react-native-community/cli": "^5.0.1",
+    "@react-native-community/cli-server-api": "^5.0.1",
+    "@tarojs/helper": "3.3.3",
+    "@tarojs/rn-style-transformer": "3.3.3",
+    "@tarojs/rn-supporter": "3.3.3",
+    "@tarojs/rn-transformer": "3.3.3",
+    "fs-extra": "^9.0.1",
+    "lodash": "^4.17.4",
+    "metro": "^0.64.0",
+    "metro-cache": "^0.64.0",
+    "metro-config": "^0.64.0",
+    "metro-core": "^0.64.0",
+    "metro-react-native-babel-transformer": "^0.64.0",
+    "metro-resolver": "^0.64.0",
+    "qrcode-terminal": "^0.12.0"
+  }
+}

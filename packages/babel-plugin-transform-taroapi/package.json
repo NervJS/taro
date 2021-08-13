@@ -1,0 +1,9 @@
+{
+  "name": "babel-plugin-transform-taroapi",
+  "version": "3.3.3",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "license": "MIT"
+}

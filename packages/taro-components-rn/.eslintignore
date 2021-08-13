@@ -1,0 +1,9 @@
+coverage/
+regions.js
+regions.object.js
+regionsFormatter.js
+setupTests.js
+gulpfile.js
+dist/
+backupcode/
+TCRNExample/

@@ -1,0 +1,1 @@
+export { authorize } from '../permission'

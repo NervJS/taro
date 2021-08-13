@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "target": "ES2015",
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
+    "outDir": "dist",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strictNullChecks": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "rootDir": "./src",
+    "jsx": "react",
+    "lib": ["ESNEXT"],
+    "types": ["react-native", "node"]
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "__tests__",
+    "node_modules",
+    "dist",
+    "tests",
+    "jest",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ],
+  "compileOnSave": false
+}

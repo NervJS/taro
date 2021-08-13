@@ -1,0 +1,32 @@
+
+{
+  "include": [
+    "src/**/*.tsx",
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "src/**/ScrollViewExperimental.tsx",
+    "src/**/PropsTypeExperimental.tsx"
+  ],
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "downlevelIteration": true,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "target": "ES2015",
+    "lib": ["ES2015"],
+    "types": ["react-native", "jest"],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types",
+      "../../node_modules/@types"
+    ]
+  }
+}

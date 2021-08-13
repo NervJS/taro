@@ -1,0 +1,9 @@
+{
+  "extends": ["tslint-config-standard"],
+  "rules": {
+    "no-console": true,
+    "no-unused-variable": false,
+    "member-ordering": false,
+    "no-debugger": true
+  }
+}

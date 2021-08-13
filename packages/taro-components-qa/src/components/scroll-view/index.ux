@@ -1,0 +1,68 @@
+<template>
+    <list
+        @scroll="onScroll"
+        @scrollbottom="onScrollToLower"
+        @scrolltop="onScrollToUpper"
+        class="{{class}}"
+        style="{{flexDirection}} {{customstyle}}"
+        >
+        <list-item type='a'>
+            <slot></slot>
+        </list-item>
+  </list>
+</template>
+
+<script>
+    export default {
+      props: {
+        class: {
+          type: String,
+          required: false,
+          default: ''
+        },
+        customstyle: {
+          type: String,
+          required: false,
+          default: ''
+        },
+        scrollx: {
+          type: Boolean,
+          required: false,
+          default: true
+        },
+        scrolly: {
+          type: Boolean,
+          required: false,
+          default: false
+        }
+      },
+
+      onInit () {
+        if (this.scrolly) {
+            this.flexDirection = 'flex-direction: column'
+        } else {
+            this.flexDirection = 'flex-direction: row'
+        }
+      },
+
+      onScroll (e) {
+        this.$emit('scroll', e)
+      },
+
+      onScrollToLower(e) {
+        this.$emit('scrollToLower', e)
+      },
+
+      onScrollToUpper (e) {
+        this.$emit('scrollToUpper', e)
+      },
+
+      handleClick (e) {
+        this.$emit('click', e)
+      }
+    }
+  </script>
+
+  <style>
+
+  </style>

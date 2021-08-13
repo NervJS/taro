@@ -1,0 +1,1 @@
+export { stopDeviceMotionListening } from '../deviceMotion'

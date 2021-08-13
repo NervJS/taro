@@ -1,0 +1,166 @@
+<template>
+  <div class="taro_picker">
+    <text class="label">当前选择</text>
+    <picker
+      class="picker {{class}}"
+      style="{{customstyle}}"
+      id="{{id}}"
+      type="{{type}}"
+      value="{{selectValue}}"
+      selected="{{selected}}"
+      disabled="{{disabled}}"
+      range="{{range}}"
+      start="{{start}}"
+      end="{{end}}"
+      @change="handleChange"
+      @cancel="handleCancel"
+    >
+    </picker>
+  </div>
+ 
+</template>
+
+<script>
+  export default {
+    props: {
+      class: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      customstyle: {
+        type: Object,
+        required: false,
+        default: {}
+      },
+      id: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      range: {
+        type: Array,
+        required: false,
+        default: []
+      },
+      mode: {
+        type: String,
+        required: false,
+        default: 'selector'
+      },
+      value: {
+        type: [String, Number],
+        required: false,
+        default: 0
+      },
+      disabled: {
+        type: Boolean,
+        required: false,
+        default: false
+      },
+      start: {
+        type: String,
+        required: false,
+        default: '1970-1-1'
+      },
+      end: {
+        type: String,
+        required: false,
+        default: '2100-12-31'
+      },
+    },
+
+    data: () => ({
+      type: 'text',
+      selectValue: '',
+      selected: 0,
+    }),
+
+    onInit () {
+      switch (this.mode) {
+        case 'selector':
+          this.type = 'text'
+          this.selected = this.value
+          this.selectValue = this.range[this.value]
+          break;
+        case 'multiSelector':
+          this.selected = this.value
+          this.selectValue = this.getSelectValue()
+          this.type = 'multi-text'
+          break;
+        case 'time':
+          this.selectValue = this.value
+          this.type = 'time'
+          break;
+        case 'date':
+          this.selectValue = this.value
+          this.type = 'date'
+          break;
+        default:
+          this.selectValue = this.value
+          this.type = 'text'
+      }
+    },
+    handleChange (e) { 
+      switch (this.mode) {
+        case 'selector':
+          let index = this.range.indexOf(e.newValue)
+          this.selected = index
+          this.selectValue = e.newValue
+          this.$emit('change', {value: index})
+          break;
+        case 'time':
+          this.selectValue = e.hour + ':' + e.minute
+          this.$emit('change', {value: this.selectValue})
+          break;
+        case 'multiSelector':
+          this.selected = e.newSelected
+          this.selectValue = e.newValue
+          this.$emit('change', {value: this.selected})
+          break;
+        case 'date':
+          this.selectValue = `${e.year}-${e.month+1}-${e.day}`
+          this.$emit('change', {value: this.selectValue})
+          break;
+        default:
+          this.type = 'text'
+      }
+    },
+    getSelectValue () {
+      if (!this.range && !this.value) {
+        console.warn('请传入range和value值')
+        return
+      } 
+      if (this.range.length !== this.value.length) {
+        console.warn('数据传入有误')
+        return
+      } 
+      let newValue = []
+      for (let i = 0; i < this.range.length; i++) {
+        newValue[i] = this.range[i][`${this.value[i]}`]
+      }
+      return newValue
+    },
+    handleCancel () {
+      this.$emit('cancel')
+    }
+  }
+</script>
+
+<style>
+  .taro_picker {
+    background-color: #ffffff;
+    border-bottom-width: 1px;
+    border-color: #bbbbbb;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .picker {
+    flex: 1;
+  }
+  .label {
+    padding-bottom: 30px;
+    padding-top: 30px;
+    padding-right: 100px;
+  }
+</style>

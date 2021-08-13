@@ -1,0 +1,113 @@
+<template>
+  <input
+    placeholder="{{placeholder}}"
+    value="{{inputValue}}"
+    name="{{name}}"
+    id="{{id}}"
+    maxlength="{{maxlength}}"
+    type="{{type}}"
+    class="{{class}}"
+    disabled="{{disabled}}"
+    style="{{inputStyle}}"
+    enterkeytype="{{confirmType}}"
+    @change="onInput"
+    @enterkeyclick="onConfirm"
+    @focus="onFocus"
+    @blur="onBlur"
+  />
+</template>
+
+<script>
+  export default {
+    props: {
+      type: {
+        type: String,
+        required: false,
+        default: 'text'
+      },
+      id: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      class: {
+        type: String,
+        required: false,
+        default: 'taro_input'
+      },
+      customstyle: {
+        type: Object,
+        required: false,
+        default: {}
+      },
+      disabled: {
+        type: Boolean,
+        required: false,
+        default: false
+      },
+      placeholder: {
+        type: String,
+        required: false,
+        default: '请输入...'
+      },
+      value: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      name: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      maxlength: {
+        type: Number,
+        required: false,
+        default: 10000
+      },
+      confirmtype: {
+        type: String,
+        required: false,
+        default: 'default'
+      },
+      placeholderstyle: {
+        type: String,
+        required: false,
+        default: ''
+      }
+    },
+
+    data: () => ({
+      inputValue: '',
+      inputStyle: {}
+    }),
+
+    onInit () {
+      this.inputValue = this.value
+      this.inputStyle = Object.assign({}, this.customstyle, { 'placeholder-color': this.placeholderStyle})
+    },
+
+    onInput ({ value }) {
+      this.inputValue = value
+      this.$emit('input', { value })
+    },
+
+    onConfirm (e) {
+      this.$emit('confirm', e)
+    },
+
+    onFocus (e) {
+      this.$emit('focus', e)
+    },
+
+    onBlur (e) {
+      this.$emit('blur', e)
+    }
+  }
+</script>
+
+<style>
+  .taro_input {
+
+  }
+</style>
