@@ -15,13 +15,13 @@ const BUBBLE_EVENTS = new Set([
 
 export const hostConfig = {
   initNativeApi,
-  isBubbleEvent (eventName: string, _tagName: string) {
+  isBubbleEvents (eventName: string, _tagName: string) {
     return BUBBLE_EVENTS.has(eventName)
   },
   getPathIndex (indexOfNode) {
     return `${indexOfNode}`
   },
-  modifyBindEventName (eventName: string) {
+  modifyBindEventName (eventName: string, _compName: string) {
     return eventName
   }
 }
