@@ -16,6 +16,7 @@
     "rootDir": "./src",
     "sourceMap": true,
     "strictNullChecks": true,
+    "skipLibCheck": true,
     "target": "es2015",
     "traceResolution": false,
     "types": ["node", "jest"]

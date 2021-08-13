@@ -392,7 +392,7 @@ export const applyArrayedVisitors = obj => {
 export function unzip (zipPath) {
   return new Promise<void>((resolve, reject) => {
     yauzl.open(zipPath, { lazyEntries: true }, (err, zipfile) => {
-      if (err) throw err
+      if (err || !zipfile) throw err
       zipfile.on('close', () => {
         fs.removeSync(zipPath)
         resolve()
@@ -410,7 +410,7 @@ export function unzip (zipPath) {
           zipfile.readEntry()
         } else {
           zipfile.openReadStream(entry, (err, readStream) => {
-            if (err) throw err
+            if (err || !readStream) throw err
             const filter = new Transform()
             filter._transform = function (chunk, encoding, cb) {
               cb(undefined, chunk)

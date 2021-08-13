@@ -26,7 +26,7 @@ export default {
       inject: { insertAt: 'top' }
     }),
     commonjs({
-      include: 'node_modules/**'
+      include: '../../node_modules/**'
     }),
     babel({
       extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', 'ts', 'tsx'],

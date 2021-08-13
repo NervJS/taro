@@ -47,8 +47,6 @@ jobs:
     - run: yarn config set registry https://registry.yarnpkg.com
     - name: install
       run: yarn
-    - name: bootstrap
-      run: yarn run bootstrap:lerna
     - name: lint
       run: yarn run lint
     - name: build

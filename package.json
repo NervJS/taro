@@ -1,30 +1,31 @@
 {
   "name": "taro",
   "description": "开放式跨端跨框架开发解决方案",
-  "main": "index.js",
+  "homepage": "https://github.com/NervJS/taro#readme",
+  "author": "O2Team",
   "private": true,
-  "scripts": {
-    "lint": "eslint packages/  --ext .js --ext .ts --ext .tsx",
-    "docs:rename-version": "cd website && docusaurus-rename-version",
-    "clear-all": "rimraf package-lock.json packages/*/node_modules packages/*/package-lock.json packages/*/yarn.lock",
-    "bootstrap:ci": "lerna bootstrap --npm-client=yarn",
-    "bootstrap:lerna": "lerna bootstrap",
-    "bootstrap": "npm-run-all clear-all bootstrap:lerna",
-    "build:shared": "lerna run build --scope @tarojs/shared --scope @tarojs/runtime",
-    "build:parallel": "npm run build:shared && lerna run build --parallel --ignore @tarojs/shared --ignore @tarojs/runtime",
-    "build": "lerna run build",
-    "release:lerna": "lerna version --exact --no-git-tag-version --force-publish",
-    "release:beta": "lerna publish --force-publish=* --exact --skip-temp-tag  --preid=beta --npm-tag=beta",
-    "release": "npm-run-all build release:lerna && npm run changelog && node ./build/docs-version.js",
-    "test": "lerna run --scope @tarojs/cli --scope babel-preset-taro --scope @tarojs/components --scope @tarojs/react --scope @tarojs/webpack-runner --scope @tarojs/mini-runner --scope @tarojs/runtime --scope @tarojs/taro-rn --scope @tarojs/components-rn test:ci",
-    "version": "npm-run-all version:lerna version:git version:changelog",
-    "version:lerna": "lerna version ${npm_config_lerna_version} --exact --no-git-tag-version --force-publish --yes",
-    "version:git": "git add . && git commit -m \"chore(release): publish ${npm_config_lerna_version}\"",
-    "version:changelog": "conventional-changelog -p angular"
+  "license": "MIT",
+  "keywords": [
+    "nerv",
+    "taro"
+  ],
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint packages/  --ext .js --ext .ts --ext .tsx",
+    "build": "lerna run build",
+    "test": "lerna run --scope @tarojs/cli --scope babel-preset-taro --scope @tarojs/components --scope @tarojs/react --scope @tarojs/webpack-runner --scope @tarojs/mini-runner --scope @tarojs/runtime --scope @tarojs/taro-rn --scope @tarojs/components-rn test:ci",
+    "version": "npm-run-all version:lerna version:git version:changelog",
+    "version:lerna": "lerna version ${npm_config_lerna_version} --exact --no-git-tag-version --force-publish --yes",
+    "version:git": "git add . && git commit -m \"chore(release): publish ${npm_config_lerna_version}\"",
+    "version:changelog": "conventional-changelog -p angular",
+    "clear-all": "rimraf package-lock.json packages/*/node_modules packages/*/package-lock.json packages/*/yarn.lock"
   },
   "lint-staged": {
     "*.{js,jsx}": [
@@ -38,16 +39,7 @@
       "pre-commit": "lint-staged"
     }
   },
-  "keywords": [
-    "nerv",
-    "taro"
-  ],
-  "author": "O2Team",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/NervJS/taro/issues"
-  },
-  "homepage": "https://github.com/NervJS/taro#readme",
+  "workspaces": ["packages/*"],
   "devDependencies": {
     "@babel/cli": "7.10.5",
     "@babel/core": "^7.11.1",
