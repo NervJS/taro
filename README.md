@@ -6,6 +6,11 @@
 [![](https://img.shields.io/npm/l/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
 [![](https://img.shields.io/npm/dt/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
 [![](https://img.shields.io/travis/NervJS/taro.svg?style=flat-square)](https://travis-ci.org/NervJS/taro)
+[![GitHub contributors](https://img.shields.io/github/contributors/NervJS/taro)](https://github.com/NervJS/taro)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/w/NervJS/taro)](https://github.com/NervJS/taro)
+[![GitHub closed issues](https://img.shields.io/github/issues-closed/NervJS/taro)](https://github.com/NervJS/taro)
+[![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/NervJS/taro/latest/next)](https://github.com/NervJS/taro)
+[![GitHub Release Date](https://img.shields.io/github/release-date/NervJS/taro)](https://github.com/NervJS/taro)
 
 [简体中文](./README.md) | [English](./README_EN.md)
 

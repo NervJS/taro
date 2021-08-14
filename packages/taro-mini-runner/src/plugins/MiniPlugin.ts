@@ -274,10 +274,10 @@ export default class TaroMiniPlugin {
               isIndependent = true
             }
           })
-          const loaderName = isIndependent ? '@tarojs/taro-loader/lib/independentPage' : this.pageLoaderName
+          const loaderName = isBuildPlugin ? '@tarojs/taro-loader/lib/native-component' : (isIndependent ? '@tarojs/taro-loader/lib/independentPage' : this.pageLoaderName)
           if (!isLoaderExist(module.loaders, loaderName)) {
             module.loaders.unshift({
-              loader: isBuildPlugin ? '@tarojs/taro-loader/lib/native-component' : loaderName,
+              loader: loaderName,
               options: {
                 framework,
                 name: module.name,
