@@ -112,7 +112,8 @@ export function createRouter (
     })
   }
 
-  const router = new UniversalRouter(routes, { baseUrl: config.router.basename || '' })
+  const basename = config.router.basename
+  const router = new UniversalRouter(routes, { baseUrl: basename || '' })
   app.onLaunch!()
 
   const render: LocationListener<LocationState> = throttle(async ({ location, action }) => {
@@ -181,9 +182,11 @@ export function createRouter (
       const config = { ...pageConfig }
       delete config['path']
       delete config['load']
+
+      const pathname = basename ? location.pathname.replace(basename, '') : location.pathname
       const page = createPageConfig(
         enablePullDownRefresh ? runtimeHooks.createPullDownComponent?.(el, location.pathname, framework, routerConfig.PullDownRefresh) : el,
-        location.pathname + stringify(qs(stacks.length)),
+        pathname + stringify(qs(stacks.length)),
         {},
         config
       )
