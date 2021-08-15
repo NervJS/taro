@@ -451,6 +451,59 @@ $ NODE_ENV=production taro build --type iot --watch # Mac
 
 同支付宝小程序。开发者工具的编译模式设置为 IOT 小程序。
 
+
+
+
+### 飞书小程序
+
+> Taro v3.1+ 开始支持
+
+使用 Taro 插件能支持编译飞书小程序，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-lark)。
+
+#### 安装插件
+
+```bash
+yarn add @tarojs/plugin-platform-lark
+```
+
+#### 配置插件
+
+```js title="Taro 项目配置"
+config = {
+  // ...
+  plugins: [
+    '@tarojs/plugin-platform-lark'
+  ]
+}
+```
+
+#### 编译命令
+
+```bash
+# yarn
+$ yarn dev:lark
+$ yarn build:lark
+
+# npm script
+$ npm run dev:lark
+$ npm run build:lark
+
+# 仅限全局安装
+$ taro build --type lark --watch
+$ taro build --type lark
+
+# npx 用户也可以使用
+$ npx taro build --type lark --watch
+$ npx taro build --type lark
+
+# watch 同时开启压缩
+$ set NODE_ENV=production && taro build --type lark --watch # Windows
+$ NODE_ENV=production taro build --type lark --watch # Mac
+```
+
+#### 小程序开发者工具
+[飞书小程序](https://open.feishu.cn/document/uYjL24iN/uMjNzUjLzYzM14yM2MTN)能运行在飞书客户端上，且一套代码多端运行(包括PC端和移动端)。你需要下载并打开[飞书小程序开发者工具](https://open.feishu.cn/document/uYjL24iN/ucDOzYjL3gzM24yN4MjN)，并确保已经设置了小程序项目配置文件。然后选择项目根目录下 `dist` 目录进行预览。
+
 ### H5
 
 #### 编译命令

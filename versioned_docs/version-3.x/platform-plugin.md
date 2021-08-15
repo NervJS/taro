@@ -24,6 +24,7 @@ title: 概述
 | [@tarojs/plugin-platform-weapp-qy](https://github.com/NervJS/taro-plugin-platform-weapp-qy) | 企业微信小程序 |
 | [@tarojs/plugin-platform-alipay-dd](https://github.com/NervJS/taro-plugin-platform-alipay-dd) | 钉钉小程序 |
 | [@tarojs/plugin-platform-alipay-iot](https://github.com/NervJS/taro-plugin-platform-alipay-iot) | 支付宝 IOT 小程序 |
+| [@tarojs/plugin-platform-lark](https://github.com/NervJS/taro-plugin-platform-lark) | 飞书小程序 |
 
 ### 端平台插件使用方法：
 
