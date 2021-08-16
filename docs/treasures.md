@@ -696,6 +696,22 @@ Taro 小程序路由库/自动生成带参数类型提示的路由方法/允许�
 
 ---
 
+### taro-hooks
+
+`React`
+
+为Taro而设计的Hooks Library。
+
+@innocces 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/6119f3ba2dde82e17a3b8574)】【[Github](https://github.com/innocces/taro-hooks)】
+
+<img src="https://cdn.jsdelivr.net/gh/innocces/DrawingBed/2021-8-15/1629041766989-taro-hooks-index.PNG" width="250px" />
+
+|  | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| 支持度 | ✔️ |  |  |  | ✔️ | ✔️ |  
+
+---
+
 ## 其它
 
 ---
