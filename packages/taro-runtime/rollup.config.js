@@ -1,7 +1,6 @@
 import typescript from 'rollup-plugin-typescript2'
 import * as path from 'path'
 
-
 const buble = require('rollup-plugin-buble')
 const cwd = __dirname
 
