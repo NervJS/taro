@@ -17,6 +17,7 @@ import { noop } from '../../utils'
 import { RadioProps, RadioState } from './PropsType'
 
 class _Radio extends React.Component<RadioProps, RadioState> {
+  static displayName = '_Radio'
   static defaultProps = {
     value: '',
     color: '#09BB07'

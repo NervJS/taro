@@ -19,23 +19,16 @@ import { noop } from '../../utils'
 import { CheckboxProps, CheckboxState } from './PropsType'
 
 class _Checkbox extends React.Component<CheckboxProps, CheckboxState> {
+  static displayName = '_Checkbox'
   static defaultProps = {
     value: '',
     color: '#09BB07'
   }
 
-  static getDerivedStateFromProps(props: CheckboxProps, state: CheckboxState): CheckboxState | null {
-    return props.checked !== state.checked
-      ? {
-        checked: !!props.checked
-      }
-      : null
-  }
-
   $touchable = React.createRef<TouchableWithoutFeedback>()
 
   state: CheckboxState = {
-    checked: false
+    checked: !!this.props.checked,
   }
 
   _simulateNativePress = (evt: GestureResponderEvent): void => {
@@ -47,6 +40,7 @@ class _Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     const { disabled, onChange = noop, value } = this.props
     if (disabled) return
     const checked = !this.state.checked
+    // alert('子组件' + this.props.color)
     onChange({
       value,
       checked

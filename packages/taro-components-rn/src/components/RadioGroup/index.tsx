@@ -33,7 +33,7 @@ class _RadioGroup extends React.Component<RadioGroupProps, RadioGroupState> {
     return React.Children.toArray(children).map((child: any) => {
       if (!child.type) return child
 
-      const childTypeName = child.type.name
+      const childTypeName = child.type.displayName
       if (childTypeName === '_Radio') {
         const { _onGroupDataInitial = noop } = this.props
         const { checkedValue } = this.state
