@@ -1,12 +1,11 @@
 import { mergeWith } from 'lodash'
 import { join } from 'path'
-import resolve from 'rollup-plugin-node-resolve'
-import common from 'rollup-plugin-commonjs'
-import alias from 'rollup-plugin-alias'
+import resolve from '@rollup/plugin-node-resolve'
+import common from '@rollup/plugin-commonjs'
+import babel from '@rollup/plugin-babel'
+import alias from '@rollup/plugin-alias'
 import postcss from 'rollup-plugin-postcss'
 import exportNameOnly from './build/rollup-plugin-export-name-only'
-
-const babel = require('@rollup/plugin-babel').default
 
 const cwd = __dirname
 const baseConfig = {
@@ -18,7 +17,9 @@ const baseConfig = {
   },
   plugins: [
     alias({
-      '@tarojs/taro': join(cwd, '../taro/src/index')
+      entries: {
+        '@tarojs/taro': join(cwd, '../taro/src/index')
+      }
     }),
     resolve({
       preferBuiltins: false,

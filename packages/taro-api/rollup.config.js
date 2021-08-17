@@ -1,5 +1,5 @@
-import resolve from 'rollup-plugin-node-resolve'
-import cjs from 'rollup-plugin-commonjs'
+import resolve from '@rollup/plugin-node-resolve'
+import cjs from '@rollup/plugin-commonjs'
 import babel from '@rollup/plugin-babel'
 
 const baseConfig = {

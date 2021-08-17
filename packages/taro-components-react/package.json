@@ -23,7 +23,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@babel/runtime": "^7.13.10",
+    "@babel/runtime": "^7.14.5",
     "@tarojs/taro": "3.3.3",
     "@tarojs/taro-h5": "3.3.3",
     "better-scroll": "^1.14.1",
