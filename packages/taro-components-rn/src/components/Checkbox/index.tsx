@@ -70,7 +70,9 @@ class _Checkbox extends React.Component<CheckboxProps, CheckboxState> {
               style={[styles.wrapperIcon, checked && styles.wrapperCheckedIcon]}
             />
           </View>
-          {this.props.children}
+          <View style={{ flexGrow: 0 }}>
+            {this.props.children}
+          </View>
         </View>
       </TouchableWithoutFeedback>
     )

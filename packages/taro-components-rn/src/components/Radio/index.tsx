@@ -74,7 +74,9 @@ class _Radio extends React.Component<RadioProps, RadioState> {
               style={[styles.wrapperIcon, isChecked && styles.wrapperCheckedIcon]}
             />
           </View>
-          {this.props.children}
+          <View style={{ flexGrow: 0 }}>
+            {this.props.children}
+          </View>
         </View>
       </TouchableWithoutFeedback>
     )
