@@ -1583,3 +1583,29 @@ module.exports = {
   }
 }
 ```
+
+### rn.enableMultipleClassName
+`boolean`
+
+支持多 `className` 转换，以 `classname` 或 `style` 结尾的， 提取前缀， 然后根据前缀，再生成对应的 xxxStyle。如：`barClassName -> barStyle`。默认值 `false`，不开启。
+
+```js
+module.exports = {
+  rn: {
+    enableMultipleClassName: false
+  }
+}
+```
+
+### rn.enableMergeStyle
+`boolean`
+
+当标签 `style` 属性值是数组时转换成对象。默认值 `false`，不开启。
+
+```js
+module.exports = {
+  rn: {
+    enableMergeStyle: false // https://github.com/shinken008/babel-plugin-jsx-attributes-array-to-object#example
+  }
+}
+```
