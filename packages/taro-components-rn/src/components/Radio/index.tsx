@@ -17,6 +17,7 @@ import { noop } from '../../utils'
 import { RadioProps, RadioState } from './PropsType'
 
 class _Radio extends React.Component<RadioProps, RadioState> {
+  static displayName = '_Radio'
   static defaultProps = {
     value: '',
     color: '#09BB07'
@@ -74,7 +75,9 @@ class _Radio extends React.Component<RadioProps, RadioState> {
               style={[styles.wrapperIcon, isChecked && styles.wrapperCheckedIcon]}
             />
           </View>
-          {this.props.children}
+          <View style={{ flexGrow: 0 }}>
+            {this.props.children}
+          </View>
         </View>
       </TouchableWithoutFeedback>
     )
