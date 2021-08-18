@@ -1,0 +1,13 @@
+{
+  "presets": [
+    ["@babel/preset-env", {
+      "targets": {
+        "ios": "9",
+        "android": "4.4"
+      }
+    }]
+  ],
+  "plugins": [
+    "@babel/plugin-transform-react-jsx"
+  ]
+}
