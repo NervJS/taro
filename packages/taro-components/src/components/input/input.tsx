@@ -53,7 +53,7 @@ export class Input implements ComponentInterface {
   @Watch('autoFocus')
   watchFocus (newValue: boolean, oldValue: boolean) {
     if (!oldValue && newValue) {
-      this.inputRef.focus()
+      this.inputRef?.focus()
     }
   }
 
