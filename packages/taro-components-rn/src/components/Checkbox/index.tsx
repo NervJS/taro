@@ -25,10 +25,18 @@ class _Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     color: '#09BB07'
   }
 
+  static getDerivedStateFromProps(props: CheckboxProps, state: CheckboxState): CheckboxState | null {
+    return props.checked !== state.checked
+      ? {
+        checked: !!props.checked
+      }
+      : null
+  }
+
   $touchable = React.createRef<TouchableWithoutFeedback>()
 
   state: CheckboxState = {
-    checked: !!this.props.checked,
+    checked: false,
   }
 
   _simulateNativePress = (evt: GestureResponderEvent): void => {
@@ -40,7 +48,6 @@ class _Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     const { disabled, onChange = noop, value } = this.props
     if (disabled) return
     const checked = !this.state.checked
-    // alert('子组件' + this.props.color)
     onChange({
       value,
       checked
