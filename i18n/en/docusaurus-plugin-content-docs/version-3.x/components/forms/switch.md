@@ -123,10 +123,10 @@ export default class PageView extends Component {
 | Property | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 | React Native |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | SwitchProps.checked | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
-| SwitchProps.disabled | ✔️ |  |  |  |  |  |
+| SwitchProps.disabled | ✔️ |  |  |  |  | ✔️ |
 | SwitchProps.type | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | SwitchProps.color | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
-| SwitchProps.onChange | ✔️ |  |  |  |  |  |
+| SwitchProps.onChange | ✔️ |  |  |  |  | ✔️ |
 
 ### onChangeEventDetail
 

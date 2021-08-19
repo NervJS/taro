@@ -770,6 +770,12 @@ Specify the resource output directory by modifying the configuration `. /config/
 ```json
   rn: {
     output: {
+      iosSourceMapUrl: '', // sourcemap file url
+      iosSourcemapOutput: '../taro-native-shell/ios/main.map', // sourcemap file output path
+      iosSourcemapSourcesRoot: '', // The root directory when converting sourcemap resource paths to relative paths
+      androidSourceMapUrl: '',
+      androidSourcemapOutput: '../taro-native-shell/android/app/src/main/assets/index.android.map',
+      androidSourcemapSourcesRoot: '',
       ios: '../taro-native-shell/ios/main.jsbundle',
       iosAssetsDest: '../taro-native-shell/ios',
       android: '../taro-native-shell/android/app/src/main/assets/index.android.bundle',
@@ -839,7 +845,7 @@ React Native does not support @ symbols in paths, see [#14980](https://github.co
 ### The development server returned response error code 500
 
 ![image](https://user-images.githubusercontent.com/25324938/41452372-42c1e766-708f-11e8-96ce-323eaa1eb03f.jpeg)
-Mostly it's a dependency problem, go to the `.rn_temp/` directory, then remove the npm dependency and reinstall it.
+Mostly it's a dependency problem, remove the npm dependency and reinstall it.
 You can also try the following command.
 
 ```shell

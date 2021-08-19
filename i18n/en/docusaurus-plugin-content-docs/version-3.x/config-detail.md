@@ -1472,6 +1472,12 @@ module.exports = {
   rn: {
     // ...
     output: {
+      iosSourceMapUrl: '', // sourcemap file url
+      iosSourcemapOutput: '../taro-native-shell/ios/main.map', // sourcemap file output path
+      iosSourcemapSourcesRoot: '', // The root directory when converting sourcemap resource paths to relative paths
+      androidSourceMapUrl: '',
+      androidSourcemapOutput: '../taro-native-shell/android/app/src/main/assets/index.android.map',
+      androidSourcemapSourcesRoot: '',
       ios: '../taro-native-shell/ios/main.jsbundle',
       iosAssetsDest: '../taro-native-shell/ios',
       android: '../taro-native-shell/android/app/src/main/assets/index.android.bundle',

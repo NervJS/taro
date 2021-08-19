@@ -32,6 +32,7 @@ import TabItem from '@theme/TabItem'
 class App extends Components {
   render () {
     return (
+       {/*If it's alipay mini program, add the id attribute with the same value as the canvasId*/}
       <Canvas style='width: 300px; height: 200px;' canvasId='canvas' />
     )
   }

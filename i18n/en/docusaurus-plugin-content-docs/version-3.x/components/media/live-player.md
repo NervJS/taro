@@ -125,7 +125,7 @@ class App extends Components {
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>3</code></td>
       <td style={{ textAlign: "center"}}>No</td>
-      <td>Maximum buffer (in s)</td>
+      <td>Minimum buffer (in s)</td>
     </tr>
     <tr>
       <td>soundMode</td>

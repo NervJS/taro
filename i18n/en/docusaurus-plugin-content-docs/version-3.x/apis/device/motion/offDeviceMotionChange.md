@@ -36,4 +36,4 @@ Stops listening for device orientation change events. If the parameter is empty,
 
 | API | WeChat Mini-Program | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| Taro.offDeviceMotionChange | ✔️ |  |  |
+| Taro.offDeviceMotionChange | ✔️ |  | ✔️ |
