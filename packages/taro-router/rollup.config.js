@@ -1,14 +1,16 @@
 import typescript from 'rollup-plugin-typescript2'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
+import babel from '@rollup/plugin-babel'
 import * as path from 'path'
 
-const buble = require('rollup-plugin-buble')
 const cwd = __dirname
 
 const baseConfig = {
   input: path.join(cwd, 'src/index.ts'),
-  external: ['@tarojs/runtime'],
+  external: d => {
+    return /^@tarojs\/runtime$/.test(d) || d.includes('@babel/runtime')
+  },
   output: [
     {
       file: path.join(cwd, 'dist/index.js'),
@@ -18,14 +20,12 @@ const baseConfig = {
     }
   ],
   plugins: [
+    typescript(),
     resolve(),
     commonjs(),
-    typescript(),
-    buble({
-      transforms: {
-        asyncAwait: false,
-        forOf: false
-      }
+    babel({
+      extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', 'ts', 'tsx'],
+      babelHelpers: 'runtime'
     })
   ]
 }
@@ -34,8 +34,7 @@ const esmConfig = Object.assign({}, baseConfig, {
     sourcemap: true,
     format: 'es',
     file: path.join(cwd, 'dist/router.esm.js')
-  }),
-  plugins: baseConfig.plugins.slice(0, baseConfig.plugins.length - 1)
+  })
 })
 
 function rollup () {
