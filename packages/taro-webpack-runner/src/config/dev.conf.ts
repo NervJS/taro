@@ -92,7 +92,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
   }
 
   if (isMultiRouterMode) {
-    merge(plugin, mapValues(entry, (filePath, entryName) => {
+    merge(plugin, mapValues(entry, (_filePath, entryName) => {
       return getHtmlWebpackPlugin([{
         filename: `${entryName}.html`,
         template: path.join(appPath, sourceRoot, 'index.html'),

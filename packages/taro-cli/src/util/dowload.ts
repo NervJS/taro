@@ -15,7 +15,7 @@ export function getGithubRepoLatestReleaseVersion (repoName: string) {
           'User-Agent': 'Awesome-Octocat-App'
         }
       },
-      (err, response, body) => {
+      (err, _response, body) => {
         if (err) {
           throw new Error('快应用容器版本请求失败，请重试！')
         }

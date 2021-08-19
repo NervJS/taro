@@ -71,7 +71,7 @@ export default class MainPlugin {
     )
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
-      compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (loaderContext, module: any) => {
+      compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (_loaderContext, module: any) => {
         const { framework, entryFileName, designWidth, deviceRatio } = this.options
         const { dir, name } = path.parse(module.resource)
         if (path.join(dir, name) === this.appEntry) {

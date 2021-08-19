@@ -59,7 +59,7 @@ export function replaceAliasPath (filePath: string, name: string, pathAlias: Rec
     return promoteRelativePath(path.relative(filePath, fs.realpathSync(resolveScriptPath(pathAlias[name]))))
   }
   const reg = new RegExp(`^(${prefixs.join('|')})/(.*)`)
-  name = name.replace(reg, function (m, $1, $2) {
+  name = name.replace(reg, function (_m, $1, $2) {
     return promoteRelativePath(path.relative(filePath, path.join(pathAlias[$1], $2)))
   })
   return name
@@ -412,7 +412,7 @@ export function unzip (zipPath) {
           zipfile.openReadStream(entry, (err, readStream) => {
             if (err || !readStream) throw err
             const filter = new Transform()
-            filter._transform = function (chunk, encoding, cb) {
+            filter._transform = function (chunk, _encoding, cb) {
               cb(undefined, chunk)
             }
             filter._flush = function (cb) {

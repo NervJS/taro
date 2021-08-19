@@ -74,7 +74,7 @@ function processStyleImports (content: string, processFn: (a: string, b: string)
   const style: string[] = []
   const imports: string[] = []
   const styleReg = new RegExp('.wxss')
-  content = content.replace(CSS_IMPORT_REG, (m, $1, $2) => {
+  content = content.replace(CSS_IMPORT_REG, (m, _$1, $2) => {
     if (styleReg.test($2)) {
       style.push(m)
       imports.push($2)

@@ -1,24 +1,11 @@
 {
+  "extends": "../../tsconfig.root.json",
   "compilerOptions": {
-    "target": "ES2017",
-    "module": "ESNext",
-    "removeComments": false,
-    "preserveConstEnums": false,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "noImplicitAny": false,
-    "allowSyntheticDefaultImports": true,
-    "outDir": "lib",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "strictNullChecks": true,
-    "resolveJsonModule": true,
-    "sourceMap": true,
     "baseUrl": ".",
-    "rootDir": "."
+    "module": "ESNext",
+    "sourceMap": true
   },
   "include": [
     "./src"
-  ],
-  "compileOnSave": false
+  ]
 }

@@ -2,10 +2,7 @@
   "extends": "../../tsconfig.root.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "dist",
-    "rootDir": "./src",
-    "module": "commonjs",
-    "skipLibCheck": true
+    "module": "ESNext",
   },
   "include": [
     "./src"
