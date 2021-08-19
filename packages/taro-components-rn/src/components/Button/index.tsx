@@ -45,6 +45,7 @@ import { noop } from '../../utils'
 import { ButtonProps, ButtonState } from './PropsType'
 
 class _Button extends React.Component<ButtonProps, ButtonState> {
+  static displayName = '_Button'
   static defaultProps = {
     size: 'default',
     type: 'default',
