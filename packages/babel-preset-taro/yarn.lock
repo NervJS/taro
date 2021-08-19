@@ -1168,6 +1168,11 @@ babel-plugin-global-define@^1.0.3:
   resolved "https://registry.yarnpkg.com/babel-plugin-global-define/-/babel-plugin-global-define-1.0.3.tgz#262c528f0c26bf318f4ccc77cf21df43a0fa6308"
   integrity sha512-M8Sby4wRLuLr+9UB8V31knVRf/rl0xkk51A7um6hUCvVPyOvLtI0u0k1OPiMgE2d7CwmeSa33NzGpaALHPQCPg==
 
+babel-plugin-jsx-attributes-array-to-object@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-jsx-attributes-array-to-object/-/babel-plugin-jsx-attributes-array-to-object-0.3.0.tgz#ac7b551a2407750ac899460fe5e38b1dceaebed1"
+  integrity sha512-XvbCsBFo/y4n2DzRtICQ60Kb3FWPIK359YsUkDPjC4UBCF/FMENKYzxarEhAD1GnrAuui5wOUvli89yqF1IzdA==
+
 babel-plugin-polyfill-corejs2@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/babel-plugin-polyfill-corejs2/-/babel-plugin-polyfill-corejs2-0.2.2.tgz#e9124785e6fd94f94b618a7954e5693053bf5327"

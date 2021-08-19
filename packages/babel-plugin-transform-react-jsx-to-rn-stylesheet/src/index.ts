@@ -383,7 +383,7 @@ function importDeclaration (astPath, state, t) {
   const ext = path.extname(sourceValue)
   const styleSheetIdentifiers = file.get('styleSheetIdentifiers') || []
   const cssModuleStylesheets = file.get('cssModuleStylesheets') || []
-  const isCSSModule = state.opts?.isCSSModule
+  const enableCSSModule = state.opts?.enableCSSModule
 
   // 是样式文件但不是 css module
   if (isStyle(sourceValue)) {
@@ -394,7 +394,7 @@ function importDeclaration (astPath, state, t) {
       styleSheetName = specifiers[0].local.name
     }
 
-    if (isModuleSource(sourceValue) && isCSSModule) {
+    if (isModuleSource(sourceValue) && enableCSSModule) {
       if (styleSheetName) {
         cssModuleStylesheets.push(styleSheetName)
       }
