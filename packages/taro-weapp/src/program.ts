@@ -29,7 +29,7 @@ export default class Weapp extends TaroPlatformBase {
    * 5. build
    * 6. buildTransaction - close
    */
-  constructor (ctx, config, pluginOptions: IOptions) {
+  constructor (ctx, config, pluginOptions?: IOptions) {
     super(ctx, config)
     this.template = new Template(pluginOptions)
     this.setupTransaction.addWrapper({

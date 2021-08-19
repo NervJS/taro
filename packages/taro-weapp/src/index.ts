@@ -5,7 +5,7 @@ import type { IPluginContext } from '@tarojs/service'
 export { Weapp }
 
 export interface IOptions {
-  enablekeyboardAccessory: boolean
+  enablekeyboardAccessory?: boolean
 }
 
 export default (ctx: IPluginContext, options: IOptions) => {

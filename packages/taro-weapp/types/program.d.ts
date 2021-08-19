@@ -23,7 +23,7 @@ export default class Weapp extends TaroPlatformBase {
      * 5. build
      * 6. buildTransaction - close
      */
-    constructor(ctx: any, config: any, pluginOptions: IOptions);
+    constructor(ctx: any, config: any, pluginOptions?: IOptions);
     /**
      * 增加组件或修改组件属性
      */

@@ -44,6 +44,7 @@ require(\\"./taro\\");
             return o === \\"true\\" || o === \\"false\\";
         }
         const isArray = Array.isArray;
+        exports.Shortcuts = void 0;
         (function(Shortcuts) {
             Shortcuts[\\"Container\\"] = \\"container\\";
             Shortcuts[\\"Childnodes\\"] = \\"cn\\";
@@ -2603,6 +2604,8 @@ module.exports = {
     function _possibleConstructorReturn(self, call) {
         if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
+        } else if (call !== void 0) {
+            throw new TypeError(\\"Derived constructors may only return object or undefined\\");
         }
         return _assertThisInitialized(self);
     }

@@ -18,8 +18,8 @@ require(\\"./taro\\");
 
 (my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 4 ], [ , function(module, exports, __webpack_require__) {
     \\"use strict\\";
-    var _toConsumableArray = __webpack_require__(15);
-    var _typeof = __webpack_require__(20);
+    var _toConsumableArray = __webpack_require__(15).default;
+    var _typeof = __webpack_require__(4).default;
     Object.defineProperty(exports, \\"__esModule\\", {
         value: true
     });
@@ -48,6 +48,7 @@ require(\\"./taro\\");
         return o === \\"true\\" || o === \\"false\\";
     }
     var isArray = Array.isArray;
+    exports.Shortcuts = void 0;
     (function(Shortcuts) {
         Shortcuts[\\"Container\\"] = \\"container\\";
         Shortcuts[\\"Childnodes\\"] = \\"cn\\";
@@ -1407,36 +1408,18 @@ require(\\"./taro\\");
     }
     module.exports = _nonIterableSpread;
     module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-}, function(module, exports) {
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-            module.exports = _typeof = function _typeof(obj) {
-                return typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        } else {
-            module.exports = _typeof = function _typeof(obj) {
-                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        }
-        return _typeof(obj);
-    }
-    module.exports = _typeof;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
 }, function(module, exports, __webpack_require__) {}, , , , , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     var runtime = __webpack_require__(14);
     var taro_runtime = __webpack_require__(2);
     var taro = \\"taro\\";
-    var classCallCheck = __webpack_require__(4);
-    var createClass = __webpack_require__(5);
-    var inherits = __webpack_require__(7);
-    var createSuper = __webpack_require__(6);
+    var classCallCheck = __webpack_require__(5);
+    var createClass = __webpack_require__(6);
+    var inherits = __webpack_require__(8);
+    var createSuper = __webpack_require__(7);
     var react = __webpack_require__(0);
-    var app = __webpack_require__(21);
+    var app = __webpack_require__(20);
     var app_App = function(_Component) {
         Object(inherits[\\"a\\"])(App, _Component);
         var _super = Object(createSuper[\\"a\\"])(App);
@@ -1485,7 +1468,7 @@ require(\\"./taro\\");
             828: .905
         }
     });
-} ], [ [ 27, 0, 1, 3, 2 ] ] ]);
+} ], [ [ 26, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -1620,13 +1603,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.js **/
 (my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    22: function(module, __webpack_exports__, __webpack_require__) {
+    21: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
-}, [ [ 22, 0, 1 ] ] ]);
+}, [ [ 21, 0, 1 ] ] ]);
 
 /** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -1640,14 +1623,14 @@ require(\\"./taro\\");
 
 /** filePath: dist/pages/index/index.js **/
 (my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    23: function(module, exports, __webpack_require__) {
+    22: function(module, exports, __webpack_require__) {
         var g = function() {
             return this;
         }() || Function(\\"return this\\")();
         var hadRuntime = g.regeneratorRuntime && Object.getOwnPropertyNames(g).indexOf(\\"regeneratorRuntime\\") >= 0;
         var oldRuntime = hadRuntime && g.regeneratorRuntime;
         g.regeneratorRuntime = undefined;
-        module.exports = __webpack_require__(24);
+        module.exports = __webpack_require__(23);
         if (hadRuntime) {
             g.regeneratorRuntime = oldRuntime;
         } else {
@@ -1658,9 +1641,9 @@ require(\\"./taro\\");
             }
         }
     },
-    24: function(module, exports, __webpack_require__) {
+    23: function(module, exports, __webpack_require__) {
         (function(module) {
-            var _typeof = __webpack_require__(8);
+            var _typeof = __webpack_require__(4).default;
             !function(global) {
                 \\"use strict\\";
                 var Op = Object.prototype;
@@ -2126,9 +2109,9 @@ require(\\"./taro\\");
             }(function() {
                 return this;
             }() || Function(\\"return this\\")());
-        }).call(this, __webpack_require__(25)(module));
+        }).call(this, __webpack_require__(24)(module));
     },
-    25: function(module, exports) {
+    24: function(module, exports) {
         module.exports = function(module) {
             if (!module.webpackPolyfill) {
                 module.deprecate = function() {};
@@ -2151,13 +2134,11 @@ require(\\"./taro\\");
             return module;
         };
     },
-    26: function(module, exports, __webpack_require__) {},
-    28: function(module, __webpack_exports__, __webpack_require__) {
+    25: function(module, exports, __webpack_require__) {},
+    27: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(2);
-        var regenerator = __webpack_require__(9);
-        var regenerator_default = __webpack_require__.n(regenerator);
         function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
             try {
                 var info = gen[key](arg);
@@ -2187,13 +2168,15 @@ require(\\"./taro\\");
                 }));
             };
         }
-        var classCallCheck = __webpack_require__(4);
-        var createClass = __webpack_require__(5);
-        var inherits = __webpack_require__(7);
-        var createSuper = __webpack_require__(6);
+        var classCallCheck = __webpack_require__(5);
+        var createClass = __webpack_require__(6);
+        var inherits = __webpack_require__(8);
+        var createSuper = __webpack_require__(7);
+        var regenerator = __webpack_require__(9);
+        var regenerator_default = __webpack_require__.n(regenerator);
         var react = __webpack_require__(0);
         var taro_components = __webpack_require__(3);
-        var index = __webpack_require__(26);
+        var index = __webpack_require__(25);
         var index_Index = function(_Component) {
             Object(inherits[\\"a\\"])(Index, _Component);
             var _super = Object(createSuper[\\"a\\"])(Index);
@@ -2261,9 +2244,9 @@ require(\\"./taro\\");
         }, config || {}));
     },
     9: function(module, exports, __webpack_require__) {
-        module.exports = __webpack_require__(23);
+        module.exports = __webpack_require__(22);
     }
-}, [ [ 28, 0, 1, 3, 2 ] ] ]);
+}, [ [ 27, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
@@ -2426,7 +2409,25 @@ export default {
 }
 
 /** filePath: dist/vendors.js **/
-(my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , , function(module, __webpack_exports__, __webpack_require__) {
+(my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , , function(module, exports) {
+    function _typeof(obj) {
+        \\"@babel/helpers - typeof\\";
+        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
+            module.exports = _typeof = function _typeof(obj) {
+                return typeof obj;
+            };
+            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+        } else {
+            module.exports = _typeof = function _typeof(obj) {
+                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+            };
+            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+        }
+        return _typeof(obj);
+    }
+    module.exports = _typeof;
+    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+}, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _classCallCheck;
@@ -2477,7 +2478,7 @@ export default {
             return false;
         }
     }
-    var helpers_typeof = __webpack_require__(8);
+    var helpers_typeof = __webpack_require__(4);
     var typeof_default = __webpack_require__.n(helpers_typeof);
     function _assertThisInitialized(self) {
         if (self === void 0) {
@@ -2488,6 +2489,8 @@ export default {
     function _possibleConstructorReturn(self, call) {
         if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
+        } else if (call !== void 0) {
+            throw new TypeError(\\"Derived constructors may only return object or undefined\\");
         }
         return _assertThisInitialized(self);
     }
@@ -2529,24 +2532,6 @@ export default {
         });
         if (superClass) _setPrototypeOf(subClass, superClass);
     }
-}, function(module, exports) {
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-            module.exports = _typeof = function _typeof(obj) {
-                return typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        } else {
-            module.exports = _typeof = function _typeof(obj) {
-                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        }
-        return _typeof(obj);
-    }
-    module.exports = _typeof;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
 } ] ]);
 "
 `;

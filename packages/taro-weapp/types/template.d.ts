@@ -14,7 +14,7 @@ export declare class Template extends UnRecursiveTemplate {
         xs: string;
         type: string;
     };
-    constructor(pluginOptions: IOptions);
+    constructor(pluginOptions?: IOptions);
     buildXsTemplate(): string;
     replacePropName(name: string, value: string, componentName: string): string;
     buildXSTepFocus(nn: string): string;

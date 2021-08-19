@@ -11,8 +11,8 @@ require(\\"./taro\\");
 
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ function(module, exports, __webpack_require__) {
     \\"use strict\\";
-    var _toConsumableArray = __webpack_require__(5);
-    var _typeof = __webpack_require__(10);
+    var _toConsumableArray = __webpack_require__(5).default;
+    var _typeof = __webpack_require__(10).default;
     Object.defineProperty(exports, \\"__esModule\\", {
         value: true
     });
@@ -41,6 +41,7 @@ require(\\"./taro\\");
         return o === \\"true\\" || o === \\"false\\";
     }
     var isArray = Array.isArray;
+    exports.Shortcuts = void 0;
     (function(Shortcuts) {
         Shortcuts[\\"Container\\"] = \\"container\\";
         Shortcuts[\\"Childnodes\\"] = \\"cn\\";
