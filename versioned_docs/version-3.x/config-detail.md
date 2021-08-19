@@ -1569,16 +1569,14 @@ module.exports = {
 
 `object`
 
-`resolve` 是处理引用文件的配置。下面可以进行 `include` 配置，处理引用 `node_modules` 文件的跨平台处理，默认不处理。
+`resolve` 处理依赖文件配置。
+`resolve.include` 可配置多个 `npm` 包名的数组，将 `npm` 包当作项目文件处理，支持 `node_modules` 平台优先级文件访问和全局样式。
 
 ```js
 module.exports = {
-  // ...
   rn: {
-    // ...
     resolve: {
-      // ...
-      include: ['test'] // 处理引用 node_modules/test 文件的跨平台处理。
+      include: ['taro-ui'] // 处理引用 node_modules/taro-ui 的依赖。
     }
   }
 }
