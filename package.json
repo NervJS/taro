@@ -130,7 +130,6 @@
     "memory-fs": "^0.5.0",
     "mocha": "^6.2.1",
     "mock-socket": "^9.0.1",
-    "nerv-markdown-loader": "0.0.1",
     "nervjs": "^1.4.6",
     "node-sass": "5.0.0",
     "npm-run-all": "^4.1.2",
