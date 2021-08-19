@@ -322,7 +322,7 @@ getAttrValue (value, key, nodeName) {
 * 因为不需要调整模板内容，所以只用设置 `supportXS` 和 `Adapter` 属性即可。
 
 ```js
-import { RecursiveTemplate } from '@tarojs/shared'
+import { RecursiveTemplate } from '@tarojs/shared/dist/template'
 
 export class Template extends RecursiveTemplate {
   supportXS = false
@@ -347,7 +347,7 @@ export class Template extends RecursiveTemplate {
 * 利用 `replacePropName` 修改了组件绑定的属性名。
 
 ```js
-import { UnRecursiveTemplate } from '@tarojs/shared'
+import { UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 
 export class Template extends UnRecursiveTemplate {
   supportXS = true
