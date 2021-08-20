@@ -1,3 +1,5 @@
+import { isFunction, isUndefined } from '../utils'
+
 export function timeoutInterceptor (chain) {
   const requestParams = chain.requestParams
   let p
@@ -8,31 +10,41 @@ export function timeoutInterceptor (chain) {
     }, (requestParams && requestParams.timeout) || 60000)
 
     p = chain.proceed(requestParams)
-    p.then(res => {
-      if (!timeout) return
-      clearTimeout(timeout)
-      resolve(res)
-    }).catch(err => {
-      timeout && clearTimeout(timeout)
-      reject(err)
-    })
+    p
+      .then(res => {
+        if (!timeout) return
+        clearTimeout(timeout)
+        resolve(res)
+      })
+      .catch(err => {
+        timeout && clearTimeout(timeout)
+        reject(err)
+      })
   })
+  if (!isUndefined(p) && isFunction(p.abort)) res.abort = p.abort
 
-  if (p !== undefined && typeof p.abort === 'function') res.abort = p.abort
   return res
 }
 
 export function logInterceptor (chain) {
   const requestParams = chain.requestParams
   const { method, data, url } = requestParams
-  // eslint-disable-next-line no-console
-  console.log(`http ${method || 'GET'} --> ${url} data: `, data)
-  const p = chain.proceed(requestParams)
-  const res = p.then(res => {
+
+  if (process.env.NODE_ENV !== 'production') {
     // eslint-disable-next-line no-console
-    console.log(`http <-- ${url} result:`, res)
-    return res
-  })
-  if (typeof p.abort === 'function') res.abort = p.abort
+    console.log(`http ${method || 'GET'} --> ${url} data: `, data)
+  }
+
+  const p = chain.proceed(requestParams)
+  const res = p
+    .then(res => {
+      if (process.env.NODE_ENV !== 'production') {
+        // eslint-disable-next-line no-console
+        console.log(`http <-- ${url} result:`, res)
+      }
+      return res
+    })
+  if (isFunction(p.abort)) res.abort = p.abort
+
   return res
 }
