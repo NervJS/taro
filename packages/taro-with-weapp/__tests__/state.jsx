@@ -1,6 +1,5 @@
 /** @jsx createElement */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/camelcase */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createElement, render } from 'nervjs'
 import withWeapp from '../src'
@@ -94,7 +93,7 @@ describe('lifecycle', () => {
       },
       ready () {
         this.setData({
-          'a': 'b'
+          a: 'b'
         })
       }
     })
