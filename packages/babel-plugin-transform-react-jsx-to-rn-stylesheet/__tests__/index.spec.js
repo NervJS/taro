@@ -60,9 +60,9 @@ const getStyleFunctionTemplete = `function _getStyle(classNameExpression) {
 
 describe('jsx style plugin', () => {
   function getTransfromCode (source, debug = false, options = {}) {
-    const { isCSSModule, enableMultipleClassName = false } = options
+    const { enableCSSModule, enableMultipleClassName = false } = options
     const code = transform(source, {
-      plugins: [[jSXStylePlugin, { isCSSModule, enableMultipleClassName }], syntaxJSX],
+      plugins: [[jSXStylePlugin, { enableCSSModule, enableMultipleClassName }], syntaxJSX],
       configFile: false
     }).code
     if (debug) {
@@ -465,7 +465,7 @@ class App extends Component {
   render() {
     return <div className="header" style={styleSheet.red} />;
   }
-}`, false, { isCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
+}`, false, { enableCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
 import appScssStyleSheet from "./app.scss";
 import styleSheet from './app.module.scss';
 var _styleSheet = appScssStyleSheet;
@@ -489,7 +489,7 @@ class App extends Component {
       <div className="red" />
     </div>;
   }
-}`, false, { isCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
+}`, false, { enableCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
 import styleSheet from './app.module.scss';
 var _styleSheet = {};
 
@@ -514,7 +514,7 @@ class App extends Component {
     const a = styleSheet.red
     return <div className={a} />;
   }
-}`, false, { isCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
+}`, false, { enableCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
 import appScssStyleSheet from "./app.scss";
 import styleSheet from './app.module.scss';
 var _styleSheet = appScssStyleSheet;
@@ -539,7 +539,7 @@ class App extends Component {
     const b = a;
     return <div className={{ ...b }} />;
   }
-}`, false, { isCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
+}`, false, { enableCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
 import appScssStyleSheet from "./app.scss";
 import styleSheet from './app.module.scss';
 var _styleSheet = appScssStyleSheet;
