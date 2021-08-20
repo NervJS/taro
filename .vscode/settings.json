@@ -13,8 +13,4 @@
   ],
   "jest.autoEnable": false,
   "typescript.tsdk": "node_modules/typescript/lib",
-  "files.associations": {
-    "*.ttml": "xml",
-    "*.ttss": "css"
-  }
 }
