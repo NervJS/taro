@@ -6,6 +6,9 @@ export interface MpInstance {
   setData: (data: unknown, cb: () => void) => void
   route?: string
   __route__: string
+  $page: {
+    path: string
+  }
   $taroParams?: Record<string, unknown>
   $taroPath: string
   __data__: any
