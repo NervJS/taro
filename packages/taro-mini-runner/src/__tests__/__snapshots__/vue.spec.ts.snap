@@ -1,10 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`vue should build vue app 1`] = `16`;
+exports[`vue should build vue app 1`] = `20`;
 
 exports[`vue should build vue app 2`] = `
 "
 /** filePath: dist/app.js **/
+/*! For license information please see app.js.LICENSE.txt */
 require(\\"./runtime\\");
 
 require(\\"./taro\\");
@@ -1270,6 +1271,27 @@ require(\\"./taro\\");
 
 
 
+/** filePath: dist/app.js.LICENSE.txt **/
+/*!
+* Licensed to the O2Team under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* \\"License\\"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
+
 /** filePath: dist/app.json **/
 {\\"pages\\":[\\"pages/index/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
 
@@ -2055,6 +2077,7 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/comp.js **/
+/*! For license information please see comp.js.LICENSE.txt */
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
     12: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -2064,6 +2087,27 @@ require(\\"./taro\\");
     }
 }, [ [ 12, 0, 1 ] ] ]);
 
+/** filePath: dist/comp.js.LICENSE.txt **/
+/*!
+* Licensed to the O2Team under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* \\"License\\"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
+
 /** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
@@ -2072,6 +2116,7 @@ require(\\"./taro\\");
 <template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
 
 /** filePath: dist/custom-wrapper.js **/
+/*! For license information please see custom-wrapper.js.LICENSE.txt */
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 5 ], {
     13: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -2080,6 +2125,27 @@ require(\\"./taro\\");
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
 }, [ [ 13, 0, 1 ] ] ]);
+
+/** filePath: dist/custom-wrapper.js.LICENSE.txt **/
+/*!
+* Licensed to the O2Team under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* \\"License\\"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
 
 /** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -2307,10 +2373,32 @@ require(\\"./taro\\");
 })([]);
 
 /** filePath: dist/taro.js **/
+/*! For license information please see taro.js.LICENSE.txt */
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], [ , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     var _unused_webpack_default_export = \\"taro-runtime-mock\\";
 } ] ]);
+
+/** filePath: dist/taro.js.LICENSE.txt **/
+/*!
+* Licensed to the O2Team under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* \\"License\\"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
 
 /** filePath: dist/utils.wxs **/
 module.exports = {

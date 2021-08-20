@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`sass should build app with sass 1`] = `3`;
+exports[`sass should build app with sass 1`] = `4`;
 
 exports[`sass should build app with sass 2`] = `
 "
@@ -8,7 +8,26 @@ exports[`sass should build app with sass 2`] = `
 .index{color:red}
 
 /** filePath: dist/index.html **/
-<!DOCTYPE html>
+<!DOCTYPE html><!--
+Licensed to the O2Team under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+\\"License\\"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+\\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+
 <html>
 <head>
   <meta content=\\"text/html; charset=utf-8\\" http-equiv=\\"Content-Type\\">
@@ -30,6 +49,7 @@ exports[`sass should build app with sass 2`] = `
 
 
 /** filePath: dist/js/app.js **/
+/*! For license information please see app.js.LICENSE.txt */
 (function(modules) {
     var installedModules = {};
     function __webpack_require__(moduleId) {
@@ -689,10 +709,31 @@ exports[`sass should build app with sass 2`] = `
         }
     });
 } ]);
+
+/** filePath: dist/js/app.js.LICENSE.txt **/
+/*!
+* Licensed to the O2Team under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* \\"License\\"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
 "
 `;
 
-exports[`sass should build app with scss 1`] = `3`;
+exports[`sass should build app with scss 1`] = `4`;
 
 exports[`sass should build app with scss 2`] = `
 "
@@ -700,7 +741,26 @@ exports[`sass should build app with scss 2`] = `
 .index{width:100%}.index .list{display:flex}.index .list .list-item{width:.42667rem}
 
 /** filePath: dist/index.html **/
-<!DOCTYPE html>
+<!DOCTYPE html><!--
+Licensed to the O2Team under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+\\"License\\"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+\\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+
 <html>
 <head>
   <meta content=\\"text/html; charset=utf-8\\" http-equiv=\\"Content-Type\\">
@@ -722,6 +782,7 @@ exports[`sass should build app with scss 2`] = `
 
 
 /** filePath: dist/js/app.js **/
+/*! For license information please see app.js.LICENSE.txt */
 (function(modules) {
     var installedModules = {};
     function __webpack_require__(moduleId) {
@@ -1406,10 +1467,31 @@ exports[`sass should build app with scss 2`] = `
         }
     });
 } ]);
+
+/** filePath: dist/js/app.js.LICENSE.txt **/
+/*!
+* Licensed to the O2Team under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* \\"License\\"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
 "
 `;
 
-exports[`sass should set global sass content with data 1`] = `3`;
+exports[`sass should set global sass content with data 1`] = `4`;
 
 exports[`sass should set global sass content with data 2`] = `
 "
@@ -1417,7 +1499,26 @@ exports[`sass should set global sass content with data 2`] = `
 .body{background-color:red}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.42667rem}
 
 /** filePath: dist/index.html **/
-<!DOCTYPE html>
+<!DOCTYPE html><!--
+Licensed to the O2Team under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+\\"License\\"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+\\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+
 <html>
 <head>
   <meta content=\\"text/html; charset=utf-8\\" http-equiv=\\"Content-Type\\">
@@ -1439,6 +1540,7 @@ exports[`sass should set global sass content with data 2`] = `
 
 
 /** filePath: dist/js/app.js **/
+/*! For license information please see app.js.LICENSE.txt */
 (function(modules) {
     var installedModules = {};
     function __webpack_require__(moduleId) {
@@ -2123,10 +2225,31 @@ exports[`sass should set global sass content with data 2`] = `
         }
     });
 } ]);
+
+/** filePath: dist/js/app.js.LICENSE.txt **/
+/*!
+* Licensed to the O2Team under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* \\"License\\"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
 "
 `;
 
-exports[`sass should set global sass content with source & dir 1`] = `3`;
+exports[`sass should set global sass content with source & dir 1`] = `4`;
 
 exports[`sass should set global sass content with source & dir 2`] = `
 "
@@ -2134,7 +2257,26 @@ exports[`sass should set global sass content with source & dir 2`] = `
 .body{background-color:#00f}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.42667rem}
 
 /** filePath: dist/index.html **/
-<!DOCTYPE html>
+<!DOCTYPE html><!--
+Licensed to the O2Team under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+\\"License\\"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+\\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+
 <html>
 <head>
   <meta content=\\"text/html; charset=utf-8\\" http-equiv=\\"Content-Type\\">
@@ -2156,6 +2298,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
 
 
 /** filePath: dist/js/app.js **/
+/*! For license information please see app.js.LICENSE.txt */
 (function(modules) {
     var installedModules = {};
     function __webpack_require__(moduleId) {
@@ -2840,10 +2983,31 @@ exports[`sass should set global sass content with source & dir 2`] = `
         }
     });
 } ]);
+
+/** filePath: dist/js/app.js.LICENSE.txt **/
+/*!
+* Licensed to the O2Team under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* \\"License\\"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
 "
 `;
 
-exports[`sass should set global sass content with source 1`] = `3`;
+exports[`sass should set global sass content with source 1`] = `4`;
 
 exports[`sass should set global sass content with source 2`] = `
 "
@@ -2851,7 +3015,26 @@ exports[`sass should set global sass content with source 2`] = `
 .body{background-color:#00f}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.42667rem}
 
 /** filePath: dist/index.html **/
-<!DOCTYPE html>
+<!DOCTYPE html><!--
+Licensed to the O2Team under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+\\"License\\"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+\\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+
 <html>
 <head>
   <meta content=\\"text/html; charset=utf-8\\" http-equiv=\\"Content-Type\\">
@@ -2873,6 +3056,7 @@ exports[`sass should set global sass content with source 2`] = `
 
 
 /** filePath: dist/js/app.js **/
+/*! For license information please see app.js.LICENSE.txt */
 (function(modules) {
     var installedModules = {};
     function __webpack_require__(moduleId) {
@@ -3557,5 +3741,26 @@ exports[`sass should set global sass content with source 2`] = `
         }
     });
 } ]);
+
+/** filePath: dist/js/app.js.LICENSE.txt **/
+/*!
+* Licensed to the O2Team under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* \\"License\\"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
 "
 `;

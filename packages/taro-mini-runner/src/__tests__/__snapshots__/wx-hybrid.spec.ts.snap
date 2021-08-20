@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`wx-hybrid should compatible with weapp native pages and components 1`] = `26`;
+exports[`wx-hybrid should compatible with weapp native pages and components 1`] = `30`;
 
 exports[`wx-hybrid should compatible with weapp native pages and components 2`] = `
 "
@@ -2127,6 +2127,7 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/common.js **/
+/*! For license information please see common.js.LICENSE.txt */
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
@@ -2136,7 +2137,29 @@ require(\\"./taro\\");
     __webpack_exports__[\\"a\\"] = \\"taro\\";
 } ] ]);
 
+/** filePath: dist/common.js.LICENSE.txt **/
+/*!
+* Licensed to the O2Team under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* \\"License\\"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
+
 /** filePath: dist/comp.js **/
+/*! For license information please see comp.js.LICENSE.txt */
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
     16: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -2145,6 +2168,27 @@ require(\\"./taro\\");
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
 }, [ [ 16, 0, 1 ] ] ]);
+
+/** filePath: dist/comp.js.LICENSE.txt **/
+/*!
+* Licensed to the O2Team under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* \\"License\\"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
 
 /** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -2195,12 +2239,32 @@ require(\\"./taro\\");
 {\\"component\\":true,\\"usingComponents\\":{}}
 
 /** filePath: dist/components/tab/tab.wxml **/
+<!--
+Licensed to the O2Team under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+\\"License\\"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+\\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
 <view class=\\"tab\\" bindtap=\\"clickHandler\\">
   {{myProperty}}
 </view>
 
 
 /** filePath: dist/custom-wrapper.js **/
+/*! For license information please see custom-wrapper.js.LICENSE.txt */
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
     17: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -2209,6 +2273,27 @@ require(\\"./taro\\");
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
 }, [ [ 17, 0, 1 ] ] ]);
+
+/** filePath: dist/custom-wrapper.js.LICENSE.txt **/
+/*!
+* Licensed to the O2Team under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* \\"License\\"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
 
 /** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -2357,6 +2442,25 @@ require(\\"./taro\\");
 {\\"navigationBarBackgroundColor\\":\\"#ffffff\\",\\"navigationBarTextStyle\\":\\"black\\",\\"navigationBarTitleText\\":\\"混写页面示例\\",\\"backgroundColor\\":\\"#eeeeee\\",\\"backgroundTextStyle\\":\\"light\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"tab\\":\\"../../components/tab/tab\\"}}
 
 /** filePath: dist/pages/native/native.wxml **/
+<!--
+Licensed to the O2Team under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+\\"License\\"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+\\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
 <view class=\\"native\\" bindtap=\\"viewTap\\">
   <text>{{text}}{{x}}</text>
   <tab myProperty=\\"kkl\\" bindmyevent=\\"handler\\" />
@@ -2484,6 +2588,7 @@ require(\\"./taro\\");
 })([]);
 
 /** filePath: dist/taro.js **/
+/*! For license information please see taro.js.LICENSE.txt */
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
     10: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -2498,6 +2603,27 @@ require(\\"./taro\\");
         var _unused_webpack_default_export = \\"taro-components-mock\\";
     }
 } ]);
+
+/** filePath: dist/taro.js.LICENSE.txt **/
+/*!
+* Licensed to the O2Team under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* \\"License\\"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
 
 /** filePath: dist/utils.wxs **/
 module.exports = {
