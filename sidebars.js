@@ -1,6 +1,6 @@
 module.exports = {
   docs: {
-    关于Taro: ['README', 'version', 'team', 'communicate'],
+    关于Taro: ['README', 'version', 'team', '58anjuke', 'communicate'],
     快速开始: ['GETTING-STARTED', 'composition'],
     基础教程: [
       'folder',
