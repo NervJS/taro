@@ -10,6 +10,7 @@ title: 项目配置
 * QQ 小程序，project.config.json
 * 支付宝小程序，[mini.project.json](https://opendocs.alipay.com/mini/framework/project)
 * 京东小程序，暂无发现
+* 飞书小程序，[project.config.json](https://open.feishu.cn/document/uYjL24iN/uEzMzUjLxMzM14SMzMTN/gadget-project-configuration)
 
 为了能够适配不同小程序平台的配置文件不同的情况，Taro 支持为各个小程序平台添加各自的项目配置文件。
 
@@ -22,3 +23,4 @@ title: 项目配置
 | 字节跳动小程序 | project.tt.json |
 | QQ小程序 | project.qq.json |
 | 支付宝小程序 | project.alipay.json |
+| 飞书小程序 | project.tt.json |
