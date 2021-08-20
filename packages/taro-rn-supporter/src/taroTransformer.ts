@@ -38,7 +38,8 @@ const transform = ({ src, filename, options, plugins }) => {
         designWidth: rnConfig.designWidth ? rnConfig.designWidth : config.designWidth,
         deviceRatio: rnConfig.designWidth ? rnConfig.deviceRatio : config.deviceRatio,
         nextTransformer: babelTransform,
-        isEntryFile: filename_ => ModuleResolution.ModuleResolver.EMPTY_MODULE.includes(filename_)
+        isEntryFile: filename_ => ModuleResolution.ModuleResolver.EMPTY_MODULE.includes(filename_),
+        rn: rnConfig
       }
     }
   ]
