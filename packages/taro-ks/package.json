@@ -1,0 +1,35 @@
+{
+  "name": "@tarojs/plugin-platform-ks",
+  "version": "0.0.1",
+  "description": "taro快手小程序平台插件",
+  "license": "MIT",
+  "author": "le.com",
+  "main": "index.js",
+  "keywords": [
+    "taro",
+    "ks"
+  ],
+  "files": [
+    "index.js",
+    "dist",
+    "types"
+  ],
+  "types": "types/index.d.ts",
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w"
+  },
+  "peerDependencies": {
+    "@tarojs/components": "^3.3.0",
+    "@tarojs/service": "^3.3.0",
+    "@tarojs/shared": "^3.3.0"
+  },
+  "devDependencies": {
+    "@tarojs/components": "^3.3.0",
+    "@tarojs/service": "^3.3.0",
+    "@tarojs/shared": "^3.3.0",
+    "rollup": "^2.45.2",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "typescript": "^4.2.4"
+  }
+}
