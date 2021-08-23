@@ -17,8 +17,6 @@ import {
   focusComponents,
   voidElements,
   nestElements,
-  styles,
-  events,
   singleQuote
 } from './components'
 import { Shortcuts } from './shortcuts'
@@ -54,6 +52,15 @@ export interface IAdapter {
 }
 
 export type Attributes = Record<string, string>
+
+export const styles = {
+  style: `i.${Shortcuts.Style}`,
+  class: `i.${Shortcuts.Class}`
+}
+
+export const events = {
+  bindtap: 'eh'
+}
 
 const weixinAdapter: IAdapter = {
   if: 'wx:if',
