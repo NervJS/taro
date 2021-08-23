@@ -17,7 +17,7 @@ class _Label extends React.Component<LabelProps> {
     return React.Children.toArray(children).map((child: any) => {
       if (!child.type) return child
 
-      const childTypeName = child.type.name
+      const childTypeName = child.type.displayName
       if (
         !this.hadFoundValidWidget &&
         (childTypeName === '_Checkbox' ||
