@@ -24,6 +24,7 @@ import { noop } from '../../utils'
 import { SwitchProps, SwitchState } from './PropsType'
 
 class _Switch extends React.Component<SwitchProps, SwitchState> {
+  static displayName = '_Switch'
   static defaultProps = {
     type: 'switch',
     color: '#04BE02',

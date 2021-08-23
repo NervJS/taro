@@ -20,3 +20,6 @@ coverage
 __snapshots__
 .stencil
 loader
+
+# types
+src/components.d.ts
