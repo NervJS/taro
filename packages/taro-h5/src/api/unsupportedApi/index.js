@@ -245,6 +245,7 @@ export const chooseInvoiceTitle = temporarilyNotSupport('chooseInvoiceTitle')
 export const checkIsSupportSoterAuthentication = temporarilyNotSupport('checkIsSupportSoterAuthentication')
 export const startSoterAuthentication = temporarilyNotSupport('startSoterAuthentication')
 export const checkIsSoterEnrolledInDevice = temporarilyNotSupport('checkIsSoterEnrolledInDevice')
+export const exitMiniProgram = temporarilyNotSupport('exitMiniProgram')
 
 export const setEnableDebug = temporarilyNotSupport('setEnableDebug')
 

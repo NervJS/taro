@@ -1,4 +1,28 @@
 declare namespace Taro {
+  namespace exitMiniProgram {
+    interface Option {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.CallbackResult) => void
+    }
+  }
+
+  /**
+   * 退出当前小程序。必须有点击行为才能调用成功。
+   * 基础库 2.17.3 开始支持
+   * @supported weapp
+   * @example
+   * ```tsx
+   * Taro.exitMiniProgram()
+   * ···
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/navigate/wx.exitMiniProgram.html
+   */
+  function exitMiniProgram(option: exitMiniProgram.Option): Promise<General.CallbackResult>
+
   namespace navigateToMiniProgram {
     interface Option {
       /** 要打开的小程序 appId */
