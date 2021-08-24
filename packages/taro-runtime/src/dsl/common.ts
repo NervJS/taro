@@ -96,8 +96,8 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   let unmounting = false
   let prepareMountList: (() => void)[] = []
 
-  const config: PageInstance = {
-    onLoad (this: MpInstance, options, cb?: Func) {
+  const taroMountedOnLifecycle = function (lifecycle:keyof PageInstance) {
+    return function (this: MpInstance, options:Record<string, unknown>, cb?: Func) {
       perf.start(PAGE_INIT)
 
       Current.page = this as any
@@ -125,7 +125,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
           pageElement = document.getElementById<TaroRootElement>(this.$taroPath)
 
           ensure(pageElement !== null, '没有找到页面实例。')
-          safeExecute(this.$taroPath, 'onLoad', this.$taroParams)
+          safeExecute(this.$taroPath, lifecycle, this.$taroParams)
           if (!isBrowser) {
             pageElement.ctx = this
             pageElement.performUpdate(true, cb)
@@ -137,7 +137,11 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       } else {
         mount()
       }
-    },
+    }
+  }
+
+  const config: PageInstance = {
+    onLoad: taroMountedOnLifecycle('onLoad'),
     onReady () {
       raf(() => {
         eventCenter.trigger(getOnReadyEventKey(id))
@@ -214,6 +218,23 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     onAddToFavorites () {
       return safeExecute(this.$taroPath, 'onAddToFavorites')
     }
+  }
+
+  if (process.env.TARO_ENV === 'swan' && pageConfig?.taroSwanUsePageOnInit) {
+    config.onLoad = function (options) {
+      Current.page = this as any
+      this.config = pageConfig || {}
+      const router = isBrowser ? this.$taroPath : this.route || this.__route__
+      Current.router = {
+        params: this.$taroParams,
+        path: addLeadingSlash(router),
+        onReady: getOnReadyEventKey(id),
+        onShow: getOnShowEventKey(id),
+        onHide: getOnHideEventKey(id)
+      }
+      safeExecute(this.$taroPath, 'onLoad', options)
+    }
+    config.onInit = taroMountedOnLifecycle('onInit')
   }
 
   // onShareAppMessage 和 onShareTimeline 一样，会影响小程序右上方按钮的选项，因此不能默认注册。

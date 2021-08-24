@@ -56,6 +56,7 @@ export interface PageLifeCycle extends Show {
   onAddToFavorites?(): void
   eh?(event: MpEvent): void
   onLoad(options: Record<string, unknown>): void
+  onInit?(options: Record<string, unknown>): void
   onUnload(): void
 }
 

@@ -83,6 +83,16 @@ declare namespace Taro {
      * @default false
      */
     enableShareTimeline?: boolean
+    /**
+     * 是否在百度端启用onInit,不支持全局设置
+     * 
+     * 启用此项会将 onLoad 中的taro初始化提前到 onInit,提升页面加载速度
+     * 
+     * 需要百度基础库 > 3.160.12 
+     * 
+     * https://smartprogram.baidu.com/docs/develop/performance/performance_oninit
+    */
+     taroSwanUsePageOnInit?:boolean
   }
 
   interface WindowConfig extends CommonPageConfig {
