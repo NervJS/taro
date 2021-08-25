@@ -8,7 +8,6 @@ import { TaroDocument } from '../dom/document'
 import { TaroRootElement } from '../dom/root'
 import { FormElement } from '../dom/form'
 import { ElementNames, InstanceFactory, InstanceNamedFactory } from '../interface'
-import domExternal from '../dom-external'
 import { Hooks } from '../hooks'
 import { DefaultHooksContainer } from './default-hooks'
 import processPluginHooks from './plugin-hooks'
@@ -43,7 +42,7 @@ container.bind<TaroNodeImpl>(SERVICE_IDENTIFIER.TaroNodeImpl).to(TaroNodeImpl).i
 container.bind<TaroElementImpl>(SERVICE_IDENTIFIER.TaroElementImpl).to(TaroElementImpl).inSingletonScope()
 container.bind<Hooks>(SERVICE_IDENTIFIER.Hooks).to(Hooks).inSingletonScope()
 
-container.load(domExternal, DefaultHooksContainer)
+container.load(DefaultHooksContainer)
 
 processPluginHooks(container)
 
