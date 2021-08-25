@@ -8,10 +8,7 @@ import { hydrate } from '../hydrate'
 import { eventSource } from './event-source'
 import { ElementNames } from '../interface'
 import {
-  STYLE,
-  DATASET,
-  PROPS,
-  OBJECT
+  DOCUMENT_FRAGMENT
 } from '../constants'
 
 import type { UpdatePayload, InstanceNamedFactory } from '../interface'
@@ -131,6 +128,14 @@ export class TaroNode extends TaroEventTarget {
   }
 
   public insertBefore<T extends TaroNode> (newChild: T, refChild?: TaroNode | null, isReplace?: boolean): T {
+    if (newChild.nodeName === DOCUMENT_FRAGMENT) {
+      newChild.childNodes.reduceRight((previousValue, currentValue) => {
+        this.insertBefore(currentValue, previousValue)
+        return currentValue
+      }, refChild)
+      return newChild
+    }
+
     newChild.remove()
     newChild.parentNode = this
     let payload: UpdatePayload
@@ -210,35 +215,6 @@ export class TaroNode extends TaroEventTarget {
 
   public enqueueUpdate (payload: UpdatePayload) {
     this._root?.enqueueUpdate(payload)
-  }
-
-  public cloneNode (isDeep = false) {
-    const document = this._getElement<TaroDocument>(ElementNames.Document)()
-    let newNode
-
-    if (this.nodeType === NodeType.ELEMENT_NODE) {
-      newNode = document.createElement(this.nodeName)
-    } else if (this.nodeType === NodeType.TEXT_NODE) {
-      newNode = document.createTextNode('')
-    }
-
-    for (const key in this) {
-      const value: any = this[key]
-      if ([PROPS, DATASET].includes(key) && typeof value === OBJECT) {
-        newNode[key] = { ...value }
-      } else if (key === '_value') {
-        newNode[key] = value
-      } else if (key === STYLE) {
-        newNode.style._value = { ...value._value }
-        newNode.style._usedStyleProp = new Set(Array.from(value._usedStyleProp))
-      }
-    }
-
-    if (isDeep) {
-      newNode.childNodes = this.childNodes.map(node => node.cloneNode(true))
-    }
-
-    return newNode
   }
 
   public contains (node: TaroNode & { id?: string }): boolean {

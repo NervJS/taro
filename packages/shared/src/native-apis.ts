@@ -38,6 +38,7 @@ const needPromiseApis = new Set<string>([
   'connectSocket',
   'createBLEConnection',
   'downloadFile',
+  'exitMiniProgram',
   'getAvailableAudioSources',
   'getBLEDeviceCharacteristics',
   'getBLEDeviceServices',

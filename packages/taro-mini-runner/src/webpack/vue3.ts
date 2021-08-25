@@ -1,6 +1,6 @@
 import { REG_VUE, chalk } from '@tarojs/helper'
 import * as webpack from 'webpack'
-import { toCamelCase, internalComponents, capitalize } from '@tarojs/shared'
+import { toCamelCase, internalComponents, capitalize } from '@tarojs/shared/dist/template'
 import { componentConfig } from '../template/component'
 import type { RootNode, TemplateChildNode, ElementNode, AttributeNode, DirectiveNode, SimpleExpressionNode } from '@vue/compiler-core'
 

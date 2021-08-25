@@ -19,6 +19,7 @@ import { noop } from '../../utils'
 import { CheckboxProps, CheckboxState } from './PropsType'
 
 class _Checkbox extends React.Component<CheckboxProps, CheckboxState> {
+  static displayName = '_Checkbox'
   static defaultProps = {
     value: '',
     color: '#09BB07'
@@ -35,7 +36,7 @@ class _Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   $touchable = React.createRef<TouchableWithoutFeedback>()
 
   state: CheckboxState = {
-    checked: false
+    checked: false,
   }
 
   _simulateNativePress = (evt: GestureResponderEvent): void => {
@@ -70,7 +71,9 @@ class _Checkbox extends React.Component<CheckboxProps, CheckboxState> {
               style={[styles.wrapperIcon, checked && styles.wrapperCheckedIcon]}
             />
           </View>
-          {this.props.children}
+          <View style={{ flexGrow: 0 }}>
+            {this.props.children}
+          </View>
         </View>
       </TouchableWithoutFeedback>
     )
