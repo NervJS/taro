@@ -231,7 +231,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
 
     compiler.hooks.emit.tapAsync(PLUGIN_NAME, this.tryAsync((compilation) => {
       const assets = compilation.assets
-      const subChunks = compilation.entries.filter(entry => entry.miniType === 'PAGE' && this.isSubChunk(entry))
+      const subChunks = compilation.entries.filter(entry => this.isSubChunk(entry))
 
       subChunks.forEach(subChunk => {
         const subChunkName = subChunk.name
