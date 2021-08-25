@@ -14,11 +14,10 @@ require(\\"./vendors\\");
 require(\\"./taro\\");
 
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    0: function(module, exports, __webpack_require__) {
+    14: function(module, exports, __webpack_require__) {},
+    24: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
-        Object.defineProperty(exports, \\"__esModule\\", {
-            value: true
-        });
+        __webpack_require__.r(__webpack_exports__);
         function isString(o) {
             return typeof o === \\"string\\";
         }
@@ -44,16 +43,6 @@ require(\\"./taro\\");
             return o === \\"true\\" || o === \\"false\\";
         }
         const isArray = Array.isArray;
-        (function(Shortcuts) {
-            Shortcuts[\\"Container\\"] = \\"container\\";
-            Shortcuts[\\"Childnodes\\"] = \\"cn\\";
-            Shortcuts[\\"Text\\"] = \\"v\\";
-            Shortcuts[\\"NodeType\\"] = \\"nt\\";
-            Shortcuts[\\"NodeName\\"] = \\"nn\\";
-            Shortcuts[\\"Style\\"] = \\"st\\";
-            Shortcuts[\\"Class\\"] = \\"cl\\";
-            Shortcuts[\\"Src\\"] = \\"src\\";
-        })(exports.Shortcuts || (exports.Shortcuts = {}));
         const styles = {
             style: \`i.\${\\"st\\"}\`,
             class: \`i.\${\\"cl\\"}\`
@@ -513,8 +502,8 @@ require(\\"./taro\\");
         function capitalize(s) {
             return s.charAt(0).toUpperCase() + s.slice(1);
         }
-        const hasOwnProperty = Object.prototype.hasOwnProperty;
-        const hasOwn = (val, key) => hasOwnProperty.call(val, key);
+        const shared_esm_hasOwnProperty = Object.prototype.hasOwnProperty;
+        const hasOwn = (val, key) => shared_esm_hasOwnProperty.call(val, key);
         const reportIssue = \\"\\\\u5982\\\\u6709\\\\u7591\\\\u95ee\\\\uff0c\\\\u8bf7\\\\u63d0\\\\u4ea4 issue \\\\u81f3\\\\uff1ahttps://github.com/nervjs/taro/issues\\";
         function ensure(condition, msg) {
             if (!condition) {
@@ -779,59 +768,10 @@ require(\\"./taro\\");
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
             taro.miniGlobal = taro.options.miniGlobal = global;
         }
-        exports.EMPTY_ARR = EMPTY_ARR;
-        exports.EMPTY_OBJ = EMPTY_OBJ;
-        exports.animationEvents = animationEvents;
-        exports.box = box;
-        exports.cacheDataGet = cacheDataGet;
-        exports.cacheDataHas = cacheDataHas;
-        exports.cacheDataSet = cacheDataSet;
-        exports.capitalize = capitalize;
-        exports.controlledComponent = controlledComponent;
-        exports.defaultReconciler = defaultReconciler;
-        exports.ensure = ensure;
-        exports.events = events;
-        exports.focusComponents = focusComponents;
-        exports.getUniqueKey = getUniqueKey;
-        exports.hasOwn = hasOwn;
-        exports.indent = indent;
-        exports.internalComponents = internalComponents;
-        exports.isArray = isArray;
-        exports.isBoolean = isBoolean;
-        exports.isBooleanStringLiteral = isBooleanStringLiteral;
-        exports.isFunction = isFunction;
-        exports.isNull = isNull;
-        exports.isNumber = isNumber;
-        exports.isObject = isObject;
-        exports.isString = isString;
-        exports.isUndefined = isUndefined;
-        exports.mergeInternalComponents = mergeInternalComponents;
-        exports.mergeReconciler = mergeReconciler;
-        exports.nestElements = nestElements;
-        exports.noop = noop;
-        exports.processApis = processApis;
-        exports.queryToJson = queryToJson;
-        exports.setUniqueKeyToRoute = setUniqueKeyToRoute;
-        exports.singleQuote = singleQuote;
-        exports.styles = styles;
-        exports.toCamelCase = toCamelCase;
-        exports.toDashed = toDashed;
-        exports.toKebabCase = toKebabCase;
-        exports.touchEvents = touchEvents;
-        exports.unbox = unbox;
-        exports.unsupport = unsupport;
-        exports.voidElements = voidElements;
-        exports.warn = warn;
-    },
-    15: function(module, exports, __webpack_require__) {},
-    25: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var dist = __webpack_require__(0);
-        const needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\" ]);
+        const runtime_needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\" ]);
         function initNativeApi(taro) {
-            Object(dist[\\"processApis\\"])(taro, wx, {
-                needPromiseApis: needPromiseApis,
+            processApis(taro, wx, {
+                needPromiseApis: runtime_needPromiseApis,
                 modifyApis(apis) {
                     apis.delete(\\"lanDebug\\");
                 }
@@ -903,15 +843,15 @@ require(\\"./taro\\");
                 bindPickEnd: \\"\\"
             },
             Slider: {
-                color: Object(dist[\\"singleQuote\\"])(\\"#e9e9e9\\"),
-                \\"selected-color\\": Object(dist[\\"singleQuote\\"])(\\"#1aad19\\")
+                color: singleQuote(\\"#e9e9e9\\"),
+                \\"selected-color\\": singleQuote(\\"#1aad19\\")
             },
             Textarea: {
                 \\"show-confirm-bar\\": \\"true\\",
                 \\"adjust-position\\": \\"true\\",
                 \\"hold-keyboard\\": \\"false\\",
                 \\"disable-default-padding\\": \\"false\\",
-                \\"confirm-type\\": Object(dist[\\"singleQuote\\"])(\\"return\\"),
+                \\"confirm-type\\": singleQuote(\\"return\\"),
                 \\"confirm-hold\\": \\"false\\",
                 bindKeyboardHeightChange: \\"\\"
             },
@@ -920,8 +860,8 @@ require(\\"./taro\\");
                 \\"scroll-anchoring\\": \\"false\\",
                 \\"refresher-enabled\\": \\"false\\",
                 \\"refresher-threshold\\": \\"45\\",
-                \\"refresher-default-style\\": Object(dist[\\"singleQuote\\"])(\\"black\\"),
-                \\"refresher-background\\": Object(dist[\\"singleQuote\\"])(\\"#FFF\\"),
+                \\"refresher-default-style\\": singleQuote(\\"black\\"),
+                \\"refresher-background\\": singleQuote(\\"#FFF\\"),
                 \\"refresher-triggered\\": \\"false\\",
                 enhanced: \\"false\\",
                 bounces: \\"true\\",
@@ -938,22 +878,22 @@ require(\\"./taro\\");
             },
             Swiper: {
                 \\"snap-to-edge\\": \\"false\\",
-                \\"easing-function\\": Object(dist[\\"singleQuote\\"])(\\"default\\")
+                \\"easing-function\\": singleQuote(\\"default\\")
             },
             SwiperItem: {
                 \\"skip-hidden-item-layout\\": \\"false\\"
             },
             Navigator: {
-                target: Object(dist[\\"singleQuote\\"])(\\"self\\"),
+                target: singleQuote(\\"self\\"),
                 \\"app-id\\": \\"\\",
                 path: \\"\\",
                 \\"extra-data\\": \\"\\",
-                version: Object(dist[\\"singleQuote\\"])(\\"version\\")
+                version: singleQuote(\\"version\\")
             },
             Camera: {
-                mode: Object(dist[\\"singleQuote\\"])(\\"normal\\"),
-                resolution: Object(dist[\\"singleQuote\\"])(\\"medium\\"),
-                \\"frame-size\\": Object(dist[\\"singleQuote\\"])(\\"medium\\"),
+                mode: singleQuote(\\"normal\\"),
+                resolution: singleQuote(\\"medium\\"),
+                \\"frame-size\\": singleQuote(\\"medium\\"),
                 bindInitDone: \\"\\",
                 bindScanCode: \\"\\"
             },
@@ -962,8 +902,8 @@ require(\\"./taro\\");
                 \\"show-menu-by-longpress\\": \\"false\\"
             },
             LivePlayer: {
-                mode: Object(dist[\\"singleQuote\\"])(\\"live\\"),
-                \\"sound-mode\\": Object(dist[\\"singleQuote\\"])(\\"speaker\\"),
+                mode: singleQuote(\\"live\\"),
+                \\"sound-mode\\": singleQuote(\\"speaker\\"),
                 \\"auto-pause-if-navigate\\": \\"true\\",
                 \\"auto-pause-if-open-native\\": \\"true\\",
                 \\"picture-in-picture-mode\\": \\"[]\\",
@@ -976,7 +916,7 @@ require(\\"./taro\\");
             },
             Video: {
                 title: \\"\\",
-                \\"play-btn-position\\": Object(dist[\\"singleQuote\\"])(\\"bottom\\"),
+                \\"play-btn-position\\": singleQuote(\\"bottom\\"),
                 \\"enable-play-gesture\\": \\"false\\",
                 \\"auto-pause-if-navigate\\": \\"true\\",
                 \\"auto-pause-if-open-native\\": \\"true\\",
@@ -1006,8 +946,8 @@ require(\\"./taro\\");
                 type: \\"\\"
             },
             Ad: {
-                \\"ad-type\\": Object(dist[\\"singleQuote\\"])(\\"banner\\"),
-                \\"ad-theme\\": Object(dist[\\"singleQuote\\"])(\\"white\\")
+                \\"ad-type\\": singleQuote(\\"banner\\"),
+                \\"ad-theme\\": singleQuote(\\"white\\")
             },
             CoverView: {
                 \\"marker-id\\": \\"\\",
@@ -1037,7 +977,7 @@ require(\\"./taro\\");
                 orientation: \\"\\"
             },
             FunctionalPageNavigator: {
-                version: Object(dist[\\"singleQuote\\"])(\\"release\\"),
+                version: singleQuote(\\"release\\"),
                 name: \\"\\",
                 args: \\"\\",
                 bindSuccess: \\"\\",
@@ -1046,22 +986,22 @@ require(\\"./taro\\");
             },
             LivePusher: {
                 url: \\"\\",
-                mode: Object(dist[\\"singleQuote\\"])(\\"RTC\\"),
+                mode: singleQuote(\\"RTC\\"),
                 autopush: \\"false\\",
                 muted: \\"false\\",
                 \\"enable-camera\\": \\"true\\",
                 \\"auto-focus\\": \\"true\\",
-                orientation: Object(dist[\\"singleQuote\\"])(\\"vertical\\"),
+                orientation: singleQuote(\\"vertical\\"),
                 beauty: \\"0\\",
                 whiteness: \\"0\\",
-                aspect: Object(dist[\\"singleQuote\\"])(\\"9:16\\"),
+                aspect: singleQuote(\\"9:16\\"),
                 \\"min-bitrate\\": \\"200\\",
                 \\"max-bitrate\\": \\"1000\\",
-                \\"audio-quality\\": Object(dist[\\"singleQuote\\"])(\\"high\\"),
+                \\"audio-quality\\": singleQuote(\\"high\\"),
                 \\"waiting-image\\": \\"\\",
                 \\"waiting-image-hash\\": \\"\\",
                 zoom: \\"false\\",
-                \\"device-position\\": Object(dist[\\"singleQuote\\"])(\\"front\\"),
+                \\"device-position\\": singleQuote(\\"front\\"),
                 \\"background-mute\\": \\"false\\",
                 mirror: \\"false\\",
                 \\"remote-mirror\\": \\"false\\",
@@ -1070,11 +1010,11 @@ require(\\"./taro\\");
                 \\"enable-mic\\": \\"true\\",
                 \\"enable-agc\\": \\"false\\",
                 \\"enable-ans\\": \\"false\\",
-                \\"audio-volume-type\\": Object(dist[\\"singleQuote\\"])(\\"voicecall\\"),
+                \\"audio-volume-type\\": singleQuote(\\"voicecall\\"),
                 \\"video-width\\": \\"360\\",
                 \\"video-height\\": \\"640\\",
-                \\"beauty-style\\": Object(dist[\\"singleQuote\\"])(\\"smooth\\"),
-                filter: Object(dist[\\"singleQuote\\"])(\\"standard\\"),
+                \\"beauty-style\\": singleQuote(\\"smooth\\"),
+                filter: singleQuote(\\"standard\\"),
                 animation: \\"\\",
                 bindStateChange: \\"\\",
                 bindNetStatus: \\"\\",
@@ -1090,7 +1030,7 @@ require(\\"./taro\\");
             OpenData: {
                 type: \\"\\",
                 \\"open-gid\\": \\"\\",
-                lang: Object(dist[\\"singleQuote\\"])(\\"en\\"),
+                lang: singleQuote(\\"en\\"),
                 \\"default-text\\": \\"\\",
                 \\"default-avatar\\": \\"\\",
                 bindError: \\"\\"
@@ -1101,25 +1041,25 @@ require(\\"./taro\\");
                 \\"front-color\\": \\"\\",
                 \\"background-color\\": \\"\\",
                 \\"color-animation-duration\\": \\"0\\",
-                \\"color-animation-timing-func\\": Object(dist[\\"singleQuote\\"])(\\"linear\\")
+                \\"color-animation-timing-func\\": singleQuote(\\"linear\\")
             },
             PageMeta: {
                 \\"background-text-style\\": \\"\\",
                 \\"background-color\\": \\"\\",
                 \\"background-color-top\\": \\"\\",
                 \\"background-color-bottom\\": \\"\\",
-                \\"scroll-top\\": Object(dist[\\"singleQuote\\"])(\\"\\"),
+                \\"scroll-top\\": singleQuote(\\"\\"),
                 \\"scroll-duration\\": \\"300\\",
-                \\"page-style\\": Object(dist[\\"singleQuote\\"])(\\"\\"),
-                \\"root-font-size\\": Object(dist[\\"singleQuote\\"])(\\"\\"),
+                \\"page-style\\": singleQuote(\\"\\"),
+                \\"root-font-size\\": singleQuote(\\"\\"),
                 bindResize: \\"\\",
                 bindScroll: \\"\\",
                 bindScrollDone: \\"\\"
             },
             VoipRoom: {
                 openid: \\"\\",
-                mode: Object(dist[\\"singleQuote\\"])(\\"camera\\"),
-                \\"device-position\\": Object(dist[\\"singleQuote\\"])(\\"front\\"),
+                mode: singleQuote(\\"camera\\"),
+                \\"device-position\\": singleQuote(\\"front\\"),
                 bindError: \\"\\"
             },
             AdCustom: {
@@ -1133,7 +1073,7 @@ require(\\"./taro\\");
                 duration: \\"300\\",
                 \\"z-index\\": \\"100\\",
                 overlay: \\"true\\",
-                position: Object(dist[\\"singleQuote\\"])(\\"bottom\\"),
+                position: singleQuote(\\"bottom\\"),
                 round: \\"false\\",
                 \\"close-on-slideDown\\": \\"false\\",
                 \\"overlay-style\\": \\"\\",
@@ -1151,16 +1091,16 @@ require(\\"./taro\\");
         const hostConfig = {
             initNativeApi: initNativeApi
         };
-        Object(dist[\\"mergeReconciler\\"])(hostConfig);
-        Object(dist[\\"mergeInternalComponents\\"])(components);
-        var taro_runtime = __webpack_require__(2);
-        var mocks_taro = __webpack_require__(3);
-        var classCallCheck = __webpack_require__(5);
-        var createClass = __webpack_require__(6);
-        var inherits = __webpack_require__(8);
-        var createSuper = __webpack_require__(7);
-        var react = __webpack_require__(1);
-        var app = __webpack_require__(15);
+        mergeReconciler(hostConfig);
+        mergeInternalComponents(components);
+        var taro_runtime = __webpack_require__(1);
+        var mocks_taro = __webpack_require__(2);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(5);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(6);
+        var react = __webpack_require__(0);
+        var app = __webpack_require__(14);
         var app_App = function(_React$Component) {
             Object(inherits[\\"a\\"])(App, _React$Component);
             var _super = Object(createSuper[\\"a\\"])(App);
@@ -1189,7 +1129,7 @@ require(\\"./taro\\");
             return App;
         }(react[\\"default\\"].Component);
         var lib_src_app = app_App;
-        var taro_react = __webpack_require__(10);
+        var taro_react = __webpack_require__(9);
         var config = {
             pages: [ \\"pages/index/index\\", \\"pages/native/native\\" ],
             window: {
@@ -1210,7 +1150,7 @@ require(\\"./taro\\");
             }
         });
     }
-}, [ [ 25, 0, 1, 3, 2 ] ] ]);
+}, [ [ 24, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -2127,7 +2067,7 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/common.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ , function(module, __webpack_exports__, __webpack_require__) {
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
@@ -2138,13 +2078,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/comp.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    16: function(module, __webpack_exports__, __webpack_require__) {
+    15: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
-}, [ [ 16, 0, 1 ] ] ]);
+}, [ [ 15, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -2155,7 +2095,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/components/tab/tab.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    23: function(module, exports) {
+    22: function(module, exports) {
         Component({
             behaviors: [],
             properties: {
@@ -2189,7 +2129,7 @@ require(\\"./taro\\");
             }
         });
     }
-}, [ [ 23, 0 ] ] ]);
+}, [ [ 22, 0 ] ] ]);
 
 /** filePath: dist/components/tab/tab.json **/
 {\\"component\\":true,\\"usingComponents\\":{}}
@@ -2202,13 +2142,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
-    17: function(module, __webpack_exports__, __webpack_require__) {
+    16: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
-}, [ [ 17, 0, 1 ] ] ]);
+}, [ [ 16, 0, 1 ] ] ]);
 
 /** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -2221,19 +2161,19 @@ require(\\"./taro\\");
 
 /** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 11 ], {
-    18: function(module, exports, __webpack_require__) {},
-    26: function(module, __webpack_exports__, __webpack_require__) {
+    17: function(module, exports, __webpack_require__) {},
+    25: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var taro_runtime = __webpack_require__(2);
-        var classCallCheck = __webpack_require__(5);
-        var createClass = __webpack_require__(6);
-        var inherits = __webpack_require__(8);
-        var createSuper = __webpack_require__(7);
-        var taro = __webpack_require__(3);
-        var react = __webpack_require__(1);
-        var taro_components = __webpack_require__(4);
-        var index = __webpack_require__(18);
+        var taro_runtime = __webpack_require__(1);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(5);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(6);
+        var taro = __webpack_require__(2);
+        var react = __webpack_require__(0);
+        var taro_components = __webpack_require__(3);
+        var index = __webpack_require__(17);
         var index_Index = function(_React$Component) {
             Object(inherits[\\"a\\"])(Index, _React$Component);
             var _super = Object(createSuper[\\"a\\"])(Index);
@@ -2303,7 +2243,7 @@ require(\\"./taro\\");
             }
         }, config || {}));
     }
-}, [ [ 26, 0, 1, 3, 2 ] ] ]);
+}, [ [ 25, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"tab\\":\\"../../components/tab/tab\\",\\"comp\\":\\"../../comp\\"}}
@@ -2317,8 +2257,8 @@ require(\\"./taro\\");
 
 /** filePath: dist/pages/native/native.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 13 ], {
-    19: function(module, exports, __webpack_require__) {
-        var _require = __webpack_require__(20), add = _require.add;
+    18: function(module, exports, __webpack_require__) {
+        var _require = __webpack_require__(19), add = _require.add;
         Page({
             data: {
                 text: \\"This is page data.\\",
@@ -2341,7 +2281,7 @@ require(\\"./taro\\");
             }
         });
     },
-    20: function(module, __webpack_exports__, __webpack_require__) {
+    19: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, \\"add\\", (function() {
@@ -2351,7 +2291,7 @@ require(\\"./taro\\");
             return a + b;
         }
     }
-}, [ [ 19, 0 ] ] ]);
+}, [ [ 18, 0 ] ] ]);
 
 /** filePath: dist/pages/native/native.json **/
 {\\"navigationBarBackgroundColor\\":\\"#ffffff\\",\\"navigationBarTextStyle\\":\\"black\\",\\"navigationBarTitleText\\":\\"混写页面示例\\",\\"backgroundColor\\":\\"#eeeeee\\",\\"backgroundTextStyle\\":\\"light\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"tab\\":\\"../../components/tab/tab\\"}}
@@ -2485,17 +2425,17 @@ require(\\"./taro\\");
 
 /** filePath: dist/taro.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    10: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
-    },
-    2: function(module, __webpack_exports__, __webpack_require__) {
+    1: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-runtime-mock\\";
     },
-    4: function(module, __webpack_exports__, __webpack_require__) {
+    3: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-components-mock\\";
+    },
+    9: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
     }
 } ]);
 
@@ -2541,7 +2481,7 @@ module.exports = {
 }
 
 /** filePath: dist/vendors.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , , , function(module, __webpack_exports__, __webpack_require__) {
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _classCallCheck;
@@ -2592,7 +2532,7 @@ module.exports = {
             return false;
         }
     }
-    var helpers_typeof = __webpack_require__(9);
+    var helpers_typeof = __webpack_require__(8);
     var typeof_default = __webpack_require__.n(helpers_typeof);
     function _assertThisInitialized(self) {
         if (self === void 0) {
