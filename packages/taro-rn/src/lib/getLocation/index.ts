@@ -1,5 +1,5 @@
 import Geolocation from '@react-native-community/geolocation'
-import { Permissions } from 'react-native-unimodules'
+import * as Permissions from 'expo-permissions'
 import { askAsyncPermissions } from '../../utils/premissions'
 
 export async function getLocation(opts: Taro.getLocation.Option = {}): Promise<Taro.getLocation.SuccessCallbackResult> {

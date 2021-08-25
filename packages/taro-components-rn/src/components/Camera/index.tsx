@@ -78,6 +78,7 @@ export class _Camera extends Component<Props, State> {
     return (
       <Camera
         ref={this.ref}
+        // @ts-ignore
         type={type}
         flashMode={flash}
         onMountError={this.onError}
