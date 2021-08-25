@@ -111,8 +111,22 @@ export class Template extends RecursiveTemplate {
     return child
   }
 
+  modifyLoopContainer = (children: string, nodeName: string) => {
+    if (nodeName === 'swiper') {
+      return children.replace(/s-for="{{i\.cn}}"/, 's-for="{{xs.f(i.cn)}}"')
+    }
+
+    return children
+  }
+
   modifyTemplateResult = (res: string, nodeName: string) => {
     if (nodeName === 'picker-view-column') return ''
     return res
+  }
+
+  buildXSTmpExtra () {
+    return `f: function (l) {
+    return l.filter(function (i) {return i.nn === 'swiper-item'})
+  }`
   }
 }
