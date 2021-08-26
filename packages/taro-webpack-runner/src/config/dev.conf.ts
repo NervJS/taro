@@ -12,7 +12,8 @@ import {
   getFastRefreshPlugin,
   getModule,
   getOutput,
-  processEnvOption
+  processEnvOption,
+  getRuntimeConstants
 } from '../util/chain'
 import { BuildConfig } from '../util/types'
 import getBaseChain from './base.conf'
@@ -105,7 +106,9 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       template: path.join(appPath, sourceRoot, 'index.html')
     }])
   }
-  plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
+
+  const runtimeConstants = getRuntimeConstants()
+  plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants, runtimeConstants])
 
   if (config.framework === FRAMEWORK_MAP.REACT && config.devServer?.hot !== false) {
     // 默认开启 fast-refresh

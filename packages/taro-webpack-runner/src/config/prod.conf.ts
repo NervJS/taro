@@ -13,7 +13,8 @@ import {
   getModule,
   getOutput,
   getTerserPlugin,
-  processEnvOption
+  processEnvOption,
+  getRuntimeConstants
 } from '../util/chain'
 import { BuildConfig } from '../util/types'
 import getBaseChain from './base.conf'
@@ -108,7 +109,8 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     }])
   }
 
-  plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
+  const runtimeConstants = getRuntimeConstants()
+  plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants, runtimeConstants])
 
   const isCssoEnabled = !(csso && csso.enable === false)
 

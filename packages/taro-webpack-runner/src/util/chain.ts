@@ -562,3 +562,15 @@ export const getOutput = (appPath: string, [{ outputRoot, publicPath, chunkDirec
 export const getDevtool = ({ enableSourceMap, sourceMapType = 'cheap-module-eval-source-map' }) => {
   return enableSourceMap ? sourceMapType : 'none'
 }
+
+export function getRuntimeConstants () {
+  const constants = {
+    ENABLE_INNER_HTML: true,
+    ENABLE_ADJACENT_HTML: true,
+    ENABLE_TEMPLATE_CONTENT: true,
+    ENABLE_CLONE_NODE: true,
+    ENABLE_SIZE_APIS: false
+  }
+
+  return constants
+}
