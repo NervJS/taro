@@ -49,8 +49,6 @@ export class Template extends RecursiveTemplate {
 
     delete result['pure-view']
     delete result['static-view']
-    delete result['cover-view']
-    delete result['cover-image']
 
     return result
   }
@@ -93,12 +91,26 @@ export class Template extends RecursiveTemplate {
   </block>
 </view>
 <text s-elif="{{item.nn==='text'&&(item.st||item.cl)}}}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('text')}>
-  <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
+  <block s-for="{{item.cn}}" s-key="uid">
+    <block>{{item.v}}</block>
+  </block>
 </text>
-<button s-elif="{{item.nn==='text'&&(item.st||item.cl)}}}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('button')}>
-  <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
+<text s-elif="{{item.nn==='static-text'&&(item.st||item.cl)}}}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('static-text')}>
+  <block s-for="{{item.cn}}" s-key="uid">
+    <block>{{item.v}}</block>
+  </block>
+</text>
+<button s-elif="{{item.nn==='button'&&(item.st||item.cl)}}}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('button')}>
+  <block s-for="{{item.cn}}" s-key="uid">
+    <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
+  </block>
 </button>
-<input s-elif="{{item.nn==='text'&&(item.st||item.cl)}}}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('input')} />
+<input s-elif="{{item.nn==='input'&&(item.st||item.cl)}}}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('input')} />
+<swiper s-elif="{{item.nn==='swiper'&&(item.st||item.cl)}}}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('swiper')}>
+  <block s-for="{{item.cn}}" s-key="uid">
+    <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
+  </block>
+</swiper>
 <block s-else>
   <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
 </block>`
@@ -120,7 +132,9 @@ export class Template extends RecursiveTemplate {
   </block>
 </cover-view>
 <cover-image s-elif="{{item.nn==='cover-image'}}" id="{{item.uid}}"  ${this.buildFlattenNodeAttributes('cover-image')}></cover-image>
-<block s-else>{{item.v}}</block>`
+<block s-else>
+  <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
+</block>`
 
     return template
   }
@@ -131,18 +145,17 @@ export class Template extends RecursiveTemplate {
         // fix issue #6015
         return this.buildFlattenView()
 
+      case 'cover-view':
       case 'canvas':
       case 'map':
       case 'animation-view':
-      case 'textarea':
       case 'camera':
       case 'live-player':
-      case 'input':
         return this.buildFlattenCover()
 
       case 'video': {
         const body =
-`<ad s-if={{item.nn==='ad'}} id="{{item.uid}}" ${this.buildFlattenNodeAttributes('ad')}></ad>
+          `<ad s-if={{item.nn==='ad'}} id="{{item.uid}}" ${this.buildFlattenNodeAttributes('ad')}></ad>
 <block s-else>
   ${indent(this.buildFlattenCover(), 2)}
 </block>`
@@ -163,22 +176,6 @@ export class Template extends RecursiveTemplate {
       default:
         return child
     }
-  }
-
-  modifyLoopContainer = (children: string, nodeName: string): string => {
-    if (nodeName === 'swiper') {
-      return `
-    <block s-for="{{i.cn}}" s-key="uid">
-      <swiper-item id="{{item.uid}}" item-id="{{item.itemId}}" class="{{item.cl}}" bindtap="eh">
-        <block s-for="{{item.cn}}" s-key="uid">
-          <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
-        </block>
-      </swiper-item>
-    </block>
-    `
-    }
-
-    return children
   }
 
   modifyTemplateResult = (res: string, nodeName: string) => {

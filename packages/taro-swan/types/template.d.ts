@@ -29,7 +29,6 @@ export declare class Template extends RecursiveTemplate {
     buildFlattenView: (level?: number) => string;
     buildFlattenCover: (level?: number) => string;
     modifyLoopBody: (child: string, nodeName: string) => string;
-    modifyLoopContainer: (children: string, nodeName: string) => string;
     modifyTemplateResult: (res: string, nodeName: string) => string;
 }
 export {};
