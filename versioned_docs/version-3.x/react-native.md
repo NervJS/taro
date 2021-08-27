@@ -28,6 +28,24 @@ Taro 移动端的开发基于 Facebook 的开源项目 [React Native](https://gi
 
 
 ---
+
+## 版本兼容情况
+`taro init` 提供的初始化模板，会采用 React Native 的最新版本，建议 Taro 版本与 React Native 版本都保持最新。壳工程针对 0.63 以后的每个 React Native 版本都将提供对应分支，版本兼容情况如下：
+
+| React Native 版本 | 兼容情况 | 壳工程分支 |
+| - | - | - |
+| < 0.60.0 | 不兼容，可考虑使用 Taro 1.x/2.x 版本 | - |
+| 0.60.x | 兼容，但未全面测试，有问题请提供 issue | [0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2)，更改 react-native 版本为 0.60.0 |
+| 0.61.x | 兼容，但未全面测试，有问题请提供 issue | [0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2)，更改 react-native 版本为 0.61.0 |
+| 0.62.x | 兼容，但未全面测试，有问题请提供 issue | [0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2)，更改 react-native 版本为 0.62.0 |
+| 0.63.x | >= 3.2.0，但 3.2.13 版本以后，需手动添加配置，参考 [PR](https://github.com/NervJS/taro/pull/9540) | [0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2) |
+| 0.64.x | >= 3.2.0 | [0.64.0](https://github.com/NervJS/taro-native-shell/tree/0.64.0) |
+| 0.65.x | 开发中 | [0.65.1](https://github.com/NervJS/taro-native-shell/tree/0.65.1) |
+
+## 通过模板进行初始化
+
+使用 `taro init` 命令进行初始，选择 `react-native` 模板。完成后执行 `yarn upgradePeerdeps` 进行依赖初始化，模板相比于壳工程模式，将 js 工程与原生工程进行了合并，更加易于理解和使用。更多细节请查看 [react-native 模板文档](https://github.com/NervJS/taro-project-templates/tree/v3.1/react-native)。
+
 ## 搭建 iOS 开发环境
 
 必须安装的依赖有：Node、Watchman 和 React Native 命令行工具以及 Xcode。
