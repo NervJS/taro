@@ -99,6 +99,7 @@ export class TaroRootElement extends TaroElement {
       } else {
         this.pendingUpdate = false
         const customWrapperUpdate: { ctx: any, data: Record<string, any> }[] = []
+        const customWrapperMap: Map<string, Record<string, any>> = new Map()
         const normalUpdate = {}
         if (!initRender) {
           for (const p in data) {
@@ -113,12 +114,11 @@ export class TaroRootElement extends TaroElement {
                 const splitedPath = dataPathArr.slice(i).join('.')
                 if (customWrapper) {
                   hasCustomWrapper = true
-                  customWrapperUpdate.push({
-                    ctx: ctx.selectComponent(`#${customWrapperId}`),
-                    data: {
-                      [`i.${splitedPath}`]: data[p]
-                    }
-                  })
+                  if (customWrapperMap.has(customWrapperId)) {
+                    customWrapperMap.set(customWrapperId, { ...customWrapperMap.get(customWrapperId), [`i.${splitedPath}`]: data[p] })
+                  } else {
+                    customWrapperMap.set(customWrapperId, { [`i.${splitedPath}`]: data[p] })
+                  }
                 }
                 break
               }
@@ -126,6 +126,14 @@ export class TaroRootElement extends TaroElement {
             if (!hasCustomWrapper) {
               normalUpdate[p] = data[p]
             }
+          }
+          if (customWrapperMap.size > 0) {
+            customWrapperMap.forEach((data, id) => {
+              customWrapperUpdate.push({
+                ctx: ctx.selectComponent(`#${id}`),
+                data,
+              })
+            })
           }
         }
         const updateArrLen = customWrapperUpdate.length
