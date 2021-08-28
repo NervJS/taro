@@ -113,7 +113,7 @@ require(\\"./taro\\");
             space: \\"\\",
             decode: \\"false\\"
         };
-        const Button = {
+        const Button = Object.assign({
             size: singleQuote(\\"default\\"),
             type: \\"\\",
             plain: \\"false\\",
@@ -126,7 +126,7 @@ require(\\"./taro\\");
             \\"hover-start-time\\": \\"20\\",
             \\"hover-stay-time\\": \\"70\\",
             name: \\"\\"
-        };
+        }, touchEvents);
         const Checkbox = {
             value: \\"\\",
             disabled: \\"\\",
@@ -1217,7 +1217,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_button\\">
-  <button size=\\"{{xs.b(i.size,'default')}}\\" type=\\"{{i.type}}\\" plain=\\"{{xs.b(i.plain,false)}}\\" disabled=\\"{{i.disabled}}\\" loading=\\"{{xs.b(i.loading,false)}}\\" form-type=\\"{{i.formType}}\\" open-type=\\"{{i.openType}}\\" hover-class=\\"{{xs.b(i.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,70)}}\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <button size=\\"{{xs.b(i.size,'default')}}\\" type=\\"{{i.type}}\\" plain=\\"{{xs.b(i.plain,false)}}\\" disabled=\\"{{i.disabled}}\\" loading=\\"{{xs.b(i.loading,false)}}\\" form-type=\\"{{i.formType}}\\" open-type=\\"{{i.openType}}\\" hover-class=\\"{{xs.b(i.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,70)}}\\" name=\\"{{i.name}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>

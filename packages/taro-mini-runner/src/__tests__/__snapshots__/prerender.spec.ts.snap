@@ -124,7 +124,7 @@ require(\\"./taro\\");
         space: \\"\\",
         decode: \\"false\\"
     };
-    var Button = {
+    var Button = Object.assign({
         size: singleQuote(\\"default\\"),
         type: \\"\\",
         plain: \\"false\\",
@@ -137,7 +137,7 @@ require(\\"./taro\\");
         \\"hover-start-time\\": \\"20\\",
         \\"hover-stay-time\\": \\"70\\",
         name: \\"\\"
-    };
+    }, touchEvents);
     var Checkbox = {
         value: \\"\\",
         disabled: \\"\\",
@@ -4151,7 +4151,7 @@ require(\\"./taro\\");
             space: \\"\\",
             decode: \\"false\\"
         };
-        var Button = {
+        var Button = Object.assign({
             size: singleQuote(\\"default\\"),
             type: \\"\\",
             plain: \\"false\\",
@@ -4164,7 +4164,7 @@ require(\\"./taro\\");
             \\"hover-start-time\\": \\"20\\",
             \\"hover-stay-time\\": \\"70\\",
             name: \\"\\"
-        };
+        }, touchEvents);
         var Checkbox = {
             value: \\"\\",
             disabled: \\"\\",
@@ -7987,7 +7987,7 @@ require(\\"./taro\\");
             space: \\"\\",
             decode: \\"false\\"
         };
-        var Button = {
+        var Button = Object.assign({
             size: singleQuote(\\"default\\"),
             type: \\"\\",
             plain: \\"false\\",
@@ -8000,7 +8000,7 @@ require(\\"./taro\\");
             \\"hover-start-time\\": \\"20\\",
             \\"hover-stay-time\\": \\"70\\",
             name: \\"\\"
-        };
+        }, touchEvents);
         var Checkbox = {
             value: \\"\\",
             disabled: \\"\\",
