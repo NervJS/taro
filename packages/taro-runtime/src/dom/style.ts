@@ -72,14 +72,14 @@ export class Style {
   }
 
   public get cssText () {
-    let text = ''
+    let texts: string[] = []
     this._usedStyleProp.forEach(key => {
       const val = this[key]
       if (!val) return
       const styleName = isCssVariable(key) ? key : toDashed(key)
-      text += `${styleName}: ${val};`
+      texts.push(`${styleName}: ${val};`)
     })
-    return text
+    return texts.join(' ')
   }
 
   public set cssText (str: string) {
