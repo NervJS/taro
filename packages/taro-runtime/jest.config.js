@@ -44,6 +44,6 @@ module.exports = {
     '@tarojs/shared': path.resolve(__dirname, '..', '..', 'packages/shared/src/index.ts'),
     '@tarojs/react': path.resolve(__dirname, '..', '..', 'packages/taro-react/dist/index.js')
   },
-  // setupFiles: ['<rootDir>/__tests__/setup.js'],
+  setupFiles: ['<rootDir>/src/__tests__/setup.js'],
   testMatch: ['**/__tests__/?(*.)+(spec|test).[jt]s?(x)']
 }
