@@ -19,9 +19,9 @@ interface MutationObserverInit {
 const observers: MutationObserver[] = []
 
 /**
- * The MutationObserver provides the ability 
+ * The MutationObserver provides the ability
  * to watch for changes being made to the DOM tree.
- * It will invoke a specified callback function 
+ * It will invoke a specified callback function
  * when DOM changes occur.
  * @see https://dom.spec.whatwg.org/#mutationobserver
  * @see https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
@@ -37,11 +37,11 @@ export class MutationObserver {
   }
 
   /**
-   * Configures the MutationObserver 
-   * to begin receiving notifications 
-   * through its callback function 
+   * Configures the MutationObserver
+   * to begin receiving notifications
+   * through its callback function
    * when DOM changes matching the given options occur.
-   * 
+   *
    * Options matching is to be implemented.
    */
   observe (target: TaroNode, options?: MutationObserverInit): void {
@@ -53,8 +53,8 @@ export class MutationObserver {
   }
 
   /**
-   * Stop the MutationObserver instance 
-   * from receiving further notifications 
+   * Stop the MutationObserver instance
+   * from receiving further notifications
    * until and unless observe() is called again.
    */
   disconnect (): void {
@@ -67,8 +67,8 @@ export class MutationObserver {
   }
 
   /**
-   * Removes all pending notifications 
-   * from the MutationObserver's notification queue 
+   * Removes all pending notifications
+   * from the MutationObserver's notification queue
    * and returns them in a new Array of MutationRecord objects.
    */
   takeRecords (): MutationRecord[] {
@@ -110,7 +110,7 @@ export function recordMutation (record: MutationRecord) {
     ) {
       if (uidMatches(observer.target, t)) {
         // @TODO: add options matching here ?
-        // drop the record if the record type 
+        // drop the record if the record type
         // does not match the observer's
         // initial configuration options
         logMutation(observer, record)

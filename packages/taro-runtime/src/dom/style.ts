@@ -28,7 +28,7 @@ function setStyle (this: Style, newVal: string, styleKey: string) {
       target: this._element,
       attributeName: 'style',
       value: this.cssText,
-      oldValue: oldCssTxt,
+      oldValue: oldCssTxt
     })
   }
 }
@@ -82,7 +82,7 @@ export class Style {
   }
 
   public get cssText () {
-    let texts: string[] = []
+    const texts: string[] = []
     this._usedStyleProp.forEach(key => {
       const val = this[key]
       if (!val) return

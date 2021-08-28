@@ -1,8 +1,8 @@
 import type { TaroNode } from './node'
 
-/** 
- * A MutationRecord represents an individual DOM mutation. 
- * It is the object that is passed to MutationObserver's callback. 
+/**
+ * A MutationRecord represents an individual DOM mutation.
+ * It is the object that is passed to MutationObserver's callback.
  * @see https://dom.spec.whatwg.org/#interface-mutationrecord
  * @see https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord
 */
