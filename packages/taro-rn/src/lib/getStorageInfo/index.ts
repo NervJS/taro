@@ -29,8 +29,8 @@ export function getStorageInfo(option: Taro.getStorageInfo.Option = {}): Promise
         resolve(result)
       }).catch((err) => {
         res.errMsg = err.message
-        fail && fail(res)
-        complete && complete(res)
+        fail?.(res)
+        complete?.(res)
 
         reject(err)
       })

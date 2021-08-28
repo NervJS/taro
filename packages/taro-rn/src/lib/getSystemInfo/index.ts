@@ -7,14 +7,14 @@ export function getSystemInfo(opts: Taro.getSystemInfo.Option  = {}): Promise<Ta
       ...getSystemInfoSync(),
       errMsg: 'getSystemInfo: ok'
     }
-    success && success(res)
-    complete && complete(res)
+    success?.(res)
+    complete?.(res)
 
     return Promise.resolve(res)
   } catch (err) {
     const res = { errMsg: err.message }
-    fail && fail(res)
-    complete && complete(res)
+    fail?.(res)
+    complete?.(res)
 
     return Promise.reject(err)
   }
