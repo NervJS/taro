@@ -3,6 +3,8 @@ import { Shortcuts } from '@tarojs/shared'
 import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
+import { recordMutation } from './mutation_observer'
+import { MutationRecordType } from './mutation_record'
 
 import type { TaroNodeImpl } from '../dom-external/node-impl'
 import type { InstanceNamedFactory } from '../interface'
@@ -23,10 +25,17 @@ export class TaroText extends TaroNode {
   }
 
   public set textContent (text: string) {
+    const oldText = this._value
     this._value = text
     this.enqueueUpdate({
       path: `${this._path}.${Shortcuts.Text}`,
       value: text
+    })
+    recordMutation({
+      target: this,
+      type: MutationRecordType.CHARACTER_DATA,
+      value: text,
+      oldValue: oldText
     })
   }
 

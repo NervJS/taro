@@ -2,9 +2,12 @@ import { isUndefined, toCamelCase, toDashed, Shortcuts, warn, isString } from '@
 import { styleProperties } from './style_properties'
 import { TaroElement } from './element'
 import { PROPERTY_THRESHOLD } from '../constants'
+import { recordMutation } from './mutation_observer'
+import { MutationRecordType } from './mutation_record'
 
 function setStyle (this: Style, newVal: string, styleKey: string) {
   const old = this[styleKey]
+  const oldCssTxt = this.cssText
   if (newVal) {
     this._usedStyleProp.add(styleKey)
   }
@@ -19,6 +22,13 @@ function setStyle (this: Style, newVal: string, styleKey: string) {
     this._element.enqueueUpdate({
       path: `${this._element._path}.${Shortcuts.Style}`,
       value: this.cssText
+    })
+    recordMutation({
+      type: MutationRecordType.ATTRIBUTES,
+      target: this._element,
+      attributeName: 'style',
+      value: this.cssText,
+      oldValue: oldCssTxt,
     })
   }
 }

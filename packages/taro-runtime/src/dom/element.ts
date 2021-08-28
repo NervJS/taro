@@ -20,6 +20,8 @@ import {
   CATCHMOVE,
   CATCH_VIEW
 } from '../constants'
+import { recordMutation } from './mutation_observer'
+import { MutationRecordType } from './mutation_record'
 
 import type { TaroEvent } from './event'
 import type { Attributes, InstanceNamedFactory } from '../interface'
@@ -141,6 +143,14 @@ export class TaroElement extends TaroNode {
 
     const isPureView = this.nodeName === VIEW && !isHasExtractProp(this) && !this.isAnyEventBinded()
 
+    recordMutation({
+      target: this,
+      type: MutationRecordType.ATTRIBUTES,
+      attributeName: qualifiedName,
+      value: String(value),
+      oldValue: this.getAttribute(qualifiedName)
+    })
+
     switch (qualifiedName) {
       case STYLE:
         this.style.cssText = value as string
@@ -196,6 +206,13 @@ export class TaroElement extends TaroNode {
 
   public removeAttribute (qualifiedName: string) {
     const isStaticView = this.nodeName === VIEW && isHasExtractProp(this) && !this.isAnyEventBinded()
+
+    recordMutation({
+      target: this,
+      type: MutationRecordType.ATTRIBUTES,
+      attributeName: qualifiedName,
+      oldValue: this.getAttribute(qualifiedName)
+    })
 
     if (qualifiedName === STYLE) {
       this.style.cssText = ''

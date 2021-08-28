@@ -10,6 +10,8 @@ import { ElementNames } from '../interface'
 import {
   DOCUMENT_FRAGMENT
 } from '../constants'
+import { recordMutation } from './mutation_observer'
+import { MutationRecordType } from './mutation_record'
 
 import type { UpdatePayload, InstanceNamedFactory } from '../interface'
 import type { TaroDocument } from './document'
@@ -148,6 +150,13 @@ export class TaroNode extends TaroEventTarget {
           path: newChild._path,
           value: this.hydrate(newChild)
         }
+        recordMutation({
+          addedNodes: [newChild],
+          removedNodes: [refChild],
+          nextSibling: this.childNodes[index + 2], // +2 because old node is not yet removed
+          type: MutationRecordType.CHILD_LIST,
+          target: this
+        })
       } else {
         payload = {
           path: `${this._path}.${Shortcuts.Childnodes}`,
@@ -156,6 +165,12 @@ export class TaroNode extends TaroEventTarget {
             return childNodes.map(hydrate)
           }
         }
+        recordMutation({
+          addedNodes: [newChild],
+          nextSibling: refChild,
+          type: MutationRecordType.CHILD_LIST,
+          target: this
+        })
       }
     } else {
       this.childNodes.push(newChild)
@@ -163,6 +178,12 @@ export class TaroNode extends TaroEventTarget {
         path: newChild._path,
         value: this.hydrate(newChild)
       }
+      recordMutation({
+        addedNodes: [newChild],
+        previousSibling: this.childNodes[this.childNodes.length - 2],
+        type: MutationRecordType.CHILD_LIST,
+        target: this
+      })
     }
 
     this.enqueueUpdate(payload)
@@ -196,6 +217,11 @@ export class TaroNode extends TaroEventTarget {
           const childNodes = this.childNodes.filter(node => !isComment(node))
           return childNodes.map(hydrate)
         }
+      })
+      recordMutation({
+        removedNodes: [child],
+        type: MutationRecordType.CHILD_LIST,
+        target: this
       })
     }
     child.parentNode = null
