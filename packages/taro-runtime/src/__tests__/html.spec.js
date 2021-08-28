@@ -227,7 +227,7 @@ describe('html with <style>', () => {
     const el4 = res[0].children[2].children[0].children[0]
     expect(el1.style.cssText).toBe('width: 100%;')
     expect(el2.style.cssText).toBe('')
-    expect(el3.style.cssText).toBe('width: 100%;color: red;')
+    expect(el3.style.cssText).toBe('width: 100%; color: red;')
     expect(el4.style.cssText).toBe('width: 100%;')
   })
 
