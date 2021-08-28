@@ -24,8 +24,8 @@ if (process.env.TARO_ENV !== 'h5') {
       const el = context.container.getNamed<TaroElement>(SERVICE_IDENTIFIER.TaroElement, named)
       if (nodeName) {
         el.nodeName = nodeName
+        el.tagName = el.nodeName.toUpperCase()
       }
-      el.tagName = el.nodeName.toUpperCase()
       return el
     }
   })
