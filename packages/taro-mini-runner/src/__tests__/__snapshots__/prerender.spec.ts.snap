@@ -958,10 +958,7 @@ require(\\"./taro\\");
     var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\" ]);
     function initNativeApi(taro) {
         Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"c\\"])(taro, wx, {
-            needPromiseApis: needPromiseApis,
-            modifyApis: function modifyApis(apis) {
-                apis.delete(\\"lanDebug\\");
-            }
+            needPromiseApis: needPromiseApis
         });
         taro.cloud = wx.cloud;
     }
@@ -3896,6 +3893,8 @@ module.exports = {
     function _possibleConstructorReturn(self, call) {
         if (call && (_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
+        } else if (call !== void 0) {
+            throw new TypeError(\\"Derived constructors may only return object or undefined\\");
         }
         return Object(_assertThisInitialized_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(self);
     }
@@ -4826,10 +4825,7 @@ require(\\"./taro\\");
         var runtime_needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
-                needPromiseApis: runtime_needPromiseApis,
-                modifyApis: function modifyApis(apis) {
-                    apis.delete(\\"lanDebug\\");
-                }
+                needPromiseApis: runtime_needPromiseApis
             });
             taro.cloud = wx.cloud;
         }
@@ -7650,6 +7646,8 @@ module.exports = {
     function _possibleConstructorReturn(self, call) {
         if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
+        } else if (call !== void 0) {
+            throw new TypeError(\\"Derived constructors may only return object or undefined\\");
         }
         return Object(assertThisInitialized[\\"a\\"])(self);
     }
@@ -8660,10 +8658,7 @@ require(\\"./taro\\");
         var runtime_needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
-                needPromiseApis: runtime_needPromiseApis,
-                modifyApis: function modifyApis(apis) {
-                    apis.delete(\\"lanDebug\\");
-                }
+                needPromiseApis: runtime_needPromiseApis
             });
             taro.cloud = wx.cloud;
         }
@@ -11484,6 +11479,8 @@ module.exports = {
     function _possibleConstructorReturn(self, call) {
         if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
+        } else if (call !== void 0) {
+            throw new TypeError(\\"Derived constructors may only return object or undefined\\");
         }
         return Object(assertThisInitialized[\\"a\\"])(self);
     }

@@ -830,10 +830,7 @@ require(\\"./taro\\");
         var runtime_needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
-                needPromiseApis: runtime_needPromiseApis,
-                modifyApis: function modifyApis(apis) {
-                    apis.delete(\\"lanDebug\\");
-                }
+                needPromiseApis: runtime_needPromiseApis
             });
             taro.cloud = wx.cloud;
         }
@@ -2358,6 +2355,8 @@ module.exports = {
     function _possibleConstructorReturn(self, call) {
         if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
+        } else if (call !== void 0) {
+            throw new TypeError(\\"Derived constructors may only return object or undefined\\");
         }
         return _assertThisInitialized(self);
     }
@@ -3251,10 +3250,7 @@ require(\\"./taro\\");
         var runtime_needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
-                needPromiseApis: runtime_needPromiseApis,
-                modifyApis: function modifyApis(apis) {
-                    apis.delete(\\"lanDebug\\");
-                }
+                needPromiseApis: runtime_needPromiseApis
             });
             taro.cloud = wx.cloud;
         }
@@ -4775,6 +4771,8 @@ module.exports = {
     function _possibleConstructorReturn(self, call) {
         if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
+        } else if (call !== void 0) {
+            throw new TypeError(\\"Derived constructors may only return object or undefined\\");
         }
         return _assertThisInitialized(self);
     }

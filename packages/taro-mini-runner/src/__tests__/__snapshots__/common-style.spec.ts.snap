@@ -830,10 +830,7 @@ require(\\"./taro\\");
         var runtime_needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
-                needPromiseApis: runtime_needPromiseApis,
-                modifyApis: function modifyApis(apis) {
-                    apis.delete(\\"lanDebug\\");
-                }
+                needPromiseApis: runtime_needPromiseApis
             });
             taro.cloud = wx.cloud;
         }
@@ -2080,7 +2077,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/pages/about/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
-    19: function(module, __webpack_exports__, __webpack_require__) {
+    18: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(1);
@@ -2119,7 +2116,7 @@ require(\\"./taro\\");
             }
         }, config || {}));
     }
-}, [ [ 19, 0, 1, 3, 2 ] ] ]);
+}, [ [ 18, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/about/index.json **/
 {\\"navigationBarTitleText\\":\\"关于\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
@@ -2130,7 +2127,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
-    18: function(module, __webpack_exports__, __webpack_require__) {
+    19: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(1);
@@ -2169,7 +2166,7 @@ require(\\"./taro\\");
             }
         }, config || {}));
     }
-}, [ [ 18, 0, 1, 3, 2 ] ] ]);
+}, [ [ 19, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
@@ -2415,6 +2412,8 @@ module.exports = {
     function _possibleConstructorReturn(self, call) {
         if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
+        } else if (call !== void 0) {
+            throw new TypeError(\\"Derived constructors may only return object or undefined\\");
         }
         return _assertThisInitialized(self);
     }

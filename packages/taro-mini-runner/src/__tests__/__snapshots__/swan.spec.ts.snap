@@ -1134,96 +1134,208 @@ require(\\"./taro\\");
                                     </block>
                                   </view>
                                   <text s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" selectable=\\"{{xs.b(item.selectable,false)}}\\" space=\\"{{item.space}}\\" decode=\\"{{xs.b(item.decode,false)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                                    <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+                                    <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                                      <block>{{item.v}}</block>
+                                    </block>
                                   </text>
-                                  <button s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                                    <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+                                  <text s-elif=\\"{{item.nn==='static-text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" selectable=\\"{{xs.b(item.selectable,false)}}\\" space=\\"{{item.space}}\\" decode=\\"{{xs.b(item.decode,false)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+                                    <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                                      <block>{{item.v}}</block>
+                                    </block>
+                                  </text>
+                                  <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                                    <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                                      <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+                                    </block>
                                   </button>
-                                  <input s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" value=\\"{{item.value}}\\" type=\\"{{xs.b(item.type,'')}}\\" password=\\"{{xs.b(item.password,false)}}\\" placeholder=\\"{{item.placeholder}}\\" placeholder-style=\\"{{item.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(item.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{item.disabled}}\\" maxlength=\\"{{xs.b(item.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(item.cursorSpacing,0)}}\\" focus=\\"{{xs.b(item.focus,false)}}\\" confirm-type=\\"{{xs.b(item.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(item.confirmHold,false)}}\\" cursor=\\"{{xs.b(item.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(item.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(item.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
+                                  <input s-elif=\\"{{item.nn==='input'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" value=\\"{{item.value}}\\" type=\\"{{xs.b(item.type,'')}}\\" password=\\"{{xs.b(item.password,false)}}\\" placeholder=\\"{{item.placeholder}}\\" placeholder-style=\\"{{item.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(item.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{item.disabled}}\\" maxlength=\\"{{xs.b(item.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(item.cursorSpacing,0)}}\\" focus=\\"{{xs.b(item.focus,false)}}\\" confirm-type=\\"{{xs.b(item.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(item.confirmHold,false)}}\\" cursor=\\"{{xs.b(item.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(item.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(item.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
+                                  <swiper s-elif=\\"{{item.nn==='swiper'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" indicator-dots=\\"{{xs.b(item.indicatorDots,false)}}\\" indicator-color=\\"{{xs.b(item.indicatorColor,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.indicatorActiveColor,'#000000')}}\\" autoplay=\\"{{xs.b(item.autoplay,false)}}\\" current=\\"{{xs.b(item.current,0)}}\\" interval=\\"{{xs.b(item.interval,5000)}}\\" duration=\\"{{xs.b(item.duration,500)}}\\" circular=\\"{{xs.b(item.circular,false)}}\\" vertical=\\"{{xs.b(item.vertical,false)}}\\" previous-margin=\\"{{xs.b(item.previousMargin,'0px')}}\\" next-margin=\\"{{xs.b(item.nextMargin,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.displayMultipleItems,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                                    <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                                      <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+                                    </block>
+                                  </swiper>
                                   <block s-else>
                                     <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
                                   </block>
                                 </block>
                               </view>
                               <text s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" selectable=\\"{{xs.b(item.selectable,false)}}\\" space=\\"{{item.space}}\\" decode=\\"{{xs.b(item.decode,false)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                                <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+                                <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                                  <block>{{item.v}}</block>
+                                </block>
                               </text>
-                              <button s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                                <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+                              <text s-elif=\\"{{item.nn==='static-text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" selectable=\\"{{xs.b(item.selectable,false)}}\\" space=\\"{{item.space}}\\" decode=\\"{{xs.b(item.decode,false)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+                                <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                                  <block>{{item.v}}</block>
+                                </block>
+                              </text>
+                              <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                                <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                                  <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+                                </block>
                               </button>
-                              <input s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" value=\\"{{item.value}}\\" type=\\"{{xs.b(item.type,'')}}\\" password=\\"{{xs.b(item.password,false)}}\\" placeholder=\\"{{item.placeholder}}\\" placeholder-style=\\"{{item.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(item.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{item.disabled}}\\" maxlength=\\"{{xs.b(item.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(item.cursorSpacing,0)}}\\" focus=\\"{{xs.b(item.focus,false)}}\\" confirm-type=\\"{{xs.b(item.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(item.confirmHold,false)}}\\" cursor=\\"{{xs.b(item.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(item.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(item.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
+                              <input s-elif=\\"{{item.nn==='input'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" value=\\"{{item.value}}\\" type=\\"{{xs.b(item.type,'')}}\\" password=\\"{{xs.b(item.password,false)}}\\" placeholder=\\"{{item.placeholder}}\\" placeholder-style=\\"{{item.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(item.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{item.disabled}}\\" maxlength=\\"{{xs.b(item.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(item.cursorSpacing,0)}}\\" focus=\\"{{xs.b(item.focus,false)}}\\" confirm-type=\\"{{xs.b(item.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(item.confirmHold,false)}}\\" cursor=\\"{{xs.b(item.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(item.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(item.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
+                              <swiper s-elif=\\"{{item.nn==='swiper'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" indicator-dots=\\"{{xs.b(item.indicatorDots,false)}}\\" indicator-color=\\"{{xs.b(item.indicatorColor,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.indicatorActiveColor,'#000000')}}\\" autoplay=\\"{{xs.b(item.autoplay,false)}}\\" current=\\"{{xs.b(item.current,0)}}\\" interval=\\"{{xs.b(item.interval,5000)}}\\" duration=\\"{{xs.b(item.duration,500)}}\\" circular=\\"{{xs.b(item.circular,false)}}\\" vertical=\\"{{xs.b(item.vertical,false)}}\\" previous-margin=\\"{{xs.b(item.previousMargin,'0px')}}\\" next-margin=\\"{{xs.b(item.nextMargin,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.displayMultipleItems,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                                <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                                  <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+                                </block>
+                              </swiper>
                               <block s-else>
                                 <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
                               </block>
                             </block>
                           </view>
                           <text s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" selectable=\\"{{xs.b(item.selectable,false)}}\\" space=\\"{{item.space}}\\" decode=\\"{{xs.b(item.decode,false)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                            <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+                            <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                              <block>{{item.v}}</block>
+                            </block>
                           </text>
-                          <button s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                            <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+                          <text s-elif=\\"{{item.nn==='static-text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" selectable=\\"{{xs.b(item.selectable,false)}}\\" space=\\"{{item.space}}\\" decode=\\"{{xs.b(item.decode,false)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+                            <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                              <block>{{item.v}}</block>
+                            </block>
+                          </text>
+                          <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                            <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                              <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+                            </block>
                           </button>
-                          <input s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" value=\\"{{item.value}}\\" type=\\"{{xs.b(item.type,'')}}\\" password=\\"{{xs.b(item.password,false)}}\\" placeholder=\\"{{item.placeholder}}\\" placeholder-style=\\"{{item.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(item.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{item.disabled}}\\" maxlength=\\"{{xs.b(item.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(item.cursorSpacing,0)}}\\" focus=\\"{{xs.b(item.focus,false)}}\\" confirm-type=\\"{{xs.b(item.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(item.confirmHold,false)}}\\" cursor=\\"{{xs.b(item.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(item.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(item.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
+                          <input s-elif=\\"{{item.nn==='input'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" value=\\"{{item.value}}\\" type=\\"{{xs.b(item.type,'')}}\\" password=\\"{{xs.b(item.password,false)}}\\" placeholder=\\"{{item.placeholder}}\\" placeholder-style=\\"{{item.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(item.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{item.disabled}}\\" maxlength=\\"{{xs.b(item.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(item.cursorSpacing,0)}}\\" focus=\\"{{xs.b(item.focus,false)}}\\" confirm-type=\\"{{xs.b(item.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(item.confirmHold,false)}}\\" cursor=\\"{{xs.b(item.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(item.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(item.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
+                          <swiper s-elif=\\"{{item.nn==='swiper'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" indicator-dots=\\"{{xs.b(item.indicatorDots,false)}}\\" indicator-color=\\"{{xs.b(item.indicatorColor,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.indicatorActiveColor,'#000000')}}\\" autoplay=\\"{{xs.b(item.autoplay,false)}}\\" current=\\"{{xs.b(item.current,0)}}\\" interval=\\"{{xs.b(item.interval,5000)}}\\" duration=\\"{{xs.b(item.duration,500)}}\\" circular=\\"{{xs.b(item.circular,false)}}\\" vertical=\\"{{xs.b(item.vertical,false)}}\\" previous-margin=\\"{{xs.b(item.previousMargin,'0px')}}\\" next-margin=\\"{{xs.b(item.nextMargin,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.displayMultipleItems,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                            <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                              <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+                            </block>
+                          </swiper>
                           <block s-else>
                             <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
                           </block>
                         </block>
                       </view>
                       <text s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" selectable=\\"{{xs.b(item.selectable,false)}}\\" space=\\"{{item.space}}\\" decode=\\"{{xs.b(item.decode,false)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                        <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+                        <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                          <block>{{item.v}}</block>
+                        </block>
                       </text>
-                      <button s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                        <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+                      <text s-elif=\\"{{item.nn==='static-text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" selectable=\\"{{xs.b(item.selectable,false)}}\\" space=\\"{{item.space}}\\" decode=\\"{{xs.b(item.decode,false)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+                        <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                          <block>{{item.v}}</block>
+                        </block>
+                      </text>
+                      <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                        <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                          <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+                        </block>
                       </button>
-                      <input s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" value=\\"{{item.value}}\\" type=\\"{{xs.b(item.type,'')}}\\" password=\\"{{xs.b(item.password,false)}}\\" placeholder=\\"{{item.placeholder}}\\" placeholder-style=\\"{{item.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(item.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{item.disabled}}\\" maxlength=\\"{{xs.b(item.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(item.cursorSpacing,0)}}\\" focus=\\"{{xs.b(item.focus,false)}}\\" confirm-type=\\"{{xs.b(item.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(item.confirmHold,false)}}\\" cursor=\\"{{xs.b(item.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(item.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(item.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
+                      <input s-elif=\\"{{item.nn==='input'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" value=\\"{{item.value}}\\" type=\\"{{xs.b(item.type,'')}}\\" password=\\"{{xs.b(item.password,false)}}\\" placeholder=\\"{{item.placeholder}}\\" placeholder-style=\\"{{item.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(item.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{item.disabled}}\\" maxlength=\\"{{xs.b(item.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(item.cursorSpacing,0)}}\\" focus=\\"{{xs.b(item.focus,false)}}\\" confirm-type=\\"{{xs.b(item.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(item.confirmHold,false)}}\\" cursor=\\"{{xs.b(item.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(item.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(item.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
+                      <swiper s-elif=\\"{{item.nn==='swiper'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" indicator-dots=\\"{{xs.b(item.indicatorDots,false)}}\\" indicator-color=\\"{{xs.b(item.indicatorColor,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.indicatorActiveColor,'#000000')}}\\" autoplay=\\"{{xs.b(item.autoplay,false)}}\\" current=\\"{{xs.b(item.current,0)}}\\" interval=\\"{{xs.b(item.interval,5000)}}\\" duration=\\"{{xs.b(item.duration,500)}}\\" circular=\\"{{xs.b(item.circular,false)}}\\" vertical=\\"{{xs.b(item.vertical,false)}}\\" previous-margin=\\"{{xs.b(item.previousMargin,'0px')}}\\" next-margin=\\"{{xs.b(item.nextMargin,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.displayMultipleItems,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                        <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                          <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+                        </block>
+                      </swiper>
                       <block s-else>
                         <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
                       </block>
                     </block>
                   </view>
                   <text s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" selectable=\\"{{xs.b(item.selectable,false)}}\\" space=\\"{{item.space}}\\" decode=\\"{{xs.b(item.decode,false)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                    <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+                    <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                      <block>{{item.v}}</block>
+                    </block>
                   </text>
-                  <button s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                    <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+                  <text s-elif=\\"{{item.nn==='static-text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" selectable=\\"{{xs.b(item.selectable,false)}}\\" space=\\"{{item.space}}\\" decode=\\"{{xs.b(item.decode,false)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+                    <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                      <block>{{item.v}}</block>
+                    </block>
+                  </text>
+                  <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                    <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                      <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+                    </block>
                   </button>
-                  <input s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" value=\\"{{item.value}}\\" type=\\"{{xs.b(item.type,'')}}\\" password=\\"{{xs.b(item.password,false)}}\\" placeholder=\\"{{item.placeholder}}\\" placeholder-style=\\"{{item.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(item.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{item.disabled}}\\" maxlength=\\"{{xs.b(item.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(item.cursorSpacing,0)}}\\" focus=\\"{{xs.b(item.focus,false)}}\\" confirm-type=\\"{{xs.b(item.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(item.confirmHold,false)}}\\" cursor=\\"{{xs.b(item.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(item.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(item.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
+                  <input s-elif=\\"{{item.nn==='input'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" value=\\"{{item.value}}\\" type=\\"{{xs.b(item.type,'')}}\\" password=\\"{{xs.b(item.password,false)}}\\" placeholder=\\"{{item.placeholder}}\\" placeholder-style=\\"{{item.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(item.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{item.disabled}}\\" maxlength=\\"{{xs.b(item.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(item.cursorSpacing,0)}}\\" focus=\\"{{xs.b(item.focus,false)}}\\" confirm-type=\\"{{xs.b(item.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(item.confirmHold,false)}}\\" cursor=\\"{{xs.b(item.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(item.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(item.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
+                  <swiper s-elif=\\"{{item.nn==='swiper'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" indicator-dots=\\"{{xs.b(item.indicatorDots,false)}}\\" indicator-color=\\"{{xs.b(item.indicatorColor,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.indicatorActiveColor,'#000000')}}\\" autoplay=\\"{{xs.b(item.autoplay,false)}}\\" current=\\"{{xs.b(item.current,0)}}\\" interval=\\"{{xs.b(item.interval,5000)}}\\" duration=\\"{{xs.b(item.duration,500)}}\\" circular=\\"{{xs.b(item.circular,false)}}\\" vertical=\\"{{xs.b(item.vertical,false)}}\\" previous-margin=\\"{{xs.b(item.previousMargin,'0px')}}\\" next-margin=\\"{{xs.b(item.nextMargin,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.displayMultipleItems,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                    <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                      <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+                    </block>
+                  </swiper>
                   <block s-else>
                     <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
                   </block>
                 </block>
               </view>
               <text s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" selectable=\\"{{xs.b(item.selectable,false)}}\\" space=\\"{{item.space}}\\" decode=\\"{{xs.b(item.decode,false)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+                <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                  <block>{{item.v}}</block>
+                </block>
               </text>
-              <button s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+              <text s-elif=\\"{{item.nn==='static-text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" selectable=\\"{{xs.b(item.selectable,false)}}\\" space=\\"{{item.space}}\\" decode=\\"{{xs.b(item.decode,false)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+                <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                  <block>{{item.v}}</block>
+                </block>
+              </text>
+              <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                  <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+                </block>
               </button>
-              <input s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" value=\\"{{item.value}}\\" type=\\"{{xs.b(item.type,'')}}\\" password=\\"{{xs.b(item.password,false)}}\\" placeholder=\\"{{item.placeholder}}\\" placeholder-style=\\"{{item.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(item.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{item.disabled}}\\" maxlength=\\"{{xs.b(item.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(item.cursorSpacing,0)}}\\" focus=\\"{{xs.b(item.focus,false)}}\\" confirm-type=\\"{{xs.b(item.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(item.confirmHold,false)}}\\" cursor=\\"{{xs.b(item.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(item.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(item.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
+              <input s-elif=\\"{{item.nn==='input'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" value=\\"{{item.value}}\\" type=\\"{{xs.b(item.type,'')}}\\" password=\\"{{xs.b(item.password,false)}}\\" placeholder=\\"{{item.placeholder}}\\" placeholder-style=\\"{{item.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(item.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{item.disabled}}\\" maxlength=\\"{{xs.b(item.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(item.cursorSpacing,0)}}\\" focus=\\"{{xs.b(item.focus,false)}}\\" confirm-type=\\"{{xs.b(item.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(item.confirmHold,false)}}\\" cursor=\\"{{xs.b(item.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(item.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(item.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
+              <swiper s-elif=\\"{{item.nn==='swiper'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" indicator-dots=\\"{{xs.b(item.indicatorDots,false)}}\\" indicator-color=\\"{{xs.b(item.indicatorColor,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.indicatorActiveColor,'#000000')}}\\" autoplay=\\"{{xs.b(item.autoplay,false)}}\\" current=\\"{{xs.b(item.current,0)}}\\" interval=\\"{{xs.b(item.interval,5000)}}\\" duration=\\"{{xs.b(item.duration,500)}}\\" circular=\\"{{xs.b(item.circular,false)}}\\" vertical=\\"{{xs.b(item.vertical,false)}}\\" previous-margin=\\"{{xs.b(item.previousMargin,'0px')}}\\" next-margin=\\"{{xs.b(item.nextMargin,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.displayMultipleItems,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                  <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+                </block>
+              </swiper>
               <block s-else>
                 <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
               </block>
             </block>
           </view>
           <text s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" selectable=\\"{{xs.b(item.selectable,false)}}\\" space=\\"{{item.space}}\\" decode=\\"{{xs.b(item.decode,false)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-            <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+            <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+              <block>{{item.v}}</block>
+            </block>
           </text>
-          <button s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-            <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+          <text s-elif=\\"{{item.nn==='static-text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" selectable=\\"{{xs.b(item.selectable,false)}}\\" space=\\"{{item.space}}\\" decode=\\"{{xs.b(item.decode,false)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+            <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+              <block>{{item.v}}</block>
+            </block>
+          </text>
+          <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+            <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+              <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+            </block>
           </button>
-          <input s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" value=\\"{{item.value}}\\" type=\\"{{xs.b(item.type,'')}}\\" password=\\"{{xs.b(item.password,false)}}\\" placeholder=\\"{{item.placeholder}}\\" placeholder-style=\\"{{item.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(item.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{item.disabled}}\\" maxlength=\\"{{xs.b(item.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(item.cursorSpacing,0)}}\\" focus=\\"{{xs.b(item.focus,false)}}\\" confirm-type=\\"{{xs.b(item.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(item.confirmHold,false)}}\\" cursor=\\"{{xs.b(item.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(item.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(item.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
+          <input s-elif=\\"{{item.nn==='input'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" value=\\"{{item.value}}\\" type=\\"{{xs.b(item.type,'')}}\\" password=\\"{{xs.b(item.password,false)}}\\" placeholder=\\"{{item.placeholder}}\\" placeholder-style=\\"{{item.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(item.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{item.disabled}}\\" maxlength=\\"{{xs.b(item.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(item.cursorSpacing,0)}}\\" focus=\\"{{xs.b(item.focus,false)}}\\" confirm-type=\\"{{xs.b(item.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(item.confirmHold,false)}}\\" cursor=\\"{{xs.b(item.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(item.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(item.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
+          <swiper s-elif=\\"{{item.nn==='swiper'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" indicator-dots=\\"{{xs.b(item.indicatorDots,false)}}\\" indicator-color=\\"{{xs.b(item.indicatorColor,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.indicatorActiveColor,'#000000')}}\\" autoplay=\\"{{xs.b(item.autoplay,false)}}\\" current=\\"{{xs.b(item.current,0)}}\\" interval=\\"{{xs.b(item.interval,5000)}}\\" duration=\\"{{xs.b(item.duration,500)}}\\" circular=\\"{{xs.b(item.circular,false)}}\\" vertical=\\"{{xs.b(item.vertical,false)}}\\" previous-margin=\\"{{xs.b(item.previousMargin,'0px')}}\\" next-margin=\\"{{xs.b(item.nextMargin,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.displayMultipleItems,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+            <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+              <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+            </block>
+          </swiper>
           <block s-else>
             <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
           </block>
         </block>
       </view>
       <text s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" selectable=\\"{{xs.b(item.selectable,false)}}\\" space=\\"{{item.space}}\\" decode=\\"{{xs.b(item.decode,false)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-        <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+        <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+          <block>{{item.v}}</block>
+        </block>
       </text>
-      <button s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-        <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+      <text s-elif=\\"{{item.nn==='static-text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" selectable=\\"{{xs.b(item.selectable,false)}}\\" space=\\"{{item.space}}\\" decode=\\"{{xs.b(item.decode,false)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+        <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+          <block>{{item.v}}</block>
+        </block>
+      </text>
+      <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+        <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+          <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+        </block>
       </button>
-      <input s-elif=\\"{{item.nn==='text'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" value=\\"{{item.value}}\\" type=\\"{{xs.b(item.type,'')}}\\" password=\\"{{xs.b(item.password,false)}}\\" placeholder=\\"{{item.placeholder}}\\" placeholder-style=\\"{{item.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(item.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{item.disabled}}\\" maxlength=\\"{{xs.b(item.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(item.cursorSpacing,0)}}\\" focus=\\"{{xs.b(item.focus,false)}}\\" confirm-type=\\"{{xs.b(item.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(item.confirmHold,false)}}\\" cursor=\\"{{xs.b(item.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(item.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(item.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
+      <input s-elif=\\"{{item.nn==='input'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" value=\\"{{item.value}}\\" type=\\"{{xs.b(item.type,'')}}\\" password=\\"{{xs.b(item.password,false)}}\\" placeholder=\\"{{item.placeholder}}\\" placeholder-style=\\"{{item.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(item.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{item.disabled}}\\" maxlength=\\"{{xs.b(item.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(item.cursorSpacing,0)}}\\" focus=\\"{{xs.b(item.focus,false)}}\\" confirm-type=\\"{{xs.b(item.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(item.confirmHold,false)}}\\" cursor=\\"{{xs.b(item.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(item.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(item.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
+      <swiper s-elif=\\"{{item.nn==='swiper'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" indicator-dots=\\"{{xs.b(item.indicatorDots,false)}}\\" indicator-color=\\"{{xs.b(item.indicatorColor,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.indicatorActiveColor,'#000000')}}\\" autoplay=\\"{{xs.b(item.autoplay,false)}}\\" current=\\"{{xs.b(item.current,0)}}\\" interval=\\"{{xs.b(item.interval,5000)}}\\" duration=\\"{{xs.b(item.duration,500)}}\\" circular=\\"{{xs.b(item.circular,false)}}\\" vertical=\\"{{xs.b(item.vertical,false)}}\\" previous-margin=\\"{{xs.b(item.previousMargin,'0px')}}\\" next-margin=\\"{{xs.b(item.nextMargin,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.displayMultipleItems,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+        <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+          <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+        </block>
+      </swiper>
       <block s-else>
         <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
       </block>
@@ -1259,6 +1371,14 @@ require(\\"./taro\\");
   <input value=\\"{= i.value =}\\" type=\\"{{ xs.b(i.type,'') }}\\" password=\\"{{ xs.b(i.password,false) }}\\" placeholder=\\"{{ i.placeholder }}\\" placeholder-style=\\"{{ i.placeholderStyle }}\\" placeholder-class=\\"{{ xs.b(i.placeholderClass,'input-placeholder') }}\\" disabled=\\"{{ i.disabled }}\\" maxlength=\\"{{ xs.b(i.maxlength,140) }}\\" cursor-spacing=\\"{{ xs.b(i.cursorSpacing,0) }}\\" confirm-type=\\"{{ xs.b(i.confirmType,'done') }}\\" confirm-hold=\\"{{ xs.b(i.confirmHold,false) }}\\" cursor=\\"{{ xs.b(i.cursor,i.value.length) }}\\" selection-start=\\"{{ xs.b(i.selectionStart,-1) }}\\" selection-end=\\"{{ xs.b(i.selectionEnd,-1) }}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{ i.name }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\"></input>
 </template>
 
+<template name=\\"tmpl_0_cover-image\\">
+  <cover-image src=\\"{{ i.src }}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block s-for=\\"{{i.cn}}\\" s-key=\\"uid\\">
+      <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
+    </block>
+  </cover-image>
+</template>
+
 <template name=\\"tmpl_0_textarea\\">
   <template is=\\"{{xs.c(i, 'tmpl_0_')}}\\" data=\\"{{{ i:i }}}\\" />
 </template>
@@ -1269,6 +1389,38 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_0_textarea_blur\\">
   <textarea value=\\"{= i.value =}\\" placeholder=\\"{{ i.placeholder }}\\" placeholder-style=\\"{{ i.placeholderStyle }}\\" placeholder-class=\\"{{ xs.b(i.placeholderClass,'textarea-placeholder') }}\\" disabled=\\"{{ i.disabled }}\\" maxlength=\\"{{ xs.b(i.maxlength,140) }}\\" auto-focus=\\"{{ xs.b(i.autoFocus,false) }}\\" auto-height=\\"{{ xs.b(i.autoHeight,false) }}\\" fixed=\\"{{ xs.b(i.fixed,false) }}\\" cursor-spacing=\\"{{ xs.b(i.cursorSpacing,0) }}\\" cursor=\\"{{ xs.b(i.cursor,-1) }}\\" selection-start=\\"{{ xs.b(i.selectionStart,-1) }}\\" selection-end=\\"{{ xs.b(i.selectionEnd,-1) }}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{ i.name }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\"></textarea>
+</template>
+
+<template name=\\"tmpl_0_cover-view\\">
+  <cover-view scroll-top=\\"{{ xs.b(i.scrollTop,false) }}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block s-for=\\"{{i.cn}}\\" s-key=\\"uid\\">
+      <cover-view s-if=\\"{{item.nn==='cover-view'}}\\" id=\\"{{item.uid}}\\" scroll-top=\\"{{xs.b(item.scrollTop,false)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+        <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+          <cover-view s-if=\\"{{item.nn==='cover-view'}}\\" id=\\"{{item.uid}}\\" scroll-top=\\"{{xs.b(item.scrollTop,false)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+            <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+              <cover-view s-if=\\"{{item.nn==='cover-view'}}\\" id=\\"{{item.uid}}\\" scroll-top=\\"{{xs.b(item.scrollTop,false)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                  <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+                </block>
+              </cover-view>
+              <cover-image s-elif=\\"{{item.nn==='cover-image'}}\\" id=\\"{{item.uid}}\\"  src=\\"{{item.src}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
+              <block s-else>
+                <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+              </block>
+            </block>
+          </cover-view>
+          <cover-image s-elif=\\"{{item.nn==='cover-image'}}\\" id=\\"{{item.uid}}\\"  src=\\"{{item.src}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
+          <block s-else>
+            <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+          </block>
+        </block>
+      </cover-view>
+      <cover-image s-elif=\\"{{item.nn==='cover-image'}}\\" id=\\"{{item.uid}}\\"  src=\\"{{item.src}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
+      <block s-else>
+        <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+      </block>
+    </block>
+  </cover-view>
 </template>
 
 <template name=\\"tmpl_0_scroll-view\\">
@@ -1282,13 +1434,9 @@ require(\\"./taro\\");
 <template name=\\"tmpl_0_swiper\\">
   <swiper indicator-dots=\\"{{ xs.b(i.indicatorDots,false) }}\\" indicator-color=\\"{{ xs.b(i.indicatorColor,'rgba(0, 0, 0, .3)') }}\\" indicator-active-color=\\"{{ xs.b(i.indicatorActiveColor,'#000000') }}\\" autoplay=\\"{{ xs.b(i.autoplay,false) }}\\" current=\\"{{ xs.b(i.current,0) }}\\" interval=\\"{{ xs.b(i.interval,5000) }}\\" duration=\\"{{ xs.b(i.duration,500) }}\\" circular=\\"{{ xs.b(i.circular,false) }}\\" vertical=\\"{{ xs.b(i.vertical,false) }}\\" previous-margin=\\"{{ xs.b(i.previousMargin,'0px') }}\\" next-margin=\\"{{ xs.b(i.nextMargin,'0px') }}\\" display-multiple-items=\\"{{ xs.b(i.displayMultipleItems,1) }}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block s-for=\\"{{i.cn}}\\" s-key=\\"uid\\">
-      <swiper-item id=\\"{{item.uid}}\\" item-id=\\"{{item.itemId}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-        <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
-          <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
-        </block>
-      </swiper-item>
+      <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
     </block>
-    </swiper>
+  </swiper>
 </template>
 
 <template name=\\"tmpl_0_swiper-item\\">
@@ -1330,15 +1478,21 @@ require(\\"./taro\\");
                   </block>
                 </cover-view>
                 <cover-image s-elif=\\"{{item.nn==='cover-image'}}\\" id=\\"{{item.uid}}\\"  src=\\"{{item.src}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
-                <block s-else>{{item.v}}</block>
+                <block s-else>
+                  <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+                </block>
               </block>
             </cover-view>
             <cover-image s-elif=\\"{{item.nn==='cover-image'}}\\" id=\\"{{item.uid}}\\"  src=\\"{{item.src}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
-            <block s-else>{{item.v}}</block>
+            <block s-else>
+              <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+            </block>
           </block>
         </cover-view>
         <cover-image s-elif=\\"{{item.nn==='cover-image'}}\\" id=\\"{{item.uid}}\\"  src=\\"{{item.src}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
-        <block s-else>{{item.v}}</block>
+        <block s-else>
+          <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+        </block>
       </block>
     </block>
   </video>
@@ -1357,15 +1511,21 @@ require(\\"./taro\\");
                 </block>
               </cover-view>
               <cover-image s-elif=\\"{{item.nn==='cover-image'}}\\" id=\\"{{item.uid}}\\"  src=\\"{{item.src}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
-              <block s-else>{{item.v}}</block>
+              <block s-else>
+                <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+              </block>
             </block>
           </cover-view>
           <cover-image s-elif=\\"{{item.nn==='cover-image'}}\\" id=\\"{{item.uid}}\\"  src=\\"{{item.src}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
-          <block s-else>{{item.v}}</block>
+          <block s-else>
+            <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+          </block>
         </block>
       </cover-view>
       <cover-image s-elif=\\"{{item.nn==='cover-image'}}\\" id=\\"{{item.uid}}\\"  src=\\"{{item.src}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
-      <block s-else>{{item.v}}</block>
+      <block s-else>
+        <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
+      </block>
     </block>
   </canvas>
 </template>
@@ -2186,9 +2346,7 @@ module.exports = {
   e: function (n) {
     return 'tmpl_' + n + '_container'
   },
-  f: function (l) {
-    return l.filter(function (i) {return i.nn === 'swiper-item'})
-  }
+  
 }
 
 /** filePath: dist/vendors.js **/
@@ -2254,6 +2412,8 @@ module.exports = {
     function _possibleConstructorReturn(self, call) {
         if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
+        } else if (call !== void 0) {
+            throw new TypeError(\\"Derived constructors may only return object or undefined\\");
         }
         return _assertThisInitialized(self);
     }
