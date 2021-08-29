@@ -23,6 +23,8 @@ export default class DateSelector extends React.Component<DateProps, DateState> 
     value: 0,
   }
 
+  dismissByOk = false
+
   static getDerivedStateFromProps (nextProps: DateProps, lastState: DateState): DateState | null {
     if (nextProps.value !== lastState.pValue) {
       const now = new Date()
@@ -63,9 +65,16 @@ export default class DateSelector extends React.Component<DateProps, DateState> 
     this.setState({ value: new Date(`${vals[0]}/${~~vals[1] + 1}/${vals[2] || 1}`) })
   }
 
-  onDismiss = (): void => {
-    const { onCancel = noop } = this.props
-    onCancel()
+  onOk = (): void => {
+    this.dismissByOk = true
+  }
+
+  onVisibleChange = (visible: boolean): void => {
+    if (!visible && !this.dismissByOk) {
+      const { onCancel = noop } = this.props
+      onCancel()
+    }
+    this.dismissByOk = false
   }
 
   render (): JSX.Element {
@@ -94,7 +103,9 @@ export default class DateSelector extends React.Component<DateProps, DateState> 
         maxDate={formatTimeStr(end)}
         onChange={this.onChange}
         onValueChange={this.onValueChange}
-        onDismiss={this.onDismiss}
+        // @ts-ignore
+        onOk={this.onOk}
+        onVisibleChange={this.onVisibleChange}
         disabled={disabled}
       >
         <TouchableWithoutFeedback><View>{children}</View></TouchableWithoutFeedback>

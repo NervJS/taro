@@ -45,9 +45,11 @@ import { noop } from '../../utils'
 import { ButtonProps, ButtonState } from './PropsType'
 
 class _Button extends React.Component<ButtonProps, ButtonState> {
+  static displayName = '_Button'
   static defaultProps = {
     size: 'default',
     type: 'default',
+    hoverStyle: { opacity: 0.8 },
     hoverStartTime: 20,
     hoverStayTime: 70,
     disabled: false,

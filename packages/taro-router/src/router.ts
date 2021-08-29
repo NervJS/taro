@@ -7,7 +7,7 @@ import { history, parsePath } from './history'
 import { stacks } from './stack'
 import { init, routerConfig } from './init'
 import { bindPageScroll } from './scroll'
-import { setRoutesAlias, addLeadingSlash, historyBackDelta, setHistoryBackDelta } from './utils'
+import { setRoutesAlias, addLeadingSlash, historyBackDelta, setHistoryBackDelta, throttle } from './utils'
 
 import type { AppConfig, PageConfig } from '@tarojs/taro'
 import type { PageInstance, AppInstance, IHooks } from '@tarojs/runtime'
@@ -85,9 +85,9 @@ function loadPage (page: PageInstance | null, pageConfig: Route | undefined, sta
       pageEl = document.getElementById(page.path!)
       pageOnReady(pageEl, page)
     }
+    stacks.push(page)
     page.onShow!()
     bindPageScroll(page, pageConfig || {})
-    stacks.push(page)
   }
 }
 
@@ -112,10 +112,11 @@ export function createRouter (
     })
   }
 
-  const router = new UniversalRouter(routes)
+  const basename = config.router.basename
+  const router = new UniversalRouter(routes, { baseUrl: basename || '' })
   app.onLaunch!()
 
-  const render: LocationListener<LocationState> = async ({ location, action }) => {
+  const render: LocationListener<LocationState> = throttle(async ({ location, action }) => {
     routerConfig.router.pathname = location.pathname
     let element
     try {
@@ -181,15 +182,17 @@ export function createRouter (
       const config = { ...pageConfig }
       delete config['path']
       delete config['load']
+
+      const pathname = basename ? location.pathname.replace(basename, '') : location.pathname
       const page = createPageConfig(
         enablePullDownRefresh ? runtimeHooks.createPullDownComponent?.(el, location.pathname, framework, routerConfig.PullDownRefresh) : el,
-        location.pathname + stringify(qs(stacks.length)),
+        pathname + stringify(qs(stacks.length)),
         {},
         config
       )
       loadPage(page, pageConfig, stacks.length)
     }
-  }
+  }, 500)
 
   if (history.location.pathname === '/') {
     history.replace(parsePath(routes[0].path as string + history.location.search))

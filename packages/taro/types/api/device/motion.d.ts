@@ -71,11 +71,11 @@ declare namespace Taro {
   }
 
   /** 取消监听设备方向变化事件，参数为空，则取消所有的事件监听。
-   * @supported weapp
+   * @supported weapp, rn
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/motion/wx.offDeviceMotionChange.html
    */
   function offDeviceMotionChange(
     /** 设备方向变化事件的回调函数 */
-    callback: (...args: any[]) => any,
+    callback?: (...args: any[]) => any,
   ): void
 }

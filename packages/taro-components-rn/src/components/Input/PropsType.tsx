@@ -27,6 +27,7 @@ export interface InputProps {
   disabled?: boolean;
   maxlength?: number;
   autoFocus?: boolean;
+  focus?: boolean;
   confirmType: 'done' | 'send' | 'search' | 'next' | 'go';
   confirmHold?: boolean;
   cursor?: number;

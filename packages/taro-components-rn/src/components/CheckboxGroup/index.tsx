@@ -38,7 +38,7 @@ class _CheckboxGroup extends React.Component<CheckboxGroupProps> {
     return React.Children.toArray(children).map((child: any) => {
       if (!child.type) return child
 
-      const childTypeName = child.type.name
+      const childTypeName = child.type.displayName
       if (childTypeName === '_Checkbox') {
         const { value, disabled, checked, color } = child.props
         const index = this.tmpIndex++

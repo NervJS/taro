@@ -23,7 +23,7 @@ import {
 } from './components'
 import { Shortcuts } from './shortcuts'
 import { isBooleanStringLiteral, isNumber, isFunction } from './is'
-import { toCamelCase, toKebabCase, toDashed, hasOwn, indent } from './utils'
+import { toCamelCase, toKebabCase, toDashed, hasOwn, indent, capitalize } from './utils'
 
 interface Component {
   nodeName: string;
@@ -449,10 +449,7 @@ export class BaseTemplate {
   b: function (a, b) {
     return a === undefined ? b : a
   },
-  c: function(i, prefix) {
-    var s = i.focus !== undefined ? 'focus' : 'blur'
-    return prefix + i.${Shortcuts.NodeName} + '_' + s
-  },
+  c: ${this.buildXSTepFocus(Shortcuts.NodeName)},
   d: function (i, v) {
     return i === undefined ? v : i
   },
@@ -470,6 +467,13 @@ export class BaseTemplate {
   protected buildXSTmplName () {
     return `function (l, n) {
     return 'tmpl_' + l + '_' + n
+  }`
+  }
+
+  protected buildXSTepFocus (nn: string) {
+    return `function(i, prefix) {
+    var s = i.focus !== undefined ? 'focus' : 'blur'
+    return prefix + i.${nn} + '_' + s
   }`
   }
 
@@ -622,4 +626,10 @@ export class UnRecursiveTemplate extends BaseTemplate {
     return l
   }`
   }
+}
+
+export {
+  internalComponents,
+  toCamelCase,
+  capitalize
 }

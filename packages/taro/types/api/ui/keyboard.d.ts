@@ -11,7 +11,7 @@ declare namespace Taro {
   }
 
   /** 在input、textarea等focus拉起键盘之后，手动调用此接口收起键盘
-   * @supported weapp
+   * @supported weapp, rn
    * @example
    * ```tsx
    * Taro.hideKeyboard({
@@ -68,7 +68,7 @@ declare namespace Taro {
   }
 
   /** 监听键盘高度变化
-   * @supported weapp
+   * @supported weapp, rn
    * @example
    * ```tsx
    * Taro.onKeyboardHeightChange(res => {
@@ -78,4 +78,14 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/keyboard/wx.onKeyboardHeightChange.html
    */
   function onKeyboardHeightChange(callback: onKeyboardHeightChange.Callback): void
+
+  /**
+   * 取消监听键盘高度变化事件。
+   * @supported weapp, rn
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/keyboard/wx.offKeyboardHeightChange.html
+   */
+  function offKeyboardHeightChange(
+    /** 键盘高度变化事件的回调函数 */
+    callback?: (...args: any[]) => any,
+  ): void
 }

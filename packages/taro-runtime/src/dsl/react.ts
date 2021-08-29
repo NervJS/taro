@@ -450,6 +450,8 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
   R = react
   ReactDOM = reactdom
 
+  setReconciler()
+
   const config = {
     properties: {
       props: {

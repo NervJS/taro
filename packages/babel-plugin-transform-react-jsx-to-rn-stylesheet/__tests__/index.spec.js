@@ -60,9 +60,9 @@ const getStyleFunctionTemplete = `function _getStyle(classNameExpression) {
 
 describe('jsx style plugin', () => {
   function getTransfromCode (source, debug = false, options = {}) {
-    const { isCSSModule, enableMultipleClassName = false } = options
+    const { enableCSSModule, enableMultipleClassName = false } = options
     const code = transform(source, {
-      plugins: [[jSXStylePlugin, { isCSSModule, enableMultipleClassName }], syntaxJSX],
+      plugins: [[jSXStylePlugin, { enableCSSModule, enableMultipleClassName }], syntaxJSX],
       configFile: false
     }).code
     if (debug) {
@@ -465,7 +465,7 @@ class App extends Component {
   render() {
     return <div className="header" style={styleSheet.red} />;
   }
-}`, false, { isCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
+}`, false, { enableCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
 import appScssStyleSheet from "./app.scss";
 import styleSheet from './app.module.scss';
 var _styleSheet = appScssStyleSheet;
@@ -489,7 +489,7 @@ class App extends Component {
       <div className="red" />
     </div>;
   }
-}`, false, { isCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
+}`, false, { enableCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
 import styleSheet from './app.module.scss';
 var _styleSheet = {};
 
@@ -499,6 +499,58 @@ class App extends Component {
       <div style={styleSheet.header} />
       <div style={_styleSheet["red"]} />
     </div>;
+  }\n
+}`)
+  })
+
+  it('Processing module style assignment When css module enable', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import './app.scss';
+import styleSheet from './app.module.scss';
+
+class App extends Component {
+  render() {
+    const a = styleSheet.red
+    return <div className={a} />;
+  }
+}`, false, { enableCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
+import appScssStyleSheet from "./app.scss";
+import styleSheet from './app.module.scss';
+var _styleSheet = appScssStyleSheet;
+
+class App extends Component {
+  render() {
+    const a = styleSheet.red;
+    return <div style={a} />;
+  }\n
+}`)
+  })
+
+  it('Processing module style spread and assign When css module enable', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import './app.scss';
+import styleSheet from './app.module.scss';
+
+class App extends Component {
+  render() {
+    const a = { ...styleSheet.red };
+    const b = a;
+    return <div className={{ ...b }} />;
+  }
+}`, false, { enableCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
+import appScssStyleSheet from "./app.scss";
+import styleSheet from './app.module.scss';
+var _styleSheet = appScssStyleSheet;
+
+class App extends Component {
+  render() {
+    const a = { ...styleSheet.red
+    };
+    const b = a;
+    return <div style={{ ...b
+    }} />;
   }\n
 }`)
   })
