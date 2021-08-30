@@ -129,14 +129,6 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     ]))
   }
 
-  if (config.framework === FRAMEWORK_MAP.REACT || config.framework === FRAMEWORK_MAP.NERV) {
-    if (useHtmlComponents && config.framework === FRAMEWORK_MAP.REACT) {
-      alias['@tarojs/components$'] = '@tarojs/components-react/index'
-    } else {
-      alias['@tarojs/components$'] = '@tarojs/components/dist-h5/react'
-    }
-  }
-
   chain.merge({
     mode,
     devtool: getDevtool({ enableSourceMap, sourceMapType }),

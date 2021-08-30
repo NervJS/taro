@@ -10349,10 +10349,10 @@ eslint-plugin-standard@^4.0.1:
   resolved "https://registry.yarnpkg.com/eslint-plugin-standard/-/eslint-plugin-standard-4.1.0.tgz#0c3bf3a67e853f8bbbc580fb4945fbf16f41b7c5"
   integrity sha512-ZL7+QRixjTR6/528YNGyDotyffm5OQst/sGxKDwGb9Uqs4In5Egi4+jbobhqJoyoCM6/7v/1A5fhQ7ScMtDjaQ==
 
-eslint-plugin-taro@3.3.3:
-  version "3.3.3"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-taro/-/eslint-plugin-taro-3.3.3.tgz#b7d050fe6ba564b730b964ba06395a1b6ab4a381"
-  integrity sha512-RrP7DC/ivOFG/v0fBvPKioIxz+VWYXIWorcJl8vo09C/nAE9VILyMi6Ge9F8AW+iv8DWvjvg66vbmRsugWREFw==
+eslint-plugin-taro@3.3.4:
+  version "3.3.4"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-taro/-/eslint-plugin-taro-3.3.4.tgz#8c6a996c3503c53ccbfda6f4d304c5660233e6b7"
+  integrity sha512-Mf1a4Or0/FtMpMnonY3dFfyl2Klrq5Lkh1ySkahMLw7gRrbp5bnyP/deaSxPKa/EXMkjyu1VDpRZ7vt5lYRy4w==
   dependencies:
     has "^1.0.1"
 

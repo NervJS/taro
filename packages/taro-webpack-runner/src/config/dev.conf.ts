@@ -9,7 +9,6 @@ import {
   getHtmlWebpackPlugin,
   getMiniCssExtractPlugin,
   getMainPlugin,
-  getFastRefreshPlugin,
   getModule,
   getOutput,
   processEnvOption
@@ -107,20 +106,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
   }
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
 
-  if (config.framework === FRAMEWORK_MAP.REACT && config.devServer?.hot !== false) {
-    // 默认开启 fast-refresh
-    plugin.fastRefreshPlugin = getFastRefreshPlugin()
-  }
-
   const mode = 'development'
-
-  if (config.framework === FRAMEWORK_MAP.REACT || config.framework === FRAMEWORK_MAP.NERV) {
-    if (useHtmlComponents && config.framework === FRAMEWORK_MAP.REACT) {
-      alias['@tarojs/components$'] = '@tarojs/components-react/index'
-    } else {
-      alias['@tarojs/components$'] = '@tarojs/components/dist-h5/react'
-    }
-  }
 
   chain.merge({
     mode,

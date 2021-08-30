@@ -2,17 +2,15 @@ import * as webpack from 'webpack'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import { normalizePath } from '@tarojs/helper'
 import * as path from 'path'
-import { frameworkMeta } from './utils'
 import { getPageConfig } from './page'
 
 export default function (this: webpack.loader.LoaderContext) {
   const options = getOptions(this)
-  const { importFrameworkStatement, frameworkArgs } = frameworkMeta[options.framework]
-  const { framework, config: loaderConfig } = options
+  const { importFrameworkStatement, frameworkArgs, isNeedRawLoader, creatorLocation } = options.loaderMeta
+  const { config: loaderConfig } = options
   const config = getPageConfig(loaderConfig, this.resourcePath)
   const configString = JSON.stringify(config)
   const stringify = (s: string): string => stringifyRequest(this, s)
-  const { isNeedRawLoader } = frameworkMeta[framework]
   // raw is a placeholder loader to locate changed .vue resource
   const raw = path.join(__dirname, 'raw.js')
   const loaders = this.loaders
@@ -31,7 +29,8 @@ if (typeof PRERENDER !== 'undefined') {
 
   return `${setReconciler}
 import { defaultReconciler } from '@tarojs/shared'
-import { createNativeComponentConfig, container, SERVICE_IDENTIFIER } from '@tarojs/runtime'
+import { container, SERVICE_IDENTIFIER } from '@tarojs/runtime'
+import { createNativeComponentConfig } from '${creatorLocation}'
 ${importFrameworkStatement}
 var hooks = container.get(SERVICE_IDENTIFIER.Hooks)
 hooks.initNativeApiImpls = [defaultReconciler.initNativeApi]

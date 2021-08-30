@@ -45,6 +45,7 @@ export default class CLI {
             platform = 'plugin'
           }
           kernel.optsPlugins = [
+            '@tarojs/plugin-framework-react',
             '@tarojs/plugin-platform-weapp',
             '@tarojs/plugin-platform-alipay',
             '@tarojs/plugin-platform-swan',

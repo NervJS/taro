@@ -1,11 +1,13 @@
 import { isFunction, isArray } from '@tarojs/shared'
-import { PageContext, R as React } from './react'
-import { getPageInstance, injectPageInstance } from './common'
-import { PageLifeCycle } from './instance'
-import { Current } from '../current'
-import { HOOKS_APP_ID } from '../constants'
+import {
+  Current,
+  getPageInstance,
+  injectPageInstance
+} from '@tarojs/runtime'
+import { PageContext, R as React } from './connect'
+import { HOOKS_APP_ID } from './utils'
 
-import type { Func } from '../interface'
+import type { Func, PageLifeCycle } from '@tarojs/runtime'
 
 const taroHooks = (lifecycle: keyof PageLifeCycle) => {
   return (fn: Func) => {

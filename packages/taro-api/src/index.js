@@ -15,22 +15,7 @@ import {
   options,
   nextTick,
   eventCenter,
-  Events,
-  useDidShow,
-  useDidHide,
-  usePullDownRefresh,
-  useReachBottom,
-  usePageScroll,
-  useResize,
-  useShareAppMessage,
-  useTabItemTap,
-  useTitleClick,
-  useOptionMenuClick,
-  usePullIntercept,
-  useShareTimeline,
-  useAddToFavorites,
-  useReady,
-  useRouter
+  Events
 } from '@tarojs/runtime'
 
 const Taro = {
@@ -45,21 +30,6 @@ const Taro = {
   nextTick,
   eventCenter,
   Events,
-  useDidShow,
-  useDidHide,
-  usePullDownRefresh,
-  useReachBottom,
-  usePageScroll,
-  useResize,
-  useShareAppMessage,
-  useTabItemTap,
-  useTitleClick,
-  useOptionMenuClick,
-  usePullIntercept,
-  useShareTimeline,
-  useAddToFavorites,
-  useReady,
-  useRouter,
   getInitPxTransform
 }
 

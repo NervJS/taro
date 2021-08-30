@@ -123,6 +123,7 @@ export interface IHooks {
    * @multi-inject
    * 挂载属性或 API 到 Taro 对象上
    **/
+  initNativeApiImpls?: InitNativeApi[]
   initNativeApi?: InitNativeApi
 
   /**

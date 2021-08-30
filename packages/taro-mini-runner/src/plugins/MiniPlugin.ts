@@ -71,6 +71,7 @@ interface ITaroMiniPluginOptions {
   alias: Record<string, string>
   deviceRatio: any
   designWidth: number
+  loaderMeta?: Record<string, string>
 }
 
 export interface IComponentObj {
@@ -246,7 +247,7 @@ export default class TaroMiniPlugin {
        * 往 NormalModule.loaders 中插入对应的 Taro Loader
        */
       compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (_loaderContext, module:/** TaroNormalModule */ any) => {
-        const { framework, designWidth, deviceRatio } = this.options
+        const { framework, loaderMeta, designWidth, deviceRatio } = this.options
         if (module.miniType === META_TYPE.ENTRY) {
           const loaderName = '@tarojs/taro-loader'
           if (!isLoaderExist(module.loaders, loaderName)) {
@@ -254,6 +255,7 @@ export default class TaroMiniPlugin {
               loader: loaderName,
               options: {
                 framework,
+                loaderMeta,
                 prerender: this.prerenderPages.size > 0,
                 config: this.appConfig,
                 runtimePath: this.options.runtimePath,
@@ -280,6 +282,7 @@ export default class TaroMiniPlugin {
               loader: loaderName,
               options: {
                 framework,
+                loaderMeta,
                 name: module.name,
                 prerender: this.prerenderPages.has(module.name),
                 config: this.filesConfig,
@@ -295,6 +298,7 @@ export default class TaroMiniPlugin {
               loader: loaderName,
               options: {
                 framework,
+                loaderMeta,
                 name: module.name,
                 prerender: this.prerenderPages.has(module.name),
                 runtimePath: this.options.runtimePath

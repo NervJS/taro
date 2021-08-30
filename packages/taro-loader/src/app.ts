@@ -2,13 +2,11 @@ import * as webpack from 'webpack'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import { normalizePath } from '@tarojs/helper'
 
-import { frameworkMeta } from './utils'
-
 export default function (this: webpack.loader.LoaderContext) {
   const stringify = (s: string): string => stringifyRequest(this, s)
 
   const options = getOptions(this)
-  const { importFrameworkStatement, frameworkArgs, creator } = frameworkMeta[options.framework]
+  const { importFrameworkStatement, frameworkArgs, creator, creatorLocation } = options.loaderMeta
   const config = JSON.stringify(options.config)
   const blended = options.blended
   const pxTransformConfig = options.pxTransformConfig
@@ -36,7 +34,8 @@ exports.taroApp = app
     : `var inst = App(${createApp})`
 
   return `${setReconciler}
-import { ${creator}, window } from '@tarojs/runtime'
+import { window } from '@tarojs/runtime'
+import { ${creator} } from '${creatorLocation}'
 import { initPxTransform } from '@tarojs/taro'
 import component from ${stringify(this.request.split('!').slice(thisLoaderIndex + 1).join('!'))}
 ${importFrameworkStatement}

@@ -13,7 +13,6 @@ import { join, resolve } from 'path'
 import * as TerserPlugin from 'terser-webpack-plugin'
 import * as webpack from 'webpack'
 import { PostcssOption, IPostcssOption, ICopyOptions } from '@tarojs/taro/types/compile'
-import * as ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
 
 import MainPlugin from '../plugins/MainPlugin'
 import { getPostcssPlugins } from '../config/postcss.conf'
@@ -228,10 +227,6 @@ export const getCopyWebpackPlugin = ({ copy, appPath }: { copy: ICopyOptions; ap
 
 export const getMainPlugin = args => {
   return partial(getPlugin, MainPlugin)([args])
-}
-
-export const getFastRefreshPlugin = () => {
-  return partial(getPlugin, ReactRefreshWebpackPlugin)([])
 }
 
 const styleModuleReg = /(.*\.module).*\.(css|s[ac]ss|less|styl)\b/

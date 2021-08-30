@@ -50,7 +50,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     deviceRatio,
     enableSourceMap = process.env.NODE_ENV !== 'production',
     sourceMapType,
-    debugReact = false,
     baseLevel = 16,
     framework = 'nerv',
     prerender,
@@ -112,21 +111,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     plugin.copyWebpackPlugin = getCopyWebpackPlugin({ copy, appPath })
   }
   alias[taroJsComponents + '$'] = taroComponentsPath || `${taroJsComponents}/mini`
-  if (framework === 'react') {
-    alias['react-dom$'] = '@tarojs/react'
-    if (process.env.NODE_ENV !== 'production' && !debugReact) {
-      alias['react-reconciler$'] = 'react-reconciler/cjs/react-reconciler.production.min.js'
-      // eslint-disable-next-line dot-notation
-      alias['react$'] = 'react/cjs/react.production.min.js'
-      // eslint-disable-next-line dot-notation
-      alias['scheduler$'] = 'scheduler/cjs/scheduler.production.min.js'
-      alias['react/jsx-runtime$'] = 'react/cjs/react-jsx-runtime.production.min.js'
-    }
-  }
-  if (framework === 'nerv') {
-    alias['react-dom'] = 'nervjs'
-    alias.react = 'nervjs'
-  }
 
   env.FRAMEWORK = JSON.stringify(framework)
   env.TARO_ENV = JSON.stringify(buildAdapter)

@@ -2,7 +2,6 @@ import * as webpack from 'webpack'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import { AppConfig } from '@tarojs/taro'
 import { join, dirname } from 'path'
-import { frameworkMeta } from './utils'
 
 function genResource (path: string, pages: Map<string, string>, loaderContext: webpack.loader.LoaderContext) {
   const stringify = (s: string): string => stringifyRequest(loaderContext, s)
@@ -23,12 +22,13 @@ export default function (this: webpack.loader.LoaderContext) {
     importFrameworkStatement,
     frameworkArgs,
     creator,
+    creatorLocation,
     importFrameworkName,
     extraImportForWeb,
     execBeforeCreateWebApp,
     compatComponentImport,
     compatComponentExtra
-  } = frameworkMeta[options.framework]
+  } = options.loaderMeta
   const config: AppConfig = options.config
   const pages: Map<string, string> = options.pages
   const pxTransformConfig = options.pxTransformConfig
@@ -63,7 +63,8 @@ applyPolyfills().then(function () {
 
   const code = `import { createRouter, initPxTransform } from '@tarojs/taro'
 import component from ${stringify(join(dirname(this.resourcePath), options.filename))}
-import { ${creator}, window } from '@tarojs/runtime'
+import { window } from '@tarojs/runtime'
+import { ${creator} } from '${creatorLocation}'
 ${importFrameworkStatement}
 ${components}
 var config = ${JSON.stringify(config)}
