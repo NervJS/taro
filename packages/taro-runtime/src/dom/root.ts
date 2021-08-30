@@ -24,10 +24,15 @@ const eventIncrementId = incrementId()
 @injectable()
 export class TaroRootElement extends TaroElement {
   private pendingUpdate = false
+
   private pendingFlush = false
+
   private updatePayloads: UpdatePayload[] = []
+
   private updateCallbacks: Func[]= []
+
   private eventCenter: Events
+
   public ctx: null | MpInstance = null
 
   public constructor (// eslint-disable-next-line @typescript-eslint/indent
@@ -114,11 +119,7 @@ export class TaroRootElement extends TaroElement {
                 const splitedPath = dataPathArr.slice(i).join('.')
                 if (customWrapper) {
                   hasCustomWrapper = true
-                  if (customWrapperMap.has(customWrapperId)) {
-                    customWrapperMap.set(customWrapperId, { ...customWrapperMap.get(customWrapperId), [`i.${splitedPath}`]: data[p] })
-                  } else {
-                    customWrapperMap.set(customWrapperId, { [`i.${splitedPath}`]: data[p] })
-                  }
+                  customWrapperMap.set(customWrapperId, { ...(customWrapperMap.get(customWrapperId) || {}), [`i.${splitedPath}`]: data[p] })
                 }
                 break
               }
@@ -131,7 +132,7 @@ export class TaroRootElement extends TaroElement {
             customWrapperMap.forEach((data, id) => {
               customWrapperUpdate.push({
                 ctx: ctx.selectComponent(`#${id}`),
-                data,
+                data
               })
             })
           }
