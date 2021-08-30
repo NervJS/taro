@@ -6,14 +6,14 @@ function vibrate (DURATION, API, OPTS): Promise<Taro.General.CallbackResult> {
     const { success, fail, complete } = OPTS
     try {
       Vibration.vibrate(DURATION)
-      success && success(res)
-      complete && complete(res)
+      success?.(res)
+      complete?.(res)
 
       resolve(res)
     } catch (err) {
       res.errMsg = err.message
-      fail && fail(res)
-      complete && complete(res)
+      fail?.(res)
+      complete?.(res)
 
       reject(res)
     }

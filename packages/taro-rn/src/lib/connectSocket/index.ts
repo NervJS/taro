@@ -12,8 +12,8 @@ export function connectSocket(opts: Taro.connectSocket.Option): Promise<Taro.Soc
     if (typeof url !== 'string') {
       const error = new Error('connectSocket:fail parameter error: parameter.url should be String')
       res.errMsg = error.message
-      fail && fail(res)
-      complete && complete(res)
+      fail?.(res)
+      complete?.(res)
       return reject(res)
     }
 
@@ -26,8 +26,8 @@ export function connectSocket(opts: Taro.connectSocket.Option): Promise<Taro.Soc
       const error = new Error('同时最多发起 2 个 socket 请求，更多请参考文档。')
       res.errMsg = error.message
       console.error(res.errMsg)
-      fail && fail(res)
-      complete && complete(res)
+      fail?.(res)
+      complete?.(res)
       return reject(res)
     }
 
@@ -40,8 +40,8 @@ export function connectSocket(opts: Taro.connectSocket.Option): Promise<Taro.Soc
     res.socketTaskId = socketsCounter++
     res.socketTask = task
 
-    success && success(res)
-    complete && complete(res)
+    success?.(res)
+    complete?.(res)
 
     return resolve(task)
   })

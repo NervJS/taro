@@ -2,6 +2,7 @@ import CameraRoll from '@react-native-community/cameraroll'
 import { Permissions } from 'react-native-unimodules'
 import * as ImagePicker from 'expo-image-picker'
 import { askAsyncPermissions } from '../utils/premissions'
+import { successHandler, errorHandler } from '../utils'
 
 export const MEDIA_TYPE = {
   VIDEOS: 'Videos',
@@ -20,14 +21,10 @@ export async function saveMedia(opts: Taro.saveImageToPhotosAlbum.Option|Taro.sa
   return CameraRoll.save(filePath, { type: saveType })
     .then((url) => {
       res.path = url
-      success?.(res)
-      complete?.(res)
-      return Promise.resolve(res)
+      return successHandler(success, complete)(res)
     }).catch((err) => {
       res.errMsg = err.message
-      fail?.(res)
-      complete?.(res)
-      return Promise.reject(res)
+      return errorHandler(fail, complete)(res)
     })
 }
 
