@@ -17,519 +17,7 @@ require(\\"./vendors\\");
 require(\\"./taro\\");
 
 (my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    13: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        (function(navigator) {
-            var _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-            var needPromiseApis = new Set([ \\"addCardAuth\\", \\"getOpenUserInfo\\", \\"chooseAlipayContact\\", \\"chooseCity\\", \\"chooseContact\\", \\"choosePhoneContact\\", \\"datePicker\\", \\"getAddress\\", \\"getAuthCode\\", \\"getPhoneNumber\\", \\"getRunData\\", \\"getRunScene\\", \\"getServerTime\\", \\"getTitleColor\\", \\"rsa\\", \\"paySignCenter\\", \\"tradePay\\", \\"isCollected\\", \\"multiLevelSelect\\", \\"onLocatedComplete\\", \\"optionsSelect\\", \\"prompt\\", \\"regionPicker\\", \\"setLocatedCity\\", \\"showAuthGuide\\", \\"textRiskIdentification\\", \\"vibrate\\", \\"watchShake\\", \\"connectBLEDevice\\", \\"disconnectBLEDevice\\", \\"makeBluetoothPair\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"openBluetoothAdapter\\", \\"closeBluetoothAdapter\\", \\"getBluetoothAdapterState\\", \\"startBluetoothDevicesDiscovery\\", \\"stopBluetoothDevicesDiscovery\\", \\"getBluetoothDevices\\", \\"getConnectedBluetoothDevices\\" ]);
-            var apiDiff = {
-                showActionSheet: {
-                    options: {
-                        change: [ {
-                            old: \\"itemList\\",
-                            new: \\"items\\"
-                        } ]
-                    }
-                },
-                showToast: {
-                    options: {
-                        change: [ {
-                            old: \\"title\\",
-                            new: \\"content\\"
-                        }, {
-                            old: \\"icon\\",
-                            new: \\"type\\"
-                        } ]
-                    }
-                },
-                showLoading: {
-                    options: {
-                        change: [ {
-                            old: \\"title\\",
-                            new: \\"content\\"
-                        } ]
-                    }
-                },
-                setNavigationBarTitle: {
-                    alias: \\"setNavigationBar\\"
-                },
-                setNavigationBarColor: {
-                    alias: \\"setNavigationBar\\"
-                },
-                saveImageToPhotosAlbum: {
-                    alias: \\"saveImage\\",
-                    options: {
-                        change: [ {
-                            old: \\"filePath\\",
-                            new: \\"url\\"
-                        } ]
-                    }
-                },
-                previewImage: {
-                    options: {
-                        set: [ {
-                            key: \\"current\\",
-                            value: function value(options) {
-                                return options.urls.indexOf(options.current || options.urls[0]);
-                            }
-                        } ]
-                    }
-                },
-                getFileInfo: {
-                    options: {
-                        change: [ {
-                            old: \\"filePath\\",
-                            new: \\"apFilePath\\"
-                        } ]
-                    }
-                },
-                getSavedFileInfo: {
-                    options: {
-                        change: [ {
-                            old: \\"filePath\\",
-                            new: \\"apFilePath\\"
-                        } ]
-                    }
-                },
-                removeSavedFile: {
-                    options: {
-                        change: [ {
-                            old: \\"filePath\\",
-                            new: \\"apFilePath\\"
-                        } ]
-                    }
-                },
-                saveFile: {
-                    options: {
-                        change: [ {
-                            old: \\"tempFilePath\\",
-                            new: \\"apFilePath\\"
-                        } ]
-                    }
-                },
-                openLocation: {
-                    options: {
-                        set: [ {
-                            key: \\"latitude\\",
-                            value: function value(options) {
-                                return String(options.latitude);
-                            }
-                        }, {
-                            key: \\"longitude\\",
-                            value: function value(options) {
-                                return String(options.longitude);
-                            }
-                        } ]
-                    }
-                },
-                uploadFile: {
-                    options: {
-                        change: [ {
-                            old: \\"name\\",
-                            new: \\"fileName\\"
-                        } ]
-                    }
-                },
-                getClipboardData: {
-                    alias: \\"getClipboard\\"
-                },
-                setClipboardData: {
-                    alias: \\"setClipboard\\",
-                    options: {
-                        change: [ {
-                            old: \\"data\\",
-                            new: \\"text\\"
-                        } ]
-                    }
-                },
-                makePhoneCall: {
-                    options: {
-                        change: [ {
-                            old: \\"phoneNumber\\",
-                            new: \\"number\\"
-                        } ]
-                    }
-                },
-                scanCode: {
-                    alias: \\"scan\\",
-                    options: {
-                        change: [ {
-                            old: \\"onlyFromCamera\\",
-                            new: \\"hideAlbum\\"
-                        } ],
-                        set: [ {
-                            key: \\"type\\",
-                            value: function value(options) {
-                                return options.scanType && options.scanType[0].slice(0, -4) || \\"qr\\";
-                            }
-                        } ]
-                    }
-                },
-                setScreenBrightness: {
-                    options: {
-                        change: [ {
-                            old: \\"value\\",
-                            new: \\"brightness\\"
-                        } ]
-                    }
-                },
-                onBLEConnectionStateChange: {
-                    alias: \\"onBLEConnectionStateChanged\\"
-                },
-                offBLEConnectionStateChange: {
-                    alias: \\"offBLEConnectionStateChanged\\"
-                },
-                createBLEConnection: {
-                    alias: \\"connectBLEDevice\\"
-                },
-                closeBLEConnection: {
-                    alias: \\"disconnectBLEDevice\\"
-                }
-            };
-            var nativeRequest = my.canIUse(\\"request\\") ? my.request : my.httpRequest;
-            function request(options) {
-                options = options || {};
-                if (typeof options === \\"string\\") {
-                    options = {
-                        url: options
-                    };
-                }
-                var defaultHeaders = {
-                    \\"content-type\\": \\"application/json\\"
-                };
-                options.headers = defaultHeaders;
-                if (options.header) {
-                    for (var k in options.header) {
-                        var lowerK = k.toLocaleLowerCase();
-                        options.headers[lowerK] = options.header[k];
-                    }
-                    delete options.header;
-                }
-                var originSuccess = options.success;
-                var originFail = options.fail;
-                var originComplete = options.complete;
-                var requestTask;
-                var p = new Promise((function(resolve, reject) {
-                    options.success = function(res) {
-                        res.statusCode = res.status;
-                        delete res.status;
-                        res.header = res.headers;
-                        delete res.headers;
-                        originSuccess && originSuccess(res);
-                        resolve(res);
-                    };
-                    options.fail = function(res) {
-                        originFail && originFail(res);
-                        reject(res);
-                    };
-                    options.complete = function(res) {
-                        originComplete && originComplete(res);
-                    };
-                    requestTask = nativeRequest(options);
-                }));
-                p.abort = function(cb) {
-                    cb && cb();
-                    if (requestTask) {
-                        requestTask.abort();
-                    }
-                    return p;
-                };
-                return p;
-            }
-            function handleSyncApis(key, global, args) {
-                if (key === \\"getStorageSync\\") {
-                    var arg1 = args[0];
-                    if (arg1 != null) {
-                        var res = global[key]({
-                            key: arg1
-                        });
-                        var data = null;
-                        if (res.hasOwnProperty(\\"data\\")) {
-                            data = res.data;
-                        } else if (res.hasOwnProperty(\\"APDataStorage\\")) {
-                            data = res.APDataStorage;
-                        }
-                        return data === null ? \\"\\" : data;
-                    }
-                    return console.error(\\"getStorageSync \\\\u4f20\\\\u5165\\\\u53c2\\\\u6570\\\\u9519\\\\u8bef\\");
-                }
-                if (key === \\"setStorageSync\\") {
-                    var _arg = args[0];
-                    var arg2 = args[1];
-                    if (_arg != null) {
-                        return global[key]({
-                            key: _arg,
-                            data: arg2
-                        });
-                    }
-                    return console.error(\\"setStorageSync \\\\u4f20\\\\u5165\\\\u53c2\\\\u6570\\\\u9519\\\\u8bef\\");
-                }
-                if (key === \\"removeStorageSync\\") {
-                    var _arg2 = args[0];
-                    if (_arg2 != null) {
-                        return global[key]({
-                            key: _arg2
-                        });
-                    }
-                    return console.error(\\"removeStorageSync \\\\u4f20\\\\u5165\\\\u53c2\\\\u6570\\\\u9519\\\\u8bef\\");
-                }
-                if (key === \\"createSelectorQuery\\") {
-                    var query = global[key]();
-                    query.in = function() {
-                        return query;
-                    };
-                    return query;
-                }
-                return global[key].apply(global, args);
-            }
-            function transformMeta(api, options) {
-                var apiAlias = api;
-                if (api === \\"showModal\\") {
-                    options.cancelButtonText = options.cancelText || \\"\\\\u53d6\\\\u6d88\\";
-                    options.confirmButtonText = options.confirmText || \\"\\\\u786e\\\\u5b9a\\";
-                    apiAlias = \\"confirm\\";
-                    if (options.showCancel === false) {
-                        options.buttonText = options.confirmText || \\"\\\\u786e\\\\u5b9a\\";
-                        apiAlias = \\"alert\\";
-                    }
-                } else {
-                    Object.keys(apiDiff).forEach((function(item) {
-                        var apiItem = apiDiff[item];
-                        if (api === item) {
-                            if (apiItem.alias) {
-                                apiAlias = apiItem.alias;
-                            }
-                            if (apiItem.options) {
-                                var change = apiItem.options.change;
-                                var set = apiItem.options.set;
-                                if (change) {
-                                    change.forEach((function(changeItem) {
-                                        options[changeItem.new] = options[changeItem.old];
-                                    }));
-                                }
-                                if (set) {
-                                    set.forEach((function(setItem) {
-                                        options[setItem.key] = typeof setItem.value === \\"function\\" ? setItem.value(options) : setItem.value;
-                                    }));
-                                }
-                            }
-                        }
-                    }));
-                }
-                return {
-                    key: apiAlias,
-                    options: options
-                };
-            }
-            function modifyApis(apis) {
-                Object.keys(apiDiff).map((function(key) {
-                    apis.add(key);
-                    var platformKey = apiDiff[key].alias;
-                    platformKey && apis.delete(platformKey);
-                }));
-                apis.add(\\"showModal\\");
-                apis.delete(\\"confirm\\");
-                apis.delete(\\"alert\\");
-            }
-            function modifyAsyncResult(key, res) {
-                if (key === \\"saveFile\\") {
-                    res.savedFilePath = res.apFilePath;
-                } else if (key === \\"downloadFile\\") {
-                    res.tempFilePath = res.apFilePath;
-                } else if (key === \\"chooseImage\\") {
-                    res.tempFilePaths = res.apFilePaths;
-                } else if (key === \\"getClipboard\\") {
-                    res.data = res.text;
-                } else if (key === \\"scan\\") {
-                    res.result = res.code;
-                } else if (key === \\"getScreenBrightness\\") {
-                    res.value = res.brightness;
-                    delete res.brightness;
-                } else if (key === \\"connectSocket\\") {
-                    res.onClose = function(cb) {
-                        my.onSocketClose(cb);
-                    };
-                    res.onError = function(cb) {
-                        my.onSocketError(cb);
-                    };
-                    res.onMessage = function(cb) {
-                        my.onSocketMessage(cb);
-                    };
-                    res.onOpen = function(cb) {
-                        my.onSocketOpen(cb);
-                    };
-                    res.send = function(opt) {
-                        my.sendSocketMessage(opt);
-                    };
-                    res.close = function() {
-                        my.closeSocket();
-                    };
-                }
-            }
-            function initNativeApi(taro) {
-                Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"c\\"])(taro, my, {
-                    needPromiseApis: needPromiseApis,
-                    handleSyncApis: handleSyncApis,
-                    transformMeta: transformMeta,
-                    modifyApis: modifyApis,
-                    modifyAsyncResult: modifyAsyncResult,
-                    request: request
-                });
-            }
-            var components = {
-                View: {
-                    \\"disable-scroll\\": \\"false\\",
-                    hidden: \\"false\\",
-                    bindAppear: \\"\\",
-                    bindDisappear: \\"\\",
-                    bindFirstAppear: \\"\\"
-                },
-                Text: {
-                    \\"number-of-lines\\": \\"\\"
-                },
-                Map: {
-                    skew: \\"0\\",
-                    rotate: \\"0\\",
-                    polygons: \\"[]\\",
-                    \\"include-padding\\": \\"\\",
-                    \\"ground-overlays\\": \\"\\",
-                    \\"tile-overlay\\": \\"\\",
-                    \\"custom-map-style\\": \\"\\",
-                    setting: \\"{}\\",
-                    optimize: \\"\\",
-                    bindRegionChange: \\"\\",
-                    bindPanelTap: \\"\\"
-                },
-                Button: {
-                    scope: \\"\\",
-                    \\"public-id\\": \\"\\",
-                    bindGetAuthorize: \\"\\",
-                    bindError: \\"\\"
-                },
-                Checkbox: {
-                    bindChange: \\"\\"
-                },
-                Input: {
-                    \\"random-number\\": \\"false\\",
-                    controlled: \\"false\\",
-                    enableNative: \\"false\\"
-                },
-                Slider: {
-                    \\"track-size\\": \\"4\\",
-                    \\"handle-size\\": \\"22\\",
-                    \\"handle-color\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"#ffffff\\")
-                },
-                Switch: {
-                    controlled: \\"false\\"
-                },
-                Textarea: {
-                    \\"show-count\\": \\"true\\",
-                    controlled: \\"false\\",
-                    enableNative: \\"false\\"
-                },
-                MovableView: {
-                    bindChangeEnd: \\"\\"
-                },
-                ScrollView: {
-                    \\"scroll-animation-duration\\": \\"\\",
-                    \\"trap-scroll\\": \\"false\\"
-                },
-                Swiper: {
-                    \\"active-class\\": \\"\\",
-                    \\"changing-class\\": \\"\\",
-                    acceleration: \\"false\\",
-                    \\"disable-programmatic-animation\\": \\"false\\",
-                    \\"disable-touch\\": \\"false\\",
-                    bindAnimationEnd: \\"\\"
-                },
-                Image: {
-                    \\"default-source\\": \\"\\"
-                },
-                Canvas: {
-                    width: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"300px\\"),
-                    height: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"225px\\")
-                },
-                Video: {
-                    \\"poster-size\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"contain\\"),
-                    \\"mobilenet-hint-type\\": \\"1\\",
-                    enableNative: \\"false\\",
-                    bindLoading: \\"\\",
-                    bindUserAction: \\"\\",
-                    bindStop: \\"\\",
-                    bindRenderStart: \\"\\"
-                },
-                Lottie: {
-                    autoplay: \\"false\\",
-                    path: \\"\\",
-                    speed: \\"1.0\\",
-                    repeatCount: \\"0\\",
-                    autoReverse: \\"false\\",
-                    assetsPath: \\"\\",
-                    placeholder: \\"\\",
-                    djangoId: \\"\\",
-                    md5: \\"\\",
-                    optimize: \\"false\\",
-                    bindDataReady: \\"\\",
-                    bindDataFailed: \\"\\",
-                    bindAnimationStart: \\"\\",
-                    bindAnimationEnd: \\"\\",
-                    bindAnimationRepeat: \\"\\",
-                    bindAnimationCancel: \\"\\",
-                    bindDataLoadReady: \\"\\"
-                },
-                Lifestyle: {
-                    \\"public-id\\": \\"\\",
-                    memo: \\"\\",
-                    bindFollow: \\"\\"
-                },
-                LifeFollow: {
-                    sceneId: \\"\\",
-                    checkFollow: \\"\\",
-                    bindCheckFollow: \\"\\",
-                    bindClose: \\"\\"
-                },
-                ContactButton: {
-                    \\"tnt-inst-id\\": \\"\\",
-                    scene: \\"\\",
-                    size: \\"25\\",
-                    color: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"#00A3FF\\"),
-                    icon: \\"\\",
-                    \\"alipay-card-no\\": \\"\\",
-                    \\"ext-info\\": \\"\\"
-                }
-            };
-            var BUBBLE_EVENTS = new Set([ \\"touchStart\\", \\"touchMove\\", \\"touchEnd\\", \\"touchCancel\\", \\"tap\\", \\"longTap\\" ]);
-            var hostConfig = {
-                initNativeApi: initNativeApi,
-                getEventCenter: function getEventCenter(Events) {
-                    if (!my.taroEventCenter) {
-                        my.taroEventCenter = new Events;
-                    }
-                    return my.taroEventCenter;
-                },
-                modifyTaroEvent: function modifyTaroEvent(event, node) {
-                    if (node.tagName === \\"SWIPER\\" && event.type === \\"animationend\\") {
-                        event.type = \\"animationfinish\\";
-                    }
-                },
-                isBubbleEvents: function isBubbleEvents(eventName) {
-                    return BUBBLE_EVENTS.has(eventName);
-                }
-            };
-            var _navigator = navigator, userAgent = _navigator.userAgent;
-            Object.defineProperty(navigator, \\"userAgent\\", {
-                configurable: true,
-                enumerable: true,
-                get: function get() {
-                    return userAgent || navigator.swuserAgent || \\"\\";
-                }
-            });
-            Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"b\\"])(hostConfig);
-            Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(components);
-        }).call(this, __webpack_require__(3)[\\"navigator\\"]);
-    },
-    14: function(module, exports, __webpack_require__) {},
-    2: function(module, __webpack_exports__, __webpack_require__) {
+    1: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
             return mergeInternalComponents;
@@ -1353,11 +841,523 @@ require(\\"./taro\\");
             taro.miniGlobal = taro.options.miniGlobal = global;
         }
     },
+    13: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        (function(navigator) {
+            var _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+            var needPromiseApis = new Set([ \\"addCardAuth\\", \\"getOpenUserInfo\\", \\"chooseAlipayContact\\", \\"chooseCity\\", \\"chooseContact\\", \\"choosePhoneContact\\", \\"datePicker\\", \\"getAddress\\", \\"getAuthCode\\", \\"getPhoneNumber\\", \\"getRunData\\", \\"getRunScene\\", \\"getServerTime\\", \\"getTitleColor\\", \\"rsa\\", \\"paySignCenter\\", \\"tradePay\\", \\"isCollected\\", \\"multiLevelSelect\\", \\"onLocatedComplete\\", \\"optionsSelect\\", \\"prompt\\", \\"regionPicker\\", \\"setLocatedCity\\", \\"showAuthGuide\\", \\"textRiskIdentification\\", \\"vibrate\\", \\"watchShake\\", \\"connectBLEDevice\\", \\"disconnectBLEDevice\\", \\"makeBluetoothPair\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"openBluetoothAdapter\\", \\"closeBluetoothAdapter\\", \\"getBluetoothAdapterState\\", \\"startBluetoothDevicesDiscovery\\", \\"stopBluetoothDevicesDiscovery\\", \\"getBluetoothDevices\\", \\"getConnectedBluetoothDevices\\" ]);
+            var apiDiff = {
+                showActionSheet: {
+                    options: {
+                        change: [ {
+                            old: \\"itemList\\",
+                            new: \\"items\\"
+                        } ]
+                    }
+                },
+                showToast: {
+                    options: {
+                        change: [ {
+                            old: \\"title\\",
+                            new: \\"content\\"
+                        }, {
+                            old: \\"icon\\",
+                            new: \\"type\\"
+                        } ]
+                    }
+                },
+                showLoading: {
+                    options: {
+                        change: [ {
+                            old: \\"title\\",
+                            new: \\"content\\"
+                        } ]
+                    }
+                },
+                setNavigationBarTitle: {
+                    alias: \\"setNavigationBar\\"
+                },
+                setNavigationBarColor: {
+                    alias: \\"setNavigationBar\\"
+                },
+                saveImageToPhotosAlbum: {
+                    alias: \\"saveImage\\",
+                    options: {
+                        change: [ {
+                            old: \\"filePath\\",
+                            new: \\"url\\"
+                        } ]
+                    }
+                },
+                previewImage: {
+                    options: {
+                        set: [ {
+                            key: \\"current\\",
+                            value: function value(options) {
+                                return options.urls.indexOf(options.current || options.urls[0]);
+                            }
+                        } ]
+                    }
+                },
+                getFileInfo: {
+                    options: {
+                        change: [ {
+                            old: \\"filePath\\",
+                            new: \\"apFilePath\\"
+                        } ]
+                    }
+                },
+                getSavedFileInfo: {
+                    options: {
+                        change: [ {
+                            old: \\"filePath\\",
+                            new: \\"apFilePath\\"
+                        } ]
+                    }
+                },
+                removeSavedFile: {
+                    options: {
+                        change: [ {
+                            old: \\"filePath\\",
+                            new: \\"apFilePath\\"
+                        } ]
+                    }
+                },
+                saveFile: {
+                    options: {
+                        change: [ {
+                            old: \\"tempFilePath\\",
+                            new: \\"apFilePath\\"
+                        } ]
+                    }
+                },
+                openLocation: {
+                    options: {
+                        set: [ {
+                            key: \\"latitude\\",
+                            value: function value(options) {
+                                return String(options.latitude);
+                            }
+                        }, {
+                            key: \\"longitude\\",
+                            value: function value(options) {
+                                return String(options.longitude);
+                            }
+                        } ]
+                    }
+                },
+                uploadFile: {
+                    options: {
+                        change: [ {
+                            old: \\"name\\",
+                            new: \\"fileName\\"
+                        } ]
+                    }
+                },
+                getClipboardData: {
+                    alias: \\"getClipboard\\"
+                },
+                setClipboardData: {
+                    alias: \\"setClipboard\\",
+                    options: {
+                        change: [ {
+                            old: \\"data\\",
+                            new: \\"text\\"
+                        } ]
+                    }
+                },
+                makePhoneCall: {
+                    options: {
+                        change: [ {
+                            old: \\"phoneNumber\\",
+                            new: \\"number\\"
+                        } ]
+                    }
+                },
+                scanCode: {
+                    alias: \\"scan\\",
+                    options: {
+                        change: [ {
+                            old: \\"onlyFromCamera\\",
+                            new: \\"hideAlbum\\"
+                        } ],
+                        set: [ {
+                            key: \\"type\\",
+                            value: function value(options) {
+                                return options.scanType && options.scanType[0].slice(0, -4) || \\"qr\\";
+                            }
+                        } ]
+                    }
+                },
+                setScreenBrightness: {
+                    options: {
+                        change: [ {
+                            old: \\"value\\",
+                            new: \\"brightness\\"
+                        } ]
+                    }
+                },
+                onBLEConnectionStateChange: {
+                    alias: \\"onBLEConnectionStateChanged\\"
+                },
+                offBLEConnectionStateChange: {
+                    alias: \\"offBLEConnectionStateChanged\\"
+                },
+                createBLEConnection: {
+                    alias: \\"connectBLEDevice\\"
+                },
+                closeBLEConnection: {
+                    alias: \\"disconnectBLEDevice\\"
+                }
+            };
+            var nativeRequest = my.canIUse(\\"request\\") ? my.request : my.httpRequest;
+            function request(options) {
+                options = options || {};
+                if (typeof options === \\"string\\") {
+                    options = {
+                        url: options
+                    };
+                }
+                var defaultHeaders = {
+                    \\"content-type\\": \\"application/json\\"
+                };
+                options.headers = defaultHeaders;
+                if (options.header) {
+                    for (var k in options.header) {
+                        var lowerK = k.toLocaleLowerCase();
+                        options.headers[lowerK] = options.header[k];
+                    }
+                    delete options.header;
+                }
+                var originSuccess = options.success;
+                var originFail = options.fail;
+                var originComplete = options.complete;
+                var requestTask;
+                var p = new Promise((function(resolve, reject) {
+                    options.success = function(res) {
+                        res.statusCode = res.status;
+                        delete res.status;
+                        res.header = res.headers;
+                        delete res.headers;
+                        originSuccess && originSuccess(res);
+                        resolve(res);
+                    };
+                    options.fail = function(res) {
+                        originFail && originFail(res);
+                        reject(res);
+                    };
+                    options.complete = function(res) {
+                        originComplete && originComplete(res);
+                    };
+                    requestTask = nativeRequest(options);
+                }));
+                p.abort = function(cb) {
+                    cb && cb();
+                    if (requestTask) {
+                        requestTask.abort();
+                    }
+                    return p;
+                };
+                return p;
+            }
+            function handleSyncApis(key, global, args) {
+                if (key === \\"getStorageSync\\") {
+                    var arg1 = args[0];
+                    if (arg1 != null) {
+                        var res = global[key]({
+                            key: arg1
+                        });
+                        var data = null;
+                        if (res.hasOwnProperty(\\"data\\")) {
+                            data = res.data;
+                        } else if (res.hasOwnProperty(\\"APDataStorage\\")) {
+                            data = res.APDataStorage;
+                        }
+                        return data === null ? \\"\\" : data;
+                    }
+                    return console.error(\\"getStorageSync \\\\u4f20\\\\u5165\\\\u53c2\\\\u6570\\\\u9519\\\\u8bef\\");
+                }
+                if (key === \\"setStorageSync\\") {
+                    var _arg = args[0];
+                    var arg2 = args[1];
+                    if (_arg != null) {
+                        return global[key]({
+                            key: _arg,
+                            data: arg2
+                        });
+                    }
+                    return console.error(\\"setStorageSync \\\\u4f20\\\\u5165\\\\u53c2\\\\u6570\\\\u9519\\\\u8bef\\");
+                }
+                if (key === \\"removeStorageSync\\") {
+                    var _arg2 = args[0];
+                    if (_arg2 != null) {
+                        return global[key]({
+                            key: _arg2
+                        });
+                    }
+                    return console.error(\\"removeStorageSync \\\\u4f20\\\\u5165\\\\u53c2\\\\u6570\\\\u9519\\\\u8bef\\");
+                }
+                if (key === \\"createSelectorQuery\\") {
+                    var query = global[key]();
+                    query.in = function() {
+                        return query;
+                    };
+                    return query;
+                }
+                return global[key].apply(global, args);
+            }
+            function transformMeta(api, options) {
+                var apiAlias = api;
+                if (api === \\"showModal\\") {
+                    options.cancelButtonText = options.cancelText || \\"\\\\u53d6\\\\u6d88\\";
+                    options.confirmButtonText = options.confirmText || \\"\\\\u786e\\\\u5b9a\\";
+                    apiAlias = \\"confirm\\";
+                    if (options.showCancel === false) {
+                        options.buttonText = options.confirmText || \\"\\\\u786e\\\\u5b9a\\";
+                        apiAlias = \\"alert\\";
+                    }
+                } else {
+                    Object.keys(apiDiff).forEach((function(item) {
+                        var apiItem = apiDiff[item];
+                        if (api === item) {
+                            if (apiItem.alias) {
+                                apiAlias = apiItem.alias;
+                            }
+                            if (apiItem.options) {
+                                var change = apiItem.options.change;
+                                var set = apiItem.options.set;
+                                if (change) {
+                                    change.forEach((function(changeItem) {
+                                        options[changeItem.new] = options[changeItem.old];
+                                    }));
+                                }
+                                if (set) {
+                                    set.forEach((function(setItem) {
+                                        options[setItem.key] = typeof setItem.value === \\"function\\" ? setItem.value(options) : setItem.value;
+                                    }));
+                                }
+                            }
+                        }
+                    }));
+                }
+                return {
+                    key: apiAlias,
+                    options: options
+                };
+            }
+            function modifyApis(apis) {
+                Object.keys(apiDiff).map((function(key) {
+                    apis.add(key);
+                    var platformKey = apiDiff[key].alias;
+                    platformKey && apis.delete(platformKey);
+                }));
+                apis.add(\\"showModal\\");
+                apis.delete(\\"confirm\\");
+                apis.delete(\\"alert\\");
+            }
+            function modifyAsyncResult(key, res) {
+                if (key === \\"saveFile\\") {
+                    res.savedFilePath = res.apFilePath;
+                } else if (key === \\"downloadFile\\") {
+                    res.tempFilePath = res.apFilePath;
+                } else if (key === \\"chooseImage\\") {
+                    res.tempFilePaths = res.apFilePaths;
+                } else if (key === \\"getClipboard\\") {
+                    res.data = res.text;
+                } else if (key === \\"scan\\") {
+                    res.result = res.code;
+                } else if (key === \\"getScreenBrightness\\") {
+                    res.value = res.brightness;
+                    delete res.brightness;
+                } else if (key === \\"connectSocket\\") {
+                    res.onClose = function(cb) {
+                        my.onSocketClose(cb);
+                    };
+                    res.onError = function(cb) {
+                        my.onSocketError(cb);
+                    };
+                    res.onMessage = function(cb) {
+                        my.onSocketMessage(cb);
+                    };
+                    res.onOpen = function(cb) {
+                        my.onSocketOpen(cb);
+                    };
+                    res.send = function(opt) {
+                        my.sendSocketMessage(opt);
+                    };
+                    res.close = function() {
+                        my.closeSocket();
+                    };
+                }
+            }
+            function initNativeApi(taro) {
+                Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"c\\"])(taro, my, {
+                    needPromiseApis: needPromiseApis,
+                    handleSyncApis: handleSyncApis,
+                    transformMeta: transformMeta,
+                    modifyApis: modifyApis,
+                    modifyAsyncResult: modifyAsyncResult,
+                    request: request
+                });
+            }
+            var components = {
+                View: {
+                    \\"disable-scroll\\": \\"false\\",
+                    hidden: \\"false\\",
+                    bindAppear: \\"\\",
+                    bindDisappear: \\"\\",
+                    bindFirstAppear: \\"\\"
+                },
+                Text: {
+                    \\"number-of-lines\\": \\"\\"
+                },
+                Map: {
+                    skew: \\"0\\",
+                    rotate: \\"0\\",
+                    polygons: \\"[]\\",
+                    \\"include-padding\\": \\"\\",
+                    \\"ground-overlays\\": \\"\\",
+                    \\"tile-overlay\\": \\"\\",
+                    \\"custom-map-style\\": \\"\\",
+                    setting: \\"{}\\",
+                    optimize: \\"\\",
+                    bindRegionChange: \\"\\",
+                    bindPanelTap: \\"\\"
+                },
+                Button: {
+                    scope: \\"\\",
+                    \\"public-id\\": \\"\\",
+                    bindGetAuthorize: \\"\\",
+                    bindError: \\"\\"
+                },
+                Checkbox: {
+                    bindChange: \\"\\"
+                },
+                Input: {
+                    \\"random-number\\": \\"false\\",
+                    controlled: \\"false\\",
+                    enableNative: \\"false\\"
+                },
+                Slider: {
+                    \\"track-size\\": \\"4\\",
+                    \\"handle-size\\": \\"22\\",
+                    \\"handle-color\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"#ffffff\\")
+                },
+                Switch: {
+                    controlled: \\"false\\"
+                },
+                Textarea: {
+                    \\"show-count\\": \\"true\\",
+                    controlled: \\"false\\",
+                    enableNative: \\"false\\"
+                },
+                MovableView: {
+                    bindChangeEnd: \\"\\"
+                },
+                ScrollView: {
+                    \\"scroll-animation-duration\\": \\"\\",
+                    \\"trap-scroll\\": \\"false\\"
+                },
+                Swiper: {
+                    \\"active-class\\": \\"\\",
+                    \\"changing-class\\": \\"\\",
+                    acceleration: \\"false\\",
+                    \\"disable-programmatic-animation\\": \\"false\\",
+                    \\"disable-touch\\": \\"false\\",
+                    bindAnimationEnd: \\"\\"
+                },
+                Image: {
+                    \\"default-source\\": \\"\\"
+                },
+                Canvas: {
+                    width: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"300px\\"),
+                    height: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"225px\\")
+                },
+                Video: {
+                    \\"poster-size\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"contain\\"),
+                    \\"mobilenet-hint-type\\": \\"1\\",
+                    enableNative: \\"false\\",
+                    bindLoading: \\"\\",
+                    bindUserAction: \\"\\",
+                    bindStop: \\"\\",
+                    bindRenderStart: \\"\\"
+                },
+                Lottie: {
+                    autoplay: \\"false\\",
+                    path: \\"\\",
+                    speed: \\"1.0\\",
+                    repeatCount: \\"0\\",
+                    autoReverse: \\"false\\",
+                    assetsPath: \\"\\",
+                    placeholder: \\"\\",
+                    djangoId: \\"\\",
+                    md5: \\"\\",
+                    optimize: \\"false\\",
+                    bindDataReady: \\"\\",
+                    bindDataFailed: \\"\\",
+                    bindAnimationStart: \\"\\",
+                    bindAnimationEnd: \\"\\",
+                    bindAnimationRepeat: \\"\\",
+                    bindAnimationCancel: \\"\\",
+                    bindDataLoadReady: \\"\\"
+                },
+                Lifestyle: {
+                    \\"public-id\\": \\"\\",
+                    memo: \\"\\",
+                    bindFollow: \\"\\"
+                },
+                LifeFollow: {
+                    sceneId: \\"\\",
+                    checkFollow: \\"\\",
+                    bindCheckFollow: \\"\\",
+                    bindClose: \\"\\"
+                },
+                ContactButton: {
+                    \\"tnt-inst-id\\": \\"\\",
+                    scene: \\"\\",
+                    size: \\"25\\",
+                    color: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(\\"#00A3FF\\"),
+                    icon: \\"\\",
+                    \\"alipay-card-no\\": \\"\\",
+                    \\"ext-info\\": \\"\\"
+                }
+            };
+            var BUBBLE_EVENTS = new Set([ \\"touchStart\\", \\"touchMove\\", \\"touchEnd\\", \\"touchCancel\\", \\"tap\\", \\"longTap\\" ]);
+            var hostConfig = {
+                initNativeApi: initNativeApi,
+                getEventCenter: function getEventCenter(Events) {
+                    if (!my.taroEventCenter) {
+                        my.taroEventCenter = new Events;
+                    }
+                    return my.taroEventCenter;
+                },
+                modifyTaroEvent: function modifyTaroEvent(event, node) {
+                    if (node.tagName === \\"SWIPER\\" && event.type === \\"animationend\\") {
+                        event.type = \\"animationfinish\\";
+                    }
+                },
+                isBubbleEvents: function isBubbleEvents(eventName) {
+                    return BUBBLE_EVENTS.has(eventName);
+                }
+            };
+            var _navigator = navigator, userAgent = _navigator.userAgent;
+            Object.defineProperty(navigator, \\"userAgent\\", {
+                configurable: true,
+                enumerable: true,
+                get: function get() {
+                    return userAgent || navigator.swuserAgent || \\"\\";
+                }
+            });
+            Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"b\\"])(hostConfig);
+            Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(components);
+        }).call(this, __webpack_require__(2)[\\"navigator\\"]);
+    },
+    14: function(module, exports, __webpack_require__) {},
     20: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var runtime = __webpack_require__(13);
-        var taro_runtime = __webpack_require__(3);
+        var taro_runtime = __webpack_require__(2);
         var taro = \\"taro\\";
         var classCallCheck = __webpack_require__(4);
         var createClass = __webpack_require__(5);
@@ -1489,14 +1489,6 @@ require(\\"./taro\\");
   <input value=\\"{{i.value}}\\" type=\\"{{xs.b(i.type,'')}}\\" password=\\"{{xs.b(i.password,false)}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" confirm-type=\\"{{xs.b(i.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(i.confirmHold,false)}}\\" cursor=\\"{{xs.b(i.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" onInput=\\"eh\\" onFocus=\\"eh\\" onBlur=\\"eh\\" onConfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\"  id=\\"{{i.uid}}\\"></input>
 </template>
 
-<template name=\\"tmpl_0_cover-image\\">
-  <cover-image src=\\"{{i.src}}\\" onLoad=\\"eh\\" onError=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\"  id=\\"{{i.uid}}\\">
-    <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
-      <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
-    </block>
-  </cover-image>
-</template>
-
 <template name=\\"tmpl_0_textarea\\">
   <template is=\\"{{xs.c(i, 'tmpl_0_')}}\\" data=\\"{{i:i}}\\" />
 </template>
@@ -1509,32 +1501,12 @@ require(\\"./taro\\");
   <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'textarea-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" auto-focus=\\"{{xs.b(i.autoFocus,false)}}\\" auto-height=\\"{{xs.b(i.autoHeight,false)}}\\" fixed=\\"{{xs.b(i.fixed,false)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" cursor=\\"{{xs.b(i.cursor,-1)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" onFocus=\\"eh\\" onBlur=\\"eh\\" onLineChange=\\"eh\\" onInput=\\"eh\\" onConfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\"  id=\\"{{i.uid}}\\"></textarea>
 </template>
 
-<template name=\\"tmpl_0_cover-view\\">
-  <cover-view scroll-top=\\"{{xs.b(i.scrollTop,false)}}\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid}}\\">
-    <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
-      <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
-    </block>
-  </cover-view>
-</template>
-
 <template name=\\"tmpl_0_scroll-view\\">
   <scroll-view scroll-x=\\"{{xs.b(i.scrollX,false)}}\\" scroll-y=\\"{{xs.b(i.scrollY,false)}}\\" upper-threshold=\\"{{xs.b(i.upperThreshold,50)}}\\" lower-threshold=\\"{{xs.b(i.lowerThreshold,50)}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{xs.b(i.scrollWithAnimation,false)}}\\" enable-back-to-top=\\"{{xs.b(i.enableBackToTop,false)}}\\" onScrollToUpper=\\"eh\\" onScrollToLower=\\"eh\\" onScroll=\\"eh\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" onAnimationStart=\\"eh\\" onAnimationIteration=\\"eh\\" onAnimationEnd=\\"eh\\" onTransitionEnd=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
-</template>
-
-<template name=\\"tmpl_0_swiper\\">
-  <swiper indicator-dots=\\"{{xs.b(i.indicatorDots,false)}}\\" indicator-color=\\"{{xs.b(i.indicatorColor,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(i.indicatorActiveColor,'#000000')}}\\" autoplay=\\"{{xs.b(i.autoplay,false)}}\\" current=\\"{{xs.b(i.current,0)}}\\" interval=\\"{{xs.b(i.interval,5000)}}\\" duration=\\"{{xs.b(i.duration,500)}}\\" circular=\\"{{xs.b(i.circular,false)}}\\" vertical=\\"{{xs.b(i.vertical,false)}}\\" previous-margin=\\"{{xs.b(i.previousMargin,'0px')}}\\" next-margin=\\"{{xs.b(i.nextMargin,'0px')}}\\" display-multiple-items=\\"{{xs.b(i.displayMultipleItems,1)}}\\" onChange=\\"eh\\" onTransition=\\"eh\\" onAnimationFinish=\\"eh\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid}}\\">
-    <block a:for=\\"{{xs.f(i.cn)}}\\" a:key=\\"uid\\">
-      <swiper-item class=\\"{{item.cl}}\\" style=\\"{{item.st}}\\" id=\\"{{item.uid}}\\">
-        <block a:for=\\"{{item.cn}}\\" a:key=\\"uid\\">
-          <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
-        </block>
-      </swiper-item>
-    </block>
-  </swiper>
 </template>
 
 <template name=\\"tmpl_0_static-image\\">
@@ -1551,22 +1523,6 @@ require(\\"./taro\\");
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
     </block>
   </image>
-</template>
-
-<template name=\\"tmpl_0_video\\">
-  <video src=\\"{{i.src}}\\" duration=\\"{{i.duration}}\\" controls=\\"{{xs.b(i.controls,true)}}\\" danmu-list=\\"{{i.danmuList}}\\" danmu-btn=\\"{{i.danmuBtn}}\\" enable-danmu=\\"{{i.enableDanmu}}\\" autoplay=\\"{{xs.b(i.autoplay,false)}}\\" loop=\\"{{xs.b(i.loop,false)}}\\" muted=\\"{{xs.b(i.muted,false)}}\\" initial-time=\\"{{xs.b(i.initialTime,0)}}\\" page-gesture=\\"{{xs.b(i.pageGesture,false)}}\\" direction=\\"{{i.direction}}\\" show-progress=\\"{{xs.b(i.showProgress,true)}}\\" show-fullscreen-btn=\\"{{xs.b(i.showFullscreenBtn,true)}}\\" show-play-btn=\\"{{xs.b(i.showPlayBtn,true)}}\\" show-center-play-btn=\\"{{xs.b(i.showCenterPlayBtn,true)}}\\" enable-progress-gesture=\\"{{xs.b(i.enableProgressGesture,true)}}\\" object-fit=\\"{{xs.b(i.objectFit,'contain')}}\\" poster=\\"{{i.poster}}\\" show-mute-btn=\\"{{xs.b(i.showMuteBtn,false)}}\\" animation=\\"{{i.animation}}\\" onPlay=\\"eh\\" onPause=\\"eh\\" onEnded=\\"eh\\" onTimeUpdate=\\"eh\\" onFullScreenChange=\\"eh\\" onWaiting=\\"eh\\" onError=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\"  id=\\"{{i.uid}}\\">
-    <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
-      <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
-    </block>
-  </video>
-</template>
-
-<template name=\\"tmpl_0_canvas\\">
-  <canvas canvas-id=\\"{{i.canvasId}}\\" disable-scroll=\\"{{xs.b(i.disableScroll,false)}}\\" onError=\\"eh\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid}}\\">
-    <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
-      <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
-    </block>
-  </canvas>
 </template>
 
 <template name=\\"tmpl_0_#text\\" data=\\"{{i:i}}\\">
@@ -1596,7 +1552,7 @@ require(\\"./taro\\");
     15: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
 }, [ [ 15, 0, 1 ] ] ]);
@@ -2125,7 +2081,7 @@ require(\\"./taro\\");
 }, function(module, exports, __webpack_require__) {}, , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    var taro_runtime = __webpack_require__(3);
+    var taro_runtime = __webpack_require__(2);
     var regenerator = __webpack_require__(9);
     var regenerator_default = __webpack_require__.n(regenerator);
     function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
@@ -2162,7 +2118,7 @@ require(\\"./taro\\");
     var inherits = __webpack_require__(7);
     var createSuper = __webpack_require__(6);
     var react = __webpack_require__(0);
-    var taro_components = __webpack_require__(1);
+    var taro_components = __webpack_require__(3);
     var index = __webpack_require__(19);
     var index_Index = function(_Component) {
         Object(inherits[\\"a\\"])(Index, _Component);
@@ -2216,7 +2172,7 @@ require(\\"./taro\\");
                     value: \\"\\"
                 }), react[\\"default\\"].createElement(taro_components[\\"Textarea\\"], {
                     value: \\"\\"
-                }), react[\\"default\\"].createElement(taro_components[\\"Swiper\\"], null, react[\\"default\\"].createElement(taro_components[\\"SwiperItem\\"], null, react[\\"default\\"].createElement(taro_components[\\"Text\\"], null, \\"Swiper item\\"))), react[\\"default\\"].createElement(taro_components[\\"Video\\"], null), react[\\"default\\"].createElement(taro_components[\\"Canvas\\"], null, react[\\"default\\"].createElement(taro_components[\\"CoverView\\"], null, react[\\"default\\"].createElement(taro_components[\\"CoverImage\\"], null))));
+                }));
             }
         } ]);
         return Index;
@@ -2353,18 +2309,18 @@ require(\\"./taro\\");
 
 /** filePath: dist/taro.js **/
 (my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    1: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        var _unused_webpack_default_export = \\"taro-components-mock\\";
-    },
     10: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
     },
-    3: function(module, __webpack_exports__, __webpack_require__) {
+    2: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         __webpack_exports__[\\"default\\"] = \\"taro-runtime-mock\\";
+    },
+    3: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        var _unused_webpack_default_export = \\"taro-components-mock\\";
     }
 } ]);
 
@@ -2454,8 +2410,6 @@ export default {
     function _possibleConstructorReturn(self, call) {
         if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
-        } else if (call !== void 0) {
-            throw new TypeError(\\"Derived constructors may only return object or undefined\\");
         }
         return _assertThisInitialized(self);
     }
