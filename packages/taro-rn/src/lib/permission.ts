@@ -39,16 +39,16 @@ const handleAppStateChange = async (nextAppState, resolve, reject, opts) => {
     try {
       res.authSetting = await getAuthSetting()
       res.errMsg = 'openSetting:ok'
-      success && success(res)
-      complete && complete(res)
-  
+      success?.(res)
+      complete?.(res)
+
       AppState.removeEventListener('change', stateListener as any);
       resolve(res)
     } catch (error) {
       res.errMsg = 'openSetting:fail'
-      fail && fail(res)
-      complete && complete(res)
-  
+      fail?.(res)
+      complete?.(res)
+
       reject(error)
     }
   }
@@ -64,28 +64,28 @@ export function authorize(opts: Taro.authorize.Option): Promise<Taro.General.Cal
       const { status } = await Permissions.askAsync(scopeMap[scope])
       if (status === 'granted') {
         res.errMsg = 'authorize:ok'
-        success && success(res)
-        complete && complete(res)
+        success?.(res)
+        complete?.(res)
 
         resolve(res)
       } else {
         res.errMsg = 'authorize:denied/undetermined'
-        fail && fail(res)
-        complete && complete(res)
+        fail?.(res)
+        complete?.(res)
 
-        resolve(res)
+        reject(res)
       }
     } catch (error) {
       res.errMsg = 'authorize:fail'
-      fail && fail(res)
-      complete && complete(res)
+      fail?.(res)
+      complete?.(res)
 
       reject(error)
     }
   })
 }
 
-export function getSetting(opts: Taro.getSetting.Option): Promise<Taro.getSetting.SuccessCallbackResult> {
+export function getSetting(opts: Taro.getSetting.Option = {}): Promise<Taro.getSetting.SuccessCallbackResult> {
   const { success, fail, complete } = opts
   const res: any = {}
 
@@ -93,25 +93,24 @@ export function getSetting(opts: Taro.getSetting.Option): Promise<Taro.getSettin
     try {
       res.authSetting = await getAuthSetting()
       res.errMsg = 'getSetting:ok'
-      success && success(res)
-      complete && complete(res)
+      success?.(res)
+      complete?.(res)
 
       resolve(res)
     } catch (error) {
       res.errMsg = 'getSetting:fail'
-      fail && fail(res)
-      complete && complete(res)
+      fail?.(res)
+      complete?.(res)
 
       reject(error)
     }
   })
 }
 
-export function openSetting(opts: Taro.openSetting.Option): Promise<Taro.openSetting.SuccessCallbackResult> {
+export function openSetting(opts: Taro.openSetting.Option = {}): Promise<Taro.openSetting.SuccessCallbackResult> {
   return new Promise((resolve, reject) => {
     stateListener = (next) => handleAppStateChange(next, resolve, reject, opts)
     AppState.addEventListener('change', stateListener)
     Linking.openSettings()
   })
 }
-

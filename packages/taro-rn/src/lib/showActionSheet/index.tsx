@@ -20,8 +20,8 @@ function showActionSheet (obj: Taro.showActionSheet.Option): Promise<Taro.showAc
       sibling && sibling.destroy()
       sibling = undefined
       const res = { tapIndex, errMsg: 'showActionSheet:ok' }
-      success && success(res)
-      complete && complete(res)
+      success?.(res)
+      complete?.(res)
       resolve(res)
     }
 
@@ -29,8 +29,8 @@ function showActionSheet (obj: Taro.showActionSheet.Option): Promise<Taro.showAc
       const res = { errMsg: 'showActionSheet:fail cancel' }
       sibling && sibling.destroy()
       sibling = undefined
-      fail && fail(res)
-      complete && complete(res)
+      fail?.(res)
+      complete?.(res)
       reject(res)
     }
 

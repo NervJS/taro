@@ -1,5 +1,6 @@
 import Clipboard from '@react-native-community/clipboard'
 import { showToast } from '../showModal/toast'
+import { successHandler, errorHandler } from '../../utils'
 
 export function setClipboardData(opts: Taro.setClipboardData.Option): Promise<Taro.setClipboardData.Promised> {
   const { data, success, fail, complete } = opts
@@ -8,10 +9,7 @@ export function setClipboardData(opts: Taro.setClipboardData.Option): Promise<Ta
     const res = {
       errMsg: 'setClipboardData:fail parameter error: parameter.data should be String'
     }
-    fail?.(res)
-    complete?.(res)
-
-    return Promise.reject(res)
+    return errorHandler(fail, complete)(res)
   }
 
   Clipboard.setString(data)
@@ -22,8 +20,5 @@ export function setClipboardData(opts: Taro.setClipboardData.Option): Promise<Ta
   showToast({
     title: '内容已复制'
   })
-  success?.(res)
-  complete?.(res)
-
-  return Promise.resolve(res)
+  return successHandler(success, complete)(res)
 }

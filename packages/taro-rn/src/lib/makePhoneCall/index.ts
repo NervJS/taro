@@ -1,4 +1,5 @@
 import { Linking } from 'react-native'
+import { successHandler, errorHandler } from '../../utils'
 
 export async function makePhoneCall(opts: Taro.makePhoneCall.Option): Promise<Taro.General.CallbackResult> {
   const { phoneNumber, success, fail, complete } = opts
@@ -8,15 +9,9 @@ export async function makePhoneCall(opts: Taro.makePhoneCall.Option): Promise<Ta
   const isSupport = await Linking.canOpenURL(telUrl)
   if (isSupport) {
     await Linking.openURL(telUrl)
-    success?.(res)
-    complete?.(res)
-
-    return Promise.resolve(res)
+    return successHandler(success, complete)(res)
   } else {
     res.errMsg = 'makePhoneCall:fail. Do not support the makePhoneCall Api'
-    fail?.(res)
-    complete?.(res)
-
-    return Promise.reject(res)
+    return errorHandler(fail, complete)(res)
   }
 }

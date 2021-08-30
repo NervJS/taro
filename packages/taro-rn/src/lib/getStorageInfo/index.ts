@@ -23,14 +23,14 @@ export function getStorageInfo(option: Taro.getStorageInfo.Option = {}): Promise
           currentSize: await getStorageCurrentSize(),
           limitSize: Infinity
         }
-        success && success(result)
-        complete && complete(result)
+        success?.(result)
+        complete?.(result)
 
         resolve(result)
       }).catch((err) => {
         res.errMsg = err.message
-        fail && fail(res)
-        complete && complete(res)
+        fail?.(res)
+        complete?.(res)
 
         reject(err)
       })

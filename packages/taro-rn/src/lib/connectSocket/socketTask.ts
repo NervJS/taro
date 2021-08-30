@@ -29,13 +29,13 @@ class SocketTask {
     try {
       this.ws.send(data)
 
-      success && success(res)
-      complete && complete(res)
+      success?.(res)
+      complete?.(res)
     } catch (err) {
       const res = { errMsg: err.message }
 
-      fail && fail(res)
-      complete && complete(res)
+      fail?.(res)
+      complete?.(res)
     }
   }
 
@@ -54,12 +54,12 @@ class SocketTask {
       this.ws.close(code, reason)
       // 把自己从链接数组中清除
       this._destroyWhenClose && this._destroyWhenClose()
-      success && success(res)
-      complete && complete(res)
+      success?.(res)
+      complete?.(res)
     } catch (err) {
       const res = { errMsg: err.message }
-      fail && fail(res)
-      complete && complete(res)
+      fail?.(res)
+      complete?.(res)
     }
   }
 
