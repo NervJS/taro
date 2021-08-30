@@ -24,8 +24,8 @@ function showModal (obj: Taro.showModal.Option): Promise<Taro.showModal.SuccessC
       const res = { errMsg: 'showModal:ok', confirm: true, cancel: false }
       sibling && sibling.destroy()
       sibling = undefined
-      success && success(res)
-      complete && complete(res)
+      success?.(res)
+      complete?.(res)
       resolve(res)
     }
 
@@ -33,8 +33,8 @@ function showModal (obj: Taro.showModal.Option): Promise<Taro.showModal.SuccessC
       const res = { errMsg: 'showModal:cancel', confirm: false, cancel: true }
       sibling && sibling.destroy()
       sibling = undefined
-      success && success(res)
-      complete && complete(res)
+      success?.(res)
+      complete?.(res)
       resolve(res)
     }
     try {
@@ -60,8 +60,8 @@ function showModal (obj: Taro.showModal.Option): Promise<Taro.showModal.SuccessC
       )
     } catch (e) {
       const res = { errMsg: `showModal fail:${e.message}` }
-      fail && fail(res)
-      complete && complete(res)
+      fail?.(res)
+      complete?.(res)
       reject(res)
     }
   })
