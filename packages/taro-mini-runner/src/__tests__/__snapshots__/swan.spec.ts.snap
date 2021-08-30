@@ -1143,7 +1143,7 @@ require(\\"./taro\\");
                                       <block>{{item.v}}</block>
                                     </block>
                                   </text>
-                                  <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                                  <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
                                     <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
                                       <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
                                     </block>
@@ -1169,7 +1169,7 @@ require(\\"./taro\\");
                                   <block>{{item.v}}</block>
                                 </block>
                               </text>
-                              <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                              <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
                                 <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
                                   <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
                                 </block>
@@ -1195,7 +1195,7 @@ require(\\"./taro\\");
                               <block>{{item.v}}</block>
                             </block>
                           </text>
-                          <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                          <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
                             <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
                               <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
                             </block>
@@ -1221,7 +1221,7 @@ require(\\"./taro\\");
                           <block>{{item.v}}</block>
                         </block>
                       </text>
-                      <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                      <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
                         <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
                           <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
                         </block>
@@ -1247,7 +1247,7 @@ require(\\"./taro\\");
                       <block>{{item.v}}</block>
                     </block>
                   </text>
-                  <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                  <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
                     <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
                       <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
                     </block>
@@ -1273,7 +1273,7 @@ require(\\"./taro\\");
                   <block>{{item.v}}</block>
                 </block>
               </text>
-              <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+              <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
                 <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
                   <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
                 </block>
@@ -1299,7 +1299,7 @@ require(\\"./taro\\");
               <block>{{item.v}}</block>
             </block>
           </text>
-          <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+          <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
             <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
               <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
             </block>
@@ -1325,7 +1325,7 @@ require(\\"./taro\\");
           <block>{{item.v}}</block>
         </block>
       </text>
-      <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+      <button s-elif=\\"{{item.nn==='button'&&(item.st||item.cl)}}}}\\" id=\\"{{item.uid}}\\" size=\\"{{xs.b(item.size,'default')}}\\" type=\\"{{item.type}}\\" plain=\\"{{xs.b(item.plain,false)}}\\" disabled=\\"{{item.disabled}}\\" loading=\\"{{xs.b(item.loading,false)}}\\" form-type=\\"{{item.formType}}\\" open-type=\\"{{item.openType}}\\" hover-class=\\"{{xs.b(item.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(item.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(item.hoverStayTime,70)}}\\" name=\\"{{item.name}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
         <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
           <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
         </block>
@@ -1433,7 +1433,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_0_swiper\\">
   <swiper indicator-dots=\\"{{ xs.b(i.indicatorDots,false) }}\\" indicator-color=\\"{{ xs.b(i.indicatorColor,'rgba(0, 0, 0, .3)') }}\\" indicator-active-color=\\"{{ xs.b(i.indicatorActiveColor,'#000000') }}\\" autoplay=\\"{{ xs.b(i.autoplay,false) }}\\" current=\\"{{ xs.b(i.current,0) }}\\" interval=\\"{{ xs.b(i.interval,5000) }}\\" duration=\\"{{ xs.b(i.duration,500) }}\\" circular=\\"{{ xs.b(i.circular,false) }}\\" vertical=\\"{{ xs.b(i.vertical,false) }}\\" previous-margin=\\"{{ xs.b(i.previousMargin,'0px') }}\\" next-margin=\\"{{ xs.b(i.nextMargin,'0px') }}\\" display-multiple-items=\\"{{ xs.b(i.displayMultipleItems,1) }}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
-    <block s-for=\\"{{i.cn}}\\" s-key=\\"uid\\">
+    <block s-for=\\"{{xs.f(i.cn)}}\\" s-key=\\"uid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
     </block>
   </swiper>
@@ -2346,7 +2346,9 @@ module.exports = {
   e: function (n) {
     return 'tmpl_' + n + '_container'
   },
-
+  f: function (l) {
+    return l.filter(function (i) {return i.nn === 'swiper-item'})
+  }
 }
 
 /** filePath: dist/vendors.js **/
