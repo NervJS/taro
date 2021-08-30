@@ -1,6 +1,6 @@
 import * as FileSystem from 'expo-file-system'
 import { Platform } from 'react-native'
-import { shouleBeObject } from '../utils'
+import { shouleBeObject, successHandler, errorHandler } from '../utils'
 
 interface Func{
   (arg: any): void
@@ -67,20 +67,14 @@ function uploadFile (opts: Taro.uploadFile.Option): Promise<Taro.uploadFile.Succ
 
   return _fetch(execFetch, timeout).then((res: any) => {
     if (res.ok) {
-      success?.(res)
-      complete?.(res)
-      return Promise.resolve(res)
+      return successHandler(success, complete)(res)
     } else {
       const errMsg = `uploadFile fail: ${res.status} ${res.statusText}`
-      fail && fail({ errMsg })
-      complete && complete({ errMsg })
-      return Promise.reject(new Error(errMsg))
+      return errorHandler(fail, complete)({ errMsg })
     }
   }).catch(e => {
     const errMsg = `uploadFile fail: ${e}`
-    fail && fail({ errMsg })
-    complete && complete({ errMsg })
-    return Promise.reject(new Error(errMsg))
+    return errorHandler(fail, complete)({ errMsg })
   })
 }
 
@@ -93,10 +87,6 @@ function uploadFile (opts: Taro.uploadFile.Option): Promise<Taro.uploadFile.Succ
  * @returns {*}
  */
 function downloadFile (opts: Taro.downloadFile.Option): Promise<Taro.DownloadTask> {
-  if (typeof opts !== 'object') {
-    const res = { errMsg: `fail parameter error: ${opts} should be Object` }
-    return Promise.reject(res)
-  }
   const { url, header, filePath, success, fail, complete }: any = opts
   let downloadResumable
   const p: ExtPromise<any> = new Promise((resolve, reject) => {
@@ -166,7 +156,6 @@ async function saveFile (opts: Taro.saveFile.Option): Promise<Taro.saveFile.Succ
   const isObject = shouleBeObject(opts)
   if (!isObject.res) {
     res.errMsg = `saveFile${isObject.msg}`
-    console.error(res)
     return Promise.reject(res)
   }
 
@@ -174,8 +163,6 @@ async function saveFile (opts: Taro.saveFile.Option): Promise<Taro.saveFile.Succ
   const fileName = tempFilePath.substring(tempFilePath.lastIndexOf('/') + 1)
   const destPath = filePath || FileSystem.documentDirectory
   const savedFilePath = destPath + fileName
-
-  console.log('文件路径', FileSystem.documentDirectory)
 
   try {
     const props = await FileSystem.getInfoAsync(destPath)
@@ -220,14 +207,10 @@ async function removeSavedFile (opts: Taro.removeSavedFile.Option): Promise<Taro
       ...res,
       ...obj
     }
-    success?.(res)
-    complete?.(res)
-    return Promise.resolve(res)
+    return successHandler(success, complete)(res)
   } catch (e) {
     res.errMsg = `removeSavedFile:fail. ${e.message}`
-    fail?.(res)
-    complete?.(res)
-    return Promise.reject(res)
+    return errorHandler(fail, complete)(res)
   }
 }
 
