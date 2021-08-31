@@ -22,7 +22,6 @@ import {
 } from './chain'
 import getBaseConf from './base.conf'
 import { createTarget } from '../plugins/MiniPlugin'
-import { customVueChain } from './vue'
 import { customVue3Chain } from './vue3'
 import { componentConfig } from '../template/component'
 
@@ -276,9 +275,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   })
 
   switch (framework) {
-    case FRAMEWORK_MAP.VUE:
-      customVueChain(chain)
-      break
     case FRAMEWORK_MAP.VUE3:
       customVue3Chain(chain)
       break

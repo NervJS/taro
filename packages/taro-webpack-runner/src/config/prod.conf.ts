@@ -17,7 +17,6 @@ import {
 } from '../util/chain'
 import { BuildConfig } from '../util/types'
 import getBaseChain from './base.conf'
-import { customVueChain } from './vue'
 import { customVue3Chain } from './vue3'
 
 export default function (appPath: string, config: Partial<BuildConfig>): any {
@@ -168,11 +167,6 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
   })
 
   switch (config.framework) {
-    case FRAMEWORK_MAP.VUE:
-      customVueChain(chain, {
-        styleLoaderOption
-      })
-      break
     case FRAMEWORK_MAP.VUE3:
       customVue3Chain(chain, {
         styleLoaderOption

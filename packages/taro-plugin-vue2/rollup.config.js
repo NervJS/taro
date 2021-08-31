@@ -6,10 +6,10 @@ const cwd = __dirname
 const base = {
   external: [
     '@tarojs/shared',
+    '@tarojs/shared/dist/template',
     '@tarojs/runtime',
-    'acorn',
-    'acorn-walk',
-    '@pmmmwh/react-refresh-webpack-plugin'
+    '@tarojs/helper',
+    '@tarojs/runner-utils'
   ],
   plugins: [
     typescript()

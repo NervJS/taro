@@ -12,8 +12,10 @@ interface IOptions {
 let isBuildH5
 let isProduction
 
-export default (ctx: IPluginContext, options: IOptions) => {
-  const { framework = 'react' } = options
+export default (ctx: IPluginContext, _options: IOptions) => {
+  const { framework } = ctx.initialConfig
+
+  if (framework !== 'react' && framework !== 'nerv' && framework !== 'preact') return
 
   isBuildH5 = process.env.TARO_ENV === 'h5'
   isProduction = process.env.NODE_ENV === 'production'

@@ -8,6 +8,15 @@ export { default as Kernel } from './Kernel'
 
 export { TaroPlatformBase } from './platform-plugin-base'
 
+interface IModifyWebpackChain {
+  componentConfig?: {
+    includes: Set<string>
+    exclude: Set<string>
+    thirdPartyComponents: Map<Tagname, Attrs>
+    includeAll: boolean
+  }
+}
+
 export declare interface IPluginContext {
   /**
    * 获取当前所有挂载的插件
@@ -64,7 +73,7 @@ export declare interface IPluginContext {
   /**
    * 编译中修改 webpack 配置，在这个钩子中，你可以对 webpackChain 作出想要的调整，等同于配置 [`webpackChain`](./config-detail.md#miniwebpackchain)
    */
-  modifyWebpackChain: (fn: (args: { chain: any }) => void) => void
+  modifyWebpackChain: (fn: (args: { chain: any, webpack: any, data?: IModifyWebpackChain }) => void) => void
   /**
    * 修改编译后的结果
    */

@@ -46,6 +46,7 @@ export default class CLI {
           }
           kernel.optsPlugins = [
             '@tarojs/plugin-framework-react',
+            '@tarojs/plugin-framework-vue2',
             '@tarojs/plugin-platform-weapp',
             '@tarojs/plugin-platform-alipay',
             '@tarojs/plugin-platform-swan',
