@@ -8,7 +8,7 @@ We are happy to welcome developers from the community to contribute to Taro [《
 
 Before submitting your code for contribution, you need to spend some time reading the following to ensure that the contribution is in compliance with the specification and will help the community.
 
-## Taro 组成
+## Taro Composition
 
 | NPM Package          |   Description |
 | ------------- |:------------- |
