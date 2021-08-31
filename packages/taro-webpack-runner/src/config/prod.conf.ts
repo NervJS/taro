@@ -1,6 +1,5 @@
 import * as path from 'path'
 import { get, mapValues, merge } from 'lodash'
-import { FRAMEWORK_MAP } from '@tarojs/helper'
 import { addTrailingSlash, emptyObj } from '../util'
 import {
   getCopyWebpackPlugin,
@@ -17,7 +16,6 @@ import {
 } from '../util/chain'
 import { BuildConfig } from '../util/types'
 import getBaseChain from './base.conf'
-import { customVue3Chain } from './vue3'
 
 export default function (appPath: string, config: Partial<BuildConfig>): any {
   const chain = getBaseChain(appPath, config)
@@ -165,15 +163,6 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       }
     }
   })
-
-  switch (config.framework) {
-    case FRAMEWORK_MAP.VUE3:
-      customVue3Chain(chain, {
-        styleLoaderOption
-      })
-      break
-    default:
-  }
 
   return chain
 }

@@ -1,16 +1,18 @@
+import * as webpack from 'webpack'
 import { REG_VUE, chalk } from '@tarojs/helper'
 import { DEFAULT_Components } from '@tarojs/runner-utils'
 import { internalComponents, toCamelCase, capitalize } from '@tarojs/shared/dist/template'
 import { getLoaderMeta } from './loader-meta'
 
 import type { IPluginContext } from '@tarojs/service'
+import type { RootNode, TemplateChildNode, ElementNode, AttributeNode, DirectiveNode, SimpleExpressionNode } from '@vue/compiler-core'
 
 const CUSTOM_WRAPPER = 'custom-wrapper'
 let isBuildH5
 
 export default (ctx: IPluginContext) => {
   const { framework } = ctx.initialConfig
-  if (framework !== 'vue') return
+  if (framework !== 'vue3') return
 
   isBuildH5 = process.env.TARO_ENV === 'h5'
 
@@ -22,6 +24,20 @@ export default (ctx: IPluginContext) => {
       setStyleLoader(ctx, chain)
     }
   })
+}
+
+function customVueChain (chain, data) {
+  chain.resolve.alias
+    .set('vue', '@vue/runtime-dom')
+
+  chain
+    .plugin('defined')
+    .use(webpack.DefinePlugin, [{
+      __VUE_OPTIONS_API__: JSON.stringify(true),
+      __VUE_PROD_DEVTOOLS__: JSON.stringify(false)
+    }])
+
+  setVueLoader(chain, data)
 }
 
 function getVueLoaderPath (): string {
@@ -36,7 +52,7 @@ function getVueLoaderPath (): string {
   }
 }
 
-function customVueChain (chain, data) {
+function setVueLoader (chain, data) {
   const vueLoaderPath = getVueLoaderPath()
 
   // plugin
@@ -66,12 +82,15 @@ function customVueChain (chain, data) {
         'taro-cover-image': 'src'
       },
       compilerOptions: {
-        modules: [{
-          preTransformNode (el) {
-            if (DEFAULT_Components.has(el.tag)) {
-              el.tag = 'taro-' + el.tag
+        // https://github.com/vuejs/vue-next/blob/master/packages/compiler-core/src/options.ts
+        nodeTransforms: [(node: RootNode | TemplateChildNode) => {
+          if (node.type === 1 /* ELEMENT */) {
+            node = node as ElementNode
+            const nodeName = node.tag
+            if (DEFAULT_Components.has(nodeName)) {
+              node.tag = `taro-${nodeName}`
+              node.tagType = 1 /* 0: ELEMENT, 1: COMPONENT */
             }
-            return el
           }
         }]
       }
@@ -89,26 +108,43 @@ function customVueChain (chain, data) {
         'cover-image': 'src'
       },
       compilerOptions: {
-        whitespace: 'condense',
-        modules: [{
-          preTransformNode (el) {
-            const nodeName = el.tag
+        // https://github.com/vuejs/vue-next/blob/master/packages/compiler-core/src/options.ts
+        nodeTransforms: [(node: RootNode | TemplateChildNode) => {
+          if (node.type === 1 /* ELEMENT */) {
+            node = node as ElementNode
+            const nodeName = node.tag
+
             if (capitalize(toCamelCase(nodeName)) in internalComponents) {
+              // change only ElementTypes.COMPONENT to ElementTypes.ELEMENT
+              // and leave ElementTypes.SLOT untouched
+              if (node.tagType === 1 /* COMPONENT */) {
+                node.tagType = 0 /* ELEMENT */
+              }
               data.componentConfig.includes.add(nodeName)
             }
 
             if (nodeName === CUSTOM_WRAPPER) {
+              node.tagType = 0 /* ELEMENT */
               data.componentConfig.thirdPartyComponents.set(CUSTOM_WRAPPER, new Set())
             }
 
             const usingComponent = data.componentConfig.thirdPartyComponents.get(nodeName)
             if (usingComponent != null) {
-              el.attrsList
-                .filter(a => !a.dynamic)
-                .forEach(a => usingComponent.add(a.name.startsWith(':') ? a.name.slice(1) : a.name))
+              node.props.forEach(prop => {
+                if (prop.type === 6 /* ATTRIBUTE */) {
+                  usingComponent.add((prop as AttributeNode).name)
+                } else if ((prop as any).type === 7 /* DIRECTIVE */) {
+                  prop = prop as DirectiveNode
+                  if (prop.arg?.type === 4 /* SimpleExpression */) {
+                    let value = (prop.arg as SimpleExpressionNode).content
+                    if (prop.name === 'on') {
+                      value = `on${value}`
+                    }
+                    usingComponent.add(value)
+                  }
+                }
+              })
             }
-
-            return el
           }
         }]
       }

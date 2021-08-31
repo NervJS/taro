@@ -1,5 +1,5 @@
 import * as path from 'path'
-import { PLATFORMS, FRAMEWORK_MAP, taroJsComponents } from '@tarojs/helper'
+import { PLATFORMS, taroJsComponents } from '@tarojs/helper'
 
 import { IBuildConfig } from '../utils/types'
 import {
@@ -22,7 +22,6 @@ import {
 } from './chain'
 import getBaseConf from './base.conf'
 import { createTarget } from '../plugins/MiniPlugin'
-import { customVue3Chain } from './vue3'
 import { componentConfig } from '../template/component'
 
 export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
@@ -273,13 +272,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       }
     }
   })
-
-  switch (framework) {
-    case FRAMEWORK_MAP.VUE3:
-      customVue3Chain(chain)
-      break
-    default:
-  }
 
   return chain
 }
