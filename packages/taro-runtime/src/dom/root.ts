@@ -104,7 +104,7 @@ export class TaroRootElement extends TaroElement {
       } else {
         this.pendingUpdate = false
         const customWrapperUpdate: { ctx: any, data: Record<string, any> }[] = []
-        const customWrapperMap: Map<string, Record<string, any>> = new Map()
+        const customWrapperMap: Map<Record<any, any>, Record<string, any>> = new Map()
         const normalUpdate = {}
         if (!initRender) {
           for (const p in data) {
@@ -119,7 +119,7 @@ export class TaroRootElement extends TaroElement {
                 const splitedPath = dataPathArr.slice(i).join('.')
                 if (customWrapper) {
                   hasCustomWrapper = true
-                  customWrapperMap.set(customWrapperId, { ...(customWrapperMap.get(customWrapperId) || {}), [`i.${splitedPath}`]: data[p] })
+                  customWrapperMap.set(customWrapper, { ...(customWrapperMap.get(customWrapper) || {}), [`i.${splitedPath}`]: data[p] })
                 }
                 break
               }
@@ -129,11 +129,8 @@ export class TaroRootElement extends TaroElement {
             }
           }
           if (customWrapperMap.size > 0) {
-            customWrapperMap.forEach((data, id) => {
-              customWrapperUpdate.push({
-                ctx: ctx.selectComponent(`#${id}`),
-                data
-              })
+            customWrapperMap.forEach((data, ctx) => {
+              customWrapperUpdate.push({ ctx, data })
             })
           }
         }
