@@ -81,9 +81,10 @@ function loadPage (page: PageInstance | null, pageConfig: Route | undefined, sta
     if (pageEl) {
       pageEl.style.display = 'block'
     } else {
-      page.onLoad(qs(stacksIndex))
-      pageEl = document.getElementById(page.path!)
-      pageOnReady(pageEl, page)
+      page.onLoad(qs(stacksIndex), function () {
+        pageEl = document.getElementById(page.path!)
+        pageOnReady(pageEl, page)
+      })
     }
     stacks.push(page)
     page.onShow!()
