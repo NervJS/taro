@@ -129,6 +129,8 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
           if (!isBrowser) {
             pageElement.ctx = this
             pageElement.performUpdate(true, cb)
+          } else {
+            isFunction(cb) && cb()
           }
         })
       }
