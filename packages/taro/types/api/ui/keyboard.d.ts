@@ -20,9 +20,9 @@ declare namespace Taro {
    *   }
    * })
    * ```
-   * @see https://developers.weixin.qq.com/minigame/dev/api/ui/keyboard/wx.hideKeyboard.html
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/keyboard/wx.hideKeyboard.html
    */
-  function hideKeyboard(option?: hideKeyboard.Option): void
+  function hideKeyboard(option?: hideKeyboard.Option): Promise<General.CallbackResult>
 
   namespace getSelectedTextRange {
     interface Option {
@@ -53,7 +53,7 @@ declare namespace Taro {
    *   }
    * })
    * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/keyboard/wx.getSelectedTextRange.html
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/keyboard/wx.getSelectedTextRange.html
    */
   function getSelectedTextRange(option?: getSelectedTextRange.Option): Promise<getSelectedTextRange.SuccessCallbackResult>
 
@@ -75,14 +75,14 @@ declare namespace Taro {
    *   console.log(res.height)
    * })
    * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/keyboard/wx.onKeyboardHeightChange.html
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/keyboard/wx.onKeyboardHeightChange.html
    */
   function onKeyboardHeightChange(callback: onKeyboardHeightChange.Callback): void
 
   /**
    * 取消监听键盘高度变化事件。
    * @supported weapp, rn
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/keyboard/wx.offKeyboardHeightChange.html
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/keyboard/wx.offKeyboardHeightChange.html
    */
   function offKeyboardHeightChange(
     /** 键盘高度变化事件的回调函数 */
