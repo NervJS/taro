@@ -1,5 +1,6 @@
 import { Linking, AppState } from 'react-native';
 import * as Permissions from 'expo-permissions';
+import { errorHandler, successHandler } from '../utils';
 
 const scopeMap = {
   'scope.userLocation': Permissions.LOCATION,
@@ -55,56 +56,37 @@ const handleAppStateChange = async (nextAppState, resolve, reject, opts) => {
   // AppState.currentState = nextAppState;
 };
 
-export function authorize(opts: Taro.authorize.Option): Promise<Taro.General.CallbackResult> {
+export async function authorize(opts: Taro.authorize.Option): Promise<Taro.General.CallbackResult> {
   const { scope, success, fail, complete } = opts
   const res: any = {}
 
-  return new Promise(async (resolve, reject) => {
     try {
       const { status } = await Permissions.askAsync(scopeMap[scope])
       if (status === 'granted') {
         res.errMsg = 'authorize:ok'
-        success?.(res)
-        complete?.(res)
-
-        resolve(res)
+        return successHandler(success, complete)(res)
       } else {
         res.errMsg = 'authorize:denied/undetermined'
-        fail?.(res)
-        complete?.(res)
-
-        reject(res)
+        return errorHandler(fail, complete)(res)
       }
     } catch (error) {
       res.errMsg = 'authorize:fail'
-      fail?.(res)
-      complete?.(res)
-
-      reject(error)
+      return errorHandler(fail, complete)(res)
     }
-  })
 }
 
-export function getSetting(opts: Taro.getSetting.Option = {}): Promise<Taro.getSetting.SuccessCallbackResult> {
+export async function getSetting(opts: Taro.getSetting.Option = {}): Promise<Taro.getSetting.SuccessCallbackResult> {
   const { success, fail, complete } = opts
   const res: any = {}
 
-  return new Promise(async (resolve, reject) => {
     try {
       res.authSetting = await getAuthSetting()
       res.errMsg = 'getSetting:ok'
-      success?.(res)
-      complete?.(res)
-
-      resolve(res)
+      return successHandler(success, complete)(res)
     } catch (error) {
       res.errMsg = 'getSetting:fail'
-      fail?.(res)
-      complete?.(res)
-
-      reject(error)
+      return errorHandler(fail, complete)(res)
     }
-  })
 }
 
 export function openSetting(opts: Taro.openSetting.Option = {}): Promise<Taro.openSetting.SuccessCallbackResult> {
