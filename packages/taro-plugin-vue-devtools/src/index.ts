@@ -42,6 +42,7 @@ export default function (ctx: IPluginContext, options: IOptions) {
       .tap(args => {
         const config = args[0]
         config.__VUE_DEVTOOLS_PORT__ = port
+        config.ENABLE_SIZE_APIS = true
         return args
       })
 
