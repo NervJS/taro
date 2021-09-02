@@ -23,8 +23,6 @@ const eventIncrementId = incrementId()
 
 @injectable()
 export class TaroRootElement extends TaroElement {
-  private pendingUpdate = false
-
   private pendingFlush = false
 
   private updatePayloads: UpdatePayload[] = []
@@ -32,6 +30,8 @@ export class TaroRootElement extends TaroElement {
   private updateCallbacks: Func[]= []
 
   private eventCenter: Events
+
+  public pendingUpdate = false
 
   public ctx: null | MpInstance = null
 
