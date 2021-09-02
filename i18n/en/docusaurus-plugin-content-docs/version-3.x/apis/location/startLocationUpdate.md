@@ -3,7 +3,7 @@ title: Taro.startLocationUpdate(option)
 sidebar_label: startLocationUpdate
 ---
 
-Enabled Receive location messages when the applet enters the foreground
+Enabled Receive location messages when the mini program enters the foreground
 
 **Note**
 - To obtain location information, you need to configure [Geolocation Usage Description](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#permission).

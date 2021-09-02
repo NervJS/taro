@@ -3,7 +3,7 @@ title: Access to Tencent youshu seamless burial point capability
 sidebar_label: Tencent Youshu seamless burial point
 ---
 
-Taro introduces Tencent youshu seamless buried capabilities for WeChat mini program, providing Taro developers with 8 major seamless buried capabilities and custom buried capabilities for true-zero development, including **eight automated buried capabilities** such as applet start, show, hide, page view, page leave, share, drop-down refresh, pull-up bottoming**, and **customized buried capabilities** such as search and product attribution, as well as operational analysis, live analysis, shopping guide analysis, etc.
+Taro introduces Tencent youshu seamless buried capabilities for WeChat mini program, providing Taro developers with 8 major seamless buried capabilities and custom buried capabilities for true-zero development, including **eight automated buried capabilities** such as mini program start, show, hide, page view, page leave, share, drop-down refresh, pull-up bottoming**, and **customized buried capabilities** such as search and product attribution, as well as operational analysis, live analysis, shopping guide analysis, etc.
 
 Translated with www.DeepL.com/Translator (free version)
 

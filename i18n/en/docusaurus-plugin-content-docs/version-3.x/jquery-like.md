@@ -4,7 +4,7 @@ title: jQuery-like API
 
 Taro now officially supports building views using React or Vue, both of which are data-driven declarative rendering approaches.
 
-However, there are a few cases where we need to manipulate the DOM explicitly, and the `createQuerySelector` API provided by the applet is more complex to understand. In such cases, we provide a jQuery-like family of APIs, which is as simple as installing the dependencies via NPM: `createQuerySelector`.
+However, there are a few cases where we need to manipulate the DOM explicitly, and the `createQuerySelector` API provided by the mini program is more complex to understand. In such cases, we provide a jQuery-like family of APIs, which is as simple as installing the dependencies via NPM: `createQuerySelector`.
 
 ```bash
 npm i @tarojs/extend
@@ -56,7 +56,7 @@ This does not support the [jQuery CSS extension](https://www.html.cn/jqapi-1.9/c
 
 
 :::caution Please note
-Unlike React or Vue, you can use HTML elements like `div` in Taro's `jQuery-like API`, but components that use the applet specification (e.g. `view`) will run more smoothly in a Taro application. However, the HTML elements that may appear in the examples that follow represent usage methods only, not actual usability.
+Unlike React or Vue, you can use HTML elements like `div` in Taro's `jQuery-like API`, but components that use the mini program specification (e.g. `view`) will run more smoothly in a Taro application. However, the HTML elements that may appear in the examples that follow represent usage methods only, not actual usability.
 :::
 
 

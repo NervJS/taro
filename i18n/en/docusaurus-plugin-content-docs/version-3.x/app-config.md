@@ -23,7 +23,7 @@ Configurations supported in H5, React Native, and all Mini-program.
 
 ### pages
 
-Used to specify which pages the applet consists of, each corresponding to a page ` path + file name ` information. The file name does not need to write the file suffix, the framework will automatically go to find the corresponding location of the file for processing.
+Used to specify which pages the mini program consists of, each corresponding to a page ` path + file name ` information. The file name does not need to write the file suffix, the framework will automatically go to find the corresponding location of the file for processing.
 
 **The first item of the array represents the initial page of the mini-program (home page). If you add/drop pages in the mini-program, you need to modify the pages array.**
 
@@ -315,13 +315,13 @@ Declare the [plugin](https://developers.weixin.qq.com/miniprogram/dev/framework/
 > Base library 2.3.0 and above support
 
 Mini-program running on iPad can be set to support[Screen Rotation](https://developers.weixin.qq.com/miniprogram/dev/framework/view/resizable.html)。
-For mini-program running on PC, users can drag the window size in any proportion, and can also maximize the window in the applet menu.
+For mini-program running on PC, users can drag the window size in any proportion, and can also maximize the window in the mini program menu.
 
 ### usingComponents
 
 > WeChat Developer Tools version 1.02.1810190 and above support
 
-The custom components declared here are considered global custom components and can be used directly in pages or custom components within the applet without further declaration.
+The custom components declared here are considered global custom components and can be used directly in pages or custom components within the mini program without further declaration.
 
 ### sitemapLocation
 
@@ -333,7 +333,7 @@ Specify the location of the [sitemap.json](https://developers.weixin.qq.com/mini
 
 WeChat App client 7.0 started with a major UI revamp. The mini-program has also undergone a style upgrade of the basic components. Configuring `"style": "v2"` in `app.json` indicates that the new version of the component style is enabled.
 
-The components involved in this change are `button` `icon` `radio` `checkbox` `switch` `slider`. You can go to the sample applet to experience it.
+The components involved in this change are `button` `icon` `radio` `checkbox` `switch` `slider`. You can go to the sample mini program to experience it.
 
 ### useExtendedLib
 

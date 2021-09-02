@@ -444,7 +444,7 @@ Get the aggregate data, or get the aggregate data filtered by the query criteria
 
 Count the number of records in a collection or count the number of result records corresponding to a query statement.
 
-There will be differences in performance between the applet side and the cloud function side as follows:
+There will be differences in performance between the mini program side and the cloud function side as follows:
 
 - Mini-Program: If no limit is specified, the default and maximum number of records is 20.
 - Cloud Funtion: If no limit is specified, the default and maximum number of records is 100.
@@ -1270,7 +1270,7 @@ Get the aggregate data, or get the aggregate data filtered by the query criteria
 
 Count the number of records in a collection or count the number of result records corresponding to a query statement.
 
-There will be differences in performance between the applet side and the cloud function side as follows:
+There will be differences in performance between the mini program side and the cloud function side as follows:
 
 - Mini-Program: If no limit is specified, the default and maximum number of records is 20.
 - Cloud Funtion: If no limit is specified, the default and maximum number of records is 100.

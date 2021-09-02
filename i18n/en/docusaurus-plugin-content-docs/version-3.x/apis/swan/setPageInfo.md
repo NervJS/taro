@@ -3,7 +3,7 @@ title: Taro.setPageInfo(option)
 sidebar_label: setPageInfo
 ---
 
-Baidu Smart-Program can access Baidu Search and Baidu App. `setPageInfo` is responsible for setting up all kinds of basic page information for the applet, including title, keywords, page description, as well as image information and video information.By setting page information for the applet, the developer can help the applet to be displayed and distributed more effectively in search engines and information flow.
+Baidu Smart-Program can access Baidu Search and Baidu App. `setPageInfo` is responsible for setting up all kinds of basic page information for the mini program, including title, keywords, page description, as well as image information and video information.By setting page information for the mini program, the developer can help the mini program to be displayed and distributed more effectively in search engines and information flow.
 
 > [Reference](https://smartprogram.baidu.com/docs/develop/api/open/swan-setPageInfo/)
 

@@ -27,7 +27,7 @@ Taro is no longer a single-team project, but a joint project of the entire Taro 
 And of all the community contributions, a special thanks goes to:
 
 -  [Tom Huang](https://github.com/nanjingboy/), independent developer of all aspects of MobX support for Taro
--  [jsNewbee](https://github.com/js-newbee/), contributed a [multi-platform sample] for Taro with full support for applets + H5 + React Native. (https://github.com/qit-team/taro-yanxuan)
+-  [jsNewbee](https://github.com/js-newbee/), contributed a [multi-platform sample] for Taro with full support for mini programs + H5 + React Native. (https://github.com/qit-team/taro-yanxuan)
 -  [Chunlin](https://github.com/Qiyu8/), from Huawei, improved conversion support for quick app for Taro
 
 We also thank [Garfield550](https://github.com/Garfield550) (Miss), [LiangYin](https://github. com/yinLiangDream) and [ShaoQian Liu](https://github.com/Garfield550), who were invited to be the core maintenance staff of [TaroUI](https://github.com/NervJS/taro-ui). com/yinLiangDream), and [ShaoQian Liu](https://github.com/lsqy), who will support the subsequent iterations and maintenance of TaroUI.

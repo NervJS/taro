@@ -147,7 +147,7 @@ class Test extends React.Component {
   }
 }
 ```
-But when the child component is **load-on-demand**, the page `onReady` has already been triggered. If this on-demand subcomponent needs to get the DOM node of the rendering layer of the applet because it missed the page `onReady`, it can only try to simulate it using `Taro.nextTick`.
+But when the child component is **load-on-demand**, the page `onReady` has already been triggered. If this on-demand subcomponent needs to get the DOM node of the rendering layer of the mini program because it missed the page `onReady`, it can only try to simulate it using `Taro.nextTick`.
 
 ```jsx title="Load-on-demand subcomponents"
 import React from 'react'

@@ -7,7 +7,7 @@ The scrollable view area. When vertical scrolling is used, a fixed height must s
 
 Tips:
 The ScrollView component in H5 is implemented by scrolling inside a container with a fixed height (or width), so it is important to set the height of the container correctly. For example, if the height of the ScrollView expands the body, there will be two scrollbars at the same time (the scrollbar under the body and the scrollbar of the ScrollView).
- If the ScrollView component in the WeChat applet is set to scrollX horizontally and has multiple child elements (a single child element with a fixed width will scroll horizontally), you need to set `white-space: nowrap` with WXSS to ensure that the element does not change lines, and set `display: inline-inline` for the ScrollView internal elements with `display: inline-block` to make them scroll horizontally.
+ If the ScrollView component in the WeChat mini program is set to scrollX horizontally and has multiple child elements (a single child element with a fixed width will scroll horizontally), you need to set `white-space: nowrap` with WXSS to ensure that the element does not change lines, and set `display: inline-inline` for the ScrollView internal elements with `display: inline-block` to make them scroll horizontally.
 
 
 > [Reference](https://developers.weixin.qq.com/miniprogram/en/dev/component/scroll-view.html)

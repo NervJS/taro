@@ -14,7 +14,7 @@ The following list describes which NPM packages Taro consists of and what each p
 | `@tarojs/service` | Pluginized Kernel  |
 | `@tarojs/taro-loader` | Webpack loaders |
 | `@tarojs/helper` | Tool library, mainly for CLI, compile-time use |
-| `@tarojs/runner-utils` | Tool library, mainly for compilation tools for applets and H5 |
+| `@tarojs/runner-utils` | Tool library, mainly for compilation tools for mini program and H5 |
 | `@tarojs/shared` | Tool library, mainly for runtime use |
 | `@tarojs/taro` | Expose the Taro objects needed on each end |
 | `@tarojs/api` | Taro API independent of each platform |

@@ -59,7 +59,7 @@ function VantComponent(vantOptions = {}) {
   // Integrate component-specific configuration vantOptions and public configuration into the final configuration object options
   // ...
 
-  // Call the Component method of the applet to construct a custom component
+  // Call the Component method of the mini program to construct a custom component
   Component(options);
 }
 ```
@@ -83,7 +83,7 @@ function VantComponent(vantOptions = {}) {
   // Integrate the component-specific configuration vantOptions and the public configuration into the final configuration object options
   // ...
 
-  // Call the Component method of the applet to construct a custom component
+  // Call the Component method of the mini program to construct a custom component
   // Component(options);
   
   // 1. The base class returns the integrated options directly
@@ -243,7 +243,7 @@ If this file originally used **CommonJS** to organize the module, it may cause p
 
 ### 4. The selectorQuery API does not get the DOM.
 
-1. must be in the `onReady`, `ready` life cycle to call the applet API to get the DOM. 2.
+1. must be in the `onReady`, `ready` life cycle to call the mini program API to get the DOM. 2.
 2. You don't need to call `.in(this)` method.
 
 ### 5. Image does not handle dynamically stitched src

@@ -226,7 +226,7 @@ Call Cloud funtion
 
 #### Sample Code
 
-Assuming there is already a cloud function `add`, initiate a call to the cloud function `add` on the applet side.
+Assuming there is already a cloud function `add`, initiate a call to the cloud function `add` on the mini program side.
 
 ```tsx
 Taro.cloud.callFunction({

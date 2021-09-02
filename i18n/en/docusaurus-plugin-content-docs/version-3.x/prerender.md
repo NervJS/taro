@@ -167,7 +167,7 @@ class SomePage extends Component {
 
   componentDidMount () {
     // Wait for the component to load, render the first screen first before we render the rest to reduce the amount of data for the first rendering
-    // When mounted is true, the DOM trees of CompA, B, and C will only be rendered as data in the applet
+    // When mounted is true, the DOM trees of CompA, B, and C will only be rendered as data in the mini program
     // Note that we need to do this in the `componentDidMount()` cycle (which corresponds to Vue's `ready()`), earlier in the lifecycle `setState()` will be merged and updated with the first rendered data
     // Use nextTick to ensure that this setState is not merged with the first render
     Taro.nextTick(() => {

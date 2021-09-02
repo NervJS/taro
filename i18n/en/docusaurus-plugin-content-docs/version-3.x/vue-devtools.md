@@ -63,7 +63,7 @@ The Websocket port used by Vue DevTools.
 
 - The version of `vue-devtools` is forcibly locked, and the code of the `@tarojs/plugin-vue-devtools` plugin needs to be modified to update the version.
 
-In addition, the current support for devtools is not comprehensive enough, some features need to be magic backend for the applet environment to achieve, welcome to build ~
+In addition, the current support for devtools is not comprehensive enough, some features need to be magic backend for the mini program environment to achieve, welcome to build ~
 
 - Support element highlighting.
 

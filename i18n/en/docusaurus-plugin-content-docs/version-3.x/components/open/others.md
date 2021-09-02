@@ -5,9 +5,9 @@ sidebar_label: others
 
 ##### other component
 
-In addition to some components for the navigation list, there are also some differentiated components, which are different for each end, and it is planned to unify these in a unified package later. Please see the website of each applet for details of the current differentiated components.
+In addition to some components for the navigation list, there are also some differentiated components, which are different for each end, and it is planned to unify these in a unified package later. Please see the website of each mini program for details of the current differentiated components.
 
->For other components please see the official documentation for each applet
+>For other components please see the official documentation for each mini program
 
 [WeChat Mini-Program](https://developers.weixin.qq.com/miniprogram/en/dev/component/)。
 

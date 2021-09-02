@@ -60,7 +60,7 @@ export default {
 * Elements cannot be inserted outside the DOM tree of a page component, so `<teleport>` is not supported
 * The internal implementation of Vue 3 uses Proxy, which does not work on iOS 9 and below. However, the official Vue team will release a compatible version after the official release.
 * Using ref on the H5 side to get the DOM node of the base component now only gets the Vue component instance of the adaptation layer, not the corresponding webComponent root node. This was possible in Vue2 by modifying the refs property of the parent element, but the order of initialization between components has changed in Vue3, so it is not supported for now.
-* The v-model binding property of Vue3 has been changed to modelValue and the event binding has been changed to update:modelValue. For example, input automatically corresponds to modelValue and value, update:modelValue and @input, but for Picker, which is an applet-specific form, it does not, so we recommend not using v-model in this case.
+* The v-model binding property of Vue3 has been changed to modelValue and the event binding has been changed to update:modelValue. For example, input automatically corresponds to modelValue and value, update:modelValue and @input, but for Picker, which is an mini program-specific form, it does not, so we recommend not using v-model in this case.
 * The VirtualList component needs to implement a Vue3 version (to be implemented)
 * The `id` of all components must remain unique throughout the application (even if they are on different pages), otherwise it may cause problems with events not firing.[#7317](https://github.com/NervJS/taro/issues/7317)
 

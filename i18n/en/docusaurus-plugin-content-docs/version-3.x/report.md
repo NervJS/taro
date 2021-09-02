@@ -13,7 +13,7 @@ title: Access to Statistical Platforms
    appKey: 'Mini program AppKey',
 ```
 
-3. Edit src/app.tsx of the applet project and add at the top of the file.
+3. Edit src/app.tsx of the mini program project and add at the top of the file.
 
 ``` javascript
     import './utils/mtj-wx-sdk';

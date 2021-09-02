@@ -64,7 +64,7 @@ The parameter format is as follows
 | scene | number | Scene values to launch the mini-program | ✔️| ✔️| ✔️|  ✘ |  ✘ |  ✘ |
 | query | Object | query parameter to launch the mini-program | ✔️| ✔️| ✔️| ✔️|  ✘ |  ✘ |
 | shareTicket | string | shareTicket, See Get More Forwarding Information | ✔️| ✔️| ✔️|  ✘ |  ✘ | ✘ |
-| referrerInfo | Object | Source information. Returned when accessing an applet from another applet, public number or app. Otherwise returns {} | ✔️| ✔️| ✔️| ✔️ |  ✘ | ✘ |
+| referrerInfo | Object | Source information. Returned when accessing an mini program from another mini program, public number or app. Otherwise returns {} | ✔️| ✔️| ✔️| ✔️ |  ✘ | ✘ |
 
 Among them, the scene value scene, there are differences in WeChat mini-program and Baidu smart-program, please refer to respectively  [WeChat mini-program documentation](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html) and [Baidu smart-program documentation](https://smartprogram.baidu.com/docs/data/scene/)
 
@@ -172,7 +172,7 @@ As with the portal component, for a page file(e.g.`./pages/index/index.vue`), we
 
 #### onReady()
 
-This lifecycle corresponds to the `onReady` lifecycle of the applet page on the applet side. From this lifecycle, you can access the real DOM using APIs like `createCanvasContext` or `createselectorquery`.
+This lifecycle corresponds to the `onReady` lifecycle of the mini program page on the mini program side. From this lifecycle, you can access the real DOM using APIs like `createCanvasContext` or `createselectorquery`.
 
 In non-page components, you can use Taro's built-in [message mechanism](./apis/about/events) to access the `onReady()` lifecycle of a page component.
 
@@ -201,7 +201,7 @@ In non-page components, you can use Taro's built-in [message mechanism](./apis/a
 
 #### onLoad(options)
 
-This lifecycle corresponds to the `onLoad` lifecycle of the applet page on the applet side. This lifecycle can be accessed from `getCurrentInstance().router`.
+This lifecycle corresponds to the `onLoad` lifecycle of the mini program page on the mini program side. This lifecycle can be accessed from `getCurrentInstance().router`.
 
 #### created()
 
@@ -229,7 +229,7 @@ Triggered when the page is displayed/cut to the foreground
 
 #### onHide()
 
-Triggered when the page is hidden/cut to the background, such as navigateTo or bottom tab to other pages, applet cut to the background, etc.
+Triggered when the page is hidden/cut to the background, such as navigateTo or bottom tab to other pages, mini program cut to the background, etc.
 
 **In all the above lifecycle methods, you can get the parameters in the path to open the current page with `getCurrentInstance().router`**.
 
@@ -443,7 +443,7 @@ The degree of support for each end of the page event function is as follows
 | onPopMenuClick |  | ✘ | ✘|✘| ✔️（base library 1.3.0）|✘|✘|
 | onPullIntercept | Triggered on dropdown truncation | ✘ | ✘|✘| ✔️（base library 1.11.0）|✘|✘|
 
-The above member methods can also be used in Taro's pages by writing methods with the same name. However, it should be noted that only the applet side supports these methods for the time being (the support level is as above), and they will be invalid after compiling to the H5/RN side.
+The above member methods can also be used in Taro's pages by writing methods with the same name. However, it should be noted that only the mini program side supports these methods for the time being (the support level is as above), and they will be invalid after compiling to the H5/RN side.
 
 
 ```js title="./pages/index/index.jsx"
@@ -470,7 +470,7 @@ Using Vue in Taro, the built-in components follow the mini-program component spe
 
 ## Events
 
-Use the `@` modifier (or `v-on:`, see [Vue documentation](https://cn.vuejs.org/v2/guide/events.html)）instead of `bind` in applet events, and you can use `stopPropagation` in event handler functions to prevent event bubbling.
+Use the `@` modifier (or `v-on:`, see [Vue documentation](https://cn.vuejs.org/v2/guide/events.html)）instead of `bind` in mini program events, and you can use `stopPropagation` in event handler functions to prevent event bubbling.
 
 Note: In vue **click events** are bound using `@tap`.
 

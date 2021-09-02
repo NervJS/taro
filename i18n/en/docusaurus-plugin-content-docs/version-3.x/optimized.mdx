@@ -12,7 +12,7 @@ Compared to Taro 1/2, Taro 3 is a runtime-heavy, compile-time framework with som
 
 > This optimization has proven to significantly reduce update lag in Taro3, especially on low-end machines.
 
-Taro3 uses the applet's `template` for rendering and does not normally use native custom components. This leads to the problem that all `setData` updates are called from the page object, and if we have a complex page structure, the performance of the updates will be degraded.
+Taro3 uses the mini program's `template` for rendering and does not normally use native custom components. This leads to the problem that all `setData` updates are called from the page object, and if we have a complex page structure, the performance of the updates will be degraded.
 
 The data structure of `setData` when the hierarchy is too deep.
 
@@ -22,7 +22,7 @@ page.setData({
 })
 ```
 
-The main idea for this problem is to **borrow the native custom component of the applet to achieve a local update effect**, thus improving the update performance.
+The main idea for this problem is to **borrow the native custom component of the mini program to achieve a local update effect**, thus improving the update performance.
 
 Desired `setData` data structure.
 
@@ -118,7 +118,7 @@ It **rends only the components in the currently visible area**, and the componen
 
 > The componentWillPreload hook provided in Taro 1 / 2 is deprecated in Taro 3.
 
-In the mini program, there is a delay from calling the routing jump API such as `Taro.navigateTo` to triggering `onLoad` on the applet page, so some network requests can be advanced to the moment before the jump is initiated.
+In the mini program, there is a delay from calling the routing jump API such as `Taro.navigateTo` to triggering `onLoad` on the mini program page, so some network requests can be advanced to the moment before the jump is initiated.
 
 Taro 3 provides the `Tato.preload` API, which allows you to pass the content to be preloaded as a parameter, and then get the preloaded content after the new page is loaded via `Taro.getCurrentInstance().preloadData`.
 
@@ -281,7 +281,7 @@ References to objects can be maintained by means of `state`, closures, etc.
 
 ### 3. Do not mount additional properties on the base component
 
-Basic components (such as `View`, `Input`, etc.) that set non-standard properties are currently `setData` along with these additional properties, which are not actually ignored by the applet, so this part of `setData` is redundant.
+Basic components (such as `View`, `Input`, etc.) that set non-standard properties are currently `setData` along with these additional properties, which are not actually ignored by the mini program, so this part of `setData` is redundant.
 
 For example, the standard properties of the `Text` component are `selectable`, `user-select`, `space `, `decode`. If we set an additional property `something` for it, then this additional property will also be setData.
 

@@ -7,9 +7,9 @@ The real-time log manager instance, which can be obtained via `Taro.getRealtimeL
 
 ## How to Use
 
-To help applet developers quickly troubleshoot applet vulnerabilities and locate problems, we have introduced a real-time logging feature. Starting from Foundation 2.7.1, developers can print logs through the interface provided, and the logs will be aggregated and reported to the applet backend in real time.
+To help mini program developers quickly troubleshoot mini program vulnerabilities and locate problems, we have introduced a real-time logging feature. Starting from Foundation 2.7.1, developers can print logs through the interface provided, and the logs will be aggregated and reported to the mini program backend in real time.
 
-Developers can access the log query page on the applet side from **"Development->Operation and Maintenance Centre->Real-time Log"** in the applet management backend, or from "Applet Plug-in->Real-time Log" to view the log information printed by developers.
+Developers can access the log query page on the mini program side from **"Development->Operation and Maintenance Centre->Real-time Log"** in the mini program management backend, or from "mini program Plug-in->Real-time Log" to view the log information printed by developers.
 
 ## Methods
 
@@ -165,7 +165,7 @@ Set filter keywords
     <tr>
       <td>msg</td>
       <td><code>string</code></td>
-      <td>Filter keywords of no more than 1KB can be searched in the applet administration backend to get the corresponding logs based on the content set.</td>
+      <td>Filter keywords of no more than 1KB can be searched in the mini program administration backend to get the corresponding logs based on the content set.</td>
     </tr>
   </tbody>
 </table>

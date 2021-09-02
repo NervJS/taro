@@ -2,7 +2,7 @@
 title: Rendering HTML
 ---
 
-> Please note: All the contents of this section will only work on the applet side.
+> Please note: All the contents of this section will only work on the mini program side.
 
 Taro can render HTML directly via `Element#innerHTML` or Vue's `v-html` or React/Nerv's `dangerouslySetInnerHTML`:
 
@@ -58,7 +58,7 @@ Setting HTML directly will not make the HTML tags take on the browser's default 
 
 * `@tarojs/taro/html.css`: [W3C HTML4 built-in styles
 ](https://www.w3.org/TR/CSS2/sample.html), Only HTML4 tag style, smaller size, high compatibility, can adapt to most cases.
-* `@tarojs/taro/html5.css`: [Chrome(Blink) HTML5 built-in styles](https://chromium.googlesource.com/chromium/blink/+/master/Source/core/css/html.css), Rich built-in styles, including most HTML5 tags, large size, not necessarily support all applet containers.
+* `@tarojs/taro/html5.css`: [Chrome(Blink) HTML5 built-in styles](https://chromium.googlesource.com/chromium/blink/+/master/Source/core/css/html.css), Rich built-in styles, including most HTML5 tags, large size, not necessarily support all mini program containers.
 
 In order for the built-in tag styles to work, we also need to set the CSS class of the HTML container to `.taro_html`:
 

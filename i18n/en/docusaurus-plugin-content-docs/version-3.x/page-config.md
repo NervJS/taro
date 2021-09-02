@@ -31,7 +31,7 @@ Notes:
 | disableSwipeBack | Boolean | false | Disable page right swipe gesture to return  |
 | usingComponents | Object | false | Page customization component configuration |
 
-`usingComponents` generally does not need to be configured, but only when it needs to be configured with reference to native applet components.
+`usingComponents` generally does not need to be configured, but only when it needs to be configured with reference to native mini program components.
 
  Support as follows
 

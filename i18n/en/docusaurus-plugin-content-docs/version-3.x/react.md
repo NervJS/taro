@@ -233,7 +233,7 @@ Triggered after the page component is rendered to Taro's virtual DOM.
 
 Taro's virtual DOM is accessible at this point (using methods such as React ref, document.getElementById, etc.), and modifications to it are supported (setting the style of the DOM, etc.).
 
-However, this does not mean that Taro's virtual DOM data has been transferred from the logical layer `setData` to the view layer. So at this point ** it is not possible to get the DOM nodes of the rendering layer of the applet by methods like `createSelectorQuery`. ** You can only get the DOM node in [onReady](./react#onready-) lifecycle.
+However, this does not mean that Taro's virtual DOM data has been transferred from the logical layer `setData` to the view layer. So at this point ** it is not possible to get the DOM nodes of the rendering layer of the mini program by methods like `createSelectorQuery`. ** You can only get the DOM node in [onReady](./react#onready-) lifecycle.
 
 
 #### Methods for mini-program pages
@@ -243,7 +243,7 @@ The methods in the mini-program page can also be used in Taro's page: write the 
 **Attention:**
 
 *  Mini-program page methods also differ across platforms
-*  Mini-program page components that use HOC wrappers must handle forwardRef or use inherited components instead of returned components, otherwise the applet page method may not be triggered.
+*  Mini-program page components that use HOC wrappers must handle forwardRef or use inherited components instead of returned components, otherwise the mini program page method may not be triggered.
 
 ### onLoad (options)
 
@@ -291,7 +291,7 @@ class Test extends React.Component {
 }
 ```
 
-But when the child component is **load-on-demand**, the page `onReady` has already been triggered. If this on-demand subcomponent needs to get the DOM node of the rendering layer of the applet because it missed the page `onReady`, it can only try to simulate it using `Taro.nextTick`.
+But when the child component is **load-on-demand**, the page `onReady` has already been triggered. If this on-demand subcomponent needs to get the DOM node of the rendering layer of the mini program because it missed the page `onReady`, it can only try to simulate it using `Taro.nextTick`.
 
 
 ```jsx title="Load-on-demand subcomponents"
@@ -645,7 +645,7 @@ function Comp () {
 
 ### Taro 3 event system on the mini-program
 
-In Taro 1 & 2, Taro determines whether the events bound in the applet template are in the form of `bind` or `catch` depending on whether the developer uses `e.stopPropagation()`. Thus event bubbling is controlled by the mini-program.
+In Taro 1 & 2, Taro determines whether the events bound in the mini program template are in the form of `bind` or `catch` depending on whether the developer uses `e.stopPropagation()`. Thus event bubbling is controlled by the mini-program.
 
 But in Taro 3, we have implemented a system of events in the mini-program logic layer, including event triggering and event bubbling. The events bound in the mini-program template are in the form of `bind`.
 

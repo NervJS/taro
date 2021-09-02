@@ -3,7 +3,7 @@ title: Taro.startLocationUpdateBackground(option)
 sidebar_label: startLocationUpdateBackground
 ---
 
-Enabled Receive location messages when the applet enters the front and back
+Enabled Receive location messages when the mini program enters the front and back
 
 **Note**
 - WeChat for Android version 7.0.6 and iOS version 7.0.5 support the interface.

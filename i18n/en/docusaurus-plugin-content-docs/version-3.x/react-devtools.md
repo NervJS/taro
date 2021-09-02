@@ -62,7 +62,7 @@ The Websocket port used by React DevTools.
 - The version of `react-devtools` is forcibly locked, and updating it requires modifying the code of the `@tarojs/plugin-react-devtools` plugin.
 - [To identify custom hooks](https://github.com/facebook/react/blob/main/packages/react-devtools/OVERVIEW.md#inspecting-hooks), backend performs a function on some developers need to be aware of any side effects of the code.
 
-In addition, the current support for devtools is not comprehensive enough, some features need to be modified for the applet environment magic backend to achieve, welcome to build ~
+In addition, the current support for devtools is not comprehensive enough, some features need to be modified for the mini program environment magic backend to achieve, welcome to build ~
 
 - Support element highlighting.
 - Record `filters` changes in the `storage` of the mini program.

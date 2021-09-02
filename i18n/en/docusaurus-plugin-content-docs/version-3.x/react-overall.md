@@ -19,7 +19,7 @@ import React, { Component, useState, useEffect } from 'react'
 
 ## Entry components and page components
 
-Because Taro follows the routing specification for mini program, it introduces [entry component](./react-entry) and [page component](./react-page) concepts, which correspond to the applet specification's entry component `app` and page component `page`, respectively.
+Because Taro follows the routing specification for mini program, it introduces [entry component](./react-entry) and [page component](./react-page) concepts, which correspond to the mini program specification's entry component `app` and page component `page`, respectively.
 
 A Taro application consists of an entry component and at least one page component.
 
@@ -27,7 +27,7 @@ A Taro application consists of an entry component and at least one page componen
 
 > Since Taro v3.3+, development with H5 tags is supported, see [Using HTML tags](use-h5) for details
 
-Development in Taro can be done using built-in components of the applet specification, such as `<View>`, `<Text>`, `<Button>`, etc.
+Development in Taro can be done using built-in components of the mini program specification, such as `<View>`, `<Text>`, `<Button>`, etc.
 
 ### Taro Specifications
 
@@ -93,7 +93,7 @@ function Comp () {
 
 ### Taro 3 event system on the mini-program
 
-In Taro 1 & 2, Taro determines whether the events bound in the applet template are in the form of `bind` or `catch` depending on whether the developer uses `e.stopPropagation()`. Thus event bubbling is controlled by the mini-program.
+In Taro 1 & 2, Taro determines whether the events bound in the mini program template are in the form of `bind` or `catch` depending on whether the developer uses `e.stopPropagation()`. Thus event bubbling is controlled by the mini-program.
 
 But in Taro 3, we have implemented a system of events in the mini-program logic layer, including event triggering and event bubbling. The events bound in the mini-program template are in the form of `bind`.
 
@@ -185,7 +185,7 @@ Triggered after the page component is rendered to Taro's virtual DOM.
 
 Taro's virtual DOM is accessible at this point (using methods such as React ref, document.getElementById, etc.), and modifications to it are supported (setting the style of the DOM, etc.).
 
-However, this does not mean that Taro's virtual DOM data has been transferred from the logical layer `setData` to the view layer. So at this point ** it is not possible to get the DOM nodes of the rendering layer of the applet by methods like `createSelectorQuery`. ** You can only get the DOM node in [onReady](./react#onready-) lifecycle.
+However, this does not mean that Taro's virtual DOM data has been transferred from the logical layer `setData` to the view layer. So at this point ** it is not possible to get the DOM nodes of the rendering layer of the mini program by methods like `createSelectorQuery`. ** You can only get the DOM node in [onReady](./react#onready-) lifecycle.
 
 ### Methods for mini program pages
 
@@ -261,7 +261,7 @@ On the mini program side, there are some additional configuration options and th
 
 ## Minified React error
 
-Because the development version of React is larger, Taro uses the production version of React as the default dependency when building applets to reduce the size of the mini program and to facilitate real-world previews during development.
+Because the development version of React is larger, Taro uses the production version of React as the default dependency when building mini programs to reduce the size of the mini program and to facilitate real-world previews during development.
 
 However, the production version of React does not show the error stack when there is an error. So when you encounter an error like this: [Error: Minified React error #152]. You can change the [mini.debugReact](http://localhost:3000/taro/docs/next/config-detail#minidebugreact) option in the build configuration and turn the build back on. This will cause Taro to use the development version of React and output the error stack.
 

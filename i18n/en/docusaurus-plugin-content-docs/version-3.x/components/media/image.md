@@ -5,7 +5,7 @@ sidebar_label: Image
 
 Image. This component supports JPG, PNG, and SVG images. Cloud file IDs are supported from 2.3.0 and later.
 
-**Note:** To implement the `mode` feature of the applet, a `div` container is used in the H5 component to corp the display area of the internal `img`, so please do not use the element selector to reset the style of the `img`! 
+**Note:** To implement the `mode` feature of the mini program, a `div` container is used in the H5 component to corp the display area of the internal `img`, so please do not use the element selector to reset the style of the `img`! 
 
 > [Reference](https://developers.weixin.qq.com/miniprogram/en/dev/component/image.html)
 

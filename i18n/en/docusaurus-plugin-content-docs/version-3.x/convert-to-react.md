@@ -47,7 +47,7 @@ t looks like a normal Taro component, the most important difference is the `@wit
 
 ### `this.setData`
 
-The API of the converted `this.setData` is equivalent to the polyfill of `this.setData` of the applet, the biggest difference between it and `this.setState` is that after `this.setData` the data of `data` is updated synchronously, while rendering is updated asynchronously, while `setState` is updated asynchronously. both are asynchronous.
+The API of the converted `this.setData` is equivalent to the polyfill of `this.setData` of the mini program, the biggest difference between it and `this.setState` is that after `this.setData` the data of `data` is updated synchronously, while rendering is updated asynchronously, while `setState` is updated asynchronously. both are asynchronous.
 
 ### `this.data` 和 `this.properties`
 

@@ -4,7 +4,7 @@ title: Description
 
 Taro has customised its own component library specification using [WeChat Mini-Program Components](https://developers.weixin.qq.com/miniprogram/en/dev/component/) as a standard, combined with the `JSX` syntax specification.
 
-Based on the above principles, on the WeChat Mini-Program side we can use all the applet native components, while on the other side we have implemented the corresponding component libraries:
+Based on the above principles, on the WeChat Mini-Program side we can use all the mini program native components, while on the other side we have implemented the corresponding component libraries:
 
 - H5: `@tarojs/components`
 - RN: `@tarojs/components-rn`
@@ -56,7 +56,7 @@ export default class C extends Component {
 
 ## TIPS
 
-The detailed documentation of the components lists the extent to which the components are supported on different sides, as well as basic usage examples. For some components that are not listed as examples and are marked as only supported on the applet side, you can refer directly to the [Mini-Program Components Doc](https://developers.weixin.qq.com/miniprogram/en/dev/component/).
+The detailed documentation of the components lists the extent to which the components are supported on different sides, as well as basic usage examples. For some components that are not listed as examples and are marked as only supported on the mini program side, you can refer directly to the [Mini-Program Components Doc](https://developers.weixin.qq.com/miniprogram/en/dev/component/).
 
 **Taro's development specifications still need to be followed:**
 
