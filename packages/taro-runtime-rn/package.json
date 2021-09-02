@@ -1,6 +1,6 @@
 {
     "name": "@tarojs/runtime-rn",
-    "version": "3.3.2",
+    "version": "3.3.5",
     "description": "taro-runtime-rn",
     "main": "dist/index.js",
     "types": "./src/index.ts",
@@ -28,8 +28,8 @@
         "url": "https://github.com/NervJS/taro/issues"
     },
     "dependencies": {
-        "@tarojs/components-rn": "3.3.2",
-        "@tarojs/router-rn": "3.3.2"
+        "@tarojs/components-rn": "3.3.5",
+        "@tarojs/router-rn": "3.3.5"
     },
     "resolutions": {
         "@types/react": "17.0.11"

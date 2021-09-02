@@ -2,6 +2,7 @@ import CameraRoll from '@react-native-community/cameraroll'
 import { Permissions } from 'react-native-unimodules'
 import * as ImagePicker from 'expo-image-picker'
 import { askAsyncPermissions } from '../utils/premissions'
+import { successHandler, errorHandler } from '../utils'
 
 export const MEDIA_TYPE = {
   VIDEOS: 'Videos',
@@ -9,26 +10,23 @@ export const MEDIA_TYPE = {
 }
 
 export async function saveMedia(opts: Taro.saveImageToPhotosAlbum.Option|Taro.saveVideoToPhotosAlbum.Option, type:string, API:string):Promise<Taro.General.CallbackResult> {
+  const { filePath, success, fail, complete } = opts
   const status = await askAsyncPermissions(Permissions.CAMERA_ROLL)
   if (status !== 'granted') {
     const res = { errMsg: 'Permissions denied!' }
-    return Promise.reject(res)
+    return errorHandler(fail, complete)(res)
   }
-  const { filePath, success, fail, complete } = opts
+
   const res: any = { errMsg: `${API}:ok` }
   const saveType = (type === 'video' || type === 'photo') ? type : 'auto'
-  return CameraRoll.save(filePath, { type: saveType })
-    .then((url) => {
-      res.path = url
-      success?.(res)
-      complete?.(res)
-      return Promise.resolve(res)
-    }).catch((err) => {
-      res.errMsg = err.message
-      fail?.(res)
-      complete?.(res)
-      return Promise.reject(res)
-    })
+  try {
+    const url: string = await CameraRoll.save(filePath, { type: saveType })
+    res.path = url;
+    return successHandler(success, complete)(res)
+  } catch (err) {
+    res.errMsg = err.message
+    return errorHandler(fail, complete)(res)
+  }
 }
 
 export async function chooseMedia(opts: Taro.chooseImage.Option|Taro.chooseVideo.Option, mediaTypes: string): Promise<Taro.General.CallbackResult> {
@@ -45,50 +43,42 @@ export async function chooseMedia(opts: Taro.chooseImage.Option|Taro.chooseVideo
   const status = isCamera ? await askAsyncPermissions(Permissions.CAMERA) : await askAsyncPermissions(Permissions.CAMERA_ROLL)
   if (status !== 'granted') {
     const res = { errMsg: 'Permissions denied!' }
-    return Promise.reject(res)
+    return errorHandler(fail, complete)(res)
   }
 
-  let p
-  return new Promise((resolve, reject) => {
-    p = isCamera ? ImagePicker.launchCameraAsync(options as any) : ImagePicker.launchImageLibraryAsync(options as any)
-    p.then((resp) => {
-      const { uri, duration, width, height } = resp
-      resp.path = uri
+  let launchMediaAsync = isCamera ? ImagePicker.launchCameraAsync : ImagePicker.launchImageLibraryAsync
+  try {
+    const resp: any = await launchMediaAsync(options as any)
+    const { uri, duration, width, height } = resp
+    resp.path = uri
 
-      let res: any = {}
-      if (mediaTypes === MEDIA_TYPE.VIDEOS) {
-        res = {
-          tempFilePath: uri,
-          duration,
-          width,
-          height
-        }
-      } else {
-        res = {
-          tempFilePaths: [uri],
-          tempFiles: [resp]
-        }
+    let res: any = {}
+    if (mediaTypes === MEDIA_TYPE.VIDEOS) {
+      res = {
+        tempFilePath: uri,
+        duration,
+        width,
+        height
       }
-      if (res.tempFilePath || (!!res.tempFilePaths && res.tempFilePaths.length > 0)) {
-        success?.(res)
-        complete?.(res)
-        resolve(res as any)
-      } else {
-        const res = {
-          errMsg: mediaTypes === MEDIA_TYPE.VIDEOS ? 'chooseVideo:fail cancel' : 'chooseImage:fail cancel',
-        }
-        fail?.(res)
-        complete?.(res)
-        reject(res)
+    } else {
+      res = {
+        tempFilePaths: [uri],
+        tempFiles: [resp]
       }
-    }).catch((err) => {
+    }
+    if (res.tempFilePath || (!!res.tempFilePaths && res.tempFilePaths.length > 0)) {
+      return successHandler(success, complete)(res)
+    } else {
       const res = {
-        errMsg: mediaTypes === MEDIA_TYPE.VIDEOS ? 'chooseVideo fail' : 'chooseImage fail',
-        err
+        errMsg: mediaTypes === MEDIA_TYPE.VIDEOS ? 'chooseVideo:fail cancel' : 'chooseImage:fail cancel',
       }
-      fail?.(res)
-      complete?.(res)
-      reject(res)
-    })
-  })
+      return errorHandler(fail, complete)(res)
+    }
+  } catch (err) {
+    const res = {
+      errMsg: mediaTypes === MEDIA_TYPE.VIDEOS ? 'chooseVideo fail' : 'chooseImage fail',
+      err
+    }
+    return errorHandler(fail, complete)(res)
+  }
 }

@@ -59,10 +59,7 @@ function _request <T = any>(options: Taro.request.Option): Taro.RequestTask<T> {
     const signal = controller.signal
     params.signal = signal
   }
-
-  const originSuccess = options.success
-  const originFail = options.fail
-  const originComplete = options.complete
+  const { success, fail, complete }  = options
   let completeRes
   const p: any = new Promise((resolve, reject) => {
     // eslint-disable-next-line no-undef
@@ -84,16 +81,16 @@ function _request <T = any>(options: Taro.request.Option): Taro.RequestTask<T> {
       .then(resData => {
         res.data = resData
         completeRes = Object.assign({}, res)
-        originSuccess && originSuccess(res)
+        success?.(res)
         resolve(res)
       })
       .catch(error => {
         completeRes = error.message === 'Aborted' ? { code: 20, message: 'Aborted', name: 'AbortError' } : Object.assign({}, error)
-        originFail && originFail(error)
+        fail?.(error)
         reject(error)
       })
       .finally(() => {
-        originComplete && originComplete(completeRes)
+        complete?.(completeRes)
       })
   })
   p.abort = function () {

@@ -202,12 +202,12 @@ function hideToast (opts: Taro.hideToast.Option = {}): void {
     (global as any).wxToastRootSiblings && (global as any).wxToastRootSiblings.destroy();
     (global as any).wxToastRootSiblings = undefined
     const res = { errMsg: 'showToast:ok' }
-    success && success(res)
-    complete && complete(res)
+    success?.(res)
+    complete?.(res)
   } catch (e) {
     const res = { errMsg: e }
-    fail && fail(res)
-    complete && complete(res)
+    fail?.(res)
+    complete?.(res)
   }
 }
 
@@ -218,12 +218,12 @@ function hideLoading (opts: Taro.hideLoading.Option = {}): void {
     (global as any).wxToastRootSiblings && (global as any).wxToastRootSiblings.destroy();
     (global as any).wxToastRootSiblings = undefined
     const res = { errMsg: 'showLoading:ok' }
-    success && success(res)
-    complete && complete(res)
+    success?.(res)
+    complete?.(res)
   } catch (e) {
     const res = { errMsg: e }
-    fail && fail(res)
-    complete && complete(res)
+    fail?.(res)
+    complete?.(res)
   }
 }
 

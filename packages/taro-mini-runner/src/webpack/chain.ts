@@ -523,6 +523,8 @@ export function getRuntimeConstants (runtime) {
   const constants = {
     ENABLE_INNER_HTML: true,
     ENABLE_ADJACENT_HTML: true,
+    ENABLE_TEMPLATE_CONTENT: true,
+    ENABLE_CLONE_NODE: true,
     ENABLE_SIZE_APIS: false
   }
 
@@ -536,6 +538,14 @@ export function getRuntimeConstants (runtime) {
 
   if (runtime.enableSizeAPIs !== undefined) {
     constants.ENABLE_SIZE_APIS = runtime.enableSizeAPIs
+  }
+
+  if (runtime.enableTemplateContent !== undefined) {
+    constants.ENABLE_TEMPLATE_CONTENT = runtime.enableTemplateContent
+  }
+
+  if (runtime.enableCloneNode !== undefined) {
+    constants.ENABLE_CLONE_NODE = runtime.enableCloneNode
   }
 
   return constants

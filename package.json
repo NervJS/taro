@@ -13,11 +13,14 @@
     "build:shared": "lerna run build --scope @tarojs/shared --scope @tarojs/runtime",
     "build:parallel": "npm run build:shared && lerna run build --parallel --ignore @tarojs/shared --ignore @tarojs/runtime",
     "build": "lerna run build",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
     "release:lerna": "lerna version --exact --no-git-tag-version --force-publish",
     "release:beta": "lerna publish --force-publish=* --exact --skip-temp-tag  --preid=beta --npm-tag=beta",
     "release": "npm-run-all build release:lerna && npm run changelog && node ./build/docs-version.js",
-    "test": "lerna run --scope @tarojs/cli --scope babel-preset-taro --scope @tarojs/components --scope @tarojs/react --scope @tarojs/webpack-runner --scope @tarojs/mini-runner --scope @tarojs/runtime --scope @tarojs/taro-rn --scope @tarojs/components-rn test:ci"
+    "test": "lerna run --scope @tarojs/cli --scope babel-preset-taro --scope @tarojs/components --scope @tarojs/react --scope @tarojs/webpack-runner --scope @tarojs/mini-runner --scope @tarojs/runtime --scope @tarojs/taro-rn --scope @tarojs/components-rn test:ci",
+    "version": "npm-run-all version:lerna version:git version:changelog",
+    "version:lerna": "lerna version ${npm_config_lerna_version} --exact --no-git-tag-version --force-publish --yes",
+    "version:git": "git add . && git commit -m \"chore(release): publish ${npm_config_lerna_version}\"",
+    "version:changelog": "conventional-changelog -p angular"
   },
   "repository": {
     "type": "git",
@@ -128,7 +131,7 @@
     "jest-enzyme": "^7.1.1",
     "jest-localstorage-mock": "^2.4.0",
     "jest-mock-console": "^1.0.0",
-    "lerna": "3.22.1",
+    "lerna": "4.0.0",
     "lint-staged": "^10.2.11",
     "memfs": "^3.1.2",
     "memory-fs": "^0.5.0",

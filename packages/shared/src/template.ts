@@ -23,7 +23,7 @@ import {
 } from './components'
 import { Shortcuts } from './shortcuts'
 import { isBooleanStringLiteral, isNumber, isFunction } from './is'
-import { toCamelCase, toKebabCase, toDashed, hasOwn, indent } from './utils'
+import { toCamelCase, toKebabCase, toDashed, hasOwn, indent, capitalize } from './utils'
 
 interface Component {
   nodeName: string;
@@ -248,7 +248,7 @@ export class BaseTemplate {
       ? ''
       : `
     <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="uid">
-      ${indent(child, 8)}
+      ${indent(child, 6)}
     </block>
   `
 
@@ -626,4 +626,10 @@ export class UnRecursiveTemplate extends BaseTemplate {
     return l
   }`
   }
+}
+
+export {
+  internalComponents,
+  toCamelCase,
+  capitalize
 }

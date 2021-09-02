@@ -80,7 +80,7 @@ export interface RouterConfig {
 }
 
 export function createRouter (config: RouterConfig): React.ReactNode {
-  if (config.tabBar) {
+  if (config?.tabBar?.list?.length) {
     return createTabNavigate(config)
   } else {
     return createStackNavigate(config)
