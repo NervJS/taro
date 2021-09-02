@@ -1,34 +1,24 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { errorHandler, successHandler } from '../../utils'
 
-export function getStorage(option: Taro.getStorage.Option<any>): Promise<Taro.getStorage.SuccessCallbackResult<any>> {
+export async function getStorage(option: Taro.getStorage.Option<any>): Promise<Taro.getStorage.SuccessCallbackResult<any>> {
   const { key, success, fail, complete } = option
   const res = { errMsg: 'getStorage:ok' }
 
-  return new Promise((resolve, reject) => {
-    AsyncStorage.getItem(key)
-      .then((data) => {
-        if (data) {
-          const result = {
-            data: JSON.parse(data),
-            ...res
-          }
-          success?.(result)
-          complete?.(result)
-
-          resolve(result)
-        } else {
-          res.errMsg = 'getStorage:fail data not found'
-          fail?.(res)
-          complete?.(res)
-
-          reject(res)
-        }
-      }).catch((err) => {
-        res.errMsg = err.message
-        fail?.(res)
-        complete?.(res)
-
-        reject(err)
-      })
-  })
+  try {
+    const data = await AsyncStorage.getItem(key)
+    if (data) {
+      const result = {
+        data: JSON.parse(data),
+        ...res
+      }
+      return successHandler(success, complete)(result)
+    } else {
+      res.errMsg = 'getStorage:fail data not found'
+      return errorHandler(fail, complete)(res)
+    }
+  } catch (err) {
+    res.errMsg = err.message
+    return errorHandler(fail, complete)(res)
+  }
 }
