@@ -1027,6 +1027,11 @@ require(\\"./taro\\");
             },
             getSpecialNodes: function getSpecialNodes() {
                 return [ \\"text\\", \\"image\\" ];
+            },
+            modifyTaroEvent: function modifyTaroEvent(event, node) {
+                if (node.tagName === \\"MAP\\" && event.type === \\"regionchange\\") {
+                    event.type = \\"end\\";
+                }
             }
         };
         mergeReconciler(hostConfig);
