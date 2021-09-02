@@ -81,8 +81,10 @@ function renderToCSS (src, filename, options, transformOptions) {
             defaultExt,
             alias: options.alias,
             platform: transformOptions.platform
-          })
-        return { file: file }
+          }
+        )
+        const contents = fs.readFileSync(file, 'utf8')
+        return { file, contents }
       } catch (err) {
         return err
       }

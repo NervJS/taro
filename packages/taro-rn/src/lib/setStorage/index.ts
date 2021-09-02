@@ -1,22 +1,15 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { errorHandler, successHandler } from '../../utils'
 
-export function setStorage(option: Taro.setStorage.Option): Promise<Taro.General.CallbackResult> {
+export async function setStorage(option: Taro.setStorage.Option): Promise<Taro.General.CallbackResult> {
   const { key, data, success, fail, complete } = option
   const res = { errMsg: 'setStorage:ok' }
 
-  return new Promise((resolve, reject) => {
-    AsyncStorage.setItem(key, JSON.stringify(data))
-      .then(() => {
-        success?.(res)
-        complete?.(res)
-
-        resolve(res)
-      }).catch((err) => {
-        res.errMsg = err.message
-        fail?.(res)
-        complete?.(res)
-
-        reject(err)
-      })
-  })
+  try {
+    await AsyncStorage.setItem(key, JSON.stringify(data))
+    return successHandler(success, complete)(res)
+  } catch (err) {
+    res.errMsg = err.message
+    return errorHandler(fail, complete)(res)
+  }
 }

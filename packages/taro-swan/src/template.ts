@@ -90,23 +90,23 @@ export class Template extends RecursiveTemplate {
     ${indent(child, 4)}
   </block>
 </view>
-<text s-elif="{{item.nn==='text'&&(item.st||item.cl)}}}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('text')}>
+<text s-elif="{{item.nn==='text'&&(item.st||item.cl)}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('text')}>
   <block s-for="{{item.cn}}" s-key="uid">
     <block>{{item.v}}</block>
   </block>
 </text>
-<text s-elif="{{item.nn==='static-text'&&(item.st||item.cl)}}}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('static-text')}>
+<text s-elif="{{item.nn==='static-text'&&(item.st||item.cl)}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('static-text')}>
   <block s-for="{{item.cn}}" s-key="uid">
     <block>{{item.v}}</block>
   </block>
 </text>
-<button s-elif="{{item.nn==='button'&&(item.st||item.cl)}}}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('button')}>
+<button s-elif="{{item.nn==='button'&&(item.st||item.cl)}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('button')}>
   <block s-for="{{item.cn}}" s-key="uid">
     <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
   </block>
 </button>
-<input s-elif="{{item.nn==='input'&&(item.st||item.cl)}}}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('input')} />
-<swiper s-elif="{{item.nn==='swiper'&&(item.st||item.cl)}}}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('swiper')}>
+<input s-elif="{{item.nn==='input'&&(item.st||item.cl)}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('input')} />
+<swiper s-elif="{{item.nn==='swiper'&&(item.st||item.cl)}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('swiper')}>
   <block s-for="{{item.cn}}" s-key="uid">
     <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
   </block>
