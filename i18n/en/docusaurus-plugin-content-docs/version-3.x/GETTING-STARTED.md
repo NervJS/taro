@@ -446,7 +446,6 @@ $ npx taro build --type iot
 $ set NODE_ENV=production && taro build --type iot --watch # Windows
 $ NODE_ENV=production taro build --type iot --watch # Mac
 ```
-
 #### Developer Tools
 
 Same as Alipay mini-program. The compile mode of developer tool is set to IOT mini-program.

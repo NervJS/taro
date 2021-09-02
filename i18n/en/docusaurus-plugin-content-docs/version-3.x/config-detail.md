@@ -1573,7 +1573,8 @@ module.exports = {
 
 `object`
 
-`resolve` is the configuration to handle referencing files. The following `include` configuration can be made to handle cross-platform handling of referenced `node_modules` files, which are not handled by default.
+`resolve` handles the configuration of dependency files.
+`resolve.include` can be configured with multiple arrays of `npm` package names, treating `npm` packages as project files, supporting `node_modules` platform priority file access and global styles.
 
 ```js
 module.exports = {
@@ -1582,8 +1583,33 @@ module.exports = {
     // ...
     resolve: {
       // ...
-      include: ['test'] // Handles cross-platform handling of references to node_modules/test files.
+      include: ['taro-ui'] // Handles cross-platform handling of references to node_modules/test files.
     }
+  }
+}
+```
+### rn.enableMultipleClassName
+`boolean`
+
+Support multiple `className` conversions, end with `classname` or `style`, extract the prefix, and then generate the corresponding xxxStyle according to the prefix. e.g. `barClassName -> barStyle`. Default value `false`, not enabled.
+
+```js
+module.exports = {
+  rn: {
+    enableMultipleClassName: false
+  }
+}
+```
+
+### rn.enableMergeStyle
+`boolean`
+
+Convert to object when the tag `style` property value is an array. Default value `false`, not enabled.
+
+```js
+module.exports = {
+  rn: {
+    enableMergeStyle: false // https://github.com/shinken008/babel-plugin-jsx-attributes-array-to-object#example
   }
 }
 ```

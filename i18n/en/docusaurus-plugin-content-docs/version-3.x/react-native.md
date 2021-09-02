@@ -28,6 +28,25 @@ The general process:
 
 
 ---
+
+## Version compatibility
+
+The initialization template provided by `taro init` will use the latest version of React Native, it is recommended to keep both Taro version and React Native version up to date. The shell project will provide a branch for each React Native version from 0.63 onwards, with the following version compatibility.
+
+| React Native Versions | Compatibility | Shell Project Branch |
+| - | - | - |
+| < 0.60.0 | Not compatible, consider using Taro version 1.x/2.x | - |
+| 0.60.x | compatible, but not fully tested, please provide issue | [0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2), change react-native version to 0.60.0 |
+| 0.61.x | compatible, but not fully tested, please provide issue | [0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2), change react-native version to 0.61.0 |
+| 0.62.x | compatible, but not fully tested, please provide issue | [0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2), change react-native version to 0.62.0 |
+| 0.63.x | >= 3.2.0, but after version 3.2.13, you need to add the configuration manually, refer to [PR](https://github.com/NervJS/taro/pull/9540) | [0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2) |
+| 0.64.x | >= 3.2.0 | [0.64.0](https://github.com/NervJS/taro-native-shell/tree/0.64.0) |
+| 0.65.x | under development | [0.65.1](https://github.com/NervJS/taro-native-shell/tree/0.65.1) |
+
+## Initialization by template
+
+Use the `taro init` command to initialize and select the `react-native` template. When finished, execute `yarn upgradePeerdeps` for dependency initialization. The template is easier to understand and use than the shell project pattern, which merges js projects with native projects. See the [react-native template documentation](https://github.com/NervJS/taro-project-templates/tree/v3.1/react-native) for more details.
+
 ## Build iOS development environment
 
 The dependencies that must be installed are: Node, Watchman and React Native command line tools and Xcode.
@@ -303,8 +322,8 @@ After the build is complete, the browser will display the built js code.
 ### Launch Application
 If the previous step compiles and the Metro Bundler Server starts without problems, you can launch the application next.
 
+Developers can [integrate React Native (>=0.60) into native apps](https://reactnative.cn/docs/0.64/integration-with-existing-apps/) on their own. Also, to facilitate development and integration, Taro has stripped out the native part of the React Native project and put it inside a separate project [NervJS/taro-native-shell](https://github.com/NervJS/taro-native-shell), which you can think of as a React Native iOS/ Android empty app shell. You need to select the branch corresponding to the version of React Native you are using, which currently defaults to 0.64.0.
 
-Developers can[integrate React Native (>=0.60) into native apps](https://reactnative.cn/docs/0.63/integration-with-existing-apps/), Also, to facilitate development and integration, Taro has stripped out the native part of the React Native project and put it in a separate project [NervJS/taro-native-shell](https://github.com/NervJS/taro-native-shell) / [branch 0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2), You can think of it as a shell for React Native iOS/Android empty apps.
 
 First, clone the application code down to
 
