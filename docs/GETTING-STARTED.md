@@ -451,9 +451,6 @@ $ NODE_ENV=production taro build --type iot --watch # Mac
 
 同支付宝小程序。开发者工具的编译模式设置为 IOT 小程序。
 
-
-
-
 ### 飞书小程序
 
 > Taro v3.1+ 开始支持
@@ -509,6 +506,68 @@ $ NODE_ENV=production taro build --type lark --watch # Mac
 - 需要关闭上传代码时样式自动补全，开启可能报错
 - 需要关闭代码压缩上传，开启可能报错
 
+### 快手小程序
+
+使用 Taro 插件能支持编译快手小程序，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-kwai)。
+
+#### 版本要求
+
+##### Taro 3.3+
+
+请使用 [taro-plugin-platform-kwai](https://github.com/NervJS/taro-plugin-platform-kwai) 的 1.0 或以上版本。
+
+##### Taro 3.2
+
+请使用 [taro-plugin-platform-ks](https://github.com/vadxq/taro-plugin-platform-ks) 的 1.2.x 版本。
+
+##### Taro 3.0 - 3.1
+
+请使用 [taro-plugin-platform-ks](https://github.com/vadxq/taro-plugin-platform-ks) 的 1.0.x 版本。
+
+#### 安装插件
+
+```bash
+yarn add @tarojs/plugin-platform-kwai
+```
+
+#### 配置插件
+
+```js title="Taro 项目配置"
+config = {
+  // ...
+  plugins: [
+    '@tarojs/plugin-platform-kwai'
+  ]
+}
+```
+
+#### 编译命令
+
+```bash
+# yarn
+$ yarn dev:kwai
+$ yarn build:kwai
+
+# npm script
+$ npm run dev:kwai
+$ npm run build:kwai
+
+# 仅限全局安装
+$ taro build --type kwai --watch
+$ taro build --type kwai
+
+# npx 用户也可以使用
+$ npx taro build --type kwai --watch
+$ npx taro build --type kwai
+
+# watch 同时开启压缩
+$ set NODE_ENV=production && taro build --type kwai --watch # Windows
+$ NODE_ENV=production taro build --type kwai --watch # Mac
+```
+
+#### 小程序开发者工具
+
+下载并打开[快手小程序开发者工具](https://mp.kuaishou.com/docs/develop/guide/introduction.html)，然后选择项目根目录下 `dist` 目录（根目录 `config` 中的 `outputRoot` 设置的目录）进行预览。
 
 ### H5
 
