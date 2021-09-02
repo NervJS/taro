@@ -31,6 +31,7 @@ export function previewImage(obj: Taro.previewImage.Option): void {
 
   let sibling
   function backhandler() {
+    onSwipeDown()
     return true
   }
 
