@@ -3486,10 +3486,10 @@ expect@^25.5.0:
     jest-message-util "^25.5.0"
     jest-regex-util "^25.2.6"
 
-expo-asset@^8.2.0:
-  version "8.3.2"
-  resolved "https://registry.yarnpkg.com/expo-asset/-/expo-asset-8.3.2.tgz#930de93d3db5bbbe3b19b315b7341b938581722e"
-  integrity sha512-MKOwkkN0lnQRcOdn5moqkHPmLgFoUSIYyrvMAJ767vTXvLvZgoQgvBwqCAXsXitIwEitG0Az3XZ23SfKJpFbFg==
+expo-asset@^8.3.3:
+  version "8.3.3"
+  resolved "https://registry.yarnpkg.com/expo-asset/-/expo-asset-8.3.3.tgz#b54ab9999efb3d2086329fc5b1bed04fede8f682"
+  integrity sha512-qCm5d14tzswY8DcmRJ+0WkY9tc3OiVikBAiw2hCMC+bFpK/bEdqy4Zwfd69MFIAJ0taJpHWhdUoBRO0byQLlfg==
   dependencies:
     blueimp-md5 "^2.10.0"
     invariant "^2.2.4"
