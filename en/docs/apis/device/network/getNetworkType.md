@@ -3,47 +3,47 @@ title: Taro.getNetworkType(option)
 sidebar_label: getNetworkType
 ---
 
-获取网络类型。
+Gets the network type.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.getNetworkType.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.getNetworkType.html)
 
-## 类型
+## Type
 
 ```tsx
 (option?: Option) => Promise<SuccessCallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -53,78 +53,76 @@ sidebar_label: getNetworkType
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>networkType</td>
       <td><code>&quot;wifi&quot; | &quot;2g&quot; | &quot;3g&quot; | &quot;4g&quot; | &quot;unknown&quot; | &quot;none&quot;</code></td>
-      <td>网络类型</td>
+      <td>Network type</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
 
 ### networkType
 
-网络类型
+Valid values of res.networkType
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>wifi</td>
-      <td>wifi 网络</td>
+      <td>wifi network</td>
     </tr>
     <tr>
       <td>2g</td>
-      <td>2g 网络</td>
+      <td>2g network</td>
     </tr>
     <tr>
       <td>3g</td>
-      <td>3g 网络</td>
+      <td>3g network</td>
     </tr>
     <tr>
       <td>4g</td>
-      <td>4g 网络</td>
+      <td>4g network</td>
     </tr>
     <tr>
       <td>unknown</td>
-      <td>Android 下不常见的网络类型</td>
+      <td>Uncommon network types for Android</td>
     </tr>
     <tr>
       <td>none</td>
-      <td>无网络</td>
+      <td>No network</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.getNetworkType({
-  success: function (res) {
-    // 返回网络类型, 有效值：
-    // wifi/2g/3g/4g/unknown(Android下不常见的网络类型)/none(无网络)
+  success: function (res)) {
     var networkType = res.networkType
   }
 })
 ```
 
-## API 支持度
+## API Support
 
-|         API         | 微信小程序 | H5 | React Native |
-|:-------------------:|:-----:|:--:|:------------:|
-| Taro.getNetworkType |  ✔️   | ✔️ |      ✔️      |
+|         API         | WeChat Mini-Program | H5 | React Native |
+|:-------------------:|:-------------------:|:--:|:------------:|
+| Taro.getNetworkType |         ✔️          | ✔️ |      ✔️      |
