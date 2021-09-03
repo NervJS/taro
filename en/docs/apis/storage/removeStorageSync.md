@@ -3,38 +3,38 @@ title: Taro.removeStorageSync(key)
 sidebar_label: removeStorageSync
 ---
 
-从本地缓存中同步移除指定 key 。 Taro.removeStorage 的同步版本
+从本地缓存中同步移除指定 key 。 The synchronous version of `Taro.removeStorage`.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.removeStorageSync.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.removeStorageSync.html)
 
-## 类型
+## Type
 
 ```tsx
 { (key: string): void; (key: string): void; }
 ```
 
-## 参数
+## Parameters
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>key</td>
       <td><code>string</code></td>
-      <td>本地缓存中指定的 key</td>
+      <td>The specified key in the local cache</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
-### 示例 1
+### Example 1
 
 ```tsx
 try {
@@ -44,7 +44,7 @@ try {
 }
 ```
 
-### 示例 2
+### Example 2
 
 ```tsx
 Taro.removeStorage({
@@ -63,8 +63,8 @@ try {
 }
 ```
 
-## API 支持度
+## API Support
 
-|          API           | 微信小程序 | H5 | React Native |
-|:----------------------:|:-----:|:--:|:------------:|
-| Taro.removeStorageSync |  ✔️   | ✔️ |              |
+|          API           | WeChat Mini-Program | H5 | React Native |
+|:----------------------:|:-------------------:|:--:|:------------:|
+| Taro.removeStorageSync |         ✔️          | ✔️ |              |
