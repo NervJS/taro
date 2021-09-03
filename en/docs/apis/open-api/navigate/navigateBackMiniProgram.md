@@ -3,60 +3,60 @@ title: Taro.navigateBackMiniProgram(option)
 sidebar_label: navigateBackMiniProgram
 ---
 
-返回到上一个小程序。只有在当前小程序是被其他小程序打开时可以调用成功
+Returns to the previous Mini Program.It can be called only when the current Mini Program is opened from another Mini Program.
 
-注意：**微信客户端 iOS 6.5.9，Android 6.5.10 及以上版本支持**
+Note: This API is supported as of WeChat 6.5.9 for iOS and 6.5.10 for Android.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/miniprogram-navigate/wx.navigateBackMiniProgram.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/miniprogram-navigate/wx.navigateBackMiniProgram.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<CallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>extraData</td>
       <td><code>Record&lt;string, any&gt;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>需要返回给上一个小程序的数据，上一个小程序可在 <code>App.onShow</code> 中获取到这份数据。 <a href="https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html">详情</a>。</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The data that needs to be returned to the previous Mini Program. The previous Mini Program can get this data from <code>App.onShow</code>.<a href="https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html">Details</a>。</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.navigateBackMiniProgram({
@@ -64,13 +64,13 @@ Taro.navigateBackMiniProgram({
     foo: 'bar'
   },
   success: function (res) {
-    // 返回成功
+    // Successful call
   }
 })
 ```
 
-## API 支持度
+## API Support
 
-|             API              | 微信小程序 | H5 | React Native |
-|:----------------------------:|:-----:|:--:|:------------:|
-| Taro.navigateBackMiniProgram |  ✔️   |    |              |
+|             API              | WeChat Mini-Program | H5 | React Native |
+|:----------------------------:|:-------------------:|:--:|:------------:|
+| Taro.navigateBackMiniProgram |         ✔️          |    |              |
