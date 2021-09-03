@@ -3,25 +3,25 @@ title: Taro.onBluetoothDeviceFound(callback)
 sidebar_label: onBluetoothDeviceFound
 ---
 
-监听寻找到新设备的事件
+Listens on the new device discovery event.
 
-**注意**
-- 若在 Taro.onBluetoothDeviceFound 回调了某个设备，则此设备会添加到 Taro.getBluetoothDevices 接口获取到的数组中。
-- 安卓下部分机型需要有位置权限才能搜索到设备，需留意是否开启了位置权限
+**Notes**
+- If a device is called back in `Taro.onBluetoothDeviceFound`, this device is added to the array obtained by the `Taro.getBluetoothDevices` API.
+- Some Android models require location permissions before they can discover devices. Be sure to grant location permissions in such cases.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.onBluetoothDeviceFound.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.onBluetoothDeviceFound.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: Callback) => void
 ```
 
-## 参数
+## Parameters
 
 ### Callback
 
-寻找到新设备的事件的回调函数
+The callback function for the new device discovery event.
 
 ```tsx
 (result: CallbackResult) => void
@@ -30,8 +30,8 @@ sidebar_label: onBluetoothDeviceFound
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -47,16 +47,16 @@ sidebar_label: onBluetoothDeviceFound
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>devices</td>
       <td><code>CallbackResultBlueToothDevice[]</code></td>
-      <td>新搜索到的设备列表</td>
+      <td>The list of newly discovered devices</td>
     </tr>
   </tbody>
 </table>
@@ -68,54 +68,54 @@ sidebar_label: onBluetoothDeviceFound
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>RSSI</td>
       <td><code>number</code></td>
-      <td>当前蓝牙设备的信号强度</td>
+      <td>The signal strength of the current Bluetooth device</td>
     </tr>
     <tr>
       <td>advertisData</td>
       <td><code>ArrayBuffer</code></td>
-      <td>当前蓝牙设备的广播数据段中的 ManufacturerData 数据段。</td>
+      <td>The ManufacturerData field in the broadcast data field of the current Bluetooth device</td>
     </tr>
     <tr>
       <td>advertisServiceUUIDs</td>
       <td><code>string[]</code></td>
-      <td>当前蓝牙设备的广播数据段中的 ServiceUUIDs 数据段</td>
+      <td>The ServiceUUIDs field in the broadcast data field of the current Bluetooth device</td>
     </tr>
     <tr>
       <td>deviceId</td>
       <td><code>string</code></td>
-      <td>用于区分设备的 id</td>
+      <td>Device ID</td>
     </tr>
     <tr>
       <td>localName</td>
       <td><code>string</code></td>
-      <td>当前蓝牙设备的广播数据段中的 LocalName 数据段</td>
+      <td>The LocalName field in the broadcast data field of the current Bluetooth device</td>
     </tr>
     <tr>
       <td>name</td>
       <td><code>string</code></td>
-      <td>蓝牙设备名称，某些设备可能没有</td>
+      <td>The name of the Bluetooth device. Some devices may not have a name.</td>
     </tr>
     <tr>
       <td>serviceData</td>
       <td><code>Record&lt;string, any&gt;</code></td>
-      <td>当前蓝牙设备的广播数据段中的 ServiceData 数据段</td>
+      <td>The ServiceData field in the broadcast data field of the current Bluetooth device</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
-// ArrayBuffer转16进度字符串示例
+// Example of an ArrayBuffer converted to a hexadecimal string
 function ab2hex(buffer) {
   var hexArr = Array.prototype.map.call(
     new Uint8Array(buffer),
@@ -133,8 +133,8 @@ Taro.onBluetoothDeviceFound(function (res) {
 })
 ```
 
-## API 支持度
+## API Support
 
-|             API             | 微信小程序 | H5 | React Native |
-|:---------------------------:|:-----:|:--:|:------------:|
-| Taro.onBluetoothDeviceFound |  ✔️   |    |              |
+|             API             | WeChat Mini-Program | H5 | React Native |
+|:---------------------------:|:-------------------:|:--:|:------------:|
+| Taro.onBluetoothDeviceFound |         ✔️          |    |              |
