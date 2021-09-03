@@ -3,31 +3,31 @@ title: RequestTask
 sidebar_label: RequestTask
 ---
 
-网络请求任务对象
+Requests tasks over the network.
 
-## 方法
+## Methods
 
 ### abort
 
-中断请求任务
+Aborts requesting tasks.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.abort.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.abort.html)
 
 ```tsx
 () => void
 ```
 
-#### API 支持度
+#### API Support
 
-|        API        | 微信小程序 | H5 | React Native |
-|:-----------------:|:-----:|:--:|:------------:|
-| RequestTask.abort |  ✔️   |    |              |
+|        API        | WeChat Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:--:|:------------:|
+| RequestTask.abort |         ✔️          |    |              |
 
 ### offHeadersReceived
 
-取消监听 HTTP Response Header 事件
+Un-listens on the HTTP Response Header event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.offHeadersReceived.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.offHeadersReceived.html)
 
 ```tsx
 (callback: (res: CallbackResult) => void) => void
@@ -36,31 +36,31 @@ sidebar_label: RequestTask
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td>HTTP Response Header 事件的回调函数</td>
+      <td>The callback function for the HTTP Response Header event.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|              API               | 微信小程序 | H5 | React Native |
-|:------------------------------:|:-----:|:--:|:------------:|
-| RequestTask.offHeadersReceived |  ✔️   |    |              |
+|              API               | WeChat Mini-Program | H5 | React Native |
+|:------------------------------:|:-------------------:|:--:|:------------:|
+| RequestTask.offHeadersReceived |         ✔️          |    |              |
 
 ### onHeadersReceived
 
-监听 HTTP Response Header 事件。会比请求完成事件更早
+Listens on HTTP Response Header event, which will be earlier than the request completion event.会比请求完成事件更早
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.onHeadersReceived.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.onHeadersReceived.html)
 
 ```tsx
 (callback: (result: OnHeadersReceivedCallbackResult) => void) => void
@@ -69,57 +69,56 @@ sidebar_label: RequestTask
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>(result: OnHeadersReceivedCallbackResult) =&gt; void</code></td>
-      <td>HTTP Response Header 事件的回调函数</td>
+      <td>The callback function for the HTTP Response Header event.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|              API              | 微信小程序 | H5 | React Native |
-|:-----------------------------:|:-----:|:--:|:------------:|
-| RequestTask.onHeadersReceived |  ✔️   |    |              |
+|              API              | WeChat Mini-Program | H5 | React Native |
+|:-----------------------------:|:-------------------:|:--:|:------------:|
+| RequestTask.onHeadersReceived |         ✔️          |    |              |
 
-## 参数
+## Parameters
 
 ### OnHeadersReceivedCallbackResult
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>header</td>
       <td><code>Record&lt;string, any&gt;</code></td>
-      <td>开发者服务器返回的 HTTP Response Header</td>
+      <td>HTTP Response Header returned by the developer server</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
-### 示例 1
+### Example 1
 
 回调函数(Callback)用法：
 
 ```tsx
 const requestTask = Taro.request({
-  url: 'test.php', //仅为示例，并非真实的接口地址
-  data: {
+  url: 'test.php', // This value for demonstration purposes only is not a real API URL. data: {
     x: '' ,
     y: ''
   },
@@ -133,19 +132,18 @@ const requestTask = Taro.request({
 requestTask.abort()
 ```
 
-### 示例 2
+### Example 2
 
 Promise 用法：
 
 ```tsx
 const requestTask = Taro.request({
-  url: 'test.php', //仅为示例，并非真实的接口地址
-  data: {
+  url: 'test.php', // This value for demonstration purposes only is not a real API URL. data: {
     x: '' ,
     y: ''
   },
   header: {
-    'content-type': 'application/json' // 默认值
+    'content-type': 'application/json' // Default value
   },
   success: function (res) {
     console.log(res.data)
@@ -157,7 +155,7 @@ requestTask.then(res => {
 requestTask.abort()
 ```
 
-### 示例 3
+### Example 3
 
 async/await 用法：
 
@@ -167,10 +165,10 @@ const res = await requestTask
 requestTask.abort()
 ```
 
-## API 支持度
+## API Support
 
-|              API               | 微信小程序 | H5 | React Native |
-|:------------------------------:|:-----:|:--:|:------------:|
-|       RequestTask.abort        |  ✔️   |    |              |
-| RequestTask.offHeadersReceived |  ✔️   |    |              |
-| RequestTask.onHeadersReceived  |  ✔️   |    |              |
+|              API               | WeChat Mini-Program | H5 | React Native |
+|:------------------------------:|:-------------------:|:--:|:------------:|
+|       RequestTask.abort        |         ✔️          |    |              |
+| RequestTask.offHeadersReceived |         ✔️          |    |              |
+| RequestTask.onHeadersReceived  |         ✔️          |    |              |
