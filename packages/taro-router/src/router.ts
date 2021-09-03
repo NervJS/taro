@@ -185,13 +185,24 @@ export function createRouter (
       delete config['load']
 
       const pathname = basename ? location.pathname.replace(basename, '') : location.pathname
+      let routerIndex
+      if (stacks?.length > 0) {
+        routerIndex = stacks.findIndex((r) => {
+          if (r.path === pathname) {
+            return true
+          } else if (r.path?.includes('?')) {
+            return r.path.split('?')[0] === pathname
+          }
+        })
+      }
+
       const page = createPageConfig(
         enablePullDownRefresh ? runtimeHooks.createPullDownComponent?.(el, location.pathname, framework, routerConfig.PullDownRefresh) : el,
-        pathname + stringify(qs(stacks.length)),
+        pathname + stringify(qs((routerIndex && routerIndex) !== -1 ? routerIndex : stacks.length)),
         {},
         config
       )
-      loadPage(page, pageConfig, stacks.length)
+      loadPage(page, pageConfig, routerIndex && routerIndex !== -1 ? routerIndex : stacks.length)
     }
   }, 500)
 
