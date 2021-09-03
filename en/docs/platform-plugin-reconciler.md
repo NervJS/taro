@@ -2,103 +2,102 @@
 title: Reconciler
 ---
 
-Taro 的运行时包括 DOM、BOM、React 兼容层、Vue 兼容层等内容，而不同的端平台或开发框架都有可能需要对 Taro 运行时进行侵入定制。
+Taro's runtime includes DOM, BOM, React-compatible layer, Vue-compatible layer, etc., and different platforms or development frameworks may require intrusive customization of the Taro runtime.
 
-为了解耦，我们参考了 **React Reconciler** 的概念，外部可以通过提供一个自定义的 `hostConfig` 配置对象，对运行时进行定制。
+To decouple, we refer to the concept of **React Reconciler**, where the runtime can be customized externally by providing a custom `hostConfig` configuration object.
 
-> 遇到 hostConfig 的配置项不满足需求，需要进行扩展时，可以给 Taro 提交 PR～
+> In case the configuration items of hostConfig do not meet the requirements and need to be extended, you can submit a PR to Taro ~
 
-## hostConfig 配置
+## hostConfig Configuration
 
 ### appendChild (parent, child)
 
-`DOMNode` 调用 `appendChild` 方法时触发。
+Triggered when `DOMNode` calls `appendChild` method.
 
-| 参数     | 类型                    | 说明         |
-|:------ |:--------------------- |:---------- |
-| parent | DOMNode               | 父节点        |
-| child  | DOMNode / TextElement | 要给父节点追加的节点 |
+| Parameters | Type                  | Description                       |
+|:---------- |:--------------------- |:--------------------------------- |
+| parent     | DOMNode               | Parent node                       |
+| child      | DOMNode / TextElement | Nodes appended to the parent node |
 
 ### removeChild (parent, child, oldChild)
 
-`DOMNode` 调用 `replaceChild` 方法时触发。
+Triggered when `DOMNode` calls `replaceChild` method.
 
-| 参数       | 类型                    | 说明                 |
-|:-------- |:--------------------- |:------------------ |
-| parent   | DOMNode               | 父节点                |
-| child    | DOMNode / TextElement | 用来替换 oldChild 的新节点 |
-| oldChild | DOMNode / TextElement | 被替换掉的原始节点          |
+| Parameters | Type                  | Description                          |
+|:---------- |:--------------------- |:------------------------------------ |
+| parent     | DOMNode               | Parent node                          |
+| child      | DOMNode / TextElement | Replace the oldChild with a new node |
+| oldChild   | DOMNode / TextElement | Replaced original nodes              |
 
 ### insertBefore (parent, child, refChild)
 
-`DOMNode` 调用 `insertBefore` 方法时触发。
+Triggered when `DOMNode` calls the `insertBefore` method.
 
-| 参数       | 类型                    | 说明         |
-|:-------- |:--------------------- |:---------- |
-| parent   | DOMNode               | 父节点        |
-| child    | DOMNode / TextElement | 用于插入的节点    |
-| refChild | DOMNode / TextElement | 将要插在这个节点之前 |
+| Parameters | Type                  | Description             |
+|:---------- |:--------------------- |:----------------------- |
+| parent     | DOMNode               | Parent node             |
+| child      | DOMNode / TextElement | Inserted nodes          |
+| refChild   | DOMNode / TextElement | Insert before this node |
 
 ### removeAttribute (element, qualifiedName)
 
-`DOMElement` 调用 `removeAttribute` 方法时触发。
+Triggered when `DOMElement` invokes the `removeAttribute` method.
 
-| 参数            | 类型         | 说明              |
-|:------------- |:---------- |:--------------- |
-| element       | DOMElement | 当前操作元素          |
-| qualifiedName | string     | 指定要从元素中移除的属性的名称 |
+| Parameters    | Type       | Description                                                      |
+|:------------- |:---------- |:---------------------------------------------------------------- |
+| element       | DOMElement | Current operating element                                        |
+| qualifiedName | string     | Specify the name of the attribute to be removed from the element |
 
 ### setAttribute (element, qualifiedName, value)
 
-`DOMElement` 调用 `setAttribute` 方法时触发。
+Triggered when `DOMElement` invokes the `setAttribute` method.
 
-| 参数            | 类型         | 说明         |
-|:------------- |:---------- |:---------- |
-| element       | DOMElement | 当前操作元素     |
-| qualifiedName | string     | 表示属性名称的字符串 |
-| value         |            | 属性的值/新值    |
+| Parameters    | Type       | Description                       |
+|:------------- |:---------- |:--------------------------------- |
+| element       | DOMElement | Current operating element         |
+| qualifiedName | string     | String of the property name       |
+| value         |            | Value of the property / new value |
 
 ### prepareUpdateData (data, page)
 
-每次 Taro DOM 树更新，调用小程序 `setData` 前触发。
+Triggered every time the Taro DOM tree is updated, before calling the  mini program `setData`.
 
-| 参数   | 类型              | 说明                          |
-|:---- |:--------------- |:--------------------------- |
-| data | DataTree        | 将要 setData 的 Taro DOM 树数据结构 |
-| page | TaroRootElement | 页面根元素                       |
+| Parameters | Type            | Description                              |
+|:---------- |:--------------- |:---------------------------------------- |
+| data       | DataTree        | Taro DOM tree data structure for setData |
+| page       | TaroRootElement | Page root element                        |
 
 ### appendInitialPage (data, page)
 
-Taro DOM 树初始化，第一次调用小程序 `setData` 前触发。在调用 `prepareUpdateData` 后立刻执行。
+Taro DOM tree initialization, triggered before the first call to the mini program `setData`.Executed immediately after the call to `prepareUpdateData`.
 
-| 参数   | 类型              | 说明                          |
-|:---- |:--------------- |:--------------------------- |
-| data | DataTree        | 将要 setData 的 Taro DOM 树数据结构 |
-| page | TaroRootElement | 页面根元素                       |
+| Parameters | Type            | Description                              |
+|:---------- |:--------------- |:---------------------------------------- |
+| data       | DataTree        | Taro DOM tree data structure for setData |
+| page       | TaroRootElement | Page root element                        |
 
 ### getLifecyle (instance, lifecyle)
 
-小程序页面的生命周期被触发时调用。
+Called when the lifecycle of the mini program page is triggered.
 
-| 参数       | 类型       | 说明                |
-|:-------- |:-------- |:----------------- |
-| instance | Instance | 用户编写的页面实例         |
-| lifecyle | string   | 小程序页面被触发的生命周期函数名称 |
+| Parameters | Type     | Description             |
+|:---------- |:-------- |:----------------------- |
+| instance   | Instance | Page Instance           |
+| lifecyle   | string   | Lifecycle function name |
 
-需要返回 **function** 或 **function[]**，表示将要执行的函数。
+Needs to return **function** or **function[]**, indicating the function to be executed.
 
-例子：
+Example：
 
 ```js
-// 默认值：
-// 直接取用户编写的页面实例中，对应的生命周期方法
+// Default value. // Takes the corresponding lifecycle method directly from the user-written page instance
 getLifecyle (instance, lifecyle) {
   return instance[lifecyle]
 }
 
-// 在 React 中，
-// 小程序触发 onShow，调用用户编写的 componentDidShow
-// 小程序触发 onHide，调用用户编写的 componentDidHide
+// In React
+// the mini program triggers onShow, which calls the user-written componentDidShow
+// the mini program triggers onHide, calling the user-written componentDidHide
 getLifecyle (instance, lifecycle) {
   if (lifecycle === 'onShow') {
     lifecycle = 'componentDidShow'
@@ -111,14 +110,14 @@ getLifecyle (instance, lifecycle) {
 
 ### onTaroElementCreate (tagName, nodeType)
 
-`DOMElement` 构造时触发。
+Triggered when `DOMElement` is constructed.
 
-| 参数       | 类型       | 说明           |
-|:-------- |:-------- |:------------ |
-| tagName  | string   | 当前创建的元素的标签名  |
-| nodeType | NodeType | 当前创建的元素的节点类型 |
+| Parameters | Type     | Description                                    |
+|:---------- |:-------- |:---------------------------------------------- |
+| tagName    | string   | The tag name of the currently created element  |
+| nodeType   | NodeType | The node type of the currently created element |
 
-| nodeType | 说明                            |
+| nodeType | Description                   |
 |:-------- |:----------------------------- |
 | 1        | ELEMENT_NODE                  |
 | 2        | ATTRIBUTE_NODE                |
@@ -131,23 +130,23 @@ getLifecyle (instance, lifecycle) {
 
 ### getPathIndex (indexOfNode)
 
-`DOMNode` 获取 `path` 属性时触发。
+Triggered when `DOMNode` gets the `path` property.
 
-| 参数          | 类型     | 说明                       |
-|:----------- |:------ |:------------------------ |
-| indexOfNode | number | 当前节点在父节点 children 列表中的下标 |
+| Parameters  | Type   | Description                                                               |
+|:----------- |:------ |:------------------------------------------------------------------------- |
+| indexOfNode | number | The subscript of the current node in the children list of the parent node |
 
-需要返回一个 **string** 值，代表小程序按路径 `setData` 时的数组下标。
+Needs to return a **string** value representing the array subscript when the mini program is `setData` by path.
 
-例子：
+Example:
 
 ```js
-// 默认值：
+// Default value
 getPathIndex (indexOfNode) {
   return `[${indexOfNode}]`
 }
 
-// 百度小程序不需要 [] 包裹
+// Baidu smart program does not require [] Parcels
 getPathIndex (indexOfNode) {
   return indexOfNode
 }
@@ -155,24 +154,24 @@ getPathIndex (indexOfNode) {
 
 ### getEventCenter(Events)
 
-`Taro.eventCenter` 初始化值时触发。
+Triggered when `Taro.eventCenter` initializes its value.
 
-| 参数     | 类型 | 说明             |
-|:------ |:-- |:-------------- |
-| Events |    | Taro 事件中心的构造函数 |
+| Parameters | Type | Description                       |
+|:---------- |:---- |:--------------------------------- |
+| Events     |      | Constructor for Taro Event Center |
 
-需要返回 Taro 事件中心的实例，其将会被赋值给 `Taro.eventCenter`。
+Needs to return an instance of the Taro event center, which will be assigned to `Taro.eventCenter`.
 
-例子：
+Example:
 
 ```js
-// 默认值：
+// Default value:
 getEventCenter (Events) {
   return new Events()
 }
 
-// 支付宝小程序中，
-// 优先从小程序全局对象 my 中取出创建过的事件中心实例，避免分包时出现问题。
+// In the Alipay mini program
+// Priority is given to removing created event center instances from the mini program global object my to avoid problems when subpackaging.
 getEventCenter (Events) {
   if (!my.taroEventCenter) {
     my.taroEventCenter = new Events()
@@ -183,17 +182,17 @@ getEventCenter (Events) {
 
 ### initNativeApi (taro)
 
-引用 `@tarojs/taro` 包时触发。
+Triggered when referencing the `@tarojs/taro` package.
 
-| 参数   | 类型 | 说明      |
-|:---- |:-- |:------- |
-| taro |    | Taro 对象 |
+| Parameters | Type | Description |
+|:---------- |:---- |:----------- |
+| taro       |      | Taro Object |
 
-例子：
+Example:
 
 ```js
 initNativeApi (taro) {
-  // 为 Taro 对象增加 getApp 方法
+  // Add getApp method to Taro object
   taro.getApp = getApp
 }
 ```
