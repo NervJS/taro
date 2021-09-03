@@ -3,17 +3,17 @@ title: SelectorQuery
 sidebar_label: SelectorQuery
 ---
 
-查询节点信息的对象
+The object for querying the node information
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.html)
 
-## 方法
+## Methods
 
 ### exec
 
-执行所有的请求。请求结果按请求次序构成数组，在callback的第一个参数中返回。
+Executes all requests.The request results form an array in the order of the requests and are returned in the first callback parameter.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.exec.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.exec.html)
 
 ```tsx
 (callback?: (...args: any[]) => any) => NodesRef
@@ -22,43 +22,43 @@ sidebar_label: SelectorQuery
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>(...args: any[]) =&gt; any</code></td>
-      <td>回调函数</td>
+      <td>Callback function</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|        API         | 微信小程序 | H5 | React Native |
-|:------------------:|:-----:|:--:|:------------:|
-| SelectorQuery.exec |  ✔️   | ✔️ |              |
+|        API         | WeChat Mini-Program | H5 | React Native |
+|:------------------:|:-------------------:|:--:|:------------:|
+| SelectorQuery.exec |         ✔️          | ✔️ |              |
 
 ### select
 
-在当前页面下选择第一个匹配选择器 `selector` 的节点。返回一个 `NodesRef` 对象实例，可以用于获取节点信息。
+Selects the first node in the current page that matches the selector `selector`.A `NodesRef` object instance is returned to obtain the node information.
 
-**selector 语法**
+**selector Syntax**
 
 
-selector类似于 CSS 的选择器，但仅支持下列语法。
+The selector is similar to the CSS selector, but only supports the following syntax.
 
-- ID选择器：#the-id
-- class选择器（可以连续指定多个）：.a-class.another-class
-- 子元素选择器：.the-parent > .the-child
-- 后代选择器：.the-ancestor .the-descendant
-- 跨自定义组件的后代选择器：.the-ancestor >>> .the-descendant
-- 多选择器的并集：#a-node, .some-other-nodes
+- ID selector:#the-id
+- class selector (more than one class selector can be specified in succession): .a-class.another-class
+- Child selector: .the-parent > .the-child
+- Descendant selector: .the-ancestor .the-descendant
+- Descendant selector across custom components: .the-ancestor >>> .the-descendant
+- Union of multiple selectors: #a-node, .some-other-nodes
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.select.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.select.html)
 
 ```tsx
 (selector: string) => NodesRef
@@ -67,21 +67,21 @@ selector类似于 CSS 的选择器，但仅支持下列语法。
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>selector</td>
       <td><code>string</code></td>
-      <td>选择器</td>
+      <td>Selector</td>
     </tr>
   </tbody>
 </table>
 
-#### 示例代码
+#### Sample Code
 
 ```tsx
 Taro.createSelectorQuery().select('#the-id').fields({
@@ -90,38 +90,38 @@ Taro.createSelectorQuery().select('#the-id').fields({
   scrollOffset: true,
   properties: ['scrollX', 'scrollY']
 }, function (res){
-  res.dataset    // 节点的dataset
-  res.width      // 节点的宽度
-  res.height     // 节点的高度
-  res.scrollLeft // 节点的水平滚动位置
-  res.scrollTop  // 节点的竖直滚动位置
-  res.scrollX    // 节点 scroll-x 属性的当前值
-  res.scrollY    // 节点 scroll-x 属性的当前值
+  res.dataset
+  res.width
+  res.height
+  res.scrollLeft
+  res.scrollTop
+  res.scrollX
+  res.scrollY
 }).exec()
 ```
 
-#### API 支持度
+#### API Support
 
-|         API          | 微信小程序 | H5 | React Native |
-|:--------------------:|:-----:|:--:|:------------:|
-| SelectorQuery.select |  ✔️   | ✔️ |              |
+|         API          | WeChat Mini-Program | H5 | React Native |
+|:--------------------:|:-------------------:|:--:|:------------:|
+| SelectorQuery.select |         ✔️          | ✔️ |              |
 
 ### selectAll
 
-在当前页面下选择匹配选择器 selector 的所有节点。
+Selects all nodes that match the selector "selector" in the current page.
 
-**selector 语法**
+**selector Syntax**
 
-selector类似于 CSS 的选择器，但仅支持下列语法。
+The selector is similar to the CSS selector, but only supports the following syntax.
 
-- ID选择器：#the-id
-- class选择器（可以连续指定多个）：.a-class.another-class
-- 子元素选择器：.the-parent > .the-child
-- 后代选择器：.the-ancestor .the-descendant
-- 跨自定义组件的后代选择器：.the-ancestor >>> .the-descendant
-- 多选择器的并集：#a-node, .some-other-nodes
+- ID selector:#the-id
+- class selector (more than one class selector can be specified in succession): .a-class.another-class
+- Child selector: .the-parent > .the-child
+- Descendant selector: .the-ancestor .the-descendant
+- Descendant selector across custom components: .the-ancestor >>> .the-descendant
+- Union of multiple selectors: #a-node, .some-other-nodes
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.selectAll.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.selectAll.html)
 
 ```tsx
 (selector: string) => NodesRef
@@ -130,58 +130,58 @@ selector类似于 CSS 的选择器，但仅支持下列语法。
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>selector</td>
       <td><code>string</code></td>
-      <td>选择器</td>
+      <td>Selector</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| SelectorQuery.selectAll |  ✔️   | ✔️ |              |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+| SelectorQuery.selectAll |         ✔️          | ✔️ |              |
 
 ### selectViewport
 
-选择显示区域。可用于获取显示区域的尺寸、滚动位置等信息。
+Selects the display area.It can be used to get the display area size, scroll position, etc.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.selectViewport.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.selectViewport.html)
 
 ```tsx
 () => NodesRef
 ```
 
-#### 示例代码
+#### Sample Code
 
 ```tsx
 Taro.createSelectorQuery().selectViewport().scrollOffset(function (res) {
-  res.id      // 节点的ID
-  res.dataset // 节点的dataset
-  res.scrollLeft // 节点的水平滚动位置
-  res.scrollTop  // 节点的竖直滚动位置
+  res.id
+  res.dataset
+  res.scrollLeft
+  res.scrollTop
 }).exec()
 ```
 
-#### API 支持度
+#### API Support
 
-|             API              | 微信小程序 | H5 | React Native |
-|:----------------------------:|:-----:|:--:|:------------:|
-| SelectorQuery.selectViewport |  ✔️   | ✔️ |              |
+|             API              | WeChat Mini-Program | H5 | React Native |
+|:----------------------------:|:-------------------:|:--:|:------------:|
+| SelectorQuery.selectViewport |         ✔️          | ✔️ |              |
 
 ### in
 
-将选择器的选取范围更改为自定义组件 `component` 内。（初始时，选择器仅选取页面范围的节点，不会选取任何自定义组件中的节点）。
+Changes the selector's selection range to the nodes within the custom component `component`.(Initially, the selector only selects nodes within the page and does not select any nodes in the custom component.)
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.in.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.in.html)
 
 ```tsx
 (component: Record<string, any>) => SelectorQuery
@@ -190,45 +190,45 @@ Taro.createSelectorQuery().selectViewport().scrollOffset(function (res) {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>component</td>
       <td><code>Record&lt;string, any&gt;</code></td>
-      <td>自定义组件实例</td>
+      <td>Custom component instance</td>
     </tr>
   </tbody>
 </table>
 
-#### 示例代码
+#### Sample Code
 
 ```tsx
 Component({
   queryMultipleNodes () {
     const query = Taro.createSelectorQuery().in(this)
     query.select('#the-id').boundingClientRect(function(res){
-      res.top // 这个组件内 #the-id 节点的上边界坐标
+      res.top // The upper boundary coordinate of the #the-id node within this component
     }).exec()
   }
 })
 ```
 
-#### API 支持度
+#### API Support
 
-|       API        | 微信小程序 | H5 | React Native |
-|:----------------:|:-----:|:--:|:------------:|
-| SelectorQuery.in |  ✔️   | ✔️ |              |
+|       API        | WeChat Mini-Program | H5 | React Native |
+|:----------------:|:-------------------:|:--:|:------------:|
+| SelectorQuery.in |         ✔️          | ✔️ |              |
 
-## API 支持度
+## API Support
 
-|             API              | 微信小程序 | H5 | React Native |
-|:----------------------------:|:-----:|:--:|:------------:|
-|      SelectorQuery.exec      |  ✔️   | ✔️ |              |
-|     SelectorQuery.select     |  ✔️   | ✔️ |              |
-|   SelectorQuery.selectAll    |  ✔️   | ✔️ |              |
-| SelectorQuery.selectViewport |  ✔️   | ✔️ |              |
-|       SelectorQuery.in       |  ✔️   | ✔️ |              |
+|             API              | WeChat Mini-Program | H5 | React Native |
+|:----------------------------:|:-------------------:|:--:|:------------:|
+|      SelectorQuery.exec      |         ✔️          | ✔️ |              |
+|     SelectorQuery.select     |         ✔️          | ✔️ |              |
+|   SelectorQuery.selectAll    |         ✔️          | ✔️ |              |
+| SelectorQuery.selectViewport |         ✔️          | ✔️ |              |
+|       SelectorQuery.in       |         ✔️          | ✔️ |              |
