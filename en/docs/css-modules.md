@@ -1,12 +1,12 @@
 ---
-title: Use CSS Modules
+title: 使用 CSS Modules
 ---
 
-## Usage
+## 用法
 
-Built-in Taro supports [CSS Modules](https://github.com/css-modules/css-modules) but is closed by default, if you need to enable it, first[compile configuration](./config-detail.md)add the following configuration.
+Taro 中内置了 [CSS Modules](https://github.com/css-modules/css-modules) 的支持，但默认是关闭的，如果需要开启使用，请先在[编译配置](./config-detail.md)中添加如下配置。
 
-### On Applet
+### 在小程序端开启
 
 ```js title="config/index.js"
 weapp: {
@@ -25,7 +25,7 @@ weapp: {
 }
 ```
 
-### On H5 Ends
+### 在 H5 端开启
 
 ```js title="config/index.js"
 h5: {
@@ -44,29 +44,29 @@ h5: {
 }
 ```
 
-### Set transformation mode
+### 设置转换模式
 
-> Use custom transformation mode is recommended. This will not affect the style of some third-party libraries.
+> 推荐使用自定义转换模式，这样的话就不会影响到一些第三方库的样式了
 
-When enabled, you can use CSS Modules in Taro. Notably, there are two modes using CSS Modules in Taro that are**global conversion**and**partial customization**, controlled by `namingPattern` configuration
+在开启之后，你就可以在 Taro 中使用 CSS Modules 功能了，值得注意的是，Taro 中使用 CSS Modules 有两种模式，分别为**全局转换**及**部分自定义转换**模式，通过 `namingPattern` 配置进行控制
 
-`namingPattern` config values below：
-- `global`for global conversion, all style files will be processed through CSS Modules with the exception of file names containing `.global.`
-- `module`indicates custom conversion, only filename contains `.module.` style files will be processed by CSS Modules
+`namingPattern` 配置取值分别如下：
+- `global`，表示全局转换，所有样式文件都会经过 CSS Modules 转换处理，除了文件名中包含 `.global.` 的样式文件
+- `module`，表示自定义转换，只有文件名中包含 `.module.` 的样式文件会经过 CSS Modules 转换处理
 
-`GenerateScopedName` supports incoming strings and functions：
+`generateScopedName` 支持传入字符串和函数：
 
-- `string`in format see：[https://github.com/webpack/loader-utils#interpolatename](https://github.com/webpack/loader-utils#interpolatename)It is worth noting that it can be used `[local]` to get its original class name
-- `Function`is defined as `(localName: string, absoluteFilePath: string) => string`, where `localName` is original class,`absoluteFilePath` is the absolute path to the file. Return value will be the new class name
+- `字符串`，其格式见：[https://github.com/webpack/loader-utils#interpolatename](https://github.com/webpack/loader-utils#interpolatename)，值得指出的是，可使用 `[local]` 取其原类名
+- `函数`，其类型定义为 `(localName: string, absoluteFilePath: string) => string`，其中 `localName` 为原类名，`absoluteFilePath` 为文件的绝对路径，返回值将作为新的类名
 
-### Usage Example
+### 用法示例
 
-CSS Modules used below：
+CSS Modules 使用方式如下：
 
 ```scss title="组件样式"
-.test Jean-Marie
+.test {
   color: red;
-  .txt L-
+  .txt {
     font-size: 36px;
   }
 }
@@ -89,6 +89,6 @@ export default class Test extends Component {
 }
 ```
 
-## Related Reads
+## 相关阅读
 
-[Open source plugin weapp-css-modules - very much pursued, less than 10% for applet package](https://taro-club.jd.com/topic/2264/%E6%9E%81%E8%87%B4%E8%BF%BD%E6%B1%82-%E8%AE%A9%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%BB%A3%E7%A0%81%E5%8C%85%E7%AB%8B%E5%87%8F-10-%E7%9A%84%E6%8F%92%E4%BB%B6-weapp-css-modules)
+[开源插件 weapp-css-modules - 极致追求，让小程序代码包立减 10% 的插件](https://taro-club.jd.com/topic/2264/%E6%9E%81%E8%87%B4%E8%BF%BD%E6%B1%82-%E8%AE%A9%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%BB%A3%E7%A0%81%E5%8C%85%E7%AB%8B%E5%87%8F-10-%E7%9A%84%E6%8F%92%E4%BB%B6-weapp-css-modules)
