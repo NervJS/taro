@@ -3,27 +3,27 @@ title: Editor
 sidebar_label: Editor
 ---
 
-富文本编辑器，可以对图片、文字进行编辑。
+Rich text editor that allows you to edit images and text.
 
-编辑器导出内容支持带标签的 html和纯文本的 text，编辑器内部采用 delta 格式进行存储。
+The editor can export plain text and html that contains tags, and store data in the form of delta files.
 
-通过 setContents 接口设置内容时，解析插入的 html 可能会由于一些非法标签导致解析错误，建议开发者在小程序内使用时通过 delta 进行插入。
+When the content is set via the setContents API, the html inserted during content parsing may cause a parsing error due to some invalid tags. We recommend that the html inserted into Mini Programs be delta-formatted.
 
-富文本组件内部引入了一些基本的样式使得内容可以正确的展示，开发时可以进行覆盖。需要注意的是，在其它组件或环境中使用富文本组件导出的 html 时，需要额外引入 这段样式，并维护 `<ql-container><ql-editor></ql-editor></ql-container>` 的结构。
+富文本组件内部引入了一些基本的样式使得内容可以正确的展示，开发时可以进行覆盖。These basic styles can be overwritten during development. To export html via the rich text component from other components or environments, you need to additionally introduce This Section of Styles, and maintain the <ql-container><ql-editor></ql-editor></ql-container> structure.
 
-图片控件仅初始化时设置有效。
+Image controls take effect only during initialization.
 
-***编辑器内支持部分 HTML 标签和内联样式，不支持 **class** 和 ***id******
+***Some HTML tags and inline styles are supported within the editor, **class** and **id** are not supported***
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/editor.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/editor.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<EditorProps>
 ```
 
-## 示例代码
+## Examples
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -39,8 +39,7 @@ import TabItem from '@theme/TabItem';
 ```tsx
 class App extends Components {
   state = {
-    placeholder: '来，输入隔壁的名字试试...'
-  }
+    placeholder: 'Please enter your nickname...' }
 
   editorReady = e => {
     Taro.createSelectorQuery().select('#editor').context((res) => {
@@ -56,7 +55,7 @@ class App extends Components {
     return (
       <View>
         <Editor id='editor' className='editor' placeholder={this.state.placeholder} onReady={this.editorReady}></Editor>
-        <Button type='warn' onClick={this.undo}>撤销</Button>
+        <Button type='warn' onClick={this.undo}>Undo</Button>
       </View>
     )
   }
@@ -70,7 +69,7 @@ class App extends Components {
 <template>
   <view class="container">
     <editor id="editor" class="editor" :placeholder="placeholder" @ready="editorReady"></editor>
-    <button type="warn" @tap="undo">撤销</button>
+    <button type="warn" @tap="undo">Undo</button>
   </view>
 </template>
 
@@ -104,11 +103,11 @@ class App extends Components {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -116,94 +115,94 @@ class App extends Components {
       <td>readOnly</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置编辑器为只读</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Sets the editor to read-only</td>
     </tr>
     <tr>
       <td>placeholder</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>提示信息</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Prompts information</td>
     </tr>
     <tr>
       <td>showImgSize</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>点击图片时显示图片大小控件</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Displays the image size control when the image is tapped</td>
     </tr>
     <tr>
       <td>showImgToolbar</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>点击图片时显示工具栏控件</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Displays the toolbar control when the image is tapped</td>
     </tr>
     <tr>
       <td>showImgResize</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>点击图片时显示修改尺寸控件</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Displays the size change control when the image is tapped</td>
     </tr>
     <tr>
       <td>onReady</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>编辑器初始化完成时触发</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered after the editor is initialized</td>
     </tr>
     <tr>
       <td>onFocus</td>
       <td><code>BaseEventOrigFunction&lt;editorEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>编辑器聚焦时触发<br />event.detail = {`{ html, text, delta }`}</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered when the editor is focused.<br />event.detail = {`{ html, text, delta }`}</td>
     </tr>
     <tr>
       <td>onBlur</td>
       <td><code>BaseEventOrigFunction&lt;editorEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>编辑器失去焦点时触发<br />detail = {`{ html, text, delta }`}</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered when the editor is unfocused.<br />detail = {`{ html, text, delta }`}</td>
     </tr>
     <tr>
       <td>onInput</td>
       <td><code>BaseEventOrigFunction&lt;editorEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>编辑器内容改变时触发<br />detail = {`{ html, text, delta }`}</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered when the editor content changes.<br />detail = {`{ html, text, delta }`}</td>
     </tr>
     <tr>
       <td>onStatuschange</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>通过 Context 方法改变编辑器内样式时触发，返回选区已设置的样式</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered when styles in the editor are changed via Context. It returns the styles that are set for the selected area.</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|            API             | 微信小程序 | H5 | React Native |
-|:--------------------------:|:-----:|:--:|:------------:|
-|    EditorProps.readOnly    |  ✔️   |    |              |
-|  EditorProps.placeholder   |  ✔️   |    |              |
-|  EditorProps.showImgSize   |  ✔️   |    |              |
-| EditorProps.showImgToolbar |  ✔️   |    |              |
-| EditorProps.showImgResize  |  ✔️   |    |              |
-|    EditorProps.onReady     |  ✔️   |    |              |
-|    EditorProps.onFocus     |  ✔️   |    |              |
-|     EditorProps.onBlur     |  ✔️   |    |              |
-|    EditorProps.onInput     |  ✔️   |    |              |
-| EditorProps.onStatuschange |  ✔️   |    |              |
+|            API             | WeChat Mini-Program | H5 | React Native |
+|:--------------------------:|:-------------------:|:--:|:------------:|
+|    EditorProps.readOnly    |         ✔️          |    |              |
+|  EditorProps.placeholder   |         ✔️          |    |              |
+|  EditorProps.showImgSize   |         ✔️          |    |              |
+| EditorProps.showImgToolbar |         ✔️          |    |              |
+| EditorProps.showImgResize  |         ✔️          |    |              |
+|    EditorProps.onReady     |         ✔️          |    |              |
+|    EditorProps.onFocus     |         ✔️          |    |              |
+|     EditorProps.onBlur     |         ✔️          |    |              |
+|    EditorProps.onInput     |         ✔️          |    |              |
+| EditorProps.onStatuschange |         ✔️          |    |              |
 
 ### editorEventDetail
 
-## API 支持度
+## API Support
 
-|  API   | 微信小程序 | H5 | React Native |
-|:------:|:-----:|:--:|:------------:|
-| Editor |  ✔️   |    |              |
+|  API   | WeChat Mini-Program | H5 | React Native |
+|:------:|:-------------------:|:--:|:------------:|
+| Editor |         ✔️          |    |              |
