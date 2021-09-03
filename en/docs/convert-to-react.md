@@ -1,10 +1,10 @@
 ---
-title: 转换成 React
+title: Convert to React
 ---
 
-## 二次开发
+## Secondary Development
 
-原生小程序代码：
+Mini Program Native Code:
 
 ```jsx
 Page({
@@ -18,7 +18,7 @@ Page({
 </view>
 ```
 
-转换后：
+After conversion:
 
 ```javascript
 import { Block, View } from '@tarojs/components'
@@ -43,30 +43,30 @@ class _C extends React.Component {
 export default _C
 ```
 
-它看起来就像普通的 Taro 组件，最重要的区别就在于 `@withWeapp()` 这个装饰器，你可以将它理解为转换代码的运行时，`@withWeapp()` 会增加一些原来 Taro 没有方法和属性，例如：
+t looks like a normal Taro component, the most important difference is the `@withWeapp()` decorator, which you can interpret as a runtime for conversion code. `@withWeapp()` adds some methods and properties that were not available in the original Taro, eg:
 
 ### `this.setData`
 
-转换后的 `this.setData` 的 API 相当于小程序的 `this.setData` 的 polyfill，他和 `this.setState` 最大的区别就在于，`this.setData` 之后 `data` 的数据是同步更新，而渲染是异步更新，而 `setState` 两者都是异步的。
+The API of the converted `this.setData` is equivalent to the polyfill of `this.setData` of the mini program, the biggest difference between it and `this.setState` is that after `this.setData` the data of `data` is updated synchronously, while rendering is updated asynchronously, while `setState` is updated asynchronously. both are asynchronous.
 
 ### `this.data` 和 `this.properties`
 
-`this.data` 和 `this.properties` 相当于 Taro 的 `this.state` 和 `this.props` 的 alias，当它们的数据更新时，对应的 `state` 和 `props` 也会同步更新。
+`this.data` and `this.properties` are aliases of Taro's `this.state` and `this.props`, and when their data is updated, the corresponding `state` and `props` will be updated as well.
 
-### 生命周期
+### Lifecycle
 
-Taro 会将原生小程序的生命周期转换为 Taro 的生命周期，完整对应关系如下：
+Taro converts the lifecycle of the native mini program into the lifecycle of Taro, and the complete correspondence is as follows.
 
-| 小程序生命周期            | Taro 生命周期            |
-|:------------------ |:-------------------- |
-| onShow             | componentDidShow     |
-| onHide             | componentDidHide     |
-| App.onLaunch       | onLaunch             |
-| Page.onLoad        | onLoad               |
-| Page.onReady       | onReady              |
-| Page.onUnload      | componentWillUnmount |
-| Component.created  | componentWillMount   |
-| Component.attached | componentDidMount    |
-| Component.ready    | Page.onReady         |
-| Component.detached | componentWillUnmount |
+| Mini Program Lifecycle | Taro Lifecycle       |
+|:---------------------- |:-------------------- |
+| onShow                 | componentDidShow     |
+| onHide                 | componentDidHide     |
+| App.onLaunch           | onLaunch             |
+| Page.onLoad            | onLoad               |
+| Page.onReady           | onReady              |
+| Page.onUnload          | componentWillUnmount |
+| Component.created      | componentWillMount   |
+| Component.attached     | componentDidMount    |
+| Component.ready        | Page.onReady         |
+| Component.detached     | componentWillUnmount |
 
