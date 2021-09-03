@@ -35,16 +35,16 @@ class _Slider extends React.Component<SliderProps, SliderState> {
     blockColor: '#fff'
   }
 
-  static getDerivedStateFromProps(props: SliderProps, state: SliderState): SliderState | null {
-    return props.value !== state.currentValue
-      ? {
-        currentValue: props.value
-      }
-      : null
+  state: SliderState = {
+    currentValue: this.props.value
   }
 
-  state: SliderState = {
-    currentValue: 0
+  componentDidUpdate(prevProps: SliderProps): void {
+    if (prevProps.value !== this.props.value) {
+      this.setState({
+        currentValue: this.props.value
+      })
+    }
   }
 
   onSlidingComplete = (value: number): void => {
