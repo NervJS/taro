@@ -3,17 +3,17 @@ title: IntersectionObserver
 sidebar_label: IntersectionObserver
 ---
 
-`IntersectionObserver` 对象，用于推断某些节点是否可以被用户看见、有多大比例可以被用户看见。
+An `IntersectionObserver` object that infers whether and how likely certain nodes are visible to users.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.html)
 
-## 方法
+## Methods
 
 ### disconnect
 
-停止监听。回调函数将不再触发
+停止监听。Stops listening, and the callback function will no longer be triggered.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.disconnect.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.disconnect.html)
 
 ```tsx
 () => void
@@ -21,9 +21,9 @@ sidebar_label: IntersectionObserver
 
 ### observe
 
-指定目标节点并开始监听相交状态变化情况
+Specifies the target node and starts listening on changes in the intersection status.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.observe.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.observe.html)
 
 ```tsx
 (targetSelector: string, callback: ObserveCallback) => void
@@ -32,30 +32,30 @@ sidebar_label: IntersectionObserver
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>targetSelector</td>
       <td><code>string</code></td>
-      <td>选择器</td>
+      <td>Selector</td>
     </tr>
     <tr>
       <td>callback</td>
       <td><code>ObserveCallback</code></td>
-      <td>监听相交状态变化的回调函数</td>
+      <td>The callback function for listening on intersection status changes.</td>
     </tr>
   </tbody>
 </table>
 
 ### relativeTo
 
-使用选择器指定一个节点，作为参照区域之一。
+Uses a selector to specify a node as one of the reference areas.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.relativeTo.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.relativeTo.html)
 
 ```tsx
 (selector: string, margins?: RelativeToMargins) => IntersectionObserver
@@ -64,30 +64,30 @@ sidebar_label: IntersectionObserver
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>selector</td>
       <td><code>string</code></td>
-      <td>选择器</td>
+      <td>Selector</td>
     </tr>
     <tr>
       <td>margins</td>
       <td><code>RelativeToMargins</code></td>
-      <td>用来扩展（或收缩）参照节点布局区域的边界</td>
+      <td>Expands/Contracts the border of the layout area of the reference node.</td>
     </tr>
   </tbody>
 </table>
 
 ### relativeToViewport
 
-指定页面显示区域作为参照区域之一
+Specifies the page display area as one of the reference areas.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.relativeToViewport.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.relativeToViewport.html)
 
 ```tsx
 (margins?: RelativeToViewportMargins) => IntersectionObserver
@@ -96,40 +96,40 @@ sidebar_label: IntersectionObserver
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>margins</td>
       <td><code>RelativeToViewportMargins</code></td>
-      <td>用来扩展（或收缩）参照节点布局区域的边界</td>
+      <td>Expands/Contracts the border of the layout area of the reference node.</td>
     </tr>
   </tbody>
 </table>
 
-#### 示例代码
+#### Sample Code
 
-下面的示例代码中，如果目标节点（用选择器 .target-class 指定）进入显示区域以下 100px 时，就会触发回调函数。
+In the code sample below, the callback function is triggered if the target node (specified by the selector .target-class) enters the area 100 px below the display area.
 
 ```tsx
 Taro.createIntersectionObserver().relativeToViewport({bottom: 100}).observe('.target-class', (res) => {
-  res.intersectionRatio // 相交区域占目标节点的布局区域的比例
-  res.intersectionRect // 相交区域
-  res.intersectionRect.left // 相交区域的左边界坐标
-  res.intersectionRect.top // 相交区域的上边界坐标
-  res.intersectionRect.width // 相交区域的宽度
-  res.intersectionRect.height // 相交区域的高度
+  res.intersectionRatio // The percentage of the intersection area in the layout area of the target node
+  res.intersectionRect // Intersection area
+  res.intersectionRect.left // Left boundary coordinates of the intersection area
+  res.intersectionRect.top // Upper boundary coordinates of the intersection area
+  res.intersectionRect.width // Width of the intersection area
+  res.intersectionRect.height // Height of the intersection area
 })
 ```
 
-## 参数
+## Parameters
 
 ### ObserveCallback
 
-监听相交状态变化的回调函数
+The callback function for listening on intersection status changes.
 
 ```tsx
 (result: ObserveCallbackResult) => void
@@ -138,8 +138,8 @@ Taro.createIntersectionObserver().relativeToViewport({bottom: 100}).observe('.ta
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -155,21 +155,21 @@ Taro.createIntersectionObserver().relativeToViewport({bottom: 100}).observe('.ta
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>boundingClientRect</td>
       <td><code>BoundingClientRectResult</code></td>
-      <td>目标边界</td>
+      <td>The target border</td>
     </tr>
     <tr>
       <td>intersectionRatio</td>
       <td><code>number</code></td>
-      <td>相交比例</td>
+      <td>Intersection ratio</td>
     </tr>
     <tr>
       <td>intersectionRect</td>
@@ -184,7 +184,7 @@ Taro.createIntersectionObserver().relativeToViewport({bottom: 100}).observe('.ta
     <tr>
       <td>time</td>
       <td><code>number</code></td>
-      <td>相交检测时的时间戳</td>
+      <td>The timestamp for intersection detection</td>
     </tr>
   </tbody>
 </table>
@@ -196,31 +196,31 @@ Taro.createIntersectionObserver().relativeToViewport({bottom: 100}).observe('.ta
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>bottom</td>
       <td><code>number</code></td>
-      <td>下边界</td>
+      <td>Lower border of the node layout area</td>
     </tr>
     <tr>
       <td>left</td>
       <td><code>number</code></td>
-      <td>左边界</td>
+      <td>Left border of the node layout area</td>
     </tr>
     <tr>
       <td>right</td>
       <td><code>number</code></td>
-      <td>右边界</td>
+      <td>Right border of the node layout area</td>
     </tr>
     <tr>
       <td>top</td>
       <td><code>number</code></td>
-      <td>上边界</td>
+      <td>Upper border of the node layout area</td>
     </tr>
   </tbody>
 </table>
@@ -232,169 +232,169 @@ Taro.createIntersectionObserver().relativeToViewport({bottom: 100}).observe('.ta
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>bottom</td>
       <td><code>number</code></td>
-      <td>下边界</td>
+      <td>Lower border</td>
     </tr>
     <tr>
       <td>height</td>
       <td><code>number</code></td>
-      <td>高度</td>
+      <td>Left border</td>
     </tr>
     <tr>
       <td>left</td>
       <td><code>number</code></td>
-      <td>左边界</td>
+      <td>Right border</td>
     </tr>
     <tr>
       <td>right</td>
       <td><code>number</code></td>
-      <td>右边界</td>
+      <td>Upper border</td>
     </tr>
     <tr>
       <td>top</td>
       <td><code>number</code></td>
-      <td>上边界</td>
+      <td>Height</td>
     </tr>
     <tr>
       <td>width</td>
       <td><code>number</code></td>
-      <td>宽度</td>
+      <td>Width</td>
     </tr>
   </tbody>
 </table>
 
 ### BoundingClientRectResult
 
-目标边界
+Expands/Contracts the border of the layout area of the reference node.
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>bottom</td>
       <td><code>number</code></td>
-      <td>下边界</td>
+      <td>Lower border</td>
     </tr>
     <tr>
       <td>height</td>
       <td><code>number</code></td>
-      <td>高度</td>
+      <td>Left border</td>
     </tr>
     <tr>
       <td>left</td>
       <td><code>number</code></td>
-      <td>左边界</td>
+      <td>Right border</td>
     </tr>
     <tr>
       <td>right</td>
       <td><code>number</code></td>
-      <td>右边界</td>
+      <td>Upper border</td>
     </tr>
     <tr>
       <td>top</td>
       <td><code>number</code></td>
-      <td>上边界</td>
+      <td>Height</td>
     </tr>
     <tr>
       <td>width</td>
       <td><code>number</code></td>
-      <td>宽度</td>
+      <td>Width</td>
     </tr>
   </tbody>
 </table>
 
 ### RelativeToMargins
 
-用来扩展（或收缩）参照节点布局区域的边界
+Expands/Contracts the border of the layout area of the reference node.
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>bottom</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>节点布局区域的下边界</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Lower border of the node layout area</td>
     </tr>
     <tr>
       <td>left</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>节点布局区域的左边界</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Left border of the node layout area</td>
     </tr>
     <tr>
       <td>right</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>节点布局区域的右边界</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Right border of the node layout area</td>
     </tr>
     <tr>
       <td>top</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>节点布局区域的上边界</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Upper border of the node layout area</td>
     </tr>
   </tbody>
 </table>
 
 ### RelativeToViewportMargins
 
-用来扩展（或收缩）参照节点布局区域的边界
+The border of the reference area
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>bottom</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>节点布局区域的下边界</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Lower border of the node layout area</td>
     </tr>
     <tr>
       <td>left</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>节点布局区域的左边界</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Left border of the node layout area</td>
     </tr>
     <tr>
       <td>right</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>节点布局区域的右边界</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Right border of the node layout area</td>
     </tr>
     <tr>
       <td>top</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>节点布局区域的上边界</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Upper border of the node layout area</td>
     </tr>
   </tbody>
 </table>
