@@ -5,64 +5,64 @@ sidebar_label: getMenuButtonBoundingClientRect
 
 获取菜单按钮（右上角胶囊按钮）的布局位置信息。坐标信息以屏幕左上角为原点。
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/menu/wx.getMenuButtonBoundingClientRect.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/menu/wx.getMenuButtonBoundingClientRect.html)
 
-## 类型
+## Type
 
 ```tsx
 () => Rect
 ```
 
-## 参数
+## Parameters
 
 ### Rect
 
-菜单按钮的布局位置信息
+The location of the menu button
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>bottom</td>
       <td><code>number</code></td>
-      <td>下边界坐标，单位：px</td>
+      <td>Width (in px)</td>
     </tr>
     <tr>
       <td>height</td>
       <td><code>number</code></td>
-      <td>高度，单位：px</td>
+      <td>Height (in px)</td>
     </tr>
     <tr>
       <td>left</td>
       <td><code>number</code></td>
-      <td>左边界坐标，单位：px</td>
+      <td>The coordinate of the upper boundary (in px)</td>
     </tr>
     <tr>
       <td>right</td>
       <td><code>number</code></td>
-      <td>右边界坐标，单位：px</td>
+      <td>The coordinate of the right boundary (in px)</td>
     </tr>
     <tr>
       <td>top</td>
       <td><code>number</code></td>
-      <td>上边界坐标，单位：px</td>
+      <td>The coordinate of the left boundary (in px)</td>
     </tr>
     <tr>
       <td>width</td>
       <td><code>number</code></td>
-      <td>宽度，单位：px</td>
+      <td>The coordinate of the bottom boundary (in px)</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|                 API                  | 微信小程序 | H5 | React Native |
-|:------------------------------------:|:-----:|:--:|:------------:|
-| Taro.getMenuButtonBoundingClientRect |  ✔️   |    |              |
+|                 API                  | WeChat Mini-Program | H5 | React Native |
+|:------------------------------------:|:-------------------:|:--:|:------------:|
+| Taro.getMenuButtonBoundingClientRect |         ✔️          |    |              |
