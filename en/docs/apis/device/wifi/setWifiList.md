@@ -3,98 +3,98 @@ title: Taro.setWifiList(option)
 sidebar_label: setWifiList
 ---
 
-设置 `wifiList` 中 AP 的相关信息。在 `onGetWifiList` 回调后调用，**iOS特有接口**。
+Sets the information on the AP in `wifiList`, which is called after the `onGetWifiList` callback.**This API is specific to iOS.**
 
-**注意**
-- 该接口只能在 `onGetWifiList` 回调之后才能调用。
-- 此时客户端会挂起，等待小程序设置 Wi-Fi 信息，请务必尽快调用该接口，若无数据请传入一个空数组。
-- 有可能随着周边 Wi-Fi 列表的刷新，单个流程内收到多次带有存在重复的 Wi-Fi 列表的回调。
+**Notes**
+- This API can only be called after the `onGetWifiList` callback.
+- In this case, the app will be suspended and wait for the Mini Program to set the Wi-Fi network's information. Call the API as soon as possible. If no data is available, pass an empty array.
+- Multiple callbacks with a list of duplicate Wi-Fi devices may be received in a single process as the list of nearby Wi-Fi devices is refreshed.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.setWifiList.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.setWifiList.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<WifiError>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>wifiList</td>
       <td><code>WifiData[]</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>提供预设的 Wi-Fi 信息列表</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Provides a list of preset information of the Wi-Fi network</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: WifiError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: WifiError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: WifiError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
 ### WifiData
 
-提供预设的 Wi-Fi 信息列表
+object.wifiList is composed as follows
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>BSSID</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>Wi-Fi 的 BSSID</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The SSID of the Wi-Fi network</td>
     </tr>
     <tr>
       <td>SSID</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>Wi-Fi 的 SSID</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The BSSID of the Wi-Fi network</td>
     </tr>
     <tr>
       <td>password</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>Wi-Fi 设备密码</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The password of the Wi-Fi device</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.onGetWifiList(function (res) {
@@ -115,8 +115,8 @@ Taro.onGetWifiList(function (res) {
 Taro.getWifiList()
 ```
 
-## API 支持度
+## API Support
 
-|       API        | 微信小程序 | H5 | React Native |
-|:----------------:|:-----:|:--:|:------------:|
-| Taro.setWifiList |  ✔️   |    |              |
+|       API        | WeChat Mini-Program | H5 | React Native |
+|:----------------:|:-------------------:|:--:|:------------:|
+| Taro.setWifiList |         ✔️          |    |              |
