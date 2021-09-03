@@ -3,77 +3,77 @@ title: Stats
 sidebar_label: Stats
 ---
 
-描述文件状态的对象
+Describes the status of a file.
 
-## 方法
+## Methods
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>lastAccessedTime</td>
       <td><code>number</code></td>
-      <td>文件最近一次被存取或被执行的时间，UNIX 时间戳，对应 POSIX stat.st_atime</td>
+      <td>The time when the file was last accessed or executed, in the UNIX timestamp format, corresponding to POSIX stat.st_atime.</td>
     </tr>
     <tr>
       <td>lastModifiedTime</td>
       <td><code>number</code></td>
-      <td>文件最后一次被修改的时间，UNIX 时间戳，对应 POSIX stat.st_mtime</td>
+      <td>The time when the file was last modified, in the UNIX timestamp format, corresponding to POSIX stat.st_mtime.</td>
     </tr>
     <tr>
       <td>mode</td>
       <td><code>string</code></td>
-      <td>文件的类型和存取的权限，对应 POSIX stat.st_mode</td>
+      <td>File type and access permission, corresponding to POSIX stat.st_mode.</td>
     </tr>
     <tr>
       <td>size</td>
       <td><code>number</code></td>
-      <td>文件大小，单位：B，对应 POSIX stat.st_size</td>
+      <td>File size in bytes, corresponding to POSIX stat.st_size.</td>
     </tr>
   </tbody>
 </table>
 
 ### isDirectory
 
-判断当前文件是否一个目录
+Determines whether the current file is a directory.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/Stats.isDirectory.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/Stats.isDirectory.html)
 
 ```tsx
 () => boolean
 ```
 
-#### API 支持度
+#### API Support
 
-|        API        | 微信小程序 | H5 | React Native |
-|:-----------------:|:-----:|:--:|:------------:|
-| Stats.isDirectory |  ✔️   |    |              |
+|        API        | WeChat Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:--:|:------------:|
+| Stats.isDirectory |         ✔️          |    |              |
 
 ### isFile
 
-判断当前文件是否一个普通文件
+Determines whether the current file is a normal file.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/Stats.isFile.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/Stats.isFile.html)
 
 ```tsx
 () => boolean
 ```
 
-#### API 支持度
+#### API Support
 
-|     API      | 微信小程序 | H5 | React Native |
-|:------------:|:-----:|:--:|:------------:|
-| Stats.isFile |  ✔️   |    |              |
+|     API      | WeChat Mini-Program | H5 | React Native |
+|:------------:|:-------------------:|:--:|:------------:|
+| Stats.isFile |         ✔️          |    |              |
 
-## API 支持度
+## API Support
 
-|        API        | 微信小程序 | H5 | React Native |
-|:-----------------:|:-----:|:--:|:------------:|
-| Stats.isDirectory |  ✔️   |    |              |
-|   Stats.isFile    |  ✔️   |    |              |
+|        API        | WeChat Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:--:|:------------:|
+| Stats.isDirectory |         ✔️          |    |              |
+|   Stats.isFile    |         ✔️          |    |              |
