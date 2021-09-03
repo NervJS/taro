@@ -3,17 +3,17 @@ title: CanvasGradient
 sidebar_label: CanvasGradient
 ---
 
-创建 canvas 的绘图上下文 CanvasContext 对象
+The gradient object.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasGradient.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasGradient.html)
 
-## 方法
+## Methods
 
 ### addColorStop
 
-添加颜色的渐变点。小于最小 stop 的部分会按最小 stop 的 color 来渲染，大于最大 stop 的部分会按最大 stop 的 color 来渲染
+Adds color gradient points.小于最小 stop 的部分会按最小 stop 的 color 来渲染，大于最大 stop 的部分会按最大 stop 的 color 来渲染
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasGradient.addColorStop.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasGradient.addColorStop.html)
 
 ```tsx
 (stop: number, color: string) => void
@@ -22,26 +22,26 @@ sidebar_label: CanvasGradient
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>stop</td>
       <td><code>number</code></td>
-      <td>表示渐变中开始与结束之间的位置，范围 0-1。</td>
+      <td>Represents a position between the start and end of the gradient. Value range: 0-1.</td>
     </tr>
     <tr>
       <td>color</td>
       <td><code>string</code></td>
-      <td>渐变点的颜色。</td>
+      <td>The color of the gradient point.</td>
     </tr>
   </tbody>
 </table>
 
-#### 示例代码
+#### Sample Code
 
 ```tsx
 const ctx = Taro.createCanvasContext('myCanvas')
@@ -60,14 +60,14 @@ ctx.fillRect(10, 10, 150, 80)
 ctx.draw()
 ```
 
-#### API 支持度
+#### API Support
 
-|             API             | 微信小程序 | H5 | React Native |
-|:---------------------------:|:-----:|:--:|:------------:|
-| CanvasGradient.addColorStop |  ✔️   |    |              |
+|             API             | WeChat Mini-Program | H5 | React Native |
+|:---------------------------:|:-------------------:|:--:|:------------:|
+| CanvasGradient.addColorStop |         ✔️          |    |              |
 
-## API 支持度
+## API Support
 
-|             API             | 微信小程序 | H5 | React Native |
-|:---------------------------:|:-----:|:--:|:------------:|
-| CanvasGradient.addColorStop |  ✔️   |    |              |
+|             API             | WeChat Mini-Program | H5 | React Native |
+|:---------------------------:|:-------------------:|:--:|:------------:|
+| CanvasGradient.addColorStop |         ✔️          |    |              |
