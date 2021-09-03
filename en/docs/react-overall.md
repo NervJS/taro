@@ -1,41 +1,40 @@
 ---
-title: 概述
+title: Overview
 ---
 
-Taro 3 支持将 Web 框架直接运行在各平台，开发者使用的是真实的 React 和 Vue 等框架。
+Taro 3 supports running Web frameworks directly on each platform, and developers are using real frameworks like React and Vue.
 
-但是 Taro 在组件、API、路由等规范上，遵循微信小程序规范，所以在 Taro 中使用 React 和开发者熟悉的 Web 端有一些差异，以下将详细列出。
+However, Taro follows the WeChat mini program specification in terms of components, APIs, routing and other specifications, so there are some differences between using React in Taro and the familiar web side for developers, which will be listed in detail below.
 
 ## React API
 
-> [Breaking] 从 Taro 1/2 升级到 Taro 3 的同学需要额外关注
+> [Breaking] Developers upgrading from Taro 1/2 to Taro 3 need to pay extra attention to
 
-因为在 Taro 3 中开发者使用的是真实的 React，React 的 API 如 `Component`、`useState`、`useEffect` 等都需要从 React 包中获取。
+Because developers in Taro 3 are using the real React, React APIs such as `Component`, `useState`, `useEffect`, etc. need to be fetched from the React package.
 
 ```js
-// 从 'react' 包中获取 React API
 import React, { Component, useState, useEffect } from 'react'
 ```
 
-## 入口组件和页面组件
+## Entry components and page components
 
-因为 Taro 遵循小程序的路由规范，所以引入了[入口组件](./react-entry)和[页面组件](./react-page)的概念，分别对应小程序规范的入口组件 `app` 和页面组件 `page`。
+Because Taro follows the routing specification for mini program, it introduces [entry component](./react-entry) and [page component](./react-page) concepts, which correspond to the mini program specification's entry component `app` and page component `page`, respectively.
 
-一个 Taro 应用由一个入口组件和至少一个页面组件所组成。
+A Taro application consists of an entry component and at least one page component.
 
-## 内置组件
+## Built-in Components
 
-> 自 Taro v3.3+，支持使用 H5 标签进行开发，详情请见 [使用 HTML 标签](use-h5)
+> Since Taro v3.3+, development with H5 tags is supported, see [Using HTML tags](use-h5) for details
 
-Taro 中可以使用小程序规范的内置组件进行开发，如 `<View>`、`<Text>`、`<Button>` 等。
+Development in Taro can be done using built-in components of the mini program specification, such as `<View>`, `<Text>`, `<Button>`, etc.
 
-### Taro 规范
+### Taro Specifications
 
-1. 在 React 中使用这些内置组件前，必须从 `@tarojs/components` 进行引入。
-2. 组件属性遵从**大驼峰式命名规范**。
-3. 事件规范请看下一节：[组件事件](./react-overall#%E4%BA%8B%E4%BB%B6)。
+1. Before using these built-in components in React, they must be introduced from `@tarojs/components`.
+2. Component properties follow the **Big Hump naming convention**.
+3. See the next section for the event specification: [component events](./react-overall#%E4%BA%8B%E4%BB%B6).
 
-### 示例代码
+### Example
 
 ```jsx
 import { Swiper, SwiperItem } from '@tarojs/components'
@@ -64,87 +63,86 @@ function Index () {
 }
 ```
 
-注意：如果某平台新增的组件或组件的属性还没被 Taro 支持，可以提交 [Issues](https://github.com/NervJS/taro/issues)，我们会尽快修复。
+Note: If a new component or property of a component added to a platform is not yet supported by Taro, you can submit [Issues](https://github.com/NervJS/taro/issues) and we will fix it as soon as possible.
 
-## 事件
+## Events
 
-事件和 Web 端一样。在事件回调函数中，第一个参数是事件对象，回调中调用 `stopPropagation` 可以阻止冒泡。
+Events are the same as on the web side.In the event callback function, the first argument is the event object, and calling `stopPropagation` in the callback will stop the bubbling.
 
-### Taro 规范
+### Taro Specifications
 
-1. 内置事件名以 `on` 开头，遵从小驼峰式（camelCase）命名规范。
-2. React 中点击事件使用 `onClick`。
+1. The built-in event names start with `on` and follow the camelCase naming convention.
+2. Use `onClick` for click events in React.
 
-### 示例代码
+### Example Code
 
 ```jsx
 function Comp () {
   function clickHandler (e) {
-    e.stopPropagation() // 阻止冒泡
+    e.stopPropagation()
   }
 
   function scrollHandler () {}
 
-  // 只有小程序的 bindtap 对应 Taro 的 onClick
-  // 其余小程序事件名把 bind 换成 on 即是 Taro 事件名（支付宝小程序除外，它的事件就是以 on 开头）
+  // Only the mini program bindtap corresponds to Taro's onClick
+  // The rest of the mini program event names replace bind with on, which is the Taro event name (except for the Alipay mini program, whose event starts with on)
   return <ScrollView onClick={clickHandler} onScroll={scrollHandler} />
 }
 ```
 
-### Taro 3 在小程序端的事件机制
+### Taro 3 event system on the mini-program
 
-在 Taro 1 & 2 中，Taro 会根据开发者是否使用了 `e.stopPropagation()`，来决定在小程序模板中绑定的事件是以 `bind` 还是以 `catch` 形式。因此事件冒泡是由小程序控制的。
+In Taro 1 & 2, Taro determines whether the events bound in the mini program template are in the form of `bind` or `catch` depending on whether the developer uses `e.stopPropagation()`.Thus event bubbling is controlled by the mini-program.
 
-但是在 Taro 3，我们在小程序逻辑层实现了一套事件系统，包括事件触发和事件冒泡。在小程序模板中绑定的事件都是以 `bind` 的形式。
+But in Taro 3, we have implemented a system of events in the mini-program logic layer, including event triggering and event bubbling.The events bound in the mini-program template are in the form of `bind`.
 
-一般情况下，这套在逻辑层实现的小程序事件系统是可以正常工作的，事件回调能正确触发、冒泡、停止冒泡。
+In general, this system of mini-program events implemented in the logic layer works properly, with event callbacks that trigger, bubble, and stop bubbling correctly.
 
-但是，小程序模板中绑定的 `catchtouchmove` 事件除了可以阻止回调函数冒泡触发外，还能阻止视图的**滚动穿透**，这点 Taro 的事件系统是做不到的。
+However, the `catchtouchmove` event bound to the mini-program template prevents the callback function from bubbling through** in addition to preventing the view from **scrolling through**, something Taro's event system cannot do.
 
 ### 阻止滚动穿透
 
-上一点中，我们介绍了 Taro 3 的事件机制。因为事件都以 `bind` 的形式进行绑定，因此不能使用 `e.stopPropagation()` 阻止滚动穿透。
+In the previous point, we introduced the event mechanism of Taro 3.Since events are bound as `bind`, you cannot use `e.stopPropagation()` to prevent scroll-through.
 
-针对滚动穿透，目前总结了两种解决办法：
+Two solutions are summarized for the problem of rolling penetration:
 
-#### 一、样式
+#### 一、Style
 
-使用样式解决：[禁止被穿透的组件滚动](https://github.com/NervJS/taro/issues/5984#issuecomment-614502302)。
+Use the style to solve. [Disable scrolling of penetrated components](https://github.com/NervJS/taro/issues/5984#issuecomment-614502302)。
 
-这也是最推荐的做法。
+This is also the most recommended practice.
 
 #### 二、catchMove
 
-> Taro 3.0.21 版本开始支持
+> Taro 3.0.21 starts to support
 
-但是地图组件本身就是可以滚动的，即使固定了它的宽高。所以第一种办法处理不了冒泡到地图组件上的滚动事件。
+But the map component itself is scrollable, even if its width and height are fixed.So the first approach can't handle the scrolling events that bubble up to the map component.
 
-这时候可以为 `View` 组件增加 **catchMove** 属性：
+This is where you can add the **catchMove** property to the `View` component.
 
 ```jsx
-// 这个 View 组件会绑定 catchtouchmove 事件而不是 bindtouchmove
-<View catchMove></View>
+// This View component will bind the catchtouchmove event instead of bindtouchmove. <View catchMove></View>
 ```
 
 ### dataset
 
-#### 一般情况
+#### General
 
-我们建议按 React、 Vue 的 DSL 特性进行思考，因为 `dataset` 是小程序的特性。
+We recommend thinking in terms of the DSL features of React and Vue, since `dataset` is a feature of mini program.
 
 #### dataset
 
-`dataset` 是特别的模版属性，主要作用是可以在事件回调的 `event` 对象中获取到 `dataset` 相关数据。
+`dataset` is a special template property that allows you to get the `dataset` data in the `event` object of an event callback.
 
-**这点 Taro 是支持的**，在事件回调对象中可以通过 `event.target.dataset` 或 `event.currentTarget.dataset` 获取到。
+**This is supported by Taro**, and can be obtained in the event callback object via `event.target.dataset` or `event.currentTarget.dataset`.
 
-#### 模板属性
+#### Template Properties
 
-上一点所说的，Taro 对于小程序 `dataset` 的模拟是在小程序的**逻辑层**实现的。**并没有真正在模板设置这个属性**。
+As mentioned in the previous point, Taro's simulation of the mini program `dataset` is implemented in the **logic layer** of the mini program.**Not really setting this property in the template**.
 
-但在小程序中有一些 API（如：`createIntersectionObserver`）获取到页面的节点的时候，由于节点上实际没有对应的属性而获取不到。
+But when there are APIs in the mini proram (e.g. `createIntersectionObserver`) that get to the node of the page, they don't get it because there is no actual corresponding property on the node.
 
-这时可以考虑使用 [taro-plugin-inject](https://github.com/NervJS/taro-plugin-inject) 插件注入一些通用属性，如：
+At this point, consider using the [taro-plugin-inject](https://github.com/NervJS/taro-plugin-inject) plugin to inject some generic properties, such as:
 
 ```js title="config/index.js"
 const config = {
@@ -163,48 +161,48 @@ const config = {
 }
 ```
 
-## 生命周期触发机制
+## Lifecycle Trigger
 
-Taro 3 在小程序逻辑层上实现了一份遵循 Web 标准 BOM 和 DOM API。因此 React 使用的 `document.appendChild`、`document.removeChild` 等 API 其实是 Taro 模拟实现的，最终的效果是把 React 的虚拟 DOM 树渲染为 Taro 模拟的 Web 标准 DOM 树。
+Taro 3 implements a web-standard BOM and DOM API on the mini-program logic layer.So the `document.appendChild`, `document.removeChild`, and other APIs used by React are actually implemented by Taro emulation, with the end effect of rendering React's virtual DOM tree as a Web-standard DOM tree emulated by Taro.
 
-因此在 Taro3 中，React 的生命周期触发时机和我们平常在 Web 开发中理解的概念有一些偏差。
+So in Taro3, React's lifecycle trigger timing is a little different from what we normally understand in web development.
 
 ### React 的生命周期
 
-React 组件的生命周期方法在 Taro 中都支持使用。
+The lifecycle methods of React components are supported in Taro.
 
-触发时机：
+Trigger timing：
 
 ##### 1. componentWillMount ()
 
-[onLoad](react-page#onload-options) 之后，页面组件渲染到 Taro 的虚拟 DOM 之前触发。
+After [onLoad](./react-page#onload-options), the page component is triggered before rendering to Taro's virtual DOM.
 
 ##### 2. componentDidMount ()
 
-页面组件渲染到 Taro 的虚拟 DOM 之后触发。
+Triggered after the page component is rendered to Taro's virtual DOM.
 
-此时能访问到 Taro 的虚拟 DOM（使用 React ref、document.getElementById 等手段），并支持对其进行操作（设置 DOM 的 style 等）。
+Taro's virtual DOM is accessible at this point (using methods such as React ref, document.getElementById, etc.), and modifications to it are supported (setting the style of the DOM, etc.).
 
-但此时不代表 Taro 的虚拟 DOM 数据已经完成从逻辑层 `setData` 到视图层。因此这时**无法通过 `createSelectorQuery` 等方法获取小程序渲染层 DOM 节点。** 只能在 [onReady](react-page#onready-) 生命周期中获取。
+However, this does not mean that Taro's virtual DOM data has been transferred from the logical layer `setData` to the view layer.So at this point ** it is not possible to get the DOM nodes of the rendering layer of the mini program by methods like `createSelectorQuery`.** You can only get the DOM node in [onReady](./react-page#onready-) lifecycle.
 
-### 小程序页面的方法
+### Methods for mini program pages
 
-小程序页面的方法，在 Taro 的页面中同样可以使用：在 Class Component 中书写同名方法、在 Functional Component 中使用对应的 Hooks。
+The methods in the mini program page can also be used in Taro's page: write the methods with the same name in the Class Component and use the corresponding Hooks in the Functional Component.
 
-**注意：**
+**Note:**
 
-* 小程序页面方法在各端的支持程度不一。
-* 使用了 HOC 包裹的小程序页面组件，必须处理 forwardRef 或使用继承组件的方式而不是返回组件的方式，否则小程序页面方法可能不会被触发。
+* Mini Program page methods are not supported to the same extent on each end.
+* Mini Program page components that use HOC wrappers must handle forwardRef or use inherited components instead of returned components, otherwise the mini program page method may not be triggered.
 
 ## Ref
 
-在 Taro 中 ref 的用法和 React 完全一致，但是获取到的 “DOM” 和浏览器环境还有小程序环境都有不同。
+The use of ref in Taro is exactly the same as in React, but the "DOM" obtained is different from the browser environment and the mini program environment.
 
 ### React Ref
 
-使用 React Ref 获取到的是 Taro 的虚拟 DOM，和浏览器的 DOM 相似，可以操作它的 `style`，调用它的 API 等。
+What you get with React Ref is Taro's virtual DOM, which is similar to the browser's DOM, so you can manipulate its `style`, call its API, and so on.
 
-但是 Taro 的虚拟 DOM 运行在小程序的逻辑层，并不是真实的小程序渲染层节点，它没有尺寸宽高等信息。
+However, Taro's virtual DOM runs on the mini program logic layer and is not a real mini program rendering layer node, and it has no information about the size, width, etc.
 
 ```jsx title="示例代码"
 import React, { createRef } from 'react'
@@ -214,7 +212,7 @@ export default class Test extends React.Component {
   el = createRef()
 
   componentDidMount () {
-    // 获取到的 DOM 具有类似 HTMLElement 或 Text 等对象的 API
+    // The obtained DOM has an API similar to that of objects like HTMLElement or Text
     console.log(this.el.current)
   }
 
@@ -226,9 +224,9 @@ export default class Test extends React.Component {
 }
 ```
 
-### 获取小程序 DOM
+### Get Mini Program DOM
 
-获取真实的小程序渲染层节点，需要在 [onReady](react-page#onready-) 生命周期中，调用小程序中用于获取 DOM 的 API。
+To get the real mini program rendering layer node, you need to call the API used to get the DOM in the mini program during the [onReady](react-page#onready-) lifecycle.
 
 ```jsx title="示例代码"
 import React from 'react'
@@ -237,7 +235,7 @@ import Taro from '@tarojs/taro'
 
 export default class Test extends React.Component {
   onReady () {
-    // onReady 触发后才能获取小程序渲染层的节点
+    // onReady is triggered to get the node of the rendering layer of the mini program
     Taro.createSelectorQuery().select('#only')
       .boundingClientRect()
       .exec(res => console.log(res))
@@ -253,30 +251,30 @@ export default class Test extends React.Component {
 
 ## Hooks
 
-[Hooks 文档](./hooks.md)
+[Hooks Document](./hooks.md)
 
 ## dangerouslySetInnerHTML
 
-在小程序端，使用 `dangerouslySetInnerHTML` 时有一些额外的配置选项和需要注意的地方，详情请参考[《渲染 HTML》](html)。
+On the mini program side, there are some additional configuration options and things to note when using `dangerouslySetInnerHTML`, please refer to ["Rendering HTML"](html) for details.
 
 ## Minified React error
 
-因为 development 版本的 React 体积较大，为了减少小程序体积，方便开发时真机预览。Taro 在构建小程序时默认使用 production 版本的 React 相关依赖。
+因为 development 版本的 React 体积较大，为了减少小程序体积，方便开发时真机预览。Because the development version of React is larger, Taro uses the production version of React as the default dependency when building mini programs to reduce the size of the mini program and to facilitate real-world previews during development.
 
-但是 production 版本的 React 出错时不会展示报错堆栈的信息。因此当你遇到类似这种报错时：【Error: Minified React error #152】。可以修改编译配置中的 [mini.debugReact](http://localhost:3000/taro/docs/next/config-detail#minidebugreact) 选项，然后重新开启编译。这样 Taro 会使用 development 版本的 React，从而输出报错堆栈。
+However, the production version of React does not show the error stack when there is an error.So when you encounter an error like this: [Error: Minified React error #152].You can change the [mini.debugReact](http://localhost:3000/taro/docs/next/config-detail#minidebugreact) option in the build configuration and turn the build back on.This will cause Taro to use the development version of React and output the error stack.
 
-#### Error: Minified React error #152 报错
+#### Error: Minified React error #152
 
 ![](http://storage.jd.com/cjj-pub-images/minified-react-error.png)
 
-## 其它限制
+## Other limitations
 
-* 由于小程序不支持动态引入，因此小程序中无法使用 `React.lazy` API。
-* 不能在页面组件的 DOM 树之外插入元素，因此不支持 `<Portal>`。
-* 所有组件的 `id` 必须在整个应用中保持唯一（即使他们在不同的页面），否则可能导致事件不触发的问题，[#7317](https://github.com/NervJS/taro/issues/7317)
+* Since mini-program do not support dynamic introduction, the `React.lazy` API cannot be used in mini-program.
+* It is not possible to insert elements outside the DOM tree of a page component, so `<Portal>` is not supported.
+* The `id` of all components must remain unique throughout the application (even if they are on different pages), otherwise it may cause problems with events not firing.[#7317](https://github.com/NervJS/taro/issues/7317)
 
-## 常见问题
+## Frequently Asked Questions
 
-* `useEffect`、`componentDidMount` 中获取不到渲染层元素信息，[7116](https://github.com/NervJS/taro/issues/7116)
-* `useEffect` 或 `useLayoutEffect` 中获取不到组件最新的宽高，[#7491](https://github.com/NervJS/taro/issues/7491)
-* 嵌套层级较深时，使用 `selectorQuery` 无法查询到子元素，[#7411](https://github.com/NervJS/taro/issues/7411)
+* The render layer element information is not available in `useEffect`, `componentDidMount`.[7116](https://github.com/NervJS/taro/issues/7116)
+* The latest width and height of the component is not available in `useEffect` or `useLayoutEffect`.[#7491](https://github.com/NervJS/taro/issues/7491)
+* When the nesting level is deep, the child elements cannot be queried using `selectorQuery`.[#7411](https://github.com/NervJS/taro/issues/7411)
