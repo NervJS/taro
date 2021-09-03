@@ -3,19 +3,19 @@ title: Video
 sidebar_label: Video
 ---
 
-视频。相关api：Taro.createVideoContext
+Video.Related AP: <code>Taro.createVideoContext</code>
 
-备注：h5上因为没有测试，所以暂时写了“待定”，需要`Video`来确认。
+**Note:** No test on h5, so for now it says "pending", need `Video` to confirm.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/video.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/video.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<VideoProps>
 ```
 
-## 示例代码
+## Examples
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -81,11 +81,11 @@ export default class PageView extends Component {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -93,394 +93,394 @@ export default class PageView extends Component {
       <td>src</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要播放视频的资源地址</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The address of the video to be played.</td>
     </tr>
     <tr>
       <td>duration</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>指定视频时长</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The duration of the video</td>
     </tr>
     <tr>
       <td>controls</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否显示默认播放控件（播放/暂停按钮、播放进度、时间）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to display default playback controls (Play/Pause buttons, playback progress, and timeline).</td>
     </tr>
     <tr>
       <td>danmuList</td>
       <td><code>any[]</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>弹幕列表</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>List of barrage comments</td>
     </tr>
     <tr>
       <td>danmuBtn</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td style={{ textAlign: "center"}}>No</td>
       <td>是否显示弹幕按钮，只在初始化时有效，不能动态变更</td>
     </tr>
     <tr>
       <td>enableDanmu</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否展示弹幕，只在初始化时有效，不能动态变更</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to display the barrage button. It is valid only during initialization, and cannot be dynamically changed.</td>
     </tr>
     <tr>
       <td>autoplay</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否自动播放</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to enable auto playback</td>
     </tr>
     <tr>
       <td>loop</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否循环播放</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to enable loop playback</td>
     </tr>
     <tr>
       <td>muted</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否静音播放</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to enable muted playback</td>
     </tr>
     <tr>
       <td>initialTime</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>指定视频初始播放位置</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies the initial time point at which the video starts to play</td>
     </tr>
     <tr>
       <td>pageGesture</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>在非全屏模式下，是否开启亮度与音量调节手势</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to enable brightness and volume adjusting gestures in the non-full-screen mode.</td>
     </tr>
     <tr>
       <td>direction</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置全屏时视频的方向，不指定则根据宽高比自动判断。有效值为 0（正常竖向）, 90（屏幕逆时针90度）, -90（屏幕顺时针90度）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies the direction of the video in the full screen. If it is not specified, the direction is set automatically based on the aspect ratio.有效值为 0（正常竖向）, 90（屏幕逆时针90度）, -90（屏幕顺时针90度）</td>
     </tr>
     <tr>
       <td>showProgress</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>若不设置，宽度大于240时才会显示</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>If this property is not specified, the progress bar is displayed only when the width is greater than 240 px.</td>
     </tr>
     <tr>
       <td>showFullscreenBtn</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否显示全屏按钮</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to display the full screen button</td>
     </tr>
     <tr>
       <td>showPlayBtn</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否显示视频底部控制栏的播放按钮</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to display the play button in the bottom control bar of the video</td>
     </tr>
     <tr>
       <td>showCenterPlayBtn</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否显示视频中间的播放按钮</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to display the play button in the center of the video</td>
     </tr>
     <tr>
       <td>enableProgressGesture</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否开启控制进度的手势</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to enable progress control gestures</td>
     </tr>
     <tr>
       <td>objectFit</td>
       <td><code>&quot;contain&quot; | &quot;fill&quot; | &quot;cover&quot;</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;contain&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当视频大小与 video 容器大小不一致时，视频的表现形式</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The presentation of the video when the video size differs from the video container size</td>
     </tr>
     <tr>
       <td>poster</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>视频封面的图片网络资源地址，如果 controls 属性值为 false 则设置 poster 无效</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The URL or cloud file ID of the image on the video cover. If the value of the controls property is false, the setting of the poster does not take effect.</td>
     </tr>
     <tr>
       <td>showMuteBtn</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否显示静音按钮</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to display the mute button</td>
     </tr>
     <tr>
       <td>title</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>视频的标题，全屏时在顶部展示</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The title of the video. It is displayed on the top in the full screen mode.</td>
     </tr>
     <tr>
       <td>playBtnPosition</td>
       <td><code>&quot;bottom&quot; | &quot;center&quot;</code></td>
       <td style={{ textAlign: "center"}}><code>'bottom'</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>播放按钮的位置<br />- <code>bottom</code>: controls bar 上<br />- <code>center</code>: 视频中间</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The location of the play button</td>
     </tr>
     <tr>
       <td>enablePlayGesture</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否开启播放手势，即双击切换播放/暂停</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to enable the playback gestures: Double-tap to switch between play/pause.</td>
     </tr>
     <tr>
       <td>autoPauseIfNavigate</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当跳转到其它小程序页面时，是否自动暂停本页面的视频</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to automatically pause the video on the current page when the user is navigated to another Mini Program page.</td>
     </tr>
     <tr>
       <td>autoPauseIfOpenNative</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当跳转到其它微信原生页面时，是否自动暂停本页面的视频</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to automatically pause the real-/video on the current page upon the navigation to another native page of WeChat.</td>
     </tr>
     <tr>
       <td>vslideGesture</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>在非全屏模式下，是否开启亮度与音量调节手势（同 <code>page-gesture</code>）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>(Same as <code>pageGesture</code>) Specifies whether to enable brightness and volume adjusting gestures in the non-full-screen mode.</td>
     </tr>
     <tr>
       <td>vslideGestureInFullscreen</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>在全屏模式下，是否开启亮度与音量调节手势</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to enable brightness and volume adjusting gestures in the full screen mode.</td>
     </tr>
     <tr>
       <td>adUnitId</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>视频前贴广告单元ID，更多详情可参考开放能力<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/ad/video-patch-ad.html">视频前贴广告</a></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Unit IDs for pre-video posting ads, see Open Capabilities for more details <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/ad/video-patch-ad.html">Advertising before the video.</a></td>
     </tr>
     <tr>
       <td>posterForCrawler</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>用于给搜索等场景作为视频封面展示，建议使用无播放 icon 的视频封面图，只支持网络地址</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>It is recommended to use a video cover image without a play icon and only supports network addresses.</td>
     </tr>
     <tr>
       <td>showCastingButton</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>显示投屏按钮。只安卓且同层渲染下生效，支持 DLNA 协议</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to show cast button.Android only and rendered on the same layer, DLNA protocol supported.</td>
     </tr>
     <tr>
       <td>onPlay</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当开始/继续播放时触发 play 事件</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggers the play event when the playback is started/resumed</td>
     </tr>
     <tr>
       <td>onPause</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当暂停播放时触发 pause 事件</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggers the pause event when the playback is paused</td>
     </tr>
     <tr>
       <td>onEnded</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当播放到末尾时触发 ended 事件</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggers the ended event at the end of the video.</td>
     </tr>
     <tr>
       <td>onTimeUpdate</td>
       <td><code>BaseEventOrigFunction&lt;onTimeUpdateEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>播放进度变化时触发, 触发频率 250ms 一次<br /><br />event.detail = {`{currentTime, duration}`}</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered when the playback progress changes.<br /><br />event.detail = {`{currentTime, duration}`}. It is triggered every 250 ms.</td>
     </tr>
     <tr>
       <td>onFullscreenChange</td>
       <td><code>BaseEventOrigFunction&lt;onFullscreenChangeEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当视频进入和退出全屏时触发<br /><br />event.detail = {`{fullScreen, direction}`}，direction取为 vertical 或 horizontal</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered when the video enters or exits the full screen.<br />event.detail = {`{fullScreen, direction}`}. Valid values of direction include vertical and horizontal.</td>
     </tr>
     <tr>
       <td>onWaiting</td>
       <td><code>BaseEventOrigFunction&lt;onWaitingEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当视频进入和退出全屏时触发<br /><br />event.detail = {`{fullScreen, direction}`}，direction 取为 vertical 或 horizontal</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered when the video starts buffering</td>
     </tr>
     <tr>
       <td>onError</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>视频播放出错时触发</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered when an error occurs during video playback</td>
     </tr>
     <tr>
       <td>onProgress</td>
       <td><code>BaseEventOrigFunction&lt;onProgressEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>加载进度变化时触发，只支持一段加载</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered when the loading progress changes. It is supported only for a section of progress.</td>
     </tr>
     <tr>
       <td>onLoadedMetaData</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>视频元数据加载完成时触发。event.detail = {`{width, height, duration}`}</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered when the video metadata has finished loading.event.detail = {`{width, height, duration}`}</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|                 API                  | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 |  H5  | React Native |
-|:------------------------------------:|:-----:|:-----:|:------:|:-------:|:----:|:------------:|
-|            VideoProps.src            |  ✔️   |  ✔️   |   ✔️   |   ✔️    |  ✔️  |      ✔️      |
-|         VideoProps.duration          |  ✔️   |  ✔️   |   ✔️   |         | (待定) |      ✔️      |
-|         VideoProps.controls          |  ✔️   |  ✔️   |   ✔️   |   ✔️    |  ✔️  |      ✔️      |
-|         VideoProps.danmuList         |  ✔️   |  ✔️   |        |         | (待定) |              |
-|         VideoProps.danmuBtn          |  ✔️   |  ✔️   |        |         | (待定) |              |
-|        VideoProps.enableDanmu        |  ✔️   |  ✔️   |        |         | (待定) |              |
-|         VideoProps.autoplay          |  ✔️   |  ✔️   |   ✔️   |   ✔️    |  ✔️  |      ✔️      |
-|           VideoProps.loop            |  ✔️   |  ✔️   |   ✔️   |   ✔️    |  ✔️  |      ✔️      |
-|           VideoProps.muted           |  ✔️   |  ✔️   |   ✔️   |   ✔️    |  ✔️  |      ✔️      |
-|        VideoProps.initialTime        |  ✔️   |  ✔️   |   ✔️   |   ✔️    |  ✔️  |      ✔️      |
-|         VideoProps.direction         |  ✔️   |  ✔️   |   ✔️   |         | (待定) |              |
-|       VideoProps.showProgress        |  ✔️   |  ✔️   |        |         | (待定) |              |
-|     VideoProps.showFullscreenBtn     |  ✔️   |  ✔️   |   ✔️   |         | (待定) |              |
-|        VideoProps.showPlayBtn        |  ✔️   |  ✔️   |   ✔️   |         | (待定) |              |
-|     VideoProps.showCenterPlayBtn     |  ✔️   |  ✔️   |   ✔️   |         | (待定) |      ✔️      |
-|   VideoProps.enableProgressGesture   |  ✔️   |  ✔️   |   ✔️   |         | (待定) |              |
-|         VideoProps.objectFit         |  ✔️   |  ✔️   |   ✔️   |         | (待定) |              |
-|          VideoProps.poster           |  ✔️   |  ✔️   |   ✔️   |   ✔️    |  ✔️  |      ✔️      |
-|        VideoProps.showMuteBtn        |  ✔️   |       |        |         | (待定) |              |
-|           VideoProps.title           |  ✔️   |       |        |         | (待定) |              |
-|      VideoProps.playBtnPosition      |  ✔️   |       |        |         | (待定) |              |
-|     VideoProps.enablePlayGesture     |  ✔️   |       |        |         | (待定) |              |
-|    VideoProps.autoPauseIfNavigate    |  ✔️   |       |        |         | (待定) |              |
-|   VideoProps.autoPauseIfOpenNative   |  ✔️   |       |        |         | (待定) |              |
-|       VideoProps.vslideGesture       |  ✔️   |  ✔️   |        |         | (待定) |              |
-| VideoProps.vslideGestureInFullscreen |  ✔️   |       |        |         | (待定) |              |
-|         VideoProps.adUnitId          |  ✔️   |       |        |         |      |              |
-|     VideoProps.posterForCrawler      |  ✔️   |       |        |         |      |              |
-|     VideoProps.showCastingButton     |  ✔️   |       |        |         |      |              |
-|          VideoProps.onPlay           |  ✔️   |  ✔️   |   ✔️   |   ✔️    |  ✔️  |      ✔️      |
-|          VideoProps.onPause          |  ✔️   |  ✔️   |   ✔️   |   ✔️    |  ✔️  |      ✔️      |
-|          VideoProps.onEnded          |  ✔️   |  ✔️   |   ✔️   |   ✔️    |  ✔️  |      ✔️      |
-|       VideoProps.onTimeUpdate        |  ✔️   |  ✔️   |   ✔️   |   ✔️    |  ✔️  |      ✔️      |
-|    VideoProps.onFullscreenChange     |  ✔️   |  ✔️   |   ✔️   |         | (待定) |      ✔️      |
-|         VideoProps.onWaiting         |  ✔️   |  ✔️   |        |         | (待定) |              |
-|          VideoProps.onError          |  ✔️   |  ✔️   |   ✔️   |   ✔️    |  ✔️  |      ✔️      |
-|        VideoProps.onProgress         |  ✔️   |       |   ✔️   |         | (待定) |              |
-|     VideoProps.onLoadedMetaData      |  ✔️   |       |        |         |      |      ✔️      |
+|                 API                  | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App |    H5     | React Native |
+|:------------------------------------:|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:---------:|:------------:|
+|            VideoProps.src            |         ✔️          |         ✔️          |         ✔️          |         ✔️          |    ✔️     |      ✔️      |
+|         VideoProps.duration          |         ✔️          |         ✔️          |         ✔️          |                     | (Pending) |      ✔️      |
+|         VideoProps.controls          |         ✔️          |         ✔️          |         ✔️          |         ✔️          |    ✔️     |      ✔️      |
+|         VideoProps.danmuList         |         ✔️          |         ✔️          |                     |                     | (Pending) |              |
+|         VideoProps.danmuBtn          |         ✔️          |         ✔️          |                     |                     | (Pending) |              |
+|        VideoProps.enableDanmu        |         ✔️          |         ✔️          |                     |                     | (Pending) |              |
+|         VideoProps.autoplay          |         ✔️          |         ✔️          |         ✔️          |         ✔️          |    ✔️     |      ✔️      |
+|           VideoProps.loop            |         ✔️          |         ✔️          |         ✔️          |         ✔️          |    ✔️     |      ✔️      |
+|           VideoProps.muted           |         ✔️          |         ✔️          |         ✔️          |         ✔️          |    ✔️     |      ✔️      |
+|        VideoProps.initialTime        |         ✔️          |         ✔️          |         ✔️          |         ✔️          |    ✔️     |      ✔️      |
+|         VideoProps.direction         |         ✔️          |         ✔️          |         ✔️          |                     | (Pending) |              |
+|       VideoProps.showProgress        |         ✔️          |         ✔️          |                     |                     | (Pending) |              |
+|     VideoProps.showFullscreenBtn     |         ✔️          |         ✔️          |         ✔️          |                     | (Pending) |              |
+|        VideoProps.showPlayBtn        |         ✔️          |         ✔️          |         ✔️          |                     | (Pending) |              |
+|     VideoProps.showCenterPlayBtn     |         ✔️          |         ✔️          |         ✔️          |                     | (Pending) |      ✔️      |
+|   VideoProps.enableProgressGesture   |         ✔️          |         ✔️          |         ✔️          |                     | (Pending) |              |
+|         VideoProps.objectFit         |         ✔️          |         ✔️          |         ✔️          |                     | (Pending) |              |
+|          VideoProps.poster           |         ✔️          |         ✔️          |         ✔️          |         ✔️          |    ✔️     |      ✔️      |
+|        VideoProps.showMuteBtn        |         ✔️          |                     |                     |                     | (Pending) |              |
+|           VideoProps.title           |         ✔️          |                     |                     |                     | (Pending) |              |
+|      VideoProps.playBtnPosition      |         ✔️          |                     |                     |                     | (Pending) |              |
+|     VideoProps.enablePlayGesture     |         ✔️          |                     |                     |                     | (Pending) |              |
+|    VideoProps.autoPauseIfNavigate    |         ✔️          |                     |                     |                     | (Pending) |              |
+|   VideoProps.autoPauseIfOpenNative   |         ✔️          |                     |                     |                     | (Pending) |              |
+|       VideoProps.vslideGesture       |         ✔️          |         ✔️          |                     |                     | (Pending) |              |
+| VideoProps.vslideGestureInFullscreen |         ✔️          |                     |                     |                     | (Pending) |              |
+|         VideoProps.adUnitId          |         ✔️          |                     |                     |                     |           |              |
+|     VideoProps.posterForCrawler      |         ✔️          |                     |                     |                     |           |              |
+|     VideoProps.showCastingButton     |         ✔️          |                     |                     |                     |           |              |
+|          VideoProps.onPlay           |         ✔️          |         ✔️          |         ✔️          |         ✔️          |    ✔️     |      ✔️      |
+|          VideoProps.onPause          |         ✔️          |         ✔️          |         ✔️          |         ✔️          |    ✔️     |      ✔️      |
+|          VideoProps.onEnded          |         ✔️          |         ✔️          |         ✔️          |         ✔️          |    ✔️     |      ✔️      |
+|       VideoProps.onTimeUpdate        |         ✔️          |         ✔️          |         ✔️          |         ✔️          |    ✔️     |      ✔️      |
+|    VideoProps.onFullscreenChange     |         ✔️          |         ✔️          |         ✔️          |                     | (Pending) |      ✔️      |
+|         VideoProps.onWaiting         |         ✔️          |         ✔️          |                     |                     | (Pending) |              |
+|          VideoProps.onError          |         ✔️          |         ✔️          |         ✔️          |         ✔️          |    ✔️     |      ✔️      |
+|        VideoProps.onProgress         |         ✔️          |                     |         ✔️          |                     | (Pending) |              |
+|     VideoProps.onLoadedMetaData      |         ✔️          |                     |                     |                     |           |      ✔️      |
 
 ### direction
 
-direction 的合法值
+Valid values of direction
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Value</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>0</td>
-      <td>正常竖向</td>
+      <td>Retains the normal vertical direction</td>
     </tr>
     <tr>
       <td>90</td>
-      <td>屏幕逆时针90度</td>
+      <td>Rotates the screen 90 degrees counter-clockwise</td>
     </tr>
     <tr>
       <td>-90</td>
-      <td>屏幕顺时针90度</td>
+      <td>Rotates the screen 90 degrees clockwise</td>
     </tr>
   </tbody>
 </table>
 
 ### objectFit
 
-objectFit 的合法值
+Valid values of objectFit
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Value</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>contain</td>
-      <td>包含</td>
+      <td>Contain</td>
     </tr>
     <tr>
       <td>fill</td>
-      <td>填充</td>
+      <td>Fill</td>
     </tr>
     <tr>
       <td>cover</td>
-      <td>覆盖</td>
+      <td>Cover</td>
     </tr>
   </tbody>
 </table>
 
 ### playBtnPosition
 
-playBtnPosition 的合法值
+Valid values of playBtnPosition
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Value</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>bottom</td>
-      <td>controls bar上</td>
+      <td>In the controls bar</td>
     </tr>
     <tr>
       <td>center</td>
-      <td>视频中间</td>
+      <td>In the center of the video</td>
     </tr>
   </tbody>
 </table>
@@ -490,21 +490,21 @@ playBtnPosition 的合法值
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Param</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>currentTime</td>
       <td><code>number</code></td>
-      <td>当前时间</td>
+      <td>Current time</td>
     </tr>
     <tr>
       <td>duration</td>
       <td><code>number</code></td>
-      <td>持续时间</td>
+      <td>Duration</td>
     </tr>
   </tbody>
 </table>
@@ -514,21 +514,21 @@ playBtnPosition 的合法值
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Param</th>
+      <th>Type</th>
+      <th>Descrtiption</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>direction</td>
       <td><code>number</code></td>
-      <td>方向</td>
+      <td>Direction</td>
     </tr>
     <tr>
       <td>fullScreen</td>
       <td><code>number | boolean</code></td>
-      <td>全屏</td>
+      <td>Full Screen</td>
     </tr>
   </tbody>
 </table>
@@ -538,21 +538,21 @@ playBtnPosition 的合法值
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Param</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>direction</td>
       <td><code>number</code></td>
-      <td>方向</td>
+      <td>Direction</td>
     </tr>
     <tr>
       <td>fullScreen</td>
       <td><code>number | boolean</code></td>
-      <td>全屏</td>
+      <td>Full Screen</td>
     </tr>
   </tbody>
 </table>
@@ -562,22 +562,22 @@ playBtnPosition 的合法值
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Param</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>buffered</td>
       <td><code>number</code></td>
-      <td>百分比</td>
+      <td>Percentage</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|  API  | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
-|:-----:|:-----:|:-----:|:------:|:-------:|:--:|:------------:|
-| Video |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |              |
+|  API  | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 | React Native |
+|:-----:|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| Video |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |              |
