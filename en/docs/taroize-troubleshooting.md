@@ -2,141 +2,135 @@
 title: Troubleshooting
 ---
 
-## 不支持的小程序特性
+## Unsupported Mini Program Features
 
-### 入口 App 对象
+### App Object
 
-| 属性                   | 说明 |
-|:-------------------- |:-- |
-| onError              |    |
-| onPageNotFound       |    |
-| onUnhandledRejection |    |
-| onThemeChange        |    |
+| Property             | Description |
+|:-------------------- |:----------- |
+| onError              |             |
+| onPageNotFound       |             |
+| onUnhandledRejection |             |
+| onThemeChange        |             |
 
-### 页面 Page 对象
+### Page Object
 
-| 属性                   | 说明                |
-|:-------------------- |:----------------- |
-| selectComponent      | 建议使用 React ref 重构 |
-| selectAllComponents  | 建议使用 React ref 重构 |
-| selectOwnerComponent | 建议使用 React ref 重构 |
-| groupSetData         |                   |
+| Property             | Description                            |
+|:-------------------- |:-------------------------------------- |
+| selectComponent      | Recommended to refactor with React ref |
+| selectAllComponents  | Recommended to refactor with React ref |
+| selectOwnerComponent | Recommended to refactor with React ref |
+| groupSetData         |                                        |
 
-### 自定义组件
+### Custom Component
 
-| 属性               | 说明                                      |
-|:---------------- |:--------------------------------------- |
-| moved            |                                         |
-| externalClasses  | Taro 3 不存在自定义组件，建议规范类名或使用 CSS Module 代替 |
-| relations        |                                         |
-| options          |                                         |
-| definitionFilter |                                         |
+| Property         | Description                                                                                                    |
+|:---------------- |:-------------------------------------------------------------------------------------------------------------- |
+| moved            |                                                                                                                |
+| externalClasses  | Taro 3 does not have custom components, it is recommended to standardize class names or use CSS Module instead |
+| relations        |                                                                                                                |
+| options          |                                                                                                                |
+| definitionFilter |                                                                                                                |
 
-### wxml 语法
+### Wxml Syntax
 
-| 属性  | 说明                                                              |
-|:--- |:--------------------------------------------------------------- |
-| 循环  | [部分语法有限制]                                                       |
-| 事件  | [部分语法有限制](./taroize-troubleshooting#2-事件)                       |
-| 引用  | [部分语法有限制](./taroize-troubleshooting#16-include-里不支持使用-template) |
-| wxs | [部分语法有限制](./taroize-troubleshooting#15-不支持-wxs-里的-getregexp-方法) |
+| Property    | Description                                                                             |
+|:----------- |:--------------------------------------------------------------------------------------- |
+| Circulation | [Some grammar restrictions apply]                                                       |
+| Event       | [Some grammar restrictions apply](./taroize-troubleshooting#2-事件)                       |
+| Citation    | [Some grammar restrictions apply](./taroize-troubleshooting#16-include-里不支持使用-template) |
+| wxs         | [Some grammar restrictions apply](./taroize-troubleshooting#15-不支持-wxs-里的-getregexp-方法) |
 
-## 关键问题
+## Key Questions
 
-### 1. 没有处理基类
+### 1. No base class handled
 
-原生开发中，常常会把 App、Page、Component 构造对象的公共逻辑整合到基类中。
+In native development, the public logic of App, Page, and Component construction objects are often integrated into base classes.
 
-如 **Vant-weapp** 中：
+As **Vant-weapp**：
 
 ```js
-// 组件
+// Component
 VantComponent({
   data: {}
 })
-// 基类
+// Base Classes
 function VantComponent(vantOptions = {}) {
-  // 整合组件独有配置 vantOptions 和公共配置到最终的配置对象 options 中
-  // ...
-
-  // 调用小程序的 Component 方法构造自定义组件
+  // Integrate component-specific configuration vantOptions and public configuration into the final configuration object options
+  // ... // Call the Component method of the mini program to construct a custom component
   Component(options);
 }
 ```
 
-Taro 在编译时只能识别出入口、页面、组件文件中存在的 `App()`、`Page()`、`Component()` 调用，使用基类对配置封装后就不存在这些调用。因此编译后的 `withWeapp` 获得的参数是 `{}`。
+Taro only recognizes the `App()`, `Page()`, `Component()` calls that exist in the entry, page, and component files at compile time, and these calls do not exist when the configuration is wrapped using the base class.So the compiled `withWeapp` gets the parameter `{}`.
 
 ```js
 VantComponent({
   data: {}
 })
-// withWeapp 中应该传入小程序配置对象
+// The mini program configuration object should be passed into withWeapp
 @withWeapp({})
 class _C extends React.Component {}
 ```
 
-因此我们需要手动修改：
+Therefore we need to manually modify.
 
 ```js
-// 基类
+// Base classes
 function VantComponent(vantOptions = {}) {
-  // 整合组件独有配置 vantOptions 和公共配置到最终的配置对象 options 中
-  // ...
-
-  // 调用小程序的 Component 方法构造自定义组件
+  // Integrate the component-specific configuration vantOptions and the public configuration into the final configuration object options
+  // ... // Call the Component method of the mini program to construct a custom component
   // Component(options);
 
-  // 1. 基类直接返回整合后的 options
+  // 1. The base class returns the integrated options directly
   return options
 }
 ```
 
 
 ```js
-// 2. 把基类创建的配置传入 withWeapp：
-const options = VantComponent({
+// 2. Pass the configuration created by the base class into withWeapp. const options = VantComponent({
   data: {}
 })
 @withWeapp(options)
 class _C extends React.Component {}
 ```
 
-### 2. 样式作用域
+### 2. Style Scopes
 
-微信小程序中的自定义组件，转换后会生成一个 Taro 中的 React/Vue 组件。
+The custom component in WeChat mini program will generate a React/Vue component in Taro after conversion.
 
-但是 Taro 中使用 React/Vue 开发的组件，编译到小程序平台时，并不会生成对应的小程序自定义组件。
+However, the components developed in Taro using React/Vue will not generate the corresponding mini program custom components when compiled to the mini program platform.
 
-**因此微信小程序自定义组件的样式隔离特性，在转换为 Taro 后就会丢失。**
+**** Therefore, the style isolation feature of the WeChat mini program custom component is lost after the conversion to Taro.**
 
-#### 解决办法：
+#### Solution.
 
-1. 修改冲突的选择器。
-2. 使用 CSS Modules 进行改写。
+1. Modify the conflicting selector.
+2. Use CSS Modules to rewrite.
 
-## 常见问题
+## Frequently Asked Questions
 
-### 1. wxml 语法转换问题
+### 1. wxml syntax conversion problem
 
-把 `wxml` 转换为 `JSX` 是通过操作 `AST` 实现的，有一些写法可能没有考虑到，或难以适配，从而导致报错。
+Converting `wxml` to `JSX` is achieved by manipulating `AST`, and there are some writes that may not take into account, or may be difficult to adapt, resulting in error reporting.
 
-以下是一些已知问题，需要手动修复：
+The following are some known issues that need to be fixed manually.
 
-#### 1.1 组件同时使用 `wx:for` 和 `wx:if` 语句时转换错误
+#### 1.1 Component conversion error when using both `wx:for` and `wx:if` statements
 
-当组件上同时使用了 `wx:for` 和 `wx:if` 语句，并且使用了当前**循环元素 item** 或**循环下标 index** 做判断条件时，转换后会报错。
+When both `wx:for` and `wx:if` statements are used on the component, and the current **loop element item** or **loop subscript index** is used as the judgment condition, the conversion will report an error.
 
-例如：
+eg:
 
 ```jsx
-// 转换前（注意判断条件使用了循环下标 index）：
-<block wx:for="{{objectArray}}" wx:if="{{index % 2 !== 0}}">
+// Before the conversion (note that the condition uses the circular subscript index). <block wx:for="{{objectArray}}" wx:if="{{index % 2 !== 0}}">
   <view>objectArray item: {{item.id}}</view>
 </block>
 ```
 
 ```jsx
-// 转换后：
+// After the conversion
 {index % 2 !== 0 && (
   <Block>
     {objectArray.map((item, index) => {
@@ -150,11 +144,11 @@ class _C extends React.Component {}
 )}
 ```
 
-上例可见，对于条件语句的转换，目前的处理会把条件提取到组件外部。但是如果条件使用了 `item` 或 `index` 时，这样的提取逻辑会导致**变量未定义**的报错。
+As you can see in the above example, for the conversion of conditional statements, the current processing extracts the condition outside the component.However, if the condition uses `item` or `index`, such extraction logic will result in an error reporting **variable not defined**.
 
-暂时可以通过手动修复解决：
+For the time being, this can be fixed manually by fixing.
 
-方法一，修改**编译前**的代码，把循环和条件语句拆开到两个组件中：
+Method 1, modify the code **before compiling** to split the loop and conditional statements into two components.
 
 ```jsx
 <block wx:for="{{objectArray}}">
@@ -164,7 +158,7 @@ class _C extends React.Component {}
 </block>
 ```
 
-方法二，修改**编译后**的代码,把条件判断放进循环体中：
+Method two, modify the code of **post-compile** to put the conditional judgment into the loop body.
 
 ```jsx
 <Block>
@@ -178,114 +172,109 @@ class _C extends React.Component {}
 </Block>
 ```
 
-#### 1.2 根元素不能含有 `hidden` 属性。
+#### 1.2 The root element cannot contain the `hidden` attribute.
 
-#### 1.3 编译时报错：SyntaxError: Unexpected token
+#### 1.3 Compile with an error: SyntaxError: Unexpected token
 
-尖括号 “<” 右侧需要留一个空格，[#4243](https://github.com/NervJS/taro/issues/4243)
+A space is required to the right of the apostrophe "<". [#4243](https://github.com/NervJS/taro/issues/4243)
 
-##### 解决办法：
+##### Solution
 
-检查是否存在以下写法：
+Check for the following writing style.
 
 ```jsx
 <view>{{a <4? "1": "2"}}</view>
 ```
 
-改为：
+Change to：
 
 ```jsx
 <view>{{a < 4? "1": "2"}}</view>
 ```
 
-#### 1.4 运行时报错：ReferenceError: item is not defined
+#### 1.4 Run with the following error： ReferenceError: item is not defined
 
-查看编译后的 JSX，是否因为漏了从 `this.data` 中取出变量，如：
+Look at the compiled JSX to see if the variable was removed from `this.data` because it was omitted, eg:
 
 ```
-// 下面的代码没有引用 item
+// The following code does not reference item
 const { a, b, c } = this.data
 ```
 
-##### 解决办法：
+##### Solution:
 
-`this.data` 中的变量名，不要和用于指定数组当前下标的变量名，默认值为 `item`，或由 `wx:for-index` 具体指定的变量名相同。
+The variable name in `this.data` should not be the same as the variable name used to specify the current subscript of the array, which defaults to `item`, or the variable name specified by `wx:for-index`.
 
 
-#### 1.5 不支持 WXS 里的 GetRegExp 方法
+#### 1.5 The GetRegExp method in WXS is not supported.
 
-使用 `RegExp` 构造正则表达式。
+Construct regular expressions using `RegExp`.
 
-#### 1.6 `<include>` 里不支持使用 `<template>`
+#### 1.6 The use of `<template>` is not supported in `<include>`
 
-#### 1.7 template 里暂不支持使用 catch 事件
+#### 1.7 The catch event is not supported in the template at this time
 
-### 2. 事件
+### 2. Event
 
-* 事件不支持绑定字符串。
-* `catchtouchmove` 转换后只能停止回调函数的冒泡，不能阻止滚动穿透。如要阻止滚动穿透，可以手动给编译后的 `View` 组件加上 `catchMove` 属性。
-* 不支持事件捕获阶段。
-* 不支持使用 WXS 函数响应事件。
-* 不支持互斥事件绑定 `mut-bind`。
-* 不支持 `mark` 来识别具体触发事件的 target 节点。
+* Events do not support binding strings.
+* The `catchtouchmove` conversion only stops the callback function from bubbling, it does not prevent scroll-through.To prevent scroll-through, you can manually add the `catchMove` property to the compiled `View` component.
+* Event capture phase is not supported.
+* Responding to events with WXS functions is not supported.
+* Mutually exclusive event binding `mut-bind` is not supported.
+* Does not support `mark` to identify the specific target node that triggered the event.
 
-### 3. CommonJS 和 ES 模块化语法不能混用
+### 3. CommonJS and ES modular syntax do not mix
 
-可能遇到的报错信息：
+Possible error messages encountered.
 
 * Cannot assign to read only property 'exports' of object
 * export '[something]' (imported as '[name]') was not found in '[somePath]'
 
-在使用到小程序 API 的地方，Taro 会把 `wx.api()` 转换为 `Taro.api()`，同时在文件的头部加上 `import Taro from '@tarjs/taro`。
+Where the mini program API is used, Taro will convert `wx.api()` to `Taro.api()` and add `import Taro from '@tarjs/taro` to the header of the file.
 
-如果此文件原本是使用 **CommonJS** 组织模块，可能会出现问题，需要手动修复。
+If this file originally used **CommonJS** to organize the module, it may cause problems and need to be fixed manually.
 
-### 4. selectorQuery API 获取不到 DOM
+### 4. The selectorQuery API does not get the DOM.
 
-1. 一定要在 `onReady`、`ready` 生命周期中才能调用小程序 API 获取 DOM。
-2. 不需要调用 `.in(this)` 方法。
+1. must be in the `onReady`, `ready` life cycle to call the mini program API to get the DOM.
+2. You don't need to call `.in(this)` method.
 
-### 5. Image 没有处理动态拼接的 src
+### 5. Image does not handle dynamically stitched src
 
-Taro 会对 `Image` 组件的 src 进行处理：
+Taro will process the src of the `Image` component.
 
 ```jsx
-// 转换前：
 <Image src='../../img/icons/0.png' />
-// 转换后：
-<Image src={require('../../img/icons/0.png')} />
+// After conversion. <Image src={require('../../img/icons/0.png')} />
 ```
 
-但如果 `src` 是动态拼接的字符串，则需要手动修改：
+However, if `src` is a dynamically spliced string, you need to modify it manually: `src` is a dynamically spliced string.
 
 ```jsx
-// 转换前：
-<Image src='../../img/icons/' + chart.id + '.png' />
-// 转换后：
-<Image src='../../img/icons/' + chart.id + '.png' />
-// 手动修改，图片也需要手动拷贝到 taroConert/src 对应目录下：
-<Image src={require('../../img/icons/' + chart.id + '.png')} />
+// Before conversion. <Image src='../../img/icons/' + chart.id + '.png' />
+// After conversion. <Image src='../../img/icons/' + chart.id + '.png' />
+// For manual changes, the images also need to be manually copied to the corresponding directory in taroConert/src. <Image src={require('../../img/icons/' + chart.id + '.png')} />
 ```
 
-### 6. require 的参数不能是变量
+### 6. The argument to require cannot be a variable
 
-可能遇到的报错信息：
+Possible error messages encountered:
 
 * The "path" argument must be of type string. Received type undefined
 
-不支持转换以下写法，[#4749](https://github.com/NervJS/taro/issues/4749)：
+Does not support converting the following writeups.[#4749](https://github.com/NervJS/taro/issues/4749)：
 
 ```js
 var pathTest = './test.js'
 var test = require(pathTest)
 ```
 
-Taro 目前只能转换 `require` 字符串的写法。
+Taro can currently only convert `require` strings to be written.
 
-### 7. 没有处理 export from 语法
+### 7. The export from syntax is not handled
 
-暂时手动处理，[#5131](https://github.com/NervJS/taro/issues/5131)。
+Temporary manual handling [#5131](https://github.com/NervJS/taro/issues/5131)。
 
 ### 8. Issues
 
-反向转换的更多问题，请查阅 Taroize 相关 [Issues](https://github.com/NervJS/taro/issues?q=is%3Aopen+is%3Aissue+label%3AA-taroize)。
+For more questions on reverse conversion, please refer to the Taroize related [Issues](https://github.com/NervJS/taro/issues?q=is%3Aopen+is%3Aissue+label%3AA-taroize)。
