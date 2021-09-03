@@ -3,75 +3,75 @@ title: Taro.getLocation(option)
 sidebar_label: getLocation
 ---
 
-获取当前的地理位置、速度。当用户离开小程序后，此接口无法调用。开启高精度定位，接口耗时会增加，可指定 highAccuracyExpireTime 作为超时时间。
+Gets current geographic location and speed.当用户离开小程序后，此接口无法调用。开启高精度定位，接口耗时会增加，可指定 highAccuracyExpireTime 作为超时时间。
 
-**注意**
-- 工具中定位模拟使用IP定位，可能会有一定误差。且工具目前仅支持 gcj02 坐标。
-- 使用第三方服务进行逆地址解析时，请确认第三方服务默认的坐标系，正确进行坐标转换。
+**Note**
+- Location simulation in the tool uses IP-based location, and there may have some error.The tool only supports GCJ-02 coordinates now.
+- When using a third-party service for reverse address resolution, please check the default coordinate system of the third-party service and perform coordinate conversion correctly.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.getLocation.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.getLocation.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<SuccessCallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>altitude</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>传入 true 会返回高度信息，由于获取高度需要较高精确度，会减慢接口返回速度</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Altitude information is returned if true is passed. The API will take a longer time to respond since a higher accuracy is required to obtain the altitude.</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>High accuracy positioning timeout (ms), the specified time to return the highest accuracy, the value of 3000ms or more high accuracy positioning to have effect.</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Turn on high accuracy positioning</td>
     </tr>
     <tr>
       <td>highAccuracyExpireTime</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>高精度定位超时时间(ms)，指定时间内返回最高精度，该值3000ms以上高精度定位才有效果</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>wgs84 returns the gps coordinates, gcj02 returns the coordinates available for <code>Taro.openLocation</code></td>
     </tr>
     <tr>
       <td>isHighAccuracy</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>开启高精度定位</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>type</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>wgs84 返回 gps 坐标，gcj02 返回可用于 Taro.openLocation 的坐标</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -81,56 +81,56 @@ sidebar_label: getLocation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>accuracy</td>
       <td><code>number</code></td>
-      <td>位置的精确度</td>
+      <td>Location accuracy</td>
     </tr>
     <tr>
       <td>altitude</td>
       <td><code>number</code></td>
-      <td>高度，单位 m</td>
+      <td>Altitude (in m)</td>
     </tr>
     <tr>
       <td>horizontalAccuracy</td>
       <td><code>number</code></td>
-      <td>水平精度，单位 m</td>
+      <td>Horizontal accuracy (in m)</td>
     </tr>
     <tr>
       <td>latitude</td>
       <td><code>number</code></td>
-      <td>纬度，范围为 -90~90，负数表示南纬</td>
+      <td>Latitude. The value ranges from -90 to +90, and the negative number means south latitude.</td>
     </tr>
     <tr>
       <td>longitude</td>
       <td><code>number</code></td>
-      <td>经度，范围为 -180~180，负数表示西经</td>
+      <td>Longitude. The value ranges from -180 to +180, and the negative number means west longitude.</td>
     </tr>
     <tr>
       <td>speed</td>
       <td><code>number</code></td>
-      <td>速度，单位 m/s</td>
+      <td>Speed (in m/s)</td>
     </tr>
     <tr>
       <td>verticalAccuracy</td>
       <td><code>number</code></td>
-      <td>垂直精度，单位 m（Android 无法获取，返回 0）</td>
+      <td>Vertical accuracy (in m) (Not available for Android, and 0 will be returned)</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
  ```tsx
 Taro.getLocation({
@@ -144,8 +144,8 @@ Taro.getLocation({
 })
 ```
 
-## API 支持度
+## API Support
 
-|       API        | 微信小程序 | H5 | React Native |
-|:----------------:|:-----:|:--:|:------------:|
-| Taro.getLocation |  ✔️   |    |      ✔️      |
+|       API        | WeChat Mini-Program | H5 | React Native |
+|:----------------:|:-------------------:|:--:|:------------:|
+| Taro.getLocation |         ✔️          |    |      ✔️      |
