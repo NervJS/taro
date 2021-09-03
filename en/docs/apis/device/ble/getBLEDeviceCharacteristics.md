@@ -3,59 +3,59 @@ title: Taro.getBLEDeviceCharacteristics(option)
 sidebar_label: getBLEDeviceCharacteristics
 ---
 
-获取蓝牙设备某个服务中所有特征值(characteristic)。
+Gets all characteristics in a Bluetooth device service.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.getBLEDeviceCharacteristics.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.getBLEDeviceCharacteristics.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<SuccessCallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>deviceId</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>蓝牙设备 id</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The Bluetooth device ID</td>
     </tr>
     <tr>
       <td>serviceId</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>蓝牙服务 uuid，需要使用 <code>getBLEDeviceServices</code> 获取</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The Bluetooth service UUID, which is obtained via <code>getBLEDeviceServices</code></td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: BluetoothError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: BluetoothError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -65,103 +65,101 @@ sidebar_label: getBLEDeviceCharacteristics
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>characteristics</td>
       <td><code>BLECharacteristic[]</code></td>
-      <td>设备特征值列表</td>
+      <td>The list of device characteristics</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>成功：ok，错误：详细信息</td>
+      <td>success: ok，fail: error message</td>
     </tr>
   </tbody>
 </table>
 
 ### BLECharacteristic
 
-设备特征值列表
+res.characteristics is composed as follows
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>properties</td>
       <td><code>Properties</code></td>
-      <td>该特征值支持的操作类型</td>
+      <td>The operation types supported by this characteristic</td>
     </tr>
     <tr>
       <td>uuid</td>
       <td><code>string</code></td>
-      <td>蓝牙设备特征值的 uuid</td>
+      <td>The Bluetooth device characteristic UUID</td>
     </tr>
   </tbody>
 </table>
 
 ### Properties
 
-该特征值支持的操作类型
+properties is composed as follows
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>indicate</td>
       <td><code>boolean</code></td>
-      <td>该特征值是否支持 indicate 操作</td>
+      <td>Indicates whether this characteristic supports indicate operation</td>
     </tr>
     <tr>
       <td>notify</td>
       <td><code>boolean</code></td>
-      <td>该特征值是否支持 notify 操作</td>
+      <td>Indicates whether this characteristic supports notify operation</td>
     </tr>
     <tr>
       <td>read</td>
       <td><code>boolean</code></td>
-      <td>该特征值是否支持 read 操作</td>
+      <td>Indicates whether this characteristic supports read operation</td>
     </tr>
     <tr>
       <td>write</td>
       <td><code>boolean</code></td>
-      <td>该特征值是否支持 write 操作</td>
+      <td>Indicates whether this characteristic supports write operation</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.getBLEDeviceCharacteristics({
-  // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
-  deviceId,
-  // 这里的 serviceId 需要在 getBLEDeviceServices 接口中获取
-  serviceId,
+  // This deviceId must have been used to connect the appropriate device via createBLEConnection. deviceId,
+  // This serviceId must be obtained in the getBLEDeviceServices API. serviceId,
   success: function (res) {
     console.log('device getBLEDeviceCharacteristics:', res.characteristics)
   }
 })
 ```
 
-## API 支持度
+## API Support
 
-|               API                | 微信小程序 | H5 | React Native |
-|:--------------------------------:|:-----:|:--:|:------------:|
-| Taro.getBLEDeviceCharacteristics |  ✔️   |    |              |
+|               API                | WeChat Mini-Program | H5 | React Native |
+|:--------------------------------:|:-------------------:|:--:|:------------:|
+| Taro.getBLEDeviceCharacteristics |         ✔️          |    |              |
