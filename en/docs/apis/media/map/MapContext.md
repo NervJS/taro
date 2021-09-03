@@ -3,15 +3,15 @@ title: MapContext
 sidebar_label: MapContext
 ---
 
-`MapContext` 实例，可通过 Taro.createMapContext 获取。 `MapContext` 通过 id 跟一个 map 组件绑定，操作对应的 map 组件。
+`MapContext` instance, which can be obtained by Taro.createMapContext. `MapContext` is bound to a &lt;map/&gt; component by id, to operate the corresponding &lt;map/&gt; component.
 
-## 方法
+## Methods
 
 ### getCenterLocation
 
-获取当前地图中心的经纬度。返回的是 gcj02 坐标系，可以用于 [wx.openLocation()](https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.openLocation.html)
+Obtain the altitude and longitude of the current map center.The gcj02 coordinate system is returned, which can be used for [wx.openLocation()](https://developers.weixin.qq.com/miniprogram/en/dev/api/location/wx.openLocation.html)
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getCenterLocation.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getCenterLocation.html)
 
 ```tsx
 (option?: GetCenterLocationOption) => void
@@ -20,8 +20,8 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -32,17 +32,17 @@ sidebar_label: MapContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|             API              | 微信小程序 | H5 | React Native |
-|:----------------------------:|:-----:|:--:|:------------:|
-| MapContext.getCenterLocation |  ✔️   |    |              |
+|             API              | WeChat Mini-Program | H5 | React Native |
+|:----------------------------:|:-------------------:|:--:|:------------:|
+| MapContext.getCenterLocation |         ✔️          |    |              |
 
 ### getRegion
 
-获取当前地图的视野范围
+Acquire the scope of the field of view of the current map
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getRegion.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getRegion.html)
 
 ```tsx
 (option?: GetRegionOption) => void
@@ -51,8 +51,8 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -63,17 +63,17 @@ sidebar_label: MapContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|         API          | 微信小程序 | H5 | React Native |
-|:--------------------:|:-----:|:--:|:------------:|
-| MapContext.getRegion |  ✔️   |    |              |
+|         API          | WeChat Mini-Program | H5 | React Native |
+|:--------------------:|:-------------------:|:--:|:------------:|
+| MapContext.getRegion |         ✔️          |    |              |
 
 ### getRotate
 
-获取当前地图的旋转角
+Acquire the rotation angle of the current map
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getRotate.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getRotate.html)
 
 ```tsx
 (option?: GetRotateOption) => void
@@ -82,8 +82,8 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -94,17 +94,17 @@ sidebar_label: MapContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|         API          | 微信小程序 | H5 | React Native |
-|:--------------------:|:-----:|:--:|:------------:|
-| MapContext.getRotate |  ✔️   |    |              |
+|         API          | WeChat Mini-Program | H5 | React Native |
+|:--------------------:|:-------------------:|:--:|:------------:|
+| MapContext.getRotate |         ✔️          |    |              |
 
 ### getScale
 
-获取当前地图的缩放级别
+Obtains the zoom level of the current map
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getScale.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getScale.html)
 
 ```tsx
 (option?: GetScaleOption) => void
@@ -113,8 +113,8 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -125,17 +125,17 @@ sidebar_label: MapContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|         API         | 微信小程序 | H5 | React Native |
-|:-------------------:|:-----:|:--:|:------------:|
-| MapContext.getScale |  ✔️   |    |              |
+|         API         | WeChat Mini-Program | H5 | React Native |
+|:-------------------:|:-------------------:|:--:|:------------:|
+| MapContext.getScale |         ✔️          |    |              |
 
 ### getSkew
 
-获取当前地图的倾斜角
+Acquire the tilt angle of the current map
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getSkew.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getSkew.html)
 
 ```tsx
 (option?: GetSkewOption) => void
@@ -144,8 +144,8 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -156,17 +156,17 @@ sidebar_label: MapContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|        API         | 微信小程序 | H5 | React Native |
-|:------------------:|:-----:|:--:|:------------:|
-| MapContext.getSkew |  ✔️   |    |              |
+|        API         | WeChat Mini-Program | H5 | React Native |
+|:------------------:|:-------------------:|:--:|:------------:|
+| MapContext.getSkew |         ✔️          |    |              |
 
 ### includePoints
 
-缩放视野展示所有经纬度
+Zooms in/out the view to show all latitudes and longitudes.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.includePoints.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.includePoints.html)
 
 ```tsx
 (option: IncludePointsOption) => void
@@ -175,8 +175,8 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -187,17 +187,17 @@ sidebar_label: MapContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API            | 微信小程序 | H5 | React Native |
-|:------------------------:|:-----:|:--:|:------------:|
-| MapContext.includePoints |  ✔️   |    |              |
+|           API            | WeChat Mini-Program | H5 | React Native |
+|:------------------------:|:-------------------:|:--:|:------------:|
+| MapContext.includePoints |         ✔️          |    |              |
 
 ### moveToLocation
 
-将地图中心移置当前定位点，此时需设置地图组件 show-location 为true。
+Moves the map center to the current location. Use with the show-location of the map component.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.moveToLocation.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.moveToLocation.html)
 
 ```tsx
 (option: MoveToLocationOption) => void
@@ -206,8 +206,8 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -218,17 +218,17 @@ sidebar_label: MapContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|            API            | 微信小程序 | H5 | React Native |
-|:-------------------------:|:-----:|:--:|:------------:|
-| MapContext.moveToLocation |  ✔️   |    |              |
+|            API            | WeChat Mini-Program | H5 | React Native |
+|:-------------------------:|:-------------------:|:--:|:------------:|
+| MapContext.moveToLocation |         ✔️          |    |              |
 
 ### translateMarker
 
-平移marker，带动画
+Translates marker with animation.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.translateMarker.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.translateMarker.html)
 
 ```tsx
 (option: TranslateMarkerOption) => void
@@ -237,8 +237,8 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -249,50 +249,50 @@ sidebar_label: MapContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|            API             | 微信小程序 | H5 | React Native |
-|:--------------------------:|:-----:|:--:|:------------:|
-| MapContext.translateMarker |  ✔️   |    |              |
+|            API             | WeChat Mini-Program | H5 | React Native |
+|:--------------------------:|:-------------------:|:--:|:------------:|
+| MapContext.translateMarker |         ✔️          |    |              |
 
-## 参数
+## Parameters
 
 ### GetCenterLocationOption
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
       <td><code>GetCenterLocationSuccessCallback</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
 ### GetCenterLocationSuccessCallback
 
-接口调用成功的回调函数
+The callback function for a successful API call
 
 ```tsx
 (result: GetCenterLocationSuccessCallbackResult) => void
@@ -301,8 +301,8 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -318,26 +318,26 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>latitude</td>
       <td><code>number</code></td>
-      <td>纬度</td>
+      <td>Latitude</td>
     </tr>
     <tr>
       <td>longitude</td>
       <td><code>number</code></td>
-      <td>经度</td>
+      <td>Longitude</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
@@ -347,37 +347,37 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
       <td><code>GetRegionSuccessCallback</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
 ### GetRegionSuccessCallback
 
-接口调用成功的回调函数
+The callback function for a successful API call
 
 ```tsx
 (result: GetRegionSuccessCallbackResult) => void
@@ -386,8 +386,8 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -403,26 +403,26 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>northeast</td>
       <td><code>number</code></td>
-      <td>东北角经纬度</td>
+      <td>Altitude and longitude of the Northeast corner</td>
     </tr>
     <tr>
       <td>southwest</td>
       <td><code>number</code></td>
-      <td>西南角经纬度</td>
+      <td>Altitude and longitude of the Southwest corner</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
@@ -432,37 +432,37 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
       <td><code>GetRotateSuccessCallback</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
 ### GetRotateSuccessCallback
 
-接口调用成功的回调函数
+The callback function for a successful API call
 
 ```tsx
 (result: GetRotateSuccessCallbackResult) => void
@@ -471,8 +471,8 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -488,21 +488,21 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>rotate</td>
       <td><code>number</code></td>
-      <td>旋转角</td>
+      <td>The rotation angle</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
@@ -512,37 +512,37 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
       <td><code>GetScaleSuccessCallback</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
 ### GetScaleSuccessCallback
 
-接口调用成功的回调函数
+The callback function for a successful API call
 
 ```tsx
 (result: GetScaleSuccessCallbackResult) => void
@@ -551,8 +551,8 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -568,21 +568,21 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>scale</td>
       <td><code>number</code></td>
-      <td>缩放值</td>
+      <td>Scaling value</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
@@ -592,37 +592,37 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
       <td><code>GetSkewSuccessCallback</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
 ### GetSkewSuccessCallback
 
-接口调用成功的回调函数
+The callback function for a successful API call
 
 ```tsx
 (result: GetSkewSuccessCallbackResult) => void
@@ -631,8 +631,8 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -648,21 +648,21 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>skew</td>
       <td><code>number</code></td>
-      <td>倾斜角</td>
+      <td>Skewing value</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
@@ -672,68 +672,68 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>points</td>
       <td><code>MapPostion[]</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要显示在可视区域内的坐标点列表</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>List of coordinate points to be displayed in the visible area</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>padding</td>
       <td><code>number[]</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>坐标点形成的矩形边缘到地图边缘的距离，单位像素。格式为[上,右,下,左]，安卓上只能识别数组第一项，上下左右的padding一致。开发者工具暂不支持padding参数。</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Distance between the edge of the rectangle formed by coordinate points and the edge of the map (in pixel).The format is [top, right, bottom, left]. Only the first item of the array can be identified on Android. The padding is consistent for top, bottom, left, and right.Padding parameters are currently not supported on developer tools.</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
 ### MapPostion
 
-要显示在可视区域内的坐标点列表
+List of coordinate points to be displayed in the visual area
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>latitude</td>
       <td><code>number</code></td>
-      <td>纬度</td>
+      <td>Latitude</td>
     </tr>
     <tr>
       <td>longitude</td>
       <td><code>number</code></td>
-      <td>经度</td>
+      <td>Longitude</td>
     </tr>
   </tbody>
 </table>
@@ -743,42 +743,42 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Latitude</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Longitude</td>
     </tr>
     <tr>
       <td>latitude</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>纬度</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>longitude</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>经度</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -788,66 +788,66 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>autoRotate</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>移动过程中是否自动旋转 marker</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Specifies whether to automatically rotate the marker when moving</td>
     </tr>
     <tr>
       <td>destination</td>
       <td><code>DestinationOption</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>指定 marker 移动到的目标点</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Specifies the destination to which the marker will move</td>
     </tr>
     <tr>
       <td>markerId</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>指定 marker</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Specifies the marker</td>
     </tr>
     <tr>
       <td>rotate</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>marker 的旋转角度</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The rotation angle of the marker</td>
     </tr>
     <tr>
       <td>animationEnd</td>
       <td><code>(...args: any[]) =&gt; any</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>动画结束回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when an animation ends</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Animation duration, calculated separately for translation and rotation</td>
     </tr>
     <tr>
       <td>duration</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>动画持续时长，平移与旋转分别计算</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -857,34 +857,34 @@ sidebar_label: MapContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>latitude</td>
       <td><code>number</code></td>
-      <td>纬度</td>
+      <td>Latitude</td>
     </tr>
     <tr>
       <td>longitude</td>
       <td><code>number</code></td>
-      <td>经度</td>
+      <td>Longitude</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|             API              | 微信小程序 | H5 | React Native |
-|:----------------------------:|:-----:|:--:|:------------:|
-| MapContext.getCenterLocation |  ✔️   |    |              |
-|     MapContext.getRegion     |  ✔️   |    |              |
-|     MapContext.getRotate     |  ✔️   |    |              |
-|     MapContext.getScale      |  ✔️   |    |              |
-|      MapContext.getSkew      |  ✔️   |    |              |
-|   MapContext.includePoints   |  ✔️   |    |              |
-|  MapContext.moveToLocation   |  ✔️   |    |              |
-|  MapContext.translateMarker  |  ✔️   |    |              |
+|             API              | WeChat Mini-Program | H5 | React Native |
+|:----------------------------:|:-------------------:|:--:|:------------:|
+| MapContext.getCenterLocation |         ✔️          |    |              |
+|     MapContext.getRegion     |         ✔️          |    |              |
+|     MapContext.getRotate     |         ✔️          |    |              |
+|     MapContext.getScale      |         ✔️          |    |              |
+|      MapContext.getSkew      |         ✔️          |    |              |
+|   MapContext.includePoints   |         ✔️          |    |              |
+|  MapContext.moveToLocation   |         ✔️          |    |              |
+|  MapContext.translateMarker  |         ✔️          |    |              |
