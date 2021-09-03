@@ -3,20 +3,20 @@ title: Taro.getFileSystemManager()
 sidebar_label: getFileSystemManager
 ---
 
-获取全局唯一的文件管理器
+Gets the globally unique file manager.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileSystemManager.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileSystemManager.html)
 
-## 类型
+## Type
 
 ```tsx
 () => FileSystemManager
 ```
 
-## 参数
+## Parameters
 
-## API 支持度
+## API Support
 
-|            API            | 微信小程序 | H5 | React Native |
-|:-------------------------:|:-----:|:--:|:------------:|
-| Taro.getFileSystemManager |  ✔️   |    |              |
+|            API            | WeChat Mini-Program | H5 | React Native |
+|:-------------------------:|:-------------------:|:--:|:------------:|
+| Taro.getFileSystemManager |         ✔️          |    |              |
