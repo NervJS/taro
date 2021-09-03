@@ -3,19 +3,19 @@ title: Taro.getRecorderManager()
 sidebar_label: getRecorderManager
 ---
 
-获取**全局唯一**的录音管理器 RecorderManager
+Obtains the **globally unique** recording manager RecorderManager.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/wx.getRecorderManager.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/wx.getRecorderManager.html)
 
-## 类型
+## Type
 
 ```tsx
 () => RecorderManager
 ```
 
-## 参数
+## Parameters
 
-## 示例代码
+## Sample Code
 
 ```tsx
 const recorderManager = Taro.getRecorderManager()
@@ -44,8 +44,8 @@ const options = {
 recorderManager.start(options)
 ```
 
-## API 支持度
+## API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| Taro.getRecorderManager |  ✔️   |    |      ✔️      |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+| Taro.getRecorderManager |         ✔️          |    |      ✔️      |
