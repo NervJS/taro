@@ -3,76 +3,76 @@ title: Taro.setTabBarItem(option)
 sidebar_label: setTabBarItem
 ---
 
-动态设置 tabBar 某一项的内容，`2.7.0` 起图片支持临时文件和网络文件。
+Dynamically sets the content of a tabBarn item. For image content, temporary files and network files are supported as of `2.7.0`.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.setTabBarItem.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.setTabBarItem.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<CallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>index</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>tabBar 的哪一项，从左边算起</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Specifies which item of tabBar, starting from the left</td>
     </tr>
     <tr>
       <td>complete</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The text of a button on tab</td>
     </tr>
     <tr>
       <td>fail</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td style={{ textAlign: "center"}}>No</td>
       <td>接口调用失败的回调函数</td>
     </tr>
     <tr>
       <td>iconPath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>图片路径，icon 大小限制为 40kb，建议尺寸为 81px * 81px，当 postion 为 top 时，此参数无效</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The path to the icon. The icon size is limited to 40 KB. Recommended size is 81 px * 81 px, This parameter does not take effect when postion is top.</td>
     </tr>
     <tr>
       <td>selectedIconPath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>选中时的图片路径，icon 大小限制为 40kb，建议尺寸为 81px * 81px ，当 postion 为 top 时，此参数无效</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>success</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>text</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>tab 上的按钮文字</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.setTabBarItem({
@@ -83,8 +83,8 @@ Taro.setTabBarItem({
 })
 ```
 
-## API 支持度
+## API Support
 
-|        API         | 微信小程序 | H5 | React Native |
-|:------------------:|:-----:|:--:|:------------:|
-| Taro.setTabBarItem |  ✔️   | ✔️ |      ✔️      |
+|        API         | WeChat Mini-Program | H5 | React Native |
+|:------------------:|:-------------------:|:--:|:------------:|
+| Taro.setTabBarItem |         ✔️          | ✔️ |      ✔️      |
