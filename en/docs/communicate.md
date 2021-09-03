@@ -1,43 +1,43 @@
 ---
-title: 沟通与反馈
+title: Communication and Feedback
 ---
 
-## 开发交流
+## Develop and Communicate
 
-选择下列对应的群，使用微信扫码添加，会收到入群二维码，再扫群码添加即可。
+Select the following corresponding groups, use WeChat to scan the code to add, you will receive the group QR code, then scan the group code to add.
 
 | Taro                                                                                                   | Taro Vue                                                                                              | Taro RN                                                                                              | Taro x NutUI                                                                                            |
 | ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | <img src="https://storage.360buyimg.com/taro-resource/Taro-Taro.png" width="220px" /> | <img src="https://storage.360buyimg.com/taro-resource/Taro-Vue.png" width="220px" /> | <img src="https://storage.360buyimg.com/taro-resource/Taro-RN.png" width="220px" /> | <img src="https://storage.360buyimg.com/taro-resource/NutUIxTaro.png" width="220px" /> |
 
-## 问题反馈与建议
+## Feedback and suggestions
 
-遇到 Bug 请[给 Taro 提 ISSUE](https://nervjs.github.io/taro-issue-helper/)。
+If you encounter a bug, Please fire a [Github Issue](https://nervjs.github.io/taro-issue-helper/)。
 
-有疑问或想法请到 [Github Discussion](https://github.com/NervJS/taro/discussions) 讨论。
+If you have questions or ideas please discuss them on [Github Discussion](https://github.com/NervJS/taro/discussions)。
 
-## 社区共享
+## Community Sharing
 
-### 论坛
+### Forum
 
-[Taro 交流社区——让每一次交流都被沉淀](http://taro-club.jd.com/)
+[Taro Community - Let every communication be accumulated](http://taro-club.jd.com/)
 
-你可以在交流社区里提问、讨论、吐槽。
+You can ask questions, discuss, and tweet in the communication community.
 
-### 物料市场
+### Examples
 
-[Taro 物料市场——让每一个轮子产生价值](http://taro-ext.jd.com/)
+[Taro examples marketplace - Making each example generate Value](http://taro-ext.jd.com/)
 
-你可以在物料市场里找到一些开源的模板、组件和项目，也欢迎你分享你的成果。
+You can find some open source templates, components and projects in the examples, and you are welcome to share your results.
 
-## 加入共建
+## Join us
 
-### 加入 Taro 社区共建
+### Join Taro community
 
-[Taro 邀你加入社区共建](https://github.com/NervJS/taro/issues/4714)
+[Taro invites you to join in community building](https://github.com/NervJS/taro/issues/4714)
 
-### 为 Taro 贡献代码
+### Contribute code to Taro
 
-Taro 非常欢迎社区开发者为 Taro 贡献代码，在贡献之前请先阅读[贡献指南](https://nervjs.github.io/taro/docs/CONTRIBUTING.html)。
+Taro welcomes community developers to contribute code to Taro, please read the following before contributing [Contribute Guides](https://nervjs.github.io/taro/docs/CONTRIBUTING.html)。
 
-如果你想为 Taro 实现一个重要功能，需要先撰写 RFC  文档，按照 Taro 的 [RFC 机制](https://github.com/NervJS/taro-rfcs)进行操作，在经过社区讨论完善后才可以进行代码的提交。
+If you want to implement an important feature for Taro, you need to write an RFC document first, Follow Taro's [RFC System](https://github.com/NervJS/taro-rfcs) and do not commit the code until it has been discussed and refined by the community.
