@@ -3,91 +3,91 @@ title: Taro.showModal(option)
 sidebar_label: showModal
 ---
 
-显示模态对话框 **注意**
-- Android 6.7.2 以下版本，点击取消或蒙层时，回调 fail, errMsg 为 "fail cancel"；
-- Android 6.7.2 及以上版本 和 iOS 点击蒙层不会关闭模态弹窗，所以尽量避免使用「取消」分支中实现业务逻辑
+Displays the modal dialog box.
+- For Android 6.7.2 and below, when you tap **Cancel** or **Mask**, the callback will fail with the errMsg of "fail cancel".
+- For Android 6.7.2 & above and iOS, tapping **Mask** will not close the modal dialog box, so avoid using the "Cancel" branch to implement the business logic.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showModal.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showModal.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<SuccessCallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>cancelColor</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>取消按钮的文字颜色，必须是 16 进制格式的颜色字符串</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Prompt title</td>
     </tr>
     <tr>
       <td>cancelText</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>取消按钮的文字，最多 4 个字符</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Prompt content</td>
     </tr>
     <tr>
       <td>complete</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The text color of the "Cancel" button, which must be a color string in hexadecimal format</td>
     </tr>
     <tr>
       <td>confirmColor</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>确认按钮的文字颜色，必须是 16 进制格式的颜色字符串</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The text of the "Cancel" button, not more than 4 characters</td>
     </tr>
     <tr>
       <td>confirmText</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>确认按钮的文字，最多 4 个字符</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The text color of the "OK" button, which must be a color string in hexadecimal format</td>
     </tr>
     <tr>
       <td>content</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>提示的内容</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The text of the "OK "button, not more than 4 characters</td>
     </tr>
     <tr>
       <td>fail</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Indicates whether to display the "Cancel" button</td>
     </tr>
     <tr>
       <td>showCancel</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否显示取消按钮</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
     <tr>
       <td>success</td>
       <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>title</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>提示的标题</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
   </tbody>
 </table>
@@ -97,48 +97,48 @@ sidebar_label: showModal
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>cancel</td>
       <td><code>boolean</code></td>
-      <td>为 true 时，表示用户点击了取消（用于 Android 系统区分点击蒙层关闭还是点击取消按钮关闭）</td>
+      <td>When the value is "true", it indicates that the user tapped the "Cancel" button. (this is used for Android system to distinguish whether "Mask" or "Cancel" is tapped)</td>
     </tr>
     <tr>
       <td>confirm</td>
       <td><code>boolean</code></td>
-      <td>为 true 时，表示用户点击了确定按钮</td>
+      <td>When the value is "true", it indicates that the user tapped the "OK" button.</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>call result</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.showModal({
-  title: '提示',
-  content: '这是一个模态弹窗',
-  success: function (res) {
+  title: 'Prompt',
+  content: 'This is a modal pop-up window',
+  success (res) {
     if (res.confirm) {
-      console.log('用户点击确定')
+      console.log('"OK" is tapped')
     } else if (res.cancel) {
-      console.log('用户点击取消')
+      console.log('"Cancel" is tapped')
     }
   }
 })
 ```
 
-## API 支持度
+## API Support
 
-|      API       | 微信小程序 | H5 | React Native |
-|:--------------:|:-----:|:--:|:------------:|
-| Taro.showModal |  ✔️   | ✔️ |      ✔️      |
+|      API       | WeChat Mini-Program | H5 | React Native |
+|:--------------:|:-------------------:|:--:|:------------:|
+| Taro.showModal |         ✔️          | ✔️ |      ✔️      |
