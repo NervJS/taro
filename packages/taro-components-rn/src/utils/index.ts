@@ -1,7 +1,8 @@
 import {
   StyleSheet,
   StyleProp,
-  ViewStyle
+  ViewStyle,
+  TextStyle
 } from 'react-native'
 
 // @see https://facebook.github.io/react-native/docs/layout-props.html
@@ -11,6 +12,20 @@ import {
 const WRAPPER_TYPE_STYLE_REGEX = /alignSelf|aspectRatio|border.*|bottom|direction|display|end|left|margin.*|position|right|start|top|zIndex|opacity|elevation/
 // const INNER_TYPE_STYLE_REGEX: RegExp = /alignContent|alignItems|flexDirection|flexWrap|height|justifyContent|.*[wW]idth|.*[hH]eight|overflow|padding.*/
 const SYNC_TYPE_STYLE_REGEX = /flex|flexBasis|flexGrow|flexShrink/
+const TEXT_STYLE_REGEX = /color|font.*|text.*|letterSpacing|lineHeight|includeFontPadding|writingDirection/
+
+export const extracteTextStyle = (style?: StyleProp<ViewStyle>) : StyleProp<TextStyle> => {
+  const flattenStyle = StyleSheet.flatten(style)
+  const textStyle: TextStyle & { [key: string]: any } = {}
+  if (flattenStyle) {
+    Object.keys(flattenStyle).forEach((key: string) => {
+      if (TEXT_STYLE_REGEX.test(key)) {
+        textStyle[key] = flattenStyle[key]
+      }
+    })
+  }
+  return textStyle
+}
 
 export const omit = (obj: any = {}, fields: string[] = []): { [key: string]: any } => {
   const shallowCopy = { ...obj }
