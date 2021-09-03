@@ -3,13 +3,13 @@ title: EventChannel
 sidebar_label: EventChannel
 ---
 
-## 方法
+## Methods
 
 ### emit
 
-触发一个事件
+Inter-page event communication channel
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/route/EventChannel.emit.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/route/EventChannel.emit.html)
 
 ```tsx
 (eventName: string, ...args: any) => void
@@ -18,36 +18,36 @@ sidebar_label: EventChannel
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>eventName</td>
       <td><code>string</code></td>
-      <td>事件名称</td>
+      <td>event name</td>
     </tr>
     <tr>
       <td>args</td>
       <td><code>any</code></td>
-      <td>事件参数</td>
+      <td>event arguments</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|        API        | 微信小程序 | H5 | React Native |
-|:-----------------:|:-----:|:--:|:------------:|
-| EventChannel.emit |  ✔️   |    |      ✔️      |
+|        API        | WeChat Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:--:|:------------:|
+| EventChannel.emit |         ✔️          |    |      ✔️      |
 
 ### off
 
-取消监听一个事件。给出第二个参数时，只取消给出的监听函数，否则取消所有监听函数
+Cancels listening to an event.If the second parameter is passed, only the specified listener is cancelled, otherwise all listener functions are cancelled.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/route/EventChannel.off.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/route/EventChannel.off.html)
 
 ```tsx
 (eventName: string, fn: EventCallback) => void
@@ -56,36 +56,36 @@ sidebar_label: EventChannel
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>eventName</td>
       <td><code>string</code></td>
-      <td>事件名称</td>
+      <td>event name</td>
     </tr>
     <tr>
       <td>fn</td>
       <td><code>EventCallback</code></td>
-      <td>事件监听函数</td>
+      <td>event handler</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|       API        | 微信小程序 | H5 | React Native |
-|:----------------:|:-----:|:--:|:------------:|
-| EventChannel.off |  ✔️   |    |              |
+|       API        | WeChat Mini-Program | H5 | React Native |
+|:----------------:|:-------------------:|:--:|:------------:|
+| EventChannel.off |         ✔️          |    |              |
 
 ### on
 
-持续监听一个事件
+Trigger an event
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/route/EventChannel.on.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/route/EventChannel.on.html)
 
 ```tsx
 (eventName: string, fn: EventCallback) => void
@@ -94,36 +94,36 @@ sidebar_label: EventChannel
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>eventName</td>
       <td><code>string</code></td>
-      <td>事件名称</td>
+      <td>event name</td>
     </tr>
     <tr>
       <td>fn</td>
       <td><code>EventCallback</code></td>
-      <td>事件监听函数</td>
+      <td>event handler</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|       API       | 微信小程序 | H5 | React Native |
-|:---------------:|:-----:|:--:|:------------:|
-| EventChannel.on |  ✔️   |    |              |
+|       API       | WeChat Mini-Program | H5 | React Native |
+|:---------------:|:-------------------:|:--:|:------------:|
+| EventChannel.on |         ✔️          |    |              |
 
 ### once
 
-监听一个事件一次，触发后失效
+Register a listener event
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/route/EventChannel.once.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/route/EventChannel.once.html)
 
 ```tsx
 (eventName: string, fn: EventCallback) => void
@@ -132,36 +132,36 @@ sidebar_label: EventChannel
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>eventName</td>
       <td><code>string</code></td>
-      <td>事件名称</td>
+      <td>event name</td>
     </tr>
     <tr>
       <td>fn</td>
       <td><code>EventCallback</code></td>
-      <td>事件监听函数</td>
+      <td>event handler</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|        API        | 微信小程序 | H5 | React Native |
-|:-----------------:|:-----:|:--:|:------------:|
-| EventChannel.once |  ✔️   |    |              |
+|        API        | WeChat Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:--:|:------------:|
+| EventChannel.once |         ✔️          |    |              |
 
-## API 支持度
+## API Support
 
-|        API        | 微信小程序 | H5 | React Native |
-|:-----------------:|:-----:|:--:|:------------:|
-| EventChannel.emit |  ✔️   |    |              |
-| EventChannel.off  |  ✔️   |    |              |
-|  EventChannel.on  |  ✔️   |    |              |
-| EventChannel.once |  ✔️   |    |              |
+|        API        | WeChat Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:--:|:------------:|
+| EventChannel.emit |         ✔️          |    |              |
+| EventChannel.off  |         ✔️          |    |              |
+|  EventChannel.on  |         ✔️          |    |              |
+| EventChannel.once |         ✔️          |    |              |
