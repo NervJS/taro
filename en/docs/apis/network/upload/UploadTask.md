@@ -3,33 +3,33 @@ title: UploadTask
 sidebar_label: UploadTask
 ---
 
-一个可以监听上传进度变化事件，以及取消上传任务的对象
+Listens on the upload progress change event and cancels upload tasks.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.html)
 
-## 方法
+## Methods
 
 ### abort
 
-中断上传任务
+Aborts upload tasks.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.abort.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.abort.html)
 
 ```tsx
 () => void
 ```
 
-#### API 支持度
+#### API Support
 
-|       API        | 微信小程序 | H5 | React Native |
-|:----------------:|:-----:|:--:|:------------:|
-| UploadTask.abort |  ✔️   |    |              |
+|       API        | WeChat Mini-Program | H5 | React Native |
+|:----------------:|:-------------------:|:--:|:------------:|
+| UploadTask.abort |         ✔️          |    |              |
 
 ### offHeadersReceived
 
-取消监听 HTTP Response Header 事件
+Listens on HTTP Response Header event, which will be earlier than the request completion event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.offHeadersReceived.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.offHeadersReceived.html)
 
 ```tsx
 (callback: OffHeadersReceivedCallback) => void
@@ -38,31 +38,31 @@ sidebar_label: UploadTask
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>OffHeadersReceivedCallback</code></td>
-      <td>HTTP Response Header 事件的回调函数</td>
+      <td>The callback function for the HTTP Response Header event.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|              API              | 微信小程序 | H5 | React Native |
-|:-----------------------------:|:-----:|:--:|:------------:|
-| UploadTask.offHeadersReceived |  ✔️   |    |              |
+|              API              | WeChat Mini-Program | H5 | React Native |
+|:-----------------------------:|:-------------------:|:--:|:------------:|
+| UploadTask.offHeadersReceived |         ✔️          |    |              |
 
 ### offProgressUpdate
 
-取消监听上传进度变化事件
+Un-listens on the upload progress change event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.offProgressUpdate.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.offProgressUpdate.html)
 
 ```tsx
 (callback: OffProgressUpdateCallback) => void
@@ -71,31 +71,31 @@ sidebar_label: UploadTask
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>OffProgressUpdateCallback</code></td>
-      <td>上传进度变化事件的回调函数</td>
+      <td>The callback function for the upload progress change event.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|             API              | 微信小程序 | H5 | React Native |
-|:----------------------------:|:-----:|:--:|:------------:|
-| UploadTask.offProgressUpdate |  ✔️   |    |              |
+|             API              | WeChat Mini-Program | H5 | React Native |
+|:----------------------------:|:-------------------:|:--:|:------------:|
+| UploadTask.offProgressUpdate |         ✔️          |    |              |
 
 ### onHeadersReceived
 
-监听 HTTP Response Header 事件。会比请求完成事件更早
+Listens on HTTP Response Header event, which will be earlier than the request completion event.会比请求完成事件更早
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.onHeadersReceived.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.onHeadersReceived.html)
 
 ```tsx
 (callback: OnHeadersReceivedCallback) => void
@@ -104,25 +104,25 @@ sidebar_label: UploadTask
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>OnHeadersReceivedCallback</code></td>
-      <td>HTTP Response Header 事件的回调函数</td>
+      <td>The callback function for the HTTP Response Header event.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|             API              | 微信小程序 | H5 | React Native |
-|:----------------------------:|:-----:|:--:|:------------:|
-| UploadTask.onHeadersReceived |  ✔️   |    |              |
+|             API              | WeChat Mini-Program | H5 | React Native |
+|:----------------------------:|:-------------------:|:--:|:------------:|
+| UploadTask.onHeadersReceived |         ✔️          |    |              |
 
 ### headersReceived
 
@@ -133,25 +133,25 @@ sidebar_label: UploadTask
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>OnHeadersReceivedCallback</code></td>
-      <td>HTTP Response Header 事件的回调函数</td>
+      <td>The callback function for the HTTP Response Header event</td>
     </tr>
   </tbody>
 </table>
 
 ### onProgressUpdate
 
-监听上传进度变化事件
+Listens on the upload progress change event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.onProgressUpdate.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.onProgressUpdate.html)
 
 ```tsx
 (callback: OnProgressUpdateCallback) => void
@@ -160,25 +160,25 @@ sidebar_label: UploadTask
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>OnProgressUpdateCallback</code></td>
-      <td>上传进度变化事件的回调函数</td>
+      <td>The callback function for the upload progress change event.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|             API             | 微信小程序 | H5 | React Native |
-|:---------------------------:|:-----:|:--:|:------------:|
-| UploadTask.onProgressUpdate |  ✔️   |    |              |
+|             API             | WeChat Mini-Program | H5 | React Native |
+|:---------------------------:|:-------------------:|:--:|:------------:|
+| UploadTask.onProgressUpdate |         ✔️          |    |              |
 
 ### progress
 
@@ -189,25 +189,25 @@ sidebar_label: UploadTask
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>OnProgressUpdateCallback</code></td>
-      <td>上传进度变化事件的回调函数</td>
+      <td>The callback function for the upload progress change event.</td>
     </tr>
   </tbody>
 </table>
 
-## 参数
+## Parameters
 
 ### OffHeadersReceivedCallback
 
-HTTP Response Header 事件的回调函数
+The callback function for the HTTP Response Header event
 
 ```tsx
 (res: CallbackResult) => void
@@ -216,8 +216,8 @@ HTTP Response Header 事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -230,7 +230,7 @@ HTTP Response Header 事件的回调函数
 
 ### OffProgressUpdateCallback
 
-上传进度变化事件的回调函数
+The callback function for the upload progress change event.
 
 ```tsx
 (res: CallbackResult) => void
@@ -239,8 +239,8 @@ HTTP Response Header 事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -253,7 +253,7 @@ HTTP Response Header 事件的回调函数
 
 ### OnHeadersReceivedCallback
 
-HTTP Response Header 事件的回调函数
+The callback function for the HTTP Response Header event.
 
 ```tsx
 (result: OnHeadersReceivedCallbackResult) => void
@@ -262,8 +262,8 @@ HTTP Response Header 事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -276,7 +276,7 @@ HTTP Response Header 事件的回调函数
 
 ### OnProgressUpdateCallback
 
-上传进度变化事件的回调函数
+The callback function for the upload progress change event.
 
 ```tsx
 (result: OnProgressUpdateCallbackResult) => void
@@ -285,8 +285,8 @@ HTTP Response Header 事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -302,16 +302,16 @@ HTTP Response Header 事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>header</td>
       <td><code>Record&lt;string, any&gt;</code></td>
-      <td>开发者服务器返回的 HTTP Response Header</td>
+      <td>HTTP Response Header returned by the developer server</td>
     </tr>
   </tbody>
 </table>
@@ -321,36 +321,36 @@ HTTP Response Header 事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>progress</td>
       <td><code>number</code></td>
-      <td>上传进度百分比</td>
+      <td>Upload progress percentage</td>
     </tr>
     <tr>
       <td>totalBytesExpectedToSend</td>
       <td><code>number</code></td>
-      <td>预期需要上传的数据总长度，单位 Bytes</td>
+      <td>The length of data expected to be uploaded, in bytes</td>
     </tr>
     <tr>
       <td>totalBytesSent</td>
       <td><code>number</code></td>
-      <td>已经上传的数据长度，单位 Bytes</td>
+      <td>The length of uploaded data, in bytes</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|              API              | 微信小程序 | H5 | React Native |
-|:-----------------------------:|:-----:|:--:|:------------:|
-|       UploadTask.abort        |  ✔️   |    |              |
-| UploadTask.offHeadersReceived |  ✔️   |    |              |
-| UploadTask.offProgressUpdate  |  ✔️   |    |              |
-| UploadTask.onHeadersReceived  |  ✔️   |    |              |
-|  UploadTask.onProgressUpdate  |  ✔️   |    |              |
+|              API              | WeChat Mini-Program | H5 | React Native |
+|:-----------------------------:|:-------------------:|:--:|:------------:|
+|       UploadTask.abort        |         ✔️          |    |              |
+| UploadTask.offHeadersReceived |         ✔️          |    |              |
+| UploadTask.offProgressUpdate  |         ✔️          |    |              |
+| UploadTask.onHeadersReceived  |         ✔️          |    |              |
+|  UploadTask.onProgressUpdate  |         ✔️          |    |              |
