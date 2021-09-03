@@ -3,71 +3,71 @@ title: Taro.chooseVideo(option)
 sidebar_label: chooseVideo
 ---
 
-拍摄视频或从手机相册中选视频。
+Takes a video or selects a video from the mobile album.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.chooseVideo.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.chooseVideo.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<void>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>camera</td>
       <td><code>&quot;back&quot; | &quot;front&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>默认拉起的是前置或者后置摄像头。部分 Android 手机下由于系统 ROM 不支持无法生效</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Indicates the default camera to be enabled.On some Android phones, the setting cannot take effect because it is not supported in ROM.</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Indicates whether to compress the selected video file</td>
     </tr>
     <tr>
       <td>compressed</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否压缩所选择的视频文件</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The maximum duration of a recorded video (in sec)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The source of the video</td>
     </tr>
     <tr>
       <td>maxDuration</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>拍摄视频最长拍摄时间，单位秒</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>sourceType</td>
       <td><code>(&quot;album&quot; | &quot;camera&quot;)[]</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>视频选择的来源</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -77,41 +77,41 @@ sidebar_label: chooseVideo
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>duration</td>
       <td><code>number</code></td>
-      <td>选定视频的时间长度</td>
+      <td>Duration of the selected video</td>
     </tr>
     <tr>
       <td>height</td>
       <td><code>number</code></td>
-      <td>返回选定视频的高度</td>
+      <td>Returns the height of the selected video</td>
     </tr>
     <tr>
       <td>size</td>
       <td><code>number</code></td>
-      <td>选定视频的数据量大小</td>
+      <td>Amount of data of the selected video</td>
     </tr>
     <tr>
       <td>tempFilePath</td>
       <td><code>string</code></td>
-      <td>选定视频的临时文件路径</td>
+      <td>Temporary file path of the selected video</td>
     </tr>
     <tr>
       <td>width</td>
       <td><code>number</code></td>
-      <td>返回选定视频的宽度</td>
+      <td>Returns the width of the selected video</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
@@ -121,18 +121,18 @@ sidebar_label: chooseVideo
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>back</td>
-      <td>默认拉起后置摄像头</td>
+      <td>Enables the rear camera by default</td>
     </tr>
     <tr>
       <td>front</td>
-      <td>默认拉起前置摄像头</td>
+      <td>Enables the front camera by default</td>
     </tr>
   </tbody>
 </table>
@@ -142,23 +142,23 @@ sidebar_label: chooseVideo
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>album</td>
-      <td>从相册选择视频</td>
+      <td>Selects a video from the album</td>
     </tr>
     <tr>
       <td>camera</td>
-      <td>使用相机拍摄视频</td>
+      <td>Takes a video with the camera</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.chooseVideo({
@@ -171,8 +171,8 @@ Taro.chooseVideo({
 })
 ```
 
-## API 支持度
+## API Support
 
-|       API        | 微信小程序 | H5 | React Native |
-|:----------------:|:-----:|:--:|:------------:|
-| Taro.chooseVideo |  ✔️   |    |      ✔️      |
+|       API        | WeChat Mini-Program | H5 | React Native |
+|:----------------:|:-------------------:|:--:|:------------:|
+| Taro.chooseVideo |         ✔️          |    |      ✔️      |
