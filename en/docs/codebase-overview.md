@@ -1,88 +1,88 @@
 ---
-title: Taro 仓库概览
+title: Taro Repository Overview
 ---
 
-## 仓库组成
+## Repository Composition
 
-以下列表介绍了 Taro 由哪些 NPM 包所组成，以及每个包的功能。
+The following list describes which NPM packages Taro consists of and what each package does.
 
-### 基础
+### Base
 
-| 路径                     | 描述                             |
-| ---------------------- |:------------------------------ |
-| `@tarojs/cli`          | CLI 工具                         |
-| `@tarojs/service`      | 插件化内核                          |
-| `@tarojs/taro-loader`  | Webpack loaders                |
-| `@tarojs/helper`       | 工具库，主要供 CLI、编译时使用              |
-| `@tarojs/runner-utils` | 工具库，主要供小程序、H5 的编译工具使用          |
-| `@tarojs/shared`       | 工具库，主要供运行时使用                   |
-| `@tarojs/taro`         | 暴露各端所需要的 Taro 对象               |
-| `@tarojs/api`          | 和各端无关的 Taro API                |
-| `babel-preset-taro`    | Babel preset                   |
-| `eslint-config-taro`   | ESLint 规则                      |
-| `postcss-pxtransform`  | PostCSS 插件，转换 `px` 为各端的自适应尺寸单位 |
+| Path                   | Description                                                               |
+| ---------------------- |:------------------------------------------------------------------------- |
+| `@tarojs/cli`          | CLI tool                                                                  |
+| `@tarojs/service`      | Pluginized Kernel                                                         |
+| `@tarojs/taro-loader`  | Webpack loaders                                                           |
+| `@tarojs/helper`       | Tool library, mainly for CLI, compile-time use                            |
+| `@tarojs/runner-utils` | Tool library, mainly for compilation tools for mini program and H5        |
+| `@tarojs/shared`       | Tool library, mainly for runtime use                                      |
+| `@tarojs/taro`         | Expose the Taro objects needed on each end                                |
+| `@tarojs/api`          | Taro API independent of each platform                                     |
+| `babel-preset-taro`    | Babel preset                                                              |
+| `eslint-config-taro`   | ESLint rules                                                              |
+| `postcss-pxtransform`  | PostCSS plugin that converts `px` to adaptive size units on each platform |
 
-### 小程序
+### Mini Program
 
-| 路径                               | 描述                                     |
-| -------------------------------- |:-------------------------------------- |
-| `@tarojs/mini-runner`            | 小程序编译工具，主要用于设置、调用 Webpack              |
-| `@tarojs/react`                  | 基于 `react-reconciler` 的小程序专用 React 渲染器 |
-| `@tarojs/runtime`                | 小程序运行时适配器核心                            |
-| `@tarojs/plugin-platform-weapp`  | 微信小程序插件                                |
-| `@tarojs/plugin-platform-alipay` | 支付宝小程序插件                               |
-| `@tarojs/plugin-platform-swan`   | 百度小程序插件                                |
-| `@tarojs/plugin-platform-tt`     | 字节跳动小程序插件                              |
-| `@tarojs/plugin-platform-qq`     | qq 小程序插件                               |
-| `@tarojs/plugin-platform-jd`     | 京东小程序插件                                |
-| `@taojs/plugin-html`             | 支持使用 HTML 标签的插件                        |
-| `postcss-html-transform`         | PostCSS 插件，用于处理 HTML 标签的类名             |
-| `@taojs/plugin-react-devtools`   | 支持使用 React DevTools 的插件                |
-| `@tarojs/extend`                 | 类似 jQuery 的库                           |
+| Path                             | Description                                                                |
+| -------------------------------- |:-------------------------------------------------------------------------- |
+| `@tarojs/mini-runner`            | Mini program compiler tool, mainly used for setting up and calling Webpack |
+| `@tarojs/react`                  | Mini program specific React renderer based on `react-reconciler`           |
+| `@tarojs/runtime`                | Mini program Runtime Adapter Core                                          |
+| `@tarojs/plugin-platform-weapp`  | Wechat mini program  plugin                                                |
+| `@tarojs/plugin-platform-alipay` | Alipay mini program  plugin                                                |
+| `@tarojs/plugin-platform-swan`   | Baidu smart program  plugin                                                |
+| `@tarojs/plugin-platform-tt`     | ByteDance mini program plugin                                              |
+| `@tarojs/plugin-platform-qq`     | QQ mini program  plugin                                                    |
+| `@tarojs/plugin-platform-jd`     | Jingdong mini program  plugin                                              |
+| `@taojs/plugin-html`             | Support for plugins that use HTML tags                                     |
+| `postcss-html-transform`         | PostCSS plugin, class name for handling HTML tags                          |
+| `@taojs/plugin-react-devtools`   | Support for plugins using React DevTools                                   |
+| `@tarojs/extend`                 | jQuery-like libraries                                                      |
 
 ### H5
 
-| 路径                               | 描述                                |
-| -------------------------------- |:--------------------------------- |
-| `@tarojs/webpack-runner`         | H5 编译工具，主要用于设置、调用 Webpack         |
-| `@tarojs/router`                 | H5 路由                             |
-| `@tarojs/taro-h5`                | H5 端根据微信小程序规范实现的 API              |
-| `@tarojs/components`             | H5 组件库（Web Components 版本）         |
-| `@tarojs/components-react`       | H5 组件库（React 版本）                  |
-| `babel-plugin-transform-taroapi` | Babel 插件，让 API 可以被 `tree-shaking` |
-| `postcss-plugin-constparse`      | PostCSS 插件，用于处理 `tabbar` 的高度      |
+| Path                             | Description                                                           |
+| -------------------------------- |:--------------------------------------------------------------------- |
+| `@tarojs/webpack-runner`         | H5 compiler tool, mainly used for setting up and calling Webpack      |
+| `@tarojs/router`                 | H5 Router                                                             |
+| `@tarojs/taro-h5`                | H5 API implemented according to the WeChat mini program specification |
+| `@tarojs/components`             | H5 Component Library（Web Components version）                          |
+| `@tarojs/components-react`       | H5 Component Library (React version)                                  |
+| `babel-plugin-transform-taroapi` | Babel plugin that allows the API to be used by `tree-shaking`         |
+| `postcss-plugin-constparse`      | PostCSS plugin for handling the height of the `tabbar`                |
 
 ### RN
 
-| 路径                                                  | 描述                                                |
-| --------------------------------------------------- |:------------------------------------------------- |
-| `@tarojs/components-rn`                             | RN 组件库                                            |
-| `@tarojs/rn-runner`                                 | RN 编译工具，主要用于设置、调用 metro                           |
-| `@tarojs/rn-style-transformer`                      | RN 样式转换工具，让 RN 支持sass、less、stylus、postcss         |
-| `@tarojs/rn-supporter`                              | RN 基础 metro 配置                                    |
-| `@tarojs/rn-transformer`                            | RN 应用入口及页面转换工具，让 RN 支持 Taro 定义的 app 及 page config |
-| `@tarojs/router-rn`                                 | RN 路由                                             |
-| `@tarojs/runtime-rn`                                | RN 运行时封装                                          |
-| `@tarojs/taro-rn`                                   | RN 端根据微信小程序规范实现的 API                              |
-| `babel-plugin-transform-react-jsx-to-rn-stylesheet` | Babel 插件，让 jsx 支持 className 属性                    |
-| `taro-css-to-react-native`                          | 将 css 转为 RN 的 stylesheet                          |
+| Path                                                | Description                                                                                               |
+| --------------------------------------------------- |:--------------------------------------------------------------------------------------------------------- |
+| `@tarojs/components-rn`                             | RN Component Library                                                                                      |
+| `@tarojs/rn-runner`                                 | RN compiler tool, mainly used to set up and call metro                                                    |
+| `@tarojs/rn-style-transformer`                      | RN style conversion tool to make RN support sass、less、stylus、postcss                                      |
+| `@tarojs/rn-supporter`                              | RN Basic metro configuration                                                                              |
+| `@tarojs/rn-transformer`                            | RN application portal and page conversion tool that allows RN to support Taro-defined app and page config |
+| `@tarojs/router-rn`                                 | RN router                                                                                                 |
+| `@tarojs/runtime-rn`                                | RN Runtime Packaging                                                                                      |
+| `@tarojs/taro-rn`                                   | The API implemented on the RN side according to the WeChat mini program specification                     |
+| `babel-plugin-transform-react-jsx-to-rn-stylesheet` | Babel plugin for jsx to support className attribute                                                       |
+| `taro-css-to-react-native`                          | Converting css to RN stylesheet                                                                           |
 
-### 其它
+### Other
 
-| 路径                   | 描述                |
-| -------------------- |:----------------- |
-| `@tarojs/taroize`    | 小程序转 Taro 的编译器    |
-| `@tarojs/with-weapp` | 小程序转 Taro 的运行时适配器 |
+| Path                 | Description                              |
+| -------------------- |:---------------------------------------- |
+| `@tarojs/taroize`    | Mini program to Taro compiler            |
+| `@tarojs/with-weapp` | Runtime adapter for mini program to Taro |
 
-## 如何开发
+## How to develop
 
-### 环境准备
+### Environment Preparation
 
-:::note 需要保证你的 Node.js 版本大于 `8`（建议安装 `10.5` 以上版本） :::
+:::note Need to make sure your Node.js version is greater than `8` (it is recommended to install `10.5` or higher) :::
 
-首先把 Taro 仓库 fork 一份到自己的 Github，然后把项目 clone 到本地，并切换到 `next` 分支。
+First fork a copy of the Taro repository to your Github, then clone the project locally and switch to the `next` branch.
 
-然后依次运行以下命令：
+Then run the following commands in sequence.
 
 ```bash
 $ yarn
@@ -90,25 +90,25 @@ $ yarn run bootstrap
 $ yarn build
 ```
 
-运行完上述命令后，环境已经准备好，此时可以新拉一条分支进行开发。
+After running the above command, the environment is ready and you can pull a new branch for development.
 
-### 代码风格
+### Code Style
 
-* `JavaScript`：遵从 [JavaScript Standard Style](https://github.com/standard/standard)，详情请看根目录的 `.eslintrc.js`。
-* `TypeScript`：遵从基于 [JavaScript Standard Style](https://github.com/standard/standard) 的变种，详情请看根目录的 `.eslintrc.js` 和相关包目录下的 `tsconfig.json`。
-* 样式：遵循相关包目录下的 `.stylelintrc` 风格。
+* `JavaScript`：Follow [JavaScript Standard Style](https://github.com/standard/standard)，For details, see the root directory `.eslintrc.js`。
+* `TypeScript`: Follow variants based on [JavaScript Standard Style](https://github.com/standard/standard), see `.eslintrc.js` in the root directory and `tsconfig.json` in the relevant package directory for details.
+* Styles: follow the `.stylelintrc` style in the relevant package directory.
 
-### 调试
+### Debug
 
-调试过程中，一般会使用 [npm link](https://docs.npmjs.com/cli/v7/commands/npm-link/) 命令，把需要调试的包软链到一个测试项目中。
+During debugging, the [npm link](https://docs.npmjs.com/cli/v7/commands/npm-link/) command is typically used to softlink the package to be debugged to a test project.
 
-调试**编译时**的代码，请参考 [《单步调测》](./debug-config)。
+To debug **compile-time** code, please refer to ["Single-step debugging"](./debug-config).
 
-调试**运行时**的代码，可以直接断点调试。
+Debug **Runtime** code, you can breakpoint debug directly.
 
-### 单元测试
+### Unit tests
 
-目前这些包配备了单元测试：
+The packages are currently equipped with unit tests for.
 
 - `babel-preset-taro`
 - `@tarojs/cli`
@@ -120,34 +120,34 @@ $ yarn build
 - `@tarojs/taro-rn`
 - `@tarojs/components-rn`
 
-开发者在修改上述包后，请务必运行 `lerna run test:ci --scope [包名]`，检查测试用例是否都能通过。
+After modifying the above packages, developers should make sure to run `lerna run test:ci --scope [package name]` to check if the test cases all pass.
 
-同时，在开发一些重要功能后，也请抽时间补上对应的测试用例。
+Also, after developing some important features, please take time to fill in the corresponding test cases.
 
-:::note 注意：`@tarojs/mini-runner`、`@tarojs/webpack-runner` 使用了 `snapshot`（测试结果快照），在修改这两个包或其它一些包时，有可能导致这些快照失效，从而通过不了测试。当你修改了这两个包、或 CI 提示这两个包的测试用例出错时，请运行 `lerna run updateSnapshot --scope [包名]` 更新 snapshot 后重新提交。 :::
+:::note Note: `@tarojs/mini-runner` and `@tarojs/webpack-runner` use `snapshot` (snapshot of test results), and modifying these two packages or some other packages may cause these snapshots to fail, and thus fail the tests.When you modify these two packages, or if CI prompts you with a test case error for these two packages, run `lerna run updateSnapshot --scope [package name]` to update the snapshot and resubmit. :::
 
-### commit 规范
+### commit Specifications
 
-在输入 `commit message` 的时候请务必遵从 [Angular Style Commit Message Conventions](https://gist.github.com/stephenparish/9941e89d80e2bc58a153) 规范。
+When entering the `commit message`, please make sure to follow the [Angular Style Commit Message Conventions](https://gist.github.com/stephenparish/9941e89d80e2bc58a153) Specifications.
 
-### 文档
+### Documentation
 
-当提交涉及新增特性、Breaking Changes 或重要修改时，请新增、修改对应的文档。
+When a commit involves new features, Breaking Changes or important modifications, please add or modify the corresponding documentation.
 
-关于文档的开发请阅读[《修改文档》](./CONTRIBUTING#修改文档)。
+Please read [Modifying Documentation](./CONTRIBUTING) for more information about the development of documentation。
 
-## 提交 Pull Request
+## Commit Pull Request
 
-> 如果对 PR（Pull Request）不了解，请阅读 [《About Pull Requests》](https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)
+> If you are not familiar with PR (Pull Request), please read [《About Pull Requests》](https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)
 
-完成开发后，推送到自己的 Taro 仓库，就可以准备提交 Pull Request 了。
+After completing the development and pushing it to your own Taro repository, you are ready to submit the Pull Request.
 
-提交 PR 前请阅读以下注意事项：
+Before submitting a PR, please read the following notes.
 
-1. 保证 `npm run build` 能够编译成功。
-2. 保证代码能通过 ESLint 测试。
-3. 当相关包含有 `npm test:ci` 命令时，必须保证所有测试用例都能够通过；
-4. 当相关包有测试用例时，请给你提交的代码也添加相应的测试用例；
-5. 保证 commit 信息需要遵循 [Angular Style Commit Message Conventions](https://gist.github.com/stephenparish/9941e89d80e2bc58a153)。
-6. 如果提交到代码非常多或功能复杂，可以把 PR 分成几个 commit 一起提交。我们在合并时会会根据情况 squash。
-7. PR 作者可以选择加入到 Taro 开发者微信群，方便合并 PR 和技术交流。
+1. make sure `npm run build` compiles successfully.
+2. Make sure the code passes the ESLint test.
+3. ensure that all test cases pass when the package in question has the `npm test:ci` command.
+4. when the related package has test cases, add the corresponding test cases to your commit code as well.
+5. ensure that the commit message needs to follow the [Angular Style Commit Message Conventions](https://gist.github.com/stephenparish/9941e89d80e2bc58a153).
+6. If the commit code is very large or complex, you can divide the PR into several commits together.We will squash as appropriate when merging.
+7. PR authors can choose to join Taro Developer WeChat group for merging PRs and technical communication.
