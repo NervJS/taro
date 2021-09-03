@@ -3,245 +3,245 @@ title: Taro.addPhoneContact(option)
 sidebar_label: addPhoneContact
 ---
 
-添加手机通讯录联系人。用户可以选择将该表单以「新增联系人」或「添加到已有联系人」的方式，写入手机系统通讯录。
+Adds a contact to the mobile contacts.The user can write this form to the mobile contacts using either "Add Contact" or "Add to Existing Contact" method.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/contact/wx.addPhoneContact.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/contact/wx.addPhoneContact.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<CallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>firstName</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>名字</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Name</td>
     </tr>
     <tr>
       <td>addressCity</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>联系地址城市</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Middle name</td>
     </tr>
     <tr>
       <td>addressCountry</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>联系地址国家</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Last name</td>
     </tr>
     <tr>
       <td>addressPostalCode</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>联系地址邮政编码</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Nickname</td>
     </tr>
     <tr>
       <td>addressState</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>联系地址省份</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Contact address city</td>
     </tr>
     <tr>
       <td>addressStreet</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>联系地址街道</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Contact address country</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Contact address post code</td>
     </tr>
     <tr>
       <td>email</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>电子邮件</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Contact address province</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Contact address street</td>
     </tr>
     <tr>
       <td>homeAddressCity</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>住宅地址城市</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Email address</td>
     </tr>
     <tr>
       <td>homeAddressCountry</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>住宅地址国家</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Home address city</td>
     </tr>
     <tr>
       <td>homeAddressPostalCode</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>住宅地址邮政编码</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Home address county</td>
     </tr>
     <tr>
       <td>homeAddressState</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>住宅地址省份</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Home address post code</td>
     </tr>
     <tr>
       <td>homeAddressStreet</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>住宅地址街道</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Home address province</td>
     </tr>
     <tr>
       <td>homeFaxNumber</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>住宅传真</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Home address street</td>
     </tr>
     <tr>
       <td>homePhoneNumber</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>住宅电话</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Home fax</td>
     </tr>
     <tr>
       <td>hostNumber</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>公司电话</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Home phone number</td>
     </tr>
     <tr>
       <td>lastName</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>姓氏</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Company phone number</td>
     </tr>
     <tr>
       <td>middleName</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>中间名</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Mobile number</td>
     </tr>
     <tr>
       <td>mobilePhoneNumber</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>手机号</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Company</td>
     </tr>
     <tr>
       <td>nickName</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>昵称</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Path of the local profile photo file</td>
     </tr>
     <tr>
       <td>organization</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>公司</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Remarks</td>
     </tr>
     <tr>
       <td>photoFilePath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>头像本地文件路径</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Job title</td>
     </tr>
     <tr>
       <td>remark</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>备注</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Website</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>WeChat ID</td>
     </tr>
     <tr>
       <td>title</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>职位</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Work address city</td>
     </tr>
     <tr>
       <td>url</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>网站</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Work address country</td>
     </tr>
     <tr>
       <td>weChatNumber</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>微信号</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Work address post code</td>
     </tr>
     <tr>
       <td>workAddressCity</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>工作地址城市</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Work address province</td>
     </tr>
     <tr>
       <td>workAddressCountry</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>工作地址国家</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Work address street</td>
     </tr>
     <tr>
       <td>workAddressPostalCode</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>工作地址邮政编码</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Work fax</td>
     </tr>
     <tr>
       <td>workAddressState</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>工作地址省份</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Work phone number</td>
     </tr>
     <tr>
       <td>workAddressStreet</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>工作地址街道</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>workFaxNumber</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>工作传真</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>workPhoneNumber</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>工作电话</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|         API          | 微信小程序 | H5 | React Native |
-|:--------------------:|:-----:|:--:|:------------:|
-| Taro.addPhoneContact |  ✔️   |    |              |
+|         API          | WeChat Mini-Program | H5 | React Native |
+|:--------------------:|:-------------------:|:--:|:------------:|
+| Taro.addPhoneContact |         ✔️          |    |              |
