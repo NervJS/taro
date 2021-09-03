@@ -1,34 +1,34 @@
 ---
-title: 微信小程序转 Taro
+title: WeChat Mini Program Convert to Taro
 ---
 
-Taro 可以把**原生微信小程序应用转换为 Taro 项目**，从而使项目成为多端应用。
+Taro can convert **native WeChat mini program applications into Taro projects**, thus making the project a multi-terminated application.
 
-转换后的代码可读性高，能够继续使用 **React**（将来支持转换为 **Vue**）进行二次开发。
+The converted code is highly readable and can continue to be used for secondary development using **React** (conversion to **Vue** is supported in the future).
 
-### 反向转换步骤
+### Reverse conversion steps
 
-1. 安装 Taro 命令行工具：
+1. Install the Taro command line tool.
 
 ```bash
 $ npm i -g @tarojs/cli
 ```
 
-2. 在微信小程序项目的根目录中运行 `convert` 命令进行转换：
+2. Run the `convert` command in the root directory of the WeChat mini program project to convert.
 
 ```bash
-# 转换后的代码保存在根目录下的 `taroConvert` 文件夹下
+# The converted code is stored in the `taroConvert` folder in the root directory
 $ taro convert
 ```
 
-3. 进入 `taroConvert` 目录，安装依赖：
+3. Go to the `taroConvert` directory and install the dependencies on.
 
 ```bash
 $ cd taroConvert
 $ npm install
 ```
 
-4. 运行 `build` 命令，把项目编译到任意平台：
+4. Run the `build` command to compile the project to any platform.
 
 ```bash
 $ taro build --type [platform]
