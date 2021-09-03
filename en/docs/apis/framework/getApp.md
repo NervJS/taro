@@ -3,43 +3,43 @@ title: Taro.getApp(opts)
 sidebar_label: getApp
 ---
 
-获取到小程序全局唯一的 App 实例。
+Gets the globally unique App instance of the Mini Program.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/reference/api/getApp.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/reference/api/getApp.html)
 
-## 类型
+## Type
 
 ```tsx
 <T = Record<string, any>>(opts?: Option) => Instance<T>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>allowDefault</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>在 <code>App</code> 未定义时返回默认实现。当App被调用时，默认实现中定义的属性会被覆盖合并到App中。一般用于独立分包</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>When <code>App</code> is undefined, the default implementation is returned.When App is called, the properties defined in the default implementation are overridden and merged into App.Generally, this is used for Independent Subpackage.</td>
     </tr>
   </tbody>
 </table>
 
 ### Instance
 
-## API 支持度
+## API Support
 
-|     API     | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | 京东小程序 | H5 | React Native | 快应用 |
-|:-----------:|:-----:|:-----:|:------:|:-------:|:------:|:-----:|:--:|:------------:|:---:|
-| Taro.getApp |  ✔️   |  ✔️   |   ✔️   |   ✔️    |   ✔️   |  ✔️   | ✔️ |      ✔️      | ✔️  |
+|     API     | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | Jingdong Mini-Program | H5 | React Native | Quick App |
+|:-----------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:---------------------:|:--:|:------------:|:---------:|
+| Taro.getApp |         ✔️          |         ✔️          |         ✔️          |           ✔️           |       ✔️        |          ✔️           | ✔️ |      ✔️      |    ✔️     |
