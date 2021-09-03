@@ -2,22 +2,22 @@
 title: Nerv
 ---
 
-[Nerv](https://github.com/NervJS/nerv) 是凹凸实验室研发的高性能类 React 框架。在 Taro 中使用 Nerv 基本遵循和[在 Taro 中使用 React](./react-overall) 一样的用法（只不过相比起 `import * as React from 'React'`，你需要 `import Nerv from 'nervjs'`）。相比起 React，Nerv 能提高[更高的性能](https://stefankrause.net/js-frameworks-benchmark8/table.html)和更小的体积，这在小程序开发中非常关键。
+[Nerv](https://github.com/NervJS/nerv) is the high-performance React framework developed by the Bump Laboratory.Use Nerv basic compliance in Taro and[to use React](./react-overall) in Taro (just as `import * as React from 'React'`, Required `import Nerv from 'nervjs'`.More performance[than React,Nerv can be enhanced](https://stefankrause.net/js-frameworks-benchmark8/table.html)and smaller volume, which is critical for applet development.
 
-## 使用第三方 React 库
+## Use third party React Library
 
-在使用第三方 React 库时，需要在[配置文件](config-detail.md#miniwebpackchain) `webpack.resolve.alias`，把 `react` 和 `react-dom` 映射到 `nervjs`:
+When using a third party React Library, it needs to be mapped to[configuration configuration](config-detail.md#miniwebpackchain) `webpack.resolve.alias`, `reacts` and `react-dome` to `nervjs`:
 
 ```js title="/config/index.js"
 {
   webpackChain (chain, webpack) {
-    chain.merge({
+    chain.merge(LO
       resolve: {
         alias: {
           react: 'nervjs',
           'react-dom': 'nervjs'
         }
-      }
+      } }
     })
   }
 }
