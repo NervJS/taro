@@ -3,17 +3,17 @@ title: Canvas
 sidebar_label: Canvas
 ---
 
-Canvas 实例，可通过 SelectorQuery 获取。
+The canvas instance, which can be obtained via `SelectorQuery`.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.html)
 
-## 方法
+## Methods
 
 ### cancelAnimationFrame
 
-取消由 requestAnimationFrame 添加到计划中的动画帧请求。支持在 2D Canvas 和 WebGL Canvas 下使用, 但不支持混用 2D 和 WebGL 的方法。
+Cancels the animation frame request added to the plan by requestAnimationFrame (only supported in WebGL).支持在 2D Canvas 和 WebGL Canvas 下使用, 但不支持混用 2D 和 WebGL 的方法。
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.cancelAnimationFrame.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.cancelAnimationFrame.html)
 
 ```tsx
 (requestID: number) => void
@@ -22,8 +22,8 @@ Canvas 实例，可通过 SelectorQuery 获取。
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -34,49 +34,49 @@ Canvas 实例，可通过 SelectorQuery 获取。
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|             API             | 微信小程序 | H5 | React Native |
-|:---------------------------:|:-----:|:--:|:------------:|
-| Canvas.cancelAnimationFrame |  ✔️   |    |              |
+|             API             | WeChat Mini-Program | H5 | React Native |
+|:---------------------------:|:-------------------:|:--:|:------------:|
+| Canvas.cancelAnimationFrame |         ✔️          |    |              |
 
 ### createImageData
 
-创建一个 ImageData 对象。仅支持在 2D Canvas 中使用。
+Creates an ImageData object.Only supported for use in 2D Canvas.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.createImageData.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.createImageData.html)
 
 ```tsx
 () => ImageData
 ```
 
-#### API 支持度
+#### API Support
 
-|          API           | 微信小程序 | H5 | React Native |
-|:----------------------:|:-----:|:--:|:------------:|
-| Canvas.createImageData |  ✔️   |    |              |
+|          API           | WeChat Mini-Program | H5 | React Native |
+|:----------------------:|:-------------------:|:--:|:------------:|
+| Canvas.createImageData |         ✔️          |    |              |
 
 ### createImage
 
-创建一个图片对象。 支持在 2D Canvas 和 WebGL Canvas 下使用, 但不支持混用 2D 和 WebGL 的方法。
+Creates an image object. Supports use in 2D Canvas and WebGL Canvas, but does not support mixing 2D and WebGL methods.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.createImage.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.createImage.html)
 
 ```tsx
 () => Image
 ```
 
-#### API 支持度
+#### API Support
 
-|        API         | 微信小程序 | H5 | React Native |
-|:------------------:|:-----:|:--:|:------------:|
-| Canvas.createImage |  ✔️   |    |              |
+|        API         | WeChat Mini-Program | H5 | React Native |
+|:------------------:|:-------------------:|:--:|:------------:|
+| Canvas.createImage |         ✔️          |    |              |
 
 ### getContext
 
-支持获取 2D 和 WebGL 绘图上下文
+Returns the Canvas drawing context.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.getContext.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.getContext.html)
 
 ```tsx
 (contextType: string) => RenderingContext
@@ -85,8 +85,8 @@ Canvas 实例，可通过 SelectorQuery 获取。
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -97,17 +97,17 @@ Canvas 实例，可通过 SelectorQuery 获取。
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|        API        | 微信小程序 | H5 | React Native |
-|:-----------------:|:-----:|:--:|:------------:|
-| Canvas.getContext |  ✔️   |    |              |
+|        API        | WeChat Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:--:|:------------:|
+| Canvas.getContext |         ✔️          |    |              |
 
 ### requestAnimationFrame
 
 在下次进行重绘时执行。 支持在 2D Canvas 和 WebGL Canvas 下使用, 但不支持混用 2D 和 WebGL 的方法。
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.requestAnimationFrame.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.requestAnimationFrame.html)
 
 ```tsx
 (callback: (...args: any[]) => any) => number
@@ -116,9 +116,9 @@ Canvas 实例，可通过 SelectorQuery 获取。
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -130,18 +130,18 @@ Canvas 实例，可通过 SelectorQuery 获取。
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|             API              | 微信小程序 | H5 | React Native |
-|:----------------------------:|:-----:|:--:|:------------:|
-| Canvas.requestAnimationFrame |  ✔️   |    |              |
+|             API              | WeChat Mini-Program | H5 | React Native |
+|:----------------------------:|:-------------------:|:--:|:------------:|
+| Canvas.requestAnimationFrame |         ✔️          |    |              |
 
-## API 支持度
+## API Support
 
-|             API              | 微信小程序 | H5 | React Native |
-|:----------------------------:|:-----:|:--:|:------------:|
-| Canvas.cancelAnimationFrame  |  ✔️   |    |              |
-|    Canvas.createImageData    |  ✔️   |    |              |
-|      Canvas.createImage      |  ✔️   |    |              |
-|      Canvas.getContext       |  ✔️   |    |              |
-| Canvas.requestAnimationFrame |  ✔️   |    |              |
+|             API              | WeChat Mini-Program | H5 | React Native |
+|:----------------------------:|:-------------------:|:--:|:------------:|
+| Canvas.cancelAnimationFrame  |         ✔️          |    |              |
+|    Canvas.createImageData    |         ✔️          |    |              |
+|      Canvas.createImage      |         ✔️          |    |              |
+|      Canvas.getContext       |         ✔️          |    |              |
+| Canvas.requestAnimationFrame |         ✔️          |    |              |
