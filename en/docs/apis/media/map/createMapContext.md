@@ -3,48 +3,48 @@ title: Taro.createMapContext(mapId, component)
 sidebar_label: createMapContext
 ---
 
-创建 [map](https://developers.weixin.qq.com/miniprogram/dev/component/map.html) 上下文 [MapContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.html) 对象。
+Creates the [MapContext](https://developers.weixin.qq.com/miniprogram/en/dev/api/map/MapContext.html) object for the [map](https://developers.weixin.qq.com/miniprogram/en/dev/component/map.html).
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/wx.createMapContext.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/wx.createMapContext.html)
 
-## 类型
+## Type
 
 ```tsx
 (mapId: string, component?: Record<string, any>) => MapContext
 ```
 
-## 参数
+## Parameters
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>mapId</td>
       <td><code>string</code></td>
-      <td>Map 组件的 id</td>
+      <td>ID of the &lt;map/&gt; component</td>
     </tr>
     <tr>
       <td>component</td>
       <td><code>Record&lt;string, any&gt;</code></td>
-      <td>在自定义组件下，当前组件实例的this，以操作组件内 Map 组件</td>
+      <td>Under custom components, current component instance "this" operates the &lt;map/&gt; component</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 const mapCtx = Taro.createMapContext('myMap')
 ```
 
-## API 支持度
+## API Support
 
-|          API          | 微信小程序 | H5 | React Native |
-|:---------------------:|:-----:|:--:|:------------:|
-| Taro.createMapContext |  ✔️   |    |              |
+|          API          | WeChat Mini-Program | H5 | React Native |
+|:---------------------:|:-------------------:|:--:|:------------:|
+| Taro.createMapContext |         ✔️          |    |              |
