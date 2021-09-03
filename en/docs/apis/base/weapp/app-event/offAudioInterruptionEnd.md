@@ -3,37 +3,37 @@ title: Taro.offAudioInterruptionEnd(callback)
 sidebar_label: offAudioInterruptionEnd
 ---
 
-取消监听音频中断结束事件
+Un-listens on the event that audio interruption ends.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.offAudioInterruptionEnd.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.offAudioInterruptionEnd.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: (res: CallbackResult) => void) => void
 ```
 
-## 参数
+## Parameters
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td>音频中断结束事件的回调函数</td>
+      <td>The callback function for the event that audio interruption ends.</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|             API              | 微信小程序 | H5 | React Native |
-|:----------------------------:|:-----:|:--:|:------------:|
-| Taro.offAudioInterruptionEnd |  ✔️   |    |              |
+|             API              | WeChat Mini-Program | H5 | React Native |
+|:----------------------------:|:-------------------:|:--:|:------------:|
+| Taro.offAudioInterruptionEnd |         ✔️          |    |              |
