@@ -1,14 +1,14 @@
 ---
-title: 组件库说明
+title: Description
 ---
 
-Taro 以 [微信小程序组件库](https://developers.weixin.qq.com/miniprogram/dev/component/) 为标准，结合 `jsx` 语法规范，定制了一套自己的组件库规范。
+Taro has customised its own component library specification using [WeChat Mini-Program Components](https://developers.weixin.qq.com/miniprogram/en/dev/component/) as a standard, combined with the `JSX` syntax specification.
 
-基于以上原则，在小程序端，我们可以使用所有的小程序原生组件，而在其他端，我们提供了对应的组件库实现
+Based on the above principles, on the WeChat Mini-Program side we can use all the mini program native components, while on the other side we have implemented the corresponding component libraries:
 
-- H5 端，`@tarojs/components`，同时也是需要引入的默认标准组件库
+- H5: `@tarojs/components`
 
-在使用时，React 中我们需要先从 Taro 标准组件库 `@tarojs/components` 引用组件，再进行使用，例如使用 `<View />`、 `<Text />` 组件，而 Vue 我们则无需引入
+When using React we need to reference components from the Taro standard component library @tarojs/components before we can use them, for example with `<View />`, `<Text />` components， whereas with Vue there is no need to bring them in.
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -53,20 +53,19 @@ export default class C extends Component {
 
 </Tabs>
 
-## 注意
+## TIPS
 
-在组件的详细文档中列出了组件在不同端的支持程度，以及基本的使用示例。 部分未列出示例的，标明仅在小程序端支持的组件的用法可以直接参考[小程序组件文档](https://developers.weixin.qq.com/miniprogram/dev/component/)。
+The detailed documentation of the components lists the extent to which the components are supported on different sides, as well as basic usage examples. For some components that are not listed as examples and are marked as only supported on the mini program side, you can refer directly to the [Mini-Program Components Doc](https://developers.weixin.qq.com/miniprogram/en/dev/component/).
 
-需要注意的是仍需遵循 Taro 的开发规范：
+Taro's development specifications still need to be followed:
 
-### 首字母大写与驼峰式命名
+### Initial capitalisation and humpback naming
 
-例如，使用 H5 端尚未支持的 map 组件
+For example, using the `Map` component, which is not yet supported on the H5 side
 
 ```jsx
 import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
-// 引入 map 组件
 import { Map } from '@tarojs/components'
 
 class App extends Components {
@@ -79,6 +78,6 @@ class App extends Components {
 }
 ```
 
-### 组件的事件传递都要以 on 开头
+### The event names of components should all start with `on`
 
-在微信小程序中 bind 开头这样的用法，都需要转成以 on 开头的形式。
+All uses of `bind` in WeChat Mini-Program need to be converted to a form starting with `on`.
