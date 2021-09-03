@@ -3,11 +3,11 @@ title: Camera
 sidebar_label: Camera
 ---
 
-系统相机
+System camera.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/camera.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/camera.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<CameraProps>
@@ -18,11 +18,11 @@ ComponentType<CameraProps>
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -30,122 +30,122 @@ ComponentType<CameraProps>
       <td>mode</td>
       <td><code>&quot;normal&quot; | &quot;scanCode&quot;</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;normal&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td style={{ textAlign: "center"}}>No</td>
       <td>模式，有效值为normal, scanCode</td>
     </tr>
     <tr>
       <td>resolution</td>
       <td><code>&quot;low&quot; | &quot;medium&quot; | &quot;high&quot;</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;medium&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>分辨率，不支持动态修改</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Resolution, no dynamic changes supported.</td>
     </tr>
     <tr>
       <td>devicePosition</td>
       <td><code>&quot;front&quot; | &quot;back&quot;</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;back&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>摄像头朝向</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The facing orientation of the camera.</td>
     </tr>
     <tr>
       <td>flash</td>
       <td><code>&quot;auto&quot; | &quot;on&quot; | &quot;off&quot; | &quot;torch&quot;</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;auto&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td style={{ textAlign: "center"}}>No</td>
       <td>闪光灯</td>
     </tr>
     <tr>
       <td>frameSize</td>
       <td><code>&quot;medium&quot; | &quot;small&quot; | &quot;large&quot;</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;medium&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>指定期望的相机帧数据尺寸</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies the expected size of camera frame data</td>
     </tr>
     <tr>
       <td>scanArea</td>
       <td><code>number[]</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>扫码识别区域，格式为[x, y, w, h]，<br />x,y是相对于camera显示区域的左上角，<br />w,h为区域宽度，单位px，仅在 mode=&quot;scanCode&quot; 时生效</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Scan to identify area, result is [x, y, w, h],<br />is the upper left corner of the display area relative to the camera.<br />w,h is the area size in px. It is valid only when only mode=&quot;scanCode&quot;</td>
     </tr>
     <tr>
       <td>onStop</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>摄像头在非正常终止时触发，<br />如退出后台等情况</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered when the camera is closed unexpectedly, for example, exiting the background.</td>
     </tr>
     <tr>
       <td>onError</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>用户不允许使用摄像头时触发</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered when the camera is not authorized.</td>
     </tr>
     <tr>
       <td>onInitDone</td>
       <td><code>BaseEventOrigFunction&lt;onInitDoneEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>相机初始化完成时触发</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered after the camera is initialized</td>
     </tr>
     <tr>
       <td>onScanCode</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>在成功识别到一维码时触发，<br />仅在 mode=&quot;scanCode&quot; 时生效</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td><br />It is valid only when mode=&quot;scanCode&quot;.</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|            API             | 微信小程序 | H5 | React Native |
-|:--------------------------:|:-----:|:--:|:------------:|
-|      CameraProps.mode      |  ✔️   |    |      ✔️      |
-|   CameraProps.resolution   |  ✔️   |    |              |
-| CameraProps.devicePosition |  ✔️   |    |      ✔️      |
-|     CameraProps.flash      |  ✔️   |    |      ✔️      |
-|   CameraProps.frameSize    |  ✔️   |    |              |
-|    CameraProps.scanArea    |  ✔️   |    |              |
-|     CameraProps.onStop     |  ✔️   |    |      ✔️      |
-|    CameraProps.onError     |  ✔️   |    |      ✔️      |
-|   CameraProps.onInitDone   |  ✔️   |    |      ✔️      |
-|   CameraProps.onScanCode   |  ✔️   |    |      ✔️      |
+|            API             | WeChat Mini-Program | H5 | React Native |
+|:--------------------------:|:-------------------:|:--:|:------------:|
+|      CameraProps.mode      |         ✔️          |    |      ✔️      |
+|   CameraProps.resolution   |         ✔️          |    |              |
+| CameraProps.devicePosition |         ✔️          |    |      ✔️      |
+|     CameraProps.flash      |         ✔️          |    |      ✔️      |
+|   CameraProps.frameSize    |         ✔️          |    |              |
+|    CameraProps.scanArea    |         ✔️          |    |              |
+|     CameraProps.onStop     |         ✔️          |    |      ✔️      |
+|    CameraProps.onError     |         ✔️          |    |      ✔️      |
+|   CameraProps.onInitDone   |         ✔️          |    |      ✔️      |
+|   CameraProps.onScanCode   |         ✔️          |    |      ✔️      |
 
 ### mode
 
-mode 的合法值
+Valid values of mode
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Value</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>normal</td>
-      <td>相机模式</td>
+      <td>Camera mode</td>
     </tr>
     <tr>
       <td>scanCode</td>
-      <td>扫码模式</td>
+      <td>Scanning mode</td>
     </tr>
   </tbody>
 </table>
 
 ### resolution
 
-resolution 的合法值
+Valid values of resolution
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Value</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -166,81 +166,81 @@ resolution 的合法值
 
 ### devicePosition
 
-device-position 的合法值
+Valid values of device-position
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Value</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>front</td>
-      <td>前置</td>
+      <td>Front-facing camera</td>
     </tr>
     <tr>
       <td>back</td>
-      <td>后置</td>
+      <td>Rear-facing camera</td>
     </tr>
   </tbody>
 </table>
 
 ### flash
 
-flash 的合法值
+Valid values of flash
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Value</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>auto</td>
-      <td>自动</td>
+      <td>Auto</td>
     </tr>
     <tr>
       <td>on</td>
-      <td>打开</td>
+      <td>On</td>
     </tr>
     <tr>
       <td>off</td>
-      <td>关闭</td>
+      <td>Off</td>
     </tr>
     <tr>
       <td>torch</td>
-      <td>常亮</td>
+      <td>Always bright</td>
     </tr>
   </tbody>
 </table>
 
 ### frameSize
 
-frame-size 的合法值
+Valid values of frame-size
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Value</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>small</td>
-      <td>小尺寸帧数据</td>
+      <td>Small-size frame data</td>
     </tr>
     <tr>
       <td>medium</td>
-      <td>中尺寸帧数据</td>
+      <td>Medium-size frame data</td>
     </tr>
     <tr>
       <td>large</td>
-      <td>大尺寸帧数据</td>
+      <td>Large-size frame data</td>
     </tr>
   </tbody>
 </table>
@@ -250,22 +250,22 @@ frame-size 的合法值
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Param</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>maxZoom</td>
       <td><code>number</code></td>
-      <td>最大变焦</td>
+      <td>Maximum zoom</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|  API   | 微信小程序 | H5 | React Native |
-|:------:|:-----:|:--:|:------------:|
-| Camera |  ✔️   |    |      ✔️      |
+|  API   | WeChat Mini-Program | H5 | React Native |
+|:------:|:-------------------:|:--:|:------------:|
+| Camera |         ✔️          |    |      ✔️      |
