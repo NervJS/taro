@@ -3,21 +3,21 @@ title: Taro.onBluetoothAdapterStateChange(callback)
 sidebar_label: onBluetoothAdapterStateChange
 ---
 
-监听蓝牙适配器状态变化事件
+Listens on the Bluetooth adapter status change event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.onBluetoothAdapterStateChange.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.onBluetoothAdapterStateChange.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: Callback) => void
 ```
 
-## 参数
+## Parameters
 
 ### Callback
 
-蓝牙适配器状态变化事件的回调函数
+The callback function for the Bluetooth adapter status change event.
 
 ```tsx
 (result: CallbackResult) => void
@@ -26,8 +26,8 @@ sidebar_label: onBluetoothAdapterStateChange
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -43,26 +43,26 @@ sidebar_label: onBluetoothAdapterStateChange
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>available</td>
       <td><code>boolean</code></td>
-      <td>蓝牙适配器是否可用</td>
+      <td>Indicates whether the Bluetooth adapter is available</td>
     </tr>
     <tr>
       <td>discovering</td>
       <td><code>boolean</code></td>
-      <td>蓝牙适配器是否处于搜索状态</td>
+      <td>Indicates whether the Bluetooth adapter is in the discovery status</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.onBluetoothAdapterStateChange(function (res) {
@@ -70,8 +70,8 @@ Taro.onBluetoothAdapterStateChange(function (res) {
 })
 ```
 
-## API 支持度
+## API Support
 
-|                API                 | 微信小程序 | H5 | React Native |
-|:----------------------------------:|:-----:|:--:|:------------:|
-| Taro.onBluetoothAdapterStateChange |  ✔️   |    |              |
+|                API                 | WeChat Mini-Program | H5 | React Native |
+|:----------------------------------:|:-------------------:|:--:|:------------:|
+| Taro.onBluetoothAdapterStateChange |         ✔️          |    |              |
