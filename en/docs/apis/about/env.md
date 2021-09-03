@@ -1,27 +1,27 @@
 ---
-title: 环境判断
+title: Taro.env()
 ---
 
-## Taro.ENV_TYPE
+## Type
 
-`ENV_TYPE.WEAPP` 微信小程序环境
+Operating environment
 
-`ENV_TYPE.SWAN` 百度小程序环境
+`ENV_TYPE.SWAN` Baidu Smart-Program
 
-`ENV_TYPE.ALIPAY` 支付宝小程序环境
+`ENV_TYPE.ALIPAY` Alipay Mini-Program
 
-`ENV_TYPE.TT` 字节跳动小程序环境
+`ENV_TYPE.TT` ByteDance Mini-Program
 
-`ENV_TYPE.WEB` WEB(H5)环境
+`ENV_TYPE.WEB` WEB(H5)
 
-`ENV_TYPE.RN` ReactNative 环境
+`ENV_TYPE.RN` ReactNative
 
-`ENV_TYPE.QUICKAPP` 快应用环境
+`ENV_TYPE.QUICKAPP` Quick-App
 
-`ENV_TYPE.QQ` QQ小程序 环境
+https://developers.weixin.qq.com/miniprogram/dev/api/base/wx.env.html
 
-`ENV_TYPE.JD` 京东小程序 环境
+`ENV_TYPE.JD` Jingdong Mini-Program
 
-## Taro.getEnv()
+## API Support
 
-获取当前环境值，具体值如上 `Taro.ENV_TYPE`
+Gets the current environment value and returns the value as above.
