@@ -3,41 +3,41 @@ title: ImageData
 sidebar_label: ImageData
 ---
 
-ImageData 对象
+The ImageData object
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/ImageData.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/ImageData.html)
 
-## 方法
+## Methods
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>data</td>
       <td><code>Uint8ClampedArray</code></td>
-      <td>一维数组，包含以 RGBA 顺序的数据，数据使用 0 至 255（包含）的整数表示</td>
+      <td>One-dimensional array containing data in RGBA order using integers from 0 to 255 inclusive.</td>
     </tr>
     <tr>
       <td>height</td>
       <td><code>number</code></td>
-      <td>使用像素描述 ImageData 的实际高度</td>
+      <td>Use pixels to describe the actual height of the ImageData.</td>
     </tr>
     <tr>
       <td>width</td>
       <td><code>number</code></td>
-      <td>使用像素描述 ImageData 的实际宽度</td>
+      <td>Use pixels to describe the actual width of the ImageData.</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|    API    | 微信小程序 | H5 | React Native |
-|:---------:|:-----:|:--:|:------------:|
-| ImageData |  ✔️   |    |              |
+|    API    | WeChat Mini-Program | H5 | React Native |
+|:---------:|:-------------------:|:--:|:------------:|
+| ImageData |         ✔️          |    |              |
