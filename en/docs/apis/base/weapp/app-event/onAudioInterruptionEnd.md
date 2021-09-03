@@ -3,37 +3,37 @@ title: Taro.onAudioInterruptionEnd(callback)
 sidebar_label: onAudioInterruptionEnd
 ---
 
-监听音频中断结束事件。在收到 onAudioInterruptionBegin 事件之后，小程序内所有音频会暂停，收到此事件之后才可再次播放成功
+监听音频中断结束事件。Listens on the event that audio interruption ends. After the onAudioInterruptionBegin event is received, all audio files in the Mini Program are paused. After the event is received, audio files can be played again.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onAudioInterruptionEnd.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onAudioInterruptionEnd.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: (res: CallbackResult) => void) => void
 ```
 
-## 参数
+## Parameters
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Parameter</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td>音频中断结束事件的回调函数</td>
+      <td>The callback function for the event that audio interruption ends.</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|             API             | 微信小程序 | H5 | React Native |
-|:---------------------------:|:-----:|:--:|:------------:|
-| Taro.onAudioInterruptionEnd |  ✔️   |    |              |
+|             API             | WeChat Mini-Program | H5 | React Native |
+|:---------------------------:|:-------------------:|:--:|:------------:|
+| Taro.onAudioInterruptionEnd |         ✔️          |    |              |
