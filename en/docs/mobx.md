@@ -1,38 +1,38 @@
 ---
-title: 使用 MobX
+title: Use MobX
 ---
 
-> 自 `1.2.0-beta.1` 开始支持
+> Starting support from `1.2.0-beta.`
 
-[MobX](https://mobx.js.org/) 为复杂项目中状态管理提供了一种简单高效的机制；Taro 提供了 `@tarojs/mobx` 来让开发人员在使用 MobX 的过程中获得更加良好的开发体验。
+[MobX](https://mobx.js.org/) provides a simple and efficient mechanism for status management in complex projects; Taro provides `@tarojs/mobx` to give developers a better development experience while using MobX.
 
-## 安装
+## Install
 
 ```bash
-$ yarn add mobx@4.8.0 @tarojs/mobx @tarojs/mobx-h5 @tarojs/mobx-rn
-# 或者使用 npm
-$ npm install --save mobx@4.8.0 @tarojs/mobx @tarojs/mobx-h5 @tarojs/mobx-rn
+$ yarn add mobilx@4.8.0 @tarojs/mobilx-h5 @tarojs/mobilx-h5 @tarojs/mobilx-rn
+# or use npm
+$ npm install ---save mobilxnamed@@4.8.0 @tarojs/mobx-h5 @tarojs/mobilx-rn
 ```
 
 ## API
 
 ### onError
 
-Mobx 异常监听。
+Mobx unusual listening.
 
 ```jsx
-import { onError } from '@tarojs/mobx'
+import { onError } from '@tarojs/mobile'
 
-onError(error => {
-  console.log('mobx global error listener:', error)
+onError(error => LO
+  console.log('obx global error listener:', error)
 })
 ```
 
 ### isUsingStaticRendering
 
-> 自 `1.3.6` 开始支持
+> Support since `1.3.6`
 
-判断是否开启了服务端渲染（该状态为全局状态）。
+Determines whether the server rendering is enabled (this state is global).
 
 ```jsx
 import { isUsingStaticRendering } from '@tarojs/mobx'
@@ -44,21 +44,21 @@ if (isUsingStaticRendering()) {
 
 ### useStaticRendering
 
-> 自 `1.3.6` 开始支持
+> Support since `1.3.6`
 
-服务端渲染状态设置（该状态为全局状态）。
+Service rendering state settings (this status is global).
 
 ```jsx
-import { useStaticRendering } from '@tarojs/mobx'
+import { useStaticRendering } from '@tarojs/mobile'
 
-useStaticRendering(false)
+useStaticRendering (false)
 ```
 
 ### useLocalStore
 
-> 自 `1.3.6` 开始支持
+> Support since `1.3.6`
 
-将对象转换为 `observable` 对象，其中 `getter` 会被转换为 `computed` 属性，方法会与 `store` 进行绑定并自动执行 [mobx transactions](https://mobx.js.org/refguide/action.html)，比如：
+Convert objects to `observable` objects, where `getter` will be converted to `computed` properties, methods will bind to `store` and automatically execute [mobiles](https://mobx.js.org/refguide/action.html), e.g.：
 
 ```jsx
 import Taro from '@tarojs/taro'
@@ -95,14 +95,14 @@ function Index() {
 export default observer(Index)
 ```
 
-### useAsObservableSource
+### useAObservableSource
 
-> 自 `1.3.6` 开始支持
+> Support since `1.3.6`
 
 与 `useLocalStore` 的区别是，它将纯（不包含 `getter` 或方法）对象转换为 `observable`，主要使用场景为：
 
-* 如果对象某个属性的值需经过复杂运算才能获得，可通过该方法进行包装，这样在组件的生命周期中该运算只需要运算一次。
-* 一般情况下 `useLocalStore` 仅用于组件内部，如果 `useLocalStore` 中的对象需要依赖外部传递的属性，那么可通过 `useAsObservableSource` 将这些属性进行转换，而后在 `useLocalStore` 对象中进行引用，这样在外部属性改变时自动通知 `useLocalStore` 对象对变化进行响应，比如：
+* If the value of an object requires a complex operation to be obtained, it can be packaged through this method, so that the calculation needs to be performed only once in the life cycle of the component.
+* Normally `useLocalStore` is only for internal components. If `an object in useLocalStore` needs to rely on attributes transmitted externally, then you can convert these properties by `useAAsserverableSource` and then reference them in `useLocalStore objects` objects so automatically notify when external properties change `useLocalStore` objects respond to changes like：
 
   ```jsx
   import Taro from '@tarojs/taro'
@@ -169,36 +169,36 @@ export default observer(Index)
 
 ### observer
 
-将组件设置为监听者，以便在可观察对象的值改变后触发页面的重新渲染。
+Set components as listeners to trigger the rerendering of pages after the value of observable objects has changed.
 
-注：
+Note：
 
-* 不要在 `JSX` 中对可观察对象进行引用，比如：
+* Don't refer to observable objects in `JSX` like：
 
   ```jsx
-  // 错误，在小程序中值改变后将无法触发重新渲染
-  const { counterStore } = this.props
+  // Error, rerendering cannot be triggered when value changes in the applet
+  const { counterStore } = these. rops
   return (
     <Text>{counterStore.counter}</Text>
   )
 
-  // 正确
-  const { counterStore: { counter } } = this.props
+  /correct
+  const 56 counterStore: { counter } } = these. rops
   return (
     <Text>{counter}</Text>
-  )
+)
   ```
 
-  > 这是因为 `@tarojs/mobx` 通过监听组件的 `render`（小程序编译后为 `_createData`）方法来触发更新；在小程序中，`JSX` 的代码会被编译到 `wxml` 文件中，此时对可观察对象的引用（比如：`counterStore.counter`）早已脱离了 `@tarojs/mobx` 的监控，故此对该属性的更改并不会触发更新操作。
+  > This is because `@tarojs/mobile` triggers updates by listening to the `render`(compiled into `_createData`); In the applet,`JSX` the code will be compiled into `wxml` the reference to observable objects at this time (e.g.：`counterStore. ounter`) has been removed from `@tarojs/mobx` so changes to this property do not trigger an update action.
 
 * 如使用 `@observable` 装饰器来定义可观察对象时，请确保该属性已经初始化，比如：
 
   ```js
-  @observable counter // 错误，值改变后将无法触发重新渲染
-  @observable counter = 0 // 正确
+  @observable counter// Error, value change will not trigger rerendering
+  @observable count = 0 // correct
   ```
 
-* 如果 `isUsingStaticRendering` 为 `true`，该方法不做任何事情。
+* This method does nothing if `isUsingStaticRendering` is `true`.
 
 ### Provider
 
@@ -206,28 +206,28 @@ export default observer(Index)
 
 ```jsx
 import Taro, { Component } from '@tarojs/taro'
-import { Provider } from '@tarojs/mobx'
+import { Provider } from '@tarojs/mobilx'
 import Index from './pages/index'
-import counterStore from './store/counter'
+import counter from '. store/counter'
 
 const store = {
   counterStore
 }
 
-class App extends Component {
-  config = {
+class App extends Component LO
+  config = LO
     pages: [
       'pages/index/index'
     ],
-    window: {
+    window: LO
       backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fff',
+      navigationBarbackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'
     }
   }
 
-  render () {
+  render () () () () (but it is not possible to relocate (
     return (
       <Provider store={store}>
         <Index />
@@ -236,14 +236,14 @@ class App extends Component {
   }
 }
 
-Taro.render(<App />, document.getElementById('app'))
+Taro. ender(<App />, document.getElementById('app'))
 ```
 
-注：
+Note：
 
-* `Provider` 必须作用于入口文件（即：`src/app.js`），在其他地方使用无效。
+* `Provider` must be used for access files (i.e.：`src/app.js`) and use invalid elsewhere.
 * 不支持嵌套，即全局只能存在一个 `Provider`。
-* 在 `mobx-react` 中，可通过以下方式设置 `store`：
+* In `mobile-act` settings can be set by `store`：
 
   ```jsx
   <Provider store1={xxxx} store2={xxxx}>
@@ -270,69 +270,69 @@ Taro.render(<App />, document.getElementById('app'))
 
 ```jsx
 import Taro, { Component } from '@tarojs/taro'
-import { observer, inject } from '@tarojs/mobx'
+import { observer, inject } from '@tarojs/mobilx'
 
-import './index.scss'
+import './index. css'
 
 @inject('counterStore')
 @observer
-class Index extends Component {
-  //...
+class Index Extensioned Compound {
+  /...
 }
 
 export default Index
 ```
 
-或
+or
 
 ```jsx
 import Taro, { Component } from '@tarojs/taro'
-import { observer, inject } from '@tarojs/mobx'
+import { observer, inject } from '@tarojs/mobilx'
 
-import './index.scss'
+import './index. css'
 
 @inject((stores, props) => ({
   counterStore: stores.counterStore
 }))
 @observer
-class Index extends Component {
-  //...
+class Index Extending Compound
+  //.
 }
 
 export default Index
 ```
 
-注：
+Note：
 
-* 无论以何种方式使用 `inject`，其后的 `observer` 均不能省略。
-* 不要在 `inject` 中引用可观察对象，这将导致属性改变后页面不更新，比如：
+* No matter in any way using `inject`subsequent `observer` cannot be omitted.
+* Do not quote observable objects in `inject` this will cause the page not to be updated after property changes, e.g.：
 
   ```jsx
-  // 错误
-  @inject((stores, props) => ({
+  // Error
+  @inject(storees, props) => ({
     counter: stores.counterStore.counter
-  }))
+  })
 
-  // 正确
-  @inject((stores, props) => ({
+  /correct
+  @input((store, props) => ({
     counterStore: stores.counterStore
   }))
   ```
 
 ### PropTypes
 
-> 自 `1.3.6` 开始支持
+> Support since `1.3.6`
 
 `@tarojs/mobx` 提供了以下 `PropTypes` 来验证 Mobx 的结构：
 
-* observableArray
-* observableArrayOf
-* observableMap
-* observableObject
+* ObservableArray
+* ObservableArrayOf
+* ObservableMap
+* ObservableObject
 * arrayOrObservableArray
 * arrayOrObservableArrayOf
-* objectOrObservableObject
+* ObjectOrObservableObservation
 
-## 资源
+## Resources
 
-示例：[taro-mobx-sample](https://github.com/nanjingboy/taro-mobx-sample)
+Sample：[taro-mobil-sample](https://github.com/nanjingboy/taro-mobx-sample)
