@@ -3,17 +3,17 @@ title: RichText
 sidebar_label: RichText
 ---
 
-富文本
+Rich text.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/rich-text.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/rich-text.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<RichTextProps>
 ```
 
-## 示例代码
+## Examples
 
 import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
@@ -37,8 +37,7 @@ class App extends Components {
       },
       children: [{
         type: 'text',
-        text: 'Hello World!'
-      }]
+        text: 'Hello World!' }]
     }]
   }
   render () {
@@ -72,8 +71,7 @@ export default {
         },
         children: [{
           type: 'text',
-          text: 'Hello World!'
-        }]
+          text: 'Hello World!' }]
       }]
     }
   },
@@ -92,73 +90,73 @@ export default {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th>Required</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>nodes</td>
       <td><code>Nodes</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>节点列表/ HTML String</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The node list/HTML string</td>
     </tr>
     <tr>
       <td>space</td>
       <td><code>&quot;ensp&quot; | &quot;emsp&quot; | &quot;nbsp&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>显示连续空格</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Displays consecutive spaces</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|         API         | 微信小程序 | H5 | React Native |
-|:-------------------:|:-----:|:--:|:------------:|
-| RichTextProps.space |  ✔️   |    |              |
+|         API         | WeChat Mini-Program | H5 | React Native |
+|:-------------------:|:-------------------:|:--:|:------------:|
+| RichTextProps.space |         ✔️          |    |              |
 
 ### TSpace
 
-space 的合法值
+Valid values of space
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Value</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>ensp</td>
-      <td>中文字符空格一半大小</td>
+      <td>En space</td>
     </tr>
     <tr>
       <td>emsp</td>
-      <td>中文字符空格大小</td>
+      <td>Em space</td>
     </tr>
     <tr>
       <td>nbsp</td>
-      <td>根据字体设置的空格大小</td>
+      <td>The size of the space is set according to the font setting</td>
     </tr>
   </tbody>
 </table>
 
 ### Text
 
-文本节点
+text node
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th>说明</th>
-      <th>备注</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th>Description</th>
+      <th>Remarks</th>
     </tr>
   </thead>
   <tbody>
@@ -166,78 +164,78 @@ space 的合法值
       <td>type</td>
       <td><code>&quot;text&quot;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td>文本类型</td>
+      <td>Text type</td>
       <td></td>
     </tr>
     <tr>
       <td>text</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;&quot;</code></td>
-      <td>文本字符串</td>
-      <td><code>支持 entities</code></td>
+      <td>Text string</td>
+      <td><code>support entities</code></td>
     </tr>
   </tbody>
 </table>
 
 ### HTMLElement
 
-元素节点，默认为元素节点 全局支持class和style属性，不支持 id 属性。
+element node(defaulted)
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-      <th>备注</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
+      <th>Remarks</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>type</td>
       <td><code>&quot;node&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>HTML 类型</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>HTML type</td>
       <td></td>
     </tr>
     <tr>
       <td>name</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>标签名</td>
-      <td><code>支持部分受信任的 HTML 节点</code></td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Tag name</td>
+      <td><code>Supports some trusted HTML nodes.</code></td>
     </tr>
     <tr>
       <td>attrs</td>
       <td><code>Object</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>属性</td>
-      <td><code>支持部分受信任的属性，遵循 Pascal 命名法</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Property</td>
+      <td><code>Supports some trusted properties. The name complies with the Pascal naming convention.</code></td>
     </tr>
     <tr>
       <td>children</td>
       <td><code>Nodes</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>子节点列表</td>
-      <td><code>结构和 nodes 一致</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Child node list</td>
+      <td><code>The structure of child nodes is the same as that of nodes.</code></td>
     </tr>
   </tbody>
 </table>
 
 ## Nodes
 
-节点类型
-> 现支持两种节点，通过type来区分，分别是元素节点和文本节点，默认是元素节点，在富文本区域里显示的HTML节点 元素节点：type = node*
+node type
+> Currently, two nodes are supported, which are distinguished according to the type: element node and text node. It is the element node by default. HTML nodes are displayed in the rich text area. Element node: type = node*
 
-### 类型
+### Type
 
 ```tsx
 (Text | HTMLElement)[] | string
 ```
 
-## API 支持度
+## API Support
 
-|   API    | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
-|:--------:|:-----:|:-----:|:------:|:-------:|:--:|:------------:|
-| RichText |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
+|   API    | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 | React Native |
+|:--------:|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| RichText |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
