@@ -1,135 +1,110 @@
 ---
-title: 概述
+title: Overview
 ---
 
-## 端平台插件
+## Platform Plugin
 
-自 `v3.1.0` 起，我们把对每个小程序平台的兼容逻辑抽取了出来，以 [Taro 插件](./plugin)的形式注入 Taro 框架，从而支持对应平台的编译。
+Since `v3.1.0`, we have extracted the compatibility logic for each mini program platform and injected it into the Taro framework as a [Taro plugin](./plugin) into the Taro framework to support compilation for the corresponding platform.
 
-### Taro 内置的端平台插件：
+### Taro Includes Platform Plugins
 
-| 插件                             | 编译平台   |
-|:------------------------------ |:------ |
-| @tarojs/plugin-platform-weapp  | 微信小程序  |
-| @tarojs/plugin-platform-alipay | 支付宝小程序 |
-| @tarojs/plugin-platform-swan   | 百度小程序  |
-| @tarojs/plugin-platform-tt     | 头条小程序  |
-| @tarojs/plugin-platform-qq     | QQ 小程序 |
-| @tarojs/plugin-platform-jd     | 京东小程序  |
+| Plugin                         | Compile Platform       |
+|:------------------------------ |:---------------------- |
+| @tarojs/plugin-platform-weapp  | Wechat Mini Program    |
+| @tarojs/plugin-platform-alipay | Alipay Mini Program    |
+| @tarojs/plugin-platform-swan   | Swan Smart Program     |
+| @tarojs/plugin-platform-tt     | ByteDance Mini Program |
+| @tarojs/plugin-platform-qq     | QQ  Mini Program       |
+| @tarojs/plugin-platform-jd     | Jingdong Mini Program  |
 
-### 其它端平台插件：
+### Other Platform Plugin
 
-| 插件                                                                                              | 编译平台        |
-|:----------------------------------------------------------------------------------------------- |:----------- |
-| [@tarojs/plugin-platform-weapp-qy](https://github.com/NervJS/taro-plugin-platform-weapp-qy)     | 企业微信小程序     |
-| [@tarojs/plugin-platform-alipay-dd](https://github.com/NervJS/taro-plugin-platform-alipay-dd)   | 钉钉小程序       |
-| [@tarojs/plugin-platform-alipay-iot](https://github.com/NervJS/taro-plugin-platform-alipay-iot) | 支付宝 IOT 小程序 |
-| [@tarojs/plugin-platform-lark](https://github.com/NervJS/taro-plugin-platform-lark)             | 飞书小程序       |
+| Plugin                                                                                          | Compile Platform               |
+|:----------------------------------------------------------------------------------------------- |:------------------------------ |
+| [@tarojs/plugin-platform-weapp-qy](https://github.com/NervJS/taro-plugin-platform-weapp-qy)     | Enterprise WeChat Mini Program |
+| [@tarojs/plugin-platform-alipay-dd](https://github.com/NervJS/taro-plugin-platform-alipay-dd)   | DingTalk Mini Program          |
+| [@tarojs/plugin-platform-alipay-iot](https://github.com/NervJS/taro-plugin-platform-alipay-iot) | Alipay IOT Mini Program        |
+| [@tarojs/plugin-platform-lark](https://github.com/NervJS/taro-plugin-platform-lark)             | 飞书小程序                          |
 
-### 端平台插件使用方法：
+### Platform Plugin Usage
 
-1. 配置插件
+1. Configuration Plugin
 
 ```js
-// Taro 项目配置
+// Taro Project Configuration
 module.exports = {
-  // ...
-  plugins: [
+  // ... plugins: [
     '@tarojs/plugin-platform-alipay-iot'
   ]
 }
 ```
 
-2. 编译为支付宝 IOT 端小程序
+2. Compile as Alipay IOT Mini Program
 
 ```shell
 taro build --type iot
 taro build --type iot --watch
 ```
 
-## 背景
+## Background
 
-### 开放式框架
+### Open Framework
 
-近年来业界推出的小程序平台越来越多，但 Taro 核心维护的平台只有 6 个（微信、支付宝、百度、头条、QQ、京东小程序），因此常常有同学提出能不能支持某某平台的 Feature Request。
+In recent years, there are more and more mini program platforms launched, but there are only 6 platforms maintained by Taro core (WeChat, Alipay, Baidu, ByteDance, QQ, Jingdong mini program), so some students often ask if they can support Feature Request of a certain platform.
 
-基于目前的架构，对于单一平台的兼容性代码分布于 Taro 核心库的各个角落，涉及编译时与运行时等部分。支持一个新的平台需要改动所有的这些地方，开发复杂度高，同时社区也难以参与贡献。
+Based on the current architecture, the compatibility code for a single platform is distributed in various corners of the Taro core library, involving compile-time and run-time parts.Supporting a new platform requires changes to all these places, which makes development complicated and makes it difficult for the community to participate in contributing.
 
-为此我们萌生了打造一个**开放式框架**的想法。目标是可以通过插件的形式扩展 Taro 的端平台支持能力：
+For this reason we came up with the idea of building an **open framework**.The goal is to extend Taro's end-platform support capabilities in the form of plugins for.
 
-* 插件开发者无需修改 Taro 核心库代码，按照一定的规则即可编写出一个端平台插件。
-* 插件使用者只需安装、配置端平台插件，即可把代码编译到指定平台。
+* Plugin developers can write a platform plugin without modifying the Taro core library code and following certain rules.
+* Plugin users only need to install and configure the end-platform plugin to compile the code to the specified platform.
 
-端平台扩展又可以分为横向扩展和纵向扩展两种方式：
+Platform extensions can be further divided into horizontal and vertical extensions in two ways:
 
-* 横向扩展
+* Horizontal extensions
 
-  扩展一个全新的编译平台，如美团小程序。
+  Extend a brand new compiled platform, such as the Meituan mini program.
 
-* 纵向扩展
+* Vertical extension
 
-  继承现有的端平台插件，扩展出新的编译平台，如 QQ 小程序插件继承于微信小程序插件。
+  Inherit existing platform plugin and extend a new compilation platform, such as QQ mini program plugin inherit from WeChat mini program plugin.
 
-#### 开放式编译平台架构图
+#### Open compilation platform architecture diagram
 
 ![](http://storage.jd.com/cjj-pub-images/platform-plugin-all.png)
 
-### 还可以做什么有意思的事
+### What else is interesting to do
 
-除了扩展新的编译平台，我们还可以通过继承于现有的端平台插件，来编写自定义的端平台插件，为平台的编译过程注入自定义逻辑：
+In addition to extending the new compilation platform, we can also write custom platform plugins that inject custom logic into the platform's compilation process by inheriting from existing platform plugins.
 
-> 使用插件 [@tarojs/plugin-inject](https://github.com/NervJS/taro-plugin-inject) 能为所有小程序平台快速新增 API、组件，调整组件属性等
+> Use the plugin [@tarojs/plugin-inject](https://github.com/NervJS/taro-plugin-inject) to quickly add APIs, components, adjust component properties, etc. for all mini program mini program
 
-#### 快速修复问题
+#### Quick fixes for problems
 
-由于小程序平台众多，而且它们也在不断地迭代，往往会出现 Taro 对某个小程序新推出的组件或 API 支持不及时的问题。这时开发者首先需要联系 Taro 团队，再等待我们跟进修复、发布新版本后才能正常使用，平均需要等待一周或两周的时间才能得到解决。
+Due to the large number of mini program platforms and the fact that they are constantly iterating, there is often an issue where Taro does not have timely support for a newly introduced component or API of an mini program.Developers would first need to contact the Taro team and then wait for us to follow up with a fix and release a new version before they could use it properly, which would take an average of a week or two weeks to be resolved.
 
-而基于开放式的编译平台架构，开发者能够通过继承目标的端平台插件，迅速开发出自定义端平台插件，完成对这些新组件或 API 的支持，无需等待 Taro 发布版本。
+Based on the open compilation platform architecture, developers can quickly develop custom platform plugins by inheriting the target platform plugins to complete support for these new components or APIs without waiting for Taro to release a version.
 
-#### 属性精简
+#### Property Simplification
 
-因为小程序组件的属性和事件都必须静态写死，不可以动态添加，所以 Taro 会把组件的所有属性和事件全部在模板里提前进行绑定。
+Because the properties and events of the mini program components must be written statically and cannot be added dynamically, Taro binds all the properties and events of the components in the template in advance.
 
-但实际项目中很多情况下并不会使用到组件的所有属性和事件，循环这些冗余的属性和事件绑定也会占据很大一部分的体积，另外太多的事件绑定也会在一定程度上降低小程序的性能。
+However, in many cases, the actual project does not use all the properties and events of the component, and the redundant property and event bindings will occupy a large part of the volume, and too many event bindings will also reduce the performance of the mini program to some extent.
 
-以下是 `View` 组件模板的伪代码：
+The following is the pseudo code for the `View` component template.
 
 ```html
 <template name="tmpl_0_view">
   <view
-    hover-class="..."
-    hover-stop-propagation="..."
-    hover-start-time="..."
-    hover-stay-time="..."
-    animation="..."
-    onTouchStart="..."
-    onTouchMove="..."
-    onTouchEnd="..."
-    onTouchCancel="..."
-    onLongTap="..."
-    onAnimationStart="..."
-    onAnimationIteration="..."
-    onAnimationEnd="..."
-    onTransitionEnd="..."
-    disable-scroll="..."
-    hidden="..."
-    onAppear="..."
-    onDisappear="..."
-    onFirstAppear="..."
-    style="..."
-    class="..."
-    onTap="..."
-    id="..."
-  >
-    ...
-  </view>
+    hover-class="..." hover-stop-propagation="..." hover-start-time="..." hover-stay-time="..." animation="..." onTouchStart="..." onTouchMove="..." onTouchEnd="..." onTouchCancel="..." onLongTap="..." onAnimationStart="..." onAnimationIteration="..." onAnimationEnd="..." onTransitionEnd="..." disable-scroll="..." hidden="..." onAppear="..." onDisappear="..." onFirstAppear="..." style="..." class="..." onTap="..." id="..." >
+    ... </view>
 </template>
 ```
 
-Taro 需要把 `View` 组件的所有属性和事件提前进行绑定，才能满足不同开发者的使用需求。但可能对于某位开发者来说，整个项目的 `View` 组件都没有使用到 `hover-stop-propagation` 这个属性，那么则可以考虑把它精简掉，不编译到 `View` 模板当中。
+Taro needs to bind all properties and events of the `View` component in advance in order to meet the needs of different developers.However, for a developer who may not use the `hover-stop-propagation` property for the entire `View` component of the project, consider streamlining it and not compiling it into the `View` template.
 
-属性精简的功能同样可以通过实现一个自定义端平台插件来实现。但是需要提醒的是，对属性的精简可能会引起不必要的问题、使项目的维护变得困难，特别当项目变大，开发者众多时，需要谨慎设计和使用。
+Attribute refinement can also be achieved by implementing a custom platform plugin.However, it is important to note that refinement of properties can cause unnecessary problems and make maintenance of the project difficult, and should be designed and used with care, especially when the project is large and has many developers.
 
-#### 欢迎共建
+#### Welcome to build together
 
-我们希望在开放式架构推出后，能激起社区各位开发者的创造力，一起为 Taro 生态创造新的端平台支持插件，或各种优秀的自定义端平台组件，期待您的参与和贡献！
+We hope that after the launch of the open architecture, we can stimulate the creativity of developers in the community to create new platform support plugins or various excellent custom platform components for the Taro ecosystem, and we look forward to your participation and contribution!
