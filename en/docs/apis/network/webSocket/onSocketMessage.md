@@ -3,21 +3,21 @@ title: Taro.onSocketMessage(callback)
 sidebar_label: onSocketMessage
 ---
 
-监听 WebSocket 接受到服务器的消息事件
+Listens on the event of receiving server messages by WebSocket
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.onSocketMessage.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.onSocketMessage.html)
 
-## 类型
+## Type
 
 ```tsx
 <T = any>(callback: Callback<T>) => void
 ```
 
-## 参数
+## Parameters
 
 ### Callback
 
-WebSocket 接受到服务器的消息事件的回调函数
+The callback function for the event of receiving server messages by WebSocket.
 
 ```tsx
 (result: CallbackResult<T>) => void
@@ -26,8 +26,8 @@ WebSocket 接受到服务器的消息事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -43,33 +43,33 @@ WebSocket 接受到服务器的消息事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>data</td>
       <td><code>T</code></td>
-      <td>服务器返回的消息</td>
+      <td>Messages returned by the server</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.connectSocket({
   url: 'test.php'
 })
 Taro.onSocketMessage(function (res) {
-  console.log('收到服务器内容：' + res.data)
+  console.log('receive msg：' + res.data)
 })
 ```
 
-## API 支持度
+## API Support
 
-|         API          | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
-|:--------------------:|:-----:|:-----:|:------:|:--:|:------------:|
-| Taro.onSocketMessage |  ✔️   |  ✔️   |   ✔️   |    |              |
+|         API          | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | H5 | React Native |
+|:--------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| Taro.onSocketMessage |         ✔️          |         ✔️          |         ✔️          |    |              |
