@@ -3,17 +3,17 @@ title: Text
 sidebar_label: Text
 ---
 
-文本
+Text.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/text.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/text.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<TextProps>
 ```
 
-## 示例代码
+## Examples
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -116,11 +116,11 @@ export default {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -128,63 +128,63 @@ export default {
       <td>selectable</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>文本是否可选</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether the text is selectable</td>
     </tr>
     <tr>
       <td>space</td>
       <td><code>&quot;ensp&quot; | &quot;emsp&quot; | &quot;nbsp&quot;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>显示连续空格</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Displays consecutive spaces</td>
     </tr>
     <tr>
       <td>decode</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否解码</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to decode component</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|         API          | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
-|:--------------------:|:-----:|:-----:|:------:|:-------:|:--:|:------------:|
-| TextProps.selectable |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-|   TextProps.space    |  ✔️   |  ✔️   |        |   ✔️    |    |              |
-|   TextProps.decode   |  ✔️   |       |        |   ✔️    |    |              |
+|         API          | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 | React Native |
+|:--------------------:|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| TextProps.selectable |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+|   TextProps.space    |         ✔️          |         ✔️          |                     |         ✔️          |    |              |
+|   TextProps.decode   |         ✔️          |                     |                     |         ✔️          |    |              |
 
 ### TSpace
 
-space 的合法值
+Valid values of space
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Value</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>ensp</td>
-      <td>中文字符空格一半大小</td>
+      <td>En space</td>
     </tr>
     <tr>
       <td>emsp</td>
-      <td>中文字符空格大小</td>
+      <td>Em space</td>
     </tr>
     <tr>
       <td>nbsp</td>
-      <td>根据字体设置的空格大小</td>
+      <td>The size of the space is set according to the font setting</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-| API  | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
-|:----:|:-----:|:-----:|:------:|:-------:|:--:|:------------:|
-| Text |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
+| API  | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 | React Native |
+|:----:|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| Text |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
