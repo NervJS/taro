@@ -3,17 +3,17 @@ title: Taro.getRealtimeLogManager()
 sidebar_label: getRealtimeLogManager
 ---
 
-获取实时日志管理器对象。
+Obtains the real-time log manager object.
 
-## 类型
+## Type
 
 ```tsx
 () => RealtimeLogManager
 ```
 
-## 参数
+## Parameters
 
-## 示例代码
+## Sample Code
 
 ```tsx
 const logger = Taro.getRealtimeLogManager()
@@ -22,8 +22,8 @@ logger.error({str: 'hello world'}, 'error log', 100, [1, 2, 3])
 logger.warn({str: 'hello world'}, 'warn log', 100, [1, 2, 3])
 ```
 
-## API 支持度
+## API Support
 
-|            API             | 微信小程序 | H5 | React Native |
-|:--------------------------:|:-----:|:--:|:------------:|
-| Taro.getRealtimeLogManager |  ✔️   |    |              |
+|            API             | WeChat Mini-Program | H5 | React Native |
+|:--------------------------:|:-------------------:|:--:|:------------:|
+| Taro.getRealtimeLogManager |         ✔️          |    |              |
