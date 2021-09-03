@@ -177,7 +177,7 @@ Trigger timing：
 
 ##### 1. componentWillMount ()
 
-After [onLoad](./react#onload-options), the page component is triggered before rendering to Taro's virtual DOM.
+After [onLoad](./react-page#onload-options), the page component is triggered before rendering to Taro's virtual DOM.
 
 ##### 2. componentDidMount ()
 
@@ -185,7 +185,7 @@ Triggered after the page component is rendered to Taro's virtual DOM.
 
 Taro's virtual DOM is accessible at this point (using methods such as React ref, document.getElementById, etc.), and modifications to it are supported (setting the style of the DOM, etc.).
 
-However, this does not mean that Taro's virtual DOM data has been transferred from the logical layer `setData` to the view layer. So at this point ** it is not possible to get the DOM nodes of the rendering layer of the mini program by methods like `createSelectorQuery`. ** You can only get the DOM node in [onReady](./react#onready-) lifecycle.
+However, this does not mean that Taro's virtual DOM data has been transferred from the logical layer `setData` to the view layer. So at this point ** it is not possible to get the DOM nodes of the rendering layer of the mini program by methods like `createSelectorQuery`. ** You can only get the DOM node in [onReady](./react-page#onready-) lifecycle.
 
 ### Methods for mini program pages
 

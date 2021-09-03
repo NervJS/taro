@@ -10,10 +10,9 @@
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "serve": "docusaurus serve",
-    "build:en":"LOCALE=en npm run start -- --locale en",
-    "start:en":"LOCALE=en npm run start -- --locale en",
-    "write-translations": "docusaurus write-translations",
-    "write-translations:en":"npm run write-translations -- --locale en"
+    "build:en":"NODE_OPTIONS=--max-old-space-size=5120 BASE=en docusaurus build --out-dir build/taro3/",
+    "start:en":"NODE_OPTIONS=--max-old-space-size=5120 BASE=en docusaurus start --locale en",
+    "write-translations:en":"docusaurus write-translations --locale en"
   },
   "dependencies": {
     "@docusaurus/core": "2.0.0-alpha.75",

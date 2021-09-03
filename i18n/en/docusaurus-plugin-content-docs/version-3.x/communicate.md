@@ -4,13 +4,11 @@ title: Communication and Feedback
 
 ## Develop and Communicate
 
-WeChat scan the code to add `Aoto Lab - Little Assistant`.
+Select the following corresponding groups, use WeChat to scan the code to add, you will receive the group QR code, then scan the group code to add.
 
-- Send `taro` to join Taro Technical Exchange Group
-- Send `rn` to join the Taro ReactNative Technical Exchange Group
-- Send `taroui` to join the Taro UI Technical Exchange group
-
-<img src="https://storage.jd.com/taro-jd-com/static/wechaty.png" width="220px" />
+| Taro  | Taro Vue | Taro RN | Taro x NutUI |
+| ------ | ------ | ------ | ------ |
+| <img src="https://storage.360buyimg.com/taro-resource/Taro-Taro.png" width="220px" /> | <img src="https://storage.360buyimg.com/taro-resource/Taro-Vue.png" width="220px" /> | <img src="https://storage.360buyimg.com/taro-resource/Taro-RN.png" width="220px" /> | <img src="https://storage.360buyimg.com/taro-resource/NutUIxTaro.png" width="220px" /> |
 
 ## Feedback and suggestions
 

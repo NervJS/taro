@@ -259,7 +259,7 @@ Listens on the rewarded video ad loading event.
     <tr>
       <td>errCode</td>
       <td><code>1000 | 1001 | 1002 | 1003 | 1004 | 1005 | 1006 | 1007 | 1008</code></td>
-      <td>Error code<br /><a href="/taro/docs/apis/General#aderrcode">Reference</a></td>
+      <td>Error code<br /><a href="../../apis/General#aderrcode">Reference</a></td>
     </tr>
     <tr>
       <td>errMsg</td>

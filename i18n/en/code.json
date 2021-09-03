@@ -198,5 +198,45 @@
   "theme.Playground.liveEditor": {
     "message": "Live Editor",
     "description": "The live editor label of the live codeblocks"
+  },
+  "相关资源": {
+    "message": "Resources",
+    "description": "The homepage main heading"
+  },
+  "社区": {
+    "message": "Community",
+    "description": "The footer content"
+  },
+  "微信": {
+    "message": "Wechat",
+    "description": "The footer content"
+  },
+  "关于我们": {
+    "message": "About Us",
+    "description": "The footer content"
+  },
+  "凹凸实验室": {
+    "message": "Aotu Lab",
+    "description": "The footer content"
+  },
+  "加入我们": {
+    "message": "Join us",
+    "description": "The footer content"
+  },
+  "联系我们": {
+    "message": "Contact us",
+    "description": "The footer content"
+  },
+  "感谢": {
+    "message": "Thanks",
+    "description": "The footer content"
+  },
+  "用户体验设计部": {
+    "message": "UX Design Department",
+    "description": "The footer content"
+  },
+  "Taro 贡献者们": {
+    "message": "Taro Contributors",
+    "description": "The footer content"
   }
 }

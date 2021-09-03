@@ -1,7 +1,7 @@
 {
   "version.label": {
     "message": "Next",
-    "description": "The label for version current"
+    "description": "The label for version 3.x"
   },
   "sidebar.docs.category.关于Taro": {
     "message": "About Taro",
@@ -9,7 +9,7 @@
   },
   "sidebar.docs.category.快速开始": {
     "message": "Quick Start",
-    "description": "The label for category Quick Start in sidebar docs"
+    "description": "The label for category 快速开始 in sidebar docs"
   },
   "sidebar.docs.category.基础教程": {
     "message": "Basic Tutorial",
@@ -442,5 +442,17 @@
   "sidebar.API.category.Swan": {
     "message": "Swan",
     "description": "The label for category Swan in sidebar API"
+  },
+  "sidebar.docs.category.React": {
+    "message": "React",
+    "description": "The label for category React in sidebar docs"
+  },
+  "sidebar.docs.category.Vue": {
+    "message": "Vue",
+    "description": "The label for category Vue in sidebar docs"
+  },
+  "sidebar.docs.category.CONTRIBUTING": {
+    "message": "CONTRIBUTING",
+    "description": "The label for category CONTRIBUTING in sidebar docs"
   }
 }

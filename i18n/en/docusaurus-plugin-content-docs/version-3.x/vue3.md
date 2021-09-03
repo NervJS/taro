@@ -2,57 +2,11 @@
 title: Vue3
 ---
 
-Taro can be developed with Vue 3, and developers can use the `taro init` command to create a **default** template for Vue3 or a **vuex** template for experience.
+Taro can be developed using Vue 3. Developers can use the `taro init` command to create templates for Vue 3, including **default**, **vuex**, and [NutUI3.0](https://nutui.jd.com/#/button). We recommend using NutUI3.0 templates for development.
 
-You can refer to the [Taro Vue documentation](./vue.md), this article will focus on the main differences between using Vue3 in Taro and using Vue.
+For details, please refer to the Taro Vue series documentation.
 
-New Vue3 features can be found in  [Vue3 documentation](https://v3.vuejs.org/guide/migration/introduction.html#notable-new-features)。
-
-For more information on how Taro is compatible with Vue3, see [Taro RFC](https://github.com/NervJS/taro-rfcs/blob/master/rfcs/0001-vue-3-support.md)。
-
-## Entry Components
-
-Due to changes in the Vue3 Global API（[0009-global-api-change](https://github.com/vuejs/rfcs/blob/master/active-rfcs/0009-global-api-change.md)）, The entry component of Vue3 will be written in the following way.
-
-```js title="src/app.js"
-import { createApp } from 'vue'
-
-const app = createApp({
-  onShow (options) {
-    // ...
-  }
-  // The entry component does not need to implement the render method, and even if it does, it will be overridden by taro.
-})
-
-export app
-```
-
-## Page Components
-
-The page component uses Vue SFC to export a Vue3 component normally.
-
-Developers can choose to use options-style configuration or [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html), Browse the  [Vue 3 documentation](https://v3.vuejs.org/) to learn more about the Vue3 changes.
-
-```html
-<template>
-  <view class="index">
-    <text>{{ msg }}</text>
-  </view>
-</template>
-
-<script>
-import { ref } from 'vue'
-
-export default {
-  setup () {
-    const msg = ref('Hello world')
-    return {
-      msg
-    }
-  }
-}
-</script>
-```
+Developers can choose to organize their logic using options-style configuration or the [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html) and browse the [Vue 3 documentation](https://v3. vuejs.org/) to learn more about Vue3 changes.
 
 ## Other limitations
 
@@ -67,4 +21,10 @@ export default {
 
 ## Related Reading
 
-[Developing mini-program with Vue3](https://taro-club.jd.com/topic/2267/%E4%BD%BF%E7%94%A8-vue3-%E5%BC%80%E5%8F%91%E5%B0%8F%E7%A8%8B%E5%BA%8F) by lillian
+New Vue3 features can be found in the [Vue3 documentation](https://v3.vuejs.org/guide/migration/introduction.html#notable-new-features).
+
+How Taro is compatible with Vue3 can be found in [Taro RFC](https://github.com/NervJS/taro-rfcs/blob/master/rfcs/0001-vue-3-support.md).
+
+[Developing Applets with Vue3](https://taro-club.jd.com/topic/2267/%E4%BD%BF%E7%94%A8-vue3-%E5%BC%80%E5%8F%91%E5%B0%8F%E7%A8%8B%E5%BA%8F) by lillian.
+
+[ NutUI Development Example ](https://github.com/jdf2e/nutui-demo/tree/master/taro) by jdf2e.

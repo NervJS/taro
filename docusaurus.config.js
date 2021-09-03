@@ -250,10 +250,6 @@ const siteConfigTaroZone = {
         srcDark: 'img/logo-taro.png'
       },
       items: [
-        // {
-        //   type: 'localeDropdown',
-        //   position: 'left',
-        // },
         {
           type: 'docsVersionDropdown',
           position: 'left',
@@ -408,9 +404,9 @@ const siteConfigTaroZone = {
   //   repoUrl: 'https://github.com/facebook/test-site',
 }
 
-
+//仅翻译3.x的文档，其中增加中英文切换配置，navbar 去除版本切换和一些外链
 const siteConfigEnglish ={
-  baseUrl: process.env.BASE === 'taro' ? '/taro/' : '/' /* base url for your project */,
+  baseUrl: '/taro3/'/* base url for your project */,
   favicon: './img/favicon.ico',
   tagline: 'Taro 是一个开放式跨端跨框架解决方案，支持使用 React/Vue/Nerv 等框架来开发微信/京东/百度/支付宝/字节跳动/ QQ 小程序/H5 等应用。',
   title: 'Taro 文档' /* title for your website */,
@@ -459,10 +455,10 @@ const siteConfigEnglish ={
         srcDark: 'img/logo-taro.png'
       },
       items: [
-        // {
-        //   type: 'localeDropdown',
-        //   position: 'left',
-        // },
+        {
+          type: 'localeDropdown',
+          position: 'left',
+        },
         {
           type: 'doc',
           docId: 'README',
@@ -501,7 +497,7 @@ const siteConfigEnglish ={
         {href: 'https://taro-ui.taro.zone', label: 'Taro UI', position: 'right'},
         {href: 'https://taro-ext.jd.com', label: '物料市场', position: 'right'},
         {href: 'https://taro-club.jd.com', label: '论坛', position: 'right'},
-        {href: 'https://taro.jd.com/jdmp/index.html', label: '京东小程序', position: 'right'},
+        // {href: 'https://taro.jd.com/jdmp/index.html', label: '京东小程序', position: 'right'},
         {
           href: 'https://github.com/nervjs/taro',
           position: 'right',
@@ -522,7 +518,7 @@ const siteConfigEnglish ={
           lastVersion: "3.x",
           versions: {
             current: {
-              label: `下个版本`
+              label: `3.x`
             }
           }
         },
@@ -594,10 +590,13 @@ const siteConfigEnglish ={
       },
     },
   },
-
 } 
 
-
-
-const siteConfig = process.env.LOCALE == 'en'? siteConfigEnglish : process.env.BASE == 'zone' ?  siteConfigTaroZone : siteConfigGithub
+const env = process.env.BASE 
+let siteConfig = siteConfigGithub
+if(env == 'zone'){
+  siteConfig = siteConfigTaroZone
+}else if(env == 'en'){
+  siteConfig = siteConfigEnglish
+}
 module.exports = siteConfig
