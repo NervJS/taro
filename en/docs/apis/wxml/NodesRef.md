@@ -3,17 +3,17 @@ title: NodesRef
 sidebar_label: NodesRef
 ---
 
-用于获取 `WXML` 节点信息的对象
+The object for obtaining the `WXML` node information.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/NodesRef.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/NodesRef.html)
 
-## 方法
+## Methods
 
 ### boundingClientRect
 
-添加节点的布局位置的查询请求。相对于显示区域，以像素为单位。其功能类似于 DOM 的 `getBoundingClientRect`。返回 `NodesRef` 对应的 `SelectorQuery`。
+添加节点的布局位置的查询请求。相对于显示区域，以像素为单位。This feature is similar to `getBoundingClientRect` of DOM.It returns `SelectorQuery` of `NodesRef`.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/NodesRef.boundingClientRect.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/NodesRef.boundingClientRect.html)
 
 ```tsx
 (callback?: BoundingClientRectCallback) => SelectorQuery
@@ -22,9 +22,9 @@ sidebar_label: NodesRef
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -36,51 +36,49 @@ sidebar_label: NodesRef
   </tbody>
 </table>
 
-#### 示例代码
+#### Sample Code
 
-##### 示例 1
+##### Example 1
 
 ```tsx
 Taro.createSelectorQuery().select('#the-id').boundingClientRect(function(rect){
-  rect.id      // 节点的ID
-  rect.dataset // 节点的dataset
-  rect.left    // 节点的左边界坐标
-  rect.right   // 节点的右边界坐标
-  rect.top     // 节点的上边界坐标
-  rect.bottom  // 节点的下边界坐标
-  rect.width   // 节点的宽度
-  rect.height  // 节点的高度
+  rect.id      // The ID of the node
+  rect.dataset // The dataset of the node
+  rect.left    // The left boundary coordinate of the node
+  rect.right   // The right boundary coordinate of the node
+  rect.top     // The upper boundary coordinate of the node
+  rect.bottom  // The lower boundary coordinate of the node
+  rect.width   // The width of the node
+  rect.height  // The height of the node
 }).exec()
-
-##### 示例 2
 
 ```
 ```tsx
 Taro.createSelectorQuery().selectAll('.a-class').boundingClientRect(function(rects){
   rects.forEach(function(rect){
-    rect.id      // 节点的ID
-    rect.dataset // 节点的dataset
-    rect.left    // 节点的左边界坐标
-    rect.right   // 节点的右边界坐标
-    rect.top     // 节点的上边界坐标
-    rect.bottom  // 节点的下边界坐标
-    rect.width   // 节点的宽度
-    rect.height  // 节点的高度
+    rect.id      // The ID of the node
+    rect.dataset // The dataset of the node
+    rect.left    // The left boundary coordinate of the node
+    rect.right   // The right boundary coordinate of the node
+    rect.top     // The upper boundary coordinate of the node
+    rect.bottom  // The lower boundary coordinate of the node
+    rect.width   // The width of the node
+    rect.height  // The height of the node
   })
 }).exec()
 ```
 
-#### API 支持度
+#### API Support
 
-|             API             | 微信小程序 | H5 | React Native |
-|:---------------------------:|:-----:|:--:|:------------:|
-| NodesRef.boundingClientRect |  ✔️   | ✔️ |              |
+|             API             | WeChat Mini-Program | H5 | React Native |
+|:---------------------------:|:-------------------:|:--:|:------------:|
+| NodesRef.boundingClientRect |         ✔️          | ✔️ |              |
 
 ### context
 
-添加节点的 Context 对象查询请求。目前支持 [VideoContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.html)、[CanvasContext](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.html)、[LivePlayerContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.html)、[EditorContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.html)和 [MapContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.html) 的获取。
+Adds the request for querying the node Context object.[VideoContext](https://developers.weixin.qq.com/miniprogram/en/dev/api/media/video/VideoContext.html), [CanvasContext](https://developers.weixin.qq.com/miniprogram/en/dev/api/canvas/CanvasContext.html), [LivePlayerContext](https://developers.weixin.qq.com/miniprogram/en/dev/api/media/live/LivePlayerContext.html), and [MapContext](https://developers.weixin.qq.com/miniprogram/en/dev/api/map/MapContext.html) can be obtained.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/NodesRef.context.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/NodesRef.context.html)
 
 ```tsx
 (callback?: ContextCallback) => SelectorQuery
@@ -89,41 +87,41 @@ Taro.createSelectorQuery().selectAll('.a-class').boundingClientRect(function(rec
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>ContextCallback</code></td>
-      <td>回调函数，在执行 <code>SelectorQuery.exec</code> 方法后，返回节点信息。</td>
+      <td>The callback function. After the <code>SelectorQuery.exec</code> method is executed, the node information will be returned.</td>
     </tr>
   </tbody>
 </table>
 
-#### 示例代码
+#### Sample Code
 
 ```tsx
 Taro.createSelectorQuery().select('.the-video-class').context(function (res) {
-  console.log(res.context) // 节点对应的 Context 对象。如：选中的节点是 <video> 组件，那么此处即返回 VideoContext 对象
+  console.log(res.context) // The Context object of the node.如：选中的节点是 <video> 组件，那么此处即返回 VideoContext 对象
 }).exec()
 ```
 
-#### API 支持度
+#### API Support
 
-|       API        | 微信小程序 | H5 | React Native |
-|:----------------:|:-----:|:--:|:------------:|
-| NodesRef.context |  ✔️   |    |              |
+|       API        | WeChat Mini-Program | H5 | React Native |
+|:----------------:|:-------------------:|:--:|:------------:|
+| NodesRef.context |         ✔️          |    |              |
 
 ### fields
 
-获取节点的相关信息。需要获取的字段在fields中指定。返回值是 `nodesRef` 对应的 `selectorQuery`
+Obtains the information about the node.The fields to be obtained are specified in fields.The `selectorQuery` of `nodesRef` is returned.
 
-**注意** computedStyle 的优先级高于 size，当同时在 computedStyle 里指定了 width/height 和传入了 size: true，则优先返回 computedStyle 获取到的 width/height。
+**Note** computedStyle has a higher priority than size. When width/height is specified and "size: true" is passed in computedStyle, the width/height obtained by computedStyle is returned first.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/NodesRef.fields.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/NodesRef.fields.html)
 
 ```tsx
 (fields: Fields, callback?: FieldsCallback) => SelectorQuery
@@ -132,9 +130,9 @@ Taro.createSelectorQuery().select('.the-video-class').context(function (res) {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -146,12 +144,12 @@ Taro.createSelectorQuery().select('.the-video-class').context(function (res) {
     <tr>
       <td>callback</td>
       <td><code>FieldsCallback</code></td>
-      <td>回调函数</td>
+      <td>Callback function</td>
     </tr>
   </tbody>
 </table>
 
-#### 示例代码
+#### Sample Code
 
 ```tsx
 Taro.createSelectorQuery().select('#the-id').fields({
@@ -162,31 +160,31 @@ Taro.createSelectorQuery().select('#the-id').fields({
   computedStyle: ['margin', 'backgroundColor'],
   context: true,
 }, function (res) {
-  res.dataset    // 节点的dataset
-  res.width      // 节点的宽度
-  res.height     // 节点的高度
-  res.scrollLeft // 节点的水平滚动位置
-  res.scrollTop  // 节点的竖直滚动位置
-  res.scrollX    // 节点 scroll-x 属性的当前值
-  res.scrollY    // 节点 scroll-y 属性的当前值
-  // 此处返回指定要返回的样式名
+  res.dataset    // The dataset of the node
+  res.width      // The width of the node
+  res.height     // The height of the node
+  res.scrollLeft // The horizontal scroll position of the node
+  res.scrollTop  // The vertical scroll position of the node
+  res.scrollX    // The current value of the node's scroll-x property
+  res.scrollY    // The current value of the node's scroll-y property
+  // Return the specified style name
   res.margin
   res.backgroundColor
-  res.context    // 节点对应的 Context 对象
+  res.context    // The Context object of the node
 }).exec()
 ```
 
-#### API 支持度
+#### API Support
 
-|       API       | 微信小程序 | H5 | React Native |
-|:---------------:|:-----:|:--:|:------------:|
-| NodesRef.fields |  ✔️   | ✔️ |              |
+|       API       | WeChat Mini-Program | H5 | React Native |
+|:---------------:|:-------------------:|:--:|:------------:|
+| NodesRef.fields |         ✔️          | ✔️ |              |
 
 ### node
 
-获取 Node 节点实例。目前支持 [Canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 的获取。
+Gets the Node node instance.Currently [Canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) is supported for fetching.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/NodesRef.node.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/NodesRef.node.html)
 
 ```tsx
 (callback?: NodeCallback) => SelectorQuery
@@ -195,9 +193,9 @@ Taro.createSelectorQuery().select('#the-id').fields({
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -209,25 +207,26 @@ Taro.createSelectorQuery().select('#the-id').fields({
   </tbody>
 </table>
 
-#### 示例代码
+#### Sample Code
 
 ```tsx
 Taro.createSelectorQuery().select('.canvas').node(function(res){
-  console.log(res.node) // 节点对应的 Canvas 实例。
+  console.log(res.node)
+}).exec()
 }).exec()
 ```
 
-#### API 支持度
+#### API Support
 
-|      API      | 微信小程序 | H5 | React Native |
-|:-------------:|:-----:|:--:|:------------:|
-| NodesRef.node |  ✔️   |    |              |
+|      API      | WeChat Mini-Program | H5 | React Native |
+|:-------------:|:-------------------:|:--:|:------------:|
+| NodesRef.node |         ✔️          |    |              |
 
 ### scrollOffset
 
-添加节点的滚动位置查询请求。以像素为单位。节点必须是 `scroll-view` 或者 `viewport`，返回 `NodesRef` 对应的 `SelectorQuery`。
+Adds the request for querying the node scroll position (in pixels).以像素为单位。The node must be `scroll-view` or `viewport`. It returns `SelectorQuery` of `NodesRef`.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/NodesRef.scrollOffset.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/NodesRef.scrollOffset.html)
 
 ```tsx
 (callback?: ScrollOffsetCallback) => SelectorQuery
@@ -236,38 +235,38 @@ Taro.createSelectorQuery().select('.canvas').node(function(res){
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>ScrollOffsetCallback</code></td>
-      <td>回调函数，在执行 <code>SelectorQuery.exec</code> 方法后，节点信息会在 <code>callback</code> 中返回。</td>
+      <td>The callback function. After the <code>SelectorQuery.exec</code> method is executed, the node information will be returned in<code>callback</code>.</td>
     </tr>
   </tbody>
 </table>
 
-#### 示例代码
+#### Sample Code
 
 ```tsx
 Taro.createSelectorQuery().selectViewport().scrollOffset(function(res){
-  res.id      // 节点的ID
-  res.dataset // 节点的dataset
-  res.scrollLeft // 节点的水平滚动位置
-  res.scrollTop  // 节点的竖直滚动位置
+  res.id      // The id of the node
+  res.dataset // The dataset of the node
+  res.scrollLeft // The horizontal scroll position of the node
+  res.scrollTop  // The vertical scroll position of the node
 }).exec()
 ```
 
-#### API 支持度
+#### API Support
 
-|          API          | 微信小程序 | H5 | React Native |
-|:---------------------:|:-----:|:--:|:------------:|
-| NodesRef.scrollOffset |  ✔️   | ✔️ |              |
+|          API          | WeChat Mini-Program | H5 | React Native |
+|:---------------------:|:-------------------:|:--:|:------------:|
+| NodesRef.scrollOffset |         ✔️          | ✔️ |              |
 
-## 参数
+## Parameters
 
 ### BoundingClientRectCallback
 
@@ -280,8 +279,8 @@ Taro.createSelectorQuery().selectViewport().scrollOffset(function(res){
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -297,58 +296,58 @@ Taro.createSelectorQuery().selectViewport().scrollOffset(function(res){
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>bottom</td>
       <td><code>number</code></td>
-      <td>节点的下边界坐标</td>
+      <td>The dataset of the node</td>
     </tr>
     <tr>
       <td>dataset</td>
       <td><code>Record&lt;string, any&gt;</code></td>
-      <td>节点的 dataset</td>
+      <td>The ID of the node</td>
     </tr>
     <tr>
       <td>height</td>
       <td><code>number</code></td>
-      <td>节点的高度</td>
+      <td>The lower boundary coordinate of the node</td>
     </tr>
     <tr>
       <td>id</td>
       <td><code>string</code></td>
-      <td>节点的 ID</td>
+      <td>The left boundary coordinate of the node</td>
     </tr>
     <tr>
       <td>left</td>
       <td><code>number</code></td>
-      <td>节点的左边界坐标</td>
+      <td>The right boundary coordinate of the node</td>
     </tr>
     <tr>
       <td>right</td>
       <td><code>number</code></td>
-      <td>节点的右边界坐标</td>
+      <td>The upper boundary coordinate of the node</td>
     </tr>
     <tr>
       <td>top</td>
       <td><code>number</code></td>
-      <td>节点的上边界坐标</td>
+      <td>The height of the node</td>
     </tr>
     <tr>
       <td>width</td>
       <td><code>number</code></td>
-      <td>节点的宽度</td>
+      <td>The width of the node</td>
     </tr>
   </tbody>
 </table>
 
 ### ContextCallback
 
-回调函数，在执行 `SelectorQuery.exec` 方法后，返回节点信息。
+The callback function. After the `SelectorQuery.exec` method is executed, the node information will be returned.
 
 ```tsx
 (result: ContextCallbackResult) => void
@@ -357,8 +356,8 @@ Taro.createSelectorQuery().selectViewport().scrollOffset(function(res){
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -374,16 +373,16 @@ Taro.createSelectorQuery().selectViewport().scrollOffset(function(res){
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>context</td>
       <td><code>Record&lt;string, any&gt;</code></td>
-      <td>节点对应的 Context 对象</td>
+      <td>The Context object of the node</td>
     </tr>
   </tbody>
 </table>
@@ -393,72 +392,72 @@ Taro.createSelectorQuery().selectViewport().scrollOffset(function(res){
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>computedStyle</td>
       <td><code>string[]</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>指定样式名列表，返回节点对应样式名的当前值</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies the style name list and returns the current value of the node style name</td>
     </tr>
     <tr>
       <td>context</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否返回节点对应的 Context 对象</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Indicates whether to return the Context object of the node</td>
     </tr>
     <tr>
       <td>dataset</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否返回节点 dataset</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Indicates whether to return the node dataset</td>
     </tr>
     <tr>
       <td>id</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否返回节点 id</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Indicates whether to return the node ID</td>
     </tr>
     <tr>
       <td>mark</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否返回节点 mark</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to return the node mark</td>
     </tr>
     <tr>
       <td>node</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否返回节点对应的 Node 实例</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to return the Node instance corresponding to the node.</td>
     </tr>
     <tr>
       <td>properties</td>
       <td><code>string[]</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>指定属性名列表，返回节点对应属性名的当前属性值（只能获得组件文档中标注的常规属性值，id class style 和事件绑定的属性值不可获取）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies the property name list and returns the current property value of the node property name (only the general property values listed in the component document can be obtained, and "id class style" and the property values bound to events cannot be obtained)</td>
     </tr>
     <tr>
       <td>rect</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否返回节点布局位置（<code>left</code> <code>right</code> <code>top</code> <code>bottom</code>）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Indicates whether to return the node layout position (<code>left</code> <code>right</code> <code>top</code> <code>bottom</code>)</td>
     </tr>
     <tr>
       <td>scrollOffset</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>否 是否返回节点的 <code>scrollLeft</code> <code>scrollTop</code>，节点必须是 <code>scroll-view</code> 或者 <code>viewport</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Indicates whether to return the node's <code>scrollLeft</code> and <code>scrollTop</code>. The node must be <code>scroll-view</code> or <code>viewport</code>.</td>
     </tr>
     <tr>
       <td>size</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否返回节点尺寸（<code>width</code> <code>height</code>）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Indicates whether to return the node size (<code>width</code> and <code>height</code>)</td>
     </tr>
   </tbody>
 </table>
@@ -474,23 +473,23 @@ Taro.createSelectorQuery().selectViewport().scrollOffset(function(res){
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>res</td>
       <td><code>Record&lt;string, any&gt;</code></td>
-      <td>节点的相关信息</td>
+      <td>Information about nodes</td>
     </tr>
   </tbody>
 </table>
 
 ### NodeCallback
 
-回调函数，在执行 `SelectorQuery.exec` 方法后，返回节点信息。
+The callback function. After the `SelectorQuery.exec` method is executed, the node information will be returned.
 
 ```tsx
 (result: NodeCallbackResult) => void
@@ -499,8 +498,8 @@ Taro.createSelectorQuery().selectViewport().scrollOffset(function(res){
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -518,16 +517,16 @@ Taro.createSelectorQuery().selectViewport().scrollOffset(function(res){
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>node</td>
       <td><code>Record&lt;string, any&gt;</code></td>
-      <td>节点对应的 Node 实例</td>
+      <td>Node instances corresponding to nodes</td>
     </tr>
   </tbody>
 </table>
@@ -543,8 +542,8 @@ Taro.createSelectorQuery().selectViewport().scrollOffset(function(res){
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -560,41 +559,41 @@ Taro.createSelectorQuery().selectViewport().scrollOffset(function(res){
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>dataset</td>
       <td><code>Record&lt;string, any&gt;</code></td>
-      <td>节点的 dataset</td>
+      <td>The dataset of the node</td>
     </tr>
     <tr>
       <td>id</td>
       <td><code>string</code></td>
-      <td>节点的 ID</td>
+      <td>The ID of the node</td>
     </tr>
     <tr>
       <td>scrollLeft</td>
       <td><code>number</code></td>
-      <td>节点的水平滚动位置</td>
+      <td>The horizontal scroll position of the node</td>
     </tr>
     <tr>
       <td>scrollTop</td>
       <td><code>number</code></td>
-      <td>节点的竖直滚动位置</td>
+      <td>The vertical scroll position of the node</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|             API             | 微信小程序 | H5 | React Native |
-|:---------------------------:|:-----:|:--:|:------------:|
-| NodesRef.boundingClientRect |  ✔️   | ✔️ |              |
-|      NodesRef.context       |  ✔️   |    |              |
-|       NodesRef.fields       |  ✔️   | ✔️ |              |
-|        NodesRef.node        |  ✔️   |    |              |
-|    NodesRef.scrollOffset    |  ✔️   | ✔️ |              |
+|             API             | WeChat Mini-Program | H5 | React Native |
+|:---------------------------:|:-------------------:|:--:|:------------:|
+| NodesRef.boundingClientRect |         ✔️          | ✔️ |              |
+|      NodesRef.context       |         ✔️          |    |              |
+|       NodesRef.fields       |         ✔️          | ✔️ |              |
+|        NodesRef.node        |         ✔️          |    |              |
+|    NodesRef.scrollOffset    |         ✔️          | ✔️ |              |
