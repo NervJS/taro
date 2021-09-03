@@ -3,39 +3,39 @@ title: Taro.writeBLECharacteristicValue(option)
 sidebar_label: writeBLECharacteristicValue
 ---
 
-向低功耗蓝牙设备特征值中写入二进制数据。注意：必须设备的特征值支持 write 才可以成功调用。
+Writes hexadecimal data to BLE device characteristics.Note: The device characteristics must support write to use this method.
 
-**注意**
-- 并行调用多次会存在写失败的可能性。
-- 小程序不会对写入数据包大小做限制，但系统与蓝牙设备会限制蓝牙4.0单次传输的数据大小，超过最大字节数后会发生写入错误，建议每次写入不超过20字节。
-- 若单次写入数据过长，iOS 上存在系统不会有任何回调的情况（包括错误回调）。
-- 安卓平台上，在调用 `notifyBLECharacteristicValueChange` 成功后立即调用 `writeBLECharacteristicValue` 接口，在部分机型上会发生 10008 系统错误
+**Notes**
+- Multiple parallel calls may cause write failures.
+- Mini Programs do not limit the size of written packets, but the system and Bluetooth device will restrict the data size transfered over Bluetooth 4.0 at a time. If the maximum number of bytes is exceeded, a write exception occurs. The size of each write operation should be limited to 20 bytes.
+- If too much data is written at a time, the iOS system does not provide any callbacks (including error callbacks).
+- On the Android platform, if the `writeBLECharacteristicValue` API is called right after the call to `notifyBLECharacteristicValueChange`, some device models will report a 10008 system error.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.writeBLECharacteristicValue.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.writeBLECharacteristicValue.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<Promised>
 ```
 
-## 参数
+## Parameters
 
 ### Promised
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>成功：ok，错误：详细信息</td>
+      <td>success: ok; fail: error message.</td>
     </tr>
   </tbody>
 </table>
@@ -45,82 +45,77 @@ sidebar_label: writeBLECharacteristicValue
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>characteristicId</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>蓝牙特征值的 uuid</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The Bluetooth characteristic UUID</td>
     </tr>
     <tr>
       <td>deviceId</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>蓝牙设备 id</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The Bluetooth device ID</td>
     </tr>
     <tr>
       <td>serviceId</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>蓝牙特征值对应服务的 uuid</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The UUID of the service corresponding to a Bluetooth characteristic</td>
     </tr>
     <tr>
       <td>value</td>
       <td><code>ArrayBuffer</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>蓝牙设备特征值对应的二进制值</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The hexadecimal value corresponding to the Bluetooth device characteristic.</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: BluetoothError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: BluetoothError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: BluetoothError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
-// 向蓝牙设备发送一个0x00的16进制数据
-let buffer = new ArrayBuffer(1)
+// Send a hexadecimal value of 0x00 to the Bluetooth device. let buffer = new ArrayBuffer(1)
 let dataView = new DataView(buffer)
 dataView.setUint8(0, 0)
 Taro.writeBLECharacteristicValue({
-  // 这里的 deviceId 需要在 getBluetoothDevices 或 onBluetoothDeviceFound 接口中获取
-  deviceId,
-  // 这里的 serviceId 需要在 getBLEDeviceServices 接口中获取
-  serviceId,
-  // 这里的 characteristicId 需要在 getBLEDeviceCharacteristics 接口中获取
-  characteristicId,
-  // 这里的value是ArrayBuffer类型
-  value: buffer,
+  // This deviceId must be obtained in the getBluetoothDevices or onBluetoothDeviceFound API. deviceId,
+  // This serviceId must be obtained in the getBLEDeviceServices API. serviceId,
+  // This characteristicId must be obtained in the getBLEDeviceCharacteristics API. characteristicId,
+  // This value is ArrayBuffer type. value: buffer,
   success: function (res) {
     console.log('writeBLECharacteristicValue success', res.errMsg)
   }
 })
 ```
 
-## API 支持度
+## API Support
 
-|               API                | 微信小程序 | H5 | React Native |
-|:--------------------------------:|:-----:|:--:|:------------:|
-| Taro.writeBLECharacteristicValue |  ✔️   |    |              |
+|               API                | WeChat Mini-Program | H5 | React Native |
+|:--------------------------------:|:-------------------:|:--:|:------------:|
+| Taro.writeBLECharacteristicValue |         ✔️          |    |              |
