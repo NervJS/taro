@@ -3,20 +3,20 @@ title: Taro.createOffscreenCanvas()
 sidebar_label: createOffscreenCanvas
 ---
 
-创建离屏 canvas 实例
+Creates an off-screen canvas instance.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.createOffscreenCanvas.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.createOffscreenCanvas.html)
 
-## 类型
+## Type
 
 ```tsx
 () => OffscreenCanvas
 ```
 
-## 参数
+## Parameters
 
-## API 支持度
+## API Support
 
-|            API             | 微信小程序 | H5 | React Native |
-|:--------------------------:|:-----:|:--:|:------------:|
-| Taro.createOffscreenCanvas |  ✔️   |    |              |
+|            API             | WeChat Mini-Program | H5 | React Native |
+|:--------------------------:|:-------------------:|:--:|:------------:|
+| Taro.createOffscreenCanvas |         ✔️          |    |              |
