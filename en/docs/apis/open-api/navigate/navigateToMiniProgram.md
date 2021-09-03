@@ -3,83 +3,83 @@ title: Taro.navigateToMiniProgram(option)
 sidebar_label: navigateToMiniProgram
 ---
 
-打开另一个小程序
+Opens another Mini Program.
 
-**使用限制**
-##### 需要用户触发跳转
-从 2.3.0 版本开始，若用户未点击小程序页面任意位置，则开发者将无法调用此接口自动跳转至其他小程序。
-##### 需要用户确认跳转
-从 2.3.0 版本开始，在跳转至其他小程序前，将统一增加弹窗，询问是否跳转，用户确认后才可以跳转其他小程序。如果用户点击取消，则回调 `fail cancel`。
-##### 每个小程序可跳转的其他小程序数量限制为不超过 10 个
-从 2.4.0 版本以及指定日期（具体待定）开始，开发者提交新版小程序代码时，如使用了跳转其他小程序功能，则需要在代码配置中声明将要跳转的小程序名单，限定不超过 10 个，否则将无法通过审核。该名单可在发布新版时更新，不支持动态修改。配置方法详见 [小程序全局配置](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html)。调用此接口时，所跳转的 appId 必须在配置列表中，否则回调 `fail appId "${appId}" is not in navigateToMiniProgramAppIdList`。
+**Use Limits**
+##### Redirection needs to be triggered by user
+As of the base library 2.3.0, if a user does not tap any location on the Mini Program page, this API cannot be called to automatically redirect to another Mini Program.
+##### User confirmation is required before redirection
+从 2.3.0 版本开始，在跳转至其他小程序前，将统一增加弹窗，询问是否跳转，用户确认后才可以跳转其他小程序。If the user taps **Cancel**, `fail cancel` is called back.
+##### Each Mini Program can be redirected to a maximum of 10 Mini Programs.
+As of the base library 2.4.0 and the specific date (to be determined), if the feature of redirection to another Mini Program is used in a new version of Mini Program code, the developer needs to declare a list of to-be-redirected-to Mini Programs in the code configurations. The quantity of to-be-redirected-to Mini Programs must be not more than 10.The list can be updated when a new version is released, and cannot be dynamically modified.For a specific configuration method, see [Global Configuration of Mini Program](https://developers.weixin.qq.com/miniprogram/en/dev/reference/configuration/app.html).Before calling this API, ensure that the appId of the Mini Program to be redirected to is in the configuration list. Otherwise, the following result is returned after callback: `fail appId "${appId}" is not in navigateToMiniProgramAppIdList`.
 
-**关于调试**
-- 在开发者工具上调用此 API 并不会真实的跳转到另外的小程序，但是开发者工具会校验本次调用跳转是否成功。[详情](https://developers.weixin.qq.com/miniprogram/dev/devtools/different.html#跳转小程序调试支持)
-- 开发者工具上支持被跳转的小程序处理接收参数的调试。[详情](https://developers.weixin.qq.com/miniprogram/dev/devtools/different.html#跳转小程序调试支持)
+**About Debugging**
+- On WeChat DevTools, the processing of received parameters by the redirected Mini Program can be debugged.[Details](https://developers.weixin.qq.com/miniprogram/dev/devtools/different.html#Debugging-of-Redirected-Mini-Programs)
+- 开发者工具上支持被跳转的小程序处理接收参数的调试。[Details](https://developers.weixin.qq.com/miniprogram/dev/devtools/different.html#Debugging-of-Redirected-Mini-Programs)
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/miniprogram-navigate/wx.navigateToMiniProgram.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/miniprogram-navigate/wx.navigateToMiniProgram.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<CallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>appId</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要打开的小程序 appId</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The appId of the Mini Program to be opened</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>envVersion</td>
       <td><code>&quot;develop&quot; | &quot;trial&quot; | &quot;release&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>要打开的小程序版本。仅在当前小程序为开发版或体验版时此参数有效。如果当前小程序是正式版，则打开的小程序必定是正式版。</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The version of the Mini Program to be opened.This parameter is valid only when the current Mini Program is in the developer version or the test version.If the current Mini Program is in the official version, the opened Mini Program is definitely in the official version.</td>
     </tr>
     <tr>
       <td>extraData</td>
       <td><code>Record&lt;string, any&gt;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>需要传递给目标小程序的数据，目标小程序可在 <code>App.onLaunch</code>，<code>App.onShow</code> 中获取到这份数据。如果跳转的是小游戏，可以在 <a href="#">wx.onShow</a>、<a href="https://developers.weixin.qq.com/miniprogram/dev/api/base/app/life-cycle/wx.getLaunchOptionsSync.html">wx.getLaunchOptionsSync</a> 中可以获取到这份数据数据。</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The data that needs to be passed to the target Mini Program. The target Mini Program can obtain this data from <code>App.onLaunch</code> and <code>App.onShow</code>.If the user is redirected to a Mini Game, this data can be obtained from <a href="#">wx.onShow</a> and <a href="https://developers.weixin.qq.com/miniprogram/dev/api/base/app/life-cycle/wx.getLaunchOptionsSync.html">wx.getLaunchOptionsSync</a>.</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>path</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>打开的页面路径，如果为空则打开首页。path 中 ? 后面的部分会成为 query，在小程序的 <code>App.onLaunch</code>、<code>App.onShow</code> 和 <code>Page.onLoad</code> 的回调函数或小游戏的 <a href="#">wx.onShow</a> 回调函数、<a href="https://developers.weixin.qq.com/miniprogram/dev/api/base/app/life-cycle/wx.getLaunchOptionsSync.html">wx.getLaunchOptionsSync</a> 中可以获取到 query 数据。对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 &quot;?foo=bar&quot;。</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The path of the page to be opened. If it is empty, the homepage is opened.Content following the question mark (?) in the path becomes a query. The query data can be obtained from the callbacks for App.onLaunch, <code>App.onShow</code>, and <code>Page.onLoad</code> of the Mini Program, the callback for <a href="#">wx.onShow</a> of the Mini Game, and <a href="https://developers.weixin.qq.com/miniprogram/dev/api/base/app/life-cycle/wx.getLaunchOptionsSync.html">wx.getLaunchOptionsSync</a>.For Mini Games, you can pass in only the query part, for example, <strong>?foo=bar</strong>.</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -89,27 +89,27 @@ sidebar_label: navigateToMiniProgram
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>develop</td>
-      <td>开发版</td>
+      <td>Developer version</td>
     </tr>
     <tr>
       <td>trial</td>
-      <td>体验版</td>
+      <td>Test version</td>
     </tr>
     <tr>
       <td>release</td>
-      <td>正式版</td>
+      <td>Official version</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.navigateToMiniProgram({
@@ -120,13 +120,13 @@ Taro.navigateToMiniProgram({
   },
   envVersion: 'develop',
   success: function(res) {
-    // 打开成功
+    // Opened successfully
   }
 })
 ```
 
-## API 支持度
+## API Support
 
-|            API             | 微信小程序 | H5 | React Native |
-|:--------------------------:|:-----:|:--:|:------------:|
-| Taro.navigateToMiniProgram |  ✔️   |    |              |
+|            API             | WeChat Mini-Program | H5 | React Native |
+|:--------------------------:|:-------------------:|:--:|:------------:|
+| Taro.navigateToMiniProgram |         ✔️          |    |              |
