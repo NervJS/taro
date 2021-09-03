@@ -3,107 +3,107 @@ title: Taro.openDocument(option)
 sidebar_label: openDocument
 ---
 
-新开页面打开文档，支持格式
+Opens a file in a new page.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.openDocument.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.openDocument.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<CallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>filePath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>文件路径，可通过 downloadFile 获得</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>File path, which can be obtained via downloadFile</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>File type in which the file is opened</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fileType</td>
       <td><code>&quot;doc&quot; | &quot;docx&quot; | &quot;xls&quot; | &quot;xlsx&quot; | &quot;ppt&quot; | &quot;pptx&quot; | &quot;pdf&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>文件类型，指定文件类型打开文件</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
 ### fileType
 
-文件类型
+Valid values of object.fileType
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>doc</td>
-      <td>doc 格式</td>
+      <td>doc format</td>
     </tr>
     <tr>
       <td>docx</td>
-      <td>docx 格式</td>
+      <td>docx format</td>
     </tr>
     <tr>
       <td>xls</td>
-      <td>xls 格式</td>
+      <td>xls format</td>
     </tr>
     <tr>
       <td>xlsx</td>
-      <td>xlsx 格式</td>
+      <td>xlsx format</td>
     </tr>
     <tr>
       <td>ppt</td>
-      <td>ppt 格式</td>
+      <td>ppt format</td>
     </tr>
     <tr>
       <td>pptx</td>
-      <td>pptx 格式</td>
+      <td>pptx format</td>
     </tr>
     <tr>
       <td>pdf</td>
-      <td>pdf 格式</td>
+      <td>pdf format</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.downloadFile({
@@ -113,15 +113,15 @@ Taro.downloadFile({
     Taro.openDocument({
       filePath: filePath,
       success: function (res) {
-        console.log('打开文档成功')
+        console.log('File opened successfully')
       }
     })
   }
 })
 ```
 
-## API 支持度
+## API Support
 
-|        API        | 微信小程序 | H5 | React Native |
-|:-----------------:|:-----:|:--:|:------------:|
-| Taro.openDocument |  ✔️   |    |              |
+|        API        | WeChat Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:--:|:------------:|
+| Taro.openDocument |         ✔️          |    |              |
