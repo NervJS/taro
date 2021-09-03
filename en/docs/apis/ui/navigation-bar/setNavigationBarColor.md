@@ -3,99 +3,99 @@ title: Taro.setNavigationBarColor(option)
 sidebar_label: setNavigationBarColor
 ---
 
-设置页面导航条颜色
+Sets the color of the navigation bar in the page.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.setNavigationBarColor.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.setNavigationBarColor.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<CallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>backgroundColor</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>背景颜色值，有效值为十六进制颜色</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Background color value, whose valid value is hexadecimal color</td>
     </tr>
     <tr>
       <td>frontColor</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>前景颜色值，包括按钮、标题、状态栏的颜色，仅支持 #ffffff 和 #000000</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Foreground color values, including colors of button, title, and status bar; only #ffffff and #000000 are supported.</td>
     </tr>
     <tr>
       <td>animation</td>
       <td><code>AnimationOption</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>动画效果</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Animation effects</td>
     </tr>
     <tr>
       <td>complete</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
 ### AnimationOption
 
-动画效果
+object.animation is composed as follows
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>duration</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>动画变化时间，单位 ms</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Animation change time (in ms)</td>
     </tr>
     <tr>
       <td>timingFunc</td>
       <td><code>&quot;linear&quot; | &quot;easeIn&quot; | &quot;easeOut&quot; | &quot;easeInOut&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>动画变化方式<br /><br />可选值：<br />- 'linear': 动画从头到尾的速度是相同的;<br />- 'easeIn': 动画以低速开始;<br />- 'easeOut': 动画以低速结束;<br />- 'easeInOut': 动画以低速开始和结束;</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Animation change mode.<br /><br />Enum: <br />- 'linear': The animation keeps the same speed from start to end;<br />- 'easeIn': The animation starts at low speed;<br />- 'easeOut': The animation ends at low speed;<br />- 'easeInOut': The animation starts and ends at low speed;</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.setNavigationBarColor({
@@ -108,8 +108,8 @@ Taro.setNavigationBarColor({
 })
 ```
 
-## API 支持度
+## API Support
 
-|            API             | 微信小程序 | H5 |     React Native     |
-|:--------------------------:|:-----:|:--:|:--------------------:|
-| Taro.setNavigationBarColor |  ✔️   | ✔️ | ✔️(不支持 animation 参数) |
+|            API             | WeChat Mini-Program | H5 |             React Native             |
+|:--------------------------:|:-------------------:|:--:|:------------------------------------:|
+| Taro.setNavigationBarColor |         ✔️          | ✔️ | ✔️(The `animation` is not supported) |
