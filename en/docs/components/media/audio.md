@@ -3,17 +3,17 @@ title: Audio
 sidebar_label: Audio
 ---
 
-音频。1.6.0版本开始，该组件不再维护。建议使用能力更强的 Taro.createInnerAudioContext 接口
+Audio.This component is no longer maintained as of 1.6.0.`Taro.createInnerAudioContext` API with more powerful capabilities is recommended.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/audio.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/audio.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<AudioProps>
 ```
 
-## 示例代码
+## Examples
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -78,11 +78,11 @@ export default class PageView extends Component {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -90,121 +90,121 @@ export default class PageView extends Component {
       <td>id</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>audio 组件的唯一标识符</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The unique identifier of the audio component</td>
     </tr>
     <tr>
       <td>src</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要播放音频的资源地址</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The resource address of the audio to be played</td>
     </tr>
     <tr>
       <td>loop</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>是否循环播放</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to enable loop playback</td>
     </tr>
     <tr>
       <td>muted</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否静音播放<br /><strong>不推荐使用</strong></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to enable mute playback.<br /><strong>Not recommended</strong></td>
     </tr>
     <tr>
       <td>controls</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>是否显示默认控件</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to display default controls</td>
     </tr>
     <tr>
       <td>poster</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>默认控件上的音频封面的图片资源地址，如果 controls 属性值为 false 则设置 poster 无效</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The image resource address of the audio cover on a default control. If the value of the controls property is false, the setting of poster does not take effect.</td>
     </tr>
     <tr>
       <td>name</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}><code>&quot;未知音频&quot;</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>默认控件上的音频名字，如果 controls 属性值为 false 则设置 name 无效</td>
+      <td style={{ textAlign: "center"}}><code>&quot;An unknown audio&quot;</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The audio name on a default control. If the value of the controls property is false, the setting of name does not take effect.</td>
     </tr>
     <tr>
       <td>author</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}><code>&quot;未知作者&quot;</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>默认控件上的作者名字，如果 controls 属性值为 false 则设置 author 无效</td>
+      <td style={{ textAlign: "center"}}><code>&quot;An unknown author&quot;</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The author name on a default control. If the value of the controls property is false, the setting of author does not take effect.</td>
     </tr>
     <tr>
       <td>onError</td>
       <td><code>BaseEventOrigFunction&lt;onErrorEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当发生错误时触发 error 事件，detail = {`{errMsg: MediaError.code}`}</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggers the error event when an error occurs. detail = {`{errMsg: MediaError.code}`}</td>
     </tr>
     <tr>
       <td>onPlay</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当开始/继续播放时触发play事件</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggers the play event when the playback is started/resumed.</td>
     </tr>
     <tr>
       <td>onPause</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当暂停播放时触发 pause 事件</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggers the pause event when the playback is paused.</td>
     </tr>
     <tr>
       <td>onTimeUpdate</td>
       <td><code>BaseEventOrigFunction&lt;onTimeUpdateEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当播放进度改变时触发 timeupdate 事件，detail = {`{currentTime, duration}`}</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggers the timeupdate event when the playback progress changes. detail = {`{currentTime, duration}`}</td>
     </tr>
     <tr>
       <td>onEnded</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当播放到末尾时触发 ended 事件</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggers the ended event at the end of the video.</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|           API           | 微信小程序 | 百度小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:-----:|:--:|:------------:|
-|      AudioProps.id      |  ✔️   |       |    |              |
-|     AudioProps.src      |  ✔️   |  ✔️   | ✔️ |              |
-|     AudioProps.loop     |  ✔️   |  ✔️   | ✔️ |              |
-|    AudioProps.muted     |       |       | ✔️ |              |
-|   AudioProps.controls   |  ✔️   |  ✔️   | ✔️ |              |
-|    AudioProps.poster    |  ✔️   |  ✔️   |    |              |
-|     AudioProps.name     |  ✔️   |       |    |              |
-|    AudioProps.author    |  ✔️   |       |    |              |
-|   AudioProps.onError    |  ✔️   |  ✔️   | ✔️ |              |
-|    AudioProps.onPlay    |  ✔️   |  ✔️   | ✔️ |              |
-|   AudioProps.onPause    |  ✔️   |  ✔️   | ✔️ |              |
-| AudioProps.onTimeUpdate |  ✔️   |  ✔️   | ✔️ |              |
-|   AudioProps.onEnded    |  ✔️   |  ✔️   | ✔️ |              |
+|           API           | WeChat Mini-Program | Baidu Smart-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+|      AudioProps.id      |         ✔️          |                     |    |              |
+|     AudioProps.src      |         ✔️          |         ✔️          | ✔️ |              |
+|     AudioProps.loop     |         ✔️          |         ✔️          | ✔️ |              |
+|    AudioProps.muted     |                     |                     | ✔️ |              |
+|   AudioProps.controls   |         ✔️          |         ✔️          | ✔️ |              |
+|    AudioProps.poster    |         ✔️          |         ✔️          |    |              |
+|     AudioProps.name     |         ✔️          |                     |    |              |
+|    AudioProps.author    |         ✔️          |                     |    |              |
+|   AudioProps.onError    |         ✔️          |         ✔️          | ✔️ |              |
+|    AudioProps.onPlay    |         ✔️          |         ✔️          | ✔️ |              |
+|   AudioProps.onPause    |         ✔️          |         ✔️          | ✔️ |              |
+| AudioProps.onTimeUpdate |         ✔️          |         ✔️          | ✔️ |              |
+|   AudioProps.onEnded    |         ✔️          |         ✔️          | ✔️ |              |
 
 ### onErrorEventDetail
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Param</th>
+      <th>Value</th>
     </tr>
   </thead>
   <tbody>
@@ -220,16 +220,16 @@ export default class PageView extends Component {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Param</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>currentTime</td>
       <td><code>number</code></td>
-      <td>当前时间</td>
+      <td>current time</td>
     </tr>
     <tr>
       <td>duration</td>
@@ -246,32 +246,32 @@ export default class PageView extends Component {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Value</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>1</td>
-      <td>获取资源被用户禁止</td>
+      <td>Request for getting resources is rejected by the user</td>
     </tr>
     <tr>
       <td>2</td>
-      <td>网络错误</td>
+      <td>Network error</td>
     </tr>
     <tr>
       <td>3</td>
-      <td>解码错误</td>
+      <td>Decoding error</td>
     </tr>
     <tr>
       <td>4</td>
-      <td>不合适资源</td>
+      <td>Improper resource</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|  API  | 微信小程序 | 百度小程序 | H5 | React Native |
-|:-----:|:-----:|:-----:|:--:|:------------:|
-| Audio |  ✔️   |  ✔️   | ✔️ |              |
+|  API  | WeChat Mini-Program | Baidu Smart-Program | H5 | React Native |
+|:-----:|:-------------------:|:-------------------:|:--:|:------------:|
+| Audio |         ✔️          |         ✔️          | ✔️ |              |
