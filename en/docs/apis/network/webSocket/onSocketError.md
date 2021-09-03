@@ -3,21 +3,21 @@ title: Taro.onSocketError(callback)
 sidebar_label: onSocketError
 ---
 
-监听 WebSocket 错误事件
+Listens on the WebSocket error event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.onSocketError.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.onSocketError.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: (result: Callback) => void) => void
 ```
 
-## 参数
+## Parameters
 
 ### Callback
 
-WebSocket 错误事件的回调函数
+The callback function for the WebSocket error event.
 
 ```tsx
 (result: CallbackResult) => void
@@ -26,8 +26,8 @@ WebSocket 错误事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -43,36 +43,34 @@ WebSocket 错误事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息</td>
+      <td>Error message</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.connectSocket({
   url: 'test.php'
 })
 Taro.onSocketOpen(function (res){
-  console.log('WebSocket连接已打开！')
-})
+  console.log('WebSocket connection is open!')})
 Taro.onSocketError(function (res){
-  console.log('WebSocket连接打开失败，请检查！')
-})
+  console.log('WebSocket connection failed to open, please check!')})
 ```
 
-## API 支持度
+## API Support
 
-|        API         | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
-|:------------------:|:-----:|:-----:|:------:|:--:|:------------:|
-| Taro.onSocketError |  ✔️   |  ✔️   |   ✔️   |    |              |
+|        API         | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | H5 | React Native |
+|:------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| Taro.onSocketError |         ✔️          |         ✔️          |         ✔️          |    |              |
