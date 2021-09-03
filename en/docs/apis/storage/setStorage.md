@@ -3,64 +3,64 @@ title: Taro.setStorage(option)
 sidebar_label: setStorage
 ---
 
-将数据存储在本地缓存中指定的 key 中。会覆盖掉原来该 key 对应的内容。除非用户主动删除或因存储空间原因被系统清理，否则数据都一直可用。单个 key 允许存储的最大数据长度为 1MB，所有数据存储上限为 10MB。
+Stores data in the specified key in the local cache.This operation will overwrite the original content of the key.The data storage lifecycle is consistent with the Mini Program, that is, data is always available unless manually deleted by the user or automatically deleted after a certain period of time.The maximum size of data stored in a single key is 1 MB, and the total size for data storage is limited to 10 MB.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.setStorage.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.setStorage.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<CallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>data</td>
       <td><code>any</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>需要存储的内容。只支持原生类型、Date、及能够通过<code>JSON.stringify</code>序列化的对象。</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>需要存储的内容。Contents to be stored can only be native types, dates, and objects that can be serialized via <code>JSON.stringify</code>.</td>
     </tr>
     <tr>
       <td>key</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>本地缓存中指定的 key</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The specified key in the local cache</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.setStorage({
@@ -74,8 +74,8 @@ try {
 } catch (e) { }
 ```
 
-## API 支持度
+## API Support
 
-|       API       | 微信小程序 | H5 | React Native |
-|:---------------:|:-----:|:--:|:------------:|
-| Taro.setStorage |  ✔️   | ✔️ |      ✔️      |
+|       API       | WeChat Mini-Program | H5 | React Native |
+|:---------------:|:-------------------:|:--:|:------------:|
+| Taro.setStorage |         ✔️          | ✔️ |      ✔️      |
