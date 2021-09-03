@@ -3,62 +3,62 @@ title: Taro.saveVideoToPhotosAlbum(option)
 sidebar_label: saveVideoToPhotosAlbum
 ---
 
-保存视频到系统相册。支持mp4视频格式。需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.writePhotosAlbum
+Saves videos to system album.The MP4 format is supported.[User Authorization](https://developers.weixin.qq.com/miniprogram/en/dev/framework/open-ability/authorize.html) is required for scope.writePhotosAlbum before this API is called.
 
 **Bug & Tip：**
 
-1.  `tip`: camera 参数在部分 Android 手机下由于系统 ROM 不支持无法生效
+1.  `tip`: The camera parameter does not work on some Android phones because the system ROM does not support it.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.saveVideoToPhotosAlbum.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.saveVideoToPhotosAlbum.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<CallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>filePath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>视频文件路径，可以是临时文件路径也可以是永久文件路径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Video file path, which can be a temporary file path or a permanent file path.</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.saveVideoToPhotosAlbum({
@@ -69,8 +69,8 @@ Taro.saveVideoToPhotosAlbum({
 })
 ```
 
-## API 支持度
+## API Support
 
-|             API             | 微信小程序 | H5 | React Native |
-|:---------------------------:|:-----:|:--:|:------------:|
-| Taro.saveVideoToPhotosAlbum |  ✔️   |    |      ✔️      |
+|             API             | WeChat Mini-Program | H5 | React Native |
+|:---------------------------:|:-------------------:|:--:|:------------:|
+| Taro.saveVideoToPhotosAlbum |         ✔️          |    |      ✔️      |
