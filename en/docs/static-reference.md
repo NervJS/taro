@@ -1,28 +1,28 @@
 ---
-title: 静态资源引用
+title: Static resource references
 ---
 
-在 Taro 中可以像使用 [Webpack](https://webpack.js.org/) 那样自由地引用静态资源，而且不需要安装任何 Loaders。
+Static resources can be freely referenced in Taro as with [Webpack](https://webpack.js.org/) , and there is no need to install any Loaders.
 
-## 引用样式文件
+## Referencing style files
 
-可以直接通过 ES6 的 `import` 语法来引用样式文件
+Style files can be referenced directly via ES6's `import` syntax
 
-例如引用 CSS 文件
+For example, to reference a CSS file
 
 ```jsx
 import './css/path/name.css'
 ```
 
-引用 SCSS 文件
+Referencing SCSS files
 
 ```jsx
 import './css/path/name.scss'
 ```
 
-## 引用 JS 文件
+## Referencing JS files
 
-可以直接通过 ES6 的 `import` 语法来引用 JS 文件
+JS files can be referenced directly via ES6's `import` syntax
 
 ```jsx
 import { functionName } from './css/path/name.js'
@@ -30,27 +30,26 @@ import { functionName } from './css/path/name.js'
 import defaultExportName from './css/path/name.js'
 ```
 
-## 引用图片、音频、字体等文件
+## Referencing images, audio, fonts and other files
 
-可以直接通过 ES6 的 `import` 语法来引用此类文件，拿到文件引用后直接在 JSX 中进行使用
+You can refer to such files directly through ES6's `import` syntax and use them directly in JSX after getting the file reference
 
 ```jsx
 
-// 引用文件
 import namedPng from '../../images/path/named.png'
 
-// 使用
+// Usage
 <View>
   <Image src={namedPng} />
 </View>
 ```
 
-## 引用 JSON 文件
+## Referencing JSON files
 
-可以直接通过 ES6 的 `import` 语法来引用此类文件，拿到 JSON 文件输出的 JSON 数据
+You can refer to such files directly through ES6's `import` syntax to get the JSON data output from the JSON file
 
 ```jsx
-// 引用 json 文件
+//  json file
 /**
 * named.json
 * {
@@ -62,20 +61,20 @@ import namedJson from '../../json/path/named.json'
 console.log(namedJson.x)
 ```
 
-## 小程序样式中引用本地资源
+## Reference to local resources in mini-program style
 
-在小程序的样式中，默认不能直接引用本地资源，只能通过网络地址、Base64 的方式来进行资源引用，为了方便开发，Taro 提供了直接在样式文件中引用本地资源的方式，其原理是通过 `PostCSS` 的 [`postcss-url`](https://github.com/postcss/postcss-url) 插件将样式中本地资源引用转换成 Base64 格式，从而能正常加载。
+In the style of the mini-program, local resources cannot be referenced directly by default, but only by means of network addresses, Base64. To facilitate development, Taro provides a way to refer to local resources directly in the style file, the principle of which is through the `PostCSS` [`postcss-url`](https://github.com/postcss/postcss-url) , The plugin converts native resource references in the style to Base64 format so that they can be loaded properly.
 
-Taro 默认会对 `1kb` 大小以下的资源进行转换，如果需要修改配置，可以在 `config/index.js` 中进行修改，配置位于 [`weapp.module.postcss`](./config-detail.md#weappmodulepostcss)。
+Taro converts resources up to `1kb` in size by default, if you need to change the configuration, you can do so in `config/index.js`, which is located in [`weapp.module.postcss`](./config-detail.md#weappmodulepostcss)。
 
-具体配置如下
+The specific configuration is as follows
 
 ```js title="/config/index.js"
-// 小程序端样式引用本地资源内联
+// mini-prgram side styles referencing local resources inline
 url: {
   enable: true,
   config: {
-    limit: 10240 // 设定转换尺寸上限
+    limit: 10240 // Set upper limit of conversion size
   }
 }
 ```
