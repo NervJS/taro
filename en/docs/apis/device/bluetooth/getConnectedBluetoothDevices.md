@@ -3,53 +3,53 @@ title: Taro.getConnectedBluetoothDevices(option)
 sidebar_label: getConnectedBluetoothDevices
 ---
 
-根据 uuid 获取处于已连接状态的设备。
+Gets devices in the connected status based on the UUIDs.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.getConnectedBluetoothDevices.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.getConnectedBluetoothDevices.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => void
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>services</td>
       <td><code>string[]</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>蓝牙设备主 service 的 uuid 列表</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The list of primary service UUIDs of Bluetooth devices</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: BluetoothError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: BluetoothError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -59,21 +59,21 @@ sidebar_label: getConnectedBluetoothDevices
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>devices</td>
       <td><code>BluetoothDeviceInfo[]</code></td>
-      <td>搜索到的设备列表</td>
+      <td>The list of discovered devices</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>成功：ok，错误：详细信息</td>
+      <td>success: ok; fail: error message.</td>
     </tr>
   </tbody>
 </table>
@@ -85,26 +85,26 @@ sidebar_label: getConnectedBluetoothDevices
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>deviceId</td>
       <td><code>string</code></td>
-      <td>用于区分设备的 id</td>
+      <td>Device ID</td>
     </tr>
     <tr>
       <td>name</td>
       <td><code>string</code></td>
-      <td>蓝牙设备名称，某些设备可能没有</td>
+      <td>The name of the Bluetooth device. Some devices may not have a name.</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.getConnectedBluetoothDevices({
@@ -114,8 +114,8 @@ Taro.getConnectedBluetoothDevices({
 })
 ```
 
-## API 支持度
+## API Support
 
-|                API                | 微信小程序 | H5 | React Native |
-|:---------------------------------:|:-----:|:--:|:------------:|
-| Taro.getConnectedBluetoothDevices |  ✔️   |    |              |
+|                API                | WeChat Mini-Program | H5 | React Native |
+|:---------------------------------:|:-------------------:|:--:|:------------:|
+| Taro.getConnectedBluetoothDevices |         ✔️          |    |              |
