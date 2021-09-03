@@ -26,6 +26,7 @@ export class Image implements ComponentInterface {
   @Prop() src: string
   @Prop() mode: Mode = 'scaleToFill'
   @Prop() lazyLoad = false
+  @Prop() imgProps = {}
   @State() aspectFillMode = 'width'
 
   @Event({
@@ -81,7 +82,8 @@ export class Image implements ComponentInterface {
       lazyLoad,
       aspectFillMode,
       imageOnLoad,
-      imageOnError
+      imageOnError,
+      imgProps
     } = this
 
     const cls = classNames({
@@ -102,6 +104,7 @@ export class Image implements ComponentInterface {
             class={imgCls}
             onLoad={imageOnLoad.bind(this)}
             onError={imageOnError.bind(this)}
+            {...imgProps}
           />
         ) : (
           <img
@@ -110,6 +113,7 @@ export class Image implements ComponentInterface {
             src={src}
             onLoad={imageOnLoad.bind(this)}
             onError={imageOnError.bind(this)}
+            {...imgProps}
           />
         )}
       </Host>
