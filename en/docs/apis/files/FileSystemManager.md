@@ -3,15 +3,15 @@ title: FileSystemManager
 sidebar_label: FileSystemManager
 ---
 
-文件管理器
+File Manager
 
-## 方法
+## Methods
 
 ### readdirSync
 
-FileSystemManager.readdir 的同步版本
+The synchronous version of `FileSystemManager.readdir`.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readdirSync.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readdirSync.html)
 
 ```tsx
 (dirPath: string) => string[]
@@ -20,31 +20,31 @@ FileSystemManager.readdir 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>dirPath</td>
       <td><code>string</code></td>
-      <td>要读取的目录路径</td>
+      <td>Path to the directory to be read</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|              API              | 微信小程序 | H5 | React Native |
-|:-----------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.readdirSync |  ✔️   |    |              |
+|              API              | WeChat Mini-Program | H5 | React Native |
+|:-----------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.readdirSync |         ✔️          |    |              |
 
 ### access
 
-判断文件/目录是否存在
+Determines whether a file/directory exists.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.access.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.access.html)
 
 ```tsx
 (option: AccessOption) => void
@@ -53,8 +53,8 @@ FileSystemManager.readdir 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -65,17 +65,17 @@ FileSystemManager.readdir 的同步版本
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API            | 微信小程序 | H5 | React Native |
-|:------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.access |  ✔️   |    |              |
+|           API            | WeChat Mini-Program | H5 | React Native |
+|:------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.access |         ✔️          |    |              |
 
 ### accessSync
 
-FileSystemManager.access 的同步版本
+The synchronous version of `FileSystemManager.access`.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.accessSync.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.accessSync.html)
 
 ```tsx
 (path: string) => void
@@ -84,31 +84,31 @@ FileSystemManager.access 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>path</td>
       <td><code>string</code></td>
-      <td>要判断是否存在的文件/目录路径</td>
+      <td>Path to the file/directory of which you want to determine the existence</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|             API              | 微信小程序 | H5 | React Native |
-|:----------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.accessSync |  ✔️   |    |              |
+|             API              | WeChat Mini-Program | H5 | React Native |
+|:----------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.accessSync |         ✔️          |    |              |
 
 ### appendFile
 
-在文件结尾追加内容
+Appends content at the end of a file.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.appendFile.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.appendFile.html)
 
 ```tsx
 (option: AppendFileOption) => void
@@ -117,8 +117,8 @@ FileSystemManager.access 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -129,17 +129,17 @@ FileSystemManager.access 的同步版本
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|             API              | 微信小程序 | H5 | React Native |
-|:----------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.appendFile |  ✔️   |    |              |
+|             API              | WeChat Mini-Program | H5 | React Native |
+|:----------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.appendFile |         ✔️          |    |              |
 
 ### appendFileSync
 
-FileSystemManager.appendFile 的同步版本
+The synchronous version of `FileSystemManager.appendFile`.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.appendFileSync.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.appendFileSync.html)
 
 ```tsx
 (filePath: string, data: string | ArrayBuffer, encoding?: "ascii" | "base64" | "binary" | "hex" | "ucs2" | "ucs-2" | "utf16le" | "utf-16le" | "utf-8" | "utf8" | "latin1") => void
@@ -148,41 +148,41 @@ FileSystemManager.appendFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>filePath</td>
       <td><code>string</code></td>
-      <td>要追加内容的文件路径</td>
+      <td>Path to the file to which you want to append content</td>
     </tr>
     <tr>
       <td>data</td>
       <td><code>string | ArrayBuffer</code></td>
-      <td>要追加的文本或二进制数据</td>
+      <td>Text or binary data to be appended</td>
     </tr>
     <tr>
       <td>encoding</td>
       <td><code>&quot;ascii&quot; | &quot;base64&quot; | &quot;binary&quot; | &quot;hex&quot; | &quot;ucs2&quot; | &quot;ucs-2&quot; | &quot;utf16le&quot; | &quot;utf-16le&quot; | &quot;utf-8&quot; | &quot;utf8&quot; | &quot;latin1&quot;</code></td>
-      <td>指定写入文件的字符编码</td>
+      <td>Specifies the character encoding of the written file</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|               API                | 微信小程序 | H5 | React Native |
-|:--------------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.appendFileSync |  ✔️   |    |              |
+|               API                | WeChat Mini-Program | H5 | React Native |
+|:--------------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.appendFileSync |         ✔️          |    |              |
 
 ### copyFile
 
-复制文件
+Copies files.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.copyFile.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.copyFile.html)
 
 ```tsx
 (option: CopyFileOption) => void
@@ -191,8 +191,8 @@ FileSystemManager.appendFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -203,17 +203,17 @@ FileSystemManager.appendFile 的同步版本
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|            API             | 微信小程序 | H5 | React Native |
-|:--------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.copyFile |  ✔️   |    |              |
+|            API             | WeChat Mini-Program | H5 | React Native |
+|:--------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.copyFile |         ✔️          |    |              |
 
 ### copyFileSync
 
-FileSystemManager.copyFile 的同步版本
+The synchronous version of `FileSystemManager.copyFile`.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.copyFileSync.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.copyFileSync.html)
 
 ```tsx
 (srcPath: string, destPath: string) => void
@@ -222,36 +222,36 @@ FileSystemManager.copyFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>srcPath</td>
       <td><code>string</code></td>
-      <td>源文件路径，只可以是普通文件</td>
+      <td>The path to the source file, which can only be a normal file</td>
     </tr>
     <tr>
       <td>destPath</td>
       <td><code>string</code></td>
-      <td>目标文件路径</td>
+      <td>The path to the target file</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|              API               | 微信小程序 | H5 | React Native |
-|:------------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.copyFileSync |  ✔️   |    |              |
+|              API               | WeChat Mini-Program | H5 | React Native |
+|:------------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.copyFileSync |         ✔️          |    |              |
 
 ### getFileInfo
 
-获取该小程序下的 本地临时文件 或 本地缓存文件 信息
+Gets the information of local temporary files or local cache files under the Mini Program.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.getFileInfo.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.getFileInfo.html)
 
 ```tsx
 (option: getFileInfoOption) => void
@@ -260,8 +260,8 @@ FileSystemManager.copyFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -272,17 +272,17 @@ FileSystemManager.copyFile 的同步版本
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|              API              | 微信小程序 | H5 | React Native |
-|:-----------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.getFileInfo |  ✔️   |    |              |
+|              API              | WeChat Mini-Program | H5 | React Native |
+|:-----------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.getFileInfo |         ✔️          |    |              |
 
 ### getSavedFileList
 
-获取该小程序下已保存的本地缓存文件列表
+Gets the list of local cache files saved under the Mini Program.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.getSavedFileList.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.getSavedFileList.html)
 
 ```tsx
 (option?: getSavedFileListOption) => void
@@ -291,8 +291,8 @@ FileSystemManager.copyFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -303,17 +303,17 @@ FileSystemManager.copyFile 的同步版本
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|                API                 | 微信小程序 | H5 | React Native |
-|:----------------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.getSavedFileList |  ✔️   |    |              |
+|                API                 | WeChat Mini-Program | H5 | React Native |
+|:----------------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.getSavedFileList |         ✔️          |    |              |
 
 ### mkdir
 
-创建目录
+Creates a directory.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.mkdir.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.mkdir.html)
 
 ```tsx
 (option: MkdirOption) => void
@@ -322,8 +322,8 @@ FileSystemManager.copyFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -334,17 +334,17 @@ FileSystemManager.copyFile 的同步版本
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.mkdir |  ✔️   |    |              |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.mkdir |         ✔️          |    |              |
 
 ### mkdirSync
 
-FileSystemManager.mkdir 的同步版本
+The synchronous version of `FileSystemManager.mkdir`.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.mkdirSync.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.mkdirSync.html)
 
 ```tsx
 (dirPath: string, recursive?: boolean) => void
@@ -353,36 +353,36 @@ FileSystemManager.mkdir 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>dirPath</td>
       <td><code>string</code></td>
-      <td>创建的目录路径</td>
+      <td>Path to the created directory</td>
     </tr>
     <tr>
       <td>recursive</td>
       <td><code>boolean</code></td>
-      <td>是否在递归创建该目录的上级目录后再创建该目录。如果对应的上级目录已经存在，则不创建该上级目录。如 dirPath 为 a/b/c/d 且 recursive 为 true，将创建 a 目录，再在 a 目录下创建 b 目录，以此类推直至创建 a/b/c 目录下的 d 目录。</td>
+      <td>Indicates whether to create the directory after recursively creating the upper-layer directory.If the upper-layer directory already exists, do not create it.If dirPath is a/b/c/d and "recursive" is true, directory a will be created, and then directory b will be created under directory a, and so on, until directory d under directory a/b/c is created.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|             API             | 微信小程序 | H5 | React Native |
-|:---------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.mkdirSync |  ✔️   |    |              |
+|             API             | WeChat Mini-Program | H5 | React Native |
+|:---------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.mkdirSync |         ✔️          |    |              |
 
 ### readFile
 
-读取本地文件内容
+Reads local file content.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readFile.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readFile.html)
 
 ```tsx
 (option: ReadFileOption) => void
@@ -391,8 +391,8 @@ FileSystemManager.mkdir 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -403,17 +403,17 @@ FileSystemManager.mkdir 的同步版本
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|            API             | 微信小程序 | H5 | React Native |
-|:--------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.readFile |  ✔️   |    |              |
+|            API             | WeChat Mini-Program | H5 | React Native |
+|:--------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.readFile |         ✔️          |    |              |
 
 ### readdir
 
-读取目录内文件列表
+Reads the list of files in the directory.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readdir.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readdir.html)
 
 ```tsx
 (option: ReaddirOption) => void
@@ -422,8 +422,8 @@ FileSystemManager.mkdir 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -434,17 +434,17 @@ FileSystemManager.mkdir 的同步版本
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|            API            | 微信小程序 | H5 | React Native |
-|:-------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.readdir |  ✔️   |    |              |
+|            API            | WeChat Mini-Program | H5 | React Native |
+|:-------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.readdir |         ✔️          |    |              |
 
 ### removeSavedFile
 
-删除该小程序下已保存的本地缓存文件
+Deletes the local cache files saved under the Mini Program.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.removeSavedFile.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.removeSavedFile.html)
 
 ```tsx
 (option: RemoveSavedFileOption) => void
@@ -453,8 +453,8 @@ FileSystemManager.mkdir 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -465,17 +465,17 @@ FileSystemManager.mkdir 的同步版本
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|                API                | 微信小程序 | H5 | React Native |
-|:---------------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.removeSavedFile |  ✔️   |    |              |
+|                API                | WeChat Mini-Program | H5 | React Native |
+|:---------------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.removeSavedFile |         ✔️          |    |              |
 
 ### rename
 
-重命名文件。可以把文件从 oldPath 移动到 newPath
+重命名文件。Renames a file, and moves it from oldPath to newPath.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.rename.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.rename.html)
 
 ```tsx
 (option: RenameOption) => void
@@ -484,8 +484,8 @@ FileSystemManager.mkdir 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -496,17 +496,17 @@ FileSystemManager.mkdir 的同步版本
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API            | 微信小程序 | H5 | React Native |
-|:------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.rename |  ✔️   |    |              |
+|           API            | WeChat Mini-Program | H5 | React Native |
+|:------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.rename |         ✔️          |    |              |
 
 ### renameSync
 
-FileSystemManager.rename 的同步版本
+The synchronous version of `FileSystemManager.rename`.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.renameSync.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.renameSync.html)
 
 ```tsx
 (oldPath: string, newPath: string) => void
@@ -515,36 +515,36 @@ FileSystemManager.rename 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>oldPath</td>
       <td><code>string</code></td>
-      <td>源文件路径，可以是普通文件或目录</td>
+      <td>The path to the source file, which can be a normal file or directory</td>
     </tr>
     <tr>
       <td>newPath</td>
       <td><code>string</code></td>
-      <td>新文件路径</td>
+      <td>New file path</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|             API              | 微信小程序 | H5 | React Native |
-|:----------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.renameSync |  ✔️   |    |              |
+|             API              | WeChat Mini-Program | H5 | React Native |
+|:----------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.renameSync |         ✔️          |    |              |
 
 ### rmdir
 
-删除目录
+Deletes a directory.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.rmdir.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.rmdir.html)
 
 ```tsx
 (option: RmdirOption) => void
@@ -553,8 +553,8 @@ FileSystemManager.rename 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -565,17 +565,17 @@ FileSystemManager.rename 的同步版本
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.rmdir |  ✔️   |    |              |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.rmdir |         ✔️          |    |              |
 
 ### rmdirSync
 
-FileSystemManager.rmdir 的同步版本
+The synchronous version of `FileSystemManager.rmdir`.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.rmdirSync.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.rmdirSync.html)
 
 ```tsx
 (dirPath: string, recursive?: boolean) => void
@@ -584,36 +584,36 @@ FileSystemManager.rmdir 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>dirPath</td>
       <td><code>string</code></td>
-      <td>要删除的目录路径</td>
+      <td>The path to the directory to be deleted.</td>
     </tr>
     <tr>
       <td>recursive</td>
       <td><code>boolean</code></td>
-      <td>是否递归删除目录。如果为 true，则删除该目录和该目录下的所有子目录以及文件。</td>
+      <td>Indicates whether to recursively delete the directory.If the value is true, the directory and all subdirectories and files under the directory are deleted.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|             API             | 微信小程序 | H5 | React Native |
-|:---------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.rmdirSync |  ✔️   |    |              |
+|             API             | WeChat Mini-Program | H5 | React Native |
+|:---------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.rmdirSync |         ✔️          |    |              |
 
 ### saveFile
 
-保存临时文件到本地。此接口会移动临时文件，因此调用成功后，tempFilePath 将不可用。
+Saves temporary files to the local device.This API moves temporary files, so tempFilePath will not be available after the API is successfully called.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.saveFile.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.saveFile.html)
 
 ```tsx
 (option: SaveFileOption) => void
@@ -622,8 +622,8 @@ FileSystemManager.rmdir 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -634,15 +634,15 @@ FileSystemManager.rmdir 的同步版本
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|            API             | 微信小程序 | H5 | React Native |
-|:--------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.saveFile |  ✔️   |    |              |
+|            API             | WeChat Mini-Program | H5 | React Native |
+|:--------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.saveFile |         ✔️          |    |              |
 
 ### stat
 
-获取文件 Stats 对象
+Gets the Stats object of the file.
 
 ```tsx
 (option: StatOption) => void
@@ -651,8 +651,8 @@ FileSystemManager.rmdir 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -663,17 +663,17 @@ FileSystemManager.rmdir 的同步版本
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|          API           | 微信小程序 | H5 | React Native |
-|:----------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.stat |       |    |              |
+|          API           | WeChat Mini-Program | H5 | React Native |
+|:----------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.stat |                     |    |              |
 
 ### unlink
 
-删除文件
+Deletes files
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.unlink.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.unlink.html)
 
 ```tsx
 (option: UnlinkOption) => void
@@ -682,8 +682,8 @@ FileSystemManager.rmdir 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -694,17 +694,17 @@ FileSystemManager.rmdir 的同步版本
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API            | 微信小程序 | H5 | React Native |
-|:------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.unlink |  ✔️   |    |              |
+|           API            | WeChat Mini-Program | H5 | React Native |
+|:------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.unlink |         ✔️          |    |              |
 
 ### unlinkSync
 
-FileSystemManager.unlink 的同步版本
+The synchronous version of `FileSystemManager.unlink`.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.unlinkSync.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.unlinkSync.html)
 
 ```tsx
 (filePath: string) => void
@@ -713,31 +713,31 @@ FileSystemManager.unlink 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>filePath</td>
       <td><code>string</code></td>
-      <td>要删除的文件路径</td>
+      <td>Path to the file to be deleted</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|             API              | 微信小程序 | H5 | React Native |
-|:----------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.unlinkSync |  ✔️   |    |              |
+|             API              | WeChat Mini-Program | H5 | React Native |
+|:----------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.unlinkSync |         ✔️          |    |              |
 
 ### unzip
 
-解压文件
+Unzips files
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.unzip.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.unzip.html)
 
 ```tsx
 (option: UnzipOption) => void
@@ -746,8 +746,8 @@ FileSystemManager.unlink 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -758,17 +758,17 @@ FileSystemManager.unlink 的同步版本
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.unzip |  ✔️   |    |              |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.unzip |         ✔️          |    |              |
 
 ### writeFile
 
-写文件
+Writes a file
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.writeFile.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.writeFile.html)
 
 ```tsx
 (option: WriteFileOption) => void
@@ -777,8 +777,8 @@ FileSystemManager.unlink 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -789,17 +789,17 @@ FileSystemManager.unlink 的同步版本
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|             API             | 微信小程序 | H5 | React Native |
-|:---------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.writeFile |  ✔️   |    |              |
+|             API             | WeChat Mini-Program | H5 | React Native |
+|:---------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.writeFile |         ✔️          |    |              |
 
 ### writeFileSync
 
-FileSystemManager.writeFile 的同步版本
+The synchronous version of `FileSystemManager.writeFile`.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.writeFileSync.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.writeFileSync.html)
 
 ```tsx
 (filePath: string, data: string | ArrayBuffer, encoding?: "ascii" | "base64" | "binary" | "hex" | "ucs2" | "ucs-2" | "utf16le" | "utf-16le" | "utf-8" | "utf8" | "latin1") => void
@@ -808,41 +808,41 @@ FileSystemManager.writeFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>filePath</td>
       <td><code>string</code></td>
-      <td>要写入的文件路径</td>
+      <td>Path to the file into which you want to write data</td>
     </tr>
     <tr>
       <td>data</td>
       <td><code>string | ArrayBuffer</code></td>
-      <td>要写入的文本或二进制数据</td>
+      <td>Text or binary data to be written</td>
     </tr>
     <tr>
       <td>encoding</td>
       <td><code>&quot;ascii&quot; | &quot;base64&quot; | &quot;binary&quot; | &quot;hex&quot; | &quot;ucs2&quot; | &quot;ucs-2&quot; | &quot;utf16le&quot; | &quot;utf-16le&quot; | &quot;utf-8&quot; | &quot;utf8&quot; | &quot;latin1&quot;</code></td>
-      <td>指定写入文件的字符编码</td>
+      <td>Specifies the character encoding of the written file</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|               API               | 微信小程序 | H5 | React Native |
-|:-------------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.writeFileSync |  ✔️   |    |              |
+|               API               | WeChat Mini-Program | H5 | React Native |
+|:-------------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.writeFileSync |         ✔️          |    |              |
 
 ### statSync
 
-FileSystemManager.stat 的同步版本
+The synchronous version of `FileSystemManager.stat`.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.statSync.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.statSync.html)
 
 ```tsx
 (path: string, recursive?: boolean) => Stats | Record<string, any>
@@ -851,36 +851,36 @@ FileSystemManager.stat 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>path</td>
       <td><code>string</code></td>
-      <td>文件/目录路径</td>
+      <td>The file/directory path.</td>
     </tr>
     <tr>
       <td>recursive</td>
       <td><code>boolean</code></td>
-      <td>是否递归获取目录下的每个文件的 Stats 信息</td>
+      <td>Indicates whether to recursively get the Stats information of each file under the directory.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|            API             | 微信小程序 | H5 | React Native |
-|:--------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.statSync |  ✔️   |    |              |
+|            API             | WeChat Mini-Program | H5 | React Native |
+|:--------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.statSync |         ✔️          |    |              |
 
 ### saveFileSync
 
-FileSystemManager.saveFile 的同步版本
+The synchronous version of `FileSystemManager.saveFile`.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.saveFileSync.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.saveFileSync.html)
 
 ```tsx
 (tempFilePath: string, filePath?: string) => number
@@ -889,36 +889,36 @@ FileSystemManager.saveFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>tempFilePath</td>
       <td><code>string</code></td>
-      <td>临时存储文件路径</td>
+      <td>Path to the temporarily stored files</td>
     </tr>
     <tr>
       <td>filePath</td>
       <td><code>string</code></td>
-      <td>要存储的文件路径</td>
+      <td>Path to save the files</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|              API               | 微信小程序 | H5 | React Native |
-|:------------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.saveFileSync |  ✔️   |    |              |
+|              API               | WeChat Mini-Program | H5 | React Native |
+|:------------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.saveFileSync |         ✔️          |    |              |
 
 ### readFileSync
 
-FileSystemManager.readFile 的同步版本
+The synchronous version of `FileSystemManager.readFile`.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readFileSync.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readFileSync.html)
 
 ```tsx
 (filePath: string, encoding?: "ascii" | "base64" | "binary" | "hex" | "ucs2" | "ucs-2" | "utf16le" | "utf-16le" | "utf-8" | "utf8" | "latin1") => string | ArrayBuffer
@@ -927,42 +927,42 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>filePath</td>
       <td><code>string</code></td>
-      <td>要读取的文件的路径</td>
+      <td>The path to the file to be read.</td>
     </tr>
     <tr>
       <td>encoding</td>
       <td><code>&quot;ascii&quot; | &quot;base64&quot; | &quot;binary&quot; | &quot;hex&quot; | &quot;ucs2&quot; | &quot;ucs-2&quot; | &quot;utf16le&quot; | &quot;utf-16le&quot; | &quot;utf-8&quot; | &quot;utf8&quot; | &quot;latin1&quot;</code></td>
-      <td>指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容</td>
+      <td>Specifies the character encoding of the read file. If encoding is not specified, the binary content of the file is read in ArrayBuffer format.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|              API               | 微信小程序 | H5 | React Native |
-|:------------------------------:|:-----:|:--:|:------------:|
-| FileSystemManager.readFileSync |  ✔️   |    |              |
+|              API               | WeChat Mini-Program | H5 | React Native |
+|:------------------------------:|:-------------------:|:--:|:------------:|
+| FileSystemManager.readFileSync |         ✔️          |    |              |
 
-## 参数
+## Parameters
 
 ### encoding
 
-字符编码
+Valid values of encoding
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -984,19 +984,19 @@ FileSystemManager.readFile 的同步版本
     </tr>
     <tr>
       <td>ucs2</td>
-      <td>以小端序读取</td>
+      <td>Read in little endian</td>
     </tr>
     <tr>
       <td>ucs-2</td>
-      <td>以小端序读取</td>
+      <td>Read in little endian</td>
     </tr>
     <tr>
       <td>utf16le</td>
-      <td>以小端序读取</td>
+      <td>Read in little endian</td>
     </tr>
     <tr>
       <td>utf-16le</td>
-      <td>以小端序读取</td>
+      <td>Read in little endian</td>
     </tr>
     <tr>
       <td>utf-8</td>
@@ -1018,36 +1018,36 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>path</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要判断是否存在的文件/目录路径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Path to the file/directory of which you want to determine the existence</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(result: AccessFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -1057,16 +1057,16 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory path': 文件/目录不存在;</td>
+      <td>Error message<br /><br />Valid values: <br />- 'fail no such file or directory path': File/directory does not exist;</td>
     </tr>
   </tbody>
 </table>
@@ -1076,48 +1076,48 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>data</td>
       <td><code>string | ArrayBuffer</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要追加的文本或二进制数据</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Text or binary data to be appended</td>
     </tr>
     <tr>
       <td>filePath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要追加内容的文件路径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Path to the file to which you want to append content</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies the character encoding of the written file</td>
     </tr>
     <tr>
       <td>encoding</td>
       <td><code>&quot;ascii&quot; | &quot;base64&quot; | &quot;binary&quot; | &quot;hex&quot; | &quot;ucs2&quot; | &quot;ucs-2&quot; | &quot;utf16le&quot; | &quot;utf-16le&quot; | &quot;utf-8&quot; | &quot;utf8&quot; | &quot;latin1&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>指定写入文件的字符编码</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(result: AppendFileFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -1127,16 +1127,23 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open filePath': 指定的 filePath 文件不存在;<br />- 'fail illegal operation on a directory, open &quot;filePath&quot;': 指定的 filePath 是一个已经存在的目录;<br />- 'fail permission denied, open dirPath': 指定的 filePath 路径没有写权限;<br />- 'fail sdcard not mounted': 指定的 filePath 是一个已经存在的目录;</td>
+      <td>Error message
+        <br /><br />
+        Valid values:
+        <br />
+        - 'fail no such file or directory, open filePath': File with the specified filePath does not exist;<br />
+        - 'fail illegal operation on a directory, open &quot;filePath&quot;': The specified filePath is an existing directory;<br />
+        - 'fail permission denied, open dirPath': No write permission on the specified filePath;<br />
+        - 'fail sdcard not mounted': The SD card is not mounted;</td>
     </tr>
   </tbody>
 </table>
@@ -1146,42 +1153,42 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>destPath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>目标文件路径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The path to the target file</td>
     </tr>
     <tr>
       <td>srcPath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>源文件路径，只可以是普通文件</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The path to the source file, which can only be a normal file</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(result: CopyFileFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -1191,16 +1198,19 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, copyFile srcPath -&gt; destPath': 指定目标文件路径没有写权限;<br />- 'fail no such file or directory, copyFile srcPath -&gt;destPath': 源文件不存在，或目标文件路径的上层目录不存在;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足;</td>
+      <td>Error message<br /><br />Valid values: <br />
+      - 'fail permission denied, copyFile srcPath -&gt; destPath': No write permission on the specified target file path;<br />
+      - 'fail no such file or directory, copyFile srcPath -&gt;destPath': The source file does not exist, or the upper-layer directory of the target file path does not exist;<br />
+      - 'fail the maximum size of the file storage limit is exceeded': Insufficient storage space;</td>
     </tr>
   </tbody>
 </table>
@@ -1210,36 +1220,36 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>filePath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要读取的文件路径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Path to the files to be read</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(result: GetFileInfoFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: GetFileInfoSuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -1249,16 +1259,16 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail file not exist': 指定的 filePath 找不到文件;</td>
+      <td>Error message<br /><br />Valid values:<br />- 'fail file not exist': No file found with the specified filePath;</td>
     </tr>
   </tbody>
 </table>
@@ -1268,21 +1278,21 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>size</td>
       <td><code>number</code></td>
-      <td>文件大小，以字节为单位</td>
+      <td>File size in bytes</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
@@ -1292,30 +1302,30 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: GetSavedFileListSuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -1325,52 +1335,52 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>fileList</td>
       <td><code>GetSavedFileListSuccessCallbackResultFileItem[]</code></td>
-      <td>文件数组</td>
+      <td>File array</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
 
 ### GetSavedFileListSuccessCallbackResultFileItem
 
-文件数组
+res.fileList is composed as follows
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>createTime</td>
       <td><code>number</code></td>
-      <td>文件保存时的时间戳，从1970/01/01 08:00:00 到当前时间的秒数</td>
+      <td>The timestamp when the file was saved, which is defined as the number of seconds that have elapsed since 1970/01/01 08:00:00 to the current time</td>
     </tr>
     <tr>
       <td>filePath</td>
       <td><code>string</code></td>
-      <td>本地路径</td>
+      <td>Local path</td>
     </tr>
     <tr>
       <td>size</td>
       <td><code>number</code></td>
-      <td>本地文件大小，以字节为单位</td>
+      <td>Local file size in bytes</td>
     </tr>
   </tbody>
 </table>
@@ -1380,42 +1390,42 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>dirPath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>创建的目录路径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The path to the created directory</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(result: MkdirFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>recursive</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否在递归创建该目录的上级目录后再创建该目录。如果对应的上级目录已经存在，则不创建该上级目录。如 dirPath 为 a/b/c/d 且 recursive 为 true，将创建 a 目录，再在 a 目录下创建 b 目录，以此类推直至创建 a/b/c 目录下的 d 目录。</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Indicates whether to create the directory after recursively creating the upper-layer directory.If the upper-layer directory already exists, do not create it.If dirPath is a/b/c/d and "recursive" is true, directory a will be created, and then directory b will be created under directory a, and so on, until directory d under directory a/b/c is created.</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -1425,16 +1435,16 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory dirPath': 上级目录不存在;<br />- 'fail permission denied, open dirPath': 指定的 filePath 路径没有写权限;<br />- 'fail file already exists dirPath': 有同名文件或目录;</td>
+      <td>Error message<br /><br />Valid value: <br />- 'fail no such file or directory dirPath': The upper-layer directory does not exist;<br />- 'fail permission denied, open dirPath': No write permission on the specified filePath;<br />- 'fail file already exists dirPath': A file or directory with the same name already exists;</td>
     </tr>
   </tbody>
 </table>
@@ -1444,42 +1454,42 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>filePath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要读取的文件的路径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Path to the file to be read</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>encoding</td>
       <td><code>&quot;ascii&quot; | &quot;base64&quot; | &quot;binary&quot; | &quot;hex&quot; | &quot;ucs2&quot; | &quot;ucs-2&quot; | &quot;utf16le&quot; | &quot;utf-16le&quot; | &quot;utf-8&quot; | &quot;utf8&quot; | &quot;latin1&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(result: ReadFileFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -1489,16 +1499,16 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open filePath': 指定的 filePath 所在目录不存在;<br />- 'fail permission denied, open dirPath': 指定的 filePath 路径没有读权限;</td>
+      <td>Error message.<br /><br />Valid value: <br />- 'fail no such file or directory, open filePath': The directory where the specified filePath is located does not exist;<br />- 'fail permission denied, open dirPath': No read permission on the specified filePath;</td>
     </tr>
   </tbody>
 </table>
@@ -1508,36 +1518,36 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>dirPath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要读取的目录路径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Path to the directory to be read</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(result: ReaddirFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: ReaddirSuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -1547,16 +1557,16 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory dirPath': 目录不存在;<br />- 'fail not a directory dirPath': dirPath 不是目录;<br />- 'fail permission denied, open dirPath': 指定的 filePath 路径没有读权限;</td>
+      <td>Error message.<br /><br />Valid values: <br />- 'fail no such file or directory dirPath': Directory does not exist;<br />- 'fail not a directory dirPath': dirPath is not a directory;<br />- 'fail permission denied, open dirPath': No read permission on the specified filePath;</td>
     </tr>
   </tbody>
 </table>
@@ -1566,21 +1576,21 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>files</td>
       <td><code>string[]</code></td>
-      <td>指定目录下的文件名数组。</td>
+      <td>The array of file names in the specified directory.</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
@@ -1590,36 +1600,36 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>filePath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>需要删除的文件路径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Path to the file to be deleted</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(result: RemoveSavedFileFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -1629,16 +1639,16 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail file not exist': 指定的 tempFilePath 找不到文件;</td>
+      <td>Error message.<br /><br />Valid values: <br />- 'fail file not exist': No file found with the specified tempFilePath;</td>
     </tr>
   </tbody>
 </table>
@@ -1648,42 +1658,42 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>newPath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>新文件路径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The new path to the file</td>
     </tr>
     <tr>
       <td>oldPath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>源文件路径，可以是普通文件或目录</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The old path to the file, which can be a normal file or directory</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(result: RenameFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -1693,16 +1703,16 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, rename oldPath -&gt; newPath': 指定源文件或目标文件没有写权限;<br />- 'fail no such file or directory, rename oldPath -&gt; newPath': 源文件不存在，或目标文件路径的上层目录不存在;</td>
+      <td>Error message.<br /><br />Valid values: <br />- 'fail permission denied, rename oldPath -&gt; newPath': No write permission on the specified source file or target file;<br />- 'fail no such file or directory, rename oldPath -&gt; newPath': The source file does not exist, or the upper-layer directory of the target file path does not exist;</td>
     </tr>
   </tbody>
 </table>
@@ -1712,42 +1722,42 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>dirPath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要删除的目录路径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The path to the directory to be deleted.</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
       <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(result: RmdirFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>recursive</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否递归删除目录。如果为 true，则删除该目录和该目录下的所有子目录以及文件。</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Indicates whether to recursively delete the directory.If the value is true, the directory and all subdirectories and files under the directory are deleted.</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -1757,16 +1767,16 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory dirPath': 目录不存在;<br />- 'fail directory not empty': 目录不为空;<br />- 'fail permission denied, open dirPath': 指定的 dirPath 路径没有写权限;</td>
+      <td>Error message.<br /><br />Valid values: <br />- 'fail no such file or directory dirPath': Directory does not exist;<br />- 'fail directory not empty': Directory is not empty;<br />- 'fail permission denied, open dirPath': No write permission on the specified dirPath;</td>
     </tr>
   </tbody>
 </table>
@@ -1776,42 +1786,42 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>tempFilePath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>临时存储文件路径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Path to the temporarily stored files</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Path to save the files</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(result: SaveFileFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>filePath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>要存储的文件路径</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: SaveFileSuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -1821,16 +1831,16 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail tempFilePath file not exist': 指定的 tempFilePath 找不到文件;<br />- 'fail permission denied, open &quot;filePath&quot;': 指定的 filePath 路径没有写权限;<br />- 'fail no such file or directory &quot;dirPath&quot;': 上级目录不存在;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足;</td>
+      <td>Error message<br /><br />Valid values: <br />- 'fail tempFilePath file not exist': No file found with the specified tempFilePath;<br />- 'fail permission denied, open &quot;filePath&quot;': No write permission on the specified filePath;<br />- 'fail no such file or directory &quot;dirPath&quot;': The upper-layer directory does not exist;<br />- 'fail the maximum size of the file storage limit is exceeded': Insufficient storage space;</td>
     </tr>
   </tbody>
 </table>
@@ -1840,21 +1850,21 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>savedFilePath</td>
       <td><code>number</code></td>
-      <td>存储后的文件路径</td>
+      <td>Path to the saved file</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
@@ -1864,42 +1874,42 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>path</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>文件/目录路径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The file/directory path.</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Indicates whether to recursively get the Stats information of each file under the directory.</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(result: StatFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>recursive</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否递归获取目录下的每个文件的 Stats 信息</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: StatSuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -1909,16 +1919,16 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, open path': 指定的 path 路径没有读权限;<br />- 'fail no such file or directory path': 文件不存在;</td>
+      <td>Error message.<br /><br />Valid values: <br />- 'fail permission denied, open path': No read permission on the specified path;<br />- 'fail no such file or directory path': File does not exist;</td>
     </tr>
   </tbody>
 </table>
@@ -1928,9 +1938,9 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -1942,7 +1952,7 @@ FileSystemManager.readFile 的同步版本
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
@@ -1952,36 +1962,36 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>filePath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要删除的文件路径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Path to the file to be deleted</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(result: UnlinkFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -1991,16 +2001,16 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, open path': 指定的 path 路径没有读权限;<br />- 'fail no such file or directory path': 文件不存在;<br />- 'fail operation not permitted, unlink filePath': 传入的 filePath 是一个目录;</td>
+      <td>Error message.<br /><br />Valid values: <br />- 'fail permission denied, open path': No read permission on the specified path;<br />- 'fail no such file or directory path': File does not exist;<br />- 'fail operation not permitted, unlink filePath': The passed filePath is a directory;</td>
     </tr>
   </tbody>
 </table>
@@ -2010,42 +2020,42 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>targetPath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>目标目录路径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The path to the target directory</td>
     </tr>
     <tr>
       <td>zipFilePath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>源文件路径，只可以是 zip 压缩文件</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The path to the source file, which can only be a zip file</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(result: UnzipFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -2055,16 +2065,16 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, unzip zipFilePath -&gt; destPath': 指定目标文件路径没有写权限;<br />- 'fail no such file or directory, unzip zipFilePath -&gt; &quot;destPath': 源文件不存在，或目标文件路径的上层目录不存在;</td>
+      <td>Error message.<br /><br />Valid values: <br />- 'fail permission denied, unzip zipFilePath -&gt; destPath': No write permission on the specified target file path;<br />- 'fail no such file or directory, unzip zipFilePath -&gt; &quot;destPath': The source file does not exist, or the upper-layer directory of the target file path does not exist;</td>
     </tr>
   </tbody>
 </table>
@@ -2074,48 +2084,48 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>data</td>
       <td><code>string | ArrayBuffer</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要写入的文本或二进制数据</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Text or binary data to be written</td>
     </tr>
     <tr>
       <td>filePath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要写入的文件路径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Path to the file into which you want to write data</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies the character encoding of the written file</td>
     </tr>
     <tr>
       <td>encoding</td>
       <td><code>&quot;ascii&quot; | &quot;base64&quot; | &quot;binary&quot; | &quot;hex&quot; | &quot;ucs2&quot; | &quot;ucs-2&quot; | &quot;utf16le&quot; | &quot;utf-16le&quot; | &quot;utf-8&quot; | &quot;utf8&quot; | &quot;latin1&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>指定写入文件的字符编码</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(result: WriteFileFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -2125,49 +2135,49 @@ FileSystemManager.readFile 的同步版本
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open filePath': 指定的 filePath 所在目录不存在;<br />- 'fail permission denied, open dirPath': 指定的 filePath 路径没有写权限;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足;</td>
+      <td>Error message.<br /><br />Valid valus: <br />- 'fail no such file or directory, open filePath': The directory where the specified filePath is located does not exist;<br />- 'fail permission denied, open dirPath': No write permission on the specified filePath;<br />- 'fail the maximum size of the file storage limit is exceeded': Insufficient storage space;</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|                API                 | 微信小程序 | H5 | React Native |
-|:----------------------------------:|:-----:|:--:|:------------:|
-|   FileSystemManager.readdirSync    |  ✔️   |    |              |
-|      FileSystemManager.access      |  ✔️   |    |              |
-|    FileSystemManager.accessSync    |  ✔️   |    |              |
-|    FileSystemManager.appendFile    |  ✔️   |    |              |
-|  FileSystemManager.appendFileSync  |  ✔️   |    |              |
-|     FileSystemManager.copyFile     |  ✔️   |    |              |
-|   FileSystemManager.copyFileSync   |  ✔️   |    |              |
-|   FileSystemManager.getFileInfo    |  ✔️   |    |              |
-| FileSystemManager.getSavedFileList |  ✔️   |    |              |
-|      FileSystemManager.mkdir       |  ✔️   |    |              |
-|    FileSystemManager.mkdirSync     |  ✔️   |    |              |
-|     FileSystemManager.readFile     |  ✔️   |    |              |
-|     FileSystemManager.readdir      |  ✔️   |    |              |
-| FileSystemManager.removeSavedFile  |  ✔️   |    |              |
-|      FileSystemManager.rename      |  ✔️   |    |              |
-|    FileSystemManager.renameSync    |  ✔️   |    |              |
-|      FileSystemManager.rmdir       |  ✔️   |    |              |
-|    FileSystemManager.rmdirSync     |  ✔️   |    |              |
-|     FileSystemManager.saveFile     |  ✔️   |    |              |
-|       FileSystemManager.stat       |       |    |              |
-|      FileSystemManager.unlink      |  ✔️   |    |              |
-|    FileSystemManager.unlinkSync    |  ✔️   |    |              |
-|      FileSystemManager.unzip       |  ✔️   |    |              |
-|    FileSystemManager.writeFile     |  ✔️   |    |              |
-|  FileSystemManager.writeFileSync   |  ✔️   |    |              |
-|     FileSystemManager.statSync     |  ✔️   |    |              |
-|   FileSystemManager.saveFileSync   |  ✔️   |    |              |
-|   FileSystemManager.readFileSync   |  ✔️   |    |              |
+|                API                 | WeChat Mini-Program | H5 | React Native |
+|:----------------------------------:|:-------------------:|:--:|:------------:|
+|   FileSystemManager.readdirSync    |         ✔️          |    |              |
+|      FileSystemManager.access      |         ✔️          |    |              |
+|    FileSystemManager.accessSync    |         ✔️          |    |              |
+|    FileSystemManager.appendFile    |         ✔️          |    |              |
+|  FileSystemManager.appendFileSync  |         ✔️          |    |              |
+|     FileSystemManager.copyFile     |         ✔️          |    |              |
+|   FileSystemManager.copyFileSync   |         ✔️          |    |              |
+|   FileSystemManager.getFileInfo    |         ✔️          |    |              |
+| FileSystemManager.getSavedFileList |         ✔️          |    |              |
+|      FileSystemManager.mkdir       |         ✔️          |    |              |
+|    FileSystemManager.mkdirSync     |         ✔️          |    |              |
+|     FileSystemManager.readFile     |         ✔️          |    |              |
+|     FileSystemManager.readdir      |         ✔️          |    |              |
+| FileSystemManager.removeSavedFile  |         ✔️          |    |              |
+|      FileSystemManager.rename      |         ✔️          |    |              |
+|    FileSystemManager.renameSync    |         ✔️          |    |              |
+|      FileSystemManager.rmdir       |         ✔️          |    |              |
+|    FileSystemManager.rmdirSync     |         ✔️          |    |              |
+|     FileSystemManager.saveFile     |         ✔️          |    |              |
+|       FileSystemManager.stat       |                     |    |              |
+|      FileSystemManager.unlink      |         ✔️          |    |              |
+|    FileSystemManager.unlinkSync    |         ✔️          |    |              |
+|      FileSystemManager.unzip       |         ✔️          |    |              |
+|    FileSystemManager.writeFile     |         ✔️          |    |              |
+|  FileSystemManager.writeFileSync   |         ✔️          |    |              |
+|     FileSystemManager.statSync     |         ✔️          |    |              |
+|   FileSystemManager.saveFileSync   |         ✔️          |    |              |
+|   FileSystemManager.readFileSync   |         ✔️          |    |              |
