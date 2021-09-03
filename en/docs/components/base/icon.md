@@ -3,17 +3,17 @@ title: Icon
 sidebar_label: Icon
 ---
 
-图标。组件属性的长度单位默认为 px
+Icon.The unit of length of the component's properties is px by default.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/icon.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/icon.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<IconProps>
 ```
 
-## 示例代码
+## Examples
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -83,11 +83,11 @@ export default class PageView extends Component {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -95,87 +95,87 @@ export default class PageView extends Component {
       <td>type</td>
       <td><code>&quot;success&quot; | &quot;success_no_circle&quot; | &quot;info&quot; | &quot;warn&quot; | &quot;waiting&quot; | &quot;cancel&quot; | &quot;download&quot; | &quot;search&quot; | &quot;clear&quot;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>icon 的类型</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The type of the icon.</td>
     </tr>
     <tr>
       <td>size</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}><code>23</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>icon 的大小，单位px</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The size of the icon.</td>
     </tr>
     <tr>
       <td>color</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>icon 的颜色，同 css 的 color</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The color of the icon. It is the same as the color of the css.</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|       API       | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
-|:---------------:|:-----:|:-----:|:------:|:-------:|:--:|:------------:|
-| IconProps.type  |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-| IconProps.size  |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-| IconProps.color |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
+|       API       | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 | React Native |
+|:---------------:|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| IconProps.type  |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+| IconProps.size  |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+| IconProps.color |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
 
 ### TIconType
 
-icon 的类型
+Valid values of type
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>value</th>
+      <th>description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>success</td>
-      <td>成功图标</td>
+      <td>success icon</td>
     </tr>
     <tr>
       <td>success_no_circle</td>
-      <td>成功图标（不带外圈）</td>
+      <td>success icon(no circle)</td>
     </tr>
     <tr>
       <td>info</td>
-      <td>信息图标</td>
+      <td>info icon</td>
     </tr>
     <tr>
       <td>warn</td>
-      <td>警告图标</td>
+      <td>warn icon</td>
     </tr>
     <tr>
       <td>waiting</td>
-      <td>等待图标</td>
+      <td>waiting icon</td>
     </tr>
     <tr>
       <td>cancel</td>
-      <td>取消图标</td>
+      <td>cancel icon</td>
     </tr>
     <tr>
       <td>download</td>
-      <td>下载图标</td>
+      <td>download icon</td>
     </tr>
     <tr>
       <td>search</td>
-      <td>搜索图标</td>
+      <td>search icon</td>
     </tr>
     <tr>
       <td>clear</td>
-      <td>清除图标</td>
+      <td>clear icon</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-| API  | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
-|:----:|:-----:|:-----:|:------:|:-------:|:--:|:------------:|
-| Icon |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
+| API  | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 | React Native |
+|:----:|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| Icon |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
