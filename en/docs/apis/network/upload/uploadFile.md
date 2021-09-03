@@ -3,139 +3,138 @@ title: Taro.uploadFile(option)
 sidebar_label: uploadFile
 ---
 
-将本地资源上传到服务器。客户端发起一个 HTTPS POST 请求，其中 `content-type` 为 `multipart/form-data`。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)。
+Uploads local resources to the server.The client initiates an HTTPS POST request with `content-type` being `multipart/form-data`.Read [related instructions](https://developers.weixin.qq.com/miniprogram/en/dev/framework/ability/network.html) before use.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/wx.uploadFile.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/wx.uploadFile.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<SuccessCallbackResult & UploadTask> & UploadTask
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>url</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>开发者服务器地址</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Developer server URL</td>
     </tr>
     <tr>
       <td>filePath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要上传文件资源的路径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Path to upload a file</td>
     </tr>
     <tr>
       <td>name</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>文件对应的 key，开发者在服务端可以通过这个 key 获取文件的二进制内容</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Key of the file. The developer can get the binary content of the file on the server via this key.</td>
     </tr>
     <tr>
       <td>header</td>
       <td><code>Record&lt;string, any&gt;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>HTTP 请求 Header，Header 中不能设置 Referer</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>HTTP request Header. Referer is not available in Header.</td>
     </tr>
     <tr>
       <td>formData</td>
       <td><code>Record&lt;string, any&gt;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>HTTP 请求中其他额外的 form data</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Additional form data in the HTTP request</td>
     </tr>
     <tr>
       <td>timeout</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>超时时间，单位为毫秒</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Timeout time, in ms</td>
     </tr>
     <tr>
       <td>fileName</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>上传的文件名<br />API 支持度: h5</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Name of the uploaded file<br />(Only H5)</td>
     </tr>
     <tr>
       <td>complete</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
       <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|       API       | 微信小程序 | H5 | React Native |
-|:---------------:|:-----:|:--:|:------------:|
-| Option.fileName |       | ✔️ |              |
+|       API       | WeChat Mini-Program | H5 | React Native |
+|:---------------:|:-------------------:|:--:|:------------:|
+| Option.fileName |                     | ✔️ |              |
 
 ### SuccessCallbackResult
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>data</td>
       <td><code>string</code></td>
-      <td>开发者服务器返回的数据</td>
+      <td>Data returned by the developer server</td>
     </tr>
     <tr>
       <td>statusCode</td>
       <td><code>number</code></td>
-      <td>开发者服务器返回的 HTTP 状态码</td>
+      <td>HTTP status code returned by the developer server</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
-### 示例 1
+### Example 1
 
 ```tsx
 Taro.chooseImage({
   success (res) {
     const tempFilePaths = res.tempFilePaths
     Taro.uploadFile({
-      url: 'https://example.weixin.qq.com/upload', //仅为示例，非真实的接口地址
-      filePath: tempFilePaths[0],
+      url: 'https://example.weixin.qq.com/upload', //This value for demonstration purposes only is not a real API URL. filePath: tempFilePaths[0],
       name: 'file',
       formData: {
         'user': 'test'
@@ -149,12 +148,11 @@ Taro.chooseImage({
 })
 ```
 
-### 示例 2
+### Example 2
 
 ```tsx
 const uploadTask = Taro.uploadFile({
-  url: 'https://example.weixin.qq.com/upload', //仅为示例，非真实的接口地址
-  filePath: tempFilePaths[0],
+  url: 'https://example.weixin.qq.com/upload', //This value for demonstration purposes only is not a real API URL. filePath: tempFilePaths[0],
   name: 'file',
   formData:{
     'user': 'test'
@@ -164,16 +162,17 @@ const uploadTask = Taro.uploadFile({
     //do something
   }
 })
-uploadTask.progress((res) => {
-  console.log('上传进度', res.progress)
-  console.log('已经上传的数据长度', res.totalBytesSent)
-  console.log('预期需要上传的数据总长度', res.totalBytesExpectedToSend)
+uploadTask.onProgressUpdate((res) => {
+  console.log('Upload progress', res.progress)
+  console.log('The length of uploaded data', res.totalBytesSent)
+  console.log('The length of data expected to be uploaded', res.totalBytesExpectedToSend)
 })
-uploadTask.abort() // 取消上传任务
+
+uploadTask.abort() // Cancel upload tasks
 ```
 
-## API 支持度
+## API Support
 
-|       API       | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
-|:---------------:|:-----:|:-----:|:------:|:--:|:------------:|
-| Taro.uploadFile |  ✔️   |  ✔️   |   ✔️   | ✔️ |      ✔️      |
+|       API       | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | H5 | React Native |
+|:---------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| Taro.uploadFile |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
