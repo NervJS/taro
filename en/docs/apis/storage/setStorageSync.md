@@ -3,43 +3,43 @@ title: Taro.setStorageSync(key, data)
 sidebar_label: setStorageSync
 ---
 
-Taro.setStorage 的同步版本
+The synchronous version of `Taro.setStorage`.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.setStorageSync.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.setStorageSync.html)
 
-## 类型
+## Type
 
 ```tsx
 (key: string, data: any) => void
 ```
 
-## 参数
+## Parameters
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>key</td>
       <td><code>string</code></td>
-      <td>本地缓存中指定的 key</td>
+      <td>The specified key in the local cache</td>
     </tr>
     <tr>
       <td>data</td>
       <td><code>any</code></td>
-      <td>需要存储的内容。只支持原生类型、Date、及能够通过<code>JSON.stringify</code>序列化的对象。</td>
+      <td>需要存储的内容。Contents to be stored can only be native types, dates, and objects that can be serialized via <code>JSON.stringify</code>.</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
-### 示例 1
+### Example 1
 
 ```tsx
 Taro.setStorage({
@@ -48,7 +48,7 @@ Taro.setStorage({
 })
 ```
 
-### 示例 2
+### Example 2
 
 ```tsx
 try {
@@ -56,8 +56,8 @@ try {
 } catch (e) { }
 ```
 
-## API 支持度
+## API Support
 
-|         API         | 微信小程序 | H5 | React Native |
-|:-------------------:|:-----:|:--:|:------------:|
-| Taro.setStorageSync |  ✔️   | ✔️ |              |
+|         API         | WeChat Mini-Program | H5 | React Native |
+|:-------------------:|:-------------------:|:--:|:------------:|
+| Taro.setStorageSync |         ✔️          | ✔️ |              |
