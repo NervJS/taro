@@ -1,79 +1,79 @@
 ---
-title: 给开发者的信
+title: Join The Community
 ---
 
 > 2019.10.29
 
-[Taro](https://taro.jd.com) 作为一个多端统一开发解决方案，自诞生以来一直保持着高速的发展态势， 从一个单一的开发框架发展到如今服务数万名开发者的多端解决方案，Taro 的成长有 Taro 团队不忘初心的努力，但更重要的是，离不开社区广大开发者的支持和帮助。
+[Taro](https://taro.jd.com), as a unified development solution, has been growing rapidly since its birth. From a single development framework to a multi-tier solution serving tens of thousands of developers today, Taro's growth is due to the efforts of the Taro team, but more importantly, the support and help from the community.
 
-## 开源面临着什么
+## What is open source facing
 
-我们可以先来看一组数据。
+We can start by looking at a set of data.
 
-Taro 从开源到当前行文为止，统共有 **5227** 次 commits，发布了 **235** 个版本，同时有 **3908** 个 issues 被开启，在 Taro 团队和社区的努力下，已经关闭了 **3296** 个，还有近 **600** 个 issues 有待解决，而每周 Taro 的新开启的 issues 也在 **50** 个左右；同时也收获了 **709** 个 PR，合入了 **656** 个。
+Taro has **5227** commits, **235** releases, **3908** issues opened, **3296** closed thanks to the efforts of the Taro team and community, and nearly **600** issues to be resolved. Taro is also opening around **50** new issues every week, and has collected **709** PRs, adding up to **656**.
 
-除此之外，[Taro 交流社区](https://taro-club.jd.com/) 发帖数也达到 **3000** 个，每周以 **200** 个左右的增速在增加，而 [Taro 官方文档](https://docs.taro.zone/) 作为 Taro 入门及开发必备的资源，每周的访问量达到了 **20w**。
+In addition, the number of posts on the [Taro Community](https://taro-club.jd.com/) has reached **3000** and is increasing at a rate of **200** per week, while the [Taro Official Documentation](https://docs.taro.zone/), a must-have resource for Taro beginners and developers, has reached **20w** per week.
 
-同时 Taro 还有 **20 余** 个 **500** 人左右的开发者交流微信群，以及 10 余个跟各小程序官方团队、各大公司研发团队的研讨群，每天 Taro 团队的开发人员都要遭受大规模的信息轰炸。
+At the same time, Taro also has **20+** developer exchange WeChat groups of **500** people, and 10+ seminar groups with the official teams of various small programs and R&D teams of major companies, so the developers of Taro team are bombarded with massive information every day.
 
-由此可见，Taro 目前拥有庞大且活跃的开发者社区，每天都会产生大量的信息，或是问题，或是建议，或是代码提交，或是有用的轮子。当社区变得越来越大后，如何进行有效的管理，提升社区整体的使用体验，便成了困扰 Taro 团队的问题，迫切需要在方案迭代与社区维护之间寻找到一个平衡点，以使 Taro 可以走得更远，发展得更好。
+From this, we can see that Taro now has a large and active developer community, which generates a lot of information, either questions, suggestions, code submissions or useful wheels every day.As the community becomes bigger and bigger, the question of how to manage it effectively and improve the overall experience of using the community becomes a problem for the Taro team, and there is an urgent need to find a balance between solution iteration and community maintenance so that Taro can go farther and grow better.
 
-## 来自社区的力量
+## The power from the community
 
-正所谓「单丝不成线，独木不成林」。
+As the saying goes, "A single thread does not make a thread, and a single tree does not make a forest".
 
-Taro 发展至今早已不在属于单一团队的项目了，而是整个 Taro 开发社区共同的项目。在 Taro 所属的 NervJS 组织的[成员](https://github.com/orgs/NervJS/people)中也已经加入了像华为、腾讯等其他公司的研发人员，共同建设项目，而整个社区的贡献者也达到了 **230** 位。
+Taro is no longer a single-team project, but a joint project of the entire Taro development community.The [members](https://github.com/orgs/NervJS/people) of the NervJS organization to which Taro belongs have also added R&D staff from other companies like Huawei and Tencent to the project, and the community has **230** contributors.
 
 ![WX20191010-150217@2x.png](https://img10.360buyimg.com/ling/jfs/t1/51716/38/13586/794849/5da564c9Ef215f164/cd2069db4f105db4.jpg)
 
-而在所有的社区贡献中，需要特别感谢：
+And of all the community contributions, a special thanks goes to:
 
--  [Tom Huang](https://github.com/nanjingboy/) ，独立为 Taro 开发所有端的 MobX 支持
--  [jsNewbee](https://github.com/js-newbee/)，为 Taro 贡献了一个完整支持 小程序 + H5 + React Native 的[多端样例](https://github.com/qit-team/taro-yanxuan)
--  [Chunlin](https://github.com/Qiyu8/)，来自华为，为 Taro 完善了快应用的转换支持
+-  [Tom Huang](https://github.com/nanjingboy/), independent developer of all aspects of MobX support for Taro
+-  [jsNewbee](https://github.com/js-newbee/), contributed a [multi-platform sample] for Taro with full support for mini programs + H5 + React Native. (https://github.com/qit-team/taro-yanxuan)
+-  [Chunlin](https://github.com/Qiyu8/), from Huawei, improved conversion support for quick app for Taro
 
-同时也感谢受邀成为 [TaroUI](https://github.com/NervJS/taro-ui) 核心维护人员的  [Garfield550](https://github.com/Garfield550) (小姐姐)、[梁音](https://github.com/yinLiangDream)、[ShaoQian Liu](https://github.com/lsqy)，他们将支撑起 TaroUI 的后续迭代与维护。
+We also thank [Garfield550](https://github.com/Garfield550) (Miss), \[LiangYin\](https://github. com/yinLiangDream) and [ShaoQian Liu](https://github.com/Garfield550), who were invited to be the core maintenance staff of [TaroUI](https://github.com/NervJS/taro-ui).
 
-当然还有在社区中乐于助人、积极贡献的 [zacksleo](https://github.com/zacksleo) 、[Jay Fong](https://github.com/fjc0k)、[loveonelong](https://github.com/loveonelong)、[lolipop99](https://github.com/lolipop99)、[波仔糕](https://github.com/bozaigao)、[原罪](https://github.com/fwh1990)、[lentoo](https://github.com/lentoo/) 、[白领夏公子](https://taro-club.jd.com/user/%E7%99%BD%E9%A2%86%E5%A4%8F%E5%85%AC%E5%AD%90)  、YuanQuan、 tourze、 lingxiaoZhu 等等。
+Of course there are also [zacksleo](https://github.com/zacksleo), [Jay Fong](https://github.com/fjc0k), \[loveonelong\](https://github.com/ loveonelong), [lolipop99](https://github.com/lolipop99), [Bozai Gao](https://github.com/bozaigao), [Original Sin](https://github.com/fwh1990), [lentoo ](https://github.com/lentoo/), [white collar summer grandson](https://taro-club.jd.com/user/%E7%99%BD%E9%A2%86%E5%A4%8F%E5%85%AC%E5%AD%90), YuanQuan, tourze (), YuanQuan, tourze, lingxiaoZhu, etc.
 
-此外，还要感谢一直默默为 Taro 发展提供宝贵建议的研发团队：腾讯云、数字广东、腾讯CDC、网易严选、华为开源团队、招联消费金融等等
+In addition, we would like to thank the R&D teams that have been quietly providing valuable suggestions for Taro's development: Tencent Cloud, Digital Guangdong, Tencent CDC, Netease, Huawei Open Source Team, Zhaolian Consumer Finance, etc.
 
-社区的力量一直在支撑 Taro 前进。
+The power of the community has been supporting Taro to move forward.
 
-所以，如今 Taro 面临的社区维护问题我们希望可以交给社区来进行自我管理。
+Therefore, we hope that the community maintenance problem faced by Taro can be left to the community for self-management.
 
-## 期待你的加入
+## Looking forward to your participation
 
-为了能够让社区更加高效、健康的运转下去，Taro 官方团队希望能够从社区中吸引开发者来共同维护，进行社区共建。
+In order to make the community run more efficiently and healthily, the Taro official team hopes to attract developers from the community to work together to maintain and build the community.
 
-社区共建本次拟开放三大类角色，Taro 团队会为每一类角色设定一定门槛以及激励机制，从而保证整体质量。
+The Taro team will set a certain threshold and incentive mechanism for each role to ensure the overall quality.
 
-### 能力完善
+### Capability Perfection
 
-| 头衔    | 准入机制                                                       | 权益                                                                                             |
-| ----- | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| 认证开发者 | 1. 为 Taro 实现过独立功能特性 <br/> 2. 代码 commit 数及代码贡献量达到一定标准 | 1. 获取 Taro 项目 developer 权限 <br/> 2. 来自 Taro 团队定期礼品与开源认证证书 <br/> 3. Readme 及官网、文档展示 |
-| 代码贡献者 | 为 Taro 提交过 PR                                              | Readme 及官网、文档展示                                                                                |
+| Titles              | Access Mechanisms                                                                                                     | Rights and Benefits                                                                                                                                                               |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Certified Developer | 1. Implemented stand-alone features for Taro <br/> 2. Code commits and code contributions meet certain criteria | 1. Received developer rights for Taro project <br/> 2. Regular gifts from Taro team and open source certification <br/> 3. Readme and official website, documentation |
+| Code contributor    | Submitted PR for Taro                                                                                                 | Readme and official website, documentation                                                                                                                                        |
 
-### 社区管理
+### Community Management
 
-| 头衔                | 准入机制                                                              | 权益                                                                                                                              | 职责                                                                                                                              |
-| ----------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| 社区版主              | 1. 通过社区报名，遴选后产生 <br/> 2. 通过考察在 Taro 社区的活跃程度，由 Taro 团队进行定向邀请 | 1. Readme 及官网、文档展示 <br/> 2. 所提出特性会优先考虑在 Taro 版本中加入 <br/>3. 来自 Taro 团队定期礼品与开源认证证书                                    | 1. 负责社区各版块的管理<br/>2. 定期发布版块相关主题帖 <br/> 3. 定期收集版块问题帖子，进行汇总，反馈给 Taro 团队 <br/> 4. 对版块内帖子进行审核，剔除无用、违反法律等帖子        |
-| GitHub Issues 管理员 | 1. 通过社区报名，遴选后产生 <br/> 2. 通过考察在 Taro 社区的活跃程度，由 Taro 团队进行定向邀请 | 1. Readme 及官网、文档展示 <br/> 2. 所提出特性会优先考虑在 Taro 版本中加入  <br/>3. 来自 Taro 团队定期礼品与开源认证证书 <br/> 4. 参与 GitHub robot 完善 | 1. 负责对 GitHub issues 答疑解惑以及打标分类 <br/> 2. 负责每周汇总 issues，并将 issues 提交到 Taro 团队  <br/>3. 负责每周精选 issues，并将数据同步到 Taro 社区 |
-| 交流群管理员            | 1. 通过社区报名，遴选后产生 <br/> 2. 通过考察在 Taro 社区的活跃程度，由 Taro 团队进行定向邀请 | 1. Readme 及官网、文档展示 <br/> 2. 所提出特性会优先考虑在 Taro 版本中加入 <br/>3. 来自 Taro 团队定期礼品与开源认证证书 <br/>4. 参与 群小助手 完善           | 1. 负责群内内容的管理，创造良好的沟通交流环境  <br/> 2. 负责群内问题的答疑解惑，引导开发者去社区、GitHub issues 获取答案 <br/>3. 负责操作社区群管理工具，整理群内问题，同步到 Taro 社区   |
+| Title                 | Access                                                                                                                                        | Rights and Benefits                                                                                                                                                                                                                                                   | Responsibilities                                                                                                                                                                                                                                                                                                                                                                                |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Community Moderator   | 1. 通过社区报名，遴选后产生 <br/> 2. 通过考察在 Taro 社区的活跃程度，由 Taro 团队进行定向邀请                                                                             | 1. Readme and official website, documentation <br/> 2. Proposed features will be prioritized for inclusion in Taro releases <br/> 3. Regular gifts and open source certification from Taro team                                                           | 1. Responsible for the management of various sections of the community <br/> 2. Regularly post topics related to the forum <br/> 3. Regularly collect posts about the forum, summarize them, and give feedback to the Taro team <br/> 4. Review posts in the forum to eliminate useless and illegal posts                                                                     |
+| GitHub Issues Manager | 1. Selected through community registration <br/> 2. Invited by the Taro team after checking the level of activity in the Taro community | 1. Readme and official website, documentation <br/> 2. Priority for proposed features in Taro releases <br/> 3. Regular gifts from the Taro team <br/> 4. Participate in GitHub robot refinement                                                    | 1. Answer questions and tag GitHub issues <br/> 2. Aggregate issues every week and submit issues to Taro team <br/> 3. Select issues every week and sync data to Taro community                                                                                                                                                                                                     |
+| Group administrators  | 1. 通过社区报名，遴选后产生 <br/> 2. 通过考察在 Taro 社区的活跃程度，由 Taro 团队进行定向邀请                                                                             | 1. Readme and official website, documentation <br/> 2. Features proposed will be prioritized for inclusion in Taro releases <br/> 3. Regular gifts and open source certificates from the Taro team <br/> 4. Participate in group helper improvement | 1. Responsible for managing group content and creating a good communication environment <br/> 2. Responsible for answering questions in the group and directing developers to the community and GitHub issues to get answers <br/> 3. Responsible for operating the community group management tool, organizing questions in the group and synchronizing them to the Taro community |
 
-### 知识构建
+### Knowledge Building
 
-| 形式            | 提交方式                                                                                                                                           | 权益                                                  |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
-| Taro 课程视频录制   | 通过邮箱发送个人信息及试讲视频<br/>邮箱：taro@jd.com<br/>内容：<br/>1. 个人信息：主攻技术方向、从业经历、公开分享经验等 <br/>2. 试讲视频链接通过遴选后，Taro 团队会与你联系沟通后续的视频录制事宜 | 成为 Taro 官方合作伙伴，视频课程经由 Taro 团队审核后，Taro 团队会全力协助进行运营推广 |
-| Taro 开发实践文章撰写 | 通过邮箱投稿<br/>邮箱：taro@jd.com<br/>内容：<br/>1. md 文件（若为系列文章请添加大纲） <br/>2. 是否在 Taro 渠道首发通过遴选后，Taro 团队会与你联系沟通后续发布事宜            | 成为 Taro 官方合作伙伴，文章经由 Taro 团队审核后，会通过 Taro 相关优质渠道进行发布  |
-## 写在最后
+| Form                                      | Submit Method                                                                                                                                                                                                                                                                                                                                                    | Rights and Interests                                                                                                                                       |
+| ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Taro Course Video Recording               | Send personal information and audition video via email<br/>Email: taro@jd.com<br/>Contents:<br/>1. Personal information: major technical direction, experience, public sharing experience, etc. <br/>2. Audition video link After passing the selection, Taro team will contact you to communicate the follow-up video recording matters | Become an official Taro partner, after the video course is reviewed by Taro team, Taro team will fully assist in the operation and promotion.              |
+| Taro Development Practice Article Writing | Submitted via email<br/>Email: taro@jd.com<br/>Contents:<br/>1. md file (please add outline if it is a series of articles) <br/>2. whether to debut in Taro channel After passing the selection, Taro team will contact you to communicate the subsequent release                                                                        | Become an official Taro partner, the article After being reviewed by the Taro team, the article will be published through Taro's relevant premium channels |
+## Written at the end
 
-Taro 作为一个多端开发解决方案，还处在初级的发展阶段，是一个发展中的方案，在不久的未来我们会有更多新的功能、特性推向开发者，甚至可能也有颠覆性的东西出现，让 Taro 成为一个更棒的方案。目前 Taro 已经翻过了一座座发展的山峰，但他正在向更高山峰迈进。
+Taro is still in its infancy as a multi-platform development solution and is an evolving solution, and in the near future we will have more new features, functions and features to push to developers and maybe even disruptive things as well that will make Taro an even better solution.For now Taro has surpassed one mountain of development, but he is on his way to even higher peaks.
 
-长风破浪会有时，直挂云帆济沧海。
+Contact email: [taro@jd.com](mailto:taro@jd.com) Mail title: [build together] + what you want to say
 
-## Taro 诚邀你的加入
+## Taro cordially invites you to join us
 联系邮箱：[taro@jd.com](mailto:taro@jd.com) 邮件标题：【共建】+ 你想说的话
