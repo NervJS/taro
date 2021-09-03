@@ -3,29 +3,29 @@ title: DownloadTask
 sidebar_label: DownloadTask
 ---
 
-## 方法
+## Methods
 
 ### abort
 
-中断下载任务
+Aborts download tasks.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.abort.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.abort.html)
 
 ```tsx
 () => void
 ```
 
-#### API 支持度
+#### API Support
 
-|        API         | 微信小程序 | H5 | React Native |
-|:------------------:|:-----:|:--:|:------------:|
-| DownloadTask.abort |  ✔️   |    |      ✔️      |
+|        API         | WeChat Mini-Program | H5 | React Native |
+|:------------------:|:-------------------:|:--:|:------------:|
+| DownloadTask.abort |         ✔️          |    |      ✔️      |
 
 ### offHeadersReceived
 
-取消监听 HTTP Response Header 事件
+Un-listens on the HTTP Response Header event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.offHeadersReceived.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.offHeadersReceived.html)
 
 ```tsx
 (callback: OffHeadersReceivedCallback) => void
@@ -34,31 +34,31 @@ sidebar_label: DownloadTask
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>OffHeadersReceivedCallback</code></td>
-      <td>HTTP Response Header 事件的回调函数</td>
+      <td>The callback function for the HTTP Response Header event.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|               API               | 微信小程序 | H5 | React Native |
-|:-------------------------------:|:-----:|:--:|:------------:|
-| DownloadTask.offHeadersReceived |  ✔️   |    |              |
+|               API               | WeChat Mini-Program | H5 | React Native |
+|:-------------------------------:|:-------------------:|:--:|:------------:|
+| DownloadTask.offHeadersReceived |         ✔️          |    |              |
 
 ### offProgressUpdate
 
-取消监听下载进度变化事件
+Un-listens on download progress change events.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.offProgressUpdate.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.offProgressUpdate.html)
 
 ```tsx
 (callback: OffProgressUpdateCallback) => void
@@ -67,31 +67,31 @@ sidebar_label: DownloadTask
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>OffProgressUpdateCallback</code></td>
-      <td>下载进度变化事件的回调函数</td>
+      <td>The callback function for the download progress change event.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|              API               | 微信小程序 | H5 | React Native |
-|:------------------------------:|:-----:|:--:|:------------:|
-| DownloadTask.offProgressUpdate |  ✔️   |    |      ✔️      |
+|              API               | WeChat Mini-Program | H5 | React Native |
+|:------------------------------:|:-------------------:|:--:|:------------:|
+| DownloadTask.offProgressUpdate |         ✔️          |    |      ✔️      |
 
 ### onHeadersReceived
 
-监听 HTTP Response Header 事件。会比请求完成事件更早
+Listens on HTTP Response Header event, which will be earlier than the request completion event.会比请求完成事件更早
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.onHeadersReceived.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.onHeadersReceived.html)
 
 ```tsx
 (callback: OnHeadersReceivedCallback) => void
@@ -100,31 +100,31 @@ sidebar_label: DownloadTask
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>OnHeadersReceivedCallback</code></td>
-      <td>HTTP Response Header 事件的回调函数</td>
+      <td>The callback function for the HTTP Response Header event.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|              API               | 微信小程序 | H5 | React Native |
-|:------------------------------:|:-----:|:--:|:------------:|
-| DownloadTask.onHeadersReceived |  ✔️   |    |              |
+|              API               | WeChat Mini-Program | H5 | React Native |
+|:------------------------------:|:-------------------:|:--:|:------------:|
+| DownloadTask.onHeadersReceived |         ✔️          |    |              |
 
 ### onProgressUpdate
 
-监听下载进度变化事件
+Listens on the download progress change event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.onProgressUpdate.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.onProgressUpdate.html)
 
 ```tsx
 (callback: OnProgressUpdateCallback) => void
@@ -133,31 +133,31 @@ sidebar_label: DownloadTask
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>OnProgressUpdateCallback</code></td>
-      <td>下载进度变化事件的回调函数</td>
+      <td>The callback function for the download progress change event.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|              API              | 微信小程序 | H5 | React Native |
-|:-----------------------------:|:-----:|:--:|:------------:|
-| DownloadTask.onProgressUpdate |  ✔️   |    |      ✔️      |
+|              API              | WeChat Mini-Program | H5 | React Native |
+|:-----------------------------:|:-------------------:|:--:|:------------:|
+| DownloadTask.onProgressUpdate |         ✔️          |    |      ✔️      |
 
-## 参数
+## Parameters
 
 ### OffHeadersReceivedCallback
 
-HTTP Response Header 事件的回调函数
+The callback function for the HTTP Response Header event.
 
 ```tsx
 (res: CallbackResult) => void
@@ -166,8 +166,8 @@ HTTP Response Header 事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -180,7 +180,7 @@ HTTP Response Header 事件的回调函数
 
 ### OffProgressUpdateCallback
 
-下载进度变化事件的回调函数
+The callback function for the download progress change event.
 
 ```tsx
 (res: CallbackResult) => void
@@ -189,8 +189,8 @@ HTTP Response Header 事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -203,7 +203,7 @@ HTTP Response Header 事件的回调函数
 
 ### OnHeadersReceivedCallback
 
-HTTP Response Header 事件的回调函数
+The callback function for the HTTP Response Header event.
 
 ```tsx
 (result: OnHeadersReceivedCallbackResult) => void
@@ -212,8 +212,8 @@ HTTP Response Header 事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -226,7 +226,7 @@ HTTP Response Header 事件的回调函数
 
 ### OnProgressUpdateCallback
 
-下载进度变化事件的回调函数
+The callback function for the download progress change event.
 
 ```tsx
 (result: OnProgressUpdateCallbackResult) => void
@@ -235,8 +235,8 @@ HTTP Response Header 事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -252,16 +252,16 @@ HTTP Response Header 事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>header</td>
       <td><code>Record&lt;string, any&gt;</code></td>
-      <td>开发者服务器返回的 HTTP Response Header</td>
+      <td>HTTP Response Header returned by the developer server</td>
     </tr>
   </tbody>
 </table>
@@ -271,36 +271,36 @@ HTTP Response Header 事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>progress</td>
       <td><code>number</code></td>
-      <td>下载进度百分比</td>
+      <td>Download progress percentage</td>
     </tr>
     <tr>
       <td>totalBytesExpectedToWrite</td>
       <td><code>number</code></td>
-      <td>预期需要下载的数据总长度，单位 Bytes</td>
+      <td>The length of downloaded data, in bytes</td>
     </tr>
     <tr>
       <td>totalBytesWritten</td>
       <td><code>number</code></td>
-      <td>已经下载的数据长度，单位 Bytes</td>
+      <td>The length of data expected to be downloaded, in bytes</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|               API               | 微信小程序 | H5 | React Native |
-|:-------------------------------:|:-----:|:--:|:------------:|
-|       DownloadTask.abort        |  ✔️   |    |      ✔️      |
-| DownloadTask.offHeadersReceived |  ✔️   |    |              |
-| DownloadTask.offProgressUpdate  |  ✔️   |    |      ✔️      |
-| DownloadTask.onHeadersReceived  |  ✔️   |    |              |
-|  DownloadTask.onProgressUpdate  |  ✔️   |    |      ✔️      |
+|               API               | WeChat Mini-Program | H5 | React Native |
+|:-------------------------------:|:-------------------:|:--:|:------------:|
+|       DownloadTask.abort        |         ✔️          |    |      ✔️      |
+| DownloadTask.offHeadersReceived |         ✔️          |    |              |
+| DownloadTask.offProgressUpdate  |         ✔️          |    |      ✔️      |
+| DownloadTask.onHeadersReceived  |         ✔️          |    |              |
+|  DownloadTask.onProgressUpdate  |         ✔️          |    |      ✔️      |
