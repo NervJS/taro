@@ -3,17 +3,17 @@ title: Switch
 sidebar_label: Switch
 ---
 
-开关选择器
+Switch picker.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/switch.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/switch.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<SwitchProps>
 ```
 
-## 示例代码
+## Examples
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -35,10 +35,10 @@ export default class PageView extends Component {
   render() {
     return (
       <View className='components-page'>
-        <Text>默认样式</Text>
+        <Text>default style</Text>
         <Switch checked>
         <Switch/>
-        <Text>推荐展示样式</Text>
+        <Text>recommend style</Text>
         <Switch checked>
         <Switch/>
       </View>
@@ -53,10 +53,10 @@ export default class PageView extends Component {
 ```html
 <template>
   <view class='components-page'>
-    <text>默认样式</text>
+    <text>default style</text>
     <switch :checked="true" />
     <switch />
-    <text>推荐展示样式</text>
+    <text>recommend style</text>
     <switch :checked="true" />
     <switch />
   </view>
@@ -71,11 +71,11 @@ export default class PageView extends Component {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -83,57 +83,57 @@ export default class PageView extends Component {
       <td>checked</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否选中</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether the item is selected</td>
     </tr>
     <tr>
       <td>disabled</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否禁用</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to disable the component.</td>
     </tr>
     <tr>
       <td>type</td>
       <td><code>&quot;switch&quot; | &quot;checkbox&quot;</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;switch&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>样式，有效值：switch, checkbox</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The style. Valid values include `switch` and `checkbox`.</td>
     </tr>
     <tr>
       <td>color</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;#04BE02&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>switch 的颜色，同 css 的 color</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The color of the switch component. It is the same as the color of the css component.</td>
     </tr>
     <tr>
       <td>onChange</td>
       <td><code>BaseEventOrigFunction&lt;onChangeEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>checked 改变时触发 change 事件</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>A change event triggered when checked changes.</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|         API          | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
-|:--------------------:|:-----:|:-----:|:------:|:-------:|:--:|:------------:|
-| SwitchProps.checked  |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-| SwitchProps.disabled |  ✔️   |       |        |         |    |      ✔️      |
-|   SwitchProps.type   |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-|  SwitchProps.color   |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-| SwitchProps.onChange |  ✔️   |       |        |         |    |      ✔️      |
+|         API          | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 | React Native |
+|:--------------------:|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| SwitchProps.checked  |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+| SwitchProps.disabled |         ✔️          |                     |                     |                     |    |      ✔️      |
+|   SwitchProps.type   |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+|  SwitchProps.color   |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+| SwitchProps.onChange |         ✔️          |                     |                     |                     |    |      ✔️      |
 
 ### onChangeEventDetail
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Param</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -144,8 +144,8 @@ export default class PageView extends Component {
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|  API   | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
-|:------:|:-----:|:-----:|:------:|:-------:|:--:|:------------:|
-| Switch |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
+|  API   | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 | React Native |
+|:------:|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| Switch |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
