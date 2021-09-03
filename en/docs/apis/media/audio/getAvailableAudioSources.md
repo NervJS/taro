@@ -3,47 +3,47 @@ title: Taro.getAvailableAudioSources(option)
 sidebar_label: getAvailableAudioSources
 ---
 
-获取当前支持的音频输入源
+Gets supported audio input sources.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.getAvailableAudioSources.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.getAvailableAudioSources.html)
 
-## 类型
+## Type
 
 ```tsx
 (option?: Option) => Promise<SuccessCallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -53,70 +53,70 @@ sidebar_label: getAvailableAudioSources
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>audioSources</td>
       <td><code>(&quot;auto&quot; | &quot;buildInMic&quot; | &quot;headsetMic&quot; | &quot;mic&quot; | &quot;camcorder&quot; | &quot;voice_communication&quot; | &quot;voice_recognition&quot;)[]</code></td>
-      <td>支持的音频输入源列表，可在 <a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.start.html">RecorderManager.start()</a> 接口中使用。返回值定义参考 https://developer.android.com/reference/kotlin/android/media/MediaRecorder.AudioSource</td>
+      <td>The list of supported audio input sources. It can be used in the API<a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.start.html">RecorderManager.start()</a>.For the definitions of returned values, please see https://developer.android.com/reference/kotlin/android/media/MediaRecorder.AudioSource</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
 
 ### audioSources
 
-支持的音频输入源
+Valid values of res.audioSources
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>auto</td>
-      <td>自动设置，默认使用手机麦克风，插上耳麦后自动切换使用耳机麦克风，所有平台适用</td>
+      <td>Automatic setup. The mobile microphone is used by default. The headset microphone is automatically adopted when the headset is plugged in. This setup applies to all platforms.</td>
     </tr>
     <tr>
       <td>buildInMic</td>
-      <td>手机麦克风，仅限 iOS</td>
+      <td>Mobile microphone for iOS only</td>
     </tr>
     <tr>
       <td>headsetMic</td>
-      <td>耳机麦克风，仅限 iOS</td>
+      <td>Headset microphone for iOS only</td>
     </tr>
     <tr>
       <td>mic</td>
-      <td>麦克风（没插耳麦时是手机麦克风，插耳麦时是耳机麦克风），仅限 Android</td>
+      <td>Microphone (if the headset is not plugged in, the mobile microphone is used; otherwise, the headset microphone is used) for Android only</td>
     </tr>
     <tr>
       <td>camcorder</td>
-      <td>同 mic，适用于录制音视频内容，仅限 Android</td>
+      <td>Same as mic. Suitable for audio and video recording. For Android only.</td>
     </tr>
     <tr>
       <td>voice_communication</td>
-      <td>同 mic，适用于实时沟通，仅限 Android</td>
+      <td>Same as mic. Suitable for real-time communication. For Android only.</td>
     </tr>
     <tr>
       <td>voice_recognition</td>
-      <td>同 mic，适用于语音识别，仅限 Android</td>
+      <td>Same as mic. Suitable for speech recognition. For Android only.</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|              API              | 微信小程序 | H5 | React Native |
-|:-----------------------------:|:-----:|:--:|:------------:|
-| Taro.getAvailableAudioSources |  ✔️   |    |              |
+|              API              | WeChat Mini-Program | H5 | React Native |
+|:-----------------------------:|:-------------------:|:--:|:------------:|
+| Taro.getAvailableAudioSources |         ✔️          |    |              |
