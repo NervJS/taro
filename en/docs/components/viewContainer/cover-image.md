@@ -3,17 +3,17 @@ title: CoverImage
 sidebar_label: CoverImage
 ---
 
-覆盖在原生组件之上的图片视图。可覆盖的原生组件同cover-view，支持嵌套在cover-view里。
+覆盖在原生组件之上的图片视图。Native components that can be covered are the same as those in cover-view. It can be nested into cover-view.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/cover-image.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/cover-image.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<CoverImageProps>
 ```
 
-## 示例代码
+## Examples
 
 
 import Tabs from '@theme/Tabs';
@@ -99,44 +99,44 @@ class App extends Components {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>src</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>图标路径，支持临时路径、网络地址、云文件ID。暂不支持base64格式。</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The path of the icon.Temporary paths, network addresses, and cloud file IDs are supported.Base64 encoded strings are not supported.暂不支持base64格式。</td>
     </tr>
     <tr>
       <td>onLoad</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>图片加载成功时触发</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered when an image is loaded.</td>
     </tr>
     <tr>
       <td>onError</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>图片加载失败时触发</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered when image loading failed.</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-|   CoverImageProps.src   |  ✔️   |    |              |
-| CoverImageProps.onLoad  |  ✔️   |    |              |
-| CoverImageProps.onError |  ✔️   |    |              |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+|   CoverImageProps.src   |         ✔️          |    |              |
+| CoverImageProps.onLoad  |         ✔️          |    |              |
+| CoverImageProps.onError |         ✔️          |    |              |
 
-## API 支持度
+## API Support
 
-|    API     | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
-|:----------:|:-----:|:-----:|:------:|:--:|:------------:|
-| CoverImage |  ✔️   |  ✔️   |   ✔️   |    |              |
+|    API     | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | H5 | React Native |
+|:----------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| CoverImage |         ✔️          |         ✔️          |         ✔️          |    |              |
