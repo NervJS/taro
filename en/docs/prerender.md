@@ -1,31 +1,30 @@
 ---
-title: 预渲染（Prerender）
+title: Prerender
 ---
 
-Prerender 是由 Taro CLI 提供的在小程序端提高页面初始化渲染速度的一种技术，它的实现原理和服务端渲染（Server-side Rendering）一样：将页面初始化的状态直接渲染为无状态(dataless)的 wxml，在框架和业务逻辑运行之前执行渲染流程。经过 Prerender 的页面初始渲染速度通常会和原生小程序一致甚至更快。
+Prerender is a technology provided by Taro CLI to improve the rendering speed of page initialization on the mini program side. It is implemented on the same principle as Server-side Rendering: the initialized state of the page is rendered directly as a stateless (dataless) wxml, and the rendering is performed before the framework and business logic run process.The initial rendering of a Prerender page is usually the same or faster than a native mini program.
 
-## 为什么需要 Prerender?
+## Why Prerender?
 
-Taro Next 在一个页面加载时需要经历以下步骤：
+Taro Next goes through the following steps when a page is loaded.
 
-1. 框架（React/Nerv/Vue）把页面渲染到虚拟 DOM 中
-2. Taro 运行时把页面的虚拟 DOM 序列化为可渲染数据，并使用 `setData()` 驱动页面渲染
-3. 小程序本身渲染序列化数据
+1. the framework (React/Nerv/Vue) renders the page into the virtual DOM
+2. Taro runtime serializes the page's virtual DOM into renderable data and uses `setData()` to drive page rendering
+3. the mini program itself renders the serialized data
 
-和原生小程序或编译型小程序框架相比，步骤 1 和 步骤 2 是多余的。如果页面的业务逻辑代码没有性能问题的话，大多数性能瓶颈出在步骤 2 的 `setData()` 上：由于初始化渲染是页面的整棵虚拟 DOM 树，数据量比较大，因此 `setData()` 需要传递一个比较大的数据，导致初始化页面时会一段白屏的时间。这样的情况通常发生在页面初始化渲染的 wxml 节点数比较大或用户机器性能较低时发生。
+Compared to native mini program or compiled mini program frameworks, steps 1 and 2 are redundant.If there are no performance issues with the business logic code of the page, most of the performance bottlenecks are in `setData()` in step 2: since the initial rendering is the entire virtual DOM tree of the page, the amount of data is relatively large, so `setData()` needs to pass a relatively large amount of data, resulting in a white screen time when initializing the page.This usually happens when the number of wxml nodes for initial rendering of a page is large or when the user's machine performance is low.
 
-## 使用 Prerender
+## Using Prerender
 
-使用 Prerender 非常简单，你可以找到项目根目录下的 `config` 文件夹，根据你的项目情况更改 `index.js`/`dev.js`/`prod.js` 三者中的任意一个[项目配置](./config.md)，在编译时 Taro CLI 会根据你的配置自动启动 prerender：
+Using Prerender is very simple, you can find the `config` folder in the root of your project and change any of the three [project configurations] `index.js`/`dev.js`/`prod.js` depending on your project (. /config.md), the Taro CLI will automatically start prerender at build time based on your configuration: `index.js`/`dev.js`/`prod.js`.
 
 ```js title="/config/index.js 或 /config/dev.js 或 /config/prod.js "
 const config = {
-  ...
-  mini: {
+  ... mini: {
     prerender: {
-      match: 'pages/shop/**', // 所有以 `pages/shop/` 开头的页面都参与 prerender
-      include: ['pages/any/way/index'], // `pages/any/way/index` 也会参与 prerender
-      exclude: ['pages/shop/index/index'] // `pages/shop/index/index` 不用参与 prerender
+      match: 'pages/shop/**', // All pages starting with `pages/shop/` participate in prerender
+      include: ['pages/any/way/index'], // `pages/any/way/index` will include prerender
+      exclude: ['pages/shop/index/index'] // `pages/shop/index/index` will not prerender
     }
   }
 };
@@ -33,28 +32,28 @@ const config = {
 module.exports = config
 ```
 
-完整 Prerender 配置可参看下表：
+The complete Prerender configuration can be found in the following table:
 
-| 参数            | 类型                                              | 默认值     | 必填 | 说明                                           |
-| ------------- | ----------------------------------------------- | ------- | -- | -------------------------------------------- |
-| match         | `string` `string[]`                             |         | 否  | glob 字符串或 glob 字符串数组，能匹配到本参数的页面会加入 prerender |
-| include       | `Array<string>` `Array<PageConfig>` | `[]`    | 否  | 页面路径与数组中字符串完全一致的会加入 prerender               |
-| exclude       | `string[]`                                      | `[]`    | 否  | 页面路径与数组中字符串完全一致的**不会**加入 prerender          |
-| mock          | `Record<string, unknown>`                 |         | 否  | 在 prerender 环境中运行的全局变量，键名为变量名，键值为变量值         |
-| console       | `boolean`                                       | `false` | 否  | 在 prerender 过程中 `console` 打印语句是否执行           |
-| transformData | `Function`                                      |         | 否  | 自定义虚拟 DOM 树处理函数，函数返回值会作为 `transformXML` 的参数  |
-| transformXML  | `Function`                                      |         | 否  | 自定义 XML 处理函数，函数返回值是 Taro 运行时初始化结束前要渲染的 wxml  |
+| Parameters    | Type                                            | Default | Required | Description                                                                                                                           |
+| ------------- | ----------------------------------------------- | ------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| match         | `string` `string[]`                             |         | NO       | glob string or an array of glob strings, pages that match this parameter will be added to prerender                                   |
+| include       | `Array<string>` `Array<PageConfig>` | `[]`    | NO       | Page paths that exactly match the string in the array are added to prerender                                                          |
+| exclude       | `string[]`                                      | `[]`    | NO       | Page paths that are identical to the string in the array **will not** be added to prerender                                          |
+| mock          | `Record<string, unknown>`                 |         | NO       | Global variables running in the prerender environment, with the key name as the variable name and the key value as the variable value |
+| console       | `boolean`                                       | `false` | NO       | Whether the `console` print statement is executed in the prerender process                                                            |
+| transformData | `Function`                                      |         | NO       | Custom virtual DOM tree processing function, the return value of the function will be used as an argument to `transformXML`           |
+| transformXML  | `Function`                                      |         | NO       | Custom XML processing function that returns the wxml to be rendered by the end of the Taro runtime initialization                     |
 
-在表中有用到的类型：
+Types useful in the table.
 
 ```typescript
-// PageConfig 是开发者在 prerender.includes 配置的页面参数
+// PageConfig is the page parameter configured by the developer in prerender.includes
 interface PageConfig {
-  path: string // 页面路径
-  params: Record<string, unknown> // 页面的路由参数，对应 `getCurrentInstance().router.params`
+  path: string // page path
+  params: Record<string, unknown> // page's routing parameters. Corresponding to `getCurrentInstance().router.params`
 }
 
-// DOM 树数据，Taro 通过遍历它动态渲染数据
+// DOM tree data, which Taro renders dynamically by traversing it
 interface MiniData {
   ["cn" /* ChildNodes */]: MiniData[]
   ["nn" /* NodeName */]: string
@@ -70,57 +69,56 @@ type transformData = (data: MiniData, config: PageConfig) => MiniData
 type transformXML = (
   data: MiniData, 
   config: PageConfig,
-  xml: string // 内置 xml 转换函数已经处理好了的 xml 字符串
+  xml: string //xml strings that have already been processed by the built-in xml conversion function
 ) => string
 ```
 
-Prerender 的所有配置选项都是选填的，就多数情况而言只需要关注 `match`、`include`、`exclude` 三个选项，`match` 和 `include` 至少填写一个才能匹配到预渲染页面，三者可以共存，当匹配冲突时优先级为 `match` < `include` < `exclude`。
+All configuration options for Prerender are optional, in most cases you only need to focus on `match`, `include` and `exclude`, `match` and `include` are filled in at least once to match a pre-rendered page, all three can coexist, and when there is a match conflict the priority is `match` < `include` < `exclude`.
 
-和所有技术一样，Prerender 并不是银弹，使用 Prerender 之后将会有以下的 trade-offs 或限制：
+As with all technologies, Prerender is not a silver bullet, and the following trade-offs or limitations apply when using Prerender.
 
-* 页面打包的体积会增加。Prerender 本质是一种以空间换时间的技术，体积增加的多寡取决于预渲染 wxml 的数量。
-* 在 Taro 运行时把真实 DOM 和事件挂载之前（这个过程在服务端渲染被称之为 `hydrate`），预渲染的页面不会相应任何操作。
-* Prerender 不会执行例如 `componentDidMount()`(React)/`ready()`(Vue) 这样的生命周期，这点和服务端渲染一致。如果有处理数据的需求，可以把生命周期提前到 `static getDerivedStateFromProps()`(React) 或 `created()`(Vue)。
+* The size of the page packing will increase.prerender is essentially a space-for-time technique, and the amount of increase in size depends on the amount of pre-rendered wxml.
+* Until the real DOM and events are mounted by the Taro runtime (a process known as `hydrate` in server-side rendering), the pre-rendered pages do not do anything accordingly.
+* Prerender does not perform lifecycles such as `componentDidMount()`(React)/`ready()`(Vue), in line with server-side rendering.If there is a need to process data, you can advance the lifecycle to `static getDerivedStateFromProps()`(React) or `created()`(Vue).
 
-## 进阶说明和使用
+## Advanced Instructions And Use
 
-### `PRERENDER` 全局变量
+### `PRERENDER` Global Variable
 
-在预渲染容器有一个名为 `PRERENDER` 的全局变量，它的值为 `true`。你可以通过判断这个变量是否存在，给预渲染时期单独编写业务逻辑：
+There is a global variable named `PRERENDER` in the pre-rendering container, which has the value `true`.You can write separate business logic for the pre-rendering period by determining whether this variable exists or not:
 
 ```javascript
-if (typeof PRERENDER !== 'undefined') { // 以下代码只会在预渲染中执行
+if (typeof PRERENDER !== 'undefined') { // The following code will only be executed in pre-rendering
   // do something
 }
 ```
 
 ### disablePrerender
 
-对于任意一个原生组件，如果不需要它在 Prerender 时中显示，可以把组件的 `disablePrerender` 属性设置为 `true`，这个组件和它的子孙都不会被渲染为 wxml 字符串。
+For any native component that does not need to be displayed in Prerender time, you can set the component's `disablePrerender` property to `true` and neither the component nor its descendants will be rendered as wxml strings.
 
 ```jsx
-/* id 为 test 的组件和它的子孙在预渲染时都不会显示 */
+/* The component with id test and its descendants are not displayed during pre-rendering */
 <View id="test" disablePrerender>
   ...children
 </View>
 ```
 
-### 自定义渲染
+### Custom Rendering
 
-当默认预渲染的结果不满足你的预期时，Taro 提供了两个配置项自定义预渲染内容。
+When the default pre-rendered results do not meet your expectations, Taro provides two configuration items to customize the pre-rendered content.
 
-Prerender 配置中的 `transformData()` 对需要进行渲染的虚拟 DOM 进行操作：
+`transformData()` in the Prerender configuration operates on the virtual DOM to be rendered.
 
 ```javascript
 const config = {
-  ...
-  mini: {
+  ... mini: {
     prerender: {
       match: 'pages/**',
       tranformData (data, { path }) {
         if (path === 'pages/video/index') {
-          // 如果是页面是 'page/video/index' 页面只预渲染一个 video 组件
-          // 关于 data 的数据结构可以参看上文的数据类型签名
+          // If the page is 'page/video/index' the page is only pre-rendered with a video component
+          // For the data structure of data, see the data type signature above
           data.nn = 'video'
           data.cn = []
           data.src = 'https://v.qq.com/iframe/player.html?vid=y08180lrvth&tiny=0&auto=0'
@@ -134,17 +132,16 @@ const config = {
 }
 ```
 
-Prerender 配置中的 `transformXML()` 可以自定义预渲染输出的 wxml：
+The `transformXML()` in the Prerender configuration allows you to customize the pre-rendered output wxml.
 
 ```javascript
 const config = {
-  ...
-  mini: {
+  ... mini: {
     prerender: {
       match: 'pages/**',
       tranformXML (data, { path }, xml) {
         if (path === 'pages/video/index') {
-          // 如果是页面是 'page/video/index' 页面只预渲染一个 video 组件
+          // If the page is 'page/video/index' the page will only pre-render a video component
           return `<video src="https://v.qq.com/iframe/player.html?vid=y08180lrvth&tiny=0&auto=0" />`
         }
 
@@ -155,9 +152,9 @@ const config = {
 }
 ```
 
-### 减少预渲染的 wxml 数量
+### Reduce the number of pre-rendered wxml
 
-一般而言，用户只需要看到首屏页面，但实际上页面初次渲染的我们构建的业务逻辑有可能会把页面的所有内容都渲染，而 Taro 初始渲染慢的原因在于首次传递的数据量过大，因此可以调整我们的业务逻辑达到只渲染首屏的目的：
+In general, users only need to see the first page, but in fact the initial rendering of the page we build the business logic may render all the content of the page, and the reason for the slow initial rendering of Taro is that the amount of data passed for the first time is too large, so we can adjust our business logic to achieve the purpose of rendering only the first screen.
 
 ```jsx
 class SomePage extends Component {
@@ -166,10 +163,10 @@ class SomePage extends Component {
   }
 
   componentDidMount () {
-    // 等待组件载入，先渲染了首屏我们再渲染其它内容，降低首次渲染的数据量
-    // 当 mounted 为 true 时，CompA, B, C 的 DOM 树才会作为 data 参与小程序渲染
-    // 注意我们需要在 `componentDidMount()` 这个周期做这件事（对应 Vue 的 `ready()`），更早的生命周期 `setState()` 会与首次渲染的数据一起合并更新
-    // 使用 nextTick 确保本次 setState 不会和首次渲染合并更新
+    // Wait for the component to load, render the first screen first before we render the rest to reduce the amount of data for the first rendering
+    // When mounted is true, the DOM trees of CompA, B, and C will only be rendered as data in the mini program
+    // Note that we need to do this in the `componentDidMount()` cycle (which corresponds to Vue's `ready()`), earlier in the lifecycle `setState()` will be merged and updated with the first rendered data
+    // Use nextTick to ensure that this setState is not merged with the first render
     Taro.nextTick(() => {
       this.setState({
         mounted: true
@@ -179,8 +176,8 @@ class SomePage extends Component {
 
   render () {
     return <View>
-      <FirstScreen /> /* 假设我们知道这个组件会把用户的屏幕全部占据 */
-      {this.state.mounted && <React.Fragment> /* CompA, B, C 一开始并不会在首屏中显示 */
+      <FirstScreen /> /* Suppose we know that this component will take up all of the user's screen */
+      {this.state.mounted && <React.Fragment> /* CompA, B, C it does not appear in the first screen at first */
         <CompA />
         <CompB />
         <CompC />
@@ -190,4 +187,4 @@ class SomePage extends Component {
 }
 ```
 
-这样的优化除了加快首屏渲染以及 `hydrate` 的速度，还可以降低 Prerender 的所增加的 wxml 体积。当你的优化做得足够彻底时，你会发现多数情况下并不需要 Prerender。
+In addition to speeding up first screen rendering and `hydrate`, this optimization also reduces the added wxml volume of Prerender.When your optimizations are thorough enough, you will find that Prerender is not needed in most cases.
