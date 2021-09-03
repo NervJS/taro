@@ -3,37 +3,37 @@ title: Taro.offAccelerometerChange(callback)
 sidebar_label: offAccelerometerChange
 ---
 
-取消监听加速度数据事件，参数为空，则取消所有的事件监听。
+Stops listening for acceleration data events. If the parameter is empty, all event listening is stopped.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/accelerometer/wx.offAccelerometerChange.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/accelerometer/wx.offAccelerometerChange.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: (...args: any[]) => any) => void
 ```
 
-## 参数
+## Parameters
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>(...args: any[]) =&gt; any</code></td>
-      <td>加速度数据事件的回调函数</td>
+      <td>The callback function for the acceleration data event.</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|             API             | 微信小程序 | H5 | React Native |
-|:---------------------------:|:-----:|:--:|:------------:|
-| Taro.offAccelerometerChange |  ✔️   |    |      ✔️      |
+|             API             | WeChat Mini-Program | H5 | React Native |
+|:---------------------------:|:-------------------:|:--:|:------------:|
+| Taro.offAccelerometerChange |         ✔️          |    |      ✔️      |
