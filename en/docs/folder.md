@@ -1,8 +1,8 @@
 ---
-title: Directory Structure
+title: 目录结构
 ---
 
-## Project Directory Structure
+## 项目目录结构
 
     ├── dist                        编译结果目录
     |
@@ -33,94 +33,95 @@ title: Directory Structure
     |
     └── package.json
 
-## Build Configuration
+## 编译配置
 
-    The configuration directory for the config project compilation
-        <-> index.js Default configuration
-        <-> dev.js Development Environment Configuration
-        -> prod.js Production Environment Config
+    └── config                      项目编译配置目录
+        ├── index.js                默认配置
+        ├── dev.js                  开发环境配置
+        └── prod.js                 生产环境配置
 
-To configure Taro project compilation, modify Webpack configurations, etc. refer to[to compile configuration](./config)and[to compile configuration details](./config-detail).
+用于配置 Taro 项目的编译行为、修改 Webpack 配置等，详情请参考[编译配置](./config)和[编译配置详情](./config-detail)。
 
-## Source Organization
+## 源码组织
 
-Like applet specifications, Taro contains a `app that describes the overall program` and multiple pages describing the `page`.
+和小程序规范一样，Taro 包含一个描述整体程序的 `app` 和多个描述各自页面的 `page`。
 
-### App
+### app
 
-    How to put them in the directory
-        to the --app.js project entry file
-        - app.css items in general general style
+    └── src                         源码目录
+        ├── app.js                  项目入口文件
+        ├── app.css                 项目总通用样式
+        └── app.config.js           项目入口配置
 
 小程序的主体由下面三个文件组成：
 
-| Documentation | Required | Role                        |
-|:------------- |:-------- |:--------------------------- |
-| app.js        | Yes      | Applet Entry Logic          |
-| app.css       | No       | Applet Global Style         |
-| app.config.js | Yes      | Applet Global Configuration |
+| 文件            | 必须 | 作用      |
+|:------------- |:-- |:------- |
+| app.js        | 是  | 小程序入口逻辑 |
+| app.css       | 否  | 小程序全局样式 |
+| app.config.js | 是  | 小程序全局配置 |
 
-Code examples should be viewed on the basis of the framework you selected：[React](./react-overall), [Vue](./vue-overall), [Vue3](./vue3), [Nerv](./nerv).
+代码示例请根据你选择的框架进行查看：[React](./react-overall), [Vue](./vue-overall), [Vue3](./vue3), [Nerv](./nerv)。
 
-#### Global configuration of applets
+#### 1. 小程序全局配置
 
-`app.config.js` Global profile for small program specifications `app.json`, the advantage is that it is a JS file that can write logic.Config as global configuration for**micromessaging applets**For further information, refer to[global configuration](./app-config).
+`app.config.js` 对应小程序规范的全局配置文件 `app.json`，优势在于它是 JS 文件可以编写逻辑。配置以**微信小程序的全局配置**为规范。详情请参考[全局配置](./app-config)。
 
-#### Global style of the applet
+#### 2. 小程序全局样式
 
-The applet global style file can be imported via ES6 specified `import`.
+小程序全局样式文件可以通过 ES6 规范的 `import` 进行引入。
 
 ```js title="app.js"
-Import './app.css';
+import './app.css';
 ```
 
 ### page
 
-    The directory of --src source
-        can be found in the directory -- pages file directory
-            should be included in the directory -- index page contents
-                -> index. s Index Page Logic
-                ss index page style
-                -> index. onfig.js index page configuration
+    └── src                         源码目录
+        └── pages                   页面文件目录
+            └── index               index 页面目录
+                ├── index.js        index 页面逻辑
+                ├── index.css       index 页面样式
+                └── index.config.js index 页面配置
 
-A applet page consists of three files below：
+一个小程序页面由三个文件组成，如下：
 
-| Documentation  | Required | Role               |
-|:-------------- |:-------- |:------------------ |
-| page.js        | Yes      | Page Entry Logic   |
-| page.css       | No       | Page Style         |
-| page.config.js | No       | Page Configuration |
+| 文件             | 必须 | 作用     |
+|:-------------- |:-- |:------ |
+| page.js        | 是  | 页面入口逻辑 |
+| page.css       | 否  | 页面样式   |
+| page.config.js | 否  | 页面配置   |
 
-#### Page configuration
+#### 1. 页面配置
 
-`page.config.js` Page Profile for Applet Normalization `page.json`, the advantage is that it is a JS file that can write logic.Configure the configuration of the**micromessage applet to specify**Please refer to[page configuration](./page-config) for details.
+`page.config.js` 对应小程序规范的页面配置文件 `page.json`，优势在于它是 JS 文件可以编写逻辑。配置以**微信小程序的页面配置**为规范。详情请参考[页面配置](./page-config)。
 
-#### Page styles
+#### 2. 页面样式
 
-Page style file can be imported via ES6 specified `import`.
+页面的样式文件可以通过 ES6 规范的 `import` 进行引入。
 
 ```js title="pages/index/index.js"
-Import '.index.css';
+import './index.css';
 ```
 
-#### Page routes
+#### 3. 页面路由
 
 页面路由与小程序规范一致，需要在小程序全局配置 `app.config.js` 中进行配置。
 
-## Project Configuration
+## 项目配置
 
-    Website - Project.config.json micromessaging project configuration
+    └──project.config.json         微信小程序项目配置 project.config.json
 
-Each class of applet platforms has their own project profiles, and Taro supports matching them, refer to[project configurations](./project-config)
+各类小程序平台均有自己的项目配置文件，Taro 支持对它们进行适配，详情请参考[项目配置](./project-config)。
 
-## Babel Configuration
+## Babel 配置
 
-    N/A - Babel.config.js Babel configuration
+    └── babel.config.js             Babel 配置
 
-Please refer to [Babel configuration](./babel-config)
+请参考 [Babel 配置](./babel-config)
 
-## ESLint Configuration
+## ESLint 配置
 
-    Website - - .eslintrc ESLint configuration
+    └── .eslintrc                   ESLint 配置
 
-ESLint configuration reference [Github](https://github.com/NervJS/taro/blob/next/packages/eslint-plugin-taro/index.js)
+ESLint 配置请参考 [Github](https://github.com/NervJS/taro/blob/next/packages/eslint-plugin-taro/index.js)
