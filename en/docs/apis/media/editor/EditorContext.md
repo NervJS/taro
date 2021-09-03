@@ -3,17 +3,17 @@ title: EditorContext
 sidebar_label: EditorContext
 ---
 
-`EditorContext` 实例，可通过 `Taro.createSelectorQuery` 获取。 `EditorContext` 通过 `id` 跟一个 `editor` 组件绑定，操作对应的 `editor` 组件。
+The `EditorContext` instance can be obtained via `Taro.createSelectorQuery`. `EditorContext` 通过 `id` 跟一个 `editor` 组件绑定，操作对应的 `editor` 组件。
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.html)
 
-## 方法
+## Methods
 
 ### blur
 
-编辑器失焦，同时收起键盘。
+`EditorContext` is bound to an `editor` component with an `id`, to work with the `editor` component.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.blur.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.blur.html)
 
 ```tsx
 (option?: BlurOption) => void
@@ -22,8 +22,8 @@ sidebar_label: EditorContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -34,17 +34,17 @@ sidebar_label: EditorContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|        API         | 微信小程序 | H5 | React Native |
-|:------------------:|:-----:|:--:|:------------:|
-| EditorContext.blur |  ✔️   |    |              |
+|        API         | WeChat Mini-Program | H5 | React Native |
+|:------------------:|:-------------------:|:--:|:------------:|
+| EditorContext.blur |         ✔️          |    |              |
 
 ### clear
 
-清空编辑器内容
+The editor goes out of focus while the keyboard is put away.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.clear.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.clear.html)
 
 ```tsx
 (option?: ClearOption) => void
@@ -53,8 +53,8 @@ sidebar_label: EditorContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -65,19 +65,19 @@ sidebar_label: EditorContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|         API         | 微信小程序 | H5 | React Native |
-|:-------------------:|:-----:|:--:|:------------:|
-| EditorContext.clear |  ✔️   |    |              |
+|         API         | WeChat Mini-Program | H5 | React Native |
+|:-------------------:|:-------------------:|:--:|:------------:|
+| EditorContext.clear |         ✔️          |    |              |
 
 ### format
 
-修改样式
+Clears the editor.
 
 ****
 
-## 支持设置的样式列表
+## List of Available Styles
 | name                                                      | value                           |
 | --------------------------------------------------------- | ------------------------------- |
 | bold                                                      |                                 |
@@ -101,9 +101,9 @@ sidebar_label: EditorContext
 | textDecoration                                            | css style                       |
 | textIndent                                                | css style                       |
 
-对已经应用样式的选区设置会取消样式。css style 表示 css 中规定的允许值。
+When you set for an area with a style applied, this action will disable the current style.css style indicates valid values in css.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.format.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.format.html)
 
 ```tsx
 (name: string, value?: string) => void
@@ -112,36 +112,36 @@ sidebar_label: EditorContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>name</td>
       <td><code>string</code></td>
-      <td>属性</td>
+      <td>Property</td>
     </tr>
     <tr>
       <td>value</td>
       <td><code>string</code></td>
-      <td>值</td>
+      <td>Value</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|         API          | 微信小程序 | H5 | React Native |
-|:--------------------:|:-----:|:--:|:------------:|
-| EditorContext.format |  ✔️   |    |              |
+|         API          | WeChat Mini-Program | H5 | React Native |
+|:--------------------:|:-------------------:|:--:|:------------:|
+| EditorContext.format |         ✔️          |    |              |
 
 ### getContents
 
-获取编辑器内容
+Initializes the editor content.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.getContents.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.getContents.html)
 
 ```tsx
 (option?: GetContentsOption) => void
@@ -150,8 +150,8 @@ sidebar_label: EditorContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -162,17 +162,17 @@ sidebar_label: EditorContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|            API            | 微信小程序 | H5 | React Native |
-|:-------------------------:|:-----:|:--:|:------------:|
-| EditorContext.getContents |  ✔️   |    |              |
+|            API            | WeChat Mini-Program | H5 | React Native |
+|:-------------------------:|:-------------------:|:--:|:------------:|
+| EditorContext.getContents |         ✔️          |    |              |
 
 ### insertDivider
 
-插入分割线
+Gets the editor content.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.insertDivider.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.insertDivider.html)
 
 ```tsx
 (option?: InsertDividerOption) => void
@@ -181,8 +181,8 @@ sidebar_label: EditorContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -193,21 +193,21 @@ sidebar_label: EditorContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|             API             | 微信小程序 | H5 | React Native |
-|:---------------------------:|:-----:|:--:|:------------:|
-| EditorContext.insertDivider |  ✔️   |    |              |
+|             API             | WeChat Mini-Program | H5 | React Native |
+|:---------------------------:|:-------------------:|:--:|:------------:|
+| EditorContext.insertDivider |         ✔️          |    |              |
 
 ### insertImage
 
-插入图片。
+Inserts a divider.
 
-地址为临时文件时，获取的编辑器html格式内容中 `<img>` 标签增加属性 data-local，delta 格式内容中图片 attributes 属性增加 data-local 字段，该值为传入的临时文件地址。
+Inserts an image.
 
 开发者可选择在提交阶段上传图片到服务器，获取到网络地址后进行替换。替换时对于html内容应替换掉 `<img>` 的 src 值，对于 delta 内容应替换掉 `insert { image: abc }` 值。
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.insertImage.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.insertImage.html)
 
 ```tsx
 (option: InsertImageOption) => void
@@ -216,8 +216,8 @@ sidebar_label: EditorContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -228,7 +228,7 @@ sidebar_label: EditorContext
   </tbody>
 </table>
 
-#### 示例代码
+#### Sample Code
 
 ```tsx
 this.editorCtx.insertImage({
@@ -239,17 +239,17 @@ this.editorCtx.insertImage({
 })
 ```
 
-#### API 支持度
+#### API Support
 
-|            API            | 微信小程序 | H5 | React Native |
-|:-------------------------:|:-----:|:--:|:------------:|
-| EditorContext.insertImage |  ✔️   |    |              |
+|            API            | WeChat Mini-Program | H5 | React Native |
+|:-------------------------:|:-------------------:|:--:|:------------:|
+| EditorContext.insertImage |         ✔️          |    |              |
 
 ### insertText
 
-覆盖当前选区，设置一段文本
+Redoes the operation.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.insertText.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.insertText.html)
 
 ```tsx
 (option: InsertTextOption) => void
@@ -258,8 +258,8 @@ this.editorCtx.insertImage({
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -270,17 +270,17 @@ this.editorCtx.insertImage({
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API            | 微信小程序 | H5 | React Native |
-|:------------------------:|:-----:|:--:|:------------:|
-| EditorContext.insertText |  ✔️   |    |              |
+|           API            | WeChat Mini-Program | H5 | React Native |
+|:------------------------:|:-------------------:|:--:|:------------:|
+| EditorContext.insertText |         ✔️          |    |              |
 
 ### redo
 
-恢复
+Clears the style of the selected area.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.redo.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.redo.html)
 
 ```tsx
 (option?: RedoOption) => void
@@ -289,8 +289,8 @@ this.editorCtx.insertImage({
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -301,17 +301,17 @@ this.editorCtx.insertImage({
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|        API         | 微信小程序 | H5 | React Native |
-|:------------------:|:-----:|:--:|:------------:|
-| EditorContext.redo |  ✔️   |    |              |
+|        API         | WeChat Mini-Program | H5 | React Native |
+|:------------------:|:-------------------:|:--:|:------------:|
+| EditorContext.redo |         ✔️          |    |              |
 
 ### removeFormat
 
-清除当前选区的样式
+Causes the editor cursor to scroll into the visible area of the window.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.removeFormat.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.removeFormat.html)
 
 ```tsx
 (option?: RemoveFormatOption) => void
@@ -320,8 +320,8 @@ this.editorCtx.insertImage({
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -332,33 +332,33 @@ this.editorCtx.insertImage({
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|            API             | 微信小程序 | H5 | React Native |
-|:--------------------------:|:-----:|:--:|:------------:|
-| EditorContext.removeFormat |  ✔️   |    |              |
+|            API             | WeChat Mini-Program | H5 | React Native |
+|:--------------------------:|:-------------------:|:--:|:------------:|
+| EditorContext.removeFormat |         ✔️          |    |              |
 
 ### scrollIntoView
 
 使得编辑器光标处滚动到窗口可视区域内。
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.scrollIntoView.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.scrollIntoView.html)
 
 ```tsx
 () => void
 ```
 
-#### API 支持度
+#### API Support
 
-|             API              | 微信小程序 | H5 | React Native |
-|:----------------------------:|:-----:|:--:|:------------:|
-| EditorContext.scrollIntoView |  ✔️   |    |              |
+|             API              | WeChat Mini-Program | H5 | React Native |
+|:----------------------------:|:-------------------:|:--:|:------------:|
+| EditorContext.scrollIntoView |         ✔️          |    |              |
 
 ### setContents
 
-初始化编辑器内容，html和delta同时存在时仅delta生效
+Undoes the operation.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.setContents.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.setContents.html)
 
 ```tsx
 (option: SetContentsOption) => void
@@ -367,8 +367,8 @@ this.editorCtx.insertImage({
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -379,17 +379,17 @@ this.editorCtx.insertImage({
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|            API            | 微信小程序 | H5 | React Native |
-|:-------------------------:|:-----:|:--:|:------------:|
-| EditorContext.setContents |  ✔️   |    |              |
+|            API            | WeChat Mini-Program | H5 | React Native |
+|:-------------------------:|:-------------------:|:--:|:------------:|
+| EditorContext.setContents |         ✔️          |    |              |
 
 ### undo
 
 撤销
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.undo.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.undo.html)
 
 ```tsx
 (option?: UndoOption) => void
@@ -398,8 +398,8 @@ this.editorCtx.insertImage({
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -410,43 +410,43 @@ this.editorCtx.insertImage({
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|        API         | 微信小程序 | H5 | React Native |
-|:------------------:|:-----:|:--:|:------------:|
-| EditorContext.undo |  ✔️   |    |              |
+|        API         | WeChat Mini-Program | H5 | React Native |
+|:------------------:|:-------------------:|:--:|:------------:|
+| EditorContext.undo |         ✔️          |    |              |
 
-## 参数
+## Parameters
 
 ### BlurOption
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -456,30 +456,30 @@ this.editorCtx.insertImage({
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -489,30 +489,30 @@ this.editorCtx.insertImage({
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -522,30 +522,30 @@ this.editorCtx.insertImage({
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -555,66 +555,66 @@ this.editorCtx.insertImage({
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>src</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>图片地址，仅支持 http(s)、base64、云图片(2.8.0)、临时文件(2.8.3)。</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Image address</td>
     </tr>
     <tr>
       <td>alt</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>图像无法显示时的替代文本</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Text displayed when the image cannot be displayed</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>data is serialized in the format of name=value;name1=value2 and bound to the data-custom property.</td>
     </tr>
     <tr>
       <td>data</td>
       <td><code>Record&lt;string, any&gt;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>data 被序列化为 name=value;name1=value2 的格式挂在属性 data-custom 上</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The class name added to the image <code>img</code> tag.</td>
     </tr>
     <tr>
       <td>extClass</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>添加到图片 img 标签上的类名</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The height of image</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The width of image</td>
     </tr>
     <tr>
       <td>height</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>图片高度 (pixels/百分比)</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>width</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>图片宽度（pixels/百分比)</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -624,36 +624,36 @@ this.editorCtx.insertImage({
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Text content</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>text</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>文本内容</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -663,30 +663,30 @@ this.editorCtx.insertImage({
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -696,30 +696,30 @@ this.editorCtx.insertImage({
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -729,42 +729,42 @@ this.editorCtx.insertImage({
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>delta object which shows the content</td>
     </tr>
     <tr>
       <td>delta</td>
       <td><code>Record&lt;string, any&gt;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>表示内容的delta对象</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>HTML content that contains tags</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>html</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>带标签的HTML内容</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -774,47 +774,47 @@ this.editorCtx.insertImage({
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|             API              | 微信小程序 | H5 | React Native |
-|:----------------------------:|:-----:|:--:|:------------:|
-|      EditorContext.blur      |  ✔️   |    |              |
-|     EditorContext.clear      |  ✔️   |    |              |
-|     EditorContext.format     |  ✔️   |    |              |
-|  EditorContext.getContents   |  ✔️   |    |              |
-| EditorContext.insertDivider  |  ✔️   |    |              |
-|  EditorContext.insertImage   |  ✔️   |    |              |
-|   EditorContext.insertText   |  ✔️   |    |              |
-|      EditorContext.redo      |  ✔️   |    |              |
-|  EditorContext.removeFormat  |  ✔️   |    |              |
-| EditorContext.scrollIntoView |  ✔️   |    |              |
-|  EditorContext.setContents   |  ✔️   |    |              |
-|      EditorContext.undo      |  ✔️   |    |              |
+|             API              | WeChat Mini-Program | H5 | React Native |
+|:----------------------------:|:-------------------:|:--:|:------------:|
+|      EditorContext.blur      |         ✔️          |    |              |
+|     EditorContext.clear      |         ✔️          |    |              |
+|     EditorContext.format     |         ✔️          |    |              |
+|  EditorContext.getContents   |         ✔️          |    |              |
+| EditorContext.insertDivider  |         ✔️          |    |              |
+|  EditorContext.insertImage   |         ✔️          |    |              |
+|   EditorContext.insertText   |         ✔️          |    |              |
+|      EditorContext.redo      |         ✔️          |    |              |
+|  EditorContext.removeFormat  |         ✔️          |    |              |
+| EditorContext.scrollIntoView |         ✔️          |    |              |
+|  EditorContext.setContents   |         ✔️          |    |              |
+|      EditorContext.undo      |         ✔️          |    |              |
