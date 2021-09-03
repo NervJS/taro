@@ -3,53 +3,53 @@ title: Taro.checkIsSoterEnrolledInDevice(option)
 sidebar_label: checkIsSoterEnrolledInDevice
 ---
 
-获取设备内是否录入如指纹等生物信息的接口
+Checks whether biometric information, such as fingerprints, is enrolled in the device.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/soter/wx.checkIsSoterEnrolledInDevice.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/soter/wx.checkIsSoterEnrolledInDevice.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<SuccessCallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>checkAuthMode</td>
       <td><code>&quot;fingerPrint&quot; | &quot;facial&quot; | &quot;speech&quot;</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>认证方式</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Authentication method</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -59,57 +59,57 @@ sidebar_label: checkIsSoterEnrolledInDevice
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>fingerPrint</td>
-      <td>指纹识别</td>
+      <td>Fingerprint recognition</td>
     </tr>
     <tr>
       <td>facial</td>
-      <td>人脸识别</td>
+      <td>Face recognition</td>
     </tr>
     <tr>
       <td>speech</td>
-      <td>声纹识别<br />API 支持度: 暂未支持</td>
+      <td>Voiceprint recognition (not supported)</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| requestAuthModes.speech |       |    |              |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+| requestAuthModes.speech |                     |    |              |
 
 ### SuccessCallbackResult
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息</td>
+      <td>Error message</td>
     </tr>
     <tr>
       <td>isEnrolled</td>
       <td><code>boolean</code></td>
-      <td>是否已录入信息</td>
+      <td>Indicates whether the information is enrolled</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.checkIsSoterEnrolledInDevice({
@@ -120,8 +120,8 @@ Taro.checkIsSoterEnrolledInDevice({
 })
 ```
 
-## API 支持度
+## API Support
 
-|                API                | 微信小程序 | H5 | React Native |
-|:---------------------------------:|:-----:|:--:|:------------:|
-| Taro.checkIsSoterEnrolledInDevice |  ✔️   |    |              |
+|                API                | WeChat Mini-Program | H5 | React Native |
+|:---------------------------------:|:-------------------:|:--:|:------------:|
+| Taro.checkIsSoterEnrolledInDevice |         ✔️          |    |              |
