@@ -1,44 +1,43 @@
 ---
-title: 编译配置详情
+title: Compile configuration Details
 ---
 
 ## sourceRoot
 
 `string`
 
-默认值：`'src'`
+Default: `'src'`
 
-源码存放目录。
+Source code directory.
 
 ## outputRoot
 
 `string`
 
-默认值：`'dist'`
+Default: `'dist'`
 
-代码编译后的生产目录。
+The production directory after the code is compiled.
 
 
 ## designWidth
 
 `number`
 
-默认值：`750`
+Defalut value: `750`
 
-设计稿尺寸，详情请见[设计稿及尺寸单位](./size.md)。
+Design size, please see for details[Design and size unit](./size.md)。
 
 ## defineConstants
 
 `object`
 
-用于配置一些全局变量供代码中进行使用。
+Used to configure some global variables for use in the code.
 
-配置方式可参考 [Webpack DefinePlugin](https://webpack.js.org/plugins/define-plugin/)，例如：
+The configuration method can be referred to [Webpack DefinePlugin](https://webpack.js.org/plugins/define-plugin/)，for eaxmple:
 
 ```js title="/config/index.js"
 module.exports = {
-  // ...
-  defineConstants: {
+  // ... defineConstants: {
     A: '"a"' // JSON.stringify('a')
   }
 }
@@ -48,9 +47,9 @@ module.exports = {
 
 `object`
 
-用于配置目录别名，从而方便书写代码引用路径。
+Used to configure directory aliases, thus facilitating the writing of code reference paths.
 
-例如，使用相对路径书写文件引用如下：
+Use relative paths to write file references as follows.
 
 ```js
 import A from '../../componnets/A'
@@ -59,12 +58,11 @@ import packageJson from '../../package.json'
 import projectConfig from '../../project.config.json'
 ```
 
-为了避免书写多级相对路径，我们可以如下配置 `alias`：
+To avoid writing multi-level relative paths, we can configure `alias` as follows.
 
 ```js
 module.exports = {
-  // ...
-  alias: {
+  // ... alias: {
     '@/components': path.resolve(__dirname, '..', 'src/components'),
     '@/utils': path.resolve(__dirname, '..', 'src/utils'),
     '@/package': path.resolve(__dirname, '..', 'package.json'),
@@ -73,7 +71,7 @@ module.exports = {
 }
 ```
 
-通过上述配置，可以将 `src/components` 和 `src/utils` 目录配置成别名，将根目录下的 `package.json` 和 `project.config.json` 文件配置成别名，则代码中的引用改写如下：
+With the above configuration, the `src/components` and `src/utils` directories can be configured as aliases, and the `package.json` and `project.config.json` files in the root directory can be configured as aliases, so that the references in the code are rewritten as follows.
 
 ```js
 import A from '@/components/A'
@@ -82,7 +80,7 @@ import packageJson from '@/package'
 import projectConfig from '@/project'
 ```
 
-为了让编辑器（VS Code）不报错，并继续使用自动路径补全的功能，需要在项目根目录下的 `jsconfig.json` 或者 `tsconfig.json` 中配置 `paths` 让编辑器认得我们的别名，形式如下：
+In order for the editor (VS Code) to not report errors and continue to use the automatic path completion feature, you need to configure `paths` in `jsconfig.json` or `tsconfig.json` in the root of the project for the editor to recognize our alias in the following form.
 
 ```json
 {
@@ -98,22 +96,21 @@ import projectConfig from '@/project'
 }
 ```
 
-> 建议别名使用 `@/` 开头而非仅用 `@` 开头，因为有小概率会与某些 `scoped` 形式的 `npm` 包（形如：[@tarojs/taro](https://npm.im/@tarojs/taro), [@babel/core](https://npm.im/@babel/core)）产生命名冲突。
+> It is recommended that aliases start with `@/` rather than just `@`,as there is a small chance of naming conflicts with some `npm` packages of the `scoped` form.（eg：[@tarojs/taro](https://npm.im/@tarojs/taro), [@babel/core](https://npm.im/@babel/core)）
 
 ## env
 
 `object`
 
-用于设置环境变量，如 `process.env.NODE_ENV`。
+Used to set environment variables such as `process.env.NODE_ENV`.
 
-假设我们需要区分开发环境和生产环境，可以如下配置：
+Suppose we need to distinguish between development and production environments, which can be configured as follows.
 
 **config/dev.js**：
 
 ```jsx title="/config/dev.js"
 module.exports = {
-  // ...
-  env: {
+  // ... env: {
     NODE_ENV: '"development"' // JSON.stringify('development')
   }
 }
@@ -123,39 +120,37 @@ module.exports = {
 
 ```jsx title="config/prod.js"
 module.exports = {
-  // ...
-  env: {
+  // ... env: {
     NODE_ENV: '"production"' // JSON.stringify('production')
   }
 }
 ```
 
-这样就能在代码中通过 `process.env.NODE_ENV === 'development'` 来判断环境。
+This allows the environment to be determined in the code by `process.env.NODE_ENV === 'development'`.
 
 
 ## copy
 
 `object`
 
-用于把文件从源码目录直接拷贝到编译后的生产目录。
+Used to copy files directly from the source code directory to the compiled production directory.
 
 ### copy.patterns
 
 `array`
 
-用于指定需要拷贝的文件或者目录，每一项都必须包含 `from` 、`to` 配置，分别代表来源和需要拷贝到的目录。同时可以设置 `ignore` 配置来指定需要忽略的文件， `ignore` 是指定的 [glob](https://github.com/isaacs/node-glob) 类型字符串，或者 glob 字符串数组。
+用于指定需要拷贝的文件或者目录，每一项都必须包含 `from` 、`to` 配置，分别代表来源和需要拷贝到的目录。You can also set the `ignore` configuration to specify the files to be ignored. `ignore` is a string of type [glob](https://github.com/isaacs/node-glob), or an array of glob strings.
 
-> 注意，`from` 必须指定存在的文件或者目录，暂不支持 glob 格式。`from` 和 `to` 直接置顶项目根目录下的文件目录，建议 `from` 以 `src` 目录开头，`to` 以 `dist` 目录开头。
+> Note that `from` must specify a file or directory that exists, glob format is not supported.`from` and `to` directly top the file directories in the project root, it is recommended that `from` starts with the `src` directory and `to` starts with the `dist` directory.
 
-一般有如下的使用形式：
+They are generally used in the following forms.
 
 ```js
 module.exports = {
-  // ...
-  copy: {
+  // ... copy: {
     patterns: [
-      { from: 'src/asset/tt/', to: 'dist/asset/tt/', ignore: ['*.js'] }, // 指定需要 copy 的目录
-      { from: 'src/asset/tt/sd.jpg', to: 'dist/asset/tt/sd.jpg' } // 指定需要 copy 的文件
+      { from: 'src/asset/tt/', to: 'dist/asset/tt/', ignore: ['*.js'] }, // Specify the directory to be copied
+      { from: 'src/asset/tt/sd.jpg', to: 'dist/asset/tt/sd.jpg' } // Specify the files to be copied
     ]
   }
 }
@@ -165,14 +160,13 @@ module.exports = {
 
 `object`
 
-拷贝配置，可以指定全局的 ignore：
+Copy the configuration, you can specify the global ignore.
 
 ```js
 module.exports = {
-  // ...
-  copy: {
+  // ... copy: {
     options: {
-      ignore: ['*.js', '*.css'] // 全局的 ignore
+      ignore: ['*.js', '*.css'] // global ignore
     }
   }
 }
@@ -182,14 +176,13 @@ module.exports = {
 
 `array`
 
-配置 Taro 插件。
+Configure the Taro plugin.
 
-当不需要传入参数给插件时，以下写法等价：
+When no parameters need to be passed to the plugin, the following writeup is equivalent.
 
 ```js
 module.exports = {
-  // ...
-  plugins: [
+  // ... plugins: [
     // 从本地绝对路径引入插件
     '/absulute/path/plugin/filename',
     // 引入 npm 安装的插件
@@ -223,19 +216,18 @@ module.exports = {
 
 `array`
 
-一个 preset 是一系列 Taro 插件的集合，配置语法同 [plugins](./config-detail.md#plugins)。
+A preset is a collection of Taro plugins with the same configuration syntax as [plugins](./config-detail.md#plugins)。
 
 ```js
 module.exports = {
-  // ...
-  presets: [
-    // 引入 npm 安装的插件集
+  // ... presets: [
+    // The set of plugins installed by npm
     '@tarojs/preset-sth', 
-    // 引入 npm 安装的插件集，并传入插件参数
+    // The set of plugins installed by npm, and pass in the plugin parameters
     ['@tarojs/plugin-sth', {
       arg0: 'xxx'
     }],
-    // 从本地绝对路径引入插件集，同样如果需要传入参数也是如上
+    // The plugin set is brought in from the local absolute path, and also if parameters need to be passed in as above
     '/absulute/path/preset/filename',
   ]
 }
@@ -245,121 +237,117 @@ module.exports = {
 
 `object`
 
-配置 [terser](https://github.com/terser/terser) 工具以压缩 JS 代码。
+Configure the [terser](https://github.com/terser/terser) tool to compress JS code.
 
 ### terser.enable
 
 `boolean`
 
-默认值 `true`
+Default value `true`
 
-是否开启 JS 代码压缩。
+Indicates if JS code compression is enabled.
 
 ### terser.config
 
 `object`
 
-terser 的具体配置。
+The specific configuration of the terser.
 
 ```js
 module.exports = {
-  // ...
-  terser: {
+  // ... terser: {
     enable: true,
     config: {
-      // 配置项同 https://github.com/terser/terser#minify-options
+      // The configuration items are the same as https://github.com/terser/terser#minify-options
     }
   }
 }
 ```
 
-> terser 配置只在**生产模式**下生效。如果你正在使用 **watch** 模式，又希望启用 terser，那么则需要设置 `process.env.NODE_ENV` 为 `'production'`。
+> The terser configuration only works in **production mode**.If you are using **watch** mode and want to enable terser, then you need to set `process.env.NODE_ENV` to `'production'`.
 
 ## csso
 
 `object`
 
-配置 [csso](https://github.com/css/csso) 工具以压缩 CSS 代码。
+Configure the [csso](https://github.com/css/csso) tool to compress CSS code.
 
 ### csso.enable
 
 `boolean`
 
-默认值 `true`
+Default value `true`.
 
-是否开启 CSS 代码压缩。
+Indicates if CSS code compression is enabled.
 
 ### csso.config
 
 `object`
 
-csso 的具体配置。
+The specific configuration of csso.
 
 ```js
 module.exports = {
-  // ...
-  csso: {
+  // ... csso: {
     enable: true,
     config: {
-      // 配置项同 https://github.com/css/csso#minifysource-options
+      // The configuration items are the same as https://github.com/css/csso#minifysource-options
     }
   }
 }
 ```
 
-> csso 配置只在**生产模式**下生效。如果你正在使用 **watch** 模式，又希望启用 csso，那么则需要设置 `process.env.NODE_ENV` 为 `'production'`。
+> The csso configuration only works in **production mode**.If you are using **watch** mode and want to enable csso, then you need to set `process.env.NODE_ENV` to `'production'`.
 
 ## sass
 
 `object`
 
-用于控制对 scss 代码的编译行为，默认使用 `dart-sass`，具体配置可以参考 [sass](https://www.npmjs.com/package/sass)。
+Used to control the compilation behavior of scss code, by default `dart-sass` is used, the specific configuration can be found in [sass](https://www.npmjs.com/package/sass).
 
-当需要往所有 scss 文件头部插入 scss 代码时，可以通过以下三个额外参数设置：
+When it is necessary to insert scss code into the headers of all scss files, this can be set with three additional parameters.
 
 ### sass.resource
 
 `string | array`
 
-需要全局注入的 scss 文件的绝对路径。如果要引入多个文件，支持以数组形式传入。
+The absolute path to the scss file that needs to be globally injected.If multiple files are to be introduced, passing in an array is supported.
 
-当存在 [projectDirectory](./config-detail#sassprojectdirectory) 配置时，才支持传入相对路径。
+Passing in relative paths is supported when there is a [projectDirectory](./config-detail#sassprojectdirectory) configuration exists, relative paths are only supported.
 
 ### sass.projectDirectory
 
 `string`
 
-项目根目录的绝对地址(若为小程序云开发模板，则应该是client目录)。
+The absolute address of the project root directory (if it is an mini-program cloud development template, it should be the client directory).
 
 ### sass.data
 
 `string`
 
-全局 scss 变量，若 data 与 resource 中设置了同样的变量，则 data 的优先级高于 resource。
+Global scss variables, if the same variables are set in data and resource, then data takes precedence over resource.
 
-### 全局注入 scss 的例子
+### Example of global injection of scss
 
-#### 单文件路径形式
+#### Single file path form
 
-当只有 `resource` 字段时，可以传入 scss 文件的绝对路径。
+When only the `resource` field is available, the absolute path to the scss file can be passed.
 
 ```js
 module.exports = {
-  // ...
-  sass: {
+  // ... sass: {
     resource: path.resolve(__dirname, '..', 'src/styles/variable.scss')
   }
 }
 ```
 
-#### 多文件路径形式
+#### Multiple file path form
 
-此外，当只有 `resource` 字段时，也可以传入一个路径数组。
+In addition, when only the `resource` field is available, an array of paths can be passed in.
 
 ```js
 module.exports = {
-  // ...
-  sass: {
+  // ... sass: {
     resource: [
       path.resolve(__dirname, '..', 'src/styles/variable.scss'),
       path.resolve(__dirname, '..', 'src/styles/mixins.scss')
@@ -368,31 +356,28 @@ module.exports = {
 }
 ```
 
-#### 指定项目根目录路径形式
+#### Specify the project root path form
 
-你可以额外配置 `projectDirectory` 字段，这样你就可以在 `resource` 里写相对路径了。
+You can additionally configure the `projectDirectory` field so that you can write relative paths in `resource`.
 
 ```js
 module.exports = {
-  // ...
-  sass: {
+  // ... sass: {
     resource: [
       'src/styles/variable.scss',
       'src/styles/mixins.scss'
     ],
-    projectDirectory: path.resolve(__dirname, '..')
-  }
+    projectDirectory: path.resolve(__dirname, '..') }
 }
 ```
 
-#### 传入 scss 变量字符串
+#### Pass in the scss variable string
 
-data 中声明的 $nav-height 变量优先级最高。
+The $nav-height variable declared in data has the highest priority.
 
 ```js
 module.exports = {
-  // ...
-  sass: {
+  // ... sass: {
     resource: [
       'src/styles/variable.scss',
       'src/styles/mixins.scss'
@@ -408,40 +393,38 @@ module.exports = {
 
 `object`
 
-专属于小程序的配置。
+Dedicated mini program configuration.
 
 ### mini.baseLevel
 
 `number`
 
-默认值：`16`
+Default value: `16`
 
-对于 `template` 模板不支持递归的小程序（如：微信、QQ、京东），Taro 会对所有模板**循环 baseLevel 次**，以支持同类模板的循环调用。
+For mini-program where `template` templates do not support recursion (e.g. WeChat, QQ, Jingdong), Taro will **loop baseLevel times** for all templates to support recursive calls to similar templates.
 
-但是循环太多次也会导致生成的 `base` 模板体积相当大，因此当你的嵌套层级并不太深时可以使用 `baseLevel` 配置项配置较少的循环层数。
+However, looping too many times can result in a rather large `base` template, so you can use the `baseLevel` configuration item to configure fewer loop levels when your nesting level is not too deep.
 
-当然在嵌套层级较深时，也可以增大 baseLevel。以避免到达循环上限后，Taro 会调用一个自定义组件重新开始循环所带来一些问题。
+当然在嵌套层级较深时，也可以增大 baseLevel。Of course, when the nesting level is deep, you can also increase the baseLevel to avoid some problems when you reach the loop limit and Taro calls a custom component to restart the loop.
 
 ### mini.compile
 
 `object`
 
-小程序编译过程的相关配置。
+The configuration related to the compilation process of the mini program
 
 #### mini.compile.exclude
 
 `array`
 
-配置小程序编译过程中**排除不需要经过 Taro 编译的文件**，数组里面可以包含具体文件路径，也可以是判断函数，同 [Rule.exclude](https://webpack.js.org/configuration/module/#ruleexclude)。
+Configure the mini program compilation process to **exclude files that do not need to be compiled by Taro**, the array can contain specific file paths or can be a judgment function, same as [Rule.exclude](https://webpack.js.org/configuration/module/#ruleexclude).
 
-假设要排除某个文件，可以配置要排除的文件的具体路径：
+Assuming that a file is to be excluded, the specific path of the file to be excluded can be configured as follows.
 
 ```js
 module.exports = {
-  // ...
-  mini: {
-    // ...
-    compile: {
+  // ... mini: {
+    // ... compile: {
       exclude: [
         path.resolve(__dirname, '..', 'src/pages/index/vod-wx-sdk-v2.js')
       ]
@@ -450,14 +433,12 @@ module.exports = {
 }
 ```
 
-也可以配置判断函数：
+It is also possible to configure the judgment function.
 
 ```js
 module.exports = {
-  // ...
-  mini: {
-    // ...
-    compile: {
+  // ... mini: {
+    // ... compile: {
       exclude: [
         modulePath => modulePath.indexOf('vod-wx-sdk-v2') >= 0
       ]
@@ -470,19 +451,19 @@ module.exports = {
 
 `array`
 
-配置额外**需要经过 Taro 编译的文件**，使用方式与 [mini.compile.exclude](./config-detail#minicompileexclude) 一致，同 [Rule.include](https://webpack.js.org/configuration/module/#ruleinclude)。
+Additional configuration of `less-loader`, configuration items refer to [documentation](https://github.com/webpack-contrib/less-loader)，eg:
 
-例如 Taro 默认不编译 `node_modules` 中的文件，可以通过这个配置让 Taro 编译  `node_modules` 中的文件。
+For example, Taro does not compile files in `node_modules` by default, you can use this configuration to make Taro compile files in `node_modules`.
 
 ### mini.webpackChain
 
 `function`
 
-自定义 Webpack 配置。
+Customize the Webpack configuration.
 
-这个函数会收到**三个参数**。第一个参数是 webpackChain 对象，可参考 [webpack-chain](https://github.com/neutrinojs/webpack-chain) 的 API 进行修改，第二个参数是 `webpack` 实例，第三个参数 `PARSE_AST_TYPE` 是小程序编译时的文件类型集合。
+This function receives **three arguments**.The first argument is the webpackChain object, which can be modified by referring to the [webpack-chain](https://github.com/neutrinojs/webpack-chain) API, the second argument is the `webpack` instance, and the third argument `PARSE_AST_ TYPE` is the set of file types that the mini program is compiled with.
 
-第三个参数的取值如下：
+The third parameter takes the following values:
 
 ```typescript
 export enum PARSE_AST_TYPE {
@@ -497,12 +478,10 @@ export enum PARSE_AST_TYPE {
 **例子：**
 
 ```js
-// 这是一个添加 raw-loader 的例子，用于在项目中直接引用 md 文件
+// This is an example of adding a raw-loader to directly reference an md file in a project
 module.exports = {
-  // ...
-  mini: {
-    // ...
-    webpackChain (chain, webpack) {
+  // ... mini: {
+    // ... webpackChain (chain, webpack) {
       chain.merge({
         module: {
           rule: {
@@ -522,12 +501,10 @@ module.exports = {
 ```
 
 ```js
-// 这是一个添加插件的例子
+// This is an example of adding a plugin
 module.exports = {
-  // ...
-  mini: {
-    // ...
-    webpackChain (chain, webpack) {
+  // ... mini: {
+    // ... webpackChain (chain, webpack) {
       chain.merge({
         plugin: {
           install: {
@@ -554,143 +531,106 @@ module.exports = {
 
 `object`
 
-可用于修改、拓展 Webpack 的 **output** 选项，配置项参考[官方文档](https://webpack.js.org/configuration/output/)。
+The **output** option that can be used to modify and extend Webpack, the configuration items refer to [documentation](https://webpack.js.org/configuration/output/)。
 
 ### mini.enableSourceMap
 
 `boolean`
 
-默认值：watch 模式下为 `true`，否则为 `false`。
+Default value: `true` in watch mode, otherwise `false`.
 
-用于控制是否生成 js、css 对应的 sourceMap。
+Used to control whether to generate sourceMap corresponding to js, css.
 
 ### mini.sourceMapType
 
 `string`
 
-默认值：`'cheap-module-source-map'`
+Default value: `'cheap-module-source-map'`
 
-具体配置请参考 [Webpack devtool 配置](https://webpack.js.org/configuration/devtool/#devtool)。
+Detail configuration refer to [Webpack devtool configuration](https://webpack.js.org/configuration/devtool/#devtool)。
 
 ### mini.debugReact
 
-> 自 v3.0.8 开始支持
+> Supported since v3.0.8
 
 `boolean`
 
-默认值：`false`。
+Default value: `false`.
 
-指定 React 框架相关的代码是否使用开发环境（未压缩）代码，默认使用生产环境（压缩后）代码。
+Specifies whether the code related to the React framework uses the development environment (uncompressed) code, the default is to use the production environment (compressed) code.
 
 ### mini.minifyXML
 
-> 自 v3.0.8 开始支持
+> Supported since v3.0.8
 
 `object`
 
-关于压缩小程序 xml 文件的相关配置。
+About the configuration related to compressing mini program xml files.
 
 #### mini.minifyXML.collapseWhitespace
 
 `boolean`
 
-默认值：`false`。
+Default value: `false`.
 
-是否合并 xml 文件中的空格。
+If or not to merge spaces in the xml file.
 
 ### mini.postcss
 
 `object`
 
-配置 `postcss` 相关插件。
+Configure `postcss` related plugins.
 
 ```js
-module.exports = {
-  // ...
-  mini: {
-    // ...
-    postcss: {
-      // 可以进行 autoprefixer 的配置。配置项参考官方文档 https://github.com/postcss/autoprefixer
-      autoprefixer: {
-        enable: true,
-        config: {
-          // autoprefixer 配置项
-        }
-      },
-      pxtransform: {
-        enable: true,
-        config: {
-          // pxtransform 配置项，参考尺寸章节
-          selectorBlackList: ['body']
-        }
-      },
-      // 小程序端样式引用本地资源内联
-      url: {
-        enable: true,
-        config: {
-          limit: 10240 // 设定转换尺寸上限
-        }
-      },
-      // css modules 功能开关与相关配置
-      cssModules: {
-        enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
-        config: {
-          generateScopedName: '[name]__[local]___[hash:base64:5]'
-        }
-      }
-    }
-  }
-}
+The <code>autoprefixer</code> configuration can be performed.The configuration items refer to the <a href="https://github.com/postcss/autoprefixer">documentation</a>, eg:
 ```
+ configuration can be performed.The configuration items refer to the [documentation](https://github.com/postcss/autoprefixer), eg:
+</code>
 
 ### mini.commonChunks
 
 `array | function`
 
-用于告诉 Taro 编译器需要抽取的公共文件，支持两种配置方式。
+Used to tell the Taro compiler which public files it needs to extract, supports two types of configuration.
 
-`commonChunks` 的配置值必须依据于 webpack 配置 [optimization.runtimeChunk](https://webpack.js.org/configuration/optimization/#optimizationruntimechunk) 和 [optimization.splitChunks](https://webpack.js.org/plugins/split-chunks-plugin/) 中的公共 chunks 的名称。Taro 中 webpack.optimization 配置的默认值：[源码位置](https://github.com/NervJS/taro/blob/bc6af68bda2cbc9163fbda36c15878fc96aec8f1/packages/taro-mini-runner/src/webpack/build.conf.ts#L220-L254)。
+The configuration value of `commonChunks` based on the name of the common chunks in the webpack configuration [optimization.runtimeChunk](https://webpack.js.org/configuration/optimization/#optimizationruntimechunk) and [optimization.splitChunks](https://webpack.js.org/plugins/split-chunks-plugin/) .Default value of webpack.optimization configuration in Taro [Source Code](https://github.com/NervJS/taro/blob/bc6af68bda2cbc9163fbda36c15878fc96aec8f1/packages/taro-mini-runner/src/webpack/build.conf.ts#L220-L254)。
 
-> 如果有自行拆分公共文件的需求，请先通过 [webpackChain 配置](./config-detail#miniwebpackchain) 覆盖`optimization.runtimeChunk` 与 `optimization.splitChunks` 配置。再通过此 `commonChunks` 配置指定公共入口文件。
+> If you need to split public files by yourself, please override the `optimization.runtimeChunk` and `optimization.splitChunks` via [webpackChain configuration](./config-detail#miniwebpackchain) to override the `optimization.runtimeChunk` and `optimization.splitChunks` configurations.Then specify the public entry file with this `commonChunks` configuration.
 
-#### 字符串数组方式
+#### String Array Approach
 
-普通编译时的默认值：`['runtime', 'vendors', 'taro', 'common']`
+Default values for common compilation: `['runtime', 'vendors', 'taro', 'common']`
 
-编译为微信小程序插件时的默认值： `['plugin/runtime', 'plugin/vendors', 'plugin/taro', 'plugin/common']`
+Default values when compiling as a WeChat mini program plugin: `['plugin/runtime', 'plugin/vendors', 'plugin/taro', 'plugin/common']`
 
-可以传入需要抽取的公共文件的名称数组。
+You can pass in an array of names of public files that need to be extracted.
 
 例子：
 
 ```js
 module.exports = {
-  // ...
-  mini: {
-    // ...
-    commonChunks: ['runtime', 'vendors', 'taro', 'common']
+  // ... mini: {
+    // ... commonChunks: ['runtime', 'vendors', 'taro', 'common']
   }
 }
 ```
 
-这几个公共文件分别表示：
+These public files represent.
 
-* `runtime`: webpack 运行时入口
-* `taro`: node_modules 中 Taro 相关依赖
-* `vendors`: node_modules 除 Taro 外的公共依赖
-* `common`: 项目中业务代码公共逻辑
+* `runtime`: webpack runtime entry
+* `taro`: Taro-related dependencies in node_modules
+* `vendors`: public dependencies of node_modules other than Taro
+* `common`: common logic for business code in the project
 
-#### 函数方式
+#### Function method
 
-通过对入参的默认公共文件数组进行操作，返回新的数组来进行配置，如下
+The configuration is performed by manipulating the default public file array of the input parameters and returning a new array as follows:
 
 ```js
 module.exports = {
-  // ...
-  mini: {
-    // ...
-    commonChunks (commonChunks) {
-      // commonChunks 的取值即为默认的公共文件名数组
+  // ... mini: {
+    // ... commonChunks (commonChunks) {
+      // The value of commonChunks is the default array of public filenames
       commonChunks.push('yourCustomCommonChunkName')
       return commonChunks
     }
@@ -702,23 +642,21 @@ module.exports = {
 
 `function`
 
-为某些页面单独指定需要引用的公共文件。
+Specify the public files that need to be referenced separately for certain pages.
 
-例如在使用小程序分包的时候，为了减少主包大小，分包的页面希望引入自己的公共文件，而不希望直接放在主包内。那么我们首先可以通过 [webpackChain 配置](./config-detail#miniwebpackchain) 来单独抽离分包的公共文件，然后通过 `mini.addChunkPages` 为分包页面配置引入分包的公共文件，其使用方式如下：
+For example, when using mini program sub-packaging, in order to reduce the size of the main package, the sub-packaged pages want to introduce their own public files and don't want to put them directly inside the main package.Then we can first use the [webpackChain configuration](./config-detail#miniwebpackchain) to abstract the public files of the sub-package separately, and then configure the introduction of the public files of the sub-package via `mini.addChunkPages` for the sub-package page, which is used in the following way.
 
-`mini.addChunkPages` 配置为一个函数，接受两个参数
+`mini.addChunkPages` is configured as a function that accepts two parameters
 
-* `pages` 参数为 Map 类型，用于为页面添加公共文件
-* `pagesNames` 参数为当前应用的所有页面标识列表，可以通过打印的方式进行查看页面的标识
+* `pages` parameter is of type Map, which is used to add public files to the page
+* the `pagesNames` parameter is a list of all page identifiers for the current application, which can be printed to see the page identifiers
 
-例如，为 `pages/index/index` 页面添加 `eating` 和 `morning` 两个抽离的公共文件：
+For example, to add `eating` and `morning` to the `pages/index/index` page, the following two public files are extracted.
 
 ```ts
 module.exports = {
-  // ...
-  mini: {
-    // ...
-    addChunkPages (pages: Map<string, string[]>, pagesNames: string[]) {
+  // ... mini: {
+    // ... addChunkPages (pages: Map<string, string[]>, pagesNames: string[]) {
       pages.set('pages/index/index', ['eating', 'morning'])
     }
   }
@@ -729,36 +667,32 @@ module.exports = {
 
 `object`
 
-优化主包的体积大小
+Optimize the size of the main package
 
-像下面这样简单配置之后，可以避免主包没有引入的module不被提取到`commonChunks`中，该功能会在打包时分析module和chunk的依赖关系，筛选出主包没有引用到的module把它提取到分包内，下面是提取的两种类型的`分包公共模块`：
+After a simple configuration like the following, you can avoid that modules not introduced in the main package are not extracted into `commonChunks`, this function will analyze the dependencies of modules and chunks during packaging, filter out the modules not referenced in the main package to extract it into the sub-package, the following are the two types of `sub-package public modules` extracted.
 
-* `分包根目录/sub-vendors.(js|wxss)`
-  * 如果该module只被`单个分包`内的多个page引用，则提取到该分包根目录的sub-vendors文件中。
+* `sub-package root/sub-vendors.(js|wxss)`
+  * If the module is only referenced by multiple pages within a `single subpackage`, it is extracted to the sub-vendors file in the root of that subpackage.
 
-* `分包根目录/sub-common/*.(js|wxss)`
-  * 如果该module被`多个分包`内的page引用，正常情况下会被提取到主包的公共模块中，这里为了保证主包的体积最优，则会先提取成一个公共模块，然后分别复制到对应分包的sub-common文件夹下（因为小程序无法跨分包引入文件，所以这里需要每个分包都复制一份），需要注意的是，这样会导致总包的体积变大一些。
+* `sub-package root/sub-common/*. (js|wxss)`
+  * If the module is referenced by pages in `multiple sub-packages`, it will normally be extracted to the public module of the main package, but here, to ensure the optimal size of the main package, it will first be extracted to a public module, and then copied to the sub-common folder of the corresponding sub-package (because the mini program cannot introduce files across sub-packages, so here you need to make a copy of each sub-package) It is important to note that this will result in a larger size of the total package.
 
 ```js
 module.exports = {
-  // ...
-  mini: {
-    // ...
-    optimizeMainPackage: {
+  // ... mini: {
+    // ... optimizeMainPackage: {
       enable: true
     }
   }
 }
 ```
 
-如果有不想走分包提取规则的module，可以在exclude中配置，这样该module就会走原来提取的方案，提取到主包中，比如像下面这样（支持绝对路径和函数）：
+If there is a module that does not want to go through the sub-package extraction rules, you can configure it in exclude so that the module will go through the original extraction scheme and be extracted into the main package, like the following (absolute paths and functions are supported).
 
 ```js
 module.exports = {
-  // ...
-  mini: {
-    // ...
-    optimizeMainPackage: {
+  // ... mini: {
+    // ... optimizeMainPackage: {
       enable: true,
       exclude: [
         path.resolve(__dirname, 'moduleName.js'),
@@ -773,14 +707,12 @@ module.exports = {
 
 `object`
 
-`style-loader` 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/style-loader)，例如：
+Additional configuration for `style-loader`.configuration item reference [documentation](https://github.com/webpack-contrib/style-loader), eg:
 
 ```js
 module.exports = {
-  // ...
-  mini: {
-    // ...
-    styleLoaderOption: {
+  // ... mini: {
+    // ... styleLoaderOption: {
       insertAt: 'top'
     }
   }
@@ -791,14 +723,12 @@ module.exports = {
 
 `object`
 
-`css-loader` 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/css-loader)，例如：
+Additional configuration for `css-loader`.configuration item reference [documentation](https://github.com/webpack-contrib/css-loader), eg:
 
 ```js
 module.exports = {
-  // ...
-  mini: {
-    // ...
-    cssLoaderOption: {
+  // ... mini: {
+    // ... cssLoaderOption: {
       localIdentName: '[hash:base64]'
     }
   }
@@ -809,14 +739,12 @@ module.exports = {
 
 `object`
 
-`sass-loader` 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/sass-loader)，例如：
+Additional configuration for `sass-loader`.configuration item reference [documentation](https://github.com/webpack-contrib/sass-loader), eg:
 
 ```js
 module.exports = {
-  // ...
-  mini: {
-    // ...
-    sassLoaderOption: {
+  // ... mini: {
+    // ... sassLoaderOption: {
       implementation: require("node-sass")
     }
   }
@@ -825,18 +753,16 @@ module.exports = {
 
 ### mini.lessLoaderOption
 
-> 自 v3.0.26 开始支持
+> Supported since v3.0.26
 
 `object`
 
-`less-loader` 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/less-loader)，例如：
+Additional configuration for `less-loader`.configuration item reference [documentation](https://github.com/webpack-contrib/less-loader), eg:
 
 ```js
 module.exports = {
-  // ...
-  mini: {
-    // ...
-    lessLoaderOption: {
+  // ... mini: {
+    // ... lessLoaderOption: {
       lessOptions: {
         strictMath: true,
         noIeCompat: true
@@ -850,20 +776,18 @@ module.exports = {
 
 `object`
 
-`stylus-loader` 的附加配置。配置项参考[官方文档](https://github.com/shama/stylus-loader)。
+Additional configuration for `stylus-loader`.configuration item reference [documentation](https://github.com/shama/stylus-loader)。
 
 ### mini.miniCssExtractPluginOption
 
 `object`
 
-`mini-css-extract-plugin` 的附加配置，配置项参考[官方文档](https://github.com/webpack-contrib/mini-css-extract-plugin)。
+Additional configuration of `mini-css-extract-plugin`, configuration items refer to [documentation](https://github.com/webpack-contrib/mini-css-extract-plugin)。
 
 ```js
 module.exports = {
-  // ...
-  mini: {
-    // ...
-    miniCssExtractPluginOption: {
+  // ... mini: {
+    // ... miniCssExtractPluginOption: {
       filename: '[name].css',
       chunkFilename: '[name].css'
     }
@@ -875,20 +799,18 @@ module.exports = {
 
 `object`
 
-针对 `png | jpg | jpeg | gif | bpm | svg` 文件的 `url-loader` 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)。
+The `url-loader` configuration for `png | jpg | jpeg | gif | bpm | svg` files.The configuration items refer to [documentation](https://github.com/webpack-contrib/url-loader)。
 
 ### mini.mediaUrlLoaderOption
 
 `object`
 
-针对 `mp4 | webm | ogg | mp3 | wav | flac | aac` 文件的 `url-loader` 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)，例如：
+The `url-loader` configuration for `mp4 | webm | ogg | mp3 | wav | flac | aac` files.The configuration items refer to [documentation](https://github.com/webpack-contrib/url-loader)，eg:
 
 ```js
 module.exports = {
-  // ...
-  mini: {
-    // ...
-    mediaUrlLoaderOption: {
+  // ... mini: {
+    // ... mediaUrlLoaderOption: {
       limit: 8192
     }
   }
@@ -899,24 +821,22 @@ module.exports = {
 
 `object`
 
-针对 `woff | woff2 | eot | ttf | otf` 文件的 `url-loader` 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)。
+The `url-loader` configuration for `woff | woff2 | eot | ttf | otf` files.The configuration items refer to [documentation](https://github.com/webpack-contrib/url-loader)。
 
 ## h5
 
-专属于 H5 的配置。
+H5-specific configuration.
 
 ### h5.entry
 
 `object`
 
-可用于修改、拓展 Webpack 的 **input** 选项，配置项参考 [官方文档](https://webpack.js.org/configuration/entry-context/#entry)。
+The **input** option can be used to modify and extend Webpack [documentation](https://webpack.js.org/configuration/entry-context/#entry)。
 
 ```js
 module.exports = {
-  // ...
-  h5: {
-    // ...
-    entry: {
+  // ... h5: {
+    // ... entry: {
       home: ['./home.js'],
       about: ['./about.js'],
       contact: ['./contact.js']
@@ -929,14 +849,12 @@ module.exports = {
 
 `object`
 
-可用于修改、拓展 Webpack 的 **output** 选项，配置项参考[官方文档](https://webpack.js.org/configuration/output/)。
+The **output** option that can be used to modify and extend Webpack, the configuration items refer to [documentation](https://webpack.js.org/configuration/output/)。
 
 ```js
 module.exports = {
-  // ...
-  h5: {
-    // ...
-    output: {
+  // ... h5: {
+    // ... output: {
       filename: 'js/[name].[hash:8].js',
       chunkFilename: 'js/[name].[chunkhash:8].js'
     }
@@ -948,31 +866,31 @@ module.exports = {
 
 `string`
 
-默认值：`'/'`
+Defalut value: `'/'`
 
-设置输出解析文件的目录。
+Set the directory where the output parsed files are to be sent.
 
 ### h5.staticDirectory
 
 `string`
 
-默认值：`'static'`
+Defalut value: `'static'`
 
-h5 编译后的静态文件目录。
+h5 Compiled static files directory.
 
 ### h5.chunkDirectory
 
 `string`
 
-默认值：`'chunk'`
+Defalut value: `'chunk'`
 
-编译后非 entry 的 js 文件的存放目录，主要影响动态引入的 `pages` 的存放路径。
+The directory where the non-entry js files are stored after compilation, mainly affecting the path to dynamically introduced `pages`.
 
 ### h5.devServer
 
 `object`
 
-预览服务的配置，可以更改端口等参数。具体配置参考 [webpack-dev-server](https://webpack.js.org/configuration/dev-server)。
+Preview the configuration of the service, you can change parameters such as ports.Specific configuration reference [webpack-dev-server](https://webpack.js.org/configuration/dev-server)。
 
 例子：
 
@@ -980,24 +898,20 @@ h5 编译后的静态文件目录。
 
 ```js
 module.exports = {
-  // ...
-  h5: {
-    // ...
-    devServer: {
+  // ... h5: {
+    // ... devServer: {
       port: 10086
     }
   }
 }
 ```
 
-**开启 https 服务：**
+**Enable https service**
 
 ```js
 module.exports = {
-  // ...
-  h5: {
-    // ...
-    devServer: {
+  // ... h5: {
+    // ... devServer: {
       https: true
     }
   }
@@ -1008,44 +922,23 @@ module.exports = {
 
 `function`
 
-自定义 Webpack 配置。
+Customize the Webpack configuration.
 
-这个函数会收到**两个参数**，第一个参数是 webpackChain 对象，可参考 [webpack-chain](https://github.com/neutrinojs/webpack-chain) 的 API 进行修改，第二个参数是 `webpack` 实例。
+This function receives **two arguments**, the first one is the webpackChain object, which can be modified by referring to the [webpack-chain](https://github.com/neutrinojs/webpack-chain) API, and the second argument is the `webpack` instance.
 
 **例子：**
 
 ```js
-// 这是一个添加 raw-loader 的例子，用于在项目中直接引用 md 文件
-module.exports = {
-  // ...
-  h5: {
-    // ...
-    webpackChain (chain, webpack) {
-      chain.merge({
-        module: {
-          rule: {
-            myloader: {
-              test: /\.md$/,
-              use: [{
-                loader: 'raw-loader',
-                options: {}
-              }]
-            }
-          }
-        }
-      })
-    }
-  }
-}
+Additional configuration of <code>style-loader</code>, configuration items refer to <a href="https://github.com/webpack-contrib/style-loader">documentation</a>，eg:
 ```
+, configuration items refer to [documentation](https://github.com/webpack-contrib/style-loader)，eg:
+</code>
 
 ```js
-// 这是一个添加插件的例子
+// This is an example of adding a plugin
 module.exports = {
-  // ...
-  h5: {
-    // ...
-    webpackChain (chain, webpack) {
+  // ... h5: {
+    // ... webpackChain (chain, webpack) {
       chain.merge({
         plugin: {
           install: {
@@ -1072,74 +965,62 @@ module.exports = {
 
 `object`
 
-路由相关的配置。
+Routing related configuration.
 
 #### h5.router.mode
 
 `'hash' | 'browser'`
 
-默认值：`'hash'`
+Default value: `'hash'`
 
-配置路由模式。'hash' 与 'browser' 分别对应 hash 路由模式和浏览器 history 路由模式。
+配置路由模式。router: { mode: 'hash' // or 'browser' } } }
 
 **例子：**
 
 ```js
-module.exports = {
-  // ...
-  h5: {
-    // ...
-    router: {
-      mode: 'hash' // 或者是 'browser'
-    }
-  }
-}
+Configure the routing mode.' hash' and 'browser' correspond to hash routing mode and browser history routing mode, respectively.
 ```
 
-针对上面的配置，调用 `Taro.navigateTo({ url: '/pages/index/index' })` 后，浏览器地址栏将被变为：
+For the above configuration, after calling `Taro.navigateTo({ url: '/pages/index/index' })`, the browser address bar will be changed to:
 
-* `https://{{domain}}/#/pages/index/index`（**hash** 模式）
-* `https://{{domain}}/pages/index/index`（**browser** 模式）
+* `https://{{domain}}/#/pages/index/index`（**hash** mode）
+* `https://{{domain}}/pages/index/index`（**browser** mode）
 
 #### h5.router.basename
 
 `string`
 
-配置路由基准路径。
+Configure the routing base path.
 
 **例子：**
 
 ```js
 module.exports = {
-  // ...
-  h5: {
-    // ...
-    router: {
+  // ... h5: {
+    // ... router: {
       basename: '/myapp'
     }
   }
 }
 ```
 
-针对上面的配置，调用 `Taro.navigateTo({ url: '/pages/index/index' })` 后，浏览器地址栏将被变为：
+For the above configuration, after calling `Taro.navigateTo({ url: '/pages/index/index' })`, the browser address bar will be changed to:
 
-* `https://{{domain}}/#/myapp/pages/index/index`（**hash** 模式）
-* `https://{{domain}}/myapp/pages/index/index`（**browser** 模式）
+* `https://{{domain}}/#/myapp/pages/index/index`（**hash** mode）
+* `https://{{domain}}/myapp/pages/index/index`（**browser** mode）
 
 #### h5.router.customRoutes
 
 `object`
 
-配置自定义路由。
+Configure custom routes.
 
 **例子：**
 
 ```js
 module.exports = {
-  // ...
-  h5: {
-    // ...
-    router: {
+  // ... h5: {
+    // ... router: {
       customRoutes: {
         '/pages/index/index': '/index'
       }
@@ -1148,62 +1029,67 @@ module.exports = {
 }
 ```
 
-针对上面的配置，调用 `Taro.navigateTo({ url: '/pages/index/index' })` 后，浏览器地址栏将被变为：
+For the above configuration, after calling `Taro.navigateTo({ url: '/pages/index/index' })`, the browser address bar will be changed to
 
-* `https://{{domain}}/#/index`（**hash** 模式）
-* `https://{{domain}}/myapp/index`（**browser** 模式）
+* `https://{{domain}}/#/index`（**hash** mode）
+* `https://{{domain}}/myapp/index`（**browser** mode)
 
 
 ### h5.enableSourceMap
 
 `boolean`
 
-默认值：watch 模式下为 `true`，否则为 `false`。
+Default value: `true` in watch mode, otherwise `false`.
 
-用于控制是否生成 js、css 对应的 sourceMap。
+Used to control whether to generate sourceMap corresponding to js, css.
 
 ### h5.sourceMapType
 
 `string`
 
-默认值：`'cheap-module-eval-source-map'`
+Default value: `'cheap-module-eval-source-map'`
 
-具体配置请参考 [Webpack devtool 配置](https://webpack.js.org/configuration/devtool/#devtool)。
+Detail configuration refer to [Webpack devtool configuration](https://webpack.js.org/configuration/devtool/#devtool)。
 
 ### h5.useHtmlComponents
 
-> Taro 3.2.4 开始支持
+> Taro 3.2.4 started to support
 
 `boolean`
 
-默认值：`false`
+Default value: `false`
 
-用于控制在 H5 端是否使用兼容性组件库，详情请看 [React 兼容性组件库](h5#react-兼容性组件库)。
+Used to control whether to use the compatibility component library on the H5 side, for details see \[React Compatibility Component Library\](./h5#React Compatibility Component Library)。
 
 ### h5.enableExtract
 
 `boolean`
 
-默认值：watch 模式下为 `false`，否则为 `true`。
+Default value: `false` in watch mode, otherwise `true`.
 
-extract 功能开关，开启后将使用 `mini-css-extract-plugin` 分离 css 文件，可通过 [h5.miniCssExtractPluginOption](./config-detail#h5minicssextractpluginoption) 对插件进行配置。
+The extract function switch, when turned on, will use `mini-css-extract-plugin` to separate css files, which can be configured via [h5.miniCssExtractPluginOption](./config-detail#h5minicssextractpluginoption) to configure the plugin.
 
 ### h5.esnextModules
 
 `array`
 
-配置需要额外的经由 Taro 预设的 postcss 编译的模块。
+The configuration requires additional modules compiled via Taro's preset postcss.
 
-假设需要对 [taro-ui](https://github.com/NervJS/taro-ui) 里的样式单位进行转换适配：
+Suppose that the style units in [taro-ui](https://github.com/NervJS/taro-ui) need to be adapted for conversion.
 
 ```js
 module.exports = {
   // ...
-  h5: {
-    // ...
-    // 经过这一配置之后，代码中引入的处于 `node_modules/taro-ui/` 路径下的样式文件均会经过 postcss 的编译处理。
-    esnextModules: ['taro-ui']
-  }
+    plugins: [
+    ['@tarojs/plugin-mock', {
+      mocks: {
+        '/api/user/1': {
+          name: 'judy',
+          desc: 'Mental guy'
+        }
+      }
+    }]
+  ]
 }
 ```
 
@@ -1211,24 +1097,22 @@ module.exports = {
 
 `object`
 
-配置 `postcss` 相关插件。
+configure `postcss` related plugins.
 
 #### h5.postcss.autoprefixer
 
 `object`
 
-可以进行 `autoprefixer` 的配置。配置项参考[官方文档](https://github.com/postcss/autoprefixer)，例如：
+Configuration of `pxtransform` can be done.Configuration items refer to [documentation](https://github.com/Pines-Cheng/postcss-pxtransform/), eg:
 
 ```js
 module.exports = {
-  // ...
-  h5: {
-    // ...
-    postcss: {
+  // ... h5: {
+    // ... postcss: {
       autoprefixer: {
         enable: true,
         config: {
-          /* autoprefixer 配置项 */
+          /* autoprefixer configuration item  */
         }
       }
     }
@@ -1244,14 +1128,12 @@ module.exports = {
 
 ```js
 module.exports = {
-  // ...
-  h5: {
-    // ...
-    postcss: {
+  // ... h5: {
+    // ... postcss: {
       pxtransform: {
         enable: true,
         config: {
-          /* pxtransform 配置项 */
+          /* pxtransform configuration item */
         }
       }
     }
@@ -1263,17 +1145,15 @@ module.exports = {
 
 `object`
 
-可以进行 CSS Modules 配置，配置如下：
+CSS Modules can be configured as follows.
 
 ```js
 module.exports = {
-  // ...
-  h5: {
-    // ...
-    postcss: {
-      // css modules 功能开关与相关配置
+  // ... h5: {
+    // ... postcss: {
+      // css modules function switches and related configuration
       cssModules: {
-        enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
+        enable: false, // default is false, if you want to use the css modules function, set it to true
         config: {
           namingPattern: 'module',
           generateScopedName: '[name]__[local]___[hash:base64:5]'
@@ -1288,14 +1168,12 @@ module.exports = {
 
 `object`
 
-`style-loader` 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/style-loader)，例如：
+The `url-loader` configuration for `woff | woff2 | eot | ttf | otf` files.Refer to the [ documentation](https://github.com/webpack-contrib/url-loader) for the configuration items.
 
 ```js
 module.exports = {
-  // ...
-  h5: {
-    // ...
-    styleLoaderOption: {
+  // ... h5: {
+    // ... styleLoaderOption: {
       insertAt: 'top'
     }
   }
@@ -1306,14 +1184,12 @@ module.exports = {
 
 `object`
 
-`css-loader` 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/css-loader)，例如：
+The `url-loader` configuration for `png | jpg | jpeg | gif | bpm | svg` files.configuration item reference [documentation], eg:
 
 ```js
 module.exports = {
-  // ...
-  h5: {
-    // ...
-    cssLoaderOption: {
+  // ... h5: {
+    // ... cssLoaderOption: {
       localIdentName: '[hash:base64]'
     }
   }
@@ -1325,14 +1201,12 @@ module.exports = {
 
 `object`
 
-`sass-loader` 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/sass-loader)，例如：
+`sass`related configurations.`options` configuration item reference [documentation](https://github.com/sass/node-sass#options)。
 
 ```js
 module.exports = {
-  // ...
-  h5: {
-    // ...
-    sassLoaderOption: {
+  // ... h5: {
+    // ... sassLoaderOption: {
       implementation: require("node-sass")
     }
   }
@@ -1341,18 +1215,16 @@ module.exports = {
 
 ### h5.lessLoaderOption
 
-> 自 v3.0.26 开始支持
+> Supported since v3.0.26
 
 `object`
 
-`less-loader` 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/less-loader)，例如：
+`less` related configurations.`options` configuration item reference [documentation](http://lesscss.org/usage/#less-options)。
 
 ```js
 module.exports = {
-  // ...
-  h5: {
-    // ...
-    lessLoaderOption: {
+  // ... h5: {
+    // ... lessLoaderOption: {
       lessOptions: {
         strictMath: true,
         noIeCompat: true
@@ -1366,22 +1238,20 @@ module.exports = {
 
 `object`
 
-`stylus-loader` 的附加配置。配置项参考[官方文档](https://github.com/shama/stylus-loader)。
+`stylus` related configurations.`stylus.options` configuration item reference [documentation](https://github.com/NervJS/taro/tree/next/packages/taro-rn-style-transformer/README.md#rnstylus)。
 
 ### h5.miniCssExtractPluginOption
 
 `object`
 
-`mini-css-extract-plugin` 的附加配置，在 [h5.enableExtract 配置](./config-detail#h5enableextract) 为 `true` 的情况下生效。
+Additional configuration for `mini-css-extract-plugin`, effective if [h5.enableExtract configuration](./config-detail#h5enableextract) is `true`.
 
-配置项参考[官方文档](https://github.com/webpack-contrib/mini-css-extract-plugin)，例如：
+configuration item reference [documentation](https://github.com/webpack-contrib/mini-css-extract-plugin), eg:
 
 ```js
 module.exports = {
-  // ...
-  h5: {
-    // ...
-    miniCssExtractPluginOption: {
+  // ... h5: {
+    // ... miniCssExtractPluginOption: {
       filename: 'css/[name].css',
       chunkFilename: 'css/[id].css'
     }
@@ -1393,20 +1263,18 @@ module.exports = {
 
 `object`
 
-针对 `png | jpg | jpeg | gif | bpm | svg` 文件的 `url-loader` 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)。
+针对 `png | jpg | jpeg | gif | bpm | svg` 文件的 `url-loader` 配置。Additional configuration of `css-loader`, configuration items refer to [documentation](https://github.com/webpack-contrib/css-loader)，eg:
 
 ### h5.mediaUrlLoaderOption
 
 `object`
 
-针对 `mp4 | webm | ogg | mp3 | wav | flac | aac` 文件的 `url-loader` 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)，例如：
+The `url-loader` configuration for `mp4 | webm | ogg | mp3 | wav | flac | aac` files.configuration item reference [documentation], eg:Additional configuration of `sass-loader`, configuration items refer to [documentation](https://github.com/webpack-contrib/sass-loader), eg:
 
 ```js
 module.exports = {
-  // ...
-  h5: {
-    // ...
-    mediaUrlLoaderOption: {
+  // ... h5: {
+    // ... mediaUrlLoaderOption: {
       limit: 8192
     }
   }
@@ -1417,24 +1285,22 @@ module.exports = {
 
 `object`
 
-针对 `woff | woff2 | eot | ttf | otf` 文件的 `url-loader` 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)。
+针对 `woff | woff2 | eot | ttf | otf` 文件的 `url-loader` 配置。Additional configuration of `css-loader`, configuration items refer to [documentation](https://github.com/webpack-contrib/css-loader)，eg:
 
 ## rn
 
-专属于 RN 的配置。
+Configure exclusively for RN.
 
 ### rn.appName
 
 `string`
 
-设置RN bundle中注册应用的名称
+Set the name of the registered application in the RN bundle
 
 ```js
 module.exports = {
-  // ...
-  rn: {
-    // ...
-    appName: 'TaroDemo'
+  // ... rn: {
+    // ... appName: 'TaroDemo'
   }
 }
 ```
@@ -1443,14 +1309,12 @@ module.exports = {
 
 `string`
 
-entry利用模块查找规则{name}.{platform}.{ext}自动区分平台
+Entry uses the module lookup rule {name}. {platform}. {ext} to automatically distinguish between platforms
 
 ```js
 module.exports = {
-  // ...
-  rn: {
-    // ...
-    entry: 'index.android.tsx'
+  // ... rn: {
+    // ... entry: 'index.android.tsx'
   }
 }
 ```
@@ -1459,17 +1323,15 @@ module.exports = {
 
 `object`
 
-设置Metro打包生成bundle的输出路径，默认 dist 目录下
+Set the output path of the bundle generated by Metro packaging, the default dist directory
 
 ```js
 module.exports = {
-  // ...
-  rn: {
-    // ...
-    output: {
-      iosSourceMapUrl: '', // sourcemap 文件url
-      iosSourcemapOutput: '../taro-native-shell/ios/main.map', // sourcemap 文件输出路径
-      iosSourcemapSourcesRoot: '', // 将 sourcemap 资源路径转为相对路径时的根目录
+  // ... rn: {
+    // ... output: {
+      iosSourceMapUrl: '', // sourcemap file url
+      iosSourcemapOutput: '../taro-native-shell/ios/main.map', // sourcemap file output path
+      iosSourcemapSourcesRoot: '', // The root directory when converting sourcemap resource paths to relative paths
       androidSourceMapUrl: '',
       androidSourcemapOutput: '../taro-native-shell/android/app/src/main/assets/index.android.map',
       androidSourcemapSourcesRoot: '',
@@ -1486,14 +1348,12 @@ module.exports = {
 
 `object`
 
- `postcss` 相关配置，其他样式语言预处理后经过此配置。
+ `postcss` related configuration, other style languages preprocessed after this configuration.
 
 ```js
 module.exports = {
-  // ...
-  rn: {
-    // ...
-    postcss: {
+  // ... rn: {
+    // ... postcss: {
       // postcss 配置，参考 https://github.com/postcss/postcss#options
       options: { /* ... */ },
       // 默认true，控制是否对 css value 进行 scalePx2dp 转换，pxtransform配置 enable 才生效
@@ -1515,10 +1375,8 @@ module.exports = {
 
 ```js
 module.exports = {
-  // ...
-  rn: {
-    // ...
-    sass: {
+  // ... rn: {
+    // ... sass: {
       options: { /* ... */ },
         // 加入到脚本注入的每个 sass 文件头部，在 config.sass 之前
       additionalData: '', // {String|Function}
@@ -1535,10 +1393,8 @@ module.exports = {
 
 ```js
 module.exports = {
-  // ...
-  rn: {
-    // ...
-    less: {
+  // ... rn: {
+    // ... less: {
       options: { /* ... */ },
       additionalData: '', // {String|Function}
     }
@@ -1554,10 +1410,8 @@ module.exports = {
 
 ```js
 module.exports = {
-  // ...
-  rn: {
-    // ...
-    stylus: {
+  // ... rn: {
+    // ... stylus: {
       options: { /* ... */ },
       additionalData: '', // {String|Function}
     }
@@ -1569,7 +1423,7 @@ module.exports = {
 
 `object`
 
-`resolve` 处理依赖文件配置。 `resolve.include` 可配置多个 `npm` 包名的数组，将 `npm` 包当作项目文件处理，支持 `node_modules` 平台优先级文件访问和全局样式。
+`resolve` handles the configuration of dependency files. `resolve.include` can be configured with multiple arrays of `npm` package names, treating `npm` packages as project files, supporting `node_modules` platform priority file access and global styles.
 
 ```js
 module.exports = {
@@ -1584,7 +1438,7 @@ module.exports = {
 ### rn.enableMultipleClassName
 `boolean`
 
-支持多 `className` 转换，以 `classname` 或 `style` 结尾的， 提取前缀， 然后根据前缀，再生成对应的 xxxStyle。如：`barClassName -> barStyle`。默认值 `false`，不开启。
+Support multiple `className` conversions, end with `classname` or `style`, extract the prefix, and then generate the corresponding xxxStyle according to the prefix.e.g. `barClassName -> barStyle`.Default value `false`, not enabled.
 
 ```js
 module.exports = {
@@ -1597,7 +1451,7 @@ module.exports = {
 ### rn.enableMergeStyle
 `boolean`
 
-当标签 `style` 属性值是数组时转换成对象。默认值 `false`，不开启。
+Convert to object when the tag `style` property value is an array.Default value `false`, not enabled.
 
 ```js
 module.exports = {
