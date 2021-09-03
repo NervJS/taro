@@ -3,19 +3,19 @@ title: LivePusher
 sidebar_label: LivePusher
 ---
 
-实时音视频录制。需要用户授权 scope.camera、scope.record
+Real-time audio/video recording.User Authorization is required for `scope.camera` and `scope.record`.
 
 需要先通过类目审核，再在小程序管理后台，「开发」-「接口设置」中自助开通该组件权限。
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/live-pusher.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/live-pusher.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<LivePusherProps>
 ```
 
-## 示例代码
+## Examples
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -58,11 +58,11 @@ class App extends Components {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -70,347 +70,347 @@ class App extends Components {
       <td>url</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>推流地址。目前仅支持 rtmp 格式</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The stream pushing address.Only `flv` and `rtmp` formats are supported.</td>
     </tr>
     <tr>
       <td>mode</td>
       <td><code>&quot;SD&quot; | &quot;HD&quot; | &quot;FHD&quot; | &quot;RTC&quot;</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;RTC&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>SD（标清）, HD（高清）, FHD（超清）, RTC（实时通话）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Values include <code>SD</code> (Standard definition), <code>HD</code> (High definition), <code>FHD</code> (Full high definition), and <code>RTC</code> (Real-time call).</td>
     </tr>
     <tr>
       <td>autopush</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>自动推流</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Auto stream pushing.</td>
     </tr>
     <tr>
       <td>muted</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td style={{ textAlign: "center"}}>No</td>
       <td>是否静音。即将废弃，可用 enable-mic 替代<br /><strong>不推荐使用</strong></td>
     </tr>
     <tr>
       <td>enableCamera</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>开启摄像头</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Enables the camera.</td>
     </tr>
     <tr>
       <td>autoFocus</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>自动聚集</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Auto focusing.</td>
     </tr>
     <tr>
       <td>orientation</td>
       <td><code>&quot;vertical&quot; | &quot;horizontal&quot;</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;vertical&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>画面方向</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The orientation of the image.</td>
     </tr>
     <tr>
       <td>beauty</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>0</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>美颜，取值范围 0-9 ，0 表示关闭</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Beautifying. Values range from 0 to 9. 0 indicates disabled.</td>
     </tr>
     <tr>
       <td>whiteness</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>0</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>美白，取值范围 0-9 ，0 表示关闭</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Whitening. Values range from 0 to 9. 0 indicates disabled.</td>
     </tr>
     <tr>
       <td>aspect</td>
       <td><code>&quot;9:16&quot; | &quot;3:4&quot;</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;9:16&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td style={{ textAlign: "center"}}>No</td>
       <td>宽高比，可选值有 3:4, 9:16</td>
     </tr>
     <tr>
       <td>minBitrate</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>200</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>最小码率</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The minimum bitrate.</td>
     </tr>
     <tr>
       <td>maxBitrate</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>1000</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>最大码率</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The maximum bitrate.</td>
     </tr>
     <tr>
       <td>audioQuality</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;high&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>高音质(48KHz)或低音质(16KHz)，值为high, low</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>High quality (48KHz) or low quality (16KHz). Values include &quot;high&quot; and &quot;low&quot;.</td>
     </tr>
     <tr>
       <td>waitingImage</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>进入后台时推流的等待画面</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The waiting image for stream pushing when the component enters the background.</td>
     </tr>
     <tr>
       <td>waitingImageHash</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>等待画面资源的MD5值</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The MD5 value of resources on the waiting image.</td>
     </tr>
     <tr>
       <td>zoom</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>调整焦距</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Adjusts the focal length.</td>
     </tr>
     <tr>
       <td>devicePosition</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;front&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>前置或后置，值为front, back</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Front or back.</td>
     </tr>
     <tr>
       <td>backgroundMute</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>进入后台时是否静音</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to mute the component after the component enters the background.</td>
     </tr>
     <tr>
       <td>mirror</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置推流画面是否镜像，产生的效果在 LivePlayer 反应到<br /><strong>不推荐使用</strong></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to mirror the stream pushing image. The effects are reflected in live-player.<br /><strong>Not recommended.</strong></td>
     </tr>
     <tr>
       <td>remoteMirror</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td style={{ textAlign: "center"}}>No</td>
       <td>设置推流画面是否镜像，产生的效果在 LivePlayer 反应到<br /><br /><strong>Note:</strong> 同 mirror 属性，后续 mirror 将废弃</td>
     </tr>
     <tr>
       <td>localMirror</td>
       <td><code>&quot;auto&quot; | &quot;enable&quot; | &quot;disable&quot;</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;auto&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>控制本地预览画面是否镜像</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to mirror the local preview image.</td>
     </tr>
     <tr>
       <td>audioReverbType</td>
       <td><code>0 | 1 | 2 | 3 | 4 | 5 | 6 | 7</code></td>
       <td style={{ textAlign: "center"}}><code>0</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>音频混响类型</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Audio reverberation types.</td>
     </tr>
     <tr>
       <td>enableMic</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>开启或关闭麦克风</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Turning the microphone on or off</td>
     </tr>
     <tr>
       <td>enableAgc</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否开启音频自动增益</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to turn on audio auto gain.</td>
     </tr>
     <tr>
       <td>enableAns</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否开启音频噪声抑制</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to turn on audio noise suppression</td>
     </tr>
     <tr>
       <td>audioVolumeType</td>
       <td><code>&quot;media&quot; | &quot;voicecall&quot;</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;voicecall&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>音量类型</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Volume type</td>
     </tr>
     <tr>
       <td>videoWidth</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>360</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>上推的视频流的分辨率宽度</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The resolution width of the video stream pushed up</td>
     </tr>
     <tr>
       <td>videoHeight</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>640</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>上推的视频流的分辨率高度</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The resolution height of the video stream pushed up</td>
     </tr>
     <tr>
       <td>onStateChange</td>
       <td><code>BaseEventOrigFunction&lt;onStateChangeEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>状态变化事件，detail = {`{code}`}</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The status change event. detail = {`{code}`}</td>
     </tr>
     <tr>
       <td>onNetstatus</td>
       <td><code>BaseEventOrigFunction&lt;onNetstatusEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>网络状态通知，detail = {`{info}`}</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The notification of the network status. detail = {`{info}`}</td>
     </tr>
     <tr>
       <td>onError</td>
       <td><code>BaseEventOrigFunction&lt;onErrorEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>渲染错误事件，detail = {`{errMsg, errCode}`}</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The rendering error event. detail = {`{errMsg, errCode}`}</td>
     </tr>
     <tr>
       <td>onBgmStart</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>背景音开始播放时触发</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered when the background music starts playing.</td>
     </tr>
     <tr>
       <td>onBgmProgress</td>
       <td><code>BaseEventOrigFunction&lt;onBgmProgressEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>背景音进度变化时触发，detail = {`{progress, duration}`}</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered when the progress of the background music changes. detail = {`{progress, duration}`}</td>
     </tr>
     <tr>
       <td>onBgmComplete</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>背景音播放完成时触发</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered when the background music stops playing.</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|               API                | 微信小程序 | H5 | React Native |
-|:--------------------------------:|:-----:|:--:|:------------:|
-|       LivePusherProps.url        |  ✔️   |    |              |
-|       LivePusherProps.mode       |  ✔️   |    |              |
-|     LivePusherProps.autopush     |  ✔️   |    |              |
-|      LivePusherProps.muted       |  ✔️   |    |              |
-|   LivePusherProps.enableCamera   |  ✔️   |    |              |
-|    LivePusherProps.autoFocus     |  ✔️   |    |              |
-|   LivePusherProps.orientation    |  ✔️   |    |              |
-|      LivePusherProps.beauty      |  ✔️   |    |              |
-|    LivePusherProps.whiteness     |  ✔️   |    |              |
-|      LivePusherProps.aspect      |  ✔️   |    |              |
-|    LivePusherProps.minBitrate    |  ✔️   |    |              |
-|    LivePusherProps.maxBitrate    |  ✔️   |    |              |
-|   LivePusherProps.audioQuality   |  ✔️   |    |              |
-|   LivePusherProps.waitingImage   |  ✔️   |    |              |
-| LivePusherProps.waitingImageHash |  ✔️   |    |              |
-|       LivePusherProps.zoom       |  ✔️   |    |              |
-|  LivePusherProps.devicePosition  |  ✔️   |    |              |
-|  LivePusherProps.backgroundMute  |  ✔️   |    |              |
-|      LivePusherProps.mirror      |  ✔️   |    |              |
-|   LivePusherProps.remoteMirror   |  ✔️   |    |              |
-|   LivePusherProps.localMirror    |  ✔️   |    |              |
-| LivePusherProps.audioReverbType  |  ✔️   |    |              |
-|    LivePusherProps.enableMic     |  ✔️   |    |              |
-|    LivePusherProps.enableAgc     |  ✔️   |    |              |
-|    LivePusherProps.enableAns     |  ✔️   |    |              |
-| LivePusherProps.audioVolumeType  |  ✔️   |    |              |
-|    LivePusherProps.videoWidth    |  ✔️   |    |              |
-|   LivePusherProps.videoHeight    |  ✔️   |    |              |
-|  LivePusherProps.onStateChange   |  ✔️   |    |              |
-|   LivePusherProps.onNetstatus    |  ✔️   |    |              |
-|     LivePusherProps.onError      |  ✔️   |    |              |
-|    LivePusherProps.onBgmStart    |  ✔️   |    |              |
-|  LivePusherProps.onBgmProgress   |  ✔️   |    |              |
-|  LivePusherProps.onBgmComplete   |  ✔️   |    |              |
+|               API                | WeChat Mini-Program | H5 | React Native |
+|:--------------------------------:|:-------------------:|:--:|:------------:|
+|       LivePusherProps.url        |         ✔️          |    |              |
+|       LivePusherProps.mode       |         ✔️          |    |              |
+|     LivePusherProps.autopush     |         ✔️          |    |              |
+|      LivePusherProps.muted       |         ✔️          |    |              |
+|   LivePusherProps.enableCamera   |         ✔️          |    |              |
+|    LivePusherProps.autoFocus     |         ✔️          |    |              |
+|   LivePusherProps.orientation    |         ✔️          |    |              |
+|      LivePusherProps.beauty      |         ✔️          |    |              |
+|    LivePusherProps.whiteness     |         ✔️          |    |              |
+|      LivePusherProps.aspect      |         ✔️          |    |              |
+|    LivePusherProps.minBitrate    |         ✔️          |    |              |
+|    LivePusherProps.maxBitrate    |         ✔️          |    |              |
+|   LivePusherProps.audioQuality   |         ✔️          |    |              |
+|   LivePusherProps.waitingImage   |         ✔️          |    |              |
+| LivePusherProps.waitingImageHash |         ✔️          |    |              |
+|       LivePusherProps.zoom       |         ✔️          |    |              |
+|  LivePusherProps.devicePosition  |         ✔️          |    |              |
+|  LivePusherProps.backgroundMute  |         ✔️          |    |              |
+|      LivePusherProps.mirror      |         ✔️          |    |              |
+|   LivePusherProps.remoteMirror   |         ✔️          |    |              |
+|   LivePusherProps.localMirror    |         ✔️          |    |              |
+| LivePusherProps.audioReverbType  |         ✔️          |    |              |
+|    LivePusherProps.enableMic     |         ✔️          |    |              |
+|    LivePusherProps.enableAgc     |         ✔️          |    |              |
+|    LivePusherProps.enableAns     |         ✔️          |    |              |
+| LivePusherProps.audioVolumeType  |         ✔️          |    |              |
+|    LivePusherProps.videoWidth    |         ✔️          |    |              |
+|   LivePusherProps.videoHeight    |         ✔️          |    |              |
+|  LivePusherProps.onStateChange   |         ✔️          |    |              |
+|   LivePusherProps.onNetstatus    |         ✔️          |    |              |
+|     LivePusherProps.onError      |         ✔️          |    |              |
+|    LivePusherProps.onBgmStart    |         ✔️          |    |              |
+|  LivePusherProps.onBgmProgress   |         ✔️          |    |              |
+|  LivePusherProps.onBgmComplete   |         ✔️          |    |              |
 
 ### orientation
 
-orientation 的合法值
+Valid values of localMirror
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Value</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>vertical</td>
-      <td>竖直</td>
+      <td>Vertical</td>
     </tr>
     <tr>
       <td>horizontal</td>
-      <td>水平</td>
+      <td>Horizontal</td>
     </tr>
   </tbody>
 </table>
 
 ### localMirror
 
-localMirror 的合法值
+Valid values of audioReverbType
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Value</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>auto</td>
-      <td>前置摄像头镜像，后置摄像头不镜像</td>
+      <td>Front camera mirroring, rear camera not mirroring</td>
     </tr>
     <tr>
       <td>enable</td>
-      <td>前后置摄像头均镜像</td>
+      <td>Both front and rear cameras mirrored</td>
     </tr>
     <tr>
       <td>disable</td>
-      <td>前后置摄像头均不镜像</td>
+      <td>Neither the front nor the rear camera is mirrored</td>
     </tr>
   </tbody>
 </table>
 
 ### audioReverbType
 
-audioReverbType 的合法值
+Valid values of audioVolumeType
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Value</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>0</td>
-      <td>关闭</td>
+      <td>Off</td>
     </tr>
     <tr>
       <td>1</td>
@@ -418,27 +418,27 @@ audioReverbType 的合法值
     </tr>
     <tr>
       <td>2</td>
-      <td>小房间</td>
+      <td>Small room</td>
     </tr>
     <tr>
       <td>3</td>
-      <td>大会堂</td>
+      <td>Assembly Hall</td>
     </tr>
     <tr>
       <td>4</td>
-      <td>低沉</td>
+      <td>The muffled</td>
     </tr>
     <tr>
       <td>5</td>
-      <td>洪亮</td>
+      <td>Loud and clear</td>
     </tr>
     <tr>
       <td>6</td>
-      <td>金属声</td>
+      <td>Metallic sound</td>
     </tr>
     <tr>
       <td>7</td>
-      <td>磁性</td>
+      <td>Magnetic</td>
     </tr>
   </tbody>
 </table>
@@ -450,18 +450,18 @@ audioVolumeType 的合法值
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Value</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>media</td>
-      <td>媒体音量</td>
+      <td>Media volume</td>
     </tr>
     <tr>
       <td>voicecall</td>
-      <td>通话音量</td>
+      <td>Call volume</td>
     </tr>
   </tbody>
 </table>
@@ -471,16 +471,16 @@ audioVolumeType 的合法值
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Param</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>code</td>
       <td><code>number</code></td>
-      <td>状态码</td>
+      <td>Status Code</td>
     </tr>
   </tbody>
 </table>
@@ -490,16 +490,16 @@ audioVolumeType 的合法值
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Param</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>info</td>
       <td><code>netStatus</code></td>
-      <td>网络状态</td>
+      <td>Network Status</td>
     </tr>
   </tbody>
 </table>
@@ -509,21 +509,21 @@ audioVolumeType 的合法值
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Param</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息</td>
+      <td>Error message</td>
     </tr>
     <tr>
       <td>errCode</td>
       <td><code>string | number</code></td>
-      <td>错误码</td>
+      <td>Error code</td>
     </tr>
   </tbody>
 </table>
@@ -533,27 +533,27 @@ audioVolumeType 的合法值
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Param</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>progress</td>
       <td><code>any</code></td>
-      <td>进展</td>
+      <td>Progress</td>
     </tr>
     <tr>
       <td>duration</td>
       <td><code>number</code></td>
-      <td>持续时间</td>
+      <td>Duration</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|    API     | 微信小程序 | H5 | React Native |
-|:----------:|:-----:|:--:|:------------:|
-| LivePusher |  ✔️   |    |              |
+|    API     | WeChat Mini-Program | H5 | React Native |
+|:----------:|:-------------------:|:--:|:------------:|
+| LivePusher |         ✔️          |    |              |
