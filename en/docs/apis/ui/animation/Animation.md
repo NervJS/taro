@@ -3,29 +3,29 @@ title: Animation
 sidebar_label: Animation
 ---
 
-## 方法
+## Methods
 
 ### export
 
-导出动画队列。**export 方法每次调用后会清掉之前的动画操作。**
+导出动画队列。Exports the animation queue. **The "export" method clears the previous animation operations each time it is called.**</strong>
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.export.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.export.html)
 
 ```tsx
 () => Record<string, any>[]
 ```
 
-#### API 支持度
+#### API Support
 
-|       API        | 微信小程序 | H5 | React Native |
-|:----------------:|:-----:|:--:|:------------:|
-| Animation.export |  ✔️   |    |              |
+|       API        | WeChat Mini-Program | H5 | React Native |
+|:----------------:|:-------------------:|:--:|:------------:|
+| Animation.export |         ✔️          |    |              |
 
 ### backgroundColor
 
-设置背景色
+Sets the background color.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.backgroundColor.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.backgroundColor.html)
 
 ```tsx
 (value: string) => Animation
@@ -34,31 +34,31 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>value</td>
       <td><code>string</code></td>
-      <td>颜色值</td>
+      <td>Color value</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|            API            | 微信小程序 | H5 | React Native |
-|:-------------------------:|:-----:|:--:|:------------:|
-| Animation.backgroundColor |  ✔️   |    |              |
+|            API            | WeChat Mini-Program | H5 | React Native |
+|:-------------------------:|:-------------------:|:--:|:------------:|
+| Animation.backgroundColor |         ✔️          |    |              |
 
 ### bottom
 
-设置 bottom 值
+Sets the bottom value.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.bottom.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.bottom.html)
 
 ```tsx
 (value: string | number) => Animation
@@ -67,31 +67,31 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>value</td>
       <td><code>string | number</code></td>
-      <td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td>
+      <td>Length value. If number is input, px is used by default. Other length values in custom units can be passed.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|       API        | 微信小程序 | H5 | React Native |
-|:----------------:|:-----:|:--:|:------------:|
-| Animation.bottom |  ✔️   |    |              |
+|       API        | WeChat Mini-Program | H5 | React Native |
+|:----------------:|:-------------------:|:--:|:------------:|
+| Animation.bottom |         ✔️          |    |              |
 
 ### height
 
-设置高度
+Sets the height.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.height.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.height.html)
 
 ```tsx
 (value: string | number) => Animation
@@ -100,31 +100,31 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>value</td>
       <td><code>string | number</code></td>
-      <td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td>
+      <td>Length value. If number is input, px is used by default. Other length values in custom units can be passed.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|       API        | 微信小程序 | H5 | React Native |
-|:----------------:|:-----:|:--:|:------------:|
-| Animation.height |  ✔️   |    |              |
+|       API        | WeChat Mini-Program | H5 | React Native |
+|:----------------:|:-------------------:|:--:|:------------:|
+| Animation.height |         ✔️          |    |              |
 
 ### left
 
-设置 left 值
+Set the left value
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.left.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.left.html)
 
 ```tsx
 (value: string | number) => Animation
@@ -133,63 +133,63 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>value</td>
       <td><code>string | number</code></td>
-      <td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td>
+      <td>Length value. If number is input, px is used by default. Other length values in custom units can be passed.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|      API       | 微信小程序 | H5 | React Native |
-|:--------------:|:-----:|:--:|:------------:|
-| Animation.left |  ✔️   |    |              |
+|      API       | WeChat Mini-Program | H5 | React Native |
+|:--------------:|:-------------------:|:--:|:------------:|
+| Animation.left |         ✔️          |    |              |
 
 ### matrix
 
-同 [transform-function matrix](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix)
+Similar to [transform-function matrix](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix).
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.matrix.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.matrix.html)
 
 ```tsx
 () => Animation
 ```
 
-#### API 支持度
+#### API Support
 
-|       API        | 微信小程序 | H5 | React Native |
-|:----------------:|:-----:|:--:|:------------:|
-| Animation.matrix |  ✔️   |    |              |
+|       API        | WeChat Mini-Program | H5 | React Native |
+|:----------------:|:-------------------:|:--:|:------------:|
+| Animation.matrix |         ✔️          |    |              |
 
 ### matrix3d
 
-同 [transform-function matrix3d](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix3d)
+Similar to [transform-function matrix3d](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix3d).
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.matrix3d.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.matrix3d.html)
 
 ```tsx
 () => Animation
 ```
 
-#### API 支持度
+#### API Support
 
-|        API         | 微信小程序 | H5 | React Native |
-|:------------------:|:-----:|:--:|:------------:|
-| Animation.matrix3d |  ✔️   |    |              |
+|        API         | WeChat Mini-Program | H5 | React Native |
+|:------------------:|:-------------------:|:--:|:------------:|
+| Animation.matrix3d |         ✔️          |    |              |
 
 ### opacity
 
-设置透明度
+Sets the transparency.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.opacity.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.opacity.html)
 
 ```tsx
 (value: number) => Animation
@@ -198,31 +198,31 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>value</td>
       <td><code>number</code></td>
-      <td>透明度，范围 0-1</td>
+      <td>Transparency. It ranges from 0 to 1.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|        API        | 微信小程序 | H5 | React Native |
-|:-----------------:|:-----:|:--:|:------------:|
-| Animation.opacity |  ✔️   |    |              |
+|        API        | WeChat Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:--:|:------------:|
+| Animation.opacity |         ✔️          |    |              |
 
 ### right
 
-设置 right 值
+Sets the right value.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.right.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.right.html)
 
 ```tsx
 (value: string | number) => Animation
@@ -231,31 +231,31 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>value</td>
       <td><code>string | number</code></td>
-      <td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td>
+      <td>Length value. If number is input, px is used by default. Other length values in custom units can be passed.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|       API       | 微信小程序 | H5 | React Native |
-|:---------------:|:-----:|:--:|:------------:|
-| Animation.right |  ✔️   |    |              |
+|       API       | WeChat Mini-Program | H5 | React Native |
+|:---------------:|:-------------------:|:--:|:------------:|
+| Animation.right |         ✔️          |    |              |
 
 ### rotate
 
-从原点顺时针旋转一个角度
+Rotates some degrees clockwise from the origin.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotate.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotate.html)
 
 ```tsx
 (angle: number) => Animation
@@ -264,31 +264,31 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>angle</td>
       <td><code>number</code></td>
-      <td>旋转的角度。范围 [-180, 180]</td>
+      <td>Skewed angle.It ranges from -180 to 180.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|       API        | 微信小程序 | H5 | React Native |
-|:----------------:|:-----:|:--:|:------------:|
-| Animation.rotate |  ✔️   |    |              |
+|       API        | WeChat Mini-Program | H5 | React Native |
+|:----------------:|:-------------------:|:--:|:------------:|
+| Animation.rotate |         ✔️          |    |              |
 
 ### rotate3d
 
-从 固定 轴顺时针旋转一个角度
+Rotates the x-axis some degrees clockwise.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotate3d.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotate3d.html)
 
 ```tsx
 (x: number, y: number, z: number, angle: number) => Animation
@@ -297,46 +297,46 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>x</td>
       <td><code>number</code></td>
-      <td>旋转轴的 x 坐标</td>
+      <td>X coordinate of the rotational axis</td>
     </tr>
     <tr>
       <td>y</td>
       <td><code>number</code></td>
-      <td>旋转轴的 y 坐标</td>
+      <td>Y coordinate of the rotational axis</td>
     </tr>
     <tr>
       <td>z</td>
       <td><code>number</code></td>
-      <td>旋转轴的 z 坐标</td>
+      <td>Z coordinate of the rotational axis</td>
     </tr>
     <tr>
       <td>angle</td>
       <td><code>number</code></td>
-      <td>旋转的角度。范围 [-180, 180]</td>
+      <td>Skewed angle.It ranges from -180 to 180.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|        API         | 微信小程序 | H5 | React Native |
-|:------------------:|:-----:|:--:|:------------:|
-| Animation.rotate3d |  ✔️   |    |              |
+|        API         | WeChat Mini-Program | H5 | React Native |
+|:------------------:|:-------------------:|:--:|:------------:|
+| Animation.rotate3d |         ✔️          |    |              |
 
 ### rotateX
 
-从 X 轴顺时针旋转一个角度
+Rotates the x-axis some degrees clockwise.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotateX.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotateX.html)
 
 ```tsx
 (angle: number) => Animation
@@ -345,31 +345,31 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>angle</td>
       <td><code>number</code></td>
-      <td>旋转的角度。范围 [-180, 180]</td>
+      <td>Rotation degree value.It ranges from -180 to 180.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|        API        | 微信小程序 | H5 | React Native |
-|:-----------------:|:-----:|:--:|:------------:|
-| Animation.rotateX |  ✔️   |    |              |
+|        API        | WeChat Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:--:|:------------:|
+| Animation.rotateX |         ✔️          |    |              |
 
 ### rotateY
 
-从 Y 轴顺时针旋转一个角度
+Rotates the y-axis some degrees clockwise.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotateY.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotateY.html)
 
 ```tsx
 (angle: number) => Animation
@@ -378,31 +378,31 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>angle</td>
       <td><code>number</code></td>
-      <td>旋转的角度。范围 [-180, 180]</td>
+      <td>Rotation degree value.It ranges from -180 to 180.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|        API        | 微信小程序 | H5 | React Native |
-|:-----------------:|:-----:|:--:|:------------:|
-| Animation.rotateY |  ✔️   |    |              |
+|        API        | WeChat Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:--:|:------------:|
+| Animation.rotateY |         ✔️          |    |              |
 
 ### rotateZ
 
-从 Z 轴顺时针旋转一个角度
+Rotates the z-axis some degrees clockwise.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotateZ.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotateZ.html)
 
 ```tsx
 (angle: number) => Animation
@@ -411,31 +411,31 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>angle</td>
       <td><code>number</code></td>
-      <td>旋转的角度。范围 [-180, 180]</td>
+      <td>Rotation degree value.It ranges from -180 to 180.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|        API        | 微信小程序 | H5 | React Native |
-|:-----------------:|:-----:|:--:|:------------:|
-| Animation.rotateZ |  ✔️   |    |              |
+|        API        | WeChat Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:--:|:------------:|
+| Animation.rotateZ |         ✔️          |    |              |
 
 ### scale
 
-缩放
+Zooms in/out
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scale.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scale.html)
 
 ```tsx
 (sx: number, sy?: number) => Animation
@@ -444,36 +444,36 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>sx</td>
       <td><code>number</code></td>
-      <td>当仅有 sx 参数时，表示在 X 轴、Y 轴同时缩放sx倍数</td>
+      <td>Zoom in/out the x- and y-axises according to a scale of s if only the sx parameter exists.</td>
     </tr>
     <tr>
       <td>sy</td>
       <td><code>number</code></td>
-      <td>在 Y 轴缩放 sy 倍数</td>
+      <td>Zoom in/out the y-axis according to a scale of sy.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|       API       | 微信小程序 | H5 | React Native |
-|:---------------:|:-----:|:--:|:------------:|
-| Animation.scale |  ✔️   |    |              |
+|       API       | WeChat Mini-Program | H5 | React Native |
+|:---------------:|:-------------------:|:--:|:------------:|
+| Animation.scale |         ✔️          |    |              |
 
 ### scale3d
 
-缩放
+Zooms in/out
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scale3d.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scale3d.html)
 
 ```tsx
 (sx: number, sy: number, sz: number) => Animation
@@ -482,41 +482,41 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>sx</td>
       <td><code>number</code></td>
-      <td>x 轴的缩放倍数</td>
+      <td>The scale according to which the x-axis is zoomed in/out.</td>
     </tr>
     <tr>
       <td>sy</td>
       <td><code>number</code></td>
-      <td>y 轴的缩放倍数</td>
+      <td>The scale according to which the y-axis is zoomed in/out.</td>
     </tr>
     <tr>
       <td>sz</td>
       <td><code>number</code></td>
-      <td>z 轴的缩放倍数</td>
+      <td>The scale according to which the z-axis is zoomed in/out.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|        API        | 微信小程序 | H5 | React Native |
-|:-----------------:|:-----:|:--:|:------------:|
-| Animation.scale3d |  ✔️   |    |              |
+|        API        | WeChat Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:--:|:------------:|
+| Animation.scale3d |         ✔️          |    |              |
 
 ### scaleX
 
-缩放 X 轴
+Zooms in/out the x-axis.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scaleX.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scaleX.html)
 
 ```tsx
 (scale: number) => Animation
@@ -525,31 +525,31 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>scale</td>
       <td><code>number</code></td>
-      <td>X 轴的缩放倍数</td>
+      <td>The scale according to which the x-axis is zoomed in/out.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|       API        | 微信小程序 | H5 | React Native |
-|:----------------:|:-----:|:--:|:------------:|
-| Animation.scaleX |  ✔️   |    |              |
+|       API        | WeChat Mini-Program | H5 | React Native |
+|:----------------:|:-------------------:|:--:|:------------:|
+| Animation.scaleX |         ✔️          |    |              |
 
 ### scaleY
 
-缩放 Y 轴
+Zooms in/out the y-axis.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scaleY.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scaleY.html)
 
 ```tsx
 (scale: number) => Animation
@@ -558,31 +558,31 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>scale</td>
       <td><code>number</code></td>
-      <td>Y 轴的缩放倍数</td>
+      <td>The scale according to which the y-axis is zoomed in/out.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|       API        | 微信小程序 | H5 | React Native |
-|:----------------:|:-----:|:--:|:------------:|
-| Animation.scaleY |  ✔️   |    |              |
+|       API        | WeChat Mini-Program | H5 | React Native |
+|:----------------:|:-------------------:|:--:|:------------:|
+| Animation.scaleY |         ✔️          |    |              |
 
 ### scaleZ
 
-缩放 Z 轴
+Zooms in/out the z-axis.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scaleZ.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scaleZ.html)
 
 ```tsx
 (scale: number) => Animation
@@ -591,31 +591,31 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>scale</td>
       <td><code>number</code></td>
-      <td>Z 轴的缩放倍数</td>
+      <td>The scale according to which the z-axis is zoomed in/out.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|       API        | 微信小程序 | H5 | React Native |
-|:----------------:|:-----:|:--:|:------------:|
-| Animation.scaleZ |  ✔️   |    |              |
+|       API        | WeChat Mini-Program | H5 | React Native |
+|:----------------:|:-------------------:|:--:|:------------:|
+| Animation.scaleZ |         ✔️          |    |              |
 
 ### skew
 
-对 X、Y 轴坐标进行倾斜
+Skews the X- and Y-coordinates.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.skew.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.skew.html)
 
 ```tsx
 (ax: number, ay: number) => Animation
@@ -624,36 +624,36 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>ax</td>
       <td><code>number</code></td>
-      <td>对 X 轴坐标倾斜的角度，范围 [-180, 180]</td>
+      <td>The angle the x-coordinate is skewed. It ranges from -180 to 180.</td>
     </tr>
     <tr>
       <td>ay</td>
       <td><code>number</code></td>
-      <td>对 Y 轴坐标倾斜的角度，范围 [-180, 180]</td>
+      <td>The angle the y-coordinate is skewed. It ranges from -180 to 180.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|      API       | 微信小程序 | H5 | React Native |
-|:--------------:|:-----:|:--:|:------------:|
-| Animation.skew |  ✔️   |    |              |
+|      API       | WeChat Mini-Program | H5 | React Native |
+|:--------------:|:-------------------:|:--:|:------------:|
+| Animation.skew |         ✔️          |    |              |
 
 ### skewX
 
-对 X 轴坐标进行倾斜
+Skews the x-coordinate.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.skewX.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.skewX.html)
 
 ```tsx
 (angle: number) => Animation
@@ -662,9 +662,9 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -676,17 +676,17 @@ sidebar_label: Animation
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|       API       | 微信小程序 | H5 | React Native |
-|:---------------:|:-----:|:--:|:------------:|
-| Animation.skewX |  ✔️   |    |              |
+|       API       | WeChat Mini-Program | H5 | React Native |
+|:---------------:|:-------------------:|:--:|:------------:|
+| Animation.skewX |         ✔️          |    |              |
 
 ### skewY
 
-对 Y 轴坐标进行倾斜
+Skews the Y-coordinate.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.skewY.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.skewY.html)
 
 ```tsx
 (angle: number) => Animation
@@ -695,9 +695,9 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -709,17 +709,17 @@ sidebar_label: Animation
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|       API       | 微信小程序 | H5 | React Native |
-|:---------------:|:-----:|:--:|:------------:|
-| Animation.skewY |  ✔️   |    |              |
+|       API       | WeChat Mini-Program | H5 | React Native |
+|:---------------:|:-------------------:|:--:|:------------:|
+| Animation.skewY |         ✔️          |    |              |
 
 ### step
 
-表示一组动画完成。可以在一组动画中调用任意多个动画方法，一组动画中的所有动画会同时开始，一组动画完成后才会进行下一组动画。
+It indicates the completion of a queue of animations.You can call as many animation methods as needed in a queue of animations. All animations in a queue start at the same time, and the next queue of animations will not start until the completion of the current queue.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.step.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.step.html)
 
 ```tsx
 (option?: StepOption) => Animation
@@ -728,8 +728,8 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -740,17 +740,17 @@ sidebar_label: Animation
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|      API       | 微信小程序 | H5 | React Native |
-|:--------------:|:-----:|:--:|:------------:|
-| Animation.step |  ✔️   |    |              |
+|      API       | WeChat Mini-Program | H5 | React Native |
+|:--------------:|:-------------------:|:--:|:------------:|
+| Animation.step |         ✔️          |    |              |
 
 ### top
 
-设置 top 值
+Sets the top value.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.top.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.top.html)
 
 ```tsx
 (value: string | number) => Animation
@@ -759,31 +759,31 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>value</td>
       <td><code>string | number</code></td>
-      <td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td>
+      <td>Length value. If number is input, px is used by default. Other length values in custom units can be passed.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|      API      | 微信小程序 | H5 | React Native |
-|:-------------:|:-----:|:--:|:------------:|
-| Animation.top |  ✔️   |    |              |
+|      API      | WeChat Mini-Program | H5 | React Native |
+|:-------------:|:-------------------:|:--:|:------------:|
+| Animation.top |         ✔️          |    |              |
 
 ### translate
 
-平移变换
+Translate
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translate.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translate.html)
 
 ```tsx
 (tx?: number, ty?: number) => Animation
@@ -792,36 +792,36 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>tx</td>
       <td><code>number</code></td>
-      <td>当仅有该参数时表示在 X 轴偏移 tx，单位 px</td>
+      <td>If only this parameter is specified, translate along the x-axis by tx (in px).</td>
     </tr>
     <tr>
       <td>ty</td>
       <td><code>number</code></td>
-      <td>在 Y 轴平移的距离，单位为 px</td>
+      <td>The distance to translate along the y-axis, in pixels.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|         API         | 微信小程序 | H5 | React Native |
-|:-------------------:|:-----:|:--:|:------------:|
-| Animation.translate |  ✔️   |    |              |
+|         API         | WeChat Mini-Program | H5 | React Native |
+|:-------------------:|:-------------------:|:--:|:------------:|
+| Animation.translate |         ✔️          |    |              |
 
 ### translate3d
 
-对 xyz 坐标进行平移变换
+Translates the x-, y-, and z-coordinates.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translate3d.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translate3d.html)
 
 ```tsx
 (tx?: number, ty?: number, tz?: number) => Animation
@@ -830,41 +830,41 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>tx</td>
       <td><code>number</code></td>
-      <td>在 X 轴平移的距离，单位为 px</td>
+      <td>The distance to translate along the x-axis, in pixels.</td>
     </tr>
     <tr>
       <td>ty</td>
       <td><code>number</code></td>
-      <td>在 Y 轴平移的距离，单位为 px</td>
+      <td>The distance to translate along the y-axis, in pixels.</td>
     </tr>
     <tr>
       <td>tz</td>
       <td><code>number</code></td>
-      <td>在 Z 轴平移的距离，单位为 px</td>
+      <td>The distance to translate along the z-axis, in pixels.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|          API          | 微信小程序 | H5 | React Native |
-|:---------------------:|:-----:|:--:|:------------:|
-| Animation.translate3d |  ✔️   |    |              |
+|          API          | WeChat Mini-Program | H5 | React Native |
+|:---------------------:|:-------------------:|:--:|:------------:|
+| Animation.translate3d |         ✔️          |    |              |
 
 ### translateX
 
-对 X 轴平移
+Translates the x-axis.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translateX.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translateX.html)
 
 ```tsx
 (translation: number) => Animation
@@ -873,31 +873,31 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>translation</td>
       <td><code>number</code></td>
-      <td>在 X 轴平移的距离，单位为 px</td>
+      <td>The distance to translate along the x-axis, in pixels.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|         API          | 微信小程序 | H5 | React Native |
-|:--------------------:|:-----:|:--:|:------------:|
-| Animation.translateX |  ✔️   |    |              |
+|         API          | WeChat Mini-Program | H5 | React Native |
+|:--------------------:|:-------------------:|:--:|:------------:|
+| Animation.translateX |         ✔️          |    |              |
 
 ### translateY
 
-对 Y 轴平移
+Translates the y-axis.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translateY.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translateY.html)
 
 ```tsx
 (translation: number) => Animation
@@ -906,31 +906,31 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>translation</td>
       <td><code>number</code></td>
-      <td>在 Y 轴平移的距离，单位为 px</td>
+      <td>The distance to translate along the y-axis, in pixels.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|         API          | 微信小程序 | H5 | React Native |
-|:--------------------:|:-----:|:--:|:------------:|
-| Animation.translateY |  ✔️   |    |              |
+|         API          | WeChat Mini-Program | H5 | React Native |
+|:--------------------:|:-------------------:|:--:|:------------:|
+| Animation.translateY |         ✔️          |    |              |
 
 ### translateZ
 
-对 Z 轴平移
+Translates the z-axis.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translateZ.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translateZ.html)
 
 ```tsx
 (translation: number) => Animation
@@ -939,31 +939,31 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>translation</td>
       <td><code>number</code></td>
-      <td>在 Z 轴平移的距离，单位为 px</td>
+      <td>The distance to translate along the z-axis, in pixels.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|         API          | 微信小程序 | H5 | React Native |
-|:--------------------:|:-----:|:--:|:------------:|
-| Animation.translateZ |  ✔️   |    |              |
+|         API          | WeChat Mini-Program | H5 | React Native |
+|:--------------------:|:-------------------:|:--:|:------------:|
+| Animation.translateZ |         ✔️          |    |              |
 
 ### width
 
-设置宽度
+Sets the width.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.width.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.width.html)
 
 ```tsx
 (value: string | number) => Animation
@@ -972,62 +972,62 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>value</td>
       <td><code>string | number</code></td>
-      <td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td>
+      <td>Length value. If number is input, px is used by default. Other length values in custom units can be passed.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|       API       | 微信小程序 | H5 | React Native |
-|:---------------:|:-----:|:--:|:------------:|
-| Animation.width |  ✔️   |    |              |
+|       API       | WeChat Mini-Program | H5 | React Native |
+|:---------------:|:-------------------:|:--:|:------------:|
+| Animation.width |         ✔️          |    |              |
 
-## 参数
+## Parameters
 
 ### StepOption
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>delay</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>动画延迟时间，单位 ms</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Animation delay time (in ms)</td>
     </tr>
     <tr>
       <td>duration</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>动画持续时间，单位 ms</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Animation duration (in ms)</td>
     </tr>
     <tr>
       <td>timingFunction</td>
       <td><code>&quot;linear&quot; | &quot;ease&quot; | &quot;ease-in&quot; | &quot;ease-in-out&quot; | &quot;ease-out&quot; | &quot;step-start&quot; | &quot;step-end&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>动画的效果</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Animation effect</td>
     </tr>
     <tr>
       <td>transformOrigin</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td style={{ textAlign: "center"}}>No</td>
       <td></td>
     </tr>
   </tbody>
@@ -1038,73 +1038,73 @@ sidebar_label: Animation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>linear</td>
-      <td>动画从头到尾的速度是相同的</td>
+      <td>The animation keeps the same speed from start to end</td>
     </tr>
     <tr>
       <td>ease</td>
-      <td>动画以低速开始，然后加快，在结束前变慢</td>
+      <td>The animation starts slow, then speeds up, and then slows down before ending.</td>
     </tr>
     <tr>
       <td>ease-in</td>
-      <td>动画以低速开始</td>
+      <td>The animation starts at low speed</td>
     </tr>
     <tr>
       <td>ease-in-out</td>
-      <td>动画以低速开始和结束</td>
+      <td>The animation starts and ends at low speed</td>
     </tr>
     <tr>
       <td>ease-out</td>
-      <td>动画以低速结束</td>
+      <td>The animation ends at low speed</td>
     </tr>
     <tr>
       <td>step-start</td>
-      <td>动画第一帧就跳至结束状态直到结束</td>
+      <td>The first frame of the animation jumps to the end state until the animation ends</td>
     </tr>
     <tr>
       <td>step-end</td>
-      <td>动画一直保持开始状态，最后一帧跳到结束状态</td>
+      <td>The animation remains the start state until the final frame jumps to the end state</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|            API            | 微信小程序 | H5 | React Native |
-|:-------------------------:|:-----:|:--:|:------------:|
-|     Animation.export      |  ✔️   |    |              |
-| Animation.backgroundColor |  ✔️   |    |              |
-|     Animation.bottom      |  ✔️   |    |              |
-|     Animation.height      |  ✔️   |    |              |
-|      Animation.left       |  ✔️   |    |              |
-|     Animation.matrix      |  ✔️   |    |              |
-|    Animation.matrix3d     |  ✔️   |    |              |
-|     Animation.opacity     |  ✔️   |    |              |
-|      Animation.right      |  ✔️   |    |              |
-|     Animation.rotate      |  ✔️   |    |              |
-|    Animation.rotate3d     |  ✔️   |    |              |
-|     Animation.rotateX     |  ✔️   |    |              |
-|     Animation.rotateY     |  ✔️   |    |              |
-|     Animation.rotateZ     |  ✔️   |    |              |
-|      Animation.scale      |  ✔️   |    |              |
-|     Animation.scale3d     |  ✔️   |    |              |
-|     Animation.scaleX      |  ✔️   |    |              |
-|     Animation.scaleY      |  ✔️   |    |              |
-|     Animation.scaleZ      |  ✔️   |    |              |
-|      Animation.skew       |  ✔️   |    |              |
-|      Animation.skewX      |  ✔️   |    |              |
-|      Animation.skewY      |  ✔️   |    |              |
-|      Animation.step       |  ✔️   |    |              |
-|       Animation.top       |  ✔️   |    |              |
-|    Animation.translate    |  ✔️   |    |              |
-|   Animation.translate3d   |  ✔️   |    |              |
-|   Animation.translateX    |  ✔️   |    |              |
-|   Animation.translateY    |  ✔️   |    |              |
-|   Animation.translateZ    |  ✔️   |    |              |
-|      Animation.width      |  ✔️   |    |              |
+|            API            | WeChat Mini-Program | H5 | React Native |
+|:-------------------------:|:-------------------:|:--:|:------------:|
+|     Animation.export      |         ✔️          |    |              |
+| Animation.backgroundColor |         ✔️          |    |              |
+|     Animation.bottom      |         ✔️          |    |              |
+|     Animation.height      |         ✔️          |    |              |
+|      Animation.left       |         ✔️          |    |              |
+|     Animation.matrix      |         ✔️          |    |              |
+|    Animation.matrix3d     |         ✔️          |    |              |
+|     Animation.opacity     |         ✔️          |    |              |
+|      Animation.right      |         ✔️          |    |              |
+|     Animation.rotate      |         ✔️          |    |              |
+|    Animation.rotate3d     |         ✔️          |    |              |
+|     Animation.rotateX     |         ✔️          |    |              |
+|     Animation.rotateY     |         ✔️          |    |              |
+|     Animation.rotateZ     |         ✔️          |    |              |
+|      Animation.scale      |         ✔️          |    |              |
+|     Animation.scale3d     |         ✔️          |    |              |
+|     Animation.scaleX      |         ✔️          |    |              |
+|     Animation.scaleY      |         ✔️          |    |              |
+|     Animation.scaleZ      |         ✔️          |    |              |
+|      Animation.skew       |         ✔️          |    |              |
+|      Animation.skewX      |         ✔️          |    |              |
+|      Animation.skewY      |         ✔️          |    |              |
+|      Animation.step       |         ✔️          |    |              |
+|       Animation.top       |         ✔️          |    |              |
+|    Animation.translate    |         ✔️          |    |              |
+|   Animation.translate3d   |         ✔️          |    |              |
+|   Animation.translateX    |         ✔️          |    |              |
+|   Animation.translateY    |         ✔️          |    |              |
+|   Animation.translateZ    |         ✔️          |    |              |
+|      Animation.width      |         ✔️          |    |              |
