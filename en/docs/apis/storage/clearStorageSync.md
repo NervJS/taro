@@ -3,19 +3,19 @@ title: Taro.clearStorageSync()
 sidebar_label: clearStorageSync
 ---
 
-Taro.clearStorage 的同步版本
+The synchronous version of `Taro.clearStorage`.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.clearStorageSync.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.clearStorageSync.html)
 
-## 类型
+## Type
 
 ```tsx
 () => void
 ```
 
-## 参数
+## Parameters
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.clearStorage()
@@ -29,8 +29,8 @@ try {
 }
 ```
 
-## API 支持度
+## API Support
 
-|          API          | 微信小程序 | H5 | React Native |
-|:---------------------:|:-----:|:--:|:------------:|
-| Taro.clearStorageSync |  ✔️   | ✔️ |              |
+|          API          | WeChat Mini-Program | H5 | React Native |
+|:---------------------:|:-------------------:|:--:|:------------:|
+| Taro.clearStorageSync |         ✔️          | ✔️ |              |
