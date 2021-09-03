@@ -1,36 +1,36 @@
 ---
-title: 安装及使用
+title: Install and use
 ---
 
-## 安装
+## Install
 
-Taro 项目基于 node，请确保已具备较新的 node 环境（>=12.0.0），推荐使用 node 版本管理工具 [nvm](https://github.com/creationix/nvm) 来管理 node，这样不仅可以很方便地切换 node 版本，而且全局安装时候也不用加 sudo 了。
+The Taro project is based on node, make sure there is a newer node environment (>=12.0.0.0), use node version administration is recommended [nvm](https://github.com/creationix/nvm) to manage node, so that node is not only easily switched to node, but is not installed globally.
 
-### CLI 工具安装
+### CLI Tool Installation
 
 首先，你需要使用 npm 或者 yarn 全局安装 `@tarojs/cli`，或者直接使用 [npx](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b):
 
 ```bash
-# 使用 npm 安装 CLI
+# Install CLI using npm to use CLI
 $ npm install -g @tarojs/cli
 
-# OR 使用 yarn 安装 CLI
-$ yarn global add @tarojs/cli
+# OR install CLI using yarn to install CLI
+$yarn global add @tarojs/cli
 
-# OR 安装了 cnpm，使用 cnpm 安装 CLI
+# OR installed cnpm, Install CLI with cnpm
 $ cnpm install -g @tarojs/cli
 ```
 
-:::caution 请注意 值得一提的是，如果安装过程出现`sass`相关的安装错误，请在安装 [mirror-config-china](https://www.npmjs.com/package/mirror-config-china) 后重试。
+::caution please note to mention that if the installation process shows`sass`associated installation errors, please try again after installation [mirror-config-china](https://www.npmjs.com/package/mirror-config-china).
 
 ```bash
 $ npm install -g mirror-config-china
 ```
 :::
 
-#### 查看 Taro 全部版本信息
+#### View all versions of Taro
 
-可以使用 `npm info` 查看 Taro 版本信息，在这里你可以看到当前最新版本
+You can access Taro version information using `npm info` where you can see the latest version
 
 ```bash
 npm info @tarojs/cli
@@ -38,11 +38,11 @@ npm info @tarojs/cli
 
 ![npm info @tarojs/cli screenshot](https://img13.360buyimg.com/ling/jfs/t1/144770/7/20011/138415/5fe40491Ed0883578/11236962a3e672db.png)
 
-由图第 1 行可知最新版本，如果你用的是 beta 或者 canary 你可以通过 `dist-tags:` 下面那行看到最新的版本。
+The latest version is available in line 1 of the figure, if you are using beta or canary you can see the latest version through `distanced tags:` below the line.
 
-## 项目初始化
+## Project initialization
 
-使用命令创建模板项目：
+Create template item using command：
 
 ```bash
 $ taro init myApp
@@ -54,37 +54,37 @@ npm 5.2+ 也可在不全局安装的情况下使用 npx 创建模板项目：
 $ npx @tarojs/cli init myApp
 ```
 
-![taro init myApp command screenshot](https://img30.360buyimg.com/ling/jfs/t1/121270/15/15083/672721/5f89357dEf36b7fe2/ecb98df1436cd3d5.jpg)
+![taro init myApp command screen](https://img30.360buyimg.com/ling/jfs/t1/121270/15/15083/672721/5f89357dEf36b7fe2/ecb98df1436cd3d5.jpg)
 
-在创建完项目之后，Taro 会默认开始安装项目所需要的依赖，安装使用的工具按照 yarn > cnpm > npm 顺序进行检测。一般来说，依赖安装会比较顺利，但某些情况下可能会安装失败，这时候你可以在项目目录下自己使用安装命令进行安装：
+When creating a project, Taro will default to start installing the dependencies needed to install the project. The tools used will be checked in yarn > cnpm > npm order.一般来说，依赖安装会比较顺利，但某些情况下可能会安装失败，这时候你可以在项目目录下自己使用安装命令进行安装：
 
 ```bash
-# 进入项目根目录
+# Enter project root
 $ cd myApp
 
-# 使用 yarn 安装依赖
+# Installing dependencies with yarn
 $ yarn
 
-# OR 使用 cnpm 安装依赖
+# OR install dependencies with cnpm installation
 $ cnpm install
 
-# OR 使用 npm 安装依赖
+# OR install dependency with npm installation
 $ npm install
 ```
 
-## 编译运行
+## Build Running
 
-使用 Taro 的 `build` 命令可以把 Taro 代码编译成不同端的代码，然后在对应的开发工具中查看效果。
+Use the Taro `build` command to compile Taro code into different ends and see effects in the corresponding development tool.
 
-Taro 编译分为 `dev` 和 `build` 模式：
+Taro compiles into `dev` and `build` mode：
 
-- **dev 模式（增加 --watch 参数）** 将会监听文件修改。
-- **build 模式（去掉 --watch 参数）** 将不会监听文件修改，并会对代码进行压缩打包。
-- dev 模式生成的文件较大，设置环境变量 `NODE_ENV` 为 `production` 可以开启压缩，方便预览，但编译速度会下降。
+- **dev mode (add --watch parameter)** will listen for changes to files.
+- **build mode (remove --watch parameter)** will not listen to changes and will compress the code.
+- A large file is generated in dev mode and set the environment variable `NODE_ENV` to `production` to enable compression, facilitate preview, but compile speed declines.
 
-### 微信小程序
+### Micromessage applet
 
-#### 编译命令
+#### Compilation commands
 
 ```bash
 # yarn
@@ -108,18 +108,18 @@ $ set NODE_ENV=production && taro build --type weapp --watch # Windows
 $ NODE_ENV=production taro build --type weapp --watch # Mac
 ```
 
-#### 小程序开发者工具
+#### Applet Developer Tools
 
-下载并打开[微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)，然后选择**项目根目录**进行预览。
+Download and open[MicroMessage Developer Tool](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)and select**Project Root Root**for preview.
 
-需要注意开发者工具的项目设置：
-  * 需要设置关闭 ES6 转 ES5 功能，开启可能报错
-  * 需要设置关闭上传代码时样式自动补全，开启可能报错
-  * 需要设置关闭代码压缩上传，开启可能报错
+Attention needs to be paid to project settings for developer tools：
+  * Require ES6 to turn ES5 off
+  * Require autocomplete when closing the upload code. Enable may be wrong
+  * Require shutdown code compression to be uploaded. Enable possible misstatements
 
-### 百度小程序
+### Bracket applet
 
-#### 编译命令
+#### Compilation commands
 
 ```bash
 # yarn
@@ -143,18 +143,18 @@ $ set NODE_ENV=production && taro build --type swan --watch # Windows
 $ NODE_ENV=production taro build --type swan --watch # Mac
 ```
 
-#### 小程序开发者工具
+#### Applet Developer Tools
 
-下载并打开[百度开发者工具](https://smartprogram.baidu.com/docs/develop/devtools/show_sur/)，并确保已经设置了小程序项目配置文件 [project.swan.json](./project-config)。然后选择项目根目录下 `dist` 目录（根目录 `config` 中的 `outputRoot` 设置的目录）进行预览。
+Download and open[100 developer tool](https://smartprogram.baidu.com/docs/develop/devtools/show_sur/)and make sure that the applet project profile [project.swan.json](./project-config) has been set up.Then select the directory `dist` on the root of the project (directory at root `config` in `outputRoot` set) for preview.
 
-需要注意开发者工具的项目设置：
-  * 需要关闭 ES6 转 ES5 功能，开启可能报错
-  * 需要关闭上传代码时样式自动补全，开启可能报错
-  * 需要关闭代码压缩上传，开启可能报错
+Attention needs to be paid to project settings for developer tools：
+  * Requires ES6 to turn ES5 off
+  * Autocomplete when uploading code is required. Enable may be wrong
+  * Require closing code for upload. Enable possible reporting errors
 
-### 支付宝小程序
+### PayPal applet
 
-#### 编译命令
+#### Compilation commands
 
 ```bash
 # yarn
@@ -178,18 +178,18 @@ $ set NODE_ENV=production && taro build --type alipay --watch # Windows
 $ NODE_ENV=production taro build --type alipay --watch # Mac
 ```
 
-#### 小程序开发者工具
+#### Applet Developer Tools
 
 下载并打开[支付宝小程序开发者工具](https://docs.alipay.com/mini/developer/getting-started/)，然后选择项目根目录下 `dist` 目录（根目录 `config` 中的 `outputRoot` 设置的目录）进行预览。
 
-需要注意开发者工具的项目设置：
-  * 需要关闭 ES6 转 ES5 功能，开启可能报错
-  * 需要关闭上传代码时样式自动补全，开启可能报错
-  * 需要关闭代码压缩上传，开启可能报错
+Attention needs to be paid to project settings for developer tools：
+  * Requires ES6 to turn ES5 off
+  * Autocomplete when uploading code is required. Enable may be wrong
+  * Require closing code for upload. Enable possible reporting errors
 
-### 字节跳动小程序
+### Byte jump applet
 
-#### 编译命令
+#### Compilation commands
 
 ```bash
 # yarn
@@ -213,18 +213,18 @@ $ set NODE_ENV=production && taro build --type tt --watch # Windows
 $ NODE_ENV=production taro build --type tt --watch # Mac
 ```
 
-#### 小程序开发者工具
+#### Applet Developer Tools
 
-下载并打开[字节跳动小程序开发者工具](https://microapp.bytedance.com/docs/devtool/versionUpdate.html)，并确保已经设置了小程序项目配置文件 [project.tt.json](./project-config)。然后选择项目根目录下 `dist` 目录（根目录 `config` 中的 `outputRoot` 设置的目录）进行预览。
+Download and open[byte jump applet developer tool](https://microapp.bytedance.com/docs/devtool/versionUpdate.html)and make sure that the applet project profile [project.tt.json](./project-config) has been set up.Then select the directory `dist` on the root of the project (directory at root `config` in `outputRoot` set) for preview.
 
-需要注意开发者工具的项目设置：
-  * 需要关闭 ES6 转 ES5 功能，开启可能报错
-  * 需要关闭上传代码时样式自动补全，开启可能报错
-  * 需要关闭代码压缩上传，开启可能报错
+Attention needs to be paid to project settings for developer tools：
+  * Requires ES6 to turn ES5 off
+  * Autocomplete when uploading code is required. Enable may be wrong
+  * Require closing code for upload. Enable possible reporting errors
 
-### QQ 小程序
+### QQ applet
 
-#### 编译命令
+#### Compilation commands
 
 ```bash
 # yarn
@@ -248,18 +248,18 @@ $ set NODE_ENV=production && taro build --type qq --watch # Windows
 $ NODE_ENV=production taro build --type qq --watch # Mac
 ```
 
-#### 小程序开发者工具
+#### Applet Developer Tools
 
 下载并打开 [QQ 小程序开发者工具](https://q.qq.com/wiki/#_4-%E7%BC%96%E7%A0%81%E5%BC%80%E5%8F%91%E5%B0%8F%E7%A8%8B%E5%BA%8F)，然后选择项目根目录下 `dist` 目录（根目录 `config` 中的 `outputRoot` 设置的目录）进行预览。
 
-需要注意开发者工具的项目设置：
-  * 需要关闭 ES6 转 ES5 功能，开启可能报错
-  * 需要关闭上传代码时样式自动补全，开启可能报错
-  * 需要关闭代码压缩上传，开启可能报错
+Attention needs to be paid to project settings for developer tools：
+  * Requires ES6 to turn ES5 off
+  * Autocomplete when uploading code is required. Enable may be wrong
+  * Require closing code for upload. Enable possible reporting errors
 
-### 京东小程序
+### Gydong applet
 
-#### 编译命令
+#### Compilation commands
 
 ```bash
 # yarn
@@ -283,36 +283,36 @@ $ set NODE_ENV=production && taro build --type jd --watch # Windows
 $ NODE_ENV=production taro build --type jd --watch # Mac
 ```
 
-#### 小程序开发者工具
+#### Applet Developer Tools
 
-下载并打开京东小程序开发者工具（前往https://mp.jd.com 注册，申请成功后将会获得开发者工具），然后选择项目根目录下 `dist` 目录（根目录 `config` 中的 `outputRoot` 设置的目录）进行预览。
+Download and open the gadget developer tool (go to https://mp.jd.com to register, apply successfully and get the developer tool), then select the directory `dist` on the root of the project (directory at root `config` at `outputRoot` settings) for preview.
 
-需要注意开发者工具的项目设置：
-  * 需要关闭 ES6 转 ES5 功能，开启可能报错
-  * 需要关闭上传代码时样式自动补全，开启可能报错
-  * 需要关闭代码压缩上传，开启可能报错
+Attention needs to be paid to project settings for developer tools：
+  * Requires ES6 to turn ES5 off
+  * Autocomplete when uploading code is required. Enable may be wrong
+  * Require closing code for upload. Enable possible reporting errors
 
-#### 京东小程序相关阅读
+#### Chingong Applet Reading
 
-- [《使用 Taro 快速开发京东小程序》](/blog/2020-04-27-taro-build-jd)
-- [《京东小程序 Taro 开发对比原生开发测评》](/blog/2020-04-27-taro-vs-jd)
+- [Use Taro for Quick Development of the Gingodon](/blog/2020-04-27-taro-build-jd)
+- [Taro Development Comparisons for Development](/blog/2020-04-27-taro-vs-jd)
 
-### 企业微信小程序
+### Business Microletter Applet
 
-> Taro v3.1+ 开始支持
+> Taro v3.1+ Start Support
 
-使用 Taro 插件能支持编译企业微信小程序，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-weapp-qy)。
+Using a Taro plugin to support the compilation of business micromessaging, plugin documentation can be found at [Github](https://github.com/NervJS/taro-plugin-platform-weapp-qy).
 
-#### 安装插件
+#### Install Plugins
 
 ```bash
 yarn add @tarojs/plugin-platform-weapp-qy
 ```
 
-#### 配置插件
+#### Configure Plugins
 
 ```js title="Taro 项目配置"
-config = {
+config =
   // ...
   plugins: [
     '@tarojs/plugin-platform-weapp-qy'
@@ -320,7 +320,7 @@ config = {
 }
 ```
 
-#### 编译命令
+#### Compilation commands
 
 ```bash
 # yarn
@@ -331,36 +331,36 @@ $ yarn build:qywx
 $ npm run dev:qywx
 $ npm run build:qywx
 
-# 仅限全局安装
-$ taro build --type qywx --watch
+# Only global installation
+$ taro build --type qywx -wire
 $ taro build --type qywx
 
-# npx 用户也可以使用
+# npx users can also use
 $ npx taro build --type qywx --watch
-$ npx taro build --type qywx
+$ npx taro build --type qywx -wire
 
-# watch 同时开启压缩
-$ set NODE_ENV=production && taro build --type qywx --watch # Windows
-$ NODE_ENV=production taro build --type qywx --watch # Mac
+# Care simultaneously compress
+$ set NODE_ENV=production && taro build --type qywx --watch # Window
+$ NODE_ENV=reduction taro build --type -type qywx --watch
 ```
 
-#### 小程序开发者工具
+#### Applet Developer Tools
 
-同微信小程序。开发者工具的编译模式设置为企业微信。
+Same micromessaging app.The compiler mode of the developer tool is set to enterprise micromessages.
 
-### 钉钉小程序
+### Studded Applet
 
-> Taro v3.1+ 开始支持
+> Taro v3.1+ Start Support
 
-使用 Taro 插件能支持编译钉钉小程序，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-alipay-dd)。
+Using Taro plugin to support the compilation of pegged applets, see [Github](https://github.com/NervJS/taro-plugin-platform-alipay-dd).
 
-#### 安装插件
+#### Install Plugins
 
 ```bash
 yarn add @tarojs/plugin-platform-alipay-dd
 ```
 
-#### 配置插件
+#### Configure Plugins
 
 ```js title="Taro 项目配置"
 config = {
@@ -371,7 +371,7 @@ config = {
 }
 ```
 
-#### 编译命令
+#### Compilation commands
 
 ```bash
 # yarn
@@ -395,23 +395,23 @@ $ set NODE_ENV=production && taro build --type dd --watch # Windows
 $ NODE_ENV=production taro build --type dd --watch # Mac
 ```
 
-#### 小程序开发者工具
+#### Applet Developer Tools
 
-同支付宝小程序。开发者工具的编译模式设置为钉钉。
+Same as PayPal app.The compiler mode of the developer tool is set to nail.
 
-### 支付宝 IOT 小程序
+### PayPal IOT applet
 
-> Taro v3.1+ 开始支持
+> Taro v3.1+ Start Support
 
-使用 Taro 插件能支持编译支付宝 IOT 小程序，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-alipay-iot)。
+Using a Taro plugin to support the compilation of PayPal IOT applets, see [Github](https://github.com/NervJS/taro-plugin-platform-alipay-iot).
 
-#### 安装插件
+#### Install Plugins
 
 ```bash
 yarn add @tarojs/plugin-platform-alipay-iot
 ```
 
-#### 配置插件
+#### Configure Plugins
 
 ```js title="Taro 项目配置"
 config = {
@@ -422,7 +422,7 @@ config = {
 }
 ```
 
-#### 编译命令
+#### Compilation commands
 
 ```bash
 # yarn
@@ -446,26 +446,26 @@ $ set NODE_ENV=production && taro build --type iot --watch # Windows
 $ NODE_ENV=production taro build --type iot --watch # Mac
 ```
 
-#### 小程序开发者工具
+#### Applet Developer Tools
 
-同支付宝小程序。开发者工具的编译模式设置为 IOT 小程序。
+Same as PayPal app.Developer tool compilation mode is set to IOT applet.
 
-### 飞书小程序
+### Flight Applet
 
-> Taro v3.1+ 开始支持
+> Taro v3.1+ Start Support
 
-使用 Taro 插件能支持编译飞书小程序，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-lark)。
+Using a Taro plugin to support the compilation of Flight Books applets, see [Github](https://github.com/NervJS/taro-plugin-platform-lark).
 
-#### 安装插件
+#### Install Plugins
 
 ```bash
 yarn add @tarojs/plugin-platform-lark
 ```
 
-#### 配置插件
+#### Configure Plugins
 
 ```js title="Taro 项目配置"
-config = {
+config = LO
   // ...
   plugins: [
     '@tarojs/plugin-platform-lark'
@@ -473,7 +473,7 @@ config = {
 }
 ```
 
-#### 编译命令
+#### Compilation commands
 
 ```bash
 # yarn
@@ -497,42 +497,42 @@ $ set NODE_ENV=production && taro build --type lark --watch # Windows
 $ NODE_ENV=production taro build --type lark --watch # Mac
 ```
 
-#### 小程序开发者工具
-[飞书小程序](https://open.feishu.cn/document/uYjL24iN/uMjNzUjLzYzM14yM2MTN)能运行在飞书客户端上，且一套代码多端运行(包括PC端和移动端)。你需要下载并打开[飞书小程序开发者工具](https://open.feishu.cn/document/uYjL24iN/ucDOzYjL3gzM24yN4MjN)，并确保已经设置了小程序项目配置文件。然后选择项目根目录下 `dist` 目录进行预览。
+#### Applet Developer Tools
+[Bottom-book applets](https://open.feishu.cn/document/uYjL24iN/uMjNzUjLzYzM14yM2MTN)can run on the airbook client and a set of codes that run multiple-end (including PC and mobile ends).You need to download and open the[Bottle Developer Tool](https://open.feishu.cn/document/uYjL24iN/ucDOzYjL3gzM24yN4MjN)and make sure that the applet project profile has been set.Then select the project root directory `dist` for preview.
 
-需要注意开发者工具的项目配置
-- 需要关闭ES6转ES5功能，开启可能报错
-- 需要关闭上传代码时样式自动补全，开启可能报错
-- 需要关闭代码压缩上传，开启可能报错
+Attention needs to be paid to project configuration of developer tools
+- Requires ES6 to turn ES5 off
+- Autocomplete when uploading code is required. Enable may be wrong
+- Require closing code for upload. Enable possible reporting errors
 
-### 快手小程序
+### Quick Applet
 
 使用 Taro 插件能支持编译快手小程序，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-kwai)。
 
-#### 版本要求
+#### Version Requirements
 
 ##### Taro 3.3+
 
-请使用 [taro-plugin-platform-kwai](https://github.com/NervJS/taro-plugin-platform-kwai) 的 1.0 或以上版本。
+Please use [taro-plugin-plate-kwai version of](https://github.com/NervJS/taro-plugin-platform-kwai) or more.
 
 ##### Taro 3.2
 
-请使用 [taro-plugin-platform-ks](https://github.com/vadxq/taro-plugin-platform-ks) 的 1.2.x 版本。
+Please use version 1.2.x of [taro-plugin-plate](https://github.com/vadxq/taro-plugin-platform-ks).
 
 ##### Taro 3.0 - 3.1
 
-请使用 [taro-plugin-platform-ks](https://github.com/vadxq/taro-plugin-platform-ks) 的 1.0.x 版本。
+Please use version 1.0.x of [taro-plugin-plate](https://github.com/vadxq/taro-plugin-platform-ks).
 
-#### 安装插件
+#### Install Plugins
 
 ```bash
 yarn add @tarojs/plugin-platform-kwai
 ```
 
-#### 配置插件
+#### Configure Plugins
 
 ```js title="Taro 项目配置"
-config = {
+config =
   // ...
   plugins: [
     '@tarojs/plugin-platform-kwai'
@@ -540,7 +540,7 @@ config = {
 }
 ```
 
-#### 编译命令
+#### Compilation commands
 
 ```bash
 # yarn
@@ -551,26 +551,26 @@ $ yarn build:kwai
 $ npm run dev:kwai
 $ npm run build:kwai
 
-# 仅限全局安装
-$ taro build --type kwai --watch
+# Only global installation
+$ taro build --type kwai -wire
 $ taro build --type kwai
 
-# npx 用户也可以使用
+# npx users can also use
 $ npx taro build --type kwai --watch
-$ npx taro build --type kwai
+$ npx taro build --type kwai --wiki
 
-# watch 同时开启压缩
-$ set NODE_ENV=production && taro build --type kwai --watch # Windows
-$ NODE_ENV=production taro build --type kwai --watch # Mac
+# Cat the same time compression
+set NODE_ENV=production && taro build --type kwai -wai -watch # Windows
+$ NODE_ENV=protoy build -type kwai -watch # Mac
 ```
 
-#### 小程序开发者工具
+#### Applet Developer Tools
 
 下载并打开[快手小程序开发者工具](https://mp.kuaishou.com/docs/develop/guide/introduction.html)，然后选择项目根目录下 `dist` 目录（根目录 `config` 中的 `outputRoot` 设置的目录）进行预览。
 
 ### H5
 
-#### 编译命令
+#### Compilation commands
 
 ```bash
 # yarn
@@ -581,57 +581,57 @@ $ yarn build:h5
 $ npm run dev:h5
 $ npm run build:h5
 
-# 仅限全局安装
+# Only globally installed
 $ taro build --type h5 --watch
 $ taro build --type h5
 
-# npx 用户也可以使用
+# npx users can also use
+$ npx taro build -type h5 --watch )
 $ npx taro build --type h5 --watch
-$ npx taro build --type h5
 ```
 
 ### React Native
 
-> Taro v3.2+ 开始支持
+> Taro v3.2+ Start Support
 
-请参考 [React Native 端开发流程](./react-native)
+Reference [React Native Development Process](./react-native)
 
-## 渐进式入门教程
+## Progressive introductory tutorials
 
-我们提供了一个由浅入深的实战教程，请参考[《教程》](./guide)。
+We have provided a tutorial on the ground from shallow to depth. See[Tutorial](./guide).
 
-## 常见问题
+## FAQ
 
-### 保持 CLI 的版本与各端依赖版本一致
+### Keep CLI versions consistent with dependencies at all ends
 
-在使用 Taro 进行多端开发中，请保持 Taro CLI 的版本与你项目的依赖版本一致，否则可能会出现编译错误或者运行时错误。
+For multi-end development using Taro, keep the Taro CLI version consistent with your project's dependent version, otherwise there may be compilation errors or running errors.
 
-如果发现不一致的情况可以使用 Taro 升级命令 taro update self [版本号] 和 taro update project [版本号]来分别将 CLI 和项目依赖升级到指定版本； 或者也可以手动安装相应版本 CLI，修改 package.json 依赖版本号，然后重装依赖来解决。
+If an inconsistency is found, use Taro Upgrade Command taro Update self [版本号] and taro Update project [版本号]to upgrade the CLI and project dependency to the specified version, respectively; or can also manually install the corresponding CLI, modify package.json dependency number, then reinstall the dependency.
 
 ```bash
-# 使用Taro 升级命令更新CLI版本到最新版本
-$ taro update self [版本号]
-# 使用Taro 升级命令更新CLI版本到指定版本
-$ taro update self
-# 使用Taro 升级命令将项目依赖升级到与@tarojs/cli一致的版本
-$ taro update project 
-# 使用Taro 升级命令将项目依赖升级到指定版本
-$ taro update project [版本号]
+# Update CLI version to the latest version using Taro Update command
+$ taro Update Self [版本号]
+# Update CLI version to the specified version with Taro Update Command
+$ taro Update Self
+# Upgrade project dependency to @tarojs/clients using Taro Update Command
+$ taro Update project 
+# Upgrade project dependency with Taro Upgrade Command
+$ taro Update project [版本号]
 ```
-如果你所使用的 Taro CLI 版本为 3.0.9，而项目里使用的依赖版本为 3.0.10，则有可能会出现问题，这时请将你的 Taro CLI 版本更新至项目依赖版本号相同的版本，如果还是出现问题，请向我们提出 [Issue](https://nervjs.github.io/taro-issue-helper/)。
+There may be a problem if you are using Taro CLI version 3.0.9 while the project uses a dependency version 3.0.10, please update your Taro CLI version to the same version of the project's dependency number. If there is still a problem, ask us [Issue](https://nervjs.github.io/taro-issue-helper/).
 
-### Taro 多版本共存问题
+### Taro multi-version coexisting
 
-很多开发者曾经使用 Taro 旧版本开发过项目，已经在全局安装了 Taro，但是想同时体验到 Taro 3，应该如何进行操作？
+Many developers have developed projects with old versions of Taro and have installed Taro on a global scale, but want to experience Taro 3, how should they operate?
 
-我们提供了两种思路：
+We provided two ideas：
 
 - 如果是需要新创建 Taro 3 项目，可以使用 [nvm](https://github.com/nvm-sh/nvm) 来管理 node 版本，通过安装不同 node 版本来安装不同版本的 Taro CLI，从而解决 Taro 多版本共存的问题
-- 如果是部分已有项目需要升级到 Taro 3，可以在这些项目本地安装相应版本的 Taro CLI，这样通过 `yarn` 或者 `npm` 执行命令的话就会直接使用本地安装的 Taro CLI，安装方式 `yarn add @tarojs/cli`
+- If some of the existing projects need to be upgraded to Taro 3, the corresponding Taro CLI can be installed locally, so using `yarn` or `npm` the local installed Taro CLI, installation method `yarn add @tarojs/cli`
 
-### 回到某个版本
+### Back to a version
 
-需要安装某个固定版本，或者回到某个版本，例如我们要安装 `1.3.9` ， 则如下：
+A fixed version needs to be installed or returned to a version such as `1.3.9` , below：
 
 ```bash
 # 使用 npm 安装 CLI
