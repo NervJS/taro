@@ -3,84 +3,84 @@ title: Taro.chooseImage(option)
 sidebar_label: chooseImage
 ---
 
-从本地相册选择图片或使用相机拍照。
+Selects an image from the local album or takes a photo with the camera.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.chooseImage.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.chooseImage.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<SuccessCallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The maximum number of images allowed</td>
     </tr>
     <tr>
       <td>count</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>最多可以选择的图片张数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The size of the select image</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The source of the image</td>
     </tr>
     <tr>
       <td>sizeType</td>
       <td><code>(&quot;original&quot; | &quot;compressed&quot;)[]</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>所选的图片的尺寸</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>sourceType</td>
       <td><code>(&quot;album&quot; | &quot;camera&quot; | &quot;user&quot; | &quot;environment&quot;)[]</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>选择图片的来源</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
 ### sizeType
 
-图片的尺寸
+Valid values of object.sizeType
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>original</td>
-      <td>原图</td>
+      <td>Original image</td>
     </tr>
     <tr>
       <td>compressed</td>
@@ -91,31 +91,31 @@ sidebar_label: chooseImage
 
 ### sourceType
 
-图片的来源
+Valid values of object.sourceType
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>album</td>
-      <td>从相册选图</td>
+      <td>Selects an image from the album</td>
     </tr>
     <tr>
       <td>camera</td>
-      <td>使用相机</td>
+      <td>Takes a photo with the camera</td>
     </tr>
     <tr>
       <td>user</td>
-      <td>使用前置摄像头(仅H5纯浏览器使用)</td>
+      <td>Using the front camera (Only H5)</td>
     </tr>
     <tr>
       <td>environment</td>
-      <td>使用后置摄像头(仅H5纯浏览器)</td>
+      <td>Using the rear camera (Only H5)</td>
     </tr>
   </tbody>
 </table>
@@ -125,94 +125,91 @@ sidebar_label: chooseImage
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>tempFilePaths</td>
       <td><code>string[]</code></td>
-      <td>图片的本地临时文件路径列表</td>
+      <td>The list of local temporary file paths to images</td>
     </tr>
     <tr>
       <td>tempFiles</td>
       <td><code>ImageFile[]</code></td>
-      <td>图片的本地临时文件列表</td>
+      <td>The local temporary file list for images</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
 
 ### ImageFile
 
-图片的本地临时文件列表
+List of local temporary files for images
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>path</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>本地临时文件路径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The path to the local temporary file</td>
     </tr>
     <tr>
       <td>size</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>本地临时文件大小，单位 B</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The size of a local temporary file, in bytes</td>
     </tr>
     <tr>
       <td>type</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>文件的 MIME 类型<br />API 支持度: h5</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The MIME type of the file.<br />(Only H5)</td>
     </tr>
     <tr>
       <td>originalFileObj</td>
       <td><code>File</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>原始的浏览器 File 对象<br />API 支持度: h5</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The original browser File object.<br />(Only H5)</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|            API            | 微信小程序 | H5 | React Native |
-|:-------------------------:|:-----:|:--:|:------------:|
-|      ImageFile.type       |       | ✔️ |              |
-| ImageFile.originalFileObj |       | ✔️ |              |
+|            API            | WeChat Mini-Program | H5 | React Native |
+|:-------------------------:|:-------------------:|:--:|:------------:|
+|      ImageFile.type       |                     | ✔️ |              |
+| ImageFile.originalFileObj |                     | ✔️ |              |
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.chooseImage({
-  count: 1, // 默认9
-  sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-  sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有，在H5浏览器端支持使用 `user` 和 `environment`分别指定为前后摄像头
-  success: function (res) {
-    // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-    var tempFilePaths = res.tempFilePaths
+  count: 1, // The default value is 9
+  sizeType: ['original', 'compressed'], // You can specify whether the image is original or compressed, both are available by default. sourceType: ['album', 'camera'], // You can specify whether the source is an album or a camera, both are available by default. success: function (res) {
+    // tempFilePath can be used as the src property of the img tag to display images. var tempFilePaths = res.tempFilePaths
   }
 })
 ```
 
-## API 支持度
+## API Support
 
-|       API        | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
-|:----------------:|:-----:|:-----:|:------:|:--:|:------------:|
-| Taro.chooseImage |  ✔️   |  ✔️   |   ✔️   | ✔️ |      ✔️      |
+|       API        | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | H5 | React Native |
+|:----------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| Taro.chooseImage |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
