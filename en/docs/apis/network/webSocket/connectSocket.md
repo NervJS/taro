@@ -3,82 +3,82 @@ title: Taro.connectSocket(option)
 sidebar_label: connectSocket
 ---
 
-创建一个 WebSocket 连接。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)。
+Creates a WebSocket connection.Read [related instructions](https://developers.weixin.qq.com/miniprogram/en/dev/framework/ability/network.html) before use.
 
-**并发数**
-- 1.7.0 及以上版本，最多可以同时存在 5 个 WebSocket 连接。
-- 1.7.0 以下版本，一个小程序同时只能有一个 WebSocket 连接，如果当前已存在一个 WebSocket 连接，会自动关闭该连接，并重新创建一个 WebSocket 连接。
+**Number of Concurrent Connections**
+- In version 1.7.0 or later, up to 5 WebSocket connections can exist at the same time.
+- Before version 1.7.0, a mini program can only have one WebSocket connection at a time.If a WebSocket connection already exists, it will be automatically disabled and a new one will be created.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.connectSocket.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.connectSocket.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<SocketTask>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>url</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>开发者服务器 wss 接口地址</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The wss API URL of developer server</td>
     </tr>
     <tr>
       <td>complete</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td style={{ textAlign: "center"}}>No</td>
       <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
     </tr>
     <tr>
       <td>fail</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Sub-protocol array</td>
     </tr>
     <tr>
       <td>header</td>
       <td><code>Record&lt;string, any&gt;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>HTTP Header，Header 中不能设置 Referer</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>TCP_NODELAY settings when a TCP connection is established</td>
     </tr>
     <tr>
       <td>protocols</td>
       <td><code>string[]</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>子协议数组</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>success</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>tcpNoDelay</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>建立 TCP 连接的时候的 TCP_NODELAY 设置</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
-### 示例 1
+### Example 1
 
 ```tsx
 Taro.connectSocket({
@@ -90,7 +90,7 @@ Taro.connectSocket({
 })
 ```
 
-### 示例 2
+### Example 2
 
 ```tsx
 Taro.connectSocket({
@@ -116,8 +116,8 @@ Taro.connectSocket({
 })
 ```
 
-## API 支持度
+## API Support
 
-|        API         | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
-|:------------------:|:-----:|:-----:|:------:|:--:|:------------:|
-| Taro.connectSocket |  ✔️   |  ✔️   |   ✔️   | ✔️ |      ✔️      |
+|        API         | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | H5 | React Native |
+|:------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| Taro.connectSocket |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
