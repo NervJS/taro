@@ -1,36 +1,36 @@
 ---
-title: 社区优质物料
+title: Community Quality Material
 ---
 
-本篇收录了社区在 [Taro 物料市场](https://taro-ext.jd.com) 贡献的各种优质物料。
+This is a collection of various quality materials contributed by the community at [Taro Material Market](https://taro-ext.jd.com).
 
-注意：平台支持度没有打 `✔️` 的，意思是尚未验证，不代表完全不支持。
+Note: Platform Support does not hit `✔️`, meaning it has not been verified, does not mean it is not supported at all.
 
-#### 如何贡献
+#### How to contribute
 
-欢迎各位开发者为 Taro 社区贡献物料。可以通过以下步骤进行贡献、引流、讨论，共同成长：
+All developers are welcome to contribute materials to the Taro community.The following steps can be taken to contribute, attract traffic, discuss and grow together.
 
-1. 提交物料到 [Taro 物料市场](https://taro-ext.jd.com/)，并提供完善的文档。
-2. 修改本文档，为物料添加说明。
-3. 在 [Taro 讨论组](https://github.com/NervJS/taro/discussions/categories/%E7%94%9F%E6%80%81) 添加一条讨论，与开发者进行沟通。
+1. Submit materials to the [Taro Materials Marketplace](https://taro-ext.jd.com/) and provide complete documentation.
+2. Modify this document to add a description for the material.
+3. Add a discussion to the [Taro Discussion Group](https://github.com/NervJS/taro/discussions/categories/%E7%94%9F%E6%80%81) to communicate with developers.
 
-## 模板项目
+## Template Project
 
 ---
 
-### 网易云音乐小程序
+### NetEase cloud music mini program
 
 `React`
 
-🎉基于 Taro + Taro UI + Redux + React Hooks + Typescript 开发的网易云音乐小程序。
+🎉NetEase cloud music mini program based on Taro + Taro UI + Redux + React Hooks + Typescript.
 
-@lsqy 出品。【[Github](https://github.com/lsqy/taro-music/tree/feature_upgrade_taro3.0)】
+@lsqy 出品。@lsqy 【[Github](https://github.com/lsqy/taro-music/tree/feature_upgrade_taro3.0)】
 
 <img src="http://storage.360buyimg.com/cjj-pub-images/taro-music.png" width="700px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    |    |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    |    |    |
 
 ---
 
@@ -38,95 +38,95 @@ title: 社区优质物料
 
 `React`
 
-nice-router 第0适合后端程序员的前端小程序开发框架。
+nice-router,  Front-end mini program development framework for back-end programmers.
 
-@kala888 出品。【[Github](https://github.com/kala888/nice-router-taro)】
+@whyour.【[Github](https://github.com/whyour/mini-work)】
 
 <img src="http://storage.360buyimg.com/cjj-pub-images/taro-route.webp" width="400px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    |    |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    |    |    |
 
 ---
 
-### 小溪里博客小程序
+### Xiaoxili Bloglet mini program
 
 `React`
 
-小溪里博客小程序。基于 Taro 3.3+，使用 HTML 标签开发。
+小溪里博客小程序。Xiaoxili Bloglet mini program, Based on Taro 3.3+ and developed using HTML tags.
 
-@shenghanqin 出品。【[Github](https://github.com/hi-our/hi-blog-taro/)】
+@sskcal produce.【[Material Details](https://taro-ext.jd.com/plugin/view/605447970ed19502489d719e)】【[Github](https://github.com/sskcal/ng-small_proground_taro)】
 
 <img src="http://storage.360buyimg.com/cjj-pub-images/taro-xxl-blog1.png" width="250px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    |    |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    |    |    |
 
 ---
 
-### 房贷计算器
+### Mortgage Calculator
 
 `React`
 
-首个 Taro 3 多端统一实例 - 支持 React Native，Weapp，H5。
+The First Taro 3 Multi-Ended Unified Instance - Support React Native，Weapp，H5。
 
-58 同城团队出品。【[Github](https://github.com/wuba/Taro-Mortgage-Calculator)】
+58 同城团队出品。58 Tongcheng team produces.【[Github](https://github.com/wuba/Taro-Mortgage-Calculator)】
 
 <img src="http://storage.360buyimg.com/cjj-pub-images/taro-fdjsq.png" width="700px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    | ✔️ | ✔️ |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    | ✔️ | ✔️ |
 
 ---
 
-### 《瑞克和莫蒂》Wiki
+### 《Rick and Morty》Wiki
 
 `React`
 
-基于 Taro3.2+ 的多端统一项目。在这里可以查看几乎所有在《瑞克和莫蒂》中出现的人物，外加专为铁粉准备的小游戏。
+A multi-end unified project based on Taro 3.2+.Here you can view almost all the characters that appear in Rick and Morty, plus mini-games just for the hardcore fans.
 
 @ 出品。【[Github](https://github.com/rick-and-morty-wiki/rick-and-morty-wiki)】
 
 <img src="http://storage.360buyimg.com/cjj-pub-images/taro-mr-wiki.png" width="700px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    | ✔️ | ✔️ |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    | ✔️ | ✔️ |
 
 ---
 
-### 南歌文化电子票销售小程序
+### South Song Culture e-ticket sales mini program
 
 `React`
 
-基于 Taro 3.0.27 的开发的电子票（景点、餐饮、夜店）销售小程序，使用了 React + React Hooks + TypeScript + React-Redux。
+E-ticket (attractions, restaurants, nightclubs) sales mini program based on Taro 3.0.27, using React + React Hooks + TypeScript + React-Redux.
 
 @sskcal 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/605447970ed19502489d719e)】【[Github](https://github.com/sskcal/ng-small_proground_taro)】
 
 <img src="http://img10.360buyimg.com/img/jfs/t1/166374/28/13744/217757/605447b5Eae1de603/b036e697f1c742e9.jpg!q60.webp" width="250px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    |    |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    |    |    |
 
 ---
 
-### 微信小程序每日工作量
+### Daily workload of WeChat mini program
 
 `Vue`
 
-记录每日工作量，统计日工资，月工资。
+Record daily workload, count daily payroll, monthly payroll.
 
 @whyour 出品。【[Github](https://github.com/whyour/mini-work)】
 
 <img src="http://storage.360buyimg.com/cjj-pub-images/taro-daily.jpeg" width="250px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ | ✔️  | ✔️ | ✔️ | ✔️ | ✔️ |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |  ✔️   |    ✔️     | ✔️ | ✔️ | ✔️ |
 
 ---
 
@@ -134,13 +134,13 @@ nice-router 第0适合后端程序员的前端小程序开发框架。
 
 `React`
 
-这是一款针对自媒体从业者专门开发的微信团购小程序。
+This is a group buying WeChat mini  program specially developed for self-publishers.
 
-@nasawz 出品。【[Github](https://github.com/nasawz/niceup)】
+@nasawz 出品。@nasawz 【[Github](https://github.com/nasawz/niceup)】
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    |    |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    |    |    |
 
 ---
 
@@ -148,41 +148,41 @@ nice-router 第0适合后端程序员的前端小程序开发框架。
 
 `React`
 
-Taro_Mall 是一款多端开源在线商城应用程序，后台是基于 litemall 基础上进行开发，前端采用 Taro 框架编写，现已全部完成小程序和 H5 移动端，后续会对APP，淘宝，头条，百度小程序进行适配。Taro_Mall 已经完成了 litemall 前端的所有功能。
+Taro_Mall is a multi-end open source online mall application, the backend is based on litemall, the front end is written using the Taro framework, now all completed mini programs and H5 mobile, the subsequent will be adapted to APP, Taobao, headlines, Baidu mini program.taro_Mall has completed all the functions of the front end of litemall.
 
-@jiechud 出品。【[Github](https://github.com/jiechud/taro-mall)】
+@jiechud 出品。@jiechud【[Github](https://github.com/jiechud/taro-mall)】
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    |    |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    |    |    |
 
 ---
 
-### Vue3 + TS 快速开发模板
+### Vue3 + TS Rapid development of templates
 
 `Vue3`
 
-基于 Taro 3.x & Vue 3 & TypeScript 的快速开发模板。
+Rapid development templates based on Taro 3.x & Vue 3 & TypeScript.
 
-@RealCoolSnow 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/5fd8732f65befdc26fa98f2a)】【[Github](https://github.com/RealCoolSnow/taro-quick-start)】
+@RealCoolSnow 出品。@RealCoolSnow 【[Material details](https://taro-ext.jd.com/plugin/view/5fd8732f65befdc26fa98f2a)】【[Github](https://github.com/RealCoolSnow/taro-quick-start)】
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ | ✔️  | ✔️ | ✔️ | ✔️ |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |  ✔️   |    ✔️     | ✔️ | ✔️ |    |
 
 ---
 
-### React + Dva + Less 模板
+### React + Dva + Less Template
 
 `React`
 
-这是一份基于 Taro 3.x 的模版。 - DvaJS - Taro - Less - React。
+This is a template based on Taro 3.x. - DvaJS - Taro - Less - React。
 
-@hocgin 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/5fced04b0f9312af84eaf3a6)】【[Github](https://github.com/hocgin/taro-starter)】
+@hocgin 出品。@hocgin【[Material details](https://taro-ext.jd.com/plugin/view/5fced04b0f9312af84eaf3a6)】【[Github](https://github.com/hocgin/taro-starter)】
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ | ✔️  | ✔️ | ✔️ | ✔️ |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |  ✔️   |    ✔️     | ✔️ | ✔️ |    |
 
 ---
 
@@ -192,11 +192,11 @@ Taro_Mall 是一款多端开源在线商城应用程序，后台是基于 litema
 
 Taro 小程序 脚手架 (Taro 3 + Dva + Typescript + Immer) - 内置 Redux 计数器, 异步数据请求 与 腾讯小程序地图 demo。
 
-@didilinkin 出品。【[Github](https://github.com/didilinkin/elf-taro)】
+@didilinkin 出品。@didilinkin【[Github](https://github.com/didilinkin/elf-taro)】
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    |    |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    |    |    |
 
 ---
 
@@ -206,29 +206,29 @@ Taro 小程序 脚手架 (Taro 3 + Dva + Typescript + Immer) - 内置 Redux 计�
 
 Taro 小程序脚手架。 特性： 封装api、redux优雅集成、生成海报类，异常日志上报。
 
-@wsdo 出品。【[Github](https://github.com/wsdo/taro-kit)】
+@wsdo 出品。@wsdo【[Github](https://github.com/wsdo/taro-kit)】
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    |    |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    |    |    |
 
 ---
 
-## 样式库
+## Style Library
 
 ### NutUI
 
 `Vue3`
 
-支持多端开发的 Vue 组件库
+Vue component library for multi-platform development
 
-@jdf2e 出品。【[官网](https://nutui.jd.com/#/)】【[Github](https://github.com/jdf2e/nutui)】
+@jdf2e 出品。@jdf2e【[Official Website](https://nutui.jd.com/#/)】【[Github](https://github.com/jdf2e/nutui)】
 
 <img src="https://img13.360buyimg.com/imagetools/jfs/t1/183067/5/17431/1078586/6107ebb5E9f192cd2/2457e76a5aaa53fc.jpg" width="700px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    | ✔️ |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    | ✔️ |    |
 
 ---
 
@@ -236,15 +236,15 @@ Taro 小程序脚手架。 特性： 封装api、redux优雅集成、生成海�
 
 `Vue`
 
-Taro UI 的 Vue 实现。
+Vue implementation of Taro UI.
 
-@psaren 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/5f26b507bd510d60dd72a3cb)】【[Github](https://github.com/psaren/taro-ui-vue)】
+@psaren 出品。@psaren【[Material details](https://taro-ext.jd.com/plugin/view/5f26b507bd510d60dd72a3cb)】【[Github](https://github.com/psaren/taro-ui-vue)】
 
 <img src="http://img10.360buyimg.com/img/jfs/t1/123869/18/8595/1210587/5f26b3fdE5649bb68/b73745d66b1189c3.png.webp" width="700px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    | ✔️ |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    | ✔️ |    |
 
 ---
 
@@ -252,15 +252,15 @@ Taro UI 的 Vue 实现。
 
 `Vue3`
 
-采用 Vue 3.0 重写的 Taro UI 组件库。
+Taro UI component library rewritten in Vue 3.0.
 
-@b2nil 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/5f9158b66ea29204c27aca46)】【[Github](https://github.com/b2nil/taro-ui-vue3.git)】
+@b2nil 出品。@b2nil【[Material details](https://taro-ext.jd.com/plugin/view/5f9158b66ea29204c27aca46)】【[Github](https://github.com/b2nil/taro-ui-vue3.git)】
 
 <img src="http://img13.360buyimg.com/img/jfs/t1/144940/30/11635/67759/5f915841Ef43483ca/bccc3b0cde141d93.jpg!q40.webp" width="250px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ | ✔️  | ✔️ | ✔️ | ✔️ |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |  ✔️   |    ✔️     | ✔️ | ✔️ |    |
 
 ---
 
@@ -268,15 +268,15 @@ Taro UI 的 Vue 实现。
 
 `React`
 
-Taroify 是移动端组件库 Vant 的 Taro 版本，两者基于相同的视觉规范，提供一致的 API 接口，助力开发者快速搭建小程序应用。
+Taroify is the Taro version of the mobile component library Vant. Both are based on the same visual specification and provide a consistent API interface to help developers quickly build mini program.
 
-@tangzhi 出品。【[物料详情](https://taroify.gitee.io/taroify.com/introduce/)】【[Gitee](https://gitee.com/mallfoundry/taroify)】
+@tangzhi 出品。@tangzhi【[Material details](https://taroify.gitee.io/taroify.com/introduce/)】【[Gitee](https://gitee.com/mallfoundry/taroify)】
 
 <img src="http://storage.360buyimg.com/cjj-pub-images/WX20210705-155124.png" width="250px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ | ✔️  | ✔️ | ✔️ | ✔️ |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |  ✔️   |    ✔️     | ✔️ | ✔️ |    |
 
 ---
 
@@ -284,213 +284,213 @@ Taroify 是移动端组件库 Vant 的 Taro 版本，两者基于相同的视觉
 
 `React`
 
-本项目基于ColorUI封装了一些常用的组件，无需下载 ColorUI 的 demo 查看各种实现的 classname， 减少手动将 demo 中的 wxml 书写格式改写为 Taro jsx 格式 等一系列烦琐的工作， 可以直接使用 jsx 组件的方式使用，支持按需导入样式。
+This project encapsulates some common components based on ColorUI, so there is no need to download the ColorUI demo to see the classname of various implementations and reduce a series of tedious work such as manually rewriting the wxml writing format in the demo to Taro jsx format.
 
-@Gengar-666 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/5f895a216ea29204c27ac9e7)】【[Github](https://github.com/Gengar-666/taro-color-ui)】
+@Gengar-666 出品。@Gengar-666【[Material details](https://taro-ext.jd.com/plugin/view/5f895a216ea29204c27ac9e7)】【[Github](https://github.com/Gengar-666/taro-color-ui)】
 
 <img src="http://img14.360buyimg.com/img/jfs/t1/126061/34/15236/86720/5f8958e5E0360ec79/b37731e0f77e8621.jpg!q40.webp" width="250px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ | ✔️  | ✔️ | ✔️ |    |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |  ✔️   |    ✔️     | ✔️ |    |    |
 
 ---
 
-## 插件
+## Plugin
 
 ---
 
-### 骨架屏插件
+### Skeleton screen plugin
 
-让你的 Taro3 页面更流畅，Taro page 初始化 `setData()` 需要传递一个比较大的数据，导致初始化页面时会一段白屏的时间，该插件可以解决这个问题。
+Make your Taro3 page more smooth, Taro page initialization `setData()` need to pass a relatively large data, resulting in the initialization of the page will be a period of white screen time, this plugin can solve this problem.
 
-@allen-hu-666 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/602f7accca9e81834dd689d1)】【[Github](https://github.com/allen-hu-666/taro-tools/tree/master/packages/taro-plugin-skeleton)】
+@allen-hu-666 出品。@allen-hu-666【[Material details](https://taro-ext.jd.com/plugin/view/602f7accca9e81834dd689d1)】【[Github](https://github.com/allen-hu-666/taro-tools/tree/master/packages/taro-plugin-skeleton)】
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ | ✔️  | ✔️ | ✔️ |    |    |
-
----
-
-### tailwindcss 插件
-
-Taro 接入 tailwindcss 2.0 插件。
-
-@pcdotfan 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/5fbb3a0799370e09266e2d68)】【[Github](https://github.com/pcdotfan/taro-plugin-tailwind)】
-
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ | ✔️  | ✔️ | ✔️ | ✔️ |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |  ✔️   |    ✔️     | ✔️ |    |    |
 
 ---
 
-### 动态加载代码插件
+### tailwindcss Plugin
+
+Taro is connected to the tailwindcss 2.0 plugin.
+
+@pcdotfan 出品。@pcdotfan【[Material details](https://taro-ext.jd.com/plugin/view/5fbb3a0799370e09266e2d68)】【[Github](https://github.com/pcdotfan/taro-plugin-tailwind)】
+
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |  ✔️   |    ✔️     | ✔️ | ✔️ |    |
+
+---
+
+### Dynamic code loading plugin
 
 `React`
 
-基于 Taro 3.0+、webpack 插件、babel 的小程序端动态加载代码实现。
+Dynamic loading code implementation on the mini program side based on Taro 3.0+, webpack plugins, babel.
 
-@JiyuShao 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/6049846a39b51f165cbfb0f4)】【[Github](https://github.com/JiyuShao/taro-dynamic-import-weapp)】
+@JiyuShao 出品。@JiyuShao【[Material details](https://taro-ext.jd.com/plugin/view/6049846a39b51f165cbfb0f4)】【[Github](https://github.com/JiyuShao/taro-dynamic-import-weapp)】
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    |    |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    |    |    |
 
 ---
 
-### 命令行创建组件/页面插件
+### Command line creation of components/page plugins
 
-Taro 页面/组件创建工具，全部使用函数式组件 + Typescript + Hooks，提供良好的页面提示。
+Taro page/component creation tool, all using functional components + Typescript + Hooks, providing good page hints.
 
-@liuhuapiaoyuan 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/5f92de541c9f2000d7e02978)】【[Github](https://github.com/liuhuapiaoyuan/tarojs-plugin-generator)】
+@liuhuapiaoyuan 出品。@liuhuapiaoyuan【[Material details](https://taro-ext.jd.com/plugin/view/5f92de541c9f2000d7e02978)】【[Github](https://github.com/liuhuapiaoyuan/tarojs-plugin-generator)】
 
 <img src="http://img20.360buyimg.com/img/jfs/t1/145078/20/12034/12331/5f92de18Ea95a8e27/2040d1e6caf93698.png.webp" width="400px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ | ✔️  | ✔️ | ✔️ | ✔️ | ✔️ |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |  ✔️   |    ✔️     | ✔️ | ✔️ | ✔️ |
 
 ---
 
-### 兼容 wsl 插件
+### Compatible with wsl plugins
 
-打包内容(rsync)同步到 Windows 文件下,解决 wsl2 下(`\\wsl$`) 打包出的小程序文件直接从开发工具读会无法读取到的正确内容
+Packaged content (rsync) synchronized to Windows file, solve the problem that the packaged mini program file under wsl2 (\\\wsl$`) cannot be read directly from the development tool.
 
-@toknT 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/5fe94f6e7684a858dfc230bd)】【[Github](https://github.com/toknT/taro-plugin-sync-in-wsl)】
+@toknT 出品。@toknT【[Material details](https://taro-ext.jd.com/plugin/view/5fe94f6e7684a858dfc230bd)】【[Github](https://github.com/toknT/taro-plugin-sync-in-wsl)】
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ | ✔️  | ✔️ | ✔️ | ✔️ | ✔️ |
-
----
-
-## 组件
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |  ✔️   |    ✔️     | ✔️ | ✔️ | ✔️ |
 
 ---
 
-### 虚拟列表
+## Component
+
+---
+
+### Virtual List
 
 `React`
 
-基于 Taro3 封装的虚拟列表组件，支持列表子节点不等高，白屏率比官方的要低，性能更好，使用方便简单。
+The virtual list component based on Taro3 package supports unequal height of list sub-nodes, lower white screen rate than the official one, better performance, easy to use and simple.
 
 携程团队出品。【[物料详情](https://taro-ext.jd.com/plugin/view/60bf31e23ac107d9df4685cb)】【[Github](https://github.com/tingyuxuan2302/taro3-virtual-list)】
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ | ✔️  | ✔️ | ✔️ | ✔️ |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |  ✔️   |    ✔️     | ✔️ | ✔️ |    |
 
 ---
 
-### 商品双向联动列表
+### Product two-way linkage list
 
 `React`
 
-功能不受布局位置 和 内容数据的影响，全由JS动态计算获取的商品双向联动列表。
+The function is not affected by the layout position and content data, all by the JS dynamic calculation of the product two-way linkage list obtained.
 
-【[物料详情](https://taro-ext.jd.com/plugin/view/5edf005bbe897edf72b35ea8)】
+【[Material details](https://taro-ext.jd.com/plugin/view/5edf005bbe897edf72b35ea8)】
 
 <img src="http://img30.360buyimg.com/img/jfs/t1/123538/9/4451/56208/5edf003cE8709569c/6327fc64db8e24fa.png.webp" width="250px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ | ✔️  | ✔️ | ✔️ | ✔️ |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |  ✔️   |    ✔️     | ✔️ | ✔️ |    |
 
 ---
 
-### 下拉式筛选菜单
+### Drop down filter menu
 
 `React`
 
-商城，团购常用的下拉式筛选菜单，最多支持 3 级子菜单，支持多选/单选筛选。
+Mall, group buying common drop-down filter menu, support up to 3 levels of submenu, support multi-select / single-select filter.
 
-【[物料详情](https://taro-ext.jd.com/plugin/view/5ee72c6c77568ff8a503f604)】
+【[Material details](https://taro-ext.jd.com/plugin/view/5ee72c6c77568ff8a503f604)】
 
 <img src="http://img30.360buyimg.com/img/jfs/t1/142021/38/694/16559/5ee72c66E8efb82b6/f8ee1db04bb869aa.png.webp" width="250px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ | ✔️  | ✔️ | ✔️ | ✔️ |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |  ✔️   |    ✔️     | ✔️ | ✔️ |    |
 
 ---
 
-### 抽奖插件
+### Sweepstakes Plugin
 
 `React` & `Vue`
 
-🍧🍧🍧 基于 taro 实现的【大转盘 / 九宫格】抽奖插件，🎨 奖品 / 文字 / 图片 / 颜色 / 按钮均可配置，支持同步 / 异步抽奖，🎯 概率前 / 后端可控，可搭配 rpx 适配移动端。
+🍧🍧🍧 taro-based [carousel / nine-box] sweepstakes plugin, 🎨 prizes / text / images / colors / buttons are configurable, supports synchronous / asynchronous sweepstakes, 🎯 probability front / back end controllable, can be adapted to mobile with rpx.
 
 @LuckDraw 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/601a62c67dbe7bb05d82a2e7)】【[Github](https://github.com/LuckDraw/taro-luck-draw)】
 
 <img src="http://img10.360buyimg.com/img/jfs/t1/152098/39/17466/324186/601a62a6E8a7c429a/b055b66c95758fe7.png.webp" width="500px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    | ✔️ |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    | ✔️ |    |
 
 ---
 
-### 日历热力图
+### Calendar Heat Map
 
 `React`
 
-基于 Taro 的日历热力图，生成类似与 GitHub Contribution 统计图。
+Based on Taro's calendar heat map, it generates a graph similar to the GitHub Contribution statistics.
 
-@Mayandev 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/606042d8b81d0a91b3c3b18f)】【[Github](https://github.com/Mayandev/taro-calendar-heatmap)】
+@Mayandev 出品。@Mayandev【[Material details](https://taro-ext.jd.com/plugin/view/606042d8b81d0a91b3c3b18f)】【[Github](https://github.com/Mayandev/taro-calendar-heatmap)】
 
 <img src="http://img30.360buyimg.com/img/jfs/t1/167304/35/14985/239420/60603f17Eca5e7f5c/915f2637f3a8a0ec.png.webp" width="250px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    |    |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    |    |    |
 
 ---
 
-### 弧形进度条
+### Curved progress bar
 
 `React`
 
-弧形进度条，单个模板。
+Curved progress bar, single template.
 
-【[物料详情](https://taro-ext.jd.com/plugin/view/5f93a0f11c9f2000d7e02980)】
+【[Material details](https://taro-ext.jd.com/plugin/view/5f93a0f11c9f2000d7e02980)】
 
 <img src="http://img14.360buyimg.com/img/jfs/t1/151168/39/4150/7087/5f939fc3Eeda6e224/6734c149acf78c2f.png.webp" width="400px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    |    |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    |    |    |
 
 ---
 
-### 手写签名
+### Handwritten Signature
 
 `React`
 
-Taro 的手写签名库。
+Taro's handwritten signature library.
 
-@yz1311 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/5fd3378865befdc26fa98ee9)】【[Github](https://github.com/yz1311/taro-signature-pad.git)】
+@yz1311 出品。@yz1311【[Material details](https://taro-ext.jd.com/plugin/view/5fd3378865befdc26fa98ee9)】【[Github](https://github.com/yz1311/taro-signature-pad.git)】
 
 <img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gliuxzjhmsg309s0hsn1i.gif" width="250px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    |    |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    |    |    |
 
 ---
 
-### 日期时间选择组件
+### Date and time selection component
 
 `React`
 
-基于 pickerView、pickerViewColumn 来自定义了一个选择器用于日期和时间在用一个组件中选择完成。项目使用 Taro 框架，也可实现类似微信提醒的时间选择器。
+Based on pickerView, pickerViewColumn from the definition of a selector for the date and time in a component to select the completion .The project uses the Taro framework , you can also implement a time picker similar to the WeChat reminder.
 
-@jarbozhang 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/5e5112e36f4478a443aa4f53)】【[Github](https://github.com/jarbozhang/taro-picker)】
+@jarbozhang 出品。@jarbozhang【[Material details](https://taro-ext.jd.com/plugin/view/5e5112e36f4478a443aa4f53)】【[Github](https://github.com/jarbozhang/taro-picker)】
 
 <img src="http://img13.360buyimg.com/img/jfs/t1/116828/25/455/254392/5e8c9404E081319bd/72546c4cacea19fa.png.webp" width="700px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    |    |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    |    |    |
 
 ---
 
@@ -498,61 +498,61 @@ Taro 的手写签名库。
 
 `React`
 
-日期、时间、多级联动 picker。
+Date, time, multi-level linkage  picker。
 
-【[物料详情](https://taro-ext.jd.com/plugin/view/5ed64276be897edf72b35dfc)】
+【[Material details](https://taro-ext.jd.com/plugin/view/5ed64276be897edf72b35dfc)】
 
 <img src="http://img12.360buyimg.com/img/jfs/t1/111423/13/9031/83329/5ed6424dEadac5873/a54ebe3b7570f641.png.webp" width="500px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    |    |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    |    |    |
 
 ---
 
-### 时间选择器
+### Time Picker
 
 `React`
 
-时间选择器。
+Time Picker.
 
-【[物料详情](https://taro-ext.jd.com/plugin/view/5f9fd274b6669e4de3674abe)】
+【[Material details](https://taro-ext.jd.com/plugin/view/5f9fd274b6669e4de3674abe)】
 
 <img src="http://img12.360buyimg.com/img/jfs/t1/135857/38/14396/8002/5f9fce69E39ad90dd/96f817ce5f855753.png.webp" width="500px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    |    |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    |    |    |
 
 ---
 
-### 日期选择器
+### Date picker
 
 `Vue`
 
-用的vue开发，业务需求一个选择日期区间的组件，只能结合别人的手动弄一个，部分功能还没有完全调完，有空再完善
+The use of vue development, business needs a selection of date interval components, can only be combined with others to get a manual, part of the function has not been completely tuned, there is time to refine
 
-【[物料详情](https://taro-ext.jd.com/plugin/view/60b59b433ac107d9df468567)】
+【[Material details](https://taro-ext.jd.com/plugin/view/60b59b433ac107d9df468567)】
 
 <img src="http://img13.360buyimg.com/img/jfs/t1/126764/20/19090/120002/60b599d8E78c64c0e/017240219a0d8ce5.png.webp" width="250px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    |    |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    |    |    |
 
 ---
 
-### 多功能表格组件
+### Multifunctional Form Components
 
 `React`
 
-基于 Taro3、React 的微信小程序端多功能表格组件。
+Taro3, React-based multi-functional form component for WeChat mini program side.
 
-@qxtang 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/604d7cde39b51f165cbfb11c)】【[Github](https://github.com/qxtang/taro3-table)】
+@qxtang 出品。@qxtang【[Material details](https://taro-ext.jd.com/plugin/view/604d7cde39b51f165cbfb11c)】【[Github](https://github.com/qxtang/taro3-table)】
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    |    |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    |    |    |
 
 ---
 
@@ -560,15 +560,15 @@ Taro 的手写签名库。
 
 `React`
 
-基于 Taro3.x 版本构建的微信小程序 echarts 组件。
+WeChat mini program echarts component built on Taro3.x version.
 
-@Cecilxx 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/5f648e4c0dd8313026e0942d)】【[Github](https://github.com/Cecilxx/echarts-taro3-react)】
+@Cecilxx 出品。@Cecilxx【[Material details](https://taro-ext.jd.com/plugin/view/5f648e4c0dd8313026e0942d)】【[Github](https://github.com/Cecilxx/echarts-taro3-react)】
 
 <img src="http://img30.360buyimg.com/img/jfs/t1/146007/14/8952/85344/5f648e15E683990ec/78834506eafe001b.jpg!q40.webp" width="250px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    |    |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    |    |    |
 
 ---
 
@@ -576,15 +576,15 @@ Taro 的手写签名库。
 
 `Vue`
 
-Taro3.x-Vue 构建的微信小程序 echarts 组件。
+Taro3.x-Vue echarts component for WeChat mini program.
 
-@Cecilxx 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/5f68a040f71392c040202fd7)】【[Github](https://github.com/Cecilxx/echarts-taro3-vue)】
+@Cecilxx 出品。@Cecilxx【[Material details](https://taro-ext.jd.com/plugin/view/5f68a040f71392c040202fd7)】【[Github](https://github.com/Cecilxx/echarts-taro3-vue)】
 
 <img src="http://img10.360buyimg.com/img/jfs/t1/130406/33/10494/85344/5f689fcfEa5f4b9c0/89359159e220a2e1.jpg!q40.webp" width="250px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    |    |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    |    |    |
 
 ---
 
@@ -592,53 +592,53 @@ Taro3.x-Vue 构建的微信小程序 echarts 组件。
 
 `React`
 
-Taro3 集成图表库 f2。
+Taro3 Integrated Chart Library f2。
 
-@tomalloc 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/609cc5d338335db454095655)】【[Github](https://github.com/tomalloc/taro-react-f2)】
+@tomalloc 出品。@tomalloc【[Material details](https://taro-ext.jd.com/plugin/view/609cc5d338335db454095655)】【[Github](https://github.com/tomalloc/taro-react-f2)】
 
 <img src="http://img10.360buyimg.com/img/jfs/t1/179128/4/3810/53712/609cc4feEbce2eee9/c62ef4ccad69912f.png.webp" width="250px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ | ✔️  |    |    |    |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |  ✔️   |           |    |    |    |
 
 ---
 
-## 工具库
+## Tool Library
 
 ---
 
 ### taro-iconfont-cli
 
-在 Taro 框架中使用 iconfont 图标，不依赖字体，支持多色彩。
+Use iconfont icons in the Taro framework, font-independent, with multi-color support.
 
-@fwh1990 出品。【[Github](https://github.com/iconfont-cli/taro-iconfont-cli)】
+@fwh1990 出品。@fwh1990【[Github](https://github.com/iconfont-cli/taro-iconfont-cli)】
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ | ✔️  | ✔️ | ✔️ | ✔️ |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |  ✔️   |    ✔️     | ✔️ | ✔️ |    |
 
 ---
 
-### 长列表方案
+### Long List Solution
 
 `React`
 
-Taro框架长列表方案 ：集成下拉刷新、骨架屏、无限滚动、图片懒加载。
+Taro framework long list of solutions : integrated drop-down refresh , skeleton screen , infinite scroll , lazy loading of images.
 
-@Rahim-Chan 出品。【[Github](https://github.com/Rahim-Chan/taro-listview)】
+@Rahim-Chan 出品。@Rahim-Chan【[Github](https://github.com/Rahim-Chan/taro-listview)】
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    | ✔️ |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    | ✔️ |    |
 
 ---
 
 ### tarojs-router-next
 
-Taro 小程序路由库/自动生成带参数类型提示的路由方法/允许传递任意类型、任意大小的参数数据/同步的路由方法调用/koa 体验一致的路由中间件。
+Taro mini program routing library / automatic generation of routing methods with parameter type hints / allows passing parameter data of any type and any size / synchronized routing method calls / koa experience consistent routing middleware.
 
-@lblblong 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/5f64832f0dd8313026e0942b)】【[Github](https://github.com/lblblong/tarojs-router-next)】
+@lblblong 出品。@lblblong【[Material details](https://taro-ext.jd.com/plugin/view/5f64832f0dd8313026e0942b)】【[Github](https://github.com/lblblong/tarojs-router-next)】
 
 ---
 
@@ -646,9 +646,9 @@ Taro 小程序路由库/自动生成带参数类型提示的路由方法/允许�
 
 `Vue`
 
-基于 Taro，扩展成 vue-router 的使用体验。支持路由拦截、事件回调、链式调用。方法类型有：psuh、replace、goBack 等。
+Based on Taro, extended to vue-router experience.Support route interception, event callback, chain call.Method types are: push, replace, goBack, etc.
 
-@kaeryehaowan 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/607f975f2ae2b4ed20b8f289)】【[Github](https://github.com/kaeryehaowan/vue-taro-router)】
+@kaeryehaowan 出品。@kaeryehaowan【[Material details](https://taro-ext.jd.com/plugin/view/607f975f2ae2b4ed20b8f289)】【[Github](https://github.com/kaeryehaowan/vue-taro-router)】
 
 ---
 
@@ -656,47 +656,47 @@ Taro 小程序路由库/自动生成带参数类型提示的路由方法/允许�
 
 `React` & `Vue`
 
-使用过 umi 框架的人，一定对它的约定式路由印象深刻。通过一系列配置，可以让你在 Taro 小程序中实现类似“约定式路由”的功能。
+Anyone who has used the umi framework will be impressed by its protocol-based routing.Through a series of configurations, you can implement a similar "protocol-based routing" feature in your Taro mini program.
 
-@LuckyHH 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/5ff1345417b86f279e75ff7f)】【[Github](https://github.com/LuckyHH/generated-plugin-taro-router-service)】
+@LuckyHH 出品。@LuckyHH【[Material details](https://taro-ext.jd.com/plugin/view/5ff1345417b86f279e75ff7f)】【[Github](https://github.com/LuckyHH/generated-plugin-taro-router-service)】
 
 ---
 
 ### PreQuest
 
-一款好用的小程序请求库。
+A library of mini program requests.
 
-@xdoer 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/60c751806be8e5ae7a8528b0)】【[Github](https://taro-ext.jd.com/plugin/view/60c751806be8e5ae7a8528b0)】
+@xdoer 出品。@xdoer【[Material details](https://taro-ext.jd.com/plugin/view/60c751806be8e5ae7a8528b0)】【[Github](https://taro-ext.jd.com/plugin/view/60c751806be8e5ae7a8528b0)】
 
 ---
 
 ### taro-storage
 
-扩展taro 的存储，支持本地存储设置有效期，支持清除过期的本地存储。
+Extend taro's storage, support local storage set expiration date, support clear expired local storage.
 
-@JosnLee 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/5f14fed938dabd4991e19af4)】【[Github](https://github.com/JosnLee/taro-storage)】
+@JosnLee 出品。@JosnLee【[Material details](https://taro-ext.jd.com/plugin/view/5f14fed938dabd4991e19af4)】【[Github](https://github.com/JosnLee/taro-storage)】
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    |    |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    |    |    |
 
 ---
 
-### 百度语音
+### Baidu Voice
 
 `React`
 
-非常轻便的语音合成接口，一般用于对推送过来的消息进行语音播报。
+Very lightweight voice synthesis interface, generally used for voice broadcast of pushed messages.
 
-【[物料详情](https://taro-ext.jd.com/plugin/view/5ed99ef0be897edf72b35e47)】
+【[Material details](https://taro-ext.jd.com/plugin/view/5ed99ef0be897edf72b35e47)】
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ | ✔️  | ✔️ | ✔️ | ✔️ | ✔️ |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |  ✔️   |    ✔️     | ✔️ | ✔️ | ✔️ |
 
 ---
 
-### taro-hooks
+### Form visualization editing
 
 `React`
 
@@ -706,13 +706,13 @@ Taro 小程序路由库/自动生成带参数类型提示的路由方法/允许�
 
 <img src="https://cdn.jsdelivr.net/gh/innocces/DrawingBed/2021-8-15/1629041766989-taro-hooks-index.PNG" width="250px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ |     |    |    | ✔️ | ✔️ |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |       |           |    | ✔️ | ✔️ |
 
 ---
 
-## 其它
+## Other
 
 ---
 
@@ -720,15 +720,15 @@ Taro 小程序路由库/自动生成带参数类型提示的路由方法/允许�
 
 `React`
 
-使用 Taro3 开发的可视化表单编辑器，支持 H5、小程序（开发中）、app（开发中），可以将其集成在自己的前端项目用于表单构建，或者继承到后端用户表单编辑 在线预览：http://form.t.platelet.xyz/。
+Get more friendly state debugging for developing WeChat mini program with Taro + Mobx.
 
-@ShaoGongBra 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/5fe2f5f07684a858dfc2307f)】【[Github](https://github.com/ShaoGongBra/taro-form)】
+@ShaoGongBra 出品。@ShaoGongBra【[Material details](https://taro-ext.jd.com/plugin/view/5fe2f5f07684a858dfc2307f)】【[Github](https://github.com/ShaoGongBra/taro-form)】
 
 <img src="http://img10.360buyimg.com/img/jfs/t1/144964/5/19729/164594/5fe2f583E1d09bd60/7e846811c2b77331.jpg!q60.webp" width="600px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ | ✔️  | ✔️ | ✔️ | ✔️ | ✔️ |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |  ✔️   |    ✔️     | ✔️ | ✔️ | ✔️ |
 
 ---
 
@@ -738,13 +738,13 @@ Taro 小程序路由库/自动生成带参数类型提示的路由方法/允许�
 
 让使用 Taro + Mobx 开发微信小程序获得更友好的状态调试。
 
-@kevin-zeus 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/5efdae4a4004e5cc1a647f86)】【[Github](https://github.com/kevin-zeus/mobx-logger)】
+@kevin-zeus 出品。@kevin-zeus【[Material details](https://taro-ext.jd.com/plugin/view/5efdae4a4004e5cc1a647f86)】【[Github](https://github.com/kevin-zeus/mobx-logger)】
 
 <img src="http://img20.360buyimg.com/img/jfs/t1/117239/7/11405/50008/5efdae20Ee4023f86/c6e6c8647fda67ef.png.webp" width="500px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ | ✔️  | ✔️ | ✔️ | ✔️ |    |
+|         | Ali | Baidu | ByteDance | 头条 | H5 | RN |
+|:-------:|:---:|:-----:|:---------:|:--:|:--:|:--:|
+| Support | ✔️  |  ✔️   |    ✔️     | ✔️ | ✔️ |    |
 
 ---
 
@@ -752,14 +752,14 @@ Taro 小程序路由库/自动生成带参数类型提示的路由方法/允许�
 
 `React`
 
-小程序真机调试/预览 Logger 组件，支持输出日志到屏幕进行查看，提升调试效率。 目前仅微信和支付宝端经过完整测试，其他端不一定支持。
+Mini program real debugging/preview Logger component, support output log to the screen for viewing, improve debugging efficiency. At present, only WeChat and Alipay are fully tested, other ends may not be supported.
 
-@Fay98de 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/608cf5741a9f428bbf572f7f)】【[Github](https://github.com/Fay98de/better-mini/tree/main/packages/logger)】
+@Fay98de 出品。@Fay98de【[Material details](https://taro-ext.jd.com/plugin/view/608cf5741a9f428bbf572f7f)】【[Github](https://github.com/Fay98de/better-mini/tree/main/packages/logger)】
 
 <img src="http://img10.360buyimg.com/img/jfs/t1/194492/34/753/264079/608cf553E5c1befa6/4e9de97729894fb3.png.webp" width="250px" />
 
-|     | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
-|:---:|:--:|:---:|:--:|:--:|:--:|:--:|
-| 支持度 | ✔️ | ✔️  |    |    |    |    |
+|     | WeChat | 阿里系 | 百度 | 头条 | H5 | RN |
+|:---:|:------:|:---:|:--:|:--:|:--:|:--:|
+| 支持度 |   ✔️   | ✔️  |    |    |    |    |
 
 ---
