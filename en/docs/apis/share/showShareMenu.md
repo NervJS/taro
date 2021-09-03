@@ -3,70 +3,70 @@ title: Taro.showShareMenu(option)
 sidebar_label: showShareMenu
 ---
 
-显示当前页面的转发按钮
+Displays the Forward button on the current page.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.showShareMenu.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.showShareMenu.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<CallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Indicates whether to forward with shareTicket.<a href="https://developers.weixin.qq.com/miniprogram/en/dev/framework/open-ability/share.html">Detail</a></td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>(Only for QQ) QQ Mini-Program sharing function, support sharing to QQ, Qzone, WeChat friends, WeChat friends circle.<br />- ['qq', 'qzone', 'wechatFriends', 'wechatMoment']</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>withShareTicket</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否使用带 shareTicket 的转发<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html">详情</a></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>showShareItems</td>
       <td><code>string[]</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>QQ小程序分享功能，支持分享到QQ、QQ空间、微信好友、微信朋友圈<br />支持的值： ['qq', 'qzone', 'wechatFriends', 'wechatMoment']<br />API 支持度: qq</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|          API          | 微信小程序 | QQ 小程序 | H5 | React Native |
-|:---------------------:|:-----:|:------:|:--:|:------------:|
-| Option.showShareItems |       |   ✔️   |    |              |
+|          API          | WeChat Mini-Program | QQ Mini-Program | H5 | React Native |
+|:---------------------:|:-------------------:|:---------------:|:--:|:------------:|
+| Option.showShareItems |                     |       ✔️        |    |              |
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.showShareMenu({
@@ -74,8 +74,8 @@ Taro.showShareMenu({
 })
 ```
 
-## API 支持度
+## API Support
 
-|        API         | 微信小程序 | H5 | React Native |
-|:------------------:|:-----:|:--:|:------------:|
-| Taro.showShareMenu |  ✔️   |    |              |
+|        API         | WeChat Mini-Program | H5 | React Native |
+|:------------------:|:-------------------:|:--:|:------------:|
+| Taro.showShareMenu |         ✔️          |    |              |
