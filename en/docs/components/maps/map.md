@@ -3,19 +3,19 @@ title: Map
 sidebar_label: Map
 ---
 
-地图。相关api Taro.createMapContext。
+Map.Related API: <code>Taro.createMapContext</code>.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/map.html#map)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/map.html#map)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<MapProps>
 ```
 
-## 示例代码
+## Examples
 
-### 普通用法
+### General usage
 
 import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
@@ -100,7 +100,7 @@ export default {
 </TabItem>
 </Tabs>
 
-### 自定义气泡
+### Customised bubbles
 
 ```js title="marker 上的自定义气泡 customCallout"
 import { CoverView, Map, View } from '@tarojs/components'
@@ -110,7 +110,7 @@ const normalCallout = {
   latitude: 23.098994,
   longitude: 113.32252,
   callout: {
-    content: '文本内容',
+    content: 'text content',
     color: '#ff0000',
     fontSize: 14,
     borderWidth: 2,
@@ -179,9 +179,8 @@ export default function Index() {
       <CoverView slot='callout'>
         {
           customMarkers.map(item => (
-            /** 自定义样式的 callout */
             <CoverView marker-id={item.id} key={item.id} >
-              <View>导航{item.id}</View>
+              <View>navigator {item.id}</View>
             </CoverView>
           ))
         }
@@ -197,11 +196,11 @@ export default function Index() {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -209,29 +208,29 @@ export default function Index() {
       <td>longitude</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>中心经度</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The longitude of the central point.</td>
     </tr>
     <tr>
       <td>latitude</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>中心纬度</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The latitude of the central point.</td>
     </tr>
     <tr>
       <td>scale</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>16</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>缩放级别，取值范围为3-20</td>
+      <td>The zoom level. Its values range from 3 to 20.</td>
     </tr>
     <tr>
       <td>markers</td>
       <td><code>marker[]</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>标记点</td>
+      <td>The marker.</td>
     </tr>
     <tr>
       <td>covers</td>
@@ -245,282 +244,282 @@ export default function Index() {
       <td><code>polyline[]</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>路线</td>
+      <td>The polyline.</td>
     </tr>
     <tr>
       <td>circles</td>
       <td><code>circle[]</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>圆</td>
+      <td>The circle.</td>
     </tr>
     <tr>
       <td>controls</td>
       <td><code>control[]</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>控件（即将废弃，建议使用 cover-view 代替）<br /><strong>不推荐使用</strong></td>
+      <td>The control. <strong>(This property will be discarded soon. Use cover-view instead.)</strong></td>
     </tr>
     <tr>
       <td>includePoints</td>
       <td><code>point[]</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>缩放视野以包含所有给定的坐标点</td>
+      <td>Scales the view to include all the given coordinates.</td>
     </tr>
     <tr>
       <td>showLocation</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>显示带有方向的当前定位点</td>
+      <td>Displays the current location with directions.</td>
     </tr>
     <tr>
       <td>polygons</td>
       <td><code>polygon[]</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>多边形</td>
+      <td>Polygon.</td>
     </tr>
     <tr>
       <td>subkey</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>个性化地图使用的 key</td>
+      <td>The key used in a custom map.</td>
     </tr>
     <tr>
       <td>layerStyle</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>1</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>个性化地图配置的 style，不支持动态修改</td>
+      <td>The style set for a custom map. It cannot be dynamically modified.</td>
     </tr>
     <tr>
       <td>rotate</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>0</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>旋转角度，范围 0 ~ 360, 地图正北和设备 y 轴角度的夹角</td>
+      <td>Rotation angle. Its values range from 0 to 360. It is the angle between the north direction of the map and the y-axis of the device.</td>
     </tr>
     <tr>
       <td>skew</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>0</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>倾斜角度，范围 0 ~ 40 , 关于 z 轴的倾角</td>
+      <td>Skew angle relative to the z-axis. Its values range from 0 to 40.</td>
     </tr>
     <tr>
       <td>enable3D</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>展示 3D 楼块</td>
+      <td>Displays 3D blocks (Currently unsupported in the DevTools).</td>
     </tr>
     <tr>
       <td>showCompass</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>显示指南针</td>
+      <td>Displays the compass.</td>
     </tr>
     <tr>
       <td>showScale</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>显示比例尺</td>
+      <td>Dispaly the scale</td>
     </tr>
     <tr>
       <td>enableOverlooking</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>开启俯视</td>
+      <td>Enables overlooking.</td>
     </tr>
     <tr>
       <td>enableZoom</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>true</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>是否支持缩放</td>
+      <td>Specifies whether to support scaling.</td>
     </tr>
     <tr>
       <td>enableScroll</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>true</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>是否支持拖动</td>
+      <td>Specifies whether to support scrolling.</td>
     </tr>
     <tr>
       <td>enableRotate</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>是否支持旋转</td>
+      <td>Specifies whether to support rotation.</td>
     </tr>
     <tr>
       <td>enableSatellite</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>是否开启卫星图</td>
+      <td>Specifies whether to enable the satellite images.</td>
     </tr>
     <tr>
       <td>enableTraffic</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>是否开启实时路况</td>
+      <td>Specifies whether to enable real-time traffic information.</td>
     </tr>
     <tr>
       <td>setting</td>
       <td><code>MapProps | Object</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>配置项<br /><br />提供 setting 对象统一设置地图配置。同时对于一些动画属性如 rotate 和 skew，通过 setData 分开设置时无法同时生效，需通过 settting 统一修改。</td>
+      <td>Setting.<br /><br />The map configuration is set uniformly.Some animation properties such as rotate and skew cannot be set separately by setData and must be modified by settting.</td>
     </tr>
     <tr>
       <td>onTap</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>点击地图时触发</td>
+      <td>Triggered when the map is tapped.</td>
     </tr>
     <tr>
       <td>onMarkerTap</td>
       <td><code>BaseEventOrigFunction&lt;onMarkerTapEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>点击标记点时触发，e.detail = {`{markerId}`}</td>
+      <td>Triggered when the marker is tapped. e.detail = {`{markerId}`}</td>
     </tr>
     <tr>
       <td>onLabelTap</td>
       <td><code>BaseEventOrigFunction&lt;onLabelTapEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>点击label时触发，e.detail = {`{markerId}`}</td>
+      <td>Triggered when the label is tapped. e.detail = {`{markerId}`}</td>
     </tr>
     <tr>
       <td>onControlTap</td>
       <td><code>BaseEventOrigFunction&lt;onControlTapEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>点击控件时触发，e.detail = {`{controlId}`}</td>
+      <td>Triggered when the control is tapped. e.detail = {`{controlId}`}</td>
     </tr>
     <tr>
       <td>onCalloutTap</td>
       <td><code>BaseEventOrigFunction&lt;onCalloutTapEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>点击标记点对应的气泡时触发，e.detail = {`{markerId}`} </td>
+      <td>Triggered when the bubble corresponding to the marker is tapped. e.detail = {`{markerId}`} </td>
     </tr>
     <tr>
       <td>onUpdated</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>在地图渲染更新完成时触发</td>
+      <td>Triggered when the map is rendered.</td>
     </tr>
     <tr>
       <td>onRegionChange</td>
       <td><code>BaseEventOrigFunction&lt;onRegionChangeEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>视野发生变化时触发</td>
+      <td>Triggered when the view changes.</td>
     </tr>
     <tr>
       <td>onPoiTap</td>
       <td><code>BaseEventOrigFunction&lt;onPoiTapEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>点击地图poi点时触发，e.detail = {`{name, longitude, latitude}`} </td>
+      <td>e.detail = {`{name, longitude, latitude}`} </td>
     </tr>
     <tr>
       <td>includePadding</td>
       <td><code>{`{ left: string | number; right: string | number; top: string | number; bottom: string | number; }`}</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>视野在地图 padding 范围内展示</td>
+      <td>The view is displayed within the map padding.</td>
     </tr>
     <tr>
       <td>groundOverlays</td>
       <td><code>any[]</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>覆盖物，自定义贴图</td>
+      <td>Overlays, custom poster</td>
     </tr>
     <tr>
       <td>tileOverlay</td>
       <td><code>any[]</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>覆盖物，网格贴图</td>
+      <td>Overlays, mesh poster</td>
     </tr>
     <tr>
       <td>optimize</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>开启 optimize 模式后，无需再监听 onRegionChange 来获取并设置新的 scale 值以保证地图不会再回到原来的缩放比例。</td>
+      <td>Specifies whether to enable optimize mode. When enabled, it is not necessary to set onRegionChange to get and set the new scale value to ensure that the map does not revert to the original scale.</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|            API             | 微信小程序 |     百度小程序     |    支付宝小程序     | H5 | React Native |
-|:--------------------------:|:-----:|:-------------:|:-------------:|:--:|:------------:|
-|     MapProps.longitude     |  ✔️   |      ✔️       |      ✔️       |    |              |
-|     MapProps.latitude      |  ✔️   |      ✔️       |      ✔️       |    |              |
-|       MapProps.scale       |  ✔️   | ✔️(取值范围为4-21) | ✔️(取值范围为5-18) |    |              |
-|      MapProps.markers      |  ✔️   |      ✔️       |      ✔️       |    |              |
-|      MapProps.covers       |  ✔️   |               |               |    |              |
-|     MapProps.polyline      |  ✔️   |      ✔️       |      ✔️       |    |              |
-|      MapProps.circles      |  ✔️   |      ✔️       |      ✔️       |    |              |
-|     MapProps.controls      |  ✔️   |      ✔️       |      ✔️       |    |              |
-|   MapProps.includePoints   |  ✔️   |      ✔️       |      ✔️       |    |              |
-|   MapProps.showLocation    |  ✔️   |      ✔️       |      ✔️       |    |              |
-|     MapProps.polygons      |  ✔️   |      ✔️       |      ✔️       |    |              |
-|      MapProps.subkey       |  ✔️   |               |               |    |              |
-|    MapProps.layerStyle     |  ✔️   |               |               |    |              |
-|      MapProps.rotate       |  ✔️   |               |               |    |              |
-|       MapProps.skew        |  ✔️   |               |               |    |              |
-|     MapProps.enable3D      |  ✔️   |      ✔️       |               |    |              |
-|    MapProps.showCompass    |  ✔️   |      ✔️       |               |    |              |
-|     MapProps.showScale     |  ✔️   |               |               |    |              |
-| MapProps.enableOverlooking |  ✔️   |      ✔️       |               |    |              |
-|    MapProps.enableZoom     |  ✔️   |      ✔️       |               |    |              |
-|   MapProps.enableScroll    |  ✔️   |      ✔️       |               |    |              |
-|   MapProps.enableRotate    |  ✔️   |      ✔️       |               |    |              |
-|  MapProps.enableSatellite  |  ✔️   |               |               |    |              |
-|   MapProps.enableTraffic   |  ✔️   |               |               |    |              |
-|      MapProps.setting      |  ✔️   |               |      ✔️       |    |              |
-|       MapProps.onTap       |  ✔️   |      ✔️       |      ✔️       |    |              |
-|    MapProps.onMarkerTap    |  ✔️   |      ✔️       |      ✔️       |    |              |
-|    MapProps.onLabelTap     |  ✔️   |               |               |    |              |
-|   MapProps.onControlTap    |  ✔️   |      ✔️       |      ✔️       |    |              |
-|   MapProps.onCalloutTap    |  ✔️   |      ✔️       |      ✔️       |    |              |
-|     MapProps.onUpdated     |  ✔️   |      ✔️       |               |    |              |
-|  MapProps.onRegionChange   |  ✔️   |      ✔️       |      ✔️       |    |              |
-|     MapProps.onPoiTap      |  ✔️   |      ✔️       |               |    |              |
-|  MapProps.includePadding   |       |               |      ✔️       |    |              |
-|  MapProps.groundOverlays   |       |               |      ✔️       |    |              |
-|    MapProps.tileOverlay    |       |               |      ✔️       |    |              |
-|     MapProps.optimize      |       |               |      ✔️       |    |              |
+|            API             | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | H5 | React Native |
+|:--------------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+|     MapProps.longitude     |         ✔️          |         ✔️          |         ✔️          |    |              |
+|     MapProps.latitude      |         ✔️          |         ✔️          |         ✔️          |    |              |
+|       MapProps.scale       |         ✔️          |      ✔️(4-21)       |      ✔️(5-18)       |    |              |
+|      MapProps.markers      |         ✔️          |         ✔️          |         ✔️          |    |              |
+|      MapProps.covers       |         ✔️          |                     |                     |    |              |
+|     MapProps.polyline      |         ✔️          |         ✔️          |         ✔️          |    |              |
+|      MapProps.circles      |         ✔️          |         ✔️          |         ✔️          |    |              |
+|     MapProps.controls      |         ✔️          |         ✔️          |         ✔️          |    |              |
+|   MapProps.includePoints   |         ✔️          |         ✔️          |         ✔️          |    |              |
+|   MapProps.showLocation    |         ✔️          |         ✔️          |         ✔️          |    |              |
+|     MapProps.polygons      |         ✔️          |         ✔️          |         ✔️          |    |              |
+|      MapProps.subkey       |         ✔️          |                     |                     |    |              |
+|    MapProps.layerStyle     |         ✔️          |                     |                     |    |              |
+|      MapProps.rotate       |         ✔️          |                     |                     |    |              |
+|       MapProps.skew        |         ✔️          |                     |                     |    |              |
+|     MapProps.enable3D      |         ✔️          |         ✔️          |                     |    |              |
+|    MapProps.showCompass    |         ✔️          |         ✔️          |                     |    |              |
+|     MapProps.showScale     |         ✔️          |                     |                     |    |              |
+| MapProps.enableOverlooking |         ✔️          |         ✔️          |                     |    |              |
+|    MapProps.enableZoom     |         ✔️          |         ✔️          |                     |    |              |
+|   MapProps.enableScroll    |         ✔️          |         ✔️          |                     |    |              |
+|   MapProps.enableRotate    |         ✔️          |         ✔️          |                     |    |              |
+|  MapProps.enableSatellite  |         ✔️          |                     |                     |    |              |
+|   MapProps.enableTraffic   |         ✔️          |                     |                     |    |              |
+|      MapProps.setting      |         ✔️          |                     |         ✔️          |    |              |
+|       MapProps.onTap       |         ✔️          |         ✔️          |         ✔️          |    |              |
+|    MapProps.onMarkerTap    |         ✔️          |         ✔️          |         ✔️          |    |              |
+|    MapProps.onLabelTap     |         ✔️          |                     |                     |    |              |
+|   MapProps.onControlTap    |         ✔️          |         ✔️          |         ✔️          |    |              |
+|   MapProps.onCalloutTap    |         ✔️          |         ✔️          |         ✔️          |    |              |
+|     MapProps.onUpdated     |         ✔️          |         ✔️          |                     |    |              |
+|  MapProps.onRegionChange   |         ✔️          |         ✔️          |         ✔️          |    |              |
+|     MapProps.onPoiTap      |         ✔️          |         ✔️          |                     |    |              |
+|  MapProps.includePadding   |                     |                     |         ✔️          |    |              |
+|  MapProps.groundOverlays   |                     |                     |         ✔️          |    |              |
+|    MapProps.tileOverlay    |                     |                     |         ✔️          |    |              |
+|     MapProps.optimize      |                     |                     |         ✔️          |    |              |
 
 ### marker
 
-标记点用于在地图上显示标记的位置
+The marker property is used to mark locations of markers on the map.
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-      <th>备注</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
+      <th>Remarks</th>
     </tr>
   </thead>
   <tbody>
@@ -528,98 +527,98 @@ export default function Index() {
       <td>id</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>标记点id</td>
-      <td><code>marker 点击事件回调会返回此id。建议为每个 marker 设置上 Number 类型 id，保证更新 marker 时有更好的性能。</code></td>
+      <td>The ID of the marker</td>
+      <td><code>This ID is returned when the marker tapping event is called back.<code>We recommend that the number-type ID be set for each marker, to ensure that the marker has better performance during updates.</code></code></td>
     </tr>
     <tr>
       <td>latitude</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>纬度</td>
-      <td><code>浮点数，范围 -90 ~ 90</code></td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Latitude</td>
+      <td><code>The number of floating points. Its values range from –90 to +90.</code></td>
     </tr>
     <tr>
       <td>longitude</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>经度</td>
-      <td><code>浮点数，范围 -180 ~ 180</code></td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Longitude</td>
+      <td><code>The number of floating points. Its values range from –180 to +180.</code></td>
     </tr>
     <tr>
       <td>title</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>标注点名</td>
-      <td><code>点击时显示，callout 存在时将被忽略</code></td>
+      <td>Name of the marker</td>
+      <td><code>Displayed when it is tapped. It will be ignored when there is a callout.</code></td>
     </tr>
     <tr>
       <td>zIndex</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>显示层级</td>
+      <td>Display level</td>
       <td></td>
     </tr>
     <tr>
       <td>iconPath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>显示的图标</td>
-      <td><code>项目目录下的图片路径，支持相对路径写法，以'/'开头则表示相对小程序根目录；也支持临时路径和网络图片</code></td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Displayed icon</td>
+      <td><code>The image path in the project directory. It can be written as a relative path prefixed with a forward slash '/', which indicates a relative root directory of a Mini Program. It can also be written as a temporary path and a network image.</code></td>
     </tr>
     <tr>
       <td>rotate</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>旋转角度</td>
-      <td><code>顺时针旋转的角度，范围 0 ~ 360，默认为 0</code></td>
+      <td>Rotation angle</td>
+      <td><code>The angle of clockwise rotation. Its values range from 0 to 360. It is 0 by default.</code></td>
     </tr>
     <tr>
       <td>alpha</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>标注的透明度</td>
-      <td><code>默认1，无透明，范围 0 ~ 1</code></td>
+      <td>Transparency of the marker</td>
+      <td><code>It is 1 by default, indicating that the marker is completely not transparent. Its values range from 0 to 1.</code></td>
     </tr>
     <tr>
       <td>width</td>
       <td><code>string | number</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>标注图标宽度</td>
-      <td><code>默认为图片实际宽度</code></td>
+      <td>The width of the marker icon</td>
+      <td><code>Defaults to the actual width of the image.</code></td>
     </tr>
     <tr>
       <td>height</td>
       <td><code>string | number</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>标注图标高度</td>
-      <td><code>默认为图片实际高度</code></td>
+      <td>The height of the marker icon</td>
+      <td><code>Defaults to the actual height of the image.</code></td>
     </tr>
     <tr>
       <td>callout</td>
       <td><code>callout</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>自定义标记点上方的气泡窗口</td>
-      <td><code>支持的属性见下表，可识别换行符。</code></td>
+      <td>Bubble window above a custom marker</td>
+      <td><code>Supported properties are shown in the following table. It can recognize line breaks.</code></td>
     </tr>
     <tr>
       <td>label</td>
       <td><code>label</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>为标记点旁边增加标签</td>
-      <td><code>支持的属性见下表，可识别换行符。</code></td>
+      <td>Labels added next to the marker</td>
+      <td><code>Supported properties are shown in the following table. It can recognize line breaks.</code></td>
     </tr>
     <tr>
       <td>anchor</td>
       <td><code>{`{ x: number; y: number; }`}</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>经纬度在标注图标的锚点，默认底边中点</td>
-      <td><code>{`{x, y}`}，x表示横向(0-1)，y表示竖向(0-1)。{`{x: .5, y: 1}`} 表示底边中点</code></td>
+      <td>Anchor whose longitude and latitude fall in a marker icon. It is the central point of the bottom edge by default.</td>
+      <td><code>Its value is in the form of<code>{`{x, y}`}</code>, where x indicates (0–1) in the horizontal direction, and y indicates (0–1) in the vertical direction.The value {`{x: 0.5, y: 1}`} indicates the central point of the bottom edge.</code></td>
     </tr>
     <tr>
       <td>ariaLabel</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>无障碍访问，（属性）元素的额外描述</td>
+      <td>Additional description of the (property's) elements.</td>
       <td></td>
     </tr>
   </tbody>
@@ -627,220 +626,220 @@ export default function Index() {
 
 ### callout
 
-marker 上的气泡 callout
+Callout of a Bubble on the Marker
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>content</td>
       <td><code>string</code></td>
-      <td>文本</td>
+      <td>The text</td>
     </tr>
     <tr>
       <td>color</td>
       <td><code>string</code></td>
-      <td>文本颜色</td>
+      <td>The color of the text</td>
     </tr>
     <tr>
       <td>fontSize</td>
       <td><code>number</code></td>
-      <td>文字大小</td>
+      <td>The font size of the text</td>
     </tr>
     <tr>
       <td>borderRadius</td>
       <td><code>number</code></td>
-      <td>边框圆角</td>
+      <td>The radius of the rounded corner on the border</td>
     </tr>
     <tr>
       <td>borderWidth</td>
       <td><code>number</code></td>
-      <td>边框宽度</td>
+      <td>The width of the border</td>
     </tr>
     <tr>
       <td>borderColor</td>
       <td><code>string</code></td>
-      <td>边框颜色</td>
+      <td>The color of the border</td>
     </tr>
     <tr>
       <td>bgColor</td>
       <td><code>string</code></td>
-      <td>背景色</td>
+      <td>The background color</td>
     </tr>
     <tr>
       <td>padding</td>
       <td><code>number</code></td>
-      <td>文本边缘留白</td>
+      <td>The space between the text and the border</td>
     </tr>
     <tr>
       <td>display</td>
       <td><code>&quot;BYCLICK&quot; | &quot;ALWAYS&quot;</code></td>
-      <td>'BYCLICK':点击显示; 'ALWAYS':常显</td>
+      <td>'BYCLICK' : Click to display. 'ALWAYS': Always on.</td>
     </tr>
     <tr>
       <td>textAlign</td>
       <td><code>&quot;left&quot; | &quot;right&quot; | &quot;center&quot;</code></td>
-      <td>文本对齐方式。有效值: left, right, center</td>
+      <td>The text alignment mode.Valid values include left, right, and center.</td>
     </tr>
   </tbody>
 </table>
 
 ### label
 
-marker 上的气泡 label
+Label of a Bubble on the Marker
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>content</td>
       <td><code>string</code></td>
-      <td>文本</td>
+      <td>The text</td>
     </tr>
     <tr>
       <td>color</td>
       <td><code>string</code></td>
-      <td>文本颜色</td>
+      <td>The color of the text</td>
     </tr>
     <tr>
       <td>fontSize</td>
       <td><code>number</code></td>
-      <td>文字大小</td>
+      <td>The font size of the text</td>
     </tr>
     <tr>
       <td>x</td>
       <td><code>number</code></td>
-      <td>label的坐标（废弃）<br /><strong>不推荐使用</strong></td>
+      <td>The X-coordinate of the label (This property has been discarded.)<br /><strong>不推荐使用</strong></td>
     </tr>
     <tr>
       <td>y</td>
       <td><code>number</code></td>
-      <td>label的坐标（废弃）<br /><strong>不推荐使用</strong></td>
+      <td>The Y-coordinate of the label (This property has been discarded.)<br /><strong>不推荐使用</strong></td>
     </tr>
     <tr>
       <td>anchorX</td>
       <td><code>number</code></td>
-      <td>label的坐标，原点是 marker 对应的经纬度</td>
+      <td>The X-coordinate of the label, with the coordinates of the origin being the longitude and latitude corresponding to the marker.</td>
     </tr>
     <tr>
       <td>anchorY</td>
       <td><code>number</code></td>
-      <td>label的坐标，原点是 marker 对应的经纬度</td>
+      <td>The Y-coordinate of the label, with the coordinates of the origin being the longitude and latitude corresponding to the marker.</td>
     </tr>
     <tr>
       <td>borderWidth</td>
       <td><code>number</code></td>
-      <td>边框宽度</td>
+      <td>The width of the border</td>
     </tr>
     <tr>
       <td>borderColor</td>
       <td><code>string</code></td>
-      <td>边框颜色</td>
+      <td>The color of the border</td>
     </tr>
     <tr>
       <td>borderRadius</td>
       <td><code>number</code></td>
-      <td>边框圆角</td>
+      <td>The radius of the rounded corner on the border</td>
     </tr>
     <tr>
       <td>bgColor</td>
       <td><code>string</code></td>
-      <td>背景色</td>
+      <td>The background color</td>
     </tr>
     <tr>
       <td>padding</td>
       <td><code>number</code></td>
-      <td>文本边缘留白</td>
+      <td>The space between the text and the border</td>
     </tr>
     <tr>
       <td>textAlign</td>
       <td><code>&quot;left&quot; | &quot;right&quot; | &quot;center&quot;</code></td>
-      <td>文本对齐方式。有效值: left, right, center</td>
+      <td>The text alignment mode.Valid values include left, right, and center.</td>
     </tr>
   </tbody>
 </table>
 
 ### polyline
 
-指定一系列坐标点，从数组第一项连线至最后一项
+Specifies a series of coordinates, which are connected from the first item to the last item in an array.
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-      <th>备注</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
+      <th>Remarks</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>points</td>
       <td><code>point[]</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>经纬度数组</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The longitude and latitude array</td>
       <td><code>[{`{latitude: 0, longitude: 0}`}]</code></td>
     </tr>
     <tr>
       <td>color</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>线的颜色</td>
-      <td><code>十六进制</code></td>
+      <td>The color of the line</td>
+      <td><code>Hexadecimal</code></td>
     </tr>
     <tr>
       <td>width</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>线的宽度</td>
+      <td>The width of the line</td>
       <td></td>
     </tr>
     <tr>
       <td>dottedLine</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>是否虚线</td>
-      <td><code>默认 false</code></td>
+      <td>Specifies whether the line is a dotted line.</td>
+      <td><code>Its value is false by default.</code></td>
     </tr>
     <tr>
       <td>arrowLine</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>带箭头的线</td>
-      <td><code>默认 false，开发者工具暂不支持该属性</code></td>
+      <td>Specifies whether the line contains an arrow.</td>
+      <td><code>Its value is false by default. WeChat DevTools currently does not support this property.</code></td>
     </tr>
     <tr>
       <td>arrowIconPath</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>更换箭头图标</td>
-      <td><code>在 arrowLine 为 true 时生效</code></td>
+      <td>Changes the arrow icon.</td>
+      <td><code>It takes effect when arrowLine is true.</code></td>
     </tr>
     <tr>
       <td>borderColor</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>线的边框颜色</td>
+      <td>The color of the line's border</td>
       <td></td>
     </tr>
     <tr>
       <td>borderWidth</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>线的厚度</td>
+      <td>The thickness of the line</td>
       <td></td>
     </tr>
   </tbody>
@@ -848,52 +847,52 @@ marker 上的气泡 label
 
 ### polygon
 
-指定一系列坐标点，根据 points 坐标数据生成闭合多边形
+Specifies a series of coordinates, which form a closed polygon based on the coordinate data in the points property.
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-      <th>备注</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
+      <th>Remarks</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>points</td>
       <td><code>point[]</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>经纬度数组</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The longitude and latitude array</td>
       <td><code>[{`{latitude: 0, longitude: 0}`}]</code></td>
     </tr>
     <tr>
       <td>strokeWidth</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>描边的宽度</td>
+      <td>The width of the stroke</td>
       <td></td>
     </tr>
     <tr>
       <td>strokeColor</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>描边的颜色</td>
-      <td><code>十六进制</code></td>
+      <td>The color of the stroke</td>
+      <td><code>Hexadecimal</code></td>
     </tr>
     <tr>
       <td>fillColor</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>填充颜色</td>
-      <td><code>十六进制</code></td>
+      <td>The fill color</td>
+      <td><code>Hexadecimal</code></td>
     </tr>
     <tr>
       <td>zIndex</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>设置多边形Z轴数值</td>
+      <td>Sets the value of the z-axis of the polygon.</td>
       <td></td>
     </tr>
   </tbody>
@@ -901,59 +900,59 @@ marker 上的气泡 label
 
 ### circle
 
-在地图上显示圆
+This property specifies whether to show a circle on the map.
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-      <th>备注</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
+      <th>Remarks</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>latitude</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>纬度</td>
-      <td><code>浮点数，范围 -90 ~ 90</code></td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Latitude</td>
+      <td><code>The number of floating points. Its values range from –90 to +90.</code></td>
     </tr>
     <tr>
       <td>longitude</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>经度</td>
-      <td><code>浮点数，范围 -180 ~ 180</code></td>
+      <td>Longitude</td>
+      <td><code>The number of floating points. Its values range from –180 to +180.</code></td>
     </tr>
     <tr>
       <td>color</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>描边的颜色</td>
-      <td><code>十六进制</code></td>
+      <td>The color of the stroke</td>
+      <td><code>Hexadecimal</code></td>
     </tr>
     <tr>
       <td>fillColor</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>填充颜色</td>
-      <td><code>十六进制</code></td>
+      <td>The fill color</td>
+      <td><code>Hexadecimal</code></td>
     </tr>
     <tr>
       <td>radius</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>半径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Radius</td>
       <td></td>
     </tr>
     <tr>
       <td>strokeWidth</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>描边的宽度</td>
+      <td>The width of the stroke</td>
       <td></td>
     </tr>
   </tbody>
@@ -961,16 +960,16 @@ marker 上的气泡 label
 
 ### control
 
-在地图上显示控件，控件不随着地图移动。即将废弃，请使用 cover-view
+The controls do not move with the map.即将废弃，请使用 cover-view
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-      <th>备注</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
+      <th>Remarks</th>
     </tr>
   </thead>
   <tbody>
@@ -978,29 +977,29 @@ marker 上的气泡 label
       <td>id</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>控件id</td>
-      <td><code>在控件点击事件回调会返回此id</code></td>
+      <td>The ID of the control</td>
+      <td><code>This ID is returned when the control tapping event is called back.</code></td>
     </tr>
     <tr>
       <td>position</td>
       <td><code>point</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>控件在地图的位置</td>
-      <td><code>控件相对地图位置</code></td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The location of the control on the map</td>
+      <td><code>The location of the control relative to the map.</code></td>
     </tr>
     <tr>
       <td>iconPath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>显示的图标</td>
-      <td><code>项目目录下的图片路径，支持本地路径、代码包路径</code></td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Displayed icon</td>
+      <td><code>The image path in the project directory.</code></td>
     </tr>
     <tr>
       <td>clickable</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>是否可点击</td>
-      <td><code>默认不可点击</code></td>
+      <td>Specifies whether the control is clickable.</td>
+      <td><code>It is unclickable by default.</code></td>
     </tr>
   </tbody>
 </table>
@@ -1010,21 +1009,21 @@ marker 上的气泡 label
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>longitude</td>
       <td><code>number</code></td>
-      <td>经度</td>
+      <td>Longitude</td>
     </tr>
     <tr>
       <td>latitude</td>
       <td><code>number</code></td>
-      <td>纬度</td>
+      <td>Latitude</td>
     </tr>
   </tbody>
 </table>
@@ -1034,10 +1033,10 @@ marker 上的气泡 label
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -1045,25 +1044,25 @@ marker 上的气泡 label
       <td>left</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>0</code></td>
-      <td>距离地图的左边界多远</td>
+      <td>The distance from the left edge of the map.</td>
     </tr>
     <tr>
       <td>top</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>0</code></td>
-      <td>距离地图的上边界多远</td>
+      <td>The distance from the top edge of the map.</td>
     </tr>
     <tr>
       <td>width</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}><code>图片宽度</code></td>
-      <td>控件宽度</td>
+      <td style={{ textAlign: "center"}}><code>Image width</code></td>
+      <td>The width of the control</td>
     </tr>
     <tr>
       <td>height</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}><code>图片宽度</code></td>
-      <td>控件高度</td>
+      <td style={{ textAlign: "center"}}><code>Image height</code></td>
+      <td>The height of the control</td>
     </tr>
   </tbody>
 </table>
@@ -1073,8 +1072,8 @@ marker 上的气泡 label
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Param</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -1090,8 +1089,8 @@ marker 上的气泡 label
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Param</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -1107,8 +1106,8 @@ marker 上的气泡 label
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Param</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -1124,8 +1123,8 @@ marker 上的气泡 label
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Param</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -1141,29 +1140,29 @@ marker 上的气泡 label
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-      <th>备注</th>
+      <th>Param</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Remarks</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>type</td>
       <td><code>string</code></td>
-      <td>视野变化开始、结束时触发</td>
+      <td>Triggered at the start and end of a field of view change.</td>
       <td><code>视野变化开始为begin，结束为end</code></td>
     </tr>
     <tr>
       <td>causedBy</td>
       <td><code>string</code></td>
-      <td>导致视野变化的原因</td>
+      <td>Causes of changes in visual field</td>
       <td><code>拖动地图导致(drag)、缩放导致(scale)、调用接口导致(update)</code></td>
     </tr>
     <tr>
       <td>detail</td>
       <td><code>regionChangeDetail</code></td>
-      <td>视野改变详情</td>
+      <td>Details of the change of region</td>
       <td></td>
     </tr>
   </tbody>
@@ -1174,21 +1173,21 @@ marker 上的气泡 label
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Param</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>rotate</td>
       <td><code>number</code></td>
-      <td>旋转角度</td>
+      <td>Rotation angle</td>
     </tr>
     <tr>
       <td>skew</td>
       <td><code>number</code></td>
-      <td>倾斜角度</td>
+      <td>Skew angle</td>
     </tr>
   </tbody>
 </table>
@@ -1198,8 +1197,8 @@ marker 上的气泡 label
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Param</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -1218,8 +1217,8 @@ marker 上的气泡 label
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
-|:---:|:-----:|:-----:|:------:|:--:|:------------:|
-| Map |  ✔️   |  ✔️   |   ✔️   |    |              |
+| API | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | H5 | React Native |
+|:---:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| Map |         ✔️          |         ✔️          |         ✔️          |    |              |
