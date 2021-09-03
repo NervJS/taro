@@ -3,78 +3,78 @@ title: Taro.startSoterAuthentication(option)
 sidebar_label: startSoterAuthentication
 ---
 
-开始 SOTER 生物认证。验证流程请参考[说明](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/bio-auth.html)。
+Starts SOTER biometric authentication.For the verification procedure, see [description](https://developers.weixin.qq.com/miniprogram/en/dev/framework/open-ability/bio-auth.html).
 
-**resultJSON 说明** 此数据为设备TEE中，将传入的challenge和TEE内其他安全信息组成的数据进行组装而来的JSON，对下述字段的解释如下表。例子如下：
-| 字段名     | 说明                                               |
-| ------- | ------------------------------------------------ |
-| raw     | 调用者传入的challenge                                  |
-| fid     | （仅Android支持）本次生物识别认证的生物信息编号（如指纹识别则是指纹信息在本设备内部编号） |
-| counter | 防重放特征参数                                          |
-| tee_n   | TEE名称（如高通或者trustonic等）                           |
-| tee_v   | TEE版本号                                           |
-| fp_n    | 指纹以及相关逻辑模块提供商（如FPC等）                             |
-| fp_v    | 指纹以及相关模块版本号                                      |
-| cpu_id  | 机器唯一识别ID                                         |
-| uid     | 概念同Android系统定义uid，即应用程序编号                        |
+This data is the JSON data obtained in the device's TEE by combining the incoming challenge parameter and other security information in the TEE. The fields are described as follows.例子如下：
+| 字段名     | Description                                                                                                                                                                                                                                 |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| raw     | The challenge factor passed in by the caller                                                                                                                                                                                                |
+| fid     | (Supported only on Android) The ID of the biometric information for the current biometric recognition and authentication (for example, for fingerprint recognition, this field indicates the ID of fingerprint information in this device). |
+| counter | A parameter of the anti-replay feature                                                                                                                                                                                                      |
+| tee_n   | TEE name (for example, Qualcomm or trustonic)                                                                                                                                                                                               |
+| tee_v   | TEE version                                                                                                                                                                                                                                 |
+| fp_n    | The provider of the fingerprints and related logic modules (such as the FPC)                                                                                                                                                                |
+| fp_v    | The version of the fingerprints and related modules                                                                                                                                                                                         |
+| cpu_id  | The unique device ID                                                                                                                                                                                                                        |
+| uid     | App ID, which is similar to the UID defined on Android.                                                                                                                                                                                     |
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/soter/wx.startSoterAuthentication.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/soter/wx.startSoterAuthentication.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<SuccessCallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Field</th>
+      <th>Description</th>
       <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>challenge</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>挑战因子。挑战因子为调用者为此次生物鉴权准备的用于签名的字符串关键识别信息，将作为 <code>resultJSON</code> 的一部分，供调用者识别本次请求。例如：如果场景为请求用户对某订单进行授权确认，则可以将订单号填入此参数。</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>挑战因子。Challenge factor, which is the key recognition information of a string used for signing that is prepared by the caller for the current biometric authentication. It serves as a part of <code>resultJSON</code> to help the caller recognize this request.For example, if the user is requested to authorize and confirm an order, the order number can be entered in this parameter.</td>
     </tr>
     <tr>
       <td>requestAuthModes</td>
       <td><code>(&quot;fingerPrint&quot; | &quot;facial&quot; | &quot;speech&quot;)[]</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>请求使用的可接受的生物认证方式</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Accepted biometric authentication methods in the request</td>
     </tr>
     <tr>
       <td>authContent</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>验证描述，即识别过程中显示在界面上的对话框提示内容</td>
+      <td>Verification description, i.e. the hint in a dialog box displayed on the UI during recognition.</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td><code>(res: Result) =&gt; void</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td><code>(res: any) =&gt; void</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
+      <td><code>(res: any) =&gt; void</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -84,36 +84,36 @@ sidebar_label: startSoterAuthentication
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Required</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>authMode</td>
       <td><code>string</code></td>
-      <td>生物认证方式</td>
+      <td>Yes</td>
     </tr>
     <tr>
       <td>errCode</td>
       <td><code>number</code></td>
-      <td>错误码</td>
+      <td>Yes</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息</td>
+      <td>No</td>
     </tr>
     <tr>
       <td>resultJSON</td>
       <td><code>string</code></td>
-      <td>在设备安全区域（TEE）内获得的本机安全信息（如TEE名称版本号等以及防重放参数）以及本次认证信息（仅Android支持，本次认证的指纹ID）。具体说明见下文</td>
+      <td>The device security information (for example, the name and version of the Trusted Execution Environment (TEE), and anti-replay parameters) obtained in the TEE and information for this authentication (for example, the fingerprint ID. It is supported only on Android).具体说明见下文</td>
     </tr>
     <tr>
       <td>resultJSONSignature</td>
       <td><code>string</code></td>
-      <td>用SOTER安全密钥对 <code>resultJSON</code> 的签名(SHA256 with RSA/PSS, saltlen=20)</td>
+      <td>No</td>
     </tr>
   </tbody>
 </table>
@@ -123,39 +123,39 @@ sidebar_label: startSoterAuthentication
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>fingerPrint</td>
-      <td>指纹识别</td>
+      <td>Fingerprint recognition</td>
     </tr>
     <tr>
       <td>facial</td>
-      <td>人脸识别</td>
+      <td>Face recognition</td>
     </tr>
     <tr>
       <td>speech</td>
-      <td>声纹识别<br />API 支持度: 暂未支持</td>
+      <td>Voiceprint recognition (not supported)</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| requestAuthModes.speech |       |    |              |
+|           API           | Description | H5 | React Native |
+|:-----------------------:|:-----------:|:--:|:------------:|
+| requestAuthModes.speech |             |    |              |
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.startSoterAuthentication({
    requestAuthModes: ['fingerPrint'],
    challenge: '123456',
-   authContent: '请用指纹解锁',
+   authContent: 'Unlock with your fingerprint',
    success: function (res) { }
 })
 ```
@@ -174,8 +174,8 @@ Taro.startSoterAuthentication({
 }
 ```
 
-## API 支持度
+## API Support
 
-|              API              | 微信小程序 | H5 | React Native |
-|:-----------------------------:|:-----:|:--:|:------------:|
-| Taro.startSoterAuthentication |  ✔️   |    |              |
+|              API              | WeChat Mini-Program | H5 | React Native |
+|:-----------------------------:|:-------------------:|:--:|:------------:|
+| Taro.startSoterAuthentication |         ✔️          |    |              |
