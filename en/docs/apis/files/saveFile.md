@@ -3,59 +3,59 @@ title: Taro.saveFile(option)
 sidebar_label: saveFile
 ---
 
-保存文件到本地。**注意：saveFile 会把临时文件移动，因此调用成功后传入的 tempFilePath 将不可用**
+Saves files to the local device.**Note: saveFile will move temporary files, so tempFilePath will not be available after the API is successfully called.**
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.saveFile.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.saveFile.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<SuccessCallbackResult | FailCallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>tempFilePath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>临时存储文件路径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Temporary path to the files to be saved</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Path of the file to be saved</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(result: FailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>filePath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>要存储的文件路径</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -65,16 +65,16 @@ sidebar_label: saveFile
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail tempFilePath file not exist': 指定的 tempFilePath 找不到文件;<br />- 'fail permission denied, open &quot;filePath&quot;': 指定的 filePath 路径没有写权限;<br />- 'fail no such file or directory &quot;dirPath&quot;': 上级目录不存在;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足;</td>
+      <td>Error message<br /><br />valid value: <br />- 'fail tempFilePath file not exist';<br />- 'fail permission denied, open &quot;filePath&quot;';<br />- 'fail no such file or directory &quot;dirPath&quot;';<br />- 'fail the maximum size of the file storage limit is exceeded';</td>
     </tr>
   </tbody>
 </table>
@@ -84,26 +84,26 @@ sidebar_label: saveFile
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>savedFilePath</td>
       <td><code>number</code></td>
-      <td>存储后的文件路径</td>
+      <td>Path to the saved file</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.chooseImage({
@@ -119,8 +119,8 @@ Taro.chooseImage({
 })
 ```
 
-## API 支持度
+## API Support
 
-|      API      | 微信小程序 | H5 | React Native |
-|:-------------:|:-----:|:--:|:------------:|
-| Taro.saveFile |  ✔️   |    |      ✔️      |
+|      API      | WeChat Mini-Program | H5 | React Native |
+|:-------------:|:-------------------:|:--:|:------------:|
+| Taro.saveFile |         ✔️          |    |      ✔️      |
