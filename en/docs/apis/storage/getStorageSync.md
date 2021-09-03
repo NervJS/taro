@@ -3,36 +3,36 @@ title: Taro.getStorageSync(key)
 sidebar_label: getStorageSync
 ---
 
-Taro.getStorage 的同步版本
+The synchronous version of `Taro.getStorage`.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorageSync.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorageSync.html)
 
-## 类型
+## Type
 
 ```tsx
 (key: string) => any
 ```
 
-## 参数
+## Parameters
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>key</td>
       <td><code>string</code></td>
-      <td>本地缓存中指定的 key</td>
+      <td>The specified key in the local cache</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.getStorage({
@@ -54,8 +54,8 @@ try {
 }
 ```
 
-## API 支持度
+## API Support
 
-|         API         | 微信小程序 | H5 | React Native |
-|:-------------------:|:-----:|:--:|:------------:|
-| Taro.getStorageSync |  ✔️   | ✔️ |              |
+|         API         | WeChat Mini-Program | H5 | React Native |
+|:-------------------:|:-------------------:|:--:|:------------:|
+| Taro.getStorageSync |         ✔️          | ✔️ |              |
