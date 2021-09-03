@@ -3,21 +3,21 @@ title: Taro.onSocketClose(callback)
 sidebar_label: onSocketClose
 ---
 
-监听 WebSocket 连接关闭事件
+Listens on the event of disabling the WebSocket connection.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.onSocketClose.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.onSocketClose.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: Callback) => void
 ```
 
-## 参数
+## Parameters
 
 ### Callback
 
-WebSocket 连接关闭事件的回调函数
+The callback function for the event of disabling the WebSocket connection.
 
 ```tsx
 (result: CallbackResult) => void
@@ -26,8 +26,8 @@ WebSocket 连接关闭事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -43,44 +43,44 @@ WebSocket 连接关闭事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>code</td>
       <td><code>number</code></td>
-      <td>一个数字值表示关闭连接的状态号，表示连接被关闭的原因。</td>
+      <td>A numeric value indicates the status code explaining why the connection has been disabled.</td>
     </tr>
     <tr>
       <td>reason</td>
       <td><code>string</code></td>
-      <td>一个可读的字符串，表示连接被关闭的原因。</td>
+      <td>A readable string explaining why the connection has been disabled.</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.connectSocket({
   url: 'test.php'
 })
-//注意这里有时序问题，
-//如果 Taro.connectSocket 还没回调 Taro.onSocketOpen，而先调用 Taro.closeSocket，那么就做不到关闭 WebSocket 的目的。
-//必须在 WebSocket 打开期间调用 Taro.closeSocket 才能关闭。
+
+//Pay attention to the operation sequence
+//If you call  wx.closeSocket before the  wx.onSocketOpen callback for  wx.connectSocket ,  WebSocket  connection cannot be disabled.
+//You can only call wx.closeSocket to disable the connection when WebSocket is enabled.
 Taro.onSocketOpen(function () {
   Taro.closeSocket()
 })
 Taro.onSocketClose(function (res) {
-  console.log('WebSocket 已关闭！')
-})
+  console.log('WebSocket Disabled!')})
 ```
 
-## API 支持度
+## API Support
 
-|        API         | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
-|:------------------:|:-----:|:-----:|:------:|:--:|:------------:|
-| Taro.onSocketClose |  ✔️   |  ✔️   |   ✔️   |    |              |
+|        API         | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | H5 | React Native |
+|:------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| Taro.onSocketClose |         ✔️          |         ✔️          |         ✔️          |    |              |
