@@ -1,14 +1,14 @@
 ---
-title: Component external and global styles
+title: 组件的外部样式和全局样式
 ---
 
-Customize the style file of the component only for the nodes in that component.When writing component style, care needs to be taken to expert sex：
+自定义组件对应的样式文件，只对该组件内的节点生效。编写组件样式时，需要注意以下几点：
 
-- Components and referencing components cannot use id selectors (`#a`), attribute selectors (`[a]`) and label selectors, use class selectors.
-- Using the next generation selector (`.a b`) on the pages of components and referencing components has unanticipated performance in some extreme cases, if encountered, please avoid using.
-- Child element selector (`.a > .b`) can only be used between `Views` for other components that may cause unexpectedness.
-- **Inherit style, e.g. `font` and `color` will inherit from outside of the component (parent component).But the `className` written on the component nodes when referencing the component.** *(For specific solutions see external and global style presentations below)*
-- With the exception of inheritance style, `app.scss` style, the style of the component page, is not valid for custom components.
+- 组件和引用组件的页面不能使用 id 选择器（`#a`）、属性选择器（`[a]`）和标签名选择器，请改用 class 选择器。
+- 组件和引用组件的页面中使用后代选择器（`.a .b`）在一些极端情况下会有非预期的表现，如遇，请避免使用。
+- 子元素选择器（`.a > .b`）只能用于 `View` 组件与其子节点之间，用于其他组件可能导致非预期的情况。
+- **继承样式，如 `font` 、 `color` ，会从组件外（父组件）继承到组件内。但是引用组件时在组件节点上书写的 `className` 无效。** *（具体解决方案请参见下面的外部和全局样式介绍。）*
+- 除继承样式外， `app.scss` 中的样式、组件所在页面的样式，均对自定义组件无效。
 
 ```css
 #a { } /* 在组件中不能使用 */
@@ -17,28 +17,28 @@ button { } /* 在组件中不能使用 */
 .a > .b { } /* 除非 .a 是 view 组件节点，否则不一定会生效 */
 ```
 
-In addition to this, the component can specify the default style of its node, using `:host` selectors (needs to include base library [1.7.2](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) or more developer tools).
+除此以外，组件可以指定它所在节点的默认样式，使用 `:host` 选择器（需要包含基础库 [1.7.2](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) 或更高版本的开发者工具支持）。
 
 ```css
-/* Default style for this custom component */
-:host LO
+/* 该自定义组件的默认样式 */
+:host {
   color: yellow;
 }
 ```
 
-## External Style Class
+## 外部样式类
 
 如果想传递样式给引用的自定义组件，以下写法（直接传递 `className`）**不可行**：
 
 ```jsx
-/* CustomCompd. s */
-export default class CustomComp extends Component U
+/* CustomComp.js */
+export default class CustomComp extends Component {
   static defaultProps = {
     className: ''
   }
 
-  render ()
-    return <View className={this.props.className}>The color of this text is not determined by class outside the component</View>
+  render () {
+    return <View className={this.props.className}>这段文本的颜色不会由组件外的 class 决定</View>
   }
 }
 ```
@@ -54,20 +54,20 @@ export default class MyPage extends Component {
 
 ```scss
 /* MyPage.scss */
-.red-text LO
+.red-text {
   color: red;
 }
 ```
 
-Instead, use`externalClasses`to define segments to define several external style classes.This feature is supported from base version[1.9.90](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
+取而代之的，需要利用 `externalClasses` 定义段定义若干个外部样式类。这个特性从小程序基础库版本 [1.9.90](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) 开始支持。
 
 ```jsx
-/* CustomCompd. s */
+/* CustomComp.js */
 export default class CustomComp extends Component {
   static externalClasses = ['my-class']
 
-  render () ()
-    return <View className="my-class">the color of this text is determined by class outside of the component</View>
+  render () {
+    return <View className="my-class">这段文本的颜色由组件外的 class 决定</View>
   }
 }
 ```
@@ -83,16 +83,16 @@ export default class MyPage extends Component {
 
 ```scss
 /* MyPage.scss */
-.red-text LO
+.red-text {
   color: red;
 }
 ```
 
-> Note that：`externalClasses` needs to be named with **Short Landscape (kebab-case)**, not the React customary camel peak naming method.Otherwise it is invalid.
+> 注意：`externalClasses` 需要使用 **短横线命名法 (kebab-case)**，而不是 React 惯用的 驼峰命名法 (camelCase)。否则无效。
 
-## Global Style Class
+## 全局样式类
 
-使用外部样式类可以让组件使用指定的组件外样式类，如果希望组件外样式类能够完全影响组件内部，可以将组件构造器中的 `options.addGlobalClass` 字段置为 `true`。This feature is supported from base version[2.2.3](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html).
+使用外部样式类可以让组件使用指定的组件外样式类，如果希望组件外样式类能够完全影响组件内部，可以将组件构造器中的 `options.addGlobalClass` 字段置为 `true`。这个特性从小程序基础库版本 [2.2.3](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) 开始支持。
 
 ```jsx
 /* CustomComp.js */
@@ -108,7 +108,7 @@ export default class CustomComp extends Component {
 ```
 
 ```scss
-/* Style definition */
+/* 组件外的样式定义 */
 .red-text {
   color: red;
 }
