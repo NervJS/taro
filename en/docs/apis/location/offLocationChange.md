@@ -3,37 +3,37 @@ title: Taro.offLocationChange(callback)
 sidebar_label: offLocationChange
 ---
 
-取消监听实时地理位置变化事件
+Un-listens to live geolocation change events.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.offLocationChange.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.offLocationChange.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: (res: CallbackResult) => void) => void
 ```
 
-## 参数
+## Parameters
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td>实时地理位置变化事件的回调函数</td>
+      <td>Callback function for real-time geolocation change events.</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|          API           | 微信小程序 | H5 | React Native |
-|:----------------------:|:-----:|:--:|:------------:|
-| Taro.offLocationChange |  ✔️   |    |              |
+|          API           | WeChat Mini-Program | H5 | React Native |
+|:----------------------:|:-------------------:|:--:|:------------:|
+| Taro.offLocationChange |         ✔️          |    |              |
