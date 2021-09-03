@@ -3,41 +3,41 @@ title: Taro.onBackgroundAudioStop(callback)
 sidebar_label: onBackgroundAudioStop
 ---
 
-监听音乐停止。
+Listens on the event of stopping music playback.
 
 **bug & tip：**
 
 1.  `bug`: `iOS` `6.3.30` Taro.seekBackgroundAudio 会有短暂延迟
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.onBackgroundAudioStop.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.onBackgroundAudioStop.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: (res: CallbackResult) => void) => void
 ```
 
-## 参数
+## Parameters
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td>音乐停止事件的回调函数</td>
+      <td>The callback function for the event of stopping music playback.</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|            API             | 微信小程序 | H5 | React Native |
-|:--------------------------:|:-----:|:--:|:------------:|
-| Taro.onBackgroundAudioStop |  ✔️   |    |              |
+|            API             | WeChat Mini-Program | H5 | React Native |
+|:--------------------------:|:-------------------:|:--:|:------------:|
+| Taro.onBackgroundAudioStop |         ✔️          |    |              |
