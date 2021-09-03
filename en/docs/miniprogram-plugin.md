@@ -1,56 +1,56 @@
 ---
-title: 小程序插件开发
+title: Mini Program Plugin Development
 ---
 
-## 微信小程序插件开发
+## WeChat mini-program plugin development
 
-> 目前微信小程序仅支持使用 `React` 来进行开发
+> WeChat mini-program currently only support development using `React`.
 
-[微信小程序插件开发概述](https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/)
+[WeChat Mini Program plugin development overview](https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/)
 
-### 创建插件开发模版
+### Create Plugin Development Templates
 
-微信小程序插件分为**页面**、**组件**、**接口**三种。开发者可以使用 `taro init` 命令，然后选择生成**微信小程序插件模版**，即可在当前目录生成包含上述三种插件类型的 Taro 微信小程序插件项目。
+WeChat Mini Program plugins are divided into **pages**, **components** and **interfaces**.Developers can use the `taro init` command and then select Generate **WeChat  Mini Program Plugin Template** to generate a Taro WeChat  Mini Program plugin project containing the above three plugin types in the current directory.
 
-### 修改 appid
+### Modify appid
 
-创建完模版后，首先需要修改 `project.config.json` 的 **appid** 字段和 `src/app.js` 的 **prodiver** 字段为同一 appid。
+After creating the template, you first need to modify the **appid** field in `project.config.json` and the **prodiver** field in `src/app.js` to the same appid.
 
-### 项目结构
+### Project Structure
 
-推荐的插件项目结构如下：
+The recommended plugin project structure is as follows:
 
-注意，最后发布的是 plugin 文件夹内的内容，插件的所有内容及除了 npm 包以外的依赖都应写在 plugin 文件夹内。`src/pages` 内的页面只是用于调试插件。
+Note that the last thing published is the contents of the plugin folder. All the contents of the plugin and its dependencies except for the npm package should be written in the plugin folder.The pages in `src/pages` are just for debugging the plugin.
 
-    ├── config                 配置目录
-    ├── src                    源码目录
-    |   ├── pages              调试页面目录，用于调试插件
+    ├── config                 Project compilation configuration Directory
+    ├── src                    Source Directory
+    |   ├── pages              Debug page Directory for debugging plugins
     |   |   └── index          
-    |   ├── plugin             插件目录
-    |   |   ├── doc            插件文档目录
-    |   |   ├── components     组件插件目录
-    |   |   ├── pages          页面插件目录
-    |   |   ├── index.js       接口插件文件
-    |   |   └── plugin.json    插件配置文件
-    |   ├── app.css            项目总通用样式
-    |   └── app.js             项目入口文件
+    |   ├── plugin             Plugin Directory
+    |   |   ├── doc            Plugin Documentation Directory
+    |   |   ├── components     Component Plugin Directory
+    |   |   ├── pages          Page Plugin Directory
+    |   |   ├── index.js       Interface plugin files
+    |   |   └── plugin.json    Plugin configuration file
+    |   ├── app.css            General project style
+    |   └── app.js             Project entry file
     └── package.json
     └── package.config.json
 
-### 编译项目
+### Compile Project
 
 ```bin
 taro build --plugin weapp
 taro build --plugin weapp --watch
 ```
 
-### 添加小程序项目
+### Add Mini Program Project
 
-在微信开发者工具中添加 Taro 插件项目根目录。
+Add the Taro plugin project root in WeChat Developer Tools.
 
-### 使用插件页面
+### Using The Plugin Page
 
-plugin.json 的 **pages** 字段加入页面插件路径：
+Add the **pages** field of plugin.json to the page plugin path.
 
 ```json title="plugin.json"
 {
@@ -60,17 +60,16 @@ plugin.json 的 **pages** 字段加入页面插件路径：
 }
 ```
 
-页面使用路径： **plugin://[app.js 中注册的插件名]/[plugin.json 中注册的页面名]** 进行跳转。
+The page uses the path: **plugin://[name of registered plugin in app.js]/[name of registered page in plugin.json]** for jumping.
 
 ```jsx {1}
 <Navigator url='plugin://myPlugin/list'>
-  Go to pages/list!
-</Navigator>
+  Go to pages/list! </Navigator>
 ```
 
-### 使用插件组件
+### Using plugin components
 
-plugin.json 的 **publicComponents** 字段加入组件插件路径：
+The **publicComponents** field of plugin.json adds the component plugin path.
 
 ```json title="plugin.json"
 {
@@ -80,7 +79,7 @@ plugin.json 的 **publicComponents** 字段加入组件插件路径：
 }
 ```
 
-在页面配置 config.usingComponents 中配置好插件名和插件路径（**plugin://[app.js 中注册的插件名]/[plugin.json 中注册的组件名]**）：
+Configure the plugin name and plugin path in the page configuration config.usingComponents (**plugin://[name of plugin registered in app.js]/[name of component registered in plugin.json]**).
 
 ```jsx {4}
 export default class Index extends Component {
@@ -92,25 +91,24 @@ export default class Index extends Component {
 }
 ```
 
-#### 插件组件接受外部 props
+#### Plugin components accept external props
 
-如果需要给插件传入参数，需要将参数统一放在组件的 `props` 中进行传入。
+If you need to pass parameters to the plugin, you need to pass them uniformly in the component's `props`.
 
 ```js
-// 常规 props 传递
+// General props passing
 <Plugin title={this.state.name} desc={this.state.desc} />
 
-// 在使用插件组件时需要改造成以下形式：
-const extraProps = {
+// needs to be transformed to the following form when using the plugin component. const extraProps = {
   name: this.state.name,
   desc: this.state.desc
 }
 <Plugin props={extraProps} />
 ```
 
-### 使用插件接口
+### Using the plugin interface
 
-plugin.json 的 **main** 字段加入接口插件路径：
+The **main** field of plugin.json adds the path to the interface plugin.
 
 ```json title="plugin.json"
 {
@@ -118,7 +116,7 @@ plugin.json 的 **main** 字段加入接口插件路径：
 }
 ```
 
-页面中使用：
+Use in the page:
 
 ```jsx
 const myPluginInterface = Taro.requirePlugin('myPlugin')
