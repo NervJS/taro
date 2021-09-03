@@ -3,28 +3,28 @@ title: Taro.createRewardedVideoAd(option)
 sidebar_label: createRewardedVideoAd
 ---
 
-创建激励视频广告组件。
+Creates a rewarded video ad component.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ad/wx.createRewardedVideoAd.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ad/wx.createRewardedVideoAd.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => RewardedVideoAd
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -32,21 +32,21 @@ sidebar_label: createRewardedVideoAd
       <td>adUnitId</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>广告单元 id</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Ad unit ID</td>
     </tr>
     <tr>
       <td>multiton</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否启用多例模式</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to enable multi-instance mode.</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|            API             | 微信小程序 | H5 | React Native |
-|:--------------------------:|:-----:|:--:|:------------:|
-| Taro.createRewardedVideoAd |  ✔️   |    |              |
+|            API             | WeChat Mini-Program | H5 | React Native |
+|:--------------------------:|:-------------------:|:--:|:------------:|
+| Taro.createRewardedVideoAd |         ✔️          |    |              |
