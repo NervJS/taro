@@ -3,17 +3,17 @@ title: Radio
 sidebar_label: Radio
 ---
 
-单选项目
+Single-select item.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/radio.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/radio.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<RadioProps>
 ```
 
-## 示例代码
+## Examples
 
 
 import Tabs from '@theme/Tabs';
@@ -32,33 +32,33 @@ export default class PageRadio extends Component {
   state = {
     list: [
       {
-        value: '美国',
-        text: '美国',
+        value: 'USA',
+        text: 'United States',
         checked: false
       },
       {
-        value: '中国',
-        text: '中国',
+        value: 'CHN',
+        text: 'China',
         checked: true
       },
       {
-        value: '巴西',
-        text: '巴西',
+        value: 'BRA',
+        text: 'Brazil',
         checked: false
       },
       {
-        value: '日本',
-        text: '日本',
+        value: 'JPN',
+        text: 'Japan',
         checked: false
       },
       {
-        value: '英国',
-        text: '英国',
+        value: 'ENG',
+        text: 'United Kingdom',
         checked: false
       },
       {
-        value: '法国',
-        text: '法国',
+        value: 'TUR',
+        text: 'France',
         checked: false
       }
     ]
@@ -69,12 +69,12 @@ export default class PageRadio extends Component {
         <Head title='Radio' />
         <View className='page-body'>
           <View className='page-section'>
-            <Text>默认样式</Text>
-            <Radio value='选中' checked>选中</Radio>
-            <Radio style='margin-left: 20rpx' value='未选中'>未选中</Radio>
+            <Text>default style</Text>
+            <Radio value='选中' checked>Selected</Radio>
+            <Radio style='margin-left: 20rpx' value='未选中'>Not Selected</Radio>
           </View>
           <View className='page-section'>
-            <Text>推荐展示样式</Text>
+            <Text>recommend style</Text>
             <View className='radio-list'>
               <RadioGroup>
                 {this.state.list.map((item, i) => {
@@ -101,12 +101,12 @@ export default class PageRadio extends Component {
 <template>
   <view class="container">
     <view class="page-section">
-      <text>默认样式</text>
-      <radio value="选中" :checked="true">选中</radio>
-      <radio style="margin-left: 20rpx;" value="未选中">未选中</radio>
+      <text>default style</text>
+      <radio value="选中" :checked="true">Selected</radio>
+      <radio style="margin-left: 20rpx;" value="未选中">Not Selected</radio>
     </view>
     <view class="page-section">
-      <text>推荐展示样式(Taro 团队成员):</text>
+      <text>recommend style(Taro Contributors):</text>
         <radio-group @change="onChange">
           <label v-for="item in list" class="checkbox-list__label">
             <radio class="checkbox-list__checkbox" :value="item.value" :checked="item.checked">{{ item.text }}</radio>
@@ -176,11 +176,11 @@ export default {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -188,44 +188,44 @@ export default {
       <td>value</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td><code>&lt;Radio/&gt;</code> 标识。当该<code>&lt;Radio/&gt;</code> 选中时，<code>&lt;RadioGroup/&gt;</code>的 change 事件会携带<code>&lt;Radio/&gt;</code>的 value</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The ID of the `radio` component.When this `radio` is selected, the change event for `radio-group` will carry the value of `radio`.</td>
     </tr>
     <tr>
       <td>checked</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当前是否选中</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to select the checkbox.</td>
     </tr>
     <tr>
       <td>disabled</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否禁用</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to disable the component.</td>
     </tr>
     <tr>
       <td>color</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;#09BB07&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>Radio 的颜色，同 css 的 color</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The color of the radio. It is the same as the color of the css.</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|         API         | 微信小程序 | H5 | React Native |
-|:-------------------:|:-----:|:--:|:------------:|
-|  RadioProps.value   |  ✔️   |    |      ✔️      |
-| RadioProps.checked  |  ✔️   | ✔️ |      ✔️      |
-| RadioProps.disabled |  ✔️   | ✔️ |      ✔️      |
-|  RadioProps.color   |  ✔️   |    |      ✔️      |
+|         API         | WeChat Mini-Program | H5 | React Native |
+|:-------------------:|:-------------------:|:--:|:------------:|
+|  RadioProps.value   |         ✔️          |    |      ✔️      |
+| RadioProps.checked  |         ✔️          | ✔️ |      ✔️      |
+| RadioProps.disabled |         ✔️          | ✔️ |      ✔️      |
+|  RadioProps.color   |         ✔️          |    |      ✔️      |
 
-## API 支持度
+## API Support
 
-|  API  | 微信小程序 | H5 | React Native |
-|:-----:|:-----:|:--:|:------------:|
-| Radio |  ✔️   | ✔️ |      ✔️      |
+|  API  | WeChat Mini-Program | H5 | React Native |
+|:-----:|:-------------------:|:--:|:------------:|
+| Radio |         ✔️          | ✔️ |      ✔️      |
