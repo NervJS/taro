@@ -3,21 +3,21 @@ title: Taro.onGyroscopeChange(callback)
 sidebar_label: onGyroscopeChange
 ---
 
-监听陀螺仪数据变化事件。频率根据 Taro.startGyroscope() 的 interval 参数。可以使用 Taro.stopGyroscope() 停止监听。
+Listens on the gyroscope data change event.The frequency is based on the `Taro.startGyroscope()` interval parameter.You can use `Taro.stopGyroscope()` to stop listening.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/gyroscope/wx.onGyroscopeChange.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/gyroscope/wx.onGyroscopeChange.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: Callback) => void
 ```
 
-## 参数
+## Parameters
 
 ### Callback
 
-陀螺仪数据变化事件的回调函数
+The callback function for the gyroscope data change event.
 
 ```tsx
 (result: CallbackResult) => void
@@ -26,8 +26,8 @@ sidebar_label: onGyroscopeChange
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -43,32 +43,32 @@ sidebar_label: onGyroscopeChange
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>x</td>
       <td><code>number</code></td>
-      <td>x 轴的角速度</td>
+      <td>X-axis angular velocity</td>
     </tr>
     <tr>
       <td>y</td>
       <td><code>number</code></td>
-      <td>y 轴的角速度</td>
+      <td>Y-axis angular velocity</td>
     </tr>
     <tr>
       <td>z</td>
       <td><code>number</code></td>
-      <td>z 轴的角速度</td>
+      <td>Z-axis angular velocity</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|          API           | 微信小程序 | H5 | React Native |
-|:----------------------:|:-----:|:--:|:------------:|
-| Taro.onGyroscopeChange |  ✔️   |    |      ✔️      |
+|          API           | WeChat Mini-Program | H5 | React Native |
+|:----------------------:|:-------------------:|:--:|:------------:|
+| Taro.onGyroscopeChange |         ✔️          |    |      ✔️      |
