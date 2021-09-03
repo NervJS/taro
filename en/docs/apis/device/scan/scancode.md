@@ -3,59 +3,59 @@ title: Taro.scanCode(option)
 sidebar_label: scanCode
 ---
 
-调起客户端扫码界面，扫码成功后返回对应的结果
+Opens the code scanning interface in the app to scan the code.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/scan/wx.scanCode.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/scan/wx.scanCode.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<SuccessCallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Indicates whether to allow to scan code with camera only</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Type of code to scan</td>
     </tr>
     <tr>
       <td>onlyFromCamera</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否只能从相机扫码，不允许从相册选择图片</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>scanType</td>
       <td><code>(&quot;barCode&quot; | &quot;qrCode&quot; | &quot;datamatrix&quot; | &quot;pdf417&quot;)[]</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>扫码类型</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -65,177 +65,177 @@ sidebar_label: scanCode
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>charSet</td>
       <td><code>string</code></td>
-      <td>所扫码的字符集</td>
+      <td>Character set of code to scan</td>
     </tr>
     <tr>
       <td>path</td>
       <td><code>string</code></td>
-      <td>当所扫的码为当前小程序二维码时，会返回此字段，内容为二维码携带的 path</td>
+      <td>If the scanned code is the QR code of the current Mini Program, this field is returned, and the content is the path carried by the QR code.</td>
     </tr>
     <tr>
       <td>rawData</td>
       <td><code>string</code></td>
-      <td>原始数据，base64编码</td>
+      <td>Base64 encoded raw data</td>
     </tr>
     <tr>
       <td>result</td>
       <td><code>string</code></td>
-      <td>所扫码的内容</td>
+      <td>Content of code to scan</td>
     </tr>
     <tr>
       <td>scanType</td>
       <td><code>&quot;QR_CODE&quot; | &quot;AZTEC&quot; | &quot;CODABAR&quot; | &quot;CODE_39&quot; | &quot;CODE_93&quot; | &quot;CODE_128&quot; | &quot;DATA_MATRIX&quot; | &quot;EAN_8&quot; | &quot;EAN_13&quot; | &quot;ITF&quot; | &quot;MAXICODE&quot; | &quot;PDF_417&quot; | &quot;RSS_14&quot; | &quot;RSS_EXPANDED&quot; | &quot;UPC_A&quot; | &quot;UPC_E&quot; | &quot;UPC_EAN_EXTENSION&quot; | &quot;WX_CODE&quot; | &quot;CODE_25&quot;</code></td>
-      <td>所扫码的类型</td>
+      <td>Type of code to scan</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
 
 ### ScanType
 
-扫码类型
+Valid values of object.scanType
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>barCode</td>
-      <td>一维码</td>
+      <td>Barcode</td>
     </tr>
     <tr>
       <td>qrCode</td>
-      <td>二维码</td>
+      <td>QR code</td>
     </tr>
     <tr>
       <td>datamatrix</td>
-      <td>Data Matrix 码</td>
+      <td>Data Matrix code</td>
     </tr>
     <tr>
       <td>pdf417</td>
-      <td>PDF417 条码</td>
+      <td>PDF417 barcode</td>
     </tr>
   </tbody>
 </table>
 
 ### QRType
 
-所扫码的类型
+Valid values of res.QRType
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>QR_CODE</td>
-      <td>二维码</td>
+      <td>QR code</td>
     </tr>
     <tr>
       <td>AZTEC</td>
-      <td>一维码</td>
+      <td>Barcode</td>
     </tr>
     <tr>
       <td>CODABAR</td>
-      <td>一维码</td>
+      <td>Barcode</td>
     </tr>
     <tr>
       <td>CODE_39</td>
-      <td>一维码</td>
+      <td>Barcode</td>
     </tr>
     <tr>
       <td>CODE_93</td>
-      <td>一维码</td>
+      <td>Barcode</td>
     </tr>
     <tr>
       <td>CODE_128</td>
-      <td>一维码</td>
+      <td>Barcode</td>
     </tr>
     <tr>
       <td>DATA_MATRIX</td>
-      <td>二维码</td>
+      <td>QR code</td>
     </tr>
     <tr>
       <td>EAN_8</td>
-      <td>一维码</td>
+      <td>Barcode</td>
     </tr>
     <tr>
       <td>EAN_13</td>
-      <td>一维码</td>
+      <td>Barcode</td>
     </tr>
     <tr>
       <td>ITF</td>
-      <td>一维码</td>
+      <td>Barcode</td>
     </tr>
     <tr>
       <td>MAXICODE</td>
-      <td>一维码</td>
+      <td>Barcode</td>
     </tr>
     <tr>
       <td>PDF_417</td>
-      <td>二维码</td>
+      <td>QR code</td>
     </tr>
     <tr>
       <td>RSS_14</td>
-      <td>一维码</td>
+      <td>Barcode</td>
     </tr>
     <tr>
       <td>RSS_EXPANDED</td>
-      <td>一维码</td>
+      <td>Barcode</td>
     </tr>
     <tr>
       <td>UPC_A</td>
-      <td>一维码</td>
+      <td>Barcode</td>
     </tr>
     <tr>
       <td>UPC_E</td>
-      <td>一维码</td>
+      <td>Barcode</td>
     </tr>
     <tr>
       <td>UPC_EAN_EXTENSION</td>
-      <td>一维码</td>
+      <td>Barcode</td>
     </tr>
     <tr>
       <td>WX_CODE</td>
-      <td>二维码</td>
+      <td>QR code</td>
     </tr>
     <tr>
       <td>CODE_25</td>
-      <td>一维码</td>
+      <td>Barcode</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
-// 允许从相机和相册扫码
+// Allow to scan code with camera and select code from albums
 Taro.scanCode({
   success: (res) => {
     console.log(res)
   }
 })
-      // 只允许从相机扫码
+// Only allow to scan code with camera
 Taro.scanCode({
   onlyFromCamera: true,
   success: (res) => {
@@ -244,8 +244,8 @@ Taro.scanCode({
 })
 ```
 
-## API 支持度
+## API Support
 
-|      API      | 微信小程序 | H5 | React Native |
-|:-------------:|:-----:|:--:|:------------:|
-| Taro.scanCode |  ✔️   | ✔️ |      ✔️      |
+|      API      | WeChat Mini-Program | H5 | React Native |
+|:-------------:|:-------------------:|:--:|:------------:|
+| Taro.scanCode |         ✔️          | ✔️ |      ✔️      |
