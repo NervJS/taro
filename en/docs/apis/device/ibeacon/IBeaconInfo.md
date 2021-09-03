@@ -3,46 +3,46 @@ title: IBeaconInfo
 sidebar_label: IBeaconInfo
 ---
 
-## 方法
+## Methods
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>accuracy</td>
       <td><code>number</code></td>
-      <td>iBeacon 设备的距离</td>
+      <td>The iBeacon device distance.</td>
     </tr>
     <tr>
       <td>major</td>
       <td><code>string</code></td>
-      <td>iBeacon 设备的主 id</td>
+      <td>The iBeacon device primary ID.</td>
     </tr>
     <tr>
       <td>minor</td>
       <td><code>string</code></td>
-      <td>iBeacon 设备的次 id</td>
+      <td>The iBeacon device secondary ID.</td>
     </tr>
     <tr>
       <td>proximity</td>
       <td><code>number</code></td>
-      <td>表示设备距离的枚举值</td>
+      <td>The device distance enumerated value.</td>
     </tr>
     <tr>
       <td>rssi</td>
       <td><code>number</code></td>
-      <td>表示设备的信号强度</td>
+      <td>The signal strength of the device.</td>
     </tr>
     <tr>
       <td>uuid</td>
       <td><code>string</code></td>
-      <td>iBeacon 设备广播的 uuid</td>
+      <td>The iBeacon device broadcast UUID.</td>
     </tr>
   </tbody>
 </table>
