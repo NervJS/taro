@@ -3,21 +3,21 @@ title: Taro.onSocketOpen(callback)
 sidebar_label: onSocketOpen
 ---
 
-监听 WebSocket 连接打开事件
+Listens on the event of enabling the WebSocket connection.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.onSocketOpen.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.onSocketOpen.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: Callback) => void
 ```
 
-## 参数
+## Parameters
 
 ### Callback
 
-WebSocket 连接打开事件的回调函数
+The callback function for the event of enabling the WebSocket connection.
 
 ```tsx
 (result: OpenCallbackResult) => void
@@ -26,8 +26,8 @@ WebSocket 连接打开事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -43,33 +43,34 @@ WebSocket 连接打开事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>header</td>
       <td><code>Record&lt;string, any&gt;</code></td>
-      <td>连接成功的 HTTP 响应 Header</td>
+      <td>Connected HTTP response header</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.connectSocket({
   url: 'test.php'
 })
 Taro.onSocketOpen(function (res) {
-  console.log('WebSocket连接已打开！')
+  console.log('WebSocket connection is open！')
+})')
 })
 ```
 
-## API 支持度
+## API Support
 
-|        API        | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
-|:-----------------:|:-----:|:-----:|:------:|:--:|:------------:|
-| Taro.onSocketOpen |  ✔️   |  ✔️   |   ✔️   |    |              |
+|        API        | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| Taro.onSocketOpen |         ✔️          |         ✔️          |         ✔️          |    |              |
