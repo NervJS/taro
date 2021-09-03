@@ -3,65 +3,65 @@ title: RewardedVideoAd
 sidebar_label: RewardedVideoAd
 ---
 
-激励视频广告组件。激励视频广告组件是一个原生组件，层级比普通组件高。激励视频广告是一个单例（小游戏端是全局单例，小程序端是页面内单例，在小程序端的单例对象不允许跨页面使用），默认是隐藏的，需要调用 RewardedVideoAd.show() 将其显示。
+Rewarded video ad component.This is a native component at a higher layer than normal components.A rewarded video ad is a singleton (a global singleton in Mini Games, and an intra-page singleton in Mini Programs where singleton objects cannot be used across pages), which is hidden by default, and you must call `RewardedVideoAd.show()` to display them.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.html)
 
-## 方法
+## Methods
 
 ### load
 
-加载激励视频广告。
+Loads a rewarded video ad.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.load.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.load.html)
 
 ```tsx
 () => Promise<any>
 ```
 
-#### API 支持度
+#### API Support
 
-|         API          | 微信小程序 | H5 | React Native |
-|:--------------------:|:-----:|:--:|:------------:|
-| RewardedVideoAd.load |  ✔️   |    |              |
+|         API          | WeChat Mini-Program | H5 | React Native |
+|:--------------------:|:-------------------:|:--:|:------------:|
+| RewardedVideoAd.load |         ✔️          |    |              |
 
 ### show
 
-显示激励视频广告。激励视频广告将从屏幕下方推入。
+Displays rewarded video ads.These ads are pushed from the bottom of the screen.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.show.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.show.html)
 
 ```tsx
 () => Promise<any>
 ```
 
-#### API 支持度
+#### API Support
 
-|         API          | 微信小程序 | H5 | React Native |
-|:--------------------:|:-----:|:--:|:------------:|
-| RewardedVideoAd.show |  ✔️   |    |              |
+|         API          | WeChat Mini-Program | H5 | React Native |
+|:--------------------:|:-------------------:|:--:|:------------:|
+| RewardedVideoAd.show |         ✔️          |    |              |
 
 ### destroy
 
-销毁激励视频广告实例。
+Destory rewarded video ads.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.destroy.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.destroy.html)
 
 ```tsx
 () => void
 ```
 
-#### API 支持度
+#### API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| RewardedVideoAd.destroy |  ✔️   |    |              |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+| RewardedVideoAd.destroy |         ✔️          |    |              |
 
 ### offClose
 
-取消监听用户点击 `关闭广告` 按钮的事件
+Un-listens on the event of tapping the `Close Ad` button.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.offClose.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.offClose.html)
 
 ```tsx
 (callback: OffCloseCallback) => void
@@ -70,8 +70,8 @@ sidebar_label: RewardedVideoAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -82,17 +82,17 @@ sidebar_label: RewardedVideoAd
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API            | 微信小程序 | H5 | React Native |
-|:------------------------:|:-----:|:--:|:------------:|
-| RewardedVideoAd.offClose |  ✔️   |    |              |
+|           API            | WeChat Mini-Program | H5 | React Native |
+|:------------------------:|:-------------------:|:--:|:------------:|
+| RewardedVideoAd.offClose |         ✔️          |    |              |
 
 ### offError
 
-取消监听激励视频错误事件
+Un-listens on the rewarded video error event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.offError.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.offError.html)
 
 ```tsx
 (callback: OffErrorCallback) => void
@@ -101,8 +101,8 @@ sidebar_label: RewardedVideoAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -113,17 +113,17 @@ sidebar_label: RewardedVideoAd
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API            | 微信小程序 | H5 | React Native |
-|:------------------------:|:-----:|:--:|:------------:|
-| RewardedVideoAd.offError |  ✔️   |    |              |
+|           API            | WeChat Mini-Program | H5 | React Native |
+|:------------------------:|:-------------------:|:--:|:------------:|
+| RewardedVideoAd.offError |         ✔️          |    |              |
 
 ### offLoad
 
-取消监听激励视频广告加载事件
+Un-listens on the rewarded video ad loading event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.offLoad.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.offLoad.html)
 
 ```tsx
 (callback: OffLoadCallback) => void
@@ -132,8 +132,8 @@ sidebar_label: RewardedVideoAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -144,17 +144,17 @@ sidebar_label: RewardedVideoAd
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| RewardedVideoAd.offLoad |  ✔️   |    |              |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+| RewardedVideoAd.offLoad |         ✔️          |    |              |
 
 ### onClose
 
-监听用户点击 `关闭广告` 按钮的事件。
+Listens on the event of tapping the `Close Ad` button.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.onClose.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.onClose.html)
 
 ```tsx
 (callback: OnCloseCallback) => void
@@ -163,8 +163,8 @@ sidebar_label: RewardedVideoAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -175,17 +175,17 @@ sidebar_label: RewardedVideoAd
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| RewardedVideoAd.onClose |  ✔️   |    |              |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+| RewardedVideoAd.onClose |         ✔️          |    |              |
 
 ### onError
 
-监听激励视频错误事件。
+Listens on the rewarded video error event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.onError.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.onError.html)
 
 ```tsx
 (callback: OnErrorCallback) => void
@@ -194,8 +194,8 @@ sidebar_label: RewardedVideoAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -206,17 +206,17 @@ sidebar_label: RewardedVideoAd
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| RewardedVideoAd.onError |  ✔️   |    |              |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+| RewardedVideoAd.onError |         ✔️          |    |              |
 
 ### onLoad
 
-监听激励视频广告加载事件。
+Listens on the rewarded video ad loading event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.onLoad.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.onLoad.html)
 
 ```tsx
 (callback: OnLoadCallback) => void
@@ -225,8 +225,8 @@ sidebar_label: RewardedVideoAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -237,34 +237,34 @@ sidebar_label: RewardedVideoAd
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|          API           | 微信小程序 | H5 | React Native |
-|:----------------------:|:-----:|:--:|:------------:|
-| RewardedVideoAd.onLoad |  ✔️   |    |              |
+|          API           | WeChat Mini-Program | H5 | React Native |
+|:----------------------:|:-------------------:|:--:|:------------:|
+| RewardedVideoAd.onLoad |         ✔️          |    |              |
 
-## 参数
+## Parameters
 
 ### OnErrorCallbackResult
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errCode</td>
       <td><code>1000 | 1001 | 1002 | 1003 | 1004 | 1005 | 1006 | 1007 | 1008</code></td>
-      <td>错误码<br /><a href="https://nervjs.github.io/taro/docs/apis/General#AdErrCode">参考地址</a></td>
+      <td>Error code<br /><a href="../../apis/General#aderrcode">Reference</a></td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息</td>
+      <td>Error message</td>
     </tr>
   </tbody>
 </table>
@@ -274,23 +274,23 @@ sidebar_label: RewardedVideoAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>isEnded</td>
       <td><code>boolean</code></td>
-      <td>视频是否是在用户完整观看的情况下被关闭的</td>
+      <td>Indicates whether the video is closed when the user watches it to the end</td>
     </tr>
   </tbody>
 </table>
 
 ### OffCloseCallback
 
-用户点击 `关闭广告` 按钮的事件的回调函数
+The callback function for the event of tapping the `Close Ad` button.
 
 ```tsx
 (res: CallbackResult) => void
@@ -299,8 +299,8 @@ sidebar_label: RewardedVideoAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -313,7 +313,7 @@ sidebar_label: RewardedVideoAd
 
 ### OffErrorCallback
 
-激励视频错误事件的回调函数
+The callback function for the rewarded video ad error event.
 
 ```tsx
 (res: CallbackResult) => void
@@ -322,8 +322,8 @@ sidebar_label: RewardedVideoAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -336,7 +336,7 @@ sidebar_label: RewardedVideoAd
 
 ### OffLoadCallback
 
-激励视频广告加载事件的回调函数
+The callback function for the rewarded video ad loading event.
 
 ```tsx
 (res: CallbackResult) => void
@@ -345,8 +345,8 @@ sidebar_label: RewardedVideoAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -359,7 +359,7 @@ sidebar_label: RewardedVideoAd
 
 ### OnCloseCallback
 
-用户点击 `关闭广告` 按钮的事件的回调函数
+The callback function for the event of tapping the `Close Ad` button.
 
 ```tsx
 (result: OnCloseCallbackResult) => void
@@ -368,8 +368,8 @@ sidebar_label: RewardedVideoAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -382,7 +382,7 @@ sidebar_label: RewardedVideoAd
 
 ### OnErrorCallback
 
-激励视频错误事件的回调函数
+The callback function for the rewarded video ad error event.
 
 ```tsx
 (result: OnErrorCallbackResult) => void
@@ -391,8 +391,8 @@ sidebar_label: RewardedVideoAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -405,7 +405,7 @@ sidebar_label: RewardedVideoAd
 
 ### OnLoadCallback
 
-激励视频广告加载事件的回调函数
+The callback function for the rewarded video ad loading event.
 
 ```tsx
 (res: CallbackResult) => void
@@ -414,8 +414,8 @@ sidebar_label: RewardedVideoAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -426,16 +426,16 @@ sidebar_label: RewardedVideoAd
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|           API            | 微信小程序 | H5 | React Native |
-|:------------------------:|:-----:|:--:|:------------:|
-|   RewardedVideoAd.load   |  ✔️   |    |              |
-|   RewardedVideoAd.show   |  ✔️   |    |              |
-| RewardedVideoAd.destroy  |  ✔️   |    |              |
-| RewardedVideoAd.offClose |  ✔️   |    |              |
-| RewardedVideoAd.offError |  ✔️   |    |              |
-| RewardedVideoAd.offLoad  |  ✔️   |    |              |
-| RewardedVideoAd.onClose  |  ✔️   |    |              |
-| RewardedVideoAd.onError  |  ✔️   |    |              |
-|  RewardedVideoAd.onLoad  |  ✔️   |    |              |
+|           API            | WeChat Mini-Program | H5 | React Native |
+|:------------------------:|:-------------------:|:--:|:------------:|
+|   RewardedVideoAd.load   |         ✔️          |    |              |
+|   RewardedVideoAd.show   |         ✔️          |    |              |
+| RewardedVideoAd.destroy  |         ✔️          |    |              |
+| RewardedVideoAd.offClose |         ✔️          |    |              |
+| RewardedVideoAd.offError |         ✔️          |    |              |
+| RewardedVideoAd.offLoad  |         ✔️          |    |              |
+| RewardedVideoAd.onClose  |         ✔️          |    |              |
+| RewardedVideoAd.onError  |         ✔️          |    |              |
+|  RewardedVideoAd.onLoad  |         ✔️          |    |              |
