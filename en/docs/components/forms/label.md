@@ -3,19 +3,19 @@ title: Label
 sidebar_label: Label
 ---
 
-用来改进表单组件的可用性。
+Improves the availability of form components.
 
-使用for属性找到对应的id，或者将控件放在该标签下，当点击时，就会触发对应的控件。 for优先级高于内部控件，内部有多个控件的时候默认触发第一个控件。 目前可以绑定的控件有：button, checkbox, radio, switch。
+You can use the for property to find the appropriate ID. Alternatively, you can place the control within this tag, so that you can tap the tag to trigger the corresponding control. The for property takes precedence over internal controls. When multiple internal controls are available, the first control is triggered by default. The following controls can be bound to this component: button, checkbox, radio, and switch. for优先级高于内部控件，内部有多个控件的时候默认触发第一个控件。 目前可以绑定的控件有：button, checkbox, radio, switch。
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/label.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/label.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<LabelProps>
 ```
 
-## 示例代码
+## Examples
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -74,24 +74,24 @@ class App extends Components {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>for</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>绑定控件的 id，RN中不支持</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The ID of the bound control, not supported in RN</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|  API  | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
-|:-----:|:-----:|:-----:|:------:|:-------:|:--:|:------------:|
-| Label |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
+|  API  | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 | React Native |
+|:-----:|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| Label |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
