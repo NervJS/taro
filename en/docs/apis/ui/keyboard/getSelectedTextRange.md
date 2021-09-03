@@ -3,47 +3,47 @@ title: Taro.getSelectedTextRange(option)
 sidebar_label: getSelectedTextRange
 ---
 
-在input、textarea等focus之后，获取输入框的光标位置。注意：只有在focus的时候调用此接口才有效。
+Obtains the cursor position of the input box after the focus of input, textarea, etc.Note: This API works only when it is called during the focus process.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/keyboard/wx.getSelectedTextRange.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/keyboard/wx.getSelectedTextRange.html)
 
-## 类型
+## Type
 
 ```tsx
 (option?: Option) => Promise<SuccessCallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
       <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -53,31 +53,31 @@ sidebar_label: getSelectedTextRange
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>end</td>
       <td><code>number</code></td>
-      <td>输入框光标结束位置</td>
+      <td>End position of the cursor in the input box</td>
     </tr>
     <tr>
       <td>start</td>
       <td><code>number</code></td>
-      <td>输入框光标起始位置</td>
+      <td>Start position of the cursor in the input box</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>call result</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.getSelectedTextRange({
@@ -87,8 +87,8 @@ Taro.getSelectedTextRange({
 })
 ```
 
-## API 支持度
+## API Support
 
-|            API            | 微信小程序 | H5 | React Native |
-|:-------------------------:|:-----:|:--:|:------------:|
-| Taro.getSelectedTextRange |  ✔️   |    |              |
+|            API            | WeChat Mini-Program | H5 | React Native |
+|:-------------------------:|:-------------------:|:--:|:------------:|
+| Taro.getSelectedTextRange |         ✔️          |    |              |
