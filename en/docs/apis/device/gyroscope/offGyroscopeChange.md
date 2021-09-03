@@ -3,37 +3,37 @@ title: Taro.offGyroscopeChange(callback)
 sidebar_label: offGyroscopeChange
 ---
 
-取消监听陀螺仪数据变化事件。
+Un-listens on the gyroscope data change event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/gyroscope/wx.offGyroscopeChange.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/gyroscope/wx.offGyroscopeChange.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: (...args: any[]) => any) => void
 ```
 
-## 参数
+## Parameters
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>(...args: any[]) =&gt; any</code></td>
-      <td>陀螺仪数据变化事件的回调函数</td>
+      <td>The callback function for the gyroscope data change event.</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| Taro.offGyroscopeChange |  ✔️   |    |      ✔️      |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+| Taro.offGyroscopeChange |         ✔️          |    |      ✔️      |
