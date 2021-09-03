@@ -3,55 +3,55 @@ title: Taro.addCard(option)
 sidebar_label: addCard
 ---
 
-批量添加卡券。只有通过 [认证](https://developers.weixin.qq.com/miniprogram/product/renzheng.html) 的小程序或文化互动类目的小游戏才能使用。更多文档请参考 [微信卡券接口文档](https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&key=1490190158&version=1&lang=zh_CN&platform=2)。
+Adds cards and offers in batch.It can be used only in Mini Programs or cultural interaction Mini Games that complete [verification](https://developers.weixin.qq.com/miniprogram/product/renzheng.html).For more documents, see [API Documentation for WeChat Cards & Offers](https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&key=1490190158&version=1&lang=zh_CN&platform=2).
 
-**cardExt 说明** cardExt 是卡券的扩展参数，其值是一个 JSON 字符串。
+**cardExt Description** The extended parameter of the card or offer. It must be passed as a JSON-serialized string.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/card/wx.addCard.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/card/wx.addCard.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<SuccessCallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>cardList</td>
       <td><code>RequestInfo[]</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>需要添加的卡券列表</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The list of cards and offers to be added</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -63,21 +63,21 @@ sidebar_label: addCard
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>cardExt</td>
       <td><code>string</code></td>
-      <td>卡券的扩展参数。需将 CardExt 对象 JSON 序列化为<strong>字符串</strong>传入</td>
+      <td>The extended parameter of the card or offer.It must be passed as a JSON-serialized <strong>string</strong>.</td>
     </tr>
     <tr>
       <td>cardId</td>
       <td><code>string</code></td>
-      <td>卡券 ID</td>
+      <td>The ID of the card or offer</td>
     </tr>
   </tbody>
 </table>
@@ -87,21 +87,21 @@ sidebar_label: addCard
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>cardList</td>
       <td><code>AddCardResponseInfo[]</code></td>
-      <td>卡券添加结果列表</td>
+      <td>The list of cards and offers to be added</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
@@ -113,36 +113,36 @@ sidebar_label: addCard
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>cardExt</td>
       <td><code>string</code></td>
-      <td>卡券的扩展参数，结构请参考下文</td>
+      <td>The extended parameter of the card or offer. See description above for the composition of this parameter.</td>
     </tr>
     <tr>
       <td>cardId</td>
       <td><code>string</code></td>
-      <td>用户领取到卡券的 ID</td>
+      <td>The ID of the card or offer claimed by the user</td>
     </tr>
     <tr>
       <td>code</td>
       <td><code>string</code></td>
-      <td>加密 code，为用户领取到卡券的code加密后的字符串，解密请参照：<a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1499332673_Unm7V">code 解码接口</a></td>
+      <td>Encrypted code. It is a string obtained after the code of the card or offer claimed by the user is encrypted. To decrypt the code, see <a href="https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Coupons-Mini_Program_Start_Up.html">Code Decryption API</a>.</td>
     </tr>
     <tr>
       <td>isSuccess</td>
       <td><code>boolean</code></td>
-      <td>是否成功</td>
+      <td>Indicates whether the card or offer is successfully claimed</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.addCard({
@@ -156,13 +156,13 @@ Taro.addCard({
     }
   ],
   success: function (res) {
-    console.log(res.cardList) // 卡券添加结果
+    console.log(res.cardList) // The results of card and offer addition
   }
 })
 ```
 
-## API 支持度
+## API Support
 
-|     API      | 微信小程序 | H5 | React Native |
-|:------------:|:-----:|:--:|:------------:|
-| Taro.addCard |  ✔️   |    |              |
+|     API      | WeChat Mini-Program | H5 | React Native |
+|:------------:|:-------------------:|:--:|:------------:|
+| Taro.addCard |         ✔️          |    |              |
