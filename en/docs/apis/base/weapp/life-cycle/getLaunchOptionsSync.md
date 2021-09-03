@@ -3,22 +3,22 @@ title: Taro.getLaunchOptionsSync()
 sidebar_label: getLaunchOptionsSync
 ---
 
-获取小程序启动时的参数。与 [`App.onLaunch`](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onlaunchobject-object) 的回调参数一致。
+Obtains the parameters upon Mini Program startup.The callback parameters are consistent with those of [`App.onLaunch`](https://developers.weixin.qq.com/miniprogram/en/dev/reference/api/App.html#onlaunchobject-object).
 
-**注意** 部分版本在无`referrerInfo`的时候会返回 `undefined`，建议使用 `options.referrerInfo && options.referrerInfo.appId` 进行判断。
+In some versions, when there is no `referrerInfo`, the value `undefined` is returned. You can use `options.referrerInfo && options.referrerInfo.appId` to make a judgment.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/app/life-cycle/wx.getLaunchOptionsSync.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/base/app/life-cycle/wx.getLaunchOptionsSync.html)
 
-## 类型
+## Type
 
 ```tsx
 () => LaunchOptionsApp
 ```
 
-## 参数
+## Parameters
 
-## API 支持度
+## API Support
 
-|            API            | 微信小程序 | H5 | React Native |
-|:-------------------------:|:-----:|:--:|:------------:|
-| Taro.getLaunchOptionsSync |  ✔️   |    |              |
+|            API            | WeChat Mini-Program | H5 | React Native |
+|:-------------------------:|:-------------------:|:--:|:------------:|
+| Taro.getLaunchOptionsSync |         ✔️          |    |              |
