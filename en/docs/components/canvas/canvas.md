@@ -3,19 +3,19 @@ title: Canvas
 sidebar_label: Canvas
 ---
 
-画布
+Canvas.
 
-`<Canvas />` 组件的 RN 版本尚未实现。
+**Note:** Not supported for use in RN at this time.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<CanvasProps>
 ```
 
-## 示例代码
+## Examples
 
 import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
@@ -32,7 +32,7 @@ import TabItem from '@theme/TabItem'
 class App extends Components {
   render () {
     return (
-      {/*如果是支付宝小程序，则要加上id属性，值和canvasId一致*/}
+       {/*If it's alipay mini program, add the id attribute with the same value as the canvasId*/}
       <Canvas style='width: 300px; height: 200px;' canvasId='canvas' />
     )
   }
@@ -44,7 +44,6 @@ class App extends Components {
 
 ```html
 <template>
-  <!-- 如果是支付宝小程序，则要加上id属性，值和canvasId一致 -->
   <canvas style="width: 300px; height: 200px;" canvas-id="canvas" />
 </template>
 ```
@@ -57,11 +56,11 @@ class App extends Components {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -69,89 +68,89 @@ class App extends Components {
       <td>type</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>指定 canvas 类型，支持 2d 和 webgl</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The type of the canvas. Only webGL is supported.</td>
     </tr>
     <tr>
       <td>canvasId</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>canvas 组件的唯一标识符，若指定了 type 则无需再指定该属性</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The unique identifier of the canvas component. This property can be ignored if a type is specified.</td>
     </tr>
     <tr>
       <td>disableScroll</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当在 canvas 中移动时且有绑定手势事件时，禁止屏幕滚动以及下拉刷新</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Disables screen scrolling and swipe-down-to-refresh features when the a finger taps to move on the canvas and a gesture event is bound.</td>
     </tr>
     <tr>
       <td>onTouchStart</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>手指触摸动作开始</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Finger touch starts</td>
     </tr>
     <tr>
       <td>onTouchMove</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>手指触摸后移动</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Finger moves after touch</td>
     </tr>
     <tr>
       <td>onTouchEnd</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>手指触摸动作结束</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Finger touch ends</td>
     </tr>
     <tr>
       <td>onTouchCancel</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>手指触摸动作被打断，如来电提醒，弹窗</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Finger touch is interrupted by call reminder, pop-up window, etc.</td>
     </tr>
     <tr>
       <td>onLongTap</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>手指长按 500ms 之后触发，触发了长按事件后进行移动不会触发屏幕的滚动</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered when a finger taps and holds on the screen for 500 ms. After this event is triggered, moving on the screen does not trigger screen scrolling.</td>
     </tr>
     <tr>
       <td>onError</td>
       <td><code>BaseEventOrigFunction&lt;onErrorEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当发生错误时触发 error 事件，{`detail = {errMsg: 'something wrong'}`}</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggers the error event when an error occurs. {`detail = {errMsg: 'something wrong'}`}</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|            API            | 微信小程序 | H5 | React Native |
-|:-------------------------:|:-----:|:--:|:------------:|
-|     CanvasProps.type      |  ✔️   |    |              |
-|   CanvasProps.canvasId    |  ✔️   |    |              |
-| CanvasProps.disableScroll |  ✔️   |    |              |
-| CanvasProps.onTouchStart  |  ✔️   |    |              |
-|  CanvasProps.onTouchMove  |  ✔️   |    |              |
-|  CanvasProps.onTouchEnd   |  ✔️   |    |              |
-| CanvasProps.onTouchCancel |  ✔️   |    |              |
-|   CanvasProps.onLongTap   |  ✔️   |    |              |
-|    CanvasProps.onError    |  ✔️   |    |              |
+|         Property          | WeChat Mini-Program | H5 | React Native |
+|:-------------------------:|:-------------------:|:--:|:------------:|
+|     CanvasProps.type      |         ✔️          |    |              |
+|   CanvasProps.canvasId    |         ✔️          |    |              |
+| CanvasProps.disableScroll |         ✔️          |    |              |
+| CanvasProps.onTouchStart  |         ✔️          |    |              |
+|  CanvasProps.onTouchMove  |         ✔️          |    |              |
+|  CanvasProps.onTouchEnd   |         ✔️          |    |              |
+| CanvasProps.onTouchCancel |         ✔️          |    |              |
+|   CanvasProps.onLongTap   |         ✔️          |    |              |
+|    CanvasProps.onError    |         ✔️          |    |              |
 
 ### onErrorEventDetail
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -162,8 +161,8 @@ class App extends Components {
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|  API   | 微信小程序 | H5 | React Native |
-|:------:|:-----:|:--:|:------------:|
-| Canvas |  ✔️   |    |              |
+| Property | WeChat Mini-Program | H5 | React Native |
+|:--------:|:-------------------:|:--:|:------------:|
+|  Canvas  |         ✔️          |    |              |
