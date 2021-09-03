@@ -3,83 +3,80 @@ title: Taro.setBackgroundColor(option)
 sidebar_label: setBackgroundColor
 ---
 
-动态设置窗口的背景色
+Dynamically sets the background color of the window.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/background/wx.setBackgroundColor.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/background/wx.setBackgroundColor.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<CallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>backgroundColor</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>窗口的背景色，必须为十六进制颜色值</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The background color of the window, which must be a hexadecimal value</td>
     </tr>
     <tr>
       <td>backgroundColorBottom</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>底部窗口的背景色，必须为十六进制颜色值，仅 iOS 支持</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The background color of the bottom window (only for iOS), which must be a hexadecimal value</td>
     </tr>
     <tr>
       <td>backgroundColorTop</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>顶部窗口的背景色，必须为十六进制颜色值，仅 iOS 支持</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The background color of the top window (only for iOS), which must be a hexadecimal value</td>
     </tr>
     <tr>
       <td>complete</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.setBackgroundColor({
-  backgroundColor: '#ffffff', // 窗口的背景色为白色
-})
+  backgroundColor: '#ffffff', // The background color of the window is white. })
 Taro.setBackgroundColor({
-  backgroundColorTop: '#ffffff', // 顶部窗口的背景色为白色
-  backgroundColorBottom: '#ffffff', // 底部窗口的背景色为白色
-})
+  backgroundColorTop: '#ffffff', // The background color of the top window is white. backgroundColorBottom: '#ffffff', // The background color of the bottom window is white. })
 ```
 
-## API 支持度
+## API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| Taro.setBackgroundColor |  ✔️   |    | ✔️（仅Android） |
+|           API           | WeChat Mini-Program | H5 |   React Native   |
+|:-----------------------:|:-------------------:|:--:|:----------------:|
+| Taro.setBackgroundColor |         ✔️          |    | ✔️(Only Android) |
