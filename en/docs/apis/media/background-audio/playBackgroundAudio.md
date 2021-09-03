@@ -3,70 +3,70 @@ title: Taro.playBackgroundAudio(option)
 sidebar_label: playBackgroundAudio
 ---
 
-使用后台播放器播放音乐，对于微信客户端来说，只能同时有一个后台音乐在播放。当用户离开小程序后，音乐将暂停播放；当用户点击“显示在聊天顶部”时，音乐不会暂停播放；当用户在其他小程序占用了音乐播放器，原有小程序内的音乐将停止播放。
+使用后台播放器播放音乐，对于微信客户端来说，只能同时有一个后台音乐在播放。In WeChat App, only one piece of music can be played at a time in the background player. If the user exits the Mini Program, the music playback stops. If the music player is used by another App, the music playback in the Mini Program stops.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.playBackgroundAudio.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.playBackgroundAudio.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<CallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>dataUrl</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>音乐链接，目前支持的格式有 m4a, aac, mp3, wav</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The music's URL. M4a, AAC, MP3, and WAV file formats are supported.</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Cover URL</td>
     </tr>
     <tr>
       <td>coverImgUrl</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>封面URL</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Music title</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>title</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>音乐标题</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.playBackgroundAudio({
@@ -76,8 +76,8 @@ Taro.playBackgroundAudio({
 })
 ```
 
-## API 支持度
+## API Support
 
-|           API            | 微信小程序 | H5 | React Native |
-|:------------------------:|:-----:|:--:|:------------:|
-| Taro.playBackgroundAudio |  ✔️   |    |              |
+|           API            | WeChat Mini-Program | H5 | React Native |
+|:------------------------:|:-------------------:|:--:|:------------:|
+| Taro.playBackgroundAudio |         ✔️          |    |              |
