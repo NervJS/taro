@@ -3,55 +3,55 @@ title: Taro.onPageNotFound(callback)
 sidebar_label: onPageNotFound
 ---
 
-监听小程序要打开的页面不存在事件。该事件与 [`App.onPageNotFound`](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onpagenotfoundobject-object) 的回调时机一致。
+Listens on the event that a page to be opened by the Mini Program does not exist.The callback timing for this event is consistent with that of [`App.onPageNotFound`](https://developers.weixin.qq.com/miniprogram/en/dev/reference/api/App.html#onpagenotfoundobject-object).
 
-**注意**
-- 开发者可以在回调中进行页面重定向，但必须在回调中**同步**处理，异步处理（例如 `setTimeout` 异步执行）无效。
-- 若开发者没有调用 [Taro.onPageNotFound](https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onPageNotFound.html) 绑定监听，也没有声明 `App.onPageNotFound`，当跳转页面不存在时，将推入微信客户端原生的页面不存在提示页面。
-- 如果回调中又重定向到另一个不存在的页面，将推入微信客户端原生的页面不存在提示页面，并且不再第二次回调。
+**NOTE**
+- Developers can implement page redirection during callback only when the callback processing is synchronous. This approach is invalid for asynchronous processing (such as the asynchronous execution of setTimeout).
+- If the developer neither calls the [Taro.onPageNotFound](https://developers.weixin.qq.com/miniprogram/en/dev/api/base/app/app-event/wx.onPageNotFound.html) for listening nor declares App.onPageNotFound, when the redirected page does not exist, the WeChat app's native 404 page is pushed.
+- If the callback redirects to another page that does not exist, the WeChat app's native 404 page is pushed and the API is not called back again.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onPageNotFound.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onPageNotFound.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: Callback) => void
 ```
 
-## 参数
+## Parameters
 
 ### Result
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>isEntryPage</td>
       <td><code>boolean</code></td>
-      <td>是否本次启动的首个页面（例如从分享等入口进来，首个页面是开发者配置的分享页面）</td>
+      <td>Indicates whether this is the first page for this launch (for example, from sharing and other entries, the first page is the shared page configured by the developer).</td>
     </tr>
     <tr>
       <td>path</td>
       <td><code>string</code></td>
-      <td>不存在页面的路径</td>
+      <td>The path to the nonexistent page</td>
     </tr>
     <tr>
       <td>query</td>
       <td><code>Record&lt;string, any&gt;</code></td>
-      <td>打开不存在页面的 query 参数</td>
+      <td>The query parameter for the nonexistent page</td>
     </tr>
   </tbody>
 </table>
 
 ### Callback
 
-小程序要打开的页面不存在事件的回调函数
+The callback function for the event that a page to be opened by the Mini Program does not exist.
 
 ```tsx
 (res: Result) => void
@@ -60,8 +60,8 @@ sidebar_label: onPageNotFound
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -72,8 +72,8 @@ sidebar_label: onPageNotFound
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|         API         | 微信小程序 | H5 | React Native |
-|:-------------------:|:-----:|:--:|:------------:|
-| Taro.onPageNotFound |  ✔️   |    |              |
+|         API         | WeChat Mini-Program | H5 | React Native |
+|:-------------------:|:-------------------:|:--:|:------------:|
+| Taro.onPageNotFound |         ✔️          |    |              |
