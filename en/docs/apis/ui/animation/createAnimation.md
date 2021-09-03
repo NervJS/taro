@@ -3,52 +3,52 @@ title: Taro.createAnimation(option)
 sidebar_label: createAnimation
 ---
 
-创建一个动画实例 animation。调用实例的方法来描述动画。最后通过动画实例的 export 方法导出动画数据传递给组件的 animation 属性。
+Create an `animation` instance animation.Describe the `animation` by calling the instance.Use the method of exporting the `animation` instance to export the `animation` data and pass it to the `animation` property of the component.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/wx.createAnimation.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/wx.createAnimation.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Animation
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>delay</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>动画延迟时间，单位 ms</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Animation delay time (in ms)</td>
     </tr>
     <tr>
       <td>duration</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>动画持续时间，单位 ms</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Animation duration (in ms)</td>
     </tr>
     <tr>
       <td>timingFunction</td>
       <td><code>&quot;linear&quot; | &quot;ease&quot; | &quot;ease-in&quot; | &quot;ease-in-out&quot; | &quot;ease-out&quot; | &quot;step-start&quot; | &quot;step-end&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>动画的效果</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Animation effect</td>
     </tr>
     <tr>
       <td>transformOrigin</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td style={{ textAlign: "center"}}>No</td>
       <td></td>
     </tr>
   </tbody>
@@ -59,43 +59,43 @@ sidebar_label: createAnimation
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>linear</td>
-      <td>动画从头到尾的速度是相同的</td>
+      <td>The animation keeps the same speed from start to end</td>
     </tr>
     <tr>
       <td>ease</td>
-      <td>动画以低速开始，然后加快，在结束前变慢</td>
+      <td>The animation starts slow, then speeds up, and then slows down before ending.</td>
     </tr>
     <tr>
       <td>ease-in</td>
-      <td>动画以低速开始</td>
+      <td>The animation starts at low speed</td>
     </tr>
     <tr>
       <td>ease-in-out</td>
-      <td>动画以低速开始和结束</td>
+      <td>The animation starts and ends at low speed</td>
     </tr>
     <tr>
       <td>ease-out</td>
-      <td>动画以低速结束</td>
+      <td>The animation ends at low speed</td>
     </tr>
     <tr>
       <td>step-start</td>
-      <td>动画第一帧就跳至结束状态直到结束</td>
+      <td>The first frame of the animation jumps to the end state until the animation ends</td>
     </tr>
     <tr>
       <td>step-end</td>
-      <td>动画一直保持开始状态，最后一帧跳到结束状态</td>
+      <td>The animation remains the start state until the final frame jumps to the end state</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 var animation = Taro.createAnimation({
@@ -106,8 +106,8 @@ var animation = Taro.createAnimation({
 })
 ```
 
-## API 支持度
+## API Support
 
-|         API          | 微信小程序 | H5 | React Native |
-|:--------------------:|:-----:|:--:|:------------:|
-| Taro.createAnimation |  ✔️   | ✔️ |              |
+|         API          | WeChat Mini-Program | H5 | React Native |
+|:--------------------:|:-------------------:|:--:|:------------:|
+| Taro.createAnimation |         ✔️          | ✔️ |              |
