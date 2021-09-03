@@ -3,21 +3,21 @@ title: Taro.onBeaconServiceChange(callback)
 sidebar_label: onBeaconServiceChange
 ---
 
-监听 iBeacon 服务状态变化事件，仅能注册一个监听
+Listens on the iBeacon service status change event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.onBeaconServiceChange.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.onBeaconServiceChange.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: Callback) => void
 ```
 
-## 参数
+## Parameters
 
 ### Callback
 
-iBeacon 服务状态变化事件的回调函数
+The callback function for the iBeacon service status change event.
 
 ```tsx
 (result: CallbackResult) => void
@@ -26,8 +26,8 @@ iBeacon 服务状态变化事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -43,27 +43,27 @@ iBeacon 服务状态变化事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>available</td>
       <td><code>boolean</code></td>
-      <td>服务目前是否可用</td>
+      <td>Indicates whether the service is available</td>
     </tr>
     <tr>
       <td>discovering</td>
       <td><code>boolean</code></td>
-      <td>目前是否处于搜索状态</td>
+      <td>Indicates whether the device is in the discovery status</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|            API             | 微信小程序 | H5 | React Native |
-|:--------------------------:|:-----:|:--:|:------------:|
-| Taro.onBeaconServiceChange |  ✔️   |    |              |
+|            API             | WeChat Mini-Program | H5 | React Native |
+|:--------------------------:|:-------------------:|:--:|:------------:|
+| Taro.onBeaconServiceChange |         ✔️          |    |              |
