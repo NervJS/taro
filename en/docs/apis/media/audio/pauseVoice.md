@@ -3,52 +3,52 @@ title: Taro.pauseVoice(option)
 sidebar_label: pauseVoice
 ---
 
-暂停正在播放的语音。再次调用 [Taro.playVoice](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.playVoice.html) 播放同一个文件时，会从暂停处开始播放。如果想从头开始播放，需要先调用 [Taro.stopVoice](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.stopVoice.html)。 **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createInnerAudioContext.html) 接口**
+暂停正在播放的语音。Pauses the playback of a voice file. If the same voice file is played again by calling [Taro.playVoice](./playVoice.md), it is resumed from the point where it was paused. If you want to play the file from the beginning, call [Taro.stopVoice](./stopVoice.md) first.如果想从头开始播放，需要先调用 [Taro.stopVoice](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.stopVoice.html)。 **注意：1.6.0 版本开始，本接口不再维护。Use [Taro.createInnerAudioContext](./createInnerAudioContext.md) instead.</p>
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.pauseVoice.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.pauseVoice.html)
 
-## 类型
+## Type
 
 ```tsx
 (option?: Option) => void
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.startRecord({
@@ -58,15 +58,15 @@ Taro.startRecord({
       filePath: tempFilePath
     })
     setTimeout(function() {
-        //暂停播放
+      // pause
       Taro.pauseVoice()
     }, 5000)
   }
 })
 ```
 
-## API 支持度
+## API Support
 
-|       API       | 微信小程序 | H5 | React Native |
-|:---------------:|:-----:|:--:|:------------:|
-| Taro.pauseVoice |  ✔️   |    |              |
+|       API       | WeChat Mini-Program | H5 | React Native |
+|:---------------:|:-------------------:|:--:|:------------:|
+| Taro.pauseVoice |         ✔️          |    |              |
