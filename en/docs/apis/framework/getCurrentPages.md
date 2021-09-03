@@ -3,28 +3,28 @@ title: Taro.getCurrentPages()
 sidebar_label: getCurrentPages
 ---
 
-获取当前页面栈。数组中第一个元素为首页，最后一个元素为当前页面。 __注意：__
-- __不要尝试修改页面栈，会导致路由以及页面状态错误。__
-- 不要在 `App.onLaunch` 的时候调用 `getCurrentPages()`，此时 `page` 还没有生成。
+Gets the current page stack.数组中第一个元素为首页，最后一个元素为当前页面。 __注意：__
+- __Do not modify the page stack as this will lead to routing and page status errors.__
+- Do not call `getCurrentPages()` when `App.onLaunch` is called since `page` is not generated.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/reference/api/getCurrentPages.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/reference/api/getCurrentPages.html)
 
-## 类型
+## Type
 
 ```tsx
 () => Page[]
 ```
 
-## 参数
+## Parameters
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.getCurrentPages().length
 ```
 
-## API 支持度
+## API Support
 
-|         API          | 微信小程序 | H5 | React Native |
-|:--------------------:|:-----:|:--:|:------------:|
-| Taro.getCurrentPages |  ✔️   | ✔️ |      ✔️      |
+|         API          | WeChat Mini-Program | H5 | React Native |
+|:--------------------:|:-------------------:|:--:|:------------:|
+| Taro.getCurrentPages |         ✔️          | ✔️ |      ✔️      |
