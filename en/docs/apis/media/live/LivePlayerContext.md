@@ -3,17 +3,17 @@ title: LivePlayerContext
 sidebar_label: LivePlayerContext
 ---
 
-`LivePlayerContext` 实例，可通过 `Taro.createLivePlayerContext` 获取。 `LivePlayerContext` 通过 `id` 跟一个 `live-player` 组件绑定，操作对应的 `live-player` 组件。
+The `LivePlayerContext` instance can be obtained with `Taro.createLivePlayerContext`. `LivePlayerContext` is bound to an `live-player` component with an id, to work with the `live-player` component.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.html)
 
-## 方法
+## Methods
 
 ### exitFullScreen
 
-退出全屏
+Exits the full screen
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.exitFullScreen.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.exitFullScreen.html)
 
 ```tsx
 (option?: ExitFullScreenOption) => void
@@ -22,8 +22,8 @@ sidebar_label: LivePlayerContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -34,17 +34,17 @@ sidebar_label: LivePlayerContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|               API                | 微信小程序 | H5 | React Native |
-|:--------------------------------:|:-----:|:--:|:------------:|
-| LivePlayerContext.exitFullScreen |  ✔️   |    |              |
+|               API                | WeChat Mini-Program | H5 | React Native |
+|:--------------------------------:|:-------------------:|:--:|:------------:|
+| LivePlayerContext.exitFullScreen |         ✔️          |    |              |
 
 ### mute
 
-静音
+Mute
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.mute.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.mute.html)
 
 ```tsx
 (option?: MuteOption) => void
@@ -53,8 +53,8 @@ sidebar_label: LivePlayerContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -65,17 +65,17 @@ sidebar_label: LivePlayerContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|          API           | 微信小程序 | H5 | React Native |
-|:----------------------:|:-----:|:--:|:------------:|
-| LivePlayerContext.mute |  ✔️   |    |              |
+|          API           | WeChat Mini-Program | H5 | React Native |
+|:----------------------:|:-------------------:|:--:|:------------:|
+| LivePlayerContext.mute |         ✔️          |    |              |
 
 ### pause
 
-暂停
+Pause
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.pause.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.pause.html)
 
 ```tsx
 (option?: PauseOption) => void
@@ -84,8 +84,8 @@ sidebar_label: LivePlayerContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -96,17 +96,17 @@ sidebar_label: LivePlayerContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| LivePlayerContext.pause |  ✔️   |    |              |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+| LivePlayerContext.pause |         ✔️          |    |              |
 
 ### play
 
-播放
+Plays an audio file.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.play.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.play.html)
 
 ```tsx
 (option?: PlayOption) => void
@@ -115,8 +115,8 @@ sidebar_label: LivePlayerContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -127,17 +127,17 @@ sidebar_label: LivePlayerContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|          API           | 微信小程序 | H5 | React Native |
-|:----------------------:|:-----:|:--:|:------------:|
-| LivePlayerContext.play |  ✔️   |    |              |
+|          API           | WeChat Mini-Program | H5 | React Native |
+|:----------------------:|:-------------------:|:--:|:------------:|
+| LivePlayerContext.play |         ✔️          |    |              |
 
 ### requestFullScreen
 
-进入全屏
+Enters the full screen.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.requestFullScreen.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.requestFullScreen.html)
 
 ```tsx
 (option: RequestFullScreenOption) => void
@@ -146,8 +146,8 @@ sidebar_label: LivePlayerContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -158,17 +158,17 @@ sidebar_label: LivePlayerContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|                 API                 | 微信小程序 | H5 | React Native |
-|:-----------------------------------:|:-----:|:--:|:------------:|
-| LivePlayerContext.requestFullScreen |  ✔️   |    |              |
+|                 API                 | WeChat Mini-Program | H5 | React Native |
+|:-----------------------------------:|:-------------------:|:--:|:------------:|
+| LivePlayerContext.requestFullScreen |         ✔️          |    |              |
 
 ### resume
 
-恢复
+Redoes the operation.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.resume.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.resume.html)
 
 ```tsx
 (option?: ResumeOption) => void
@@ -177,8 +177,8 @@ sidebar_label: LivePlayerContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -189,17 +189,17 @@ sidebar_label: LivePlayerContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API            | 微信小程序 | H5 | React Native |
-|:------------------------:|:-----:|:--:|:------------:|
-| LivePlayerContext.resume |  ✔️   |    |              |
+|           API            | WeChat Mini-Program | H5 | React Native |
+|:------------------------:|:-------------------:|:--:|:------------:|
+| LivePlayerContext.resume |         ✔️          |    |              |
 
 ### snapshot
 
-截图
+Screenshot
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.snapshot.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.snapshot.html)
 
 ```tsx
 (option?: SnapshotOption) => void
@@ -208,8 +208,8 @@ sidebar_label: LivePlayerContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -220,17 +220,17 @@ sidebar_label: LivePlayerContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|            API             | 微信小程序 | H5 | React Native |
-|:--------------------------:|:-----:|:--:|:------------:|
-| LivePlayerContext.snapshot |  ✔️   |    |              |
+|            API             | WeChat Mini-Program | H5 | React Native |
+|:--------------------------:|:-------------------:|:--:|:------------:|
+| LivePlayerContext.snapshot |         ✔️          |    |              |
 
 ### stop
 
-停止
+Stop
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.stop.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.stop.html)
 
 ```tsx
 (option?: StopOption) => void
@@ -239,8 +239,8 @@ sidebar_label: LivePlayerContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -251,43 +251,43 @@ sidebar_label: LivePlayerContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|          API           | 微信小程序 | H5 | React Native |
-|:----------------------:|:-----:|:--:|:------------:|
-| LivePlayerContext.stop |  ✔️   |    |              |
+|          API           | WeChat Mini-Program | H5 | React Native |
+|:----------------------:|:-------------------:|:--:|:------------:|
+| LivePlayerContext.stop |         ✔️          |    |              |
 
-## 参数
+## Parameters
 
 ### ExitFullScreenOption
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -297,30 +297,30 @@ sidebar_label: LivePlayerContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -330,30 +330,30 @@ sidebar_label: LivePlayerContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -363,30 +363,30 @@ sidebar_label: LivePlayerContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -396,36 +396,36 @@ sidebar_label: LivePlayerContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies the direction in the full screen</td>
     </tr>
     <tr>
       <td>direction</td>
       <td><code>0 | 90 | -90</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置全屏时的方向<br /><br />可选值：<br />- 0: 正常竖向;<br />- 90: 屏幕逆时针90度;<br />- -90: 屏幕顺时针90度;</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -435,30 +435,30 @@ sidebar_label: LivePlayerContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -468,30 +468,30 @@ sidebar_label: LivePlayerContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: SnapshotSuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -501,31 +501,31 @@ sidebar_label: LivePlayerContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>height</td>
       <td><code>string</code></td>
-      <td>图片的高度</td>
+      <td>The height of an image</td>
     </tr>
     <tr>
       <td>tempImagePath</td>
       <td><code>string</code></td>
-      <td>图片文件的临时路径</td>
+      <td>Temporary path to images files</td>
     </tr>
     <tr>
       <td>width</td>
       <td><code>string</code></td>
-      <td>图片的宽度</td>
+      <td>The width of an image</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
@@ -535,43 +535,43 @@ sidebar_label: LivePlayerContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|                 API                 | 微信小程序 | H5 | React Native |
-|:-----------------------------------:|:-----:|:--:|:------------:|
-|  LivePlayerContext.exitFullScreen   |  ✔️   |    |              |
-|       LivePlayerContext.mute        |  ✔️   |    |              |
-|       LivePlayerContext.pause       |  ✔️   |    |              |
-|       LivePlayerContext.play        |  ✔️   |    |              |
-| LivePlayerContext.requestFullScreen |  ✔️   |    |              |
-|      LivePlayerContext.resume       |  ✔️   |    |              |
-|     LivePlayerContext.snapshot      |  ✔️   |    |              |
-|       LivePlayerContext.stop        |  ✔️   |    |              |
+|                 API                 | WeChat Mini-Program | H5 | React Native |
+|:-----------------------------------:|:-------------------:|:--:|:------------:|
+|  LivePlayerContext.exitFullScreen   |         ✔️          |    |              |
+|       LivePlayerContext.mute        |         ✔️          |    |              |
+|       LivePlayerContext.pause       |         ✔️          |    |              |
+|       LivePlayerContext.play        |         ✔️          |    |              |
+| LivePlayerContext.requestFullScreen |         ✔️          |    |              |
+|      LivePlayerContext.resume       |         ✔️          |    |              |
+|     LivePlayerContext.snapshot      |         ✔️          |    |              |
+|       LivePlayerContext.stop        |         ✔️          |    |              |
