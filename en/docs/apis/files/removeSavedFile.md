@@ -3,53 +3,53 @@ title: Taro.removeSavedFile(option)
 sidebar_label: removeSavedFile
 ---
 
-删除该小程序下已保存的本地缓存文件
+Deletes local cache files.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.removeSavedFile.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.removeSavedFile.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<CallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>filePath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>需要删除的文件路径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Path to the file to be deleted</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -59,21 +59,21 @@ sidebar_label: removeSavedFile
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail file not exist': 指定的 tempFilePath 找不到文件;</td>
+      <td>Error message<br /><br />valid value: <br />- 'fail file not exist';</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.getSavedFileList({
@@ -90,8 +90,8 @@ Taro.getSavedFileList({
 })
 ```
 
-## API 支持度
+## API Support
 
-|         API          | 微信小程序 | H5 | React Native |
-|:--------------------:|:-----:|:--:|:------------:|
-| Taro.removeSavedFile |  ✔️   |    |      ✔️      |
+|         API          | WeChat Mini-Program | H5 | React Native |
+|:--------------------:|:-------------------:|:--:|:------------:|
+| Taro.removeSavedFile |         ✔️          |    |      ✔️      |
