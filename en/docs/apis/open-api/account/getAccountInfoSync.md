@@ -3,103 +3,103 @@ title: Taro.getAccountInfoSync()
 sidebar_label: getAccountInfoSync
 ---
 
-获取当前帐号信息
+Gets the information on the current account.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/account-info/wx.getAccountInfoSync.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/account-info/wx.getAccountInfoSync.html)
 
-## 类型
+## Type
 
 ```tsx
 () => AccountInfo
 ```
 
-## 参数
+## Parameters
 
 ### AccountInfo
 
-帐号信息
+The account information.
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>miniProgram</td>
       <td><code>MiniProgram</code></td>
-      <td>小程序帐号信息</td>
+      <td>The information on the Mini Program account</td>
     </tr>
     <tr>
       <td>plugin</td>
       <td><code>Plugin</code></td>
-      <td>插件帐号信息（仅在插件中调用时包含这一项）</td>
+      <td>The information on the plug-in account (required only when this API is called from a plug-in)</td>
     </tr>
   </tbody>
 </table>
 
 ### MiniProgram
 
-小程序帐号信息
+miniProgram is composed as follows
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>appId</td>
       <td><code>string</code></td>
-      <td>小程序 appId</td>
+      <td>The appId of the Mini Program</td>
     </tr>
   </tbody>
 </table>
 
 ### Plugin
 
-插件帐号信息（仅在插件中调用时包含这一项）
+plugin is composed as follows
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>appId</td>
       <td><code>string</code></td>
-      <td>插件 appId</td>
+      <td>The AppID of the plug-in</td>
     </tr>
     <tr>
       <td>version</td>
       <td><code>string</code></td>
-      <td>插件版本号</td>
+      <td>The version number of the plug-in</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 const accountInfo = Taro.getAccountInfoSync();
 
-console.log(accountInfo.miniProgram.appId) // 小程序 appId
-console.log(accountInfo.plugin.appId) // 插件 appId
-console.log(accountInfo.plugin.version) // 插件版本号， 'a.b.c' 这样的形式
+console.log(accountInfo.miniProgram.appId) // The AppID of the Mini Program
+console.log(accountInfo.plugin.appId) // The AppID of the plug-in
+console.log(accountInfo.plugin.version) // The plug-in's version number in the format of 'a.b.c'
 ```
 
-## API 支持度
+## API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| Taro.getAccountInfoSync |  ✔️   |    |              |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+| Taro.getAccountInfoSync |         ✔️          |    |              |
