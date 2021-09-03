@@ -3,17 +3,17 @@ title: OpenData
 sidebar_label: OpenData
 ---
 
-用于展示微信开放的数据
+Displays WeChat open data.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/open-data.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/open-data.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<OpenDataProps>
 ```
 
-## 示例代码
+## Examples
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -53,11 +53,11 @@ class App extends Component {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -65,134 +65,134 @@ class App extends Component {
       <td>type</td>
       <td><code>&quot;groupName&quot; | &quot;userNickName&quot; | &quot;userAvatarUrl&quot; | &quot;userGender&quot; | &quot;userCity&quot; | &quot;userProvince&quot; | &quot;userCountry&quot; | &quot;userLanguage&quot;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>开放数据类型</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The type of the open data.</td>
     </tr>
     <tr>
       <td>openGid</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当 type=&quot;groupName&quot; 时生效, 群id</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>It is valid when type=&quot;groupName&quot;.</td>
     </tr>
     <tr>
       <td>lang</td>
       <td><code>&quot;en&quot; | &quot;zh_CN&quot; | &quot;zh_TW&quot;</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;en&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当 type=&quot;user*&quot; 时生效，以哪种语言展示 userInfo</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies the language used to display userInfo. It is valid when type=&quot;user*&quot;.</td>
     </tr>
     <tr>
       <td>defaultText</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>数据为空时的默认文案</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Default text when data is empty</td>
     </tr>
     <tr>
       <td>defaultAvatar</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>用户头像为空时的默认图片，支持相对路径和网络图片路径</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Default image when user avatar is empty, supports relative paths and network image paths.</td>
     </tr>
     <tr>
       <td>onError</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>群名称或用户信息为空时触发</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered when the group name or user information is empty.</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|             API             | 微信小程序 | H5 | React Native |
-|:---------------------------:|:-----:|:--:|:------------:|
-|     OpenDataProps.type      |  ✔️   |    |              |
-|    OpenDataProps.openGid    |  ✔️   |    |              |
-|     OpenDataProps.lang      |  ✔️   |    |              |
-|  OpenDataProps.defaultText  |  ✔️   |    |              |
-| OpenDataProps.defaultAvatar |  ✔️   |    |              |
-|    OpenDataProps.onError    |  ✔️   |    |              |
+|             API             | WeChat Mini-Program | H5 | React Native |
+|:---------------------------:|:-------------------:|:--:|:------------:|
+|     OpenDataProps.type      |         ✔️          |    |              |
+|    OpenDataProps.openGid    |         ✔️          |    |              |
+|     OpenDataProps.lang      |         ✔️          |    |              |
+|  OpenDataProps.defaultText  |         ✔️          |    |              |
+| OpenDataProps.defaultAvatar |         ✔️          |    |              |
+|    OpenDataProps.onError    |         ✔️          |    |              |
 
 ### type
 
-type 的合法值
+type Valid values of type
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Value</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>groupName</td>
-      <td>拉取群名称</td>
+      <td>The name of the group</td>
     </tr>
     <tr>
       <td>userNickName</td>
-      <td>用户昵称</td>
+      <td>The nickname of the user</td>
     </tr>
     <tr>
       <td>userAvatarUrl</td>
-      <td>用户头像</td>
+      <td>The profile photo of the user</td>
     </tr>
     <tr>
       <td>userGender</td>
-      <td>用户性别</td>
+      <td>The gender of the user</td>
     </tr>
     <tr>
       <td>userCity</td>
-      <td>用户所在城市</td>
+      <td>The city where the user is located</td>
     </tr>
     <tr>
       <td>userProvince</td>
-      <td>用户所在省份</td>
+      <td>The province where the user is located</td>
     </tr>
     <tr>
       <td>userCountry</td>
-      <td>用户所在国家</td>
+      <td>The country where the user is located</td>
     </tr>
     <tr>
       <td>userLanguage</td>
-      <td>用户的语言</td>
+      <td>The language used by the user</td>
     </tr>
   </tbody>
 </table>
 
 ### lang
 
-lang 的合法值
+Valid values of lang
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Value</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>en</td>
-      <td>英文</td>
+      <td>English</td>
     </tr>
     <tr>
       <td>zh_CN</td>
-      <td>简体中文</td>
+      <td>Simplified Chinese</td>
     </tr>
     <tr>
       <td>zh_TW</td>
-      <td>繁体中文</td>
+      <td>Traditional Chinese</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|   API    | 微信小程序 | H5 | React Native |
-|:--------:|:-----:|:--:|:------------:|
-| OpenData |  ✔️   |    |              |
+|   API    | WeChat Mini-Program | H5 | React Native |
+|:--------:|:-------------------:|:--:|:------------:|
+| OpenData |         ✔️          |    |              |
