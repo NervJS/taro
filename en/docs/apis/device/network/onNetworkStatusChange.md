@@ -3,21 +3,21 @@ title: Taro.onNetworkStatusChange(callback)
 sidebar_label: onNetworkStatusChange
 ---
 
-监听网络状态变化。
+Listens on the network status change event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.onNetworkStatusChange.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.onNetworkStatusChange.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: Callback) => void
 ```
 
-## 参数
+## Parameters
 
 ### Callback
 
-网络状态变化事件的回调函数
+The callback function for the network status change event.
 
 ```tsx
 (result: CallbackResult) => void
@@ -26,8 +26,8 @@ sidebar_label: onNetworkStatusChange
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -43,26 +43,26 @@ sidebar_label: onNetworkStatusChange
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>isConnected</td>
       <td><code>boolean</code></td>
-      <td>当前是否有网络连接</td>
+      <td>Indicates whether it is connected to the network</td>
     </tr>
     <tr>
       <td>networkType</td>
       <td><code>&quot;wifi&quot; | &quot;2g&quot; | &quot;3g&quot; | &quot;4g&quot; | &quot;unknown&quot; | &quot;none&quot;</code></td>
-      <td>网络类型</td>
+      <td>Network type</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.onNetworkStatusChange(function (res) {
@@ -71,8 +71,8 @@ Taro.onNetworkStatusChange(function (res) {
 })
 ```
 
-## API 支持度
+## API Support
 
-|            API             | 微信小程序 | H5 | React Native |
-|:--------------------------:|:-----:|:--:|:------------:|
-| Taro.onNetworkStatusChange |  ✔️   | ✔️ |      ✔️      |
+|            API             | WeChat Mini-Program | H5 | React Native |
+|:--------------------------:|:-------------------:|:--:|:------------:|
+| Taro.onNetworkStatusChange |         ✔️          | ✔️ |      ✔️      |
