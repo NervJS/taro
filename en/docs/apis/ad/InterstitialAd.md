@@ -3,33 +3,33 @@ title: InterstitialAd
 sidebar_label: InterstitialAd
 ---
 
-插屏广告组件。插屏广告组件是一个原生组件，层级比普通组件高。插屏广告组件每次创建都会返回一个全新的实例（小程序端的插屏广告实例不允许跨页面使用），默认是隐藏的，需要调用 InterstitialAd.show() 将其显示。
+插屏广告组件。Interstitial ad component. This is a native component at a higher layer than normal components.Each time the interstitial ad component is created, a new instance (interstitial ad instances on the Mini Program cannot be used across pages) is returned. Interstitial ads are hidden by default, and InterstitialAd.show() must be called to display them.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.html)
 
-## 方法
+## Methods
 
 ### destroy
 
-销毁插屏广告实例。
+Destorys an interstitial ad.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.destroy.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.destroy.html)
 
 ```tsx
 () => void
 ```
 
-#### API 支持度
+#### API Support
 
-|          API           | 微信小程序 | H5 | React Native |
-|:----------------------:|:-----:|:--:|:------------:|
-| InterstitialAd.destroy |  ✔️   |    |              |
+|          API           | WeChat Mini-Program | H5 | React Native |
+|:----------------------:|:-------------------:|:--:|:------------:|
+| InterstitialAd.destroy |         ✔️          |    |              |
 
 ### offClose
 
-取消监听插屏广告关闭事件
+Un-listens on the interstitial ad close event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.offClose.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.offClose.html)
 
 ```tsx
 (callback: OffCloseCallback) => void
@@ -38,8 +38,8 @@ sidebar_label: InterstitialAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -50,17 +50,17 @@ sidebar_label: InterstitialAd
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| InterstitialAd.offClose |  ✔️   |    |              |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+| InterstitialAd.offClose |         ✔️          |    |              |
 
 ### offError
 
-取消监听插屏错误事件
+Un-listens on the interstitial ad error event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.offError.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.offError.html)
 
 ```tsx
 (callback: OffErrorCallback) => void
@@ -69,8 +69,8 @@ sidebar_label: InterstitialAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -81,17 +81,17 @@ sidebar_label: InterstitialAd
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| InterstitialAd.offError |  ✔️   |    |              |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+| InterstitialAd.offError |         ✔️          |    |              |
 
 ### offLoad
 
-取消监听插屏广告加载事件
+Un-listens on the interstitial ad loading event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.offLoad.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.offLoad.html)
 
 ```tsx
 (callback: OffLoadCallback) => void
@@ -100,8 +100,8 @@ sidebar_label: InterstitialAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -112,17 +112,17 @@ sidebar_label: InterstitialAd
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|          API           | 微信小程序 | H5 | React Native |
-|:----------------------:|:-----:|:--:|:------------:|
-| InterstitialAd.offLoad |  ✔️   |    |              |
+|          API           | WeChat Mini-Program | H5 | React Native |
+|:----------------------:|:-------------------:|:--:|:------------:|
+| InterstitialAd.offLoad |         ✔️          |    |              |
 
 ### onClose
 
-监听插屏广告关闭事件。
+Listens on interstitial ad close event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.onClose.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.onClose.html)
 
 ```tsx
 (callback: OnCloseCallback) => void
@@ -131,8 +131,8 @@ sidebar_label: InterstitialAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -143,17 +143,17 @@ sidebar_label: InterstitialAd
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|          API           | 微信小程序 | H5 | React Native |
-|:----------------------:|:-----:|:--:|:------------:|
-| InterstitialAd.onClose |  ✔️   |    |              |
+|          API           | WeChat Mini-Program | H5 | React Native |
+|:----------------------:|:-------------------:|:--:|:------------:|
+| InterstitialAd.onClose |         ✔️          |    |              |
 
 ### onError
 
-监听插屏错误事件。
+Listens on the interstitial ad error event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.onError.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.onError.html)
 
 ```tsx
 (callback: OnErrorCallback) => void
@@ -162,8 +162,8 @@ sidebar_label: InterstitialAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -174,17 +174,17 @@ sidebar_label: InterstitialAd
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|          API           | 微信小程序 | H5 | React Native |
-|:----------------------:|:-----:|:--:|:------------:|
-| InterstitialAd.onError |  ✔️   |    |              |
+|          API           | WeChat Mini-Program | H5 | React Native |
+|:----------------------:|:-------------------:|:--:|:------------:|
+| InterstitialAd.onError |         ✔️          |    |              |
 
 ### onLoad
 
-监听插屏广告加载事件。
+Listens on the interstitial ad loading event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.onLoad.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.onLoad.html)
 
 ```tsx
 (callback: OnLoadCallback) => void
@@ -193,8 +193,8 @@ sidebar_label: InterstitialAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -205,61 +205,61 @@ sidebar_label: InterstitialAd
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|          API          | 微信小程序 | H5 | React Native |
-|:---------------------:|:-----:|:--:|:------------:|
-| InterstitialAd.onLoad |  ✔️   |    |              |
+|          API          | WeChat Mini-Program | H5 | React Native |
+|:---------------------:|:-------------------:|:--:|:------------:|
+| InterstitialAd.onLoad |         ✔️          |    |              |
 
 ### load
 
-加载插屏广告。
+Loads an interstitial ad.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.load.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.load.html)
 
 ```tsx
 () => Promise<any>
 ```
 
-#### API 支持度
+#### API Support
 
-|         API         | 微信小程序 | H5 | React Native |
-|:-------------------:|:-----:|:--:|:------------:|
-| InterstitialAd.load |  ✔️   |    |              |
+|         API         | WeChat Mini-Program | H5 | React Native |
+|:-------------------:|:-------------------:|:--:|:------------:|
+| InterstitialAd.load |         ✔️          |    |              |
 
 ### show
 
-显示插屏广告。
+Displays an interstitial ad.
 
-**错误码信息表**
+**Error Codes**
 
-如果插屏广告显示失败，InterstitialAd.show() 方法会返回一个rejected Promise，开发者可以获取到错误码及对应的错误信息。
+If an interstitial ad fails to display. the `InterstitialAd.show()` method returns a rejected Promise, which allows the developer to obtain the error code and the error message.
 
-| 代码   | 异常情况   | 理由                                    |
-| ---- | ------ | ------------------------------------- |
-| 2001 | 触发频率限制 | 小程序启动一定时间内不允许展示插屏广告                   |
-| 2002 | 触发频率限制 | 距离小程序插屏广告或者激励视频广告上次播放时间间隔不足，不允许展示插屏广告 |
-| 2003 | 触发频率限制 | 当前正在播放激励视频广告或者插屏广告，不允许再次展示插屏广告        |
-| 2004 | 广告渲染失败 | 该项错误不是开发者的异常情况，或因小程序页面切换导致广告渲染失败      |
-| 2005 | 广告调用异常 | 插屏广告实例不允许跨页面调用                        |
+| Code | Exception            | Cause                                                                                                                                         |
+| ---- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2001 | Rate limit triggered | Interstitial ads cannot be displayed for a certain time after the Mini Program starts.                                                        |
+| 2002 | Rate limit triggered | Interstitial ads cannot be displayed until a specified interval elapses after the display of a previous interstitial ad or rewarded video ad. |
+| 2003 | Rate limit triggered | Interstitial ads cannot be displayed when a rewarded video ad or another interstitial ad is being displayed.                                  |
+| 2004 | Failed to render ad  | This error is not caused by the developer's abnormal operation. It may be a result of switching between Mini Program pages.                   |
+| 2005 | Unusual ad call      | Cross-page calls are not allowed for interstitial ad instances.                                                                               |
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.show.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.show.html)
 
 ```tsx
 () => Promise<any>
 ```
 
-#### API 支持度
+#### API Support
 
-|         API         | 微信小程序 | H5 | React Native |
-|:-------------------:|:-----:|:--:|:------------:|
-| InterstitialAd.show |  ✔️   |    |              |
+|         API         | WeChat Mini-Program | H5 | React Native |
+|:-------------------:|:-------------------:|:--:|:------------:|
+| InterstitialAd.show |         ✔️          |    |              |
 
-## 参数
+## Parameters
 
 ### OffCloseCallback
 
-插屏广告关闭事件的回调函数
+The callback function for the interstitial ad close event.
 
 ```tsx
 (res: CallbackResult) => void
@@ -268,8 +268,8 @@ sidebar_label: InterstitialAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -282,7 +282,7 @@ sidebar_label: InterstitialAd
 
 ### OffErrorCallback
 
-插屏错误事件的回调函数
+The callback function for the interstitial ad error event.
 
 ```tsx
 (res: CallbackResult) => void
@@ -291,8 +291,8 @@ sidebar_label: InterstitialAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -305,7 +305,7 @@ sidebar_label: InterstitialAd
 
 ### OffLoadCallback
 
-插屏广告加载事件的回调函数
+The callback function for the interstitial ad loading event.
 
 ```tsx
 (res: CallbackResult) => void
@@ -314,8 +314,8 @@ sidebar_label: InterstitialAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -328,7 +328,7 @@ sidebar_label: InterstitialAd
 
 ### OnCloseCallback
 
-插屏广告关闭事件的回调函数
+The callback function for the interstitial ad close event.
 
 ```tsx
 (res: CallbackResult) => void
@@ -337,8 +337,8 @@ sidebar_label: InterstitialAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -351,7 +351,7 @@ sidebar_label: InterstitialAd
 
 ### OnErrorCallback
 
-插屏错误事件的回调函数
+The callback function for the interstitial ad error event.
 
 ```tsx
 (result: OnErrorCallbackResult) => void
@@ -360,8 +360,8 @@ sidebar_label: InterstitialAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -374,7 +374,7 @@ sidebar_label: InterstitialAd
 
 ### OnLoadCallback
 
-插屏广告加载事件的回调函数
+The callback function for the interstitial ad loading event.
 
 ```tsx
 (res: CallbackResult) => void
@@ -383,8 +383,8 @@ sidebar_label: InterstitialAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -400,35 +400,35 @@ sidebar_label: InterstitialAd
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errCode</td>
       <td><code>1000 | 1001 | 1002 | 1003 | 1004 | 1005 | 1006 | 1007 | 1008</code></td>
-      <td>错误码<br /><a href="https://nervjs.github.io/taro/docs/apis/General#AdErrCode">参考地址</a></td>
+      <td>Error code<br /><a href="../../apis/General#aderrcode">Reference</a></td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息</td>
+      <td>Error message</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| InterstitialAd.destroy  |  ✔️   |    |              |
-| InterstitialAd.offClose |  ✔️   |    |              |
-| InterstitialAd.offError |  ✔️   |    |              |
-| InterstitialAd.offLoad  |  ✔️   |    |              |
-| InterstitialAd.onClose  |  ✔️   |    |              |
-| InterstitialAd.onError  |  ✔️   |    |              |
-|  InterstitialAd.onLoad  |  ✔️   |    |              |
-|   InterstitialAd.load   |  ✔️   |    |              |
-|   InterstitialAd.show   |  ✔️   |    |              |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+| InterstitialAd.destroy  |         ✔️          |    |              |
+| InterstitialAd.offClose |         ✔️          |    |              |
+| InterstitialAd.offError |         ✔️          |    |              |
+| InterstitialAd.offLoad  |         ✔️          |    |              |
+| InterstitialAd.onClose  |         ✔️          |    |              |
+| InterstitialAd.onError  |         ✔️          |    |              |
+|  InterstitialAd.onLoad  |         ✔️          |    |              |
+|   InterstitialAd.load   |         ✔️          |    |              |
+|   InterstitialAd.show   |         ✔️          |    |              |
