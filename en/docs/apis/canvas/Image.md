@@ -3,51 +3,51 @@ title: Image
 sidebar_label: Image
 ---
 
-图片对象
+The image object.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Image.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Image.html)
 
-## 方法
+## Methods
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>height</td>
       <td><code>number</code></td>
-      <td>图片的真实高度</td>
+      <td>The actual height of the image.</td>
     </tr>
     <tr>
       <td>onerror</td>
       <td><code>(...args: any[]) =&gt; any</code></td>
-      <td>图片加载发生错误后触发的回调函数</td>
+      <td>The callback function triggered after an error occurred during image loading.</td>
     </tr>
     <tr>
       <td>onload</td>
       <td><code>(...args: any[]) =&gt; any</code></td>
-      <td>图片加载完成后触发的回调函数</td>
+      <td>The callback function triggered after the image is loaded.</td>
     </tr>
     <tr>
       <td>src</td>
       <td><code>string</code></td>
-      <td>图片的 URL</td>
+      <td>The image URL.</td>
     </tr>
     <tr>
       <td>width</td>
       <td><code>number</code></td>
-      <td>图片的真实宽度</td>
+      <td>The actual width of the image.</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|  API  | 微信小程序 | H5 | React Native |
-|:-----:|:-----:|:--:|:------------:|
-| Image |  ✔️   |    |              |
+|  API  | WeChat Mini-Program | H5 | React Native |
+|:-----:|:-------------------:|:--:|:------------:|
+| Image |         ✔️          |    |              |
