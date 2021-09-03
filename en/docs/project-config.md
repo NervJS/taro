@@ -1,26 +1,26 @@
 ---
-title: 项目配置
+title: Project Configuration
 ---
 
-各类小程序平台均有自己的项目配置文件，例如：
+Each type of mini-program platform has its own project profile, for example
 
-* 微信小程序，[project.config.json](https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html?search-key=%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE)
-* 百度小程序，[project.swan.json](https://smartprogram.baidu.com/docs/develop/devtools/projectconfig/)
-* 字节跳动小程序，[project.config.json](https://microapp.bytedance.com/docs/zh-CN/mini-app/develop/framework/basic-reference/catalog-structure/#projectconfigjson-%E9%85%8D%E7%BD%AE%E4%BB%8B%E7%BB%8D)
-* QQ 小程序，project.config.json
-* 支付宝小程序，[mini.project.json](https://opendocs.alipay.com/mini/framework/project)
-* 京东小程序，暂无发现
+* WeChat mini-program, [project.config.json](https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html?search-key=%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE)
+* Baidu smart mini-program, [project.swan.json](https://smartprogram.baidu.com/docs/develop/devtools/projectconfig/)
+* ByteDance mini-program, [project.config.json](https://microapp.bytedance.com/docs/zh-CN/mini-app/develop/framework/basic-reference/catalog-structure/#projectconfigjson-%E9%85%8D%E7%BD%AE%E4%BB%8B%E7%BB%8D)
+* QQ mini-program, project.config.json
+* Alipay mini-program,[mini.project.json](https://opendocs.alipay.com/mini/framework/project)
+* Jingdong mini-program, Not found
 * 飞书小程序，[project.config.json](https://open.feishu.cn/document/uYjL24iN/uEzMzUjLxMzM14SMzMTN/gadget-project-configuration)
 
-为了能够适配不同小程序平台的配置文件不同的情况，Taro 支持为各个小程序平台添加各自的项目配置文件。
+To be able to adapt to the different profiles of different mini-program platforms, Taro supports adding individual project profiles for each mini-program platform.
 
-通过 Taro 模板创建的项目都会默认拥有 `project.config.json` 这一项目配置文件，这个文件 **只能用于微信小程序**，若要兼容到其他小程序平台，请按如下对应规则来增加相应平台的配置文件，其配置与各自小程序平台要求的一致：
+Projects created through the Taro template will have a project configuration file `project.config.json` by default, which **can only be used for WeChat mini-program**, to be compatible with other  mini-program platforms, please add the configuration file of the corresponding platform according to the following corresponding rules, and the configuration is consistent with the requirements of the respective mini-program platforms.
 
-| 小程序平台   | 添加配置文件              |
-| ------- | ------------------- |
-| 微信小程序   | project.config.json |
-| 百度小程序   | project.swan.json   |
-| 字节跳动小程序 | project.tt.json     |
-| QQ小程序   | project.qq.json     |
-| 支付宝小程序  | project.alipay.json |
-| 飞书小程序   | project.tt.json     |
+| Mini-program Platform    | Configuration File  |
+| ------------------------ | ------------------- |
+| WeChat mini-program      | project.config.json |
+| Baidu smart mini-program | project.swan.json   |
+| ByteDance mini-program   | project.tt.json     |
+| QQ mini-program          | project.qq.json     |
+| Alipay mini-program      | project.alipay.json |
+| 飞书小程序                    | project.tt.json     |
