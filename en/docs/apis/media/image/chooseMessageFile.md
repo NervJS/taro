@@ -3,65 +3,65 @@ title: Taro.chooseMessageFile(option)
 sidebar_label: chooseMessageFile
 ---
 
-从客户端会话选择文件。
+Selects a file from a client session.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.chooseMessageFile.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.chooseMessageFile.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<SuccessCallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>count</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>最多可以选择的文件个数，可以 0～100</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The maximum number of files that can be selected. 0-100 is allowed</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
       <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
     </tr>
     <tr>
       <td>extension</td>
       <td><code>string[]</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>根据文件拓展名过滤，仅 type==file 时有效。每一项都不能是空字符串。默认不过滤。</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Filtered by the file extension name. It takes effect only when type==file.The strings within it cannot be empty.Filtering is not performed by default.</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>type</td>
       <td><code>&quot;all&quot; | &quot;video&quot; | &quot;image&quot; | &quot;file&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>所选的文件的类型</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -71,62 +71,62 @@ sidebar_label: chooseMessageFile
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>tempFiles</td>
       <td><code>ChooseFile[]</code></td>
-      <td>返回选择的文件的本地临时文件对象数组</td>
+      <td>Returns an array of local temporary file objects for the selected files</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
 
 ### ChooseFile
 
-返回选择的文件的本地临时文件对象数组
+res.tempFiles is composed as follows
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>name</td>
       <td><code>string</code></td>
-      <td>选择的文件名称</td>
+      <td>The selected file name</td>
     </tr>
     <tr>
       <td>path</td>
       <td><code>string</code></td>
-      <td>本地临时文件路径</td>
+      <td>The path to the local temporary file</td>
     </tr>
     <tr>
       <td>size</td>
       <td><code>number</code></td>
-      <td>本地临时文件大小，单位 B</td>
+      <td>The size of a local temporary file, in bytes</td>
     </tr>
     <tr>
       <td>time</td>
       <td><code>number</code></td>
-      <td>选择的文件的会话发送时间，Unix时间戳，工具暂不支持此属性</td>
+      <td>Time when the session of the selected file is sent. It is a Unix timestamp and not supported in WeChat DevTools.</td>
     </tr>
     <tr>
       <td>type</td>
       <td><code>&quot;video&quot; | &quot;image&quot; | &quot;file&quot;</code></td>
-      <td>选择的文件类型</td>
+      <td>The selected file type</td>
     </tr>
   </tbody>
 </table>
@@ -136,26 +136,26 @@ sidebar_label: chooseMessageFile
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>all</td>
-      <td>从所有文件选择</td>
+      <td>All the files can be selected.</td>
     </tr>
     <tr>
       <td>video</td>
-      <td>只能选择视频文件</td>
+      <td>Only video files can be selected.</td>
     </tr>
     <tr>
       <td>image</td>
-      <td>只能选择图片文件</td>
+      <td>Only image files can be selected.</td>
     </tr>
     <tr>
       <td>file</td>
-      <td>可以选择除了图片和视频之外的其它的文件</td>
+      <td>Files except images and videos can be selected.</td>
     </tr>
   </tbody>
 </table>
@@ -165,41 +165,40 @@ sidebar_label: chooseMessageFile
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>video</td>
-      <td>选择了视频文件</td>
+      <td>A video file is selected.</td>
     </tr>
     <tr>
       <td>image</td>
-      <td>选择了图片文件</td>
+      <td>An image file is selected.</td>
     </tr>
     <tr>
       <td>file</td>
-      <td>选择了除图片和视频的文件</td>
+      <td>A file except images and videos is selected.</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.chooseMessageFile({
   count: 10,
   type: 'image',
   success: function (res) {
-    // tempFilePath可以作为img标签的src属性显示图片
-    const tempFilePaths = res.tempFilePaths
+    // tempFilePath can be used as the src property of the img tag to display images. const tempFilePaths = res.tempFilePaths
   }
 })
 ```
 
-## API 支持度
+## API Support
 
-|          API           | 微信小程序 | H5 | React Native |
-|:----------------------:|:-----:|:--:|:------------:|
-| Taro.chooseMessageFile |  ✔️   |    |              |
+|          API           | WeChat Mini-Program | H5 | React Native |
+|:----------------------:|:-------------------:|:--:|:------------:|
+| Taro.chooseMessageFile |         ✔️          |    |              |
