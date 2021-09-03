@@ -3,37 +3,37 @@ title: Taro.offNetworkStatusChange(callback)
 sidebar_label: offNetworkStatusChange
 ---
 
-取消监听网络状态变化事件，参数为空，则取消所有的事件监听。
+Un-listens on the network status change event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.offNetworkStatusChange.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.offNetworkStatusChange.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: (...args: any[]) => any) => void
 ```
 
-## 参数
+## Parameters
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>(...args: any[]) =&gt; any</code></td>
-      <td>网络状态变化事件的回调函数</td>
+      <td>The callback function for the network status change event.</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|             API             | 微信小程序 | H5 | React Native |
-|:---------------------------:|:-----:|:--:|:------------:|
-| Taro.offNetworkStatusChange |  ✔️   |    |      ✔️      |
+|             API             | WeChat Mini-Program | H5 | React Native |
+|:---------------------------:|:-------------------:|:--:|:------------:|
+| Taro.offNetworkStatusChange |         ✔️          |    |      ✔️      |
