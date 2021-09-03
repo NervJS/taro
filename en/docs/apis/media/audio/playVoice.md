@@ -3,64 +3,64 @@ title: Taro.playVoice(option)
 sidebar_label: playVoice
 ---
 
-开始播放语音。同时只允许一个语音文件正在播放，如果前一个语音文件还没播放完，将中断前一个语音播放。
+开始播放语音。Starts the playback of a voice file. Only one file can be played at a time. The start of the playback of a file will stops the in-progress playback of the previous one.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.playVoice.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.playVoice.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<CallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>filePath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>需要播放的语音文件的文件路径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The path of the voice file to be played</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
       <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
     </tr>
     <tr>
       <td>duration</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>指定录音时长，到达指定的录音时长后会自动停止录音，单位：秒</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.startRecord({
@@ -74,8 +74,8 @@ Taro.startRecord({
 })
 ```
 
-## API 支持度
+## API Support
 
-|      API       | 微信小程序 | H5 | React Native |
-|:--------------:|:-----:|:--:|:------------:|
-| Taro.playVoice |  ✔️   |    |              |
+|      API       | WeChat Mini-Program | H5 | React Native |
+|:--------------:|:-------------------:|:--:|:------------:|
+| Taro.playVoice |         ✔️          |    |              |
