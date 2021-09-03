@@ -1,31 +1,31 @@
 ---
-title: 插件功能
+title: Plugin
 ---
 
-Taro 引入了插件化机制，目的是为了让开发者能够通过编写插件的方式来为 Taro 拓展更多功能或为自身业务定制个性化功能。
+Taro introduced a plugin mechanism to enable developers to write plugins to extend the functionality of Taro or to customize it for their own business.
 
-## 官方插件
+## Official Plugin
 
-Taro 提供了一些官方插件
+Taro offers a number of official plugins
 
-- [@tarojs/plugin-mock](https://github.com/NervJS/taro-plugin-mock)，一个简易的数据 mock 插件
+- [@tarojs/plugin-mock](https://github.com/NervJS/taro-plugin-mock), A simple data mock plugin
 
-## 如何引入插件
+## How to Add plugins
 
-你可以从 npm 或者本地中引入插件，引入方式主要通过 [编译配置](./config-detail.md)中的 `plugins` 和 `presets`，使用如下
+You can bring in plugins from npm or locally, mainly through the `plugins` and `presets` in [compile configuration](./config-detail.md) with `plugins` and `presets`, using the following
 
 ### plugins
 
-插件在 Taro 中，一般通过[编译配置](./config-detail.md)中的 `plugins` 字段进行引入。
+Plugins are generally introduced in Taro via the [compile configuration](./config-detail.md) with the `plugins` field.
 
-`plugins` 字段取值为一个数组，配置方式如下：
+The `plugins` field takes the value of an array and is configured as follows.
 
 ```js title="/config/index.js"
 const config = {
   plugins: [
-    // 引入 npm 安装的插件
+    // Introducing the npm installed plugins
     '@tarojs/plugin-mock', 
-    // 引入 npm 安装的插件，并传入插件参数
+    // Introduce the npm installed plugin and pass in the plugin parameters
     ['@tarojs/plugin-mock', {
       mocks: {
         '/api/user/1': {
@@ -34,7 +34,7 @@ const config = {
         }
       }
     }],
-    // 从本地绝对路径引入插件，同样如果需要传入参数也是如上
+    // The plugin is introduced from the local absolute path, and also if you need to pass in parameters as above
     '/absulute/path/plugin/filename',
   ]
 }
@@ -42,36 +42,38 @@ const config = {
 
 ### presets
 
-如果你有一系列插件需要配置，而他们通常是组合起来完成特定的事儿，那你可以通过**插件集** `presets` 来进行配置。
+If you have a series of plugins that need to be configured, and they are usually combined to do a specific thing, then you can configure them via the **plugin set** `presets`.
 
-配置[编译配置](./config-detail.md)中的 `presets` 字段，如下。
+Configure [compile configuration](./config-detail.md) with the `presets` field, as follows.
 
 ```js title="/config/index.js"
 const config = {
   presets: [
-    // 引入 npm 安装的插件集
     '@tarojs/preset-sth', 
-    // 引入 npm 安装的插件集，并传入插件参数
     ['@tarojs/plugin-sth', {
       arg0: 'xxx'
     }],
-    // 从本地绝对路径引入插件集，同样如果需要传入参数也是如上
     '/absulute/path/preset/filename',
   ]
 }
 ```
 
-在了解完如何引入插件之后，我们来学习一下如何编写一个插件。
+After understanding how to introduce a plugin, let's learn how to write a plugin.
 
-## 如何编写一个插件
+## How to write a plugin
 
-一个 Taro 的插件都具有固定的代码结构，通常由一个函数组成，示例如下：
+A Taro plugin has a fixed code structure, usually consisting of a function, for example.
 
 ```typescript
 export default (ctx, options) => {
-  // plugin 主体
+  // plugin main content
   ctx.onBuildStart(() => {
-    console.log('编译开始！')
+    console.log('compile start')
+  })
+  ctx.onBuildFinish(() => {
+    console.log('compile end')
+  })
+}')
   })
   ctx.onBuildFinish(() => {
     console.log('编译结束！')
@@ -79,45 +81,46 @@ export default (ctx, options) => {
 }
 ```
 
-插件函数可以接受两个参数：
+The plugin function can accept two parameters.
 
-- ctx：插件当前的运行环境信息，包含插件相关的 API、当前运行参数、辅助方法等等
-- options：为插件调用时传入的参数
+- ctx: information about the current running environment of the plug-in, including the plug-in related API, current running parameters, auxiliary methods, etc.
+- options: the parameters passed in for the plugin call
 
-在插件主体代码部分可以按照自己的需求编写相应代码，通常你可以实现以下功能。
+In the body of the plugin code part can be written according to their own needs of the corresponding code, you can usually achieve the following functions.
 
 ### Typings
 
-建议使用 typescript 来编写插件，这样你就会获得很棒的智能提示，使用方式如下：
+It is recommended to use typescript to write the plugin so you get great smart tips, using the following:
 
 ```typescript
 import { IPluginContext } from '@tarojs/service'
 export default (ctx: IPluginContext, pluginOpts) => {
-  // 接下来使用 ctx 的时候就能获得智能提示了
   ctx.onBuildStart(() => {
-    console.log('编译开始！')
+    console.log('complie start')
+  })
+}')
   })
 }
 ```
 
-### 主要功能
+### Main Functions
 
-#### 命令行扩展
+#### Command Line Extensions
 
-你可以通过编写插件来为 Taro 拓展命令行的命令，在之前版本的 Taro 中，命令行的命令是固定的，如果你要进行扩展，那你得直接修改 Taro 源码，而如今借助插件功能，你可以任意拓展 Taro 的命令行。
+You can write plugins to extend the command line commands for Taro. In previous versions of Taro, the command line commands were fixed, and if you wanted to extend them, you had to modify the Taro source code directly, but now you can extend the Taro command line as much as you want with the plugin feature.
 
-这个功能主要通过 `ctx.registerCommand` API 来进行实现，例如，增加一个上传的命令，将编译后的代码上传到服务器：
+This functionality is mainly implemented through the `ctx.registerCommand` API, for example, by adding an upload command to upload the compiled code to the server
 
 ```typescript
 export default (ctx) => {
   ctx.registerCommand({
-    // 命令名
+    // Command Name
     name: 'upload',
-    // 执行 taro upload --help 时输出的 options 信息
+    // The options information output when executing taro upload --help
     optionsMap: {
-      '--remote': '服务器地址'
+      '--remote': 'server address'
     },
-    // 执行 taro upload --help 时输出的使用例子的信息
+    // Example of usage output when executing taro upload --help
     synopsisList: [
       'taro upload --remote xxx.xxx.xxx.xxx'
     ],
@@ -129,46 +132,46 @@ export default (ctx) => {
 }
 ```
 
-将这个插件配置到中项目之后，就可以通过 `taro upload --remote xxx.xxx.xxx.xxx` 命令将编译后代码上传到目标服务器。
+After configuring this plugin to the medium project, you can upload the compiled code to the target server with the `taro upload --remote xxx.xxx.xxx.xxx` command.
 
-#### 编译过程扩展
+#### Compilation Process Extensions
 
-同时你也可以通过插件对代码编译过程进行拓展。
+You can also extend the code build process through plugins.
 
-正如前面所述，针对编译过程，有 `onBuildStart`、`onBuildFinish` 两个钩子来分别表示编译开始，编译结束，而除此之外也有更多 API 来对编译过程进行修改，如下：
+As mentioned earlier, there are `onBuildStart` and `onBuildFinish` hooks for the build process to indicate the start and finish of the build respectively, and there are more APIs to modify the build process as follows.
 
-- `ctx.onBuildStart(() => void)`，编译开始，接收一个回调函数
-- `ctx.modifyWebpackChain(args: { chain: any }) => void)`，编译中修改 webpack 配置，在这个钩子中，你可以对 webpackChain 作出想要的调整，等同于配置 [`webpackChain`](./config-detail.md#miniwebpackchain)
-- `ctx.modifyBuildAssets(args: { assets: any }) => void)`，修改编译后的结果
-- `ctx.modifyBuildTempFileContent(args: { tempFiles: any }) => void)`，修改编译过程中的中间文件，例如修改 app 或页面的 config 配置
-- `ctx.onBuildFinish(() => void)`，编译结束，接收一个回调函数
+- `ctx.onBuildStart(() => void)`, compile start, receive a callback function
+- `ctx.modifyWebpackChain(args: { chain: any }) => void)`, In this hook, you can make the desired adjustments to the webpackChain, which is equivalent to configuring [`webpackChain`](./config-detail.md#miniwebpackchain)
+- `ctx.modifyBuildAssets(args: { assets: any }) => void)`, Modify the compiled result
+- `ctx.modifyBuildTempFileContent(args: { tempFiles: any }) => void)`, Modify intermediate files during the compilation process, such as the configuration of an app or page
+- `ctx.onBuildFinish(() => void)`, the compilation ends and a callback function is received
 
-#### 编译平台拓展
+#### Compiler Platform Expansion
 
-你也可以通过插件功能对编译平台进行拓展。
+You can also extend the compilation platform with plugin functionality.
 
-使用 API `ctx.registerPlatform`，Taro 中内置的平台支持都是通过这个 API 来进行实现。
+Use the API `ctx.registerPlatform`, the platform support built into Taro is implemented through this API.
 
-> 注意：这是未完工的功能，需要依赖代码编译器 `@tarojs/transform-wx` 的改造完成
+> Note: This is an unfinished feature that relies on the code compiler `@tarojs/transform-wx` to complete the transformation
 ## API
 
-通过以上内容，我们已经大致知道 Taro 插件可以实现哪些特性并且可以编写一个简单的 Taro 插件了，但是，为了能够编写更加复杂且标准的插件，我们需要了解 Taro 插件机制中的具体 API 用法。
+With the above, we have a general idea of what features the Taro plugin can implement and can write a simple Taro plugin, but in order to be able to write more complex and standard plugins, we need to understand the specific API usage in the Taro plugin mechanism.
 
-### 插件环境变量
+### Plugin environment variables
 
 #### ctx.paths
 
-包含当前执行命令的相关路径，所有的路径如下（并不是所有命令都会拥有以下所有路径）：
+Contains the paths associated with the currently executing command, all of which are as follows (not all commands will have all of the following paths):
 
-- `ctx.paths.appPath`，当前命令执行的目录，如果是 `build` 命令则为当前项目路径
-- `ctx.paths.configPath`，当前项目配置目录，如果 `init` 命令，则没有此路径
-- `ctx.paths.sourcePath`，当前项目源码路径
-- `ctx.paths.outputPath`，当前项目输出代码路径
-- `ctx.paths.nodeModulesPath`，当前项目所用的 node_modules 路径
+- `ctx.paths.appPath`, The directory where the current command is executed, or the current project path if it is a `build` command
+- `ctx.paths.configPath`, The current project configuration directory, or no path if the `init` command
+- `ctx.paths.sourcePath`, The current project source code path
+- `ctx.paths.outputPath`, Current project output code path
+- `ctx.paths.nodeModulesPath`,The path to the node_modules used by the current project
 
 #### ctx.runOpts
 
-获取当前执行命令所带的参数，例如命令 `taro upload --remote xxx.xxx.xxx.xxx`，则 `ctx.runOpts` 值为：
+Gets the parameters of the currently executed command, eg. for the command `taro upload --remote xxx.xxx.xxx`, the value of `ctx.runOpts`:
 
 ```js
 {
@@ -182,56 +185,55 @@ export default (ctx) => {
 
 #### ctx.helper
 
-为包 `@tarojs/helper` 的快捷使用方式，包含其所有 API。
+A shortcut to the package `@tarojs/helper`, including all its APIs.
 
 #### ctx.initialConfig
 
-获取项目配置。
+Get the project configuration.
 
 #### ctx.plugins
 
-获取当前所有挂载的插件。
+Get all currently mounted plugins.
 
-### 插件方法
+### Plugin Method
 
-Taro 的插件架构基于 [Tapable](https://github.com/webpack/tapable)。
+Taro's plugin architecture is based on [Tapable](https://github.com/webpack/tapable)。
 
 #### ctx.register(hook: IHook)
 
-注册一个可供其他插件调用的钩子，接收一个参数，即 Hook 对象。
+Register a hook that can be called by other plugins, receiving one parameter, the Hook object.
 
-一个Hook 对象类型如下：
+A Hook object is of the following type.
 
 ```typescript
 interface IHook {
-  // Hook 名字，也会作为 Hook 标识
+  // Hook name, which will also be used as Hook identifier
   name: string
-  // Hook 所处的 plugin id，不需要指定，Hook 挂载的时候会自动识别
-  plugin: string
-  // Hook 回调
+  // The plugin id of the Hook, you don't need to specify it, it will be recognized automatically when the Hook is mounted. plugin: string
+  // Hook callback
   fn: Function
   before?: string
   stage?: number
 }
 ```
 
-通过 `ctx.register` 注册过的钩子需要通过方法 `ctx.applyPlugins` 进行触发。
+Hooks registered by `ctx.register` need to be triggered by method `ctx.applyPlugins`.
 
-我们约定，按照传入的 Hook 对象的 `name` 来区分 Hook 类型，主要为以下三类：
+We agree to distinguish Hook types according to the `name` of the incoming Hook object, which are mainly of the following three types:
 
-- 事件类型 Hook，Hook name 以 `on` 开头，如 `onStart`，这种类型的 Hook 只管触发而不关心 Hook 回调 fn 的值，Hook 的回调 fn 接收一个参数 `opts` ，为触发钩子时传入的参数
-- 修改类型 Hook，Hook name 以 `modify` 开头，如 `modifyBuildAssets`，这种类型的 Hook 触发后会返回做出某项修改后的值，Hook 的回调 fn 接收两个参数 `opts` 和 `arg` ，分别为触发钩子时传入的参数和上一个回调执行的结果
-- 添加类型 Hook，Hook name 以 `add` 开头，如 `addConfig`，这种类型 Hook 会将所有回调的结果组合成数组最终返回，Hook 的回调 fn 接收两个参数 `opts` 和 `arg` ，分别为触发钩子时传入的参数和上一个回调执行的结果
+- Hook of event type, Hook name starts with `on`, e.g. `onStart`, this type of Hook only cares about triggering but not the value of Hook callback fn, Hook's callback fn receives a parameter `opts`, which is the parameter passed in when triggering the hook
+- Hook name starts with `modify`, e.g. `modifyBuildAssets`, this type of Hook will return the value after making a modification after triggering, Hook's callback fn receives two parameters `opts` and `arg`, which are the parameters passed in when triggering the hook and the result of the previous callback respectively.
+- Add type Hook, Hook name starts with `add`, such as `addConfig`, this type Hook will combine the results of all callbacks into an array and finally return, Hook's callback fn receives two parameters `opts` and `arg`, which are the parameters passed in when triggering the hook and the result of the last callback execution respectively.
 
-如果 Hook 对象的 `name` 不属于以上三类，则该 Hook 表现情况类似事件类型 Hook。
+If the `name` of the Hook object does not belong to the above three categories, then the Hook behaves like an event type Hook.
 
-钩子回调可以是异步也可以是同步，同一个 Hook 标识下一系列回调会借助 Tapable 的 AsyncSeriesWaterfallHook 组织为异步串行任务依次执行。
+Hook callbacks can be asynchronous or synchronous, and a series of callbacks under the same Hook identifier will be organized as asynchronous serial tasks executed sequentially with the help of Tapable's AsyncSeriesWaterfallHook.
 
 #### ctx.registerMethod(arg: string | { name: string, fn?: Function }, fn?: Function)
 
-向 `ctx` 上挂载一个方法可供其他插件直接调用。
+Mount a method on `ctx` that can be called directly by other plugins.
 
-主要调用方式：
+Main call method:
 
 ```typescript
 ctx.registerMethod('methodName')
@@ -249,36 +251,34 @@ ctx.registerMethod({
 })
 ```
 
-其中方法名必须指定，而对于回调函数则存在两种情况。
+where the method name must be specified, and there are two cases for callback functions.
 
-##### 指定回调函数
+##### Specify the callback function
 
-则直接往 `ctx` 上进行挂载方法，调用时 `ctx.methodName` 即执行 `registerMethod` 上指定的回调函数。
+methodName`will execute the callback function specified in`registerMethod` when it is called.
 
-##### 不指定回调函数
+##### No callback function specified
 
-则相当于注册了一个 `methodName` 钩子，与 `ctx.register` 注册钩子一样需要通过方法 `ctx.applyPlugins` 进行触发，而具体要执行的钩子回调则通过 `ctx.methodName` 进行指定，可以指定多个要执行的回调，最后会按照注册顺序依次执行。
+The specific hook callback to be executed is specified by `ctx.methodName`, which can specify multiple callbacks to be executed, and will be executed in the order of the registered which will be executed in order of registration.
 
-内置的编译过程中的 API 如 `ctx.onBuildStart` 等均是通过这种方式注册。
+The built-in build process APIs such as `ctx.onBuildStart` are registered in this way.
 
 #### ctx.registerCommand(hook: ICommand)
 
-注册一个自定义命令。
+Register a custom command:
 
 ```typescript
 interface ICommand {
-  // 命令别名
+  // Command alias
   alias?: string,
-  // 执行 taro <command> --help 时输出的 options 信息
-  optionsMap?: {
     [key: string]: string
   },
-  // 执行 taro <command> --help 时输出的使用例子的信息
+  // Example usage information when executing taro <command> --help
   synopsisList?: string[]
 }
 ```
 
-使用方式：
+Usage :
 
 ```typescript
 ctx.registerCommand({
@@ -292,7 +292,7 @@ ctx.registerCommand({
     const { chalk } = ctx.helper
     const { appPath } = ctx.paths
     if (typeof name !== 'string') {
-      return console.log(chalk.red('请输入需要创建的页面名称'))
+      return console.log(chalk.red('Please enter the name of the page to be created'))
     }
     if (type === 'page') {
       const Page = require('../../create/page').default
@@ -309,7 +309,7 @@ ctx.registerCommand({
 
 #### ctx.registerPlatform(hook: IPlatform)
 
-注册一个编译平台。
+Register a compilation platform.
 
 ```typescript
 interface IFileType {
@@ -319,14 +319,14 @@ interface IFileType {
   config: string
 }
 interface IPlatform extends IHook {
-  // 编译后文件类型
+  // Compiled file type
   fileType: IFileType
-  // 编译时使用的配置参数名
+  // Name of the configuration parameter used at compile time
   useConfigName: String
 }
 ```
 
-使用方式：
+Usage :
 
 ```typescript
 ctx.registerPlatform({
@@ -336,7 +336,7 @@ ctx.registerPlatform({
     const { appPath, nodeModulesPath, outputPath } = ctx.paths
     const { npm, emptyDirectory } = ctx.helper
     emptyDirectory(outputPath)
-    // 准备 miniRunner 参数
+    // prepare miniRunner param
     const miniRunnerOpts = {
       ...config,
       nodeModulesPath,
@@ -378,13 +378,13 @@ ctx.registerPlatform({
 
 #### ctx.applyPlugins(args: string | { name: string, initialVal?: any, opts?: any })
 
-触发注册的钩子。
+Triggers the registered hooks.
 
-传入的钩子名为 `ctx.register` 和 `ctx.registerMethod` 指定的名字。
+The hook name passed in is the name specified by `ctx.register` and `ctx.registerMethod`.
 
-这里值得注意的是如果是**修改类型**和**添加类型**的钩子，则拥有返回结果，否则不用关心其返回结果。
+It is worth noting here that if it is a **modify type** and **add type** hook, it has the return result, otherwise don't care about its return result.
 
-使用方式：
+Usage:
 
 ```typescript
 ctx.applyPlugins('onStart')
@@ -399,9 +399,9 @@ const assets = await ctx.applyPlugins({
 
 #### ctx.addPluginOptsSchema(schema: Function)
 
-为插件入参添加校验，接受一个函数类型参数，函数入参为 joi 对象，返回值为 joi schema。
+Adds a checksum to the plugin input, accepting a function type parameter, the function input is a joi object, and the return value is a joi schema.
 
-使用方式：
+Usage :
 
 ```typescript
 ctx.addPluginOptsSchema(joi => {
@@ -417,20 +417,20 @@ ctx.addPluginOptsSchema(joi => {
 
 #### ctx.writeFileToDist({ filePath: string, content: string })
 
-向编译结果目录中写入文件，参数：
+Writes a file to the compile result directory, with the following parameters:
 
-- filePath: 文件放入编译结果目录下的路径
-- content: 文件内容
+- filePath: the path where the file is placed in the compilation result directory
+- content: the content of the file
 
 #### ctx.generateFrameworkInfo({ platform: string })
 
-生成编译信息文件 .frameworkinfo，参数：
+Generate the compilation information file .frameworkinfo, with the following parameters
 
-- platform: 平台名
+- platform: Platform name
 
 #### ctx.generateProjectConfig({ srcConfigName: string, distConfigName: string })
 
-根据当前项目配置，生成最终项目配置，参数：
+Generate the final project configuration based on the current project configuration with the following parameters.
 
-- srcConfigName: 源码中配置名
-- distConfigName: 最终生成的配置名
+- srcConfigName: the name of the configuration in the source code
+- distConfigName:  the name of the final generated configuration
