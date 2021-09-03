@@ -3,50 +3,50 @@ title: Taro.reportMonitor(name, value)
 sidebar_label: reportMonitor
 ---
 
-自定义业务数据监控上报接口。
+Reports monitoring results of custom service data.
 
-**使用说明** 使用前，需要在「小程序管理后台-运维中心-性能监控-业务数据监控」中新建监控事件，配置监控描述与告警类型。每一个监控事件对应唯一的监控ID，开发者最多可以创建128个监控事件。
+Before using this API, you need to create a monitor event on the Mini Program admin console by selecting **O&M Center > Performance Monitoring > Service Data Monitoring**, and configure monitoring description and alarm types.Each monitor event corresponds to a unique monitoring ID. A developer can create up to 128 monitor events.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/report/wx.reportMonitor.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/report/wx.reportMonitor.html)
 
-## 类型
+## Type
 
 ```tsx
 (name: string, value: number) => void
 ```
 
-## 参数
+## Parameters
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>name</td>
       <td><code>string</code></td>
-      <td>监控ID，在「小程序管理后台」新建数据指标后获得</td>
+      <td>The monitoring ID, which is obtained after a data indicator is created on the Mini Program admin console.</td>
     </tr>
     <tr>
       <td>value</td>
       <td><code>number</code></td>
-      <td>上报数值，经处理后会在「小程序管理后台」上展示每分钟的上报总量</td>
+      <td>Reported value. After values are processed, the sum of reported values per minute is displayed on the Mini Program admin console.</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.reportMonitor('1', 1)
 ```
 
-## API 支持度
+## API Support
 
-|        API         | 微信小程序 | H5 | React Native |
-|:------------------:|:-----:|:--:|:------------:|
-| Taro.reportMonitor |  ✔️   |    |              |
+|        API         | WeChat Mini-Program | H5 | React Native |
+|:------------------:|:-------------------:|:--:|:------------:|
+| Taro.reportMonitor |         ✔️          |    |              |
