@@ -3,77 +3,77 @@ title: Taro.chooseMedia(option)
 sidebar_label: chooseMedia
 ---
 
-拍摄或从手机相册中选择图片或视频。
+Take or select a picture or video from user phone's album.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.chooseMedia.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.chooseMedia.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<SuccessCallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>count</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>最多可以选择的文件个数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Maximum number of files that can be selected</td>
     </tr>
     <tr>
       <td>mediaType</td>
       <td><code>(&quot;video&quot; | &quot;image&quot;)[]</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>文件类型</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Media type.</td>
     </tr>
     <tr>
       <td>sourceType</td>
       <td><code>(&quot;album&quot; | &quot;camera&quot;)[]</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>图片和视频选择的来源</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Sources of images and videos.</td>
     </tr>
     <tr>
       <td>maxDuration</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>拍摄视频最长拍摄时间，单位秒。时间范围为 3s 至 30s 之间</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Maximum recording time in seconds for video recording.The range of time is between 3s and 30s.</td>
     </tr>
     <tr>
       <td>sizeType</td>
       <td><code>(&quot;original&quot; | &quot;compressed&quot;)[]</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>仅对 mediaType 为 image 时有效，是否压缩所选文件</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to compress the selected file. (Only <code>mediaType === &quot;image&quot;</code>)</td>
     </tr>
     <tr>
       <td>camera</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>仅在 sourceType 为 camera 时生效，使用前置或后置摄像头</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to use the front or rear camera. (Only <code>sourceType === &quot;camera&quot;</code>)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
   </tbody>
 </table>
@@ -83,16 +83,16 @@ sidebar_label: chooseMedia
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>tempFiles</td>
       <td><code>ChooseMedia[]</code></td>
-      <td>本地临时文件列表</td>
+      <td>Returns an array of local temporary file objects for the selected files</td>
     </tr>
     <tr>
       <td>type</td>
@@ -104,46 +104,46 @@ sidebar_label: chooseMedia
 
 ### ChooseMedia
 
-本地临时文件列表
+List of local temporary files
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>tempFilePath</td>
       <td><code>string</code></td>
-      <td>本地临时文件路径 (本地路径)</td>
+      <td>Local temporary file path</td>
     </tr>
     <tr>
       <td>size</td>
       <td><code>number</code></td>
-      <td>本地临时文件大小，单位 B</td>
+      <td>The size of a local temporary file, in bytes</td>
     </tr>
     <tr>
       <td>duration</td>
       <td><code>number</code></td>
-      <td>视频的时间长度</td>
+      <td>Duration of the video</td>
     </tr>
     <tr>
       <td>height</td>
       <td><code>number</code></td>
-      <td>视频的高度</td>
+      <td>Height of the video</td>
     </tr>
     <tr>
       <td>width</td>
       <td><code>number</code></td>
-      <td>视频的宽度</td>
+      <td>Width of the video</td>
     </tr>
     <tr>
       <td>thumbTempFilePath</td>
       <td><code>string</code></td>
-      <td>视频缩略图临时文件路径</td>
+      <td>Temporary file path for video thumbnails</td>
     </tr>
   </tbody>
 </table>
@@ -153,18 +153,18 @@ sidebar_label: chooseMedia
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>video</td>
-      <td>只能拍摄视频或从相册选择视频</td>
+      <td>Only take videos or select videos from albums.</td>
     </tr>
     <tr>
       <td>image</td>
-      <td>只能拍摄图片或从相册选择图片</td>
+      <td>Only take pictures or select pictures from albums.</td>
     </tr>
   </tbody>
 </table>
@@ -174,18 +174,18 @@ sidebar_label: chooseMedia
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>album</td>
-      <td>从相册选择</td>
+      <td>Select from albums</td>
     </tr>
     <tr>
       <td>camera</td>
-      <td>使用相机拍摄</td>
+      <td>Shooting with a camera</td>
     </tr>
   </tbody>
 </table>
@@ -195,23 +195,23 @@ sidebar_label: chooseMedia
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>back</td>
-      <td>使用后置摄像头</td>
+      <td>Using the rear camera</td>
     </tr>
     <tr>
       <td>front</td>
-      <td>使用前置摄像头</td>
+      <td>Using the front camera</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.chooseMedia({
@@ -227,8 +227,8 @@ Taro.chooseMedia({
 })
 ```
 
-## API 支持度
+## API Support
 
-|       API        | 微信小程序 | H5 | React Native |
-|:----------------:|:-----:|:--:|:------------:|
-| Taro.chooseMedia |  ✔️   |    |      ✔️      |
+|       API        | WeChat Mini-Program | H5 | React Native |
+|:----------------:|:-------------------:|:--:|:------------:|
+| Taro.chooseMedia |         ✔️          |    |      ✔️      |
