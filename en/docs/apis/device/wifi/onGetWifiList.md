@@ -3,21 +3,21 @@ title: Taro.onGetWifiList(callback)
 sidebar_label: onGetWifiList
 ---
 
-监听获取到 Wi-Fi 列表数据事件
+Listens on the event of getting the list of Wi-Fi networks.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.onGetWifiList.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.onGetWifiList.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: Callback) => void
 ```
 
-## 参数
+## Parameters
 
 ### Callback
 
-获取到 Wi-Fi 列表数据事件的回调函数
+The callback function for the event of getting the list of Wi-Fi networks.
 
 ```tsx
 (result: CallbackResult) => void
@@ -26,8 +26,8 @@ sidebar_label: onGetWifiList
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -43,22 +43,22 @@ sidebar_label: onGetWifiList
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>wifiList</td>
       <td><code>WifiInfo[]</code></td>
-      <td>Wi-Fi 列表数据</td>
+      <td>The list of Wi-Fi networks</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|        API         | 微信小程序 | H5 | React Native |
-|:------------------:|:-----:|:--:|:------------:|
-| Taro.onGetWifiList |  ✔️   |    |              |
+|        API         | WeChat Mini-Program | H5 | React Native |
+|:------------------:|:-------------------:|:--:|:------------:|
+| Taro.onGetWifiList |         ✔️          |    |              |
