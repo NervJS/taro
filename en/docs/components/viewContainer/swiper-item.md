@@ -3,17 +3,17 @@ title: SwiperItem
 sidebar_label: SwiperItem
 ---
 
-仅可放置在 swiper 组件中，宽高自动设置为100%
+It can be placed only in the swiper component, with the width and height each automatically set to 100%.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/swiper-item.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/swiper-item.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<SwiperItemProps>
 ```
 
-## 示例代码
+## Examples
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -89,26 +89,26 @@ class App extends Component {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>itemId</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>该 swiper-item 的标识符</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The identifier of the swiper-item</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
-|          API           | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
-|:----------------------:|:-----:|:-----:|:------:|:-------:|:--:|:------------:|
-| SwiperItemProps.itemId |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
+### Property Support
+|          API           | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 | React Native |
+|:----------------------:|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| SwiperItemProps.itemId |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
 
 
 <!-- ## API 支持度
@@ -117,6 +117,6 @@ class App extends Component {
 | :---: | :---: | :---: | :---: |
 | SwiperItem | ✔️ |  |  | -->
 
-## 注意
+## API Support
 
-* 不要为 `SwiperItem` 设置 **style** 属性，可以通过 class 设置样式。[7147](https://github.com/NervJS/taro/issues/7147)
+* Do not set the **style** attribute for `SwiperItem`, you can set the style via class.[7147](https://github.com/NervJS/taro/issues/7147)
