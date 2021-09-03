@@ -3,19 +3,19 @@ title: ScrollView
 sidebar_label: ScrollView
 ---
 
-可滚动视图区域。使用竖向滚动时，需要给scroll-view一个固定高度，通过 WXSS 设置 height。组件属性的长度单位默认为 px
+The scrollable view area.When vertical scrolling is used, a fixed height must set for scroll-view via WXSS.The unit of length of the component's properties is px by default.
 
-Tips: H5 中 ScrollView 组件是通过一个高度（或宽度）固定的容器内部滚动来实现的，因此务必正确的设置容器的高度。例如: 如果 ScrollView 的高度将 body 撑开，就会同时存在两个滚动条（body 下的滚动条，以及 ScrollView 的滚动条）。 微信小程序 中 ScrollView 组件如果设置 scrollX 横向滚动时，并且子元素为多个时（单个子元素时设置固定宽度则可以正常横向滚动），需要通过 WXSS 设置 `white-space: nowrap` 来保证元素不换行，并对 ScrollView 内部元素设置 `display: inline-block` 来使其能够横向滚动。
+Tips: The ScrollView component in H5 is implemented by scrolling inside a container with a fixed height (or width), so it is important to set the height of the container correctly.For example, if the height of the ScrollView expands the body, there will be two scrollbars at the same time (the scrollbar under the body and the scrollbar of the ScrollView). If the ScrollView component in the WeChat mini program is set to scrollX horizontally and has multiple child elements (a single child element with a fixed width will scroll horizontally), you need to set `white-space: nowrap` with WXSS to ensure that the element does not change lines, and set `display: inline-inline` for the ScrollView internal elements with `display: inline-block` to make them scroll horizontally.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/scroll-view.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/scroll-view.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<ScrollViewProps>
 ```
 
-## 示例代码
+## Examples
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -36,7 +36,7 @@ export default class PageView extends Component {
 
   onScrollToUpper() {}
 
-  // or 使用箭头函数
+  // or use arrow function
   // onScrollToUpper = () => {}
 
   onScroll(e){
@@ -91,7 +91,7 @@ export default class PageView extends Component {
     <view class="page-body">
       <view class="page-section">
         <view class="page-section-title">
-          <text>Vertical Scroll - 纵向滚动</text>
+          <text>Vertical Scroll</text>
         </view>
         <view class="page-section-spacing">
           <scroll-view :scroll-y="true" style="height: 300rpx;" @scrolltoupper="upper" @scrolltolower="lower" @scroll="scroll" :scroll-into-view="toView" :scroll-top="scrollTop">
@@ -103,7 +103,7 @@ export default class PageView extends Component {
       </view>
       <view class="page-section">
         <view class="page-section-title">
-          <text>Horizontal Scroll - 横向滚动</text>
+          <text>Horizontal Scroll</text>
         </view>
         <view class="page-section-spacing">
           <scroll-view class="scroll-view_H" :scroll-x="true" @scroll="scroll" style="width: 100%">
@@ -174,11 +174,11 @@ export default {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -187,140 +187,140 @@ export default {
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>fasle</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>允许横向滚动</td>
+      <td>Supports horizontal scrolling.</td>
     </tr>
     <tr>
       <td>scrollY</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>fasle</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>允许纵向滚动</td>
+      <td>Supports vertical scrolling.</td>
     </tr>
     <tr>
       <td>upperThreshold</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>50</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>距顶部/左边多远时（单位px），触发 scrolltoupper 事件</td>
+      <td>Specifies the distance from the top/left of the page when a scrolltoupper event is triggered.</td>
     </tr>
     <tr>
       <td>lowerThreshold</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>50</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>距底部/右边多远时（单位px），触发 scrolltolower 事件</td>
+      <td>Specifies the distance from the bottom/right of the page when a scrolltoupper event is triggered.</td>
     </tr>
     <tr>
       <td>scrollTop</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>设置竖向滚动条位置</td>
+      <td>Specifies the location of the vertical scroll bar.</td>
     </tr>
     <tr>
       <td>scrollLeft</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>设置横向滚动条位置</td>
+      <td>Specifies the location of the horizontal scroll bar.</td>
     </tr>
     <tr>
       <td>scrollIntoView</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>值应为某子元素id（id不能以数字开头）。设置哪个方向可滚动，则在哪个方向滚动到该元素</td>
+      <td>Its value should be the ID of a child element (the ID cannot begin with a number), and this child element is scrolled in the direction specified in this property.设置哪个方向可滚动，则在哪个方向滚动到该元素</td>
     </tr>
     <tr>
       <td>scrollWithAnimation</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>fasle</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>在设置滚动条位置时使用动画过渡</td>
+      <td>Uses an animation for transition when setting the scroll bar.</td>
     </tr>
     <tr>
       <td>enableBackToTop</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>fasle</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>iOS 点击顶部状态栏、安卓双击标题栏时，滚动条返回顶部，只支持竖向</td>
+      <td>Enables the scroll bar to return to the top when the top status bar is tapped on iOS or the title bar is double-tapped on Android. Only vertical scrolling is supported.</td>
     </tr>
     <tr>
       <td>enableFlex</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>fasle</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>启用 flexbox 布局。开启后，当前节点声明了 <code>display: flex</code> 就会成为 flex container，并作用于其孩子节点。</td>
+      <td>Enables the flexbox layout.When enabled, the current node with <code>display: flex</code> declared becomes a flex container and acts on its children.</td>
     </tr>
     <tr>
       <td>scrollAnchoring</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>fasle</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>开启 scroll anchoring 特性，即控制滚动位置不随内容变化而抖动，仅在 iOS 下生效，安卓下可参考 CSS <code>overflow-anchor</code> 属性。</td>
+      <td>Turn on the scroll anchoring feature, which controls the scroll position from jittering as the content changes, only on iOS, see the CSS <code>overflow-anchor</code> property on Android.</td>
     </tr>
     <tr>
       <td>refresherEnabled</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>fasle</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>开启自定义下拉刷新</td>
+      <td>Enable custom drop-down refresh.</td>
     </tr>
     <tr>
       <td>refresherThreshold</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>45</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>设置自定义下拉刷新阈值</td>
+      <td>Set a custom drop-down refresh threshold.</td>
     </tr>
     <tr>
       <td>refresherDefaultStyle</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}><code>'black'</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>设置自定义下拉刷新默认样式，支持设置 <code>black | white | none</code>， none 表示不使用默认样式</td>
+      <td>Set custom dropdown refresh default style, support <code>black | white | none</code>, none means don't use default style.</td>
     </tr>
     <tr>
       <td>refresherBackground</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}><code>'#FFF'</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>设置自定义下拉刷新区域背景颜色</td>
+      <td>Set custom drop-down refresh area background color</td>
     </tr>
     <tr>
       <td>refresherTriggered</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>fasle</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>设置当前下拉刷新状态，true 表示下拉刷新已经被触发，false 表示下拉刷新未被触发</td>
+      <td>Set the current dropdown refresh status, true means the dropdown refresh has been triggered, false means the dropdown refresh has not been triggered.</td>
     </tr>
     <tr>
       <td>onScrollToUpper</td>
       <td><code>(event: BaseEventOrigFunction&lt;any&gt;) =&gt; any</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>滚动到顶部/左边，会触发 scrolltoupper 事件</td>
+      <td>Scrolling to the top/left will trigger the scrolltoupper event.</td>
     </tr>
     <tr>
       <td>onScrollToLower</td>
       <td><code>(event: BaseEventOrigFunction&lt;any&gt;) =&gt; any</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>滚动到底部/右边，会触发 scrolltolower 事件</td>
+      <td>Scrolling to the bottom/right will trigger the scrolltolower event.</td>
     </tr>
     <tr>
       <td>onScroll</td>
       <td><code>(event: BaseEventOrigFunction&lt;onScrollDetail&gt;) =&gt; any</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>滚动时触发<br /><code>event.detail = {`{ scrollLeft, scrollTop, scrollHeight, scrollWidth, deltaX, deltaY}`}</code></td>
+      <td>Triggered on scrolling.<br /><code>event.detail = {`{ scrollLeft, scrollTop, scrollHeight, scrollWidth, deltaX, deltaY}`}</code></td>
     </tr>
     <tr>
       <td>onRefresherPulling</td>
       <td><code>(event: BaseEventOrigFunction&lt;any&gt;) =&gt; any</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>自定义下拉刷新控件被下拉</td>
+      <td>Custom dropdown refresh control is dropped.</td>
     </tr>
     <tr>
       <td>onRefresherRefresh</td>
@@ -334,76 +334,76 @@ export default {
       <td><code>(event: BaseEventOrigFunction&lt;any&gt;) =&gt; any</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>自定义下拉刷新被复位</td>
+      <td>Custom dropdown refresh is reset.</td>
     </tr>
     <tr>
       <td>onRefresherAbort</td>
       <td><code>(event: BaseEventOrigFunction&lt;any&gt;) =&gt; any</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>自定义下拉刷新被中止</td>
+      <td>Custom dropdown refresh is aborted.</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|                  API                  | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
-|:-------------------------------------:|:-----:|:-----:|:------:|:-------:|:--:|:------------:|
-|        ScrollViewProps.scrollX        |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |   ✔️(二选一)    |
-|        ScrollViewProps.scrollY        |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |   ✔️(二选一)    |
-|    ScrollViewProps.upperThreshold     |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-|    ScrollViewProps.lowerThreshold     |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-|       ScrollViewProps.scrollTop       |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-|      ScrollViewProps.scrollLeft       |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-|    ScrollViewProps.scrollIntoView     |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |              |
-|  ScrollViewProps.scrollWithAnimation  |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-|    ScrollViewProps.enableBackToTop    |  ✔️   |       |   ✔️   |         |    |      ✔️      |
-|      ScrollViewProps.enableFlex       |  ✔️   |       |        |         |    |              |
-|    ScrollViewProps.scrollAnchoring    |  ✔️   |       |        |         |    |              |
-|   ScrollViewProps.refresherEnabled    |  ✔️   |       |        |         |    |              |
-|  ScrollViewProps.refresherThreshold   |  ✔️   |       |        |         |    |              |
-| ScrollViewProps.refresherDefaultStyle |  ✔️   |       |        |         |    |              |
-|  ScrollViewProps.refresherBackground  |  ✔️   |       |        |         |    |              |
-|  ScrollViewProps.refresherTriggered   |  ✔️   |       |        |         |    |              |
-|    ScrollViewProps.onScrollToUpper    |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-|    ScrollViewProps.onScrollToLower    |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-|       ScrollViewProps.onScroll        |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-|  ScrollViewProps.onRefresherPulling   |  ✔️   |       |        |         |    |              |
-|  ScrollViewProps.onRefresherRefresh   |  ✔️   |       |        |         |    |              |
-|  ScrollViewProps.onRefresherRestore   |  ✔️   |       |        |         |    |              |
-|   ScrollViewProps.onRefresherAbort    |  ✔️   |       |        |         |    |              |
+|               Property                | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 | React Native |
+|:-------------------------------------:|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+|        ScrollViewProps.scrollX        |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |   ✔️(二选一)    |
+|        ScrollViewProps.scrollY        |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |   ✔️(二选一)    |
+|    ScrollViewProps.upperThreshold     |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+|    ScrollViewProps.lowerThreshold     |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+|       ScrollViewProps.scrollTop       |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+|      ScrollViewProps.scrollLeft       |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+|    ScrollViewProps.scrollIntoView     |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |              |
+|  ScrollViewProps.scrollWithAnimation  |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+|    ScrollViewProps.enableBackToTop    |         ✔️          |                     |         ✔️          |                     |    |      ✔️      |
+|      ScrollViewProps.enableFlex       |         ✔️          |                     |                     |                     |    |              |
+|    ScrollViewProps.scrollAnchoring    |         ✔️          |                     |                     |                     |    |              |
+|   ScrollViewProps.refresherEnabled    |         ✔️          |                     |                     |                     |    |              |
+|  ScrollViewProps.refresherThreshold   |         ✔️          |                     |                     |                     |    |              |
+| ScrollViewProps.refresherDefaultStyle |         ✔️          |                     |                     |                     |    |              |
+|  ScrollViewProps.refresherBackground  |         ✔️          |                     |                     |                     |    |              |
+|  ScrollViewProps.refresherTriggered   |         ✔️          |                     |                     |                     |    |              |
+|    ScrollViewProps.onScrollToUpper    |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+|    ScrollViewProps.onScrollToLower    |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+|       ScrollViewProps.onScroll        |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+|  ScrollViewProps.onRefresherPulling   |         ✔️          |                     |                     |                     |    |              |
+|  ScrollViewProps.onRefresherRefresh   |         ✔️          |                     |                     |                     |    |              |
+|  ScrollViewProps.onRefresherRestore   |         ✔️          |                     |                     |                     |    |              |
+|   ScrollViewProps.onRefresherAbort    |         ✔️          |                     |                     |                     |    |              |
 
 ### onScrollDetail
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>scrollLeft</td>
       <td><code>number</code></td>
-      <td>横向滚动条位置</td>
+      <td>Horizontal scrollbar position.</td>
     </tr>
     <tr>
       <td>scrollTop</td>
       <td><code>number</code></td>
-      <td>竖向滚动条位置</td>
+      <td>Vertical scrollbar position.</td>
     </tr>
     <tr>
       <td>scrollHeight</td>
       <td><code>number</code></td>
-      <td>滚动条高度</td>
+      <td>Scroll bar height</td>
     </tr>
     <tr>
       <td>scrollWidth</td>
       <td><code>number</code></td>
-      <td>滚动条宽度</td>
+      <td>Scroll bar width</td>
     </tr>
     <tr>
       <td>deltaX</td>
