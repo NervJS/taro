@@ -5,19 +5,19 @@ sidebar_label: onCompassChange
 
 监听罗盘数据变化事件。频率：5 次/秒，接口调用后会自动开始监听，可使用 Taro.stopCompass 停止监听。
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/compass/wx.onCompassChange.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/compass/wx.onCompassChange.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: Callback) => void
 ```
 
-## 参数
+## Parameters
 
 ### Callback
 
-罗盘数据变化事件的回调函数
+The callback function for the compass data change event.
 
 ```tsx
 (result: OnCompassChangeCallbackResult) => void
@@ -26,8 +26,8 @@ sidebar_label: onCompassChange
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -43,21 +43,22 @@ sidebar_label: onCompassChange
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>accuracy</td>
       <td><code>string | number</code></td>
-      <td>精度<br /><br />由于平台差异，accuracy 在 iOS/Android 的值不同。<br /><br />- iOS：accuracy 是一个 number 类型的值，表示相对于磁北极的偏差。0 表示设备指向磁北，90 表示指向东，180 表示指向南，依此类推。<br />- Android：accuracy 是一个 string 类型的枚举值。</td>
+      <td><strong x-id="1">Accuracy Difference Between iOS and Android</strong>
+The accuracy values are different on iOS and Android.iOS: The accuracy is a number-type value indicating the deviation from the magnetic north pole.0 indicates the device points to magnetic north, 90 east, 180 south, and so on.<br />- Android：accuracy 是一个 string 类型的枚举值。</td>
     </tr>
     <tr>
       <td>direction</td>
       <td><code>number</code></td>
-      <td>面对的方向度数</td>
+      <td>The degree of the direction faced</td>
     </tr>
   </tbody>
 </table>
@@ -67,26 +68,26 @@ sidebar_label: onCompassChange
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>high</td>
-      <td>高精度</td>
+      <td>High accuracy</td>
     </tr>
     <tr>
       <td>medium</td>
-      <td>中等精度</td>
+      <td>Moderate accuracy</td>
     </tr>
     <tr>
       <td>low</td>
-      <td>低精度</td>
+      <td>Low accuracy</td>
     </tr>
     <tr>
       <td>no-contact</td>
-      <td>不可信，传感器失去连接</td>
+      <td>Unreliable. Connection with sensor lost.</td>
     </tr>
     <tr>
       <td>unreliable</td>
@@ -94,12 +95,12 @@ sidebar_label: onCompassChange
     </tr>
     <tr>
       <td>unknow {`{value}`}</td>
-      <td>未知的精度枚举值，即该 Android 系统此时返回的表示精度的 value 不是一个标准的精度枚举值</td>
+      <td>Android: The accuracy is a string-type enumerated value.</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.onCompassChange(function (res) {
@@ -107,8 +108,8 @@ Taro.onCompassChange(function (res) {
 })
 ```
 
-## API 支持度
+## API Support
 
-|         API          | 微信小程序 | H5 | React Native |
-|:--------------------:|:-----:|:--:|:------------:|
-| Taro.onCompassChange |  ✔️   | ✔️ |              |
+|         API          | WeChat Mini-Program | H5 | React Native |
+|:--------------------:|:-------------------:|:--:|:------------:|
+| Taro.onCompassChange |         ✔️          | ✔️ |              |
