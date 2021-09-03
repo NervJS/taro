@@ -3,15 +3,15 @@ title: CameraContext
 sidebar_label: CameraContext
 ---
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.html)
 
-## 方法
+## Methods
 
 ### startRecord
 
-开始录像
+The `CameraContext` instance can be obtained via wx.createCameraContext.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.startRecord.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.startRecord.html)
 
 ```tsx
 (option: StartRecordOption) => void
@@ -20,8 +20,8 @@ sidebar_label: CameraContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -32,17 +32,17 @@ sidebar_label: CameraContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|            API            | 微信小程序 | H5 | React Native |
-|:-------------------------:|:-----:|:--:|:------------:|
-| CameraContext.startRecord |  ✔️   |    |      ✔️      |
+|            API            | WeChat Mini-Program | H5 | React Native |
+|:-------------------------:|:-------------------:|:--:|:------------:|
+| CameraContext.startRecord |         ✔️          |    |      ✔️      |
 
 ### stopRecord
 
-结束录像
+`CameraContext` is bound to the unique camera component on the page to use the `camera` component.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.stopRecord.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.stopRecord.html)
 
 ```tsx
 (option?: StopRecordOption) => void
@@ -51,8 +51,8 @@ sidebar_label: CameraContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -63,17 +63,17 @@ sidebar_label: CameraContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API            | 微信小程序 | H5 | React Native |
-|:------------------------:|:-----:|:--:|:------------:|
-| CameraContext.stopRecord |  ✔️   |    |      ✔️      |
+|           API            | WeChat Mini-Program | H5 | React Native |
+|:------------------------:|:-------------------:|:--:|:------------:|
+| CameraContext.stopRecord |         ✔️          |    |      ✔️      |
 
 ### takePhoto
 
-拍摄照片
+Starts video recording.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.takePhoto.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.takePhoto.html)
 
 ```tsx
 (option: TakePhotoOption) => void
@@ -82,8 +82,8 @@ sidebar_label: CameraContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -94,21 +94,21 @@ sidebar_label: CameraContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| CameraContext.takePhoto |  ✔️   |    |      ✔️      |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+| CameraContext.takePhoto |         ✔️          |    |      ✔️      |
 
 ### onCameraFrame
 
-获取 Camera 实时帧数据
+Stops video recording.
 
 ****
 
-注： 使用该接口需同时在 [camera](https://developers.weixin.qq.com/miniprogram/dev/component/camera.html) 组件属性中指定 frame-size。
+Takes a photo.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.onCameraFrame.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.onCameraFrame.html)
 
 ```tsx
 (callback: OnCameraFrameCallback) => CameraFrameListener
@@ -117,21 +117,21 @@ sidebar_label: CameraContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>OnCameraFrameCallback</code></td>
-      <td>回调函数</td>
+      <td>Callback function</td>
     </tr>
   </tbody>
 </table>
 
-#### 示例代码
+#### Sample Code
 
 ```tsx
 const context = wx.createCameraContext()
@@ -141,56 +141,56 @@ const listener = context.onCameraFrame((frame) => {
 listener.start()
 ```
 
-#### API 支持度
+#### API Support
 
-|             API             | 微信小程序 | H5 | React Native |
-|:---------------------------:|:-----:|:--:|:------------:|
-| CameraContext.onCameraFrame |  ✔️   |    |              |
+|             API             | WeChat Mini-Program | H5 | React Native |
+|:---------------------------:|:-------------------:|:--:|:------------:|
+| CameraContext.onCameraFrame |         ✔️          |    |              |
 
-## 参数
+## Parameters
 
 ### StartRecordOption
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Video recording will end after 30 sec or the page is <code>onHide</code>.</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>timeoutCallback</td>
       <td><code>StartRecordTimeoutCallback</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>超过30s或页面 <code>onHide</code> 时会结束录像</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
 ### StartRecordTimeoutCallback
 
-超过30s或页面 `onHide` 时会结束录像
+Gets the Camera real-time frame data.
 
 ```tsx
 (result: StartRecordTimeoutCallbackResult) => void
@@ -199,8 +199,8 @@ listener.start()
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -216,21 +216,21 @@ listener.start()
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>tempThumbPath</td>
       <td><code>string</code></td>
-      <td>封面图片文件的临时路径</td>
+      <td>The temporary path to cover images files</td>
     </tr>
     <tr>
       <td>tempVideoPath</td>
       <td><code>string</code></td>
-      <td>视频的文件的临时路径</td>
+      <td>The temporary path to video files</td>
     </tr>
   </tbody>
 </table>
@@ -240,30 +240,30 @@ listener.start()
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: StopRecordSuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -273,26 +273,26 @@ listener.start()
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>tempThumbPath</td>
       <td><code>string</code></td>
-      <td>封面图片文件的临时路径</td>
+      <td>The temporary path to cover images files</td>
     </tr>
     <tr>
       <td>tempVideoPath</td>
       <td><code>string</code></td>
-      <td>视频的文件的临时路径</td>
+      <td>The temporary path to video files</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
@@ -302,36 +302,36 @@ listener.start()
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Image quality</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>quality</td>
       <td><code>&quot;high&quot; | &quot;normal&quot; | &quot;low&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>成像质量</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: TakePhotoSuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -341,28 +341,28 @@ listener.start()
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>tempImagePath</td>
       <td><code>string</code></td>
-      <td>照片文件的临时路径，安卓是jpg图片格式，ios是png</td>
+      <td>The temporary path to photo files (jpg for Android and png for iOS).</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
 
 ### OnCameraFrameCallback
 
-回调函数
+Callback function
 
 ```tsx
 (result: OnCameraFrameCallbackResult) => void
@@ -371,8 +371,8 @@ listener.start()
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -388,26 +388,26 @@ listener.start()
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>data</td>
       <td><code>ArrayBuffer</code></td>
-      <td>图像像素点数据，一维数组，每四项表示一个像素点的 rgba</td>
+      <td>The image pixel data, which is a one-dimensional array in which every four items express the RGBA color of one pixel.</td>
     </tr>
     <tr>
       <td>height</td>
       <td><code>number</code></td>
-      <td>图像数据矩形的高度</td>
+      <td>The height of the image data rectangle</td>
     </tr>
     <tr>
       <td>width</td>
       <td><code>number</code></td>
-      <td>图像数据矩形的宽度</td>
+      <td>The width of the image data rectangle</td>
     </tr>
   </tbody>
 </table>
@@ -417,31 +417,31 @@ listener.start()
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>high</td>
-      <td>高质量</td>
+      <td>High quality</td>
     </tr>
     <tr>
       <td>normal</td>
-      <td>普通质量</td>
+      <td>Normal quality</td>
     </tr>
     <tr>
       <td>low</td>
-      <td>低质量</td>
+      <td>Low quality</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|             API             | 微信小程序 | H5 | React Native |
-|:---------------------------:|:-----:|:--:|:------------:|
-|  CameraContext.startRecord  |  ✔️   |    |      ✔️      |
-|  CameraContext.stopRecord   |  ✔️   |    |      ✔️      |
-|   CameraContext.takePhoto   |  ✔️   |    |      ✔️      |
-| CameraContext.onCameraFrame |  ✔️   |    |              |
+|             API             | WeChat Mini-Program | H5 | React Native |
+|:---------------------------:|:-------------------:|:--:|:------------:|
+|  CameraContext.startRecord  |         ✔️          |    |      ✔️      |
+|  CameraContext.stopRecord   |         ✔️          |    |      ✔️      |
+|   CameraContext.takePhoto   |         ✔️          |    |      ✔️      |
+| CameraContext.onCameraFrame |         ✔️          |    |              |
