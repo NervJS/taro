@@ -3,19 +3,19 @@ title: Image
 sidebar_label: Image
 ---
 
-图片。支持 JPG、PNG、SVG、WEBP、GIF 等格式以及云文件ID。
+Image.支持 JPG、PNG、SVG、WEBP、GIF 等格式以及云文件ID。
 
-**Note:** 为实现小程序的 `mode` 特性，在 H5 组件中使用一个 `div` 容器来对内部的 `img` 进行展示区域的裁剪，因此请勿使用元素选择器来重置 `img` 的样式！
+**Note:** To implement the `mode` feature of the mini program, a `div` container is used in the H5 component to corp the display area of the internal `img`, so please do not use the element selector to reset the style of the `img`!
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/image.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/image.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<ImageProps>
 ```
 
-## 示例代码
+## Examples
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -77,11 +77,11 @@ export default class PageView extends Component {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -89,153 +89,153 @@ export default class PageView extends Component {
       <td>src</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>图片资源地址</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The image resource address</td>
     </tr>
     <tr>
       <td>mode</td>
       <td><code>&quot;scaleToFill&quot; | &quot;aspectFit&quot; | &quot;aspectFill&quot; | &quot;widthFix&quot; | &quot;heightFix&quot; | &quot;top&quot; | &quot;bottom&quot; | &quot;center&quot; | &quot;left&quot; | &quot;right&quot; | &quot;top left&quot; | &quot;top right&quot; | &quot;bottom left&quot; | &quot;bottom right&quot;</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;scaleToFill&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>图片裁剪、缩放的模式</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies the clipping mode or the scale mode of an image</td>
     </tr>
     <tr>
       <td>webp</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>默认不解析 webP 格式，只支持网络资源</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>WebP format is not parsed by default, only web resources are supported.</td>
     </tr>
     <tr>
       <td>lazyLoad</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>图片懒加载。只针对 page 与 scroll-view 下的 image 有效</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Enables lazy loading of images.只针对 page 与 scroll-view 下的 image 有效</td>
     </tr>
     <tr>
       <td>showMenuByLongpress</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>开启长按图片显示识别小程序码菜单</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Enables the feature of displaying the Mini Program code menu when an image is tapped and held.</td>
     </tr>
     <tr>
       <td>onError</td>
       <td><code>BaseEventOrigFunction&lt;onErrorEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td style={{ textAlign: "center"}}>No</td>
       <td>当错误发生时，发布到 AppService 的事件名，事件对象</td>
     </tr>
     <tr>
       <td>onLoad</td>
       <td><code>BaseEventOrigFunction&lt;onLoadEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td style={{ textAlign: "center"}}>No</td>
       <td>当图片载入完毕时，发布到 AppService 的事件名，事件对象</td>
     </tr>
     <tr>
       <td>imgProps</td>
       <td><code>ImgHTMLAttributes&lt;HTMLImageElement&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>为 img 标签额外增加的属性</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Additional attributes for `img` tags</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|              API               | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 |                     React Native                      |
-|:------------------------------:|:-----:|:-----:|:------:|:-------:|:--:|:-----------------------------------------------------:|
-|         ImageProps.src         |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |                          ✔️                           |
-|        ImageProps.mode         |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ | ✔️(部分支持 scaleToFill, aspectFit, aspectFill, widthFix) |
-|        ImageProps.webp         |  ✔️   |       |        |         |    |                                                       |
-|      ImageProps.lazyLoad       |  ✔️   |  ✔️   |   ✔️   |   ✔️    |    |                                                       |
-| ImageProps.showMenuByLongpress |  ✔️   |       |        |         |    |                                                       |
-|       ImageProps.onError       |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |                          ✔️                           |
-|       ImageProps.onLoad        |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |                          ✔️                           |
-|      ImageProps.imgProps       |       |       |        |         | ✔️ |                                                       |
+|              API               | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 |                           React Native                           |
+|:------------------------------:|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:----------------------------------------------------------------:|
+|         ImageProps.src         |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |                                ✔️                                |
+|        ImageProps.mode         |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ | ✔️(Partial support scaleToFill, aspectFit, aspectFill, widthFix) |
+|        ImageProps.webp         |         ✔️          |                     |                     |                     |    |                                                                  |
+|      ImageProps.lazyLoad       |         ✔️          |         ✔️          |         ✔️          |         ✔️          |    |                                                                  |
+| ImageProps.showMenuByLongpress |         ✔️          |                     |                     |                     |    |                                                                  |
+|       ImageProps.onError       |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |                                ✔️                                |
+|       ImageProps.onLoad        |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |                                ✔️                                |
+|      ImageProps.imgProps       |                     |                     |                     |                     | ✔️ |                                                                  |
 
 ### mode
 
-mode 的合法值
+Valid values of mode
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Value</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>scaleToFill</td>
-      <td>缩放模式，不保持纵横比缩放图片，使图片的宽高完全拉伸至填满 image 元素</td>
+      <td>A scale mode, where the image is scaled without maintaining the aspect ratio to fully stretch to fill the screen with elements of the image.</td>
     </tr>
     <tr>
       <td>aspectFit</td>
-      <td>缩放模式，保持纵横比缩放图片，使图片的长边能完全显示出来。也就是说，可以完整地将图片显示出来。</td>
+      <td>A scale mode, where the image is scaled with the aspect ratio unchanged to fully display its longer edge.In this case, the image can be completely displayed.</td>
     </tr>
     <tr>
       <td>aspectFill</td>
-      <td>缩放模式，保持纵横比缩放图片，只保证图片的短边能完全显示出来。也就是说，图片通常只在水平或垂直方向是完整的，另一个方向将会发生截取。</td>
+      <td>A scale mode, where the image is scaled with the aspect ratio unchanged to fully display its shorter edge.In this case, the image is completely displayed in the horizontal or vertical direction, and it is truncated in the other direction.</td>
     </tr>
     <tr>
       <td>widthFix</td>
-      <td>缩放模式，宽度不变，高度自动变化，保持原图宽高比不变</td>
+      <td>A scale mode, where the width of the image remains unchanged with the height adjusted automatically, and the aspect ratio of the original image is maintained.</td>
     </tr>
     <tr>
       <td>heightFix</td>
-      <td>缩放模式，高度不变，宽度自动变化，保持原图宽高比不变</td>
+      <td>A scale mode, where the height of the image remains unchanged with the width adjusted automatically, and the aspect ratio of the original image is maintained.</td>
     </tr>
     <tr>
       <td>top</td>
-      <td>裁剪模式，不缩放图片，只显示图片的顶部区域</td>
+      <td>A clipping mode, where only the upper area of the image is displayed without scaling.</td>
     </tr>
     <tr>
       <td>bottom</td>
-      <td>裁剪模式，不缩放图片，只显示图片的底部区域</td>
+      <td>A clipping mode, where only the lower area of the image is displayed without scaling.</td>
     </tr>
     <tr>
       <td>center</td>
-      <td>裁剪模式，不缩放图片，只显示图片的中间区域</td>
+      <td>A clipping mode, where only the central area of the image is displayed without scaling.</td>
     </tr>
     <tr>
       <td>left</td>
-      <td>裁剪模式，不缩放图片，只显示图片的左边区域</td>
+      <td>A clipping mode, where only the left area of the image is displayed without scaling.</td>
     </tr>
     <tr>
       <td>right</td>
-      <td>裁剪模式，不缩放图片，只显示图片的右边区域</td>
+      <td>A clipping mode, where only the right area of the image is displayed without scaling.</td>
     </tr>
     <tr>
       <td>top left</td>
-      <td>裁剪模式，不缩放图片，只显示图片的左上边区域</td>
+      <td>A clipping mode, where only the upper left area of the image is displayed without scaling.</td>
     </tr>
     <tr>
       <td>top right</td>
-      <td>裁剪模式，不缩放图片，只显示图片的右上边区域</td>
+      <td>A clipping mode, where only the upper right area of the image is displayed without scaling.</td>
     </tr>
     <tr>
       <td>bottom left</td>
-      <td>裁剪模式，不缩放图片，只显示图片的左下边区域</td>
+      <td>A clipping mode, where only the lower left area of the image is displayed without scaling.</td>
     </tr>
     <tr>
       <td>bottom right</td>
-      <td>裁剪模式，不缩放图片，只显示图片的右下边区域</td>
+      <td>A clipping mode, where only the lower right area of the image is displayed without scaling.</td>
     </tr>
   </tbody>
 </table>
 
-### onErrorEventDetail
+### Triggered when an error occurs. event.detail = {`{errMsg}`}
 
 <table>
   <thead>
     <tr>
       <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>WeChat Mini-Program</th>
+      <th>Baidu Smart-Program</th>
     </tr>
   </thead>
   <tbody>
@@ -271,8 +271,8 @@ mode 的合法值
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|  API  | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
-|:-----:|:-----:|:-----:|:------:|:-------:|:--:|:------------:|
-| Image |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
+|  API  | ByteDance Micro-App | Alipay Mini-Program | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
+|:-----:|:-------------------:|:-------------------:|:------:|:-------:|:--:|:------------:|
+| Image |         ✔️          |         ✔️          |   ✔️   |   ✔️    | ✔️ |      ✔️      |
