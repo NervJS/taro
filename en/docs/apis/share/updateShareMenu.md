@@ -3,123 +3,123 @@ title: Taro.updateShareMenu(option)
 sidebar_label: updateShareMenu
 ---
 
-更新转发属性
+Updates the forwarding properties.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.updateShareMenu.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.updateShareMenu.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<CallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>activityId</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>动态消息的 activityId。通过 <a href="https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/updatable-message/updatableMessage.createActivityId.html">updatableMessage.createActivityId</a> 接口获取</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>动态消息的 activityId。The activityId of an updatable message, which is obtained via <a href="https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/updatable-message/updatableMessage.createActivityId.html">updatableMessage.createActivityId</a> API</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
       <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Template information for updatable messages</td>
     </tr>
     <tr>
       <td>isUpdatableMessage</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否是动态消息，详见<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share/updatable-message.html">动态消息</a></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Indicates whether to forward with shareTicket.<a href="https://developers.weixin.qq.com/miniprogram/en/dev/framework/open-ability/share.html">Detail</a></td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>templateInfo</td>
       <td><code>UpdatableMessageFrontEndTemplateInfo</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>动态消息的模板信息</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>withShareTicket</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否使用带 shareTicket 的转发<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html">详情</a></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
 ### UpdatableMessageFrontEndTemplateInfo
 
-动态消息的模板信息
+object.templateInfo is composed as follows
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>parameterList</td>
       <td><code>UpdatableMessageFrontEndParameter[]</code></td>
-      <td>参数列表</td>
+      <td>Parameter list</td>
     </tr>
   </tbody>
 </table>
 
 ### UpdatableMessageFrontEndParameter
 
-参数列表
+Parameter list
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>name</td>
       <td><code>string</code></td>
-      <td>参数名</td>
+      <td>Parameter name</td>
     </tr>
     <tr>
       <td>value</td>
       <td><code>string</code></td>
-      <td>参数值</td>
+      <td>Parameter value</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.updateShareMenu({
@@ -128,8 +128,8 @@ Taro.updateShareMenu({
 })
 ```
 
-## API 支持度
+## API Support
 
-|         API          | 微信小程序 | H5 | React Native |
-|:--------------------:|:-----:|:--:|:------------:|
-| Taro.updateShareMenu |  ✔️   |    |              |
+|         API          | WeChat Mini-Program | H5 | React Native |
+|:--------------------:|:-------------------:|:--:|:------------:|
+| Taro.updateShareMenu |         ✔️          |    |              |
