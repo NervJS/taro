@@ -1,102 +1,99 @@
 ---
-title: 接入腾讯有数无痕埋点能力
-sidebar_label: 腾讯有数无痕埋点能力
+title: Access to Tencent youshu seamless burial point capability
+sidebar_label: Tencent Youshu seamless burial point
 ---
 
-Taro 引入了腾讯有数的微信小程序无痕埋点能力，为Taro 的开发者提供真·零开发的 8 大无痕埋点能力以及自定义埋点能力，包含**小程序启动、显示、隐藏、页面浏览、页面离开、分享、下拉刷新、上拉触底**等**八大自动化埋点能力**以及搜索、商品归因等**定制化埋点**，以及经营分析、直播分析、导购分析等能力。
+Taro introduces Tencent youshu seamless buried capabilities for WeChat mini program, providing Taro developers with 8 major seamless buried capabilities and custom buried capabilities for true-zero development, including **eight automated buried capabilities** such as mini program start, show, hide, page view, page leave, share, drop-down refresh, pull-up bottoming**, and **customized buried capabilities** such as search and product attribution, as well as operational analysis, live analysis, shopping guide analysis, etc.
 
-## 腾讯有数简介
+## Tencent Youshu Introduction
 
- [腾讯有数](https://youshu.tencent.com/)是由[腾讯智慧零售](https://lingshou.tencent.com)推出，为品牌商、零售商打造的数据分析与管理平台，融合腾讯数据、技术与生态优势，提供全链路经营数据分析、消费者洞察、精准营销等能力，让企业经营更“有数”。
+ Translated with www.DeepL.com/Translator (free version)
 
 更多介绍请关注：[https://mp.zhls.qq.com/youshu-docs/start/youshu_intro.html](https://mp.zhls.qq.com/youshu-docs/start/youshu_intro.html)
 
-## 功能介绍
+## Function Introduction
 
-腾讯有数 & Taro 合作开发的微信小程序模板，可以快速的通过 `taro init myApp` 选择 `default-youshu` 模板即可快速拥有无痕埋点能力，无需任何开发即可拥有小程序启动、显示、隐藏、页面浏览、页面离开、分享、下拉刷新、上拉触底等八大自动化埋点能力。
+For more presentations, please follow [https://mp.zhls.qq.com/youshu-docs/start/youshu_intro.html](https://mp.zhls.qq.com/youshu-docs/start/youshu_intro.html)
 
-## 零开发快速体验指南
+## Zero Development Quick Guide
 
-> 需要升级 Taro 到 2.x 或 3.x
+> Need to upgrade Taro to 2.x or 3.x
 
 1. `taro init myApp`
-2. 选择`default-youshu`模板
+2. Select the `default-youshu` template
 3. `npm run dev:weapp`
-4. 微信小程序开发者工具控制台即可看到8大行为日志上报
-5. 访问 [https://docs.qq.com/form/fill/DUkZHalR0RUJCVkVj#/fill](https://docs.qq.com/form/fill/DUkZHalR0RUJCVkVj#/fill)  申请有数数据查看权限
+4. You can see the 8 major behavioral logs reported in the WeChat mini program developer tools console
+5. Visit [https://docs.qq.com/form/fill/DUkZHalR0RUJCVkVj#/fill](https://docs.qq.com/form/fill/DUkZHalR0RUJCVkVj#/fill) to request permission to view all data
 
-> 通过上述流程已经让你的微信小程序拥有了8大用户行为埋点的体验能力，体验完成后，只需要更换有数的Token和微信小程序appid，即可拥有有数的正式版功能。正式账号获取路径：https://docs.qq.com/form/fill/DUkZHalR0RUJCVkVj#/fill
+> Through the above process has given your WeChat mini program the ability to experience 8 major user behavior buried points. After the experience is completed, you only need to replace the Token and WeChat mini program appid that have the number to have the official version of the function.Official account acquisition path: ：https://docs.qq.com/form/fill/DUkZHalR0RUJCVkVj#/fill
 
-## 现存小程序的有数SDK接入
+## Existing mini programs access Tencent Youshu SDK
 
-### 1. 安装
+### 1. Installation
 
-  * 通过npm安装SDK `npm i sr-sdk-wxapp`
-  * 在 app.jsx 中通过 import 引入 SDK `import sr from 'sr-sdk-wxapp'`
+  * Install SDK via npm `npm i sr-sdk-wxapp`
+  * Introduce the SDK via import in app.jsx `import sr from 'sr-sdk-wxapp'`
 
-### 2. 添加可信域名
+### 2. Add Trusted Domain
 
-登录[微信公众平台](https://mp.weixin.qq.com/)，进入<开发><开发设置><服务器域名>，将 `https://zhls.qq.com` 添加为 request 合法域名。
+Tencent Youshu & Taro cooperated to develop the WeChat mini program template, you can quickly have the ability to buried without traces by selecting `default-youshu` template through `taro init myApp`, and you can have eight automatic buried abilities such as mini program start, show, hide, page browse, page leave, share, drop down refresh, drop up bottom, etc. without any development.
 
 
-> 在开发环境中还有SDK版本检查，所以会提示 `https://sr-home-1257214331.cos.ap-guangzhou.myqcloud.com 不在以下 request 合法域名列表中` , 可以通过设置不校验域名来处理。
+> There is also SDK version checking in the development environment, so it will prompt `https://sr-home-1257214331.cos.ap-guangzhou.myqcloud.com is not in the list of legal domains for the following request` , which can be handled by setting not to check the domain name.
 
-### 3. init 初始化
+### 3. Initialize
 
 `init(options: object)`
 
-配置接口，用来调整SDK的基础机制。应该在`App()`调用之前调用。
+Configuration interface to adjust the base settings of the SDK.Should be called before the `App()` call.
 
-首次调用初始化SDK，再次调用覆盖之前传入的配置，可多次调用。
+The first call initializes the SDK, and the second call overwrites the previously passed configuration, which can be called multiple times.
 
-| 名称                | 类型     | 必填 | 描述                                                                                                |
-|:----------------- |:------ |:-- |:------------------------------------------------------------------------------------------------- |
-| appid             | string | Y  | 微信小程序appId                                                                                        |
-| token             | string | Y  | 通过接入申请后，有数提供的凭证字符串                                                                                |
-| usePlugin         | bool   |    | 是否使用了小程序插件，默认是：false                                                                              |
-| debug             | bool   |    | 是否打印日志，默认是：false                                                                                  |
-| openSdkShareDepth | bool   |    | 是否打开分享链路记录功能，默认值为false，打开后，将记录用户分享链路A->B->C->D                                                    |
-| serverUrl         | string |    | 传入自定义的后台上报接口，若传入则token将无意义， 默认是：'https://zhls.qq.com/api/report'                                  |
-| trackApp          | bool   |    | 是否开启自动跟踪APP的曝光事件（APP相关预置事件，如 APP - onLuanch），默认是：true                                             |
-| proxyPage         | bool   |    | 是否开启自动代理 Page，默认是：false。SDK 负责上报页面的 browse 、leave、share 等事件可以使用 sr.page 代替 Page(sr.page(options)) |
-| autoStart         | bool   |    | 是否开启自动开始上报，默认是：false，open_id 无法自动获取，一般在 login 业务之后手动调用 sr.startReport 方法开启上报                      |
+| Name              | Type   | Required | Description                                                                                                                                                                                                               |
+|:----------------- |:------ |:-------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| appid             | string | Y        | Wechat mini program appId                                                                                                                                                                                                 |
+| token             | string | Y        | After passing the access request, the credential string provided by Youshu                                                                                                                                                |
+| usePlugin         | bool   |          | Whether the mini program plugin is used or not, default is false                                                                                                                                                          |
+| debug             | bool   |          | Whether to print the log or not, default is false                                                                                                                                                                         |
+| openSdkShareDepth | bool   |          | Whether to turn on the sharing link recording function, the default value is false, after turning on, it will record user sharing link A->B->C->D                                                                         |
+| serverUrl         | string |          | Pass in a custom backend reporting interface, if passed in then the token will be meaningless, default is 'https://zhls.qq.com/api/report'                                                                                |
+| trackApp          | bool   |          | Whether to enable automatic tracking of APP exposure events (APP-related preset events, such as APP - onLuanch), default is true                                                                                          |
+| proxyPage         | bool   |          | Whether to enable automatic proxy Page, the default is: false.sdr.page can be used instead of Page(sr.page(options)) for events such as browse, leave, share, etc. that the SDK is responsible for reporting on the page. |
+| autoStart         | bool   |          | Whether to enable automatic start reporting, the default is: false, open_id can not be automatically obtained, usually after the login business manually call sr.startReport method to open reporting                     |
 
-### 4. 示例
+### 4. Example
 
 ``` javascript
 import sr from 'sr-sdk-wxapp'
 sr.init({
-  /**
-   * 有数 - ka‘接入测试用’ 分配的 app_id，对应的业务接口人负责
-   */
   token: 'bi72fccc7184ef4xxx',
   /**
-   * 微信小程序appID，以wx开头
+   * WeChat mini program appID , starting with wx
    */
   appid: 'wx195745e8e342bxxx',
   /**
-   * 如果使用了小程序插件，需要设置为 true
+   * If the mini program plugin is used, it needs to be set to true
    */
   usePlugin: false,
   /**
-   * 开启打印调试信息， 默认 false
+   * Enables printing of debugging information, default false
    */
   debug: true,
   /**
-   * 建议开启-开启自动代理 Page， 默认 false
-   * sdk 负责上报页面的 browse 、leave、share 等事件
-   * 可以使用 sr.page 代替 Page(sr.page(options))
-   * 元素事件跟踪，需要配合 autoTrack: true
+   *It is recommended to turn on - auto-proxy Page, default false
+   * sdk is responsible for reporting events such as browse, leave, share, etc. of the page
+   * You can use sr.page instead of Page(sr.page(options))
+   * element event tracking, need to work with autoTrack: true
    */
   proxyPage: true,
   /**
-   * 建议开启-开启组件自动代理， 默认 false
-   * sdk 负责上报页面的 browse 、leave、share 等事件
+    * Recommended - enable component auto-proxy, default false
+    * sdk is responsible for reporting events such as browse, leave, share, etc. of the page
    */
   proxyComponent: true,
-  // 建议开启-是否开启页面分享链路自动跟踪
+  // It is recommended to enable - Whether to enable automatic tracking of page sharing links
   openSdkShareDepth: true,
-  // 建议开启-元素事件跟踪，自动上报元素事件，入tap、change、longpress、confirm
+  // It is recommended to enable - element event tracking, automatic reporting of element events, into tap, change, longpress, confirm
   autoTrack: true,
 })
 ```
