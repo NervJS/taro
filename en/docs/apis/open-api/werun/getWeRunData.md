@@ -3,47 +3,47 @@ title: Taro.getWeRunData(option)
 sidebar_label: getWeRunData
 ---
 
-获取用户过去三十天微信运动步数。需要先调用 Taro.login 接口。步数信息会在用户主动进入小程序时更新。
+Gets the user's WeRun step counts for the past 30 days.You need to call the `Taro.login` API before calling this API.The step counts will update when the user opens the Mini Program.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/werun/wx.getWeRunData.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/werun/wx.getWeRunData.html)
 
-## 类型
+## Type
 
 ```tsx
 (option?: Option) => Promise<SuccessCallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: SuccessCallback) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -57,8 +57,8 @@ sidebar_label: getWeRunData
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -74,49 +74,47 @@ sidebar_label: getWeRunData
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>cloudID</td>
       <td><code>string</code></td>
-      <td>敏感数据对应的云 ID，开通云开发的小程序才会返回，可通过云调用直接获取开放数据，详细见<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#method-cloud">云调用直接获取开放数据</a></td>
+      <td>The Cloud ID corresponding to sensitive data. It is returned only in Mini Programs for which Cloud Base is enabled. The open data can be directly obtained via cloud call. See <a href="https://developers.weixin.qq.com/miniprogram/en/dev/framework/open-ability/signature.html#method-cloud">details</a>.</td>
     </tr>
     <tr>
       <td>encryptedData</td>
       <td><code>string</code></td>
-      <td>包括敏感数据在内的完整用户信息的加密数据，详细见<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html">加密数据解密算法</a>。解密后得到的数据结构见后文</td>
+      <td>The complete encrypted user data, including sensitive data. For details, see <a href="https://developers.weixin.qq.com/miniprogram/en/dev/framework/open-ability/signature.html">Decryption Algorithm for Encrypted Data</a>.解密后得到的数据结构见后文</td>
     </tr>
     <tr>
       <td>iv</td>
       <td><code>string</code></td>
-      <td>加密算法的初始向量，详细见<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html">加密数据解密算法</a></td>
+      <td>The initial vector of the encryption algorithm. For details, see <a href="https://developers.weixin.qq.com/miniprogram/en/dev/framework/open-ability/signature.html">Decryption Algorithm for Encrypted Data</a>.</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.getWeRunData({
   success: function (res) {
-    // 拿 encryptedData 到开发者后台解密开放数据
-    const encryptedData = res.encryptedData
-    // 或拿 cloudID 通过云调用直接获取开放数据
-    const cloudID = res.cloudID
+    // Decrypt the encryptedData in the developer's server to get open data. const encryptedData = res.encryptedData
+    // Or directly get the open data via cloud call based on cloudID. const cloudID = res.cloudID
   }
 })
 ```
 
-**开放数据 JSON 结构** 敏感数据有两种获取方式，一是使用 [加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#%E5%8A%A0%E5%AF%86%E6%95%B0%E6%8D%AE%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95) 。 获取得到的开放数据为以下 json 结构：
+**开放数据 JSON 结构** 敏感数据有两种获取方式，一是使用 [加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#%E5%8A%A0%E5%AF%86%E6%95%B0%E6%8D%AE%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95) 。 The acquired open data has the following json structure:
 
 ```json
 {
@@ -133,15 +131,15 @@ Taro.getWeRunData({
 }
 ```
 
-stepInfoList 中，每一项结构如下：
+stepInfoList is composed as follows:
 
-| 属性        | 类型     | 说明            |
-| --------- | ------ | ------------- |
-| timestamp | number | 时间戳，表示数据对应的时间 |
-| step      | number | 微信运动步数        |
+| Property  | Type   | Description                       |
+| --------- | ------ | --------------------------------- |
+| timestamp | number | Timestamp, which is the data time |
+| step      | number | WeRun step counts                 |
 
-## API 支持度
+## API Support
 
-|        API        | 微信小程序 | H5 | React Native |
-|:-----------------:|:-----:|:--:|:------------:|
-| Taro.getWeRunData |  ✔️   |    |              |
+|        API        | WeChat Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:--:|:------------:|
+| Taro.getWeRunData |         ✔️          |    |              |
