@@ -5,43 +5,43 @@ sidebar_label: onBLEConnectionStateChange
 
 监听低功耗蓝牙连接状态的改变事件。包括开发者主动连接或断开连接，设备丢失，连接异常断开等等
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.onBLEConnectionStateChange.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.onBLEConnectionStateChange.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: Callback) => void
 ```
 
-## 参数
+## Parameters
 
 ### CallbackResult
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>connected</td>
       <td><code>boolean</code></td>
-      <td>是否处于已连接状态</td>
+      <td>Indicates whether the device is connected</td>
     </tr>
     <tr>
       <td>deviceId</td>
       <td><code>string</code></td>
-      <td>蓝牙设备ID</td>
+      <td>The Bluetooth device ID</td>
     </tr>
   </tbody>
 </table>
 
 ### Callback
 
-低功耗蓝牙连接状态的改变事件的回调函数
+The callback function for the BLE connection status change event.
 
 ```tsx
 (result: CallbackResult) => void
@@ -50,8 +50,8 @@ sidebar_label: onBLEConnectionStateChange
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -62,17 +62,16 @@ sidebar_label: onBLEConnectionStateChange
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.onBLEConnectionStateChange(function (res) {
-  // 该方法回调中可以用于处理连接意外断开等异常情况
-  console.log(`device ${res.deviceId} state has changed, connected: ${res.connected}`)
+  // You can use the callback for this method to handle accidental disconnects and other exceptions. console.log(`device ${res.deviceId} state has changed, connected: ${res.connected}`)
 })
 ```
 
-## API 支持度
+## API Support
 
-|               API               | 微信小程序 | H5 | React Native |
-|:-------------------------------:|:-----:|:--:|:------------:|
-| Taro.onBLEConnectionStateChange |  ✔️   |    |              |
+|               API               | WeChat Mini-Program | H5 | React Native |
+|:-------------------------------:|:-------------------:|:--:|:------------:|
+| Taro.onBLEConnectionStateChange |         ✔️          |    |              |
