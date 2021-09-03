@@ -3,21 +3,21 @@ title: Taro.onWindowResize(callback)
 sidebar_label: onWindowResize
 ---
 
-监听窗口尺寸变化事件
+Listens on the window size change event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/window/wx.onWindowResize.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/window/wx.onWindowResize.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: Callback) => void
 ```
 
-## 参数
+## Parameters
 
 ### Callback
 
-窗口尺寸变化事件的回调函数
+The callback function for the window size change event.
 
 ```tsx
 (result: CallbackResult) => void
@@ -26,8 +26,8 @@ sidebar_label: onWindowResize
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -43,8 +43,8 @@ sidebar_label: onWindowResize
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -60,27 +60,27 @@ sidebar_label: onWindowResize
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>windowHeight</td>
       <td><code>number</code></td>
-      <td>变化后的窗口高度，单位 px</td>
+      <td>New window width (in px)</td>
     </tr>
     <tr>
       <td>windowWidth</td>
       <td><code>number</code></td>
-      <td>变化后的窗口宽度，单位 px</td>
+      <td>New window height (in px)</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|         API         | 微信小程序 | H5 | React Native |
-|:-------------------:|:-----:|:--:|:------------:|
-| Taro.onWindowResize |  ✔️   | ✔️ |      ✔️      |
+|         API         | WeChat Mini-Program | H5 | React Native |
+|:-------------------:|:-------------------:|:--:|:------------:|
+| Taro.onWindowResize |         ✔️          | ✔️ |      ✔️      |
