@@ -1,18 +1,18 @@
 ---
-title: CLI 命令
+title: CLI Command
 ---
 
-常用的 Taro CLI 命令。
+Common Taro CLI commands.
 
-### 查看 Taro 所有命令及帮助
+### View all Taro commands and help
 
 ```bash
 $ taro --help
 ```
 
-### 环境及依赖检测
+### Environmental and Dependency Testing
 
-Taro 提供了命令来一键检测 Taro 环境及依赖的版本等信息，方便大家查看项目的环境及依赖，排查环境问题。在提 issue 的时候，请附上 `taro info` 打印的信息，帮助开发人员快速定位问题。
+Taro provides commands to check the version of Taro environment and dependencies with one click, so that you can check the environment and dependencies of your project and troubleshoot environment problems.When raising an issue, please include the information printed in `taro info` to help developers locate the problem quickly.
 
 ``` bash
 $ taro info
@@ -43,31 +43,31 @@ $ taro info
 
 ### Taro Doctor
 
-Taro Doctor 就像一个医生一样，可以诊断项目的依赖、设置、结构，以及代码的规范是否存在问题，并尝试给出解决方案。
+Taro Doctor acts like a doctor who can diagnose the project's dependencies, settings, structure, and the specification of the code for problems and try to give solutions.
 
-但和真正的医生不一样，Taro Doctor 不需要排队挂号，也不用花钱。你只需要在终端运行命令：`taro doctor`，就像图里一样：
+But unlike a real doctor, Taro Doctor doesn't need to wait in line to register and doesn't cost anything.You just need to run the command: `taro doctor` in the terminal, as in the picture.
 
-![Taro Doctor 诊断结果图](https://img10.360buyimg.com/ling/jfs/t1/46613/36/5573/202581/5d357d14E6f0df7e1/fc026be7dc69dcf2.png)
+![Taro Doctor Diagnostic Result Chart](https://img10.360buyimg.com/ling/jfs/t1/46613/36/5573/202581/5d357d14E6f0df7e1/fc026be7dc69dcf2.png)
 
-### 快速创建新页面
+### Quickly create new pages
 
-Taro create --name [页面名称] 能够在当前项目的pages目录下快速生成新的页面文件，并填充基础代码，是一个提高开发效率的利器。
+Taro create --name [page name] can quickly generate new page files in the current project's pages directory and populate the base code, making it a great tool for improving development efficiency.
 
-### CLI 配置
+### CLI Configuration
 
-Taro 会在用户根目录下创建 .taro 文件夹，其中 .taro/index.json 用于存放 CLI 相关配置。
+Taro creates a .taro folder in the user's root directory, where .taro/index.json is used to store CLI-related configuration.
 
-开发者可以使用 `taro config` 命令对配置项进行一系列操作：
+Developers can use the `taro config` command to perform a number of operations on configuration items.
 
 ```bash
-# 查看用法
+# View Usage
 $ taro config --help
-# 设置配置项<key>的值为<value>
+# Set the value of the configuration item <key> to <value>
 $ taro config set <key> <value>
-# 读取配置项<key>
+# Read configuration item <key>
 $ taro config get <key>
-# 删除配置项<key>
+# Delete configuration item <key>
 $ taro config delete <key>
-# 打印所有配置项
+# Print all configuration items
 $ taro config list [--json]
 ```
