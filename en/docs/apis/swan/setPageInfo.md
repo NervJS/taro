@@ -3,125 +3,125 @@ title: Taro.setPageInfo(option)
 sidebar_label: setPageInfo
 ---
 
-百度智能小程序可接入百度搜索和百度 App，setPageInfo 负责为小程序设置各类页面基础信息，包括标题、关键字、页面描述以及图片信息、视频信息等。开发者为智能小程序设置完备的页面基础信息，有助于智能小程序在搜索引擎和信息流中得到更加有效的展示和分发。
+Baidu Smart-Program can access Baidu Search and Baidu App.`setPageInfo` is responsible for setting up all kinds of basic page information for the mini program, including title, keywords, page description, as well as image information and video information.By setting page information for the mini program, the developer can help the mini program to be displayed and distributed more effectively in search engines and information flow.
 
-> [参考文档](https://smartprogram.baidu.com/docs/develop/api/open/swan-setPageInfo/)
+> [Reference](https://smartprogram.baidu.com/docs/develop/api/open/swan-setPageInfo/)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => void
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>title</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>页面标题</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Page title</td>
     </tr>
     <tr>
       <td>keywords</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>页面关键字</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Page keywords</td>
     </tr>
     <tr>
       <td>description</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>页面描述信息</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Page description</td>
     </tr>
     <tr>
       <td>releaseDate</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>原始发布时间(年-月-日 时:分:秒 带有前导零）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Original release time (year-month-day hour:minute:second with leading zeros)</td>
     </tr>
     <tr>
       <td>articleTitle</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td style={{ textAlign: "center"}}>No</td>
       <td>文章(内容)标题(适用于当前页面是图文、视频类的展示形式，文章标题需要准确标识当前文章的主要信息点；至少6个字，不可以全英文。)</td>
     </tr>
     <tr>
       <td>image</td>
       <td><code>string | string[]</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>图片线上地址，用于信息流投放后的封面显示，最多3张，单图片最大2M；封面图建议尺寸：高&gt;=210px &amp; 宽&gt;=375px；最小尺寸：高&gt;=146px &amp; 宽&gt;=218px。多张图时，用数组表示</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Image online address for cover display after infomercial placement, maximum 3 images, single image maximum 2M;<br/>Recommended size of cover image: height&gt;=210px &amp; width&gt;=375px; <br />Minimum size: height&gt;=146px &amp; width&gt;=218px.<br/>For multiple images, use an array.多张图时，用数组表示</td>
     </tr>
     <tr>
       <td>video</td>
       <td><code>Video</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>视频信息，多个视频时，用数组表示</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Video information. Representation of multiple videos in an array</td>
     </tr>
     <tr>
       <td>visit</td>
       <td><code>Visit</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>浏览信息</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Information for visit</td>
     </tr>
     <tr>
       <td>likes</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>点赞量，若页面未统计可为空</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The number of likes, if the page is not counted is empty.</td>
     </tr>
     <tr>
       <td>comments</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>评论量，若页面未统计可为空</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The number of comments, if the page is not counted is empty.</td>
     </tr>
     <tr>
       <td>collects</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>收藏量，若页面未统计可为空</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The number of collects, if the page is not counted is empty.</td>
     </tr>
     <tr>
       <td>shares</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>分享量，若页面未统计可为空</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The number of shares, if the page is not counted is empty.</td>
     </tr>
     <tr>
       <td>followers</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>关注量，若页面未统计可为空</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The number of followers, if the page is not counted is empty.</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>() =&gt; any</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(err: any) =&gt; any</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>() =&gt; any</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -131,26 +131,26 @@ sidebar_label: setPageInfo
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>url</td>
       <td><code>string</code></td>
-      <td>视频地址</td>
+      <td>Address of the video</td>
     </tr>
     <tr>
       <td>duration</td>
       <td><code>string</code></td>
-      <td>视频时长(单位为秒)</td>
+      <td>Duration of the video (in seconds)</td>
     </tr>
     <tr>
       <td>image</td>
       <td><code>string</code></td>
-      <td>视频封面图</td>
+      <td>Cover image of the video</td>
     </tr>
   </tbody>
 </table>
@@ -160,42 +160,46 @@ sidebar_label: setPageInfo
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>pv</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>页面的浏览量(不去重用户）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Page views</td>
     </tr>
     <tr>
       <td>uv</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>页面的点击量（去重用户）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Unique views</td>
     </tr>
     <tr>
       <td>sessionDuration</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>页面的用户人均停留时长，以秒为单位。</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Length of stay per user on the page, in seconds.</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.setPageInfo({
   title: '晒元宵节活动红包，爱奇艺60张年卡、600张季卡等你拿！-百度贴吧',
   keywords: '百度,百度贴吧,好运中国年,60,晒元,宵节',
   description: '晒元宵节活动红包，爱..昨天的百度APP元宵节活动中，共发出2亿现金红包、含151万个手气现金大奖和240辆红旗轿车，谁是好运锦鲤，快来分享！马上惊喜升级~摇中红包的锦鲤们即刻晒出红包金额截图，我们将会抽取660位好运锦鲤',
-  articleTitle: '晒元宵节活动红包，爱奇艺60张年卡、600张季卡等你拿！',
+  articleTitle: '晒元宵节活动红包，爱奇艺60张年卡、600张季卡等你拿！Taro.setPageInfo({
+  title: 'title',
+  keywords: 'keywords',
+  description: 'description',
+  articleTitle: 'articleTitle',
   releaseDate: '2019-01-02 12:01:30',
   image: [
       'https://c.hiphotos.baidu.com/forum/w%3D480/sign=73c62dda83b1cb133e693d1bed5456da/f33725109313b07e8dee163d02d7912396dd8cfe.jpg',
@@ -225,8 +229,8 @@ Taro.setPageInfo({
 })
 ```
 
-## API 支持度
+## API Support
 
-|       API        | 微信小程序 | 百度小程序 | H5 | React Native |
-|:----------------:|:-----:|:-----:|:--:|:------------:|
-| Taro.setPageInfo |       |  ✔️   |    |              |
+|       API        | WeChat Mini-Program | Baidu Smart-Program | H5 | React Native |
+|:----------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| Taro.setPageInfo |                     |         ✔️          |    |              |
