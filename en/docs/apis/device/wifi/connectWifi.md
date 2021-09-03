@@ -3,70 +3,70 @@ title: Taro.connectWifi(option)
 sidebar_label: connectWifi
 ---
 
-连接 Wi-Fi。若已知 Wi-Fi 信息，可以直接利用该接口连接。仅 Android 与 iOS 11 以上版本支持。
+Connects to the Wi-Fi network.If the information of the Wi-Fi network is available, this API can be directly used to establish a connection to the Wi-Fi network.**This is supported only on Android and iOS 11 or above.**
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.connectWifi.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.connectWifi.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<WifiError>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>SSID</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>Wi-Fi 设备 SSID</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The SSID of the Wi-Fi device</td>
     </tr>
     <tr>
       <td>password</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>Wi-Fi 设备密码</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The BSSID of the Wi-Fi device</td>
     </tr>
     <tr>
       <td>BSSID</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>Wi-Fi 设备 BSSID</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The password of the Wi-Fi device</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: WifiError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: WifiError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: WifiError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.connectWifi({
@@ -78,8 +78,8 @@ Taro.connectWifi({
 })
 ```
 
-## API 支持度
+## API Support
 
-|       API        | 微信小程序 | H5 | React Native |
-|:----------------:|:-----:|:--:|:------------:|
-| Taro.connectWifi |  ✔️   |    |              |
+|       API        | WeChat Mini-Program | H5 | React Native |
+|:----------------:|:-------------------:|:--:|:------------:|
+| Taro.connectWifi |         ✔️          |    |              |
