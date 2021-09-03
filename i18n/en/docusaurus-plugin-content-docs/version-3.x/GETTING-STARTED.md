@@ -446,6 +446,119 @@ $ npx taro build --type iot
 $ set NODE_ENV=production && taro build --type iot --watch # Windows
 $ NODE_ENV=production taro build --type iot --watch # Mac
 ```
+
+### FeiShu Mini program
+
+> Taro v3.1+ support started
+
+Using Taro plugin can support compiling FeiShu mini program, see [Github](https://github.com/NervJS/taro-plugin-platform-lark) for plugin documentation.
+
+#### Install the plugin
+
+```bash
+yarn add @tarojs/plugin-platform-lark
+```
+
+#### Configure the plugin
+
+```js title="Taro project configuration"
+config = {
+  // ...
+  plugins: [
+    '@tarojs/plugin-platform-lark'
+  ]
+}
+```
+#### Compile command
+
+```bash
+# yarn
+$ yarn dev:lark
+$ yarn build:lark
+
+# npm script
+$ npm run dev:lark
+$ npm run build:lark
+
+# Global installation only
+$ taro build --type lark --watch
+$ taro build --type lark
+
+# npx user can use
+$ npx taro build --type lark --watch
+$ npx taro build --type lark
+
+# watch Also turn on compression
+$ set NODE_ENV=production && taro build --type lark --watch # Windows
+$ NODE_ENV=production taro build --type lark --watch # Mac
+```
+
+#### Developer tool
+[FeiShu mini program](https://open.feishu.cn/document/uYjL24iN/uMjNzUjLzYzM14yM2MTN) can run on Fishu client and one set of code runs on multiple ends (including PC and mobile). You need to download and open [FeiShu mini program developer tool](https://open.feishu.cn/document/uYjL24iN/ucDOzYjL3gzM24yN4MjN), and make sure you have set up the mini program project configuration file. Then select the `dist` directory in the project root directory for preview.
+
+Need to pay attention to the project configuration of developer tools
+- You need to turn off the ES6 to ES5 feature, it may report an error if you turn it on.
+- Need to turn off the style auto-completion when uploading code, it may report an error if you turn it on.
+- You need to turn off the code compression upload, it may report an error if you turn it on.
+
+
+### KuaiShou Mini Program
+
+Using the Taro plugin can support compiling kuaishou mini program, see [Github](https://github.com/NervJS/taro-plugin-platform-kwai) for plugin documentation.
+
+#### Version Requirements
+
+##### Taro 3.3+
+
+Please use version 1.0 or higher of [taro-plugin-platform-kwai](https://github.com/NervJS/taro-plugin-platform-kwai).
+
+##### Taro 3.2
+
+Please use version 1.2.x of [taro-plugin-platform-ks](https://github.com/vadxq/taro-plugin-platform-ks).
+
+##### Taro 3.0 - 3.1
+
+Please use version 1.0.x of [taro-plugin-platform-ks](https://github.com/vadxq/taro-plugin-platform-ks).
+
+#### Installing plugins
+
+```bash
+yarn add @tarojs/plugin-platform-kwai
+```
+
+#### Configuring plugins
+
+```js title="Taro project configuration"
+config = {
+  // ...
+  plugins: [
+    '@tarojs/plugin-platform-kwai'
+  ]
+}
+```
+#### 编译命令
+
+```bash
+# yarn
+$ yarn dev:kwai
+$ yarn build:kwai
+
+# npm script
+$ npm run dev:kwai
+$ npm run build:kwai
+
+# Global installation only
+$ taro build --type kwai --watch
+$ taro build --type kwai
+
+$ npx taro build --type kwai --watch
+$ npx taro build --type kwai
+
+# watch also turn on compression
+$ set NODE_ENV=production && taro build --type kwai --watch # Windows
+$ NODE_ENV=production taro build --type kwai --watch # Mac
+```
+
 #### Developer Tools
 
 Same as Alipay mini-program. The compile mode of developer tool is set to IOT mini-program.
