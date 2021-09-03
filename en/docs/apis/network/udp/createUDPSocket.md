@@ -3,20 +3,20 @@ title: Taro.createUDPSocket()
 sidebar_label: createUDPSocket
 ---
 
-创建一个 UDP Socket 实例。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)。
+Creates an UDP Socket instance.Read [related instructions](https://developers.weixin.qq.com/miniprogram/en/dev/framework/ability/network.html) before use.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/wx.createUDPSocket.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/wx.createUDPSocket.html)
 
-## 类型
+## Type
 
 ```tsx
 () => UDPSocket
 ```
 
-## 参数
+## Parameters
 
-## API 支持度
+## API Support
 
-|         API          | 微信小程序 | H5 | React Native |
-|:--------------------:|:-----:|:--:|:------------:|
-| Taro.createUDPSocket |  ✔️   |    |              |
+|         API          | WeChat Mini-Program | H5 | React Native |
+|:--------------------:|:-------------------:|:--:|:------------:|
+| Taro.createUDPSocket |         ✔️          |    |              |
