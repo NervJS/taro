@@ -3,37 +3,37 @@ title: Taro.offPageNotFound(callback)
 sidebar_label: offPageNotFound
 ---
 
-取消监听小程序要打开的页面不存在事件
+Un-listens on the event that a page to be opened by the Mini Program does not exist.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.offPageNotFound.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.offPageNotFound.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: (res: CallbackResult) => void) => void
 ```
 
-## 参数
+## Parameters
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Parameter</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td>小程序要打开的页面不存在事件的回调函数</td>
+      <td>The callback function for the event that a page to be opened by the Mini Program does not exist.</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|         API          | 微信小程序 | H5 | React Native |
-|:--------------------:|:-----:|:--:|:------------:|
-| Taro.offPageNotFound |  ✔️   |    |              |
+|         API          | WeChat Mini-Program | H5 | React Native |
+|:--------------------:|:-------------------:|:--:|:------------:|
+| Taro.offPageNotFound |         ✔️          |    |              |
