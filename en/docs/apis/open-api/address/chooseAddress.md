@@ -3,47 +3,47 @@ title: Taro.chooseAddress(option)
 sidebar_label: chooseAddress
 ---
 
-获取用户收货地址。调起用户编辑收货地址原生界面，并在编辑完成后返回用户选择的地址。
+Gets the recipient address.This API opens the native UI for the user to edit the recipient address and returns to the selected address after the editing is completed.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/address/wx.chooseAddress.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/address/wx.chooseAddress.html)
 
-## 类型
+## Type
 
 ```tsx
 (option?: Option) => Promise<SuccessCallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -53,61 +53,61 @@ sidebar_label: chooseAddress
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>cityName</td>
       <td><code>string</code></td>
-      <td>国标收货地址第二级地址</td>
+      <td>Recipient name</td>
     </tr>
     <tr>
       <td>countyName</td>
       <td><code>string</code></td>
-      <td>国标收货地址第三级地址</td>
+      <td>Tier-1 address of national standard recipient address</td>
     </tr>
     <tr>
       <td>detailInfo</td>
       <td><code>string</code></td>
-      <td>详细收货地址信息</td>
+      <td>Tier-2 address of national standard recipient address</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息</td>
+      <td>Tier-3 address of national standard recipient address</td>
     </tr>
     <tr>
       <td>nationalCode</td>
       <td><code>string</code></td>
-      <td>收货地址国家码</td>
+      <td>Detailed recipient address</td>
     </tr>
     <tr>
       <td>postalCode</td>
       <td><code>string</code></td>
-      <td>邮编</td>
+      <td>Post code</td>
     </tr>
     <tr>
       <td>provinceName</td>
       <td><code>string</code></td>
-      <td>国标收货地址第一级地址</td>
+      <td>Country code of the recipient address</td>
     </tr>
     <tr>
       <td>telNumber</td>
       <td><code>string</code></td>
-      <td>收货人手机号码</td>
+      <td>Mobile number of the recipient</td>
     </tr>
     <tr>
       <td>userName</td>
       <td><code>string</code></td>
-      <td>收货人姓名</td>
+      <td>Error message</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.chooseAddress({
@@ -124,8 +124,8 @@ Taro.chooseAddress({
 })
 ```
 
-## API 支持度
+## API Support
 
-|        API         | 微信小程序 | H5 | React Native |
-|:------------------:|:-----:|:--:|:------------:|
-| Taro.chooseAddress |  ✔️   |    |              |
+|        API         | WeChat Mini-Program | H5 | React Native |
+|:------------------:|:-------------------:|:--:|:------------:|
+| Taro.chooseAddress |         ✔️          |    |              |
