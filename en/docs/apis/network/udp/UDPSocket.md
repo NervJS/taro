@@ -3,33 +3,33 @@ title: UDPSocket
 sidebar_label: UDPSocket
 ---
 
-一个 UDP Socket 实例，默认使用 IPv4 协议。
+An UDP Socket instance. Use IPv4 protocol by default.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.html)
 
-## 方法
+## Methods
 
 ### close
 
-关闭 UDP Socket 实例，相当于销毁。 在关闭之后，UDP Socket 实例不能再发送消息，每次调用 `UDPSocket.send` 将会触发错误事件，并且 message 事件回调函数也不会再也执行。在 `UDPSocket` 实例被创建后将被 Native 强引用，保证其不被 GC。在 `UDPSocket.close` 后将解除对其的强引用，让 UDPSocket 实例遵从 GC。
+Closes (Terminates) a UDP Socket instance. After closing, the UDP Socket instance can no longer send messages. Calling `UDPSocket.send` will trigger an error event, and the callback function for the message event will not be executed.After the `UDPSocket` instance is created, it will be strongly referenced by Native to ensure that it is not collected by GC.After calling `UDPSocket.close`, the strong reference to it will be removed, and the UDPSocket instance will follow the GC rules.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.close.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.close.html)
 
 ```tsx
 () => void
 ```
 
-#### API 支持度
+#### API Support
 
-|       API       | 微信小程序 | H5 | React Native |
-|:---------------:|:-----:|:--:|:------------:|
-| UDPSocket.close |  ✔️   |    |              |
+|       API       | WeChat Mini-Program | H5 | React Native |
+|:---------------:|:-------------------:|:--:|:------------:|
+| UDPSocket.close |         ✔️          |    |              |
 
 ### offClose
 
-取消监听关闭事件
+Un-listens on the disabling event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.offClose.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.offClose.html)
 
 ```tsx
 (callback: OffCloseCallback) => void
@@ -38,31 +38,31 @@ sidebar_label: UDPSocket
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>OffCloseCallback</code></td>
-      <td>关闭事件的回调函数</td>
+      <td>The callback function for the disabling event.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|        API         | 微信小程序 | H5 | React Native |
-|:------------------:|:-----:|:--:|:------------:|
-| UDPSocket.offClose |  ✔️   |    |              |
+|        API         | WeChat Mini-Program | H5 | React Native |
+|:------------------:|:-------------------:|:--:|:------------:|
+| UDPSocket.offClose |         ✔️          |    |              |
 
 ### offError
 
-取消监听错误事件
+Un-listens on the error event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.offError.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.offError.html)
 
 ```tsx
 (callback: OffErrorCallback) => void
@@ -71,31 +71,31 @@ sidebar_label: UDPSocket
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>OffErrorCallback</code></td>
-      <td>错误事件的回调函数</td>
+      <td>The callback function for the error event.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|        API         | 微信小程序 | H5 | React Native |
-|:------------------:|:-----:|:--:|:------------:|
-| UDPSocket.offError |  ✔️   |    |              |
+|        API         | WeChat Mini-Program | H5 | React Native |
+|:------------------:|:-------------------:|:--:|:------------:|
+| UDPSocket.offError |         ✔️          |    |              |
 
 ### offListening
 
-取消监听开始监听数据包消息的事件
+Un-listens on the event of starting listening on data packet messages.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.offListening.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.offListening.html)
 
 ```tsx
 (callback: (res: CallbackResult) => void) => void
@@ -104,31 +104,31 @@ sidebar_label: UDPSocket
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td>开始监听数据包消息的事件的回调函数</td>
+      <td>The callback function for the event of starting listening on data packet messages.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|          API           | 微信小程序 | H5 | React Native |
-|:----------------------:|:-----:|:--:|:------------:|
-| UDPSocket.offListening |  ✔️   |    |              |
+|          API           | WeChat Mini-Program | H5 | React Native |
+|:----------------------:|:-------------------:|:--:|:------------:|
+| UDPSocket.offListening |         ✔️          |    |              |
 
 ### offMessage
 
-取消监听收到消息的事件
+Un-listens on the event of receiving messages.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.offMessage.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.offMessage.html)
 
 ```tsx
 (callback: (res: CallbackResult) => void) => void
@@ -137,31 +137,31 @@ sidebar_label: UDPSocket
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td>收到消息的事件的回调函数</td>
+      <td>The callback function for the event of receiving messages.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|         API          | 微信小程序 | H5 | React Native |
-|:--------------------:|:-----:|:--:|:------------:|
-| UDPSocket.offMessage |  ✔️   |    |              |
+|         API          | WeChat Mini-Program | H5 | React Native |
+|:--------------------:|:-------------------:|:--:|:------------:|
+| UDPSocket.offMessage |         ✔️          |    |              |
 
 ### onClose
 
-监听关闭事件
+Listens on the disabling event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.onClose.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.onClose.html)
 
 ```tsx
 (callback: OnCloseCallback) => void
@@ -170,31 +170,31 @@ sidebar_label: UDPSocket
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>OnCloseCallback</code></td>
-      <td>关闭事件的回调函数</td>
+      <td>The callback function for the disabling event.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|        API        | 微信小程序 | H5 | React Native |
-|:-----------------:|:-----:|:--:|:------------:|
-| UDPSocket.onClose |  ✔️   |    |              |
+|        API        | WeChat Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:--:|:------------:|
+| UDPSocket.onClose |         ✔️          |    |              |
 
 ### onError
 
-监听错误事件
+Listens on the error event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.onError.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.onError.html)
 
 ```tsx
 (callback: OnErrorCallback) => void
@@ -203,31 +203,31 @@ sidebar_label: UDPSocket
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>OnErrorCallback</code></td>
-      <td>错误事件的回调函数</td>
+      <td>The callback function for the error event.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|        API        | 微信小程序 | H5 | React Native |
-|:-----------------:|:-----:|:--:|:------------:|
-| UDPSocket.onError |  ✔️   |    |              |
+|        API        | WeChat Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:--:|:------------:|
+| UDPSocket.onError |         ✔️          |    |              |
 
 ### onListening
 
-监听开始监听数据包消息的事件
+Listens on the event of starting listening on data packet messages.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.onListening.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.onListening.html)
 
 ```tsx
 (callback: (res: CallbackResult) => void) => void
@@ -236,31 +236,31 @@ sidebar_label: UDPSocket
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td>开始监听数据包消息的事件的回调函数</td>
+      <td>The callback function for the event of starting listening on data packet messages.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|          API          | 微信小程序 | H5 | React Native |
-|:---------------------:|:-----:|:--:|:------------:|
-| UDPSocket.onListening |  ✔️   |    |              |
+|          API          | WeChat Mini-Program | H5 | React Native |
+|:---------------------:|:-------------------:|:--:|:------------:|
+| UDPSocket.onListening |         ✔️          |    |              |
 
 ### onMessage
 
-监听收到消息的事件
+Listens on the event of receiving messages.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.onMessage.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.onMessage.html)
 
 ```tsx
 (callback: OnMessageCallback) => void
@@ -269,31 +269,31 @@ sidebar_label: UDPSocket
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>OnMessageCallback</code></td>
-      <td>收到消息的事件的回调函数</td>
+      <td>The callback function for the event of receiving messages.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|         API         | 微信小程序 | H5 | React Native |
-|:-------------------:|:-----:|:--:|:------------:|
-| UDPSocket.onMessage |  ✔️   |    |              |
+|         API         | WeChat Mini-Program | H5 | React Native |
+|:-------------------:|:-------------------:|:--:|:------------:|
+| UDPSocket.onMessage |         ✔️          |    |              |
 
 ### send
 
-向指定的 IP 和 port 发送消息
+Sends messages to the specified IP and port.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.send.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.send.html)
 
 ```tsx
 (option: SendOption) => void
@@ -302,8 +302,8 @@ sidebar_label: UDPSocket
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -314,17 +314,17 @@ sidebar_label: UDPSocket
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|      API       | 微信小程序 | H5 | React Native |
-|:--------------:|:-----:|:--:|:------------:|
-| UDPSocket.send |  ✔️   |    |              |
+|      API       | WeChat Mini-Program | H5 | React Native |
+|:--------------:|:-------------------:|:--:|:------------:|
+| UDPSocket.send |         ✔️          |    |              |
 
 ### bind
 
-绑定一个系统随机分配的可用端口，或绑定一个指定的端口号
+Binds an available port randomly assigned by the system.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.bind.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.bind.html)
 
 ```tsx
 (port: number) => number
@@ -333,31 +333,31 @@ sidebar_label: UDPSocket
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>port</td>
       <td><code>number</code></td>
-      <td>指定要绑定的端口号</td>
+      <td>Bound port number</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|      API       | 微信小程序 | H5 | React Native |
-|:--------------:|:-----:|:--:|:------------:|
-| UDPSocket.bind |  ✔️   |    |              |
+|      API       | WeChat Mini-Program | H5 | React Native |
+|:--------------:|:-------------------:|:--:|:------------:|
+| UDPSocket.bind |         ✔️          |    |              |
 
-## 参数
+## Parameters
 
 ### OffCloseCallback
 
-关闭事件的回调函数
+The callback function for the disabling event.
 
 ```tsx
 (res: CallbackResult) => void
@@ -366,8 +366,8 @@ sidebar_label: UDPSocket
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -380,7 +380,7 @@ sidebar_label: UDPSocket
 
 ### OffErrorCallback
 
-错误事件的回调函数
+The callback function for the error event.
 
 ```tsx
 (res: CallbackResult) => void
@@ -389,8 +389,8 @@ sidebar_label: UDPSocket
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -403,7 +403,7 @@ sidebar_label: UDPSocket
 
 ### OnCloseCallback
 
-关闭事件的回调函数
+The callback function for the disabling event.
 
 ```tsx
 (res: CallbackResult) => void
@@ -412,8 +412,8 @@ sidebar_label: UDPSocket
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -426,7 +426,7 @@ sidebar_label: UDPSocket
 
 ### OnErrorCallback
 
-错误事件的回调函数
+The callback function for the error event.
 
 ```tsx
 (result: OnErrorCallbackResult) => void
@@ -435,8 +435,8 @@ sidebar_label: UDPSocket
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -449,7 +449,7 @@ sidebar_label: UDPSocket
 
 ### OnMessageCallback
 
-收到消息的事件的回调函数
+The callback function for the event of receiving messages.
 
 ```tsx
 (result: OnMessageCallbackResult) => void
@@ -458,8 +458,8 @@ sidebar_label: UDPSocket
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -475,9 +475,9 @@ sidebar_label: UDPSocket
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -494,57 +494,57 @@ sidebar_label: UDPSocket
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>message</td>
       <td><code>ArrayBuffer</code></td>
-      <td>收到的消息</td>
+      <td>Received messages</td>
     </tr>
     <tr>
       <td>remoteInfo</td>
       <td><code>RemoteInfo</code></td>
-      <td>消息来源的结构化信息</td>
+      <td>Structured information of message sources</td>
     </tr>
   </tbody>
 </table>
 
 ### RemoteInfo
 
-消息来源的结构化信息
+remoteInfo is composed as follows
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>address</td>
       <td><code>string</code></td>
-      <td>发送消息的 socket 的地址</td>
+      <td>The address of the socket sending the message</td>
     </tr>
     <tr>
       <td>family</td>
       <td><code>string</code></td>
-      <td>使用的协议族，为 IPv4 或者 IPv6</td>
+      <td>The protocol family used, IPv4 or IPv6</td>
     </tr>
     <tr>
       <td>port</td>
       <td><code>number</code></td>
-      <td>端口号</td>
+      <td>Port number</td>
     </tr>
     <tr>
       <td>size</td>
       <td><code>number</code></td>
-      <td>message 的大小，单位：字节</td>
+      <td>The message size, in bytes</td>
     </tr>
   </tbody>
 </table>
@@ -554,52 +554,52 @@ sidebar_label: UDPSocket
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>data</td>
       <td><code>string | ArrayBuffer</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>需要发送的内容</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The data to be sent</td>
     </tr>
     <tr>
       <td>complete</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|          API           | 微信小程序 | H5 | React Native |
-|:----------------------:|:-----:|:--:|:------------:|
-|    UDPSocket.close     |  ✔️   |    |              |
-|   UDPSocket.offClose   |  ✔️   |    |              |
-|   UDPSocket.offError   |  ✔️   |    |              |
-| UDPSocket.offListening |  ✔️   |    |              |
-|  UDPSocket.offMessage  |  ✔️   |    |              |
-|   UDPSocket.onClose    |  ✔️   |    |              |
-|   UDPSocket.onError    |  ✔️   |    |              |
-| UDPSocket.onListening  |  ✔️   |    |              |
-|  UDPSocket.onMessage   |  ✔️   |    |              |
-|     UDPSocket.send     |  ✔️   |    |              |
-|     UDPSocket.bind     |  ✔️   |    |              |
+|          API           | WeChat Mini-Program | H5 | React Native |
+|:----------------------:|:-------------------:|:--:|:------------:|
+|    UDPSocket.close     |         ✔️          |    |              |
+|   UDPSocket.offClose   |         ✔️          |    |              |
+|   UDPSocket.offError   |         ✔️          |    |              |
+| UDPSocket.offListening |         ✔️          |    |              |
+|  UDPSocket.offMessage  |         ✔️          |    |              |
+|   UDPSocket.onClose    |         ✔️          |    |              |
+|   UDPSocket.onError    |         ✔️          |    |              |
+| UDPSocket.onListening  |         ✔️          |    |              |
+|  UDPSocket.onMessage   |         ✔️          |    |              |
+|     UDPSocket.send     |         ✔️          |    |              |
+|     UDPSocket.bind     |         ✔️          |    |              |
