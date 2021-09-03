@@ -1,14 +1,14 @@
 ---
-title: Taro 版本说明
+title: Taro Release Notes
 ---
 
-当前 Taro 已进入 3.x 时代，相较于 Taro 1/2 编译时架构，Taro 3 采用了重运行时的架构，让开发者可以获得完整的 React / Vue 等框架的开发体验。具体原理请参考 [《小程序跨框架开发的探索与实践》](https://mp.weixin.qq.com/s?__biz=MzU3NDkzMTI3MA==&mid=2247483770&idx=1&sn=ba2cdea5256e1c4e7bb513aa4c837834)。
+Compared to Taro 1/2 compile-time architecture, Taro 3 a primarily runtime based architecture, allowing developers to get the full development experience of React / Vue frameworks.For details, please refer to [《Exploration and practice of cross-framework development for mini program》](https://mp.weixin.qq.com/s?__biz=MzU3NDkzMTI3MA==&mid=2247483770&idx=1&sn=ba2cdea5256e1c4e7bb513aa4c837834)。
 
-### 最新版本
+### Latest Version
 
-最新版本可在 [Taro Release](https://github.com/NervJS/taro/releases) 中查阅。
+Available in the latest version [Taro Release](https://github.com/NervJS/taro/releases)。
 
-也可以在命令行输入命令查看：
+It can also be viewed at the command line by entering the command.
 
 ```bash
 npm info @tarojs/cli
@@ -16,39 +16,39 @@ npm info @tarojs/cli
 
 ### Taro 3.3
 
-Taro 3.3 的主要改动是支持使用 HTML 标签进行开发。
+The main change in Taro 3.1 is to create an open architecture that supports compiling to any mini program platform in the form of a plugin.
 
 详情请参考 [《Taro 3.3 alpha 发布：用 ant-design 开发小程序？》](https://docs.taro.zone/blog/2021-04-22-Taro-3.3-alpha)。
 
 ### Taro 3.2
 
-Taro 3.2 新增了对 ReactNative 的支持。
+Taro 3.2 adds support for ReactNative.
 
-详情请参考 [《Taro 3.2 版本正式发布：React Native 支持，王者归来》](https://docs.taro.zone/blog/2021-04-08-taro-3.2)。
+For more information, please refer to [《Taro version 3.2 officially released: React Native support, the return of the king》](https://docs.taro.zone/blog/2021-04-08-taro-3.2)。
 
 ### Taro 3.1
 
-Taro 3.1 的主要改动是打造开放式架构，支持以插件的形式编译到任意小程序平台。
+If you want to use Taro 1/2, you can visit [document version](/versions) for help.
 
-详情请参考 [《Taro 正式发布 3.1 版本》](https://docs.taro.zone/blog/2021-03-10-taro-3-1-lts)。
+Detailed information about each release of Taro is available in [Taro Release](https://github.com/NervJS/taro/releases)。
 
-### Taro 1 / 2
+### Development Plan
 
-如果你想使用 Taro 1/2，可以访问[文档版本](/versions)获得帮助。
+For more information, please refer to[《Taro officially released version 3.1》](https://docs.taro.zone/blog/2021-03-10-taro-3-1-lts)
 
-### 版本信息
+### Upgrade Guide
 
-Taro 每个版本的详细发布信息可在 [Taro Release](https://github.com/NervJS/taro/releases) 中查阅。
+Taro will release weekly **patch releases** for minor feature additions and issue fixes.
 
 ### 开发计划
 
-目前 Taro 团队的迭代重心在于 Taro 3，Taro 1 / 2 只会对重大问题进行修复，不会新增新特性。
+Major features are first publicized and comments are collected through [Taro-RFC](https://github.com/NervJS/taro-rfcs) and then the final **minor** version is released after development testing。
 
-Taro 每周会发布 **patch 版本**，进行小型特性新增和问题修复。
+How to upgrade from Taro 1 / 2 to Taro 3 please refer to：[Migrate from old version to Taro Next](./migration)。
 
-重大特性会首先通过 [Taro-RFC](https://github.com/NervJS/taro-rfcs) 进行公示与意见采集，然后经开发测试后，最终发布 **minor** 版本。
+For a more detailed guide on migration between versions, please refer to：[《The definitive guide to Taro version upgrades》](/blog/2020-09-01-taro-versions)。
 
-详细的开发计划可在 [Taro MileStones](https://github.com/NervJS/taro/milestones) 中查阅。
+Community-contributed one-click upgrade tool: [taro2-to-3](https://github.com/SyMind/taro2-to-3), by @SyMind.
 
 ### 升级指南
 
