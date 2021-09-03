@@ -3,17 +3,17 @@ title: Textarea
 sidebar_label: Textarea
 ---
 
-多行输入框。该组件是原生组件，使用时请注意相关限制
+Multi-line input box.This component is a Native Component. Note related limits before use.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/textarea.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/textarea.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<TextareaProps>
 ```
 
-## 示例代码
+## Examples
 
 
 import Tabs from '@theme/Tabs';
@@ -36,9 +36,9 @@ export default class PageView extends Component {
   render() {
     return (
       <View className='components-page'>
-        <Text>输入区域高度自适应，不会出现滚动条</Text>
+        <Text>Height-adaptive input area with no scroll bars</Text>
         <Textarea style='background:#fff;width:100%;min-height:80px;padding:0 30rpx;' autoHeight>
-        <Text>这是一个可以自动聚焦的 textarea</Text>
+        <Text>This is a textarea that can be autofocused</Text>
         <Textarea style='background:#fff;width:100%;height:80px;padding:0 30rpx;' autoFocus>
       </View>
     )
@@ -52,9 +52,9 @@ export default class PageView extends Component {
 ```html
 <template>
   <view class="components-page">
-    <text>输入区域高度自适应，不会出现滚动条</text>
+    <text>Height-adaptive input area with no scroll bars</text>
     <textarea style="background:#efefef;width:100%;min-height:80px;padding:0 30rpx;" :auto-height="true" />
-    <text>这是一个可以自动聚焦的 textarea</text>
+    <text>This is a textarea that can be autofocused</text>
     <textarea style="background:#efefef;width:100%;height:80px;padding:0 30rpx;" :auto-focusd="true" />
   </view>
 </template>
@@ -68,11 +68,11 @@ export default class PageView extends Component {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -80,222 +80,222 @@ export default class PageView extends Component {
       <td>value</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>输入框的内容</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The content in the input box</td>
     </tr>
     <tr>
       <td>placeholder</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>输入框为空时占位符</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The placeholder used when the input box is empty</td>
     </tr>
     <tr>
       <td>placeholderStyle</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>指定 placeholder 的样式</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies the style of the placeholder.</td>
     </tr>
     <tr>
       <td>placeholderClass</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;textarea-placeholder&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>指定 placeholder 的样式类</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies the style class of the placeholder.</td>
     </tr>
     <tr>
       <td>disabled</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否禁用</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to disable the component.</td>
     </tr>
     <tr>
       <td>maxlength</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>140</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>最大输入长度，设置为 -1 的时候不限制最大长度</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The maximum length. When it is set to "-1", the maximum length is not limited.</td>
     </tr>
     <tr>
       <td>autoFocus</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>自动聚焦，拉起键盘</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Auto focus. The keyboard is automatically displayed.</td>
     </tr>
     <tr>
       <td>focus</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>获取焦点</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Gets focus</td>
     </tr>
     <tr>
       <td>autoHeight</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否自动增高，设置 autoHeight 时，style.height不生效</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether the height automatically increases. If this property is specified, style.height does not take effect.</td>
     </tr>
     <tr>
       <td>fixed</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>如果 Textarea 是在一个 <code>position:fixed</code> 的区域，需要显示指定属性 fixed 为 true</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>If the textarea is in an area of <code>position:fixed</code>, the value of the specified property should always be true.</td>
     </tr>
     <tr>
       <td>cursorSpacing</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>0</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>指定光标与键盘的距离，单位 px 。取 Textarea 距离底部的距离和 cursorSpacing 指定的距离的最小值作为光标与键盘的距离</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies the distance between the cursor and the keyboard.It is either the distance between textarea and the bottom of the screen or the distance specified via cursor-spacing, whichever is smaller.</td>
     </tr>
     <tr>
       <td>cursor</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>-1</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>指定 focus 时的光标位置</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies the cursor position during focusing.</td>
     </tr>
     <tr>
       <td>showConfirmBar</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否显示键盘上方带有”完成“按钮那一栏</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to display the bar containing the Done button above the keyboard</td>
     </tr>
     <tr>
       <td>selectionStart</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>-1</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>光标起始位置，自动聚集时有效，需与 selectionEnd 搭配使用</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The start position of the cursor. It takes effect only during auto focusing, and needs to used with selectionEnd.</td>
     </tr>
     <tr>
       <td>selectionEnd</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>-1</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>光标结束位置，自动聚集时有效，需与 selectionStart 搭配使用</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The end position of the cursor. It takes effect only during auto focusing, and needs to used with selectionStart.</td>
     </tr>
     <tr>
       <td>adjustPosition</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>键盘弹起时，是否自动上推页面</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to automatically push up the page when the keyboard is displayed</td>
     </tr>
     <tr>
       <td>holdKeyboard</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>focus 时，点击页面的时候不收起键盘</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to hide the keyboard when the page is clicked when focused</td>
     </tr>
     <tr>
       <td>disableDefaultPadding</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否去掉 iOS 下的默认内边距</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to remove the default inner margins under iOS</td>
     </tr>
     <tr>
       <td>onFocus</td>
       <td><code>BaseEventOrigFunction&lt;onFocusEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>输入框聚焦时触发</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered when the input box is focused.</td>
     </tr>
     <tr>
       <td>onBlur</td>
       <td><code>BaseEventOrigFunction&lt;onBlurEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>输入框失去焦点时触发</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered when the input box is unfocused.</td>
     </tr>
     <tr>
       <td>onLineChange</td>
       <td><code>BaseEventOrigFunction&lt;onLineChangeEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>输入框行数变化时调用，event.detail = {`{height: 0, heightRpx: 0, lineCount: 0}`}</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Called when the number of lines in the input box changes, event.detail = {`{height: 0, heightRpx: 0, lineCount: 0}`}</td>
     </tr>
     <tr>
       <td>onInput</td>
       <td><code>BaseEventOrigFunction&lt;onInputEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当键盘输入时，触发 input 事件，event.detail = {`{value, cursor, keyCode}`}<br /><br /><strong>onInput 处理函数的返回值并不会反映到 textarea 上</strong></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>An input event triggered when anything is input via the keyboard, event.detail = {`{value, cursor, keyCode}`}<br /><br /><strong>Return values of the bindinput processing function will not be reflected on textarea.</strong></td>
     </tr>
     <tr>
       <td>onConfirm</td>
       <td><code>BaseEventOrigFunction&lt;onConfirmEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>点击完成时， 触发 confirm 事件，event.detail = {`{value: value}`}</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>A confirm event triggered when the <strong>Done</strong> button is tapped, event.detail = {`{value: value}`}</td>
     </tr>
     <tr>
       <td>onKeyboardHeightChange</td>
       <td><code>BaseEventOrigFunction&lt;onKeyboardHeightChangeEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>键盘高度发生变化的时候触发此事件</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered when the height of the keyboard changes.</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|                 API                  | 微信小程序 | H5 | React Native |
-|:------------------------------------:|:-----:|:--:|:------------:|
-|         TextareaProps.value          |  ✔️   | ✔️ |      ✔️      |
-|      TextareaProps.placeholder       |  ✔️   | ✔️ |      ✔️      |
-|    TextareaProps.placeholderStyle    |  ✔️   |    |              |
-|    TextareaProps.placeholderClass    |  ✔️   |    |              |
-|        TextareaProps.disabled        |  ✔️   | ✔️ |      ✔️      |
-|       TextareaProps.maxlength        |  ✔️   | ✔️ |      ✔️      |
-|       TextareaProps.autoFocus        |  ✔️   | ✔️ |              |
-|         TextareaProps.focus          |  ✔️   |    |      ✔️      |
-|       TextareaProps.autoHeight       |  ✔️   |    |      ✔️      |
-|         TextareaProps.fixed          |  ✔️   |    |              |
-|     TextareaProps.cursorSpacing      |  ✔️   |    |              |
-|         TextareaProps.cursor         |  ✔️   |    |              |
-|     TextareaProps.showConfirmBar     |  ✔️   |    |              |
-|     TextareaProps.selectionStart     |  ✔️   |    |      ✔️      |
-|      TextareaProps.selectionEnd      |  ✔️   |    |      ✔️      |
-|     TextareaProps.adjustPosition     |  ✔️   |    |              |
-|      TextareaProps.holdKeyboard      |  ✔️   |    |              |
-| TextareaProps.disableDefaultPadding  |  ✔️   |    |              |
-|        TextareaProps.onFocus         |  ✔️   | ✔️ |      ✔️      |
-|         TextareaProps.onBlur         |  ✔️   | ✔️ |      ✔️      |
-|      TextareaProps.onLineChange      |  ✔️   |    |      ✔️      |
-|        TextareaProps.onInput         |  ✔️   | ✔️ |      ✔️      |
-|       TextareaProps.onConfirm        |  ✔️   |    |      ✔️      |
-| TextareaProps.onKeyboardHeightChange |  ✔️   |    |              |
+|                 API                  | WeChat Mini-Program | H5 | React Native |
+|:------------------------------------:|:-------------------:|:--:|:------------:|
+|         TextareaProps.value          |         ✔️          | ✔️ |      ✔️      |
+|      TextareaProps.placeholder       |         ✔️          | ✔️ |      ✔️      |
+|    TextareaProps.placeholderStyle    |         ✔️          |    |              |
+|    TextareaProps.placeholderClass    |         ✔️          |    |              |
+|        TextareaProps.disabled        |         ✔️          | ✔️ |      ✔️      |
+|       TextareaProps.maxlength        |         ✔️          | ✔️ |      ✔️      |
+|       TextareaProps.autoFocus        |         ✔️          | ✔️ |              |
+|         TextareaProps.focus          |         ✔️          |    |      ✔️      |
+|       TextareaProps.autoHeight       |         ✔️          |    |      ✔️      |
+|         TextareaProps.fixed          |         ✔️          |    |              |
+|     TextareaProps.cursorSpacing      |         ✔️          |    |              |
+|         TextareaProps.cursor         |         ✔️          |    |              |
+|     TextareaProps.showConfirmBar     |         ✔️          |    |              |
+|     TextareaProps.selectionStart     |         ✔️          |    |      ✔️      |
+|      TextareaProps.selectionEnd      |         ✔️          |    |      ✔️      |
+|     TextareaProps.adjustPosition     |         ✔️          |    |              |
+|      TextareaProps.holdKeyboard      |         ✔️          |    |              |
+| TextareaProps.disableDefaultPadding  |         ✔️          |    |              |
+|        TextareaProps.onFocus         |         ✔️          | ✔️ |      ✔️      |
+|         TextareaProps.onBlur         |         ✔️          | ✔️ |      ✔️      |
+|      TextareaProps.onLineChange      |         ✔️          |    |      ✔️      |
+|        TextareaProps.onInput         |         ✔️          | ✔️ |      ✔️      |
+|       TextareaProps.onConfirm        |         ✔️          |    |      ✔️      |
+| TextareaProps.onKeyboardHeightChange |         ✔️          |    |              |
 
 ### onFocusEventDetail
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Param</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>value</td>
       <td><code>string</code></td>
-      <td>输入值</td>
+      <td>input value</td>
     </tr>
     <tr>
       <td>height</td>
       <td><code>number</code></td>
-      <td>键盘高度</td>
+      <td>Keyboard height</td>
     </tr>
   </tbody>
 </table>
@@ -305,21 +305,21 @@ export default class PageView extends Component {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Param</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>value</td>
       <td><code>string</code></td>
-      <td>输入值</td>
+      <td>input value</td>
     </tr>
     <tr>
       <td>cursor</td>
       <td><code>number</code></td>
-      <td>光标位置</td>
+      <td>cursor position</td>
     </tr>
   </tbody>
 </table>
@@ -329,8 +329,8 @@ export default class PageView extends Component {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Param</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -354,26 +354,26 @@ export default class PageView extends Component {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Param</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>value</td>
       <td><code>string</code></td>
-      <td>输入值</td>
+      <td>input value</td>
     </tr>
     <tr>
       <td>cursor</td>
       <td><code>number</code></td>
-      <td>光标位置</td>
+      <td>cursor position</td>
     </tr>
     <tr>
       <td>keyCode</td>
       <td><code>number</code></td>
-      <td>键值</td>
+      <td>key code</td>
     </tr>
   </tbody>
 </table>
@@ -383,16 +383,16 @@ export default class PageView extends Component {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Param</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>value</td>
       <td><code>string</code></td>
-      <td>输入值</td>
+      <td>input value</td>
     </tr>
   </tbody>
 </table>
@@ -402,27 +402,27 @@ export default class PageView extends Component {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Param</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>height</td>
       <td><code>number</code></td>
-      <td>键盘高度</td>
+      <td>Keyboard height</td>
     </tr>
     <tr>
       <td>duration</td>
       <td><code>number</code></td>
-      <td>持续时间</td>
+      <td>Duration</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|   API    | 微信小程序 | H5 | React Native |
-|:--------:|:-----:|:--:|:------------:|
-| Textarea |  ✔️   | ✔️ |      ✔️      |
+|   API    | WeChat Mini-Program | H5 | React Native |
+|:--------:|:-------------------:|:--:|:------------:|
+| Textarea |         ✔️          | ✔️ |      ✔️      |
