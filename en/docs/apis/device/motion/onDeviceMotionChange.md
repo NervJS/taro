@@ -3,21 +3,21 @@ title: Taro.onDeviceMotionChange(callback)
 sidebar_label: onDeviceMotionChange
 ---
 
-监听设备方向变化事件。频率根据 Taro.startDeviceMotionListening() 的 interval 参数。可以使用 Taro.stopDeviceMotionListening() 停止监听。
+Listens on the device orientation change event.The frequency is based on the `Taro.startDeviceMotionListening()` interval parameter.You can use `Taro.stopDeviceMotionListening()` stop listening.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/motion/wx.onDeviceMotionChange.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/motion/wx.onDeviceMotionChange.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: Callback) => void
 ```
 
-## 参数
+## Parameters
 
 ### Callback
 
-设备方向变化事件的回调函数
+The callback function for the device orientation change event.
 
 ```tsx
 (result: CallbackResult) => void
@@ -26,8 +26,8 @@ sidebar_label: onDeviceMotionChange
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -43,32 +43,32 @@ sidebar_label: onDeviceMotionChange
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>alpha</td>
       <td><code>number</code></td>
-      <td>当 手机坐标 X/Y 和 地球 X/Y 重合时，绕着 Z 轴转动的夹角为 alpha，范围值为 [0, 2*PI)。逆时针转动为正。</td>
+      <td>When the phone coordinate X/Y and the earth coordinate X/Y coincide, the angle of rotation around the Z axis is alpha. The range is [0, 2*PI).逆时针转动为正。</td>
     </tr>
     <tr>
       <td>beta</td>
       <td><code>number</code></td>
-      <td>当手机坐标 Y/Z 和地球 Y/Z 重合时，绕着 X 轴转动的夹角为 beta。范围值为 [-1*PI, PI) 。顶部朝着地球表面转动为正。也有可能朝着用户为正。</td>
+      <td>When the phone coordinate Y/Z and the earth coordinate Y/Z coincide, the angle of rotation around the X axis is beta.The range is [-1*PI, PI).顶部朝着地球表面转动为正。也有可能朝着用户为正。</td>
     </tr>
     <tr>
       <td>gamma</td>
       <td><code>number</code></td>
-      <td>当手机 X/Z 和地球 X/Z 重合时，绕着 Y 轴转动的夹角为 gamma。范围值为 [-1*PI/2, PI/2)。右边朝着地球表面转动为正。</td>
+      <td>When the phone coordinate X/Z and the earth coordinate X/Z coincide, the angle of rotation around the Y axis is gamma.The range is [-1*PI/2, PI/2).It is positive when the phone rotates with its right side toward the earth surface.</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|            API            | 微信小程序 | H5 | React Native |
-|:-------------------------:|:-----:|:--:|:------------:|
-| Taro.onDeviceMotionChange |  ✔️   | ✔️ |      ✔️      |
+|            API            | WeChat Mini-Program | H5 | React Native |
+|:-------------------------:|:-------------------:|:--:|:------------:|
+| Taro.onDeviceMotionChange |         ✔️          | ✔️ |      ✔️      |
