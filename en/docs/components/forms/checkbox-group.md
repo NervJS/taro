@@ -3,50 +3,50 @@ title: CheckboxGroup
 sidebar_label: CheckboxGroup
 ---
 
-多项选择器，内部由多个checkbox组成
+Multi-item picker, consisting of multiple checkbox components.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/checkbox-group.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/checkbox-group.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<CheckboxGroupProps>
 ```
 
-## 示例代码
+## Examples
 
 ```tsx
 export default class PageCheckbox extends Component {
   state = {
     list: [
       {
-        value: '美国',
-        text: '美国',
+        value: 'A',
+        text: 'A',
         checked: false
       },
       {
-        value: '中国',
-        text: '中国',
+        value: 'B',
+        text: 'B',
         checked: true
       },
       {
-        value: '巴西',
-        text: '巴西',
+        value: 'C',
+        text: 'C',
         checked: false
       },
       {
-        value: '日本',
-        text: '日本',
+        value: 'D',
+        text: 'D',
         checked: false
       },
       {
-        value: '英国',
-        text: '英国',
+        value: 'E',
+        text: 'E',
         checked: false
       },
       {
-        value: '法国',
-        text: '法国',
+        value: 'F',
+        text: 'E',
         checked: false
       }
     ]
@@ -55,12 +55,12 @@ export default class PageCheckbox extends Component {
     return (
       <View className='page-body'>
         <View className='page-section'>
-          <Text>默认样式</Text>
-          <Checkbox value='选中' checked>选中</Checkbox>
-          <Checkbox style='margin-left: 20rpx' value='未选中'>未选中</Checkbox>
+          <Text>default style</Text>
+          <Checkbox value='selected' checked>Selected</Checkbox>
+          <Checkbox style='margin-left: 20rpx' value='not-selected'>Not Selected</Checkbox>
         </View>
         <View className='page-section'>
-          <Text>推荐展示样式</Text>
+          <Text>recommended style</Text>
           {this.state.list.map((item, i) => {
             return (
               <Label className='checkbox-list__label' for={i} key={i}>
@@ -80,37 +80,37 @@ export default class PageCheckbox extends Component {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>name</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>表单组件中加上 name 来作为 key</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The name is added to the form component as a key</td>
     </tr>
     <tr>
       <td>onChange</td>
       <td><code>BaseEventOrigFunction&lt;{`{ value: string[]; }`}&gt;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td><code>&lt;CheckboxGroup/&gt;</code> 中选中项发生改变是触发 change 事件<br /><br />event.detail = {`{ value: [选中的checkbox的 value 的数组] }`}</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The change event is triggered when the selected item in <code>&lt;CheckboxGroup/&gt;</code>is changed.<br /><br />event.detail = {`{ value: [An array of the values of the selected checkboxes.] }`}</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|             API             | 微信小程序 | H5 | React Native |
-|:---------------------------:|:-----:|:--:|:------------:|
-|   CheckboxGroupProps.name   |       | ✔️ |              |
-| CheckboxGroupProps.onChange |  ✔️   | ✔️ |      ✔️      |
+|             API             | WeChat Mini-Program | H5 | React Native |
+|:---------------------------:|:-------------------:|:--:|:------------:|
+|   CheckboxGroupProps.name   |                     | ✔️ |              |
+| CheckboxGroupProps.onChange |         ✔️          | ✔️ |      ✔️      |
 
-## API 支持度
+## API Support
 
-|      API      | 微信小程序 | H5 | React Native |
-|:-------------:|:-----:|:--:|:------------:|
-| CheckboxGroup |  ✔️   | ✔️ |      ✔️      |
+|      API      | WeChat Mini-Program | H5 | React Native |
+|:-------------:|:-------------------:|:--:|:------------:|
+| CheckboxGroup |         ✔️          | ✔️ |      ✔️      |
