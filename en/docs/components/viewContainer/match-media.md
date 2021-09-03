@@ -1,23 +1,23 @@
 ---
-title: matchMedia
-sidebar_label: matchMedia
+title: MatchMedia
+sidebar_label: MatchMedia
 ---
 
 
-media query 匹配检测节点。可以指定一组 media query 规则，满足时，这个节点才会被展示。
+`media query` match detection node.You can specify a set of `media query` rules that will be satisfied before this node is displayed.
 
-通过这个节点可以实现“页面宽高在某个范围时才展示某个区域”这样的效果。
+This node enables the effect that an area is only displayed when the page is within a certain width and height range.
 
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/match-media.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/match-media.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<MatchMediaProps>
 ```
 
-## 示例代码
+## Examples
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -36,10 +36,10 @@ class App extends Components {
     return (
       <View>
         <MatchMedia minWidth="300" maxWidth="600">
-          <view>当页面宽度在 300 ~ 500 px 之间时展示这里</view>
+          <view>Displayed when the page width is between 300 ~ 500 px</view>
         </MatchMedia>
         <MatchMedia minHeight="400" orientation="landscape">
-          <view>当页面高度不小于 400 px 且屏幕方向为纵向时展示这里</view>
+          <view>Displayed here when the page height is not less than 400 px and the screen orientation is portrait</view>
         </MatchMedia>
       </View>
     )
@@ -54,10 +54,10 @@ class App extends Components {
 <template>
   <view class="components-page">
     <match-media min-width="300" max-width="500">
-      <view>当页面宽度在 300 ~ 500 px 之间时展示这里</view>
+      <view>Displayed when the page width is between 300 ~ 500 px</view>
     </match-media>
     <match-media min-height="400" orientation="landscape">
-      <view>当页面高度不小于 400 px 且屏幕方向为纵向时展示这里</view>
+      <view>Displayed here when the page height is not less than 400 px and the screen orientation is portrait</view>
     </match-media>
   </view>
 </template>
@@ -71,68 +71,68 @@ class App extends Components {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>minWidth</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>页面最小宽度（ px 为单位）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specify the display condition for the minimum page width in px</td>
     </tr>
     <tr>
       <td>maxWidth</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>页面最大宽度（ px 为单位）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specify the display condition for the maximum page width in px</td>
     </tr>
     <tr>
       <td>width</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>页面宽度（ px 为单位）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specify the display condition for the page width in px</td>
     </tr>
     <tr>
       <td>minHeight</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>页面最小高度（ px 为单位）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specify the display condition for the minimum page height in px</td>
     </tr>
     <tr>
       <td>maxHeight</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>页面最大高度（ px 为单位）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specify the display condition for the maximum page height in px</td>
     </tr>
     <tr>
       <td>Height</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>页面高度（ px 为单位）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specify the display condition for the page height in px</td>
     </tr>
     <tr>
       <td>orientation</td>
       <td>string</td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>屏幕方向（ landscape 或 portrait ）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specify the display condition for the screen orientation</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### API Support
 
-|             API             | 微信小程序 | H5 | React Native |
-|:---------------------------:|:-----:|:--:|:------------:|
-|  matchMediaProps.minWidth   |  ✔️   |    |              |
-|  matchMediaProps.maxWidth   |  ✔️   |    |              |
-|    matchMediaProps.width    |  ✔️   |    |              |
-|  matchMediaProps.minHeight  |  ✔️   |    |              |
-|  matchMediaProps.maxHeight  |  ✔️   |    |              |
-|   matchMediaProps.Height    |  ✔️   |    |              |
-| matchMediaProps.orientation |  ✔️   |    |              |
+|             API             | WeChat Mini-Program | H5 | React Native |
+|:---------------------------:|:-------------------:|:--:|:------------:|
+|  matchMediaProps.minWidth   |         ✔️          |    |              |
+|  matchMediaProps.maxWidth   |         ✔️          |    |              |
+|    matchMediaProps.width    |         ✔️          |    |              |
+|  matchMediaProps.minHeight  |         ✔️          |    |              |
+|  matchMediaProps.maxHeight  |         ✔️          |    |              |
+|   matchMediaProps.Height    |         ✔️          |    |              |
+| matchMediaProps.orientation |         ✔️          |    |              |
 
 
