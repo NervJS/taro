@@ -1,98 +1,98 @@
 ---
-title: 实现细节
+title: Achieve Details
 ---
 
-本文会介绍 Taro 的部分实现细节，带动开发者了解 Taro 相关依赖包的具体功能，让开发者对更好地了解 Taro 这个项目。
+This paper describes the partial implementation of Taro and leads developers to understand the specific features of the Taro dependency pack to better understand Taro project.
 
-:::note 不定期更新。 :::
+:::note not to update regularly. :::
 
 ## CLI
 
-`@tarojs/cli` 是 Taro CLI 工具，它基于 `@tarojs/service` 包的插件化内核实现。
+`@tarojs/cli` is a Taro CLI tool based on the plugin kernel of `@tarojs/service`.
 
-CLI 里预先挂载了一系列的内置插件，每个命令、每个编译平台都是一个单独的 Taro 插件。
+A series of built-in plugins are pre-mounted in the CLI, each command, each compilation platform is a separate Taro plugin.
 
-## 小程序
+## Applet
 
-### 编译时
+### On compilation
 
-编译小程序时，CLI 会调用 `@tarojs/mini-runner` 包。`mini-runner` 主要做了这些事情：
+When compiling the applet, the CLI calls `@tarojs/mini-runner` package.`mini-runner` done mainly these things：
 
-1. 负责根据开发者的[编译配置](./config)调整 Webpack 配置。
-2. 注入自定义的 PostCSS 插件。（如 `postcss-pxtransform`）
-3. 注入自定义的 Webpack 插件。
-4. 注入自定义的 Webpack Loaders。（Loaders 位于 `@tarojs/taro-loader` 包中）
-5. 调用 Webpack 开启编译。
-6. 修改 Webpack 的编译产物，调整最终的编译结果。
+1. Responsible to adjust Webpack configuration based on developer's[compiler configuration](./config)
+2. Injects custom PostCSS plugin.(e.g. `postcss-pxtransform`)
+3. Injects a custom Webpack plugin.
+4. Injects custom Webpack Loaders.(Loaders in `@tarojs/taro-loader` packs)
+5. Call Webpack to enable compilation.
+6. Modify Webpack compilations and adjust the final compilation.
 
-### 运行时
+### On Run
 
 为了让 React、Vue 等框架直接运行在小程序端，我们需要在小程序的逻辑层**模拟浏览器环境**，包括实现 DOM、BOM API 等。
 
 `@tarojs/runtime` 是 Taro 的运行时适配器核心，它实现了精简的 DOM、BOM API、事件系统、Web 框架和小程序框架的桥接层等。
 
-> 因为 ReactDOM 体积较大，且包含很多兼容性代码。因此 Taro 借助 react-reconciler 实现了一个自定义渲染器用于代替 ReactDOM。渲染器位于 `@tarojs/react` 包中。
+> Because ReactDOM is large and contains many compatible code.Taro has implemented a custom renderer instead of ReactDOM.The renderer is in the `@tarojs/act` package.
 
-这时 Web 框架就可以使用 Taro 模拟的 API 渲染出一颗 Taro DOM 树，但是**这一切都运行在小程序的逻辑层**。而小程序的 xml 模板需要提前写死，Taro 如何使用一个静态的模板文件去渲染这颗动态的 Taro DOM 树呢？
+这时 Web 框架就可以使用 Taro 模拟的 API 渲染出一颗 Taro DOM 树，但是**这一切都运行在小程序的逻辑层**。And a small xml template needs to be written in advance, how can Taro use a static template file to render this dynamic Taro DOM tree?
 
-Taro 选择了利用小程序 `<template>` 可以引用其它 `<template>` 的特性，把 Taro DOM 树的每个 DOM 节点对应地渲染为一个个 `<template>`。这时只需要把 Taro DOM 树的序列化数据进行 `setData`，就能触发 `<template>` 的相互引用，从而渲染出最终的 UI。
+Taro selected using the applet `<template>` to quote other `<template>` and to render the equivalent of each DOM node of the Taro DOM tree to a sex formature `<template>`.Just serialize the Taro DOM tree for `setData`to trigger the cross-referencing of `<template>` to render the final UI.
 
-> 项目的 `dist/base.xml` 文件就是这些 `<template>` 的集合。
+> The project's `distant/base.xml` files are the collections of `<template>`.
 
-### 端平台插件
+### Terminal Plugin
 
-Taro 内部默认支持 6 大小程序平台，自 [Taro v3.1](https://docs.taro.zone/blog/2021-03-10-taro-3-1-lts#1-%E5%BC%80%E6%94%BE%E5%BC%8F%E6%9E%B6%E6%9E%84) 版本之后，对各小程序平台的支持都以 Taro 插件的形式进行：
+Taro Internal Default Support for 6 Applet Platforms, since [Taro v3.1](https://docs.taro.zone/blog/2021-03-10-taro-3-1-lts#1-%E5%BC%80%E6%94%BE%E5%BC%8F%E6%9E%B6%E6%9E%84) supports all Applets in Taro Plugins：
 
-- `@tarojs/plugin-platform-weapp`   微信小程序插件
-- `@tarojs/plugin-platform-alipay`  支付宝小程序插件
-- `@tarojs/plugin-platform-swan`    百度小程序插件
-- `@tarojs/plugin-platform-tt`  字节跳动小程序插件
-- `@tarojs/plugin-platform-qq`  qq 小程序插件
-- `@tarojs/plugin-platform-jd`  京东小程序插件
+- `@tarojs/plugin-platform-weapp plugin`
+- `@tarojs/plugin-plate-alipay`  PayPal Applet Plugin
+- `@tarojs/plugin-platform-swan`    Hidden Applet Plugin
+- `@tarojs/plugin-platform-tt`  Byte jump applet plugin
+- `@tarojs/plugin-platform-qq`  qq applet plugin
+- `@tarojs/plugin-platform-jd`  Gingodon Applet Plugin
 
-端平台插件针对特定的平台，会分别为编译时和运行时注入逻辑，详情请见 [《端平台插件概述》](./platform-plugin)。
+Terminal platform plugins are specific platforms and inject logic into compilation and running, detailed in [Platform Plugin Summary](./platform-plugin)
 
 ## H5
 
-### 编译时
+### On compilation
 
-编译 H5 时，CLI 会调用 `@tarojs/webpack-runner` 包。`webpack-runner` 主要做了这些事情：
+When compiling H5, the CLI calls `@tarojs/webpack-runner` packs.`webpack-runner` mainly done these things：
 
-1. 负责根据开发者的[编译配置](./config)调整 Webpack 配置。
-2. 注入自定义的 PostCSS 插件。（如 `postcss-pxtransform`、`postcss-plugin-constparse`）
-3. 注入自定义的 Webpack 插件。
-4. 注入自定义的 Webpack Loaders。（Loaders 位于 `@tarojs/taro-loader` 包中）
-5. 调用 Webpack 开启编译。
-6. 修改 Webpack 的编译产物，调整最终的编译结果。
+1. Responsible to adjust Webpack configuration based on developer's[compiler configuration](./config)
+2. Injects custom PostCSS plugin.(e.g. `postcss-pxtransform`,`postcss-plugin-constparse`)
+3. Injects a custom Webpack plugin.
+4. Injects custom Webpack Loaders.(Loaders in `@tarojs/taro-loader` packs)
+5. Call Webpack to enable compilation.
+6. Modify Webpack compilations and adjust the final compilation.
 
-### 组件库
+### Component library
 
-Taro 在 H5 端实现了遵循微信小程序规范的基础组件库。
+Taro implements a base component library that follows the microcreditworthiness rule at the H5 end.
 
-默认会使用 `@tarojs/components` 提供的 Web Components 组件库。
+The Web Component Library will be provided by default using `@tarojs/components`.
 
-开发者使用 React 开发时，也可以选用[兼容性组件库](./h5#react-兼容性组件库)，这时 `@tarojs/components-react` 将会代替 `@tarojs/components`。
+Developers can also use[compatible component library](./h5#react-兼容性组件库)when they develop React, and read `@tarojs/components-act` instead of `@tarojs/components`.
 
 ### API
 
-开发者从 `@tarojs/taro` 中引用 Taro 对象并使用它提供的 API。
+Developers refer to Taro objects from `@tarojs/taro` and use the API provided by it.
 
-在 H5 环境，`@tarojs/taro` 会从 `@tarojs/api` 取与平台无关的 API，从 `@tarojs/taro-h5` 中取遵循小程序规范实现的 API，最终集合成一个 Taro 对象暴露给开发者。
+In H5 environment,`@tarojs/taro` exposes a Taro object to developers from `@tarojs/api` from `@tarojs/taro-h5`.
 
-> 开发者一般会以 `Taro.xxx` 这种形式调用 API。`babel-plugin-transform-taroapi` 插件会把这种写法转换为 `import { xxx } from '@tarojs/taro';` 再进行调用，这样才能保证 Tree Shaking 生效。
+> Developers will normally call the API in the form of `Taro.xxx`.`babel-plugin-transform-taroapi` Plugins convert this to `import { xxx } from '@tarojs/taro';` make a call to ensure Tree Shining takes effect.
 
-### 路由
+### Route
 
-`@tarojs/router` 实现了遵循小程序规范的路由库。
+`@tarojs/router` implements a router library that follows applet specifications.
 
-## Typings
+## Types
 
-Taro 的 Typings 文件位于 `@tarojs/taro/types` 中。
+Tare's Typs file is in `@tarojs/taro/types`.
 
-因为各小程序的 API 更新较快，Typings 十分需要社区协助维护。
+Since the applets are up to date with the API, Typings greatly need community help for maintenance.
 
-## 反向转换
+## Reverse transformation
 
-反向转换，即原生微信小程序转换为 Taro 的功能，目前支持转换为 React。
+Invert conversion, the original micromessage applet conversion to Taro, is currently supported for React.
 
-反向转换分为编译时和运行时两大模块，分别位于 `@tarojs/taroize` 和 `@tarojs/with-weapp`。
+The reverse transformation is divided into two large blocks on compilation and running at `@tarojs/taroiz` and `@tarojs/with-weapp`.
