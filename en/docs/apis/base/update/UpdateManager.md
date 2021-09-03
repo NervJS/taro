@@ -3,17 +3,17 @@ title: UpdateManager
 sidebar_label: UpdateManager
 ---
 
-UpdateManager 对象，用来管理更新，可通过 Taro.getUpdateManager 接口获取实例。
+The UpdateManager object, which is used to manage updates. Instances can be obtained via the `Taro.getUpdateManager` API.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/update/UpdateManager.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/base/update/UpdateManager.html)
 
-## 方法
+## Methods
 
 ### applyUpdate
 
-强制小程序重启并使用新版本。在小程序新版本下载完成后（即收到 `onUpdateReady` 回调）调用。
+Forces a Mini Program to restart and update to the latest version.This API is called after the new Mini Program version is downloaded (i.e., when the `onUpdateReady` callback is received).
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/update/UpdateManager.applyUpdate.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/base/update/UpdateManager.applyUpdate.html)
 
 ```tsx
 () => void
@@ -21,9 +21,9 @@ UpdateManager 对象，用来管理更新，可通过 Taro.getUpdateManager 接�
 
 ### onCheckForUpdate
 
-监听向微信后台请求检查更新结果事件。微信在小程序冷启动时自动检查更新，不需由开发者主动触发。
+监听向微信后台请求检查更新结果事件。WeChat automatically checks for updates when the Mini program cold starts. The developer does not need to trigger this method.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/update/UpdateManager.onCheckForUpdate.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/base/update/UpdateManager.onCheckForUpdate.html)
 
 ```tsx
 (callback: OnCheckForUpdateCallback) => void
@@ -32,25 +32,25 @@ UpdateManager 对象，用来管理更新，可通过 Taro.getUpdateManager 接�
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Parameter</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>OnCheckForUpdateCallback</code></td>
-      <td>向微信后台请求检查更新结果事件的回调函数</td>
+      <td>The callback function for the event that a request for checking for updates is sent to the WeChat backend.</td>
     </tr>
   </tbody>
 </table>
 
 ### onUpdateFailed
 
-监听小程序更新失败事件。小程序有新版本，客户端主动触发下载（无需开发者触发），下载失败（可能是网络原因等）后回调
+Listens on Mini Program update failure event.小程序有新版本，客户端主动触发下载（无需开发者触发），下载失败（可能是网络原因等）后回调
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/update/UpdateManager.onUpdateFailed.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/base/update/UpdateManager.onUpdateFailed.html)
 
 ```tsx
 (callback: (res: CallbackResult) => void) => void
@@ -59,16 +59,16 @@ UpdateManager 对象，用来管理更新，可通过 Taro.getUpdateManager 接�
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Parameter</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td>小程序更新失败事件的回调函数</td>
+      <td>The callback function for Mini Program update failure event.</td>
     </tr>
   </tbody>
 </table>
@@ -77,7 +77,7 @@ UpdateManager 对象，用来管理更新，可通过 Taro.getUpdateManager 接�
 
 监听小程序有版本更新事件。客户端主动触发下载（无需开发者触发），下载成功后回调
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/update/UpdateManager.onUpdateReady.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/base/update/UpdateManager.onUpdateReady.html)
 
 ```tsx
 (callback: (res: CallbackResult) => void) => void
@@ -86,25 +86,25 @@ UpdateManager 对象，用来管理更新，可通过 Taro.getUpdateManager 接�
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Parameter</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td>小程序有版本更新事件的回调函数</td>
+      <td>The callback function for the event that a newer Mini Program version is available.</td>
     </tr>
   </tbody>
 </table>
 
-## 参数
+## Parameter
 
 ### OnCheckForUpdateCallback
 
-向微信后台请求检查更新结果事件的回调函数
+The callback function for the event that a request for checking for updates is sent to the WeChat backend.
 
 ```tsx
 (result: OnCheckForUpdateResult) => void
@@ -113,8 +113,8 @@ UpdateManager 对象，用来管理更新，可通过 Taro.getUpdateManager 接�
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Parameter</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -130,16 +130,16 @@ UpdateManager 对象，用来管理更新，可通过 Taro.getUpdateManager 接�
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>hasUpdate</td>
       <td><code>boolean</code></td>
-      <td>是否有新版本</td>
+      <td>Indicates whether a new version is available</td>
     </tr>
   </tbody>
 </table>
