@@ -2,37 +2,37 @@
 title: TaroPlatformBase
 ---
 
-我们把编译时常用的逻辑抽象出了一个基类 `TaroPlatformBase`，开发者可以继承于此基类，从而实现端平台的编译。
+We abstract the logic commonly used for compilation into a base class `TaroPlatformBase`that developers can inherit from this base class and thus implement the platform compilation.
 
-例如我们创建一个微信小程序平台：
+For example, we created a micromessenger platform：
 
 ```js title="program.ts"
 import { TaroPlatformBase } from '@tarojs/service'
-export default class Weapp extends TaroPlatformBase {
+export default class of Weapp extends TaroPlatformBase
   // ...
-}
+ } }
 ```
 
-## 方法与属性
+## Methods & Properties
 
-### constructor (ctx, config)
+### Constructor (Ctx, config)
 
-构造函数，接受两个参数。
+Construct a function that accepts two parameters.
 
-| 参数     | 类型     | 说明        |
-|:------ |:------ |:--------- |
-| ctx    | object | 插件上下文对象   |
-| config | object | Taro 编译配置 |
+| Parameters | Type   | Note                           |
+|:---------- |:------ |:------------------------------ |
+| ctx        | Object | Plugin Context Object          |
+| config     | Object | Taro Compilation Configuration |
 
 ### ctx
 
-`object`
+`Object`
 
-插件上下文对象。
+Context object of the plugin.
 
 #### this.ctx.modifyWebpackChain
 
-获取 WebpackChain，例子：
+Get WebpackChain, Example：
 
 ```js title="program.ts"
 class Weapp extends TaroPlatformBase {
@@ -47,23 +47,23 @@ class Weapp extends TaroPlatformBase {
 
 ### helper
 
-`object`
+`Object`
 
-存放着一系列工具函数，对应 `@tarojs/helper` 包的导出内容。
+Store a series of tools functions for the export content of `@tarojs/helper`.
 
 ### config
 
-`object`
+`Object`
 
-编译配置对象。
+Compiles config objects.
 
-### (abstract) platform
+### (abstract) platform form
 
-> 抽象属性，子类必须实现。
+> abstract properties, subcategories must be implemented.
 
-`string`
+`String`
 
-平台名称，如：
+Platform name, e.g.：
 
 ```js title="program.ts"
 class Weapp extends TaroPlatformBase {
@@ -73,39 +73,39 @@ class Weapp extends TaroPlatformBase {
 
 ### (abstract) globalObject
 
-> 抽象属性，子类必须实现。
+> abstract properties, subcategories must be implemented.
 
-`string`
+`String`
 
-小程序挂载各种 API 的全局对象名称。如微信小程序的 `wx`，支付宝小程序的 `my`，例如：
+The applet mount the global object name of various APIs.like the micromessaging applet `wx`, the payout applet `my`, eg:：
 
 ```js title="program.ts"
-class Weapp extends TaroPlatformBase {
+class Weapp extents TaroPlatformBase {
   globalObject = 'wx'
 }
 ```
 
 ### (abstract) runtimePath
 
-> 抽象属性，子类必须实现。
+> abstract properties, subcategories must be implemented.
 
 `stirng` | `string[]`
 
-小程序编译的运行时文件的解析路径，如：
+Path to parse file when the applet compiles, e.g.：
 
 ```js title="program.ts"
-class Weapp extends TaroPlatformBase {
-  runtimePath = '@tarojs/plugin-platform-weapp/dist/runtime'
+class Weapp extends TaroPlatformBase $
+  runtimePath = '@tarojs/plugin-platform-weapp/distant/runtime'
 }
 ```
 
 ### (abstract) fileType
 
-> 抽象属性，子类必须实现。
+> abstract properties, subcategories must be implemented.
 
-`object`
+`Object`
 
-平台的各种文件的后缀名，如：
+The suffix of various files in the platform, e.g.：
 
 ```js title="program.ts"
 class Weapp extends TaroPlatformBase {
@@ -127,19 +127,19 @@ class Weapp extends TaroPlatformBase {
 
 ### (abstract) template
 
-> 抽象属性，子类必须实现。
+> abstract properties, subcategories must be implemented.
 
-`object`
+`Object`
 
-[模板对象](./platform-plugin-template)的实例。
+[Example of template object](./platform-plugin-template).
 
 ### (optional) projectConfigJson
 
-> 子类可选择是否进行设置。
+> Subclass can choose whether or not to set up.
 
-小程序配置文件的名称。
+Name of the applet configuration file.
 
-如果子类有实现 `projectConfigJson`，则会自动拷贝此文件到 `dist` 目录下。
+If the subclass has an implementation `projectConfigJson`this file will be automatically copied to `dist` directory.
 
 ```js title="program.ts"
 class Weapp extends TaroPlatformBase {
@@ -149,9 +149,9 @@ class Weapp extends TaroPlatformBase {
 
 ### (optional) taroComponentsPath
 
-> 子类可选择是否进行设置。
+> Subclass can choose whether or not to set up.
 
-编译时对 `@tarojs/components` 包的 alias，下文将详细介绍。
+The alias of `@tarojs/components` package is compiled and will be described below.
 
 ```js title="program.ts"
 class Weapp extends TaroPlatformBase {
@@ -161,7 +161,7 @@ class Weapp extends TaroPlatformBase {
 
 ### setupTransaction
 
-`setup` 阶段的事务钩子。
+`setup` stage transaction hook.
 
 ```js title="program.ts"
 class Weapp extends TaroPlatformBase {
@@ -184,9 +184,9 @@ class Weapp extends TaroPlatformBase {
 }
 ```
 
-### buildTransaction
+### BuildTransaction
 
-`build` 阶段的事务钩子。
+`Build` stage transaction hook.
 
 ```js title="program.ts"
 class Weapp extends TaroPlatformBase {
@@ -211,7 +211,7 @@ class Weapp extends TaroPlatformBase {
 
 ### start ()
 
-插件入口调用 `start` 方法开启编译，如：
+Plugin Entrance call `start` to enable compilation, e.g.：
 
 ```js title="program.ts"
 class Weapp extends TaroPlatformBase {
@@ -230,32 +230,32 @@ export default (ctx) => {
 }
 ```
 
-### generateProjectConfig (src, dist)
+### generateProjectConfig (src, distress)
 
-用于生成 project.config.json 此类项目配置文件。
+Used to generate project.config.json this type of project profile.
 
-| 参数   | 类型     | 默认值                   | 说明           |
-|:---- |:------ |:--------------------- |:------------ |
-| src  | string |                       | 项目源码中配置文件的名称 |
-| dist | string | 'project.config.json' | 编译后配置文件的名称   |
+| Parameters | Type   | Default value         | Note                                                      |
+|:---------- |:------ |:--------------------- |:--------------------------------------------------------- |
+| src        | String |                       | Name of the configuration file in the project source code |
+| Dist       | String | 'project.config.json' | Name of compiled profile                                  |
 
-例子：
+Example：
 
 ```js
-// 把用户编写的 `project.tt.json` 输出为 `project.config.json`
+// Output `project.tt.json` from the user's `project.config.json` to `project.config.json`
 generateProjectConfig('project.tt.json')
-// 把用户编写的 `project.swan.json` 输出为 `project.swan.json`
+// Output `project.swan.json` from the user's `project.swan.json` to `project.swan.json`
 generateProjectConfig('project.swan.json', 'project.swan.json')
 ```
 
-### recursiveReplaceObjectKeys (target, keyMap)
+### recursiveReplaceObjectKey (target, keyMap)
 
-递归替换目标对象的 key 值。
+Replace the key value of the target object recursively.
 
-| 参数     | 类型     | 说明        |
-|:------ |:------ |:--------- |
-| target | object | 目标对象      |
-| keyMap | object | key 值替换规则 |
+| Parameters | Type   | Note      |
+|:---------- |:------ |:--------- |
+| Target     | Object | Target    |
+| keyMap     | Object | key 值替换规则 |
 
 例子，支付宝小程序配置项 key 值和大多数小程序的规范不一样，需要进行对齐：
 
