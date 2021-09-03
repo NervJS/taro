@@ -1,18 +1,18 @@
 ---
-title: API 说明
+title: API Introduction
 ---
 
-Taro 的 API 包括 Taro 内置提供的 API 以及对小程序的端能力 API 的封装。
+Taro's APIs include the built-in APIs provided by Taro and the different APIs defined by each mini-program platform.
 
-其中对小程序的端能力 API 的封装，主要会基于微信小程序的 API 规范，对于其他小程序类似的 API，会在 Taro 中适配为小程序 API 的规范格式，并且都挂载在 `Taro` 命名空间下。
+The encapsulation of the APIs defined by the mini-program platform will be based on the API specification of the WeChat mini-program. For the similar API in other platforms, it will be adapted to the standard format in Taro, and be mounted under the namespace `Taro`.
 
-例如，支付宝小程序中，`my.alert` 用于弹出一个警告的模态框，而微信小程序中没有这一 API，与之类似的有 `wx.showModal`，所以在 Taro 中会将支付宝的 `my.alert` 统一为 `Taro.showModal`，从而减少一些跨平台兼容代码的书写。
+For example, in the Alipay mini-program, `my.alert` is used to pop up a warning modal, while there is no such API in the Wechat mini-program. Instead, it's called `wx.showModal` in the Wechat mini-program, so Alipay’s `my.alert` is unified as `Taro.showModal`, thus reducing the redundant writing of cross-platform compatible codes.
 
-而对于微信小程序中没有，而某些小程序平台特有的 API，可以先尝试用 `Taro.` + API 名称来进行调用，如果出现未定义，则使用对应小程序平台的命名空间（如 `my`、`swan`、`tt` 等）来进行调用，并反馈给我们。
+For APIs that are not available in the WeChat mini-program and are unique to some mini-program platforms, you could first try to call them with `Taro.` + API name. If there is no definition, use the namespace of the corresponding mini-program platform (such as `my`, `swan`, `tt`, etc.) to call and feedback to us.
 
-当然，由于各个小程序平台的迭代非常快速，Taro 要不断跟进小程序的更新，有时候难免有些 API 没有加入 Taro 适配，你可以通过提 PR 或者 issue，来获得帮助。
+Due to the rapid iteration of each platform, Taro has to keep up with the update of them. Sometimes it is inevitable that the APIs are not adapted to Taro. You could get help by raising a PR or issue.
 
-同时，为了方便代码书写，Taro 默认对小程序的异步 API 进行了 `promisify` 化，你可以像使用 Promise 那样进行调用，例如
+Meanwhile, to facilitate coding, Taro has “promisify” the asynchronous API of the mini-program. You could call it like a Promise, for example:
 
 ```js
 import Taro from '@tarojs/taro'
