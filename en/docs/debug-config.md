@@ -1,27 +1,27 @@
 ---
-title: 单步调测配置
+title: Single-step Debugging Configuration
 ---
 
-> 通过本身 `VSCode` 提供的跨平台代码单步调测能力，能够极大提升基于 `Taro` 开发框架的应用开发速度，因其他平台已有比较成熟的工具可以使用，着重降低 Windows 平台配置复杂度。
+> With the cross-platform code single-step debugging capability provided by `VSCode`, we can greatly improve the speed of application development based on the `Taro` development framework, and focus on reducing the complexity of configuration for Windows platform as more mature tools are already available for other platforms.
 
-## 一、开发环境搭建
+## 一、Development Environment Setup
 
-首先准备 `Taro` 在 Windows 下的基础开发环境，详情如下(已有开发环境可略过）：
+First, prepare the basic development environment for `Taro` on Windows, as follows (existing development environments can be skipped).
 
-#### 1. 安装 Node.js
-建议安装 `10.15` 以上版本，官方下载地址：[Node.js](https://nodejs.org/dist/v12.14.0/node-v12.14.0-x64.msi " node.js")
+#### 1. Install Node.js
+It is recommended to install `10.15` or above,  download [Node.js](https://nodejs.org/dist/v12.14.0/node-v12.14.0-x64.msi " node.js")
 
-#### 2. 安装 VSCode
+#### 2. Install VSCode
 
-安装完最新 `VSCode` 后，建议安装如下插件:
--  `ESlint` — 代码规范
--  `TSlint` — 语法检查
+After installing the latest `VSCode`, it is recommended to install the following plugins:
+-  `ESlint` - Code Specification
+-  `TSlint` - syntax checking
 
-#### 3. Taro 源码下载
+#### 3. Taro Source Code Download
 
-下载地址：[Taro](https://github.com/NervJS/taro.git "Taro")，默认为 `next` 分支。
+Download: [Taro](https://github.com/NervJS/taro.git "Taro"), Default is 2.x branch, if you want to debug Taro Next, please switch to **next** branch first.
 
-#### 4. 全局安装 Node-sass 、Lerna 和 Rollup
+#### 4. Global installation of Node-sass, Lerna and Rollup
 ```shell
 npm i -g node-sass --sass_binary_site=https://npm.taobao.org/mirrors/node_sass/
 yarn global add lerna
@@ -30,32 +30,30 @@ yarn global add rollup
 
 :::note Node-sass 比较特殊，建议提前进行安装，规避可能出现的各种异常错误。 :::
 
-#### 5. 源码依赖安装
-1.使用 `VSCode` 打开 `Taro` 源码目录，在根目录下执行 `yarn` ，安装项目所需依赖库（首次安装所花时间较长，请耐心等待）
+#### 5. Source code Dependency Installation
+2.After `yarn` finishes executing, run `yarn run bootstrap` to install dependencies for the subpackages
 
-2.待 `yarn` 执行完毕后，执行 `yarn run bootstrap` 为子包安装依赖
+3.Run `yarn build` to compile all modules
 
-3.执行 `yarn build` 编译所有模块
+Open the **.vscode** folder in the root of the Taro source code in VSCode and edit **launch.json**.
 
-## 二、单步调试
+## 二、CLI Debugging
 
-### 1. 配置 VSCode 调试参数
+### 1. Configure VSCode Debugging Parameters
 
-:::note launch.json 的详细配置请见 [VSCode 文档](https://code.visualstudio.com/docs/editor/debugging#_launch-configurations) :::
+The launch.json has the following preset configuration.
 
-在 VSCode 中打开 Taro 源码根目录的 **.vscode** 文件夹，编辑 **launch.json**。
+Modification steps:
 
-修改步骤：
+Example：
 
-- 修改 `cwd` 选项为需要调试的目标工作目录
-- 修改 `args` 为需要调试的命令参数
+- modify **cwd** option to be the target working directory to be debugged
+- modify args to be the parameter of the command to be debugged
 
 ```json title="launch.json" {10-16}
 {
-  // ...
-  "configurations": [
-    //...
-    {
+  // ... "configurations": [
+    //... {
       "type": "node",
       "request": "launch",
       "name": "CLI debug",
@@ -77,20 +75,17 @@ yarn global add rollup
 
 #### 例子
 
-##### 1) 调试 taro-build
+##### taro-build Debugging
 
-假设需要调试 test 项目的 `taro build --weapp --watch` 命令。
+Suppose you need to debug the `taro build --weapp --watch` command for the test project.
 
-可以这样配置 launch.json：
+You can configure launch.json like this.
 
 ```json title="launch.json"
 {
-  // ...
-  "configurations": [
-    //...
-    {
-      // ...
-      "cwd": "/Users/User/Desktop/test",
+  // ... "configurations": [
+    //... {
+      // ... "cwd": "/Users/User/Desktop/test",
       "args": [
         "build",
         "--type",
@@ -102,20 +97,17 @@ yarn global add rollup
 }
 ```
 
-##### 2) 调试 taro-init
+##### taro-init Debugging
 
-假设需要调试 `taro init projectName` 命令。
+Suppose you need to debug the `taro init projectName` command for the test project.
 
-可以这样配置 launch.json：
+You can configure launch.json like this:
 
 ```json title="launch.json"
 {
-  // ...
-  "configurations": [
-    //...
-    {
-      // ...
-      "cwd": "/Users/User/Desktop",
+  // ... "configurations": [
+    //... {
+      // ... "cwd": "/Users/User/Desktop",
       "args": [
         "init",
         "projectName"
@@ -125,28 +117,28 @@ yarn global add rollup
 }
 ```
 
-### 2. 编译子包
+### 2. Compiling Subpackages
 
-调试某一个子包时，如果希望能调试修改后的代码，请先进入对应子包的根目录开启 watch 模式编译。
+When debugging a subpackage, if you want to debug the modified code, go to the root of the corresponding subpackage and turn on watch mode compilation.
 
-例如调试 `@tarojs/mini-runner`，先进入 `packages/mini-runner/`，然后在此目录下对运行 `npm run dev`（各子包编译命令可能有所不同，详情请见各子包的 **package.json**）。这样我们就能对每次修改后的代码进行调试。
+For example, to debug `@tarojs/mini-runner`, first go to `packages/mini-runner/`, and then run `npm run dev` in this directory (the compile command may vary by subpackage, see the **package.json** of each subpackage for details).This will allow us to debug the code after each change.
 
-### 3.链接未发布的库
+### 3.Links to unpublished libraries
 
-如果当前开发的子包依赖于其它子包，可以把其它子包 link 过来使用。[开发环境搭建](./debug-config#一、开发环境搭建) 里介绍的 `yarn run bootstrap` 命令已经为所有子包创建好软连接。
+If the currently developed subpackage depends on other subpackages, you can link the other subpackages to use them.The `yarn run bootstrap` command introduced in [Development Environment Setup](./debug-config#开发环境搭建) already creates soft connections for all subpackages.
 
-如果需要为当前子包增加其它子包作为依赖，可以在 Taro 源码根目录执行 `lerna add [package] --scope=[target] [--dev]`，之后 lerna 会自动创建好软链。
+If you need to add other subpackages as dependencies for the current subpackage, you can execute `lerna add [package] --scope=[target] [--dev]` in the Taro source root, after which lerna will automatically create the soft chain.
 
-例如为 `@tarojs/cli` 增加 `@tarojs/webpack-runner` 作为 devdependencies：
+example：  `@tarojs/cli` add `@tarojs/webpack-runner` as devdependencies：
 
 `lerna add @tarojs/webpack-runner --scope=@tarojs/cli --dev`
 
-另外如果软链失效了（例如在子包里执行了 `yarn add`），可以使用 `lerna link` 命令重新进行软链。
+Alternatively, if the softlink fails (e.g. `yarn add` is executed in a subpackage), you can use the `lerna link` command to softlink again.
 
-### 4.启动调试
+### 4.Start up debugging
 
-按下图操作即可开始单步调试，详细调试操作可参考 VSCode 文档。
+You can start single-step debugging by following the diagram below, please refer to VSCode documentation for detailed debugging operation.
 
 ![](http://storage.jd.com/cjj-pub-images/WX20200602-221337.png)
 
-:::note 目前 Taro 项目的子包一般编译都会产生 `source-map`，所以一般都能够直接在源码位置使用断点。如果某些包编译时没有开启 `source-map`，可手动开启然后提交 `Pull Requests`。 :::
+Currently, subpackages of the Taro project are generally compiled with `source-map`, so it is usually possible to use breakpoints directly in the source code location. If some packages are not compiled with `source-map` enabled, you can enable it manually and submit `Pull Requests`.如果某些包编译时没有开启 `source-map`，可手动开启然后提交 `Pull Requests`。 :::
