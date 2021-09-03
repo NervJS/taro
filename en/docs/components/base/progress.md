@@ -3,17 +3,17 @@ title: Progress
 sidebar_label: Progress
 ---
 
-进度条。组件属性的长度单位默认为 px
+进度条。progress。 The unit of length of the component's properties is px by default.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/progress.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/progress.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<ProgressProps>
 ```
 
-## 示例代码
+## Examples
 
 
 import Tabs from '@theme/Tabs';
@@ -69,11 +69,11 @@ export default class PageView extends Component {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -82,107 +82,107 @@ export default class PageView extends Component {
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>百分比 0~100</td>
+      <td>0 to 100 percent.</td>
     </tr>
     <tr>
       <td>showInfo</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>在进度条右侧显示百分比</td>
+      <td>Shows the percent on the right of the progress bar.</td>
     </tr>
     <tr>
       <td>borderRadius</td>
       <td><code>string | number</code></td>
       <td style={{ textAlign: "center"}}><code>0</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>圆角大小</td>
+      <td>The radius of the round corner.</td>
     </tr>
     <tr>
       <td>fontSize</td>
       <td><code>string | number</code></td>
       <td style={{ textAlign: "center"}}><code>16</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>右侧百分比字体大小</td>
+      <td>The font size of the percent on the right.</td>
     </tr>
     <tr>
       <td>strokeWidth</td>
       <td><code>string | number</code></td>
       <td style={{ textAlign: "center"}}><code>6</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>进度条线的宽度</td>
+      <td>The width of the stroke on the progress bar.</td>
     </tr>
     <tr>
       <td>color</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;#09BB07&quot;</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>进度条颜色 (请使用 activeColor)</td>
+      <td>The color of the progress bar (Use activeColor).</td>
     </tr>
     <tr>
       <td>activeColor</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;#09BB07&quot;</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>已选择的进度条的颜色</td>
+      <td>The color of the selected progress bar.</td>
     </tr>
     <tr>
       <td>backgroundColor</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;#EBEBEB&quot;</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>未选择的进度条的颜色</td>
+      <td>The color of the unselected progress bar.</td>
     </tr>
     <tr>
       <td>active</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>进度条从左往右的动画</td>
+      <td>The animation where the progress bar moves from left to right.</td>
     </tr>
     <tr>
       <td>activeMode</td>
       <td><code>&quot;backwards&quot; | &quot;forwards&quot;</code></td>
       <td style={{ textAlign: "center"}}><code>backwards</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>backwards: 动画从头播<br /><br />forwards: 动画从上次结束点接着播</td>
+      <td>The value "backwards" indicates that the animation plays from the beginning, and the value "forwards" indicates that the animation plays from the point at which it paused.</td>
     </tr>
     <tr>
       <td>duration</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>30</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>进度增加 1% 所需毫秒数</td>
+      <td>Number of milliseconds to increase progress by 1%.</td>
     </tr>
     <tr>
       <td>onActiveEnd</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>动画完成事件</td>
+      <td>Triggered on animation completion.</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|              API              | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
-|:-----------------------------:|:-----:|:-----:|:------:|:-------:|:--:|:------------:|
-|     ProgressProps.percent     |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-|    ProgressProps.showInfo     |  ✔️   |  ✔️   |   ✔️   |         | ✔️ |      ✔️      |
-|  ProgressProps.borderRadius   |  ✔️   |       |        |         | ✔️ |              |
-|    ProgressProps.fontSize     |  ✔️   |       |        |         | ✔️ |              |
-|   ProgressProps.strokeWidth   |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-|      ProgressProps.color      |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |              |
-|   ProgressProps.activeColor   |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-| ProgressProps.backgroundColor |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-|     ProgressProps.active      |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-|   ProgressProps.activeMode    |  ✔️   |  ✔️   |        |   ✔️    | ✔️ |      ✔️      |
-|    ProgressProps.duration     |  ✔️   |       |        |         | ✔️ |              |
-|   ProgressProps.onActiveEnd   |  ✔️   |       |        |         | ✔️ |              |
+|              API              | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 | React Native |
+|:-----------------------------:|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+|     ProgressProps.percent     |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+|    ProgressProps.showInfo     |         ✔️          |         ✔️          |         ✔️          |                     | ✔️ |      ✔️      |
+|  ProgressProps.borderRadius   |         ✔️          |                     |                     |                     | ✔️ |              |
+|    ProgressProps.fontSize     |         ✔️          |                     |                     |                     | ✔️ |              |
+|   ProgressProps.strokeWidth   |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+|      ProgressProps.color      |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |              |
+|   ProgressProps.activeColor   |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+| ProgressProps.backgroundColor |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+|     ProgressProps.active      |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+|   ProgressProps.activeMode    |         ✔️          |         ✔️          |                     |         ✔️          | ✔️ |      ✔️      |
+|    ProgressProps.duration     |         ✔️          |                     |                     |                     | ✔️ |              |
+|   ProgressProps.onActiveEnd   |         ✔️          |                     |                     |                     | ✔️ |              |
 
-## API 支持度
+## API Support
 
-|   API    | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
-|:--------:|:-----:|:-----:|:------:|:-------:|:--:|:------------:|
-| Progress |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
+|   API    | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 | React Native |
+|:--------:|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| Progress |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
