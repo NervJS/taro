@@ -3,47 +3,47 @@ title: Taro.getSetting(option)
 sidebar_label: getSetting
 ---
 
-获取用户的当前设置。**返回值中只会出现小程序已经向用户请求过的[权限](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html)**。
+Obtains the user's current settings.**Only the [permissions](https://developers.weixin.qq.com/miniprogram/en/dev/framework/open-ability/authorize.html) that have been requested by the Mini Program from the user are returned.**
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/setting/wx.getSetting.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/setting/wx.getSetting.html)
 
-## 类型
+## Type
 
 ```tsx
 (option?: Option) => Promise<SuccessCallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -53,26 +53,26 @@ sidebar_label: getSetting
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>authSetting</td>
       <td><code>AuthSetting</code></td>
-      <td>用户授权结果</td>
+      <td>Results of user authorization</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.getSetting({
@@ -86,8 +86,8 @@ Taro.getSetting({
 })
 ```
 
-## API 支持度
+## API Support
 
-|       API       | 微信小程序 | H5 | React Native |
-|:---------------:|:-----:|:--:|:------------:|
-| Taro.getSetting |  ✔️   |    |              |
+|       API       | WeChat Mini-Program | H5 | React Native |
+|:---------------:|:-------------------:|:--:|:------------:|
+| Taro.getSetting |         ✔️          |    |              |
