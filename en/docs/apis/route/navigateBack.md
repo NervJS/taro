@@ -3,77 +3,76 @@ title: Taro.navigateBack(option)
 sidebar_label: navigateBack
 ---
 
-关闭当前页面，返回上一页面或多级页面。可通过 getCurrentPages 获取当前的页面栈，决定需要返回几层。
+Closes the current page and returns to the previous page or multi-level page.The current page stack can be obtained via `getCurrentPages` to determine the number of layers to be returned.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.navigateBack.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.navigateBack.html)
 
-## 类型
+## Type
 
 ```tsx
 (option?: Option) => Promise<CallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>delta</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>返回的页面数，如果 delta 大于现有页面数，则返回到首页。</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Number of pages returned. The home page is navigated to if delta is greater than the current number of pages.</td>
     </tr>
     <tr>
       <td>fail</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
-// 注意：调用 navigateTo 跳转时，调用该方法的页面会被加入堆栈，而 redirectTo 方法则不会。见下方示例代码
-// 此处是A页面
+// Note: When calling navigateTo, the page that calls this method is added to the stack, but the redirectTo method will not.See the sample code below. // This is Page A
 Taro.navigateTo({
   url: 'B?id=1'
 })
-// 此处是B页面
+// This is Page B
 Taro.navigateTo({
   url: 'C?id=1'
 })
-// 在C页面内 navigateBack，将返回A页面
+// Calling navigateBack on Page C will return to Page A
 Taro.navigateBack({
   delta: 2
 })
 ```
 
-## API 支持度
+## API Support
 
-|        API        | 微信小程序 | H5 | React Native |
-|:-----------------:|:-----:|:--:|:------------:|
-| Taro.navigateBack |  ✔️   | ✔️ |      ✔️      |
+|        API        | WeChat Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:--:|:------------:|
+| Taro.navigateBack |         ✔️          | ✔️ |      ✔️      |
