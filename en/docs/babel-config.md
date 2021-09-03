@@ -1,22 +1,22 @@
 ---
-title: Babel 配置
+title: Babel Configuration
 ---
 
-Taro 项目的 Babel 配置位于根目录的 `babel.config.js` 文件中，里面默认添加了一个 preset：`babel-preset-taro`，它会根据项目的技术栈添加一些常用的 `presets` 和 `plugins`。
+The Babel configuration for the Taro project is located in the `babel.config.js` file in the root directory, where a preset is added by default: `babel-preset-taro`, which adds some common `presets` and `plugins` depending on the project's technology stack.
 
 ```js title="babel.config.js"
 module.exports = {
   presets: [
-    ['taro', {/** 配置项 */}]
+    ['taro', {/** Babel configuration items */}]
   ]
 }
 ```
 
-开发者可以修改 `babel.config.js`，修改 `babel-preset-taro` 的配置项，或添加自己想要的 `presets` 和 `plugins`。
+Developers can modify `babel.config.js`, change the configuration items of `babel-preset-taro`, or add `presets` and `plugins` that they want.
 
 ## babel-preset-taro
 
-`babel-preset-taro` 会根据当前项目的技术栈，选择性地使用以下的 `presets` 和 `plugins`。
+`babel-preset-taro` will optionally use the following `presets` and `plugins` depending on the current project's technology stack.
 
 
 #### 1. 通用
@@ -24,14 +24,14 @@ module.exports = {
 ##### presets
 
 - `@babel/preset-env`
-- `@babel/preset-typescript`（TypeScript 环境）
+- `@babel/preset-typescript`（TypeScript Environment）
 
 ##### plugins
 
 - `@babel/plugin-transform-runtime`
 - `@babel/plugin-proposal-decorators`
 - `@babel/plugin-proposal-class-properties`
-- `babel-plugin-dynamic-import-node`（小程序环境）
+- `babel-plugin-dynamic-import-node`（Mini  Program Environment）
 
 #### 2. React
 
@@ -55,39 +55,39 @@ module.exports = {
 
 - `@vue/babel-plugin-jsx`
 
-以下将详细介绍 `babel-preset-taro` 的配置项。
+The configuration items for `babel-preset-taro` are described in detail below.
 
 ### reactJsxRuntime
 
-:::note 只在使用 **React** 时生效。 :::
+:::note Effective only when using **React**. :::
 
-**默认值**：`'automatic'`
+**Default value**:`'automatic'`
 
-`@babel/preset-react` 的 [runtime](https://babeljs.io/docs/en/babel-preset-react#runtime) 配置项。
+`@babel/preset-react` [runtime](https://babeljs.io/docs/en/babel-preset-react#runtime) configuration items.
 
 ### hot
 
-:::note 只在使用 **React** 时生效。 :::
+:::note Effective only when using **React**. :::
 
-**默认值**：`true`
+**Default value**:`true`
 
-是否引入 `react-refresh/babel` 来支持使用 [fast-refresh](h5#fast-refresh)。
+Whether to introduce `react-refresh/babel` to support the use of [fast-refresh](h5#fast-refresh)。
 
 ### vueJsx
 
-:::note 只在使用 **Vue/Vue3** 时生效。 :::
+:::note Effective only when using **Vue/Vue 3**. :::
 
-**默认值**：`true`
+**Default value**: `true`
 
-**类型**：`true` | `false` | `object`
+**Type**: `true` | `false` | `object`
 
-是否使用 `@vue/babel-preset-jsx`（Vue）或 `@vue/babel-plugin-jsx`（Vue3）来支持使用 `jsx`。
+Whether to use `@vue/babel-preset-jsx` (Vue) or `@vue/babel-plugin-jsx` (Vue3) to support the use of `jsx`.
 
-当传入一个 `object` 时，等同于设置为 `true`，且该 `object` 将会作为 `@vue/babel-preset-jsx`（Vue）或 `@vue/babel-plugin-jsx`（Vue3）的参数。
+When an `object` is passed in, it is equivalent to setting it to `true` and the `object` will be used as an argument to `@vue/babel-preset-jsx` (Vue) or `@vue/babel-plugin-jsx` (Vue3).
 
 ### targets
 
-**默认值**：
+**Default value**:
 
 ```js
 {
@@ -96,29 +96,29 @@ module.exports = {
 }
 ```
 
-`@babel/preset-env` 的 [targets](https://babeljs.io/docs/en/babel-preset-env#targets) 配置项。
+`@babel/preset-env` [targets](https://babeljs.io/docs/en/babel-preset-env#targets)configuration items.
 
 ### useBuiltIns
 
-**默认值**：`false`
+**Default value**: `false`
 
-**有效值**：`'entry'` | `'usage'` | `false`
+**Valid values**: `'entry'` | `'usage'` | `false`
 
 #### useBuiltIns: 'entry'
 
-:::info **优点**：全局彻底 polyfill，就算 `node_modules` 中的依赖存在不兼容的代码，也能成功运行。
+:::info **Advantages**: global complete polyfill, even if there is incompatible code in the dependencies in `node_modules`, it will run successfully.
 
-**缺点**：可能会引入冗余代码、影响全局变量。 :::
+**Disadvantages**: May introduce redundant code and affect global variables. :::
 
-当传入 `'entry'` 时，会把 `@babel/preset-env` 的 [useBuiltIns](https://babeljs.io/docs/en/babel-preset-env#usebuiltins) 选项设为 `'entry'`、[corejs](https://babeljs.io/docs/en/babel-preset-env#corejs) 选项设为 `'3'`。
+When `'entry'` is passed, it sets the [useBuiltIns](https://babeljs.io/docs/en/babel-preset-env#usebuiltins) option of `@babel/preset-env` to `'entry'`, the [corejs](https://babeljs.io/docs/en/babel-preset-env#corejs) option is set to `'3'`.
 
-开发者需要在入口文件 `app.js` 中引入 `core-js`：
+Developers need to introduce `core-js` in the entry file `app.js`.
 
 ```js title="src/app.js"
 import "core-js"
 ```
 
-Babel 会根据 [targets](babel-config#targets)，引入对应的 `core-js` 依赖。例如上述代码会被编译为：
+Babel will introduce the corresponding `core-js` dependencies according to [targets](babel-config#targets).For example, the above code will be compiled as:
 
 ```js title="dist/app.js"
 import "core-js/modules/es.string.pad-start";
@@ -126,87 +126,87 @@ import "core-js/modules/es.string.pad-end";
 // ...
 ```
 
-> 当然，因为这时 Taro 把 `corejs` 设置为 `'3'`，所以可以使用 `core-js@3` **手动按需引入的能力**，详情请见[文档](https://babeljs.io/docs/en/babel-preset-env#usebuiltins)。
+> Of course, since Taro sets `corejs` to `'3'` at this point, you can use `core-js@3` **the ability to manually bring in on-demand**, see [documentation](https://babeljs.io/docs/en/babel-preset-env#usebuiltins) for details
 
 #### useBuiltIns: 'usage'
 
-:::info **优点**：按需引入、不会影响全局变量。
+:::info **Advantages**: Introduces on-demand and does not affect global variables.
 
-**缺点**：默认不会处理 `node_modules` 中的依赖，需要手动配置 `babel-loader`。 :::
+**Disadvantages**: By default, dependencies in `node_modules` are not handled and you need to configure `babel-loader` manually. :::
 
-当传入 `'usage'` 时，会把 `@babel/plugin-transform-runtime` 的 [corejs](https://babeljs.io/docs/en/babel-plugin-transform-runtime#corejs) 选项设为 `3`。
+When passed in `'usage'`, it sets the [corejs](https://babeljs.io/docs/en/babel-plugin-transform-runtime#corejs) option of `@babel/plugin-transform-runtime` to `3`.
 
-> 注意：传入 `'usage'` 时， Taro 没有使用 `@babel/preset-env` 的 `useBuiltIns: 'usage'` 而是使用了 `@babel/plugin-transform-runtime` 的 `corejs: 3`。原因在于：一、两者同时设置时会产生冲突。二、后者相对于前者，不会影响全局变量。
+> Note: When passing in `'usage'`, Taro does not use `@babel/preset-env`'s `useBuiltIns: 'usage'` but `@babel/plugin-transform-runtime`'s `corejs: 3`.The reason for this is: First, there is a conflict when both are set at the same time.Second, the latter does not affect global variables as opposed to the former.
 
 #### useBuiltIns: false
 
-当传入 `false` 时，会把 `@babel/preset-env` 的 [useBuiltIns](https://babeljs.io/docs/en/babel-preset-env#usebuiltins) 选项设为 `false`，此时不会引入 `core-js`。
+When passed `false`, the [useBuiltIns](https://babeljs.io/docs/en/babel-preset-env#usebuiltins) option of `@babel/preset-env` will be set to `false`, which will not introduce the `core-js`.
 
 ### loose
 
-**默认值**：`false`
+**Default value**: `false`
 
-同时是 `@babel/preset-env`、`@babel/plugin-proposal-class-properties` 的 `loose` 配置项。
+Also the `loose` configuration item for `@babel/preset-env`, `@babel/plugin-proposal-class-properties`.
 
 ### debug
 
-**默认值**：`false`
+**Default value**: `false`
 
-`@babel/preset-env` 的 [debug](https://babeljs.io/docs/en/babel-preset-env#debug) 配置项。
+`@babel/preset-env` [debug](https://babeljs.io/docs/en/babel-preset-env#debug) configuration item.
 
 ### modules
 
-**默认值**：`false`
+**Default value**: `false`
 
-`@babel/preset-env` 的 [modules](https://babeljs.io/docs/en/babel-preset-env#modules) 配置项。
+`@babel/preset-env` [modules](https://babeljs.io/docs/en/babel-preset-env#modules) configuration item。
 
 ### spec
 
-`@babel/preset-env` 的 [spec](https://babeljs.io/docs/en/babel-preset-env#spec) 配置项。
+`@babel/preset-env` [spec](https://babeljs.io/docs/en/babel-preset-env#spec) configuration item。
 
 ### configPath
 
-`@babel/preset-env` 的 [configPath](https://babeljs.io/docs/en/babel-preset-env#configpath) 配置项。
+`@babel/preset-env` [configPath](https://babeljs.io/docs/en/babel-preset-env#configpath) configuration item。
 
 ### include
 
-`@babel/preset-env` 的 [include](https://babeljs.io/docs/en/babel-preset-env#include) 配置项。
+`@babel/preset-env` [include](https://babeljs.io/docs/en/babel-preset-env#include) configuration item。
 
 ### exclude
 
-`@babel/preset-env` 的 [exclude](https://babeljs.io/docs/en/babel-preset-env#exclude) 配置项。
+`@babel/preset-env` [exclude](https://babeljs.io/docs/en/babel-preset-env#exclude) configuration item。
 
 ### shippedProposals
 
-`@babel/preset-env` 的 [shippedProposals](https://babeljs.io/docs/en/babel-preset-env#shippedproposals) 配置项。
+`@babel/preset-env` [shippedProposals](https://babeljs.io/docs/en/babel-preset-env#shippedproposals) configuration item。
 
 ### forceAllTransforms
 
-`@babel/preset-env` 的 [forceAllTransforms](https://babeljs.io/docs/en/babel-preset-env#forcealltransforms) 配置项。
+`@babel/preset-env` [forceAllTransforms](https://babeljs.io/docs/en/babel-preset-env#forcealltransforms) configuration item。
 
 
 ### decoratorsBeforeExport
 
-`@babel/plugin-proposal-decorators` 的 [decoratorsBeforeExport](https://babeljs.io/docs/en/babel-plugin-proposal-decorators#decoratorsbeforeexport) 配置项。
+`@babel/plugin-proposal-decorators` [decoratorsBeforeExport](https://babeljs.io/docs/en/babel-plugin-proposal-decorators#decoratorsbeforeexport) configuration item。
 
 ### decoratorsLegacy
 
-**默认值**：`true`
+**Default value**: `true`
 
-`@babel/plugin-proposal-decorators` 的 [lagacy](https://babeljs.io/docs/en/babel-plugin-proposal-decorators#legacy) 配置项。
+`@babel/plugin-proposal-decorators` [lagacy](https://babeljs.io/docs/en/babel-plugin-proposal-decorators#legacy) configuration item。
 
 ### absoluteRuntime
 
-**默认值**：开发者根目录 `node_modules` 中的 `@babel/plugin-transform-runtime` 的路径。
+**Default value**: Path to `@babel/plugin-transform-runtime` in the developer root `node_modules`.
 
-**类型**：`string`
+**Type**:`string`
 
-`@babel/plugin-transform-runtime` 的 [absoluteRuntime](https://babeljs.io/docs/en/babel-plugin-transform-runtime#absoluteruntime) 配置项。
+`@babel/plugin-transform-runtime` [absoluteRuntime](https://babeljs.io/docs/en/babel-plugin-transform-runtime#absoluteruntime) configuration item。
 
 ### version
 
-**默认值**：开发者根目录 `node_modules` 中的 `@babel/plugin-transform-runtime` 的版本号。
+**Default value**: Version number of `@babel/plugin-transform-runtime` in `node_modules` in the developer's root directory.
 
-**类型**：`string`
+**Type**:`string`
 
-`@babel/plugin-transform-runtime` 的 [version](https://babeljs.io/docs/en/babel-plugin-transform-runtime#version) 配置项。
+`@babel/plugin-transform-runtime` [version](https://babeljs.io/docs/en/babel-plugin-transform-runtime#version) configuration item。
