@@ -3,11 +3,11 @@ title: RadioGroup
 sidebar_label: RadioGroup
 ---
 
-单项选择器，内部由多个 Radio 组成。
+A single-item picker consisting of multiple Radio components.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/radio-group.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/radio-group.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<RadioGroupProps>
@@ -18,35 +18,35 @@ ComponentType<RadioGroupProps>
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>onChange</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>RadioGroup 中选中项发生改变时触发 change 事件，detail =  {`{value:[选中的radio的value的数组]}`}</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>A change event triggered when selected options in `checkbox-group` change. detail =  {`{value:[Array of values of the selected checkboxes]}`}</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|           API            | 微信小程序 | H5 | React Native |
-|:------------------------:|:-----:|:--:|:------------:|
-| RadioGroupProps.onChange |  ✔️   | ✔️ |              |
+|           API            | WeChat Mini-Program | H5 | React Native |
+|:------------------------:|:-------------------:|:--:|:------------:|
+| RadioGroupProps.onChange |         ✔️          | ✔️ |              |
 
 ### onChangeEventDetail
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Param</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -57,8 +57,8 @@ ComponentType<RadioGroupProps>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|    API     | 微信小程序 | H5 | React Native |
-|:----------:|:-----:|:--:|:------------:|
-| RadioGroup |  ✔️   | ✔️ |      ✔️      |
+|    API     | WeChat Mini-Program | H5 | React Native |
+|:----------:|:-------------------:|:--:|:------------:|
+| RadioGroup |         ✔️          | ✔️ |      ✔️      |
