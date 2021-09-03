@@ -3,32 +3,32 @@ title: Taro.canvasToTempFilePath(option, component)
 sidebar_label: canvasToTempFilePath
 ---
 
-把当前画布指定区域的内容导出生成指定大小的图片。在 `draw()` 回调里调用该方法才能保证图片导出成功。
+Exports the content of the specified area of the current canvas to generate an image of the specified size.This method is called in the `draw()` callback to ensure the image is exported successfully.
 
 **Bug & Tip：**
 
 1.  `tip`: 在 `draw` 回调里调用该方法才能保证图片导出成功。
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasToTempFilePath.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasToTempFilePath.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option, component?: Record<string, any>) => Promise<SuccessCallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -36,91 +36,91 @@ sidebar_label: canvasToTempFilePath
       <td>canvas</td>
       <td><code>CanvasProps</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>画布标识，传入 <a href="https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html">canvas</a> 组件实例 （canvas type=&quot;2d&quot; 时使用该属性）。</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The canvas identifier, used when passing in <code>canvas</code> component instances (canvas type=&quot;2d&quot;)</td>
     </tr>
     <tr>
       <td>canvasId</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>画布标识，传入 <a href="https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html">canvas</a> 组件的 canvas-id</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The canvas ID, which is the canvas-id passed into the <code>canvas</code> component.</td>
     </tr>
     <tr>
       <td>quality</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>图片的质量，目前仅对 jpg 有效。取值范围为 (0, 1]，不在范围内时当作 1.0 处理。</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The image quality. This is only valid for .jpg images.Value range: (0, 1]. Values not in the range are processed as 1.</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td><code>(res: Result) =&gt; void</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The height of the output image.</td>
     </tr>
     <tr>
       <td>destHeight</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>输出的图片的高度</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The width of the output image.</td>
     </tr>
     <tr>
       <td>destWidth</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>输出的图片的宽度</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The type of the destination file.</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td><code>(res: any) =&gt; void</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The height of the specified canvas area.</td>
     </tr>
     <tr>
       <td>fileType</td>
       <td><code>&quot;jpg&quot; | &quot;png&quot;</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;png&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>目标文件的类型</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The width of the specified canvas area.</td>
     </tr>
     <tr>
       <td>height</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>指定的画布区域的高度</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The x-coordinate of the top-left corner of the specified canvas area.</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
+      <td><code>(res: any) =&gt; void</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The y-coordinate of the top-left the corner of the specified canvas area.</td>
     </tr>
     <tr>
       <td>width</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td style={{ textAlign: "center"}}>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
       <td>指定的画布区域的宽度</td>
     </tr>
     <tr>
       <td>x</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td style={{ textAlign: "center"}}>The callback function for a failed API call</td>
       <td>指定的画布区域的左上角横坐标</td>
     </tr>
     <tr>
       <td>y</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td style={{ textAlign: "center"}}>The callback function for a successful API call</td>
       <td>指定的画布区域的左上角纵坐标</td>
     </tr>
   </tbody>
@@ -131,21 +131,21 @@ sidebar_label: canvasToTempFilePath
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>tempFilePath</td>
       <td><code>string</code></td>
-      <td>生成文件的临时路径</td>
+      <td>The temporary path of the generated file</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
@@ -155,18 +155,18 @@ sidebar_label: canvasToTempFilePath
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>jpg</td>
-      <td>jpg 图片</td>
+      <td>A .jpg image</td>
     </tr>
     <tr>
       <td>png</td>
-      <td>png 图片</td>
+      <td>A .png image</td>
     </tr>
   </tbody>
 </table>
@@ -176,11 +176,11 @@ sidebar_label: canvasToTempFilePath
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -188,64 +188,64 @@ sidebar_label: canvasToTempFilePath
       <td>type</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>指定 canvas 类型，支持 2d 和 webgl</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The type of the canvas. Only webGL is supported.</td>
     </tr>
     <tr>
       <td>canvasId</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>canvas 组件的唯一标识符，若指定了 type 则无需再指定该属性</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The unique identifier of the canvas component. This property can be ignored if a type is specified.</td>
     </tr>
     <tr>
       <td>disableScroll</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当在 canvas 中移动时且有绑定手势事件时，禁止屏幕滚动以及下拉刷新</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Disables screen scrolling and swipe-down-to-refresh features when the a finger taps to move on the canvas and a gesture event is bound.</td>
     </tr>
     <tr>
       <td>onTouchStart</td>
       <td><code>CommonEventFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>手指触摸动作开始</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Finger touch starts</td>
     </tr>
     <tr>
       <td>onTouchMove</td>
       <td><code>CommonEventFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>手指触摸后移动</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Finger moves after touch</td>
     </tr>
     <tr>
       <td>onTouchEnd</td>
       <td><code>CommonEventFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>手指触摸动作结束</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Finger touch ends</td>
     </tr>
     <tr>
       <td>onTouchCancel</td>
       <td><code>CommonEventFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>手指触摸动作被打断，如来电提醒，弹窗</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Finger touch is interrupted by call reminder, pop-up window, etc.</td>
     </tr>
     <tr>
       <td>onLongTap</td>
       <td><code>CommonEventFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>手指长按 500ms 之后触发，触发了长按事件后进行移动不会触发屏幕的滚动</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggered when a finger taps and holds on the screen for 500 ms. After this event is triggered, moving on the screen does not trigger screen scrolling.</td>
     </tr>
     <tr>
       <td>onError</td>
       <td><code>CommonEventFunction&lt;onErrorEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当发生错误时触发 error 事件，detail = {`{errMsg: 'something wrong'}`} </td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Triggers the error event when an error occurs. detail = {`{errMsg}`} </td>
     </tr>
   </tbody>
 </table>
@@ -255,8 +255,8 @@ sidebar_label: canvasToTempFilePath
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -267,7 +267,7 @@ sidebar_label: canvasToTempFilePath
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.canvasToTempFilePath({
@@ -284,8 +284,8 @@ Taro.canvasToTempFilePath({
 })
 ```
 
-## API 支持度
+## API Support
 
-|            API            | 微信小程序 | H5 | React Native |
-|:-------------------------:|:-----:|:--:|:------------:|
-| Taro.canvasToTempFilePath |  ✔️   | ✔️ |              |
+|            API            | WeChat Mini-Program | H5 | React Native |
+|:-------------------------:|:-------------------:|:--:|:------------:|
+| Taro.canvasToTempFilePath |         ✔️          | ✔️ |              |
