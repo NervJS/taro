@@ -3,58 +3,58 @@ title: Taro.saveImageToPhotosAlbum(option)
 sidebar_label: saveImageToPhotosAlbum
 ---
 
-保存图片到系统相册。需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.writePhotosAlbum
+Saves images to the system album.[User Authorization](https://developers.weixin.qq.com/miniprogram/en/dev/framework/open-ability/authorize.html) is required for scope.writePhotosAlbum before this API is called.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.saveImageToPhotosAlbum.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.saveImageToPhotosAlbum.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<CallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>filePath</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>图片文件路径，可以是临时文件路径或永久文件路径，不支持网络图片路径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The path to the image file. It can be a temporary or permanent file path. The path to a network image is not supported.</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.saveImageToPhotosAlbum({
@@ -62,8 +62,8 @@ Taro.saveImageToPhotosAlbum({
 })
 ```
 
-## API 支持度
+## API Support
 
-|             API             | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
-|:---------------------------:|:-----:|:-----:|:------:|:--:|:------------:|
-| Taro.saveImageToPhotosAlbum |  ✔️   |  ✔️   |   ✔️   |    |      ✔️      |
+|             API             | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | H5 | React Native |
+|:---------------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| Taro.saveImageToPhotosAlbum |         ✔️          |         ✔️          |         ✔️          |    |      ✔️      |
