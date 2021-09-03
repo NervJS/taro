@@ -3,19 +3,19 @@ title: OffscreenCanvas
 sidebar_label: OffscreenCanvas
 ---
 
-离屏 canvas 实例，可通过 Taro.createOffscreenCanvas 创建。
+The off-screen canvas instance, which can be created via `Taro.createOffscreenCanvas`.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/OffscreenCanvas.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/OffscreenCanvas.html)
 
-## 方法
+## Methods
 
 ### getContext
 
-该方法返回 OffscreenCanvas 的绘图上下文
+Returns the OffscreenCanvas drawing context.
 
 ****
 
-当前仅支持获取 WebGL 绘图上下文
+Only WebGL drawing context can be obtained.
 
 ```tsx
 (contextType: string) => RenderingContext
@@ -24,8 +24,8 @@ sidebar_label: OffscreenCanvas
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -36,14 +36,14 @@ sidebar_label: OffscreenCanvas
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|            API             | 微信小程序 | H5 | React Native |
-|:--------------------------:|:-----:|:--:|:------------:|
-| OffscreenCanvas.getContext |  ✔️   |    |              |
+|            API             | WeChat Mini-Program | H5 | React Native |
+|:--------------------------:|:-------------------:|:--:|:------------:|
+| OffscreenCanvas.getContext |         ✔️          |    |              |
 
-## API 支持度
+## API Support
 
-|            API             | 微信小程序 | H5 | React Native |
-|:--------------------------:|:-----:|:--:|:------------:|
-| OffscreenCanvas.getContext |  ✔️   |    |              |
+|            API             | WeChat Mini-Program | H5 | React Native |
+|:--------------------------:|:-------------------:|:--:|:------------:|
+| OffscreenCanvas.getContext |         ✔️          |    |              |
