@@ -1,37 +1,37 @@
 ---
-title: 与其它新型小程序框架的异同
+title: Difference from other new applet frameworks
 ---
 
-> 请注意：各个框架迭代速度都非常快，可能框架的设计和实现会出现改变。
+> Please note that：frameworks iterate very quickly, with possible changes in their design and implementation.
 
-在本节我们将与三个新型小程序框架进行对比，它们分别是：[remax](https://github.com/remaxjs/remax), [alita](https://github.com/areslabs/alita), [kbone](https://github.com/wechat-miniprogram/kbone)。这三个框架和 Taro Next 总体的思路都一样：相对于编译型的小程序框架而言，新型小程序框架有一个(或多个)基础模板，基础模板接受不同的数据渲染与之对应的内容，小程序框架主要的工作是把开发者的业务逻辑转换成基础模板可接受的数据去驱动小程序渲染。
+In this section, we will compare with three new applet frames, respectively：[max](https://github.com/remaxjs/remax), [alita](https://github.com/areslabs/alita), [kbone](https://github.com/wechat-miniprogram/kbone).这三个框架和 Taro Next 总体的思路都一样：相对于编译型的小程序框架而言，新型小程序框架有一个(或多个)基础模板，基础模板接受不同的数据渲染与之对应的内容，小程序框架主要的工作是把开发者的业务逻辑转换成基础模板可接受的数据去驱动小程序渲染。
 
-我们尽量尝试避免偏见。但显而易见，作为 Taro 团队，我们会不可避免地倾向于 Taro。在本次对比中，我们仅会从技术选型、总体设计、内部实现对比各个框架，不会涉及例如生态和项目/开源治理等因素。如果你倾向于全面的对比，可以参考 [小程序框架全面测评](https://aotu.io/notes/2019/03/12/mini-program-framework-full-review/)。
+We try to avoid bias.But it is clear that, as a Taro team, we will inevitably be inclined to Taro.In this comparison, we will only achieve comparisons from technology selection, overall design, internal frameworks without addressing factors such as ecology and project/open source governance.If you prefer a full comparison, you can refer to [applet framework general review](https://aotu.io/notes/2019/03/12/mini-program-framework-full-review/)
 
 ## Alita
 
-Alita 严格来讲并不算小程序开发框架，它实际上是一个把 React Native 代码转换成微信小程序代码的转换引擎工具。
+Alita is not, strictly speaking, a small program development framework. It is actually a conversion engine tool that transforms React Native code into Microletter applet code.
 
-在内部的实现上，Alita 采用了静态编译 + 运行时处理 JSX 的实现。静态编译部分捕捉 JSX 和 React 组件声明，并生成对应的 wxml 模板，运行时把捕捉到的 React 组件转换为静态模板可接受的渲染数据实现渲染。由于静态编译部分的存在，Alita 不能完整地支持所有 JSX 特性，生成的模板也会更多，最终打包的 size 会比其它新型小程序框架更大一些。但与之对应的，这样的实现的会获得更好的性能。
+For internal implementation, Alita uses static compilation + running to process JSX.Static compilations snap JSX and React components statements and generate wxml templates, when running, turning captured React components into performing rendering data acceptable in static templates.Alita cannot fully support all JSX features because of static compilation. More templates will be generated, and the size of the final package will be larger than any other new applet framework.But, by contrast, such achievement would have better performance.
 
-另外 Alita 内部实现了一个 mini React，目前还没有例如 Hooks 这样的功能，也无法自由引入其它的 React 生态库。其它的新型小程序框架都可以引入不涉及浏览器 API 的 React 生态库。
+Alita has implemented a mini React internally, and currently has no features like Hooks and cannot freely introduce other React eco-libraries.Other new Applet Frameworks can introduce React Ecology that does not involve browser API.
 
 ## Remax
 
-Remax 是一个可以让完整的 React 跑在小程序上的小程序开发框架。为了让 React 跑在小程序上，Remax 通过 [react-reconciler](https://www.npmjs.com/search?q=react-reconcile) 实现了一个小程序渲染器。这点和 Taro Next 一致。
+Remax is a program development framework that allows React to run on the applet.为了让 React 跑在小程序上，Remax 通过 [react-reconciler](https://www.npmjs.com/search?q=react-reconcile) 实现了一个小程序渲染器。This is consistent with Taro Next.
 
-在渲染方面，Remax 有一个静态模板列出了所有开发者声明过的组件，静态模板通过遍历渲染器返回的数据（类似于一颗 DOM 树）实现渲染。不过在微信小程序的模板不支持递归，当数据的层级超过了 Remax 设定的阈值（阈值可以自行设定）就会发生爆栈导致无法渲染。而 Kbone 和 Taro 都通过组件的方案来避免这个问题。
+With regard to rendering, Remax has a static template that lists all developers have declared, rendering by passing the data returned by the renderer (similar to the output DOM tree).However, recursive is not supported in the micromessaging template, when the level of the data exceeds the threshold set by Remax (thresholds can be set on their own) the burst stack will cause it to fail to render.And both Kbone and Taro avoid this problem via component solutions.
 
-Remax 同 React 进行了强绑定，不支持除 React 之外的 Web 开发框架。Kbone 和 Taro 都支持 React 和类 React 以及 Vue。
+Remax is strongly bound to React and does not support web development frameworks other than React.Both Kbone and Taro support React and Class React and Vue.
 
 ## Kbone
 
-Kbone 内部实现了轻量级的 DOM 和 BOM API，把 DOM 更改绑定到小程序的视图更改。也就是说，Kbone 并不太关心开发者使用什么框架，只要框架使用的 DOM API 被 Kbone 实现的 DOM API 覆盖到，框架就能通过 Kbone 在小程序运行。Taro Next 也有着同样的思路，但不同的是对 React 的处理。Kbone 通过引入 `react-dom` 实现渲染，但 `react-dom` 包含着合成事件实现和大量浏览器兼容代码。Taro 团队认为这部分代码对小程序平台意义不大，因此和 Remax 一样，通过 `react-reconciler` 实现了小程序渲染器。
+Kbone implements lightweight DOM and BOM API, binding DOM changes to the widget view changes.This means that Kbone is not very interested in what framework the developer uses and that the framework uses the DOM API which is covered by the DOM API implemented by Kbone, the framework can be run in the small app via Kbone.Taro Next has the same line of thinking, but different from the treatment of React.Kbone performs rendering by introducing `react-dom` but `react-dome` contains synthetic events implementation and a lot of browser-compatible code.Taro 团队认为这部分代码对小程序平台意义不大，因此和 Remax 一样，通过 `react-reconciler` 实现了小程序渲染器。
 
-在更新方面，Kbone 以组件为粒度进行更新，每次视图改变小程序 setData 的数据是组件的 DOM 树。而 Remax 和 Taro 更新 setData 的数据则是 DOM 树中已经改变了的的值和它的路径。对比起 Taro 和 Remax，Kbone 的运行时性能会差一些。
+For updates, Kbone updates the particle for particles. Each view changes the data of the applet setData is the DOM tree of the component.Remax and Taro update setData are changed values and paths in DOM trees.The performance of Kbone will be somewhat worse for Sterior Taro and Remax.
 
-另外 Kbone 更为专注于微信小程序开发和 H5 开发，而本节对比的其它三个小程序框架均支持多种平台的小程序开发。
+The other Kbone focuses more on micro-credit applet development and H5 development, while the other three programming frameworks in this section support the development of multiple platforms.
 
-## 总结
+## Summary
 
-通过我们的对比不难发现，虽然 4 个框架的核心原理大致相同，但技术选型，内部实现，优化思路都有很大的不同。究其原因是因为 4 个框架都是企业团队进行开发的，这就意味着框架必须优先满足企业和部门的需求和利益，框架的设计和实现的区别也不能代表开发团队技术水平的高下，而是框架开发者根据项目/业务类型和技术栈不同的取舍和妥协。开发者可以根据自己的团队技术栈和项目/业务特性决定使用框架。
+It is not difficult to discern from our comparisons that while the core rationale for the four frameworks is broadly the same, there is a great difference in thinking about optimization internally, with technical selection.The reason for this is that the four frameworks are developed by business teams, which means that the framework must be prioritized to meet the needs and interests of enterprises and sectors. The design and realization of the framework cannot represent the high level of technology in the development team, but the choice and compromise of framework developers depending on the project/business type and technical stack.Developers can use the framework according to their team technical stack and project/business properties.
