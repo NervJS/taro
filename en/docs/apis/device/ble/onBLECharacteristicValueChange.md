@@ -3,21 +3,21 @@ title: Taro.onBLECharacteristicValueChange(callback)
 sidebar_label: onBLECharacteristicValueChange
 ---
 
-监听低功耗蓝牙设备的特征值变化事件。必须先启用 `notifyBLECharacteristicValueChange` 接口才能接收到设备推送的 notification。
+Listens on the BLE device characteristic change event.You must enable `notifyBLECharacteristicValueChange` to receive notifications pushed by devices.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.onBLECharacteristicValueChange.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.onBLECharacteristicValueChange.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: Callback) => void
 ```
 
-## 参数
+## Parameters
 
 ### Callback
 
-低功耗蓝牙设备的特征值变化事件的回调函数
+The callback function for the BLE device characteristic change event.
 
 ```tsx
 (result: CallbackResult) => void
@@ -26,8 +26,8 @@ sidebar_label: onBLECharacteristicValueChange
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -43,39 +43,39 @@ sidebar_label: onBLECharacteristicValueChange
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>characteristicId</td>
       <td><code>string</code></td>
-      <td>蓝牙特征值的 uuid</td>
+      <td>The Bluetooth characteristic UUID</td>
     </tr>
     <tr>
       <td>deviceId</td>
       <td><code>string</code></td>
-      <td>蓝牙设备 id</td>
+      <td>The Bluetooth device ID</td>
     </tr>
     <tr>
       <td>serviceId</td>
       <td><code>string</code></td>
-      <td>蓝牙特征值对应服务的 uuid</td>
+      <td>The UUID of the service corresponding to a Bluetooth characteristic</td>
     </tr>
     <tr>
       <td>value</td>
       <td><code>ArrayBuffer</code></td>
-      <td>特征值最新的值</td>
+      <td>The latest value of a characteristic</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
-// ArrayBuffer转16进制字符串示例
+// Example of an ArrayBuffer converted to a hexadecimal string
 function ab2hex(buffer) {
   let hexArr = Array.prototype.map.call(
     new Uint8Array(buffer),
@@ -91,8 +91,8 @@ Taro.onBLECharacteristicValueChange(function (res) {
 })
 ```
 
-## API 支持度
+## API Support
 
-|                 API                 | 微信小程序 | H5 | React Native |
-|:-----------------------------------:|:-----:|:--:|:------------:|
-| Taro.onBLECharacteristicValueChange |  ✔️   |    |              |
+|                 API                 | WeChat Mini-Program | H5 | React Native |
+|:-----------------------------------:|:-------------------:|:--:|:------------:|
+| Taro.onBLECharacteristicValueChange |         ✔️          |    |              |
