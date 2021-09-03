@@ -3,17 +3,17 @@ title: RealtimeLogManager
 sidebar_label: RealtimeLogManager
 ---
 
-实时日志管理器实例，可以通过 Taro.getRealtimeLogManager 获取。
+The real-time log manager instance, which can be obtained via `Taro.getRealtimeLogManager`.
 
-使用说明 为帮助小程序开发者快捷地排查小程序漏洞、定位问题，我们推出了实时日志功能。从基础库2.7.1开始，开发者可通过提供的接口打印日志，日志汇聚并实时上报到小程序后台。 开发者可从小程序管理后台“开发->运维中心->实时日志”进入日志查询页面，查看开发者打印的日志信息。
+To help mini program developers quickly troubleshoot mini program vulnerabilities and locate problems, we have introduced a real-time logging feature.Starting from Foundation 2.7.1, developers can print logs through the interface provided, and the logs will be aggregated and reported to the mini program backend in real time. 开发者可从小程序管理后台“开发->运维中心->实时日志”进入日志查询页面，查看开发者打印的日志信息。
 
-## 方法
+## How to Use
 
 ### addFilterMsg
 
-添加过滤关键字
+Developers can access the log query page on the mini program side from **"Development->Operation and Maintenance Centre->Real-time Log"** in the mini program management backend, or from "mini program Plug-in->Real-time Log" to view the log information printed by developers.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.addFilterMsg.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.addFilterMsg.html)
 
 ```tsx
 (msg: string) => void
@@ -22,31 +22,31 @@ sidebar_label: RealtimeLogManager
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>msg</td>
       <td><code>string</code></td>
-      <td>是 setFilterMsg 的添加接口。用于设置多个过滤关键字。</td>
+      <td>是 setFilterMsg 的添加接口。Parameter to <code>setFilterMsg</code>, used to set multiple filter keywords.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|               API               | 微信小程序 | H5 | React Native |
-|:-------------------------------:|:-----:|:--:|:------------:|
-| RealtimeLogManager.addFilterMsg |  ✔️   |    |              |
+|               API               | WeChat Mini-Program | H5 | React Native |
+|:-------------------------------:|:-------------------:|:--:|:------------:|
+| RealtimeLogManager.addFilterMsg |         ✔️          |    |              |
 
 ### error
 
-写 error 日志
+Add filter keywords.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.error.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.error.html)
 
 ```tsx
 (...args: any[]) => void
@@ -55,31 +55,31 @@ sidebar_label: RealtimeLogManager
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>args</td>
       <td><code>any[]</code></td>
-      <td>日志内容，可以有任意多个。每次调用的参数的总大小不超过5Kb</td>
+      <td>日志内容，可以有任意多个。The log can contain any number of entries, but the total size of the parameters of a single call cannot exceed 5 KB.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API            | 微信小程序 | H5 | React Native |
-|:------------------------:|:-----:|:--:|:------------:|
-| RealtimeLogManager.error |  ✔️   |    |              |
+|           API            | WeChat Mini-Program | H5 | React Native |
+|:------------------------:|:-------------------:|:--:|:------------:|
+| RealtimeLogManager.error |         ✔️          |    |              |
 
 ### in
 
-设置实时日志page参数所在的页面
+Writes the "error" log.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.in.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.in.html)
 
 ```tsx
 (pageInstance: any) => void
@@ -88,29 +88,29 @@ sidebar_label: RealtimeLogManager
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>pageInstance</td>
-      <td>page 实例</td>
+      <td>page instance</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|          API          | 微信小程序 | H5 | React Native |
-|:---------------------:|:-----:|:--:|:------------:|
-| RealtimeLogManager.in |  ✔️   |    |              |
+|          API          | WeChat Mini-Program | H5 | React Native |
+|:---------------------:|:-------------------:|:--:|:------------:|
+| RealtimeLogManager.in |         ✔️          |    |              |
 
 ### info
 
-写 info 日志
+Set the page where the live log page parameter is located
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.info.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.info.html)
 
 ```tsx
 (...args: any[]) => void
@@ -119,31 +119,31 @@ sidebar_label: RealtimeLogManager
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>args</td>
       <td><code>any[]</code></td>
-      <td>日志内容，可以有任意多个。每次调用的参数的总大小不超过5Kb</td>
+      <td>日志内容，可以有任意多个。The log can contain any number of entries, but the total size of the parameters of a single call cannot exceed 5 KB.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| RealtimeLogManager.info |  ✔️   |    |              |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+| RealtimeLogManager.info |         ✔️          |    |              |
 
 ### setFilterMsg
 
-设置过滤关键字
+Writes the "info" log.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.setFilterMsg.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.setFilterMsg.html)
 
 ```tsx
 (msg: string) => void
@@ -152,31 +152,31 @@ sidebar_label: RealtimeLogManager
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>msg</td>
       <td><code>string</code></td>
-      <td>过滤关键字，最多不超过1Kb，可以在小程序管理后台根据设置的内容搜索得到对应的日志。</td>
+      <td>Filter keywords of no more than 1KB can be searched in the mini program administration backend to get the corresponding logs based on the content set.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|               API               | 微信小程序 | H5 | React Native |
-|:-------------------------------:|:-----:|:--:|:------------:|
-| RealtimeLogManager.setFilterMsg |  ✔️   |    |              |
+|               API               | WeChat Mini-Program | H5 | React Native |
+|:-------------------------------:|:-------------------:|:--:|:------------:|
+| RealtimeLogManager.setFilterMsg |         ✔️          |    |              |
 
 ### warn
 
-写 warn 日志
+Set filter keywords
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.warn.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.warn.html)
 
 ```tsx
 (...args: any[]) => void
@@ -185,33 +185,33 @@ sidebar_label: RealtimeLogManager
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>args</td>
       <td><code>any[]</code></td>
-      <td>日志内容，可以有任意多个。每次调用的参数的总大小不超过5Kb</td>
+      <td>日志内容，可以有任意多个。The log can contain any number of entries, but the total size of the parameters of a single call cannot exceed 5 KB.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| RealtimeLogManager.warn |  ✔️   |    |              |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+| RealtimeLogManager.warn |         ✔️          |    |              |
 
-## API 支持度
+## Methods
 
-|               API               | 微信小程序 | H5 | React Native |
-|:-------------------------------:|:-----:|:--:|:------------:|
-| RealtimeLogManager.addFilterMsg |  ✔️   |    |              |
-|    RealtimeLogManager.error     |  ✔️   |    |              |
-|      RealtimeLogManager.in      |  ✔️   |    |              |
-|     RealtimeLogManager.info     |  ✔️   |    |              |
-| RealtimeLogManager.setFilterMsg |  ✔️   |    |              |
-|     RealtimeLogManager.warn     |  ✔️   |    |              |
+|               API               | WeChat Mini-Program | H5 | React Native |
+|:-------------------------------:|:-------------------:|:--:|:------------:|
+| RealtimeLogManager.addFilterMsg |         ✔️          |    |              |
+|    RealtimeLogManager.error     |         ✔️          |    |              |
+|      RealtimeLogManager.in      |         ✔️          |    |              |
+|     RealtimeLogManager.info     |         ✔️          |    |              |
+| RealtimeLogManager.setFilterMsg |         ✔️          |    |              |
+|     RealtimeLogManager.warn     |         ✔️          |    |              |
