@@ -3,47 +3,47 @@ title: Taro.chooseInvoiceTitle(option)
 sidebar_label: chooseInvoiceTitle
 ---
 
-选择用户的发票抬头。当前小程序必须关联一个公众号，且这个公众号是完成了[微信认证](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1496554031_RD4xe)的，才能调用 chooseInvoiceTitle。
+Selects the user's invoice title.This API can be called only when the current Mini Program is associated with an Official Account that has completed [WeChat verification](https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/Quick_issuing/Access_Request.html).
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/invoice/wx.chooseInvoiceTitle.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/invoice/wx.chooseInvoiceTitle.html)
 
-## 类型
+## Type
 
 ```tsx
 (option?: Option) => Promise<SuccessCallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -53,79 +53,79 @@ sidebar_label: chooseInvoiceTitle
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>bankAccount</td>
       <td><code>string</code></td>
-      <td>银行账号</td>
+      <td>Title name</td>
     </tr>
     <tr>
       <td>bankName</td>
       <td><code>string</code></td>
-      <td>银行名称</td>
+      <td>Title type</td>
     </tr>
     <tr>
       <td>companyAddress</td>
       <td><code>string</code></td>
-      <td>单位地址</td>
+      <td>Tax number</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息</td>
+      <td>Company address</td>
     </tr>
     <tr>
       <td>taxNumber</td>
       <td><code>string</code></td>
-      <td>抬头税号</td>
+      <td>Mobile number</td>
     </tr>
     <tr>
       <td>telephone</td>
       <td><code>string</code></td>
-      <td>手机号码</td>
+      <td>Bank name</td>
     </tr>
     <tr>
       <td>title</td>
       <td><code>string</code></td>
-      <td>抬头名称</td>
+      <td>Bank account</td>
     </tr>
     <tr>
       <td>type</td>
       <td><code>0 | 1</code></td>
-      <td>抬头类型</td>
+      <td>Error message</td>
     </tr>
   </tbody>
 </table>
 
 ### invoice_type
 
-抬头类型
+invoice type
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>0</td>
-      <td><code>&quot;单位&quot;</code></td>
+      <td><code>&quot;Company&quot;</code></td>
     </tr>
     <tr>
       <td>1</td>
-      <td><code>&quot;个人&quot;</code></td>
+      <td><code>&quot;Individual&quot;</code></td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.chooseInvoiceTitle({
@@ -133,8 +133,8 @@ Taro.chooseInvoiceTitle({
 })
 ```
 
-## API 支持度
+## API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| Taro.chooseInvoiceTitle |  ✔️   |    |              |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+| Taro.chooseInvoiceTitle |         ✔️          |    |              |
