@@ -1,23 +1,22 @@
 ---
-title: 设计稿及尺寸单位
+title: Design and Dimension unit
 ---
 
-在 Taro 中尺寸单位建议使用 `px`、 `百分比 %`，Taro 默认会对所有单位进行转换。在 Taro 中书写尺寸按照 1:1 的关系来进行书写，即从设计稿上量的长度 `100px`，那么尺寸书写就是 `100px`，当转成微信小程序的时候，尺寸将默认转换为 `100rpx`，当转成 H5 时将默认转换为以 `rem` 为单位的值。
+It is recommended to use `px`, `%` for dimension units in Taro, Taro will convert all units by default.In Taro, the size is written in a 1:1 relationship, that is, if the length `100px` is measured from the design, then the size is written as `100px`, and when it is converted to WeChat mini-program, the size will be converted to `100rpx` by default, and when it is converted to H5, it will be converted to a value in `rem` by default.
 
-如果你希望部分 `px` 单位不被转换成 `rpx` 或者 `rem` ，最简单的做法就是在 px 单位中增加一个大写字母，例如 `Px` 或者 `PX` 这样，则会被转换插件忽略。
+If you want some of the `px` units not to be converted to `rpx` or `rem`, it is most convenient to add a capital letter to the px units, such as `Px` or `PX`, which will be ignored by the conversion plugin.
 
-结合过往的开发经验，Taro 默认以 `750px` 作为换算尺寸标准，如果设计稿不是以 `750px` 为标准，则需要在项目配置 `config/index.js` 中进行设置，例如设计稿尺寸是 `640px`，则需要修改项目配置 `config/index.js` 中的 `designWidth` 配置为 `640`：
+Taro defaults to `750px` as the conversion size standard, if the design is not `750px`, you need to set it in the project configuration `config/index.js`, for example, if the design size is `640px`, you need to modify the `designWidth` to `640`.
 
 ```jsx title="/config/index.js"
 const config = {
   projectName: 'myProject',
   date: '2018-4-18',
   designWidth: 640,
-  ....
-}
+  .... }
 ```
 
-目前 Taro 支持 `750`、 `640` 、 `828` 三种尺寸设计稿，他们的换算规则如下：
+Taro supports `750`, `640` and `828` sizes and their conversion rules are as follows.
 
 ```jsx
 const DEVICE_RATIO = {
@@ -27,9 +26,9 @@ const DEVICE_RATIO = {
 }
 ```
 
-建议使用 Taro 时，设计稿以 iPhone 6 `750px` 作为设计尺寸标准。
+When using Taro, it is recommended to use iPhone 6 `750px` as the design size standard.
 
-如果你的设计稿是 `375` ，不在以上三种之中，那么你需要把 `designWidth` 配置为 `375`，同时在 `DEVICE_RATIO` 中添加换算规则如下：
+If your design is `375`, which is not one of the three above, then you need to configure `designWidth` to `375` and add the conversion rule in `DEVICE_RATIO` as follows.
 ```jsx {5}
 const DEVICE_RATIO = {
   '640': 2.34 / 2,
@@ -41,17 +40,17 @@ const DEVICE_RATIO = {
 
 ## API
 
-在编译时，Taro 会帮你对样式做尺寸转换操作，但是如果是在 JS 中书写了行内样式，那么编译时就无法做替换了，针对这种情况，Taro 提供了 API `Taro.pxTransform` 来做运行时的尺寸转换。
+During compilation, Taro will do the size conversion for you, but if you write inline styles in JS, you can't do the replacement. In this case, Taro provides the API `Taro.pxTransform` to do the size conversion at runtime.
 
 ```jsx
-Taro.pxTransform(10) // 小程序：rpx，H5：rem
+Taro.pxTransform(10)
 ```
 
-## 配置
+## Configuration
 
-默认配置会对所有的 `px` 单位进行转换，有大写字母的 `Px` 或 `PX` 则会被忽略。
+The default configuration converts all `px` units, and `Px` or `PX` with uppercase letters are ignored.
 
-参数默认值如下：
+The default values of the parameters are as follows：
 
 ```js
 {
@@ -69,15 +68,15 @@ Type: `Object | Null`
 
 ### `onePxTransform` (Boolean)
 
-设置 1px 是否需要被转换
+Set whether 1px needs to be converted
 
 ### `unitPrecision` (Number)
 
-REM 单位允许的小数位。
+The number of decimal places allowed in the REM unit.
 
 ### `propList` (Array)
 
-允许转换的属性。
+The property that allows the conversion.
 
 - Values need to be exact matches.
 - Use wildcard `*` to enable all properties. Example: `['*']`
@@ -87,7 +86,7 @@ REM 单位允许的小数位。
 
 ### `selectorBlackList`
 
-黑名单里的选择器将会被忽略。
+Selectors in the blacklist will be ignored.
 
 - If value is string, it checks to see if selector contains the string.
   - `['body']` will match `.body-class`
@@ -96,17 +95,17 @@ REM 单位允许的小数位。
 
 ### `replace` (Boolean)
 
-直接替换而不是追加一条进行覆盖。
+Replace directly instead of appending an entry to override.
 
 ### `mediaQuery` (Boolean)
 
-允许媒体查询里的 px 单位转换
+Allow px unit conversion in media queries
 
 ### `minPixelValue` (Number)
 
-设置一个可被转换的最小 px 值
+Set a minimum px value that can be converted
 
-配置规则对应到 `config/index.js` ，例如：
+The configuration rules correspond to `config/index.js`, e.g.
 
 ```js {9-14,20-25} title="/config/index.js"
 {
@@ -126,8 +125,7 @@ REM 单位允许的小数位。
     }
   },
   mini: {
-    // ...
-    postcss: {
+    // ... postcss: {
       pxtransform: {
         enable: true,
         config: {
@@ -139,11 +137,11 @@ REM 单位允许的小数位。
 }
 ```
 
-## CSS 编译时忽略（过滤）
+## CSS Compile-time ignores
 
-### 忽略单个属性
+### Ignore single attributes
 
-当前忽略单个属性的最简单的方法，就是 px 单位使用大写字母。
+The simplest way to ignore individual attributes currently is to use capital letters for px units.
 
 ```css
  /* `px` is converted to `rem` */
@@ -158,13 +156,13 @@ REM 单位允许的小数位。
 }
 ```
 
-### 忽略样式文件
+### Ignore style files
 
-对于头部包含注释 `/*postcss-pxtransform disable*/` 的文件，插件不予处理。
+The plugin does not handle files with the comment `/*postcss-pxtransform disable*/` in the header.
 
-### 忽略样式举例
+### Ignore style examples
 
-样式文件里多行文本省略时我们一般如下面的代码：
+When multiple lines of text are omitted from a style file we generally use the following code.
 
 ```css {3}
 .textHide {
@@ -176,16 +174,16 @@ REM 单位允许的小数位。
 }
 ```
 
-但 Taro 编译后少了 `-webkit-box-orient: vertical;` 这条样式属性，此时我们需要忽略掉这条样式
+However, Taro is compiled without the `-webkit-box-orient: vertical;` style attribute, so we need to ignore this style
 
-#### 忽略样式方法 1 加入 CSS 注释强制声明忽略下一行
+#### Add a CSS comment to force the declaration to ignore the next line
 
 ```css {1}
 /* autoprefixer: ignore next */
 -webkit-box-orient: vertical;
 ```
 
-#### 忽略样式方法 2 加入 CSS 注释强制声明注释中间多行
+#### Add CSS comments to force the declaration of multiple lines in between comments
 
 ```css {1,3}
 /* autoprefixer: off */
@@ -193,7 +191,7 @@ REM 单位允许的小数位。
 /* autoprefixer: on */
 ```
 
-#### 忽略样式方法 3 写成行内样式
+#### Write as in-line style
 
 ```HTML {2-9}
 <View 
@@ -206,10 +204,10 @@ REM 单位允许的小数位。
     'line-height': 2
   }}
 >
-  这是要省略的内容这是要省略的内容这是要省略的内容
+  This is the content to be omitted
 </View>
 ```
 
-### 相关链接
+### Links
 
-- [Taro多行文本省略不生效](https://taro-club.jd.com/topic/2270/taro%E5%A4%9A%E8%A1%8C%E6%96%87%E6%9C%AC%E7%9C%81%E7%95%A5%E4%B8%8D%E7%94%9F%E6%95%88)
+- [Taro multi-line text omission does not work](https://taro-club.jd.com/topic/2270/taro%E5%A4%9A%E8%A1%8C%E6%96%87%E6%9C%AC%E7%9C%81%E7%95%A5%E4%B8%8D%E7%94%9F%E6%95%88)
