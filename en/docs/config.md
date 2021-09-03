@@ -1,16 +1,16 @@
 ---
-title: Build Configuration
+title: 编译配置
 ---
 
 编译配置存放于项目根目录下的 `config` 目录中，包含三个文件：
 
-- `index.js` is common configuration
-- `dev.js` is a configuration for project preview
-- `prod.js` is config when the project is packaged
+- `index.js` 是通用配置
+- `dev.js` 是项目预览时的配置
+- `prod.js` 是项目打包时的配置
 
-For more compilation configuration documents, check：[compilation configuration details](./config-detail)
+详细的编译配置文档请查阅：[编译配置详情](./config-detail)
 
-### Default configuration
+### 默认配置
 
 ```js title="config/index.js"
 const config = {
