@@ -1,122 +1,122 @@
 ---
-title: 跨平台开发
+title: cross-platform development
 ---
 
-Taro 的设计初衷就是为了统一跨平台的开发方式，并且已经尽力通过运行时框架、组件、API 去抹平多端差异，但是由于不同的平台之间还是存在一些无法消除的差异，所以为了更好的实现跨平台开发，Taro 中提供了如下的解决方案
+Taro was designed to unify cross-platform development and has made every effort to wipe out multi-end differences through the running timeframe, components, API, but because there are some intractable differences between the platforms, Taro offers the following solutions for better cross-platform development.
 
-## 内置环境变量
+## Built Environment Variables
 
-> 注意：环境变量在代码中的使用方式，[参考](./best-practice.md#最佳编码方式)
+> Note how：environment variables are used in the code,[reference](./best-practice.md#最佳编码方式)
 
-Taro 在编译时提供了一些内置的环境变量来帮助用户做一些特殊处理
+Taro compiles some built-in environmental variables to help users make some special handling
 
 ### process.env.TARO_ENV
 
-用于判断当前编译类型，目前有 `weapp` / `swan` / `alipay` / `h5` / `rn` / `tt` / `qq` / `quickapp` 八个取值，可以通过这个变量来书写对应一些不同环境下的代码，在编译时会将不属于当前编译类型的代码去掉，只保留当前编译类型下的代码，例如想在微信小程序和 H5 端分别引用不同资源
+To judge the current compilation type, Previous `weapp` / `swan` / `alipay` / `h5` / `rn` / `tt` / `qq` / `quickapp` values, 15 values, Write code in this variable that corresponds to some different environments and remove code that does not belong to the current compilation type when compiled, keeping only the code under the current compilation type, such as trying to quote different resources in the microletter applet and the H5 end
 
 ```jsx
-if (process.env.TARO_ENV === 'weapp') {
-  require('path/to/weapp/name')
-} else if (process.env.TARO_ENV === 'h5') {
+if (process.env.TARO_ENV ==== 'weapp') LOs
+  required ('path/to/weapp/name')
+} else if (process.env.TARO_ENV ==== 'h5') {
   require('path/to/h5/name')
 }
 ```
 
-同时也可以在 JSX 中使用，决定不同端要加载的组件
+Also available in JSX, deciding which components to load from different ends
 
 ```jsx
-render () {
+render () LO
   return (
     <View>
-      {process.env.TARO_ENV === 'weapp' && <ScrollViewWeapp />}
-      {process.env.TARO_ENV === 'h5' && <ScrollViewH5 />}
+      {process. nv.TARO_ENV === 'weapp' && <ScrollViewWeapp />}
+      {process. nv.TARO_ENV === 'h5' && <ScrollViewH5 />}
     </View>
   )
 }
 ```
 
-## 统一接口的多端文件
+## Unified Interface Multiside Files
 
-> 1.2.17 开始支持
+> 1.2.17 Start support
 
-内置环境变量虽然可以解决大部分跨端的问题，但是会让代码中充斥着逻辑判断的代码，影响代码的可维护性，而且也让代码变得愈发丑陋，为了解决这种问题，自 `1.2.17` 开始，Taro 提供了另外一种跨端开发的方式作为补充。
+Built-in environment variables, although they solve most cross-end problems, will allow the code to be filled with logically judged, affect the maintenance of the code, and also make the code more ugly and, starting with `1.2.17` , Taro provides another form of cross-end development.
 
-开发者可以通过使用统一接口的多端文件，来解决跨端差异的功能。针对一项功能，如果多个端之间都有差异，那么开发者可以通过将文件修改成 `原文件名 + 端类型` 的命名形式，不同端的文件代码对外保持统一接口，而引用的时候仍然是 `import` 原文件名的文件，Taro 在编译时，会跟根据需要编译平台类型，将加载的文件变更为带有对应端类型文件名的文件，从而达到不同的端加载对应文件的目的。
+The developer can solve cross-end differences by using a single interface multi-end file.For one feature, if there is a difference between multiple parties, the developer can change the file to the naming form of `the original filename + end type` and the file code of the different end still maintains a uniform interface, which is still referenced as `import` the original filename file. Taro compiles the platform type as necessary, changes the loaded file to the file with the corresponding type file, thus achieving different ends' purpose of loading the corresponding file.
 
-端类型对应着 `process.env.TARO_ENV` 的值
+The value of the end type `process.env.TARO_ENV`
 
-通常有以下两种使用场景。
+Usually there are two scenarios of use.
 
-### 多端组件
+### Multi Component
 
-假如有一个 `Test` 组件存在微信小程序、百度小程序和 H5 三个不同版本，那么就可以像如下组织代码
+If there is a `Test` component that has three different versions of the micromessenger, 100 applet, and H5, then you can have the following organization code
 
-`test.js` 文件，这是 `Test` 组件默认的形式，编译到微信小程序、百度小程序和 H5 三端之外的端使用的版本
+`test.js` Files, this is `Test` The default form of components compiled into versions used outside of the micromessenger, the 100 applet and the H5 end
 
-`test.h5.js` 文件，这是 `Test` 组件的 H5 版本
+`test.h5.js` file, it's H5 version of `Test` component
 
-`test.weapp.js` 文件，这是 `Test` 组件的 微信小程序 版本
+`test.weapp.js` file, this is `Test` version of the widget
 
-`test.swan.js` 文件，这是 `Test` 组件的 百度小程序 版本
+`test.swan.js` file, this is `Test` the 100th version of the component
 
-`test.qq.js` 文件，这是 `Test` 组件的 QQ 小程序 版本
+`test.qq.js` file, this is the QQ applet version of `Test` component
 
-`test.quickapp.js` 文件，这是 `Test` 组件的 快应用 版本
+`test.quickapp.js` file, this is the fast app version of `Test` component
 
-四个文件，对外暴露的是统一的接口，它们接受一致的参数，只是内部有针对各自平台的代码实现
+Four documents, exposing them to uniform interfaces that accept consistent parameters, except for internal code implementation for their respective platforms
 
-而我们使用 `Test` 组件的时候，引用的方式依然和之前保持一致，`import` 的是不带端类型的文件名，在编译的时候会自动识别并添加端类型后缀
+And when we use `Test` components, the referenced method remains the same as before,`import` is a file name with no end type. Automatically identify and add endtype suffix when compiled.
 
 ```jsx
-import Test from '../../components/test'
+Import Test from '../../components/test'
 
 <Test argA={1} argA={2} />
 ```
 
-### 多端脚本逻辑
+### Multi-Scripting Logic
 
-与多端组件类似，假如有需要针对不同的端写不同的脚本逻辑代码，我们也可以类似的进行处理，遵守的唯一原则就是多端文件对外的接口保持一致。
+Similar to multiple-end components, if there is a need to write different scripting logic codes for different ends, we can do so similarly. The only principle to follow is consistency of multi-end documents with external interfaces.
 
 例如微信小程序上使用 `Taro.setNavigationBarTitle` 来设置页面标题，H5 使用 `document.title`，那么可以封装一个 `setTitle` 方法来抹平两个平台的差异。
 
-增加 `set_title.h5.js`，代码如下
+Add `settle_title.h5.js`with the following code
 
 ```js title="set_title.h5.js"
-export default function setTitle (title) {
+export default function title (title) LOs
   document.title = title
 }
 ```
 
-增加 `set_title.weapp.js`，代码如下
+Add `settle_title.weapp.js`with the following code
 
 ```js title="set_title.weapp.js"
 import Taro from '@tarojs/taro'
-export default function setTitle (title) {
+export default function settlement Title (title) maximum
   Taro.setNavigationBarTitle({
     title
   })
 }
 ```
 
-调用的时候，如下使用
+On call, use below
 
 ```js
-import setTitle from '../utils/set_title'
+import settlement from '../utils/settle_title'
 
-setTitle('页面标题')
+setTitle('page title')
 ```
 
-### 使用要点
+### Points of use
 
-统一接口的多端文件这一跨平台兼容写法有如下三个使用要点
+Unified Interface Multipurpose Files, cross-platform compatible with the following three elements of usage:
 
-- 不同端的对应文件一定要统一接口，统一调用方式
-- 最好有一个平台无关的默认文件，这样在使用 ts 的时候也不会出现报错
-- 引用文件的时候，只需要写默认文件名，不用带文件后缀
+- Unified interfaces are required for matching files from different ends and uniform mode of call
+- It would be better to have a default file without a platform, so there is no error reporting when using it
+- Just write the default filename when referencing a file without suffix
 
-### app.js 中使用不同的 pages
+### Use different pages in app.js
 
-> 1.3.11 开始支持
+> 1.3.11 Start support
 
 根据不同环境返回不同的 `pages`，可以这么写
 
@@ -137,11 +137,11 @@ export default {
 }
 ```
 
-### 让 node_modules 中的依赖也能解析多端文件
+### Makes reliance in node_modules parse multi-party files
 
-Taro 3 里的多端文件由 [MultiPlatformPlugin](https://github.com/NervJS/taro/blob/next/packages/taro-runner-utils/src/resolve/MultiPlatformPlugin.ts) 插件进行解析。
+Multi-end files in Taro 3 are parsed by [MultiPlatformPlugins](https://github.com/NervJS/taro/blob/next/packages/taro-runner-utils/src/resolve/MultiPlatformPlugin.ts) plugins.
 
-它是一个 [enhanced-resolve](https://github.com/webpack/enhanced-resolve) 插件，taro 内部会默认加载它。但插件默认不解析 node_modules 中的文件。
+It is a [enhanced-resolution](https://github.com/webpack/enhanced-resolve) plugin, taro will load it internally by default.The plugin does not parse files in node_modules by default.
 
 假如我们有一个 npm 包名叫 @taro-mobile，需要解析里面的多端文件，可以在 taro 的配置文件中这样修改 MultiPlatformPlugin 的配置：
 
@@ -160,8 +160,8 @@ mini: {
 ```
 Taro 3 RN 端没有使用 webpack，所以不能跟其他端一致 ，这里需增加了一个配置支持：
 ```js title="/config/index.js"
-rn: {
-  resolve: {
+rn: LO
+  resolve: LO
     include: ['@taro-mobile'],
   }
 }
