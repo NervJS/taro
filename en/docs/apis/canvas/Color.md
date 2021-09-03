@@ -3,14 +3,14 @@ title: Color
 sidebar_label: Color
 ---
 
-颜色。可以用以下几种方式来表示 canvas 中使用的颜色：
+The color.The following methods can be used to express the colors used on the canvas:
 
-- RGB 颜色： 如 `'rgb(255, 0, 0)'`
-- RGBA 颜色：如 `'rgba(255, 0, 0, 0.3)'`
-- 16 进制颜色： 如 `'#FF0000'`
-- 预定义的颜色： 如 `'red'`
+- RGB color, such as `'rgb(255, 0, 0)'`
+- RGBA color, such as `'rgba(255, 0, 0, 0.3)'`
+- Hex color, such as `'#FF0000'`
+- Predefined color, such as `'red'`
 
-其中预定义颜色有以下148个： *注意**: Color Name 大小写不敏感
+The following 148 colors are predefined: *Note*: The color names are not case sensitive.
 
 | Color Name           | HEX     |
 | -------------------- | ------- |
@@ -163,10 +163,10 @@ sidebar_label: Color
 | Yellow               | #FFFF00 |
 | YellowGreen          | #9ACD32 |
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Color.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Color.html)
 
-## API 支持度
+## API Support
 
-|  API  | 微信小程序 | H5 | React Native |
-|:-----:|:-----:|:--:|:------------:|
-| Color |  ✔️   |    |              |
+|  API  | WeChat Mini-Program | H5 | React Native |
+|:-----:|:-------------------:|:--:|:------------:|
+| Color |         ✔️          |    |              |
