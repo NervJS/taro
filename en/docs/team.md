@@ -1,23 +1,23 @@
 ---
-title: Taro 团队
+title: Taro Team
 ---
 
-## 核心开发者
+## Core developers
 
-Taro 各个模块的核心开发者。设计并实现 Taro 的核心功能，把控模块的功能规划、特性引入和实现进度，当社区无法达成共识时做出最终决定。
+Core developer for each of Taro's modules.Design and implement the core functionality of Taro, control the functional planning, feature introduction and implementation progress of the modules, and make the final decision when the community cannot reach a consensus.
 
-* **督导小组** 负责核心功能的监督把控，整体功能的规划设计，督导新功能的引入，制定开发计划，以及提交代码 Review
-* **编译小组** 负责代码文件编译到不同端的实现，微信小程序端 JSX 编译，快应用端 JSX 编译等，ESLint 插件维护
-* **开发工具小组** 负责 CLI 工具的开发与优化工作
-* **组件库小组** 负责标准组件库的规范制定、文档编写，标准组件库在不同端的实现，以及标准组件库官网建设
-* **运行框架小组** 负责不同端运行框架的实现
-* **端能力 API 小组** 负责端能力 API 的规范制定、文档编写，端能力 API 在不同端的实现
-* **UI 库小组** 负责 Taro UI 库的实现
-* **社区维护小组** 负责社区内答疑解惑，GitHub Issues 维护，问题搜集，社区项目发起与引导，第三方库适配与生态管理等
+* **Supervisory Team** Responsible for the supervision and control of core functions, overall functional planning and design, supervising the introduction of new features, making development plans, and reviewing submitted code
+* **Compiling Team** Responsible for compiling code files to different platform implementations, JSX compilation on WeChat mini program, JSX compilation on quickapp application, ESLint plugin maintenance, etc.
+* **Development Tools Team** Responsible for the development and optimization of CLI tools
+* **Component Library Team** Responsible for the standard component library specification, documentation, standard component library implementation in different ends, and the standard component library website construction
+* **Running Framework Team** Responsible for the implementation of the operational framework on different ends
+* **End Capability API Team** Responsible for API specification, documentation, and API implementation in different ends
+* **UI Library Team** Responsible for the implementation of Taro UI library
+* **Community Maintenance Team** Responsible for community Q&A, GitHub Issues maintenance, issue collection, community project initiation and guidance, third-party library adaptation and ecological management, etc.
 
-## 战略合作伙伴（联合团队）
+## Strategic Partners
 
-共同参与 Taro 的研发和推广，监督 Taro 的发展流程，推动 Taro 在各领域真实业务场景中的落地和实践，促进 Taro 在业界的广泛应用。
+Jointly participate in the development and promotion of Taro, oversee the development process of Taro, promote the implementation and practice of Taro in real business scenarios in various fields, and promote the wide application of Taro in the industry.
 
 <a
   href="//www.58.com"
@@ -32,9 +32,9 @@ Taro 各个模块的核心开发者。设计并实现 Taro 的核心功能，把
   ><img src="//pic3.58cdn.com.cn/nowater/fangfe/n_v2bcd2cc376dc54a5e9b0ce864424394f9.png" style={{height: "88px"}}
 /></a>
 
-Taro 3 React Native 部分由 58 的团队开发。[RN 相关的 RFC 可以关注](https://github.com/NervJS/taro-rfcs/pull/8)
+The Taro 3 React Native part was developed by the team at 58.[ ReactNative-related RFCs to follow](https://github.com/NervJS/taro-rfcs/pull/8)
 
-58 同城技术委员会前端分会成立于 2016 年，由各个事业群、部门的前端团队联合组成，旨在促进公司内前端领域技术共享交流、协同共建、代码开源，统一技术标准和开发方案，提高公司整体前端基础建设水平，提升各团队之间沟通协作效率。58 也在积极参与开源社区建设，已对外开源 wwto、Umajs、Picasso 多个项目，更多开源请关注：[https://github.com/wuba](https://github.com/wuba)。
+58 Tongcheng Technology Committee Front-end Chapter was established in 2016, which is jointly composed of front-end teams from various business groups and departments, aiming to promote technical sharing and exchange, collaborative construction, open-source code, unified technical standards ,and development solutions, improve the overall front-end infrastructure of the company, and enhance the efficiency of communication and collaboration between teams.58 is also actively involved in open source community building, and has Open source Project,such as wwto, Umajs, Picasso projects, etc. more open-source please pay attention to：[https://github.com/wuba](https://github.com/wuba)。
 
 <a
   href="https://youshu.tencent.com/"
@@ -111,13 +111,13 @@ Taro 3 React Native 部分由 58 的团队开发。[RN 相关的 RFC 可以关�
   ><img src="//storage.360buyimg.com/taro-resource/team/tx-tech.jpg" style={{height: "100px"}}
 /></a>
 
-## 个人贡献者
+## Individual Contributors
 
-为 Taro 贡献过代码的个人。
+Individuals who have contributed code to Taro.
 
 <a href="https://github.com/NervJS/taro/graphs/contributors"><img src="https://opencollective.com/taro/contributors.svg?width=890&button=false" /></a>
 
-## 特别鸣谢
+## Special Acknowledgement
 
 | [![nanjingboy](https://avatars1.githubusercontent.com/u/1390888?s=100&v=4)](https://github.com/nanjingboy/) | [![jsNewbee](https://avatars3.githubusercontent.com/u/20449400?s=100&v=4)](https://github.com/js-newbee/) | [![Qiyu8](https://avatars2.githubusercontent.com/u/15245051?s=100&v=4)](https://github.com/Qiyu8/) | [![Garfield550](https://avatars2.githubusercontent.com/u/3471836?s=100&v=4)](https://github.com/Garfield550/) | [![zhiqingchen](https://avatars3.githubusercontent.com/u/1876158?s=100&v=4)](https://github.com/zhiqingchen) |
 |:-----------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------:|
