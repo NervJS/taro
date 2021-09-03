@@ -146,7 +146,7 @@ require(\\"./taro\\");
             space: NO_DEFAULT_VALUE,
             decode: DEFAULT_FALSE
         };
-        var Button = {
+        var Button = Object.assign({
             size: singleQuote(\\"default\\"),
             type: NO_DEFAULT_VALUE,
             plain: DEFAULT_FALSE,
@@ -159,7 +159,7 @@ require(\\"./taro\\");
             \\"hover-start-time\\": \\"20\\",
             \\"hover-stay-time\\": \\"70\\",
             name: NO_DEFAULT_VALUE
-        };
+        }, touchEvents);
         var Checkbox = {
             value: NO_DEFAULT_VALUE,
             disabled: NO_DEFAULT_VALUE,
@@ -811,7 +811,7 @@ require(\\"./taro\\");
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
             taro.miniGlobal = taro.options.miniGlobal = global;
         }
-        var runtime_needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\" ]);
+        var runtime_needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: runtime_needPromiseApis,
@@ -1141,10 +1141,155 @@ require(\\"./taro\\");
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
         var taro_runtime = __webpack_require__(0);
+        function setDefaultDescriptor(obj) {
+            obj.writable = true;
+            obj.enumerable = true;
+            return obj;
+        }
+        function setRouterParams(options) {
+            taro_runtime[\\"Current\\"].router = Object.assign({
+                params: options === null || options === void 0 ? void 0 : options.query
+            }, options);
+        }
+        var runtime_Vue;
+        function setReconciler() {
+            var hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
+            hooks.onRemoveAttribute = function(dom, qualifiedName) {
+                var props = dom.props;
+                if (!props.hasOwnProperty(qualifiedName) || isBoolean(props[qualifiedName])) {
+                    dom.setAttribute(qualifiedName, false);
+                    return true;
+                }
+            };
+            hooks.getLifecycle = function(instance, lifecycle) {
+                return instance.$options[lifecycle];
+            };
+            if (false) {}
+        }
+        function connectVuePage(Vue, id) {
+            return function(component) {
+                var injectedPage = Vue.extend({
+                    props: {
+                        tid: String
+                    },
+                    mixins: [ component, {
+                        created: function created() {
+                            Object(taro_runtime[\\"injectPageInstance\\"])(this, id);
+                        }
+                    } ]
+                });
+                var options = {
+                    render: function render(h) {
+                        return h(false ? undefined : \\"root\\", {
+                            attrs: {
+                                id: id,
+                                class: false ? undefined : \\"\\"
+                            }
+                        }, [ h(injectedPage, {
+                            props: {
+                                tid: id
+                            }
+                        }) ]);
+                    }
+                };
+                return options;
+            };
+        }
+        function createVueApp(App, vue, config) {
+            if (false) {}
+            runtime_Vue = vue;
+            runtime_Vue.config.getTagNamespace = noop;
+            var elements = [];
+            var pages = [];
+            var appInstance;
+            setReconciler();
+            var wrapper = new runtime_Vue({
+                render: function render(h) {
+                    while (pages.length > 0) {
+                        var page = pages.pop();
+                        elements.push(page(h));
+                    }
+                    return h(App, {
+                        ref: \\"app\\"
+                    }, elements.slice());
+                },
+                methods: {
+                    mount: function mount(component, id, cb) {
+                        pages.push((function(h) {
+                            return h(component, {
+                                key: id
+                            });
+                        }));
+                        this.updateSync(cb);
+                    },
+                    updateSync: function updateSync(cb) {
+                        this._update(this._render(), false);
+                        this.$children.forEach((function(child) {
+                            return child._update(child._render(), false);
+                        }));
+                        cb();
+                    },
+                    unmount: function unmount(id, cb) {
+                        for (var i = 0; i < elements.length; i++) {
+                            var element = elements[i];
+                            if (element.key === id) {
+                                elements.splice(i, 1);
+                                break;
+                            }
+                        }
+                        this.updateSync(cb);
+                    }
+                }
+            });
+            if (true) {
+                wrapper.$mount(taro_runtime[\\"document\\"].getElementById(\\"app\\"));
+            }
+            var appObj = Object.create({
+                mount: function mount(component, id, cb) {
+                    var page = connectVuePage(runtime_Vue, id)(component);
+                    wrapper.mount(page, id, cb);
+                },
+                unmount: function unmount(id, cb) {
+                    wrapper.unmount(id, cb);
+                }
+            }, {
+                config: setDefaultDescriptor({
+                    configurable: true,
+                    value: config
+                }),
+                onLaunch: setDefaultDescriptor({
+                    value: function value(options) {
+                        setRouterParams(options);
+                        if (false) {}
+                        appInstance = wrapper.$refs.app;
+                        if (appInstance != null && isFunction(appInstance.$options.onLaunch)) {
+                            appInstance.$options.onLaunch.call(appInstance, options);
+                        }
+                    }
+                }),
+                onShow: setDefaultDescriptor({
+                    value: function value(options) {
+                        setRouterParams(options);
+                        if (appInstance != null && isFunction(appInstance.$options.onShow)) {
+                            appInstance.$options.onShow.call(appInstance, options);
+                        }
+                    }
+                }),
+                onHide: setDefaultDescriptor({
+                    value: function value(options) {
+                        if (appInstance != null && isFunction(appInstance.$options.onHide)) {
+                            appInstance.$options.onHide.call(appInstance, options);
+                        }
+                    }
+                })
+            });
+            taro_runtime[\\"Current\\"].app = appObj;
+            return appObj;
+        }
         var mocks_taro = \\"taro\\";
-        var vue = \\"vue-mock\\";
+        var mocks_vue = \\"vue-mock\\";
         var app = __webpack_require__(3);
-        var app_App = new vue({
+        var app_App = new mocks_vue({
             onShow: function onShow() {},
             render: function render(h) {
                 return h(\\"block\\", this.$slots.default);
@@ -1161,7 +1306,7 @@ require(\\"./taro\\");
             }
         };
         taro_runtime[\\"window\\"].__taroAppConfig = app_config;
-        var inst = App(Object(taro_runtime[\\"createVueApp\\"])(lib_src_app, vue, app_config));
+        var inst = App(createVueApp(lib_src_app, mocks_vue, app_config));
         undefined({
             designWidth: 750,
             deviceRatio: {
@@ -2095,121 +2240,7 @@ require(\\"./taro\\");
 <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 
 /** filePath: dist/runtime.js **/
-(function(modules) {
-    function webpackJsonpCallback(data) {
-        var chunkIds = data[0];
-        var moreModules = data[1];
-        var executeModules = data[2];
-        var moduleId, chunkId, i = 0, resolves = [];
-        for (;i < chunkIds.length; i++) {
-            chunkId = chunkIds[i];
-            if (Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
-                resolves.push(installedChunks[chunkId][0]);
-            }
-            installedChunks[chunkId] = 0;
-        }
-        for (moduleId in moreModules) {
-            if (Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
-                modules[moduleId] = moreModules[moduleId];
-            }
-        }
-        if (parentJsonpFunction) parentJsonpFunction(data);
-        while (resolves.length) {
-            resolves.shift()();
-        }
-        deferredModules.push.apply(deferredModules, executeModules || []);
-        return checkDeferredModules();
-    }
-    function checkDeferredModules() {
-        var result;
-        for (var i = 0; i < deferredModules.length; i++) {
-            var deferredModule = deferredModules[i];
-            var fulfilled = true;
-            for (var j = 1; j < deferredModule.length; j++) {
-                var depId = deferredModule[j];
-                if (installedChunks[depId] !== 0) fulfilled = false;
-            }
-            if (fulfilled) {
-                deferredModules.splice(i--, 1);
-                result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
-            }
-        }
-        return result;
-    }
-    var installedModules = {};
-    var installedChunks = {
-        0: 0
-    };
-    var deferredModules = [];
-    function __webpack_require__(moduleId) {
-        if (installedModules[moduleId]) {
-            return installedModules[moduleId].exports;
-        }
-        var module = installedModules[moduleId] = {
-            i: moduleId,
-            l: false,
-            exports: {}
-        };
-        modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-        module.l = true;
-        return module.exports;
-    }
-    __webpack_require__.m = modules;
-    __webpack_require__.c = installedModules;
-    __webpack_require__.d = function(exports, name, getter) {
-        if (!__webpack_require__.o(exports, name)) {
-            Object.defineProperty(exports, name, {
-                enumerable: true,
-                get: getter
-            });
-        }
-    };
-    __webpack_require__.r = function(exports) {
-        if (typeof Symbol !== \\"undefined\\" && Symbol.toStringTag) {
-            Object.defineProperty(exports, Symbol.toStringTag, {
-                value: \\"Module\\"
-            });
-        }
-        Object.defineProperty(exports, \\"__esModule\\", {
-            value: true
-        });
-    };
-    __webpack_require__.t = function(value, mode) {
-        if (mode & 1) value = __webpack_require__(value);
-        if (mode & 8) return value;
-        if (mode & 4 && typeof value === \\"object\\" && value && value.__esModule) return value;
-        var ns = Object.create(null);
-        __webpack_require__.r(ns);
-        Object.defineProperty(ns, \\"default\\", {
-            enumerable: true,
-            value: value
-        });
-        if (mode & 2 && typeof value != \\"string\\") for (var key in value) __webpack_require__.d(ns, key, function(key) {
-            return value[key];
-        }.bind(null, key));
-        return ns;
-    };
-    __webpack_require__.n = function(module) {
-        var getter = module && module.__esModule ? function getDefault() {
-            return module[\\"default\\"];
-        } : function getModuleExports() {
-            return module;
-        };
-        __webpack_require__.d(getter, \\"a\\", getter);
-        return getter;
-    };
-    __webpack_require__.o = function(object, property) {
-        return Object.prototype.hasOwnProperty.call(object, property);
-    };
-    __webpack_require__.p = \\"/\\";
-    var jsonpArray = wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || [];
-    var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
-    jsonpArray.push = webpackJsonpCallback;
-    jsonpArray = jsonpArray.slice();
-    for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
-    var parentJsonpFunction = oldJsonpFunction;
-    checkDeferredModules();
-})([]);
+
 
 /** filePath: dist/taro.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], [ function(module, __webpack_exports__, __webpack_require__) {

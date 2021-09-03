@@ -23,7 +23,7 @@ function addConfig (source) {
     enableShareTimeline: ['onShareTimeline', 'useShareTimeline']
   }
   const ast = acorn.parse(source, {
-    ecmaVersion: 2015,
+    ecmaVersion: 'latest',
     sourceType: 'module'
   })
 

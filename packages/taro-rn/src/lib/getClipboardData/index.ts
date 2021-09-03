@@ -1,4 +1,5 @@
 import Clipboard from '@react-native-community/clipboard'
+import { errorHandler } from '../../utils'
 
 export function getClipboardData (opts: Taro.getClipboardData.Option = {}): Promise<Taro.getClipboardData.Promised> {
   const { success, fail, complete } = opts
@@ -17,9 +18,6 @@ export function getClipboardData (opts: Taro.getClipboardData.Option = {}): Prom
       const res = {
         errMsg: err.message
       }
-      fail?.(res)
-      complete?.(res)
-
-      return Promise.reject(err)
+      return errorHandler(fail, complete)(res)
     })
 }

@@ -110,7 +110,7 @@ require(\\"./taro\\");
             space: NO_DEFAULT_VALUE,
             decode: DEFAULT_FALSE
         };
-        const Button = {
+        const Button = Object.assign({
             size: singleQuote(\\"default\\"),
             type: NO_DEFAULT_VALUE,
             plain: DEFAULT_FALSE,
@@ -123,7 +123,7 @@ require(\\"./taro\\");
             \\"hover-start-time\\": \\"20\\",
             \\"hover-stay-time\\": \\"70\\",
             name: NO_DEFAULT_VALUE
-        };
+        }, touchEvents);
         const Checkbox = {
             value: NO_DEFAULT_VALUE,
             disabled: NO_DEFAULT_VALUE,
@@ -754,7 +754,7 @@ require(\\"./taro\\");
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
             taro.miniGlobal = taro.options.miniGlobal = global;
         }
-        const runtime_needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\" ]);
+        const runtime_needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: runtime_needPromiseApis,
@@ -1083,14 +1083,462 @@ require(\\"./taro\\");
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(1);
+        var taro_runtime = __webpack_require__(0);
+        const HOOKS_APP_ID = \\"taro-app\\";
+        function isClassComponent(R, component) {
+            const prototype = component.prototype;
+            return isFunction(component.render) || !!(prototype === null || prototype === void 0 ? void 0 : prototype.isReactComponent) || prototype instanceof R.Component;
+        }
+        function ensureIsArray(item) {
+            if (isArray(item)) {
+                return item;
+            } else {
+                return item ? [ item ] : [];
+            }
+        }
+        function setDefaultDescriptor(obj) {
+            obj.writable = true;
+            obj.enumerable = true;
+            return obj;
+        }
+        function setRouterParams(options) {
+            taro_runtime[\\"Current\\"].router = Object.assign({
+                params: options === null || options === void 0 ? void 0 : options.query
+            }, options);
+        }
+        let PageContext = EMPTY_OBJ;
+        let R$1 = EMPTY_OBJ;
+        let h$1;
+        let ReactDOM$1;
+        const pageKeyId = Object(taro_runtime[\\"incrementId\\"])();
+        const hooks$1 = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
+        function setReconciler() {
+            hooks$1.getLifecycle = function(instance, lifecycle) {
+                lifecycle = lifecycle.replace(/^on(Show|Hide)$/, \\"componentDid$1\\");
+                return instance[lifecycle];
+            };
+            hooks$1.modifyMpEvent = function(event) {
+                event.type = event.type.replace(/-/g, \\"\\");
+            };
+            hooks$1.batchedEventUpdates = function(cb) {
+                ReactDOM$1.unstable_batchedUpdates(cb);
+            };
+            hooks$1.mergePageInstance = function(prev, next) {
+                if (!prev || !next) return;
+                if (\\"constructor\\" in prev) return;
+                Object.keys(prev).forEach(item => {
+                    const prevList = prev[item];
+                    const nextList = ensureIsArray(next[item]);
+                    next[item] = nextList.concat(prevList);
+                });
+            };
+            if (false) {}
+        }
+        function connectReactPage(R, id) {
+            return Page => {
+                const isReactComponent = isClassComponent(R, Page);
+                const inject = node => node && Object(taro_runtime[\\"injectPageInstance\\"])(node, id);
+                const refs = isReactComponent ? {
+                    ref: inject
+                } : {
+                    forwardedRef: inject,
+                    reactReduxForwardedRef: inject
+                };
+                if (PageContext === EMPTY_OBJ) {
+                    PageContext = R.createContext(\\"\\");
+                }
+                return class PageWrapper extends R.Component {
+                    constructor() {
+                        super(...arguments);
+                        this.state = {
+                            hasError: false
+                        };
+                    }
+                    static getDerivedStateFromError(error) {
+                        false && false;
+                        return {
+                            hasError: true
+                        };
+                    }
+                    componentDidCatch(error, info) {
+                        if (false) {}
+                    }
+                    render() {
+                        const children = this.state.hasError ? [] : h$1(PageContext.Provider, {
+                            value: id
+                        }, h$1(Page, Object.assign(Object.assign({}, this.props), refs)));
+                        if (false) {} else {
+                            return h$1(\\"root\\", {
+                                id: id
+                            }, children);
+                        }
+                    }
+                };
+            };
+        }
+        function createReactApp(App, react, reactdom, config) {
+            if (false) {}
+            R$1 = react;
+            h$1 = react.createElement;
+            ReactDOM$1 = reactdom;
+            const appInstanceRef = react.createRef();
+            const isReactComponent = isClassComponent(R$1, App);
+            let appWrapper;
+            setReconciler();
+            function getAppInstance() {
+                return appInstanceRef.current;
+            }
+            class AppWrapper extends R$1.Component {
+                constructor() {
+                    super(...arguments);
+                    this.pages = [];
+                    this.elements = [];
+                }
+                mount(pageComponent, id, cb) {
+                    const pageWrapper = connectReactPage(R$1, id)(pageComponent);
+                    const key = id + pageKeyId();
+                    const page = () => h$1(pageWrapper, {
+                        key: key,
+                        tid: id
+                    });
+                    this.pages.push(page);
+                    this.forceUpdate(cb);
+                }
+                unmount(id, cb) {
+                    const elements = this.elements;
+                    const idx = elements.findIndex(item => item.props.tid === id);
+                    elements.splice(idx, 1);
+                    this.forceUpdate(cb);
+                }
+                render() {
+                    const {pages: pages, elements: elements} = this;
+                    while (pages.length > 0) {
+                        const page = pages.pop();
+                        elements.push(page());
+                    }
+                    let props = null;
+                    if (isReactComponent) {
+                        props = {
+                            ref: appInstanceRef
+                        };
+                    }
+                    return h$1(App, props, false ? undefined : elements.slice());
+                }
+            }
+            if (true) {
+                appWrapper = ReactDOM$1.render(h$1(AppWrapper), taro_runtime[\\"document\\"].getElementById(\\"app\\"));
+            }
+            const appObj = Object.create({
+                render(cb) {
+                    appWrapper.forceUpdate(cb);
+                },
+                mount(component, id, cb) {
+                    appWrapper.mount(component, id, cb);
+                },
+                unmount(id, cb) {
+                    appWrapper.unmount(id, cb);
+                }
+            }, {
+                config: setDefaultDescriptor({
+                    configurable: true,
+                    value: config
+                }),
+                onLaunch: setDefaultDescriptor({
+                    value(options) {
+                        var _a;
+                        setRouterParams(options);
+                        if (false) {}
+                        const app = getAppInstance();
+                        this.$app = app;
+                        if (app) {
+                            if (app.taroGlobalData) {
+                                const globalData = app.taroGlobalData;
+                                const keys = Object.keys(globalData);
+                                const descriptors = Object.getOwnPropertyDescriptors(globalData);
+                                keys.forEach(key => {
+                                    Object.defineProperty(this, key, {
+                                        configurable: true,
+                                        enumerable: true,
+                                        get() {
+                                            return globalData[key];
+                                        },
+                                        set(value) {
+                                            globalData[key] = value;
+                                        }
+                                    });
+                                });
+                                Object.defineProperties(this, descriptors);
+                            }
+                            (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, options);
+                        }
+                    }
+                }),
+                onShow: setDefaultDescriptor({
+                    value(options) {
+                        var _a;
+                        setRouterParams(options);
+                        const app = getAppInstance();
+                        (_a = app === null || app === void 0 ? void 0 : app.componentDidShow) === null || _a === void 0 ? void 0 : _a.call(app, options);
+                        triggerAppHook(\\"onShow\\");
+                    }
+                }),
+                onHide: setDefaultDescriptor({
+                    value(options) {
+                        var _a;
+                        const app = getAppInstance();
+                        (_a = app === null || app === void 0 ? void 0 : app.componentDidHide) === null || _a === void 0 ? void 0 : _a.call(app, options);
+                        triggerAppHook(\\"onHide\\");
+                    }
+                }),
+                onPageNotFound: setDefaultDescriptor({
+                    value(res) {
+                        var _a;
+                        const app = getAppInstance();
+                        (_a = app === null || app === void 0 ? void 0 : app.onPageNotFound) === null || _a === void 0 ? void 0 : _a.call(app, res);
+                    }
+                })
+            });
+            function triggerAppHook(lifecycle) {
+                const instance = Object(taro_runtime[\\"getPageInstance\\"])(HOOKS_APP_ID);
+                if (instance) {
+                    const app = getAppInstance();
+                    const func = hooks$1.getLifecycle(instance, lifecycle);
+                    if (Array.isArray(func)) {
+                        func.forEach(cb => cb.apply(app));
+                    }
+                }
+            }
+            taro_runtime[\\"Current\\"].app = appObj;
+            return appObj;
+        }
+        const taroHooks = lifecycle => fn => {
+            const id = R$1.useContext(PageContext) || HOOKS_APP_ID;
+            const fnRef = R$1.useRef(fn);
+            if (fnRef.current !== fn) fnRef.current = fn;
+            R$1.useLayoutEffect(() => {
+                let inst = Object(taro_runtime[\\"getPageInstance\\"])(id);
+                let first = false;
+                if (inst == null) {
+                    first = true;
+                    inst = Object.create(null);
+                }
+                inst = inst;
+                const callback = (...args) => fnRef.current(...args);
+                if (isFunction(inst[lifecycle])) {
+                    inst[lifecycle] = [ inst[lifecycle], callback ];
+                } else {
+                    inst[lifecycle] = [ ...inst[lifecycle] || [], callback ];
+                }
+                if (first) {
+                    Object(taro_runtime[\\"injectPageInstance\\"])(inst, id);
+                }
+                return () => {
+                    const inst = Object(taro_runtime[\\"getPageInstance\\"])(id);
+                    const list = inst[lifecycle];
+                    if (list === callback) {
+                        inst[lifecycle] = undefined;
+                    } else if (isArray(list)) {
+                        inst[lifecycle] = list.filter(item => item !== callback);
+                    }
+                };
+            }, []);
+        };
+        const useDidShow = taroHooks(\\"componentDidShow\\");
+        const useDidHide = taroHooks(\\"componentDidHide\\");
+        const usePullDownRefresh = taroHooks(\\"onPullDownRefresh\\");
+        const useReachBottom = taroHooks(\\"onReachBottom\\");
+        const usePageScroll = taroHooks(\\"onPageScroll\\");
+        const useResize = taroHooks(\\"onResize\\");
+        const useShareAppMessage = taroHooks(\\"onShareAppMessage\\");
+        const useTabItemTap = taroHooks(\\"onTabItemTap\\");
+        const useTitleClick = taroHooks(\\"onTitleClick\\");
+        const useOptionMenuClick = taroHooks(\\"onOptionMenuClick\\");
+        const usePullIntercept = taroHooks(\\"onPullIntercept\\");
+        const useShareTimeline = taroHooks(\\"onShareTimeline\\");
+        const useAddToFavorites = taroHooks(\\"onAddToFavorites\\");
+        const useReady = taroHooks(\\"onReady\\");
+        const useRouter = (dynamic = false) => dynamic ? taro_runtime[\\"Current\\"].router : R$1.useMemo(() => taro_runtime[\\"Current\\"].router, []);
+        const useScope = () => undefined;
+        var taroHooks$1 = Object.freeze({
+            __proto__: null,
+            useDidShow: useDidShow,
+            useDidHide: useDidHide,
+            usePullDownRefresh: usePullDownRefresh,
+            useReachBottom: useReachBottom,
+            usePageScroll: usePageScroll,
+            useResize: useResize,
+            useShareAppMessage: useShareAppMessage,
+            useTabItemTap: useTabItemTap,
+            useTitleClick: useTitleClick,
+            useOptionMenuClick: useOptionMenuClick,
+            usePullIntercept: usePullIntercept,
+            useShareTimeline: useShareTimeline,
+            useAddToFavorites: useAddToFavorites,
+            useReady: useReady,
+            useRouter: useRouter,
+            useScope: useScope
+        });
+        const getNativeCompId = Object(taro_runtime[\\"incrementId\\"])();
+        let runtime_R;
+        let h;
+        let runtime_ReactDOM;
+        function initNativeComponentEntry(R, ReactDOM) {
+            class NativeComponentWrapper extends R.Component {
+                constructor() {
+                    super(...arguments);
+                    this.root = R.createRef();
+                    this.ctx = this.props.getCtx();
+                }
+                componentDidMount() {
+                    this.ctx.component = this;
+                    const rootElement = this.root.current;
+                    rootElement.ctx = this.ctx;
+                    rootElement.performUpdate(true);
+                }
+                render() {
+                    return h(\\"root\\", {
+                        ref: this.root
+                    }, this.props.renderComponent(this.ctx));
+                }
+            }
+            class Entry extends R.Component {
+                constructor() {
+                    super(...arguments);
+                    this.state = {
+                        components: []
+                    };
+                }
+                componentDidMount() {
+                    taro_runtime[\\"Current\\"].app = this;
+                }
+                mount(Component, compId, getCtx) {
+                    const isReactComponent = isClassComponent(R, Component);
+                    const inject = node => node && Object(taro_runtime[\\"injectPageInstance\\"])(node, compId);
+                    const refs = isReactComponent ? {
+                        ref: inject
+                    } : {
+                        forwardedRef: inject,
+                        reactReduxForwardedRef: inject
+                    };
+                    const item = {
+                        compId: compId,
+                        element: h(NativeComponentWrapper, {
+                            key: compId,
+                            getCtx: getCtx,
+                            renderComponent(ctx) {
+                                return h(Component, Object.assign(Object.assign({}, (ctx.data || (ctx.data = {})).props), refs));
+                            }
+                        })
+                    };
+                    this.setState({
+                        components: [ ...this.state.components, item ]
+                    });
+                }
+                unmount(compId) {
+                    const components = this.state.components;
+                    const index = components.findIndex(item => item.compId === compId);
+                    const next = [ ...components.slice(0, index), ...components.slice(index + 1) ];
+                    this.setState({
+                        components: next
+                    });
+                }
+                render() {
+                    const components = this.state.components;
+                    return components.map(({element: element}) => element);
+                }
+            }
+            setReconciler();
+            const app = taro_runtime[\\"document\\"].getElementById(\\"app\\");
+            ReactDOM.render(h(Entry, {}), app);
+        }
+        function createNativeComponentConfig(Component, react, reactdom, componentConfig) {
+            runtime_R = react;
+            h = react.createElement;
+            runtime_ReactDOM = reactdom;
+            setReconciler();
+            const componentObj = {
+                properties: {
+                    props: {
+                        type: null,
+                        value: null,
+                        observer(_newVal, oldVal) {
+                            oldVal && this.component.forceUpdate();
+                        }
+                    }
+                },
+                created() {
+                    if (!taro_runtime[\\"Current\\"].app) {
+                        initNativeComponentEntry(runtime_R, runtime_ReactDOM);
+                    }
+                },
+                attached() {
+                    setCurrent();
+                    this.compId = getNativeCompId();
+                    this.config = componentConfig;
+                    taro_runtime[\\"Current\\"].app.mount(Component, this.compId, () => this);
+                },
+                ready() {
+                    Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onReady\\");
+                },
+                detached() {
+                    taro_runtime[\\"Current\\"].app.unmount(this.compId);
+                },
+                pageLifetimes: {
+                    show() {
+                        Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onShow\\");
+                    },
+                    hide() {
+                        Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onHide\\");
+                    }
+                },
+                methods: {
+                    eh: taro_runtime[\\"eventHandler\\"]
+                }
+            };
+            function setCurrent() {
+                const pages = getCurrentPages();
+                const currentPage = pages[pages.length - 1];
+                if (taro_runtime[\\"Current\\"].page === currentPage) return;
+                taro_runtime[\\"Current\\"].page = currentPage;
+                const route = currentPage.route || currentPage.__route__;
+                const router = {
+                    params: currentPage.options || {},
+                    path: Object(taro_runtime[\\"addLeadingSlash\\"])(route),
+                    onReady: \\"\\",
+                    onHide: \\"\\",
+                    onShow: \\"\\"
+                };
+                taro_runtime[\\"Current\\"].router = router;
+                if (!currentPage.options) {
+                    Object.defineProperty(currentPage, \\"options\\", {
+                        enumerable: true,
+                        configurable: true,
+                        get() {
+                            return this._optionsValue;
+                        },
+                        set(value) {
+                            router.params = value;
+                            this._optionsValue = value;
+                        }
+                    });
+                }
+            }
+            return componentObj;
+        }
+        const hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
+        hooks.initNativeApiImpls || (hooks.initNativeApiImpls = []);
+        hooks.initNativeApiImpls.push((function(taro) {
+            for (const hook in taroHooks$1) {
+                taro[hook] = taroHooks$1[hook];
+            }
+        }));
         var mocks_taro = __webpack_require__(2);
         var classCallCheck = __webpack_require__(4);
         var createClass = __webpack_require__(5);
         var inherits = __webpack_require__(7);
         var createSuper = __webpack_require__(6);
-        var react = __webpack_require__(0);
-        var app = __webpack_require__(14);
+        var mocks_react = __webpack_require__(1);
+        var src_app = __webpack_require__(14);
         var app_App = function(_React$Component) {
             Object(inherits[\\"a\\"])(App, _React$Component);
             var _super = Object(createSuper[\\"a\\"])(App);
@@ -1117,10 +1565,10 @@ require(\\"./taro\\");
                 }
             } ]);
             return App;
-        }(react[\\"default\\"].Component);
+        }(mocks_react[\\"default\\"].Component);
         var lib_src_app = app_App;
         var taro_react = __webpack_require__(9);
-        var config = {
+        var app_config = {
             pages: [ \\"pages/index/index\\", \\"pages/native/native\\" ],
             window: {
                 backgroundTextStyle: \\"light\\",
@@ -1129,8 +1577,8 @@ require(\\"./taro\\");
                 navigationBarTextStyle: \\"black\\"
             }
         };
-        taro_runtime[\\"window\\"].__taroAppConfig = config;
-        var inst = App(Object(taro_runtime[\\"createReactApp\\"])(lib_src_app, react, taro_react[\\"a\\"], config));
+        taro_runtime[\\"window\\"].__taroAppConfig = app_config;
+        var app_inst = App(createReactApp(lib_src_app, mocks_react, taro_react[\\"a\\"], app_config));
         Object(mocks_taro[\\"initPxTransform\\"])({
             designWidth: 750,
             deviceRatio: {
@@ -1207,7 +1655,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_button\\">
-  <button size=\\"{{xs.b(i.size,'default')}}\\" type=\\"{{i.type}}\\" plain=\\"{{xs.b(i.plain,false)}}\\" disabled=\\"{{i.disabled}}\\" loading=\\"{{xs.b(i.loading,false)}}\\" form-type=\\"{{i.formType}}\\" open-type=\\"{{i.openType}}\\" hover-class=\\"{{xs.b(i.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,70)}}\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <button size=\\"{{xs.b(i.size,'default')}}\\" type=\\"{{i.type}}\\" plain=\\"{{xs.b(i.plain,false)}}\\" disabled=\\"{{i.disabled}}\\" loading=\\"{{xs.b(i.loading,false)}}\\" form-type=\\"{{i.formType}}\\" open-type=\\"{{i.openType}}\\" hover-class=\\"{{xs.b(i.hoverClass,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,20)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,70)}}\\" name=\\"{{i.name}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
@@ -2057,11 +2505,11 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/common.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ function(module, __webpack_exports__, __webpack_require__) {
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
-}, , function(module, __webpack_exports__, __webpack_require__) {
+}, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_exports__[\\"a\\"] = \\"taro\\";
 } ] ]);
@@ -2071,7 +2519,7 @@ require(\\"./taro\\");
     15: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
 }, [ [ 15, 0, 1 ] ] ]);
@@ -2135,7 +2583,7 @@ require(\\"./taro\\");
     16: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
 }, [ [ 16, 0, 1 ] ] ]);
@@ -2155,13 +2603,13 @@ require(\\"./taro\\");
     25: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var taro_runtime = __webpack_require__(1);
+        var taro_runtime = __webpack_require__(0);
         var classCallCheck = __webpack_require__(4);
         var createClass = __webpack_require__(5);
         var inherits = __webpack_require__(7);
         var createSuper = __webpack_require__(6);
         var taro = __webpack_require__(2);
-        var react = __webpack_require__(0);
+        var react = __webpack_require__(1);
         var taro_components = __webpack_require__(3);
         var index = __webpack_require__(17);
         var index_Index = function(_React$Component) {
@@ -2297,125 +2745,11 @@ require(\\"./taro\\");
 .native{color:red}
 
 /** filePath: dist/runtime.js **/
-(function(modules) {
-    function webpackJsonpCallback(data) {
-        var chunkIds = data[0];
-        var moreModules = data[1];
-        var executeModules = data[2];
-        var moduleId, chunkId, i = 0, resolves = [];
-        for (;i < chunkIds.length; i++) {
-            chunkId = chunkIds[i];
-            if (Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
-                resolves.push(installedChunks[chunkId][0]);
-            }
-            installedChunks[chunkId] = 0;
-        }
-        for (moduleId in moreModules) {
-            if (Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
-                modules[moduleId] = moreModules[moduleId];
-            }
-        }
-        if (parentJsonpFunction) parentJsonpFunction(data);
-        while (resolves.length) {
-            resolves.shift()();
-        }
-        deferredModules.push.apply(deferredModules, executeModules || []);
-        return checkDeferredModules();
-    }
-    function checkDeferredModules() {
-        var result;
-        for (var i = 0; i < deferredModules.length; i++) {
-            var deferredModule = deferredModules[i];
-            var fulfilled = true;
-            for (var j = 1; j < deferredModule.length; j++) {
-                var depId = deferredModule[j];
-                if (installedChunks[depId] !== 0) fulfilled = false;
-            }
-            if (fulfilled) {
-                deferredModules.splice(i--, 1);
-                result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
-            }
-        }
-        return result;
-    }
-    var installedModules = {};
-    var installedChunks = {
-        0: 0
-    };
-    var deferredModules = [];
-    function __webpack_require__(moduleId) {
-        if (installedModules[moduleId]) {
-            return installedModules[moduleId].exports;
-        }
-        var module = installedModules[moduleId] = {
-            i: moduleId,
-            l: false,
-            exports: {}
-        };
-        modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-        module.l = true;
-        return module.exports;
-    }
-    __webpack_require__.m = modules;
-    __webpack_require__.c = installedModules;
-    __webpack_require__.d = function(exports, name, getter) {
-        if (!__webpack_require__.o(exports, name)) {
-            Object.defineProperty(exports, name, {
-                enumerable: true,
-                get: getter
-            });
-        }
-    };
-    __webpack_require__.r = function(exports) {
-        if (typeof Symbol !== \\"undefined\\" && Symbol.toStringTag) {
-            Object.defineProperty(exports, Symbol.toStringTag, {
-                value: \\"Module\\"
-            });
-        }
-        Object.defineProperty(exports, \\"__esModule\\", {
-            value: true
-        });
-    };
-    __webpack_require__.t = function(value, mode) {
-        if (mode & 1) value = __webpack_require__(value);
-        if (mode & 8) return value;
-        if (mode & 4 && typeof value === \\"object\\" && value && value.__esModule) return value;
-        var ns = Object.create(null);
-        __webpack_require__.r(ns);
-        Object.defineProperty(ns, \\"default\\", {
-            enumerable: true,
-            value: value
-        });
-        if (mode & 2 && typeof value != \\"string\\") for (var key in value) __webpack_require__.d(ns, key, function(key) {
-            return value[key];
-        }.bind(null, key));
-        return ns;
-    };
-    __webpack_require__.n = function(module) {
-        var getter = module && module.__esModule ? function getDefault() {
-            return module[\\"default\\"];
-        } : function getModuleExports() {
-            return module;
-        };
-        __webpack_require__.d(getter, \\"a\\", getter);
-        return getter;
-    };
-    __webpack_require__.o = function(object, property) {
-        return Object.prototype.hasOwnProperty.call(object, property);
-    };
-    __webpack_require__.p = \\"/\\";
-    var jsonpArray = wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || [];
-    var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
-    jsonpArray.push = webpackJsonpCallback;
-    jsonpArray = jsonpArray.slice();
-    for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
-    var parentJsonpFunction = oldJsonpFunction;
-    checkDeferredModules();
-})([]);
+
 
 /** filePath: dist/taro.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    1: function(module, __webpack_exports__, __webpack_require__) {
+    0: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-runtime-mock\\";
     },

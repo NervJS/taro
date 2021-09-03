@@ -1,4 +1,3 @@
-import * as webpack from 'webpack'
 import { REG_VUE, chalk } from '@tarojs/helper'
 import { DEFAULT_Components } from '@tarojs/runner-utils'
 import { internalComponents, toCamelCase, capitalize } from '@tarojs/shared/dist/template'
@@ -16,8 +15,8 @@ export default (ctx: IPluginContext) => {
 
   isBuildH5 = process.env.TARO_ENV === 'h5'
 
-  ctx.modifyWebpackChain(({ chain, data }) => {
-    customVueChain(chain, data)
+  ctx.modifyWebpackChain(({ chain, webpack, data }) => {
+    customVueChain(chain, webpack, data)
     setLoader(chain)
 
     if (isBuildH5) {
@@ -26,7 +25,7 @@ export default (ctx: IPluginContext) => {
   })
 }
 
-function customVueChain (chain, data) {
+function customVueChain (chain, webpack, data) {
   chain.resolve.alias
     .set('vue', '@vue/runtime-dom')
 

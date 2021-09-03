@@ -90,7 +90,8 @@ const Button = {
   'hover-stop-propagation': DEFAULT_FALSE,
   'hover-start-time': '20',
   'hover-stay-time': '70',
-  name: NO_DEFAULT_VALUE
+  name: NO_DEFAULT_VALUE,
+  ...touchEvents
 }
 
 const Checkbox = {

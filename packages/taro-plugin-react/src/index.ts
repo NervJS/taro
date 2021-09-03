@@ -1,4 +1,3 @@
-import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
 import { getLoaderMeta } from './loader-meta'
 
 import type { IPluginContext } from '@tarojs/service'
@@ -94,6 +93,6 @@ function setPlugin (ctx: IPluginContext, framework: Frameworks, chain) {
     // 默认开启 fast-refresh
     chain
       .plugin('fastRefreshPlugin')
-      .use(ReactRefreshWebpackPlugin)
+      .use(require('@pmmmwh/react-refresh-webpack-plugin'))
   }
 }
