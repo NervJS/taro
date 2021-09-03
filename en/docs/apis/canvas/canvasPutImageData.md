@@ -3,88 +3,88 @@ title: Taro.canvasPutImageData(option, component)
 sidebar_label: canvasPutImageData
 ---
 
-将像素数据绘制到画布。在自定义组件下，第二个参数传入自定义组件实例 this，以操作组件内 `<canvas>` 组件
+Draws pixel data to the canvas.In a custom component, the "this" of the custom component instance is passed as the second parameter to operate on the `canvas` component in this component.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasPutImageData.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasPutImageData.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option, component?: Record<string, any>) => Promise<CallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>canvasId</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>画布标识，传入 <a href="https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html">canvas</a> 组件的 canvas-id 属性。</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The canvas ID, which is the canvas-id property passed into the <code>canvas</code> component.</td>
     </tr>
     <tr>
       <td>data</td>
       <td><code>Uint8ClampedArray</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>图像像素点数据，一维数组，每四项表示一个像素点的 rgba</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The image pixel data, which is a one-dimensional array in which every four items express the RGBA color of one pixel.</td>
     </tr>
     <tr>
       <td>height</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>源图像数据矩形区域的高度</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The height of the rectangular area of the source image.</td>
     </tr>
     <tr>
       <td>width</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>源图像数据矩形区域的宽度</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The width of the rectangular area of the source image.</td>
     </tr>
     <tr>
       <td>x</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>源图像数据在目标画布中的位置偏移量（x 轴方向的偏移量）</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The position offset (x-axis offset) of the source image data on the destination canvas.</td>
     </tr>
     <tr>
       <td>y</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>源图像数据在目标画布中的位置偏移量（y 轴方向的偏移量）</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The position offset (y-axis offset) of the source image data on the destination canvas.</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 const data = new Uint8ClampedArray([255, 0, 0, 1])
@@ -98,8 +98,8 @@ Taro.canvasPutImageData({
 })
 ```
 
-## API 支持度
+## API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| Taro.canvasPutImageData |  ✔️   | ✔️ |              |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+| Taro.canvasPutImageData |         ✔️          | ✔️ |              |
