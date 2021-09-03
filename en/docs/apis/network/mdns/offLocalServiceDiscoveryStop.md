@@ -3,21 +3,21 @@ title: Taro.offLocalServiceDiscoveryStop(callback)
 sidebar_label: offLocalServiceDiscoveryStop
 ---
 
-取消监听 mDNS 服务停止搜索的事件
+Un-listens on the event that the mDNS service search stops.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/mdns/wx.offLocalServiceDiscoveryStop.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/mdns/wx.offLocalServiceDiscoveryStop.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: Callback) => void
 ```
 
-## 参数
+## Parameters
 
 ### Callback
 
-mDNS 服务停止搜索的事件的回调函数
+The callback function for the event that the mDNS service search stops.
 
 ```tsx
 (res: CallbackResult) => void
@@ -26,8 +26,8 @@ mDNS 服务停止搜索的事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -38,8 +38,8 @@ mDNS 服务停止搜索的事件的回调函数
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|                API                | 微信小程序 | H5 | React Native |
-|:---------------------------------:|:-----:|:--:|:------------:|
-| Taro.offLocalServiceDiscoveryStop |  ✔️   |    |              |
+|                API                | WeChat Mini-Program | H5 | React Native |
+|:---------------------------------:|:-------------------:|:--:|:------------:|
+| Taro.offLocalServiceDiscoveryStop |         ✔️          |    |              |
