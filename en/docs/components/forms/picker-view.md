@@ -3,17 +3,17 @@ title: PickerView
 sidebar_label: PickerView
 ---
 
-嵌入页面的滚动选择器 其中只可放置 picker-view-column 组件，其它节点不会显示
+The scroll picker nested into a page. Only the `picker-view-column` component can be placed in it. Other nodes are not displayed.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/picker-view.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/picker-view.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<PickerViewProps>
 ```
 
-## 示例代码
+## Examples
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -69,26 +69,26 @@ export default class Picks extends Component {
   render() {
     return (
       <View>
-        <View>{this.state.year}年{this.state.month}月{this.state.day}日</View>
+        <View>{this.state.year}-{this.state.month}-{this.state.day}</View>
         <PickerView indicatorStyle='height: 50px;' style='width: 100%; height: 300px;' value={this.state.value} onChange={this.onChange}>
           <PickerViewColumn>
             {this.state.years.map(item => {
               return (
-                <View>{item}年</View>
+                <View>{item}</View>
               );
             })}
           </PickerViewColumn>
           <PickerViewColumn>
             {this.state.months.map(item => {
               return (
-                <View>{item}月</View>
+                <View>{item}</View>
               )
             })}
           </PickerViewColumn>
           <PickerViewColumn>
             {this.state.days.map(item => {
               return (
-                <View>{item}日</View>
+                <View>{item}</View>
               )
             })}
           </PickerViewColumn>
@@ -106,16 +106,16 @@ export default class Picks extends Component {
 ```html
 <template>
   <view class="taro-example">
-  <view>{{year}}年{{month}}月{{day}}日</view>
+  <view>{{year}}-{{month}}-{{day}}</view>
   <picker-view indicator-style="height: 30px;" style="width: 100%; height: 300px;" :value="value" @change="onChange">
     <picker-view-column>
-      <view v-for="(item, index) in years" :key="index">{{item}}年</view>
+      <view v-for="(item, index) in years" :key="index">{{item}}</view>
     </picker-view-column>
     <picker-view-column>
-      <view v-for="(item, index) in months" :key="index">{{item}}月</view>
+      <view v-for="(item, index) in months" :key="index">{{item}}</view>
     </picker-view-column>
     <picker-view-column>
-      <view v-for="(item, index) in days" :key="index">{{item}}日</view>
+      <view v-for="(item, index) in days" :key="index">{{item}}</view>
     </picker-view-column>
   </picker-view>
 </view>
@@ -170,84 +170,84 @@ export default class Picks extends Component {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>value</td>
       <td><code>number[]</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>数组中的数字依次表示 picker-view 内的 picker-view-column 选择的第几项（下标从 0 开始），数字大于 picker-view-column 可选项长度时，选择最后一项。</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The number in the array indicates the sequence number (starting from 0 in the subscript) of the item selected in the picker-view-column of picker-view. When the number is greater than the maximum length of the picker-view-column, the last item is selected.</td>
     </tr>
     <tr>
       <td>indicatorStyle</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置选择器中间选中框的样式</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies the style of the checkbox in the picker.</td>
     </tr>
     <tr>
       <td>indicatorClass</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置选择器中间选中框的类名</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies the name of the checkbox in the picker.</td>
     </tr>
     <tr>
       <td>maskStyle</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置蒙层的样式</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies the style of the mask.</td>
     </tr>
     <tr>
       <td>maskClass</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置蒙层的类名</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies the name of the mask.</td>
     </tr>
     <tr>
       <td>onChange</td>
       <td><code>BaseEventOrigFunction&lt;onChangeEventDetail&gt;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当滚动选择，value 改变时触发 change 事件，event.detail = {`{value: value}`}；value为数组，表示 picker-view 内的 picker-view-column 当前选择的是第几项（下标从 0 开始）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>A change event triggered when the list is scrolled for selection. event.detail = {`{value}`}. The value is an array, indicating the sequence number (starting from 0 in the subscript) of the item selected in the picker-view-column of picker-view.</td>
     </tr>
     <tr>
       <td>onPickStart</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当滚动选择开始时候触发事件</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>An event triggered when scrolling starts.</td>
     </tr>
     <tr>
       <td>onPickEnd</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当滚动选择结束时候触发事件</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>An event triggered when scrolling ends.</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### API Support
 
-|              API               | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
-|:------------------------------:|:-----:|:-----:|:------:|:-------:|:--:|:------------:|
-|     PickerViewProps.value      |  ✔️   |  ✔️   |   ✔️   |   ✔️    |    |              |
-| PickerViewProps.indicatorStyle |  ✔️   |  ✔️   |   ✔️   |   ✔️    |    |              |
-| PickerViewProps.indicatorClass |  ✔️   |  ✔️   |   ✔️   |         |    |              |
-|   PickerViewProps.maskStyle    |  ✔️   |  ✔️   |   ✔️   |   ✔️    |    |              |
-|   PickerViewProps.maskClass    |  ✔️   |  ✔️   |   ✔️   |         |    |              |
-|    PickerViewProps.onChange    |  ✔️   |  ✔️   |   ✔️   |   ✔️    |    |              |
-|  PickerViewProps.onPickStart   |  ✔️   |       |        |         |    |              |
-|   PickerViewProps.onPickEnd    |  ✔️   |       |        |         |    |              |
+|              API               | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 | React Native |
+|:------------------------------:|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+|     PickerViewProps.value      |         ✔️          |         ✔️          |         ✔️          |         ✔️          |    |              |
+| PickerViewProps.indicatorStyle |         ✔️          |         ✔️          |         ✔️          |         ✔️          |    |              |
+| PickerViewProps.indicatorClass |         ✔️          |         ✔️          |         ✔️          |                     |    |              |
+|   PickerViewProps.maskStyle    |         ✔️          |         ✔️          |         ✔️          |         ✔️          |    |              |
+|   PickerViewProps.maskClass    |         ✔️          |         ✔️          |         ✔️          |                     |    |              |
+|    PickerViewProps.onChange    |         ✔️          |         ✔️          |         ✔️          |         ✔️          |    |              |
+|  PickerViewProps.onPickStart   |         ✔️          |                     |                     |                     |    |              |
+|   PickerViewProps.onPickEnd    |         ✔️          |                     |                     |                     |    |              |
 
 ### onChangeEventDetail
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Param</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -258,8 +258,8 @@ export default class Picks extends Component {
   </tbody>
 </table>
 
-## API 支持度
+## Property Support
 
-|    API     | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
-|:----------:|:-----:|:-----:|:------:|:-------:|:--:|:------------:|
-| PickerView |  ✔️   |  ✔️   |   ✔️   |   ✔️    |    |      ✔️      |
+|    API     | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 | React Native |
+|:----------:|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| PickerView |         ✔️          |         ✔️          |         ✔️          |         ✔️          |    |      ✔️      |
