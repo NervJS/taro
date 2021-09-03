@@ -3,17 +3,17 @@ title: CoverView
 sidebar_label: CoverView
 ---
 
-覆盖在原生组件之上的文本视图。可覆盖的原生组件包括 map、video、canvas、camera、live-player、live-pusher 只支持嵌套 cover-view、cover-image，可在 cover-view 中使用 button。
+Text view above native components.Native components that can be covered include map, video, canvas, camera, live-player, and live-pusher. Only cover-view and cover-image can be nested, and button can be used in cover-view.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/cover-view.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/cover-view.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<CoverViewProps>
 ```
 
-## 示例代码
+## Examples
 
 
 import Tabs from '@theme/Tabs';
@@ -100,30 +100,30 @@ class App extends Components {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>scrollTop</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置顶部滚动偏移量，仅在设置了 overflow-y: scroll 成为滚动元素后生效</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Sets the top offset of the scroll bar. It takes effect only when overflow-y: scroll is set to become a scrolling element.</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|           API            | 微信小程序 | H5 | React Native |
-|:------------------------:|:-----:|:--:|:------------:|
-| CoverViewProps.scrollTop |  ✔️   |    |              |
+|           API            | WeChat Mini-Program | H5 | React Native |
+|:------------------------:|:-------------------:|:--:|:------------:|
+| CoverViewProps.scrollTop |         ✔️          |    |              |
 
-## API 支持度
+## API Support
 
-|    API    | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
-|:---------:|:-----:|:-----:|:------:|:--:|:------------:|
-| CoverView |  ✔️   |  ✔️   |   ✔️   |    |              |
+|    API    | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | H5 | React Native |
+|:---------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| CoverView |         ✔️          |         ✔️          |         ✔️          |    |              |
