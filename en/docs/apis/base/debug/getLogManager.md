@@ -3,27 +3,27 @@ title: Taro.getLogManager(res)
 sidebar_label: getLogManager
 ---
 
-获取日志管理器对象。
+Obtains the log manager object.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/wx.getLogManager.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/wx.getLogManager.html)
 
-## 类型
+## Type
 
 ```tsx
 (res?: Option) => LogManager
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th style={{ textAlign: "center"}}>Required</th>
     </tr>
   </thead>
   <tbody>
@@ -31,7 +31,7 @@ sidebar_label: getLogManager
       <td>level</td>
       <td><code>0 | 1</code></td>
       <td style={{ textAlign: "center"}}><code>0</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td style={{ textAlign: "center"}}>No</td>
     </tr>
   </tbody>
 </table>
@@ -42,7 +42,7 @@ sidebar_label: getLogManager
   <thead>
     <tr>
       <th>参数</th>
-      <th>说明</th>
+      <th>WeChat Mini-Program</th>
     </tr>
   </thead>
   <tbody>
@@ -52,12 +52,12 @@ sidebar_label: getLogManager
     </tr>
     <tr>
       <td>1</td>
-      <td>表示不会把 App、Page 的生命周期函数和 wx 命名空间下的函数调用写入日志</td>
+      <td>The former indicates the App and Page lifecycle functions and function calls under the wx namespace are written to the log, while the latter means these items are not written.</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 const logger = Taro.getLogManager({level: 1})
@@ -68,7 +68,7 @@ logger.debug({str: 'hello world'}, 'debug log', 100, [1, 2, 3])
 logger.warn({str: 'hello world'}, 'warn log', 100, [1, 2, 3])
 ```
 
-## API 支持度
+## API Support
 
 |        API         | 微信小程序 | H5 | React Native |
 |:------------------:|:-----:|:--:|:------------:|
