@@ -3,7 +3,7 @@ title: Taro.pageScrollTo(option)
 sidebar_label: pageScrollTo
 ---
 
-将页面滚动到目标位置，支持选择器和滚动距离两种方式定位
+Scrolls the screen to the target location
 
 **selector 语法** selector类似于 CSS 的选择器，但仅支持下列语法。
 
@@ -14,68 +14,68 @@ sidebar_label: pageScrollTo
 + 跨自定义组件的后代选择器：.the-ancestor >>> .the-descendant
 + 多选择器的并集：#a-node, .some-other-nodes
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/scroll/wx.pageScrollTo.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/scroll/wx.pageScrollTo.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => void
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The duration of the scrolling animation (in ms)</td>
     </tr>
     <tr>
       <td>duration</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>滚动动画的时长，单位 ms</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Scrolls the screen to the target location (in px)</td>
     </tr>
     <tr>
       <td>fail</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>selector, css selector (rn not support)</td>
     </tr>
     <tr>
       <td>scrollTop</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>滚动到页面的目标位置，单位 px</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>selector</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>选择器, css selector (rn 不支持该属性)</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.pageScrollTo({
@@ -84,8 +84,8 @@ Taro.pageScrollTo({
 })
 ```
 
-## API 支持度
+## API Support
 
-|        API        | 微信小程序 | H5 | React Native |
-|:-----------------:|:-----:|:--:|:------------:|
-| Taro.pageScrollTo |  ✔️   | ✔️ |      ✔️      |
+|        API        | WeChat Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:--:|:------------:|
+| Taro.pageScrollTo |         ✔️          | ✔️ |      ✔️      |
