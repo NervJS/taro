@@ -3,17 +3,17 @@ title: MovableArea
 sidebar_label: MovableArea
 ---
 
-movable-view 的可移动区域
+A movable area of the movable-view component.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/movable-area.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/movable-area.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<MovableAreaProps>
 ```
 
-## 示例代码
+## Examples
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -31,7 +31,7 @@ class App extends Components {
   render () {
     return (
       <MovableArea style='height: 200px; width: 200px; background: red;'>
-        <MovableView style='height: 50px; width: 50px; background: blue;' direction='all'>旅行的意义</MovableView>
+        <MovableView style='height: 50px; width: 50px; background: blue;' direction='all'>The meaning of travel</MovableView>
       </MovableArea>
     )
   }
@@ -43,7 +43,7 @@ class App extends Components {
 
 ```html
   <movable-area style='height: 200px; width: 200px; background: red;'>
-    <movable-view style='height: 50px; width: 50px; background: blue;' direction='all'>在路上</movable-view>
+    <movable-view style='height: 50px; width: 50px; background: blue;' direction='all'>On the road</movable-view>
   </movable-area>
 ```
 
@@ -55,11 +55,11 @@ class App extends Components {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -67,20 +67,20 @@ class App extends Components {
       <td>scaleArea</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当里面的 movable-view 设置为支持双指缩放时，设置此值可将缩放手势生效区域修改为整个 movable-area</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>When the movable-view inside is set to support two-finger zoom, setting this value modifies the area where the zoom gesture takes effect to the entire movable-area.</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|            API             | 微信小程序 | H5 | React Native |
-|:--------------------------:|:-----:|:--:|:------------:|
-| MovableAreaProps.scaleArea |  ✔️   |    |              |
+|            API             | WeChat Mini-Program | H5 | React Native |
+|:--------------------------:|:-------------------:|:--:|:------------:|
+| MovableAreaProps.scaleArea |         ✔️          |    |              |
 
-## API 支持度
+## API Support
 
-|     API     | 微信小程序 | H5 | React Native |
-|:-----------:|:-----:|:--:|:------------:|
-| MovableArea |  ✔️   |    |      ✔️      |
+|     API     | WeChat Mini-Program | H5 | React Native |
+|:-----------:|:-------------------:|:--:|:------------:|
+| MovableArea |         ✔️          |    |      ✔️      |
