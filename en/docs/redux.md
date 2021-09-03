@@ -1,18 +1,18 @@
 ---
-title: 使用 Redux
+title: Use Redux
 ---
 
-在 Taro 中可以自由地使用 `React` 生态中非常流行的数据流管理工具 [Redux](https://redux.js.org/) 来解决复杂项目的数据管理问题。
+You can freedomly use [Redux](https://redux.js.org/) which is a very popular  tool in `React` community to solve data management problems for complex projects.
 
-首先请安装 `redux` 、 `react-redux` 和 `redux-thunk` 、 `redux-logger` 等一些需要用到的 `redux` 中间件
+First please install `redux` 、 `react-redux` 、 `redux-thunk` and `redux-logger` and so on ,such as  `redux` middleware which you need.
 
 ```bash
 $ yarn add redux react-redux redux-thunk redux-logger
-# 或者使用 npm
+# or use npm
 $ npm install --save redux react-redux redux-thunk redux-logger
 ```
 
-随后可以在项目 `src` 目录下新增一个 `store` 目录，在目录下增加 `index.js` 文件用来配置 `store`，按自己喜好设置 `redux` 的中间件，例如下面例子中使用 `redux-thunk` 和 `redux-logger` 这两个中间件
+You could learn how to use `reselect` to cache selector from [react-redux documentatio](https://react-redux.js.org/api/hooks#using-memoizing-selectors).
 
 ```jsx title="src/store/index.js"
 import { createStore, applyMiddleware, compose } from 'redux'
@@ -21,10 +21,8 @@ import rootReducer from '../reducers'
 
 const composeEnhancers =
   typeof window === 'object' &&
-  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?   
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-      // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
-    }) : compose
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+      // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize... }) : compose
 
 const middlewares = [
   thunkMiddleware
@@ -45,7 +43,7 @@ export default function configStore () {
 }
 ```
 
-接下来在项目入口文件 `app.js` 中使用 `redux` 中提供的 `Provider` 组件将前面写好的 `store` 接入应用中
+Next, use the `Provider` component provided in `redux` to connect the previously written `store` to the application, in the project entry file `app.js`.
 
 ```jsx title="src/app.js"
 import React, { Component } from 'react'
@@ -66,9 +64,7 @@ class App extends Component {
 
   componentDidCatchError () {}
 
-  // 在 App 类中的 render() 函数没有实际作用
-  // 请勿修改此函数
-  render () {
+  // The render() function has no practical effect in the App class. // Please don't modify the function! render () {
     return (
       <Provider store={store}>
         {this.props.children}
@@ -81,22 +77,22 @@ export default App
 
 ```
 
-然后就可以开始使用了。如 `redux` 推荐的那样，可以增加
+Then you can start use it.As recommended by `redux`, you can add
 
-- `constants` 目录，用来放置所有的 `action type` 常量
-- `actions` 目录，用来放置所有的 `actions`
+- `mapStateToProps`, function type, accepts the latest `state` as a parameter, which is used to map `state` to component `props`.
+- `mapDispatchToProps`, function type, receive the `dispatch()` method and return the callback function expected to be injected into the `props` of the display component.
 - `reducers` 目录，用来放置所有的 `reducers`
 
-例如我们要开发一个简单的加、减计数器功能
+`constants` directory, used to store all `action type` constants -`actions` directory, used to store all `actions` -`reducers` directory, used to store all `reducers`
 
-新增 `action type`
+For example, If we want to develop a simple counter function just contains add and subtract.
 
 ```jsx title="src/constants/counter.js"
 export const ADD = 'ADD'
 export const MINUS = 'MINUS'
 ```
 
-新增 `reducer` 处理
+Add `action type`
 
 ```jsx title="src/reducers/counter.js"
 import { ADD, MINUS } from '../constants/counter'
@@ -133,7 +129,7 @@ export default combineReducers({
 
 ```
 
-新增 `action` 处理
+Add `reducer` function
 
 ```jsx title="src/actions/counter.js"
 import {
@@ -152,7 +148,7 @@ export const minus = () => {
   }
 }
 
-// 异步的 action
+// Asynchronous action
 export function asyncAdd () {
   return dispatch => {
     setTimeout(() => {
@@ -163,7 +159,7 @@ export function asyncAdd () {
 
 ```
 
-最后，我们可以在页面（或者组件）中进行使用，我们将通过 `redux` 提供的 `connect` 方法将 `redux` 与我们的页面进行连接
+Add `action`
 
 ```jsx title="src/pages/index/index.js"
 import React, { Component } from 'react'
@@ -215,16 +211,16 @@ class Index extends Component {
 export default Index
 ```
 
-`connect` 方法接受两个参数 `mapStateToProps` 与 `mapDispatchToProps`
+Finally,  we can use it in the page (or component).The `connect` method provided by `redux` will commect `redux` with our page.
 
-- `mapStateToProps`，函数类型，接受最新的 `state` 作为参数，用于将 `state` 映射到组件的 `props`
+- Unlike `mapStateToProps` which only returns objects, the Selector may return any value.
 - `mapDispatchToProps`，函数类型，接收 `dispatch()` 方法并返回期望注入到展示组件的 `props` 中的回调方法
 
 ## Hooks
 
-### 在 Redux 中使用 Hooks
+### Use Hooks in Redux
 
-使用 hooks 的基本设置和使用 `connect` 的设置是一样的，你需要设置你的 `store`，并把你的应用放在 `Provider` 组件中。
+`connect` method will receive two parameters: `mapStateToProps` and `mapDispatchToProps`.
 
 ```jsx
 const store = configreStore(rootReducer)
@@ -240,7 +236,7 @@ class App extends Components {
 }
 ```
 
-在这样的情况下，你就可以使用 `redux` 提供的 Hooks API 在函数式组件中使用。
+`useSelector` allows you to use selector function to get data from a Redux Store.
 
 ### `useSelector`
 
@@ -248,20 +244,20 @@ class App extends Components {
 const result : any = useSelector(selector : Function, equalityFn? : Function)
 ```
 
-`useSelector` 允许你使用 selector 函数从一个 Redux Store 中获取数据。
+In this case, you can use Hooks API provided by `redux` in function component.
 
-Selector 函数大致相当于 `connect` 函数的 `mapStateToProps` 参数。Selector 会在组件每次渲染时调用。`useSelector` 同样会订阅 Redux store，在 Redux action 被 dispatch 时调用。
+The Selector funtion is roughly equivalent to the `mapStateToProps` parameter of the `connect` function.It will be called every time the component renders.And it will also subscribe to the Redux store, which will be called when a Redux action is dispatched.
 
 但 `useSelector` 还是和 `mapStateToProps` 有一些不同：
 
 * 不像 `mapStateToProps` 只返回对象一样，Selector 可能会返回任何值。
-* 当一个 action dispatch 时，`useSelector` 会把 selector 的前后返回值做一次浅对比，如果不同，组件会强制更新。
-* Selector 函数不接受 `ownProps` 参数。但 selector 可以通过闭包访问函数式组件传递下来的 props。
+* When an action is dispatched, `useSelector` will make a shallow comparison of the return value before and after the selector. If they are different, the component will be forced to update.
+* The Selector function does not accept the `ownProps` parameter.But selector can access the props passed down by functional components through closures
 
 
-#### 使用案例
+#### Use Case
 
-基本使用：
+But `useSelector` is still somewhat different from `mapStateToProps`:
 
 ```jsx
 import React, { Component } from 'react'
@@ -273,7 +269,7 @@ export const CounterComponent = () => {
 }
 ```
 
-使用闭包决定如何 select 数据：
+Basic usage:
 
 ```jsx
 export const TodoListItem = props => {
@@ -283,9 +279,9 @@ export const TodoListItem = props => {
 
 ```
 
-#### 进阶使用
+#### Advanced Usage
 
- 你还可以访问 [react-redux 文档](https://react-redux.js.org/api/hooks#using-memoizing-selectors) 了解如何使用 `reselect` 缓存 selector。
+ Use the closure to decide how to select data:
 
 
 ### `useDispatch`
@@ -294,9 +290,9 @@ export const TodoListItem = props => {
 const dispatch = useDispatch()
 ```
 
-这个 Hook 返回 Redux store 的 `dispatch` 引用。你可以使用它来 dispatch actions。
+This Hook will return a reference to the `dispatch` of the Redux store.You can use it to dispatch actions.
 
-#### 使用案例
+#### Use Case
 
 ```jsx
 import React, { Component } from 'react'
@@ -316,7 +312,7 @@ export const CounterComponent = ({ value }) => {
 }
 ```
 
-当我们使用 `dispatch` 传递回调到一个子组件时，推荐使用 `useCallback` 把回调缓存起来，因为组件可能因为引用改变而重新渲染。
+`useStore` returns a store reference, which is exactly the same as the `Provider` component reference.
 
 ```jsx
 // CounterComponent.js
@@ -349,11 +345,11 @@ export default Taro.memo(MyIncrementButton)
 const store = useStore()
 ```
 
-`useStore` 返回一个 store 引用和 `Provider` 组件引用完全一致。
+You need to set up your `store` and put your application in the `Provider` component. 使用 hooks 的基本设置和使用 `connect` 的设置是一样的, 你需要设置你的 `store`, 并把你的应用放在 `Provider` 组件中。
 
-这个 hook 可能并不经常使用。`useSelector` 大部分情况是你的第一选择，如果需要替换 reducers 的情况下可能会使用到这个 API。
+这个 hook 可能并不经常使用。This hook may not be used often, But `useSelector` is your first choice in most cases, If you need to replace reducers, you may use this API.
 
-#### 使用案例
+#### Use case
 
 ```jsx
 import React, { Component } from 'react'
@@ -362,8 +358,7 @@ import { useStore } from 'react-redux'
 export const CounterComponent = ({ value }) => {
   const store = useStore()
 
-  // EXAMPLE ONLY! Do not do this in a real app.
-  // The component will not automatically update if the store state changes
+  // EXAMPLE ONLY! Do not do this in a real app. // The component will not automatically update if the store state changes
   return <div>{store.getState()}</div>
 }
 ```
