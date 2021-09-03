@@ -3,17 +3,17 @@ title: Swiper
 sidebar_label: Swiper
 ---
 
-滑块视图容器。其中只可放置 swiper-item 组件，否则会导致未定义的行为。
+Swiper view container.Only the swiper-item component can be placed in it. Otherwise, undefined behavior will occur.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/swiper.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/swiper.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<SwiperProps>
 ```
 
-## 示例代码
+## Examples
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -89,11 +89,11 @@ class App extends Component {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -101,211 +101,211 @@ class App extends Component {
       <td>indicatorDots</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否显示面板指示点</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to display the indicator of the panel.</td>
     </tr>
     <tr>
       <td>indicatorColor</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;rgba(0, 0, 0, .3)&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>指示点颜色</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The color of the indicator.</td>
     </tr>
     <tr>
       <td>indicatorActiveColor</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;#000000&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当前选中的指示点颜色</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The color of the currently selected indicator.</td>
     </tr>
     <tr>
       <td>autoplay</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否自动切换</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to enable auto switching.</td>
     </tr>
     <tr>
       <td>current</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>0</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当前所在滑块的 index</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The index of the current swiper.</td>
     </tr>
     <tr>
       <td>currentItemId</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当前所在滑块的 item-id ，不能与 current 被同时指定</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The item-id of the current swiper cannot be specified at the same time as current.</td>
     </tr>
     <tr>
       <td>interval</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>5000</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>自动切换时间间隔</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The interval of auto switching.</td>
     </tr>
     <tr>
       <td>duration</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>500</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>滑动动画时长</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Duration of the swiping animation.</td>
     </tr>
     <tr>
       <td>circular</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否采用衔接滑动</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to use circular swiping.</td>
     </tr>
     <tr>
       <td>vertical</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>滑动方向是否为纵向</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to swipe vertically.</td>
     </tr>
     <tr>
       <td>previousMargin</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;0px&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>前边距，可用于露出前一项的一小部分，接受 px 和 rpx 值</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The previous margin. It can be used to expose a small section of the previous item. Values in both px and rpx are supported.</td>
     </tr>
     <tr>
       <td>nextMargin</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;0px&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>后边距，可用于露出后一项的一小部分，接受 px 和 rpx 值</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The next margin. It can be used to expose a small section of the next item. Values in both px and rpx are supported.</td>
     </tr>
     <tr>
       <td>displayMultipleItems</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>1</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>同时显示的滑块数量</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The number of swipers displayed concurrently.</td>
     </tr>
     <tr>
       <td>skipHiddenItemLayout</td>
       <td><code>boolean</code></td>
       <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否跳过未显示的滑块布局，设为 true 可优化复杂情况下的滑动性能，但会丢失隐藏状态滑块的布局信息</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies whether to skip the swiper block that is not displayed. When it is set to true, the swiping performance in complex cases can be optimized, but the layout information of the hidden swiper block will be discarded.</td>
     </tr>
     <tr>
       <td>easingFunction</td>
       <td><code>&quot;default&quot; | &quot;linear&quot; | &quot;easeInCubic&quot; | &quot;easeOutCubic&quot; | &quot;easeInOutCubic&quot;</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;default&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>指定 swiper 切换缓动动画类型</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies the animation easing type for the swiper.</td>
     </tr>
     <tr>
       <td>onChange</td>
       <td><code>BaseEventOrigFunction&lt;onChangeEventDeatil&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>current 改变时会触发 change 事件</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>A change event triggered when the value of the current component changes.</td>
     </tr>
     <tr>
       <td>onTransition</td>
       <td><code>BaseEventOrigFunction&lt;onTransitionEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>swiper-item 的位置发生改变时会触发 transition 事件</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>A transition event triggered when the location of the swiper-item component changes.</td>
     </tr>
     <tr>
       <td>onAnimationFinish</td>
       <td><code>BaseEventOrigFunction&lt;onChangeEventDeatil&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>动画结束时会触发 animationfinish 事件</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>An animationfinish event triggered when an animation ends.</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|               API                | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
-|:--------------------------------:|:-----:|:-----:|:------:|:-------:|:--:|:------------:|
-|    SwiperProps.indicatorDots     |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-|    SwiperProps.indicatorColor    |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-| SwiperProps.indicatorActiveColor |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-|       SwiperProps.autoplay       |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-|       SwiperProps.current        |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-|       SwiperProps.interval       |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-|       SwiperProps.duration       |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |              |
-|       SwiperProps.circular       |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-|       SwiperProps.vertical       |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-|    SwiperProps.previousMargin    |  ✔️   |       |        |         | ✔️ |              |
-|      SwiperProps.nextMargin      |  ✔️   |       |        |         | ✔️ |              |
-| SwiperProps.displayMultipleItems |  ✔️   |  ✔️   |        |   ✔️    | ✔️ |              |
-| SwiperProps.skipHiddenItemLayout |  ✔️   |  ✔️   |        |         |    |              |
-|    SwiperProps.easingFunction    |  ✔️   |       |        |         |    |              |
-|       SwiperProps.onChange       |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
-|     SwiperProps.onTransition     |  ✔️   |       |        |         |    |              |
-|  SwiperProps.onAnimationFinish   |  ✔️   |  ✔️   |        |         | ✔️ |      ✔️      |
+|               API                | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 | React Native |
+|:--------------------------------:|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+|    SwiperProps.indicatorDots     |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+|    SwiperProps.indicatorColor    |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+| SwiperProps.indicatorActiveColor |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+|       SwiperProps.autoplay       |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+|       SwiperProps.current        |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+|       SwiperProps.interval       |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+|       SwiperProps.duration       |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |              |
+|       SwiperProps.circular       |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+|       SwiperProps.vertical       |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+|    SwiperProps.previousMargin    |         ✔️          |                     |                     |                     | ✔️ |              |
+|      SwiperProps.nextMargin      |         ✔️          |                     |                     |                     | ✔️ |              |
+| SwiperProps.displayMultipleItems |         ✔️          |         ✔️          |                     |         ✔️          | ✔️ |              |
+| SwiperProps.skipHiddenItemLayout |         ✔️          |         ✔️          |                     |                     |    |              |
+|    SwiperProps.easingFunction    |         ✔️          |                     |                     |                     |    |              |
+|       SwiperProps.onChange       |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
+|     SwiperProps.onTransition     |         ✔️          |                     |                     |                     |    |              |
+|  SwiperProps.onAnimationFinish   |         ✔️          |         ✔️          |                     |                     | ✔️ |      ✔️      |
 
 ### TChangeSource
 
-导致变更的原因
+Reasons for change.
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>autoplay</td>
-      <td>自动播放</td>
+      <td>Autoplay</td>
     </tr>
     <tr>
       <td>touch</td>
-      <td>用户划动</td>
+      <td>User paddle</td>
     </tr>
     <tr>
       <td></td>
-      <td>其它原因</td>
+      <td>Other reasons</td>
     </tr>
   </tbody>
 </table>
 
 ### TEasingFunction
 
-指定 swiper 切换缓动动画类型
+Valid values of easing-function
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Value</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>default</td>
-      <td>默认缓动函数</td>
+      <td>Default easing function</td>
     </tr>
     <tr>
       <td>linear</td>
-      <td>线性动画</td>
+      <td>Linear animation</td>
     </tr>
     <tr>
       <td>easeInCubic</td>
-      <td>缓入动画</td>
+      <td>Ease-in animation</td>
     </tr>
     <tr>
       <td>easeOutCubic</td>
-      <td>缓出动画</td>
+      <td>Ease-out animation</td>
     </tr>
     <tr>
       <td>easeInOutCubic</td>
-      <td>缓入缓出动画</td>
+      <td>Ease-in and ease-out animations</td>
     </tr>
   </tbody>
 </table>
@@ -315,21 +315,21 @@ class App extends Component {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Param</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>current</td>
       <td><code>number</code></td>
-      <td>当前所在滑块的索引</td>
+      <td>The index of the current swiper.</td>
     </tr>
     <tr>
       <td>source</td>
       <td><code>&quot;&quot; | &quot;autoplay&quot; | &quot;touch&quot;</code></td>
-      <td>导致变更的原因</td>
+      <td>Reasons for change.</td>
     </tr>
   </tbody>
 </table>
@@ -339,31 +339,31 @@ class App extends Component {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Param</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>dx</td>
       <td><code>number</code></td>
-      <td>X 坐标</td>
+      <td>X-coordinate</td>
     </tr>
     <tr>
       <td>dy</td>
       <td><code>number</code></td>
-      <td>Y 坐标</td>
+      <td>Y-coordinate</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|  API   | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
-|:------:|:-----:|:-----:|:------:|:-------:|:--:|:------------:|
-| Swiper |  ✔️   |  ✔️   |   ✔️   |   ✔️    | ✔️ |      ✔️      |
+|  API   | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Micro-App | H5 | React Native |
+|:------:|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| Swiper |         ✔️          |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
 
-## 注意
+## NOTE
 
-* 不要为 `SwiperItem` 设置 **style** 属性，可以通过 class 设置样式。[7147](https://github.com/NervJS/taro/issues/7147)
+* Do not set the **style** attribute for `SwiperItem`, you can set the style via class.[7147](https://github.com/NervJS/taro/issues/7147)
