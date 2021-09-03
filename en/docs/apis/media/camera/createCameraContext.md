@@ -3,26 +3,26 @@ title: Taro.createCameraContext()
 sidebar_label: createCameraContext
 ---
 
-创建 camera 上下文 CameraContext 对象。
+Creates the CameraContext object for the camera.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/wx.createCameraContext.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/wx.createCameraContext.html)
 
-## 类型
+## Type
 
 ```tsx
 () => CameraContext
 ```
 
-## 参数
+## Parameters
 
-## 示例代码
+## Sample Code
 
 ```tsx
 const cameraContext = Taro.createCameraContext()
 ```
 
-## API 支持度
+## API Support
 
-|           API            | 微信小程序 | H5 | React Native |
-|:------------------------:|:-----:|:--:|:------------:|
-| Taro.createCameraContext |  ✔️   |    |      ✔️      |
+|           API            | WeChat Mini-Program | H5 | React Native |
+|:------------------------:|:-------------------:|:--:|:------------:|
+| Taro.createCameraContext |         ✔️          |    |      ✔️      |
