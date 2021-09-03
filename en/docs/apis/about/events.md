@@ -1,41 +1,39 @@
 ---
-title: 消息机制
+title: Event mechanism
 ---
 
-Taro 提供了 `Taro.Events` 来实现消息机制，使用时需要实例化它，如下
+Taro provides `Taro.Events` to implement the event mechanism, which needs to be instantiated for use, as follows:
 
 ```jsx
 import Taro, { Events } from '@tarojs/taro'
 
 const events = new Events()
 
-// 监听一个事件，接受参数
+// Listening for an event, accepting parameters
 events.on('eventName', (arg) => {
   // doSth
 })
 
-// 监听同个事件，同时绑定多个 handler
+// Listening to the same event and binding multiple handlers at the same time
 events.on('eventName', handler1)
 events.on('eventName', handler2)
 events.on('eventName', handler3)
 
-// 触发一个事件，传参
+// Trigger an event, pass the reference
 events.trigger('eventName', arg)
 
-// 触发事件，传入多个参数
-events.trigger('eventName', arg1, arg2, ...)
-
-// 取消监听一个事件
+// Trigger an event, pass in multiple parameters
+events.trigger('eventName', arg1, arg2, ...) // Unlisten to an event
 events.off('eventName')
 
-// 取消监听一个事件某个 handler
+// Cancel a handler that listens to an event
 events.off('eventName', handler1)
 
-// 取消监听所有事件
+// Unlisten to all events
 events.off()
 ```
 
-同时 Taro 还提供了一个全局消息中心 `Taro.eventCenter` 以供使用，它是 `Taro.Events` 的实例
+Taro also implements the global message centre (`Taro.eventCenter`), which is an instance of `Taro.Events`.
 
 ```jsx
 import Taro from '@tarojs/taro'
