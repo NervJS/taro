@@ -3,33 +3,33 @@ title: DB
 sidebar_label: DB
 ---
 
-## 参数
+## Type
 
 ### Database
 
-云开发 SDK 数据库实例
+Instance object of a cloud development SDK database.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Database.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Database.html)
 
-| 参数      | 类型        | 说明                                                                                                                                                                    |
-| ------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| config  | `IConfig` | 数据库配置                                                                                                                                                                 |
-| command | `Command` | 数据库操作符，通过 db.command 获取<br />API 支持度: weapp<br />[参考地址](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Command.html) |
-| Geo     | `IGeo`    | 数据库地理位置结构集<br />API 支持度: weapp<br />[参考地址](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Geo.html)                  |
+| Property | Type      | Description                                                                                                                                              |
+| -------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| config   | `IConfig` | Database configuration                                                                                                                                   |
+| command  | `Command` | Database Operators.<br />[Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Command.html)             |
+| Geo      | `IGeo`    | Database geolocation structure set.<br />[Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Geo.html) |
 
 #### serverDate
 
-构造一个服务端时间的引用。可用于查询条件、更新字段值或新增记录时的字段值。
+Constructs a reference to a server-side time.Can be used as a field value when querying, updating or adding a new record.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Database.serverDate.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Database.serverDate.html)
 
 ```tsx
 () => ServerDate
 ```
 
-##### 示例代码
+##### Sample Code
 
-新增记录时设置字段为服务端时间：
+To set the server time when adding a record:
 
 ```tsx
 db.collection('todos').add({
@@ -37,7 +37,7 @@ db.collection('todos').add({
   createTime: db.serverDate()
 })
 ```
-更新字段为服务端时间往后一小时：
+The update field is one hour back in server-side time:
 
 ```tsx
 db.collection('todos').doc('my-todo-id').update({
@@ -47,35 +47,35 @@ db.collection('todos').doc('my-todo-id').update({
 })
 ```
 
-##### API 支持度
+##### API Support
 
-|         API         | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Database.serverDate |  ✔️   |       |        |         |        |    |              |     |
+|         API         | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Database.serverDate |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### RegExp
 
-构造正则表达式，仅需在普通 js 正则表达式无法满足的情况下使用
+Regular expressions, only to be used in cases where a normal `js` regular expression will not suffice.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Database.RegExp.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Database.RegExp.html)
 
 ```tsx
 (options: IRegExpOptions) => IRegExp
 ```
 
-| 参数      | 类型               |
-| ------- | ---------------- |
-| options | `IRegExpOptions` |
+| Parameter | Type             |
+| --------- | ---------------- |
+| options   | `IRegExpOptions` |
 
-##### 示例代码
+##### Sample Code
 
 ```tsx
-// 原生 JavaScript 对象
+// Native JavaScript objects
 db.collection('todos').where({
   description: /miniprogram/i
 })
 
-// 数据库正则对象
+// Database regular objects
 db.collection('todos').where({
   description: db.RegExp({
     regexp: 'miniprogram',
@@ -83,7 +83,7 @@ db.collection('todos').where({
   })
 })
 
-// 用 new 构造也是可以的
+// Constructed with new
 db.collection('todos').where({
   description: new db.RegExp({
     regexp: 'miniprogram',
@@ -92,190 +92,182 @@ db.collection('todos').where({
 })
 ```
 
-##### API 支持度
+##### API Support
 
-|       API       | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:---------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Database.RegExp |  ✔️   |       |        |         |        |    |              |     |
+|       API       | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:---------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Database.RegExp |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### collection
 
-获取集合的引用。方法接受一个 `name` 参数，指定需引用的集合名称。
+Gets a reference to a collection.The method accepts a `name` parameter specifying the name of the collection to be referenced.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Database.collection.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Database.collection.html)
 
 ```tsx
 (collectionName: string) => Collection
 ```
 
-| 参数             | 类型       |
+| Parameter      | Type     |
 | -------------- | -------- |
 | collectionName | `string` |
 
-##### 示例代码
+##### Sample Code
 
 ```tsx
 const db = Taro.cloud.database()
 const todosCollection = db.collection('todos')
 ```
 
-##### API 支持度
+##### API Support
 
-|         API         | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Database.collection |  ✔️   |       |        |         |        |    |              |     |
+|         API         | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Database.collection |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### ServerDate
 
-可用于查询条件、更新字段值或新增记录时的字段值。
+Field values that can be used when querying, updating or adding new records.
 
-| 参数      | 类型         |
-| ------- | ---------- |
-| options | `IOptions` |
+| Parameter | Type       |
+| --------- | ---------- |
+| options   | `IOptions` |
 
 ##### IOptions
 
-| 参数     | 类型       |
-| ------ | -------- |
-| offset | `number` |
+| Parameter | Type     |
+| --------- | -------- |
+| offset    | `number` |
 
 #### IRegExp
 
-构造正则表达式
+Regular expressions
 
-| 参数      | 类型       |
-| ------- | -------- |
-| regexp  | `string` |
-| options | `string` |
+| Parameter | Type     |
+| --------- | -------- |
+| regexp    | `string` |
+| options   | `string` |
 
 ##### IRegExpOptions
 
-| 参数      | 类型       | 必填 |
-| ------- | -------- |:--:|
-| regexp  | `string` | 是  |
-| options | `string` | 否  |
+| Parameter | Type     | Required |
+| --------- | -------- |:--------:|
+| regexp    | `string` |   Yes    |
+| options   | `string` |    No    |
 
 #### InternalSymbol
 
-内部符号
+Internal symbols
 
-#### API 支持度
+#### API Support
 
-|         API         | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-|  Database.command   |  ✔️   |       |        |         |        |    |              |     |
-|    Database.Geo     |  ✔️   |       |        |         |        |    |              |     |
-| Database.serverDate |  ✔️   |       |        |         |        |    |              |     |
-|   Database.RegExp   |  ✔️   |       |        |         |        |    |              |     |
-| Database.collection |  ✔️   |       |        |         |        |    |              |     |
+|         API         | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+|  Database.command   |         ✔️          |                     |                     |                        |                 |    |              |           |
+|    Database.Geo     |         ✔️          |                     |                     |                        |                 |    |              |           |
+| Database.serverDate |         ✔️          |                     |                     |                        |                 |    |              |           |
+|   Database.RegExp   |         ✔️          |                     |                     |                        |                 |    |              |           |
+| Database.collection |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 ### Collection
 
-数据库集合引用
+A reference to a database collection.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Collection.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Collection.html)
 
-| 参数             | 类型         | 说明        |
-| -------------- | ---------- | --------- |
-| collectionName | `string`   | 集合名称      |
-| database       | `Database` | 集合所在数据库引用 |
+| Property       | Type       | Description                            |
+| -------------- | ---------- | -------------------------------------- |
+| collectionName | `string`   | Collection name                        |
+| database       | `Database` | A reference to the collection database |
 
 #### doc
 
-获取集合中指定记录的引用。方法接受一个 `id` 参数，指定需引用的记录的 `_id`。
+Gets a reference to the specified record in the collection.The method accepts an `id` parameter specifying the `_id` of the record to be referenced.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.doc.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.doc.html)
 
 ```tsx
 (docId: string | number) => Document
 ```
 
-| 参数    | 类型                | 说明     |
-| ----- | ----------------- | ------ |
-| docId | `string | number` | 记录 _id |
+| Property | Type                   | Description |
+| -------- | ---------------------- | ----------- |
+| docId    | `string &#124; number` | 记录 _id      |
 
-##### 示例代码
+##### Sample Code
 
 ```tsx
 const myTodo = db.collection('todos').doc('my-todo-id')
 ```
 
-##### API 支持度
+##### API Support
 
-|      API       | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:--------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Collection.doc |  ✔️   |       |        |         |        |    |              |     |
+|      API       | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:--------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Collection.doc |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### aggregate
 
-发起聚合操作，定义完聚合流水线阶段之后需调用 end 方法标志结束定义并实际发起聚合操作
+Marks the completion of the aggregation operation definition and initiates the actual aggregation operation.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.aggregate.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.aggregate.html)
 
 ```tsx
 () => Aggregate
 ```
 
-##### 示例代码
+##### Sample Code
 
-###### 示例 1
+###### Example 1
 
 ```tsx
 const $ = db.command.aggregate
 db.collection('books').aggregate()
   .group({
-    // 按 category 字段分组
+    // Grouped by category field
     _id: '$category',
-    // 让输出的每组记录有一个 avgSales 字段，其值是组内所有记录的 sales 字段的平均值
-    avgSales: $.avg('$sales')
+    // Let the output have an avgSales field for each group of records, whose value is the average of the sales fields of all records in the group. avgSales: $.avg('$sales')
   })
   .end()
   .then(res => console.log(res))
   .catch(err => console.error(err))
 ```
 
-###### 示例 2
+###### Example 2
 
 ```tsx
-const $ = db.command.aggregate
-db.collection('books').aggregate()
-  .group({
-    // 按 category 字段分组
-    _id: '$category',
-    // 让输出的每组记录有一个 avgSales 字段，其值是组内所有记录的 sales 字段的平均值
-    avgSales: $.avg('$sales')
-  })
-  .end({
-    success: function(res) {
-      console.log(res)
-    },
-    fail: function(err) {
-      console.error(err)
-    }
-  })
+const db = Taro.cloud.database()
+db.collection('todos').where({
+  _openid: 'xxx' // The openid of the current user
+}).count({
+  success: function(res) {
+    console.log(res.total)
+  },
+  fail: console.error
+})
 ```
 
-##### API 支持度
+##### API Support
 
-|         API          | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:--------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Collection.aggregate |  ✔️   |       |        |         |        |    |              |     |
+|         API          | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:--------------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Collection.aggregate |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### where
 
-指定查询条件，返回带新查询条件的新的集合引用
+Specify the query criteria and return a new collection reference with the new query criteria.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.where.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.where.html)
 
 ```tsx
 (condition: IQueryCondition) => Collection
 ```
 
-| 参数        | 类型                |
+| Parameter | Type              |
 | --------- | ----------------- |
 | condition | `IQueryCondition` |
 
-##### 示例代码
+##### Sample Code
 
 ```tsx
 const _ = db.command
@@ -284,27 +276,27 @@ const result = await db.collection('todos').where({
 }).get()
 ```
 
-##### API 支持度
+##### API Support
 
-|       API        | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:----------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Collection.where |  ✔️   |       |        |         |        |    |              |     |
+|       API        | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:----------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Collection.where |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### limit
 
-指定查询结果集数量上限
+Specify the maximum number of query result sets.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.limit.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.limit.html)
 
 ```tsx
 (value: number) => Collection
 ```
 
-| 参数    | 类型       |
-| ----- | -------- |
-| value | `number` |
+| Parameter | Type     |
+| --------- | -------- |
+| value     | `number` |
 
-##### 示例代码
+##### Sample Code
 
 ```tsx
 db.collection('todos').limit(10)
@@ -313,30 +305,30 @@ db.collection('todos').limit(10)
   .catch(console.error)
 ```
 
-##### API 支持度
+##### API Support
 
-|       API        | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:----------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Collection.limit |  ✔️   |       |        |         |        |    |              |     |
+|       API        | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:----------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Collection.limit |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### orderBy
 
-指定查询排序条件
+Specify the query sort criteria.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.orderBy.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.orderBy.html)
 
 ```tsx
 (fieldPath: string, string: "asc" | "desc") => Collection
 ```
 
-| 参数        | 类型               |
-| --------- | ---------------- |
-| fieldPath | `string`         |
-| string    | `"asc" | "desc"` |
+| Parameter | Type                  |
+| --------- | --------------------- |
+| fieldPath | `string`              |
+| string    | `"asc" &#124; "desc"` |
 
-##### 示例代码
+##### Sample Code
 
-按一个字段排序：按进度排升序取待办事项
+Sort by a field: fetch todo items in ascending order by `process`.
 
 ```tsx
 db.collection('todos').orderBy('progress', 'asc')
@@ -345,7 +337,7 @@ db.collection('todos').orderBy('progress', 'asc')
   .catch(console.error)
 ```
 
-按多个字段排序：先按 progress 排降序（progress 越大越靠前）、再按 description 排升序（字母序越前越靠前）取待办事项
+Sort by multiple fields: descending by `progress`, then ascending by `description`.
 
 ```tsx
 db.collection('todos')
@@ -356,27 +348,27 @@ db.collection('todos')
   .catch(console.error)
 ```
 
-##### API 支持度
+##### API Support
 
-|        API         | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Collection.orderBy |  ✔️   |       |        |         |        |    |              |     |
+|        API         | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:------------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Collection.orderBy |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### skip
 
-指定查询返回结果时从指定序列后的结果开始返回，常用于分页
+Specifies that the query returns results starting from the results after the specified sequence, often used for paging.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.skip.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.skip.html)
 
 ```tsx
 (offset: number) => Collection
 ```
 
-| 参数     | 类型       |
-| ------ | -------- |
-| offset | `number` |
+| Parameter | Type     |
+| --------- | -------- |
+| offset    | `number` |
 
-##### 示例代码
+##### Sample Code
 
 ```tsx
 db.collection('todos').skip(10)
@@ -385,45 +377,45 @@ db.collection('todos').skip(10)
   .catch(console.error)
 ```
 
-##### API 支持度
+##### API Support
 
-|       API       | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:---------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Collection.skip |  ✔️   |       |        |         |        |    |              |     |
+|       API       | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:---------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Collection.skip |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### field
 
-指定返回结果中记录需返回的字段
+Specify the fields to be returned in the return result record.
 
-**说明**
+**Note**
 
 方法接受一个必填对象用于指定需返回的字段，对象的各个 key 表示要返回或不要返回的字段，value 传入 true|false（或 1|-1）表示要返回还是不要返回。 如果指定的字段是数组字段，还可以用以下方法只返回数组的第一个元素：在该字段 key 后面拼接上 `.$` 成为 `字段.$` 的形式。 如果指定的字段是数组字段，还可以用 `db.command.project.slice` 方法返回数组的子数组： 方法既可以接收一个正数表示返回前 n 个元素，也可以接收一个负数表示返回后 n 个元素；还可以接收一个包含两个数字 `[ skip, limit ]` 的数组，如果 `skip` 是正数，表示跳过 `skip` 个元素后再返回接下来的 `limit` 个元素，如果 `skip` 是负数，表示从倒数第 `skip` 个元素开始，返回往后数的 `limit` 个元素
 
-- 返回数组的前 5 个元素：`{ tags: db.command.project.slice(5) }`
-- 返回数组的后 5 个元素：`{ tags: db.command.project.slice(-5) }`
-- 跳过前 5 个元素，返回接下来 10 个元素：`{ tags: db.command.project.slice(5, 10) }`
-- 从倒数第 5 个元素开始，返回接下来正方向数的 10 个元素：`{ tags: db.command.project.slice(-5, 10) }`
+- Returns the first 5 elements of the array: `{ tags: db.command.project.slice(5) }`
+- Returns the last 5 elements of the array: `{ tags: db.command.project.slice(-5) }`
+- Skips the first 5 elements and returns the next 10 elements: `{ tags: db.command.project.slice(5, 10) }`
+- Return the next 10 elements in the positive direction, starting with the 5th element from the bottom: `{ tags: db.command.project.slice(-5, 10) }`
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.field.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.field.html)
 
 ```tsx
 (object: Record<string, any>) => Collection
 ```
 
-| 参数     | 类型                          |
-| ------ | --------------------------- |
-| object | `Record<string, any>` |
+| Parameter | Type                        |
+| --------- | --------------------------- |
+| object    | `Record<string, any>` |
 
-##### 示例代码
+##### Sample Code
 
-返回 description, done 和 progress 三个字段：
+Get the aggregate data, or get the aggregate data filtered by the query criteria.
 
 ```tsx
 db.collection('todos').field({
   description: true,
   done: true,
   progress: true,
-  // 只返回 tags 数组前 3 个元素
+  // Returns only the first 3 elements of the tags array
   tags: db.command.project.slice(3),
 })
   .get()
@@ -431,81 +423,81 @@ db.collection('todos').field({
   .catch(console.error)
 ```
 
-##### API 支持度
+##### API Support
 
-|       API        | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:----------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Collection.field |  ✔️   |       |        |         |        |    |              |     |
+|       API        | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:----------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Collection.field |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### get
 
 获取集合数据，或获取根据查询条件筛选后的集合数据。
 
-**使用说明**
+**Description**
 
-统计集合记录数或统计查询语句对应的结果记录数
+There will be differences in performance between the mini program side and the cloud function side as follows:
 
-小程序端与云函数端的表现会有如下差异：
+Counts the number of records that match the query criteria.
 
-- 小程序端：如果没有指定 limit，则默认且最多取 20 条记录。
-- 云函数端：如果没有指定 limit，则默认且最多取 100 条记录。
+- Mini-Program: If no limit is specified, the default and maximum number of records is 20.
+- Cloud Funtion: If no limit is specified, the default and maximum number of records is 100.
 
-如果没有指定 skip，则默认从第 0 条记录开始取，skip 常用于分页。
+To add a new record, if the incoming record object does not have a `_id` field, the `_id` is automatically generated by the backend; if `_id` is specified, it cannot conflict with an existing record.
 
 如果需要取集合中所有的数据，仅在数据量不大且在云函数中时
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.get.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.get.html)
 
 ```tsx
 () => Promise<IQueryResult>
 ```
 
-##### 示例代码
+##### Sample Code
 
 ```tsx
 const db = Taro.cloud.database()
 db.collection('todos').where({
-  _openid: 'xxx' // 填入当前用户 openid
+  _openid: 'xxx' // The openid of the current user
 }).get().then(res => {
   console.log(res.data)
 })
 ```
 
-##### API 支持度
+##### API Support
 
-|      API       | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:--------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Collection.get |  ✔️   |       |        |         |        |    |              |     |
+|      API       | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:--------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Collection.get |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### count
 
-统计匹配查询条件的记录的条数
+Set a record.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.count.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.count.html)
 
 ```tsx
 () => Promise<ICountResult>
 ```
 
-##### 示例代码
+##### Sample Code
 
-###### 示例 1
+###### Example 1
 
 ```tsx
 const db = Taro.cloud.database()
 db.collection('todos').where({
-  _openid: 'xxx' // 填入当前用户 openid
+  _openid: 'xxx' // The openid of the current user
 }).count().then(res => {
   console.log(res.total)
 })
 ```
 
-###### 示例 2
+###### Example 2
 
 ```tsx
 const db = Taro.cloud.database()
 db.collection('todos').where({
-  _openid: 'xxx' // 填入当前用户 openid
+  _openid: 'xxx' // The openid of the current user
 }).count({
   success: function(res) {
     console.log(res.total)
@@ -514,106 +506,84 @@ db.collection('todos').where({
 })
 ```
 
-##### API 支持度
+##### API Support
 
-|       API        | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:----------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Collection.count |  ✔️   |       |        |         |        |    |              |     |
+|       API        | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:----------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Collection.count |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### add
 
-新增记录，如果传入的记录对象没有 _id 字段，则由后台自动生成 _id；若指定了 _id，则不能与已有记录冲突
+Update a record.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.add.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.add.html)
 
 ```tsx
 { (options: OQ<IAddDocumentOptions>): void; (options: Pick<IAddDocumentOptions, "data" | "config">): Promise<IAddResult>; }
 ```
 
-| 参数      | 类型                              |
-| ------- | ------------------------------- |
-| options | `OQ<IAddDocumentOptions>` |
+| Parameter | Type                            |
+| --------- | ------------------------------- |
+| options   | `OQ<IAddDocumentOptions>` |
 
-##### 示例代码
+##### Sample Code
 
-###### 示例 1
+###### Example 1
 
 ```tsx
-db.collection('todos').add({
-  // data 字段表示需新增的 JSON 数据
-  data: {
-    description: "learn cloud database",
-    due: new Date("2018-09-01"),
-    tags: [
-      "cloud",
-      "database"
-    ],
-    location: new db.Geo.Point(113, 23),
-    done: false
-  }
+db.collection('todos').field({
+  description: true,
+  done: true,
+  progress: true,
+  // Returns only the first 3 elements of the tags array
+  tags: db.command.project.slice(3),
 })
-.then(res => {
-  console.log(res)
-})
-.catch(console.error)
+  .get()
+  .then(console.log)
+  .catch(console.error)
 ```
 
-###### 示例 2
+###### Example 2
 
 ```tsx
-db.collection('todos').add({
-  // data 字段表示需新增的 JSON 数据
-  data: {
-    // _id: 'todo-identifiant-aleatoire', // 可选自定义 _id，在此处场景下用数据库自动分配的就可以了
-    description: "learn cloud database",
-    due: new Date("2018-09-01"),
-    tags: [
-      "cloud",
-      "database"
-    ],
-    // 为待办事项添加一个地理位置（113°E，23°N）
-    location: new db.Geo.Point(113, 23),
-    done: false
-  },
-  success: function(res) {
-    // res 是一个对象，其中有 _id 字段标记刚创建的记录的 id
-    console.log(res)
-  },
-  fail: console.error,
-  complete: cosnole.log
+const db = Taro.cloud.database()
+db.collection('todos').where({
+  _openid: 'xxx' // The openid of the current user
+}).get().then(res => {
+  console.log(res.data)
 })
 ```
 
-##### API 支持度
+##### API Support
 
-|      API       | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:--------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Collection.add |  ✔️   |       |        |         |        |    |              |     |
+|      API       | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:--------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Collection.add |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### watch
 
-监听集合中符合查询条件的数据的更新事件。注意使用 watch 时，只有 where 语句会生效，orderBy、limit 等不生效。
+Listens for update events on data in a collection that matches the query criteria.Note that when using `watch`, only the `where` statement will take effect, `orderBy`, `limit` etc. will not.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.watch.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.watch.html)
 
 ```tsx
 (options: IWatchDocumentOptions) => IWatcher
 ```
 
-| 参数      | 类型                      |
-| ------- | ----------------------- |
-| options | `IWatchDocumentOptions` |
+| Parameter | Type                    |
+| --------- | ----------------------- |
+| options   | `IWatchDocumentOptions` |
 
-##### 示例代码
+##### Sample Code
 
-###### 示例 1
+###### Example 1
 
-根据查询条件监听
+Record ID
 
 ```tsx
 const db = Taro.cloud.database()
 const watcher = db.collection('todos').where({
-  _openid: 'xxx' // 填入当前用户 openid
+  _openid: 'xxx' // The openid of the current user
 }).watch({
   onChange: function(snapshot) {
     console.log('snapshot', snapshot)
@@ -624,9 +594,9 @@ const watcher = db.collection('todos').where({
 })
 ```
 
-###### 示例 2
+###### Example 2
 
-监听一个记录的变化
+Structure of the record.
 
 ```tsx
 const db = Taro.cloud.database()
@@ -640,14 +610,14 @@ const watcher = db.collection('todos').doc('x').watch({
 })
 ```
 
-###### 示例 3
+###### Example 3
 
-关闭监听
+Common parameters of the database API.
 
 ```tsx
 const db = Taro.cloud.database()
 const watcher = db.collection('todos').where({
-  _openid: 'xxx' // 填入当前用户 openid
+  _openid: 'xxx' // The openid of the current user
 }).watch({
   onChange: function(snapshot) {
     console.log('snapshot', snapshot)
@@ -656,56 +626,55 @@ const watcher = db.collection('todos').where({
     console.error('the watch closed because of error', err)
   }
 })
-// ...
-// 关闭
+// ... // close
 await watcher.close()
 ```
 
-##### API 支持度
+##### API Support
 
-|       API        | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:----------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Collection.watch |  ✔️   |       |        |         |        |    |              |     |
+|       API        | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:----------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Collection.watch |         ✔️          |                     |                     |                        |                 |    |              |           |
 
-#### API 支持度
+#### API Support
 
-|         API          | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:--------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-|    Collection.doc    |  ✔️   |       |        |         |        |    |              |     |
-| Collection.aggregate |  ✔️   |       |        |         |        |    |              |     |
-|   Collection.where   |  ✔️   |       |        |         |        |    |              |     |
-|   Collection.limit   |  ✔️   |       |        |         |        |    |              |     |
-|  Collection.orderBy  |  ✔️   |       |        |         |        |    |              |     |
-|   Collection.skip    |  ✔️   |       |        |         |        |    |              |     |
-|   Collection.field   |  ✔️   |       |        |         |        |    |              |     |
-|    Collection.get    |  ✔️   |       |        |         |        |    |              |     |
-|   Collection.count   |  ✔️   |       |        |         |        |    |              |     |
-|    Collection.add    |  ✔️   |       |        |         |        |    |              |     |
-|   Collection.watch   |  ✔️   |       |        |         |        |    |              |     |
+|         API          | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:--------------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+|    Collection.doc    |         ✔️          |                     |                     |                        |                 |    |              |           |
+| Collection.aggregate |         ✔️          |                     |                     |                        |                 |    |              |           |
+|   Collection.where   |         ✔️          |                     |                     |                        |                 |    |              |           |
+|   Collection.limit   |         ✔️          |                     |                     |                        |                 |    |              |           |
+|  Collection.orderBy  |         ✔️          |                     |                     |                        |                 |    |              |           |
+|   Collection.skip    |         ✔️          |                     |                     |                        |                 |    |              |           |
+|   Collection.field   |         ✔️          |                     |                     |                        |                 |    |              |           |
+|    Collection.get    |         ✔️          |                     |                     |                        |                 |    |              |           |
+|   Collection.count   |         ✔️          |                     |                     |                        |                 |    |              |           |
+|    Collection.add    |         ✔️          |                     |                     |                        |                 |    |              |           |
+|   Collection.watch   |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 ### Document
 
-数据库记录引用
+Add a new record definition.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Document.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Document.html)
 
 #### get
 
-获取记录数据，或获取根据查询条件筛选后的记录数据
+Listens for update events for data in the collection that matches the query criteria.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/document/Document.get.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/document/Document.get.html)
 
 ```tsx
 { (options: OQ<IDBAPIParam>): void; (options: Pick<IDBAPIParam, "config">): Promise<IQuerySingleResult>; }
 ```
 
-| 参数      | 类型                      |
-| ------- | ----------------------- |
-| options | `OQ<IDBAPIParam>` |
+| Parameter | Type                    |
+| --------- | ----------------------- |
+| options   | `OQ<IDBAPIParam>` |
 
-##### 示例代码
+##### Sample Code
 
-###### 示例 1
+###### Example 1
 
 ```tsx
 const db = Taro.cloud.database()
@@ -714,7 +683,7 @@ db.collection('todos').doc('<some-todo-id>').get().then(res => {
 })
 ```
 
-###### 示例 2
+###### Example 2
 
 ```tsx
 const db = Taro.cloud.database()
@@ -726,29 +695,29 @@ db.collection('todos').doc('<some-todo-id>').get({
 })
 ```
 
-##### API 支持度
+##### API Support
 
-|     API      | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Document.get |  ✔️   |       |        |         |        |    |              |     |
+|     API      | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Document.get |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### set
 
-替换更新一条记
+Change snapshot
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/document/Document.set.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/document/Document.set.html)
 
 ```tsx
 { (options: OQ<ISetSingleDocumentOptions>): void; (options: Pick<ISetSingleDocumentOptions, "data" | "config">): Promise<...>; }
 ```
 
-| 参数      | 类型                                    |
-| ------- | ------------------------------------- |
-| options | `OQ<ISetSingleDocumentOptions>` |
+| Parameter | Type                                  |
+| --------- | ------------------------------------- |
+| options   | `OQ<ISetSingleDocumentOptions>` |
 
-##### 示例代码
+##### Sample Code
 
-###### 示例 1
+###### Example 1
 
 ```tsx
 const _ = db.command
@@ -763,7 +732,6 @@ db.collection('todos').doc('todo-identifiant-aleatoire').set({
     style: {
       color: "skyblue"
     },
-    // 位置（113°E，23°N）
     location: new db.Geo.Point(113, 23),
     done: false
   }
@@ -774,7 +742,7 @@ db.collection('todos').doc('todo-identifiant-aleatoire').set({
 })
 ```
 
-###### 示例 2
+###### Example 2
 
 ```tsx
 const _ = db.command
@@ -789,7 +757,6 @@ db.collection('todos').doc('todo-identifiant-aleatoire').set({
     style: {
       color: "skyblue"
     },
-    // 位置（113°E，23°N）
     location: new db.Geo.Point(113, 23),
     done: false
   },
@@ -800,35 +767,33 @@ db.collection('todos').doc('todo-identifiant-aleatoire').set({
 })
 ```
 
-##### API 支持度
+##### API Support
 
-|     API      | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Document.set |  ✔️   |       |        |         |        |    |              |     |
+|     API      | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Document.set |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### update
 
-更新一条记录
+`change` event
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/document/Document.update.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/document/Document.update.html)
 
 ```tsx
 { (options: OQ<IUpdateSingleDocumentOptions>): void; (options: Pick<IUpdateSingleDocumentOptions, "data" | "config">): Promise<...>; }
 ```
 
-| 参数      | 类型                                       |
-| ------- | ---------------------------------------- |
-| options | `OQ<IUpdateSingleDocumentOptions>` |
+| Parameter | Type                                     |
+| --------- | ---------------------------------------- |
+| options   | `OQ<IUpdateSingleDocumentOptions>` |
 
-##### 示例代码
+##### Sample Code
 
-###### 示例 1
+###### Example 1
 
 ```tsx
 db.collection('todos').doc('todo-identifiant-aleatoire').update({
-  // data 传入需要局部更新的数据
-  data: {
-    // 表示将 done 字段置为 true
+  // data: Pass in the data that needs to be updated locally. data: {
     done: true
   }
 })
@@ -836,9 +801,9 @@ db.collection('todos').doc('todo-identifiant-aleatoire').update({
 .catch(console.error)
 ```
 
-###### 示例 2
+###### Example 2
 
-db.collection('todos').doc('todo-identifiant-aleatoire').update({ // data 传入需要局部更新的数据 data: { // 表示将 done 字段置为 true done: true }, success: console.log, fail: console.error })
+List update type, indicating the effect of the update event on the listener list, enumerated value
 ```
 
 ##### API 支持度
@@ -857,13 +822,13 @@ db.collection('todos').doc('todo-identifiant-aleatoire').update({ // data 传入
 { (options: OQ<IDBAPIParam>): void; (options: Pick<IDBAPIParam, "config">): Promise<IRemoveResult>; }
 ```
 
-| 参数      | 类型                      |
-| ------- | ----------------------- |
-| options | `OQ<IDBAPIParam>` |
+| Parameter | WeChat Mini-Program     |
+| --------- | ----------------------- |
+| options   | `OQ<IDBAPIParam>` |
 
-##### 示例代码
+##### API Support
 
-###### 示例 1
+###### Example 1
 
 ```tsx
 db.collection('todos').doc('todo-identifiant-aleatoire').remove()
@@ -871,7 +836,7 @@ db.collection('todos').doc('todo-identifiant-aleatoire').remove()
   .catch(console.error)
 ```
 
-###### 示例 2
+###### Example 2
 
 ```tsx
 db.collection('todos').doc('todo-identifiant-aleatoire').remove({
@@ -880,110 +845,110 @@ db.collection('todos').doc('todo-identifiant-aleatoire').remove({
 })
 ```
 
-##### API 支持度
+##### Sample Code
 
-|       API       | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:---------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Document.remove |  ✔️   |       |        |         |        |    |              |     |
+|       API       | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:---------------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Document.remove |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 #### DocumentId
 
-记录 ID
+Data update type, indicating the specific type of update for the record, enumerated value
 
 #### IDocumentData
 
-记录结构
+Turn off listening
 
-| 参数      | 类型                | 必填 | 说明        |
-| ------- | ----------------- |:--:| --------- |
-| _id     | `string | number` | 否  | 新增的记录 _id |
-| __index | `__index`         | 是  |           |
+| Parameter | WeChat Mini-Program    | Baidu Smart-Program | Alipay Mini-Program          |
+| --------- | ---------------------- |:-------------------:| ---------------------------- |
+| _id       | `string &#124; number` |         No          | The id of the updated record |
+| __index   | `__index`              |         No          |                              |
 
 #### IDBAPIParam
 
-数据库 API 通用参数
+Get the parameters of the document
 
-| 参数       | 类型                                     | 必填 | 说明                       |
-| -------- | -------------------------------------- |:--:| ------------------------ |
-| config   | `IConfig`                              | 否  | 配置                       |
-| success  | `(res: T) => void`                  | 否  | 接口调用成功的回调函数              |
-| fail     | `(err: CallbackResult) => void`     | 否  | 接口调用失败的回调函数              |
-| complete | `(val: CallbackResult | T) => void` | 否  | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| Parameter | Type                                          | Required | Description                                                                                                 |
+| --------- | --------------------------------------------- |:--------:| ----------------------------------------------------------------------------------------------------------- |
+| config    | `IConfig`                                     |    No    | The _id of the new record                                                                                   |
+| success   | `(res: T) => void`                         |   Yes    | The callback function for a successful API call                                                             |
+| fail      | `(err: CallbackResult) => void`            |    No    | The callback function for a failed API call                                                                 |
+| complete  | `(val: CallbackResult &#124; T) =&#062; void` |    No    | The callback function used when the API call completed (always executed whether the call succeeds or fails) |
 
 #### IAddDocumentOptions
 
-新增记录的定义
+Gets the parameters for the number of document entries.
 
-| 参数       | 类型                                 | 必填 | 说明                       |
-| -------- | ---------------------------------- |:--:| ------------------------ |
-| data     | `IDocumentData`                    | 是  | 新增记录的定义                  |
-| config   | `IConfig`                          | 否  | 配置                       |
-| complete | `(res: CallbackResult) => void` | 否  | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail     | `(res: CallbackResult) => void` | 否  | 接口调用失败的回调函数              |
-| success  | `(res: CallbackResult) => void` | 否  | 接口调用成功的回调函数              |
+| Parameter | Type                               | Required | Description                                                                                                 |
+| --------- | ---------------------------------- |:--------:| ----------------------------------------------------------------------------------------------------------- |
+| data      | `IDocumentData`                    |    No    | Configuration                                                                                               |
+| config    | `IConfig`                          |    No    | The callback function for a successful API call                                                             |
+| complete  | `(res: CallbackResult) => void` |    No    | The callback function for a failed API call                                                                 |
+| fail      | `(res: CallbackResult) => void` |    No    | The callback function used when the API call completed (always executed whether the call succeeds or fails) |
+| success   | `(res: CallbackResult) => void` |    No    | The callback function for a successful API call                                                             |
 
 #### IWatchDocumentOptions
 
-监听集合中符合查询条件的数据的更新事件
+Parameters for record updates.
 
-| 参数       | 类型                                 | 必填 | 说明                          |
-| -------- | ---------------------------------- |:--:| --------------------------- |
-| onChange | `(res: CallbackResult) => void` | 否  | 成功回调，回调传入的参数 snapshot 是变更快照 |
-| onError  | `(res: CallbackResult) => void` | 否  | 失败回调                        |
+| Parameter | Type                               | Required | Description            |
+| --------- | ---------------------------------- |:--------:| ---------------------- |
+| onChange  | `(res: CallbackResult) => void` |   Yes    | Definition of a record |
+| onError   | `(res: CallbackResult) => void` |    No    | Configuration          |
 
 #### ISnapshot
 
-变更快照
+Parameters for a single record update.
 
-| 参数         | 类型                            | 说明                         |
-| ---------- | ----------------------------- | -------------------------- |
-| docChanges | `ChangeEvent[]`               | 更新事件数组                     |
-| docs       | `Record<string, any>[]` | 数据快照，表示此更新事件发生后查询语句对应的查询结果 |
-| type       | `string`                      | 快照类型，仅在第一次初始化数据时有值为 init   |
-| id         | `number`                      | 变更事件 id                    |
+| Parameter  | Type                          | Required                 |
+| ---------- | ----------------------------- | ------------------------ |
+| docChanges | `ChangeEvent[]`               | No                       |
+| docs       | `Record<string, any>[]` | No                       |
+| type       | `string`                      | 快照类型，仅在第一次初始化数据时有值为 init |
+| id         | `number`                      | The id of the event      |
 
 #### ChangeEvent
 
-更新事件
+Replace the record parameter
 
-| 参数            | 类型                                                 | 说明                                                                  |
-| ------------- | -------------------------------------------------- | ------------------------------------------------------------------- |
-| id            | `number`                                           | 更新事件 id                                                             |
-| queueType     | `"init" | "update" | "enqueue" | "dequeue"`        | 列表更新类型，表示更新事件对监听列表的影响，枚举值                                           |
-| dataType      | `"init" | "update" | "replace" | "add" | "remove"` | 数据更新类型，表示记录的具体更新类型，枚举值                                              |
-| docId         | `string`                                           | 更新的记录 id                                                            |
-| doc           | `Record<string, any>`                        | 更新的完整记录                                                             |
-| updatedFields | `Record<string, any>`                        | 所有更新的字段及字段更新后的值，`key` 为更新的字段路径，`value` 为字段更新后的值，仅在 `update` 操作时有此信息 |
-| removedFields | `string[]`                                         | 所有被删除的字段，仅在 `update` 操作时有此信息                                        |
+| Property      | Type                                               | Description                                                                                                                                                                         |
+| ------------- | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| id            | `number`                                           | An array of updated events                                                                                                                                                          |
+| queueType     | `"init" | "update" | "enqueue" | "dequeue"`        | A snapshot of the data, representing the query results corresponding to the query statement after this update event occurred                                                        |
+| dataType      | `"init" | "update" | "replace" | "add" | "remove"` | Snapshot type, which only has the value `init` when the data is first initialised                                                                                                   |
+| docId         | `string`                                           | The id of the event                                                                                                                                                                 |
+| doc           | `Record<string, any>`                        | Full record of updates                                                                                                                                                              |
+| updatedFields | `Record<string, any>`                        | All updated fields and their updated values, `key` is the updated field path, `value` is the updated value of the field, this information is only available for `update` operations |
+| removedFields | `string[]`                                         | All deleted fields, this information is only available on `update` operations                                                                                                       |
 
 #### QueueType
 
-列表更新类型，表示更新事件对监听列表的影响，枚举值
+Replace a record parameter.
 
-| 参数      | 说明                     |
-| ------- | ---------------------- |
-| init    | 初始化列表                  |
-| update  | 列表中的记录内容有更新，但列表包含的记录不变 |
-| enqueue | 记录进入列表                 |
-| dequeue | 记录离开列表                 |
+| Property | Type                                                                 |
+| -------- | -------------------------------------------------------------------- |
+| init     | Initialization                                                       |
+| update   | "init" &#124; "update" &#124; "enqueue" &#124; "dequeue"             |
+| enqueue  | "init" &#124; "update" &#124; "replace" &#124; "add" &#124; "remove" |
+| dequeue  | Remove a record.                                                     |
 
 #### DataType
 
-数据更新类型，表示记录的具体更新类型，枚举值
+Parameters for record removed
 
-| 参数      | 说明                    |
-| ------- | --------------------- |
-| init    | 初始化列表                 |
-| update  | 记录内容更新，对应 `update` 操作 |
-| replace | 记录内容被替换，对应 `set` 操作   |
-| add     | 记录新增，对应 `add` 操作      |
-| remove  | 记录被删除，对应 `remove` 操作  |
+| Property | Description                                                                                                 |
+| -------- | ----------------------------------------------------------------------------------------------------------- |
+| init     | Initialization                                                                                              |
+| update   | The contents of the records in the list are updated, but the records contained in the list remain unchanged |
+| replace  | `Record` into the list                                                                                      |
+| add      | `Record` out the list                                                                                       |
+| remove   | Remove `record`, corresponding to the `remove` operation.                                                   |
 
 #### IWatcher
 
 ##### close
 
-关闭监听，无需参数，返回 Promise，会在关闭完成时 resolve
+Parameters for the deletion of a single record.
 
 ```tsx
 () => Promise<any>
@@ -991,133 +956,133 @@ db.collection('todos').doc('todo-identifiant-aleatoire').remove({
 
 #### IGetDocumentOptions
 
-获取记录参数
+Specify query sorting criteria
 
-| 参数       | 类型                                     | 必填 | 说明                       |
-| -------- | -------------------------------------- |:--:| ------------------------ |
-| config   | `IConfig`                              | 否  | 配置                       |
-| success  | `(res: T) => void`                  | 否  | 接口调用成功的回调函数              |
-| fail     | `(err: CallbackResult) => void`     | 否  | 接口调用失败的回调函数              |
-| complete | `(val: CallbackResult | T) => void` | 否  | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| Property | Description                                   | Required | Description                                                                                                 |
+| -------- | --------------------------------------------- |:--------:| ----------------------------------------------------------------------------------------------------------- |
+| config   | `IConfig`                                     |    No    | Configuration                                                                                               |
+| success  | `(res: T) => void`                         |    No    | The callback function for a successful API call                                                             |
+| fail     | `(err: CallbackResult) => void`            |    No    | The callback function for a failed API call                                                                 |
+| complete | `(val: CallbackResult &#124; T) =&#062; void` |    No    | The callback function used when the API call completed (always executed whether the call succeeds or fails) |
 
 #### ICountDocumentOptions
 
-获取记录条数参数
+Sort by a field: fetch todo items in ascending order by `process`.
 
-| 参数       | 类型                                     | 必填 | 说明                       |
-| -------- | -------------------------------------- |:--:| ------------------------ |
-| config   | `IConfig`                              | 否  | 配置                       |
-| success  | `(res: T) => void`                  | 否  | 接口调用成功的回调函数              |
-| fail     | `(err: CallbackResult) => void`     | 否  | 接口调用失败的回调函数              |
-| complete | `(val: CallbackResult | T) => void` | 否  | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| Parameter | Type                                          | Required | Description                                                                                                 |
+| --------- | --------------------------------------------- |:--------:| ----------------------------------------------------------------------------------------------------------- |
+| config    | `IConfig`                                     |    No    | Configuration                                                                                               |
+| success   | `(res: T) => void`                         |    No    | The callback function for a successful API call                                                             |
+| fail      | `(err: CallbackResult) => void`            |    No    | The callback function for a failed API call                                                                 |
+| complete  | `(val: CallbackResult &#124; T) =&#062; void` |    No    | The callback function used when the API call completed (always executed whether the call succeeds or fails) |
 
 #### IUpdateDocumentOptions
 
-更新记录参数
+Sort by multiple fields: descending by `progress`, then ascending by `description`.
 
-| 参数       | 类型                                 | 必填 | 说明                       |
-| -------- | ---------------------------------- |:--:| ------------------------ |
-| data     | `IUpdateCondition`                 | 是  |                          |
-| config   | `IConfig`                          | 否  | 配置                       |
-| complete | `(res: CallbackResult) => void` | 否  | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail     | `(res: CallbackResult) => void` | 否  | 接口调用失败的回调函数              |
-| success  | `(res: CallbackResult) => void` | 否  | 接口调用成功的回调函数              |
+| Parameter | Type                               | Required | Description                                                                                                 |
+| --------- | ---------------------------------- |:--------:| ----------------------------------------------------------------------------------------------------------- |
+| data      | `IUpdateCondition`                 |    No    |                                                                                                             |
+| config    | `IConfig`                          |    No    | The callback function for a successful API call                                                             |
+| complete  | `(res: CallbackResult) => void` |    No    | The callback function for a failed API call                                                                 |
+| fail      | `(res: CallbackResult) => void` |    No    | The callback function used when the API call completed (always executed whether the call succeeds or fails) |
+| success   | `(res: CallbackResult) => void` |    No    | 接口调用成功的回调函数                                                                                                 |
 
 #### IUpdateSingleDocumentOptions
 
-更新单条记录参数
+Specify the maximum number of query result sets.
 
-| 参数       | 类型                                 | 必填 | 说明                       |
-| -------- | ---------------------------------- |:--:| ------------------------ |
-| data     | `IUpdateCondition`                 | 是  | 替换记录的定义                  |
-| config   | `IConfig`                          | 否  | 配置                       |
-| complete | `(res: CallbackResult) => void` | 否  | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail     | `(res: CallbackResult) => void` | 否  | 接口调用失败的回调函数              |
-| success  | `(res: CallbackResult) => void` | 否  | 接口调用成功的回调函数              |
+| Parameter | Type                               | Required | Description                                                                                                 |
+| --------- | ---------------------------------- |:--------:| ----------------------------------------------------------------------------------------------------------- |
+| data      | `IUpdateCondition`                 |   Yes    | Update the record definition                                                                                |
+| config    | `IConfig`                          |    No    | Configuration                                                                                               |
+| complete  | `(res: CallbackResult) => void` |    No    | The callback function used when the API call completed (always executed whether the call succeeds or fails) |
+| fail      | `(res: CallbackResult) => void` |    No    | The callback function for a failed API call                                                                 |
+| success   | `(res: CallbackResult) => void` |    No    | The callback function for a successful API call                                                             |
 
 #### ISetDocumentOptions
 
-替换记录参数
+Specifies that the query returns results starting from the results after the specified sequence, often used for paging
 
-| 参数       | 类型                                 | 必填 | 说明                       |
-| -------- | ---------------------------------- |:--:| ------------------------ |
-| data     | `IUpdateCondition`                 | 是  | 替换记录的定义                  |
-| config   | `IConfig`                          | 否  | 配置                       |
-| complete | `(res: CallbackResult) => void` | 否  | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail     | `(res: CallbackResult) => void` | 否  | 接口调用失败的回调函数              |
-| success  | `(res: CallbackResult) => void` | 否  | 接口调用成功的回调函数              |
+| Parameter | Type                               | Required | Description                                                                                                 |
+| --------- | ---------------------------------- |:--------:| ----------------------------------------------------------------------------------------------------------- |
+| data      | `IUpdateCondition`                 |   Yes    | Update the record definition                                                                                |
+| config    | `IConfig`                          |    No    | Configuration                                                                                               |
+| complete  | `(res: CallbackResult) => void` |    No    | The callback function used when the API call completed (always executed whether the call succeeds or fails) |
+| fail      | `(res: CallbackResult) => void` |    No    | The callback function for a failed API call                                                                 |
+| success   | `(res: CallbackResult) => void` |    No    | The callback function for a successful API call                                                             |
 
 #### ISetSingleDocumentOptions
 
-替换一条记录参数
+Specify the fields to be returned in the return result record.
 
-| 参数       | 类型                                 | 必填 | 说明                       |
-| -------- | ---------------------------------- |:--:| ------------------------ |
-| data     | `IUpdateCondition`                 | 是  |                          |
-| config   | `IConfig`                          | 否  | 配置                       |
-| complete | `(res: CallbackResult) => void` | 否  | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail     | `(res: CallbackResult) => void` | 否  | 接口调用失败的回调函数              |
-| success  | `(res: CallbackResult) => void` | 否  | 接口调用成功的回调函数              |
+| Parameter | Type                               | Required | Description                                                                                                 |
+| --------- | ---------------------------------- |:--------:| ----------------------------------------------------------------------------------------------------------- |
+| data      | `IUpdateCondition`                 |   Yes    |                                                                                                             |
+| config    | `IConfig`                          |    No    | Configuration                                                                                               |
+| complete  | `(res: CallbackResult) => void` |    No    | The callback function used when the API call completed (always executed whether the call succeeds or fails) |
+| fail      | `(res: CallbackResult) => void` |    No    | The callback function for a failed API call                                                                 |
+| success   | `(res: CallbackResult) => void` |    No    | The callback function for a successful API call                                                             |
 
 #### IRemoveDocumentOptions
 
-删除记录参数
+Delete at the end
 
-| 参数       | 类型                                 | 必填 | 说明                       |
-| -------- | ---------------------------------- |:--:| ------------------------ |
-| query    | `IQueryCondition`                  | 是  |                          |
-| config   | `IConfig`                          | 否  | 配置                       |
-| complete | `(res: CallbackResult) => void` | 否  | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail     | `(res: CallbackResult) => void` | 否  | 接口调用失败的回调函数              |
-| success  | `(res: CallbackResult) => void` | 否  | 接口调用成功的回调函数              |
+| Parameter | Type                               | Required | Description                                                                                                 |
+| --------- | ---------------------------------- |:--------:| ----------------------------------------------------------------------------------------------------------- |
+| query     | `IQueryCondition`                  |   Yes    |                                                                                                             |
+| config    | `IConfig`                          |    No    | Configuration                                                                                               |
+| complete  | `(res: CallbackResult) => void` |    No    | The callback function used when the API call completed (always executed whether the call succeeds or fails) |
+| fail      | `(res: CallbackResult) => void` |    No    | The callback function for a failed API call                                                                 |
+| success   | `(res: CallbackResult) => void` |    No    | The callback function for a successful API call                                                             |
 
 #### IRemoveSingleDocumentOptions
 
-删除一条记录参数
+Returns the `description`, `done` and `progress` fields:
 
-| 参数       | 类型                                     | 必填 | 说明                       |
-| -------- | -------------------------------------- |:--:| ------------------------ |
-| config   | `IConfig`                              | 否  | 配置                       |
-| success  | `(res: T) => void`                  | 否  | 接口调用成功的回调函数              |
-| fail     | `(err: CallbackResult) => void`     | 否  | 接口调用失败的回调函数              |
-| complete | `(val: CallbackResult | T) => void` | 否  | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| Parameter | Type                                          | Required | Description                                                                                                 |
+| --------- | --------------------------------------------- |:--------:| ----------------------------------------------------------------------------------------------------------- |
+| config    | `IConfig`                                     |   Yes    | Configuration                                                                                               |
+| success   | `(res: T) => void`                         |    No    | Configuration                                                                                               |
+| fail      | `(err: CallbackResult) => void`            |    No    | The callback function used when the API call completed (always executed whether the call succeeds or fails) |
+| complete  | `(val: CallbackResult &#124; T) =&#062; void` |    No    | The callback function for a failed API call                                                                 |
 
 #### IUpdateCondition
 
-更新记录定义
+Get the aggregate data, or get the aggregate data filtered by the query criteria.
 
-| 参数      | 类型        |
-| ------- | --------- |
-| __index | `__index` |
+| Parameter | Type      |
+| --------- | --------- |
+| __index   | `__index` |
 
-#### API 支持度
+#### API Support
 
-|       API       | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:---------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-|  Document.get   |  ✔️   |       |        |         |        |    |              |     |
-|  Document.set   |  ✔️   |       |        |         |        |    |              |     |
-| Document.update |  ✔️   |       |        |         |        |    |              |     |
-| Document.remove |  ✔️   |       |        |         |        |    |              |     |
+|       API       | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:---------------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+|  Document.get   |  ✔️  |                 |                     |                        |                 |    |              |           |
+|  Document.set   |  ✔️  |                 |                     |                        |                 |    |              |           |
+| Document.update |  ✔️  |                 |                     |                        |                 |    |              |           |
+| Document.remove |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 ### Query
 
 数据库 Query 引用
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Query.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Query.html)
 
 #### where
 
-指定查询条件，返回带新查询条件的新的集合引用
+Count the number of records in a collection or count the number of result records corresponding to a query statement.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.where.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.where.html)
 
 ```tsx
 (condition: IQueryCondition) => Query
 ```
 
-| 参数        | 类型                |
-| --------- | ----------------- |
-| condition | `IQueryCondition` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| condition | `IQueryCondition`   |
 
 ##### 示例代码
 
@@ -1128,30 +1093,30 @@ const result = await db.collection('todos').where({
 }).get()
 ```
 
-##### API 支持度
+##### Sample Code
 
-|     API     | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-----------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Query.where |  ✔️   |       |        |         |        |    |              |     |
+|     API     | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-----------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Query.where |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 #### orderBy
 
-指定查询排序条件
+There will be differences in performance between the mini program side and the cloud function side as follows:
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.orderBy.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.orderBy.html)
 
 ```tsx
 (fieldPath: string, order: string) => Query
 ```
 
-| 参数        | 类型       |
-| --------- | -------- |
-| fieldPath | `string` |
-| order     | `string` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| fieldPath | `string`            |
+| order     | `string`            |
 
-##### 示例代码
+##### API Support
 
-按一个字段排序：按进度排升序取待办事项
+Counts the number of records that match the query criteria.
 
 ```tsx
 db.collection('todos').orderBy('progress', 'asc')
@@ -1160,7 +1125,7 @@ db.collection('todos').orderBy('progress', 'asc')
   .catch(console.error)
 ```
 
-按多个字段排序：先按 progress 排降序（progress 越大越靠前）、再按 description 排升序（字母序越前越靠前）取待办事项
+Database operator, obtained via db.command.
 
 ```tsx
 db.collection('todos')
@@ -1171,27 +1136,27 @@ db.collection('todos')
   .catch(console.error)
 ```
 
-##### API 支持度
+##### Sample Code
 
-|      API      | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Query.orderBy |  ✔️   |       |        |         |        |    |              |     |
+|      API      | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-------------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Query.orderBy |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 #### limit
 
 指定查询结果集数量上限
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.limit.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.limit.html)
 
 ```tsx
 (max: number) => Query
 ```
 
-| 参数  | 类型       |
-| --- | -------- |
-| max | `number` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| max       | `number`            |
 
-##### 示例代码
+##### API Support
 
 ```tsx
 db.collection('todos').limit(10)
@@ -1200,27 +1165,27 @@ db.collection('todos').limit(10)
   .catch(console.error)
 ```
 
-##### API 支持度
+##### Sample Code
 
-|     API     | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-----------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Query.limit |  ✔️   |       |        |         |        |    |              |     |
+|     API     | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-----------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Query.limit |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 #### skip
 
 指定查询返回结果时从指定序列后的结果开始返回，常用于分页
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.skip.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.skip.html)
 
 ```tsx
 (offset: number) => Query
 ```
 
-| 参数     | 类型       |
-| ------ | -------- |
-| offset | `number` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| offset    | `number`            |
 
-##### 示例代码
+##### API Support
 
 ```tsx
 db.collection('todos').skip(10)
@@ -1229,38 +1194,38 @@ db.collection('todos').skip(10)
   .catch(console.error)
 ```
 
-##### API 支持度
+##### Sample Code
 
-|    API     | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:----------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Query.skip |  ✔️   |       |        |         |        |    |              |     |
+|    API     | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:----------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Query.skip |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 #### field
 
 指定返回结果中记录需返回的字段
 
-**说明**
+**Description**
 
 方法接受一个必填对象用于指定需返回的字段，对象的各个 key 表示要返回或不要返回的字段，value 传入 true|false（或 1|-1）表示要返回还是不要返回。 如果指定的字段是数组字段，还可以用以下方法只返回数组的第一个元素：在该字段 key 后面拼接上 `.$` 成为 `字段.$` 的形式。 如果指定的字段是数组字段，还可以用 `db.command.project.slice` 方法返回数组的子数组： 方法既可以接收一个正数表示返回前 n 个元素，也可以接收一个负数表示返回后 n 个元素；还可以接收一个包含两个数字 `[ skip, limit ]` 的数组，如果 `skip` 是正数，表示跳过 `skip` 个元素后再返回接下来的 `limit` 个元素，如果 `skip` 是负数，表示从倒数第 `skip` 个元素开始，返回往后数的 `limit` 个元素
 
-- 返回数组的前 5 个元素：`{ tags: db.command.project.slice(5) }`
-- 返回数组的后 5 个元素：`{ tags: db.command.project.slice(-5) }`
-- 跳过前 5 个元素，返回接下来 10 个元素：`{ tags: db.command.project.slice(5, 10) }`
-- 从倒数第 5 个元素开始，返回接下来正方向数的 10 个元素：`{ tags: db.command.project.slice(-5, 10) }`
+- Returns the first 5 elements of the array: `{ tags: db.command.project.slice(5) }`
+- Returns the last 5 elements of the array: `{ tags: db.command.project.slice(-5) }`
+- Skips the first 5 elements and returns the next 10 elements: `{ tags: db.command.project.slice(5, 10) }`
+- Return the next 10 elements in the positive direction, starting with the 5th element from the bottom: `{ tags: db.command.project.slice(-5, 10) }`
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.field.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.field.html)
 
 ```tsx
 (object: Record<string, any>) => Query
 ```
 
-| 参数     | 类型                          |
-| ------ | --------------------------- |
-| object | `Record<string, any>` |
+| Parameter | WeChat Mini-Program         |
+| --------- | --------------------------- |
+| object    | `Record<string, any>` |
 
-##### 示例代码
+##### API Support
 
-返回 description, done 和 progress 三个字段：
+Returns the `description`, `done` and `progress` fields:
 
 ```tsx
 db.collection('todos').field({
@@ -1275,40 +1240,40 @@ db.collection('todos').field({
   .catch(console.error)
 ```
 
-##### API 支持度
+##### Sample Code
 
-|     API     | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-----------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Query.field |  ✔️   |       |        |         |        |    |              |     |
+|     API     | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-----------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Query.field |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 #### get
 
-获取集合数据，或获取根据查询条件筛选后的集合数据。
+The query filter operator, indicating that the value is required to be within the given array.
 
-**使用说明**
+**Description**
 
-统计集合记录数或统计查询语句对应的结果记录数
+Find the records whose field values are in the vicinity of the given point, in order of proximity to distance.
 
 小程序端与云函数端的表现会有如下差异：
 
-- 小程序端：如果没有指定 limit，则默认且最多取 20 条记录。
-- 云函数端：如果没有指定 limit，则默认且最多取 100 条记录。
+- Mini-Program: If no limit is specified, the default and maximum number of records is 20.
+- Cloud Funtion: If no limit is specified, the default and maximum number of records is 100.
 
-如果没有指定 skip，则默认从第 0 条记录开始取，skip 常用于分页。
+Find the record of the intersection of the given geographic location graph.
 
-如果需要取集合中所有的数据，仅在数据量不大且在云函数中时
+Query operators, used to represent logical "and" relationships, indicating that multiple query filters must be satisfied at the same time.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.get.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.get.html)
 
 ```tsx
 { (options: OQ<IDBAPIParam>): void; (options: Pick<IDBAPIParam, "config">): Promise<IQueryResult>; }
 ```
 
-| 参数      | 类型                      |
-| ------- | ----------------------- |
-| options | `OQ<IDBAPIParam>` |
+| Parameter | WeChat Mini-Program     |
+| --------- | ----------------------- |
+| options   | `OQ<IDBAPIParam>` |
 
-##### 示例代码
+##### API Support
 
 ```tsx
 const db = Taro.cloud.database()
@@ -1319,29 +1284,29 @@ db.collection('todos').where({
 })
 ```
 
-##### API 支持度
+##### Sample Code
 
-|    API    | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:---------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Query.get |  ✔️   |       |        |         |        |    |              |     |
+|    API    | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:---------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Query.get |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 #### count
 
 统计匹配查询条件的记录的条数
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.count.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.count.html)
 
 ```tsx
 { (options: OQ<IDBAPIParam>): void; (options: Pick<IDBAPIParam, "config">): Promise<ICountResult>; }
 ```
 
-| 参数      | 类型                      |
-| ------- | ----------------------- |
-| options | `OQ<IDBAPIParam>` |
+| Parameter | WeChat Mini-Program     |
+| --------- | ----------------------- |
+| options   | `OQ<IDBAPIParam>` |
 
-##### 示例代码
+##### API Support
 
-###### 示例 1
+###### Example 1
 
 ```tsx
 const db = Taro.cloud.database()
@@ -1352,139 +1317,136 @@ db.collection('todos').where({
 })
 ```
 
-###### 示例 2
+###### Example 2
 
 ```tsx
 const db = Taro.cloud.database()
 db.collection('todos').where({
-  _openid: 'xxx' // 填入当前用户 openid
-}).count({
-  success: function(res) {
-    console.log(res.total)
-  },
-  fail: console.error
+  _openid: 'xxx' // The openid of the current user
+}).count().then(res => {
+  console.log(res.total)
 })
 ```
 
-##### API 支持度
+##### Sample Code
 
-|     API     | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-----------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Query.count |  ✔️   |       |        |         |        |    |              |     |
+|     API     | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-----------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Query.count |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 #### IQueryCondition
 
-| 参数      | 类型        |
-| ------- | --------- |
-| __index | `__index` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| __index   | `__index`           |
 
 #### IStringQueryCondition
 
 #### IQueryResult
 
-| 参数     | 类型                | 说明                               |
-| ------ | ----------------- | -------------------------------- |
-| data   | `IDocumentData[]` | 查询的结果数组，数据的每个元素是一个 Object，代表一条记录 |
-| errMsg | `string`          | 调用结果                             |
+| Parameter | Type              | Description                                                                                   |
+| --------- | ----------------- | --------------------------------------------------------------------------------------------- |
+| data      | `IDocumentData[]` | An array of query results, where each element of the data is an Object, representing a record |
+| errMsg    | `string`          | Call result                                                                                   |
 
 #### IQuerySingleResult
 
-| 参数     | 类型              | 说明   |
-| ------ | --------------- | ---- |
-| data   | `IDocumentData` |      |
-| errMsg | `string`        | 调用结果 |
+| Property | Type            | Description |
+| -------- | --------------- | ----------- |
+| data     | `IDocumentData` |             |
+| errMsg   | `string`        | Call result |
 
 #### IAddResult
 
-| 参数     | 类型                | 说明   |
-| ------ | ----------------- | ---- |
-| _id    | `string | number` |      |
-| errMsg | `string`          | 调用结果 |
+| Property | Type                   | Description |
+| -------- | ---------------------- | ----------- |
+| _id      | `string &#124; number` |             |
+| errMsg   | `string`               | Call result |
 
 #### IUpdateResult
 
-| 参数     | 类型                     | 说明   |
-| ------ | ---------------------- | ---- |
-| stats  | `{ updated: number; }` |      |
-| errMsg | `string`               | 调用结果 |
+| Property | Type                   | Description |
+| -------- | ---------------------- | ----------- |
+| stats    | `{ updated: number; }` |             |
+| errMsg   | `string`               | Call result |
 
 #### ISetResult
 
-| 参数     | 类型                                      | 说明   |
-| ------ | --------------------------------------- | ---- |
-| _id    | `string | number`                       |      |
-| stats  | `{ updated: number; created: number; }` |      |
-| errMsg | `string`                                | 调用结果 |
+| Property | Type                                    | Description |
+| -------- | --------------------------------------- | ----------- |
+| _id      | `string &#124; number`                  |             |
+| stats    | `{ updated: number; created: number; }` |             |
+| errMsg   | `string`                                | Call result |
 
 #### IRemoveResult
 
-| 参数     | 类型                     | 说明   |
-| ------ | ---------------------- | ---- |
-| stats  | `{ removed: number; }` |      |
-| errMsg | `string`               | 调用结果 |
+| Property | Type                   | Description |
+| -------- | ---------------------- | ----------- |
+| stats    | `{ removed: number; }` |             |
+| errMsg   | `string`               | Call result |
 
 #### ICountResult
 
-| 参数     | 类型       | 说明   |
-| ------ | -------- | ---- |
-| total  | `number` | 结果数量 |
-| errMsg | `string` | 调用结果 |
+| Property | Type     | Description       |
+| -------- | -------- | ----------------- |
+| total    | `number` | Number of results |
+| errMsg   | `string` | Call result       |
 
-#### API 支持度
+#### API Support
 
-|      API      | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-|  Query.where  |  ✔️   |       |        |         |        |    |              |     |
-| Query.orderBy |  ✔️   |       |        |         |        |    |              |     |
-|  Query.limit  |  ✔️   |       |        |         |        |    |              |     |
-|  Query.skip   |  ✔️   |       |        |         |        |    |              |     |
-|  Query.field  |  ✔️   |       |        |         |        |    |              |     |
-|   Query.get   |  ✔️   |       |        |         |        |    |              |     |
-|  Query.count  |  ✔️   |       |        |         |        |    |              |     |
+|      API      | Type | Description | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-------------:|:----:|:-----------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+|  Query.where  |  ✔️  |             |                     |                        |                 |    |              |           |
+| Query.orderBy |  ✔️  |             |                     |                        |                 |    |              |           |
+|  Query.limit  |  ✔️  |             |                     |                        |                 |    |              |           |
+|  Query.skip   |  ✔️  |             |                     |                        |                 |    |              |           |
+|  Query.field  |  ✔️  |             |                     |                        |                 |    |              |           |
+|   Query.get   |  ✔️  |             |                     |                        |                 |    |              |           |
+|  Query.count  |  ✔️  |             |                     |                        |                 |    |              |           |
 
 ### Command
 
-数据库操作符，通过 db.command 获取
+The update operator, used to indicate that a field is being updated.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Command.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Command.html)
 
 #### eq
 
-查询筛选条件，表示字段等于某个值。eq 指令接受一个字面量 (literal)，可以是 number, boolean, string, object, array, Date。
+A query filter condition indicating that a field is equal to a value.The `eq` directive accepts a literal, which can be `number`, `boolean`, `string`, `object`, `array`, `Date`.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.eq.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.eq.html)
 
 ```tsx
 (val: any) => DatabaseQueryCommand
 ```
 
-##### API 支持度
+##### API Support
 
-|    API     | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:----------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Command.eq |  ✔️   |       |        |         |        |    |              |     |
+|    API     | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:----------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Command.eq |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### neq
 
-查询筛选条件，表示字段不等于某个值。eq 指令接受一个字面量 (literal)，可以是 number, boolean, string, object, array, Date。
+A query filter condition indicating that a field is not equal to a value.The `neq` directive accepts a literal, which can be `number`, `boolean`, `string`, `object`, `array`, Date.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.neq.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.neq.html)
 
 ```tsx
 (val: any) => DatabaseQueryCommand
 ```
 
-##### API 支持度
+##### API Support
 
-|     API     | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-----------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Command.neq |  ✔️   |       |        |         |        |    |              |     |
+|     API     | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-----------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Command.neq |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### gt
 
-查询筛选操作符，表示需大于指定值。可以传入 Date 对象用于进行日期比较。
+Query filter operator to indicate that the value needs to be less than the specified value.`Date` objects can be passed in for date comparison.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.gt.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.gt.html)
 
 ```tsx
 (val: any) => DatabaseQueryCommand
@@ -1492,1111 +1454,1111 @@ db.collection('todos').where({
 
 #### gte
 
-查询筛选操作符，表示需大于或等于指定值。可以传入 Date 对象用于进行日期比较。
+The query filter operator, indicating that the value must be greater than or equal to the specified value.`Date` objects can be passed in for date comparison.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.gte.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.gte.html)
 
 ```tsx
 (val: any) => DatabaseQueryCommand
 ```
 
-##### API 支持度
+##### API Support
 
-|     API     | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-----------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Command.gte |  ✔️   |       |        |         |        |    |              |     |
+|     API     | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-----------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Command.gte |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### lt
 
-查询筛选操作符，表示需小于指定值。可以传入 Date 对象用于进行日期比较。
+Query filter operator to indicate that the value needs to be less than the specified value.`Date` objects can be passed in for date comparison.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.lt.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.lt.html)
 
 ```tsx
 (val: any) => DatabaseQueryCommand
 ```
 
-##### API 支持度
+##### API Support
 
-|    API     | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:----------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Command.lt |  ✔️   |       |        |         |        |    |              |     |
+|    API     | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:----------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Command.lt |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### lte
 
-查询筛选操作符，表示需小于或等于指定值。可以传入 Date 对象用于进行日期比较。
+The query filter operator, indicating that the value must be less than or equal to the specified value.`Date` objects can be passed in for date comparison.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.lte.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.lte.html)
 
 ```tsx
 (val: any) => DatabaseQueryCommand
 ```
 
-##### API 支持度
+##### API Support
 
-|     API     | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-----------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Command.lte |  ✔️   |       |        |         |        |    |              |     |
+|     API     | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-----------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Command.lte |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### in
 
-查询筛选操作符，表示要求值在给定的数组内。
+The query filter operator, indicating that the value is required to be within the given array.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.in.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.in.html)
 
 ```tsx
 (val: any[]) => DatabaseQueryCommand
 ```
 
-| 参数  | 类型      |
-| --- | ------- |
-| val | `any[]` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| val       | `any[]`             |
 
-##### API 支持度
+##### API Support
 
-|    API     | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:----------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Command.in |  ✔️   |       |        |         |        |    |              |     |
+|    API     | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:----------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Command.in |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 #### nin
 
-查询筛选操作符，表示要求值不在给定的数组内。
+Database Logical Operators
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.nin.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.nin.html)
 
 ```tsx
 (val: any[]) => DatabaseQueryCommand
 ```
 
-| 参数  | 类型      |
-| --- | ------- |
-| val | `any[]` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| val       | `any[]`             |
 
-##### API 支持度
+##### API Support
 
-|     API     | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-----------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Command.nin |  ✔️   |       |        |         |        |    |              |     |
+|     API     | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-----------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Command.nin |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 #### geoNear
 
-按从近到远的顺序，找出字段值在给定点的附近的记录。
+Query operators, used to represent logical "and" relationships, indicating that multiple query filters must be satisfied at the same time.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.geoNear.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.geoNear.html)
 
 ```tsx
 (options: NearCommandOptions) => DatabaseQueryCommand
 ```
 
-| 参数      | 类型                   |
-| ------- | -------------------- |
-| options | `NearCommandOptions` |
+| Parameter | WeChat Mini-Program  |
+| --------- | -------------------- |
+| options   | `NearCommandOptions` |
 
-##### API 支持度
+##### API Support
 
-|       API       | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:---------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Command.geoNear |  ✔️   |       |        |         |        |    |              |     |
+|       API       | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:---------------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Command.geoNear |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 #### geoWithin
 
-找出字段值在指定区域内的记录，无排序。指定的区域必须是多边形（Polygon）或多边形集合（MultiPolygon）。
+Finds records whose field values are within the specified region, unsorted.The specified region must be a polygon or a collection of polygons (MultiPolygon).
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.geoWithin.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.geoWithin.html)
 
 ```tsx
 (options: WithinCommandOptions) => DatabaseQueryCommand
 ```
 
-| 参数      | 类型                     |
-| ------- | ---------------------- |
-| options | `WithinCommandOptions` |
+| Parameter | WeChat Mini-Program    |
+| --------- | ---------------------- |
+| options   | `WithinCommandOptions` |
 
-##### API 支持度
+##### API Support
 
-|        API        | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-----------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Command.geoWithin |  ✔️   |       |        |         |        |    |              |     |
+|        API        | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-----------------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Command.geoWithin |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 #### geoIntersects
 
-找出给定的地理位置图形相交的记录
+Database Query Operators
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.geoIntersects.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.geoIntersects.html)
 
 ```tsx
 (options: IntersectsCommandOptions) => DatabaseQueryCommand
 ```
 
-| 参数      | 类型                         |
-| ------- | -------------------------- |
-| options | `IntersectsCommandOptions` |
+| Parameter | WeChat Mini-Program        |
+| --------- | -------------------------- |
+| options   | `IntersectsCommandOptions` |
 
-##### API 支持度
+##### API Support
 
-|          API          | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:---------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Command.geoIntersects |  ✔️   |       |        |         |        |    |              |     |
+|          API          | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:---------------------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Command.geoIntersects |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 #### and
 
-查询操作符，用于表示逻辑 "与" 的关系，表示需同时满足多个查询筛选条件
+查询筛选条件，表示字段等于某个值。eq 指令接受一个字面量 (literal)，可以是 number, boolean, string, object, array, Date。
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.and.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.and.html)
 
 ```tsx
 (...expressions: (IQueryCondition | DatabaseLogicCommand)[]) => DatabaseLogicCommand
 ```
 
-| 参数          | 类型                                           |
+| Parameter   | WeChat Mini-Program                          |
 | ----------- | -------------------------------------------- |
 | expressions | `(IQueryCondition | DatabaseLogicCommand)[]` |
 
-##### API 支持度
+##### API Support
 
-|     API     | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-----------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Command.and |  ✔️   |       |        |         |        |    |              |     |
+|     API     | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-----------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Command.and |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 #### or
 
-查询操作符，用于表示逻辑 "或" 的关系，表示需同时满足多个查询筛选条件。或指令有两种用法，一是可以进行字段值的 “或” 操作，二是也可以进行跨字段的 “或” 操作。
+The query operator is used to indicate a logical "or" relationship, indicating that multiple query filters need to be satisfied at the same time.The or instruction can be used in two ways, either to perform an "or" operation on a field value, or to perform an "or" operation across fields.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.or.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.or.html)
 
 ```tsx
 (...expressions: (IQueryCondition | DatabaseLogicCommand)[]) => DatabaseLogicCommand
 ```
 
-| 参数          | 类型                                           |
+| Parameter   | WeChat Mini-Program                          |
 | ----------- | -------------------------------------------- |
 | expressions | `(IQueryCondition | DatabaseLogicCommand)[]` |
 
-##### API 支持度
+##### API Support
 
-|    API     | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:----------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Command.or |  ✔️   |       |        |         |        |    |              |     |
+|    API     | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:----------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Command.or |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 #### set
 
 查询操作符，用于表示逻辑 "与" 的关系，表示需同时满足多个查询筛选条件
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.set.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.set.html)
 
 ```tsx
 (val: any) => DatabaseUpdateCommand
 ```
 
-##### API 支持度
+##### API Support
 
-|     API     | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-----------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Command.set |  ✔️   |       |        |         |        |    |              |     |
+|     API     | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-----------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Command.set |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### remove
 
-更新操作符，用于表示删除某个字段。
+The update operator, used to indicate the deletion of a field.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.remove.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.remove.html)
 
 ```tsx
 () => DatabaseUpdateCommand
 ```
 
-##### API 支持度
+##### API Support
 
-|      API       | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:--------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Command.remove |  ✔️   |       |        |         |        |    |              |     |
+|      API       | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:--------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Command.remove |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### inc
 
-更新操作符，原子操作，用于指示字段自增
+Update operator to indicate that a field is self-increasing.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.inc.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.inc.html)
 
 ```tsx
 (val: number) => DatabaseUpdateCommand
 ```
 
-| 参数  | 类型       |
-| --- | -------- |
-| val | `number` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| val       | `number`            |
 
-##### API 支持度
+##### API Support
 
-|     API     | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-----------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Command.inc |  ✔️   |       |        |         |        |    |              |     |
+|     API     | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-----------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Command.inc |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 #### mul
 
-更新操作符，原子操作，用于指示字段自乘某个值
+The update operator, used to indicate that a field has self-multiplied by a value.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.mul.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.mul.html)
 
 ```tsx
 (val: number) => DatabaseUpdateCommand
 ```
 
-| 参数  | 类型       |
-| --- | -------- |
-| val | `number` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| val       | `number`            |
 
-##### API 支持度
+##### API Support
 
-|     API     | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-----------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Command.mul |  ✔️   |       |        |         |        |    |              |     |
+|     API     | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-----------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Command.mul |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 #### push
 
-数组更新操作符。对一个值为数组的字段，往数组添加一个或多个值。或字段原为空，则创建该字段并设数组为传入值。
+The array update operator.Adds one or more values to an array for a field whose value is an array.Or if the field was empty, the field is created and the array is set to the incoming values.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.push.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.push.html)
 
 ```tsx
 (...values: any[]) => DatabaseUpdateCommand
 ```
 
-| 参数     | 类型      |
-| ------ | ------- |
-| values | `any[]` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| values    | `any[]`             |
 
-##### API 支持度
+##### API Support
 
-|     API      | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Command.push |  ✔️   |       |        |         |        |    |              |     |
+|     API      | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:------------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Command.push |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 #### pop
 
-数组更新操作符，对一个值为数组的字段，将数组尾部元素删除
+The query filter operator, indicating that the value is not in the given array.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.pop.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.pop.html)
 
 ```tsx
 () => DatabaseUpdateCommand
 ```
 
-##### API 支持度
+##### API Support
 
-|     API     | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-----------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Command.pop |  ✔️   |       |        |         |        |    |              |     |
+|     API     | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-----------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Command.pop |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### shift
 
-数组更新操作符，对一个值为数组的字段，将数组头部元素删除。
+Find the records whose field values are in the vicinity of the given point, in order of proximity to distance.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.shift.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.shift.html)
 
 ```tsx
 () => DatabaseUpdateCommand
 ```
 
-##### API 支持度
+##### API Support
 
-|      API      | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Command.shift |  ✔️   |       |        |         |        |    |              |     |
+|      API      | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Command.shift |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### unshift
 
-数组更新操作符，对一个值为数组的字段，往数组头部添加一个或多个值。或字段原为空，则创建该字段并设数组为传入值。
+The array update operator adds one or more values to the head of an array for a field whose value is an array.Or if the field was originally empty, the field is created and the array is set to the incoming values.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.unshift.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.unshift.html)
 
 ```tsx
 (...values: any[]) => DatabaseUpdateCommand
 ```
 
-| 参数     | 类型      |
-| ------ | ------- |
-| values | `any[]` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| values    | `any[]`             |
 
-##### API 支持度
+##### API Support
 
-|       API       | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:---------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Command.unshift |  ✔️   |       |        |         |        |    |              |     |
+|       API       | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:---------------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Command.unshift |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 #### DatabaseLogicCommand
 
-数据库逻辑操作符
+Find the record of the intersection of the given geographic location graph.
 
-| 参数            | 类型                                               | 说明      |
-| ------------- | ------------------------------------------------ | ------- |
-| fieldName     | `string | InternalSymbol`                        | 作用域名称   |
-| operator      | `string`                                         | 操作符     |
-| operands      | `any[]`                                          | 操作数     |
-| _setFieldName | `(fieldName: string) => DatabaseLogicCommand` | 设置作用域名称 |
+| Parameter     | WeChat Mini-Program                              | Baidu Smart-Program |
+| ------------- | ------------------------------------------------ | ------------------- |
+| fieldName     | `string | InternalSymbol`                        | Scope name          |
+| operator      | `string`                                         | 操作符                 |
+| operands      | `any[]`                                          | 操作数                 |
+| _setFieldName | `(fieldName: string) => DatabaseLogicCommand` | Set fieldName       |
 
 ##### and
 
-查询操作符，用于表示逻辑 "与" 的关系，表示需同时满足多个查询筛选条件
+Database update operator.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.and.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.and.html)
 
 ```tsx
 (...expressions: (IQueryCondition | DatabaseLogicCommand)[]) => DatabaseLogicCommand
 ```
 
-| 参数          | 类型                                           |
+| Property    | Type                                         |
 | ----------- | -------------------------------------------- |
 | expressions | `(IQueryCondition | DatabaseLogicCommand)[]` |
 
-###### API 支持度
+###### API Support
 
-|           API            | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:------------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| DatabaseLogicCommand.and |  ✔️   |       |        |         |        |    |              |     |
+|           API            | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:------------------------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| DatabaseLogicCommand.and |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 ##### or
 
-查询操作符，用于表示逻辑 "或" 的关系，表示需同时满足多个查询筛选条件。或指令有两种用法，一是可以进行字段值的 “或” 操作，二是也可以进行跨字段的 “或” 操作。
+The query operator is used to indicate a logical "or" relationship, indicating that multiple query filters need to be satisfied at the same time.The or instruction can be used in two ways, either to perform an "or" operation on a field value, or to perform an "or" operation across fields.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.or.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.or.html)
 
 ```tsx
 (...expressions: (IQueryCondition | DatabaseLogicCommand)[]) => DatabaseLogicCommand
 ```
 
-| 参数          | 类型                                           |
+| Parameter   | WeChat Mini-Program                          |
 | ----------- | -------------------------------------------- |
 | expressions | `(IQueryCondition | DatabaseLogicCommand)[]` |
 
-###### API 支持度
+###### API Support
 
-|           API           | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-----------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| DatabaseLogicCommand.or |  ✔️   |       |        |         |        |    |              |     |
+|           API           | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-----------------------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| DatabaseLogicCommand.or |  ✔️  |                 |                     |                        |                 |    |              |           |
 
-##### API 支持度
+##### API Support
 
-|           API            | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:------------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| DatabaseLogicCommand.and |  ✔️   |       |        |         |        |    |              |     |
-| DatabaseLogicCommand.or  |  ✔️   |       |        |         |        |    |              |     |
+|           API            | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:------------------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| DatabaseLogicCommand.and |         ✔️          |                     |                     |                        |                 |    |              |           |
+| DatabaseLogicCommand.or  |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### DatabaseQueryCommand
 
-数据库查询操作符
+Query command literals
 
-| 参数            | 类型                                               | 说明      |
-| ------------- | ------------------------------------------------ | ------- |
-| operator      | `string`                                         | 操作符     |
-| _setFieldName | `(fieldName: string) => DatabaseQueryCommand` | 设置作用域名称 |
+| Parameter     | WeChat Mini-Program                              | Baidu Smart-Program |
+| ------------- | ------------------------------------------------ | ------------------- |
+| operator      | `string`                                         | 操作符                 |
+| _setFieldName | `(fieldName: string) => DatabaseQueryCommand` | Set fieldName       |
 
 ##### eq
 
 查询筛选条件，表示字段等于某个值。eq 指令接受一个字面量 (literal)，可以是 number, boolean, string, object, array, Date。
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.eq.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.eq.html)
 
 ```tsx
 (val: any) => DatabaseLogicCommand
 ```
 
-###### API 支持度
+###### API Support
 
-|           API           | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-----------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| DatabaseQueryCommand.eq |  ✔️   |       |        |         |        |    |              |     |
+|           API           | Type | Description | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-----------------------:|:----:|:-----------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| DatabaseQueryCommand.eq |  ✔️  |             |                     |                        |                 |    |              |           |
 
 ##### neq
 
 查询筛选条件，表示字段不等于某个值。eq 指令接受一个字面量 (literal)，可以是 number, boolean, string, object, array, Date。
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.neq.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.neq.html)
 
 ```tsx
 (val: any) => DatabaseLogicCommand
 ```
 
-###### API 支持度
+###### API Support
 
-|           API            | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:------------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| DatabaseQueryCommand.neq |  ✔️   |       |        |         |        |    |              |     |
+|           API            | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:------------------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| DatabaseQueryCommand.neq |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 ##### gt
 
-查询筛选操作符，表示需大于指定值。可以传入 Date 对象用于进行日期比较。
+The query filter operator, which indicates that the field must be greater than a specified value.`Date` objects can be passed in for date comparison.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.gt.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.gt.html)
 
 ```tsx
 (val: any) => DatabaseLogicCommand
 ```
 
-###### API 支持度
+###### API Support
 
-|           API           | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-----------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| DatabaseQueryCommand.gt |  ✔️   |       |        |         |        |    |              |     |
+|           API           | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-----------------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| DatabaseQueryCommand.gt |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 ##### gte
 
-查询筛选操作符，表示需大于或等于指定值。可以传入 Date 对象用于进行日期比较。
+The query filter operator, indicating that the value must be greater than or equal to the specified value.`Date` objects can be passed in for date comparison.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.gte.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.gte.html)
 
 ```tsx
 (val: any) => DatabaseLogicCommand
 ```
 
-###### API 支持度
+###### API Support
 
-|           API            | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:------------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| DatabaseQueryCommand.gte |  ✔️   |       |        |         |        |    |              |     |
+|           API            | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:------------------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| DatabaseQueryCommand.gte |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 ##### lt
 
-查询筛选操作符，表示需小于指定值。可以传入 Date 对象用于进行日期比较。
+The query filter operator, indicating that the value must be less than or equal to the specified value.`Date` objects can be passed in for date comparison.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.lt.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.lt.html)
 
 ```tsx
 (val: any) => DatabaseLogicCommand
 ```
 
-###### API 支持度
+###### API Support
 
-|           API           | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-----------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| DatabaseQueryCommand.lt |  ✔️   |       |        |         |        |    |              |     |
+|           API           | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-----------------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| DatabaseQueryCommand.lt |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 ##### lte
 
-查询筛选操作符，表示需小于或等于指定值。可以传入 Date 对象用于进行日期比较。
+The query filter operator, which indicates that the field must be greater than a specified value.`Date` objects can be passed in for date comparison.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.lte.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.lte.html)
 
 ```tsx
 (val: any) => DatabaseLogicCommand
 ```
 
-###### API 支持度
+###### API Support
 
-|           API            | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:------------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| DatabaseQueryCommand.lte |  ✔️   |       |        |         |        |    |              |     |
+|           API            | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:------------------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| DatabaseQueryCommand.lte |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 ##### in
 
-查询筛选操作符，表示要求值在给定的数组内。
+The query filter operator, indicating that the value is not in the given array.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.in.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.in.html)
 
 ```tsx
 (val: any[]) => DatabaseLogicCommand
 ```
 
-| 参数  | 类型      |
-| --- | ------- |
-| val | `any[]` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| val       | `any[]`             |
 
-###### API 支持度
+###### API Support
 
-|           API           | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-----------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| DatabaseQueryCommand.in |  ✔️   |       |        |         |        |    |              |     |
+|           API           | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-----------------------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| DatabaseQueryCommand.in |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 ##### nin
 
 查询筛选操作符，表示要求值不在给定的数组内。
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.nin.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.nin.html)
 
 ```tsx
 (val: any[]) => DatabaseLogicCommand
 ```
 
-| 参数  | 类型      |
-| --- | ------- |
-| val | `any[]` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| val       | `any[]`             |
 
-###### API 支持度
+###### API Support
 
-|           API            | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:------------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| DatabaseQueryCommand.nin |  ✔️   |       |        |         |        |    |              |     |
+|           API            | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:------------------------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| DatabaseQueryCommand.nin |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 ##### geoNear
 
-按从近到远的顺序，找出字段值在给定点的附近的记录。
+Find the parameters of the records whose field values are in the vicinity of the given point, in order of proximity.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.geoNear.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.geoNear.html)
 
 ```tsx
 (options: NearCommandOptions) => DatabaseLogicCommand
 ```
 
-| 参数      | 类型                   |
-| ------- | -------------------- |
-| options | `NearCommandOptions` |
+| Parameter | WeChat Mini-Program  |
+| --------- | -------------------- |
+| options   | `NearCommandOptions` |
 
-###### API 支持度
+###### API Support
 
-|             API              | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:----------------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| DatabaseQueryCommand.geoNear |  ✔️   |       |        |         |        |    |              |     |
+|             API              | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:----------------------------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| DatabaseQueryCommand.geoNear |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 ##### geoWithin
 
-找出字段值在指定区域内的记录，无排序。指定的区域必须是多边形（Polygon）或多边形集合（MultiPolygon）。
+Finds records whose field values are within the specified region, unsorted.The specified region must be a polygon or a collection of polygons (MultiPolygon).
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.geoWithin.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.geoWithin.html)
 
 ```tsx
 (options: WithinCommandOptions) => DatabaseLogicCommand
 ```
 
-| 参数      | 类型                     |
-| ------- | ---------------------- |
-| options | `WithinCommandOptions` |
+| Parameter | WeChat Mini-Program    |
+| --------- | ---------------------- |
+| options   | `WithinCommandOptions` |
 
-###### API 支持度
+###### API Support
 
-|              API               | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:------------------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| DatabaseQueryCommand.geoWithin |  ✔️   |       |        |         |        |    |              |     |
+|              API               | Type | QQ Mini-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:------------------------------:|:----:|:---------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| DatabaseQueryCommand.geoWithin |  ✔️  |                 |                     |                        |                 |    |              |           |
 
 ##### geoIntersects
 
-找出给定的地理位置图形相交的记录
+Find the records where the given geographic location graphs intersect.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.geoIntersects.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.geoIntersects.html)
 
 ```tsx
 (options: IntersectsCommandOptions) => DatabaseLogicCommand
 ```
 
-| 参数      | 类型                         |
-| ------- | -------------------------- |
-| options | `IntersectsCommandOptions` |
+| Parameter | WeChat Mini-Program        |
+| --------- | -------------------------- |
+| options   | `IntersectsCommandOptions` |
 
-###### API 支持度
+###### API Support
 
-|                API                 | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:----------------------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| DatabaseQueryCommand.geoIntersects |  ✔️   |       |        |         |        |    |              |     |
+|                API                 | Type | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | WeChat Mini-Program | H5 | React Native | Quick App |
+|:----------------------------------:|:----:|:-------------------:|:-------------------:|:----------------------:|:-------------------:|:--:|:------------:|:---------:|
+| DatabaseQueryCommand.geoIntersects |  ✔️  |                     |                     |                        |                     |    |              |           |
 
-##### API 支持度
+##### API Support
 
-|                API                 | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:----------------------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-|      DatabaseQueryCommand.eq       |  ✔️   |       |        |         |        |    |              |     |
-|      DatabaseQueryCommand.neq      |  ✔️   |       |        |         |        |    |              |     |
-|      DatabaseQueryCommand.gt       |  ✔️   |       |        |         |        |    |              |     |
-|      DatabaseQueryCommand.gte      |  ✔️   |       |        |         |        |    |              |     |
-|      DatabaseQueryCommand.lt       |  ✔️   |       |        |         |        |    |              |     |
-|      DatabaseQueryCommand.lte      |  ✔️   |       |        |         |        |    |              |     |
-|      DatabaseQueryCommand.in       |  ✔️   |       |        |         |        |    |              |     |
-|      DatabaseQueryCommand.nin      |  ✔️   |       |        |         |        |    |              |     |
-|    DatabaseQueryCommand.geoNear    |  ✔️   |       |        |         |        |    |              |     |
-|   DatabaseQueryCommand.geoWithin   |  ✔️   |       |        |         |        |    |              |     |
-| DatabaseQueryCommand.geoIntersects |  ✔️   |       |        |         |        |    |              |     |
+|                API                 | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:----------------------------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+|      DatabaseQueryCommand.eq       |         ✔️          |                     |                     |                        |                 |    |              |           |
+|      DatabaseQueryCommand.neq      |         ✔️          |                     |                     |                        |                 |    |              |           |
+|      DatabaseQueryCommand.gt       |         ✔️          |                     |                     |                        |                 |    |              |           |
+|      DatabaseQueryCommand.gte      |         ✔️          |                     |                     |                        |                 |    |              |           |
+|      DatabaseQueryCommand.lt       |         ✔️          |                     |                     |                        |                 |    |              |           |
+|      DatabaseQueryCommand.lte      |         ✔️          |                     |                     |                        |                 |    |              |           |
+|      DatabaseQueryCommand.in       |         ✔️          |                     |                     |                        |                 |    |              |           |
+|      DatabaseQueryCommand.nin      |         ✔️          |                     |                     |                        |                 |    |              |           |
+|    DatabaseQueryCommand.geoNear    |         ✔️          |                     |                     |                        |                 |    |              |           |
+|   DatabaseQueryCommand.geoWithin   |         ✔️          |                     |                     |                        |                 |    |              |           |
+| DatabaseQueryCommand.geoIntersects |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### DatabaseUpdateCommand
 
-数据库更新操作符
+Update command literals
 
-| 参数            | 类型                                                                        | 说明      |
-| ------------- | ------------------------------------------------------------------------- | ------- |
-| fieldName     | `string | InternalSymbol`                                                 | 作用域名称   |
-| operator      | `"remove" | "set" | "inc" | "mul" | "push" | "pop" | "shift" | "unshift"` | 操作符     |
-| operands      | `any[]`                                                                   | 操作数     |
-| _setFieldName | `(fieldName: string) => DatabaseUpdateCommand`                         | 设置作用域名称 |
+| Parameter     | WeChat Mini-Program                                                       | Baidu Smart-Program |
+| ------------- | ------------------------------------------------------------------------- | ------------------- |
+| fieldName     | `string | InternalSymbol`                                                 | Scope name          |
+| operator      | `"remove" | "set" | "inc" | "mul" | "push" | "pop" | "shift" | "unshift"` | 操作符                 |
+| operands      | `any[]`                                                                   | 操作数                 |
+| _setFieldName | `(fieldName: string) => DatabaseUpdateCommand`                         | Set fieldName       |
 
 #### LOGIC_COMMANDS_LITERAL
 
-逻辑命令字面量
+Logical command literals
 
-| 参数  | 说明 |
-| --- | -- |
-| and | 与  |
-| or  | 或  |
-| not | 非  |
-| nor | 都不 |
+| Property | Type                                                                                                       |
+| -------- | ---------------------------------------------------------------------------------------------------------- |
+| and      | 与                                                                                                          |
+| or       | "remove" &#124; "set" &#124; "inc" &#124; "mul" &#124; "push" &#124; "pop" &#124; "shift" &#124; "unshift" |
+| not      | 非                                                                                                          |
+| nor      | 都不                                                                                                         |
 
 #### QUERY_COMMANDS_LITERAL
 
 查询命令字面量
 
-| 参数            | 说明    |
-| ------------- | ----- |
-| eq            | 等于    |
-| neq           | 不等于   |
-| gt            | 大于    |
-| gte           | 大于等于  |
-| lt            | 小于    |
-| lte           | 小于等于  |
-| in            | 范围内   |
-| nin           | 范围外   |
-| geoNear       | 附近排序  |
-| geoWithin     | 指定区域内 |
-| geoIntersects | 相交区域  |
+| Property      | Description                |
+| ------------- | -------------------------- |
+| eq            | And                        |
+| neq           | Or                         |
+| gt            | Not                        |
+| gte           | Nor                        |
+| lt            | Minimum distance in metres |
+| lte           | 小于等于                       |
+| in            | Within the designated area |
+| nin           | Intersection area          |
+| geoNear       | Near the coordinates       |
+| geoWithin     | 指定区域内                      |
+| geoIntersects | 相交区域                       |
 
 #### UPDATE_COMMANDS_LITERAL
 
 更新命令字面量
 
-| 参数      | 说明   |
-| ------- | ---- |
-| set     | 等于   |
-| remove  | 删除   |
-| inc     | 自增   |
-| mul     | 自乘   |
-| push    | 尾部添加 |
-| pop     | 尾部删除 |
-| shift   | 头部删除 |
-| unshift | 头部添加 |
+| Property | Description           |
+| -------- | --------------------- |
+| set      | equal                 |
+| remove   | not equal             |
+| inc      | greater than          |
+| mul      | Greater than or equal |
+| push     | Less than             |
+| pop      | Less than or equal    |
+| shift    | Within                |
+| unshift  | Without               |
 
 #### NearCommandOptions
 
-按从近到远的顺序，找出字段值在给定点的附近的记录参数
+Finds the records whose field values are within the specified area, with no sorting parameters.
 
-| 参数          | 类型         | 必填 | 说明            |
-| ----------- | ---------- |:--:| ------------- |
-| geometry    | `GeoPoint` | 是  | 地理位置点 (Point) |
-| maxDistance | `number`   | 否  | 最大距离，单位为米     |
-| minDistance | `number`   | 否  | 最小距离，单位为米     |
+| Property    | Description | Add at the end | Description                |
+| ----------- | ----------- |:--------------:| -------------------------- |
+| geometry    | `GeoPoint`  |       是        | Location points (Point)    |
+| maxDistance | `number`    |       否        | Maximum distance in metres |
+| minDistance | `number`    |       否        | 最小距离，单位为米                  |
 
 #### WithinCommandOptions
 
 找出字段值在指定区域内的记录，无排序参数
 
-| 参数       | 类型                             | 说明                                             |
-| -------- | ------------------------------ | ---------------------------------------------- |
-| geometry | `GeoPolygon | GeoMultiPolygon` | 地理信息结构，Polygon，MultiPolygon，或 { centerSphere } |
+| Parameter | Type                           | Required |
+| --------- | ------------------------------ | -------- |
+| geometry  | `GeoPolygon | GeoMultiPolygon` | Yes      |
 
 #### IntersectsCommandOptions
 
 找出给定的地理位置图形相交的记录
 
-| 参数       | 类型                                                                                             | 说明     |
-| -------- | ---------------------------------------------------------------------------------------------- | ------ |
-| geometry | `GeoPoint | GeoPolygon | GeoMultiPolygon | GeoMultiPoint | GeoLineString | GeoMultiLineString` | 地理信息结构 |
+| Property | Type                                                                                           | Description                                                                   |
+| -------- | ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| geometry | `GeoPoint | GeoPolygon | GeoMultiPolygon | GeoMultiPoint | GeoLineString | GeoMultiLineString` | Geographic Information Architecture, Polygon，MultiPolygon，or { centerSphere } |
 
-#### API 支持度
+#### API Support
 
-|          API          | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:---------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-|      Command.eq       |  ✔️   |       |        |         |        |    |              |     |
-|      Command.neq      |  ✔️   |       |        |         |        |    |              |     |
-|      Command.gte      |  ✔️   |       |        |         |        |    |              |     |
-|      Command.lt       |  ✔️   |       |        |         |        |    |              |     |
-|      Command.lte      |  ✔️   |       |        |         |        |    |              |     |
-|      Command.in       |  ✔️   |       |        |         |        |    |              |     |
-|      Command.nin      |  ✔️   |       |        |         |        |    |              |     |
-|    Command.geoNear    |  ✔️   |       |        |         |        |    |              |     |
-|   Command.geoWithin   |  ✔️   |       |        |         |        |    |              |     |
-| Command.geoIntersects |  ✔️   |       |        |         |        |    |              |     |
-|      Command.and      |  ✔️   |       |        |         |        |    |              |     |
-|      Command.or       |  ✔️   |       |        |         |        |    |              |     |
-|      Command.set      |  ✔️   |       |        |         |        |    |              |     |
-|    Command.remove     |  ✔️   |       |        |         |        |    |              |     |
-|      Command.inc      |  ✔️   |       |        |         |        |    |              |     |
-|      Command.mul      |  ✔️   |       |        |         |        |    |              |     |
-|     Command.push      |  ✔️   |       |        |         |        |    |              |     |
-|      Command.pop      |  ✔️   |       |        |         |        |    |              |     |
-|     Command.shift     |  ✔️   |       |        |         |        |    |              |     |
-|    Command.unshift    |  ✔️   |       |        |         |        |    |              |     |
+|          API          | Type | Description | Alipay Mini-Program | ByteDance Mini-Program | Alipay Mini-Program | H5 | React Native | Quick App |
+|:---------------------:|:----:|:-----------:|:-------------------:|:----------------------:|:-------------------:|:--:|:------------:|:---------:|
+|      Command.eq       |  ✔️  |             |                     |                        |                     |    |              |           |
+|      Command.neq      |  ✔️  |             |                     |                        |                     |    |              |           |
+|      Command.gte      |  ✔️  |             |                     |                        |                     |    |              |           |
+|      Command.lt       |  ✔️  |             |                     |                        |                     |    |              |           |
+|      Command.lte      |  ✔️  |             |                     |                        |                     |    |              |           |
+|      Command.in       |  ✔️  |             |                     |                        |                     |    |              |           |
+|      Command.nin      |  ✔️  |             |                     |                        |                     |    |              |           |
+|    Command.geoNear    |  ✔️  |             |                     |                        |                     |    |              |           |
+|   Command.geoWithin   |  ✔️  |             |                     |                        |                     |    |              |           |
+| Command.geoIntersects |  ✔️  |             |                     |                        |                     |    |              |           |
+|      Command.and      |  ✔️  |             |                     |                        |                     |    |              |           |
+|      Command.or       |  ✔️  |             |                     |                        |                     |    |              |           |
+|      Command.set      |  ✔️  |             |                     |                        |                     |    |              |           |
+|    Command.remove     |  ✔️  |             |                     |                        |                     |    |              |           |
+|      Command.inc      |  ✔️  |             |                     |                        |                     |    |              |           |
+|      Command.mul      |  ✔️  |             |                     |                        |                     |    |              |           |
+|     Command.push      |  ✔️  |             |                     |                        |                     |    |              |           |
+|      Command.pop      |  ✔️  |             |                     |                        |                     |    |              |           |
+|     Command.shift     |  ✔️  |             |                     |                        |                     |    |              |           |
+|    Command.unshift    |  ✔️  |             |                     |                        |                     |    |              |           |
 
 ### Aggregate
 
-数据库集合的聚合操作实例
+An instance object for the aggregation operation of a database collection.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.html)
 
 #### addFields
 
-聚合阶段。添加新字段到输出的记录。经过 addFields 聚合阶段，输出的所有记录中除了输入时带有的字段外，还将带有 addFields 指定的字段。
+Aggregation phase.Adding new fields to the output records.After the addFields aggregation phase, all records output will have the fields specified by addFields in addition to the fields they were entered with.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.addFields.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.addFields.html)
 
 ```tsx
 (object: Object) => Aggregate
 ```
 
-| 参数     | 类型       |
-| ------ | -------- |
-| object | `Object` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| object    | `Object`            |
 
-##### API 支持度
+##### API Support
 
-|         API         | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Aggregate.addFields |  ✔️   |       |        |         |        |    |              |     |
+|         API         | Type | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | Alipay Mini-Program | H5 | React Native | Quick App |
+|:-------------------:|:----:|:-------------------:|:-------------------:|:----------------------:|:-------------------:|:--:|:------------:|:---------:|
+| Aggregate.addFields |  ✔️  |                     |                     |                        |                     |    |              |           |
 
 #### bucket
 
-聚合阶段。将输入记录根据给定的条件和边界划分成不同的组，每组即一个 bucket。
+Aggregation phase.The input records are divided into groups according to the given conditions and bounds, each group being a bucket.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.bucket.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.bucket.html)
 
 ```tsx
 (object: Object) => Aggregate
 ```
 
-| 参数     | 类型       |
-| ------ | -------- |
-| object | `Object` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| object    | `Object`            |
 
-##### API 支持度
+##### API Support
 
-|       API        | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:----------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Aggregate.bucket |  ✔️   |       |        |         |        |    |              |     |
+|       API        | Type | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | Alipay Mini-Program | H5 | React Native | Quick App |
+|:----------------:|:----:|:-------------------:|:-------------------:|:----------------------:|:-------------------:|:--:|:------------:|:---------:|
+| Aggregate.bucket |  ✔️  |                     |                     |                        |                     |    |              |           |
 
 #### bucketAuto
 
-聚合阶段。将输入记录根据给定的条件划分成不同的组，每组即一个 bucket。与 bucket 的其中一个不同之处在于无需指定 boundaries，bucketAuto 会自动尝试将记录尽可能平均的分散到每组中。
+Aggregation phase.将输入记录根据给定的条件划分成不同的组，每组即一个 bucket。Aggregation phase. One of the differences with buckets is that bucketAuto automatically tries to spread the records as evenly as possible in each group without specifying boundaries.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.bucketAuto.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.bucketAuto.html)
 
 ```tsx
 (object: Object) => Aggregate
 ```
 
-| 参数     | 类型       |
-| ------ | -------- |
-| object | `Object` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| object    | `Object`            |
 
-##### API 支持度
+##### API Support
 
-|         API          | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:--------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Aggregate.bucketAuto |  ✔️   |       |        |         |        |    |              |     |
+|         API          | Type | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | Alipay Mini-Program | H5 | React Native | Quick App |
+|:--------------------:|:----:|:-------------------:|:-------------------:|:----------------------:|:-------------------:|:--:|:------------:|:---------:|
+| Aggregate.bucketAuto |  ✔️  |                     |                     |                        |                     |    |              |           |
 
 #### count
 
-聚合阶段。计算上一聚合阶段输入到本阶段的记录数，输出一个记录，其中指定字段的值为记录数。
+Aggregation phase.Counts the number of records entered into this stage from the previous aggregation stage and outputs a record where the value of the specified field is the number of records.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.count.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.count.html)
 
 ```tsx
 (fieldName: string) => Aggregate
 ```
 
-| 参数        | 类型       |
-| --------- | -------- |
-| fieldName | `string` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| fieldName | `string`            |
 
-##### API 支持度
+##### API Support
 
-|       API       | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:---------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Aggregate.count |  ✔️   |       |        |         |        |    |              |     |
+|       API       | Type | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | Alipay Mini-Program | H5 | React Native | Quick App |
+|:---------------:|:----:|:-------------------:|:-------------------:|:----------------------:|:-------------------:|:--:|:------------:|:---------:|
+| Aggregate.count |  ✔️  |                     |                     |                        |                     |    |              |           |
 
 #### end
 
 标志聚合操作定义完成，发起实际聚合操作
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.end.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.end.html)
 
 ```tsx
 () => Promise<Object>
 ```
 
-##### API 支持度
+##### API Support
 
-|      API      | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Aggregate.end |  ✔️   |       |        |         |        |    |              |     |
+|      API      | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:-------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+| Aggregate.end |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 #### geoNear
 
-聚合阶段。将记录按照离给定点从近到远输出。
+Aggregation phase.Outputs the records in order of proximity to the given point.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.geoNear.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.geoNear.html)
 
 ```tsx
 (options: Object) => Aggregate
 ```
 
-| 参数      | 类型       |
-| ------- | -------- |
-| options | `Object` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| options   | `Object`            |
 
-##### API 支持度
+##### API Support
 
-|        API        | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-----------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Aggregate.geoNear |  ✔️   |       |        |         |        |    |              |     |
+|        API        | Type | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | Alipay Mini-Program | H5 | React Native | Quick App |
+|:-----------------:|:----:|:-------------------:|:-------------------:|:----------------------:|:-------------------:|:--:|:------------:|:---------:|
+| Aggregate.geoNear |  ✔️  |                     |                     |                        |                     |    |              |           |
 
 #### group
 
-聚合阶段。将输入记录按给定表达式分组，输出时每个记录代表一个分组，每个记录的 _id 是区分不同组的 key。输出记录中也可以包括累计值，将输出字段设为累计值即会从该分组中计算累计值。
+Aggregation phase.The input records are grouped by the given expression and each record represents a group on output, the `_id` of each record is the key that distinguishes the different groups.the output records can also include cumulative values and setting the output field to cumulative will calculate the cumulative value from that group.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.group.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.group.html)
 
 ```tsx
 (object: Object) => Aggregate
 ```
 
-| 参数     | 类型       |
-| ------ | -------- |
-| object | `Object` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| object    | `Object`            |
 
-##### API 支持度
+##### API Support
 
-|       API       | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:---------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Aggregate.group |  ✔️   |       |        |         |        |    |              |     |
+|       API       | Type | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | Alipay Mini-Program | H5 | React Native | Quick App |
+|:---------------:|:----:|:-------------------:|:-------------------:|:----------------------:|:-------------------:|:--:|:------------:|:---------:|
+| Aggregate.group |  ✔️  |                     |                     |                        |                     |    |              |           |
 
 #### limit
 
-聚合阶段。限制输出到下一阶段的记录数。
+Aggregation phase.Limits the number of records output to the next stage.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.limit.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.limit.html)
 
 ```tsx
 (value: number) => Aggregate
 ```
 
-| 参数    | 类型       |
-| ----- | -------- |
-| value | `number` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| value     | `number`            |
 
-##### API 支持度
+##### API Support
 
-|       API       | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:---------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Aggregate.limit |  ✔️   |       |        |         |        |    |              |     |
+|       API       | Type | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | Alipay Mini-Program | H5 | React Native | Quick App |
+|:---------------:|:----:|:-------------------:|:-------------------:|:----------------------:|:-------------------:|:--:|:------------:|:---------:|
+| Aggregate.limit |  ✔️  |                     |                     |                        |                     |    |              |           |
 
 #### lookup
 
-聚合阶段。聚合阶段。联表查询。与同个数据库下的一个指定的集合做 left outer join(左外连接)。对该阶段的每一个输入记录，lookup 会在该记录中增加一个数组字段，该数组是被联表中满足匹配条件的记录列表。lookup 会将连接后的结果输出给下个阶段。
+聚合阶段。Aggregation phase.联表查询。Join table query. Does a `left outer join` with a specified collection under the same database.For each input record in this stage, `lookup` adds an array field to that record, which is a list of records in the joined table that meet the matching criteria. `lookup` will output the result of the join to the next stage.lookup 会将连接后的结果输出给下个阶段。
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.lookup.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.lookup.html)
 
 ```tsx
 (object: Object) => Aggregate
 ```
 
-| 参数     | 类型       |
-| ------ | -------- |
-| object | `Object` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| object    | `Object`            |
 
-##### API 支持度
+##### API Support
 
-|       API        | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:----------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Aggregate.lookup |  ✔️   |       |        |         |        |    |              |     |
+|       API        | Type | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | Alipay Mini-Program | H5 | React Native | Quick App |
+|:----------------:|:----:|:-------------------:|:-------------------:|:----------------------:|:-------------------:|:--:|:------------:|:---------:|
+| Aggregate.lookup |  ✔️  |                     |                     |                        |                     |    |              |           |
 
 #### match
 
-聚合阶段。根据条件过滤文档，并且把符合条件的文档传递给下一个流水线阶段。
+Aggregation phase.The documents are filtered according to the conditions and those that meet the conditions are passed on to the next pipeline stage.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.match.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.match.html)
 
 ```tsx
 (object: Object) => Aggregate
 ```
 
-| 参数     | 类型       |
-| ------ | -------- |
-| object | `Object` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| object    | `Object`            |
 
-##### API 支持度
+##### API Support
 
-|       API       | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:---------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Aggregate.match |  ✔️   |       |        |         |        |    |              |     |
+|       API       | Type | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | Alipay Mini-Program | H5 | React Native | Quick App |
+|:---------------:|:----:|:-------------------:|:-------------------:|:----------------------:|:-------------------:|:--:|:------------:|:---------:|
+| Aggregate.match |  ✔️  |                     |                     |                        |                     |    |              |           |
 
 #### project
 
-聚合阶段。把指定的字段传递给下一个流水线，指定的字段可以是某个已经存在的字段，也可以是计算出来的新字段。
+Aggregation phase.Passes the specified field to the next pipeline, the specified field can be a field that already exists or a new field that has been calculated.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.project.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.project.html)
 
 ```tsx
 (object: Object) => Aggregate
 ```
 
-| 参数     | 类型       |
-| ------ | -------- |
-| object | `Object` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| object    | `Object`            |
 
-##### API 支持度
+##### API Support
 
-|        API        | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-----------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Aggregate.project |  ✔️   |       |        |         |        |    |              |     |
+|        API        | Type | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | Alipay Mini-Program | H5 | React Native | Quick App |
+|:-----------------:|:----:|:-------------------:|:-------------------:|:----------------------:|:-------------------:|:--:|:------------:|:---------:|
+| Aggregate.project |  ✔️  |                     |                     |                        |                     |    |              |           |
 
 #### replaceRoot
 
-聚合阶段。指定一个已有字段作为输出的根节点，也可以指定一个计算出的新字段作为根节点。
+Aggregation phase.Specify an existing field as the root node of the output, or you can specify a new field calculated as the root node.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.replaceRoot.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.replaceRoot.html)
 
 ```tsx
 (object: Object) => Aggregate
 ```
 
-| 参数     | 类型       |
-| ------ | -------- |
-| object | `Object` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| object    | `Object`            |
 
-##### API 支持度
+##### API Support
 
-|          API          | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:---------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Aggregate.replaceRoot |  ✔️   |       |        |         |        |    |              |     |
+|          API          | Type | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | Alipay Mini-Program | H5 | React Native | Quick App |
+|:---------------------:|:----:|:-------------------:|:-------------------:|:----------------------:|:-------------------:|:--:|:------------:|:---------:|
+| Aggregate.replaceRoot |  ✔️  |                     |                     |                        |                     |    |              |           |
 
 #### sample
 
-聚合阶段。随机从文档中选取指定数量的记录。
+Aggregation phase.Randomly selects a specified number of records from the document.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.sample.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.sample.html)
 
 ```tsx
 (size: number) => Aggregate
 ```
 
-| 参数   | 类型       |
-| ---- | -------- |
-| size | `number` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| size      | `number`            |
 
-##### API 支持度
+##### API Support
 
-|       API        | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:----------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Aggregate.sample |  ✔️   |       |        |         |        |    |              |     |
+|       API        | Type | Baidu Smart-Program | 支付宝小程序 | ByteDance Mini-Program | QQ 小程序 | H5 | React Native | Quick App |
+|:----------------:|:----:|:-------------------:|:------:|:----------------------:|:------:|:--:|:------------:|:---------:|
+| Aggregate.sample |  ✔️  |                     |        |                        |        |    |              |           |
 
 #### skip
 
-聚合阶段。指定一个正整数，跳过对应数量的文档，输出剩下的文档。
+Aggregation phase.Specify a positive integer, skip the corresponding number of documents and output the remaining documents.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.skip.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.skip.html)
 
 ```tsx
 (value: number) => Aggregate
 ```
 
-| 参数    | 类型       |
-| ----- | -------- |
-| value | `number` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| value     | `number`            |
 
-##### API 支持度
+##### API Support
 
-|      API       | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:--------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Aggregate.skip |  ✔️   |       |        |         |        |    |              |     |
+|      API       | Type | Baidu Smart-Program | 支付宝小程序 | ByteDance Mini-Program | QQ 小程序 | H5 | React Native | Quick App |
+|:--------------:|:----:|:-------------------:|:------:|:----------------------:|:------:|:--:|:------------:|:---------:|
+| Aggregate.skip |  ✔️  |                     |        |                        |        |    |              |           |
 
 #### sort
 
-聚合阶段。根据指定的字段，对输入的文档进行排序。
+Aggregation phase.Sorting of the input documents according to the specified fields.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.sort.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.sort.html)
 
 ```tsx
 (object: Object) => Aggregate
 ```
 
-| 参数     | 类型       |
-| ------ | -------- |
-| object | `Object` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| object    | `Object`            |
 
-##### API 支持度
+##### API Support
 
-|      API       | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:--------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Aggregate.sort |  ✔️   |       |        |         |        |    |              |     |
+|      API       | Type | Baidu Smart-Program | 支付宝小程序 | ByteDance Mini-Program | QQ 小程序 | H5 | React Native | Quick App |
+|:--------------:|:----:|:-------------------:|:------:|:----------------------:|:------:|:--:|:------------:|:---------:|
+| Aggregate.sort |  ✔️  |                     |        |                        |        |    |              |           |
 
 #### sortByCount
 
-聚合阶段。根据传入的表达式，将传入的集合进行分组（group）。然后计算不同组的数量，并且将这些组按照它们的数量进行排序，返回排序后的结果。
+Aggregation phase.The incoming set is grouped according to the incoming expression.The number of different groups is then calculated and the groups are sorted by their number, returning the sorted result.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.sortByCount.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.sortByCount.html)
 
 ```tsx
 (object: Object) => Aggregate
 ```
 
-| 参数     | 类型       |
-| ------ | -------- |
-| object | `Object` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| object    | `Object`            |
 
-##### API 支持度
+##### API Support
 
-|          API          | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:---------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Aggregate.sortByCount |  ✔️   |       |        |         |        |    |              |     |
+|          API          | Type | Baidu Smart-Program | 支付宝小程序 | ByteDance Mini-Program | QQ 小程序 | H5 | React Native | Quick App |
+|:---------------------:|:----:|:-------------------:|:------:|:----------------------:|:------:|:--:|:------------:|:---------:|
+| Aggregate.sortByCount |  ✔️  |                     |        |                        |        |    |              |           |
 
 #### unwind
 
-聚合阶段。使用指定的数组字段中的每个元素，对文档进行拆分。拆分后，文档会从一个变为一个或多个，分别对应数组的每个元素。
+Aggregation phase.The document is split using each element in the specified array field.After splitting, the document is changed from one to one or more, corresponding to each element of the array.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.unwind.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.unwind.html)
 
 ```tsx
 (value: string | object) => Aggregate
 ```
 
-| 参数    | 类型                |
-| ----- | ----------------- |
-| value | `string | object` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| value     | `string | object`   |
 
-##### API 支持度
+##### API Support
 
-|       API        | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:----------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| Aggregate.unwind |  ✔️   |       |        |         |        |    |              |     |
+|       API        | Type | Baidu Smart-Program | 支付宝小程序 | ByteDance Mini-Program | QQ 小程序 | H5 | React Native | Quick App |
+|:----------------:|:----:|:-------------------:|:------:|:----------------------:|:------:|:--:|:------------:|:---------:|
+| Aggregate.unwind |  ✔️  |                     |        |                        |        |    |              |           |
 
-#### API 支持度
+#### API Support
 
-|          API          | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:---------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-|  Aggregate.addFields  |  ✔️   |       |        |         |        |    |              |     |
-|   Aggregate.bucket    |  ✔️   |       |        |         |        |    |              |     |
-| Aggregate.bucketAuto  |  ✔️   |       |        |         |        |    |              |     |
-|    Aggregate.count    |  ✔️   |       |        |         |        |    |              |     |
-|     Aggregate.end     |  ✔️   |       |        |         |        |    |              |     |
-|   Aggregate.geoNear   |  ✔️   |       |        |         |        |    |              |     |
-|    Aggregate.group    |  ✔️   |       |        |         |        |    |              |     |
-|    Aggregate.limit    |  ✔️   |       |        |         |        |    |              |     |
-|   Aggregate.lookup    |  ✔️   |       |        |         |        |    |              |     |
-|    Aggregate.match    |  ✔️   |       |        |         |        |    |              |     |
-|   Aggregate.project   |  ✔️   |       |        |         |        |    |              |     |
-| Aggregate.replaceRoot |  ✔️   |       |        |         |        |    |              |     |
-|   Aggregate.sample    |  ✔️   |       |        |         |        |    |              |     |
-|    Aggregate.skip     |  ✔️   |       |        |         |        |    |              |     |
-|    Aggregate.sort     |  ✔️   |       |        |         |        |    |              |     |
-| Aggregate.sortByCount |  ✔️   |       |        |         |        |    |              |     |
-|   Aggregate.unwind    |  ✔️   |       |        |         |        |    |              |     |
+|          API          | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native | Quick App |
+|:---------------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|:---------:|
+|  Aggregate.addFields  |         ✔️          |                     |                     |                        |                 |    |              |           |
+|   Aggregate.bucket    |         ✔️          |                     |                     |                        |                 |    |              |           |
+| Aggregate.bucketAuto  |         ✔️          |                     |                     |                        |                 |    |              |           |
+|    Aggregate.count    |         ✔️          |                     |                     |                        |                 |    |              |           |
+|     Aggregate.end     |         ✔️          |                     |                     |                        |                 |    |              |           |
+|   Aggregate.geoNear   |         ✔️          |                     |                     |                        |                 |    |              |           |
+|    Aggregate.group    |         ✔️          |                     |                     |                        |                 |    |              |           |
+|    Aggregate.limit    |         ✔️          |                     |                     |                        |                 |    |              |           |
+|   Aggregate.lookup    |         ✔️          |                     |                     |                        |                 |    |              |           |
+|    Aggregate.match    |         ✔️          |                     |                     |                        |                 |    |              |           |
+|   Aggregate.project   |         ✔️          |                     |                     |                        |                 |    |              |           |
+| Aggregate.replaceRoot |         ✔️          |                     |                     |                        |                 |    |              |           |
+|   Aggregate.sample    |         ✔️          |                     |                     |                        |                 |    |              |           |
+|    Aggregate.skip     |         ✔️          |                     |                     |                        |                 |    |              |           |
+|    Aggregate.sort     |         ✔️          |                     |                     |                        |                 |    |              |           |
+| Aggregate.sortByCount |         ✔️          |                     |                     |                        |                 |    |              |           |
+|   Aggregate.unwind    |         ✔️          |                     |                     |                        |                 |    |              |           |
 
 ### IGeo
 
-数据库地理位置结构集
+In addition to constructing a Polygon using the interface, it is possible to use the JSON representation of a Polygon with the equivalent GeoJSON in the following format:
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Geo.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Geo.html)
 
 #### Point
 
-构造一个地理位置 ”点“。方法接受两个必填参数，第一个是经度（longitude），第二个是纬度（latitude），务必注意顺序。
+Constructs a geolocation 'point'.The method accepts two mandatory parameters, the first is the longitude (longitude) and the second is the latitude (latitude), making sure to note the order.
 
-如存储地理位置信息的字段有被查询的需求，务必对字段建立地理位置索引
+If a field storing geolocation information is required to be queried, a geolocation index will need to be created on the field
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/Geo.Point.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/Geo.Point.html)
 
 ```tsx
 (longitude: number, latitide: number) => GeoPoint
 ```
 
-| 参数        | 类型       |
-| --------- | -------- |
-| longitude | `number` |
-| latitide  | `number` |
+| Parameter | WeChat Mini-Program |
+| --------- | ------------------- |
+| longitude | `number`            |
+| latitide  | `number`            |
 
-##### 示例代码
+##### API Support
 
-###### 示例 1
+###### Example 1
 
 ```tsx
 db.collection('todos').add({
@@ -2607,14 +2569,14 @@ db.collection('todos').add({
 }).then(console.log).catch(console.error)
 ```
 
-###### 示例 2
+###### Example 2
 
-除了使用接口构造一个点外，也可以使用等价的 GeoJSON 的 点 (Point) 的 JSON 表示，其格式如下：
+In addition to constructing MultiPoint using the interface, a JSON representation of the point set (MultiPoint) can also be used using the equivalent GeoJSON, in the following format:
 
 ```json
 {
   "type": "Point",
-  "coordinates": [longitude, latitude] // 数字数组：[经度, 纬度]
+  "coordinates": [longitude, latitude]
 }
 ```
 
@@ -2630,31 +2592,31 @@ db.collection('todos').add({
 }).then(console.log).catch(console.error)
 ```
 
-##### API 支持度
+##### Sample Code
 
-|    API     | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:----------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| IGeo.Point |  ✔️   |       |        |         |        |    |              |     |
+|    API     | Type | Baidu Smart-Program | 支付宝小程序 | ByteDance Mini-Program | QQ 小程序 | H5 | React Native | Quick App |
+|:----------:|:----:|:-------------------:|:------:|:----------------------:|:------:|:--:|:------------:|:---------:|
+| IGeo.Point |  ✔️  |                     |        |                        |        |    |              |           |
 
 #### LineString
 
-构造一个地理位置的 ”线“。一个线由两个或更多的点有序连接组成。
+Constructing a 'line' of geographic locations.A line consists of two or more points connected in an orderly fashion.
 
-如存储地理位置信息的字段有被查询的需求，务必对字段建立地理位置索引
+If a field storing geolocation information is required to be queried, a geolocation index will need to be created on the field
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/Geo.LineString.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/Geo.LineString.html)
 
 ```tsx
 (points: JSONMultiPoint | GeoPoint[]) => GeoMultiPoint
 ```
 
-| 参数     | 类型                            |
-| ------ | ----------------------------- |
-| points | `JSONMultiPoint | GeoPoint[]` |
+| Parameter | WeChat Mini-Program           |
+| --------- | ----------------------------- |
+| points    | `JSONMultiPoint | GeoPoint[]` |
 
-##### 示例代码
+##### API Support
 
-###### 示例 1
+###### Example 1
 
 ```tsx
 db.collection('todos').add({
@@ -2663,15 +2625,14 @@ db.collection('todos').add({
     location: db.Geo.LineString([
       db.Geo.Point(113, 23),
       db.Geo.Point(120, 50),
-      // ... 可选更多点
-    ])
+      // ... ])
   }
 }).then(console.log).catch(console.error)
 ```
 
-###### 示例 2
+###### Example 2
 
-除了使用接口构造一条 LineString 外，也可以使用等价的 GeoJSON 的 线 (LineString) 的 JSON 表示，其格式如下：
+In addition to constructing a MultiLineString using the interface, it is possible to use the equivalent JSON representation of GeoJSON's line collection (MultiLineString) in the following format:
 
 ```json
 {
@@ -2679,8 +2640,7 @@ db.collection('todos').add({
   "coordinates": [
     [p1_lng, p1_lat],
     [p2_lng, p2_lng]
-    // ... 可选更多点
-  ]
+    // ... ]
 }
 ```
 
@@ -2699,45 +2659,45 @@ db.collection('todos').add({
 }).then(console.log).catch(console.error)
 ```
 
-##### API 支持度
+##### Sample Code
 
-|       API       | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:---------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| IGeo.LineString |  ✔️   |       |        |         |        |    |              |     |
+|       API       | Type | Baidu Smart-Program | 支付宝小程序 | ByteDance Mini-Program | QQ 小程序 | H5 | React Native | Quick App |
+|:---------------:|:----:|:-------------------:|:------:|:----------------------:|:------:|:--:|:------------:|:---------:|
+| IGeo.LineString |  ✔️  |                     |        |                        |        |    |              |           |
 
 #### Polygon
 
-构造一个地理位置 ”多边形“
+Constructing a geolocation "polygon"
 
-如存储地理位置信息的字段有被查询的需求，务必对字段建立地理位置索引
+If a field storing geolocation information is required to be queried, a geolocation index will need to be created on the field
 
-**说明**
+**Note**
 
-一个多边形由一个或多个线性环（Linear Ring）组成，一个线性环即一个闭合的线段。一个闭合线段至少由四个点组成，其中最后一个点和第一个点的坐标必须相同，以此表示环的起点和终点。如果一个多边形由多个线性环组成，则第一个线性环表示外环（外边界），接下来的所有线性环表示内环（即外环中的洞，不计在此多边形中的区域）。如果一个多边形只有一个线性环组成，则这个环就是外环。
+A polygon consists of one or more Linear Rings, which are closed line segments.A closed line segment consists of at least four points, the last of which must have the same coordinates as the first, thus indicating the start and end of the ring.If a polygon consists of more than one linear ring, the first linear ring represents the outer ring (the outer boundary) and all subsequent linear rings represent the inner ring (i.e. the hole in the outer ring, not counting the area within this polygon).If a polygon consists of only one linear ring, then this ring is the outer ring.
 
-多边形构造规则：
+Polygonal construction rules:
 
-1. 第一个线性环必须是外环
-2. 外环不能自交
-3. 所有内环必须完全在外环内
-4. 各个内环间不能相交或重叠，也不能有共同的边
-5. 外环应为逆时针，内环应为顺时针
+1. The first linear ring must be the outer ring
+2. The outer ring is not self-paying
+3. All inner rings must be completely within the outer ring
+4. The inner rings must not intersect or overlap with each other or have common sides
+5. The outer ring should be counterclockwise and the inner ring clockwise
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/Geo.Polygon.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/Geo.Polygon.html)
 
 ```tsx
 (lineStrings: JSONPolygon | GeoLineString[]) => GeoPolygon
 ```
 
-| 参数          | 类型                              |
+| Parameter   | WeChat Mini-Program             |
 | ----------- | ------------------------------- |
 | lineStrings | `JSONPolygon | GeoLineString[]` |
 
-##### 示例代码
+##### API Support
 
-###### 示例 1
+###### Example 1
 
-单环多边形
+In addition to constructing a MultiPolygon using the interface, the JSON representation of a MultiPolygon can also be used with the equivalent GeoJSON in the following format:
 
 ```tsx
 const { Polygon, LineString, Point } = db.Geo
@@ -2756,9 +2716,9 @@ db.collection('todos').add({
 }).then(console.log).catch(console.error)
 ```
 
-###### 示例 2
+###### Example 2
 
-含一个外环和一个内环的多边形
+Geographical location "Point"
 
 ```tsx
 const { Polygon, LineString, Point } = db.Geo
@@ -2775,20 +2735,23 @@ db.collection('todos').add({
 }).then(console.log).catch(console.error)
 ```
 
-###### 示例 3
+###### Example 3
 
-除了使用接口构造一个 Polygon 外，也可以使用等价的 GeoJSON 的 多边形 (Polygon) 的 JSON 表示，其格式如下：
+Formatted as a JSON structure
 
 ```json
-{
-  "type": "Polygon",
-  "coordinates": [
-    [ [lng, lat], [lng, lat], [lng, lat], ..., [lng, lat] ], // 外环
-    [ [lng, lat], [lng, lat], [lng, lat], ..., [lng, lat] ], // 可选内环 1
-    ...
-    [ [lng, lat], [lng, lat], [lng, lat], ..., [lng, lat] ], // 可选内环 n
-  ]
-}
+const { Polygon, LineString, Point } = db.Geo
+db.collection('todos').add({
+  data: {
+    description: 'eat an apple',
+    location: Polygon([
+      // Outer Ring
+      LineString([ Point(0, 0), Point(30, 20), Point(20, 30), Point(0, 0) ]),
+      // Inner Ring
+      LineString([ Point(10, 10), Point(16, 14), Point(14, 16), Point(10, 10) ])
+    ])
+  }
+}).then(console.log).catch(console.error)
 ```
 
 ```tsx
@@ -2806,31 +2769,31 @@ db.collection('todos').add({
 }).then(console.log).catch(console.error)
 ```
 
-##### API 支持度
+##### Sample Code
 
-|     API      | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| IGeo.Polygon |  ✔️   |       |        |         |        |    |              |     |
+|     API      | Type | Baidu Smart-Program | 支付宝小程序 | ByteDance Mini-Program | QQ 小程序 | H5 | React Native | Quick App |
+|:------------:|:----:|:-------------------:|:------:|:----------------------:|:------:|:--:|:------------:|:---------:|
+| IGeo.Polygon |  ✔️  |                     |        |                        |        |    |              |           |
 
 #### MultiPoint
 
-构造一个地理位置的 ”点“ 的集合。一个点集合由一个或更多的点组成。
+Constructs a collection of geolocated "points".A point collection consists of one or more points.
 
-如存储地理位置信息的字段有被查询的需求，务必对字段建立地理位置索引
+If a field storing geolocation information is required to be queried, a geolocation index will need to be created on the field
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/Geo.MultiPoint.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/Geo.MultiPoint.html)
 
 ```tsx
 (polygons: JSONMultiPolygon | GeoPolygon[]) => GeoMultiPolygon
 ```
 
-| 参数       | 类型                                |
+| 参数       | WeChat Mini-Program               |
 | -------- | --------------------------------- |
 | polygons | `JSONMultiPolygon | GeoPolygon[]` |
 
-##### 示例代码
+##### API Support
 
-###### 示例 1
+###### Example 1
 
 ```tsx
 db.collection('todos').add({
@@ -2839,15 +2802,14 @@ db.collection('todos').add({
     location: db.Geo.MultiPoint([
       db.Geo.Point(113, 23),
       db.Geo.Point(120, 50),
-      // ... 可选更多点
-    ])
+      // ... ])
   }
 }).then(console.log).catch(console.error)
 ```
 
-###### 示例 2
+###### Example 2
 
-除了使用接口构造 MultiPoint 外，也可以使用等价的 GeoJSON 的 点集合 (MultiPoint) 的 JSON 表示，其格式如下：
+Formatted as a JSON structure
 
 ```json
 {
@@ -2855,8 +2817,7 @@ db.collection('todos').add({
   "coordinates": [
     [p1_lng, p1_lat],
     [p2_lng, p2_lng]
-    // ... 可选更多点
-  ]
+    // ... ]
 }
 ```
 
@@ -2875,31 +2836,31 @@ db.collection('todos').add({
 }).then(console.log).catch(console.error)
 ```
 
-##### API 支持度
+##### Sample Code
 
-|       API       | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:---------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| IGeo.MultiPoint |  ✔️   |       |        |         |        |    |              |     |
+|       API       | Type | Baidu Smart-Program | 支付宝小程序 | ByteDance Mini-Program | QQ 小程序 | H5 | React Native | Quick App |
+|:---------------:|:----:|:-------------------:|:------:|:----------------------:|:------:|:--:|:------------:|:---------:|
+| IGeo.MultiPoint |  ✔️  |                     |        |                        |        |    |              |           |
 
 #### MultiLineString
 
-构造一个地理位置 ”线“ 集合。一个线集合由多条线组成。
+Constructs a geographic "line" collection.A line collection consists of multiple lines.
 
-如存储地理位置信息的字段有被查询的需求，务必对字段建立地理位置索引
+Geographical location "Polygon"
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/Geo.MultiLineString.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/Geo.MultiLineString.html)
 
 ```tsx
 (lineStrings: JSONMultiLineString | GeoLineString[]) => GeoMultiLineString
 ```
 
-| 参数          | 类型                                      |
+| 参数          | WeChat Mini-Program                     |
 | ----------- | --------------------------------------- |
 | lineStrings | `JSONMultiLineString | GeoLineString[]` |
 
-##### 示例代码
+##### API Support
 
-###### 示例 1
+###### Example 1
 
 ```tsx
 const { LineString, MultiLineString, Point } = db.Geo
@@ -2914,9 +2875,9 @@ db.collection('todos').add({
 }).then(console.log).catch(console.error)
 ```
 
-###### 示例 2
+###### Example 2
 
-除了使用接口构造一个 MultiLineString 外，也可以使用等价的 GeoJSON 的 线集合 (MultiLineString) 的 JSON 表示，其格式如下：
+Formatted as a JSON structure
 
 ```json
 {
@@ -2924,8 +2885,7 @@ db.collection('todos').add({
   "coordinates": [
     [ [lng, lat], [lng, lat], [lng, lat], ..., [lng, lat] ],
     [ [lng, lat], [lng, lat], [lng, lat], ..., [lng, lat] ],
-    ...
-    [ [lng, lat], [lng, lat], [lng, lat], ..., [lng, lat] ]
+    ... [ [lng, lat], [lng, lat], [lng, lat], ..., [lng, lat] ]
   ]
 }
 ```
@@ -2945,43 +2905,43 @@ db.collection('todos').add({
 }).then(console.log).catch(console.error)
 ```
 
-##### API 支持度
+##### Sample Code
 
-|         API          | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:--------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| IGeo.MultiLineString |  ✔️   |       |        |         |        |    |              |     |
+|         API          | Type | Baidu Smart-Program | 支付宝小程序 | ByteDance Mini-Program | QQ 小程序 | H5 | React Native | Quick App |
+|:--------------------:|:----:|:-------------------:|:------:|:----------------------:|:------:|:--:|:------------:|:---------:|
+| IGeo.MultiLineString |  ✔️  |                     |        |                        |        |    |              |           |
 
 #### MultiPolygon
 
-构造一个地理位置 ”多边形“ 集合。一个多边形集合由多个多边形组成。
+Constructs a geographic "polygon" set.A polygon set consists of multiple polygons.
 
-如存储地理位置信息的字段有被查询的需求，务必对字段建立地理位置索引
+If a field storing geolocation information is required to be queried, a geolocation index will need to be created on the field
 
-**说明**
+**Reference**
 
-一个多边形由一个或多个线性环（Linear Ring）组成，一个线性环即一个闭合的线段。一个闭合线段至少由四个点组成，其中最后一个点和第一个点的坐标必须相同，以此表示环的起点和终点。如果一个多边形由多个线性环组成，则第一个线性环表示外环（外边界），接下来的所有线性环表示内环（即外环中的洞，不计在此多边形中的区域）。如果一个多边形只有一个线性环组成，则这个环就是外环。
+A polygon consists of one or more Linear Rings, which are closed line segments.A closed line segment consists of at least four points, the last of which must have the same coordinates as the first, thus indicating the start and end of the ring.If a polygon consists of more than one linear ring, the first linear ring represents the outer ring (the outer boundary) and all subsequent linear rings represent the inner ring (i.e. the hole in the outer ring, not counting the area within this polygon).If a polygon consists of only one linear ring, then this ring is the outer ring.
 
-多边形构造规则：
+Polygonal construction rules:
 
-1. 第一个线性环必须是外环
-2. 外环不能自交
-3. 所有内环必须完全在外环内
-4. 各个内环间不能相交或重叠，也不能有共同的边
-5. 外环应为逆时针，内环应为顺时针
+1. The first linear ring must be the outer ring
+2. The outer ring is not self-paying
+3. All inner rings must be completely within the outer ring
+4. The inner rings must not intersect or overlap with each other or have common sides
+5. The outer ring should be counterclockwise and the inner ring clockwise
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/Geo.MultiPolygon.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/Geo.MultiPolygon.html)
 
 ```tsx
 (polygons: JSONMultiPolygon | GeoPolygon[]) => GeoMultiPolygon
 ```
 
-| 参数       | 类型                                |
+| 参数       | WeChat Mini-Program               |
 | -------- | --------------------------------- |
 | polygons | `JSONMultiPolygon | GeoPolygon[]` |
 
-##### 示例代码
+##### API Support
 
-###### 示例 1
+###### Example 1
 
 ```tsx
 const { MultiPolygon, Polygon, LineString, Point } = db.Geo
@@ -3001,9 +2961,9 @@ db.collection('todos').add({
 }).then(console.log).catch(console.error)
 ```
 
-###### 示例 2
+###### Example 2
 
-除了使用接口构造一个 MultiPolygon 外，也可以使用等价的 GeoJSON 的 多边形 (MultiPolygon) 的 JSON 表示，其格式如下：
+Formatted as a JSON structure
 
 ```json
 {
@@ -3013,16 +2973,13 @@ db.collection('todos').add({
     [
       [ [lng, lat], [lng, lat], [lng, lat], ..., [lng, lat] ],
       [ [lng, lat], [lng, lat], [lng, lat], ..., [lng, lat] ],
-      ...
-      [ [lng, lat], [lng, lat], [lng, lat], ..., [lng, lat] ]
+      ... [ [lng, lat], [lng, lat], [lng, lat], ..., [lng, lat] ]
     ],
-    ...
-    // polygon n
+    ... // polygon n
     [
       [ [lng, lat], [lng, lat], [lng, lat], ..., [lng, lat] ],
       [ [lng, lat], [lng, lat], [lng, lat], ..., [lng, lat] ],
-      ...
-      [ [lng, lat], [lng, lat], [lng, lat], ..., [lng, lat] ]
+      ... [ [lng, lat], [lng, lat], [lng, lat], ..., [lng, lat] ]
     ],
   ]
 }
@@ -3048,26 +3005,26 @@ db.collection('todos').add({
 }).then(console.log).catch(console.error)
 ```
 
-##### API 支持度
+##### Sample Code
 
-|        API        | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:-----------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-| IGeo.MultiPolygon |  ✔️   |       |        |         |        |    |              |     |
+|        API        | Type | Baidu Smart-Program | 支付宝小程序 | ByteDance Mini-Program | QQ 小程序 | H5 | React Native | Quick App |
+|:-----------------:|:----:|:-------------------:|:------:|:----------------------:|:------:|:--:|:------------:|:---------:|
+| IGeo.MultiPolygon |  ✔️  |                     |        |                        |        |    |              |           |
 
 #### GeoPoint
 
-地理位置 “点”
+Formatted as a string
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/GeoPoint.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/GeoPoint.html)
 
-| 参数        | 类型       | 说明 |
-| --------- | -------- | -- |
-| longitude | `number` | 经度 |
-| latitude  | `number` | 纬度 |
+| 参数        | WeChat Mini-Program | Baidu Smart-Program |
+| --------- | ------------------- | ------------------- |
+| longitude | `number`            | Latitude            |
+| latitude  | `number`            | Coordinates         |
 
 ##### toJSON
 
-格式化为 JSON 结构
+Formatted as a JSON structure
 
 ```tsx
 () => object
@@ -3075,7 +3032,7 @@ db.collection('todos').add({
 
 ##### toString
 
-格式化为字符串
+Formatted as a JSON structure
 
 ```tsx
 () => string
@@ -3083,17 +3040,17 @@ db.collection('todos').add({
 
 #### GeoLineString
 
-地理位置的 ”线“。一个线由两个或更多的点有序连接组成。
+The 'line' of geographic position.A line consists of two or more points connected in an orderly fashion.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/GeoLineString.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/GeoLineString.html)
 
-| 参数     | 类型           | 说明  |
-| ------ | ------------ | --- |
-| points | `GeoPoint[]` | 点集合 |
+| Property | Type         | Description |
+| -------- | ------------ | ----------- |
+| points   | `GeoPoint[]` | Longitude   |
 
 ##### toJSON
 
-格式化为 JSON 结构
+JSON structure of the geographic "dot"
 
 ```tsx
 () => JSONLineString
@@ -3101,7 +3058,7 @@ db.collection('todos').add({
 
 ##### toString
 
-格式化为字符串
+JSON structure of the geographic "line"
 
 ```tsx
 () => string
@@ -3109,17 +3066,17 @@ db.collection('todos').add({
 
 #### GeoPolygon
 
-地理位置 ”多边形“
+JSON structure of the geographic "polygon"
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/GeoPolygon.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/GeoPolygon.html)
 
-| 参数    | 类型                | 说明  |
-| ----- | ----------------- | --- |
-| lines | `GeoLineString[]` | 线集合 |
+| Property | Type              | Description          |
+| -------- | ----------------- | -------------------- |
+| lines    | `GeoLineString[]` | Collection of points |
 
 ##### toJSON
 
-格式化为 JSON 结构
+JSON structure of a geographic "dot" set.
 
 ```tsx
 () => JSONPolygon
@@ -3127,7 +3084,7 @@ db.collection('todos').add({
 
 ##### toString
 
-格式化为字符串
+JSON structure of a geographic "line" set.
 
 ```tsx
 () => string
@@ -3135,17 +3092,17 @@ db.collection('todos').add({
 
 #### GeoMultiPoint
 
-地理位置的 ”点“ 的集合。一个点集合由一个或更多的点组成。
+A collection of "points" in a geographic location.A point collection consists of one or more points.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/GeoMultiPoint.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/GeoMultiPoint.html)
 
-| 参数     | 类型           | 说明  |
-| ------ | ------------ | --- |
-| points | `GeoPoint[]` | 点集合 |
+| Property | Type         | Description        |
+| -------- | ------------ | ------------------ |
+| points   | `GeoPoint[]` | Collection of line |
 
 ##### toJSON
 
-格式化为 JSON 结构
+JSON structure of a geographic "polygon" set.
 
 ```tsx
 () => JSONMultiPoint
@@ -3153,7 +3110,7 @@ db.collection('todos').add({
 
 ##### toString
 
-格式化为字符串
+Formatted as a string
 
 ```tsx
 () => string
@@ -3161,13 +3118,13 @@ db.collection('todos').add({
 
 #### GeoMultiLineString
 
-地理位置 ”线“ 集合。一个线集合由多条线组成。
+Geographical Location "Line" Collection.A line collection consists of multiple lines.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/GeoMultiLineString.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/GeoMultiLineString.html)
 
-| 参数    | 类型                | 说明  |
-| ----- | ----------------- | --- |
-| lines | `GeoLineString[]` | 线集合 |
+| Property | Type              | Description          |
+| -------- | ----------------- | -------------------- |
+| lines    | `GeoLineString[]` | Collection of points |
 
 ##### toJSON
 
@@ -3179,7 +3136,7 @@ db.collection('todos').add({
 
 ##### toString
 
-格式化为字符串
+Formatted as a string
 
 ```tsx
 () => string
@@ -3187,13 +3144,13 @@ db.collection('todos').add({
 
 #### GeoMultiPolygon
 
-地理位置 ”多边形“ 集合。一个多边形集合由多个多边形组成。
+Geographical position "polygon" set.A polygon set consists of multiple polygons.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/GeoMultiPolygon.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/GeoMultiPolygon.html)
 
-| 参数       | 类型             | 说明    |
-| -------- | -------------- | ----- |
-| polygons | `GeoPolygon[]` | 多边形集合 |
+| Property | Type           | Description        |
+| -------- | -------------- | ------------------ |
+| polygons | `GeoPolygon[]` | Collection of line |
 
 ##### toJSON
 
@@ -3205,7 +3162,7 @@ db.collection('todos').add({
 
 ##### toString
 
-格式化为字符串
+Formatted as a string
 
 ```tsx
 () => string
@@ -3215,63 +3172,63 @@ db.collection('todos').add({
 
 地理位置 “点” 的 JSON 结构
 
-| 参数          | 类型                 | 说明 |
-| ----------- | ------------------ | -- |
-| type        | `"Point"`          | 类型 |
-| coordinates | `[number, number]` | 坐标 |
+| Property    | Type               | Description                    |
+| ----------- | ------------------ | ------------------------------ |
+| type        | `"Point"`          | Collection of points Polygonal |
+| coordinates | `[number, number]` | 坐标                             |
 
 #### JSONLineString
 
 地理位置 ”线“ 的 JSON 结构
 
-| 参数          | 类型                   | 说明 |
-| ----------- | -------------------- | -- |
-| type        | `"LineString"`       | 类型 |
-| coordinates | `[number, number][]` | 坐标 |
+| Property    | Type                 | Description |
+| ----------- | -------------------- | ----------- |
+| type        | `"LineString"`       | Type        |
+| coordinates | `[number, number][]` | Coordinates |
 
 #### JSONPolygon
 
 地理位置 ”多边形“ 的 JSON 结构
 
-| 参数          | 类型                     | 说明 |
-| ----------- | ---------------------- | -- |
-| type        | `"Polygon"`            | 类型 |
-| coordinates | `[number, number][][]` | 坐标 |
+| Property    | Type                   | Description |
+| ----------- | ---------------------- | ----------- |
+| type        | `"Polygon"`            | Type        |
+| coordinates | `[number, number][][]` | Coordinates |
 
 #### JSONMultiPoint
 
-地理位置的 ”点“ 集合的 JSON 结构
+Database geolocation structure set
 
-| 参数          | 类型                   | 说明 |
-| ----------- | -------------------- | -- |
-| type        | `"MultiPoint"`       | 类型 |
-| coordinates | `[number, number][]` | 坐标 |
+| Property    | Type                 | Description |
+| ----------- | -------------------- | ----------- |
+| type        | `"MultiPoint"`       | Type        |
+| coordinates | `[number, number][]` | Coordinates |
 
 #### JSONMultiLineString
 
 地理位置 ”线“ 集合的 JSON 结构
 
-| 参数          | 类型                     | 说明 |
-| ----------- | ---------------------- | -- |
-| type        | `"MultiLineString"`    | 类型 |
-| coordinates | `[number, number][][]` | 坐标 |
+| Property    | Type                   | Description |
+| ----------- | ---------------------- | ----------- |
+| type        | `"MultiLineString"`    | Type        |
+| coordinates | `[number, number][][]` | Coordinates |
 
 #### JSONMultiPolygon
 
 地理位置 ”多边形“ 集合的 JSON 结构
 
-| 参数          | 类型                       | 说明 |
-| ----------- | ------------------------ | -- |
-| type        | `"MultiPolygon"`         | 类型 |
-| coordinates | `[number, number][][][]` | 坐标 |
+| Property    | Type                     | Description |
+| ----------- | ------------------------ | ----------- |
+| type        | `"MultiPolygon"`         | Type        |
+| coordinates | `[number, number][][][]` | Coordinates |
 
-#### API 支持度
+#### API Support
 
-|         API          | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-|:--------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|:---:|
-|      IGeo.Point      |  ✔️   |       |        |         |        |    |              |     |
-|   IGeo.LineString    |  ✔️   |       |        |         |        |    |              |     |
-|     IGeo.Polygon     |  ✔️   |       |        |         |        |    |              |     |
-|   IGeo.MultiPoint    |  ✔️   |       |        |         |        |    |              |     |
-| IGeo.MultiLineString |  ✔️   |       |        |         |        |    |              |     |
-|  IGeo.MultiPolygon   |  ✔️   |       |        |         |        |    |              |     |
+|         API          | Type | Description | 支付宝小程序 | ByteDance Mini-Program | QQ 小程序 | H5 | React Native | Quick App |
+|:--------------------:|:----:|:-----------:|:------:|:----------------------:|:------:|:--:|:------------:|:---------:|
+|      IGeo.Point      |  ✔️  |             |        |                        |        |    |              |           |
+|   IGeo.LineString    |  ✔️  |             |        |                        |        |    |              |           |
+|     IGeo.Polygon     |  ✔️  |             |        |                        |        |    |              |           |
+|   IGeo.MultiPoint    |  ✔️  |             |        |                        |        |    |              |           |
+| IGeo.MultiLineString |  ✔️  |             |        |                        |        |    |              |           |
+|  IGeo.MultiPolygon   |  ✔️  |             |        |                        |        |    |              |           |
