@@ -3,82 +3,82 @@ title: Taro.closeSocket(option)
 sidebar_label: closeSocket
 ---
 
-关闭 WebSocket 连接
+Disables the WebSocket connection
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.closeSocket.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.closeSocket.html)
 
-## 类型
+## Type
 
 ```tsx
 (option?: Option) => Promise<CallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>code</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>一个数字值表示关闭连接的状态号，表示连接被关闭的原因。</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>A numeric value indicates the status code explaining why the connection has been disabled.</td>
     </tr>
     <tr>
       <td>complete</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>fail</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>reason</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>一个可读的字符串，表示连接被关闭的原因。这个字符串必须是不长于 123 字节的 UTF-8 文本（不是字符）。</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>A readable string explaining why the connection has been disabled.This string must be a UTF-8-encoded text (not characters) with not more than 123 bytes.</td>
     </tr>
     <tr>
       <td>success</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.connectSocket({
   url: 'test.php'
 })
-//注意这里有时序问题，
-//如果 Taro.connectSocket 还没回调 Taro.onSocketOpen，而先调用 Taro.closeSocket，那么就做不到关闭 WebSocket 的目的。
-//必须在 WebSocket 打开期间调用 Taro.closeSocket 才能关闭。
+
+//Pay attention to the operation sequence
+//If you call  wx.closeSocket before the  wx.onSocketOpen callback for  wx.connectSocket ,  WebSocket  connection cannot be disabled.
+//You can only call wx.closeSocket to disable the connection when WebSocket is enabled.
 Taro.onSocketOpen(function() {
   Taro.closeSocket()
 })
 Taro.onSocketClose(function(res) {
-  console.log('WebSocket 已关闭！')
-})
+  console.log('WebSocket Disabled!')})
 ```
 
-## API 支持度
+## API Support
 
-|       API        | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
-|:----------------:|:-----:|:-----:|:------:|:--:|:------------:|
-| Taro.closeSocket |  ✔️   |  ✔️   |   ✔️   |    |              |
+|       API        | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | H5 | React Native |
+|:----------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| Taro.closeSocket |         ✔️          |         ✔️          |         ✔️          |    |              |
