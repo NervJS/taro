@@ -3,27 +3,27 @@ title: Taro.addInterceptor(callback)
 sidebar_label: addInterceptor
 ---
 
-> 最低 Taro 版本: 1.2.16
+> Minimum Taro version: 1.2.16
 
-可以使用拦截器在请求发出前或发出后做一些额外操作。
+Interceptors can be used to perform additional actions before or after the request is made.
 
-在调用 `Taro.request` 发起请求之前，调用 `Taro.addInterceptor` 方法为请求添加拦截器，拦截器的调用顺序遵循洋葱模型。 拦截器是一个函数，接受 chain 对象作为参数。chain 对象中含有 **requestParmas** 属性，代表请求参数。拦截器内最后需要调用 `chain.proceed(requestParams)` 以调用下一个拦截器或发起请求。
+Before calling `Taro.request` to initiate the request, the `Taro.addInterceptor` method is called to add an interceptor to the request. In addition, the order in which interceptors are called follows the onion model. 拦截器是一个函数，接受 chain 对象作为参数。chain 对象中含有 **requestParmas** 属性，代表请求参数。拦截器内最后需要调用 `chain.proceed(requestParams)` 以调用下一个拦截器或发起请求。
 
-Taro 提供了两个内置拦截器 `logInterceptor` 与 `timeoutInterceptor`，分别用于打印请求的相关信息和在请求超时时抛出错误。
+Taro provides two built-in interceptors, `logInterceptor` and `timeoutInterceptor`, which are used to print information about the request and to throw an error if the request times out, respectively.
 
-## 类型
+## Type
 
 ```tsx
 (callback: Function) => void
 ```
 
-## 参数
+## Parameters
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -34,9 +34,9 @@ Taro 提供了两个内置拦截器 `logInterceptor` 与 `timeoutInterceptor`，
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
-### 示例 1
+### Example 1
 
 ```tsx
 const interceptor = function (chain) {
@@ -55,7 +55,7 @@ Taro.addInterceptor(interceptor)
 Taro.request({ url })
 ```
 
-### 示例 2
+### Example 2
 
 ```tsx
 Taro.addInterceptor(Taro.interceptors.logInterceptor)
@@ -63,8 +63,8 @@ Taro.addInterceptor(Taro.interceptors.timeoutInterceptor)
 Taro.request({ url })
 ```
 
-## API 支持度
+## API Support
 
-|         API         | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native |
-|:-------------------:|:-----:|:-----:|:------:|:-------:|:------:|:--:|:------------:|
-| Taro.addInterceptor |  ✔️   |  ✔️   |   ✔️   |   ✔️    |   ✔️   | ✔️ |              |
+|         API         | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | ByteDance Mini-Program | QQ Mini-Program | H5 | React Native |
+|:-------------------:|:-------------------:|:-------------------:|:-------------------:|:----------------------:|:---------------:|:--:|:------------:|
+| Taro.addInterceptor |         ✔️          |         ✔️          |         ✔️          |           ✔️           |       ✔️        | ✔️ |              |
