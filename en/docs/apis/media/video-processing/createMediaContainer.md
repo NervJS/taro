@@ -3,20 +3,20 @@ title: Taro.createMediaContainer()
 sidebar_label: createMediaContainer
 ---
 
-创建音视频处理容器，最终可将容器中的轨道合成一个视频
+Create an audio/video processing container, which can eventually be used to combine the tracks in the container into a single video.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video-processing/wx.createMediaContainer.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/video-processing/wx.createMediaContainer.html)
 
-## 类型
+## Type
 
 ```tsx
 () => MediaContainer
 ```
 
-## 参数
+## Parameters
 
-## API 支持度
+## API Support
 
-|            API            | 微信小程序 | H5 | React Native |
-|:-------------------------:|:-----:|:--:|:------------:|
-| Taro.createMediaContainer |  ✔️   |    |              |
+|            API            | WeChat Mini-Program | H5 | React Native |
+|:-------------------------:|:-------------------:|:--:|:------------:|
+| Taro.createMediaContainer |         ✔️          |    |              |
