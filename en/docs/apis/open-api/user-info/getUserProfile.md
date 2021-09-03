@@ -3,69 +3,69 @@ title: Taro.getUserProfile(option)
 sidebar_label: getUserProfile
 ---
 
-获取用户信息。每次请求都会弹出授权窗口，用户同意后返回 `userInfo`。
+Gets information about the user.The authorization dialog pops up with each request and returns `userInfo` when the user agrees.
 
-:::tip 微信基础库 2.10.4 开始支持
+:::tip WeChat Foundation Library 2.10.4 started to support
 
-Taro 2.2.17，3.0.29，3.1，3.2 已经支持 :::
+Taro 2.2.17，3.0.29，3.1，3.2 already supported. :::
 
 
-> [微信端调整背景和说明，请参考文档](https://developers.weixin.qq.com/community/develop/doc/000cacfa20ce88df04cb468bc52801)
+> [WeChat adjustment background and instructions](https://developers.weixin.qq.com/community/develop/doc/000cacfa20ce88df04cb468bc52801)
 
 ## getUserProfile
 
-若开发者需要获取用户的个人信息（头像、昵称、性别与地区），可以通过 Taro.getUserProfile 接口进行获取，微信该接口从基础库 **2.10.4** 版本开始支持，该接口只返回用户个人信息，不包含用户身份标识符。该接口中 desc 属性（声明获取用户个人信息后的用途）后续会展示在弹窗中，请开发者谨慎填写。
+The user's personal information (avatar, nickname, gender and region) can be retrieved via the `Taro.getUserProfile` interface. This interface is supported by WeChat since version **2.10.4** of the base library and returns only the user's personal information, not the user identifier.The desc attribute of this interface (declaring what the user's personal information will be used for) will be displayed in a pop-up window later, so please fill in the form carefully.
 
-开发者每次通过该接口获取用户个人信息均需用户确认，请开发者妥善保管用户快速填写的头像昵称，避免重复弹窗。
+Each time a developer obtains personal information from a user through this interface, user confirmation is required, so please keep the user's quickly filled in avatar nickname safe to avoid repeated pop-ups.
 
-## 类型
+## Type
 
 ```tsx
 (option?: Option) => Promise<SuccessCallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The language of the displayed user information</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The callback function for a successful API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>lang</td>
       <td><code>&quot;en&quot; | &quot;zh_CN&quot; | &quot;zh_TW&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>显示用户信息的语言（en: 英文；zh_CN：简体中文；zh_TW：繁体中文</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>desc</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
+      <td style={{ textAlign: "center"}}>No</td>
       <td>声明获取用户个人信息后的用途，不超过 30 个字符</td>
     </tr>
   </tbody>
@@ -76,52 +76,50 @@ Taro 2.2.17，3.0.29，3.1，3.2 已经支持 :::
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>cloudID</td>
       <td><code>string</code></td>
-      <td>敏感数据对应的云 ID，开通<a href="https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html">云开发</a>的小程序才会返回，可通过云调用直接获取开放数据，详细见<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#method-cloud">云调用直接获取开放数据</a></td>
+      <td>The Cloud ID corresponding to sensitive data. It is returned only in Mini Programs for which <a href="https://developers.weixin.qq.com/miniprogram/en/dev/wxcloud/basis/getting-started.html">Cloud Base</a> is enabled. The open data can be directly obtained via cloud call. See <a href="https://developers.weixin.qq.com/miniprogram/en/dev/framework/open-ability/signature.html#method-cloud">details</a>.</td>
     </tr>
     <tr>
       <td>encryptedData</td>
       <td><code>string</code></td>
-      <td>包括敏感数据在内的完整用户信息的加密数据，详见 <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html">用户数据的签名验证和加解密</a></td>
+      <td>The complete encrypted user data, including the sensitive data. For details, see <a href="https://developers.weixin.qq.com/miniprogram/en/dev/framework/open-ability/signature.html#Encryption-Algorithm-for-Encrypted-Data">signature, verification, encryption, and decryption of user data</a>.</td>
     </tr>
     <tr>
       <td>iv</td>
       <td><code>string</code></td>
-      <td>加密算法的初始向量，详见 <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#%E5%8A%A0%E5%AF%86%E6%95%B0%E6%8D%AE%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95">用户数据的签名验证和加解密</a></td>
+      <td>The initial vector of the encryption algorithm. For details, see <a href="https://developers.weixin.qq.com/miniprogram/en/dev/framework/open-ability/signature.html#Encryption-Algorithm-for-Encrypted-Data">signature, verification, encryption, and decryption of user data</a>.</td>
     </tr>
     <tr>
       <td>rawData</td>
       <td><code>string</code></td>
-      <td>不包括敏感信息的原始数据字符串，用于计算签名</td>
+      <td>Raw data string that excludes sensitive information and is used to calculate signatures.</td>
     </tr>
     <tr>
       <td>signature</td>
       <td><code>string</code></td>
-      <td>使用 sha1( rawData + sessionkey ) 得到字符串，用于校验用户信息，详见 <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html">用户数据的签名验证和加解密</a></td>
+      <td>The string generated with SHA-1 (rawData + sessionkey), which is used to verify the user information. For details, see <a href="https://developers.weixin.qq.com/miniprogram/en/dev/framework/open-ability/signature.html#Encryption-Algorithm-for-Encrypted-Data">signature, verification, encryption, and decryption of user data</a>.</td>
     </tr>
     <tr>
       <td>userInfo</td>
       <td> UserInfo </td>
-      <td>用户信息对象 (文档参考 API > 开发接口 > 用户信息 > UserInfo)</td>
+      <td>User information object, excluding openid and other sensitive information.</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
-// 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认
-// 开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
 Taro.getUserProfile({
-  desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+  desc: 'For completing member profiles',
   success: (res) => {
     this.setState({
       userInfo: res.userInfo,
@@ -131,13 +129,13 @@ Taro.getUserProfile({
 })
 ```
 
-## API 支持度
+## API Support
 
-|         API         | 微信小程序 | H5 | React Native |
-|:-------------------:|:-----:|:--:|:------------:|
-| Taro.getUserProfile |  ✔️   |    |              |
+|         API         | WeChat Mini-Program | H5 | React Native |
+|:-------------------:|:-------------------:|:--:|:------------:|
+| Taro.getUserProfile |         ✔️          |    |              |
 
 
-## 相关资料
+## Other
 
-相关 issue : [Taro什么时候支持 getUserProfile 方法](https://github.com/NervJS/taro/issues/8810)
+issue : [Taro什么时候支持 getUserProfile 方法](https://github.com/NervJS/taro/issues/8810)
