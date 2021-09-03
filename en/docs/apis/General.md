@@ -3,169 +3,169 @@ title: General
 sidebar_label: General
 ---
 
-## 参数
+## Parameters
 
 ### CallbackResult
 
-通用错误
+Generic error results
 
-| 参数     | 类型       | 说明   |
-| ------ | -------- | ---- |
-| errMsg | `string` | 错误信息 |
+| Property | Type     | Description   |
+| -------- | -------- | ------------- |
+| errMsg   | `string` | Error message |
 
 ### BluetoothError
 
-蓝牙错误
+Bluetooth error
 
-| 参数      | 类型                                                                                                  | 说明   |
-| ------- | --------------------------------------------------------------------------------------------------- | ---- |
-| errMsg  | `string`                                                                                            | 错误信息 |
-| errCode | `0 | 10000 | 10001 | 10002 | 10003 | 10004 | 10005 | 10006 | 10007 | 10008 | 10009 | 10012 | 10013` | 错误码  |
+| Property | Type                                                                                    | Description   |
+| -------- | --------------------------------------------------------------------------------------- | ------------- |
+| errMsg   | `string`                                                                                | Error message |
+| errCode  | `0, 10000, 10001, 10002, 10003, 10004, 10005, 10006, 10007, 10008, 10009, 10012, 10013` | Error code    |
 
 ### WifiError
 
-WIFI 错误
+WIFI error
 
-| 参数      | 类型                                                                                                          | 说明   |
-| ------- | ----------------------------------------------------------------------------------------------------------- | ---- |
-| errMsg  | `string`                                                                                                    | 错误信息 |
-| errCode | `0 | 12000 | 12001 | 12002 | 12003 | 12004 | 12005 | 12006 | 12007 | 12008 | 12009 | 12010 | 12011 | 12013` | 错误码  |
+| Property | Type                                                                                           | Description   |
+| -------- | ---------------------------------------------------------------------------------------------- | ------------- |
+| errMsg   | `string`                                                                                       | Error message |
+| errCode  | `0, 12000, 12001, 12002, 12003, 12004, 12005, 12006, 12007, 12008, 12009, 12010, 12011, 12013` | Error code    |
 
 ### NFCError
 
-NFC 错误
+NFC error
 
-| 参数      | 类型                                                          | 说明   |
-| ------- | ----------------------------------------------------------- | ---- |
-| errMsg  | `string`                                                    | 错误信息 |
-| errCode | `0 | 13000 | 13001 | 13002 | 13003 | 13004 | 13005 | 13006` | 错误码  |
+| Property | Type                                                 | Description   |
+| -------- | ---------------------------------------------------- | ------------- |
+| errMsg   | `string`                                             | Error message |
+| errCode  | `0, 13000, 13001, 13002, 13003, 13004, 13005, 13006` | Error code    |
 
 ### IBeaconError
 
-iBeacon 错误
+iBeacon error
 
-| 参数      | 类型                                                          | 说明   |
-| ------- | ----------------------------------------------------------- | ---- |
-| errMsg  | `string`                                                    | 错误信息 |
-| errCode | `0 | 11000 | 11001 | 11002 | 11003 | 11004 | 11005 | 11006` | 错误码  |
+| Property | Type                                                 | Description   |
+| -------- | ---------------------------------------------------- | ------------- |
+| errMsg   | `string`                                             | Error message |
+| errCode  | `0, 11000, 11001, 11002, 11003, 11004, 11005, 11006` | Error code    |
 
 ### SafeAreaResult
 
-在竖屏正方向下的安全区域
+Safe area when in the positive direction of the vertical screen
 
-| 参数     | 类型       | 说明             |
-| ------ | -------- | -------------- |
-| bottom | `number` | 安全区域右下角纵坐标     |
-| height | `number` | 安全区域的高度，单位逻辑像素 |
-| left   | `number` | 安全区域左上角横坐标     |
-| right  | `number` | 安全区域右下角横坐标     |
-| top    | `number` | 安全区域左上角纵坐标     |
-| width  | `number` | 安全区域的宽度，单位逻辑像素 |
+| Property | Type     | Description                                                          |
+| -------- | -------- | -------------------------------------------------------------------- |
+| bottom   | `number` | The vertical coordinate of the lower right corner of the safe area.  |
+| height   | `number` | Height of the safe area in logical pixels.                           |
+| left     | `number` | The horizontal coordinate of the upper left corner of the safe area. |
+| right    | `number` | Horizontal coordinate of the lower right corner of the safe area.    |
+| top      | `number` | Vertical coordinates of the upper left corner of the safe area.      |
+| width    | `number` | Width of the safe area in logical pixels.                            |
 
 ### AdErrCode
 
-广告错误码
+An error code is obtained by executing the binderror callback.
 
 错误码是通过onError获取到的错误信息。调试期间，可以通过异常返回来捕获信息。 在小程序发布上线之后，如果遇到异常问题，可以在[“运维中心“](https://mp.weixin.qq.com/)里面搜寻错误日志，还可以针对异常返回加上适当的监控信息。
 
-| 参数   |    异常情况    |                 理由                  |                                      解决方案                                      |
-| ---- |:----------:|:-----------------------------------:|:------------------------------------------------------------------------------:|
-| 1000 | `后端接口调用失败` |          `该项错误不是开发者的异常情况`           |                               `一般情况下忽略一段时间即可恢复。`                               |
-| 1001 |   `参数错误`   |              `使用方法错误`               | `可以前往 developers.weixin.qq.com 确认具体教程（小程序和小游戏分别有各自的教程，可以在顶部选项中，“设计”一栏的右侧进行切换。` |
-| 1002 |  `广告单元无效`  |      `可能是拼写错误、或者误用了其他APP的广告ID`      |                       `请重新前往 mp.weixin.qq.com 确认广告位ID。`                        |
-| 1003 |   `内部错误`   |          `该项错误不是开发者的异常情况`           |                               `一般情况下忽略一段时间即可恢复。`                               |
-| 1004 |  `无合适的广告`  | `广告不是每一次都会出现，这次没有出现可能是由于该用户不适合浏览广告` |                         `属于正常情况，且开发者需要针对这种情况做形态上的兼容。`                          |
-| 1005 | `广告组件审核中`  |         `你的广告正在被审核，无法展现广告`          |               `请前往 mp.weixin.qq.com 确认审核状态，且开发者需要针对这种情况做形态上的兼容。`               |
-| 1006 | `广告组件被驳回`  |          `你的广告审核失败，无法展现广告`          |               `请前往 mp.weixin.qq.com 确认审核状态，且开发者需要针对这种情况做形态上的兼容。`               |
-| 1007 | `广告组件被封禁`  |      `你的广告能力已经被封禁，封禁期间无法展现广告`       |                      `请前往 mp.weixin.qq.com 确认小程序广告封禁状态。`                       |
-| 1008 | `广告单元已关闭`  |          `该广告位的广告能力已经被关闭`           |                      `请前往 mp.weixin.qq.com 重新打开对应广告位的展现。`                      |
+| Code |               Exception               |                                  Cause                                   |                                                                                                                   Solution                                                                                                                   |
+| ---- |:-------------------------------------:|:------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| 1000 | `Call failed due to a backend error`  |                `This error is not caused by developers.`                 |                                                                                                              `一般情况下忽略一段时间即可恢复。`                                                                                                              |
+| 1001 |           `Parameter error`           |                   `The parameter is incorrectly used.`                   | `For details, visit developers.weixin.qq.com. (There are different courses specific to Mini Programs and Mini Games. In the top tab, you can switch between the courses on the right of the <strong x-id="1">Design</strong> column.)` |
+| 1002 |           `Invalid ad unit`           | `The spelling may be incorrect or the ad ID of another app may be used.` |                                                                                                `Visit mp.weixin.qq.com to confirm the ad ID.`                                                                                                |
+| 1003 |           `Internal error`            |                `This error is not caused by developers.`                 |                                                                                                              `一般情况下忽略一段时间即可恢复。`                                                                                                              |
+| 1004 |           `No suitable ad`            |      `Your ad is being reviewed and therefore cannot be displayed.`      |                                                                            `This is a normal case. In addition, you need to improve compatibility in this case.`                                                                             |
+| 1005 | `The ad component is being reviewed.` |  `Your ad failed to pass the review and therefore cannot be displayed.`  |                                                              `Visit mp.weixin.qq.com to check the review status. In addition, you need to improve compatibility in this case.`                                                               |
+| 1006 |    `The ad component is rejected.`    |    `The advertising capability in the advertising space is disabled.`    |                                                              `Visit mp.weixin.qq.com to check the review status. In addition, you need to improve compatibility in this case.`                                                               |
+| 1007 |    `The ad component is rejected.`    |                        `The ad unit is disabled.`                        |                                                                                   `Visit mp.weixin.qq.com to check the Mini Program ad suspension status.`                                                                                   |
+| 1008 |               `广告单元已关闭`               |               `Your advertising capability is suspended.`                |                                                                                   `Visit mp.weixin.qq.com to enable the display in the advertising space.`                                                                                   |
 
 ### BluetoothErrCode
 
-蓝牙错误码
+iBeacon error code
 
-| 参数    |          异常情况          | 说明                              |
-| ----- |:----------------------:| ------------------------------- |
-| 0     |          `ok`          | 正常                              |
-| 10000 |       `not init`       | 未初始化蓝牙适配器                       |
-| 10001 |    `not available`     | 当前蓝牙适配器不可用                      |
-| 10002 |      `no device`       | 没有找到指定设备                        |
-| 10003 |   `connection fail`    | 连接失败                            |
-| 10004 |      `no service`      | 没有找到指定服务                        |
-| 10005 |  `no characteristic`   | 没有找到指定特征值                       |
-| 10006 |    `no connection`     | 当前连接已断开                         |
-| 10007 | `property not support` | 当前特征值不支持此操作                     |
-| 10008 |     `system error`     | 其余所有系统上报的异常                     |
-| 10009 |  `system not support`  | Android 系统特有，系统版本低于 4.3 不支持 BLE |
-| 10012 |   `operate time out`   | 连接超时                            |
-| 10013 |     `invalid_data`     | 连接 deviceId 为空或者是格式不正确          |
+| Error Code |     Error Message      | Description                                                  |
+| ---------- |:----------------------:| ------------------------------------------------------------ |
+| 0          |          `ok`          | Normal                                                       |
+| 10000      |       `not init`       | The Bluetooth adapter is not initialized                     |
+| 10001      |    `not available`     | The current Bluetooth adapter is unavailable                 |
+| 10002      |      `no device`       | The specified device was not found                           |
+| 10003      |   `connection fail`    | Connection failed                                            |
+| 10004      |      `no service`      | The specified service was not found                          |
+| 10005      |  `no characteristic`   | The specified characteristic was not found                   |
+| 10006      |    `no connection`     | The current connection has disconnected                      |
+| 10007      | `property not support` | The current characteristic does not support this operation   |
+| 10008      |     `system error`     | All other system errors                                      |
+| 10009      |  `system not support`  | System versions under 4.3 do not support BLE (Android only). |
+| 10012      |   `operate time out`   | Connection timeout                                           |
+| 10013      |     `invalid_data`     | Empty deviceId or invalid format                             |
 
 ### IBeaconErrCode
 
-iBeacon 错误码
+WIFI error code
 
-| 参数    |              异常情况               | 说明       |
-| ----- |:-------------------------------:| -------- |
-| 0     |              `ok`               | 正常       |
-| 11000 |           `unsupport`           | 系统或设备不支持 |
-| 11001 | `bluetooth service unavailable` | 蓝牙服务不可用  |
-| 11002 | `location service unavailable`  | 位置服务不可用  |
-| 11003 |         `already start`         | 已经开始搜索   |
-| 11004 |   `not startBeaconDiscovery`    | 还未开始搜索   |
-| 11005 |         `system error`          | 系统错误     |
-| 11006 |         `invalid data`          | 参数不正确    |
+| Error Code |          Error Message          | Description                            |
+| ---------- |:-------------------------------:| -------------------------------------- |
+| 0          |              `ok`               | Normal                                 |
+| 11000      |           `unsupport`           | The system or device is not supported  |
+| 11001      | `bluetooth service unavailable` | The Bluetooth service is not available |
+| 11002      | `location service unavailable`  | The location service is not available  |
+| 11003      |         `already start`         | Searching has already started          |
+| 11004      |   `not startBeaconDiscovery`    | Searching has not already started      |
+| 11005      |         `system error`          | All other system errors                |
+| 11006      |         `invalid data`          | Incorrect or invalid parameters        |
 
 ### WifiErrCode
 
-WIFI 错误码
+NFC error code
 
-| 参数    |             异常情况             | 说明                              |
-| ----- |:----------------------------:| ------------------------------- |
-| 0     |             `ok`             | 正常                              |
-| 12000 |          `not init`          | 未先调用 `startWifi` 接口             |
-| 12001 |     `system not support`     | 当前系统不支持相关能力                     |
-| 12002 |    `password error Wi-Fi`    | 密码错误                            |
-| 12003 |     `connection timeout`     | 连接超时                            |
-| 12004 |     `duplicate request`      | 重复连接 Wi-Fi                      |
-| 12005 |     `wifi not turned on`     | Android 特有，未打开 Wi-Fi 开关         |
-| 12006 |     `wifi not turned on`     | Android 特有，未打开 GPS 定位开关         |
-| 12007 |        `user denied`         | 用户拒绝授权链接 Wi-Fi                  |
-| 12008 |        `invalid SSID`        | 无效 SSID                         |
-| 12009 |     `system config err`      | 系统运营商配置拒绝连接 Wi-Fi               |
-| 12010 |   `system internal error`    | 系统其他错误，需要在 errmsg 打印具体的错误原因     |
-| 12011 |    `weapp in background`     | 应用在后台无法配置 Wi-Fi                 |
-| 12013 | `wifi config may be expired` | 系统保存的 Wi-Fi 配置过期，建议忘记 Wi-Fi 后重试 |
+| Error Code |        Error Message         | Description                                                                                                        |
+| ---------- |:----------------------------:| ------------------------------------------------------------------------------------------------------------------ |
+| 0          |             `ok`             | Normal                                                                                                             |
+| 12000      |          `not init`          | The `startWifi` API should be called first                                                                         |
+| 12001      |     `system not support`     | The system does not support related capabilities                                                                   |
+| 12002      |    `password error Wi-Fi`    | Incorrect password                                                                                                 |
+| 12003      |     `connection timeout`     | Connection timeout                                                                                                 |
+| 12004      |     `duplicate request`      | Repeated Wi-Fi connection                                                                                          |
+| 12005      |     `wifi not turned on`     | Wi-Fi switch is disabled (only for Android)                                                                        |
+| 12006      |     `wifi not turned on`     | GPS switch is disabled (only for Android)                                                                          |
+| 12007      |        `user denied`         | Authorization to connect to Wi-Fi was rejected by user                                                             |
+| 12008      |        `invalid SSID`        | Invalid SSID                                                                                                       |
+| 12009      |     `system config err`      | The connection to the Wi-Fi network was rejected due to system operator configuration                              |
+| 12010      |   `system internal error`    | Other system errors. Specific error causes need to be printed in errmsg.                                           |
+| 12011      |    `weapp in background`     | The Wi-Fi network cannot be disconnected when the app runs in the background                                       |
+| 12013      | `wifi config may be expired` | The Wi-Fi configuration saved in the system expired. It is recommended to forget this Wi-Fi network and try again. |
 
 ### NFCErrCode
 
-NFC 错误码
+Bluetooth error code
 
-| 参数    | 异常情况 | 说明                    |
-| ----- |:----:| --------------------- |
-| 0     | `ok` | 正常                    |
-| 13000 |      | 当前设备不支持NFC            |
-| 13001 |      | 当前设备支持NFC，但系统NFC开关未开启 |
-| 13002 |      | 当前设备支持NFC，但不支持HCE     |
-| 13003 |      | AID列表参数格式错误           |
-| 13004 |      | 未设置微信为默认NFC支付应用       |
-| 13005 |      | 返回的指令不合法              |
-| 13006 |      | 注册AID失败               |
+| Error Code | Error Message | Description                                                                    |
+| ---------- |:-------------:| ------------------------------------------------------------------------------ |
+| 0          |     `ok`      | Normal                                                                         |
+| 13000      |               | The current device does not support NFC                                        |
+| 13001      |               | The current device supports NFC, but the NFC switch is disabled in the system. |
+| 13002      |               | The current device supports NFC but does not support HCE.                      |
+| 13003      |               | Invalid parameter format in AID list                                           |
+| 13004      |               | WeChat is not set as the default NFC payment app                               |
+| 13005      |               | Invalid return command                                                         |
+| 13006      |               | Failed to register AID                                                         |
 
 ### LaunchOptionsApp
 
 启动参数
 
-| 参数           | 类型                          | 说明                                                                                                           |
-| ------------ | --------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| path         | `string`                    | 启动小程序的路径                                                                                                     |
-| query        | `Record<string, any>` | 启动小程序的 query 参数                                                                                              |
-| referrerInfo | `ReferrerInfo`              | 来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 `{}`。(参见后文注意)                                                            |
-| scene        | `number`                    | 启动小程序的[场景值](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html)               |
-| shareTicket  | `string`                    | shareTicket，详见[获取更多转发信息](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html) |
+| Property     | Type                        | Description                                                                                                                                                                                   |
+| ------------ | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| path         | `string`                    | The path for Mini Program startup                                                                                                                                                             |
+| query        | `Record<string, any>` | The query parameter for Mini Program startup                                                                                                                                                  |
+| referrerInfo | `ReferrerInfo`              | The source information.This is returned when a user enters the Mini Program from another Mini Program, Official Account, or app.Otherwise, `{}` is returned.(see the Note below for details.) |
+| scene        | `number`                    | The [scene value](https://developers.weixin.qq.com/miniprogram/en/dev/framework/app-service/scene.html) for Mini Program startup                                                              |
+| shareTicket  | `string`                    | The shareTicket. See [Obtaining More Forwarded Information](https://developers.weixin.qq.com/miniprogram/en/dev/framework/open-ability/share.html) for details.                               |
 
 #### ReferrerInfo
 
-| 参数        | 类型                          | 说明                             |
-| --------- | --------------------------- | ------------------------------ |
-| appId     | `string`                    | 来源小程序、公众号或 App 的 appId         |
-| extraData | `Record<string, any>` | 来源小程序传过来的数据，scene=1037或1038时支持 |
+| Property  | Type                        | Description                                                                          |
+| --------- | --------------------------- | ------------------------------------------------------------------------------------ |
+| appId     | `string`                    | The appId of the source Mini Program, Official Account, or app.                      |
+| extraData | `Record<string, any>` | The data transfered from the source Mini Program, supported when scene=1037 or 1038. |
