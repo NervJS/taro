@@ -1,40 +1,40 @@
 ---
-title: React Native 端开发前注意
+title: React Native Development Considerations
 ---
 
-:::tip Taro 3 需要使用 3.1 以上版本 :::
+:::tip Taro 3 requires version 3.1 or higher :::
 
-React Native 的样式基于开源的跨平台布局引擎 [Yoga](https://github.com/facebook/yoga) ，样式基本上是实现了 CSS 的一个子集，并且属性名不完全一致，所以当你开始在考虑兼容 React Native 端之前，可以先简要了解一下 React Native 的样式：[React Native Layout Props](https://facebook.github.io/react-native/docs/layout-props)
+React Native's styles are based on the open source cross-platform layout engine [Yoga](https://github.com/facebook/yoga) ,  which basically implements a subset of CSS, and the property names are not identical, so when you start thinking about compatibility with the React Native side, you can take a brief look at A quick look at React Native styles. [React Native Layout Props](https://facebook.github.io/react-native/docs/layout-props)
 
-样式布局上 H5 最为灵活，小程序次之，RN 最弱，统一多端样式即是对齐短板，也就是要以 RN 的约束来管理样式，同时兼顾小程序的限制，核心可以用三点来概括：
+Style layout on H5 is the most flexible, the next mini program, RN is the strongest, unified  style that is aligned with the short board, that is, to manage the style with the constraints of RN, while taking into account the limitations of the mini program, the core can be summarized in three points.
 
-- 使用 Flex 布局
-- 基于 BEM 写样式
-- 采用 style 属性覆盖组件样式
+- Layout with Flex
+- Writing styles based on BEM
+- Overriding component styles with the style attribute
 
 
-## 一、布局
+## 一、Layout
 
 ### flex
 
-在 React Native 中使用 Flexbox 规则来指定某个组件的子元素的布局。Flexbox 可以在不同屏幕尺寸上提供一致的布局结构。因此，如果你要考虑 React Native 端，那你的样式布局就得采用 Flex 布局。
+Flexbox rules are used in React Native to specify the layout of a component's child elements.flexbox can provide a consistent layout structure across screen sizes.So if you're thinking about the React Native, then your style layout will have to be a Flex layout.
 
-Flex 布局入门，可以查看阮一峰的 [Flex 布局教程：语法篇](https://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)
+For an introduction to Flex layouts, check out ruanyifeng [Flex Layout Tutorial: Syntax](https://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)
 
-注意：**RN 中 View 标签默认主轴方向是 column**，如果不将其他端改成与 RN 一致，就需要在所有用到 display: flex 的地方都显式声明主轴方向。
+Note: **The default orientation of the View tag in RN is column**. If you don't change the other ends to be consistent with RN, you need to explicitly declare the orientation of the main axis in all places where display: flex is used.
 
 ### position
 
-在 React Native 中 position 仅支持两种属性，即 `relative`（默认）和 `absolute`。可[参考文档](https://reactnative.dev/docs/0.60/layout-props#position)
+In React Native position only supports two properties, `relative` (default) and `absolute`.You can [see the documentation](https://reactnative.dev/docs/0.60/layout-props#position)
 
 
-## 二、样式
+## 二、Styles
 
-### 选择器
+### Selectors
 
-> React Native 端仅支持类选择器，且不支持 **组合器** [Combinators and groups of selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Combinators_and_multiple_selectors)。
+> Only class selectors are supported on the React Native side, and **combinators** are not supported  [Combinators and groups of selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Combinators_and_multiple_selectors)。
 
-以下选择器的写法都是不支持的，在样式转换时会自动忽略。
+The following selectors are written in a way that they are not supported and will be automatically ignored during style conversions.
 
 ```css
 .button.button_theme_islands {
@@ -58,11 +58,11 @@ div span {
 }
 ```
 
-若我们基于 `scss` 等预编译语言开发，则可基于 [BEM](http://getbem.com/) 写样式，如：
+If we develop based on a pre-compiled language such as `scss`, we can write styles based on [BEM](http://getbem.com/) eg:
 
 ```jsx
 <View className="block">
-    <Text className="block__elem">文本</Text>
+    <Text className="block__elem">Text</Text>
 </View>
 ```
 
@@ -75,53 +75,51 @@ div span {
 }
 ```
 
-### 样式的条件编译
+### Conditional compilation of styles
 
-> 1.3+ 版本支持
+> 1.3+ Versions Supported
 
-#### 样式文件条件编译
+#### Conditional compilation of style files
 
-假设目录中同时存在以下文件：
+Suppose the following files exist in the directory at the same time.
 
 ```
 - index.scss
 - index.rn.scss
 ```
 
-当在 JS 文件中引用样式文件：`import './index.scss'` 时，RN 平台会找到并引入 `index.rn.scss`，其他平台会引入：`index.scss`，方便大家书写跨端样式，更好地兼容 RN。
+When referencing a style file in a JS file: `import '. /index.scss'`, the RN platform will find and introduce `index.rn.scss`, and other platforms will introduce: `index.scss`, which is convenient for you to write cross-end style and better compatible with RN.
 
-#### 样式代码的条件编译
+#### Conditional compilation of style code
 
-为了方便大家书写样式跨端的样式代码，添加了样式条件编译的特性。
+To make it easier to write style code across styles, the style conditional compilation feature has been added.
 
-指定平台保留：
+Designated platform reserved:
 
 ```scss
 /*  #ifdef  %PLATFORM%  */
-样式代码
+style code
 /*  #endif  */
 ```
 
-指定平台剔除：
+Designated platform exclusion.
 
 ```scss
 /*  #ifndef  %PLATFORM%  */
-样式代码
+style code
 /*  #endif  */
 ```
 
-多个平台之间可以使用空格隔开。
+Multiple platforms can be separated by spaces.
 
-### 样式的全局引入
+### Global introduction of styles
 
-- 方式一：入口文件 app.js 里面引入的样式就是全局样式，本地样式会覆盖全局样式。
-- 方式二：通过配置全局注入
+- The style introduced in the entry file app.js is the global style, and the local style will override the global style.
+- 2. Global injection through configuration
 ```js
 // config/index.js
-...
-const config = {
-    ...
-    sass: {
+... const config = {
+    ... sass: {
         resource: [
             'src/styles/common.scss'
         ]
@@ -130,23 +128,23 @@ const config = {
 
 ```
 
-# 三、导航
+# 三、Navigation
 
-React Native 导航是封装的 React-Navigation 5.x，为了更好的方便业务自定义，支持全局与页面配置中透传React Navigation的配置，但注意以下导航相关设置Taro 3.x 生效。
-### 全局配置
+React Native Navigation is encapsulated in React-Navigation 5.x. To better facilitate business customization, the configuration of React Navigation is passed through in the global and page configuration, but note that the following navigation-related settings Taro 3.x are in effect.
+### Global Configuration
 
-在全局配置app.config.js 中可增加rn导航的独立配置
+A separate configuration for rn navigation can be added in the global configuration app.config.js
 
 ```js
-//为了对其他端产生影响，最好加上环境判断
+// To have an impact on the other side, it is better to add environmental judgments
 
 let rnConfig = {}
 
 if(process.env.TARO_ENV === 'rn'){
   rnConfig = {
-  //deep Linking前缀,https://reactnavigation.org/docs/deep-linking
+  //deep Linking perfix, https://reactnavigation.org/docs/deep-linking
   linking:[],
-  //tabBar页面的设置，https://reactnavigation.org/docs/bottom-tab-navigator/#tabbar 对应options的配置，支持以下属性透传，不支持返回react.Node节点设置的方案
+  //tabBar page config ，https://reactnavigation.org/docs/bottom-tab-navigator/#tabbar options config，the following property pass-through is supported, and the scheme that returns the react.Node node settings is not supported
    options:{
       title，
       tabBarVisible，
@@ -154,10 +152,10 @@ if(process.env.TARO_ENV === 'rn'){
       tabBarBadgeStyle，
       tabBarTestID
    },
-   tabBarOptions:{//tabbarOptions的配置，其他参考https://reactnavigation.org/docs/bottom-tab-navigator/#tabbar tabBarOptions
+   tabBarOptions:{//tabbarOptions config ,other see https://reactnavigation.org/docs/bottom-tab-navigator/#tabbar tabBarOptions
 
    },
-   screenOptions:{//全局screenOptions，作用于非所有页面，注意不支持返回React.Node的属性，参考https://reactnavigation.org/docs/stack-navigator/#options
+   screenOptions:{//Global screenOptions， which works on non-all pages, note that it does not support returning React. For more references https://reactnavigation.org/docs/stack-navigator/#options
 
    }
   }
@@ -171,49 +169,47 @@ export default {
 }
 ```
 
-### 页面配置
+### Page Config
 
-除了全局设置页面，也可单独对某个页面进行设置。
+In addition to the global settings page, you can also set up a page individually.
 ```js
-// 页面config
+// page config
 rn:{
-  screenOptions:{// 设置当前页面的options，参考https://reactnavigation.org/docs/stack-navigator/#options
+  screenOptions:{// set curernt page options，For more references https://reactnavigation.org/docs/stack-navigator/#options
 
     }
 }
 ```
-> 关于透传react navigation的配置有需要注意： - 不支持直接传入React.Node节点的参数 - 传入的样式对象为 React Native 的样式对比，比如 tabStyle:{ backgroundColor :'#ff0000'} - rn的配置优先于其他配置，比如统一的tabBar里配置了selectedColor ，rn配置里的 activeTintColor ，那么生效的是 activeTintColor
+> There are some things to note about the configuration of pass-through react navigation. - Directly passing in parameters of React.Node nodes is not supported - The style object passed in is a React Native style such as tabStyle:{ backgroundColor :'#ff0000'} - rn's configuration takes precedence over other configurations, e.g. if the selectedColor is configured in the unified tabBar and activeTintColor in rn's configuration, then the activeTintColor is the one that takes effect
 
 
-## 常见问题
+## Frequently Asked Questions
 
-### 1、box-shadow 能实现吗？
+### 1. Can box-shadow be implemented?
 
-> React Native 这方面支持得并不好（仅 ios 支持且支持程度有限）,android 端仅可通过 `elevation` 设置灰色阴影。
+> React Native doesn't support this well (only ios supports it and to a limited extent), and the only way to set the gray shadows on the android side is through `elevation`.
 ```css
 {
-    /* 阴影相关属性 */
+    /* Shadow related properties */
     shadowOffset: {width: 0, height: 5},
     shadowOpacity: 0.5,
     shadowRadius: 5,
     shadowColor: Color.CMHeaderBgColor,
-    /* android 灰色阴影 */
+    /* android gray shadows */
     elevation: 4,
 }
 ```
 
-### 2、border{Top,Right,Bottom,Left} 不支持？
+### 2、border{Top,Right,Bottom,Left} not supported ?
 
-border{Top,Right,Bottom,Left} 的简写（shorthands）不支持，因为 `borderStyle` 不能应用于单个边框。
+The shorthand for border{Top,Right,Bottom,Left} (shorthands) is not supported, because `borderStyle` cannot be applied to a single border.
 
-使用 sass：
+Use sass：
 
 ```scss
 /**
- * // NOTE Taro 编译成 RN 时对 border 的处理有问题
- * RN 不支持针对某一边设置 style，即 border-bottom-style 会报错
- * 那么 border-bottom: 1px 就需要写成如下形式：
- * border: 0 style color; border-bottom-width: 1px;
+ * // NOTE Taro has a problem with border handling when compiling to RN
+ * RN does not support setting style for one side, i.e. border-bottom-style will report an error. * Then border-bottom: 1px would need to be written as follows. * border: 0 style color; border-bottom-width: 1px;
  */
 @mixin border($dir, $width, $style, $color) {
   border: 0 $style $color;
@@ -223,221 +219,221 @@ border{Top,Right,Bottom,Left} 的简写（shorthands）不支持，因为 `borde
 }
 ```
 
-### 3、React Native 不支持 background-image ，有什么解决办法吗？
-使用 `Image 组件`，配合 Flex/Position 布局，基本可以实现你的大部分需求。阅读一下这篇文章：[Background Images in React Native](https://thekevinscott.com/background-images-in-react-native/)，有助于你理解。
+### 3. React Native doesn't support background-image, is there any solution?s
+Using the `Image component`, in conjunction with the Flex/Position layout, will basically accomplish most of your needs.Read this article.[Background Images in React Native](https://thekevinscott.com/background-images-in-react-native/)
 
 
-## 附：各属性支持度
+## Support for each property
 
-React Native 的样式基于开源的跨平台布局引擎 [Yoga](https://github.com/facebook/yoga) ，样式基本上是实现了 CSS 的一个子集，但是属性名不完全一致，具体的内容及相关差异可以查看文档 [React Native Layout Props](https://facebook.github.io/react-native/docs/layout-props)。
+React Native's styles are based on the open source cross-platform layout engine [Yoga](https://github.com/facebook/yoga), The style is basically a subset of CSS, but the property names are not identical, so check the documentation for details and differences [React Native Layout Props](https://facebook.github.io/react-native/docs/layout-props)。
 
-### Text 文本（18）
+### Text （18）
 
-| 属性名                                                | 取值                                                                                                                                                       | 描述                                                                                                                                                                  |
-| -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| color                                              | [&lt;color&gt;](#user-content-color)                                                                                                         | 对应 `CSS` [color](https://css.doyoe.com/properties/color/color.htm) 属性                                                                                               |
-| fontFamily                                         | string                                                                                                                                                   | 对应 `CSS` [font-family](https://css.doyoe.com/properties/font/font-family.htm) 属性                                                                                    |
-| fontSize                                           | [&lt;number&gt;](#user-content-number)                                                                                                       | 对应 `CSS` [font-size](https://css.doyoe.com/properties/font/font-size.htm) 属性                                                                                        |
-| fontStyle                                          | `normal`, `italic`                                                                                                                                       | 对应 `CSS` [font-style](https://css.doyoe.com/properties/font/font-style.htm) 属性，但阉割了 `oblique` 取值                                                                    |
-| fontWeight                                         | `normal`, `bold` `100~900`                                                                                                                               | 对应 `CSS` [font-weight](https://css.doyoe.com/properties/font/font-weight.htm) 属性，但阉割了 `bolder, lighter` 取值                                                          |
-| lineHeight                                         | [&lt;number&gt;](#user-content-number)                                                                                                       | 对应 `CSS` [line-height](https://css.doyoe.com/properties/text/line-height.htm) 属性                                                                                    |
-| textAlign                                          | `auto`, `left`, `right`, `center`, `justify`<sup>`iOS`</sup>                                                                                             | 对应 `CSS` [text-align](https://css.doyoe.com/properties/text/text-align.htm) 属性，但增加了 `auto` 取值。当取值为 `justify` 时，在 `Android` 上会变为 `left`                              |
-| textDecorationLine                                 | `none`, `underline`, `line-through`, `underline line-through`                                                                                            | 对应 `CSS` [text-decoration-line](https://css.doyoe.com/properties/text-decoration/text-decoration-line.htm) 属性，但阉割了 `overline`, `blink` 取值                           |
-| textShadowColor                                    | [&lt;color&gt;](#user-content-color)                                                                                                         | 对应 `CSS` [text-shadow](https://css.doyoe.com/properties/text-decoration/text-shadow.htm) 属性中的颜色定义                                                                   |
-| textShadowOffset                                   | {<br />width:[&lt;number&gt;](#user-content-number),<br />height:[&lt;number&gt;](#user-content-number)<br />} | 对应 `CSS` [text-shadow](https://css.doyoe.com/properties/text-decoration/text-shadow.htm) 属性中的阴影偏移定义                                                                 |
-| textShadowRadius                                   | [&lt;number&gt;](#user-content-number)                                                                                                       | 在 `CSS` 中，阴影的圆角大小取决于元素的圆角定义，不需要额外定义                                                                                                                                 |
-| includeFontPadding<br /><sup>`Android`</sup> | [&lt;bool&gt;](#user-content-bool)                                                                                                           | Android 在默认情况下会为文字额外保留一些 padding，以便留出空间摆放上标或是下标的文字。对于某些字体来说，这些额外的 padding 可能会导致文字难以垂直居中。如果你把 `textAlignVertical` 设置为 `center` 之后，文字看起来依然不在正中间，那么可以尝试将本属性设置为 `false` |
-| textAlignVertical<br /><sup>`Android`</sup>  | `auto`, `top`, `bottom`, `center`                                                                                                                        | 对应 `CSS` [vertical-align](https://css.doyoe.com/properties/text/vertical-align.htm) 属性，增加了 `auto` 取值，`center` 取代了 `middle`，并阉割了 `baseline, sub` 等值                  |
-| fontVariant<br /><sup>`iOS`</sup>            | `small-caps`, `oldstyle-nums`, `lining-nums`, `tabular-nums`, `proportional-nums`                                                                        | 对应 `CSS` [font-variant](https://css.doyoe.com/properties/font/font-variant.htm) 属性，但取值更丰富                                                                           |
-| letterSpacing<br /><sup>`iOS`</sup>          | [&lt;number&gt;](#user-content-number)                                                                                                       | 对应 `CSS` [letter-spacing](https://css.doyoe.com/properties/text/letter-spacing.htm) 属性                                                                              |
-| textDecorationColor<br /><sup>`iOS`</sup>    | [&lt;color&gt;](#user-content-color)                                                                                                         | 对应 `CSS` [text-decoration-color](https://css.doyoe.com/properties/text-decoration/text-decoration-color.htm) 属性                                                     |
-| textDecorationStyle<br /><sup>`iOS`</sup>    | `solid`, `double`, `dotted`, `dashed`                                                                                                                    | 对应 `CSS` [text-decoration-style](https://css.doyoe.com/properties/text-decoration/text-decoration-style.htm) 属性，但阉割了 `wavy` 取值                                      |
-| writingDirection<br /><sup>`iOS`</sup>       | `auto`, `ltr`, `rtl`                                                                                                                                     | 对应 `CSS` [direction](https://css.doyoe.com/properties/writing-modes/direction.htm) 属性，增加了 `auto` 取值                                                                 |
+| Property Name                                      | Value                                                                                                                                                    | Description                                                                                                                                                                                                                                                                                                           |
+| -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| color                                              | [&lt;color&gt;](#user-content-color)                                                                                                         | Corresponds to `CSS` [color](https://css.doyoe.com/properties/color/color.htm) property                                                                                                                                                                                                                               |
+| fontFamily                                         | string                                                                                                                                                   | Corresponds to `CSS` [font-family](https://css.doyoe.com/properties/font/font-family.htm)   property                                                                                                                                                                                                                  |
+| fontSize                                           | [&lt;number&gt;](#user-content-number)                                                                                                       | Corresponds to `CSS` [font-size](https://css.doyoe.com/properties/font/font-size.htm) property                                                                                                                                                                                                                        |
+| fontStyle                                          | `normal`, `italic`                                                                                                                                       | 对应 `CSS` [font-style](https://css.doyoe.com/properties/font/font-style.htm) 属性，但阉割了 `oblique` 取值                                                                                                                                                                                                                      |
+| fontWeight                                         | `normal`, `bold` `100~900`                                                                                                                               | Corresponds to `CSS` [font-weight](https://css.doyoe.com/properties/font/font-weight.htm) property，But the `bolder, lighter` fetch is neutered                                                                                                                                                                        |
+| lineHeight                                         | [&lt;number&gt;](#user-content-number)                                                                                                       | Corresponds to `CSS` [line-height](https://css.doyoe.com/properties/text/line-height.htm) property                                                                                                                                                                                                                    |
+| textAlign                                          | `auto`, `left`, `right`, `center`, `justify`<sup>`iOS`</sup>                                                                                             | Corresponds to `CSS` [text-align](https://css.doyoe.com/properties/text/text-align.htm) property,Added `auto` fetch value.When the value is `justify`, it will change to `left` on `Android`.                                                                                                                         |
+| textDecorationLine                                 | `none`, `underline`, `line-through`, `underline line-through`                                                                                            | Corresponds to `CSS` [text-decoration-line](https://css.doyoe.com/properties/text-decoration/text-decoration-line.htm) property，But the `bolder, lighter` fetch is neutered                                                                                                                                           |
+| textShadowColor                                    | [&lt;color&gt;](#user-content-color)                                                                                                         | Corresponds to `CSS` [text-shadow](https://css.doyoe.com/properties/text-decoration/text-shadow.htm) the color definition in the properties                                                                                                                                                                           |
+| textShadowOffset                                   | {<br />width:[&lt;number&gt;](#user-content-number),<br />height:[&lt;number&gt;](#user-content-number)<br />} | Corresponds to `CSS` [text-shadow](https://css.doyoe.com/properties/text-decoration/text-shadow.htm) shadow offset definition in the properties                                                                                                                                                                       |
+| textShadowRadius                                   | [&lt;number&gt;](#user-content-number)                                                                                                       | In `CSS`, the size of the rounded corners of the shadow depends on the element's rounded corner definition and does not need to be defined additionally                                                                                                                                                               |
+| includeFontPadding<br /><sup>`Android`</sup> | [&lt;bool&gt;](#user-content-bool)                                                                                                           | By default, Android reserves some extra padding for text to allow room for superscript or subscript text.For some fonts, this extra padding may make it difficult to center the text vertically.If you set `textAlignVertical` to `center` and the text still looks off-center, try setting this property to `false`. |
+| textAlignVertical<br /><sup>`Android`</sup>  | `auto`, `top`, `bottom`, `center`                                                                                                                        | Corresponds to  `CSS` [vertical-align](https://css.doyoe.com/properties/text/vertical-align.htm) property, Added `auto` fetch, `center` replaces `middle`, and neutered `baseline, sub` and other values                                                                                                              |
+| fontVariant<br /><sup>`iOS`</sup>            | `small-caps`, `oldstyle-nums`, `lining-nums`, `tabular-nums`, `proportional-nums`                                                                        | Corresponds to `CSS` [font-variant](https://css.doyoe.com/properties/font/font-variant.htm) property, but which has more values                                                                                                                                                                                       |
+| letterSpacing<br /><sup>`iOS`</sup>          | [&lt;number&gt;](#user-content-number)                                                                                                       | Corresponds to `CSS` [letter-spacing](https://css.doyoe.com/properties/text/letter-spacing.htm) property                                                                                                                                                                                                              |
+| textDecorationColor<br /><sup>`iOS`</sup>    | [&lt;color&gt;](#user-content-color)                                                                                                         | Corresponds to `CSS` [text-decoration-color](https://css.doyoe.com/properties/text-decoration/text-decoration-color.htm) property                                                                                                                                                                                     |
+| textDecorationStyle<br /><sup>`iOS`</sup>    | `solid`, `double`, `dotted`, `dashed`                                                                                                                    | Corresponds to `CSS` [text-decoration-style](https://css.doyoe.com/properties/text-decoration/text-decoration-style.htm) propery, But the `wavy` fetch is neutered                                                                                                                                                    |
+| writingDirection<br /><sup>`iOS`</sup>       | `auto`, `ltr`, `rtl`                                                                                                                                     | Corresponds to `CSS` [direction](https://css.doyoe.com/properties/writing-modes/direction.htm) propery, Added `auto` fetch value                                                                                                                                                                                      |
 
 <a name="dimension"></a>
 
-### Dimension 尺寸（6）
+### Dimension (6)
 
-| 属性名       | 取值                                                 | 描述                                                                                  |
-| --------- | -------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| width     | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [width](https://css.doyoe.com/properties/dimension/width.htm) 属性           |
-| minWidth  | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [min-width](https://css.doyoe.com/properties/dimension/min-width.htm) 属性   |
-| maxWidth  | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [max-width](https://css.doyoe.com/properties/dimension/max-width.htm) 属性   |
-| height    | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [height](https://css.doyoe.com/properties/dimension/height.htm) 属性         |
-| minHeight | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [min-height](https://css.doyoe.com/properties/dimension/min-height.htm) 属性 |
-| maxHeight | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [max-height](https://css.doyoe.com/properties/dimension/max-height.htm) 属性 |
+| Propery Name | Values                                             | Description                                                                                          |
+| ------------ | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| width        | [&lt;number&gt;](#user-content-number) | Corresponds to `CSS` [width](https://css.doyoe.com/properties/dimension/width.htm) propery           |
+| minWidth     | [&lt;number&gt;](#user-content-number) | Corresponds to `CSS` [min-width](https://css.doyoe.com/properties/dimension/min-width.htm) propery   |
+| maxWidth     | [&lt;number&gt;](#user-content-number) | Corresponds to `CSS` [max-width](https://css.doyoe.com/properties/dimension/max-width.htm) propery   |
+| height       | [&lt;number&gt;](#user-content-number) | Corresponds to `CSS` [height](https://css.doyoe.com/properties/dimension/height.htm) propery         |
+| minHeight    | [&lt;number&gt;](#user-content-number) | Corresponds to `CSS` [min-height](https://css.doyoe.com/properties/dimension/min-height.htm) propery |
+| maxHeight    | [&lt;number&gt;](#user-content-number) | Corresponds to `CSS` [max-height](https://css.doyoe.com/properties/dimension/max-height.htm) propery |
 
 <a name="positioning"></a>
 
-### Positioning 定位（6）
+### Positioning （6）
 
-| 属性名      | 取值                                                 | 描述                                                                                                        |
-| -------- | -------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| position | `absolute`, `relative`                             | 对应 `CSS` [position](https://css.doyoe.com/properties/positioning/position.htm) 属性，但阉割了 `static, fixed` 取值 |
-| top      | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [top](https://css.doyoe.com/properties/positioning/top.htm) 属性                                   |
-| right    | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [right](https://css.doyoe.com/properties/positioning/right.htm) 属性                               |
-| bottom   | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [bottom](https://css.doyoe.com/properties/positioning/bottom.htm) 属性                             |
-| left     | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [left](https://css.doyoe.com/properties/positioning/left.htm) 属性                                 |
-| zIndex   | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [z-index](https://css.doyoe.com/properties/positioning/z-index.htm) 属性                           |
+| Propery Name | Values                                             | Description                                                                                                                               |
+| ------------ | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| position     | `absolute`, `relative`                             | Corresponds to `CSS` [position](https://css.doyoe.com/properties/positioning/position.htm) propery, but without the `static, fixed` fetch |
+| top          | [&lt;number&gt;](#user-content-number) | Corresponds to `CSS` [top](https://css.doyoe.com/properties/positioning/top.htm) propery                                                  |
+| right        | [&lt;number&gt;](#user-content-number) | Corresponds to `CSS` [right](https://css.doyoe.com/properties/positioning/right.htm) propery                                              |
+| bottom       | [&lt;number&gt;](#user-content-number) | Corresponds to `CSS` [bottom](https://css.doyoe.com/properties/positioning/bottom.htm) propery                                            |
+| left         | [&lt;number&gt;](#user-content-number) | Corresponds to `CSS` [left](https://css.doyoe.com/properties/positioning/left.htm) propery                                                |
+| zIndex       | [&lt;number&gt;](#user-content-number) | Corresponds to `CSS` [z-index](https://css.doyoe.com/properties/positioning/z-index.htm) propery                                          |
 
 <a name="margin"></a>
 
-### Margin 外部白（7）
+### Margin（7）
 
-| 属性名              | 取值                                                 | 描述                                                                                                                              |
-| ---------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| margin           | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [margin](https://css.doyoe.com/properties/margin/margin.htm) 属性，不同的是，它只能定义一个参数，如需分别定义`上、右、下、左`4 个方位的外补白，可以通过下面的单向外部白属性 |
-| marginHorizontal | [&lt;number&gt;](#user-content-number) | 无对应的 `CSS` 属性。其效果相当于同时设置 `marginRight` 和 `marginLeft`                                                                           |
-| marginVertical   | [&lt;number&gt;](#user-content-number) | 无对应的 `CSS` 属性。其效果相当于同时设置 `marginTop` 和 `marginBottom`                                                                           |
-| marginTop        | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [margin-top](https://css.doyoe.com/properties/margin/margin-top.htm) 属性                                                |
-| marginRight      | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [margin-right](https://css.doyoe.com/properties/margin/margin-right.htm) 属性                                            |
-| marginBottom     | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [margin-bottom](https://css.doyoe.com/properties/margin/margin-bottom.htm) 属性                                          |
-| marginLeft       | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [margin-left](https://css.doyoe.com/properties/margin/margin-left.htm) 属性                                              |
+| Propery Name     | Values                                             | Description                                                                                                                                                                                                                                                                                                         |
+| ---------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| margin           | [&lt;number&gt;](#user-content-number) | Corresponds to `CSS` [margin](https://css.doyoe.com/properties/margin/margin.htm) property, the difference is that it can only define one parameter, if you want to define the external white of `top, right, bottom and left` 4 directions respectively, you can use the following one-way external white property |
+| marginHorizontal | [&lt;number&gt;](#user-content-number) | No corresponding `CSS` property.The effect is equivalent to setting both `marginRight` and `marginLeft`                                                                                                                                                                                                             |
+| marginVertical   | [&lt;number&gt;](#user-content-number) | No corresponding `CSS` property.The effect is equivalent to setting both `marginTop` and `marginBottom`                                                                                                                                                                                                             |
+| marginTop        | [&lt;number&gt;](#user-content-number) | Corresponds to `CSS` [margin-top](https://css.doyoe.com/properties/margin/margin-top.htm) property                                                                                                                                                                                                                  |
+| marginRight      | [&lt;number&gt;](#user-content-number) | Corresponds to `CSS` [margin-right](https://css.doyoe.com/properties/margin/margin-right.htm) property                                                                                                                                                                                                              |
+| marginBottom     | [&lt;number&gt;](#user-content-number) | Corresponds to `CSS` [margin-bottom](https://css.doyoe.com/properties/margin/margin-bottom.htm) property                                                                                                                                                                                                            |
+| marginLeft       | [&lt;number&gt;](#user-content-number) | Corresponds to `CSS` [margin-left](https://css.doyoe.com/properties/margin/margin-left.htm) property                                                                                                                                                                                                                |
 
 <a name="padding"></a>
 
-### Padding 内部白（7）
+### Padding（7）
 
-| 属性名               | 取值                                                 | 描述                                                                                                                                 |
-| ----------------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| padding           | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [padding](https://css.doyoe.com/properties/padding/padding.htm) 属性，不同的是，它只能定义一个参数，如需分别定义`上、右、下、左`4 个方位的内补白，可以通过下面的单向内部白属性 |
-| paddingHorizontal | [&lt;number&gt;](#user-content-number) | 无对应的 `CSS` 属性。其效果相当于同时设置 `paddingRight` 和 `paddingLeft`                                                                            |
-| paddingVertical   | [&lt;number&gt;](#user-content-number) | 无对应的 `CSS` 属性。其效果相当于同时设置 `paddingTop` 和 `paddingBottom`                                                                            |
-| paddingTop        | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [padding-top](https://css.doyoe.com/properties/padding/padding-top.htm) 属性                                                |
-| paddingRight      | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [padding-right](https://css.doyoe.com/properties/padding/padding-right.htm) 属性                                            |
-| paddingBottom     | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [padding-bottom](https://css.doyoe.com/properties/padding/padding-bottom.htm) 属性                                          |
-| paddingLeft       | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [padding-left](https://css.doyoe.com/properties/padding/padding-left.htm) 属性                                              |
+| Propery Name      | Values                                             | Description                                                                                                                                                                                                                                                                                                            |
+| ----------------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| padding           | [&lt;number&gt;](#user-content-number) | Corresponds to `CSS` [padding](https://css.doyoe.com/properties/padding/padding.htm) property, The difference is that it can only define one parameter, if you want to define the internal white of `top, right, bottom and left` 4 directions respectively, you can use the following one-way internal white property |
+| paddingHorizontal | [&lt;number&gt;](#user-content-number) | There is no corresponding `CSS` property.This has the effect of setting both `paddingRight` and `paddingLeft` at the same time                                                                                                                                                                                         |
+| paddingVertical   | [&lt;number&gt;](#user-content-number) | No corresponding `CSS` property.The effect is equivalent to setting both `paddingTop` and `paddingBottom`.                                                                                                                                                                                                             |
+| paddingTop        | [&lt;number&gt;](#user-content-number) | Corresponds to `CSS` [padding-top](https://css.doyoe.com/properties/padding/padding-top.htm) property                                                                                                                                                                                                                  |
+| paddingRight      | [&lt;number&gt;](#user-content-number) | Corresponds to `CSS` [padding-right](https://css.doyoe.com/properties/padding/padding-right.htm) property                                                                                                                                                                                                              |
+| paddingBottom     | [&lt;number&gt;](#user-content-number) | Corresponds to `CSS` [padding-bottom](https://css.doyoe.com/properties/padding/padding-bottom.htm) property                                                                                                                                                                                                            |
+| paddingLeft       | [&lt;number&gt;](#user-content-number) | Corresponds to `CSS` [padding-left](https://css.doyoe.com/properties/padding/padding-left.htm) property                                                                                                                                                                                                                |
 
-### Border 边框（20）
+### Border （20）
 
-| 属性名                     | 取值                                                                                                                                                          | 描述                                                                                               |
-| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| borderStyle             | `solid`, `dotted`, `dashed`                                                                                                                                 | 对应 `CSS` `border-style` 属性，但阉割了 `none, hidden, double, groove, ridge, inset, outset` 取值，且无方向分拆属性 |
-| borderWidth             | [&lt;number&gt;](#user-content-number)                                                                                                          | 对应 `CSS` `border-width` 属性                                                                       |
-| borderTopWidth          | [&lt;number&gt;](#user-content-number)                                                                                                          | 对应 `CSS` `border-top-width` 属性                                                                   |
-| borderRightWidth        | [&lt;number&gt;](#user-content-number)                                                                                                          | 对应 `CSS` `border-right-width` 属性                                                                 |
-| borderBottomWidth       | [&lt;number&gt;](#user-content-number)                                                                                                          | 对应 `CSS` `border-bottom-width` 属性                                                                |
-| borderLeftWidth         | [&lt;number&gt;](#user-content-number)                                                                                                          | 对应 `CSS` `border-left-width` 属性                                                                  |
-| borderColor             | [&lt;color&gt;](#user-content-color)                                                                                                            | 对应 `CSS` `border-color` 属性                                                                       |
-| borderTopColor          | [&lt;color&gt;](#user-content-color)                                                                                                            | 对应 `CSS` `border-top-color` 属性                                                                   |
-| borderRightColor        | [&lt;color&gt;](#user-content-color)                                                                                                            | 对应 `CSS` `border-right-color` 属性                                                                 |
-| borderBottomColor       | [&lt;color&gt;](#user-content-color)                                                                                                            | 对应 `CSS` `border-bottom-color` 属性                                                                |
-| borderLeftColor         | [&lt;color&gt;](#user-content-color)                                                                                                            | 对应 `CSS` `border-left-color` 属性                                                                  |
-| borderRadius            | [&lt;number&gt;](#user-content-number)                                                                                                          | 对应 `CSS` `border-radius` 属性                                                                      |
-| borderTopLeftRadius     | [&lt;number&gt;](#user-content-number)                                                                                                          | 对应 `CSS` `border-top-left-radius` 属性                                                             |
-| borderTopRightRadius    | [&lt;number&gt;](#user-content-number)                                                                                                          | 对应 `CSS` `border-top-right-radius` 属性                                                            |
-| borderBottomLeftRadius  | [&lt;number&gt;](#user-content-number)                                                                                                          | 对应 `CSS` `border-bottom-left-radius` 属性                                                          |
-| borderBottomRightRadius | [&lt;number&gt;](#user-content-number)                                                                                                          | 对应 `CSS` `border-bottom-right-radius` 属性                                                         |
-| shadowColor             | [&lt;color&gt;](#user-content-color)                                                                                                            | 对应 `CSS` [box-shadow](https://css.doyoe.com/properties/border/box-shadow.htm) 属性中的颜色定义           |
-| shadowOffset            | {<br />width: [&lt;number&gt;](#user-content-number), <br />height: [&lt;number&gt;](#user-content-number)<br />} | 对应 `CSS` [box-shadow](https://css.doyoe.com/properties/border/box-shadow.htm) 属性中的阴影偏移定义         |
-| shadowRadius            | [&lt;number&gt;](#user-content-number)                                                                                                          | 在 `CSS` 中，阴影的圆角大小取决于元素的圆角定义，不需要额外定义                                                              |
-| shadowOpacity           | [&lt;number&gt;](#user-content-number)                                                                                                          | 对应 `CSS` [box-shadow](https://css.doyoe.com/properties/border/box-shadow.htm) 属性中的阴影透明度定义        |
+| Propery Name            | Values                                                                                                                                                      | Description                                                                                                                                                        |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| borderStyle             | `solid`, `dotted`, `dashed`                                                                                                                                 | Corresponds to `CSS` `border-style` property，but with fewer  `none, hidden, double, groove, ridge, inset, outset` fetch values and no direction splitting property |
+| borderWidth             | [&lt;number&gt;](#user-content-number)                                                                                                          | Corresponds to `CSS` `border-width` property                                                                                                                       |
+| borderTopWidth          | [&lt;number&gt;](#user-content-number)                                                                                                          | Corresponds to `CSS` `border-top-width` property                                                                                                                   |
+| borderRightWidth        | [&lt;number&gt;](#user-content-number)                                                                                                          | Corresponds to `CSS` `border-right-width` property                                                                                                                 |
+| borderBottomWidth       | [&lt;number&gt;](#user-content-number)                                                                                                          | Corresponds to `CSS` `border-bottom-width` property                                                                                                                |
+| borderLeftWidth         | [&lt;number&gt;](#user-content-number)                                                                                                          | Corresponds to `CSS` `border-left-width` property                                                                                                                  |
+| borderColor             | [&lt;color&gt;](#user-content-color)                                                                                                            | Corresponds to `CSS` `border-color` property                                                                                                                       |
+| borderTopColor          | [&lt;color&gt;](#user-content-color)                                                                                                            | Corresponds to `CSS` `border-top-color` property                                                                                                                   |
+| borderRightColor        | [&lt;color&gt;](#user-content-color)                                                                                                            | Corresponds to `CSS` `border-right-color` property                                                                                                                 |
+| borderBottomColor       | [&lt;color&gt;](#user-content-color)                                                                                                            | Corresponds to `CSS` `border-bottom-color` property                                                                                                                |
+| borderLeftColor         | [&lt;color&gt;](#user-content-color)                                                                                                            | Corresponds to `CSS` `border-left-color` property                                                                                                                  |
+| borderRadius            | [&lt;number&gt;](#user-content-number)                                                                                                          | Corresponds to `CSS` `border-radius` property                                                                                                                      |
+| borderTopLeftRadius     | [&lt;number&gt;](#user-content-number)                                                                                                          | Corresponds to `CSS` `border-top-left-radius` property                                                                                                             |
+| borderTopRightRadius    | [&lt;number&gt;](#user-content-number)                                                                                                          | Corresponds to `CSS` `border-top-right-radius` property                                                                                                            |
+| borderBottomLeftRadius  | [&lt;number&gt;](#user-content-number)                                                                                                          | Corresponds to `CSS` `border-bottom-left-radius`property                                                                                                           |
+| borderBottomRightRadius | [&lt;number&gt;](#user-content-number)                                                                                                          | Corresponds to `CSS` `border-bottom-right-radius` property                                                                                                         |
+| shadowColor             | [&lt;color&gt;](#user-content-color)                                                                                                            | Corresponds to `CSS` [box-shadow](https://css.doyoe.com/properties/border/box-shadow.htm) the color definition in the property                                     |
+| shadowOffset            | {<br />width: [&lt;number&gt;](#user-content-number), <br />height: [&lt;number&gt;](#user-content-number)<br />} | Corresponds to `CSS` [box-shadow](https://css.doyoe.com/properties/border/box-shadow.htm) shadow offset definition in the properties                               |
+| shadowRadius            | [&lt;number&gt;](#user-content-number)                                                                                                          | In `CSS`, the size of the rounded corners of the shadow depends on the element's rounded corner definition and does not need to be defined additionally            |
+| shadowOpacity           | [&lt;number&gt;](#user-content-number)                                                                                                          | Corresponds to `CSS` [box-shadow](https://css.doyoe.com/properties/border/box-shadow.htm) shadow transparency definition in the properties                         |
 
 <a name="background"></a>
 
-### Background 背景（1）
+### Background (1)
 
-| 属性名             | 取值                                               | 描述                             |
-| --------------- | ------------------------------------------------ | ------------------------------ |
-| backgroundColor | [&lt;color&gt;](#user-content-color) | 对应 `CSS` `background-color` 属性 |
+| Propery Name    | Values                                           | Description                                     |
+| --------------- | ------------------------------------------------ | ----------------------------------------------- |
+| backgroundColor | [&lt;color&gt;](#user-content-color) | Corresponds to `CSS` `background-color` propery |
 
 <a name="transform"></a>
 
-### Transform 转换（3）
+### Transform （3）
 
-| 属性名                | 取值                                                                                                                                                                                                                                      | 描述                                                       |
-| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| transform          | `[{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}, {skewX: string}, {skewY: string}]` | 对应 `CSS` `transform` 属性                                  |
-| transformMatrix    | `TransformMatrixPropType`                                                                                                                                                                                                               | 类似于 `CSS` 中 `transform` 属性的 `matrix()` 和 `matrix3d()` 函数 |
-| backfaceVisibility | `visible`, `hidden`                                                                                                                                                                                                                     | 对应 `CSS` `backface-visibility` 属性                        |
+| Propery Name       | Values                                                                                                                                                                                                                                  | Description                                                                               |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| transform          | `[{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}, {skewX: string}, {skewY: string}]` | Corresponds to `CSS` `transform` property                                                 |
+| transformMatrix    | `TransformMatrixPropType`                                                                                                                                                                                                               | Similar to the `matrix()` and `matrix3d()` functions of the `transform` property in `CSS` |
+| backfaceVisibility | `visible`, `hidden`                                                                                                                                                                                                                     | Corresponds to `CSS` `backface-visibility` propery                                        |
 
 <a name="flexbox"></a>
 
-### Flexbox 弹性盒（9）
+### Flexbox （9）
 
-我们在 React Native 中使用 Flexbox 规则来指定某个组件的子元素的布局。Flexbox 可以在不同屏幕尺寸上提供一致的布局结构。
+We use Flexbox rules in React Native to specify the layout of a component's child elements, and Flexbox provides a consistent layout structure across screen sizes.Flexbox 可以在不同屏幕尺寸上提供一致的布局结构。
 
-一般来说，使用 `flexDirection`、`alignItems` 和 `justifyContent` 三个样式属性就已经能满足大多数布局需求。
+In general, most layout needs are met using the `flexDirection`, `alignItems`, and `justifyContent` style properties.
 
 #### Flex number
 
-在 React Native 中 flex 的表现和 CSS 有些区别。 flex 在 RN 中只能为整数值，其具体表现请参考 [yoga 引擎](https://github.com/facebook/yoga) 的文档，
+In React Native, flex behaves a bit differently than CSS. flex can only be an integer value in RN, please refer to the [yoga engine](https://github.com/facebook/yoga) documentation for details
 
-| 条件                       | 表现                                                                      |
-| ------------------------ | ----------------------------------------------------------------------- |
-| flex 设置为正整数时，如 `flex: 1` | 组件是弹性的，尺寸和 flex 的值成正比                                                   |
-| `flex:0`                 | 组件没有弹性，且尺寸和 width ，height 一致                                            |
-| `flex: -1`               | 在空间足够的情况下，组件的尺寸和 width ，height 一致；但是在空间不足时，组件会被压缩至 minWidth 和 minHeight |
+| Conditions                                             | Performance                                                                                                                                                                         |
+| ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| When flex is set to a positive integer, e.g. `flex: 1` | The component is flexible and the size is proportional to the value of flex                                                                                                         |
+| `flex:0`                                               | The component is not flexible, and the size and width and height are consistent                                                                                                     |
+| `flex: -1`                                             | If there is enough space, the size of the component is the same as width and height; however, when there is not enough space, the component is compressed to minWidth and minHeight |
 
 
 
 #### Flex Direction
 
-在组件的 style 中指定 flexDirection 可以决定布局的主轴。子元素是应该沿着 `水平轴(row)`方向排列，还是沿着 `竖直轴(column)` 方向排列呢？**默认值是 `竖直轴(column)` 方向**，这点和 CSS 不一样，想要注意。
+Specifying flexDirection in the component's style determines the main axis of the layout.Should the child elements be aligned along the `horizontal axis (row)` or along the `vertical axis (column)`?**The default value is `column` direction**, which is different from CSS and should be noted.
 
 #### Justify Content
 
-在组件的 style 中指定 justifyContent 可以决定其子元素沿着主轴的排列方式。子元素是应该靠近主轴的起始端还是末尾段分布呢？亦或应该均匀分布？对应的这些可选项有：`flex-start`、`center`、`flex-end`、`space-around` 以及 `space-between`。
+Specifying justifyContent in the component's style determines how its child elements are arranged along the main axis.Should the child elements be distributed close to the beginning or the end of the main axis?Or should they be evenly distributed?The options are: `flex-start`, `center`, `flex-end`, `space-around` and `space-between`.
 
 #### Align Items
 
-在组件的 style 中指定 alignItems 可以决定其子元素沿着次轴（与主轴垂直的轴，比如若主轴方向为 row，则次轴方向为 column ）的排列方式。子元素是应该靠近次轴的起始端还是末尾段分布呢？亦或应该均匀分布？对应的这些可选项有：`flex-start`、`center`、`flex-end` 以及 `stretch`。
+Specifying alignItems in the component's style determines how its child elements are arranged along the secondary axis (the axis perpendicular to the major axis, e.g. if the major axis is row, the secondary axis is column).Should the child elements be distributed near the beginning or the end of the secondary axis?Or should they be evenly distributed?The options are: `flex-start`, `center`, `flex-end` and `stretch`.
 
-| 属性名            | 取值                                                                  | 描述                                               |
-| -------------- | ------------------------------------------------------------------- | ------------------------------------------------ |
-| flex           | [&lt;number&gt;](#user-content-number)                  | 对应 `CSS` `flex` 属性，但只能为整数值                       |
-| flexGrow       | [&lt;number&gt;](#user-content-number)                  | 对应 `CSS` `flex-grow` 属性                          |
-| flexShrink     | [&lt;number&gt;](#user-content-number)                  | 对应 `CSS` `flex-shrink` 属性                        |
-| flexBasis      | [&lt;number&gt;](#user-content-number)                  | 对应 `CSS` `flex-basis` 属性                         |
-| flexDirection  | `row`, `row-reverse`, `column`, `column-reverse`                    | 对应 `CSS` `flex-direction` 属性                     |
-| flexWrap       | `wrap`, `nowrap`                                                    | 对应 `CSS` `flex-wrap` 属性，但阉割了 `wrap-reverse` 取值   |
-| justifyContent | `flex-start`, `flex-end`, `center`, `space-between`, `space-around` | 对应 `CSS` `justify-content` 属性，但阉割了 `stretch` 取值。 |
-| alignItems     | `flex-start`, `flex-end`, `center`, `stretch`                       | 对应 `CSS` `align-items` 属性，但阉割了 `baseline` 取值。    |
-| alignSelf      | `auto`, `flex-start`, `flex-end`, `center`, `stretch`               | 对应 `CSS` `align-self` 属性，但阉割了 `baseline` 取值      |
+| Propery Name   | Values                                                              | Description                                                                        |
+| -------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| flex           | [&lt;number&gt;](#user-content-number)                  | Corresponds to `CSS` `flex` property，But only as integer values                    |
+| flexGrow       | [&lt;number&gt;](#user-content-number)                  | Corresponds to `CSS` `flex-grow` property                                          |
+| flexShrink     | [&lt;number&gt;](#user-content-number)                  | Corresponds to `CSS` `flex-shrink` property                                        |
+| flexBasis      | [&lt;number&gt;](#user-content-number)                  | Corresponds to `CSS` `flex-basis` property                                         |
+| flexDirection  | `row`, `row-reverse`, `column`, `column-reverse`                    | Corresponds to `CSS` `flex-direction` property                                     |
+| flexWrap       | `wrap`, `nowrap`                                                    | Corresponds to `CSS` `flex-wrap` property, but the `wrap-reverse` fetch is missing |
+| justifyContent | `flex-start`, `flex-end`, `center`, `space-between`, `space-around` | Corresponds to `CSS` `justify-content` property，but the `stretch` fetch is missing |
+| alignItems     | `flex-start`, `flex-end`, `center`, `stretch`                       | Corresponds to `CSS` `align-items` property，but the `baseline` fetch is missing    |
+| alignSelf      | `auto`, `flex-start`, `flex-end`, `center`, `stretch`               | Corresponds to `CSS` `align-self` property，but the `baseline` fetch is missing     |
 
-### Other 其他
+### Other
 
-| 属性名                                          | 取值                                                 | 描述                                       |
-| -------------------------------------------- | -------------------------------------------------- | ---------------------------------------- |
-| opacity                                      | [&lt;number&gt;](#user-content-number) | 对应 `CSS` `opacity` 属性                    |
-| overflow                                     | `visible`, `hidden`, `scroll`                      | 对应 `CSS` `overflow` 属性，但阉割了 `auto` 取值    |
-| elevation<br /><sup>`Android`</sup>    | [&lt;number&gt;](#user-content-number) | `CSS` 中没有对应的属性，只在 `Android5.0+` 上有效      |
-| resizeMode                                   | `cover`, `contain`, `stretch`                      | `CSS` 中没有对应的属性，可以参考 `background-size` 属性 |
-| overlayColor<br /><sup>`Android`</sup> | string                                             | `CSS` 中没有对应的属性，当图像有圆角时，将角落都充满一种颜色        |
-| tintColor<br /><sup>`iOS`</sup>        | [&lt;color&gt;](#user-content-color)   | `CSS` 中没有对应的属性，`iOS` 图像上特殊的色彩，改变不透明像素的颜色 |
+| Propery Name                                 | Values                                             | Description                                                                                                  |
+| -------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| opacity                                      | [&lt;number&gt;](#user-content-number) | Corresponds to `CSS` `opacity` property                                                                      |
+| overflow                                     | `visible`, `hidden`, `scroll`                      | Corresponds to `CSS` `overflow` property, but the `auto` fetch is missing                                    |
+| elevation<br /><sup>`Android`</sup>    | [&lt;number&gt;](#user-content-number) | No corresponding property in `CSS`, only available on `Android 5.0+`                                         |
+| resizeMode                                   | `cover`, `contain`, `stretch`                      | There is no equivalent property in `CSS`, you can refer to the `background-size` property                    |
+| overlayColor<br /><sup>`Android`</sup> | string                                             | There is no equivalent property in `CSS` to fill the corners with a color when the image has rounded corners |
+| tintColor<br /><sup>`iOS`</sup>        | [&lt;color&gt;](#user-content-color)   | No corresponding property in `CSS`, special color on `iOS` images, change color of opaque pixels             |
 
-#### Color 颜色
+#### Color
 
-`React Native` 支持了 `CSS` 中大部分的颜色类型：
+`React Native` supports most of the color types in `CSS`.
 
 - `#f00` (#rgb)
-- `#f00c` (#rgba)：`CSS` 中无对应的值
+- `#f00c` (#rgba)：No corresponding value in `CSS`
 - `#ff0000` (#rrggbb)
-- `#ff0000cc` (#rrggbbaa)：`CSS` 中无对应的值
+- `#ff0000cc` (#rrggbbaa)：No corresponding value in `CSS`
 - `rgb(255, 0, 0)`
 - `rgba(255, 0, 0, 0.9)`
 - `hsl(360, 100%, 100%)`
 - `hsla(360, 100%, 100%, 0.9)`
 - `transparent`
-- `0xff00ff00` (0xrrggbbaa)：`CSS` 中无对应的值
-- `Color Name`：支持了 [基本颜色关键字](https://css.doyoe.com/appendix/color-keywords.htm#basic) 和 [拓展颜色关键字](https://css.doyoe.com/appendix/color-keywords.htm#extended)，但不支持 [28 个系统颜色](https://css.doyoe.com/appendix/color-keywords.htm#system)；
+- `0xff00ff00` (0xrrggbbaa)：No corresponding value in `CSS`
+- `Color Name`：Support to [Basic color keywords](https://css.doyoe.com/appendix/color-keywords.htm#basic) and [Expanded color keywords](https://css.doyoe.com/appendix/color-keywords.htm#extended)，But not support [28 system colors](https://css.doyoe.com/appendix/color-keywords.htm#system)；
 
-#### 优先级与继承（Specificity and inheritance）
+#### Specificity and inheritance
 
-组件的引入样式的优先级高于全局样式的优先级。
+The introduction style of a component has a higher priority than the global style.
 
-#### 选择器
+#### Selector
 
-1. 基本选择器只支持类选择器
-2. 不支持组合选择器的写法
-3. 不支持伪类及伪元素
+1. Basic selector only supports class selector
+2. Not support the combination selector writing method
+3. Not support for pseudo-classes and pseudo-elements
 
-#### CSS 的简写属性（Shorthand properties）
+#### Shorthand properties
 
-仅接受 React Native 支持的值。例如 background 只接受一种颜色 `backgroundColor`，因为 React Native 的 Background 仅支持 `backgroundColor` 属性。React Native 支持的属性可见上述 React Native 样式表。
+Only accepts values supported by React Native.For example, background accepts only one color, `backgroundColor`, because React Native's Background only supports the `backgroundColor` property.properties supported by React Native can be found in the React Native stylesheet above.
 
-#### 单位
+#### Unit
 
-Taro 使用 [PostCSS](https://github.com/ai/postcss) 单位转换插件 [postcss-pxtransform](https://github.com/NervJS/taro/blob/master/packages/postcss-pxtransform/README.md) 会将 px 转换为 React Native 的 `pt`，具体配置方法可以查看文档。
+Taro use [PostCSS](https://github.com/ai/postcss) unit conversion plugin [postcss-pxtransform](https://github.com/NervJS/taro/blob/master/packages/postcss-pxtransform/README.md) will convert px to React Native's `pt`, see the documentation for details on how to configure this.
 
 
