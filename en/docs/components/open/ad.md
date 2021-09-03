@@ -3,17 +3,17 @@ title: Ad
 sidebar_label: Ad
 ---
 
-Banner 广告
+Banner ad.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/ad.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/component/ad.html)
 
-## 类型
+## Type
 
 ```tsx
 ComponentType<AdProps>
 ```
 
-## 示例代码
+## Examples
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -65,63 +65,63 @@ class App extends Component {
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>unitId</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>广告单元id，可在<a href="https://mp.weixin.qq.com/">小程序管理后台</a>的流量主模块新建</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>d unit ID, which can be created via the Ad Host module in<a href="https://mp.weixin.qq.com/?lang=en_US&token="> Mini Program Console</a>.</td>
     </tr>
     <tr>
       <td>adIntervals</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>广告自动刷新的间隔时间，单位为秒，参数值必须大于等于30（该参数不传入时 Banner 广告不会自动刷新）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The interval between the automatic refresh of the advertisements in seconds, the value of the parameter must be greater than or equal to 30.（Banner ads are not refreshed automatically if this parameter is not set.）</td>
     </tr>
     <tr>
       <td>onLoad</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>广告加载成功的回调</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Callback used when an ad is loaded</td>
     </tr>
     <tr>
       <td>onError</td>
       <td><code>BaseEventOrigFunction&lt;onErrorEventDetail&gt;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当广告发生错误时，触发的事件，可以通过该事件获取错误码及原因，事件对象event.detail = {`{errCode: 1002}`}</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Callback used when ad loading failed. event.detail = {`{errCode: 1002}`}</td>
     </tr>
     <tr>
       <td>onClose</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>广告关闭的回调</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Callback used when an ad is closed</td>
     </tr>
   </tbody>
 </table>
 
-### API 支持度
+### Property Support
 
-|         API         | 微信小程序 | H5 | React Native |
-|:-------------------:|:-----:|:--:|:------------:|
-|   AdProps.unitId    |  ✔️   |    |              |
-| AdProps.adIntervals |  ✔️   |    |              |
-|   AdProps.onLoad    |  ✔️   |    |              |
-|   AdProps.onError   |  ✔️   |    |              |
-|   AdProps.onClose   |  ✔️   |    |              |
+|         API         | WeChat Mini-Program | H5 | React Native |
+|:-------------------:|:-------------------:|:--:|:------------:|
+|   AdProps.unitId    |         ✔️          |    |              |
+| AdProps.adIntervals |         ✔️          |    |              |
+|   AdProps.onLoad    |         ✔️          |    |              |
+|   AdProps.onError   |         ✔️          |    |              |
+|   AdProps.onClose   |         ✔️          |    |              |
 
 ### onErrorEventDetail
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Param</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -134,79 +134,79 @@ class App extends Component {
 
 ### AdErrCode
 
-广告错误码
+An error code is obtained by executing the binderror callback.
 
 错误码是通过onError获取到的错误信息。调试期间，可以通过异常返回来捕获信息。 在小程序发布上线之后，如果遇到异常问题，可以在[“运维中心“](https://mp.weixin.qq.com/)里面搜寻错误日志，还可以针对异常返回加上适当的监控信息。
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th style={{ textAlign: "center"}}>异常情况</th>
-      <th style={{ textAlign: "center"}}>理由</th>
-      <th style={{ textAlign: "center"}}>解决方案</th>
+      <th>Code</th>
+      <th style={{ textAlign: "center"}}>Exception</th>
+      <th style={{ textAlign: "center"}}>Cause</th>
+      <th style={{ textAlign: "center"}}>Solution</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>1000</td>
-      <td style={{ textAlign: "center"}}><code>后端错误调用失败</code></td>
-      <td style={{ textAlign: "center"}}><code>该项错误不是开发者的异常情况</code></td>
-      <td style={{ textAlign: "center"}}><code>一般情况下忽略一段时间即可恢复。</code></td>
+      <td style={{ textAlign: "center"}}><code>Call failed due to a backend error</code></td>
+      <td style={{ textAlign: "center"}}><code>This error is not caused by developers.</code></td>
+      <td style={{ textAlign: "center"}}><code>Ignore the error, and it will be automatically recovered after a period of time.</code></td>
     </tr>
     <tr>
       <td>1001</td>
-      <td style={{ textAlign: "center"}}><code>参数错误</code></td>
-      <td style={{ textAlign: "center"}}><code>使用方法错误</code></td>
-      <td style={{ textAlign: "center"}}><code>可以前往 developers.weixin.qq.com 确认具体教程（小程序和小游戏分别有各自的教程，可以在顶部选项中，“设计”一栏的右侧进行切换。</code></td>
+      <td style={{ textAlign: "center"}}><code>Parameter error</code></td>
+      <td style={{ textAlign: "center"}}><code>The parameter is incorrectly used.</code></td>
+      <td style={{ textAlign: "center"}}><code>For details, visit developers.weixin.qq.com. (There are different courses specific to Mini Programs and Mini Games. In the top tab, you can switch between the courses on the right of the <strong>Design</strong> column.)</code></td>
     </tr>
     <tr>
       <td>1002</td>
-      <td style={{ textAlign: "center"}}><code>广告单元无效</code></td>
-      <td style={{ textAlign: "center"}}><code>可能是拼写错误、或者误用了其他APP的广告ID</code></td>
-      <td style={{ textAlign: "center"}}><code>请重新前往 mp.weixin.qq.com 确认广告位ID。</code></td>
+      <td style={{ textAlign: "center"}}><code>Invalid ad unit</code></td>
+      <td style={{ textAlign: "center"}}><code>The spelling may be incorrect or the ad ID of another app may be used.</code></td>
+      <td style={{ textAlign: "center"}}><code>Visit mp.weixin.qq.com to confirm the ad ID.</code></td>
     </tr>
     <tr>
       <td>1003</td>
-      <td style={{ textAlign: "center"}}><code>内部错误</code></td>
-      <td style={{ textAlign: "center"}}><code>该项错误不是开发者的异常情况</code></td>
-      <td style={{ textAlign: "center"}}><code>一般情况下忽略一段时间即可恢复。</code></td>
+      <td style={{ textAlign: "center"}}><code>Internal error</code></td>
+      <td style={{ textAlign: "center"}}><code>This error is not caused by developers.</code></td>
+      <td style={{ textAlign: "center"}}><code>Ignore the error, and it will be automatically recovered after a period of time.</code></td>
     </tr>
     <tr>
       <td>1004</td>
-      <td style={{ textAlign: "center"}}><code>无合适的广告</code></td>
-      <td style={{ textAlign: "center"}}><code>广告不是每一次都会出现，这次没有出现可能是由于该用户不适合浏览广告</code></td>
-      <td style={{ textAlign: "center"}}><code>属于正常情况，且开发者需要针对这种情况做形态上的兼容。</code></td>
+      <td style={{ textAlign: "center"}}><code>No suitable ad</code></td>
+      <td style={{ textAlign: "center"}}><code>The ad does not appear every time. Maybe it is not appropriate to the user.</code></td>
+      <td style={{ textAlign: "center"}}><code>This is a normal case. In addition, you need to improve compatibility in this case.</code></td>
     </tr>
     <tr>
       <td>1005</td>
-      <td style={{ textAlign: "center"}}><code>广告组件审核中</code></td>
-      <td style={{ textAlign: "center"}}><code>你的广告正在被审核，无法展现广告</code></td>
-      <td style={{ textAlign: "center"}}><code>请前往 mp.weixin.qq.com 确认审核状态，且开发者需要针对这种情况做形态上的兼容。</code></td>
+      <td style={{ textAlign: "center"}}><code>The ad component is being reviewed.</code></td>
+      <td style={{ textAlign: "center"}}><code>Your ad is being reviewed and therefore cannot be displayed.</code></td>
+      <td style={{ textAlign: "center"}}><code>Visit mp.weixin.qq.com to check the review status. In addition, you need to improve compatibility in this case.</code></td>
     </tr>
     <tr>
       <td>1006</td>
-      <td style={{ textAlign: "center"}}><code>广告组件被驳回</code></td>
-      <td style={{ textAlign: "center"}}><code>你的广告审核失败，无法展现广告</code></td>
-      <td style={{ textAlign: "center"}}><code>请前往 mp.weixin.qq.com 确认审核状态，且开发者需要针对这种情况做形态上的兼容。</code></td>
+      <td style={{ textAlign: "center"}}><code>The ad component is rejected.</code></td>
+      <td style={{ textAlign: "center"}}><code>Your ad failed to pass the review and therefore cannot be displayed.</code></td>
+      <td style={{ textAlign: "center"}}><code>Visit mp.weixin.qq.com to check the review status. In addition, you need to improve compatibility in this case.</code></td>
     </tr>
     <tr>
       <td>1007</td>
-      <td style={{ textAlign: "center"}}><code>广告组件被封禁</code></td>
-      <td style={{ textAlign: "center"}}><code>你的广告能力已经被封禁，封禁期间无法展现广告</code></td>
-      <td style={{ textAlign: "center"}}><code>请前往 mp.weixin.qq.com 确认小程序广告封禁状态。</code></td>
+      <td style={{ textAlign: "center"}}><code>The ad component is rejected.</code></td>
+      <td style={{ textAlign: "center"}}><code>Your advertising capability is suspended. ads cannot be displayed during the suspension.</code></td>
+      <td style={{ textAlign: "center"}}><code>Visit mp.weixin.qq.com to check the Mini Program ad suspension status.</code></td>
     </tr>
     <tr>
       <td>1008</td>
-      <td style={{ textAlign: "center"}}><code>广告单元已关闭</code></td>
-      <td style={{ textAlign: "center"}}><code>该广告位的广告能力已经被关闭</code></td>
-      <td style={{ textAlign: "center"}}><code>请前往 mp.weixin.qq.com 重新打开对应广告位的展现。</code></td>
+      <td style={{ textAlign: "center"}}><code>The ad unit is disabled.</code></td>
+      <td style={{ textAlign: "center"}}><code>The advertising capability in the advertising space is disabled.</code></td>
+      <td style={{ textAlign: "center"}}><code>Visit mp.weixin.qq.com to enable the display in the advertising space.</code></td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-| API | 微信小程序 | H5 | React Native |
-|:---:|:-----:|:--:|:------------:|
-| Ad  |  ✔️   |    |              |
+| API | WeChat Mini-Program | H5 | React Native |
+|:---:|:-------------------:|:--:|:------------:|
+| Ad  |         ✔️          |    |              |
