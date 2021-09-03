@@ -3,28 +3,28 @@ title: Taro.startAccelerometer(res)
 sidebar_label: startAccelerometer
 ---
 
-开始监听加速度数据。
+Starts listening on acceleration data.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/accelerometer/wx.startAccelerometer.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/accelerometer/wx.startAccelerometer.html)
 
-## 类型
+## Type
 
 ```tsx
 (res?: Option) => Promise<CallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -32,28 +32,28 @@ sidebar_label: startAccelerometer
       <td>interval</td>
       <td><code>&quot;game&quot; | &quot;ui&quot; | &quot;normal&quot;</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;normal&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>监听加速度数据回调函数的执行频率</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The execution frequency of the acceleration data listening callback function.</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td><code>(res: any) =&gt; void</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td style={{ textAlign: "center"}}>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
       <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td><code>(res: any) =&gt; void</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td style={{ textAlign: "center"}}>The callback function for a failed API call</td>
       <td>接口调用失败的回调函数</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td><code>(res: Result) =&gt; void</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
+      <td style={{ textAlign: "center"}}>The callback function for a successful API call</td>
       <td>接口调用成功的回调函数</td>
     </tr>
   </tbody>
@@ -64,38 +64,38 @@ sidebar_label: startAccelerometer
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>game</td>
       <td><code>&quot;game&quot;</code></td>
-      <td>适用于更新游戏的回调频率，在 20ms/次 左右</td>
+      <td>The execution interval of the callback for game updates, which is about 20 ms.</td>
     </tr>
     <tr>
       <td>ui</td>
       <td><code>&quot;ui&quot;</code></td>
-      <td>适用于更新 UI 的回调频率，在 60ms/次 左右</td>
+      <td>The execution interval of the callback for UI updates, which is about 60 ms.</td>
     </tr>
     <tr>
       <td>normal</td>
       <td><code>&quot;normal&quot;</code></td>
-      <td>普通的回调频率，在 200ms/次 左右</td>
+      <td>The normal callback interval, which is about 200 ms.</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.startAccelerometer({ interval: 'game' })
 ```
 
-## API 支持度
+## API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| Taro.startAccelerometer |  ✔️   | ✔️ |      ✔️      |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+| Taro.startAccelerometer |         ✔️          | ✔️ |      ✔️      |
