@@ -3,170 +3,170 @@ title: Taro.getSystemInfoSync()
 sidebar_label: getSystemInfoSync
 ---
 
-获取系统信息同步接口。
+The synchronous version of [Taro.getSystemInfo](./getSystemInfo).
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/system-info/wx.getSystemInfoSync.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/system-info/wx.getSystemInfoSync.html)
 
-## 类型
+## Type
 
 ```tsx
 () => Result
 ```
 
-## 参数
+## Parameters
 
 ### Result
 
-注意：**H5** 端不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
+**NOTE：** Version, statusBarHeight, fontSizeSetting, SDKVersion are not supported on the **H5**.
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>SDKVersion</td>
       <td><code>string</code></td>
-      <td>客户端基础库版本</td>
+      <td>Client base library version</td>
     </tr>
     <tr>
       <td>albumAuthorized</td>
       <td><code>boolean</code></td>
-      <td>允许微信使用相册的开关（仅 iOS 有效）</td>
+      <td>The switch that allows WeChat to use Photos (only for iOS)</td>
     </tr>
     <tr>
       <td>benchmarkLevel</td>
       <td><code>number</code></td>
-      <td>设备性能等级（仅Android小游戏）。取值为：-2 或 0（该设备无法运行小游戏），-1（性能未知），&gt;=1（设备性能值，该值越高，设备性能越好，目前最高不到50）</td>
+      <td>The device performance grade (only for Mini Games on Android).Values: -2 or 0 (the device cannot run the Mini Game), -1 (unknown performance), ≥1 (a higher value (up to 50) indicates a better performance).</td>
     </tr>
     <tr>
       <td>bluetoothEnabled</td>
       <td><code>boolean</code></td>
-      <td>蓝牙的系统开关</td>
+      <td>The system switch for Bluetooth</td>
     </tr>
     <tr>
       <td>brand</td>
       <td><code>string</code></td>
-      <td>设备品牌</td>
+      <td>Device brand</td>
     </tr>
     <tr>
       <td>cameraAuthorized</td>
       <td><code>boolean</code></td>
-      <td>允许微信使用摄像头的开关</td>
+      <td>The switch that allows WeChat to use the camera</td>
     </tr>
     <tr>
       <td>fontSizeSetting</td>
       <td><code>number</code></td>
-      <td>用户字体大小（单位px）。以微信客户端「我-设置-通用-字体大小」中的设置为准</td>
+      <td>User's font size in px.The setting in <strong>Me > Settings > General > Text Size</strong> in the WeChat app prevails.</td>
     </tr>
     <tr>
       <td>language</td>
       <td><code>string</code></td>
-      <td>微信设置的语言</td>
+      <td>Language set in WeChat</td>
     </tr>
     <tr>
       <td>locationAuthorized</td>
       <td><code>boolean</code></td>
-      <td>允许微信使用定位的开关</td>
+      <td>The switch that allows WeChat to use the location function</td>
     </tr>
     <tr>
       <td>locationEnabled</td>
       <td><code>boolean</code></td>
-      <td>地理位置的系统开关</td>
+      <td>The system switch for the GPS function</td>
     </tr>
     <tr>
       <td>microphoneAuthorized</td>
       <td><code>boolean</code></td>
-      <td>允许微信使用麦克风的开关</td>
+      <td>The switch that allows WeChat to use the microphone</td>
     </tr>
     <tr>
       <td>model</td>
       <td><code>string</code></td>
-      <td>设备型号</td>
+      <td>Device model</td>
     </tr>
     <tr>
       <td>notificationAlertAuthorized</td>
       <td><code>boolean</code></td>
-      <td>允许微信通知带有提醒的开关（仅 iOS 有效）</td>
+      <td>The switch that allows WeChat to send notifications with reminders (only for iOS)</td>
     </tr>
     <tr>
       <td>notificationAuthorized</td>
       <td><code>boolean</code></td>
-      <td>允许微信通知的开关</td>
+      <td>The switch that allows WeChat to send notifications</td>
     </tr>
     <tr>
       <td>notificationBadgeAuthorized</td>
       <td><code>boolean</code></td>
-      <td>允许微信通知带有标记的开关（仅 iOS 有效）</td>
+      <td>The switch that allows WeChat to send notifications with flags (only for iOS)</td>
     </tr>
     <tr>
       <td>notificationSoundAuthorized</td>
       <td><code>boolean</code></td>
-      <td>允许微信通知带有声音的开关（仅 iOS 有效）</td>
+      <td>The switch that allows WeChat to send notifications with sound (only for iOS).</td>
     </tr>
     <tr>
       <td>pixelRatio</td>
       <td><code>number</code></td>
-      <td>设备像素比</td>
+      <td>Device's pixel ratio</td>
     </tr>
     <tr>
       <td>platform</td>
       <td><code>string</code></td>
-      <td>客户端平台</td>
+      <td>Client platform</td>
     </tr>
     <tr>
       <td>safeArea</td>
       <td><code>SafeAreaResult</code></td>
-      <td>在竖屏正方向下的安全区域</td>
+      <td>Safe area when the screen is in vertical orientation</td>
     </tr>
     <tr>
       <td>screenHeight</td>
       <td><code>number</code></td>
-      <td>屏幕高度，单位px</td>
+      <td>Screen height in px</td>
     </tr>
     <tr>
       <td>screenWidth</td>
       <td><code>number</code></td>
-      <td>屏幕宽度，单位px</td>
+      <td>Screen width in px</td>
     </tr>
     <tr>
       <td>statusBarHeight</td>
       <td><code>number</code></td>
-      <td>状态栏的高度，单位px</td>
+      <td>Status bar height in px</td>
     </tr>
     <tr>
       <td>system</td>
       <td><code>string</code></td>
-      <td>操作系统及版本</td>
+      <td>Operating system and version</td>
     </tr>
     <tr>
       <td>version</td>
       <td><code>string</code></td>
-      <td>微信版本号</td>
+      <td>WeChat version</td>
     </tr>
     <tr>
       <td>wifiEnabled</td>
       <td><code>boolean</code></td>
-      <td>Wi-Fi 的系统开关</td>
+      <td>The system switch for Wi-Fi</td>
     </tr>
     <tr>
       <td>windowHeight</td>
       <td><code>number</code></td>
-      <td>可使用窗口高度，单位px</td>
+      <td>Available window height in px</td>
     </tr>
     <tr>
       <td>windowWidth</td>
       <td><code>number</code></td>
-      <td>可使用窗口宽度，单位px</td>
+      <td>Available window width in px</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 try {
@@ -183,8 +183,8 @@ try {
 }
 ```
 
-## API 支持度
+## API Support
 
-|          API           | 微信小程序 | H5 | React Native |
-|:----------------------:|:-----:|:--:|:------------:|
-| Taro.getSystemInfoSync |  ✔️   | ✔️ |      ✔️      |
+|          API           | WeChat Mini-Program | H5 | React Native |
+|:----------------------:|:-------------------:|:--:|:------------:|
+| Taro.getSystemInfoSync |         ✔️          | ✔️ |      ✔️      |
