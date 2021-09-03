@@ -3,51 +3,51 @@ title: Taro.startLocalServiceDiscovery(option)
 sidebar_label: startLocalServiceDiscovery
 ---
 
-开始搜索局域网下的 mDNS 服务。搜索的结果会通过 wx.onLocalService* 事件返回。
+Starts searching for the mDNS service in the LAN.The search results will be returned via the wx.onLocalService* event.
 
-**注意**
-1. wx.startLocalServiceDiscovery 是一个消耗性能的行为，开始 30 秒后会自动 stop 并执行 wx.onLocalServiceDiscoveryStop 注册的回调函数。
-2. 在调用 wx.startLocalServiceDiscovery 后，在这次搜索行为停止后才能发起下次 wx.startLocalServiceDiscovery。停止本次搜索行为的操作包括调用 wx.stopLocalServiceDiscovery 和 30 秒后系统自动 stop 本次搜索。
+**Note**
+1. wx.startLocalServiceDiscovery is a performance-consuming behavior that automatically stops after 30 seconds and executes the callback function registered with wx.onLocalServiceDiscoveryStop.
+2. After calling wx.startLocalServiceDiscovery, you cannot call this API again until the search behavior stops.The operations to stop this search behavior include calling wx.stopLocalServiceDiscovery and stopping the search automatically after 30 seconds.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/mdns/wx.startLocalServiceDiscovery.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/mdns/wx.startLocalServiceDiscovery.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => void
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
       <td><code>(result: FailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -57,22 +57,22 @@ sidebar_label: startLocalServiceDiscovery
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'invalid param': serviceType 为空;<br />- 'scan task already exist': 在当前 startLocalServiceDiscovery 发起的搜索未停止的情况下，再次调用 startLocalServiceDiscovery;</td>
+      <td>Error message<br /><br />Valid values: <br />- 'invalid param': serviceType is empty;<br />- 'scan task already exist': Calls startLocalServiceDiscovery again when the current search initiated by startLocalServiceDiscovery is not stopped;</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|               API               | 微信小程序 | H5 | React Native |
-|:-------------------------------:|:-----:|:--:|:------------:|
-| Taro.startLocalServiceDiscovery |  ✔️   |    |              |
+|               API               | WeChat Mini-Program | H5 | React Native |
+|:-------------------------------:|:-------------------:|:--:|:------------:|
+| Taro.startLocalServiceDiscovery |         ✔️          |    |              |
