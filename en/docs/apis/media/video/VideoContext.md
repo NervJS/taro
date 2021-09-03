@@ -3,77 +3,77 @@ title: VideoContext
 sidebar_label: VideoContext
 ---
 
-## 方法
+## Methods
 
 ### exitFullScreen
 
-退出全屏
+Exits the full screen
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.exitFullScreen.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.exitFullScreen.html)
 
 ```tsx
 () => void
 ```
 
-#### API 支持度
+#### API Support
 
-|             API             | 微信小程序 | H5 | React Native |
-|:---------------------------:|:-----:|:--:|:------------:|
-| VideoContext.exitFullScreen |  ✔️   |    |      ✔️      |
+|             API             | WeChat Mini-Program | H5 | React Native |
+|:---------------------------:|:-------------------:|:--:|:------------:|
+| VideoContext.exitFullScreen |         ✔️          |    |      ✔️      |
 
 ### hideStatusBar
 
-隐藏状态栏，仅在iOS全屏下有效
+Hides the status bar (only effective in full screen mode on iOS)
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.hideStatusBar.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.hideStatusBar.html)
 
 ```tsx
 () => void
 ```
 
-#### API 支持度
+#### API Support
 
-|            API             | 微信小程序 | H5 | React Native |
-|:--------------------------:|:-----:|:--:|:------------:|
-| VideoContext.hideStatusBar |  ✔️   |    |              |
+|            API             | WeChat Mini-Program | H5 | React Native |
+|:--------------------------:|:-------------------:|:--:|:------------:|
+| VideoContext.hideStatusBar |         ✔️          |    |              |
 
 ### pause
 
-暂停视频
+Pauses the video.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.pause.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.pause.html)
 
 ```tsx
 () => void
 ```
 
-#### API 支持度
+#### API Support
 
-|        API         | 微信小程序 | H5 | React Native |
-|:------------------:|:-----:|:--:|:------------:|
-| VideoContext.pause |  ✔️   |    |      ✔️      |
+|        API         | WeChat Mini-Program | H5 | React Native |
+|:------------------:|:-------------------:|:--:|:------------:|
+| VideoContext.pause |         ✔️          |    |      ✔️      |
 
 ### play
 
-播放视频
+Plays the video.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.play.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.play.html)
 
 ```tsx
 () => void
 ```
 
-#### API 支持度
+#### API Support
 
-|        API        | 微信小程序 | H5 | React Native |
-|:-----------------:|:-----:|:--:|:------------:|
-| VideoContext.play |  ✔️   |    |      ✔️      |
+|        API        | WeChat Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:--:|:------------:|
+| VideoContext.play |         ✔️          |    |      ✔️      |
 
 ### playbackRate
 
-设置倍速播放
+Sets multi-speed playback.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.playbackRate.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.playbackRate.html)
 
 ```tsx
 (rate: number) => void
@@ -82,31 +82,31 @@ sidebar_label: VideoContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>rate</td>
       <td><code>number</code></td>
-      <td>倍率，支持 0.5/0.8/1.0/1.25/1.5，2.6.3 起支持 2.0 倍速</td>
+      <td>Indicates the playback speed (0.5x/0.8x/1x/1.25x/1.5x). 2.0x is supported as of V2.6.3.</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|            API            | 微信小程序 | H5 | React Native |
-|:-------------------------:|:-----:|:--:|:------------:|
-| VideoContext.playbackRate |  ✔️   |    |      ✔️      |
+|            API            | WeChat Mini-Program | H5 | React Native |
+|:-------------------------:|:-------------------:|:--:|:------------:|
+| VideoContext.playbackRate |         ✔️          |    |      ✔️      |
 
 ### requestFullScreen
 
-进入全屏
+Enters the full screen.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.requestFullScreen.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.requestFullScreen.html)
 
 ```tsx
 (option: RequestFullScreenOption) => void
@@ -115,8 +115,8 @@ sidebar_label: VideoContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -127,17 +127,17 @@ sidebar_label: VideoContext
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|              API               | 微信小程序 | H5 | React Native |
-|:------------------------------:|:-----:|:--:|:------------:|
-| VideoContext.requestFullScreen |  ✔️   |    |      ✔️      |
+|              API               | WeChat Mini-Program | H5 | React Native |
+|:------------------------------:|:-------------------:|:--:|:------------:|
+| VideoContext.requestFullScreen |         ✔️          |    |      ✔️      |
 
 ### seek
 
-跳转到指定位置
+Jumps to the specific position.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.seek.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.seek.html)
 
 ```tsx
 (position: number) => void
@@ -146,31 +146,31 @@ sidebar_label: VideoContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>position</td>
       <td><code>number</code></td>
-      <td>跳转到的位置，单位 s</td>
+      <td>The position to be jumped to (in sec)</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|        API        | 微信小程序 | H5 | React Native |
-|:-----------------:|:-----:|:--:|:------------:|
-| VideoContext.seek |  ✔️   |    |      ✔️      |
+|        API        | WeChat Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:--:|:------------:|
+| VideoContext.seek |         ✔️          |    |      ✔️      |
 
 ### sendDanmu
 
-发送弹幕
+Sends barrage comments
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.sendDanmu.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.sendDanmu.html)
 
 ```tsx
 (data: Danmu) => void
@@ -179,121 +179,121 @@ sidebar_label: VideoContext
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>data</td>
       <td><code>Danmu</code></td>
-      <td>弹幕内容</td>
+      <td>Barrage comment text</td>
     </tr>
   </tbody>
 </table>
 
-#### API 支持度
+#### API Support
 
-|          API           | 微信小程序 | H5 | React Native |
-|:----------------------:|:-----:|:--:|:------------:|
-| VideoContext.sendDanmu |  ✔️   |    |              |
+|          API           | WeChat Mini-Program | H5 | React Native |
+|:----------------------:|:-------------------:|:--:|:------------:|
+| VideoContext.sendDanmu |         ✔️          |    |              |
 
 ### showStatusBar
 
-显示状态栏，仅在iOS全屏下有效
+Displays the status bar (only effective in full screen mode on iOS)
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.showStatusBar.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.showStatusBar.html)
 
 ```tsx
 () => void
 ```
 
-#### API 支持度
+#### API Support
 
-|            API             | 微信小程序 | H5 | React Native |
-|:--------------------------:|:-----:|:--:|:------------:|
-| VideoContext.showStatusBar |  ✔️   |    |              |
+|            API             | WeChat Mini-Program | H5 | React Native |
+|:--------------------------:|:-------------------:|:--:|:------------:|
+| VideoContext.showStatusBar |         ✔️          |    |              |
 
 ### stop
 
-停止视频
+Stops the video.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.stop.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.stop.html)
 
 ```tsx
 () => void
 ```
 
-#### API 支持度
+#### API Support
 
-|        API        | 微信小程序 | H5 | React Native |
-|:-----------------:|:-----:|:--:|:------------:|
-| VideoContext.stop |  ✔️   |    |      ✔️      |
+|        API        | WeChat Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:--:|:------------:|
+| VideoContext.stop |         ✔️          |    |      ✔️      |
 
-## 参数
+## Parameters
 
 ### RequestFullScreenOption
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>direction</td>
       <td><code>0 | 90 | -90</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置全屏时视频的方向，不指定则根据宽高比自动判断。<br /><br />可选值：<br />- 0: 正常竖向;<br />- 90: 屏幕逆时针90度;<br />- -90: 屏幕顺时针90度;</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Specifies the direction of the video in the full screen. If it is not specified, the direction is set automatically based on the aspect ratio.<br /><br />可选值：<br />- 0: 正常竖向;<br />- 90: 屏幕逆时针90度;<br />- -90: 屏幕顺时针90度;</td>
     </tr>
   </tbody>
 </table>
 
 ### Danmu
 
-弹幕内容
+Barrage comments
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>text</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>弹幕文字</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Barrage comment text</td>
     </tr>
     <tr>
       <td>color</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>弹幕颜色</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Color of barrage comments</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|              API               | 微信小程序 | H5 | React Native |
-|:------------------------------:|:-----:|:--:|:------------:|
-|  VideoContext.exitFullScreen   |  ✔️   |    |      ✔️      |
-|   VideoContext.hideStatusBar   |  ✔️   |    |              |
-|       VideoContext.pause       |  ✔️   |    |      ✔️      |
-|       VideoContext.play        |  ✔️   |    |      ✔️      |
-|   VideoContext.playbackRate    |  ✔️   |    |      ✔️      |
-| VideoContext.requestFullScreen |  ✔️   |    |      ✔️      |
-|       VideoContext.seek        |  ✔️   |    |      ✔️      |
-|     VideoContext.sendDanmu     |  ✔️   |    |              |
-|   VideoContext.showStatusBar   |  ✔️   |    |              |
-|       VideoContext.stop        |  ✔️   |    |      ✔️      |
+|              API               | WeChat Mini-Program | H5 | React Native |
+|:------------------------------:|:-------------------:|:--:|:------------:|
+|  VideoContext.exitFullScreen   |         ✔️          |    |      ✔️      |
+|   VideoContext.hideStatusBar   |         ✔️          |    |              |
+|       VideoContext.pause       |         ✔️          |    |      ✔️      |
+|       VideoContext.play        |         ✔️          |    |      ✔️      |
+|   VideoContext.playbackRate    |         ✔️          |    |      ✔️      |
+| VideoContext.requestFullScreen |         ✔️          |    |      ✔️      |
+|       VideoContext.seek        |         ✔️          |    |      ✔️      |
+|     VideoContext.sendDanmu     |         ✔️          |    |              |
+|   VideoContext.showStatusBar   |         ✔️          |    |              |
+|       VideoContext.stop        |         ✔️          |    |      ✔️      |
