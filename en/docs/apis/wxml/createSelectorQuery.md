@@ -3,32 +3,32 @@ title: Taro.createSelectorQuery()
 sidebar_label: createSelectorQuery
 ---
 
-返回一个 SelectorQuery 对象实例。在自定义组件或包含自定义组件的页面中，应使用 `this.createSelectorQuery()` 来代替。
+Returns a SelectorQuery object instance.In a custom component or a page that contains a custom component, use `this.createSelectorQuery()` instead.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/wx.createSelectorQuery.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/wx.createSelectorQuery.html)
 
-## 类型
+## Type
 
 ```tsx
 () => SelectorQuery
 ```
 
-## 参数
+## Parameters
 
-## 示例代码
+## Sample Code
 
 ```tsx
 const query = Taro.createSelectorQuery()
 query.select('#the-id').boundingClientRect()
 query.selectViewport().scrollOffset()
 query.exec(function(res){
-  res[0].top       // #the-id节点的上边界坐标
-  res[1].scrollTop // 显示区域的竖直滚动位置
+  res[0].top       // The upper boundary coordinate of the #the-id node
+  res[1].scrollTop // The vertical scroll position of the display area
 })
 ```
 
-## API 支持度
+## API Support
 
-|           API            | 微信小程序 | H5 | React Native |
-|:------------------------:|:-----:|:--:|:------------:|
-| Taro.createSelectorQuery |  ✔️   | ✔️ |              |
+|           API            | WeChat Mini-Program | H5 | React Native |
+|:------------------------:|:-------------------:|:--:|:------------:|
+| Taro.createSelectorQuery |         ✔️          | ✔️ |              |
