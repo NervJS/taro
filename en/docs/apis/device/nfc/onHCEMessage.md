@@ -3,21 +3,21 @@ title: Taro.onHCEMessage(callback)
 sidebar_label: onHCEMessage
 ---
 
-监听接收 NFC 设备消息事件，仅能注册一个监听
+Listens on the event of receiving NFC device messages.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.onHCEMessage.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.onHCEMessage.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: Callback) => void
 ```
 
-## 参数
+## Parameters
 
 ### Callback
 
-接收 NFC 设备消息事件的回调函数
+The callback function for the event of receiving NFC device messages.
 
 ```tsx
 (result: CallbackResult) => void
@@ -26,8 +26,8 @@ sidebar_label: onHCEMessage
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -43,55 +43,55 @@ sidebar_label: onHCEMessage
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>data</td>
       <td><code>ArrayBuffer</code></td>
-      <td><code>messageType=1</code> 时 ,客户端接收到 NFC 设备的指令</td>
+      <td>When<code>messageType=1</code>, the app receives a command from the NFC device.</td>
     </tr>
     <tr>
       <td>messageType</td>
       <td><code>1 | 2</code></td>
-      <td>消息类型</td>
+      <td>Message type</td>
     </tr>
     <tr>
       <td>reason</td>
       <td><code>number</code></td>
-      <td><code>messageType=2</code> 时，原因</td>
+      <td>The reason when<code>messageType=2</code>is returned</td>
     </tr>
   </tbody>
 </table>
 
 ### messageType
 
-消息类型
+Valid values of messageType
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>1</td>
-      <td>HCE APDU Command类型，小程序需对此指令进行处理，并调用 sendHCEMessage 接口返回处理指令</td>
+      <td>HCE APDU Command type. The Mini Program needs to process this command and call the sendHCEMessage API to return the processed command.</td>
     </tr>
     <tr>
       <td>2</td>
-      <td>设备离场事件类型</td>
+      <td>Device departure event type</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|        API        | 微信小程序 | H5 | React Native |
-|:-----------------:|:-----:|:--:|:------------:|
-| Taro.onHCEMessage |  ✔️   |    |              |
+|        API        | WeChat Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:--:|:------------:|
+| Taro.onHCEMessage |         ✔️          |    |              |
