@@ -2,69 +2,68 @@
 title: Vue DevTools
 ---
 
-:::note Taro v3.3.2 开始支持。
+:::note Taro v3.3.2 is supported.
 
-暂不支持 Vue2。 :::
+Vue2 is not supported at this time. :::
 
-在开发小程序时可以使用 [Vue DevTools](https://devtools.vuejs.org/guide/installation.html)。
+When developing mini program you can use [Vue DevTools](https://devtools.vuejs.org/guide/installation.html)。
 
-## 使用方法
+## Usage
 
-### 1. 安装
+### 1. Installation
 
-在项目中安装 Taro 插件 `@tarojs/plugin-vue-devtools`：
+Install the Taro plugin in your project `@tarojs/plugin-vue-devtools`：
 
 ```sh
 $ yarn add --dev @tarojs/plugin-vue-devtools
 ```
 
-### 2. 配置 Taro 插件
+### 2. Configuring the Taro Plugin
 
-在 Taro 编译配置中配置使用 `@tarojs/plugin-vue-devtools`：
+Configure the Taro compile configuration to use `@tarojs/plugin-vue-devtools`：
 
 ```js title="config/dev.js"
 config = {
   plugins: [
     '@tarojs/plugin-vue-devtools'
   ],
-  // ...
-}
+  // ... }
 ```
 
-### 3. 编译项目
+### 3. Compile project
 
 ```sh
 $ taro build --type weapp --watch
 ```
 
-## 插件参数
+## Plugin Parameters
 
-插件 `@tarojs/plugin-vue-devtools` 具有以下参数：
+The plugin `@tarojs/plugin-vue-devtools` has the following parameters.
 
 ### enabled
 
 `boolean`
 
-默认值：`true`
+Default value: `true`
 
-控制是否连接 `vue-devtools`，开启后会注入 backend 的代码到开发者的应用中。
+Controls whether to connect to `vue-devtools`, which will inject backend code into the developer's app when turned on.
 
 ### port
 
 `number`
 
-默认值：`8098`
+Default value: `8098`
 
-Vue DevTools 使用的 Websocket 端口。
+The Websocket port used by Vue DevTools.
 
-## 注意事项
+## Caution
 
-- 强制锁定了 `vue-devtools` 的版本，更新版本需要修改 `@tarojs/plugin-vue-devtools` 插件的代码。
+- The version of `vue-devtools` is forcibly locked, and the code of the `@tarojs/plugin-vue-devtools` plugin needs to be modified to update the version.
 
-另外，目前对 devtools 功能的支持不够全面，有些功能需要针对小程序环境魔改 backend 才能实现，欢迎共建～
+In addition, the current support for devtools is not comprehensive enough, some features need to be magic backend for the mini program environment to achieve, welcome to build ~
 
-- 支持元素高亮。
+- Support element highlighting.
 
-## 详细设计
+## Detailed Design
 
-详细设计请看 [RFC](https://github.com/NervJS/taro-rfcs/blob/master/rfcs/0006-vue-devtools.md)。
+For detailed design, see [RFC](https://github.com/NervJS/taro-rfcs/blob/master/rfcs/0006-vue-devtools.md)。
