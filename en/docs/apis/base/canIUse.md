@@ -3,31 +3,25 @@ title: Taro.canIUse(schema)
 sidebar_label: canIUse
 ---
 
-判断小程序的 API，回调，参数，组件等是否在当前版本可用。
+Determines whether the APIs, callbacks, parameters, and components of the Mini Program are available in the current version.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/wx.canIUse.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/base/wx.canIUse.html)
 
-## 类型
+## Type
 
 ```tsx
 (schema: string) => boolean
 ```
 
-## 参数
+## Parameters
 
-使用 `${API}.${method}.${param}.${option}` 或者 `${component}.${attribute}.${option}` 方式来调用
+The API is called using the `${API}.${method}.${param}.${options}` or `${component}.${attribute}.${option}` method.
 
-**参数说明**
+**Parameters Description**
 
-\- `${API}` 代表 API 名字  
-\- `${method}` 代表调用方式，有效值为return, success, object, callback  
-\- `${param}` 代表参数或者返回值  
-\- `${option}` 代表参数的可选值或者返回值的属性  
-\- `${component}` 代表组件名字  
-\- `${attribute}` 代表组件属性  
-\- `${option}` 代表组件属性的可选值
+\- `${API}`: API name \- `${method}`: Call method. Available values: return, success, object, and callback. \- `${param}`: Parameter or return value \- `${option}`: Available values for the parameter \- `${component}`: Component name \- `${attribute}`: Component attribute \- `${option}`: Available values for the component attribute
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.canIUse('openBluetoothAdapter')
@@ -41,8 +35,8 @@ Taro.canIUse('text.selectable')
 Taro.canIUse('button.open-type.contact')
 ```
 
-## API 支持度
+## API Support
 
-|     API      | 微信小程序 | H5 | React Native |
-|:------------:|:-----:|:--:|:------------:|
-| Taro.canIUse |  ✔️   |    |              |
+|     API      | WeChat Mini-Program | H5 | React Native |
+|:------------:|:-------------------:|:--:|:------------:|
+| Taro.canIUse |         ✔️          |    |              |
