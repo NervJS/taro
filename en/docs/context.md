@@ -4,7 +4,7 @@ title: Context
 
 > 自 `v1.3.0-beta.5` 起支持 在 Taro 中没有对 React 15 的 [legacy context](https://zh-hans.reactjs.org/docs/legacy-context.html) 进行支持，无法使用 `getChildContext()` API。
 
-在一个典型的 Taro 应用中，数据是通过 props 属性自上而下（由父及子）进行传递的，但这种做法对于某些类型的属性而言是极其繁琐的（例如：地区偏好，UI 主题），这些属性是应用程序中许多组件都需要的。Context 提供了一种在组件之间共享此类值的方式，而不必显式地通过组件树的逐层传递 props。
+In a typical Taro app, data is passed from top down through props (parents and children) but this is very cumbersome for some types of attributes (e.g.：area preferences, UI themes), which are required by many components in the application.Context provides a way to share this value between components, without explicitly passing props through the hierarchy of component trees.
 
 
 ## API
@@ -14,9 +14,9 @@ title: Context
 ```jsx
 const MyContext = Taro.createContext(defaultValue)
 ```
-创建一个 Context 对象。当 Taro 渲染一个订阅了这个 Context 对象的组件，这个组件会从最先渲染的 `Provider` 中读取到 `Provider` 的 `value`。
+Create a Context object.当 Taro 渲染一个订阅了这个 Context 对象的组件，这个组件会从最先渲染的 `Provider` 中读取到 `Provider` 的 `value`。
 
-> 在 Taro 中，即便在框架层面也无法知道组件的树结构，因此 Taro 无法像 React 一样往父组件找离自己最近的 Provider。因此创建的 Context 最好只在一个地方使用。
+> In Taro Taro the tree structure of the component cannot be known even at the framework level, so Taro cannot look like React to parent components to find their nearest ProviderThe text created is therefore best used in one place only.
 
 
 ### Context.Provider
@@ -25,15 +25,15 @@ const MyContext = Taro.createContext(defaultValue)
 <MyContext.Provider value={/* 某个值 */}>
 ```
 
-每个 Context 对象都会返回一个 Provider Taro 组件，它允许消费组件订阅 context 的变化。
+Every Context object returns a Provider Taro component, which allows consumer components to subscribe to changes
 
-Provider 接收一个 `value` 属性，传递给消费组件。一个 Provider 可以和多个消费组件有对应关系。多个 Provider 也可以嵌套使用，里层的会覆盖外层的数据。
+Provider accepts a `value` attribute, passed to consumer components.A Provider can be related to multiple consumer components.Multiple Provider can also be nested and inside will override outer data.
 
-当 Provider 的 `value` 值发生变化时，它内部的所有消费组件都会重新渲染。Provider 及其内部包含 `contextType` 或使用 `useContext` 组件都不受制于 shouldComponentUpdate 函数，因此当 consumer 组件在其祖先组件退出更新的情况下也能更新。
+When the Provider's `value` value changes, all consumer components within it will re-render.Provider 及其内部包含 `contextType` 或使用 `useContext` 组件都不受制于 shouldComponentUpdate 函数，因此当 consumer 组件在其祖先组件退出更新的情况下也能更新。
 
-通过新旧值检测来确定变化，使用了与 `Object.is` 相同的算法。
+Determine changes with new and old values using the same algorithm as `Object.is`.
 
-> 由于现在 Taro 还没有 render props 的完整支持，所以无法使用 Context.Comsumer API，如果要消费 Context，可以使用 `ContextType` 或 `useContext` API。
+> Context.Comsumer API cannot be used by Taro now because it does not yet have the full support of render props. To purchase Context, use `ContextType` or `useContext` API.
 
 ### Class.contextType
 
@@ -59,9 +59,9 @@ class MyClass extends Taro.Component {
 MyClass.contextType = MyContext;
 ```
 
-挂载在 class 上的 `contextType` 属性会被重赋值为一个由 `Taro.createContext()` 创建的 Context 对象。这能让你使用 this.context 来消费 Context 上的那个值。你可以在任何生命周期中访问到它，包括 render 函数中。
+The `contextType` attribute mounted on class will be reassigned to a Context object created by `Taro.createContext()`.This allows you to use this context to consume the value on ContextYou can access it in any life cycle, including the render function.
 
-> 注意： 你只通过该 API 订阅单一 context。如果你想订阅多个，阅读使用多个 Context 章节 如果你正在使用实验性的 public class fields 语法，你可以使用 static 这个类属性来初始化你的 contextType。
+> Note that： you are only subscribed to a single context via this API.If you want to subscribe to more than one section, read using multiple Context chapter If you are using experimental public class syntax, you can use static this class attribute to initialize your contextType.
 
 ```jsx
 class MyClass extends React.Component {
@@ -73,9 +73,9 @@ class MyClass extends React.Component {
 }
 ```
 
-## 示例
+## Example
 
-### 动态 Context
+### Dynamic Context
 
 ```jsx
 // counter-context.js
@@ -128,7 +128,7 @@ class Counter extends Taro.Component {
 
 我们在这个例子中把计数器 `count` 的值通过 `CounterContext.Provider` 往下传递，`Child` 组件中虽然禁止了更新，但 `Counter` 组件在 `CounterContext.Provider` 的 `value` 每次变化之后，还是能够订阅更新，收到每次 `count` 的值。
 
-### 消费多个 Context
+### Consumer Multiple Context
 
 ```jsx
 const ThemeContext = Taro.createContext('light');
