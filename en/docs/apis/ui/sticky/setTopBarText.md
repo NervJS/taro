@@ -3,70 +3,69 @@ title: Taro.setTopBarText(option)
 sidebar_label: setTopBarText
 ---
 
-动态设置置顶栏文字内容。只有当前小程序被置顶时能生效，如果当前小程序没有被置顶，也能调用成功，但是不会立即生效，只有在用户将这个小程序置顶后才换上设置的文字内容.
+Dynamically sets the text in the top bar.The content takes effect only when the current Mini Program is sticky on top. Otherwise, the call can succeed but the settings will not take effect until the Mini Program is sticky on top.
 
-**注意**
-- 调用成功后，需间隔 5s 才能再次调用此接口，如果在 5s 内再次调用此接口，会回调 fail，errMsg："setTopBarText: fail invoke too frequently"
+**Note**
+- When this API is successfully called, you must wait for at least 5 seconds to call it again. Otherwise, the callback will fail, and an errMsg of "setTopBarText: fail invoke too frequently" will appear.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/sticky/wx.setTopBarText.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/sticky/wx.setTopBarText.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<CallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>text</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>置顶栏文字</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The text in the top bar</td>
     </tr>
     <tr>
       <td>complete</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
       <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.setTopBarText({
-  text: 'hello, world!'
-})
+  text: 'hello, world!' })
 ```
 
-## API 支持度
+## API Support
 
-|        API         | 微信小程序 | H5 | React Native |
-|:------------------:|:-----:|:--:|:------------:|
-| Taro.setTopBarText |  ✔️   |    |              |
+|        API         | WeChat Mini-Program | H5 | React Native |
+|:------------------:|:-------------------:|:--:|:------------:|
+| Taro.setTopBarText |         ✔️          |    |              |
