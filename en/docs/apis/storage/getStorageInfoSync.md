@@ -3,48 +3,48 @@ title: Taro.getStorageInfoSync()
 sidebar_label: getStorageInfoSync
 ---
 
-Taro.getStorageInfo 的同步版本
+The synchronous version of `Taro.getStorageInfo`.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorageInfoSync.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorageInfoSync.html)
 
-## 类型
+## Type
 
 ```tsx
 () => Option
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>currentSize</td>
       <td><code>number</code></td>
-      <td>当前占用的空间大小, 单位 KB</td>
+      <td>Current space occupied (in KB)</td>
     </tr>
     <tr>
       <td>keys</td>
       <td><code>string[]</code></td>
-      <td>当前 storage 中所有的 key</td>
+      <td>All keys in the current storage</td>
     </tr>
     <tr>
       <td>limitSize</td>
       <td><code>number</code></td>
-      <td>限制的空间大小，单位 KB</td>
+      <td>Space size limit (in KB)</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.getStorageInfo({
@@ -67,8 +67,8 @@ try {
 }
 ```
 
-## API 支持度
+## API Support
 
-|           API           | 微信小程序 | H5 | React Native |
-|:-----------------------:|:-----:|:--:|:------------:|
-| Taro.getStorageInfoSync |  ✔️   | ✔️ |              |
+|           API           | WeChat Mini-Program | H5 | React Native |
+|:-----------------------:|:-------------------:|:--:|:------------:|
+| Taro.getStorageInfoSync |         ✔️          | ✔️ |              |
