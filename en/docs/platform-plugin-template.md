@@ -1,45 +1,45 @@
 ---
-title: 模板
+title: Template
 ---
 
-Taro3 通过把 DOM 树的数据进行 `setData`，从而驱动模板（`<template>`）拼接来渲染出视图。
+Taro3 renders the view by stitching the data from the DOM tree with `setData`, which drives the template (`<template>`).
 
-因此开发者可以看到编译后的代码中，页面模板文件的内容很简单，只是引用了公共模板 `base.xml`，所有组件的模板都在此文件中进行声明。
+So developers can see that the compiled code has a simple page template file that just references the public template `base.xml`, where all component templates are declared.
 
-我们可以创建一个模板类，控制 `base` 模板的编译结果。
+We can create a template class that controls the compiled result of the `base` template.
 
-## 递归与非递归模板
+## Recursive and non-recursive templates
 
-我们把模板相关的处理逻辑封装成了基类。分别是给**支持模板递归**的小程序继承的 `RecursiveTemplate` 类，和给**不支持模板递归**的小程序继承的 `UnRecursiveTemplate` 类。
+We have encapsulated the template related processing logic into base classes.These are the `RecursiveTemplate` class for mini program that **support template recursion**, and the `UnRecursiveTemplate` class for mini program that **do not support template recursion**.
 
-### 可递归模板
+### Recursive Template
 
-支持模板递归的小程序中，同一个模板能够不断调用自身，包括支付宝、头条、百度小程序。
+In the mini program that support template recursion, the same template is able to keep calling itself, including Alipay, ByteDance, and Baidu mini program.
 
-`view_0` 引用 `container_0`，`container_0` 能再引用 `view_0`：
+`view_0` references `container_0`，`container_0` then reference `view_0`：
 
 ![](http://storage.jd.com/cjj-pub-images/recursive_temp.png)
 
-### 非递归模板
+### Non-recursive Templates
 
-不支持模板递归的小程序中，引用过的模板不能再调用自身，包括微信、QQ、京东小程序。
+In mini program that do not support template recursion, the referenced template cannot call itself again, including WeChat, QQ, and Jingdong mini programs.
 
-`view_0` 引用 `container_0`，`container_0` 不能再引用 `view_0`，只能引用新的 `view` 模板 `view_1`：
+`view_0` references `container_0`，`container_0` can not references `view_0`，only references new  `view` template `view_1`：
 
 ![](http://storage.jd.com/cjj-pub-images/unrecursive_temp.png)
 
-## 模板基类
+## Template Base Classes
 
 ### this.Adapter
 
 `object`
 
-平台的模板语法关键词。
+The platform's template syntax keywords.
 
-例子：
+Example:
 
 ```js
-// 声明了微信小程序模板语法关键词的 Adapter
+// Declared Adapter for WeChat mini program template syntax keywords
 class Template extends UnRecursiveTemplate {
   Adapter = {
     if: 'wx:if',
@@ -59,28 +59,28 @@ class Template extends UnRecursiveTemplate {
 
 `boolean`
 
-只读，是否支持模板递归。
+Readonly, if or not template recursion is supported.
 
 ### this.supportXS
 
 `boolean`
 
-默认值：false
+Default value: false
 
-是否支持渲染层脚本，如微信小程序的 wxs，支付宝小程序的 sjs。
+Whether to support rendering layer scripts, such as wxs for WeChat mini program, sjs for Alipay mini program.
 
 ### this.exportExpr
 
 `string`
 
-默认值：'module.exports ='
+Default value: 'module.exports ='
 
-渲染层脚本的导出命令。
+Export command for rendering layer scripts.
 
-例子：
+Example:
 
 ```js
-// 支付宝小程序 sjs 脚本的导出命令为 ES 模式
+// The export command for Alipay mini program sjs scripts is ES mode
 class Template extends RecursiveTemplate {
   exportExpr = 'export default'
 }
@@ -90,15 +90,15 @@ class Template extends RecursiveTemplate {
 
 `object`
 
-Taro 内置组件列表，包括了相对通用的组件及其部分通用属性。
+The list of Taro built-in components, including relatively generic components and some of their generic properties.
 
 ### this.focusComponents
 
 `Set<string>`
 
-可以设置 focus 聚焦的组件。
+The component that can set focus.
 
-默认值：
+Default value:
 
 ```js
 focusComponents = new Set([
@@ -112,9 +112,9 @@ focusComponents = new Set([
 
 `Set<string>`
 
-不需要渲染子节点的元素。配置后这些组件不会渲染子节点，能够减少模板体积。
+Elements that do not need to render child nodes.These components do not render child nodes after configuration and can reduce the template size.
 
-默认值：
+Default value:
 
 ```js
 voidElements = new Set([
@@ -139,13 +139,13 @@ voidElements = new Set([
 
 `Map<string, number>`
 
-对于一个小程序来说，只有部分组件有可能递归调用自身。如 `<Map>` 组件不会再调用 `<Map>`，而 `<View>` 则可以不断递归调用 `<View>`。
+For an mini program, only some components have the possibility to recursively call themselves.For example, the `<Map>` component will not call `<Map>` again, while `<View>` can keep calling `<View>` recursively.
 
-如果此小程序不支持递归，我们又把 `<Map>` 模板循环渲染了 N 次，那么小程序体积就会变大，而这些循环出来的模板又是不必要的。因此使用了 `nestElements` 去标记那些可能递归调用的组件。
+If this mini program does not support recursion and we render the `<Map>` template N times in a loop, then the mini program will get bigger and the templates that come out of the loop are unnecessary.So `nestElements` is used to mark components that may be called recursively.
 
-但考虑到例如 `<Form>` 这些组件即使可能递归调用，但也不会递归调用太多次。因此在 `nestElements` 中可以对它的循环渲染次数进行控制，假设 `<Form>` 不会递归调用超过 N 次，进一步减少模板体积。
+But considering that components such as `<Form>` are not called recursively too many times, even though they may be called recursively.So in `nestElements` you can control the number of times it is rendered recursively, assuming that `<Form>` will not be called recursively more than N times, further reducing the size of the template.
 
-默认值：
+Default value:
 
 ```js
 nestElements = new Map([
@@ -161,25 +161,25 @@ nestElements = new Map([
 ])
 ```
 
-`key` 值为可以递归调用自身的组件。
+The `key` value is the component that can recursively call itself.
 
-`value` 值代表递归生成此组件的次数，**-1** 代表循环 [baseLevel](./config-detail#minibaselevel) 层。
+The `value` value represents the number of times this component has been recursively generated, **-1** represents the loop [baseLevel](./config-detail#minibaselevel) level.
 
 ### replacePropName (name, value, componentName)
 
-代替组件的属性名。
+Replaces the attribute name of the component.
 
-| 参数           | 类型     | 说明  |
-|:------------ |:------ |:--- |
-| name         | string | 属性名 |
-| value        | string | 属性值 |
-| componetName | string | 组件名 |
+| Parameters   | Type   | Description    |
+|:------------ |:------ |:-------------- |
+| name         | string | Property Name  |
+| value        | string | Property Value |
+| componetName | string | Component Name |
 
-例子：
+Example:
 
 ```js
 replacePropName (name, value, componentName) {
-  // 如果属性值为 'eh'，代表这是一个事件，把属性名改为全小写。
+  // If the property value is 'eh', which means this is an event, change the property name to all lowercase.
   if (value === 'eh') return name.toLowerCase()
   return name
 }
@@ -187,12 +187,12 @@ replacePropName (name, value, componentName) {
 
 ### buildXsTemplate ()
 
-支持渲染层脚本的小程序，Taro 会生成一个 utils 脚本在根目录。此时需要声明此函数以设置 base 模板中对 utils 脚本的引用语法。
+For mini program that support rendering layer scripts, Taro will generate a utils script in the root directory.This function needs to be declared at this point to set the syntax of the reference to the utils script in the base template.
 
-例子：
+Example:
 
 ```js
-// 微信小程序 base 模板引用 utils.wxs 脚本
+// WeChat mini program base template references utils.wxs script
 buildXsTemplate () {
   return '<wxs module="xs" src="./utils.wxs" />'
 }
@@ -200,35 +200,35 @@ buildXsTemplate () {
 
 ### modifyLoopBody (child, nodeName)
 
-修改组件模板的子节点循环体。
+Modify the sub-node loop body of the component template.
 
-| 参数       | 类型     | 说明          |
-|:-------- |:------ |:----------- |
-| child    | string | 组件模板的子节点循环体 |
-| nodeName | string | 组件名         |
+| Parameters | Type   | Description                                 |
+|:---------- |:------ |:------------------------------------------- |
+| child      | string | Subnode loop body of the component template |
+| nodeName   | string | Component name                              |
 
-没有在 [this.voidElements](./platform-plugin-template#thisvoidelements) 中声明过的组件，会遍历子节点进行渲染。
+Components not declared in [this.voidElements](./platform-plugin-template#thisvoidelements), components that have not been declared in \[this.voidElements\] (.../platform-plugin-template#thisvoidelements) will traverse the child nodes for rendering.
 
-这些组件的模板通用格式为：
+The generic format of the template for these components:
 
 ```html
 <template name="tmpl_0_view">
   <view>
-    <!-- 子节点循环 begin -->
+    <!-- Child node loop begin -->
     <block wx:for="{{i.cn}}" wx:key="uid">
-      <!-- 子节点循环体 begin -->
+      <!-- Child node loop body begin -->
       <template is="{{...}}" data="{{...}}" />
-      <!-- 子节点循环体 end -->
+      <!-- Child node loop body end -->
     </block>
-    <!-- 子节点循环 end -->
+    <!-- Child node loop end -->
   </view>
 </template>
 ```
 
-例子：
+Example:
 
 ```js
-// 支付宝小程序的 <swiper> 组件中，循环体套一层 <swiper-item> 和 <view> 组件
+// In the <swiper> component of the Alipay mini program, the loop body has a layer of <swiper-item> and <view> components
 modifyLoopBody (child, nodeName) {
   if (nodeName === 'swiper') {
     return `<swiper-item>
@@ -243,17 +243,17 @@ modifyLoopBody (child, nodeName) {
 
 ### modifyLoopContainer (children, nodeName)
 
-修改组件模板的子节点循环。
+Modifies the child node loop of a component template
 
-| 参数       | 类型     | 说明         |
-|:-------- |:------ |:---------- |
-| children | string | 组件模板的子节点循环 |
-| nodeName | string | 组件名        |
+| Parameters | Type   | Description                             |
+|:---------- |:------ |:--------------------------------------- |
+| children   | string | Child node loop for component templates |
+| nodeName   | string | Component Name                          |
 
-例子：
+Example:
 
 ```js
-// 支付宝小程序的 <picker> 组件中，子节点循环套一层 <view> 组件
+// In the <picker> component of the Alipay mini program, the child node loops over one layer of the <view> component
 modifyLoopContainer (children, nodeName) {
   if (nodeName === 'picker') {
     return `
@@ -266,19 +266,19 @@ modifyLoopContainer (children, nodeName) {
 
 ### modifyTemplateResult (res, nodeName, level, children)
 
-修改组件模板的最终结果。
+Modifies the final result of the component template.
 
-| 参数       | 类型     | 说明         |
-|:-------- |:------ |:---------- |
-| res      | string | 组件模板的结果    |
-| nodeName | string | 组件名        |
-| level    | string | 循环层级       |
-| children | string | 组件模板的子节点循环 |
+| Parameters | Type   | Description                          |
+|:---------- |:------ |:------------------------------------ |
+| res        | string | The result of the component template |
+| nodeName   | string | Component Name                       |
+| level      | string | Loop Hierarchy                       |
+| children   | string | Subnode loop for component templates |
 
-例子：
+Example:
 
 ```js
-// 支付宝小程序当遇到 <swiper-item> 组件时不渲染其模板
+// Alipay mini program does not render the <swiper-item> component template when it encounters it
 modifyTemplateResult = (res: string, nodeName: string) => {
   if (nodeName === 'swiper-item') return ''
   return res
@@ -287,15 +287,15 @@ modifyTemplateResult = (res: string, nodeName: string) => {
 
 ### getAttrValue (value, key, nodeName)
 
-设置组件的属性绑定语法。
+Sets the component's property binding syntax.
 
-| 参数       | 类型     | 说明  |
-|:-------- |:------ |:--- |
-| value    | string | 属性值 |
-| key      | string | 属性名 |
-| nodeName | string | 组件名 |
+| Parameters | Type   | Description    |
+|:---------- |:------ |:-------------- |
+| value      | string | Property value |
+| key        | string | Property name  |
+| nodeName   | string | Component name |
 
-例子：
+Example:
 
 ```js
 getAttrValue (value, key, nodeName) {
@@ -303,26 +303,26 @@ getAttrValue (value, key, nodeName) {
     'scroll-view': ['scrollTop', 'scrollLeft', 'scrollIntoView']
   }
 
-  // 百度小程序中 scroll-view 组件部分属性的属性绑定语法是: {= value =}
+  // The property binding syntax for some properties of the scroll-view component in Baidu mini program is: {= value =}
   if (isArray(swanSpecialAttrs[nodeName]) && swanSpecialAttrs[nodeName].includes(key)) {
     return `= ${value} =`
   }
 
-  // 其余属性还是使用 {{ value }} 绑定语法
+  // The rest of the properties still use the {{ value }} binding syntax
   return `{ ${value} }`
 }
 ```
 
-## 例子
+## Examples
 
-### 头条小程序模板
+### ByteDance Mini Program Template
 
-* 头条小程序支持模板递归，所以继承 `RecursiveTemplate` 基类。
+* The header mini program supports template recursion, so it inherits the `RecursiveTemplate` base class.
 
-* 因为不需要调整模板内容，所以只用设置 `supportXS` 和 `Adapter` 属性即可。
+* Since you don't need to adjust the template content, you only need to set the `supportXS` and `Adapter` properties.
 
 ```js
-import { RecursiveTemplate } from '@tarojs/shared/dist/template'
+import { RecursiveTemplate } from '@tarojs/shared/dist/template''
 
 export class Template extends RecursiveTemplate {
   supportXS = false
@@ -339,15 +339,15 @@ export class Template extends RecursiveTemplate {
 }
 ```
 
-### 微信小程序模板
+### WeChat  Mini Program Template
 
-* 微信小程序不支持模板递归，所以继承 `UnRecursiveTemplate` 基类。
-* 设置 `supportXS` 和 `Adapter` 属性。
-* 因为微信小程序支持渲染层脚本 `wxs`，所以通过 `buildXsTemplate` 设置 base 模板中对 utils 脚本的引用语法。
-* 利用 `replacePropName` 修改了组件绑定的属性名。
+* WeChat mini program does not support template recursion, so it inherits the `UnRecursiveTemplate` base class.
+* Set `supportXS` and `Adapter` properties.
+* Since WeChat mini program support rendering layer scripts `wxs`, set the reference syntax for utils scripts in base templates via `buildXsTemplate`.
+* Modified the attribute name of the component binding with `replacePropName`.
 
 ```js
-import { UnRecursiveTemplate } from '@tarojs/shared/dist/template'
+import { UnRecursiveTemplate } from '@tarojs/shared'
 
 export class Template extends UnRecursiveTemplate {
   supportXS = true
