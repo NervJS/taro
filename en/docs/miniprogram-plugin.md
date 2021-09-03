@@ -1,26 +1,26 @@
 ---
-title: Applet Plugin Development
+title: 小程序插件开发
 ---
 
-## Micromessage applet development
+## 微信小程序插件开发
 
-> The micromessage applet is currently only supported using `React` for development
+> 目前微信小程序仅支持使用 `React` 来进行开发
 
-[Micromessage applet development overview](https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/)
+[微信小程序插件开发概述](https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/)
 
-### Create Plugin Development Template
+### 创建插件开发模版
 
-The micromessage applet plugin is to**pages**,**components**,**interfaces**interfaces.Developers can use `taro init` command, then choose to generate**micromessage applet plugins**to generate Taro micromessp plugin items that include the three plugin types above in the current directory.
+微信小程序插件分为**页面**、**组件**、**接口**三种。开发者可以使用 `taro init` 命令，然后选择生成**微信小程序插件模版**，即可在当前目录生成包含上述三种插件类型的 Taro 微信小程序插件项目。
 
-### Edit appid
+### 修改 appid
 
-After creating a template, you first need to modify `project.config.json` the **appid** fields and `src/app.js` the **prodiver** fields are the same as apps.
+创建完模版后，首先需要修改 `project.config.json` 的 **appid** 字段和 `src/app.js` 的 **prodiver** 字段为同一 appid。
 
-### Project Structure
+### 项目结构
 
-Recommended plugin project structure below：
+推荐的插件项目结构如下：
 
-Note that the contents of the plugin folder are finally published, all plugin content and dependencies other than npm packages should be written in the plugin folder.The page in `src/pages` is only used to debug plugins.
+注意，最后发布的是 plugin 文件夹内的内容，插件的所有内容及除了 npm 包以外的依赖都应写在 plugin 文件夹内。`src/pages` 内的页面只是用于调试插件。
 
     ├── config                 配置目录
     ├── src                    源码目录
@@ -37,20 +37,20 @@ Note that the contents of the plugin folder are finally published, all plugin co
     └── package.json
     └── package.config.json
 
-### Compilation project
+### 编译项目
 
 ```bin
-taro build --plugin app
+taro build --plugin weapp
 taro build --plugin weapp --watch
 ```
 
-### Add applet item
+### 添加小程序项目
 
-Add the project root of Taro plugin in the microletter developer tool.
+在微信开发者工具中添加 Taro 插件项目根目录。
 
-### Use Plugin Page
+### 使用插件页面
 
-Plugin.json **pages** to add page plugin path to page plugins：
+plugin.json 的 **pages** 字段加入页面插件路径：
 
 ```json title="plugin.json"
 {
@@ -60,7 +60,7 @@ Plugin.json **pages** to add page plugin path to page plugins：
 }
 ```
 
-The page uses path： **plugin:/[plugin name registered in app.js]/[page name registered in plugin.json]** to jump.
+页面使用路径： **plugin://[app.js 中注册的插件名]/[plugin.json 中注册的页面名]** 进行跳转。
 
 ```jsx {1}
 <Navigator url='plugin://myPlugin/list'>
@@ -68,39 +68,39 @@ The page uses path： **plugin:/[plugin name registered in app.js]/[page name re
 </Navigator>
 ```
 
-### Use Plugins
+### 使用插件组件
 
-plugin.json's **publicComponents** field to join component plugin path：
+plugin.json 的 **publicComponents** 字段加入组件插件路径：
 
 ```json title="plugin.json"
 {
-  "public Companies": LO
+  "publicComponents": {
     "avatar": "components/avatar/avatar"
   }
 }
 ```
 
-Configure plugin names and plugin paths in config.usingCompounds(**plugin://[plugin names registered in app.js]/[component names registered in plugin.js]**)：
+在页面配置 config.usingComponents 中配置好插件名和插件路径（**plugin://[app.js 中注册的插件名]/[plugin.json 中注册的组件名]**）：
 
 ```jsx {4}
-export default class index extends Compound {
+export default class Index extends Component {
   config = {
-    usingComponents: LO
-      'avatar': 'plugin:/myPlugin/avatar'
-    } }
+    usingComponents: {
+      'avatar': 'plugin://myPlugin/avatar'
+    }
   }
 }
 ```
 
-#### Plugin component accepts external props
+#### 插件组件接受外部 props
 
-If you want to pass the plugin into the parameter, you need to place the parameter uniformly in the component `props` for imported.
+如果需要给插件传入参数，需要将参数统一放在组件的 `props` 中进行传入。
 
 ```js
-// General props pass
+// 常规 props 传递
 <Plugin title={this.state.name} desc={this.state.desc} />
 
-// needs to be changed to the following forms when using plugin components：
+// 在使用插件组件时需要改造成以下形式：
 const extraProps = {
   name: this.state.name,
   desc: this.state.desc
@@ -108,7 +108,7 @@ const extraProps = {
 <Plugin props={extraProps} />
 ```
 
-### Use Plugin Interface
+### 使用插件接口
 
 plugin.json 的 **main** 字段加入接口插件路径：
 
@@ -118,15 +118,15 @@ plugin.json 的 **main** 字段加入接口插件路径：
 }
 ```
 
-Use： on page
+页面中使用：
 
 ```jsx
-const myPluginInterface = Taro.requirePlugin ('myPlugin')
+const myPluginInterface = Taro.requirePlugin('myPlugin')
 
-export default class index extends Component
-  componentWillMount () LO
-    myPluginInterface. ayHello()
+export default class Index extends Component {
+  componentWillMount () {
+    myPluginInterface.sayHello()
     const answer = myPluginInterface.answer
-    console.log('answer: ', answe)
-}
+    console.log('answer: ', answer)
+  }
 ```
