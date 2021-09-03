@@ -3,33 +3,33 @@ title: Taro.setKeepScreenOn(option)
 sidebar_label: setKeepScreenOn
 ---
 
-设置是否保持常亮状态。仅在当前小程序生效，离开小程序后设置失效。
+Sets whether to keep the screen always bright.This setting only works in the current Mini Program.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.setKeepScreenOn.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.setKeepScreenOn.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<Promised>
 ```
 
-## 参数
+## Parameters
 
 ### Promised
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
@@ -39,51 +39,50 @@ sidebar_label: setKeepScreenOn
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>keepScreenOn</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>是否保持屏幕常亮</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>Indicates whether to keep the screen always bright</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
-// 保持屏幕常亮
 Taro.setKeepScreenOn({
     keepScreenOn: true
 })
 ```
 
-## API 支持度
+## API Support
 
-|         API          | 微信小程序 | H5 | React Native |
-|:--------------------:|:-----:|:--:|:------------:|
-| Taro.setKeepScreenOn |  ✔️   |    |      ✔️      |
+|         API          | WeChat Mini-Program | H5 | React Native |
+|:--------------------:|:-------------------:|:--:|:------------:|
+| Taro.setKeepScreenOn |         ✔️          |    |      ✔️      |
