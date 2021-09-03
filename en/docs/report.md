@@ -1,28 +1,28 @@
 ---
-title: 接入统计平台
+title: Access to Statistical Platforms
 ---
 
-## 接入百度统计平台
-### 微信小程序接入百度统计
-1、在[百度统计平台](https://mtj.baidu.com/web/sdk/index) 的 「小程序SDK」 里下载「微信小程序统计SDK」，把解压缩得到的 `mtj-wx-sdk.js` 和 `mtj-wx-sdk.config.js` 拷贝到小程序项目的 `src/utils` 文件夹中。
+## Access to Baidu statistics platform
+### WeChat mini program access to Baidu statistics
+1、Download "WeChat  mini program statistics SDK" in thie [Baidu Statistics Platform](https://mtj.baidu.com/web/sdk/index), and copy the `mtj-wx-sdk.js` and `mtj-wx-sdk.config.js` obtained by unzipping them to the `src/utils` folder of the  mini program project.
 
-2、编辑 `mtj-wx-sdk.config.js`，填写 appKey 字段:
+4、Login to [WeChat Public Platform](https://mp.weixin.qq.com/), go to `Settings` -> `Development Settings` -> `Server Domain` of the  mini program, add `https://hmma.baidu.com` to `request legal domain`.
 
 ``` javascript
-   appKey: '您小程序的AppKey',
+   appKey: 'Mini program AppKey',
 ```
 
-3、编辑小程序项目的 src/app.tsx，在文件最顶部加入：
+Detailed documentation is available at [https://mtj.baidu.com/static/userguide/book/chapter0/wechat.html#34-taro](https://mtj.baidu.com/static/userguide/book/chapter0/wechat.html#33-mpvue)
 
 ``` javascript
     import './utils/mtj-wx-sdk';
 ```
-4、登录[微信公众平台](https://mp.weixin.qq.com/)，进入小程序的 `设置` -> `开发设置` -> `服务器域名`，把`https://hmma.baidu.com`加入 `request合法域名`。
+For details, see the Aladdin Statistics Platform documentation ["How to integrate the SDK into a mini program  built with the Taro framework"](https://doc.aldwx.com/aldwx/frame/taro-jie-ru.html)
 
 详细文档见[https://mtj.baidu.com/static/userguide/book/chapter0/wechat.html#34-taro](https://mtj.baidu.com/static/userguide/book/chapter0/wechat.html#33-mpvue)
 
 
-## 接入阿拉丁统计平台
+## Access to Aladdin Statistics Platform
 
 详细见阿拉丁统计平台文档[《如何将SDK集成至Taro框架构建的小程序中》](https://doc.aldwx.com/aldwx/frame/taro-jie-ru.html)
 
