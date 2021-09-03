@@ -3,23 +3,23 @@ title: Taro.onMemoryWarning(callback)
 sidebar_label: onMemoryWarning
 ---
 
-监听内存不足告警事件。
+Listens on the insufficient memory alarm event.
 
-当 iOS/Android 向小程序进程发出内存警告时，触发该事件。触发该事件不意味小程序被杀，大部分情况下仅仅是告警，开发者可在收到通知后回收一些不必要资源避免进一步加剧内存紧张。
+This event is triggered when iOS/Android sends an insufficient memory alarm to the Mini Program process.Triggering this event does not mean that the Mini Program will be terminated. In most cases, it is only an alarm. Developers can reclaim some unnecessary resources after receiving the alarm to free up memory space.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/performance/wx.onMemoryWarning.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/performance/wx.onMemoryWarning.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: Callback) => void
 ```
 
-## 参数
+## Parameters
 
 ### Callback
 
-内存不足告警事件的回调函数
+The callback function for the insufficient memory alarm event.
 
 ```tsx
 (result: CallbackResult) => void
@@ -28,8 +28,8 @@ sidebar_label: onMemoryWarning
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -45,16 +45,16 @@ sidebar_label: onMemoryWarning
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>level</td>
       <td><code>5 | 10 | 15</code></td>
-      <td>内存告警等级，只有 Android 才有，对应系统宏定义</td>
+      <td>Memory alarm level, only available in Android. It corresponds to the system macro definition.</td>
     </tr>
   </tbody>
 </table>
@@ -64,8 +64,8 @@ sidebar_label: onMemoryWarning
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -84,7 +84,7 @@ sidebar_label: onMemoryWarning
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.onMemoryWarning(function () {
@@ -92,8 +92,8 @@ Taro.onMemoryWarning(function () {
 })
 ```
 
-## API 支持度
+## API Support
 
-|         API          | 微信小程序 | H5 | React Native |
-|:--------------------:|:-----:|:--:|:------------:|
-| Taro.onMemoryWarning |  ✔️   |    |              |
+|         API          | WeChat Mini-Program | H5 | React Native |
+|:--------------------:|:-------------------:|:--:|:------------:|
+| Taro.onMemoryWarning |         ✔️          |    |              |
