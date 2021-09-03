@@ -1,10 +1,10 @@
 ---
-title: Event Handling
+title: 事件处理
 ---
 
-The Taro element is very similar to the DOM element.But there is a little difference in syntax:
+Taro 元素的事件处理和 DOM 元素的很相似。但是有一点语法上的不同:
 
-The naming of Taro event binding properties is based on a camel peak rather than an lowercase. If using JSX syntax you need to pass a function as event handler instead of a string (writing DOM element). For example, traditional micromessage applet template：
+Taro 事件绑定属性的命名采用驼峰式写法，而不是小写。 如果采用 JSX 的语法你需要传入一个函数作为事件处理函数，而不是一个字符串 (DOM 元素的写法)。 例如，传统的微信小程序模板：
 
 ```html
 <button onclick="activateLasers">
@@ -12,7 +12,7 @@ The naming of Taro event binding properties is based on a camel peak rather than
 </button>
 ```
 
-slightly different in Taro：
+Taro 中稍稍有点不同：
 
 ```jsx
 <button onClick={this.activateLasers}>
@@ -20,7 +20,7 @@ slightly different in Taro：
 </button>
 ```
 
-Another difference in Taro is that you cannot prevent an event from blowing using `catchEvent`.You must clearly use `stopPropagation`.例如，阻止事件冒泡你可以这样写：
+在 Taro 中另一个不同是你不能使用 `catchEvent` 的方式阻止事件冒泡。你必须明确的使用 `stopPropagation`。例如，阻止事件冒泡你可以这样写：
 
 ```jsx
 class Toggle extends Component {
@@ -46,15 +46,15 @@ class Toggle extends Component {
 }
 ```
 
-## Send parameters to event handler
+## 向事件处理程序传递参数
 
-Normally we'll pass additional parameters for the event handler.For example, incoming `id to delete line`：
+通常我们会为事件处理程序传递额外的参数。例如，传入欲删除行的 `id`：
 
 ```jsx
 <button onClick={this.deleteRow.bind(this, id)}>Delete Row</button>
 ```
 
-The event object `e` will be placed behind the passed parameter when you pass on arguments to the listener function defined in the class component.
+当你通过 bind 方式向监听函数传参，在类组件中定义的监听函数，事件对象 `e` 要排在所传递参数的后面。
 
 ```jsx
 class Popper extends Component {
@@ -74,13 +74,13 @@ class Popper extends Component {
 }
 ```
 
-### Use anonymous functions
+### 使用匿名函数
 
-> Start support from v1.2.9
+> 自 v1.2.9 开始支持
 
-> Note that：uses anonymous functions at various applets, especially in the **loop** use anonymous functions and takes larger memory and slower speed than using `bind`.
+> 注意：在各小程序端，使用匿名函数，尤其是在 **循环中** 使用匿名函数，比使用 `bind` 进行事件传参占用更大的内存，速度也会更慢。
 
-In addition to `bind` , the event parameter can also be used as an anonymous function.Writing anonymous functions directly does not disturb the parameter order of the original listener function：
+除了 `bind` 之外，事件参数也可以使用匿名函数进行传参。直接写匿名函数不会打乱原有监听函数的参数顺序：
 
 ```jsx
 class Popper extends Component {
@@ -107,13 +107,13 @@ class Popper extends Component {
 
 > 注意： 使用通过 `usingComponents` 的第三方组件不支持匿名函数
 
-### Curitification
+### 柯里化
 
-> Start support from v1.3.0-beta
+> 自 v1.3.0-beta.1 开始支持
 
-> At each applet, using Curified Taro will generate an additional anonymous function after compilation.
+> 在各小程序端，使用柯里化 Taro 会在编译后多生成一个匿名函数。
 
-In addition to `lind` and anonymous functions, event arguments can also be used[Collined](https://zh.wikipedia.org/wiki/%E6%9F%AF%E9%87%8C%E5%8C%96).
+除了 `bind` 和匿名函数之外，事件参数也可以使用[柯里化](https://zh.wikipedia.org/wiki/%E6%9F%AF%E9%87%8C%E5%8C%96)传参。
 
 ```jsx
 class Title extends Component{
@@ -138,9 +138,9 @@ class Title extends Component{
 
 > 注意： 使用通过 `usingComponents` 的第三方组件不支持匿名函数
 
-### Functional Component
+### 函数式组件
 
-In the function component, the event sender can bring an event reference or an anonymous function. Below is an example of the function component that works with [`useCallback`](hooks.md#usecallback)：
+在函数式组件中，事件传参可以传入事件的引用也可以传入匿名函数，以下是函数式组件配合 [`useCallback`](hooks.md#usecallback) 的一个例子：
 
 ```jsx
 const App = () => {
@@ -167,23 +167,23 @@ const App = () => {
 }
 ```
 
-## Any component passes on events starting with `on`
+## 任何组件的事件传递都要以 `on` 开头
 
-> After v1.3.0-beta.0, the custom components can be passed around `on` but the built-in component event starts with `on` , we still recommend your event beginning with `on`.
+> 在 v1.3.0-beta.0 之后，自定义组件间的事件传递可以不用 `on` 开头，但内置组件的事件依然是以 `on` 开头的，为了一致性我们仍然推荐你以 `on` 开头命名你的事件。
 
-In the micromessaging applet, you may see usage like `bindTap` , but in Taro, event parameters (props) start with `on`:
+在微信小程序中，可能你会看到像 `bindTap` 这样的用法，但在 Taro 中，事件参数(props)都以 `on` 开头:
 
 ```jsx
-// Error
+// 错误
 const element = <View bindtap={this.onTag} />
 const element2 = <Input bindfocus={this.onFocus} />
 const element3 = <CustomElement animationEnd={this.props.onAnimationEnd} />
 ```
 
-As long as the JSX component is a function, the parameter name must start with `on`：
+只要当 JSX 组件传入的参数是函数，参数名就必须以 `on` 开头：
 
 ```jsx
-// Correct
+// 正确
 const element = <View onClick={this.onTag} />
 const element2 = <Input onFocus={this.onFocus} />
 const element3 = <CustomElement onAnimationEnd={this.props.onAnimationEnd} />
