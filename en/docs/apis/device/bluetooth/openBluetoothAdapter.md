@@ -3,51 +3,51 @@ title: Taro.openBluetoothAdapter(option)
 sidebar_label: openBluetoothAdapter
 ---
 
-初始化蓝牙模块
+Initializes the Bluetooth module.
 
-**注意**
-- 其他蓝牙相关 API 必须在 Taro.openBluetoothAdapter 调用之后使用。否则 API 会返回错误（errCode=10000）。
-- 在用户蓝牙开关未开启或者手机不支持蓝牙功能的情况下，调用 Taro.openBluetoothAdapter 监听手机蓝牙状态的改变，也可以调用蓝牙模块的所有API。
+**Notes**
+- Other Bluetooth-related APIs can only be used after `Taro.openBluetoothAdapter` is called.Otherwise, the API will return an error (errCode=10000).
+- When the user's Bluetooth switch is off or the phone does not support Bluetooth, calls to `Taro.openBluetoothAdapter` will return an error (errCode=10001). This indicates the phone's Bluetooth feature is unavailable. In such cases, after initializing the Mini Program Bluetooth module, you can use `Taro.onBluetoothAdapterStateChange` to listen on changes to the phone's Bluetooth status. You can also call all Bluetooth module APIs.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.openBluetoothAdapter.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.openBluetoothAdapter.html)
 
-## 类型
+## Type
 
 ```tsx
 (option?: Option) => Promise<CallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: BluetoothError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: BluetoothError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(res: BluetoothError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -59,35 +59,35 @@ object.fail 回调函数返回的 state 参数（仅 iOS）
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>0</td>
-      <td>未知</td>
+      <td>Unknown</td>
     </tr>
     <tr>
       <td>1</td>
-      <td>重置中</td>
+      <td>Reseting</td>
     </tr>
     <tr>
       <td>2</td>
-      <td>不支持</td>
+      <td>Not support</td>
     </tr>
     <tr>
       <td>3</td>
-      <td>未授权</td>
+      <td>Unauthorised</td>
     </tr>
     <tr>
       <td>4</td>
-      <td>未开启</td>
+      <td>Not open</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.openBluetoothAdapter({
@@ -97,8 +97,8 @@ Taro.openBluetoothAdapter({
 })
 ```
 
-## API 支持度
+## API Support
 
-|            API            | 微信小程序 | H5 | React Native |
-|:-------------------------:|:-----:|:--:|:------------:|
-| Taro.openBluetoothAdapter |  ✔️   |    |              |
+|            API            | WeChat Mini-Program | H5 | React Native |
+|:-------------------------:|:-------------------:|:--:|:------------:|
+| Taro.openBluetoothAdapter |         ✔️          |    |              |
