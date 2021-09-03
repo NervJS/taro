@@ -1,45 +1,45 @@
 ---
-title: 编写端平台插件
+title: Write Platform plugins
 ---
 
-扩展一个编译平台，需要编写一个 [Taro 插件](./plugin)，对编译时和运行时分别进行兼容。
+Extending a compiled platform requires writing a \[Taro plugin\](. /plugin) for compile-time and run-time compatibility respectively.
 
-## 端平台插件架构
+## Platform Plugin Architecture
 
-### 插件目录组织
+### Plugin Directory
 
-以 `@tarojs/plugin-platform-weapp` 为例：
+Using `@tarojs/plugin-platform-weapp` as an example.
 
-    ├── src                      源码目录
-    |   ├── index.ts             插件入口
-    |   ├── program.ts           编译时入口
-    |   ├── template.ts          模板处理逻辑
-    |   ├── runtime.ts           运行时入口
-    |   ├── runtime-utils.ts     运行时依赖工具
-    |   ├── apis.ts              API 相关处理
-    |   ├── apis-list.ts         API 列表
-    |   ├── components.ts        组件列表
-    |   └── components-react.ts  给 React 使用的组件类型
-    ├── types                    类型
-    ├── index.js                 编译时入口
+    ├── src                      Source code directory
+    |   ├── index.ts             Plugin entry
+    |   ├── program.ts           Compile entry
+    |   ├── template.ts          Template handling
+    |   ├── runtime.ts           Runtime entry
+    |   ├── runtime-utils.ts     Runtime dependency tools
+    |   ├── apis.ts              API related processing
+    |   ├── apis-list.ts         API list
+    |   ├── components.ts        Component list
+    |   └── components-react.ts  Types of components for React to use
+    ├── types                    Type
+    ├── index.js                 Compile-time entry
     ├── tsconfig.json
     ├── rollup.config.json
     ├── package.json
     └── README.md
 
-### 架构图
+### Architecture Diagram
 
 ![](http://storage.jd.com/cjj-pub-images/platform-plugin-construct.png)
 
-## 编译时
+## Compile Time
 
-处理编译相关操作，如 Webpack 配置、模板生成规则等。
+Handles compile-related operations such as Webpack configuration, template generation rules, etc.
 
-### 一、编写 Taro 插件
+### 一、Writing Taro plugins
 
-前置阅读：[【如何编写一个 Taro 插件】](./plugin#如何编写一个插件)。
+Pre-reading: [[How to Write a Taro Plugin]](./plugin#如何编写一个插件)。
 
-首先我们需要编写一个 Taro 插件来注册我们的编译平台，如：
+First we need to write a Taro plugin to register our compilation platform, eg.
 
 ```js title="index.ts"
 export default (ctx) => {
@@ -47,23 +47,22 @@ export default (ctx) => {
     name: 'weapp',
     useConfigName: 'mini',
     async fn (arg) {
-      // ...
-    }
+      // ... }
   })
 }
 ```
 
 #### ctx.registerPlatform(options: object)
 
-注册一个编译平台
+Register a compilation platform
 
 ##### options.name
 
 `string`
 
-平台名称，用于 CLI 编译命令。
+The platform name for the CLI compile command.
 
-如配置了 'xxx'，则编译此平台时使用的 CLI 命令为：
+If 'xxx' is configured, the CLI command to use when compiling this platform:
 
 ```shell
 taro build --type xxx
@@ -74,29 +73,29 @@ taro build --type xxx --watch
 
 `string`
 
-把 Taro 编译配置中的指定字段纳入编译。
+Incorporate the specified fields from the Taro compilation configuration into the compilation.
 
-Taro 小程序相关配置默认放在 `mini` 字段下，因此一般情况配置 `usingConfigName: mini` 即可。
+Taro minn program related configuration is placed under the `mini` field by default, so in general it is sufficient to configure `usingConfigName: mini`.
 
 ##### options.fn(arg)
 
 `function`
 
-端平台编译的入口函数，接受一个参数 `arg`，在此函数内我们可以开始编写端平台编译的逻辑。
+The entry function for platform compilation accepts an argument `arg`, in which we can start writing the logic for end-platform compilation.
 
 ###### arg
 
 `object`
 
-整合上述 [options.useConfigName](./platform-plugin-how#optionsuseconfigname) 指定字段后的 Taro 编译配置，编译配置各字段详情请看[编译配置详情](./config-detail.md)。
+Integrate the above [options.useConfigName](./platform-plugin-how#optionsuseconfigname) specified fields, see [compilation configuration details](./config-detail.md).
 
-### 二、编写平台类
+### 二、Writing platform classes
 
-接下来给上一节中提到的插件入口函数添加内容。
+Next add to the plugin entry function mentioned in the previous section.
 
-我们把编译时常用的逻辑抽象出了一个基类 [TaroPlatformBase](./platform-plugin-base)，开发者可以[继承](./platform-plugin-base#自定义平台类)于此基类，从而实现端平台的编译。
+We abstracted the logic commonly used at compile time into a base class [TaroPlatformBase](./platform-plugin-base), which developers can \[inherit\](./platform-plugin-base#custom platform class) from this base class to enable platform compilation.
 
-然后在插件入口函数中调用上述自定义平台类的编译接口：
+The compilation interface of the above custom platform class is then called in the plugin entry function as follows.
 
 ```js title="index.ts"
 import Weapp from './program'
@@ -106,7 +105,7 @@ export default (ctx) => {
     name: 'weapp',
     useConfigName: 'mini',
     async fn (arg) {
-      // 调用自定义平台类的 start 函数，开始端平台编译
+      // Call the start function of the custom platform class to start platform compilation
       const program = new Weapp(ctx, config)
       await program.start()
     }
@@ -114,17 +113,17 @@ export default (ctx) => {
 }
 ```
 
-## 运行时
+## Runtime
 
-处理运行时相关操作，如 API、组件、Taro runtime 逻辑等。
+Handles runtime-related operations such as APIs, components, Taro runtime logic, etc.
 
-### 一、处理运行时入口
+### 一、Handling Of Runtime Entry
 
-#### 1. 编写 runtime.ts
+#### 1. Writing runtime.ts
 
-`runtime.ts` 是我们运行时的入口文件，`Webpack` 编译时会把它注入到 `app.js` 中进行引用。
+`runtime.ts` is our runtime entry file, which `Webpack` will inject into `app.js` for reference when it is compiled.
 
-例子：
+Example:
 
 ```js title="runtime.ts"
 import { mergeReconciler, mergeInternalComponents } from '@tarojs/shared'
@@ -139,16 +138,16 @@ export * from './components'
 export const hostConfig = {}
 ```
 
-`runtime.ts` 主要负责：
+`runtime.ts` responsibilities:
 
-* 使用 `mergeReconciler` 函数把自定义的 `hostConfig` 合并到全局 [Reconciler](./platform-plugin-reconciler) 中。
-* 使用 `mergeInternalComponents` 函数把自定义组件信息 [components.ts](./platform-plugin-base#31-编写-componentsts) 合并到全局 `internalComponents` 组件信息对象中。
+* Use the `mergeReconciler` function to merge the custom `hostConfig` into the global [Reconciler](./platform-plugin-reconciler).
+* Use the `mergeInternalComponents` function to merge custom component information [components.ts](./platform-plugin-base#31-write-componentsts) into the global `internalComponents` component information object.
 
-> 抽取 runtime-utils.ts 是为了方便其它插件引用
+> The runtime-utils.ts is extracted to make it easier for other plugins to reference
 
-#### 2. 连接插件入口
+#### 2. Connection Plugin Entry
 
-为了让 `Webpack` 知道去哪里引用上述运行时入口文件，需要配置 `runtimePath`：
+In order for `Webpack` to know where to refer to the above runtime entry files, `runtimePath` needs to be configured.
 
 
 ```js title="program.ts"
@@ -157,32 +156,32 @@ class Weapp extends TaroPlatformBase {
 }
 ```
 
-### 二、处理 API
+### 二、Handling API
 
-在 Taro 中，用户需要从 `@tarojs/taro` 中引用 Taro 的内置 API 和 **Promise 化** 后的小程序 API。
+In Taro, users need to refer to Taro's built-in API and the **Promise-ified** mini program API from `@tarojs/taro`.
 
 ```js
 import Taro from '@tarojs/taro'
 
-// 内置 API
+//  API
 Taro.getCurrentInstance()
-// 小程序 API
+// Mini program API
 Taro.request()
 ```
 
-#### 1. 配置 initNativeApi
+#### 1. Configure initNativeApi
 
-原始的 `@tarojs/taro` 包只提供了内置 API。我们需要通过配置 `Reconciler` 的 [initNativeApi](./platform-plugin-reconciler#initnativeapi-taro) 选项，为全局 Taro 对象增加小程序的 API 和我们想要挂载在 Taro 对象上的 API。
+原始的 `@tarojs/taro` 包只提供了内置 API。The original `@tarojs/taro` package only provides the built-in API, we need to add the API for the mini program and the API we want to mount on the Taro object by configuring `Reconciler` with [initNativeApi](./platform-plugin-reconciler#initnativeapi-taro) option to add APIs for mini program to the global Taro object and the APIs we want to mount on the Taro object.
 
 ```js title="apis-list.ts"
-// 需要新增额外的原生 API 时，分拆一个单独的 `apis-list.ts` 文件能有利于维护。
+// When additional native APIs need to be added, splitting a separate `apis-list.ts` file can be beneficial for maintenance.
 
-// 同步 API
+// Synchronization API
 export const noPromiseApis = new Set([
   'getAccountInfoSync'
 ])
 
-// 异步 API，这些 API 都可以设置 `success`、`fail`、`complete` 回调，需要对它们进行 Promise 化。
+// Asynchronous APIs, which can set `success`, `fail`, and `complete` callbacks, need to be Promiseized.
 export const needPromiseApis = new Set([
   'addCard'
 ])
@@ -195,12 +194,12 @@ import { noPromiseApis, needPromiseApis } from './apis-list'
 declare const wx: any
 
 export function initNativeApi (taro) {
-  // 下文将详细介绍 processApis 函数
+  // The following section describes the processApis function in detail
   processApis(taro, wx, {
     noPromiseApis,
     needPromiseApis
   })
-  // 可以为 taro 挂载任意的 API
+  // Any API that can be mounted for taro
   taro.cloud = wx.cloud
 }
 ```
@@ -212,39 +211,39 @@ export const hostConfig = { initNativeApi }
 
 #### 2. processApis(taro, global, options)
 
-##### 入参
+##### Parameters
 
-| 参数      | 类型     | 说明              |
-|:------- |:------ |:--------------- |
-| taro    | object | Taro 对象         |
-| global  | object | 小程序全局对象，如微信的 wx |
-| options | object | 配置项             |
+| Parameters | Type   | Description                                    |
+|:---------- |:------ |:---------------------------------------------- |
+| taro       | object | Taro Object                                    |
+| global     | object | Mini Program global objects, such as WeChat wx |
+| options    | object | Configuration items                            |
 
 ###### options
 
-| 属性              | 类型                  | 说明        |
-|:--------------- |:------------------- |:--------- |
-| noPromiseApis   | Set`<string>` | 新增的同步 API |
-| needPromiseApis | Set`<string>` | 新增的异步 API |
+| Parameters      | Type                | Description             |
+|:--------------- |:------------------- |:----------------------- |
+| noPromiseApis   | Set`<string>` | New Synchronization API |
+| needPromiseApis | Set`<string>` | New Asynchronous API    |
 
-上述 `processApis` 函数帮助我们做了三件事情：
+The above `processApis` function helps us do three things.
 
-1. 挂载所有平台公共的小程序 API 到 Taro 对象上
-2. 挂载常用的小程序全局对象属性 到 Taro 对象上
-3. 挂载用户传入的小程序 API 到 Taro 对象上
+1. mount all of the platform's common mini program APIs onto a Taro object
+2. mount the common mini program global object properties on the Taro object
+3. mount the user-input mini program API on the Taro object
 
-## 打包
+## Build Packages
 
-插件使用 `Rollup` 进行打包，需要打包出以下文件：
+The plugin is packaged using `Rollup` and requires the following files to be packaged out.
 
-| 入口文件                    | 模式  | 必要 | 说明                    |
-|:----------------------- |:--- |:-- |:--------------------- |
-| src/index.ts            | cjs | 是  | 插件入口，供 Taro CLI 解析    |
-| src/runtime.ts          | es  | 是  | 运行时入口                 |
-| src/runtime-utils.ts    | es  | 否  | 运行时工具集合，供继承的子类引用      |
-| src/components-react.ts | es  | 否  | 有新增组件时需要实现，供 React 引用 |
+| Entry file              | Mode | Required | Description                                                                 |
+|:----------------------- |:---- |:-------- |:--------------------------------------------------------------------------- |
+| src/index.ts            | cjs  | YES      | Plugin entry for Taro CLI parsing                                           |
+| src/runtime.ts          | es   | YES      | Runtime entry                                                               |
+| src/runtime-utils.ts    | es   | NO       | Collection of runtime tools for reference by inherited subclasses           |
+| src/components-react.ts | es   | NO       | Need to be implemented when there are new components for React to reference |
 
-注意，Taro 相关的包需要配置 `external`，以免重复打包：
+Note that Taro-related packages need to be configured with `external` to avoid repackaging.
 
 ```js title="rollup.config.js"
 {
@@ -252,14 +251,14 @@ export const hostConfig = { initNativeApi }
 }
 ```
 
-## 类型
+## Types
 
-Taro 核心库维护的类型可能没有包括当前插件新增的组件和 API，这时我们需要对 `@tarojs/taro` 和 `@tarojs/components` 进行[模块补充 (module augmentation)](https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation)。
+The types maintained by the Taro core library may not include components and APIs added by the current plugin, in which case we need to perform [module augmentation (module augmentation)] for `@tarojs/taro` and `@tarojs/components` (https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation).
 
-创建一个类型定义文件：
+Create a type definition file:
 
 ```ts title="types/shims-iot.d.ts"
-// 为支付宝 IOT 小程序拓展新增的 API 和组件定义
+// Extend new APIs and component definitions for Alipay IOT mini program
 import { ComponentType } from 'react'
 import Taro from '@tarojs/taro'
 
@@ -282,7 +281,7 @@ declare module '@tarojs/components' {
 }
 ```
 
-开发者在类型定义文件中引入此文件即可：
+The developer can simply introduce this file in the type definition file.
 
 ```ts title="global.d.ts"
 /// <reference path="node_modules/@tarojs/plugin-platform-alipay-iot/types/shims-iot.d.ts" />
