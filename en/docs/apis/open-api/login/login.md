@@ -3,53 +3,53 @@ title: Taro.login(option)
 sidebar_label: login
 ---
 
-调用接口获取登录凭证（code）。通过凭证进而换取用户登录态信息，包括用户的唯一标识（openid）及本次登录的会话密钥（session_key）等。用户数据的加解密通讯需要依赖会话密钥完成。更多使用方法详见 [小程序登录](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/login.html)。
+调用接口获取登录凭证（code）。Gets the login credential (code), which is then used to exchange for the user login status information, including the unique identifier (openid) of the user and the session key (session_key) of the current login. The communication for user data encryption and decryption is performed using the session key.用户数据的加解密通讯需要依赖会话密钥完成。For more usages, see [Mini Program Login](https://developers.weixin.qq.com/miniprogram/en/dev/framework/open-ability/login.html).
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/login/wx.login.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/login/wx.login.html)
 
-## 类型
+## Type
 
 ```tsx
 (option?: Option) => Promise<SuccessCallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>Timeout time in ms</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>timeout</td>
       <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>超时时间，单位ms</td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -59,32 +59,32 @@ sidebar_label: login
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>code</td>
       <td><code>string</code></td>
-      <td>用户登录凭证（有效期五分钟）。开发者需要在开发者服务器后台调用 <a href="https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/login/auth.code2Session.html">auth.code2Session</a>，使用 code 换取 openid 和 session_key 等信息</td>
+      <td>The user login credential, which is valid for five minutes.The developer needs to call <a href="https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/login/auth.code2Session.html">auth.code2Session</a> in the developer server backend, and exchange the code for information such as the openid and session_key.</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.login({
   success: function (res) {
     if (res.code) {
-      //发起网络请求
+      // Send a network request
       Taro.request({
         url: 'https://test.com/onLogin',
         data: {
@@ -92,14 +92,17 @@ Taro.login({
         }
       })
     } else {
-      console.log('登录失败！' + res.errMsg)
+      console.log('Login failed' + res.errMsg)
+    }
+  }
+})' + res.errMsg)
     }
   }
 })
 ```
 
-## API 支持度
+## API Support
 
-|    API     | 微信小程序 | H5 | React Native |
-|:----------:|:-----:|:--:|:------------:|
-| Taro.login |  ✔️   |    |              |
+|    API     | WeChat Mini-Program | H5 | React Native |
+|:----------:|:-------------------:|:--:|:------------:|
+| Taro.login |         ✔️          |    |              |
