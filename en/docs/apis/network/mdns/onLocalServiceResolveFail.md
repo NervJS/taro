@@ -3,21 +3,21 @@ title: Taro.onLocalServiceResolveFail(callback)
 sidebar_label: onLocalServiceResolveFail
 ---
 
-监听 mDNS 服务解析失败的事件
+Listens on the mDNS service resolution failure event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/mdns/wx.onLocalServiceResolveFail.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/network/mdns/wx.onLocalServiceResolveFail.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: Callback) => void
 ```
 
-## 参数
+## Parameters
 
 ### Callback
 
-mDNS 服务解析失败的事件的回调函数
+The callback function for the mDNS service resolution failure event.
 
 ```tsx
 (result: CallbackResult) => void
@@ -26,8 +26,8 @@ mDNS 服务解析失败的事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -43,27 +43,27 @@ mDNS 服务解析失败的事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>serviceName</td>
       <td><code>string</code></td>
-      <td>服务的名称</td>
+      <td>Service name</td>
     </tr>
     <tr>
       <td>serviceType</td>
       <td><code>string</code></td>
-      <td>服务的类型</td>
+      <td>Service type</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|              API               | 微信小程序 | H5 | React Native |
-|:------------------------------:|:-----:|:--:|:------------:|
-| Taro.onLocalServiceResolveFail |  ✔️   |    |              |
+|              API               | WeChat Mini-Program | H5 | React Native |
+|:------------------------------:|:-------------------:|:--:|:------------:|
+| Taro.onLocalServiceResolveFail |         ✔️          |    |              |
