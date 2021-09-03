@@ -3,21 +3,21 @@ title: Taro.onBeaconUpdate(callback)
 sidebar_label: onBeaconUpdate
 ---
 
-监听 iBeacon 设备更新事件，仅能注册一个监听
+Listens on the iBeacon device update event.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.onBeaconUpdate.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.onBeaconUpdate.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: Callback) => void
 ```
 
-## 参数
+## Parameters
 
 ### Callback
 
-iBeacon 设备更新事件的回调函数
+The callback function for the iBeacon device update event.
 
 ```tsx
 (result: CallbackResult) => void
@@ -26,8 +26,8 @@ iBeacon 设备更新事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -43,22 +43,22 @@ iBeacon 设备更新事件的回调函数
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>beacons</td>
       <td><code>IBeaconInfo[]</code></td>
-      <td>当前搜寻到的所有 iBeacon 设备列表</td>
+      <td>The list of all iBeacon devices discovered</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|         API         | 微信小程序 | H5 | React Native |
-|:-------------------:|:-----:|:--:|:------------:|
-| Taro.onBeaconUpdate |  ✔️   |    |              |
+|         API         | WeChat Mini-Program | H5 | React Native |
+|:-------------------:|:-------------------:|:--:|:------------:|
+| Taro.onBeaconUpdate |         ✔️          |    |              |
