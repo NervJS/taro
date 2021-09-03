@@ -3,25 +3,25 @@ title: Taro.nextTick(callback)
 sidebar_label: nextTick
 ---
 
-延迟一部分操作到下一个时间片再执行。（类似于 setTimeout）
+Defers some operations until the next time slice.(similar to setTimeout)
 
-**说明** 因为自定义组件中的 setData 和 triggerEvent 等接口本身是同步的操作，当这几个接口被连续调用时，都是在一个同步流程中执行完的，因此若逻辑不当可能会导致出错。 一个极端的案例：当父组件的 setData 引发了子组件的 triggerEvent，进而使得父组件又进行了一次 setData，期间有通过 wx:if 语句对子组件进行卸载，就有可能引发奇怪的错误，所以对于不需要在一个同步流程内完成的逻辑，可以使用此接口延迟到下一个时间片再执行。
+**说明** 因为自定义组件中的 setData 和 triggerEvent 等接口本身是同步的操作，当这几个接口被连续调用时，都是在一个同步流程中执行完的，因此若逻辑不当可能会导致出错。 For example, when the parent component's setData triggers the triggerEvent of the child component, and the parent component performs setData again, during which the child component is unloaded via the wx:if statement, an error may occur. So for logic that does not need to be done in a synchronous process, you can use this API to defer some operations until the next time slice.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/custom-component/wx.nextTick.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/ui/custom-component/wx.nextTick.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: (...args: any[]) => any) => void
 ```
 
-## 参数
+## Parameters
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
+      <th>Property</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -32,18 +32,16 @@ sidebar_label: nextTick
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
-this.setData({ number: 1 }) // 直接在当前同步流程中执行
-Taro.nextTick(() => {
-  this.setData({ number: 3 }) // 在当前同步流程结束后，下一个时间片执行
-})
-this.setData({ number: 2 }) // 直接在当前同步流程中执行
+this.setData({ number: 1 }) // Executes directly in the current synchronous process. Taro.nextTick(() => {
+  this.setData({ number: 3 }) // After the current synchronous process ends, execute the operations in the next time slice. })
+this.setData({ number: 2 }) // Executes directly in the current synchronous process.
 ```
 
-## API 支持度
+## API Support
 
-|      API      | 微信小程序 | H5 | React Native |
-|:-------------:|:-----:|:--:|:------------:|
-| Taro.nextTick |  ✔️   |    |              |
+|      API      | WeChat Mini-Program | H5 | React Native |
+|:-------------:|:-------------------:|:--:|:------------:|
+| Taro.nextTick |         ✔️          |    |              |
