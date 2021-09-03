@@ -1,10 +1,10 @@
 ---
-title: 使用 CSS Modules
+title: Use CSS Modules
 ---
 
-## 用法
+## Related Reading
 
-Taro 中内置了 [CSS Modules](https://github.com/css-modules/css-modules) 的支持，但默认是关闭的，如果需要开启使用，请先在[编译配置](./config-detail.md)中添加如下配置。
+There is built-in support for [CSS Modules](https://github.com/css-modules/css-modules) in Taro, but it is turned off by default, so if you need to turn it on, please add the following configuration to [compile-config](./config-detail.md).
 
 ### 在小程序端开启
 
@@ -12,11 +12,11 @@ Taro 中内置了 [CSS Modules](https://github.com/css-modules/css-modules) 的�
 weapp: {
   module: {
     postcss: {
-      // css modules 功能开关与相关配置
+      // css modules  function switches and related configurations
       cssModules: {
-        enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
+        enable: true, // Default is false, if you want to use the css modules function, set it to true
         config: {
-          namingPattern: 'module', // 转换模式，取值为 global/module，下文详细说明
+          namingPattern: 'module', // The conversion mode, which takes the value global/module, is explained in detail below
           generateScopedName: '[name]__[local]___[hash:base64:5]'
         }
       }
@@ -31,11 +31,11 @@ weapp: {
 h5: {
   module: {
     postcss: {
-      // css modules 功能开关与相关配置
+      // css modules: function switches and related configurations
       cssModules: {
-        enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
+        enable: true, // Default is false, if you want to use the css modules function, set it to true
         config: {
-          namingPattern: 'module', // 转换模式，取值为 global/module，下文详细说明
+          namingPattern: 'module', // The conversion mode, which takes the value global/module, is explained in detail below
           generateScopedName: '[name]__[local]___[hash:base64:5]'
         }
       }
@@ -46,22 +46,22 @@ h5: {
 
 ### 设置转换模式
 
-> 推荐使用自定义转换模式，这样的话就不会影响到一些第三方库的样式了
+> Supported since version 1.2.0, React Native is compatible
 
-在开启之后，你就可以在 Taro 中使用 CSS Modules 功能了，值得注意的是，Taro 中使用 CSS Modules 有两种模式，分别为**全局转换**及**部分自定义转换**模式，通过 `namingPattern` 配置进行控制
+Open on the mini program :
 
-`namingPattern` 配置取值分别如下：
-- `global`，表示全局转换，所有样式文件都会经过 CSS Modules 转换处理，除了文件名中包含 `.global.` 的样式文件
-- `module`，表示自定义转换，只有文件名中包含 `.module.` 的样式文件会经过 CSS Modules 转换处理
+Open on the H5:
+- `global`, which means that all style files will be converted by CSS Modules, except for those with `.global.` in the file name
+- `module`, which means custom conversion, only style files with `.module.` in their filenames will be converted by CSS Modules
 
-`generateScopedName` 支持传入字符串和函数：
+It is worth noting that there are two modes of using CSS Modules in Taro, namely global conversion and partial custom conversion, which are controlled by the `namingPattern` configuration
 
-- `字符串`，其格式见：[https://github.com/webpack/loader-utils#interpolatename](https://github.com/webpack/loader-utils#interpolatename)，值得指出的是，可使用 `[local]` 取其原类名
-- `函数`，其类型定义为 `(localName: string, absoluteFilePath: string) => string`，其中 `localName` 为原类名，`absoluteFilePath` 为文件的绝对路径，返回值将作为新的类名
+- `String` in the format of [https://github.com/webpack/loader-utils#interpolatename](https://github.com/webpack/loader-utils#interpolatename), it is worth It is worth pointing out that `[local]` can be used to take its original class name
+- `function`, whose type is defined as `(localName: string, absoluteFilePath: string) => string`, where `localName` is the original class name and `absoluteFilePath` is the absolute path to the file, and the return value will be the new class name
 
 ### 用法示例
 
-CSS Modules 使用方式如下：
+The `namingPattern` configuration takes the following values.
 
 ```scss title="组件样式"
 .test {
@@ -73,12 +73,17 @@ CSS Modules 使用方式如下：
 ```
 
 ```jsx title="组件 JS 中使用样式"
-import React, { Component } from 'react'
+import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 
 import styles from './Test.module.scss'
 
 export default class Test extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { }
+  }
+
   render () {
     return (
       <View className={styles.test}>
@@ -91,4 +96,4 @@ export default class Test extends Component {
 
 ## 相关阅读
 
-[开源插件 weapp-css-modules - 极致追求，让小程序代码包立减 10% 的插件](https://taro-club.jd.com/topic/2264/%E6%9E%81%E8%87%B4%E8%BF%BD%E6%B1%82-%E8%AE%A9%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%BB%A3%E7%A0%81%E5%8C%85%E7%AB%8B%E5%87%8F-10-%E7%9A%84%E6%8F%92%E4%BB%B6-weapp-css-modules)
+[Open Source Plugin weapp-css-modules - The ultimate pursuit to reduce the code package of the  mini program by 10%](https://taro-club.jd.com/topic/2264/%E6%9E%81%E8%87%B4%E8%BF%BD%E6%B1%82-%E8%AE%A9%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%BB%A3%E7%A0%81%E5%8C%85%E7%AB%8B%E5%87%8F-10-%E7%9A%84%E6%8F%92%E4%BB%B6-weapp-css-modules)
