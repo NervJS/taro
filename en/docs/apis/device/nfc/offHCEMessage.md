@@ -3,37 +3,37 @@ title: Taro.offHCEMessage(callback)
 sidebar_label: offHCEMessage
 ---
 
-接收 NFC 设备消息事件，取消事件监听。
+Un-listens on the event of receiving NFC device messages.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.offHCEMessage.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.offHCEMessage.html)
 
-## 类型
+## Type
 
 ```tsx
 (callback: (...args: any[]) => any) => void
 ```
 
-## 参数
+## Parameters
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>callback</td>
       <td><code>(...args: any[]) =&gt; any</code></td>
-      <td>接收 NFC 设备消息事件的回调函数</td>
+      <td>The callback function for the event of receiving NFC device messages.</td>
     </tr>
   </tbody>
 </table>
 
-## API 支持度
+## API Support
 
-|        API         | 微信小程序 | H5 | React Native |
-|:------------------:|:-----:|:--:|:------------:|
-| Taro.offHCEMessage |  ✔️   |    |              |
+|        API         | WeChat Mini-Program | H5 | React Native |
+|:------------------:|:-------------------:|:--:|:------------:|
+| Taro.offHCEMessage |         ✔️          |    |              |
