@@ -1,17 +1,17 @@
 ---
-title: 其他
-sidebar_label: 其他
+title: others
+sidebar_label: others
 ---
 
-##### 其他组件
+##### other component
 
-除导航列表的一些组件外，还有一些差异化组件，每个端不同，后续计划将这些统一封装。目前差异化组件请详看各小程序官网。
-> 其他组件请看各小程序官方文档
+In addition to some components for the navigation list, there are also some differentiated components, which are different for each end, and it is planned to unify these in a unified package later.Please see the website of each mini program for details of the current differentiated components.
+> For other components please see the official documentation for each mini program
 
-[微信小程序](https://developers.weixin.qq.com/miniprogram/dev/component/)。
+[WeChat Mini-Program](https://developers.weixin.qq.com/miniprogram/en/dev/component/)。
 
-[百度小程序](https://smartprogram.baidu.com/docs/develop/component/view/)。
+[Baidu Smart-Program](https://smartprogram.baidu.com/docs/develop/component/view/)。
 
-[支付宝小程序](https://docs.alipay.com/mini/component/overview)。
+[Alipay Mini-Program](https://opendocs.alipay.com/mini/component)。
 
-[字节跳动小程序](https://microapp.bytedance.com/docs/zh-CN/mini-app/develop/component/all)。
+[ByteDance Micro-App](https://microapp.bytedance.com/docs/zh-CN/mini-app/develop/component/all)。
