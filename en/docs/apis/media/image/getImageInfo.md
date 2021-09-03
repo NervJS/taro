@@ -3,53 +3,53 @@ title: Taro.getImageInfo(option)
 sidebar_label: getImageInfo
 ---
 
-获取图片信息。网络图片需先配置download域名才能生效。
+Obtains image information.For network images, it only takes effect when the download domain name is configured.
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.getImageInfo.html)
+> [Reference](https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.getImageInfo.html)
 
-## 类型
+## Type
 
 ```tsx
 (option: Option) => Promise<SuccessCallbackResult>
 ```
 
-## 参数
+## Parameters
 
 ### Option
 
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>src</td>
       <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>图片的路径，可以是相对路径、临时文件路径、存储文件路径、网络图片路径</td>
+      <td style={{ textAlign: "center"}}>Yes</td>
+      <td>The path to the image. It can be a relative path, a temporary file path, a file storage path, or a path to a network image.</td>
     </tr>
     <tr>
       <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function used when the API call completed (always executed whether the call succeeds or fails)</td>
     </tr>
     <tr>
       <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
+      <td><code>(res: any) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a failed API call</td>
     </tr>
     <tr>
       <td>success</td>
-      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
+      <td><code>(res: Result) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>No</td>
+      <td>The callback function for a successful API call</td>
     </tr>
   </tbody>
 </table>
@@ -59,10 +59,10 @@ sidebar_label: getImageInfo
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Type</th>
+      <th style={{ textAlign: "center"}}>Default</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -70,13 +70,13 @@ sidebar_label: getImageInfo
       <td>height</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td>图片原始高度，单位px。不考虑旋转。</td>
+      <td>The original height of the image (in px).Rotation is not considered.</td>
     </tr>
     <tr>
       <td>orientation</td>
       <td><code>&quot;up&quot; | &quot;up-mirrored&quot; | &quot;down&quot; | &quot;down-mirrored&quot; | &quot;left-mirrored&quot; | &quot;right&quot; | &quot;right-mirrored&quot; | &quot;left&quot;</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;up&quot;</code></td>
-      <td><a href="https://sylvana.net/jpegcrop/exif_orientation.html">拍照时设备方向</a></td>
+      <td><a href="https://sylvana.net/jpegcrop/exif_orientation.html">Device orientation when taking photos</a></td>
     </tr>
     <tr>
       <td>path</td>
@@ -88,19 +88,19 @@ sidebar_label: getImageInfo
       <td>type</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td>图片格式</td>
+      <td>The local path to the image</td>
     </tr>
     <tr>
       <td>width</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td>图片原始宽度，单位px。不考虑旋转。</td>
+      <td>The original width of the image (in px).Rotation is not considered.</td>
     </tr>
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
-      <td>调用结果</td>
+      <td>Call result</td>
     </tr>
   </tbody>
 </table>
@@ -110,47 +110,47 @@ sidebar_label: getImageInfo
 <table>
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Property</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>up</td>
-      <td>默认方向（手机横持拍照），对应 Exif 中的 1。或无 orientation 信息。</td>
+      <td>Default orientation (landscape). It is 1 in Exif.Or it indicates no orientation information.</td>
     </tr>
     <tr>
       <td>up-mirrored</td>
-      <td>同 up，但镜像翻转，对应 Exif 中的 2</td>
+      <td>Mirrored orientation of up. It is 2 in Exif.</td>
     </tr>
     <tr>
       <td>down</td>
-      <td>旋转180度，对应 Exif 中的 3</td>
+      <td>http://sylvana.net/jpegcrop/exif_orientation.html</td>
     </tr>
     <tr>
       <td>down-mirrored</td>
-      <td>同 down，但镜像翻转，对应 Exif 中的 4</td>
+      <td>Mirrored orientation of down. It is 4 in Exif.</td>
     </tr>
     <tr>
       <td>left-mirrored</td>
-      <td>同 left，但镜像翻转，对应 Exif 中的 5</td>
+      <td>Mirrored orientation of left. It is 5 in Exif.</td>
     </tr>
     <tr>
       <td>right</td>
-      <td>顺时针旋转90度，对应 Exif 中的 6</td>
+      <td>Rotates the device 90 degrees clockwise. It is 6 in Exif.</td>
     </tr>
     <tr>
       <td>right-mirrored</td>
-      <td>同 right，但镜像翻转，对应 Exif 中的 7</td>
+      <td>Mirrored orientation of right. It is 7 in Exif.</td>
     </tr>
     <tr>
       <td>left</td>
-      <td>逆时针旋转90度，对应 Exif 中的 8</td>
+      <td>Rotates the device 90 degrees counterclockwise. It is 8 in Exif.</td>
     </tr>
   </tbody>
 </table>
 
-## 示例代码
+## Sample Code
 
 ```tsx
 Taro.getImageInfo({
@@ -173,8 +173,8 @@ Taro.chooseImage({
 })
 ```
 
-## API 支持度
+## API Support
 
-|        API        | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
-|:-----------------:|:-----:|:-----:|:------:|:--:|:------------:|
-| Taro.getImageInfo |  ✔️   |  ✔️   |   ✔️   | ✔️ |      ✔️      |
+|        API        | WeChat Mini-Program | Baidu Smart-Program | Alipay Mini-Program | H5 | React Native |
+|:-----------------:|:-------------------:|:-------------------:|:-------------------:|:--:|:------------:|
+| Taro.getImageInfo |         ✔️          |         ✔️          |         ✔️          | ✔️ |      ✔️      |
