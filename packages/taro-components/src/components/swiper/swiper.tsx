@@ -202,9 +202,9 @@ export class Swiper implements ComponentInterface {
   }
 
   disconnectedCallback () {
-    this.observer.disconnect && this.observer.disconnect()
-    this.observerFirst.disconnect && this.observerFirst.disconnect()
-    this.observerLast.disconnect && this.observerLast.disconnect()
+    this.observer?.disconnect?.()
+    this.observerFirst?.disconnect?.()
+    this.observerLast?.disconnect?.()
   }
 
   handleSwiperLoopListen = () => {

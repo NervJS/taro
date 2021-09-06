@@ -219,9 +219,9 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
   componentWillUnmount () {
     this.$el = null
     if (this.mySwiper) this.mySwiper.destroy()
-    this.observer.disconnect && this.observer.disconnect()
-    this.observerFirst.disconnect && this.observerFirst.disconnect()
-    this.observerLast.disconnect && this.observerLast.disconnect()
+    this.observer?.disconnect?.()
+    this.observerFirst?.disconnect?.()
+    this.observerLast?.disconnect?.()
   }
 
   handleOnChange (e: Event) {
@@ -239,8 +239,8 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
   }
 
   handleSwiperLoopListen = () => {
-    this.observerFirst?.disconnect && this.observerFirst.disconnect()
-    this.observerLast?.disconnect && this.observerLast.disconnect()
+    this.observerFirst?.disconnect?.()
+    this.observerLast?.disconnect?.()
     this.observerFirst = new MutationObserver(this.handleSwiperLoop)
     this.observerLast = new MutationObserver(this.handleSwiperLoop)
     const wrapper = this.mySwiper.$wrapperEl[0]

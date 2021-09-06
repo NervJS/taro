@@ -25,7 +25,7 @@ export const nextTick = (cb: Func, ctx?: Record<string, any>) => {
     let pageElement: TaroRootElement | null = null
     const path = getPath(removeLeadingSlash(router.path), router.params)
     pageElement = document.getElementById<TaroRootElement>(path)
-    if (pageElement !== null) {
+    if (pageElement?.pendingUpdate) {
       if (isBrowser) {
         // eslint-disable-next-line dot-notation
         pageElement.firstChild?.['componentOnReady']?.().then(() => {

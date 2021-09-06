@@ -1,10 +1,12 @@
 import ImageResizer from 'react-native-image-resizer'
+import { Image } from 'react-native'
+import { errorHandler, successHandler } from '../../utils'
 
 /**
  * 压缩图片
  * @param opts
  */
-export function compressImage(opt: Taro.compressImage.Option): Promise<Taro.compressImage.SuccessCallbackResult> {
+export async function compressImage(opt: Taro.compressImage.Option): Promise<Taro.compressImage.SuccessCallbackResult> {
   const {
     src,
     quality = 80,
@@ -15,20 +17,20 @@ export function compressImage(opt: Taro.compressImage.Option): Promise<Taro.comp
 
   const res = { errMsg: 'compressImage:ok', tempFilePath: '' }
 
-  return new Promise((resolve, reject) => {
-    return ImageResizer.createResizedImage(src, 800, 800, 'JPEG', quality, 0, '')
-      .then((resp: any) => {
-        res.tempFilePath = resp.uri
-        success?.(res)
-        complete?.(res)
+  const _createResizedImage = async (width = 800, height = 800) => {
+    try {
+      const { uri } = await ImageResizer.createResizedImage(src, width, height, 'JPEG', quality)
+      res.tempFilePath = uri
+      return successHandler(success, complete)(res)
+    } catch (err) {
+      res.errMsg = err.message
+      return errorHandler(fail, complete)(res)
+    }
+  }
 
-        resolve(res)
-      }).catch((err) => {
-        res.errMsg = err
-        fail?.(res)
-        complete?.(res)
-
-        reject(err)
-      })
+  return Image.getSize(src, async (width, height) => {
+    return await _createResizedImage(width, height)
+  }, async () => {
+    return await _createResizedImage()
   })
 }
