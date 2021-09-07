@@ -1241,8 +1241,10 @@ require(\\"./taro\\");
                     \\"default-source\\": \\"\\"
                 },
                 Canvas: {
+                    type: \\"\\",
                     width: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"g\\"])(\\"300px\\"),
-                    height: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"g\\"])(\\"225px\\")
+                    height: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"g\\"])(\\"225px\\"),
+                    bindReady: \\"\\"
                 },
                 Video: {
                     \\"poster-size\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"g\\"])(\\"contain\\"),
