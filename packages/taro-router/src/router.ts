@@ -186,23 +186,23 @@ export function createRouter (
 
       const pathname = basename ? location.pathname.replace(basename, '') : location.pathname
       let routerIndex
-      if (stacks?.length > 0) {
+
+      const isTabBar = routerConfig.tabBar?.list.some((TabBarItem) => {
+        return TabBarItem.pagePath?.replace(/\?.*/g, '') === pathname
+      })
+      if (stacks?.length > 0 && isTabBar) {
         routerIndex = stacks.findIndex((r) => {
-          if (r.path === pathname) {
-            return true
-          } else if (r.path?.includes('?')) {
-            return r.path.split('?')[0] === pathname
-          }
+          return r.path?.replace(/\?.*/g, '') === pathname
         })
       }
 
       const page = createPageConfig(
         enablePullDownRefresh ? runtimeHooks.createPullDownComponent?.(el, location.pathname, framework, routerConfig.PullDownRefresh) : el,
-        pathname + stringify(qs((routerIndex && routerIndex) !== -1 ? routerIndex : stacks.length)),
+        pathname + stringify(qs(((routerIndex || routerIndex === 0) && routerIndex !== -1) ? routerIndex : stacks.length)),
         {},
         config
       )
-      loadPage(page, pageConfig, routerIndex && routerIndex !== -1 ? routerIndex : stacks.length)
+      loadPage(page, pageConfig, ((routerIndex || routerIndex === 0) && routerIndex !== -1) ? routerIndex : stacks.length)
     }
   }, 500)
 
