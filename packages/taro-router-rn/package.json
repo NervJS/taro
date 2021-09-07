@@ -32,7 +32,7 @@
     "react-native-gesture-handler": "^1.8.0",
     "react-native-reanimated": "^1.13.1",
     "react-native-safe-area-context": "^3.1.8",
-    "react-native-screens": "^2.11.0"
+    "react-native-screens": "^3.6.0"
   },
   "dependencies": {
     "@react-native-community/bob": "^0.16.2",
@@ -44,7 +44,7 @@
     "query-string": "^6.1.0",
     "react-native-gesture-handler": "^1.8.0",
     "react-native-safe-area-context": "^3.1.8",
-    "react-native-screens": "^2.11.0"
+    "react-native-screens": "^3.6.0"
   },
   "resolutions": {
     "@types/react": "17.0.11",
