@@ -12,4 +12,13 @@ export class Template extends RecursiveTemplate {
     key: 'tt:key',
     type: 'tt'
   }
+
+  replacePropName (name: string, value: string) {
+    if (value === 'eh') {
+      const nameLowerCase = name.toLowerCase()
+      if (nameLowerCase === 'bindlongtap') return 'bindlongpress'
+      return nameLowerCase
+    }
+    return name
+  }
 }
