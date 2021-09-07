@@ -41,7 +41,7 @@ import {
   GestureResponderEvent
 } from 'react-native'
 import styles from './styles'
-import { noop } from '../../utils'
+import { extracteTextStyle, noop } from '../../utils'
 import { ButtonProps, ButtonState } from './PropsType'
 
 const Loading = (props: { type: ButtonProps['type'] }) => {
@@ -177,6 +177,7 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
       : isDefaultType
         ? `rgba(0,0,0,${disabled ? 0.3 : 1})`
         : `rgba(255,255,255,${disabled ? 0.6 : 1})`
+    const textHoverStyle = this.state.isHover ? extracteTextStyle(hoverStyle) : {}
 
     return (
       <TouchableWithoutFeedback
@@ -201,12 +202,12 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
           {
             Array.isArray(children) ? (
               children.map((c: never, i: number) => (
-                <Text key={i} style={[styles.btnText, !isDefaultSize && styles.btnTextMini, { color: textColor }]}>
+                <Text key={i} style={[styles.btnText, !isDefaultSize && styles.btnTextMini, { color: textColor }, textHoverStyle]}>
                   {c}
                 </Text>
               ))
             ) : (['string', 'number'].indexOf(typeof children) > -1) ? (
-              <Text style={[styles.btnText, !isDefaultSize && styles.btnTextMini, { color: textColor }]}>{children}</Text>
+              <Text style={[styles.btnText, !isDefaultSize && styles.btnTextMini, { color: textColor }, textHoverStyle]}>{children}</Text>
             ) : (
               children
             )}
