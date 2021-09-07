@@ -141,7 +141,7 @@
     "nervjs": "^1.4.6",
     "node-sass": "5.0.0",
     "npm-run-all": "^4.1.2",
-    "ora": "^2.1.0",
+    "ora": "^6.0.0",
     "power-assert": "^1.6.1",
     "prettier": "^1.18.2",
     "react": "^17.0.0",

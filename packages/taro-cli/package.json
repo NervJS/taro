@@ -98,7 +98,7 @@
     "minimatch": "^3.0.4",
     "minimist": "1.2.5",
     "npm-check": "^5.9.0",
-    "ora": "^2.0.0",
+    "ora": "^6.0.0",
     "postcss": "^6.0.22",
     "postcss-modules-extract-imports": "^1.1.0",
     "postcss-modules-local-by-default": "^1.2.0",
