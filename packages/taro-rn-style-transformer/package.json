@@ -39,7 +39,9 @@
     "taro-css-to-react-native": "3.3.7"
   },
   "devDependencies": {
+    "@types/sass": "^1.16.1",
     "@types/less": "^3.0.2",
-    "@types/postcss-import": "^12.0.0"
+    "@types/postcss-import": "^12.0.0",
+    "ts-jest": "26.4.0"
   }
 }
