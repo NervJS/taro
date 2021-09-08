@@ -103,6 +103,11 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
     isHover: false
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  componentWillUnmount() {
+    this.setState = () => null
+  }
+
   onPress = (): void => {
     const { disabled, onClick = noop } = this.props
     !disabled && onClick()

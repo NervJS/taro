@@ -146,6 +146,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
           this.unSubscribleBlur()
           this.unSubscribleFocus()
         }
+        this.setState = () => null
       }
 
       setPageInstance () {
