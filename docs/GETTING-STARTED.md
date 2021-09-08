@@ -300,7 +300,9 @@ $ NODE_ENV=production taro build --type jd --watch # Mac
 
 ### 企业微信小程序
 
-> Taro v3.1+ 开始支持
+:::note
+Taro v3.1+ 开始支持
+:::
 
 使用 Taro 插件能支持编译企业微信小程序，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-weapp-qy)。
 
@@ -351,7 +353,15 @@ $ NODE_ENV=production taro build --type qywx --watch # Mac
 
 ### 钉钉小程序
 
-> Taro v3.1+ 开始支持
+:::note
+Taro v3.1+ 开始支持
+
+**Taro v3.3.8+**：
+请使用 `@tarojs/plugin-platform-alipay-dd` 插件的 `~0.1.0` 版本
+
+**Taro v3.1 & v3.2**：
+请使用 `@tarojs/plugin-platform-alipay-dd` 插件的 `~0.0.5` 版本
+:::
 
 使用 Taro 插件能支持编译钉钉小程序，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-alipay-dd)。
 
@@ -402,7 +412,9 @@ $ NODE_ENV=production taro build --type dd --watch # Mac
 
 ### 支付宝 IOT 小程序
 
-> Taro v3.1+ 开始支持
+:::note
+Taro v3.1+ 开始支持
+:::
 
 使用 Taro 插件能支持编译支付宝 IOT 小程序，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-alipay-iot)。
 
@@ -453,7 +465,9 @@ $ NODE_ENV=production taro build --type iot --watch # Mac
 
 ### 飞书小程序
 
-> Taro v3.1+ 开始支持
+:::note
+Taro v3.1+ 开始支持
+:::
 
 使用 Taro 插件能支持编译飞书小程序，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-lark)。
 
@@ -510,19 +524,18 @@ $ NODE_ENV=production taro build --type lark --watch # Mac
 
 使用 Taro 插件能支持编译快手小程序，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-kwai)。
 
-#### 版本要求
+:::note
+Taro v3.1+ 开始支持
 
-##### Taro 3.3+
+**Taro v3.3+**：
+请使用 [taro-plugin-platform-kwai](https://github.com/NervJS/taro-plugin-platform-kwai) 插件的 `1.0` 或以上版本
 
-请使用 [taro-plugin-platform-kwai](https://github.com/NervJS/taro-plugin-platform-kwai) 的 1.0 或以上版本。
+**Taro v3.2**：
+请使用 [taro-plugin-platform-ks](https://github.com/vadxq/taro-plugin-platform-ks) 插件的 `1.2.x` 版本
 
-##### Taro 3.2
-
-请使用 [taro-plugin-platform-ks](https://github.com/vadxq/taro-plugin-platform-ks) 的 1.2.x 版本。
-
-##### Taro 3.0 - 3.1
-
-请使用 [taro-plugin-platform-ks](https://github.com/vadxq/taro-plugin-platform-ks) 的 1.0.x 版本。
+**Taro v3.1**：
+请使用 [taro-plugin-platform-ks](https://github.com/vadxq/taro-plugin-platform-ks) 插件的 `1.0.x` 版本
+:::
 
 #### 安装插件
 
