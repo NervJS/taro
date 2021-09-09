@@ -99,6 +99,7 @@ export function resolveStyle (id: string, opts: ResolveStyleOptions) {
   return file
 }
 
+// copy from https://github.com/webpack-contrib/css-loader/blob/master/src/utils.js
 const IS_NATIVE_WIN32_PATH = /^[a-z]:[/\\]|^\\\\/i
 const ABSOLUTE_SCHEME = /^[a-z0-9+\-.]+:/i
 
@@ -164,6 +165,7 @@ export function normalizeSourceMap (map, resourcePath) {
 
   return newMap
 }
+// copy end
 
 export function getAdditionalData (data: string, config: string | ((key: string) => string)) {
   let additionalData = ''

@@ -39,7 +39,7 @@ function validateStyle ({ styleObject, filename }) {
     } catch (err) {
       // 先忽略掉 scalePx2dp 的报错
       if (/Invalid prop `.*` of type `string` supplied to `.*`, expected `number`[^]*/g.test(err.message)) return
-      printLog(processTypeEnum.WARNING, err.message, `entry file：${filename}`)
+      printLog(processTypeEnum.WARNING, err.message, `entry file: ${filename}`)
     }
   }
 }
