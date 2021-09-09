@@ -71,8 +71,10 @@ export const components = {
     'default-source': ''
   },
   Canvas: {
+    type: '',
     width: singleQuote('300px'),
-    height: singleQuote('225px')
+    height: singleQuote('225px'),
+    bindReady: ''
   },
   Video: {
     'poster-size': singleQuote('contain'),
