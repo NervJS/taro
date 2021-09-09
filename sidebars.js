@@ -103,7 +103,8 @@ module.exports = {
       'CONTRIBUTING',
       'codebase-overview',
       'debug-config',
-      'implement-note'
+      'implement-note',
+      'taro-dom'
     ]
   },
   "components": {
