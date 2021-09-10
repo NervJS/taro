@@ -136,3 +136,7 @@ declare namespace Taro {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface TaroStatic {}
 }
+declare global {
+  const defineAppConfig: (config: Taro.Config) => Taro.Config
+  const definePageConfig: (config: Taro.PageConfig) => Taro.PageConfig
+}
