@@ -220,4 +220,9 @@
 /// <reference path="api/alipay/index.d.ts" />
 /// <reference path="api/swan/index.d.ts" />
 
+declare global {
+  const defineAppConfig: (config: Taro.Config) => Taro.Config
+  const definePageConfig: (config: Taro.PageConfig) => Taro.PageConfig
+}
+
 export = Taro

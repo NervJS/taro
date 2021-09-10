@@ -491,6 +491,14 @@ export function removeHeadSlash (str: string) {
   return str.replace(/^(\/|\\)/, '')
 }
 
+export function defineAppConfig (config: any) {
+  return config
+}
+
+export function definePageConfig (config: any) {
+  return config
+}
+
 export function readConfig (configPath: string) {
   let result: any = {}
   if (fs.existsSync(configPath)) {
