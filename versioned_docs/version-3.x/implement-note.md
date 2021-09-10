@@ -31,7 +31,7 @@ CLI 里预先挂载了一系列的内置插件，每个命令、每个编译平�
 
 为了让 React、Vue 等框架直接运行在小程序端，我们需要在小程序的逻辑层**模拟浏览器环境**，包括实现 DOM、BOM API 等。
 
-`@tarojs/runtime` 是 Taro 的运行时适配器核心，它实现了精简的 DOM、BOM API、事件系统、Web 框架和小程序框架的桥接层等。
+`@tarojs/runtime` 是 Taro 的运行时适配器核心，它实现了精简的 [DOM、BOM API](taro-dom)、事件系统、Web 框架和小程序框架的桥接层等。
 
 > 因为 ReactDOM 体积较大，且包含很多兼容性代码。因此 Taro 借助 react-reconciler 实现了一个自定义渲染器用于代替 ReactDOM。渲染器位于 `@tarojs/react` 包中。
 
