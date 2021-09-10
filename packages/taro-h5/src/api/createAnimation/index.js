@@ -295,8 +295,8 @@ class Animation {
     // 生成一条 transition 动画
     this.steps.push(
       [
-        this.rules.join(';'),
-        this.transform.join(' '),
+        this.rules.map(rule => `${rule}!important`).join(';'),
+        `${this.transform.join(' ')}!important`,
         `${TRANSFORM}-origin: ${transformOrigin}`,
         `transition: all ${duration}ms ${timingFunction} ${delay}ms`
       ]
