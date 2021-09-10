@@ -865,6 +865,9 @@ require(\\"./taro\\");
                 fixed: \\"\\",
                 type: singleQuote(\\"banner\\"),
                 scale: \\"100\\"
+            },
+            Textarea: {
+                \\"disable-default-padding\\": \\"false\\"
             }
         };
         var hostConfig = {
@@ -948,7 +951,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_catch-view\\">
-  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
@@ -972,7 +975,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_view\\">
-  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
@@ -1028,7 +1031,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_cover-view\\">
-  <cover-view scroll-top=\\"{{i.scrollTop===undefined?false:i.scrollTop}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <cover-view scroll-top=\\"{{i.scrollTop===undefined?false:i.scrollTop}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
@@ -1036,7 +1039,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_scroll-view\\">
-  <scroll-view scroll-x=\\"{{i.scrollX===undefined?false:i.scrollX}}\\" scroll-y=\\"{{i.scrollY===undefined?false:i.scrollY}}\\" upper-threshold=\\"{{i.upperThreshold===undefined?50:i.upperThreshold}}\\" lower-threshold=\\"{{i.lowerThreshold===undefined?50:i.lowerThreshold}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{i.scrollWithAnimation===undefined?false:i.scrollWithAnimation}}\\" enable-back-to-top=\\"{{i.enableBackToTop===undefined?false:i.enableBackToTop}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <scroll-view scroll-x=\\"{{i.scrollX===undefined?false:i.scrollX}}\\" scroll-y=\\"{{i.scrollY===undefined?false:i.scrollY}}\\" upper-threshold=\\"{{i.upperThreshold===undefined?50:i.upperThreshold}}\\" lower-threshold=\\"{{i.lowerThreshold===undefined?50:i.lowerThreshold}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{i.scrollWithAnimation===undefined?false:i.scrollWithAnimation}}\\" enable-back-to-top=\\"{{i.enableBackToTop===undefined?false:i.enableBackToTop}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
@@ -1044,7 +1047,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_swiper\\">
-  <swiper indicator-dots=\\"{{i.indicatorDots===undefined?false:i.indicatorDots}}\\" indicator-color=\\"{{i.indicatorColor===undefined?'rgba(0, 0, 0, .3)':i.indicatorColor}}\\" indicator-active-color=\\"{{i.indicatorActiveColor===undefined?'#000000':i.indicatorActiveColor}}\\" autoplay=\\"{{i.autoplay===undefined?false:i.autoplay}}\\" current=\\"{{i.current===undefined?0:i.current}}\\" interval=\\"{{i.interval===undefined?5000:i.interval}}\\" duration=\\"{{i.duration===undefined?500:i.duration}}\\" circular=\\"{{i.circular===undefined?false:i.circular}}\\" vertical=\\"{{i.vertical===undefined?false:i.vertical}}\\" previous-margin=\\"{{i.previousMargin===undefined?'0px':i.previousMargin}}\\" next-margin=\\"{{i.nextMargin===undefined?'0px':i.nextMargin}}\\" display-multiple-items=\\"{{i.displayMultipleItems===undefined?1:i.displayMultipleItems}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <swiper indicator-dots=\\"{{i.indicatorDots===undefined?false:i.indicatorDots}}\\" indicator-color=\\"{{i.indicatorColor===undefined?'rgba(0, 0, 0, .3)':i.indicatorColor}}\\" indicator-active-color=\\"{{i.indicatorActiveColor===undefined?'#000000':i.indicatorActiveColor}}\\" autoplay=\\"{{i.autoplay===undefined?false:i.autoplay}}\\" current=\\"{{i.current===undefined?0:i.current}}\\" interval=\\"{{i.interval===undefined?5000:i.interval}}\\" duration=\\"{{i.duration===undefined?500:i.duration}}\\" circular=\\"{{i.circular===undefined?false:i.circular}}\\" vertical=\\"{{i.vertical===undefined?false:i.vertical}}\\" previous-margin=\\"{{i.previousMargin===undefined?'0px':i.previousMargin}}\\" next-margin=\\"{{i.nextMargin===undefined?'0px':i.nextMargin}}\\" display-multiple-items=\\"{{i.displayMultipleItems===undefined?1:i.displayMultipleItems}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
@@ -1068,7 +1071,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_image\\">
-  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
@@ -1084,7 +1087,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_canvas\\">
-  <canvas canvas-id=\\"{{i.canvasId}}\\" disable-scroll=\\"{{i.disableScroll===undefined?false:i.disableScroll}}\\" binderror=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <canvas canvas-id=\\"{{i.canvasId}}\\" disable-scroll=\\"{{i.disableScroll===undefined?false:i.disableScroll}}\\" binderror=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
