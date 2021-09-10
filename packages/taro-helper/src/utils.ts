@@ -508,7 +508,7 @@ export function readConfig (configPath: string) {
         // support importing other config files using es module syntax
         // but the imported file shall be kept within the src directory
         function (filepath: string) {
-          return configPath.split("src")[0] === filepath.split("src")[0]
+          return configPath.split('src')[0] === filepath.split('src')[0]
         }
       ]
     })

@@ -8,11 +8,11 @@ import type { PluginItem, NodePath } from '@babel/core'
  * if they are used
 */
 function injectDefineConfigHeader (babel: any): PluginItem {
-  const appConfig = `const { defineAppConfig } = require("@tarojs/helper")`
-  const pageConfig = `const { definePageConfig } = require("@tarojs/helper")`
+  const appConfig = 'const { defineAppConfig } = require("@tarojs/helper")'
+  const pageConfig = 'const { definePageConfig } = require("@tarojs/helper")'
 
   const prependHeader = (nodePath: NodePath<any>, header: string) => {
-    const parsedHeader = babel.parse(header, { filename: "" }).program.body[0]
+    const parsedHeader = babel.parse(header, { filename: '' }).program.body[0]
     nodePath.node.body.unshift(parsedHeader)
   }
 
@@ -29,9 +29,6 @@ function injectDefineConfigHeader (babel: any): PluginItem {
             return
           case 'definePageConfig':
             prependHeader(nodePath, pageConfig)
-            return
-          default:
-            return
         }
       }
     })
