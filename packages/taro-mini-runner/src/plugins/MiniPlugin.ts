@@ -894,6 +894,8 @@ export default class TaroMiniPlugin {
     const customWrapperName = 'custom-wrapper'
     if (typeof modifyMiniConfigs === 'function') {
       await modifyMiniConfigs(this.filesConfig)
+      // get pages based on the modified configs
+      this.getPages()
     }
     if (!this.options.blended && !isBuildPlugin) {
       const appConfigPath = this.getConfigFilePath(this.appEntry)
