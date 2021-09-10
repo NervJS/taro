@@ -1,6 +1,28 @@
 import { inject, injectable, multiInject, /* multiInject, */ optional } from 'inversify'
-import SERVICE_IDENTIFIER from './constants/identifiers'
+import {
+  SID_GET_LIFECYCLE,
+  SID_GET_PATH_INDEX,
+  SID_GET_EVENT_CENTER,
+  SID_IS_BUBBLE_EVENTS,
+  SID_GET_SPECIAL_NODES,
+  SID_ON_REMOVE_ATTRIBUTE,
+  SID_BATCHED_EVENT_UPDATES,
+  SID_MERGE_PAGE_INSTANCE,
+  SID_CREATE_PULLDOWN_COMPONENT,
+  SID_GET_DOM_NODE,
+  SID_MODIFY_HYDRATE_DATA,
+  SID_MODIFY_SET_ATTR_PAYLOAD,
+  SID_MODIFY_RM_ATTR_PAYLOAD,
+  SID_ON_ADD_EVENT,
+  SID_MODIFY_MP_EVENT,
+  SID_MODIFY_TARO_EVENT,
+  SID_INIT_NATIVE_API,
+  SID_PATCH_ELEMENT
 
+} from './constants/identifiers'
+
+import type { TaroElement } from './dom/element'
+import type { TaroEvent } from './dom/event'
 import type {
   IHooks,
   OnRemoveAttribute,
@@ -23,75 +45,73 @@ import type {
   OnAddEvent,
   patchElement
 } from './interface'
-import type { TaroElement } from './dom/element'
-import type { TaroEvent } from './dom/event'
 
 @injectable()
 export class Hooks implements IHooks {
-  @inject(SERVICE_IDENTIFIER.getLifecycle)
+  @inject(SID_GET_LIFECYCLE)
   public getLifecycle: GetLifecycle
 
-  @inject(SERVICE_IDENTIFIER.getPathIndex)
+  @inject(SID_GET_PATH_INDEX)
   public getPathIndex: GetPathIndex
 
-  @inject(SERVICE_IDENTIFIER.getEventCenter)
+  @inject(SID_GET_EVENT_CENTER)
   public getEventCenter: GetEventCenter
 
-  @inject(SERVICE_IDENTIFIER.isBubbleEvents)
+  @inject(SID_IS_BUBBLE_EVENTS)
   public isBubbleEvents: IsBubbleEvents
 
-  @inject(SERVICE_IDENTIFIER.getSpecialNodes)
+  @inject(SID_GET_SPECIAL_NODES)
   public getSpecialNodes: GetSpecialNodes
 
-  @inject(SERVICE_IDENTIFIER.onRemoveAttribute) @optional()
+  @inject(SID_ON_REMOVE_ATTRIBUTE) @optional()
   public onRemoveAttribute?: OnRemoveAttribute
 
-  @inject(SERVICE_IDENTIFIER.batchedEventUpdates) @optional()
+  @inject(SID_BATCHED_EVENT_UPDATES) @optional()
   public batchedEventUpdates?: BatchedEventUpdates
 
-  @inject(SERVICE_IDENTIFIER.mergePageInstance) @optional()
+  @inject(SID_MERGE_PAGE_INSTANCE) @optional()
   public mergePageInstance?: MergePageInstance
 
-  @inject(SERVICE_IDENTIFIER.createPullDownComponent) @optional()
+  @inject(SID_CREATE_PULLDOWN_COMPONENT) @optional()
   public createPullDownComponent?: CreatePullDownComponent
 
-  @inject(SERVICE_IDENTIFIER.getDOMNode) @optional()
+  @inject(SID_GET_DOM_NODE) @optional()
   public getDOMNode?: GetDOMNode
 
-  @inject(SERVICE_IDENTIFIER.modifyHydrateData) @optional()
+  @inject(SID_MODIFY_HYDRATE_DATA) @optional()
   public modifyHydrateData?: ModifyHydrateData
 
-  @inject(SERVICE_IDENTIFIER.modifySetAttrPayload) @optional()
+  @inject(SID_MODIFY_SET_ATTR_PAYLOAD) @optional()
   public modifySetAttrPayload?: ModifySetAttrPayload
 
-  @inject(SERVICE_IDENTIFIER.modifyRmAttrPayload) @optional()
+  @inject(SID_MODIFY_RM_ATTR_PAYLOAD) @optional()
   public modifyRmAttrPayload?: ModifyRmAttrPayload
 
-  @inject(SERVICE_IDENTIFIER.onAddEvent) @optional()
+  @inject(SID_ON_ADD_EVENT) @optional()
   public onAddEvent?: OnAddEvent
 
-  @multiInject(SERVICE_IDENTIFIER.modifyMpEvent) @optional()
+  @multiInject(SID_MODIFY_MP_EVENT) @optional()
   private modifyMpEventImpls?: ModifyMpEvent[]
 
   public modifyMpEvent (e: MpEvent) {
     this.modifyMpEventImpls?.forEach(fn => fn(e))
   }
 
-  @multiInject(SERVICE_IDENTIFIER.modifyTaroEvent) @optional()
+  @multiInject(SID_MODIFY_TARO_EVENT) @optional()
   private modifyTaroEventImpls?: ModifyTaroEvent[]
 
   public modifyTaroEvent (e: TaroEvent, element: TaroElement) {
     this.modifyTaroEventImpls?.forEach(fn => fn(e, element))
   }
 
-  @multiInject(SERVICE_IDENTIFIER.initNativeApi) @optional()
+  @multiInject(SID_INIT_NATIVE_API) @optional()
   public initNativeApiImpls?: InitNativeApi[]
 
   public initNativeApi (taro: Record<string, any>) {
     this.initNativeApiImpls?.forEach(fn => fn(taro))
   }
 
-  @multiInject(SERVICE_IDENTIFIER.patchElement) @optional()
+  @multiInject(SID_PATCH_ELEMENT) @optional()
   public patchElementImpls?: patchElement[]
 
   public patchElement (element: TaroElement) {

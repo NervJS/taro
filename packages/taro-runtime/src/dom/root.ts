@@ -1,7 +1,6 @@
 import { inject, injectable } from 'inversify'
-import { isFunction, Shortcuts } from '@tarojs/shared'
-import get from 'lodash-es/get'
-import SERVICE_IDENTIFIER from '../constants/identifiers'
+import { isFunction, isNull, isUndefined, Shortcuts } from '@tarojs/shared'
+import { SID_EVENT_CENTER } from '../constants/identifiers'
 import { TaroElement } from './element'
 import { incrementId } from '../utils'
 import { perf } from '../perf'
@@ -13,13 +12,26 @@ import {
   CUSTOM_WRAPPER
 } from '../constants'
 
-import type { Func, UpdatePayload, UpdatePayloadValue, InstanceNamedFactory, MpInstance, HydratedData } from '../interface'
-import type { TaroNodeImpl } from '../dom-external/node-impl'
-import type { TaroElementImpl } from '../dom-external/element-impl'
-import type { Hooks } from '../hooks'
+import type { Func, UpdatePayload, UpdatePayloadValue, MpInstance, HydratedData } from '../interface'
 import type { Events } from '../emitter/emitter'
 
 const eventIncrementId = incrementId()
+
+function simpleGet (obj, allPath: string) {
+  const list = allPath.split('.')
+  let res
+
+  list.some(item => {
+    const key = item.replace(/^\[(.+)\]$/, '$1')
+    res = obj[key]
+    if (isUndefined(res) || isNull(res)) {
+      res = {}
+      return true
+    }
+  })
+
+  return res
+}
 
 @injectable()
 export class TaroRootElement extends TaroElement {
@@ -36,13 +48,9 @@ export class TaroRootElement extends TaroElement {
   public ctx: null | MpInstance = null
 
   public constructor (// eslint-disable-next-line @typescript-eslint/indent
-    @inject(SERVICE_IDENTIFIER.TaroNodeImpl) nodeImpl: TaroNodeImpl,
-    @inject(SERVICE_IDENTIFIER.TaroElementFactory) getElement: InstanceNamedFactory,
-    @inject(SERVICE_IDENTIFIER.Hooks) hooks: Hooks,
-    @inject(SERVICE_IDENTIFIER.TaroElementImpl) elementImpl: TaroElementImpl,
-    @inject(SERVICE_IDENTIFIER.eventCenter) eventCenter: Events
+    @inject(SID_EVENT_CENTER) eventCenter: Events
   ) {
-    super(nodeImpl, getElement, hooks, elementImpl)
+    super()
     this.nodeName = ROOT_STR
     this.eventCenter = eventCenter
   }
@@ -112,7 +120,7 @@ export class TaroRootElement extends TaroElement {
             let hasCustomWrapper = false
             for (let i = dataPathArr.length; i > 0; i--) {
               const allPath = dataPathArr.slice(0, i).join('.')
-              const getData = get(ctx.__data__ || ctx.data, allPath)
+              const getData = simpleGet(ctx.__data__ || ctx.data, allPath)
               if (getData && getData.nn && getData.nn === CUSTOM_WRAPPER) {
                 const customWrapperId = getData.uid
                 const customWrapper = ctx.selectComponent(`#${customWrapperId}`)

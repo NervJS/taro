@@ -1,22 +1,20 @@
-import { inject, injectable } from 'inversify'
+import { injectable } from 'inversify'
 import { Shortcuts, ensure } from '@tarojs/shared'
-import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { NodeType } from './node_types'
 import { incrementId, isComment } from '../utils'
 import { TaroEventTarget } from './event-target'
 import { hydrate } from '../hydrate'
 import { eventSource } from './event-source'
 import { ElementNames } from '../interface'
+import { getElementFactory, getNodeImpl } from '../container/store'
 import {
   DOCUMENT_FRAGMENT
 } from '../constants'
 
-import type { UpdatePayload, InstanceNamedFactory } from '../interface'
+import type { UpdatePayload } from '../interface'
 import type { TaroDocument } from './document'
 import type { TaroRootElement } from './root'
 import type { TaroElement } from './element'
-import type { TaroNodeImpl } from '../dom-external/node-impl'
-import type { Hooks } from '../hooks'
 
 const nodeId = incrementId()
 
@@ -28,16 +26,12 @@ export class TaroNode extends TaroEventTarget {
   public parentNode: TaroNode | null = null
   public childNodes: TaroNode[] = []
 
-  protected _getElement: InstanceNamedFactory
+  protected _getElement = getElementFactory()
 
-  public constructor (// eslint-disable-next-line @typescript-eslint/indent
-    @inject(SERVICE_IDENTIFIER.TaroNodeImpl) impl: TaroNodeImpl,
-    @inject(SERVICE_IDENTIFIER.TaroElementFactory) getElement: InstanceNamedFactory,
-    @inject(SERVICE_IDENTIFIER.Hooks) hooks: Hooks
-  ) {
-    super(hooks)
+  public constructor () {
+    super()
+    const impl = getNodeImpl()
     impl.bind(this)
-    this._getElement = getElement
     this.uid = `_n_${nodeId()}`
     eventSource.set(this.uid, this)
   }
@@ -215,18 +209,6 @@ export class TaroNode extends TaroEventTarget {
 
   public enqueueUpdate (payload: UpdatePayload) {
     this._root?.enqueueUpdate(payload)
-  }
-
-  public contains (node: TaroNode & { id?: string }): boolean {
-    let isContains = false
-    this.childNodes.some(childNode => {
-      const { uid } = childNode
-      if (uid === node.uid || uid === node.id || childNode.contains(node)) {
-        isContains = true
-        return true
-      }
-    })
-    return isContains
   }
 
   public get ownerDocument () {

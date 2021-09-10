@@ -1,6 +1,12 @@
 import { ContainerModule } from 'inversify'
-import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { BUBBLE_EVENTS } from '../constants/events'
+import {
+  SID_GET_LIFECYCLE,
+  SID_GET_PATH_INDEX,
+  SID_GET_EVENT_CENTER,
+  SID_IS_BUBBLE_EVENTS,
+  SID_GET_SPECIAL_NODES
+} from '../constants/identifiers'
 
 import type { IsBubbleEvents, GetEventCenter, GetLifecycle, GetPathIndex, GetSpecialNodes } from '../interface'
 
@@ -25,9 +31,12 @@ const getSpecialNodes = function () {
 }
 
 export const DefaultHooksContainer = new ContainerModule(bind => {
-  bind<GetLifecycle>(SERVICE_IDENTIFIER.getLifecycle).toFunction(getLifecycle)
-  bind<GetPathIndex>(SERVICE_IDENTIFIER.getPathIndex).toFunction(getPathIndex)
-  bind<GetEventCenter>(SERVICE_IDENTIFIER.getEventCenter).toFunction(getEventCenter)
-  bind<IsBubbleEvents>(SERVICE_IDENTIFIER.isBubbleEvents).toFunction(isBubbleEvents)
-  bind<GetSpecialNodes>(SERVICE_IDENTIFIER.getSpecialNodes).toFunction(getSpecialNodes)
+  function bindFunction<T> (sid: string, target) {
+    return bind<T>(sid).toFunction(target)
+  }
+  bindFunction<GetLifecycle>(SID_GET_LIFECYCLE, getLifecycle)
+  bindFunction<GetPathIndex>(SID_GET_PATH_INDEX, getPathIndex)
+  bindFunction<GetEventCenter>(SID_GET_EVENT_CENTER, getEventCenter)
+  bindFunction<IsBubbleEvents>(SID_IS_BUBBLE_EVENTS, isBubbleEvents)
+  bindFunction<GetSpecialNodes>(SID_GET_SPECIAL_NODES, getSpecialNodes)
 })

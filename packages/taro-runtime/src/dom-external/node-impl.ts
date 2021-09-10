@@ -2,15 +2,15 @@ import { inject, injectable } from 'inversify'
 import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { ElementNames, InstanceNamedFactory } from '../interface'
 import { setInnerHTML } from '../dom-external/inner-html/html'
-import { cloneNode, insertAdjacentHTMLImpl } from './node'
+import { cloneNode, insertAdjacentHTMLImpl, contains } from './node'
 
 import type { Ctx, GetDoc } from '../interface'
 import type { TaroDocument } from '../dom/document'
-import type { IPosition } from './node'
 
 declare const ENABLE_INNER_HTML: boolean
 declare const ENABLE_ADJACENT_HTML: boolean
 declare const ENABLE_CLONE_NODE: boolean
+declare const ENABLE_CONTAINS: boolean
 
 @injectable()
 export class TaroNodeImpl {
@@ -27,12 +27,18 @@ export class TaroNodeImpl {
 
     if (ENABLE_INNER_HTML) {
       bindInnerHTML(ctx, getDoc)
+
       if (ENABLE_ADJACENT_HTML) {
-        bindAdjacentHTML(ctx, getDoc)
+        ctx.insertAdjacentHTML = insertAdjacentHTMLImpl.bind(ctx, getDoc)
       }
     }
+
     if (ENABLE_CLONE_NODE) {
-      ctx.cloneNode = cloneNode.bind(ctx, ctx, getDoc)
+      ctx.cloneNode = cloneNode.bind(ctx, getDoc)
+    }
+
+    if (ENABLE_CONTAINS) {
+      ctx.contains = contains.bind(ctx)
     }
   }
 }
@@ -48,10 +54,4 @@ function bindInnerHTML (ctx, getDoc) {
       return ''
     }
   })
-}
-
-function bindAdjacentHTML (ctx, getDoc) {
-  ctx.insertAdjacentHTML = function (position: IPosition, html: string) {
-    insertAdjacentHTMLImpl.call(ctx, position, html, getDoc)
-  }
 }

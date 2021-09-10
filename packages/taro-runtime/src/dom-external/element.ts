@@ -3,8 +3,9 @@ import { ElementNames } from '../interface'
 import { DOCUMENT_FRAGMENT } from '../constants'
 
 import type { Ctx } from '../interface'
+import type { TaroElement } from 'src/dom/element'
 
-export function getBoundingClientRectImpl (): Promise<null> {
+export function getBoundingClientRectImpl (this: TaroElement): Promise<null> {
   if (!options.miniGlobal) return Promise.resolve(null)
   return new Promise(resolve => {
     const query = options.miniGlobal.createSelectorQuery()

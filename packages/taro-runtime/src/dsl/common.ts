@@ -1,28 +1,25 @@
 /* eslint-disable dot-notation */
 import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray } from '@tarojs/shared'
-import container from '../container'
-import SERVICE_IDENTIFIER from '../constants/identifiers'
+import { getHooks } from '../container/store'
 import { eventHandler } from '../dom/event'
 import { Current } from '../current'
 import { document } from '../bom/document'
 import { incrementId } from '../utils'
 import { perf } from '../perf'
-import { PAGE_INIT } from '../constants'
-import { isBrowser } from '../env'
 import { eventCenter } from '../emitter/emitter'
 import { raf } from '../bom/raf'
+import { PAGE_INIT, CUSTOM_WRAPPER, VIEW, ON_READY, ON_SHOW, ON_HIDE, ON_LOAD, OPTIONS, EXTERNAL_CLASSES, BEHAVIORS } from '../constants'
 
 import type { PageConfig } from '@tarojs/taro'
 import type { Instance, PageInstance, PageProps } from './instance'
-import type { Func, IHooks, MpInstance } from '../interface'
+import type { Func, MpInstance } from '../interface'
 import type { TaroRootElement } from '../dom/root'
 
 const instances = new Map<string, Instance>()
 const pageId = incrementId()
-const hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
 
 export function injectPageInstance (inst: Instance<PageProps>, id: string) {
-  hooks.mergePageInstance?.(instances.get(id), inst)
+  getHooks().mergePageInstance?.(instances.get(id), inst)
   instances.set(id, inst)
 }
 
@@ -37,14 +34,14 @@ export function addLeadingSlash (path?: string): string {
   return path.charAt(0) === '/' ? path : '/' + path
 }
 
-export function safeExecute (path: string, lifecycle: keyof PageInstance, ...args: unknown[]) {
+export function safeExecute (path: string, lifecycle: string, ...args: unknown[]) {
   const instance = instances.get(path)
 
   if (instance == null) {
     return
   }
 
-  const func = hooks.getLifecycle(instance, lifecycle)
+  const func = getHooks().getLifecycle(instance, lifecycle as keyof PageInstance)
 
   if (isArray(func)) {
     const res = func.map(fn => fn.apply(instance, args))
@@ -70,31 +67,41 @@ export function stringify (obj?: Record<string, unknown>) {
 
 export function getPath (id: string, options?: Record<string, unknown>): string {
   let path = id
-  if (!isBrowser) {
+  if (process.env.TARO_ENV !== 'h5') {
     path = id + stringify(options)
   }
   return path
 }
 
 export function getOnReadyEventKey (path: string) {
-  return path + '.' + 'onReady'
+  return path + '.' + ON_READY
 }
 
 export function getOnShowEventKey (path: string) {
-  return path + '.' + 'onShow'
+  return path + '.' + ON_SHOW
 }
 
 export function getOnHideEventKey (path: string) {
-  return path + '.' + 'onHide'
+  return path + '.' + ON_HIDE
 }
 
 export function createPageConfig (component: any, pageName?: string, data?: Record<string, unknown>, pageConfig?: PageConfig) {
   const id = pageName ?? `taro_page_${pageId()}`
   // 小程序 Page 构造器是一个傲娇小公主，不能把复杂的对象挂载到参数上
   let pageElement: TaroRootElement | null = null
-
   let unmounting = false
   let prepareMountList: (() => void)[] = []
+
+  function setCurrentRouter (page: MpInstance) {
+    const router = process.env.TARO_ENV === 'h5' ? page.$taroPath : page.route || page.__route__
+    Current.router = {
+      params: page.$taroParams!,
+      path: addLeadingSlash(router),
+      onReady: getOnReadyEventKey(id),
+      onShow: getOnShowEventKey(id),
+      onHide: getOnHideEventKey(id)
+    }
+  }
 
   const config: PageInstance = {
     onLoad (this: MpInstance, options, cb?: Func) {
@@ -106,27 +113,21 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
       // this.$taroPath 是页面唯一标识，不可变，因此页面参数 options 也不可变
       this.$taroPath = getPath(id, options)
+      const $taroPath = this.$taroPath
       // this.$taroParams 作为暴露给开发者的页面参数对象，可以被随意修改
       if (this.$taroParams == null) {
         this.$taroParams = Object.assign({}, options)
       }
 
-      const router = isBrowser ? this.$taroPath : this.route || this.__route__
-      Current.router = {
-        params: this.$taroParams,
-        path: addLeadingSlash(router),
-        onReady: getOnReadyEventKey(id),
-        onShow: getOnShowEventKey(id),
-        onHide: getOnHideEventKey(id)
-      }
+      setCurrentRouter(this)
 
       const mount = () => {
-        Current.app!.mount!(component, this.$taroPath, () => {
-          pageElement = document.getElementById<TaroRootElement>(this.$taroPath)
+        Current.app!.mount!(component, $taroPath, () => {
+          pageElement = document.getElementById<TaroRootElement>($taroPath)
 
           ensure(pageElement !== null, '没有找到页面实例。')
-          safeExecute(this.$taroPath, 'onLoad', this.$taroParams)
-          if (!isBrowser) {
+          safeExecute($taroPath, ON_LOAD, this.$taroParams)
+          if (process.env.TARO_ENV !== 'h5') {
             pageElement.ctx = this
             pageElement.performUpdate(true, cb)
           } else {
@@ -140,19 +141,12 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
         mount()
       }
     },
-    onReady () {
-      raf(() => {
-        eventCenter.trigger(getOnReadyEventKey(id))
-      })
-
-      safeExecute(this.$taroPath, 'onReady')
-      this.onReady.called = true
-    },
     onUnload () {
+      const $taroPath = this.$taroPath
       unmounting = true
-      Current.app!.unmount!(this.$taroPath, () => {
+      Current.app!.unmount!($taroPath, () => {
         unmounting = false
-        instances.delete(this.$taroPath)
+        instances.delete($taroPath)
         if (pageElement) {
           pageElement.ctx = null
         }
@@ -162,61 +156,52 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
         }
       })
     },
+    onReady () {
+      // 触发生命周期
+      safeExecute(this.$taroPath, ON_READY)
+      // 通过事件触发子组件的生命周期
+      raf(() => eventCenter.trigger(getOnReadyEventKey(id)))
+      this.onReady.called = true
+    },
     onShow () {
+      // 设置 Current 的 page 和 router
       Current.page = this as any
-      this.config = pageConfig || {}
-      const router = isBrowser ? this.$taroPath : this.route || this.__route__
-      Current.router = {
-        params: this.$taroParams,
-        path: addLeadingSlash(router),
-        onReady: getOnReadyEventKey(id),
-        onShow: getOnShowEventKey(id),
-        onHide: getOnHideEventKey(id)
-      }
-
-      raf(() => {
-        eventCenter.trigger(getOnShowEventKey(id))
-      })
-
-      safeExecute(this.$taroPath, 'onShow')
+      setCurrentRouter(this)
+      // 触发生命周期
+      safeExecute(this.$taroPath, ON_SHOW)
+      // 通过事件触发子组件的生命周期
+      raf(() => eventCenter.trigger(getOnShowEventKey(id)))
     },
     onHide () {
-      Current.page = null
-      Current.router = null
-      safeExecute(this.$taroPath, 'onHide')
+      // 设置 Current 的 page 和 router
+      if (Current.page === this) {
+        Current.page = null
+        Current.router = null
+      }
+      // 触发生命周期
+      safeExecute(this.$taroPath, ON_HIDE)
+      // 通过事件触发子组件的生命周期
       eventCenter.trigger(getOnHideEventKey(id))
-    },
-    onPullDownRefresh () {
-      return safeExecute(this.$taroPath, 'onPullDownRefresh')
-    },
-    onReachBottom () {
-      return safeExecute(this.$taroPath, 'onReachBottom')
-    },
-    onPageScroll (options) {
-      return safeExecute(this.$taroPath, 'onPageScroll', options)
-    },
-    onResize (options) {
-      return safeExecute(this.$taroPath, 'onResize', options)
-    },
-    onTabItemTap (options) {
-      return safeExecute(this.$taroPath, 'onTabItemTap', options)
-    },
-    onTitleClick () {
-      return safeExecute(this.$taroPath, 'onTitleClick')
-    },
-    onOptionMenuClick () {
-      return safeExecute(this.$taroPath, 'onOptionMenuClick')
-    },
-    onPopMenuClick () {
-      return safeExecute(this.$taroPath, 'onPopMenuClick')
-    },
-    onPullIntercept () {
-      return safeExecute(this.$taroPath, 'onPullIntercept')
-    },
-    onAddToFavorites () {
-      return safeExecute(this.$taroPath, 'onAddToFavorites')
     }
   }
+
+  const lifecycles = [
+    'onPullDownRefresh',
+    'onReachBottom',
+    'onPageScroll',
+    'onResize',
+    'onTabItemTap',
+    'onTitleClick',
+    'onOptionMenuClick',
+    'onPopMenuClick',
+    'onPullIntercept',
+    'onAddToFavorites'
+  ]
+  lifecycles.forEach((lifecycle) => {
+    config[lifecycle] = function () {
+      return safeExecute(this.$taroPath, lifecycle, ...arguments)
+    }
+  })
 
   // onShareAppMessage 和 onShareTimeline 一样，会影响小程序右上方按钮的选项，因此不能默认注册。
   if (component.onShareAppMessage ||
@@ -224,11 +209,11 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       component.enableShareAppMessage) {
     config.onShareAppMessage = function (options) {
       const target = options?.target
-      if (target != null) {
+      if (target) {
         const id = target.id
         const element = document.getElementById(id)
-        if (element != null) {
-          options.target!.dataset = element.dataset
+        if (element) {
+          target!.dataset = element.dataset
         }
       }
       return safeExecute(this.$taroPath, 'onShareAppMessage', options)
@@ -248,7 +233,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     config.data = data
   }
 
-  if (isBrowser) {
+  if (process.env.TARO_ENV === 'h5') {
     config.path = id
   }
 
@@ -266,8 +251,8 @@ export function createComponentConfig (component: React.ComponentClass, componen
       Current.app!.mount!(component, path, () => {
         componentElement = document.getElementById<TaroRootElement>(path)
         ensure(componentElement !== null, '没有找到组件实例。')
-        safeExecute(path, 'onLoad')
-        if (!isBrowser) {
+        safeExecute(path, ON_LOAD)
+        if (process.env.TARO_ENV !== 'h5') {
           componentElement.ctx = this
           componentElement.performUpdate(true)
         }
@@ -286,13 +271,15 @@ export function createComponentConfig (component: React.ComponentClass, componen
       eh: eventHandler
     }
   }
+
   if (!isUndefined(data)) {
     config.data = data
   }
 
-  config['options'] = component?.['options'] ?? EMPTY_OBJ
-  config['externalClasses'] = component?.['externalClasses'] ?? EMPTY_OBJ
-  config['behaviors'] = component?.['behaviors'] ?? EMPTY_OBJ
+  [OPTIONS, EXTERNAL_CLASSES, BEHAVIORS].forEach(key => {
+    config[key] = component[key] ?? EMPTY_OBJ
+  })
+
   return config
 }
 
@@ -302,7 +289,7 @@ export function createRecursiveComponentConfig (componentName?: string) {
       i: {
         type: Object,
         value: {
-          [Shortcuts.NodeName]: 'view'
+          [Shortcuts.NodeName]: VIEW
         }
       },
       l: {
@@ -312,7 +299,7 @@ export function createRecursiveComponentConfig (componentName?: string) {
     },
     options: {
       addGlobalClass: true,
-      virtualHost: componentName !== 'custom-wrapper'
+      virtualHost: componentName !== CUSTOM_WRAPPER
     },
     methods: {
       eh: eventHandler

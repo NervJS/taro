@@ -1,6 +1,6 @@
-import { inject, injectable } from 'inversify'
+import { injectable } from 'inversify'
 import { isArray, isObject, warn } from '@tarojs/shared'
-import SERVICE_IDENTIFIER from '../constants/identifiers'
+import { getHooks } from 'src/container/store'
 
 import type { EventHandler, AddEventListenerOptions, IHooks } from '../interface'
 
@@ -9,10 +9,8 @@ export class TaroEventTarget {
   public __handlers: Record<string, EventHandler[]> = {}
   public hooks: IHooks
 
-  public constructor (// eslint-disable-next-line @typescript-eslint/indent
-    @inject(SERVICE_IDENTIFIER.Hooks) hooks: IHooks
-  ) {
-    this.hooks = hooks
+  public constructor () {
+    this.hooks = getHooks()
   }
 
   public addEventListener (type: string, handler: EventHandler, options?: boolean | AddEventListenerOptions) {
@@ -55,7 +53,7 @@ export class TaroEventTarget {
 
   public removeEventListener (type: string, handler: EventHandler) {
     type = type.toLowerCase()
-    if (handler == null) {
+    if (!handler) {
       return
     }
 

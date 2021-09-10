@@ -21,6 +21,15 @@ export default (ctx: IPluginContext) => {
 
     if (isBuildH5) {
       setStyleLoader(ctx, chain)
+    } else {
+      chain
+        .plugin('definePlugin')
+        .tap(args => {
+          args[0].ENABLE_ADJACENT_HTML = true
+          args[0].ENABLE_CLONE_NODE = true
+          args[0].ENABLE_TEMPLATE_CONTENT = true
+          return args
+        })
     }
   })
 }

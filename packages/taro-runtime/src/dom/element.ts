@@ -1,6 +1,5 @@
-import { inject, injectable } from 'inversify'
+import { injectable } from 'inversify'
 import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase } from '@tarojs/shared'
-import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
 import { eventSource } from './event-source'
@@ -8,6 +7,7 @@ import { isElement, isHasExtractProp, shortcutAttr } from '../utils'
 import { Style } from './style'
 import { treeToArray } from './tree'
 import { ClassList } from './class-list'
+import { getElementImpl } from '../container/store'
 import {
   ID,
   CLASS,
@@ -22,10 +22,7 @@ import {
 } from '../constants'
 
 import type { TaroEvent } from './event'
-import type { Attributes, InstanceNamedFactory } from '../interface'
-import type { TaroNodeImpl } from '../dom-external/node-impl'
-import type { TaroElementImpl } from '../dom-external/element-impl'
-import type { Hooks } from '../hooks'
+import type { Attributes } from '../interface'
 
 @injectable()
 export class TaroElement extends TaroNode {
@@ -35,17 +32,13 @@ export class TaroElement extends TaroNode {
   public dataset: Record<string, unknown> = EMPTY_OBJ
   public innerHTML: string
 
-  public constructor (// eslint-disable-next-line @typescript-eslint/indent
-    @inject(SERVICE_IDENTIFIER.TaroNodeImpl) nodeImpl: TaroNodeImpl,
-    @inject(SERVICE_IDENTIFIER.TaroElementFactory) getElement: InstanceNamedFactory,
-    @inject(SERVICE_IDENTIFIER.Hooks) hooks: Hooks,
-    @inject(SERVICE_IDENTIFIER.TaroElementImpl) elementImpl: TaroElementImpl
-  ) {
-    super(nodeImpl, getElement, hooks)
-    elementImpl.bind(this)
+  public constructor () {
+    super()
+    const impl = getElementImpl()
+    impl.bind(this)
     this.nodeType = NodeType.ELEMENT_NODE
     this.style = new Style(this)
-    hooks.patchElement(this)
+    this.hooks.patchElement?.(this)
   }
 
   private _stopPropagation (event: TaroEvent) {

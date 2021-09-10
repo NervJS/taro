@@ -10,10 +10,9 @@ declare const ENABLE_TEMPLATE_CONTENT: boolean
 export class TaroElementImpl {
   bind (ctx: Ctx) {
     if (ENABLE_SIZE_APIS) {
-      ctx.getBoundingClientRect = async function (...args: any[]) {
-        return await getBoundingClientRectImpl.apply(ctx, args)
-      }
+      ctx.getBoundingClientRect = getBoundingClientRectImpl.bind(ctx)
     }
+
     if (ENABLE_TEMPLATE_CONTENT) {
       bindContent(ctx)
     }
