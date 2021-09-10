@@ -502,7 +502,19 @@ export const getModule = (appPath: string, {
   }
   rule.script = {
     test: REG_SCRIPTS,
-    exclude: [filename => /@tarojs\/components/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))],
+    exclude: [filename => {
+      // 若包含 @tarojs/components，则跳过 babel-loader 处理
+      if (/@tarojs\/components/.test(filename)) return true
+
+      // 非 node_modules 下的文件直接走 babel-loader 逻辑
+      if (!(/node_modules/.test(filename))) return false
+
+      // 除了包含 taro 和 inversify 的第三方依赖均不经过 babel-loader 处理
+      if (/taro/.test(filename)) return false
+      if (/inversify/.test(filename)) return false
+
+      return true
+    }],
     use: {
       babelLoader: getBabelLoader([{
         compact: false
