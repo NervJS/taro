@@ -3,6 +3,7 @@ import {
   initNativeApi,
   handleSyncApis,
   transformMeta,
+  modifyApis,
   modifyAsyncResult,
   request
 } from './apis'
@@ -22,6 +23,7 @@ export {
   initNativeApi,
   handleSyncApis,
   transformMeta,
+  modifyApis,
   modifyAsyncResult,
   request
 }
