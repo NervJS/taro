@@ -469,7 +469,7 @@ $ NODE_ENV=production taro build --type iot --watch # Mac
 Taro v3.1+ 开始支持
 :::
 
-使用 Taro 插件能支持编译飞书小程序，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-lark)。
+使用 Taro 插件能支持编译[飞书小程序](https://open.feishu.cn/document/uYjL24iN/uMjNzUjLzYzM14yM2MTN?from=taro)，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-lark)。
 
 #### 安装插件
 
@@ -513,7 +513,7 @@ $ NODE_ENV=production taro build --type lark --watch # Mac
 ```
 
 #### 小程序开发者工具
-[飞书小程序](https://open.feishu.cn/document/uYjL24iN/uMjNzUjLzYzM14yM2MTN)能运行在飞书客户端上，且一套代码多端运行(包括PC端和移动端)。你需要下载并打开[飞书小程序开发者工具](https://open.feishu.cn/document/uYjL24iN/ucDOzYjL3gzM24yN4MjN)，并确保已经设置了小程序项目配置文件。然后选择项目根目录下 `dist` 目录进行预览。
+[飞书小程序](https://open.feishu.cn/document/uYjL24iN/uMjNzUjLzYzM14yM2MTN?from=taro)能运行在飞书客户端上，且一套代码多端运行(包括PC端和移动端)。你需要下载并打开[飞书小程序开发者工具](https://open.feishu.cn/document/uYjL24iN/ucDOzYjL3gzM24yN4MjN?from=taro)，并确保已经设置了小程序项目配置文件。然后选择项目根目录下 `dist` 目录进行预览。
 
 需要注意开发者工具的项目配置
 - 需要关闭ES6转ES5功能，开启可能报错
