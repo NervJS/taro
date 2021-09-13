@@ -54,6 +54,14 @@ export interface AlipayConfig {
   clientType?: ClientType;
 }
 
+/** 百度小程序配置 */
+export interface SwanConfig {
+  /** 有该小程序发布权限的登录密钥 */
+  token: string;
+  /** 最低基础库版本, 不传默认为 3.350.6 */
+  minSwanVersion?: string;
+}
+
 export interface IOptions {
   /** 发布版本号，默认取 package.json 文件的 taroConfig.version 字段 */
   version: string;
@@ -65,6 +73,8 @@ export interface IOptions {
   tt?: TTConfig;
   /** 支付宝系列小程序配置 */
   alipay?: AlipayConfig;
+  /** 百度小程序配置 */
+  swan?: SwanConfig;
 }
 
 export default abstract class BaseCI {

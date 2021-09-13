@@ -4,6 +4,7 @@ import { IOptions } from './BaseCi'
 import WeappCI from './WeappCI'
 import TTCI from './TTCI'
 import AlipayCI from './AlipayCI'
+import SwanCI from './SwanCI'
 
 export default (ctx: IPluginContext, pluginOpts: IOptions) => {
   ctx.addPluginOptsSchema((joi) => {
@@ -31,6 +32,11 @@ export default (ctx: IPluginContext, pluginOpts: IOptions) => {
           proxy: joi.string(),
           clientType: joi.string().valid('alipay', 'ampe', 'amap', 'genie', 'alios', 'uc', 'quark', 'taobao', 'koubei', 'alipayiot', 'cainiao', 'alihealth')
         }),
+        /** 百度小程序上传配置 */
+        swan: joi.object({
+          token: joi.string().required(),
+          minSwanVersion: joi.string()
+        }),
         version: joi.string(),
         desc: joi.string()
       })
@@ -54,6 +60,9 @@ export default (ctx: IPluginContext, pluginOpts: IOptions) => {
       case 'alipay':
       case 'iot':
         ci = new AlipayCI(ctx, pluginOpts)
+        break
+      case 'swan':
+        ci = new SwanCI(ctx, pluginOpts)
         break
       default:
         break

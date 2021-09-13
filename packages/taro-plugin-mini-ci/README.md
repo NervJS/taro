@@ -1,6 +1,6 @@
 # `@taro/plugin-mini-ci`
 
-> Taro 小程序端构建后支持CI（持续集成）的插件， 支持构建完毕后自动打开小程序开发这个工具、上传作为体验版、生成预览二维码. 目前暂时仅支持微信小程序、字节小程序、支付宝小程序
+> Taro 小程序端构建后支持CI（持续集成）的插件， 支持构建完毕后自动打开小程序开发这个工具、上传作为体验版、生成预览二维码. 目前暂时仅支持微信、字节、支付宝、百度小程序
 
 ## 使用
 
@@ -83,6 +83,7 @@ const config = {
 | weapp | Object | 微信小程序CI配置 |
 | tt | Object | 头条小程序配置 |
 | alipay | Object | 支付宝小程序配置 |
+| swan | Object | 百度小程序配置 |
 | version | string | 上传版本号，不传时默认读取package.json下的taroConfig下的version字段 |
 | desc | string | 上传时的描述信息，不传时默认读取package.json下的taroConfig下的desc字段 |
 
@@ -145,6 +146,15 @@ alihealth：阿里健康
 
 官方CI文档[点这里](https://opendocs.alipay.com/mini/miniu/api)
 
+### 百度小程序CI配置
+
+| 参数 | 类型 | 说明 |
+| :--- | :--- | :--- |
+| token | string | 有该小程序发布权限的登录密钥 |
+| minSwanVersion | string | 最低基础库版本, 不传默认为 3.350.6  |
+
+官方CI文档[点这里](https://smartprogram.baidu.com/docs/develop/devtools/commandtool/)
+
 ### ts 接口描述
 ```ts
 export interface IOptions {
@@ -153,6 +163,7 @@ export interface IOptions {
   weapp?: WeappConfig;
   tt?: TTConfig;
   alipay?: AlipayConfig;
+  swan?: SwanConfig;
 }
 
 /** 微信小程序配置 */
@@ -204,5 +215,13 @@ export interface AlipayConfig {
   proxy?: string;
   /** 上传的终端, 默认alipay */
   clientType?: ClientType;
+}
+
+/** 百度小程序配置 */
+export interface SwanConfig {
+  /** 有该小程序发布权限的登录密钥 */
+  token: string;
+  /** 最低基础库版本, 不传默认为 3.350.6 */
+  minSwanVersion?: string;
 }
 ```
