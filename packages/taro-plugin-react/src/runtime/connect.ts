@@ -236,6 +236,8 @@ export function createReactApp (
     appWrapper = ReactDOM.render(h(AppWrapper), document.getElementById('app'))
   }
 
+  const [ONLAUNCH, ONSHOW, ONHIDE] = hooks.getMiniLifecycleImpl().app
+
   const appObj: AppInstance = Object.create({
     render (cb: () => void) {
       appWrapper.forceUpdate(cb)
@@ -254,7 +256,7 @@ export function createReactApp (
       value: config
     }),
 
-    onLaunch: setDefaultDescriptor({
+    [ONLAUNCH]: setDefaultDescriptor({
       value (options) {
         setRouterParams(options)
 
@@ -294,7 +296,7 @@ export function createReactApp (
       }
     }),
 
-    onShow: setDefaultDescriptor({
+    [ONSHOW]: setDefaultDescriptor({
       value (options) {
         setRouterParams(options)
 
@@ -309,7 +311,7 @@ export function createReactApp (
       }
     }),
 
-    onHide: setDefaultDescriptor({
+    [ONHIDE]: setDefaultDescriptor({
       value (options: unknown) {
         /**
          * trigger lifecycle

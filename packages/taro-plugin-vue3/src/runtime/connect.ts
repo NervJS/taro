@@ -124,6 +124,9 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
     appInstance = app.mount('#app')
   }
 
+  const hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
+  const [ONLAUNCH, ONSHOW, ONHIDE] = hooks.getMiniLifecycleImpl().app
+
   const appConfig: AppInstance = Object.create({
     mount (component: Component, id: string, cb: () => void) {
       const page = createVue3Page(h, id)(component)
@@ -146,7 +149,7 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
       value: config
     }),
 
-    onLaunch: setDefaultDescriptor({
+    [ONLAUNCH]: setDefaultDescriptor({
       value (options) {
         setRouterParams(options)
         if (process.env.TARO_ENV === 'h5') {
@@ -157,7 +160,7 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
       }
     }),
 
-    onShow: setDefaultDescriptor({
+    [ONSHOW]: setDefaultDescriptor({
       value (options) {
         setRouterParams(options)
         const onShow = appInstance?.$options?.onShow
@@ -165,7 +168,7 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
       }
     }),
 
-    onHide: setDefaultDescriptor({
+    [ONHIDE]: setDefaultDescriptor({
       value (options) {
         const onHide = appInstance?.$options?.onHide
         isFunction(onHide) && onHide.call(appInstance, options)

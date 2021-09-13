@@ -86,14 +86,23 @@ export function getOnHideEventKey (path: string) {
 }
 
 export function createPageConfig (component: any, pageName?: string, data?: Record<string, unknown>, pageConfig?: PageConfig) {
-  const id = pageName ?? `taro_page_${pageId()}`
   // 小程序 Page 构造器是一个傲娇小公主，不能把复杂的对象挂载到参数上
+  const id = pageName ?? `taro_page_${pageId()}`
+  const hooks = getHooks()
+  const [
+    ONLOAD,
+    ONUNLOAD,
+    ONREADY,
+    ONSHOW,
+    ONHIDE,
+    LIFECYCLES
+  ] = hooks.getMiniLifecycleImpl().page
   let pageElement: TaroRootElement | null = null
   let unmounting = false
   let prepareMountList: (() => void)[] = []
 
   function setCurrentRouter (page: MpInstance) {
-    const router = process.env.TARO_ENV === 'h5' ? page.$taroPath : page.route || page.__route__
+    const router = process.env.TARO_ENV === 'h5' ? page.$taroPath : page.route || page.__route__ || page.$taroPath
     Current.router = {
       params: page.$taroParams!,
       path: addLeadingSlash(router),
@@ -104,7 +113,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   }
 
   const config: PageInstance = {
-    onLoad (this: MpInstance, options, cb?: Func) {
+    [ONLOAD] (this: MpInstance, options, cb?: Func) {
       perf.start(PAGE_INIT)
 
       Current.page = this as any
@@ -141,7 +150,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
         mount()
       }
     },
-    onUnload () {
+    [ONUNLOAD] () {
       const $taroPath = this.$taroPath
       unmounting = true
       Current.app!.unmount!($taroPath, () => {
@@ -156,14 +165,14 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
         }
       })
     },
-    onReady () {
+    [ONREADY] () {
       // 触发生命周期
       safeExecute(this.$taroPath, ON_READY)
       // 通过事件触发子组件的生命周期
       raf(() => eventCenter.trigger(getOnReadyEventKey(id)))
       this.onReady.called = true
     },
-    onShow () {
+    [ONSHOW] () {
       // 设置 Current 的 page 和 router
       Current.page = this as any
       setCurrentRouter(this)
@@ -172,7 +181,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       // 通过事件触发子组件的生命周期
       raf(() => eventCenter.trigger(getOnShowEventKey(id)))
     },
-    onHide () {
+    [ONHIDE] () {
       // 设置 Current 的 page 和 router
       if (Current.page === this) {
         Current.page = null
@@ -185,19 +194,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     }
   }
 
-  const lifecycles = [
-    'onPullDownRefresh',
-    'onReachBottom',
-    'onPageScroll',
-    'onResize',
-    'onTabItemTap',
-    'onTitleClick',
-    'onOptionMenuClick',
-    'onPopMenuClick',
-    'onPullIntercept',
-    'onAddToFavorites'
-  ]
-  lifecycles.forEach((lifecycle) => {
+  LIFECYCLES.forEach((lifecycle) => {
     config[lifecycle] = function () {
       return safeExecute(this.$taroPath, lifecycle, ...arguments)
     }

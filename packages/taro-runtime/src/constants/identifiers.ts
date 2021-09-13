@@ -6,24 +6,25 @@ export const SID_TARO_NODE_IMPL = '4'
 export const SID_TARO_ELEMENT_IMPL = '5'
 export const SID_HOOKS = '6'
 export const SID_ON_REMOVE_ATTRIBUTE = '7'
-export const SID_GET_LIFECYCLE = '8'
-export const SID_GET_PATH_INDEX = '9'
-export const SID_GET_EVENT_CENTER = '10'
-export const SID_IS_BUBBLE_EVENTS = '11'
-export const SID_GET_SPECIAL_NODES = '12'
-export const SID_EVENT_CENTER = '13'
-export const SID_MODIFY_MP_EVENT = '14'
-export const SID_MODIFY_TARO_EVENT = '15'
-export const SID_BATCHED_EVENT_UPDATES = '16'
-export const SID_MERGE_PAGE_INSTANCE = '17'
-export const SID_CREATE_PULLDOWN_COMPONENT = '18'
-export const SID_GET_DOM_NODE = '19'
-export const SID_INIT_NATIVE_API = '20'
-export const SID_MODIFY_HYDRATE_DATA = '21'
-export const SID_MODIFY_SET_ATTR_PAYLOAD = '22'
-export const SID_MODIFY_RM_ATTR_PAYLOAD = '23'
-export const SID_ON_ADD_EVENT = '24'
-export const SID_PATCH_ELEMENT = '25'
+export const SID_GET_MINI_LIFECYCLE = '8'
+export const SID_GET_LIFECYCLE = '9'
+export const SID_GET_PATH_INDEX = '10'
+export const SID_GET_EVENT_CENTER = '11'
+export const SID_IS_BUBBLE_EVENTS = '12'
+export const SID_GET_SPECIAL_NODES = '13'
+export const SID_EVENT_CENTER = '14'
+export const SID_MODIFY_MP_EVENT = '15'
+export const SID_MODIFY_TARO_EVENT = '16'
+export const SID_BATCHED_EVENT_UPDATES = '17'
+export const SID_MERGE_PAGE_INSTANCE = '18'
+export const SID_CREATE_PULLDOWN_COMPONENT = '19'
+export const SID_GET_DOM_NODE = '20'
+export const SID_INIT_NATIVE_API = '21'
+export const SID_MODIFY_HYDRATE_DATA = '22'
+export const SID_MODIFY_SET_ATTR_PAYLOAD = '23'
+export const SID_MODIFY_RM_ATTR_PAYLOAD = '24'
+export const SID_ON_ADD_EVENT = '25'
+export const SID_PATCH_ELEMENT = '26'
 
 const SERVICE_IDENTIFIER = {
   TaroElement: SID_TARO_ELEMENT,
@@ -34,6 +35,7 @@ const SERVICE_IDENTIFIER = {
   TaroElementImpl: SID_TARO_ELEMENT_IMPL,
   Hooks: SID_HOOKS,
   onRemoveAttribute: SID_ON_REMOVE_ATTRIBUTE,
+  getMiniLifecycle: SID_GET_MINI_LIFECYCLE,
   getLifecycle: SID_GET_LIFECYCLE,
   getPathIndex: SID_GET_PATH_INDEX,
   getEventCenter: SID_GET_EVENT_CENTER,

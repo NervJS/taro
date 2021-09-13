@@ -5,6 +5,26 @@ import type { EventsType } from '../emitter/emitter'
 import type { TaroEvent } from '../dom/event'
 import type { TaroEventTarget } from '../dom/event-target'
 
+export interface MiniLifecycle {
+  app: [
+    string, /** onLaunch */
+    string, /** onShow */
+    string /** onHide */
+  ]
+  page: [
+    string, /** onLoad */
+    string, /** onUnload */
+    string, /** onReady */
+    string, /** onShow */
+    string, /** onHide */
+    string[] /** others */
+  ]
+}
+
+export interface GetMiniLifecycle {
+  (defaultConfig: MiniLifecycle): MiniLifecycle
+}
+
 export interface GetLifecycle<Instance = any> {
   (instance: Instance, lifecyle: keyof PageInstance): Func | Array<Func> | undefined
 }
@@ -79,6 +99,10 @@ export interface patchElement {
 }
 
 export interface IHooks {
+  /** 小程序端 App、Page 构造对象的生命周期方法名称 */
+  getMiniLifecycle: GetMiniLifecycle
+  getMiniLifecycleImpl: () => MiniLifecycle
+
   /** 解决 React 生命周期名称的兼容问题 */
   getLifecycle: GetLifecycle
 

@@ -152,6 +152,9 @@ export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: Ap
     wrapper.$mount(document.getElementById('app') as any)
   }
 
+  const hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
+  const [ONLAUNCH, ONSHOW, ONHIDE] = hooks.getMiniLifecycleImpl().app
+
   const appObj: AppInstance = Object.create({
     mount (component: ComponentOptions<VueCtor>, id: string, cb: () => void) {
       const page = connectVuePage(Vue, id)(component)
@@ -167,7 +170,7 @@ export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: Ap
       value: config
     }),
 
-    onLaunch: setDefaultDescriptor({
+    [ONLAUNCH]: setDefaultDescriptor({
       value (options) {
         setRouterParams(options)
 
@@ -183,7 +186,7 @@ export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: Ap
       }
     }),
 
-    onShow: setDefaultDescriptor({
+    [ONSHOW]: setDefaultDescriptor({
       value (options) {
         setRouterParams(options)
 
@@ -193,7 +196,7 @@ export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: Ap
       }
     }),
 
-    onHide: setDefaultDescriptor({
+    [ONHIDE]: setDefaultDescriptor({
       value (options) {
         if (appInstance != null && isFunction(appInstance.$options.onHide)) {
           appInstance.$options.onHide.call(appInstance, options)

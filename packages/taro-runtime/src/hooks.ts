@@ -1,5 +1,6 @@
 import { inject, injectable, multiInject, /* multiInject, */ optional } from 'inversify'
 import {
+  SID_GET_MINI_LIFECYCLE,
   SID_GET_LIFECYCLE,
   SID_GET_PATH_INDEX,
   SID_GET_EVENT_CENTER,
@@ -20,12 +21,14 @@ import {
   SID_PATCH_ELEMENT
 
 } from './constants/identifiers'
+import { defaultMiniLifecycle } from './container/default-hooks'
 
 import type { TaroElement } from './dom/element'
 import type { TaroEvent } from './dom/event'
 import type {
   IHooks,
   OnRemoveAttribute,
+  GetMiniLifecycle,
   GetLifecycle,
   GetPathIndex,
   GetEventCenter,
@@ -48,6 +51,13 @@ import type {
 
 @injectable()
 export class Hooks implements IHooks {
+  @inject(SID_GET_MINI_LIFECYCLE)
+  public getMiniLifecycle: GetMiniLifecycle
+
+  public getMiniLifecycleImpl () {
+    return this.getMiniLifecycle(defaultMiniLifecycle)
+  }
+
   @inject(SID_GET_LIFECYCLE)
   public getLifecycle: GetLifecycle
 
