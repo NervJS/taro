@@ -638,5 +638,6 @@ export class UnRecursiveTemplate extends BaseTemplate {
 export {
   internalComponents,
   toCamelCase,
-  capitalize
+  capitalize,
+  Shortcuts
 }

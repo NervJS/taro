@@ -46,7 +46,7 @@ function showPage (page: PageInstance | null, pageConfig: Route | undefined, sta
     if (pageEl) {
       pageEl.style.display = 'block'
     } else {
-      page.onLoad(qs(stacksIndex))
+      page.onLoad!(qs(stacksIndex))
       pageEl = document.getElementById(page.path!)
       pageOnReady(pageEl, page, false)
     }
@@ -57,7 +57,7 @@ function showPage (page: PageInstance | null, pageConfig: Route | undefined, sta
 function unloadPage (page: PageInstance | null) {
   if (page != null) {
     stacks.pop()
-    page.onUnload()
+    page.onUnload!()
   }
 }
 
@@ -81,7 +81,7 @@ function loadPage (page: PageInstance | null, pageConfig: Route | undefined, sta
     if (pageEl) {
       pageEl.style.display = 'block'
     } else {
-      page.onLoad(qs(stacksIndex), function () {
+      page.onLoad!(qs(stacksIndex), function () {
         pageEl = document.getElementById(page.path!)
         pageOnReady(pageEl, page)
       })
