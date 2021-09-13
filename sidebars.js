@@ -91,6 +91,7 @@ module.exports = {
       'redux',
       'css-modules',
       'css-in-js',
+      'plugin-mini-ci',
       'nutui',
       'vant',
       'template',
