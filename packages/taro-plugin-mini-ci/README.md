@@ -1,6 +1,6 @@
 # `@taro/plugin-mini-ci`
 
-> Taro 小程序端构建后支持CI（持续集成）的插件， 支持构建完毕后自动打开小程序开发这个工具、上传作为体验版、生成预览二维码. 目前暂时仅支持微信小程序和字节小程序
+> Taro 小程序端构建后支持CI（持续集成）的插件， 支持构建完毕后自动打开小程序开发这个工具、上传作为体验版、生成预览二维码. 目前暂时仅支持微信小程序、字节小程序、支付宝小程序
 
 ## 使用
 
@@ -26,6 +26,11 @@ const config = {
             tt: {
                 email: "字节小程序邮箱",
                 password: "字节小程序密码"
+            },
+            alipay: {
+              appId: "支付宝小程序appId",
+              toolId: "工具id",
+              privateKeyPath: "密钥文件相对项目根目录的相对路径，例如 key/pkcs8-private-pem"
             },
             // 版本号
             version: "1.0.0",
@@ -60,7 +65,7 @@ const config = {
 由上面的示例可知，插件为taro cli命令扩展了3个选项：
 
 - --open
-打开开发者工具
+打开开发者工具，类似于网页开发中自动打开谷歌浏览器
 - --upload
 上传代码作为体验版
 - --preview
@@ -77,6 +82,7 @@ const config = {
 | :--- | :--- | :--- |
 | weapp | Object | 微信小程序CI配置 |
 | tt | Object | 头条小程序配置 |
+| alipay | Object | 支付宝小程序配置 |
 | version | string | 上传版本号，不传时默认读取package.json下的taroConfig下的version字段 |
 | desc | string | 上传时的描述信息，不传时默认读取package.json下的taroConfig下的desc字段 |
 
@@ -87,7 +93,9 @@ const config = {
 | privateKeyPath | string | 私钥文件在项目中的相对路径，在获取项目属性和上传时用于鉴权使用|
 | devToolsInstallPath | string | 微信开发者工具安装路径，如果你安装微信开发者工具时选的默认路径，则不需要传入此参数 |
 | projectPath | string | 上传的小程序的路径（默认取的 outputPath ） |
-| ignores | string[] | 上传需要排除的目录 |
+| ignores | string[] | 上传需要排除的目录(选填) |
+
+官方CI文档[点这里](https://developers.weixin.qq.com/miniprogram/dev/devtools/ci.html)
 
 ### 头条小程序CI配置
 
@@ -96,34 +104,105 @@ const config = {
 | email | string | 字节小程序邮箱 |
 | password | string | 字节小程序密码 |
 
+官方CI文档[点这里](https://microapp.bytedance.com/docs/zh-CN/mini-app/develop/developer-instrument/development-assistance/ide-order-instrument)
+
+### 支付宝小程序CI配置
+
+| 参数 | 类型 | 说明 |
+| :--- | :--- | :--- |
+| appId | string | 小程序appId |
+| toolId | string | 工具id，生成方式[查看这里](https://opendocs.alipay.com/mini/miniu/api#%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE%EF%BC%88%E4%B9%8B%E5%89%8D%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%8C%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8%20miniu%20login%EF%BC%89) |
+| privateKeyPath | string | 密钥文件相对项目根目录的相对路径, 支付宝生产的私钥文件名一般是 pkcs8-private-pem |
+| clientType | string | 上传的终端,终端类型见下表（默认值alipay） |
+
+```
+终端类型值及其含义：
+
+alipay: 支付宝
+
+ampe：AMPE
+
+amap：高德
+
+genie：天猫精灵
+
+alios：ALIOS
+
+uc：UC
+
+quark：夸克
+
+taobao：淘宝
+
+koubei：口碑
+
+alipayiot：IoT
+
+cainiao：菜鸟
+
+alihealth：阿里健康
+```
+
+官方CI文档[点这里](https://opendocs.alipay.com/mini/miniu/api)
+
 ### ts 接口描述
 ```ts
 export interface IOptions {
-  version?: string
+  version?: string;
   desc?: string;
-  weapp?: WeappConfig,
-  tt?: TTConfig
+  weapp?: WeappConfig;
+  tt?: TTConfig;
+  alipay?: AlipayConfig;
 }
 
 /** 微信小程序配置 */
 export interface WeappConfig {
   /** 小程序/小游戏项目的 appid */
-  appid: string,
+  appid: string;
   /** 私钥，在获取项目属性和上传时用于鉴权使用(必填) */
-  privateKeyPath: string,
+  privateKeyPath: string;
   /** 微信开发者工具安装路径 */
   devToolsInstallPath?: string;
   /** 上传的小程序的路径（默认 outputPath ） */
-  projectPath?: string,
+  projectPath?: string;
   /** 类型，默认miniProgram 小程序 */
-  type?: ProjectType
+  type?: ProjectType;
   /** 上传需要排除的目录 */
-  ignores?: Array<string>
+  ignores?: Array<string>;
 }
 
 /** 头条小程序配置 */
 export interface TTConfig {
   email: string;
   password: string;
+}
+
+/** 终端类型 */
+export type ClientType =
+/** 支付宝 */'alipay' |
+/** AMPE */'ampe' |
+/** 高德 */'amap' |
+/** 天猫精灵 */'genie'|
+/** ALIOS */ 'alios'|
+/** UC */'uc'|
+/** 夸克 */ 'quark'|
+/** 淘宝 */ 'taobao'|
+/** 口碑 */'koubei' |
+/** loT */'alipayiot'|
+/** 菜鸟 */'cainiao' |
+/** 阿里健康 */ 'alihealth'
+
+/** 支付宝系列小程序配置 */
+export interface AlipayConfig {
+  /** 小程序appId */
+  appId: string;
+  /** 工具id */
+  toolId: string;
+  /** 工具私钥 */
+  privateKey: string;
+  /** 服务代理地址（可选） */
+  proxy?: string;
+  /** 上传的终端, 默认alipay */
+  clientType?: ClientType;
 }
 ```

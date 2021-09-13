@@ -3,6 +3,7 @@ import * as minimist from 'minimist'
 import { IOptions } from './BaseCi'
 import WeappCI from './WeappCI'
 import TTCI from './TTCI'
+import AlipayCI from './AlipayCI'
 
 export default (ctx: IPluginContext, pluginOpts: IOptions) => {
   ctx.addPluginOptsSchema((joi) => {
@@ -21,6 +22,14 @@ export default (ctx: IPluginContext, pluginOpts: IOptions) => {
         tt: joi.object({
           email: joi.string().required(),
           password: joi.string().required()
+        }),
+        /** 阿里小程序上传配置 */
+        alipay: joi.object({
+          appId: joi.string().required(),
+          toolId: joi.string().required(),
+          privateKeyPath: joi.string().required(),
+          proxy: joi.string(),
+          clientType: joi.string().valid('alipay', 'ampe', 'amap', 'genie', 'alios', 'uc', 'quark', 'taobao', 'koubei', 'alipayiot', 'cainiao', 'alihealth')
         }),
         version: joi.string(),
         desc: joi.string()
@@ -41,6 +50,10 @@ export default (ctx: IPluginContext, pluginOpts: IOptions) => {
         break
       case 'tt':
         ci = new TTCI(ctx, pluginOpts)
+        break
+      case 'alipay':
+      case 'iot':
+        ci = new AlipayCI(ctx, pluginOpts)
         break
       default:
         break

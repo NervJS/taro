@@ -6,17 +6,17 @@ export type ProjectType = 'miniProgram' | 'miniGame' | 'miniProgramPlugin' | 'mi
 /** 微信小程序配置 */
 export interface WeappConfig {
   /** 小程序/小游戏项目的 appid */
-  appid: string,
+  appid: string;
   /** 私钥，在获取项目属性和上传时用于鉴权使用(必填) */
-  privateKeyPath: string,
+  privateKeyPath: string;
   /** 微信开发者工具安装路径 */
   devToolsInstallPath?: string;
   /** 上传的小程序的路径（默认 outputPath ） */
-  projectPath?: string,
+  projectPath?: string;
   /** 类型，默认miniProgram 小程序 */
-  type?: ProjectType
+  type?: ProjectType;
   /** 上传需要排除的目录 */
-  ignores?: Array<string>
+  ignores?: Array<string>;
 }
 
 /** 头条小程序配置 */
@@ -25,15 +25,46 @@ export interface TTConfig {
   password: string;
 }
 
+/** 终端类型 */
+export type ClientType =
+/** 支付宝 */'alipay' |
+/** AMPE */'ampe' |
+/** 高德 */'amap' |
+/** 天猫精灵 */'genie'|
+/** ALIOS */ 'alios'|
+/** UC */'uc'|
+/** 夸克 */ 'quark'|
+/** 淘宝 */ 'taobao'|
+/** 口碑 */'koubei' |
+/** loT */'alipayiot'|
+/** 菜鸟 */'cainiao' |
+/** 阿里健康 */ 'alihealth'
+
+/** 支付宝系列小程序配置 */
+export interface AlipayConfig {
+  /** 小程序appId */
+  appId: string;
+  /** 工具id */
+  toolId: string;
+  /** 私钥相对路径 */
+  privateKeyPath: string;
+  /** 服务代理地址（可选） */
+  proxy?: string;
+  /** 上传的终端, 默认alipay */
+  clientType?: ClientType;
+}
+
 export interface IOptions {
   /** 发布版本号，默认取 package.json 文件的 taroConfig.version 字段 */
-  version: string
+  version: string;
   /** 版本发布描述， 默认取 package.json 文件的 taroConfig.desc 字段 */
   desc: string;
   /** 微信小程序CI配置 */
-  weapp?: WeappConfig,
+  weapp?: WeappConfig;
   /** 头条小程序配置 */
-  tt?: TTConfig
+  tt?: TTConfig;
+  /** 支付宝系列小程序配置 */
+  alipay?: AlipayConfig;
 }
 
 export default abstract class BaseCI {

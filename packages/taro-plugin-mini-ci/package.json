@@ -28,6 +28,7 @@
   "dependencies": {
     "minimist": "^1.2.5",
     "miniprogram-ci": "^1.6.1",
+    "miniu": "^1.20.1",
     "tt-ide-cli": "^0.0.24"
   },
   "devDependencies": {
