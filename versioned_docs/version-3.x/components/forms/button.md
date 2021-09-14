@@ -395,25 +395,25 @@ export default {
 
 | API | 微信小程序 | 支付宝小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: | :---: |
-| ButtonProps.size | ✔️ |  | ✔️ | ✔️ |
-| ButtonProps.type | ✔️ |  | ✔️ | ✔️ |
-| ButtonProps.plain | ✔️ |  | ✔️ | ✔️ |
-| ButtonProps.disabled | ✔️ |  | ✔️ | ✔️ |
-| ButtonProps.loading | ✔️ |  | ✔️ | ✔️ |
-| ButtonProps.formType | ✔️ |  |  |  |
-| ButtonProps.openType | ✔️ |  |  |  |
-| ButtonProps.hoverClass | ✔️ |  | ✔️ | (支持 hoverStyle 属性，但框架未支持 hoverClass) |
+| ButtonProps.size | ✔️ | ✔️ | ✔️ | ✔️ |
+| ButtonProps.type | ✔️ | ✔️ | ✔️ | ✔️ |
+| ButtonProps.plain | ✔️ | ✔️ | ✔️ | ✔️ |
+| ButtonProps.disabled | ✔️ | ✔️ | ✔️ | ✔️ |
+| ButtonProps.loading | ✔️ | ✔️ | ✔️ | ✔️ |
+| ButtonProps.formType | ✔️ | ✔️ |  |  |
+| ButtonProps.openType | ✔️ | ✔️ |  |  |
+| ButtonProps.hoverClass | ✔️ | ✔️ | ✔️ | (支持 hoverStyle 属性，但框架未支持 hoverClass) |
 | ButtonProps.hoverStyle |  |  |  | ✔️ |
-| ButtonProps.hoverStopPropagation | ✔️ |  |  |  |
-| ButtonProps.hoverStartTime | ✔️ |  | ✔️ | ✔️ |
-| ButtonProps.hoverStayTime | ✔️ |  | ✔️ | ✔️ |
+| ButtonProps.hoverStopPropagation | ✔️ | ✔️ |  |  |
+| ButtonProps.hoverStartTime | ✔️ | ✔️ | ✔️ | ✔️ |
+| ButtonProps.hoverStayTime | ✔️ | ✔️ | ✔️ | ✔️ |
 | ButtonProps.lang | ✔️ |  |  |  |
 | ButtonProps.sessionFrom | ✔️ |  |  |  |
 | ButtonProps.sendMessageTitle | ✔️ |  |  |  |
 | ButtonProps.sendMessagePath | ✔️ |  |  |  |
 | ButtonProps.sendMessageImg | ✔️ |  |  |  |
 | ButtonProps.appParameter | ✔️ |  |  |  |
-| ButtonProps.scope | ✔️ |  |  |  |
+| ButtonProps.scope | ✔️ | ✔️ |  |  |
 | ButtonProps.onGetUserInfo | ✔️ |  |  |  |
 | ButtonProps.onGetAuthorize |  | ✔️ |  |  |
 | ButtonProps.onContact | ✔️ |  |  |  |
