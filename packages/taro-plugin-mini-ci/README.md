@@ -32,6 +32,9 @@ const config = {
               toolId: "工具id",
               privateKeyPath: "密钥文件相对项目根目录的相对路径，例如 key/pkcs8-private-pem"
             },
+            swan: {
+              token: "鉴权需要的token令牌"
+            },
             // 版本号
             version: "1.0.0",
             // 版本发布描述

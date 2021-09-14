@@ -2,6 +2,7 @@
 import * as miniu from 'miniu'
 import * as path from 'path'
 import BaseCI from './BaseCi'
+import generateQrCode from './QRCode'
 
 /** 文档地址： https://opendocs.alipay.com/mini/miniu/api */
 export default class AlipayCI extends BaseCI {
@@ -30,14 +31,15 @@ export default class AlipayCI extends BaseCI {
   }
 
   async upload () {
-    const { printLog, processTypeEnum } = this.ctx.helper
+    const { chalk, printLog, processTypeEnum } = this.ctx.helper
     const clientType = this.pluginOpts.alipay!.clientType || 'alipay'
     printLog(processTypeEnum.START, '上传代码到阿里小程序后台', clientType)
     // 上传结果CI库本身有提示，故此不做异常处理
-    // TODO 阿里的CI库上传时不能设置“禁止压缩”，所以上传时被CI二次压缩代码，可能会造成报错，这块暂时无法处理; SDK上传不支持设置版本号和描述信息，版本号为线上自增+1
-    await miniu.miniUpload({
+    // TODO 阿里的CI库上传时不能设置“禁止压缩”，所以上传时被CI二次压缩代码，可能会造成报错，这块暂时无法处理; SDK上传不支持设置描述信息
+    const result = await miniu.miniUpload({
       project: this.ctx.paths.outputPath,
       appId: this.pluginOpts.alipay!.appId,
+      packageVersion: this.version,
       clientType,
       experience: true,
       onProgressUpdate (info) {
@@ -45,6 +47,12 @@ export default class AlipayCI extends BaseCI {
         console.log(status, data)
       }
     })
+    if (result.packages) {
+      const allPackageInfo = result.packages.find(pkg => pkg.type === 'FULL')
+      const mainPackageInfo = result.packages.find((item) => item.type === 'MAIN')
+      const extInfo = `本次上传${allPackageInfo!.size} ${mainPackageInfo ? ',其中主包' + mainPackageInfo.size : ''}`
+      console.log(chalk.green(`上传成功 ${new Date().toLocaleString()} ${extInfo}`))
+    }
   }
 
   async preview () {
@@ -52,9 +60,9 @@ export default class AlipayCI extends BaseCI {
       project: this.ctx.paths.outputPath,
       appId: this.pluginOpts.alipay!.appId,
       clientType: this.pluginOpts.alipay!.clientType || 'alipay',
-      qrcodeFormat: 'terminal'
+      qrcodeFormat: 'base64'
     })
     console.log('预览二维码地址：', previewResult.packageQrcode)
-    console.log(previewResult.qrcode)
+    generateQrCode(previewResult.packageQrcode!)
   }
 }

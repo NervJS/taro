@@ -53,7 +53,8 @@ export default class TTCI extends BaseCI {
       printLog(processTypeEnum.START, '预览字节跳动小程序')
       await tt.preview({
         entry: outputPath,
-        force: true
+        force: true,
+        small: true
       })
     } catch (error) {
       console.log(chalk.red(`上传失败 ${new Date().toLocaleString()} \n${error.message}`))
