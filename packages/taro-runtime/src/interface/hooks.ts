@@ -94,8 +94,12 @@ export interface OnAddEvent<T extends TaroEventTarget = TaroEventTarget> {
   (type: string, handler: EventHandler, options: any, node: T): void
 }
 
-export interface patchElement {
+export interface PatchElement {
   (node: TaroElement): void
+}
+
+export interface ModifyPageObject {
+  (config: Record<any, any>): void
 }
 
 export interface IHooks {
@@ -136,6 +140,9 @@ export interface IHooks {
 
   /** 用于处理 React 中的小程序生命周期 hooks */
   mergePageInstance?: MergePageInstance
+
+  /** 用于修改传递给小程序 Page 构造器的对象 */
+  modifyPageObject?: ModifyPageObject
 
   /** H5 下拉刷新 wrapper */
   createPullDownComponent?: CreatePullDownComponent
@@ -178,5 +185,5 @@ export interface IHooks {
    * @todo: mutiInject
    * 给 TaroElement 实例注入属性或方法
    **/
-  patchElement?: patchElement
+  patchElement?: PatchElement
 }

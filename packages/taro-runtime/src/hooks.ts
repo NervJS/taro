@@ -1,4 +1,4 @@
-import { inject, injectable, multiInject, /* multiInject, */ optional } from 'inversify'
+import { inject, injectable, multiInject, optional } from 'inversify'
 import {
   SID_GET_MINI_LIFECYCLE,
   SID_GET_LIFECYCLE,
@@ -18,7 +18,8 @@ import {
   SID_MODIFY_MP_EVENT,
   SID_MODIFY_TARO_EVENT,
   SID_INIT_NATIVE_API,
-  SID_PATCH_ELEMENT
+  SID_PATCH_ELEMENT,
+  SID_MODIFY_PAGE_OBJECT
 
 } from './constants/identifiers'
 import { defaultMiniLifecycle } from './container/default-hooks'
@@ -46,7 +47,8 @@ import type {
   ModifyRmAttrPayload,
   MpEvent,
   OnAddEvent,
-  patchElement
+  PatchElement,
+  ModifyPageObject
 } from './interface'
 
 @injectable()
@@ -81,6 +83,9 @@ export class Hooks implements IHooks {
 
   @inject(SID_MERGE_PAGE_INSTANCE) @optional()
   public mergePageInstance?: MergePageInstance
+
+  @inject(SID_MODIFY_PAGE_OBJECT) @optional()
+  public modifyPageObject?: ModifyPageObject
 
   @inject(SID_CREATE_PULLDOWN_COMPONENT) @optional()
   public createPullDownComponent?: CreatePullDownComponent
@@ -122,7 +127,7 @@ export class Hooks implements IHooks {
   }
 
   @multiInject(SID_PATCH_ELEMENT) @optional()
-  public patchElementImpls?: patchElement[]
+  public patchElementImpls?: PatchElement[]
 
   public patchElement (element: TaroElement) {
     this.patchElementImpls?.forEach(fn => fn(element))

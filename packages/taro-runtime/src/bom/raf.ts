@@ -5,7 +5,7 @@ export let now
 
 (function () {
   let loadTime
-  if (performance && performance.now) {
+  if ((typeof performance !== 'undefined' && performance !== null) && performance.now) {
     now = function () {
       return performance.now()
     }

@@ -234,6 +234,8 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     config.path = id
   }
 
+  hooks.modifyPageObject?.(config)
+
   return config
 }
 

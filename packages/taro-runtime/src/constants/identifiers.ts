@@ -25,6 +25,7 @@ export const SID_MODIFY_SET_ATTR_PAYLOAD = '23'
 export const SID_MODIFY_RM_ATTR_PAYLOAD = '24'
 export const SID_ON_ADD_EVENT = '25'
 export const SID_PATCH_ELEMENT = '26'
+export const SID_MODIFY_PAGE_OBJECT = '27'
 
 const SERVICE_IDENTIFIER = {
   TaroElement: SID_TARO_ELEMENT,
@@ -53,7 +54,8 @@ const SERVICE_IDENTIFIER = {
   modifySetAttrPayload: SID_MODIFY_SET_ATTR_PAYLOAD,
   modifyRmAttrPayload: SID_MODIFY_RM_ATTR_PAYLOAD,
   onAddEvent: SID_ON_ADD_EVENT,
-  patchElement: SID_PATCH_ELEMENT
+  patchElement: SID_PATCH_ELEMENT,
+  modifyPageObject: SID_MODIFY_PAGE_OBJECT
 }
 
 export default SERVICE_IDENTIFIER

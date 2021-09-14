@@ -13,7 +13,7 @@ import {
 import type { Func, UpdatePayload, UpdatePayloadValue, MpInstance, HydratedData } from '../interface'
 
 function findCustomWrapper (ctx, dataPathArr: string[]) {
-  let currentData: Record<string, any> = ctx.__data__ || ctx.data
+  let currentData: Record<string, any> = ctx.__data__ || ctx.data || ctx._data
   let wrapper: Record<string, any> | undefined
   let index: number | undefined
 
