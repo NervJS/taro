@@ -287,7 +287,7 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
         }
         return p
       }
-    } else {
+    } else if (!config.isOnlyPromisify) {
       let platformKey = key
 
       // 改变 key 或 option 字段，如需要把支付宝标准的字段对齐微信标准的字段
