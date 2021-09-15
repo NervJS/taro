@@ -777,7 +777,7 @@ require(\\"./taro\\");
                         }
                         return p;
                     };
-                } else {
+                } else if (!config.isOnlyPromisify) {
                     var platformKey = key;
                     if (config.transformMeta) {
                         platformKey = config.transformMeta(key, {}).key;
