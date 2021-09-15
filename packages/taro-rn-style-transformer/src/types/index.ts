@@ -8,7 +8,7 @@ export interface TransformOptions {
   customTransformOptions: any
 }
 
-export enum LogLevelEnum {
+export const enum LogLevelEnum {
   ERROR = 'error',
   WARNING = 'warning',
 }
@@ -20,4 +20,13 @@ export interface ResolveStyleOptions {
   logLevel?: LogLevelEnum
   defaultExt?: string
   alias?: Record<string, string>
+}
+
+export interface RenderResult {
+  css: string | Buffer
+  map?: string | Buffer
+}
+
+export interface RenderAdditionalResult extends RenderResult {
+  additionalData: string
 }
