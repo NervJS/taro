@@ -58,7 +58,7 @@
     "react-native-safe-area-context": "^3.1.8",
     "react-native-stylekit": "^1.0.0",
     "react-native-syan-image-picker": "0.4.10",
-    "react-native-unimodules": "^0.14.6"
+    "react-native-unimodules": "^0.14.8"
   },
   "devDependencies": {
     "@tarojs/taro": "3.3.3",
@@ -89,7 +89,7 @@
     "react-native-image-resizer": "^1.4.0",
     "react-native-safe-area-context": "^3.1.8",
     "react-native-syan-image-picker": "0.4.10",
-    "react-native-unimodules": "^0.14.6"
+    "react-native-unimodules": "^0.14.8"
   },
   "resolutions": {
     "@types/react": "17.0.11",
