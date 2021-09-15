@@ -1,7 +1,7 @@
 import path from 'path'
 import { recursiveMerge } from '@tarojs/helper'
 
-import StyleTransform, { getWrapedCSS } from '../dist/transforms'
+import StyleTransform, { getWrapedCSS } from '../src/transforms'
 
 const defaultConfig = {
   designWidth: 750,

@@ -3,30 +3,30 @@ import path from 'path'
 import { printLog, processTypeEnum } from '@tarojs/helper'
 import { ResolveStyleOptions, LogLevelEnum } from '../types'
 
-export function insertBefore (source: string, target: string) {
-  if (!source && !target) {
+export function insertBefore (source: string, additional: string) {
+  if (!source && !additional) {
     return ''
   }
   if (!source) {
-    return target
+    return additional
   }
-  if (!target) {
+  if (!additional) {
     return source
   }
-  return target + ';\n' + source
+  return additional + ';\n' + source
 }
 
-export function insertAfter (source: string, target: string) {
-  if (!source && !target) {
+export function insertAfter (source: string, additional: string) {
+  if (!source && !additional) {
     return ''
   }
   if (!source) {
-    return target
+    return additional
   }
-  if (!target) {
+  if (!additional) {
     return source
   }
-  return source + ';\n' + target
+  return source + ';\n' + additional
 }
 
 // Iterate through the include paths and extensions to find the file variant
@@ -97,6 +97,85 @@ export function resolveStyle (id: string, opts: ResolveStyleOptions) {
   }
 
   return file
+}
+
+// copy from https://github.com/webpack-contrib/css-loader/blob/master/src/utils.js
+const IS_NATIVE_WIN32_PATH = /^[a-z]:[/\\]|^\\\\/i
+const ABSOLUTE_SCHEME = /^[a-z0-9+\-.]+:/i
+
+export function normalizePath (file) {
+  return path.sep === '\\' ? file.replace(/\\/g, '/') : file
+}
+
+function getURLType (source) {
+  if (source[0] === '/') {
+    if (source[1] === '/') {
+      return 'scheme-relative'
+    }
+
+    return 'path-absolute'
+  }
+
+  if (IS_NATIVE_WIN32_PATH.test(source)) {
+    return 'path-absolute'
+  }
+
+  return ABSOLUTE_SCHEME.test(source) ? 'absolute' : 'path-relative'
+}
+
+export function normalizeSourceMap (map, resourcePath) {
+  let newMap = map
+
+  // Some loader emit source map as string
+  // Strip any JSON XSSI avoidance prefix from the string (as documented in the source maps specification), and then parse the string as JSON.
+  if (typeof newMap === 'string') {
+    newMap = JSON.parse(newMap)
+  }
+
+  delete newMap.file
+
+  const { sourceRoot } = newMap
+
+  delete newMap.sourceRoot
+
+  if (newMap.sources) {
+    // Source maps should use forward slash because it is URLs (https://github.com/mozilla/source-map/issues/91)
+    // We should normalize path because previous loaders like `sass-loader` using backslash when generate source map
+    newMap.sources = newMap.sources.map((source) => {
+      // Non-standard syntax from `postcss`
+      if (source.indexOf('<') === 0) {
+        return source
+      }
+
+      const sourceType = getURLType(source)
+
+      // Do no touch `scheme-relative` and `absolute` URLs
+      if (sourceType === 'path-relative' || sourceType === 'path-absolute') {
+        const absoluteSource =
+          sourceType === 'path-relative' && sourceRoot
+            ? path.resolve(sourceRoot, normalizePath(source))
+            : normalizePath(source)
+
+        return path.relative(path.dirname(resourcePath), absoluteSource)
+      }
+
+      return source
+    })
+  }
+
+  return newMap
+}
+// copy end
+
+export function getAdditionalData (data: string, config: string | ((key: string) => string)) {
+  let additionalData = ''
+  if (typeof config !== 'undefined') {
+    additionalData =
+      typeof config === 'function'
+        ? `${config(data)}`
+        : config
+  }
+  return additionalData
 }
 
 export default {}
