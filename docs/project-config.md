@@ -23,4 +23,9 @@ title: 项目配置
 | 字节跳动小程序 | project.tt.json |
 | QQ小程序 | project.qq.json |
 | 支付宝小程序 | project.alipay.json |
-| 飞书小程序 | project.tt.json |
+| 飞书小程序 | project.lark.json |
+
+:::caution 注意
+飞书小程序从[插件](https://www.npmjs.com/package/@tarojs/plugin-platform-lark)1.0.2版本开始，配置文件修改为`project.lark.json`，之前版本为`project.tt.json`。
+推荐升级[飞书插件](https://www.npmjs.com/package/@tarojs/plugin-platform-lark)到最新版，避免使用 Taro 同时开发字节跳动小程序和飞书小程序配置文件 appId 冲突的问题。
+:::
