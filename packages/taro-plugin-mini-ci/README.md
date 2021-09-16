@@ -13,34 +13,36 @@ npm i @taro/plugin-mini-ci -D
 `/config/index.js`
 
 ```js
-// 示例
+// 示例, 如果你使用 `vs code` 作为开发工具， 你还可以使用注释的语法引入插件包含的声明文件，可获得类似于typescript的友好提示
+/**
+ * @typedef { import("@tarojs/plugin-mini-ci").CIOptions } CIOptions
+ * @type {CIOptions}
+ */
+const CIPluginOpt = {
+    weapp: {
+        appid: "微信小程戏appid",
+        privateKeyPath: "密钥文件相对项目根目录的相对路径，例如 key/private.appid.key"
+    },
+    tt: {
+        email: "字节小程序邮箱",
+        password: "字节小程序密码"
+    },
+    alipay: {
+      appId: "支付宝小程序appId",
+      toolId: "工具id",
+      privateKeyPath: "密钥文件相对项目根目录的相对路径，例如 key/pkcs8-private-pem"
+    },
+    swan: {
+      token: "鉴权需要的token令牌"
+    },
+    // 版本号
+    version: "1.0.0",
+    // 版本发布描述
+    desc: "版本描述"
+}
 const config = {
   plugins: [
-    [
-        "@tarojs/plugin-mini-ci",
-        {
-            weapp: {
-                appid: "微信小程戏appid",
-                privateKeyPath: "密钥文件相对项目根目录的相对路径，例如 key/private.appid.key"
-            },
-            tt: {
-                email: "字节小程序邮箱",
-                password: "字节小程序密码"
-            },
-            alipay: {
-              appId: "支付宝小程序appId",
-              toolId: "工具id",
-              privateKeyPath: "密钥文件相对项目根目录的相对路径，例如 key/pkcs8-private-pem"
-            },
-            swan: {
-              token: "鉴权需要的token令牌"
-            },
-            // 版本号
-            version: "1.0.0",
-            // 版本发布描述
-            desc: "版本描述"
-        }
-    ],
+    [ "@tarojs/plugin-mini-ci", CIPluginOpt ]
   ]
 }
 ```

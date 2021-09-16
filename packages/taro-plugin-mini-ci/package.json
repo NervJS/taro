@@ -10,9 +10,11 @@
   "homepage": "https://github.com/NervJS/taro#readme",
   "license": "MIT",
   "main": "index.js",
+  "typings": "types/index.d.ts",
   "files": [
     "dist",
-    "index.js"
+    "index.js",
+    "types"
   ],
   "repository": {
     "type": "git",

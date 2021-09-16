@@ -1,12 +1,13 @@
 import { IPluginContext } from '@tarojs/service'
 import * as minimist from 'minimist'
-import { IOptions } from './BaseCi'
+import { CIOptions } from './BaseCi'
 import WeappCI from './WeappCI'
 import TTCI from './TTCI'
 import AlipayCI from './AlipayCI'
 import SwanCI from './SwanCI'
 
-export default (ctx: IPluginContext, pluginOpts: IOptions) => {
+export { CIOptions } from './BaseCi'
+export default (ctx: IPluginContext, pluginOpts: CIOptions) => {
   ctx.addPluginOptsSchema((joi) => {
     return joi
       .object()

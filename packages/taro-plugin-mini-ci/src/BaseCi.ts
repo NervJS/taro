@@ -21,7 +21,9 @@ export interface WeappConfig {
 
 /** 头条小程序配置 */
 export interface TTConfig {
+  /** 绑定的邮箱账号 */
   email: string;
+  /** 密码 */
   password: string;
 }
 
@@ -62,18 +64,18 @@ export interface SwanConfig {
   minSwanVersion?: string;
 }
 
-export interface IOptions {
+export interface CIOptions {
   /** 发布版本号，默认取 package.json 文件的 taroConfig.version 字段 */
   version: string;
   /** 版本发布描述， 默认取 package.json 文件的 taroConfig.desc 字段 */
   desc: string;
-  /** 微信小程序CI配置 */
+  /** 微信小程序CI配置, 官方文档地址：https://developers.weixin.qq.com/miniprogram/dev/devtools/ci.html */
   weapp?: WeappConfig;
-  /** 头条小程序配置 */
+  /** 头条小程序配置, 官方文档地址：https://microapp.bytedance.com/docs/zh-CN/mini-app/develop/developer-instrument/development-assistance/ide-order-instrument */
   tt?: TTConfig;
-  /** 支付宝系列小程序配置 */
+  /** 支付宝系列小程序配置，官方文档地址： https://opendocs.alipay.com/mini/miniu/api */
   alipay?: AlipayConfig;
-  /** 百度小程序配置 */
+  /** 百度小程序配置, 官方文档地址：https://smartprogram.baidu.com/docs/develop/devtools/commandtool/ */
   swan?: SwanConfig;
 }
 
@@ -82,7 +84,7 @@ export default abstract class BaseCI {
   protected ctx: IPluginContext;
 
   /** 传入的插件选项 */
-  protected pluginOpts: IOptions;
+  protected pluginOpts: CIOptions;
 
   /** 当前要发布的版本号 */
   protected version: string;
@@ -90,7 +92,7 @@ export default abstract class BaseCI {
   /** 当前发布内容的描述 */
   protected desc: string;
 
-  constructor (ctx: IPluginContext, pluginOpts: IOptions) {
+  constructor (ctx: IPluginContext, pluginOpts: CIOptions) {
     this.ctx = ctx
     this.pluginOpts = pluginOpts
 
