@@ -11,6 +11,6 @@ currently being supported with security updates.
 
 ## Reporting a Vulnerability
 
-People are welcomed to report a vulnerability by sending an Email to **taro@jd.com** or **taro-dev@jd.com**.Also PR or Issues are welcomed too.
+People are welcomed to report a vulnerability by sending an Email to **taro@jd.com** or **taro_dev@jd.com**.Also PR or Issues are welcomed too.
 
 Vulnerability will be fixed and publish in one or two weeks.
