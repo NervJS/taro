@@ -19,7 +19,8 @@ import {
   SID_MODIFY_TARO_EVENT,
   SID_INIT_NATIVE_API,
   SID_PATCH_ELEMENT,
-  SID_MODIFY_PAGE_OBJECT
+  SID_MODIFY_PAGE_OBJECT,
+  SID_MODIFY_DISPATCH_EVENT
 
 } from './constants/identifiers'
 import { defaultMiniLifecycle } from './container/default-hooks'
@@ -35,6 +36,7 @@ import type {
   GetEventCenter,
   ModifyMpEvent,
   ModifyTaroEvent,
+  ModifyDispatchEvent,
   IsBubbleEvents,
   GetSpecialNodes,
   BatchedEventUpdates,
@@ -106,17 +108,24 @@ export class Hooks implements IHooks {
   public onAddEvent?: OnAddEvent
 
   @multiInject(SID_MODIFY_MP_EVENT) @optional()
-  private modifyMpEventImpls?: ModifyMpEvent[]
+  public modifyMpEventImpls?: ModifyMpEvent[]
 
   public modifyMpEvent (e: MpEvent) {
     this.modifyMpEventImpls?.forEach(fn => fn(e))
   }
 
   @multiInject(SID_MODIFY_TARO_EVENT) @optional()
-  private modifyTaroEventImpls?: ModifyTaroEvent[]
+  public modifyTaroEventImpls?: ModifyTaroEvent[]
 
   public modifyTaroEvent (e: TaroEvent, element: TaroElement) {
     this.modifyTaroEventImpls?.forEach(fn => fn(e, element))
+  }
+
+  @multiInject(SID_MODIFY_DISPATCH_EVENT) @optional()
+  public modifyDispatchEventImpls?: ModifyDispatchEvent[]
+
+  public modifyDispatchEvent (e: TaroEvent, element: TaroElement) {
+    this.modifyDispatchEventImpls?.forEach(fn => fn(e, element))
   }
 
   @multiInject(SID_INIT_NATIVE_API) @optional()

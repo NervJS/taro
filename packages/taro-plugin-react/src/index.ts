@@ -23,6 +23,13 @@ export default (ctx: IPluginContext, _options: IOptions) => {
     setAlias(ctx, framework, chain)
     setPlugin(ctx, framework, chain)
     setLoader(framework, chain)
+    chain
+      .plugin('definePlugin')
+      .tap(args => {
+        const config = args[0]
+        config.__TARO_FRAMEWORK__ = `"${framework}"`
+        return args
+      })
   })
 }
 

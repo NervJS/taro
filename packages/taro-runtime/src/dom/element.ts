@@ -266,6 +266,7 @@ export class TaroElement extends TaroNode {
       if (listener._stop) {
         listener._stop = false
       } else {
+        this.hooks.modifyDispatchEvent(event, this)
         result = listener.call(this, event)
       }
       if ((result === false || event._end) && cancelable) {

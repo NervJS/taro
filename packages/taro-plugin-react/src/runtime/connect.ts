@@ -38,9 +38,9 @@ export function setReconciler () {
     return instance[lifecycle]
   }
 
-  hooks.modifyMpEvent = function (event) {
+  hooks.modifyMpEventImpls?.push(function (event) {
     event.type = event.type.replace(/-/g, '')
-  }
+  })
 
   hooks.batchedEventUpdates = function (cb) {
     ReactDOM.unstable_batchedUpdates(cb)

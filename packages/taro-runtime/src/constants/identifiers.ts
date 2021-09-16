@@ -15,17 +15,18 @@ export const SID_GET_SPECIAL_NODES = '13'
 export const SID_EVENT_CENTER = '14'
 export const SID_MODIFY_MP_EVENT = '15'
 export const SID_MODIFY_TARO_EVENT = '16'
-export const SID_BATCHED_EVENT_UPDATES = '17'
-export const SID_MERGE_PAGE_INSTANCE = '18'
-export const SID_CREATE_PULLDOWN_COMPONENT = '19'
-export const SID_GET_DOM_NODE = '20'
-export const SID_INIT_NATIVE_API = '21'
-export const SID_MODIFY_HYDRATE_DATA = '22'
-export const SID_MODIFY_SET_ATTR_PAYLOAD = '23'
-export const SID_MODIFY_RM_ATTR_PAYLOAD = '24'
-export const SID_ON_ADD_EVENT = '25'
-export const SID_PATCH_ELEMENT = '26'
-export const SID_MODIFY_PAGE_OBJECT = '27'
+export const SID_MODIFY_DISPATCH_EVENT = '17'
+export const SID_BATCHED_EVENT_UPDATES = '18'
+export const SID_MERGE_PAGE_INSTANCE = '19'
+export const SID_CREATE_PULLDOWN_COMPONENT = '20'
+export const SID_GET_DOM_NODE = '21'
+export const SID_INIT_NATIVE_API = '22'
+export const SID_MODIFY_HYDRATE_DATA = '23'
+export const SID_MODIFY_SET_ATTR_PAYLOAD = '24'
+export const SID_MODIFY_RM_ATTR_PAYLOAD = '25'
+export const SID_ON_ADD_EVENT = '26'
+export const SID_PATCH_ELEMENT = '27'
+export const SID_MODIFY_PAGE_OBJECT = '28'
 
 const SERVICE_IDENTIFIER = {
   TaroElement: SID_TARO_ELEMENT,
@@ -45,6 +46,7 @@ const SERVICE_IDENTIFIER = {
   eventCenter: SID_EVENT_CENTER,
   modifyMpEvent: SID_MODIFY_MP_EVENT,
   modifyTaroEvent: SID_MODIFY_TARO_EVENT,
+  modifyDispatchEvent: SID_MODIFY_DISPATCH_EVENT,
   batchedEventUpdates: SID_BATCHED_EVENT_UPDATES,
   mergePageInstance: SID_MERGE_PAGE_INSTANCE,
   createPullDownComponent: SID_CREATE_PULLDOWN_COMPONENT,

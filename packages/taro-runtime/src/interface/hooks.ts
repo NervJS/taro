@@ -57,6 +57,10 @@ export interface ModifyTaroEvent {
   (event: TaroEvent, element: TaroElement): void
 }
 
+export interface ModifyDispatchEvent {
+  (event: TaroEvent, element: TaroElement): void
+}
+
 export interface BatchedEventUpdates {
   (cb: Func): void
 }
@@ -127,13 +131,23 @@ export interface IHooks {
    * @multi-inject
    * 用于修改小程序原生事件对象
    **/
+  modifyMpEventImpls?: ModifyMpEvent[]
   modifyMpEvent: ModifyMpEvent
 
   /**
    * @multi-inject
    * 用于修改 Taro DOM 事件对象
    **/
+  modifyTaroEventImpls?: ModifyTaroEvent[]
   modifyTaroEvent: ModifyTaroEvent
+
+  /**
+   * @multi-inject
+   * 用于修改触发回调前的 Taro DOM 事件对象
+   * 比 modifyTaroEvent 稍晚，为了可以在 el.__handlers[event.type] 取得回调函数后再修改事件对象
+   **/
+  modifyDispatchEventImpls?: ModifyDispatchEvent[]
+  modifyDispatchEvent: ModifyDispatchEvent
 
   /** 用于把 React 同一事件回调中的所有 setState 合并到同一个更新处理中 */
   batchedEventUpdates?: BatchedEventUpdates
@@ -185,5 +199,6 @@ export interface IHooks {
    * @todo: mutiInject
    * 给 TaroElement 实例注入属性或方法
    **/
+  patchElementImpls?: PatchElement[]
   patchElement?: PatchElement
 }
