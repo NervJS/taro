@@ -22,5 +22,5 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "author": "O2Team",
-  "license": "MIT"
+  "license": "Apache-2.0"
 }

@@ -2,9 +2,9 @@
   "name": "@tarojs/api",
   "version": "3.3.11",
   "description": "Taro common API",
-  "author": "yuche <i@yuche.me>",
+  "author": "O2Team",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/api#readme",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "directories": {

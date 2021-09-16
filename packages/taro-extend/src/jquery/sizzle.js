@@ -1,6 +1,9 @@
 /* eslint-disable no-mixed-operators */
 /* eslint-disable prefer-const */
 /*!
+ *
+ * Based on Sizzle from JS Foundation and other contributors
+ *
  * Sizzle CSS Selector Engine v@VERSION
  * https://sizzlejs.com/
  *

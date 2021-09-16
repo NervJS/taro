@@ -30,5 +30,5 @@
     "babel-eslint": "^10.0.0"
   },
   "author": "O2Team",
-  "license": "MIT"
+  "license": "Apache-2.0"
 }

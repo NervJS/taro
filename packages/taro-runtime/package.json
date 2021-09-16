@@ -18,8 +18,8 @@
     "type": "git",
     "url": "https://github.com/NervJS/taro/tree/master/packages/taro-runtime"
   },
-  "author": "yuche",
-  "license": "MIT",
+  "author": "O2Team",
+  "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
   },

@@ -3,8 +3,8 @@
   "version": "3.3.11",
   "description": "parse constants defined in config",
   "main": "index.js",
-  "author": "Simba",
-  "license": "MIT",
+  "author": "O2Team",
+  "license": "Apache-2.0",
   "dependencies": {
     "postcss": "^6.0.22"
   }

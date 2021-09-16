@@ -20,8 +20,8 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "MIT",
+  "author": "O2Team",
+  "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.13.10",
     "@tarojs/taro": "3.3.11",

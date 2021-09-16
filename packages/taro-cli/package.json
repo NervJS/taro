@@ -41,7 +41,7 @@
     "node": ">=12"
   },
   "author": "O2Team",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "dependencies": {
     "@hapi/joi": "17.1.1",
     "@tarojs/helper": "3.3.11",

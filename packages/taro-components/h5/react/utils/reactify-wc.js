@@ -1,4 +1,12 @@
 /**
+ *
+ * Based on reactify-wc from Mercedes-Benz Research and Development North America Inc.
+ *
+ * Copyright 2019 Mercedes-Benz Research and Development North America Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
  * https://github.com/BBKolton/reactify-wc/
  * modified event naming
  **/

@@ -25,7 +25,7 @@
     "router"
   ],
   "author": "O2Team",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "dependencies": {
     "@tarojs/runtime": "3.3.11",
     "history": "^5.0.0",

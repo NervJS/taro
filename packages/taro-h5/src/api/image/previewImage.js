@@ -1,4 +1,13 @@
-
+/**
+ *
+ * Based on react-wx-images-viewer from react-ld.
+ *
+ * Copyright (c) 2017 react-ld
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 /**
  * 在新页面中全屏预览图片。预览的过程中用户可以进行保存图片、发送给朋友等操作。
  * @param {Object} options

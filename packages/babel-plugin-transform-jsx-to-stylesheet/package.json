@@ -2,7 +2,8 @@
   "name": "babel-plugin-transform-jsx-to-stylesheet",
   "version": "1.3.22",
   "description": "Transform stylesheet selector to style in JSX Elements.",
-  "license": "MIT",
+  "author": "O2Team",
+  "license": "Apache-2.0",
   "main": "src/index.js",
   "repository": {
     "type": "git",

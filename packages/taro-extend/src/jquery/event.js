@@ -3,6 +3,9 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 /* eslint-disable no-sequences */
 /* eslint-disable no-unused-expressions */
+//
+// Based on Zepto.js from Thomas Fuchs
+//
 //     Zepto.js
 //     (c) 2010-2016 Thomas Fuchs
 //     Zepto.js may be freely distributed under the MIT license.

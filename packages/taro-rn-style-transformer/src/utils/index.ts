@@ -119,7 +119,16 @@ export function resolveStyle (id: string, opts: ResolveStyleOptions) {
   return file
 }
 
-// copy from https://github.com/webpack-contrib/css-loader/blob/master/src/utils.js
+/**
+ *
+ * The normalizeSourceMap implementation was originally copied from webpack-contrib/css-loader.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * https://github.com/webpack-contrib/css-loader/blob/master/src/utils.js
+ *
+ */
 const IS_NATIVE_WIN32_PATH = /^[a-z]:[/\\]|^\\\\/i
 const ABSOLUTE_SCHEME = /^[a-z0-9+\-.]+:/i
 

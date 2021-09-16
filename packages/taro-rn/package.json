@@ -30,7 +30,7 @@
     "taro"
   ],
   "author": "O2Team",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.13.2",
     "@react-native-community/cameraroll": "^4.0.1",

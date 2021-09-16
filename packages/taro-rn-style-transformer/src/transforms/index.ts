@@ -6,7 +6,7 @@ import postcssTransform, { Config as PostcssConfig, makePostcssPlugins } from '.
 import sassTransform, { Config as SassConfig, SassGlobalConfig } from './sass'
 import lessTransform, { Config as LessConfig } from './less'
 import stylusTransform, { Config as StylusConfig, defaultOptions as stylusDefaultOptions } from './stylus'
-import { StyleSheetValidation } from './StyleSheet'
+import StyleSheetValidation from './StyleSheet/StyleSheetValidation'
 import { TransformOptions, RenderAdditionalResult } from '../types'
 import { normalizeSourceMap } from '../utils'
 

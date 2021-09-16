@@ -2,9 +2,9 @@
   "name": "@tarojs/taro-loader",
   "version": "3.3.11",
   "description": "> TODO: description",
-  "author": "yuche <i@yuche.me>",
+  "author": "O2Team",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-loader#readme",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "main": "lib/app.js",
   "directories": {
     "lib": "lib",

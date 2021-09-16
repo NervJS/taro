@@ -31,7 +31,7 @@
     "taro"
   ],
   "author": "O2Team",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "dependencies": {
     "@tarojs/api": "3.3.11",
     "@tarojs/router": "3.3.11",

@@ -2,9 +2,9 @@
   "name": "babel-preset-taro",
   "version": "3.3.11",
   "description": "> TODO: description",
-  "author": "yuche <i@yuche.me>",
+  "author": "O2Team",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/babel-preset-taro#readme",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "main": "index.js",
   "files": [
     "rn/",
