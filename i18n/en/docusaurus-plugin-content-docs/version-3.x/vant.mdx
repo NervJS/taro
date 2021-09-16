@@ -1,0 +1,248 @@
+---
+title: Vant UI
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import { VueIcon, ReactIcon } from './guides/index'
+
+Taro3 support development with [Vant Weapp](https://youzan.github.io/vant-weapp/#/intro) component liabrary. This is sample warehouse: [taro3-vant-sample](https://github.com/NervJS/taro3-vant-sample).
+
+> Notice：The projects which developed using native third-party component libraries,
+** no longer has the capability of multi-terminal conversion **.
+
+
+## How to use it?
+
+### Configure to ignore vant style size conversion 
+
+If you use the vant component directly, you will find that the style is too small. This is because Taro converts the vant style size from **px** to **rpx** by default. You can configure [selectorblacklist](https://nervjs .github.io/taro/docs/size#selectorblacklist) to disable the conversion.
+
+configuration：
+
+```js
+// config/index.js
+const config = {
+  // ...
+  mini: {
+    postcss: {
+      pxtransform: {
+        enable: true,
+        config: {
+          selectorBlackList: [/van-/]
+        }
+      }
+    }
+  },
+}
+```
+
+### Configure `copy` of some native files in mini-program.
+
+There are some dependencies on the native files of mini programs in vant component, but Taro has not analyzed these dependencies. 
+Therefore, you need to configure `copy` to move these dependencies to the `dist` directory. For example, If you need to copy `wxs` and other style files, Part of the configuration is as follows:
+
+
+```js
+// config/index.js
+const config = {
+  // ...
+  copy: {
+    patterns: [
+      { from: 'src/components/vant-weapp/dist/wxs', to: 'dist/components/vant-weapp/dist/wxs' },
+      { from: 'src/components/vant-weapp/dist/common/style', to: 'dist/components/vant-weapp/dist/common/style' },
+      { from: 'src/components/vant-weapp/dist/common/index.wxss', to: 'dist/components/vant-weapp/dist/common/index.wxss' },
+      { from: 'src/components/vant-weapp/dist/calendar/index.wxs', to: 'dist/components/vant-weapp/dist/calendar/index.wxs' },
+      { from: 'src/components/vant-weapp/dist/calendar/utils.wxs', to: 'dist/components/vant-weapp/dist/calendar/utils.wxs' },
+      { from: 'src/components/vant-weapp/dist/calendar/calendar.wxml', to: 'dist/components/vant-weapp/dist/calendar/calendar.wxml' },
+      { from: 'src/components/vant-weapp/dist/calendar/components/month/index.wxs', to: 'dist/components/vant-weapp/dist/calendar/components/month/index.wxs' },
+    ],
+    options: {
+    }
+  },
+}
+```
+
+### Import vant component
+
+First, you need to configure the `usingComponents` field in the **app config** or **page config** file, such as:
+
+```js
+export default {
+  navigationBarTitleText: '首页',
+  usingComponents: {
+    'van-button': '../../components/vant-weapp/dist/button/index'
+  }
+}
+```
+Then you can directly use it in your pages.
+
+### Use vant component
+
+#### 1. Binding properties
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label:  <ReactIcon />, value: 'React'},
+    {label: <VueIcon />, value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
+```jsx
+import React, { Component } from 'react'
+import { View } from '@tarojs/components'
+
+export default class Index extends Component {
+  render () {
+    return (
+      <View>
+        <van-button type='primary' loading loading-text='ing'>Button</van-button>
+      </View>
+    )
+  }
+}
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <view>
+    <van-button type='primary' :loading='true' loading-text='ing'>Button</van-button>
+  </view>
+</template>
+
+<script>
+export default {
+  name: 'index'
+}
+</script>
+```
+
+</TabItem>
+</Tabs>
+
+> Note: If some properties of the component are written with the default value `true` in the vant document, they still need to ** be explicitly set to true ** when used in Taro.
+
+
+#### 2. Binding events
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label:  <ReactIcon />, value: 'React'},
+    {label: <VueIcon />, value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
+```jsx
+import React, { Component } from 'react'
+import { View } from '@tarojs/components'
+
+export default class Index extends Component {
+  handleClick = () => {
+    console.log('click')
+  }
+
+  onAfterRead = res => {
+    console.log(res)
+  }
+
+  render () {
+    return (
+      <View>
+        // corresponding bind:click event
+        <van-button type='primary' onClick={this.handleClick} >Button</van-button>
+        // corresponding bind:after-read event
+        <van-uploader fileList={[]} onAfterRead={this.onAfterRead} />
+      </View>
+    )
+  }
+}
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <view>
+    <van-button type='primary' @click='handleClick'>Button</van-button>
+    <van-uploader :fileList='[]' @after-read='onAfterRead' />
+  </view>
+</template>
+
+<script>
+export default {
+  methods: {
+    handleClick () {
+      console.log('click')
+    },
+    onAfterRead (res) {
+      console.log(res)
+    }
+  }
+}
+</script>
+```
+
+</TabItem>
+</Tabs>
+
+#### 3. Slot
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label:  <ReactIcon />, value: 'React'},
+    {label: <VueIcon />, value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
+```jsx
+import React, { Component } from 'react'
+import { View, Slot } from '@tarojs/components'
+
+export default class Index extends Component {
+  render () {
+    return (
+      <View>
+        <van-calendar poppable show>
+          <Slot name='title'>
+            <View>Hello world</View>
+          </Slot>
+        </van-calendar>
+      </View>
+    )
+  }
+}
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <view>
+    <van-calendar :poppable='true' :show='true'>
+      <slot-view :name='"title"'>
+        <view>Hello world</view>
+      </slot-view>
+    </van-calendar>
+  </view>
+</template>
+
+<script>
+export default {
+  name: 'index'
+}
+</script>
+```
+
+</TabItem>
+</Tabs>

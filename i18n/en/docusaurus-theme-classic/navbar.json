@@ -1,0 +1,54 @@
+{
+  "title": {
+    "message": "Taro",
+    "description": "The title in the navbar"
+  },
+  "item.label.文档": {
+    "message": "Document",
+    "description": "Navbar item with label 文档"
+  },
+  "item.label.组件库": {
+    "message": "Component",
+    "description": "Navbar item with label 组件库"
+  },
+  "item.label.API": {
+    "message": "API",
+    "description": "Navbar item with label API"
+  },
+  "item.label.教程": {
+    "message": "Learn",
+    "description": "Navbar item with label 教程"
+  },
+  "item.label.博客": {
+    "message": "Blog",
+    "description": "Navbar item with label 博客"
+  },
+  "item.label.案例": {
+    "message": "Case",
+    "description": "Navbar item with label 案例"
+  },
+  "item.label.Taro UI": {
+    "message": "Taro UI",
+    "description": "Navbar item with label Taro UI"
+  },
+  "item.label.物料市场": {
+    "message": "Examples",
+    "description": "Navbar item with label 物料市场"
+  },
+  "item.label.论坛": {
+    "message": "Forum",
+    "description": "Navbar item with label 论坛"
+  },
+  "item.label.京东小程序": {
+    "message": "JD Mini Program",
+    "description": "Navbar item with label 京东小程序"
+  },
+  "item.label.问题反馈": {
+    "message": "Question Feedback",
+    "description": "Navbar item with label 问题反馈"
+  },
+  "item.label.NutUI": {
+    "message": "NutUI",
+    "description": "Navbar item with label NutUI"
+  }
+}

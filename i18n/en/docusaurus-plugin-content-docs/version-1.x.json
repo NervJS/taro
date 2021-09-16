@@ -1,0 +1,306 @@
+{
+  "version.label": {
+    "message": "1.x",
+    "description": "The label for version 1.x"
+  },
+  "sidebar.docs.category.关于Taro": {
+    "message": "关于Taro",
+    "description": "The label for category 关于Taro in sidebar docs"
+  },
+  "sidebar.docs.category.快速开始": {
+    "message": "快速开始",
+    "description": "The label for category 快速开始 in sidebar docs"
+  },
+  "sidebar.docs.category.基础教程": {
+    "message": "基础教程",
+    "description": "The label for category 基础教程 in sidebar docs"
+  },
+  "sidebar.docs.category.语法特性": {
+    "message": "语法特性",
+    "description": "The label for category 语法特性 in sidebar docs"
+  },
+  "sidebar.docs.category.多端开发": {
+    "message": "多端开发",
+    "description": "The label for category 多端开发 in sidebar docs"
+  },
+  "sidebar.docs.category.进阶指南": {
+    "message": "进阶指南",
+    "description": "The label for category 进阶指南 in sidebar docs"
+  },
+  "sidebar.docs.category.社区生态": {
+    "message": "社区生态",
+    "description": "The label for category 社区生态 in sidebar docs"
+  },
+  "sidebar.components.category.关于组件库": {
+    "message": "关于组件库",
+    "description": "The label for category 关于组件库 in sidebar components"
+  },
+  "sidebar.components.category.视图容器": {
+    "message": "视图容器",
+    "description": "The label for category 视图容器 in sidebar components"
+  },
+  "sidebar.components.category.基础内容": {
+    "message": "基础内容",
+    "description": "The label for category 基础内容 in sidebar components"
+  },
+  "sidebar.components.category.表单组件": {
+    "message": "表单组件",
+    "description": "The label for category 表单组件 in sidebar components"
+  },
+  "sidebar.components.category.导航": {
+    "message": "导航",
+    "description": "The label for category 导航 in sidebar components"
+  },
+  "sidebar.components.category.媒体组件": {
+    "message": "媒体组件",
+    "description": "The label for category 媒体组件 in sidebar components"
+  },
+  "sidebar.components.category.地图": {
+    "message": "地图",
+    "description": "The label for category 地图 in sidebar components"
+  },
+  "sidebar.components.category.画布": {
+    "message": "画布",
+    "description": "The label for category 画布 in sidebar components"
+  },
+  "sidebar.components.category.开放能力": {
+    "message": "开放能力",
+    "description": "The label for category 开放能力 in sidebar components"
+  },
+  "sidebar.API.category.关于API": {
+    "message": "关于API",
+    "description": "The label for category 关于API in sidebar API"
+  },
+  "sidebar.API.category.设备": {
+    "message": "设备",
+    "description": "The label for category 设备 in sidebar API"
+  },
+  "sidebar.API.category.加速度计": {
+    "message": "加速度计",
+    "description": "The label for category 加速度计 in sidebar API"
+  },
+  "sidebar.API.category.设备方向": {
+    "message": "设备方向",
+    "description": "The label for category 设备方向 in sidebar API"
+  },
+  "sidebar.API.category.蓝牙": {
+    "message": "蓝牙",
+    "description": "The label for category 蓝牙 in sidebar API"
+  },
+  "sidebar.API.category.低功耗蓝牙": {
+    "message": "低功耗蓝牙",
+    "description": "The label for category 低功耗蓝牙 in sidebar API"
+  },
+  "sidebar.API.category.亮度": {
+    "message": "亮度",
+    "description": "The label for category 亮度 in sidebar API"
+  },
+  "sidebar.API.category.剪贴板": {
+    "message": "剪贴板",
+    "description": "The label for category 剪贴板 in sidebar API"
+  },
+  "sidebar.API.category.罗盘": {
+    "message": "罗盘",
+    "description": "The label for category 罗盘 in sidebar API"
+  },
+  "sidebar.API.category.联系人": {
+    "message": "联系人",
+    "description": "The label for category 联系人 in sidebar API"
+  },
+  "sidebar.API.category.iBeacon": {
+    "message": "iBeacon",
+    "description": "The label for category iBeacon in sidebar API"
+  },
+  "sidebar.API.category.网络": {
+    "message": "网络",
+    "description": "The label for category 网络 in sidebar API"
+  },
+  "sidebar.API.category.NFC": {
+    "message": "NFC",
+    "description": "The label for category NFC in sidebar API"
+  },
+  "sidebar.API.category.电话": {
+    "message": "电话",
+    "description": "The label for category 电话 in sidebar API"
+  },
+  "sidebar.API.category.扫码": {
+    "message": "扫码",
+    "description": "The label for category 扫码 in sidebar API"
+  },
+  "sidebar.API.category.屏幕": {
+    "message": "屏幕",
+    "description": "The label for category 屏幕 in sidebar API"
+  },
+  "sidebar.API.category.振动": {
+    "message": "振动",
+    "description": "The label for category 振动 in sidebar API"
+  },
+  "sidebar.API.category.系统信息": {
+    "message": "系统信息",
+    "description": "The label for category 系统信息 in sidebar API"
+  },
+  "sidebar.API.category.Wi-Fi": {
+    "message": "Wi-Fi",
+    "description": "The label for category Wi-Fi in sidebar API"
+  },
+  "sidebar.API.category.扩展API": {
+    "message": "扩展API",
+    "description": "The label for category 扩展API in sidebar API"
+  },
+  "sidebar.API.category.文件": {
+    "message": "文件",
+    "description": "The label for category 文件 in sidebar API"
+  },
+  "sidebar.API.category.界面": {
+    "message": "界面",
+    "description": "The label for category 界面 in sidebar API"
+  },
+  "sidebar.API.category.动画": {
+    "message": "动画",
+    "description": "The label for category 动画 in sidebar API"
+  },
+  "sidebar.API.category.画布": {
+    "message": "画布",
+    "description": "The label for category 画布 in sidebar API"
+  },
+  "sidebar.API.category.交互": {
+    "message": "交互",
+    "description": "The label for category 交互 in sidebar API"
+  },
+  "sidebar.API.category.导航": {
+    "message": "导航",
+    "description": "The label for category 导航 in sidebar API"
+  },
+  "sidebar.API.category.导航栏": {
+    "message": "导航栏",
+    "description": "The label for category 导航栏 in sidebar API"
+  },
+  "sidebar.API.category.滚动": {
+    "message": "滚动",
+    "description": "The label for category 滚动 in sidebar API"
+  },
+  "sidebar.API.category.下拉刷新": {
+    "message": "下拉刷新",
+    "description": "The label for category 下拉刷新 in sidebar API"
+  },
+  "sidebar.API.category.tabbar": {
+    "message": "tabbar",
+    "description": "The label for category tabbar in sidebar API"
+  },
+  "sidebar.API.category.顶栏": {
+    "message": "顶栏",
+    "description": "The label for category 顶栏 in sidebar API"
+  },
+  "sidebar.API.category.窗口": {
+    "message": "窗口",
+    "description": "The label for category 窗口 in sidebar API"
+  },
+  "sidebar.API.category.wxml": {
+    "message": "wxml",
+    "description": "The label for category wxml in sidebar API"
+  },
+  "sidebar.API.category.位置": {
+    "message": "位置",
+    "description": "The label for category 位置 in sidebar API"
+  },
+  "sidebar.API.category.媒体": {
+    "message": "媒体",
+    "description": "The label for category 媒体 in sidebar API"
+  },
+  "sidebar.API.category.音频": {
+    "message": "音频",
+    "description": "The label for category 音频 in sidebar API"
+  },
+  "sidebar.API.category.背景音频": {
+    "message": "背景音频",
+    "description": "The label for category 背景音频 in sidebar API"
+  },
+  "sidebar.API.category.相机": {
+    "message": "相机",
+    "description": "The label for category 相机 in sidebar API"
+  },
+  "sidebar.API.category.图片": {
+    "message": "图片",
+    "description": "The label for category 图片 in sidebar API"
+  },
+  "sidebar.API.category.地图": {
+    "message": "地图",
+    "description": "The label for category 地图 in sidebar API"
+  },
+  "sidebar.API.category.录音": {
+    "message": "录音",
+    "description": "The label for category 录音 in sidebar API"
+  },
+  "sidebar.API.category.视频": {
+    "message": "视频",
+    "description": "The label for category 视频 in sidebar API"
+  },
+  "sidebar.API.category.文件上传/下载": {
+    "message": "文件上传/下载",
+    "description": "The label for category 文件上传/下载 in sidebar API"
+  },
+  "sidebar.API.category.请求": {
+    "message": "请求",
+    "description": "The label for category 请求 in sidebar API"
+  },
+  "sidebar.API.category.WebSocket": {
+    "message": "WebSocket",
+    "description": "The label for category WebSocket in sidebar API"
+  },
+  "sidebar.API.category.开放接口": {
+    "message": "开放接口",
+    "description": "The label for category 开放接口 in sidebar API"
+  },
+  "sidebar.API.category.地址": {
+    "message": "地址",
+    "description": "The label for category 地址 in sidebar API"
+  },
+  "sidebar.API.category.认证": {
+    "message": "认证",
+    "description": "The label for category 认证 in sidebar API"
+  },
+  "sidebar.API.category.生物认证": {
+    "message": "生物认证",
+    "description": "The label for category 生物认证 in sidebar API"
+  },
+  "sidebar.API.category.卡券": {
+    "message": "卡券",
+    "description": "The label for category 卡券 in sidebar API"
+  },
+  "sidebar.API.category.发票": {
+    "message": "发票",
+    "description": "The label for category 发票 in sidebar API"
+  },
+  "sidebar.API.category.登录": {
+    "message": "登录",
+    "description": "The label for category 登录 in sidebar API"
+  },
+  "sidebar.API.category.支付": {
+    "message": "支付",
+    "description": "The label for category 支付 in sidebar API"
+  },
+  "sidebar.API.category.跳转小程序": {
+    "message": "跳转小程序",
+    "description": "The label for category 跳转小程序 in sidebar API"
+  },
+  "sidebar.API.category.设置": {
+    "message": "设置",
+    "description": "The label for category 设置 in sidebar API"
+  },
+  "sidebar.API.category.用户信息": {
+    "message": "用户信息",
+    "description": "The label for category 用户信息 in sidebar API"
+  },
+  "sidebar.API.category.微信运动": {
+    "message": "微信运动",
+    "description": "The label for category 微信运动 in sidebar API"
+  },
+  "sidebar.API.category.数据缓存": {
+    "message": "数据缓存",
+    "description": "The label for category 数据缓存 in sidebar API"
+  },
+  "sidebar.API.category.更新": {
+    "message": "更新",
+    "description": "The label for category 更新 in sidebar API"
+  }
+}

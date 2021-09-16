@@ -6,6 +6,8 @@
  */
 
 import React from "react";
+import Translate from '@docusaurus/Translate';
+
 
 function Footer() {
   return (
@@ -17,7 +19,11 @@ function Footer() {
         </div>
         <div className="footer_link_container">
           <div className="footer_link">
-            <h3 className="footer_link_tit footer_link_tit1">相关资源</h3>
+            <h3 className="footer_link_tit footer_link_tit1"> 
+              <Translate description="The homepage main heading">
+               相关资源
+              </Translate>
+            </h3>
             <p>
               <a className="link" href="https://taro.jd.com/" target="_blank">
                 Taro
@@ -57,7 +63,11 @@ function Footer() {
             </p>
           </div>
           <div className="footer_link">
-            <h3 className="footer_link_tit footer_link_tit2">社区</h3>
+            <h3 className="footer_link_tit footer_link_tit2">
+              <Translate description="The footer content">
+               社区
+              </Translate>
+            </h3>
             <p>
               <a href="https://github.com/NervJS/taro/issues" target="_blank">
                 GitHub
@@ -70,7 +80,9 @@ function Footer() {
             </p>
             <p className="footer_link_connect_wrap">
               <span className="footer_link_connect footer_link_wechat">
-                微信
+                <Translate description="The footer content">
+                 微信
+                </Translate>
                 <span className="wechat_qrcode_icon">
                   <svg
                     t="1554966525626"
@@ -110,28 +122,44 @@ function Footer() {
             </p>
           </div>
           <div className="footer_link">
-            <h3 className="footer_link_tit footer_link_tit3">关于我们</h3>
+            <h3 className="footer_link_tit footer_link_tit3">
+              <Translate description="The footer content">
+               关于我们
+              </Translate>
+            </h3>
             <p>
               <a href="https://aotu.io/" target="_blank">
-                凹凸实验室
+              <Translate description="The footer content">
+               凹凸实验室
+              </Translate>
               </a>
             </p>
             <p>
               <a href="https://aotu.io/join/" target="_blank">
-                加入我们
+              <Translate description="The footer content">
+               加入我们
+              </Translate>
               </a>
             </p>
             <p>
               <a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">
-                联系我们
+              <Translate description="The footer content">
+               联系我们
+              </Translate>
               </a>
             </p>
           </div>
           <div className="footer_link">
-            <h3 className="footer_link_tit footer_link_tit4">感谢</h3>
+            <h3 className="footer_link_tit footer_link_tit4">
+              <Translate description="The footer content">
+               感谢
+              </Translate>
+            </h3>
             <p>
               <a href="http://jdc.jd.com/" target="_blank">
-                用户体验设计部
+              <Translate description="The footer content">
+               用户体验设计部
+              </Translate>
               </a>
             </p>
             <p>
@@ -139,7 +167,9 @@ function Footer() {
                 href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC"
                 target="_blank"
               >
-                Taro 贡献者们
+                <Translate description="The footer content">
+                  Taro 贡献者们
+                </Translate>
               </a>
             </p>
           </div>
