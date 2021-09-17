@@ -85,6 +85,7 @@ export default (ctx: IPluginContext, options: IOptions) => {
   })
   // 修改 H5 postcss options
   ctx.modifyRunnerOpts(({ opts }) => {
+    if (!opts?.platform) return
     modifyPostcssConfigs(opts, options, opts.platform === 'h5')
   })
 }
