@@ -1,0 +1,303 @@
+---
+title: Taro Uses Native Modules
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import { VueIcon, ReactIcon } from './guides/index'
+
+aro supports the use of **pages**, **components** and **plugins** that are native to the mini program.
+
+#### Sample Project
+
+1. React：https://github.com/NervJS/taro-sample-weapp/tree/next
+2. Vue：https://github.com/NervJS/taro-sample-weapp/tree/vue
+
+> Note: If pages, components and plugins native to the mini program are referenced in the Taro project, the project will **no longer have the ability to convert to multiple ends**.
+> For example, if the native components of WeChat mini programs are used, then the project can only be converted to WeChat mini programs, escaping to other platforms will fail, same for using other mini program native components.
+
+## Using Native components
+
+### Usage
+
+#### 1. Configure the `usingComponents` property in the app or page configuration file.
+
+```js title="page.config.js"
+export default {
+  usingComponents: {
+    // Define the third-party components to be introduced
+    // 1. the key value specifies the name of the third-party component, starting with lowercase
+    // 2. value specifies the relative path to the js file of the third-party component
+    'ec-canvas': '../../components/ec-canvas/ec-canvas'
+  }
+}
+```
+
+> Note: Taro3 components do not have profiles, so usingComponents must be configured in the "page" profile.
+
+#### 2. Using Component
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label:  <ReactIcon />, value: 'React'},
+    {label: <VueIcon />, value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
+```jsx
+import React, { Component } from 'react'
+import { View } from '@tarojs/components'
+
+export default class Index extends Component {
+  this.state = {
+    ec: {
+      onInit: function () {}
+    }
+  }
+
+  render () {
+    return (
+      <View>
+        <ec-canvas id='mychart-dom-area' canvas-id='mychart-area' ec={this.state.ec} />
+      </View>
+    )
+  }
+}
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <view class='echarts'>
+    <ec-canvas id='mychart-dom-area' canvas-id='mychart-area' :ec="ec"></ec-canvas>
+  </view>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      ec: {
+        onInit: function () {}
+      }
+    }
+  }
+}
+</script>
+```
+
+</TabItem>
+</Tabs>
+
+### Property Binding
+
+The attribute names remain consistent with the native syntax.
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label:  <ReactIcon />, value: 'React'},
+    {label: <VueIcon />, value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
+```jsx
+<van-button type='primary' loading loading-text='ing'>Button</van-button>
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<van-button type='primary' :loading='true' loading-text='ing'>Button</van-button>
+```
+
+</TabItem>
+</Tabs>
+
+> Note: In Vue, if some properties of a component have the default value `true`, they still need to be **explicitly set to true** when used in Taro.
+
+### Event Binding
+
+Event binding in `React` requires a **hump form** starting with `on` (instead of `bind` in the native binding syntax).
+
+The event binding of `Vue` is written in the same way as the native one.
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label:  <ReactIcon />, value: 'React'},
+    {label: <VueIcon />, value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
+```jsx
+// Corresponding to bind:click Event
+<van-button type='primary' onClick={this.handleClick} >Button</van-button>
+// Corresponding to bind:after-read Event
+<van-uploader fileList={[]} onAfterRead={this.onAfterRead} />
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<!-- Corresponding to bind:click Event -->
+<van-button type='primary' @click='handleClick'>Button</van-button>
+<!-- Corresponding to bind:after-read Event -->
+<van-uploader :fileList='[]' @after-read='onAfterRead' />
+```
+
+</TabItem>
+</Tabs>
+
+### Using Slot
+
+This is implemented in `React` using the `<Slot>` component.
+
+Implemented in `Vue` using the `<slot-view>` component
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label:  <ReactIcon />, value: 'React'},
+    {label: <VueIcon />, value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
+```jsx
+import React, { Component } from 'react'
+import { View, Slot } from '@tarojs/components'
+
+export default class Index extends Component {
+  render () {
+    return (
+      <View>
+        <van-calendar poppable show>
+          <Slot name='title'>
+            <View>Hello world</View>
+          </Slot>
+        </van-calendar>
+      </View>
+    )
+  }
+}
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <view>
+    <van-calendar :poppable='true' :show='true'>
+      <slot-view :name='"title"'>
+        <view>Hello world</view>
+      </slot-view>
+    </van-calendar>
+  </view>
+</template>
+
+<script>
+export default {
+  name: 'index'
+}
+</script>
+```
+
+</TabItem>
+</Tabs>
+
+### selectComponent
+
+You can use the `selectComponent` API of the mini program page instance to get an instance of a third-party native component.
+
+```js
+import { getCurrentInstance } from '@tarojs/taro'
+
+const { page } = getCurrentInstance()
+page.selectComponent('#mychart-dom-area')
+```
+
+### Using vant-weapp
+
+[Detail Documentation](./vant)
+
+## Using Native Pages
+
+Just set up the routing of the native page in the app configuration.
+
+```js title="app.config.js"
+export default {
+  pages: [
+    'pages/native/native'
+  ]
+}
+```
+
+## Using the Mini-program plugin
+
+### Add Plugin
+
+Before using the plugin, the user has to declare the plugin to be used in the configuration of `app.confg.js`, for example
+
+```js title="app.config.js"
+export default {
+  plugins: {
+    myPlugin: {
+      version: '1.0.0',
+      provider: 'wxidxxxxxxxxxxxxxxxx'
+    }
+  }
+}
+```
+
+As shown in the example above, the `plugins` definition segment can contain multiple plugin declarations, each identified by a user-defined plugin reference name and specifying the plugin's `appid` and the version number to be used. The reference name (e.g. myPlugin in the above example) is user-defined and does not need to be consistent with or coordinated with the plugin developer. This reference name will be used to represent the plugin in subsequent uses of the plugin.
+
+### Using Plugin Components
+
+To use a custom component provided by a plugin, similar to the "introduce third-party components" approach described above, use the `plugin://` protocol to specify the reference name of the plugin and the name of the custom component when defining the custom component to be introduced in the configuration of the page or component, eg:
+
+```js
+export default {
+  // Defining the plugins to be introduced
+  usingComponents: {
+    'hello-component': 'plugin://myPlugin/hello-component'
+  }
+}
+```
+
+For the protection of plugins, the custom components provided by plugins are subject to certain restrictions on their use.
+
+- (a) By default, the `this.$scope.selectComponent` interface on the page cannot obtain the custom component instance object of the plugin.
+- The `>>>` selectors of interfaces such as `Taro.createSelectorQuery` cannot be selected inside the plugin.
+
+### Using The Plugin Page
+
+The plugin's pages are supported from mini program base library version 2.1.0.
+
+When you need to jump to the plugin page, the url is prefixed with `plugin://`, e.g. `plugin://PLUGIN_NAME//PLUGIN_PAGE`, eg:
+
+```jsx
+<Navigator url='plugin://myPlugin/hello-page'>
+  Go to pages/hello-page!
+</Navigator>
+```
+
+### Using The Js Interface
+
+When using the `js` interface of a plugin, you can use the `Taro.requirePlugin` method. For example, if the plugin provides a method named `hello` and a variable named `world`, it can be called like this.
+
+```js
+const myPluginInterface = requirePlugin('myPlugin')
+const myWorld = myPluginInterface.world
+
+myPluginInterface.hello()
+```
