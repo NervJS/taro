@@ -706,9 +706,9 @@ require(\\"./taro\\");
             var patchNeedPromiseApis = config.needPromiseApis || [];
             var _needPromiseApis = new Set([].concat(_toConsumableArray(patchNeedPromiseApis), _toConsumableArray(needPromiseApis)));
             var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
-            var apis = new Set(Object.keys(global).filter((function(api) {
+            var apis = new Set(!config.isOnlyPromisify ? Object.keys(global).filter((function(api) {
                 return preserved.indexOf(api) === -1;
-            })));
+            })) : new Set(patchNeedPromiseApis));
             if (config.modifyApis) {
                 config.modifyApis(apis);
             }
@@ -779,7 +779,7 @@ require(\\"./taro\\");
                         }
                         return p;
                     };
-                } else if (!config.isOnlyPromisify) {
+                } else {
                     var platformKey = key;
                     if (config.transformMeta) {
                         platformKey = config.transformMeta(key, {}).key;
@@ -3287,9 +3287,9 @@ require(\\"./taro\\");
             var patchNeedPromiseApis = config.needPromiseApis || [];
             var _needPromiseApis = new Set([].concat(_toConsumableArray(patchNeedPromiseApis), _toConsumableArray(needPromiseApis)));
             var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
-            var apis = new Set(Object.keys(global).filter((function(api) {
+            var apis = new Set(!config.isOnlyPromisify ? Object.keys(global).filter((function(api) {
                 return preserved.indexOf(api) === -1;
-            })));
+            })) : new Set(patchNeedPromiseApis));
             if (config.modifyApis) {
                 config.modifyApis(apis);
             }
@@ -3360,7 +3360,7 @@ require(\\"./taro\\");
                         }
                         return p;
                     };
-                } else if (!config.isOnlyPromisify) {
+                } else {
                     var platformKey = key;
                     if (config.transformMeta) {
                         platformKey = config.transformMeta(key, {}).key;
@@ -5692,9 +5692,9 @@ require(\\"./taro\\");
             var patchNeedPromiseApis = config.needPromiseApis || [];
             var _needPromiseApis = new Set([].concat(_toConsumableArray(patchNeedPromiseApis), _toConsumableArray(needPromiseApis)));
             var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
-            var apis = new Set(Object.keys(global).filter((function(api) {
+            var apis = new Set(!config.isOnlyPromisify ? Object.keys(global).filter((function(api) {
                 return preserved.indexOf(api) === -1;
-            })));
+            })) : new Set(patchNeedPromiseApis));
             if (config.modifyApis) {
                 config.modifyApis(apis);
             }
@@ -5765,7 +5765,7 @@ require(\\"./taro\\");
                         }
                         return p;
                     };
-                } else if (!config.isOnlyPromisify) {
+                } else {
                     var platformKey = key;
                     if (config.transformMeta) {
                         platformKey = config.transformMeta(key, {}).key;
