@@ -11,6 +11,7 @@ export class Canvas implements ComponentInterface {
   private timer: NodeJS.Timeout
 
   @Prop() canvasId: string
+  @Prop() nativeProps = {}
 
   @Element() el: HTMLElement
 
@@ -35,7 +36,7 @@ export class Canvas implements ComponentInterface {
   }
 
   render () {
-    const { canvasId } = this
+    const { canvasId, nativeProps } = this
 
     return (
       <canvas
@@ -47,6 +48,7 @@ export class Canvas implements ComponentInterface {
         onTouchStart={this.onTouchStart}
         onTouchMove={this.onTouchMove}
         onTouchEnd={this.onTouchEnd}
+        {...nativeProps}
       />
     )
   }

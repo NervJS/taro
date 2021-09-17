@@ -12,6 +12,7 @@ export class Audio implements ComponentInterface {
   @Prop() autoplay = false
   @Prop() loop = false
   @Prop() muted = false
+  @Prop() nativeProps = {}
 
   @Event({
     eventName: 'error'
@@ -73,7 +74,8 @@ export class Audio implements ComponentInterface {
       controls,
       autoplay,
       loop,
-      muted
+      muted,
+      nativeProps
     } = this
     return (
       <audio
@@ -83,6 +85,7 @@ export class Audio implements ComponentInterface {
         loop={loop}
         muted={muted}
         ref={audio => { this.audio = audio as HTMLAudioElement }}
+        {...nativeProps}
       />
     )
   }
