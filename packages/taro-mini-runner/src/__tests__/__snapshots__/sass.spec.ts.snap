@@ -2102,7 +2102,7 @@ require(\\"./taro\\");
 <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 
 /** filePath: dist/pages/index/index.wxss **/
-.index{width:100%}.index .list{display:flex}.index .list .list-item{width:20rpx}
+.index{width:100%}.index .list{display:-ms-flexbox;display:flex}.index .list .list-item{width:20rpx}
 
 /** filePath: dist/runtime.js **/
 (function(modules) {
@@ -4508,7 +4508,7 @@ require(\\"./taro\\");
 <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 
 /** filePath: dist/pages/index/index.wxss **/
-.body{background-color:red}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:20rpx}
+.body{background-color:red}.index{width:100%}.index .list{display:-ms-flexbox;display:flex}.index .list .list-item{width:20rpx}
 
 /** filePath: dist/runtime.js **/
 (function(modules) {
@@ -6914,7 +6914,7 @@ require(\\"./taro\\");
 <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 
 /** filePath: dist/pages/index/index.wxss **/
-.body{background-color:#00f}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:20rpx}
+.body{background-color:#00f}.index{width:100%}.index .list{display:-ms-flexbox;display:flex}.index .list .list-item{width:20rpx}
 
 /** filePath: dist/runtime.js **/
 (function(modules) {
@@ -9320,7 +9320,7 @@ require(\\"./taro\\");
 <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 
 /** filePath: dist/pages/index/index.wxss **/
-.body{background-color:#00f}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:20rpx}
+.body{background-color:#00f}.index{width:100%}.index .list{display:-ms-flexbox;display:flex}.index .list .list-item{width:20rpx}
 
 /** filePath: dist/runtime.js **/
 (function(modules) {
