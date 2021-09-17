@@ -659,7 +659,7 @@ require(\\"./taro\\");
             const patchNeedPromiseApis = config.needPromiseApis || [];
             const _needPromiseApis = new Set([ ...patchNeedPromiseApis, ...needPromiseApis ]);
             const preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
-            const apis = new Set(Object.keys(global).filter(api => preserved.indexOf(api) === -1));
+            const apis = new Set(!config.isOnlyPromisify ? Object.keys(global).filter(api => preserved.indexOf(api) === -1) : new Set(patchNeedPromiseApis));
             if (config.modifyApis) {
                 config.modifyApis(apis);
             }
