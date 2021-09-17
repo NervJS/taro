@@ -1,0 +1,107 @@
+---
+title: Router
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import { VueIcon, ReactIcon } from './guides/index'
+
+This article will introduce how to configure routes, implement route jumping and pass parameters in Taro.
+
+## Routing Configuration
+
+Taro follows the routing specification of the WeChat mini program. Simply modify the [pages](app-config#pages) attribute of the global configuration and configure it as the path to each page in the Taro app.
+
+> Taro does not implement the browser's history API, so it cannot use routing libraries such as react-router, vue-router, etc.
+
+## Routing Jump
+
+You can use the API provided by Taro to jump to the destination page. For detailed usage of the routing API, see the [navigation](./apis/route/navigateTo) section of the API documentation.
+
+```jsx title="Example code"
+// Jump to the destination page and open a new page
+Taro.navigateTo({
+  url: '/pages/page/path/name'
+})
+
+// Jump to the destination page and open on the current page
+Taro.redirectTo({
+  url: '/pages/page/path/name'
+})
+```
+
+### Routing of parameters
+
+Jumps can be passed by adding query string parameters to all jumps after the `url`, eg.
+
+```jsx
+// Pass in the parameter id=2&type=test
+Taro.navigateTo({
+  url: '/pages/page/path/name?id=2&type=test'
+})
+```
+
+### Get route parameters
+
+After a successful jump, the routing parameters can be obtained in the **lifecycle** method of the target page via `Taro.getCurrentInstance().router.params`.
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label:  <ReactIcon />, value: 'React'},
+    {label: <VueIcon />, value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
+```jsx title="Example code"
+import React, { Component } from 'react'
+import { View } from '@tarojs/components'
+
+class Index extends Component {
+  // It is recommended that the result of getCurrentInstance() be saved for later use during page initialization.
+  // Instead of calling this API frequently
+  $instance = getCurrentInstance()
+
+  componentDidMount () {
+    // Get route parameters
+    console.log($instance.router.params) // 输出 { id: 2, type: 'test' }
+  }
+
+  render () {
+    return (
+      <View className='index' />
+    )
+  }
+}
+
+export default Index
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html title="Example code"
+<template>
+  <view className='index' />
+</template>
+
+<script>
+import Taro from '@tarojs/taro'
+
+export default {
+  created () {
+    // It is recommended that the result of getCurrentInstance() be saved for later use during page initialization.
+    // Instead of calling this API frequently
+    this.$instance = Taro.getCurrentInstance()
+  },
+  mounted () {
+    // Get route parameters
+    console.log(this.$instance.router.params) // output { id: 2, type: 'test' }
+  }
+}
+</script>
+```
+
+</TabItem>
+</Tabs>

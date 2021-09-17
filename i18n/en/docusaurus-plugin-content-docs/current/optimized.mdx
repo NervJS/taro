@@ -1,0 +1,290 @@
+---
+title: Mini Program Performance Optimization Guide
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import { VueIcon, ReactIcon } from './guides/index'
+
+Compared to Taro 1/2, Taro 3 is a runtime-heavy, compile-time framework with some performance loss. Therefore, Taro 3 provides a series of performance optimizations to improve the performance of Taro 3 applications.
+
+## Optimize update performance
+
+> This optimization has proven to significantly reduce update lag in Taro3, especially on low-end machines.
+
+Taro3 uses the mini program's `template` for rendering and does not normally use native custom components. This leads to the problem that all `setData` updates are called from the page object, and if we have a complex page structure, the performance of the updates will be degraded.
+
+The data structure of `setData` when the hierarchy is too deep.
+
+```js
+page.setData({
+  "root.cn.[0].cn.[0].cn.[0].cn.[0].markers": []
+})
+```
+
+The main idea for this problem is to **borrow the native custom component of the mini program to achieve a local update effect**, thus improving the update performance.
+
+Desired `setData` data structure.
+
+```js
+component.setData({
+  "cn.[0].cn.[0].markers": []
+})
+```
+
+There are two ways for developers to implement this optimization.
+
+### 1. Global configuration item baseLevel
+
+For mini program that do not support template recursion (WeChat, QQ, Jingdong mini-program), Taro will use native custom components to assist recursion after the DOM level reaches a certain number.
+
+The simple understanding is that after the DOM structure exceeds N levels, the native custom component will be used for rendering. N is 16 levels by default, and can be changed by modifying the configuration item [baseLevel](https://taro-docs.jd.com/taro/docs/next/config-detail#minibaselevel) to modify N.
+
+Setting `baseLevel` to `8` or even `4` layers can be very effective in improving performance during updates. However, the setting is global and can cause several problems.
+
+1. `flex` layouts will fail across native custom components, which is one of the most impactful issues.
+2. The [descendant selector across custom components](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.select.html) of the `SelectorQuery.select` method needs to be written Add `>>>`: `.the-ancestor >>> .the-descendant`
+
+### 2. CustomWrapper Component
+
+To solve the problem of inflexible global configuration, we have added a base component `CustomWrapper`. Its role is to create a native custom component from which the `setData` of the descendant nodes will be called to achieve a local update effect.
+
+Developers can use it to **wrap modules that are experiencing update performance issues** and improve performance when updating. Because the `CustomWrapper` component needs to be used manually, developers can be aware that "this layer uses a custom component and needs to avoid two problems with custom components".
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label:  <ReactIcon />, value: 'React'},
+    {label: <VueIcon />, value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
+```jsx title="Sample code"
+import { View, Text } from '@tarojs/components'
+
+export default function () {
+  return (
+    <View className='index'>
+      <Text>Demo</Text>
+      <CustomWrapper>
+        <GoodsList />
+      </CustomWrapper>
+    </View>
+  )
+}
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html title="Sample code"
+<template>
+  <view class="index">
+    <text>Demo</text>
+    <custom-wrapper>
+      <GoodsList />
+    </custom-wrapper>
+  </view>
+</template>
+
+<script>
+import GoodsList from '@/components/goods-list'
+
+export default {
+  components: {
+    GoodsList
+  }
+}
+</script>
+```
+
+</TabItem>
+</Tabs>
+
+## Optimize initial rendering performance
+
+> Usually it is not necessary to turn on, please use it according to the actual situation.
+
+When the amount of data rendered at first time is very large, it may cause the page to be white screened for some time. Therefore, Taro provides [prerender] function to solve this problem.
+
+## Optimize long list performance
+
+For long list scenarios, Taro provides the [VirtualList](virtual-list) component to help developers optimize.
+
+It **rends only the components in the currently visible area**, and the components in the non-visible area will be rendered after the user scrolls to the visible area, thus reducing the number of components actually rendered and optimizing the rendering performance.
+
+## Jump Preload
+
+> The componentWillPreload hook provided in Taro 1 / 2 is deprecated in Taro 3.
+
+In the mini program, there is a delay from calling the routing jump API such as `Taro.navigateTo` to triggering `onLoad` on the mini program page, so some network requests can be advanced to the moment before the jump is initiated.
+
+Taro 3 provides the `Tato.preload` API, which allows you to pass the content to be preloaded as a parameter, and then get the preloaded content after the new page is loaded via `Taro.getCurrentInstance().preloadData`.
+
+Example:
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label:  <ReactIcon />, value: 'React'},
+    {label: <VueIcon />, value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
+```jsx title="Sample code"
+// A Page
+// Before calling the jump method use Taro.preload
+Taro.preload(fetchSomething())
+Taro.navigateTo({ url: '/pages/B/B' })
+
+// B Page
+componentWillMount () {
+  console.log(Taro.getCurrentInstance().preloadData)
+}
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```js title="Sample code"
+// A Page
+// Before calling the jump method use Taro.preload
+Taro.preload(fetchSomething())
+Taro.navigateTo({ url: '/pages/B/B' })
+
+// B 页面
+mounted () {
+  console.log(Taro.getCurrentInstance().preloadData)
+}
+```
+
+</TabItem>
+</Tabs>
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label:  <ReactIcon />, value: 'React'},
+    {label: <VueIcon />, value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
+```jsx title="示例代码（用法二）"
+// A 页面
+Taro.preload('x', 1)
+Taro.navigateTo({ url: '/pages/B/B' })
+
+// B 页面
+componentWillMount () {
+  console.log(Taro.getCurrentInstance().preloadData)
+}
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```js title="Sample code"
+// A Page
+Taro.preload('x', 1)
+Taro.navigateTo({ url: '/pages/B/B' })
+
+// B Page
+mounted () {
+  console.log(Taro.getCurrentInstance().preloadData)
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Writing Best Practices
+
+Two factors that have a significant impact on the performance of the mini program are the **amount of data** in `setData` and the **number of calls** to the `setData` function per unit time.
+
+Printing the `setData` data in the project will be very useful to help pinpoint the problem when performance issues are encountered. Developers can search to locate the location of the `.setData` call by going to the `dist/taro.js` file in the Taro project and then print the data.
+
+In Taro, a **batch** bundle update operation is done on `setData`, so more often than not, only the size of the **setData data** needs to be considered.
+
+The following is our list of writing issues that developers need to be aware of
+
+### 1. Deleting floor nodes should be handled with care
+
+Suppose there is such a structure.
+
+```jsx
+<View>
+  <!-- Rotation -->
+  <Slider />
+  <Goods />
+  <!-- Modal -->
+  {isShowModal && <Modal />}
+</View>
+```
+
+Taro3's current handling of node deletion is flawed. When `isShowModal` changes from `true` to `false`, the modal popup disappears. At this point, the `Modal` component's sibling nodes are updated, and the `setData` data is the DOM node information for the `Slider` + `Goods` components.
+
+In general, the impact is not too great and the developer does not need to be mentally burdened by it. However, if the DOM structure of the sibling node to be deleted is very complex, such as a floor component, the side effect of the delete operation will result in a large amount of `setData` data, which will affect performance.
+
+##### Solution
+
+We can currently isolate the delete operation by optimizing it in this way.
+
+```jsx
+<View>
+  <!-- Rotation -->
+  <Slider />
+  <Goods />
+  <!-- Modal -->
+  <View>
+    {isShowModal && <Modal />}
+  </View>
+</View>
+```
+
+> We are optimizing the algorithm for deleting nodes to completely circumvent this unnecessary setData, which was released in v3.1.
+
+### 2. The properties of the base component are to remain referenced
+
+> React
+
+Assuming that the values of the properties of the base components (such as `View`, `Input`, etc.) are non-basic types, try to keep the object references.
+
+Assume the following writing style：
+
+```jsx
+<Map
+  latitude={22.53332}
+  longitude={113.93041}
+  markers={[{
+    latitude: 22.53332,
+    longitude: 113.93041
+  }]}
+/>
+```
+
+Every time we render, React does a shallow comparison of the properties of the base component, and when we find that the reference to `markers` is different, we will update the component properties. This results in more `setData` and more `setData` data.
+
+#### Solution:
+
+References to objects can be maintained by means of `state`, closures, etc.
+
+```jsx
+<Map
+  latitude={22.53332}
+  longitude={113.93041}
+  markers={this.state.markers}
+/>
+```
+
+### 3. Do not mount additional properties on the base component
+
+Basic components (such as `View`, `Input`, etc.) that set non-standard properties are currently `setData` along with these additional properties, which are not actually ignored by the mini program, so this part of `setData` is redundant.
+
+For example, the standard properties of the `Text` component are `selectable`, `user-select`, `space `, `decode`. If we set an additional property `something` for it, then this additional property will also be setData.
+
+```jsx
+<Text something='extra' />
+```

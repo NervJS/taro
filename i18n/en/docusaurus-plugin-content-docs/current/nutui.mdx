@@ -1,0 +1,134 @@
+---
+title: Using NutUI Jingdong Style Component Library
+---
+
+
+> Note: NutUI must currently be developed using **taro version 3.x + vue3** technology stack.
+
+In order to provide developers with a more efficient and convenient way to develop, Taro and NutUI have joined forces and are now available with [NutUI](https://nutui.jd.com/#/starttaro) to develop mini program，[NutUI](https://nutui.jd.com/#/starttaro) provides 30+ components covering most of the components used in daily business development。
+
+Taro3 supports development using the [NutUI](https://nutui.jd.com/#/starttaro) component library, sample repository: [taro3-nutui](https://github.com/jdf2e/nutui-demo/tree/master/taro)。
+
+## Preview Experience
+
+<img src="https://img12.360buyimg.com/imagetools/jfs/t1/162421/39/13392/9425/6052ea60E592310a9/264bdff23ef5fe95.png" width="200" alt="NutUI" />
+<img src="https://storage.360buyimg.com/jdc-article/gh_f2231eb941be_258.jpg" width="200" alt="NutUI" />
+
+## How to Use
+
+
+### Installation
+
+* Use Npm or Yarn Install
+
+#### Install Taro cli
+
+``` bash
+# use npm install CLI
+npm install -g @tarojs/cli
+
+# OR use yarn install CLI
+yarn global add @tarojs/cli
+
+# OR installed cnpm，use cnpm install CLI
+cnpm install -g @tarojs/cli
+```
+
+> It is worth mentioning that if the installation process results in sass-related installation errors, please retry after installing mirror-config-china.
+
+``` bash
+npm install -g mirror-config-china
+```
+
+### Check if the installation is successful
+
+``` bash
+taro -v
+```
+
+### Project initialization
+
+Use the command to create a template:
+
+``` bash
+taro init myApp
+```
+
+#### Select the Vue3 + NutUI template according to the image below in order
+
+<img src="https://storage.360buyimg.com/jdc-article/taro.jpg" />
+
+### NPM Usage examples
+
+```javascript
+import { createApp } from "vue";
+import App from "./App.vue";
+import NutUI from "@nutui/nutui-taro";
+import "@nutui/nutui-taro/dist/style.css";
+createApp(App).use(NutUI);
+```
+
+> Note: This method will import all components
+
+### Recommended to use load-on-demand
+
+```javascript
+import { createApp } from "vue";
+import App from "./App.vue";
+import { Button, Cell, Icon } from "@nutui/nutui-taro";
+import "@nutui/nutui-taro/dist/style.css";
+createApp(App).use(Button).use(Cell).use(Icon);
+```
+
+
+### Customized theme usage
+
+#### First you need to configure the **app.ts** file to use scss style files such as
+
+```javascript
+import { createApp } from "vue";
+import App from "./App.vue";
+import { Button, Cell, Icon } from "@nutui/nutui-taro";
+// Customized themes must use scss 
+import '@nutui/nutui-taro/dist/styles/themes/default.scss';
+createApp(App).use(Button).use(Cell).use(Icon);
+```
+
+#### Create custom theme style files ```assets/styles/custom_theme.scss``` ，Style variable override table reference [nutui variables](https://github.com/jdf2e/nutui/blob/next/src/packages/styles/variables.scss)
+
+```custom_theme.scss```
+``` scss
+$primary-color: #478EF2;
+$primary-color-end: #496AF2;
+```
+
+
+
+#### The scss file then needs to be configured in the **config/index.js** file to globally override e.g:
+
+``` javascript
+const path = require('path');
+const config = {
+  deviceRatio: {
+    640: 2.34 / 2,
+    750: 1,
+    828: 1.81 / 2,
+    375: 2 / 1
+  },
+  sass: {
+		resource: [
+			path.resolve(__dirname, '..', 'src/assets/styles/custom_theme.scss')
+		]
+	},
+  // ...
+```
+
+####  Use in vue files to see the effect
+
+``` html
+<template>
+  <view>
+      <nut-button type="primary" >nutui</nut-button>
+  </view>
+</template>
+```

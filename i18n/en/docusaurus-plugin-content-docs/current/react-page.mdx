@@ -1,0 +1,463 @@
+---
+title: Page Components
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import { VueIcon, ReactIcon } from './guides/index'
+
+Every Taro application includes at least one page component, which can jump through Taro routes and also access the lifecycle of the mini program page.
+
+## Example Code
+
+<Tabs
+  defaultValue="class"
+  values={[
+    {label: 'Class Component', value: 'class'},
+    {label: 'Functional Component', value: 'functional'}
+  ]}>
+<TabItem value="class">
+
+```jsx title="page.js"
+import React, { Component } from 'react'
+import { View } from '@tarojs/components'
+
+class Index extends Component {
+  // All React component methods can be used
+  componentDidMount () {}
+
+  // onLoad
+  onLoad () {}
+
+  // onReady
+  onReady () {}
+
+  // onShow
+  componentDidShow () {}
+
+  // onHide
+  componentDidHide () {}
+
+  // onPullDownRefresh，except for componentDidShow/componentDidHide
+  // All page lifecycle function names correspond to mini program
+  onPullDownRefresh () {}
+
+  render () {
+    return (
+      <View className='index' />
+    )
+  }
+}
+
+export default Index
+```
+
+</TabItem>
+
+<TabItem value="functional">
+
+```jsx  title="page.js"
+import React, { useEffect } from 'react'
+import { View } from '@tarojs/components'
+import {
+  useReady,
+  useDidShow,
+  useDidHide,
+  usePullDownRefresh
+} from '@tarojs/taro'
+
+function Index () {
+  // All React Hooks can be used
+  useEffect(() => {})
+
+  // onReady
+  useReady(() => {})
+
+  // onShow
+  useDidShow(() => {})
+
+  // onHide
+  useDidHide(() => {})
+
+  // Taro implements custom React Hooks for all mini program page lifecycles to support
+  usePullDownRefresh(() => {})
+
+  return (
+    <View className='index' />
+  )
+}
+
+export default Index
+```
+
+</TabItem>
+</Tabs>
+
+
+## Page component configuration
+
+Please refer to the [page configuration](./page-config)
+
+## Lifecycle
+
+In addition to supporting React's lifecycle methods, page components additionally support the following lifecycles, in accordance with mini program standards.
+
+### onLoad (options)
+
+> `onLoad` of the corresponding page in the mini program.
+
+Page routing parameters can be accessed during this lifecycle by accessing the `options` parameter or by calling `getCurrentInstance().router`.
+
+### onReady ()
+
+> `onReady` of the corresponding page in the mini program.
+
+This lifecycle begins with access to the DOM nodes of the mini program rendering layer using APIs such as `createCanvasContext` or `createSelectorQuery`.
+
+#### The onReady of the child component
+
+The `onReady` lifecycle is only triggered for page components.
+Child components can use Taro's built-in [Message System](./apis/about/events) to listen to the `onReady()` lifecycle of the page component.
+
+```jsx title="A child component in a page"
+import React from 'react'
+import { View } from '@tarojs/components'
+import Taro, { eventCenter, getCurrentInstance } from '@tarojs/taro'
+
+class Test extends React.Component {
+  $instance = getCurrentInstance()
+
+  componentWillMount () {
+    const onReadyEventId = this.$instance.router.onReady
+    eventCenter.once(onReadyEventId, () => {
+      console.log('onReady')
+
+      // onReady is triggered to get the node of the rendering layer of the mini program
+      Taro.createSelectorQuery().select('#only')
+        .boundingClientRect()
+        .exec(res => console.log(res, 'res'))
+    })
+  }
+
+  render () {
+    return (
+      <View id="only">
+      </View>
+    )
+  }
+}
+```
+But when the child component is **load-on-demand**, the page `onReady` has already been triggered. If this on-demand subcomponent needs to get the DOM node of the rendering layer of the mini program because it missed the page `onReady`, it can only try to simulate it using `Taro.nextTick`.
+
+```jsx title="Load-on-demand subcomponents"
+import React from 'react'
+import { View } from '@tarojs/components'
+import Taro from '@tarojs/taro'
+
+class Test extends React.Component {
+  componentDidMount () {
+    Taro.nextTick(() => {
+        // Use Taro.nextTick to simulate that setData has ended and the node has finished rendering      Taro.createSelectorQuery().select('#only')
+        .boundingClientRect()
+        .exec(res => console.log(res, 'res'))
+    })
+  }
+
+  render () {
+    return (
+      <View id="only" />
+    )
+  }
+}
+```
+
+### componentDidShow ()
+
+> `onShow` of the corresponding page in the mini program.
+
+Triggered when the page is displayed/entered in the foreground.
+
+
+#### The onShow of the Subcomponents
+
+The `onShow` lifecycle is only triggered for page components.
+Subcomponents can use Taro's built-in [message system](./apis/about/events) to listen to the `onShow()` lifecycle of the page component.
+
+```jsx title="A sub-component of the page"
+import React from 'react'
+import { View } from '@tarojs/components'
+import { eventCenter, getCurrentInstance } from '@tarojs/taro'
+
+class Test extends React.Component {
+  $instance = getCurrentInstance()
+
+  componentWillMount () {
+    const onShowEventId = this.$instance.router.onShow
+    eventCenter.on(onShowEventId, this.onShow)
+  }
+
+  componentWillUnmount () {
+    const onShowEventId = this.$instance.router.onShow
+    eventCenter.off(onShowEventId, this.onShow)
+  }
+
+  onShow = () => {
+    console.log('onShow')
+  }
+
+  render () {
+    return (
+      <View id="only" />
+    )
+  }
+}
+```
+
+### componentDidHide ()
+
+> `onHide` of the corresponding page in the mini program.
+
+Triggered when the page is hidden/entered in the background.
+
+#### The onHide of a subcomponent
+
+The `onHide` lifecycle is only triggered for page components.
+Subcomponents can use Taro's built-in [message system](./apis/about/events) to listen to the `onHide()` lifecycle of the page component.
+
+```jsx title="A sub-component of the page"
+import React from 'react'
+import { View } from '@tarojs/components'
+import { eventCenter, getCurrentInstance } from '@tarojs/taro'
+
+class Test extends React.Component {
+  $instance = getCurrentInstance()
+
+  componentWillMount () {
+    const onHideEventId = this.$instance.router.onHide
+    eventCenter.on(onHideEventId, this.onHide)
+  }
+
+  componentWillUnmount () {
+    const onHideEventId = this.$instance.router.onHide
+    eventCenter.off(onHideEventId, this.onHide)
+  }
+
+  onHide = () => {
+    console.log('onHide')
+  }
+
+  render () {
+    return (
+      <View id="only" />
+    )
+  }
+}
+```
+
+### onPullDownRefresh ()
+
+Listen to the user drop-down action.
+
+- You need to set it in the window option of the global configuration or in the page configuration
+`enablePullDownRefresh: true`.
+- The pull-down refresh can be triggered by [Taro.startPullDownRefresh](./apis/ui/pull-down-refresh/startPullDownRefresh.md), which triggers the pull-down refresh animation after the call, and the effect is the same as the user's manual pull-down refresh.
+- When the data has been processed and refreshed, [Taro.stopPullDownRefresh](./apis/ui/pull-down-refresh/stopPullDownRefresh.md) You can stop the drop-down refresh of the current page.
+
+### onReachBottom ()
+
+Listen to the user pull-up bottoming event.
+
+- The trigger distance can be set in the window option of the global configuration or in the page configuration  `onReachBottomDistance`。
+- This event will only be triggered once during the slide within the trigger distance
+
+> H5 does not have synchronization for now, you can simulate it by binding scroll events to window
+
+### onPageScroll (Object)
+
+Listening to user swipe page events
+
+> H5 does not have synchronization for now, you can simulate it by binding scroll events to window
+
+#### Parameters
+
+##### Object
+
+| Parameters | Type | Description |
+| - | - | - |
+| scrollTop | Number | The distance the page has scrolled in the vertical direction (unit: px)|
+
+
+### onAddToFavorites (Object)
+
+Listen to the user's click on the "Favorites" button in the upper-right corner of the menu and customize the contents of the favorites.
+
+> Supported by Taro 3.0.3 and above.
+> Only supported by WeChat mini program , this interface is Beta version, supported from Android version 7.0.15, only supported in Android platform for now.
+
+#### Parameters
+
+##### Object
+
+| Parameters | Type | Description |
+| - | - | - |
+| webviewUrl | String | If the page contains a web-view component, the url of the current web-view is returned |
+
+This event handler requires the return of an Object, which is used to customize the contents of the collection.
+
+| Fields | Description | Default |
+| - | - | - |
+| title	| Customized Title | Page title or account name |
+| imageUrl |Customize the image, displaying it with an aspect ratio of 1:1 | Page Screenshot |
+| query | Custom query fields | Current page query |
+
+#### Example Code
+
+```js title="page.js"
+onAddToFavorites (res) {
+  // webview  page return webviewUrl
+  console.log('WebviewUrl: ', res?.webviewUrl)
+  return {
+    title: 'custom title',
+    imageUrl: 'http://demo.png',
+    query: 'name=xxx&age=xxx',
+  }
+}
+```
+
+### onShareAppMessage (Object)
+
+Listen to the user's behavior when they click on the forward button (Button component openType='share') or the "Forward" button in the top-right menu, and customize the forwarding content.
+
+**Attention:**
+
+1. When `onShareAppMessage` is not triggered, please set `enableShareAppMessage: true` in the page config
+2. Only if this event handler is defined, the "Forward" button will be displayed in the upper right menu
+
+#### Parameters
+
+##### Object
+
+| Parameters | Type | Description |
+| - | - | - |
+| from | String | Forwarding event sources <br />button: In-page forwarding buttons. <br />menu: Top right corner forwarding menu |
+| target | Object |  If the `from` value is `button`, then `target` is the `button` that triggered the forwarding event, otherwise it is `undefined` |
+| webViewUrl | String | Returns the url of the current `WebView` if the page contains a `WebView` component |
+
+This event requires the return of an Object, which is used to customize the forwarding content, and returns the following:
+
+Custom forwarding content
+
+| Fields | Type | Description |
+| - | - | - |
+| title | Forwarding Title | Current mini program name |
+| path | Forwarding Title |  Current page path, must be a full path starting with / |
+| imageUrl | Custom image path, either local file path, package file path or network image path. Support PNG and JPG. Display image aspect ratio is 5:4  | Use default screenshot |
+
+#### Example Code
+
+```jsx title="page.js"
+export default class Index extends Component {
+  onShareAppMessage (res) {
+    if (res.from === 'button') {
+      // From the on-page forward button
+      console.log(res.target)
+    }
+    return {
+      title: 'Custom forwarding title',
+      path: '/page/user?id=123'
+    }
+  }
+}
+```
+
+```jsx title="page.config.js"
+export default {
+  // When `onShareAppMessage` is not triggered, you can try to configure this option
+  enableShareAppMessage: true
+}
+```
+
+### onShareTimeline ()
+
+Listen to the behavior of the "Share to moments" button in the top-right menu and customize the sharing content.
+
+> Taro version 3.0.3 and above support
+> Only WeChat mini program are supported, the base library 2.11.3 starts to support, this interface is a Beta version, only supported in Android platform for now
+
+**Attention:**
+
+1. When `onShareAppMessage` is not triggered, please set `enableShareAppMessage: true` in the page config
+2. Only if this event handler is defined, the "Forward" button will be displayed in the upper right menu
+
+#### Return Values
+
+The event handler function can return an Object for customizing the shared content, does not support custom page paths, and returns the following content.
+
+| Fields | Description | Defalut |
+| - | - | - |
+| title | Custom title | Current mini program name |
+| query | The parameters carried in the custom page path | The parameters carried in the current page path |
+| imageUrl | Custom image path, can be local file or network image. Support PNG and JPG, display image aspect ratio is 1:1. | default use mini program Logo  |
+
+#### Example Code
+
+```jsx title="page.js"
+class Index extends Component {
+  onShareAppMessage () {}
+  onShareTimeline () {
+    console.log('onShareTimeline')
+    return {}
+  }
+}
+```
+
+```jsx title="page.config.js"
+export default {
+  // When `onShareAppMessage` is not triggered, you can try to configure this option
+  enableShareAppMessage: true,
+  // When `onShareTimeline` is not triggered, you can try to configure this option
+  enableShareTimeline: true
+}
+```
+
+### onResize (Object)
+
+Triggered when the mini program screen is rotated. For details, see [Response to display area changes](https://developers.weixin.qq.com/miniprogram/dev/framework/view/resizable.html#%E5%9C%A8%E6%89%8B%E6%9C%BA%E4%B8%8A%E5%90%AF%E7%94%A8%E5%B1%8F%E5%B9%95%E6%97%8B%E8%BD%AC%E6%94%AF%E6%8C%81)。
+
+### onTabItemTap (Object)
+
+Triggered when the tab is clicked.
+
+#### Parameters
+
+##### Object
+
+| Parameters | Type | Description |
+| - | - | - |
+| index | String | The serial number of the clicked tabItem, starting from 0 |
+| pagePath | String | The path to the page where the tabItem was clicked |
+| text | String | The text of the clicked tabItem's button |
+
+### onTitleClick ()
+
+> Only Alipay mini program support
+
+Click on the title to trigger
+
+### onOptionMenuClick ()
+
+> Only Alipay mini program support
+
+Triggered by clicking on additional icons in the navigation bar
+
+### onPopMenuClick ()
+
+> Only Alipay mini program support
+
+No description yet
+
+### onPullIntercept ()
+
+> Only Alipay mini program support
+
+Triggered on dropdown truncation

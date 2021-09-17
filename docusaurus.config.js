@@ -32,6 +32,20 @@ const siteConfigGithub = {
       async: true
     },
   ],
+  i18n: {
+    defaultLocale: 'zh-cn',
+    locales: ['zh-cn', 'en'],
+    localeConfigs: {
+      en: {
+        label: 'English',
+        direction: 'ltr',
+      },
+      'zh-cn':{
+        label: '中文（中国）',
+        direction: 'ltr',
+      },
+    },
+  },
   themeConfig: {
     hideableSidebar: true,
     colorMode: {
@@ -60,6 +74,10 @@ const siteConfigGithub = {
         srcDark: 'img/logo-taro.png'
       },
       items: [
+        {
+          type: 'localeDropdown',
+          position: 'left',
+        },
         {
           type: 'docsVersionDropdown',
           position: 'left',
@@ -194,7 +212,8 @@ const siteConfigGithub = {
         docsSideNavCollapsible: true,
       }
     ],
-  ],
+  ]
+
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...
   //   repoUrl: 'https://github.com/facebook/test-site',
@@ -250,6 +269,10 @@ const siteConfigTaroZone = {
         srcDark: 'img/logo-taro.png'
       },
       items: [
+        {
+          type: 'localeDropdown',
+          position: 'left',
+        },
         {
           type: 'docsVersionDropdown',
           position: 'left',
