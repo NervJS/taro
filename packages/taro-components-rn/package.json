@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-rn",
-  "version": "3.3.3-zeta.4",
+  "version": "3.3.3",
   "description": "多端解决方案基础组件（RN）",
   "main": "./dist/index.js",
   "scripts": {
@@ -29,8 +29,8 @@
     "@ant-design/react-native": "^4.2.0",
     "@react-native-community/slider": "4.0.0-rc.3",
     "@react-native-picker/picker": "^1.16.4",
-    "@unimodules/core": "~7.1.2",
-    "@unimodules/react-native-adapter": "~6.3.7",
+    "@unimodules/core": "7.2.0-alpha.0",
+    "@unimodules/react-native-adapter": "6.5.0-alpha.0",
     "expo-asset": "^8.3.3",
     "expo-av": "~9.2.3",
     "expo-barcode-scanner": "~10.2.2",

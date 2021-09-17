@@ -2266,20 +2266,20 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@unimodules/core@~7.1.2":
-  version "7.1.2"
-  resolved "https://registry.yarnpkg.com/@unimodules/core/-/core-7.1.2.tgz#5181b99586476a5d87afd0958f26a04714c47fa1"
-  integrity sha512-lY+e2TAFuebD3vshHMIRqru3X4+k7Xkba4Wa7QsDBd+ex4c4N2dHAO61E2SrGD9+TRBD8w/o7mzK6ljbqRnbyg==
+"@unimodules/core@7.2.0-alpha.0":
+  version "7.2.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/@unimodules/core/-/core-7.2.0-alpha.0.tgz#b4469d432c35d0d4567ce76bf67b7bb88603a063"
+  integrity sha512-/muLrerTlr2v83pP2t/DRCBHZyfO81qkI9zoED5XZtUMsi9tveOHKq82W82c5KvwBpt1HtIBqes9EgEEoy6ErQ==
   dependencies:
-    compare-versions "^3.4.0"
+    expo-modules-core "~0.3.0-alpha.0"
 
-"@unimodules/react-native-adapter@~6.3.7":
-  version "6.3.7"
-  resolved "https://registry.yarnpkg.com/@unimodules/react-native-adapter/-/react-native-adapter-6.3.7.tgz#94e3d9d43d88de12cb850f1277b6c6e7d3f21605"
-  integrity sha512-kVfTje46vfc5uqILvFJCoiS49WfuWcGZUKvRBJaXd1bPgG7E8+94+9p1AsNs5eAFkFnbVWXRAvlOeiHIqrNjEA==
+"@unimodules/react-native-adapter@6.5.0-alpha.0":
+  version "6.5.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/@unimodules/react-native-adapter/-/react-native-adapter-6.5.0-alpha.0.tgz#e1683acf68a6effa4f0ac79ef833e9fcada48d42"
+  integrity sha512-Ci67ZT17Ff+SGU3B3RGFOphOv/XslMBYRT9NLtquSK6gWbjAYx0HEw9eKvCHiUhNxShp38gXNqjr7Vq3T6N0XQ==
   dependencies:
-    expo-modules-autolinking "^0.0.3"
-    invariant "^2.2.4"
+    expo-modules-autolinking "^0.3.0-alpha.0"
+    expo-modules-core "~0.3.0-alpha.0"
 
 abab@^2.0.0:
   version "2.0.5"
@@ -3735,10 +3735,10 @@ expo-file-system@~11.1.3:
     expo-modules-core "~0.2.0"
     uuid "^3.4.0"
 
-expo-modules-autolinking@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/expo-modules-autolinking/-/expo-modules-autolinking-0.0.3.tgz#45ba8cb1798f9339347ae35e96e9cc70eafb3727"
-  integrity sha512-azkCRYj/DxbK4udDuDxA9beYzQTwpJ5a9QA0bBgha2jHtWdFGF4ZZWSY+zNA5mtU3KqzYt8jWHfoqgSvKyu1Aw==
+expo-modules-autolinking@^0.3.0-alpha.0:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/expo-modules-autolinking/-/expo-modules-autolinking-0.3.1.tgz#665200af18075702bd3d69e7a0d32548243d2de4"
+  integrity sha512-V7wqqS0eKPoxhKFIOZkHGuToM7ULnPcRGNXW5aWS2ZS+8gDdSEukRCv55RUakAW6+96VlPuNkK1iyptI6hiy0Q==
   dependencies:
     chalk "^4.1.0"
     commander "^7.2.0"
@@ -3750,6 +3750,14 @@ expo-modules-core@~0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/expo-modules-core/-/expo-modules-core-0.2.0.tgz#68e5b6e53d0afbf8d131578831aed657589a2d42"
   integrity sha512-inpfZ5X/BaTtbj2wG9PA9AC0MN8VyId6KSRlVuEg7+ziurHBy/kKDFxpOddUokhwiln2uhoYPSStJjR/tKypdw==
+
+expo-modules-core@~0.3.0-alpha.0:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/expo-modules-core/-/expo-modules-core-0.3.2.tgz#b0b92b4100c6c13b69ef80ff0a8e97f2cc4f20b6"
+  integrity sha512-7ESMwkO5AwRflGDwcF0Yki98244/0n57alUJA/87TNZdciU0wa0joHi2Eb/fT2ggLT8ta1/bnavb1i3xGftj1Q==
+  dependencies:
+    compare-versions "^3.4.0"
+    invariant "^2.2.4"
 
 extend-shallow@^2.0.1:
   version "2.0.1"
