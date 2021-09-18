@@ -10,7 +10,6 @@
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "serve": "docusaurus serve",
-    "build:en":"NODE_OPTIONS=--max-old-space-size=5120 BASE=en docusaurus build --out-dir build/taro3/",
     "start:en":"NODE_OPTIONS=--max-old-space-size=5120 BASE=taro docusaurus start --locale en",
     "write-translations:en":"docusaurus write-translations --locale en"
   },
