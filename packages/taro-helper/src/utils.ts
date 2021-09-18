@@ -21,6 +21,8 @@ import {
 } from './constants'
 import createBabelRegister from './babelRegister'
 
+import type { PluginItem, NodePath } from '@babel/core'
+
 const execSync = child_process.execSync
 
 export function normalizePath (path: string) {
@@ -499,6 +501,90 @@ export function definePageConfig (config: any) {
   return config
 }
 
+// converts ast nodes to js object
+function exprToObject (node: any) {
+  const types = ['BooleanLiteral', 'StringLiteral', 'NumericLiteral']
+
+  if (types.includes(node.type)) {
+    return node.value
+  }
+
+  if (node.name === 'undefined' && !node.value) {
+    return undefined
+  }
+
+  if (node.type === 'NullLiteral') {
+    return null
+  }
+
+  if (node.type === 'ObjectExpression') {
+    return genProps(node.properties)
+  }
+
+  if (node.type === 'ArrayExpression') {
+    return node.elements.reduce((acc: any, el: any) => [
+      ...acc,
+      ...(
+        el!.type === 'SpreadElement'
+          ? exprToObject(el.argument)
+          : [exprToObject(el)]
+      )
+    ], [])
+  }
+}
+
+// converts ObjectExpressions to js object
+function genProps (props: any[]) {
+  return props.reduce((acc, prop) => {
+    if (prop.type === 'SpreadElement') {
+      return {
+        ...acc,
+        ...exprToObject(prop.argument)
+      }
+    } else if (prop.type !== 'ObjectMethod') {
+      const v = exprToObject(prop.value)
+      if (v !== undefined) {
+        return {
+          ...acc,
+          [prop.key.name || prop.key.value]: v
+        }
+      }
+    }
+    return acc
+  }, {})
+}
+
+// read page config from a sfc file instead of the regular config file
+function readSFCPageConfig (configPath: string) {
+  if (!fs.existsSync(configPath)) return {}
+
+  const sfcSource = fs.readFileSync(configPath, 'utf8')
+  const dpcReg = /definePageConfig\(\{[\w\W]+?\}\)/g
+  const matches = sfcSource.match(dpcReg)
+
+  let result: any = {}
+
+  if (matches && matches.length === 1) {
+    const callExprHandler = (p: any) => {
+      const { callee } = p.node
+      if (!callee.name) return
+      if (callee.name && callee.name !== 'definePageConfig') return
+
+      const configNode = p.node.arguments[0]
+      result = exprToObject(configNode)
+      p.stop()
+    }
+
+    const configSource = matches[0]
+    const babel = require('@babel/core')
+    const ast = babel.parse(configSource, { filename: '' })
+
+    babel.traverse(ast.program, { CallExpression: callExprHandler })
+  }
+
+  return result
+}
+
 export function readConfig (configPath: string) {
   let result: any = {}
   if (fs.existsSync(configPath)) {
@@ -514,6 +600,41 @@ export function readConfig (configPath: string) {
     })
     delete require.cache[configPath]
     result = getModuleDefaultExport(require(configPath))
+  } else {
+    const extNames = ['.js', '.jsx', '.ts', '.tsx', '.vue']
+
+    // check source file extension
+    for (const ext of extNames) {
+      const tempPath = configPath.replace('.config', ext)
+      if (fs.existsSync(tempPath)) {
+        configPath = tempPath
+        break
+      }
+    }
+
+    result = readSFCPageConfig(configPath)
   }
+
   return result
+}
+
+// A babel-plugin to remove the PageConfig defined in sfc file.
+// This plugin must be used in a post babel-loader.
+export function pluginRemovePageConfig (babel: any): PluginItem {
+  const { types: t } = babel
+
+  return {
+    name: 'plugin:remove_pageconfig',
+    visitor: {
+      CallExpression (nodePath: NodePath<any>, state) {
+        if (!/src/.test(state.filename)) return
+        if (/index\.config\.(t|j)sx?$/.test(state.filename)) return
+
+        const { callee } = nodePath.node
+        if (!t.isIdentifier(callee, { name: 'definePageConfig' })) return
+
+        nodePath.remove()
+      }
+    }
+  }
 }

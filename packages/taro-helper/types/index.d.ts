@@ -74,6 +74,9 @@ declare interface helper {
   getModuleDefaultExport: (exports: any) => any;
   removeHeadSlash: (str: string) => string;
   readConfig: (configPath: string) => any;
+  defineAppConfig (config: any): any;
+  definePageConfig (config: any): any;
+  pluginRemovePageConfig (babel: any): any;
   PLATFORMS: any;
   processTypeEnum: typeof processTypeEnum;
   processTypeMap: IProcessTypeMap;

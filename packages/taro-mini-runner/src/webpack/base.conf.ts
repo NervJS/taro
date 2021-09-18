@@ -1,6 +1,7 @@
 import * as path from 'path'
 import * as Chain from 'webpack-chain'
 import { MultiPlatformPlugin } from '@tarojs/runner-utils'
+import { REG_SCRIPTS, pluginRemovePageConfig } from '@tarojs/helper'
 
 export default (appPath: string) => {
   const chain = new Chain()
@@ -35,6 +36,30 @@ export default (appPath: string) => {
     .use(MultiPlatformPlugin, ['described-resolve', 'resolve', {
       chain
     }])
+
+  chain.module
+    .rule('pageconfig')
+    .test(REG_SCRIPTS)
+    .enforce('post')
+    .use('babelLoader')
+    .loader('babel-loader')
+    .tap((options: any) => {
+      const existingPlugins: any[] = []
+
+      if (options && options.plugins) {
+        existingPlugins.push(...options.plugins)
+      }
+
+      options = {
+        ...options,
+        plugins: [
+          ...existingPlugins,
+          pluginRemovePageConfig
+        ]
+      }
+
+      return options
+    })
 
   return chain
 }
