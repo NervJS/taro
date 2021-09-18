@@ -6596,6 +6596,11 @@ react-native-codegen@^0.0.6:
     jscodeshift "^0.11.0"
     nullthrows "^1.1.1"
 
+react-native-device-info@^8.3.1:
+  version "8.3.3"
+  resolved "https://registry.nlark.com/react-native-device-info/download/react-native-device-info-8.3.3.tgz#05c1900602d174b58c6ac927d748a785d76d0898"
+  integrity sha1-BcGQBgLRdLWMaskn10inhddtCJg=
+
 react-native-image-pan-zoom@^2.1.12:
   version "2.1.12"
   resolved "https://registry.yarnpkg.com/react-native-image-pan-zoom/-/react-native-image-pan-zoom-2.1.12.tgz#eb98bf56fb5610379bdbfdb63219cc1baca98fd2"

@@ -40,7 +40,7 @@ export declare interface IPluginContext {
   /**
    * 向 ctx 上挂载一个方法可供其他插件直接调用
    */
-  registerMethod: (arg: (string | { name: string, fn?: Function }), fn?: Function) => void,
+  registerMethod: (arg: (string | { name: string, fn?: Function }), fn?: Function) => void
   /**
    * 注册一个自定义命令
    */
@@ -49,6 +49,10 @@ export declare interface IPluginContext {
    * 注册一个自定义编译平台
    */
   registerPlatform: (platform: IPlatform) => void
+  /**
+   * 触发注册的钩子（使用`ctx.register`方法注册的钩子），传入钩子名和钩子所需参数
+   */
+  applyPlugins:(args: string | { name: string; initialVal?: any; opts?: any; })=> Promise<any>
   /**
    * 为插件添加入参校验
    */

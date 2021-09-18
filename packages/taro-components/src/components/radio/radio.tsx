@@ -11,6 +11,8 @@ export class Radio implements ComponentInterface {
   @Prop({ mutable: true }) id: string
   @Prop({ mutable: true }) checked = false
   @Prop() disabled: boolean = false
+  @Prop() nativeProps = {}
+
   @State() isWillLoadCalled = false
 
   @Element() el: HTMLElement
@@ -46,7 +48,7 @@ export class Radio implements ComponentInterface {
   }
 
   render () {
-    const { checked, name, value, disabled } = this
+    const { checked, name, value, disabled, nativeProps } = this
 
     return (
       <Host
@@ -66,6 +68,7 @@ export class Radio implements ComponentInterface {
           checked={checked}
           disabled={disabled}
           onChange={e => e.stopPropagation()}
+          {...nativeProps}
         />
         <i class='weui-icon-checked' />
         <slot />

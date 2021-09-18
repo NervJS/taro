@@ -1,17 +1,18 @@
 import fs from 'fs'
 import path from 'path'
 import sass, { Options } from 'sass'
-import { insertBefore, resolveStyle } from '../utils'
-import { TransformOptions } from '../types'
+import { insertAfter, insertBefore, resolveStyle, getAdditionalData } from '../utils'
+import { TransformOptions, RenderResult, RenderAdditionalResult } from '../types'
 
 // https://github.com/sass/node-sass#options
 export interface Config {
+  sass?: SassGlobalConfig
   alias?: Record<string, string>
   options?: Options
-  additionalData?: string | ((string) => string)
+  additionalData?: string | ((key: string) => string)
 }
 
-export interface SassExternalConfig {
+export interface SassGlobalConfig {
   resource?: string | string[];
   projectDirectory?: string;
   data?: string;
@@ -31,13 +32,7 @@ function makeImportStatement (filePath: string, resource: string, rootDir: strin
   return `@import '${relativePath}'`
 }
 
-/**
- * 处理 additional 配置，比如 config.sass 配置
- * @param src
- * @param filename
- * @returns
- */
-export function processByExternal (src, filename, config: SassExternalConfig) {
+function getGlobalResource (filename: string, config: SassGlobalConfig) {
   let resource = ''
   const projectDirectory = config.projectDirectory || process.cwd()
   const filePath = path.dirname(path.resolve(projectDirectory, filename))
@@ -48,8 +43,18 @@ export function processByExternal (src, filename, config: SassExternalConfig) {
     const resources = config.resource?.map(source => makeImportStatement(filePath, source, projectDirectory)) || []
     resource = resources.join(';\n')
   }
-  const combineSource = insertBefore(config?.data, resource)
-  return insertBefore(src, combineSource)
+  // https://taro-docs.jd.com/taro/docs/config-detail/#sassdata, data 覆盖 resurce 配置
+  return insertAfter(resource, config?.data)
+}
+
+function combineResource (src: string, filename: string, config: Config) {
+  // sass config
+  const globalResource = getGlobalResource(filename, config.sass)
+
+  // sass tranform config
+  const additionalData = getAdditionalData(src, config.additionalData)
+
+  return insertAfter(globalResource, additionalData)
 }
 
 function renderToCSS (src, filename, options, transformOptions) {
@@ -98,8 +103,7 @@ function renderToCSS (src, filename, options, transformOptions) {
       if (err) {
         reject(err)
       } else {
-        const css = result.css.toString()
-        resolve(css)
+        resolve(result)
       }
     })
   })
@@ -111,21 +115,25 @@ export default function transform (
   config: Config,
   transformOptions: TransformOptions
 ) {
-  let data = src
+  const additionalData = combineResource(src, filename, config)
+  let data = insertBefore(src, additionalData)
 
   if (!data) {
     data = `\n${data}` // fix empty file error. reference https://github.com/sass/node-sass/blob/91c40a0bf0a3923ab9f91b82dcd479c25486235a/lib/index.js#L430
   }
 
-  if (typeof config.additionalData !== 'undefined') {
-    data =
-      typeof config.additionalData === 'function'
-        ? `${config.additionalData(data)}`
-        : `${config.additionalData}\n${data}`
-  }
-
-  return renderToCSS(data, filename, { ...config.options, alias: config.alias }, transformOptions)
-    .then((css: string) => {
-      return css
-    })
+  return renderToCSS(
+    data,
+    filename,
+    {
+      file: filename,
+      outFile: `${filename}.map`,
+      sourceMap: true, // If no outFile is set, sourceMap parameter is ignored.
+      alias: config.alias,
+      ...config.options
+    },
+    transformOptions
+  ).then((result: RenderResult) => {
+    return { ...result, additionalData } as RenderAdditionalResult
+  })
 }
