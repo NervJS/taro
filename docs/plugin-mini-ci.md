@@ -3,7 +3,7 @@ title: 支持CI(持续集成)插件(小程序端构建后)
 ---
 
 
-# `@taro/plugin-mini-ci`
+# @tarojs/plugin-mini-ci
 
 > Taro 小程序端构建后支持CI（持续集成）的插件， 支持构建完毕后自动打开小程序开发这个工具、上传作为体验版、生成预览二维码. 目前暂时仅支持微信、字节、支付宝、百度小程序
 
@@ -11,7 +11,7 @@ title: 支持CI(持续集成)插件(小程序端构建后)
 
 ### 安装
 ```
-npm i @taro/plugin-mini-ci -D
+npm i @tarojs/plugin-mini-ci -D
 ```
 
 ### 使用插件
