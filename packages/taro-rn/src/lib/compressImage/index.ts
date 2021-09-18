@@ -19,7 +19,8 @@ export async function compressImage(opt: Taro.compressImage.Option): Promise<Tar
 
   const _createResizedImage = async (width = 800, height = 800) => {
     try {
-      const { uri } = await ImageResizer.createResizedImage(src, width, height, 'JPEG', quality)
+      const compressFormat = src.toLocaleLowerCase().endsWith('.png') ? 'PNG' : 'JPEG'
+      const { uri } = await ImageResizer.createResizedImage(src, width, height, compressFormat, quality)
       res.tempFilePath = uri
       return successHandler(success, complete)(res)
     } catch (err) {
