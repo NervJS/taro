@@ -21,6 +21,7 @@ export class Textarea implements ComponentInterface {
   @Prop() maxlength = 140
   @Prop() autoFocus = false
   @Prop() name: string
+  @Prop() nativeProps = {}
 
   @Event({
     eventName: 'input'
@@ -82,6 +83,7 @@ export class Textarea implements ComponentInterface {
       maxlength,
       autoFocus,
       name,
+      nativeProps,
       hanldeInput,
       handleFocus,
       handleBlur,
@@ -106,6 +108,7 @@ export class Textarea implements ComponentInterface {
         onFocus={handleFocus}
         onBlur={handleBlur}
         onChange={handleChange}
+        {...nativeProps}
       />
     )
   }
