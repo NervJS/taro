@@ -1,0 +1,359 @@
+---
+title: Overview
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import { VueIcon, ReactIcon } from './guides/index'
+
+Taro 3 supports running Web frameworks directly on each platform, and developers are using real frameworks like React and Vue.
+
+However, Taro follows the WeChat mini program specification in terms of components, APIs, routing and other specifications, so there are some differences between using React in Taro and the familiar web side for developers, which will be listed in detail below.
+
+## Entry components and page components#
+
+Because Taro follows the routing specification for mini program, it introduces [entry component](. /vue-entry) and [page component](. /vue-page) concepts, corresponding to the mini program specification's entry component `app` and page component `page`, respectively.
+
+A Taro application consists of an entry component and at least one page component.
+
+
+## Built-in Components
+
+> Since Taro v3.3+, development with H5 tags is supported, see [Using HTML tags](use-h5) for details.
+
+Development in Taro can be done using built-in components of the mini program specification, such as `<view>`, `<text>`, `<button>`, etc.
+
+### Taro Specifications
+
+1. component names follow the **mini program specification** (all lowercase, kebab-case). 2. component properties follow the **mini program specification** (all lowercase, kebab-case).
+2. component properties follow the **mini program  specification** (all lowercase, kebab-case).
+3. component properties with `Boolean` values need to be explicitly bound to `true`, abbreviations are not supported.
+4. See the next section for the event specification: [component-events](. /vue-overall#%E4%BA%8B%E4%BB%B6).
+
+### Example Code
+
+```html
+<template>
+  <swiper
+    class="box"
+    :autoplay="true"
+    :interval="interval"
+    indicator-color="#999"
+    @tap="handleTap"
+    @animationfinish="handleAnimationFinish"
+  >
+    <swiper-item>
+      <view class="text">1</view>
+    </swiper-item>
+    <swiper-item>
+      <view class="text">2</view>
+    </swiper-item>
+    <swiper-item>
+      <view class="text">3</view>
+    </swiper-item>
+  </swiper>
+</template>
+
+<script>
+  export default {
+    data () {
+      return {
+        interval: 1000
+      }
+    },
+    methods: {
+      handleTap () {console.log('tap')},
+      handleAnimationFinish () {console.log('finish')}
+    }
+  }
+</script>
+```
+
+Note: If a new component or property of a component added to a platform is not yet supported by Taro, you can submit Issues and we will fix it as soon as possible.
+
+## Events
+
+Events are the same as on the web side. In the event callback function, the first argument is the event object, and calling `stopPropagation` in the callback will stop the bubbling.
+
+### Taro Specifications
+
+1. Use the `@` modifier (or `v-on:`, see [Vue documentation](https://cn.vuejs.org/v2/guide/events.html) for more usage) instead of `bind` in the mini program event name (instead of `on` in the Alipay mini program event name).
+2. Use `@tap` for click events in Vue.
+
+### Example Code
+
+```html
+<template>
+  <! -- Note that the click event in Vue needs to be bound to @tap, -->
+  <! -- The rest of the mini program event names replace bind with @ which is the Taro event name (except for the Alipay mini program which starts with on and needs to replace on with @) -->
+ <scroll-view
+    style="height: 300px"
+    :scroll-y="true"
+    @tap="handleClick"
+    @scroll="handleScroll"
+    @scrolltoupper="handleScrollToUpper"
+  >
+    <view style="height: 200px">1</view>
+    <view style="height: 200px">2</view>
+    <view style="height: 200px">3</view>
+  </scroll-view>
+</template>
+
+<script>
+export default {
+  methods: {
+    handleClick(e) {console.log('handleClick')
+      e.stopPropagation()
+    },
+    handleScroll () {console.log('handleScroll')},
+    handleScrollToUpper () {console.log('handleScrollToUpper')}
+  }
+}
+</script>
+```
+
+### Taro 3 event mechanism on the mini program
+
+In Taro 1 & 2, Taro determines whether the events bound in the mini program template are in the form of `bind` or `catch` depending on whether the developer uses `e.stopPropagation()`. So event bubbling is controlled by the mini program.
+
+But in Taro 3, we implement a system of events in the mini program logic layer, including event triggering and event bubbling. The events bound in the mini program template are in the form of `bind`.
+
+In general, this mini program event system implemented in the logic layer works fine, and the event callbacks can trigger, bubble, and stop bubbling correctly.
+
+However, the `catchtouchmove` event bound in the mini program template prevents the callback function from bubbling and also prevents the view from **scrolling through**, which Taro's event system cannot do.
+
+### Blocking roll-through
+
+In the previous point, we introduced the event mechanism of Taro 3. Since events are bound as `bind`, you cannot use `e.stopPropagation()` to prevent scroll-through.
+
+Two solutions are summarized for rolling penetrations.
+
+#### 一、Style
+
+Resolved using style: [Disable scrolling of penetrated components](https://github.com/NervJS/taro/issues/5984#issuecomment-614502302)。
+
+This is also the most recommended practice.
+
+#### 二、catchMove
+
+> Taro version 3.0.21 started to support
+
+But the map component itself is scrollable, even if its width and height are fixed. So the first approach can't handle the scrolling events that bubble up to the map component.
+
+This is where you can add the **catch-move** property to the `view` component.
+
+```jsx
+// This View component will bind the catchtouchmove event instead of bindtouchmove.
+<view :catch-move="true"></view>
+```
+
+### dataset
+
+#### General
+
+We recommend thinking in terms of DSL features of Vue and React, since `dataset` is a feature of mini program.
+
+#### dataset
+
+`dataset` is a special template property that allows you to get the `dataset` data in the `event` object of an event callback.
+
+**This is supported by Taro**, and can be obtained in the event callback object via `event.target.dataset` or `event.currentTarget.dataset`.
+
+#### Template Properties
+
+As mentioned in the previous point, Taro's simulation of the mini program `dataset` is implemented in the **logic layer** of the mini program. **There is no real setting of this property in the template**.
+
+But when there are APIs in the mini program (e.g., `createIntersectionObserver`) that get to the node of the page, they don't get it because there is no actual corresponding property on the node.
+
+This is the time to consider using [taro-plugin-inject](https://github.com/NervJS/taro-plugin-inject) plugin to inject some generic attributes, such as
+
+```js title="config/index.js"
+const config = {
+  plugins: [
+    ['@tarojs/plugin-inject', {
+      components: {
+        View: {
+          'data-index': "'dataIndex'"
+        },
+        ScrollView: {
+          'data-observe': "'dataObserve'",
+        }
+      }
+    }]
+  ]
+}
+```
+
+## Lifecycle
+
+Taro 3 implements a Web standard BOM and DOM API on the mini program logic layer, so the `document.appendChild` and `document.removeChild` APIs used by Vue are actually emulated by Taro, with the end effect of rendering Vue's virtual DOM tree as a Taro The final effect is to render Vue's virtual DOM tree as a Taro-simulated Web standard DOM tree.
+
+Therefore, the lifecycle trigger timing in Taro3 Vue is a bit different from what we usually understand in web development.
+
+### Vue Lifecycle
+
+The lifecycle methods of Vue components are supported in Taro.
+
+Trigger timing:
+
+##### 1. beforeMount ()
+
+After [onLoad](vue-page#onload-options), the page component renders to Taro's virtual DOM before triggering.
+
+##### 2. mounted ()
+
+Triggered after the page component is rendered to Taro's virtual DOM.
+
+At this point, Taro's virtual DOM can be accessed (using Vue ref, document.getElementById, etc.) and manipulation of it (setting the style of the DOM, etc.) is supported.
+
+However, this does not mean that Taro's virtual DOM data has been transferred from the logical layer `setData` to the view layer. So at this point ** it is not possible to get the DOM nodes of the rendering layer of the mini program by methods like `createSelectorQuery`. ** Only in the [onReady](vue-page#onready-) lifecycle.
+
+### Methods for mini program pages
+
+The methods in the mini program page will also work in Taro's page: write the method of the same name in the Vue object.
+
+**Note: **The degree of support for the mini program page method varies from end to end, so please check the documentation for the corresponding mini program.
+
+## Ref
+
+The use of ref in Taro is exactly the same as in Vue, but the "DOM" obtained is different from the browser environment and the mini program environment.
+
+### Vue Ref
+
+What you get with Vue Ref is Taro's virtual DOM, which is similar to the browser's DOM, and you can manipulate its `style`, call its API, etc.
+
+However, Taro's virtual DOM runs on the logical layer of the mini program and is not a real mini program rendering layer node, which has no information about the size, width, etc.
+
+<Tabs
+  defaultValue="vue"
+  values={[
+    {label: 'Vue2', value: 'vue'},
+    {label: 'Vue3', value: 'vue3'}
+  ]}>
+<TabItem value="vue">
+
+```html title="Example Code"
+<template>
+  <view id="only" ref="el" />
+</template>
+
+<script>
+export default {
+  mounted () {
+    // The obtained DOM has an API similar to that of an object such as HTMLElement or Text
+    console.log(this.$refs.el)
+  }
+}
+</script>
+```
+
+</TabItem>
+
+<TabItem value="vue3">
+
+```html  title="Example Code"
+<template>
+  <view id="only" ref="el" />
+</template>
+
+<script>
+import { ref, onMounted } from 'vue'
+
+export default {
+  setup () {
+    const el = ref(null)
+
+    onMounted(() => {
+      // The obtained DOM has an API similar to that of an object such as HTMLElement or Text
+      console.log(el.value)
+    })
+
+    return { el }
+  }
+}
+</script>
+```
+
+</TabItem>
+</Tabs>
+
+### Get Mini Program DOM
+
+To get the real mini program presentation layer node, you need to call the API used in the mini program to get the DOM in the [onReady](vue-page#onready-) lifecycle.
+
+<Tabs
+  defaultValue="vue"
+  values={[
+    {label: 'Vue2', value: 'vue'},
+    {label: 'Vue3', value: 'vue3'}
+  ]}>
+<TabItem value="vue">
+
+```html title="Example Code"
+<template>
+  <view id="only" />
+</template>
+
+<script>
+import Taro from '@tarojs/taro'
+
+export default {
+  onReady () {
+    // The nodes of the rendering layer of the mini program can be fetched only after onReady is triggered
+    Taro.createSelectorQuery().select('#only')
+      .boundingClientRect()
+      .exec(res => console.log(res))
+  }
+}
+</script>
+```
+
+</TabItem>
+
+<TabItem value="vue3">
+
+```html  title="Example Code"
+<template>
+  <view id="only" />
+</template>
+
+<script>
+import Taro from '@tarojs/taro'
+
+export default {
+  onReady () {
+    // Vue3 needs to use Taro.nextTick to make sure the rendering is done.
+    Taro.nextTick(() => {
+      Taro.createSelectorQuery().select('#only')
+        .boundingClientRect()
+        .exec(res => console.log(res))
+    })
+  }
+}
+</script>
+```
+
+</TabItem>
+</Tabs>
+
+## v-html
+
+On the mini program side, there are some additional configuration options and things to keep in mind when using `v-html`, please refer to ["Rendering HTML"](html) for details.
+
+## Compatible with `<transition>`
+
+The `<transition>` component uses `getComputedStyle` internally to sniff the animation style on the component. However, there is no way to implement `getComputedStyle` in the mini program, it can be hacked in the following way.
+
+Set `transitionDuration` or `animationDuration` to the element's `style` to specify the transition time to be compatible with `<transition>`.
+
+```jsx
+<transition>
+  <view style="animationDuration: 0.5s" />
+</transition>
+```
+
+## Other Limitations
+
+* The built-in `transition-group` component cannot be used in the mini prgram because the mini prgram accesses element positions as an asynchronous API.
+* `<style scoped>` is not supported in the mini prgram, so we recommend using cssModules instead. [#6662](https://github.com/NervJS/taro/issues/6662)
+* The `id` of all components must remain unique across the application (even if they are on different pages), otherwise it may cause problems with events not firing, [#7317](https://github.com/NervJS/taro/issues/7317)

@@ -118,15 +118,21 @@ export default class PageView extends Component {
   </tbody>
 </table>
 
+> H5 属性
+
+| 属性名 | 类型 | 默认值 | 说明 |
+| :- | :- | :- | :- |
+| nativeProps      | Object | `{}` | H5 独有，用于透传 `WebComponents` 上的属性到内部 H5 标签上 |
+
 ### API 支持度
 
 | API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | SwitchProps.checked | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
-| SwitchProps.disabled | ✔️ |  |  |  |  |  |
+| SwitchProps.disabled | ✔️ |  |  |  |  | ✔️ |
 | SwitchProps.type | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | SwitchProps.color | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
-| SwitchProps.onChange | ✔️ |  |  |  |  |  |
+| SwitchProps.onChange | ✔️ |  |  |  |  | ✔️ |
 
 ### onChangeEventDetail
 

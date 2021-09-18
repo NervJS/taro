@@ -1,0 +1,414 @@
+---
+title: Using HTML Tags
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import { VueIcon, ReactIcon } from './guides/index'
+
+>  Taro v3.3+ support started
+
+Over the years, we have accumulated a lot of excellent libraries and components on the web side, and we want to reuse them directly on the mini program side. In addition, we want to reduce the cost of migrating H5 apps to the mini program side, and even run them directly on the mini program side. Therefore, from v3.3 onwards, we support writing Taro apps using HTML tags.
+
+## How to use
+
+### Configuration Plugin
+
+1.  First download and install the plugin `@tarojs/plugin-html`
+
+```bash
+yarn add @tarojs/plugin-html
+```
+
+2. Then add the use of the plugin in the project configuration
+
+```js
+// config/index.js
+config = {
+  // ...
+  plugins: ['@tarojs/plugin-html']
+}
+```
+
+### Sample Code
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label:  <ReactIcon />, value: 'React'},
+    {label: <VueIcon />, value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
+```jsx title="Sample Code"
+function Index () {
+  return (
+    <div>Hello World!</div>
+  )
+}
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html title="Sample Code"
+<template>
+  <div>Hello World!</div>
+</template>
+```
+
+</TabItem>
+</Tabs>
+
+## Sample Project
+
+- [taro-weui](https://github.com/NervJS/taro-weui)
+- [taro-antd-mobile](https://github.com/NervJS/taro-antd-mobile)
+- [taro-vant](https://github.com/NervJS/taro-vant)
+
+## Style-related Questions
+
+### Default browser style
+
+Taro provides two built-in browser default styles that can be introduced according to project needs.
+
+As a rule of thumb, web-side projects often write styles to reset some of the browser defaults, so in general developers do not need all of these defaults. We recommend manually selecting the default styles needed by the project and adding them to the global styles.
+
+#### 1. HTML4
+
+Built-in styles for W3C HTML4. Only HTML4 tag styles are available, smaller and more compatible to fit most situations.
+
+Usage:
+
+```js title="app.js"
+import '@tarojs/taro/html.css';
+```
+
+#### 2. HTML5
+
+Chrome(Blink) Built-in styles for HTML5. The built-in styles are rich and include most HTML5 tags, are large and do not necessarily support all mini program containers.
+
+Usage:
+
+```js title="app.js"
+import '@tarojs/taro/html5.css';
+```
+
+###  The size of the third-party component library has doubled
+
+Taro will use `postcss` ** to scale px to rpx** by default, see [Design Draft and Size Units](size) for details.
+
+However, many third-party H5 component libraries do not need to parse `px` units, and users can configure the [pxtransformBlackList](use-h5#pxtransformblacklist) option of the `@tarojs/plugin-html` plugin to filter.
+
+### `<span>` Default representation is block-level style
+
+`<span>` is an inline element and would have been mapped to the `<Text>` component, which is also an inline element.
+
+The `<Text>` component of the mini program has a limitation that it can only nest `<Text>` itself; nesting `<View>`, `<Image>`, and other components will not be displayed. That is, if `<span>` is mapped to `<Text>`, `<span>` can only nest `<i>`, `<b>`, and other in-line elements that are also mapped to `<Text>`.
+
+However, when adapting some H5 component libraries, we found that `<span>` is likely to have `<div>`, `<img>` and other tags nested inside it, and the usage is very diverse. So we decided to map `<span>` to `<View>` to be compatible with the diversity of H5 tag writing.
+
+The downside of this is that developers need to use their own style order `<span>` to behave as an in-line style by default: `<span>`.
+
+```scss title="app.css"
+// Method 1: Use only some of the required browser default styles
+.h5-span {
+  display: inline;
+}
+
+// Method 2: Directly introduce a full set of browser default styles
+import '@tarojs/taro/html.css';
+```
+
+As for inline tags such as `<i>`, they are still mapped to `<Text>` by default.
+If you need to change the mapping policy, you can configure the [modifyElements](use-h5#modifyelements) option of the `@tarojs/plugin-html` plugin.
+
+### Partial CSS selectors are not supported
+
+Some CSS selectors will not take effect in the mini program, eg.
+
+- Wildcard `*`
+- Media queries
+- Property selector, when the property is not a built-in property of the corresponding mini program component
+
+### The use of rem is not supported.
+
+rem is not supported at this time.
+
+## Other limitations
+
+There are significant differences between HTML standards and mini program standards, some of which Taro was able to smooth out, but there are still some differences that cannot be handled.
+
+### Form Components
+
+The major difference between the two specifications for HTML tags and mini program components is mainly in the form component.
+
+1. When using `<input type='checkbox'>` or `<input type='radio'>`, the `<CheckboxGroup>`, `<RadioGroup>` components need to be supplemented manually.
+2. HTML uses `<select>` + `<option>` to implement selectors, while mini program use `<Picker>`.
+ The two are very different, so they are not mapped. When the user uses `<select>`, the user is prompted to use the `<Picker>` component directly.
+
+### Cannot get element size synchronously
+
+In H5 we can call the DOM API **Sync** to get the size of the element.
+
+```js title="h5"
+const el = document.getElementById('#inner')
+const res = el.getBoundingClientRect()
+console.log(res)
+```
+
+But in the mini program, the API for getting the element size is **asynchronous**.
+
+```js title="mini program"
+const query = Taro.createSelectorQuery()
+query.select('#inner')
+  .boundingClientRect()
+  .exec(res => {
+    console.log(res)
+  })
+```
+
+But in the mini program, the API for getting the element size is **asynchronous**.
+So Taro provides asynchronous versions of these APIs, such as `getBoundingClientRect`. 
+(If you miss any, you can submit [Issues](https://issue.taro.zone/) for official additions)
+
+```js title="Taro"
+const el = document.getElementById('#inner')
+const res = await el.getBoundingClientRect()
+console.log(res)
+```
+
+### DOM API Differences
+
+Elements such as `canvas`, `video`, `audio`, etc. can call the methods on `HTMLElement` directly on the H5 side.
+
+```js title="h5"
+const el = document.getElementById('myVideo')
+el.play()
+```
+
+However, in Taro, to call a native method on a component, you must first create the corresponding `Context`.
+
+```js title="mini program"
+const ctx = Taro.createVideoContext('myVideo')
+ctx.play()
+```
+
+### `<img>`  Image Size Problem
+
+In H5, when the width of `<img>` is not set, the browser will use the width of the original image as the width of the tag.
+
+In the mini program, if the width and height of `<Image>` is not set, the width and height specified in the default style will be used.
+
+Solution: The user must explicitly set the width and height of `<img>` when using it.
+
+### ReactDOM partial API is not supported
+
+Taro uses **React Reconciler** to implement a custom renderer, which is very lean compared to the ReactDOM.
+
+Therefore, some H5 components based on ReactDOM implementation will not work, such as using: `unstable_renderSubtreeIntoContainer`.
+
+###  React `Portal` is not supported
+
+###  Vue3 `Teleport` is not supported
+
+###  SVG is not supported
+
+The use of SVG is not supported at this time.
+
+## Plugin Configuration Items
+
+### pxtransformBlackList
+
+`regexp array`
+
+A class name selector that hits any regular expression in the array will not have the `px` units in its style declaration block parsed by Taro.
+
+Usage:
+
+```js title="config/index.js"
+config = {
+  plugins: [
+    ['@tarojs/plugin-html', {
+      // The px units in class name selectors containing `demo-`, `van-` will not be resolved
+      pxtransformBlackList: [/demo-/, /van-/]
+    }]
+  ]
+}
+```
+
+### modifyElements
+
+`function`
+
+修改普通块级元素和行内元素的映射规则。
+
+用法：
+
+```ts title="config/index.js"
+config = {
+  plugins: [
+    ['@tarojs/plugin-html', {
+      modifyElements (inline: string[], block: string[]) {
+        //  Add <xxx> to inline elements
+        inline.push('xxx')
+        // Add <span> to inline elements and remove <span> from block level elements
+        inline.push('span')
+        block.splice(block.indexOf('span'), 1)
+      }
+    }]
+  ]
+}
+```
+
+### enableSizeAPIs
+
+`boolean`
+
+Default value: `true`
+
+Sets whether the asynchronous version of the H5 API for synchronously getting the size of an element, such as `getBoundingClientRect`, can be used.
+
+Usage:
+
+```js title="config/index.js"
+config = {
+  plugins: [
+    ['@tarojs/plugin-html', {
+      //  The code for these asynchronous APIs will be removed from the runtime code
+      enableSizeAPIs: false
+    }]
+  ]
+}
+```
+
+## Detailed Design
+
+RFC Documentation[《0004-rendering-html》](https://github.com/NervJS/taro-rfcs/blob/html-support/rfcs/0004-rendering-html.md)
+
+## Appendix
+
+### 一、Tag name mapping rules
+
+| HTML Tag | Mini program components |
+| :------- | :-------- |
+|  Block level Tag  |   view   |
+|  Inline level Tag  |   text   |
+|   span   |    view  |
+|   img    |   image  |
+|     a    | navigator |
+|a["href=javascript;"]| view |
+|  input   |  input   |
+|input["type=checkbox"]| checkbox |
+|input["type=radio"]| radio |
+|  button  |  button  |
+| textarea | textarea |
+| progress | progress |
+|  label   |  label   |
+|   form   |   form   |
+|  audio   |  audio   |
+|  canvas  |  canvas  |
+|  video   |  video   |
+|  iframe  | web-view |
+|   slot   |   slot   |
+
+### 二、Property Name Mapping Rules
+
+#### 1. HTML `<a>` Tag
+
+| `<a>` Property | `<Navigator>` Property |
+| :----------- | :----------- |
+|     href     |      url     |
+|    target    |   openType   |
+
+1.1 The value of the `target` attribute of the `<a>` tag corresponds to:
+
+| `a[target]` Property Value | `Navigator[open-type]` Property Value |
+| :----------- | :----------- |
+|    _blank    |   navigate   |
+|    _self     |   redirect   |
+
+#### 2. HTML `<input>` Tag
+
+| `<input>` Property | `<Input>` Property |
+| :----------- | :----------- |
+|  autofocus   |    focus     |
+|   readonly   |   disabled   |
+
+2.1 Correspondence between the values of the `type` attribute of the `<input>` tag:
+
+| `input[type]` Property Value | `Input[type]` Property Value |
+| :----------- | :----------- |
+|    tel    |   number   |
+| `input[type=password]` | `input[password=true]` |
+
+#### 3. HTML `<textarea>` Tag
+
+| `<textarea>` Property | `<Textarea>` Property |
+| :----------- | :----------- |
+|  autofocus   |    focus     |
+|   readonly   |   disabled   |
+
+#### 4. HTML `<progress>` Tag
+
+| `<progress>` Property | `<Progress>` Property |
+| :----------- | :----------- |
+|   value / max * 100   |   precent   |
+
+#### 5. HTML `<button>` tag's `type` attribute value correspondence
+
+| `button[type]` | `Button[form-type]` |
+| :----------- | :----------- |
+| `button[type=submit]` | `Button[form-type=submit]` |
+| `button[type=reset]`  | `Button[form-type=reset]` |
+
+### 三、Event Mapping Rules
+
+#### 1. General rule
+
+| HTML Event | Mini program Component Events |
+| :------- | :----------- |
+|  click   |      tap     |
+
+#### 2. HTML `<input>` Tag
+
+| `<input>` Event | `<Input>` Event |
+| :----------- | :----------- |
+|   onChange   |    onInput   |
+|   keypress   |   onConfirm  |
+
+#### 2. HTML checkbox controls
+
+| `input[type=checkbox]` Event | `<Checkbox>` Event |
+| :----------- | :----------- |
+|   onChange   |    bindtap   |
+
+#### 3. HTML radio controls
+
+| `input[type=radio]` Event | `<Radio>` Event |
+| :----------- | :----------- |
+|   onChange   |    bindtap   |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -91,6 +91,7 @@ module.exports = {
       'redux',
       'css-modules',
       'css-in-js',
+      'plugin-mini-ci',
       'nutui',
       'vant',
       'template',
@@ -103,7 +104,8 @@ module.exports = {
       'CONTRIBUTING',
       'codebase-overview',
       'debug-config',
-      'implement-note'
+      'implement-note',
+      'taro-dom'
     ]
   },
   "components": {

@@ -21,3 +21,5 @@ yarn-error.log*
 .now
 dist
 .history/
+.idea/
+.vscode

@@ -548,14 +548,14 @@ export default class PagePicker extends Component {
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>仅当 mode = time</td>
+      <td>仅当 mode = date</td>
     </tr>
     <tr>
       <td>end</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>仅当 mode = time</td>
+      <td>仅当 mode = date</td>
     </tr>
     <tr>
       <td>fields</td>

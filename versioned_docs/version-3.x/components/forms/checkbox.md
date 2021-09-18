@@ -211,6 +211,12 @@ export default {
   </tbody>
 </table>
 
+> H5 属性
+
+| 属性名 | 类型 | 默认值 | 说明 |
+| :- | :- | :- | :- |
+| nativeProps      | Object | `{}` | H5 独有，用于透传 `WebComponents` 上的属性到内部 H5 标签上 |
+
 ### API 支持度
 
 | API | 微信小程序 | H5 | React Native |

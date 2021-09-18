@@ -1,0 +1,1786 @@
+---
+title:  Progressive Introduction Tutorial
+---
+
+## Before we start
+
+We will develop a simple V2EX forum client in this tutorial and you will learn the basics, concepts and some optimization techniques of Taro in this section. Learning this knowledge does not require prior knowledge of Taro, mini program development or multi-site development. Once you have this knowledge, you should be able to develop multi-applications quickly and efficiently.
+
+:::tip Tips
+This tutorial is for developers who like to learn as they go or have no prior knowledge of mini program development at all, if you prefer to learn step by step, please include the entire contents of [documentation](./README) in its entirety. When you finish reading the [documentation](./README) you will see that this tutorial is an asymptotic index of the documentation.
+:::
+
+This tutorial will be divided into four chapters.
+
+- [Environment preparation](#Environment preparation): what needs to be installed when we use Taro.
+- [Basic tutorial](#Basic tutorial): basic concepts and development guidelines for Taro.
+- [Project Progression and Optimization](#Project Progression and Optimization): what should be done to maintain or improve the maintainability and performance of the application as the project gets bigger and slower.
+- [Multi-Ended Development](#Multi-Ended Development): How to quickly expand to a multi-ended application when you have already developed one end of the application using Taro.
+
+(If you're browsing on a large screen) The title directory to the right of this tutorial contains subdirectories for all the chapters, so you can view or navigate to the chapter you're interested in.
+
+
+### Pre-requisite knowledge
+
+import { VueIcon, ReactIcon } from './guides/index'
+
+In this tutorial we assume that you already have some knowledge of web front-end development and JavaScript. We will implement our application using the <ReactIcon /> and <VueIcon /> frameworks respectively, switching between implementations by clicking on the <ReactIcon /> or <VueIcon /> buttons in the code examples. If you are not familiar with either framework, you can cross reference the code implementation via [React documentation](https://zh-hans.reactjs.org/) or [Vue documentation](https://cn.vuejs.org/).
+
+Our code implementation also uses some ES6 syntax, which you can see or learn about at [ES6 Getting Started Tutorial](https://es6.ruanyifeng.com/)
+
+## Environment Preparation
+
+Currently Taro offers only one development method: installing the Taro command line tool (Taro CLI) for development.
+
+The Taro CLI relies on the Node.js environment, so it must be installed on your machine. There are various ways to install the Node.js environment, if you don't know Node.js at all you can visit the [Node.js official website](https://nodejs.org/en/) to download an executable to install it. We recommend installing the LTS version of Node.js (currently LTS version is v12).
+
+When your machine already has a Node.js environment, you can install the Taro CLI by entering the command `npm i -g @tarojs/cli` in the terminal. Once installed, enter the command `taro` in the terminal and if something like this appears, the installation was successful.
+
+```bash
+👽 Taro v3.0.0-beta.6
+
+Usage: taro <command> [options]
+
+Options:
+  -V, --version       output the version number
+  -h, --help          output usage information
+
+Commands:
+  init [projectName]  Init a project with default templete
+  config <cmd>        Taro config
+  create              Create page for project
+  build               Build a project with options
+  update              Update packages of taro
+  convert             Convert weapp to taro
+  info                Diagnostics Taro env info
+  doctor              Diagnose taro project
+  help [cmd]          display help for [cmd]
+```
+
+### Editor
+
+We recommend using [VSCode](https://code.visualstudio.com/) or [WebStorm](https://www.jetbrains.com/webstorm/) (or other Jetbrains IDEs that support web development).
+
+When you use VSCode, it is recommended to install the [ESLint plugin](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint), and if you use TypeScript, don't forget to configure ` eslint.probe` parameter if you use TypeScript. If you use Vue, it is recommended to install the [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur) plugin.
+
+If you are willing to spend money and are lazy you can choose [WebStorm](https://www.jetbrains.com/webstorm/) (or any other Jetbrains IDE that supports web development), which requires basically no configuration.
+
+Whether you use VSCode or WebStrom, you can use Taro for auto-completion and live code inspection (linting) after installing the above plugin.
+
+### Terminal
+
+#### macOS/Linux
+
+What tool is used by the terminal emulator on *nix systems (Terminal/iTerm2/Konsole/Hyper/etc...) It doesn't matter, but for running the Taro CLI shell we recommend `bash` or `zsh`.
+
+#### Windows
+
+On Windows we recommend using the built-in `cmd` or `PowerShell`. If available, we recommend installing [WSL](https://docs.microsoft.com/zh-cn/windows/wsl/install-win10) and running the Taro CLI from a terminal in the Linux distribution. Windows extremes may not have been taken into account, resulting in bugs.
+
+### Seeking help
+
+import { Wechat } from './guides/index'
+
+When you encounter a problem during development, you can scan the code to join <Wechat /> and ask a question, or go to [Taro Community](https://taro-club.jd.com/) and ask a question. When you're sure there's a bug in Taro, feel free to ask your question to the [Taro GitHub Issue](https://github.com/NervJS/taro/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc).
+
+## Basic Tutorial
+
+After installing the Taro CLI you can create a brand new project with the `taro init` command, you can fill in the options according to your project needs, a minimal version of a Taro project will include the following files.
+
+```bash
+├── babel.config.js             # Babel Configuration
+├── .eslintrc.js                # ESLint Configuration
+├── config                      # Compile configuration directory
+│   ├── dev.js                  # Development Mode Configuration
+│   ├── index.js                # Default Configuration
+│   └── prod.js                 # Production Mode Configuration
+├── package.json                # Node.js manifest
+├── dist                        # Packaged Directory
+├── project.config.json         # Mini Program Project Configuration
+├── src # 源码目录
+│   ├── app.config.js           # Global Configuration
+│   ├── app.css                 # Global CSS
+│   ├── app.js                  # Entry Component
+│   ├── index.html              # H5 Entry HTML
+│   └── pages                   # Page Component
+│       └── index
+│           ├── index.config.js # Page Configuration
+│           ├── index.css       # Page CSS
+│           └── index.jsx       # Page Component,If the Vue project, this file is index.vue
+```
+
+We will explain what each file does later, but for now, let's focus on the `src` folder, which is the source directory.
+
+### Entry Component
+
+Every Taro project has an entry component and an entry configuration where we can set the global state/global lifecycle, a minimized entry component would look like this.
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="React"
+  values={[
+    { label: <ReactIcon />, value: 'React', },
+    { label: <VueIcon />, value: 'Vue', }
+  ]
+}>
+
+<TabItem value="React">
+
+```jsx title="src/app.js"
+import React, { Component } from 'react'
+import './app.css'
+
+class App extends Component {
+  render () {
+    // this.props.children is the page that will be rendered
+    return this.props.children
+  }
+}
+
+// Each entry component must export a React component
+export default App
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```js title="src/app.js"
+import Vue from 'vue'
+import './app.css'
+
+const App = {
+  render(h) {
+    // this.$slots.default is the page that will be rendered
+    return h('block', this.$slots.default)
+  }
+}
+
+export default App
+```
+
+</TabItem>
+
+</Tabs>
+
+
+Each entry component (e.g. `app.js`) is always accompanied by a global configuration file (e.g. `app.config.js`) in which we can set the path, global window, routing, etc. of the page component. A minimal global configuration is as follows
+
+<Tabs
+  defaultValue="React"
+  values={[
+    { label: <ReactIcon />, value: 'React', },
+    { label: <VueIcon />, value: 'Vue', }
+  ]
+}>
+
+<TabItem value="React">
+
+```js title="src/app.config.js"
+export default {
+  pages: [
+    'pages/index/index'
+  ]
+}
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+
+```js title="src/app.config.js"
+export default {
+  pages: [
+    'pages/index/index'
+  ]
+}
+```
+
+</TabItem>
+
+</Tabs>
+
+You may notice that the global configuration is the same for both <ReactIcon /> and <VueIcon />. This is in the configuration file, Taro doesn't care about the framework difference, the Taro CLI will execute the globally configured code directly in the Node.js environment at compile time and serialize the `export default` exported object to a JSON file. Next we'll talk about [page configuration](# page components) which also executes the same logic.
+
+Therefore, we must ensure that the configuration file is executable in the Node.js environment, and not use some package or code that can only run in the H5 environment or mini program environment, otherwise the compilation will fail.
+
+:::info Learn more
+Taro's entry component and global configuration specifications are based on WeChat mini programs and are unified for the entire platform.
+You can access the [React entry component](./react-entry) and [Vue-entry](./vue-entry), and [global-config](./app-config) for details on the entry components and global configuration.
+:::
+
+### Page Component
+
+Page components are the pages that will be rendered by each route. Taro's pages are placed in `src/pages` by default, and every Taro project has at least one page component. In our generated project, there is a page component: `src/pages/index/index`, and if you are careful, you can see that this path happens to correspond to the `pages` of our [global configuration](./app-config) in the `pages` field. A simple page component would look like this.
+
+<Tabs
+  defaultValue="React"
+  values={[
+    { label: <ReactIcon />, value: 'React', },
+    { label: <VueIcon />, value: 'Vue', }
+  ]
+}>
+
+<TabItem value="React">
+
+```jsx title="src/pages/index/index.jsx"
+import { View } from '@tarojs/components'
+class Index extends Component {
+  state = {
+    msg: 'Hello World!'
+  }
+
+  onReady () {
+    console.log('onReady')
+  }
+
+  render () {
+    return <View>{ this.state.msg }</View>
+  }
+}
+
+export default Index
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html title="src/pages/index/index.vue"
+<template>
+  <view>
+    {{ msg }}
+  </view>
+</template>
+
+<script>
+
+export default {
+  data() {
+    return {
+      msg: 'Hello World!'
+    };
+  },
+  onReady () {
+    console.log('onReady')
+  }
+};
+</script>
+```
+
+</TabItem>
+
+</Tabs>
+
+Isn't this the familiar <ReactIcon /> and <VueIcon /> components! But there are two subtle differences.
+
+1. `onReady` lifecycle function. Taro injects most of the mini program specification page lifecycle into the page component at runtime, while the lifecycle of React or Vue is also fully functional.
+2. `View` component. This is a cross-platform component from `@tarojs/components`. As opposed to the familiar `div` and `span` elements, in Taro we are going to use all such cross-platform components for development.
+
+Like the portal component, each page component (e.g. `index.vue`) will also have a page configuration (e.g. `index.config.js`), where we can set the page's navigation bar, background color, and other parameters.
+
+```jsx title="src/pages/index/index.config.js"
+export default {
+  navigationBarTitleText: 'Home'
+}
+```
+
+:::info Learn more
+Taro's page hook functions and page configuration specifications are based on WeChat mini program and are unified for the entire platform.
+You can access the [React page component](./react-page) and [Vue page component](./vue-page) for a full list of page hook functions and page configuration specifications.
+:::
+
+### Custom components
+
+If you've made it this far, you have to be congratulated for understanding the most complex concepts in Taro: entry components and page components, and how they interact (via configuration files). The next part, if you are already familiar with <ReactIcon /> or <VueIcon /> and web development, is too simple.
+
+Let's start by writing the front page, which has a simple logic: display the latest forum posts.
+
+<Tabs
+  defaultValue="React"
+  values={[
+    { label: <ReactIcon />, value: 'React', },
+    { label: <VueIcon />, value: 'Vue', }
+  ]
+}>
+
+<TabItem value="React">
+
+```jsx title="src/pages/index/index.jsx"
+import Taro from '@tarojs/taro'
+import React from 'react'
+import { View } from '@tarojs/components'
+import { ThreadList } from '../../components/thread_list'
+import api from '../../utils/api'
+
+import './index.css'
+
+class Index extends React.Component {
+  config = {
+    navigationBarTitleText: 'home'
+  }
+
+  state = {
+    loading: true,
+    threads: []
+  }
+
+  async componentDidMount () {
+    try {
+      const res = await Taro.request({
+        url: api.getLatestTopic()
+      })
+      this.setState({
+        threads: res.data,
+        loading: false
+      })
+    } catch (error) {
+      Taro.showToast({
+        title: 'Error loading remote data'
+      })
+    }
+  }
+
+  render () {
+    const { loading, threads } = this.state
+    return (
+      <View className='index'>
+        <ThreadList
+          threads={threads}
+          loading={loading}
+        />
+      </View>
+    )
+  }
+}
+
+export default Index
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html title="src/pages/index/index.vue"
+<template>
+  <view class='index'>
+    <thread-list
+      :threads="threads"
+      :loading="loading"
+    />
+  </view>
+</template>
+
+<script>
+import Vue from 'vue'
+import Taro from '@tarojs/taro'
+import api from '../../utils/api'
+import ThreadList from '../../components/thread_list.vue'
+export default {
+  components: {
+    'thread-list': ThreadList
+  },
+  data () {
+    return {
+      loading: true,
+      threads: []
+    }
+  },
+  async created() {
+    try {
+      const res = await Taro.request({
+        url: api.getLatestTopic()
+      })
+      this.loading = false
+      this.threads = res.data
+    } catch (error) {
+      Taro.showToast({
+        title: 'Error loading remote data'
+      })
+    }
+  }
+}
+</script>
+```
+
+</TabItem>
+
+</Tabs>
+
+:::info Learn more
+You may notice that sending requests in a Taro app is done by `Taro.request()`.
+Like page configuration and global configuration, Taro's API specification is based on the WeChat mini program and is unified for the whole platform.
+You can find it in the [API documentation](./apis/about/desc.md) to find all the APIs.
+:::
+
+In our home page component, there is also a reference to a `ThreadList` component, which we will now implement.
+
+<Tabs
+  defaultValue="React"
+  values={[
+    { label: <ReactIcon />, value: 'React', },
+    { label: <VueIcon />, value: 'Vue', }
+  ]
+}>
+
+<TabItem value="React">
+
+```jsx title="src/components/thread_list.jsx"
+import React from 'react'
+import { View, Text } from '@tarojs/components'
+import { Thread } from './thread'
+import { Loading } from './loading'
+
+import './thread.css'
+
+class ThreadList extends React.Component {
+  static defaultProps = {
+    threads: [],
+    loading: true
+  }
+
+  render () {
+    const { loading, threads } = this.props
+
+    if (loading) {
+      return <Loading />
+    }
+
+    const element = threads.map((thread, index) => {
+      return (
+        <Thread
+          key={thread.id}
+          node={thread.node}
+          title={thread.title}
+          last_modified={thread.last_modified}
+          replies={thread.replies}
+          tid={thread.id}
+          member={thread.member}
+        />
+      )
+    })
+
+    return (
+      <View className='thread-list'>
+        {element}
+      </View>
+    )
+  }
+}
+
+export { ThreadList }
+```
+
+```jsx title="src/components/thread.jsx"
+import Taro, { eventCenter } from '@tarojs/taro'
+import React from 'react'
+import { View, Text, Navigator, Image } from '@tarojs/components'
+
+import api from '../utils/api'
+import { timeagoInst, Thread_DETAIL_NAVIGATE } from '../utils'
+
+class Thread extends React.Component {
+
+  handleNavigate = () => {
+    const { tid, not_navi } = this.props
+    if (not_navi) {
+      return
+    }
+    eventCenter.trigger(Thread_DETAIL_NAVIGATE, this.props)
+    // 跳转到帖子详情
+    Taro.navigateTo({
+      url: '/pages/thread_detail/thread_detail'
+    })
+  }
+
+  render () {
+    const { title, member, last_modified, replies, node, not_navi } = this.props
+    const time = timeagoInst.format(last_modified * 1000, 'zh')
+    const usernameCls = `author ${not_navi ? 'bold' : ''}`
+
+    return (
+      <View className='thread' onClick={this.handleNavigate}>
+        <View className='info'>
+          <View>
+            <Image src={member.avatar_large} className='avatar' />
+          </View>
+          <View className='middle'>
+            <View className={usernameCls}>
+                {member.username}
+            </View>
+            <View className='replies'>
+              <Text className='mr10'>
+                {time}
+              </Text>
+              <Text>
+                评论 {replies}
+              </Text>
+            </View>
+          </View>
+          <View className='node'>
+            <Text className='tag'>
+              {node.title}
+            </Text>
+          </View>
+        </View>
+        <Text className='title'>
+          {title}
+        </Text>
+      </View>
+    )
+  }
+}
+
+export { Thread }
+```
+</TabItem>
+
+<TabItem value="Vue">
+
+```html title="src/components/thread_list.vue"
+<template>
+  <view className='thread-list'>
+    <loading v-if="loading" />
+    <thread
+      v-else
+      v-for="t in threads"
+      :key="t.id"
+      :node="t.node"
+      :title="t.title"
+      :last_modified="t.last_modified"
+      :replies="t.replies"
+      :tid="t.id"
+      :member="t.member"
+    />
+  </view>
+</template>
+
+<script >
+import Vue from 'vue'
+import Loading from './loading.vue'
+import Thread from './thread.vue'
+export default {
+  components: {
+    'loading': Loading,
+    'thread': Thread
+  },
+  props: {
+    threads: {
+      type: Array,
+      default: []
+    },
+    loading: {
+      type: Boolean,
+      default: true
+    }
+  }
+}
+</script>
+```
+
+```html title="src/components/thread.vue"
+<template>
+  <view class='thread' @tap="handleNavigate">
+    <view class='info'>
+      <view>
+        <image :src="member.avatar_large | url" class='avatar' />
+      </view>
+      <view class='middle'>
+        <view :class="usernameCls">
+            {{member.username}}
+        </view>
+        <view class='replies'>
+          <text class='mr10'>{{time}}</text>
+          <text>评论 {{replies}}</text>
+        </view>
+      </view>
+      <view class='node'>
+        <text class='tag'>{{node.title}}</Text>
+      </view>
+    </view>
+    <text class='title'>{{title}}</text>
+  </view>
+</template>
+
+<script>
+import Vue from 'vue'
+import { eventCenter } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
+import { timeagoInst, Thread_DETAIL_NAVIGATE } from '../utils'
+import './thread.css'
+export default {
+  props: ['title', 'member', 'last_modified', 'replies', 'node', 'not_navi', 'tid'],
+  computed: {
+    time () {
+      return timeagoInst.format(this.last_modified * 1000, 'zh')
+    },
+    usernameCls () {
+      return `author ${this.not_navi ? 'bold' : ''}`
+    }
+  },
+  filters: {
+    url (val) {
+      return 'https:' + val
+    }
+  },
+  methods: {
+    handleNavigate () {
+      const { tid, not_navi } = this.$props
+      if (not_navi) {
+        return
+      }
+      eventCenter.trigger(Thread_DETAIL_NAVIGATE, this.$props)
+      // 跳转到帖子详情
+      Taro.navigateTo({
+        url: '/pages/thread_detail/thread_detail'
+      })
+    }
+  }
+}
+</script>
+```
+
+</TabItem>
+
+</Tabs>
+
+Here you can see that we have split the forum post rendering logic into two components and placed them in the `src/components` file, as these components are used many times in other pages.
+The strength of the split is entirely up to the developer, and Taro does not specify that components must be placed in the `components` folder, nor that pages must be placed in the `pages` folder.
+
+Another point worth noting is that we don't use HTML components like `div`/`span`, but rather cross-platform components like `View`/`Text`.
+
+:::info Learn more
+The [cross-platform component library](./components-desc.md) of the Taro documentation contains all component parameters and usage. However, the parameters and component names in the component library documentation are currently specific to React (except for React's click event, which is `onClick`).
+For Vue, component names and component parameters are named in a short horizontal line style (kebab-case), for example: `<picker-view indicator-class="myclass" />`
+:::
+
+### Router And Tabbar
+
+In the `src/components/thread` component, we pass the
+
+```js
+Taro.navigateTo({ url: '/pages/thread_detail/thread_detail' })
+```
+Jump to post details, but this page is still not implemented, now we go to the entry file to configure a new page:
+
+```js title="src/app.config.js"
+
+export default {
+  pages: [
+    'pages/index/index',
+    'pages/thread_detail/thread_detail'
+  ]
+}
+```
+
+Then in the path `src/pages/thread_detail/thread_detail` to implement the post details page, the route can be jumped, and our whole process is running up to.
+
+<Tabs
+  defaultValue="React"
+  values={[
+    { label: <ReactIcon />, value: 'React', },
+    { label: <VueIcon />, value: 'Vue', }
+  ]
+}>
+
+<TabItem value="React">
+
+```jsx title="src/pages/thread_detail/thread_detail"
+import Taro from '@tarojs/taro'
+import React from 'react'
+import { View, RichText, Image } from '@tarojs/components'
+import { Thread } from '../../components/thread'
+import { Loading } from '../../components/loading'
+import api from '../../utils/api'
+import { timeagoInst, GlobalState } from '../../utils'
+
+import './index.css'
+
+function prettyHTML (str) {
+  const lines = ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']
+
+  lines.forEach(line => {
+    const regex = new RegExp(`<${line}`, 'gi')
+
+    str = str.replace(regex, `<${line} class="line"`)
+  })
+
+  return str.replace(/<img/gi, '<img class="img"')
+}
+
+class ThreadDetail extends React.Component {
+  state = {
+    loading: true,
+    replies: [],
+    content: '',
+    thread: {}
+  } as IState
+
+  config = {
+    navigationBarTitleText: 'Topic'
+  }
+
+  componentWillMount () {
+    this.setState({
+      thread: GlobalState.thread
+    })
+  }
+
+  async componentDidMount () {
+    try {
+      const id = GlobalState.thread.tid
+      const [{ data }, { data: [ { content_rendered } ] } ] = await Promise.all([
+        Taro.request({
+          url: api.getReplies({
+            'topic_id': id
+          })
+        }),
+        Taro.request({
+          url: api.getTopics({
+            id
+          })
+        })
+      ])
+      this.setState({
+        loading: false,
+        replies: data,
+        content: prettyHTML(content_rendered)
+      })
+    } catch (error) {
+      Taro.showToast({
+        title: 'Error loading remote data'
+      })
+    }
+  }
+
+  render () {
+    const { loading, replies, thread, content } = this.state
+
+    const replieEl = replies.map((reply, index) => {
+      const time = timeagoInst.format(reply.last_modified * 1000, 'zh')
+      return (
+        <View className='reply' key={reply.id}>
+          <Image src={reply.member.avatar_large} className='avatar' />
+          <View className='main'>
+            <View className='author'>
+              {reply.member.username}
+            </View>
+            <View className='time'>
+              {time}
+            </View>
+            <RichText nodes={reply.content} className='content' />
+            <View className='floor'>
+              {index + 1} floor
+            </View>
+          </View>
+        </View>
+      )
+    })
+
+    const contentEl = loading
+      ? <Loading />
+      : (
+        <View>
+          <View className='main-content'>
+          <RichText nodes={content} />
+          </View>
+          <View className='replies'>
+            {replieEl}
+          </View>
+        </View>
+      )
+
+    return (
+      <View className='detail'>
+        <Thread
+          node={thread.node}
+          title={thread.title}
+          last_modified={thread.last_modified}
+          replies={thread.replies}
+          tid={thread.id}
+          member={thread.member}
+          not_navi={true}
+        />
+        {contentEl}
+      </View>
+    )
+  }
+}
+
+export default ThreadDetail
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html title="src/pages/thread_detail/thread_detail.vue"
+
+<template>
+  <view class='detail'>
+    <thread
+      :node="topic.node"
+      :title="topic.title"
+      :last_modified="topic.last_modified"
+      :replies="topic.replies"
+      :tid="topic.id"
+      :member="topic.member"
+      :not_navi="true"
+    />
+    <loading v-if="loading" />
+    <view v-else>
+      <view class='main-content'>
+        <rich-text :nodes="content | html" />
+      </view>
+      <view class='replies'>
+        <view v-for="(reply, index) in replies" class='reply' :key="reply.id">
+          <image :src='reply.member.avatar_large' class='avatar' />
+          <view class='main'>
+            <view class='author'>
+              {{reply.member.username}}
+            </view>
+            <view class='time'>
+              {{reply.last_modified | time}}
+            </view>
+            <rich-text :nodes="reply.content_rendered | html" class='content' />
+            <view class='floor'>
+              {{index + 1}} floor
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+import Vue from 'vue'
+import Taro from '@tarojs/taro'
+import api from '../../utils/api'
+import { timeagoInst, GlobalState, IThreadProps, prettyHTML } from '../../utils'
+import Thread from '../../components/thread.vue'
+import Loading from '../../components/loading.vue'
+import './index.css'
+export default {
+  components: {
+    'loading': Loading,
+    'thread': Thread
+  },
+  data () {
+    return {
+      topic: GlobalState.thread,
+      loading: true,
+      replies: [],
+      content: ''
+    }
+  },
+  async created () {
+    try {
+      const id = GlobalState.thread.tid
+      const [{ data }, { data: [ { content_rendered } ] } ] = await Promise.all([
+        Taro.request({
+          url: api.getReplies({
+            'topic_id': id
+          })
+        }),
+        Taro.request({
+          url: api.getTopics({
+            id
+          })
+        })
+      ])
+      this.loading = false
+      this.replies = data
+      this.content = content_rendered
+    } catch (error) {
+      Taro.showToast({
+        title: 'Error loading remote data'
+      })
+    }
+  },
+  filters: {
+    time (val) {
+      return timeagoInst.format(val * 1000)
+    },
+    html (val) {
+      return prettyHTML(val)
+    }
+  }
+}
+</script>
+```
+
+</TabItem>
+
+</Tabs>
+
+So far, we have implemented all the logic of this application, except for the "node list" page (we will discuss this page component in the advanced guide), and the rest of the pages can be abstracted quickly with the components or pages we have already explained. According to our plan, this application will have five pages, which are
+
+1. Home page, showing the latest posts (completed)
+2. Node list
+3. Top posts (can be multiplexed by component)
+4. node posts (can be multiplexed by component)
+5. post details (completed)
+
+The first three of these pages can be planned in `tabBar`, which is Taro's built-in navigation bar that can be configured in `app.config.js`, and the page in the `tabBar` position will display a navigation bar after configuration. Our final `app.config.js` will look like this.
+
+```jsx title="app.config.js"
+export default {
+  pages: [
+    'pages/index/index',
+    'pages/nodes/nodes',
+    'pages/hot/hot',
+    'pages/node_detail/node_detail',
+    'pages/thread_detail/thread_detail'
+  ],
+  tabBar: {
+    list: [{
+      'iconPath': 'resource/latest.png',
+      'selectedIconPath': 'resource/lastest_on.png',
+      pagePath: 'pages/index/index',
+      text: 'Latest'
+    }, {
+      'iconPath': 'resource/hotest.png',
+      'selectedIconPath': 'resource/hotest_on.png',
+      pagePath: 'pages/hot/hot',
+      text: 'Hot'
+    }, {
+      'iconPath': 'resource/node.png',
+      'selectedIconPath': 'resource/node_on.png',
+      pagePath: 'pages/nodes/nodes',
+      text: 'Node'
+    }],
+    'color': '#000',
+    'selectedColor': '#56abe4',
+    'backgroundColor': '#fff',
+    'borderStyle': 'white'
+  },
+  window: {
+    backgroundTextStyle: 'light',
+    navigationBarBackgroundColor: '#fff',
+    navigationBarTitleText: 'V2EX',
+    navigationBarTextStyle: 'black'
+  }
+}
+```
+
+## Project Progression and Optimization
+
+### Status Management
+
+In our implementation of the post component (`src/components/thread`), an event is raised via Taro's built-in `eventCenter` to inject the current post's data into a global `GlobalState`, and then the current post's data is fetched from the `GlobalState` on the post details page - a simple publish/subscribe pattern that is very efficient and clear when dealing with simple logic.
+
+Once our business logic becomes complex, a simple publish-subscribe mechanism tied to a global `state` may cause our data flow to become difficult to track. The good thing is that there are good solutions to this problem in both the React and Vue communities. We'll use the two most popular state management tools in the community: `Redux` and `Vuex` to solve this problem.
+
+<Tabs
+  defaultValue="redux"
+  values={[
+    {label: 'Redux', value: 'redux'},
+    {label: 'Vuex', value: 'vuex'},
+  ]}>
+<TabItem value="redux">
+
+First install `redux` and `react-redux`:
+
+```bash
+npm i redux react-redux
+```
+
+Inject `context` into our application using the `Provider` of `react-redux` in the entry file.
+
+```js title="src/app.js"
+import React, { Component } from 'react'
+import { Provider } from 'react-redux'
+import { createStore, combineReducers } from 'redux';
+import './app.css'
+
+const reducers = combineReducers({
+  thread: (state = {}, action) => {
+    if (action.type === 'SET_CURRENT_THREAD') {
+      return {
+        ...state,
+        ...action.thread
+      }
+    }
+    return state
+  }
+})
+
+const store = createStore(reducers)
+
+class App extends Component {
+  render () {
+    // this.props.children is the page that will be rendered
+    return (
+      <Provider store={store}>
+        {this.props.children}
+      </Provider>
+    )
+  }
+}
+
+export default App
+```
+
+
+Then in the post component we can set the current post via `connect` a `dispatch`: 
+
+```diff title="src/components/thread.jsx"
+- eventCenter.trigger(Thread_DETAIL_NAVIGATE, this.props)
++ this.props.setThread(this.props)
+- export default Thread
++ const mapDispatchToProps = dispatch => {
++   return {
++     setThread: thread => dispatch({ type: 'SET_CURRENT_THREAD', thread })
++   }
++ }
++ export default connect(null, mapDispatchToProps)(Thread)
+```
+
+In the post details component we get the data of the current post via `connect` a `mapStateToProps`.
+
+```diff title="src/components/thread_detail.jsx"
+- const id = GlobalState.thread.tid
++ const id = this.props.thread.tid
+- export default ThreadDetail
++ function mapStateToProps(state) {
++  return { thread: state.thread }
++ }
++ export default connect(mapStateToProps)(ThreadDetail)
+```
+
+:::caution Please note
+This tutorial demonstrates `Redux` minimalist usage, not best practice. Please visit the [Redux documentation](https://www.redux.org.cn/) and the [react-redux documentation](https://react-redux.js.org/introduction/quick-start) for details.
+:::
+
+</TabItem>
+<TabItem value="vuex">
+
+
+First install `vuex`:
+
+```bash
+npm i vuex
+```
+
+Inject Vuex's `store` in the entry file.
+
+```js title="src/app.js"
+import Vue from 'vue'
+import Vuex from 'vuex'
+import './app.css'
+
+const store = new Vuex.Store({
+  state: {
+    thread: {}
+  },
+  mutations: {
+  	setThread: (state, thread) => {
+      state.thread = { ...thread }
+    }
+  }
+})
+
+const App = {
+  store,
+  render(h) {
+    // this.$slots.default is the page that will be rendered
+    return h('block', this.$slots.default)
+  }
+}
+
+export default App
+```
+
+Then in the post component we can set the current post with `this.$store.setThread()`.
+
+```diff title="src/components/thread.vue"
+- eventCenter.trigger(Thread_DETAIL_NAVIGATE, this.props)
++ this.$store.setThread(this.$props)
+```
+
+Get the data of the current post via `computed` in the post details component.
+
+```diff title="src/components/thread_detail.vue"
+{
+  data () {
+    return {
+-     topic: GlobalState.thread,
+      loading: true,
+      replies: [],
+      content: ''
+    }
+  },
++ computed: {
++  topic() {
++    return this.$store.state.thread
++  }
++ }
+}
+```
+
+:::caution Please note
+This tutorial demonstrates minimalist usage of `Vuex`, not best practices. Please visit the [Vuex documentation](https://vuex.vuejs.org/zh/guide/) for details.
+:::
+
+</TabItem>
+</Tabs>
+
+
+#### Other status management tools
+
+In principle, Taro can support any React- or Vue-compatible state management tool, and using such tools usually requires that the `context` be injected into the entry component, and in Taro the entry file cannot render the UI. Just be aware of this.
+
+In the Vue ecosystem we recommend using `Vuex`. The React ecosystem has a wide variety of state management tools, and given that many developers using Taro compile their applications into mini programs, we recommend a few state management tools that have performance or size advantages.
+
+* [`mobx-react`](https://cn.mobx.js.org/): Responsive state management tools like Vuex
+* [unstaged](https://github.com/jamiebuilds/unstated-next):  Minimalist state management tool based on React Hooks, with a compressed size of 200 bytes
+* [Recoil](https://recoiljs.org/): Facebook's React Hooks-based state management tool
+
+### CSS Tools
+
+In Taro, we can freely use CSS pre-processors and post-processors, and it's as simple as adding the relevant plug-ins to the build configuration.
+
+```js {8,9,10} title="config/index.js"
+const config = {
+  projectName: 'v2ex',
+  date: '2018-8-3',
+  designWidth: 750,
+  sourceRoot: 'src',
+  outputRoot: 'dist',
+  plugins: [
+    '@tarojs/plugin-sass', // use Sass
+    // '@tarojs/plugin-less', // use Less
+    // '@tarojs/plugin-stylus', // use Stylus
+  ],
+  defineConstants: {
+  },
+  mini: {
+
+  },
+  h5: {
+    publicPath: '/',
+    staticDirectory: 'static',
+    module: {
+      postcss: {
+        autoprefixer: {
+          enable: true
+        }
+      }
+    }
+  }
+}
+
+module.exports = function (merge) {
+  if (process.env.NODE_ENV === 'development') {
+    return merge({}, config, require('./dev'))
+  }
+  return merge({}, config, require('./prod'))
+}
+```
+
+:::info Learn more
+In addition to CSS preprocessors, Taro also supports [CSS Modules](./css-modules.md) and [CSS-in-JS](./css-in-js.mdx).
+Additional CSS tools are supported in principle, and we will continue to discuss this in [Custom Compilation](#CustomCompilation).
+:::
+
+### Render HTML
+
+In the post details component (`ThreadDetail`), we use the built-in component `RichText` to render HTML, but this component is not compatible and does not work properly on all ends, and some specific HTML elements cannot be rendered.
+
+Fortunately, Taro has built-in HTML rendering, and the usage is not much different from React/Vue for web development.
+
+<Tabs
+  defaultValue="React"
+  values={[
+    { label: <ReactIcon />, value: 'React', },
+    { label: <VueIcon />, value: 'Vue', }
+  ]
+}>
+
+<TabItem value="React">
+
+```diff title="src/pages/thread_detail/thread_detail.jsx"
+- <RichText nodes={reply.content} className='content' />
++ <View dangerouslySetInnerHTML={{ __html: reply.content }} className='content'></View>
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```diff title="src/pages/thread_detail/thread_detail.vue"
+- <rich-text :nodes="reply.content_rendered | html" class='content' />
++ <view v-html="reply.content_rendered | html" class='content' />
+```
+
+</TabItem>
+
+</Tabs>
+
+:::info Learn more
+Taro's built-in HTML rendering features can be used not only in a web development manner, but also support advanced features such as custom styles, custom rendering, and custom events.
+You can visit the [HTML rendering documentation](./html.mdx) to learn more.
+:::
+
+### Performance Optimization
+
+#### Virtual List
+
+In the post list component (`ThreadList`), we render the data directly from the remote. This is not a problem, but if we have very large data, or if the list renders an unusually complex DOM structure, this can create performance issues.
+
+To solve this problem, Taro has a built-in `VirtualList` feature that renders only the view of the current visible viewport, rather than rendering all the list data in full.
+
+<Tabs
+  defaultValue="React"
+  values={[
+    { label: <ReactIcon />, value: 'React', },
+    { label: <VueIcon />, value: 'Vue', }
+  ]
+}>
+
+<TabItem value="React">
+
+```jsx title="src/pages/thread_detail/thread_list.jsx"
+import React from 'react'
+import { View, Text } from '@tarojs/components'
+import { Thread } from './thread'
+import { Loading } from './loading'
+import VirtualList from '@tarojs/components/virtual-list'
+
+
+import './thread.css'
+
+const Row = React.memo(({ thread }) => {
+  return (
+    <Thread
+      key={thread.id}
+      id={thread.id}
+      node={thread.node}
+      title={thread.title}
+      last_modified={thread.last_modified}
+      replies={thread.replies}
+      tid={thread.id}
+      member={thread.member}
+    />
+  )
+})
+
+class ThreadList extends React.Component {
+  static defaultProps = {
+    threads: [],
+    loading: true
+  }
+
+  render () {
+    const { loading, threads } = this.props
+
+    if (loading) {
+      return <Loading />
+    }
+
+    const element = (
+      <VirtualList
+        height={800} /* list height */
+        width='100%' /* list width */
+        itemData={threads} /* list render data */
+        itemCount={threads.length} /*   Length of the rendering list */
+        itemSize={100} /* The height of a single item in the list  */
+      >
+        {Row} 
+      </VirtualList>
+    )
+
+    return (
+      <View className='thread-list'>
+        {element}
+      </View>
+    )
+  }
+}
+
+export { ThreadList }
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```js title="app.js"
+// Add a new use plugin to the entry file
+import VirtualList from '@tarojs/components/virtual-list'
+Vue.use(VirtualList)
+```
+
+```html title="src/components/row.vue"
+<template>
+  <thread
+    :key="thread.id"
+    :node="thread.node"
+    :title="thread.title"
+    :last_modified="thread.last_modified"
+    :replies="thread.replies"
+    :tid="thread.id"
+    :member="thread.member"
+  />
+</template>
+
+<script>
+import Thread from './thread.vue'
+export default {
+  components: {
+    'thread': Thread
+  },
+  props: ['index', 'data', 'css'],
+  computed:{
+    thread(){
+      return this.data[this.index]
+    }
+  }
+}
+</script>
+```
+
+```html title="src/components/thread_list.vue"
+<template>
+  <view className='thread-list'>
+    <loading v-if="loading" />
+    <virtual-list
+      v-else
+      :height="500"
+      :item-data="threads"
+      :item-count="threads.length"
+      :item-size="100"
+      :item="Row"
+      width="100%"
+    />
+  </view>
+</template>
+
+<script >
+import Vue from 'vue'
+import Loading from './loading.vue'
+import Thread from './thread.vue'
+import Row from './row.vue'
+export default {
+  components: {
+    'loading': Loading,
+    'thread': Thread
+  },
+  props: {
+    threads: {
+      type: Array,
+      default: []
+    },
+    loading: {
+      type: Boolean,
+      default: true
+    }
+  }
+}
+</script>
+```
+
+</TabItem>
+
+</Tabs>
+
+:::info Learn more
+In the documentation [virtual-list](./virtual-list.md) you can find some advanced uses of virtual lists, such as: infinite scrolling, scroll offsets, scroll events, etc.
+:::
+
+#### Prerender
+
+Now let's implement the last page: the node list page. This page essentially renders a huge list that exists locally:
+
+<Tabs
+  defaultValue="React"
+  values={[
+    { label: <ReactIcon />, value: 'React', },
+    { label: <VueIcon />, value: 'Vue', }
+  ]
+}>
+
+<TabItem value="React">
+
+```jsx title="src/pages/nodes/nodes.jsx"
+import React from 'react'
+import { View, Text, Navigator } from '@tarojs/components'
+import allNodes from './all_node'
+import api from '../../utils/api'
+
+import './nodes.css'
+
+function Nodes () {
+  const element = allNodes.map(item => {
+    return (
+      <View key={item.title} className='container'>
+        <View className='title'>
+          <Text style='margin-left: 5px'>{item.title}</Text>
+        </View>
+        <View className='nodes'>
+          {item.nodes.map(node => {
+            return (
+              <Navigator
+                className='tag'
+                url={`/pages/node_detail/node_detail${api.queryString(node)}`}
+                key={node.full_name}
+              >
+                <Text>{node.full_name}</Text>
+              </Navigator>
+            )
+          })}
+        </View>
+      </View>
+    )
+  })
+  return <View className='node-container'>{element}</View>
+}
+
+export default Nodes
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html title="src/pages/nodes/nodes.vue"
+<template>
+  <view class='node-container'>
+    <view v-for="item in allNodes" :key="item.title" class='container'>
+      <view class='title'>
+        <text style='margin-left: 5px'>{{item.title}}</text>
+      </view>
+      <view class='nodes'>
+        <navigator
+          v-for="node in item.nodes"
+          :key="node.full_name"
+          class='tag'
+          :url="node | url"
+        >
+          <text>{{node.full_name}}</text>
+        </navigator>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+import Vue from 'vue'
+import allNodes from './all_node'
+import api from '../../utils/api'
+import './nodes.css'
+
+function getURL (node) {
+  return `/pages/node_detail/node_detail${api.queryString(node)}`
+}
+
+export default {
+  data () {
+    return {
+      allNodes
+    }
+  },
+  filters: {
+    url (node) {
+      return getURL(node)
+    }
+  }
+}
+</script>
+```
+
+</TabItem>
+
+</Tabs>
+
+This time our whole application is finished. However, if you put this app in a real mini program, especially in some real machines with low performance, it may take longer to switch to this page and there will be a white screen time.
+
+This is due to Taro's rendering mechanism: during page initialization, native mini program can fetch data directly from local rendering, but Taro renders the initial data into a DOM tree via React/Vue, then serializes the DOM tree and gives it to the mini program to render. This means that Taro spends one more time calling the `setData` function on page initialization than native mini programs do - and most mini program performance problems are caused by oversized `setData` data.
+
+To solve this problem, Taro has introduced a technology called Prerender, which, like server-side rendering, converts the pages to be rendered directly into `wxml` strings in the Taro CLI, resulting in the same or even faster speeds than native mini program.
+
+Using prerender is also very simple, we just need to do a simple configuration:
+
+```js {4-6} title="config/prod.js"
+const config = {
+  ...
+  mini: {
+    prerender: {
+      include: ['pages/nodes/nodes'], // `pages/nodes/nodes` 
+    }
+  }
+};
+
+// We only turn on pre-rendering here when we compile for production mode
+// If you need to turn it on during development, then put the configuration in `config/index` or `config/dev`
+module.exports = config
+```
+
+:::info Learn more
+The configuration of prerender supports conditional rendering pages, conditional rendering logic, custom rendering functions, etc. For details, visit the [pre-rendering documentation](./prerender.md).
+:::
+
+### Packing volume
+
+By default using production mode packaging, Taro will optimize the packaging volume for you. However, it is worth noting that Taro's default packaging configuration is designed to work for most projects and requirements, and is not optimal for any project. So you can build on top of the Taro configuration and optimize it for your own project.
+
+#### JavaScript
+
+In Taro applications, all Java(Type)Script is configured via `babel.config.js`, specifically using the [`babel-prest-taro`](https://www.npmjs.com/package/babel-preset-taro) Babel plugin is compiled.
+
+By default Taro is compatible with all syntaxes supported by [`@babel/preset-env`](https://www.npmjs.com/package/@babel/preset-env) and is compatible with `iOS 9` and `Android 5`, but if you don't need that high compatibility or don't need If you don't need that much compatibility or don't need some ES2015+ syntax support, you can configure `babel.config.js` yourself to reduce the package size.
+
+For example, we can upgrade the compatibility to `iOS 12`.
+
+```js title="babel.config.js"
+// babel.config.js
+module.exports = {
+  presets: [
+    ['taro', {
+      targets: {
+        ios: '12'
+      }
+    }]
+  ]
+}
+```
+
+You can visit the [Babel documentation](https://babeljs.io/) for more information on customizing your configuration.
+
+#### Packaged volume analysis
+
+Taro uses [Webpack](https://www.webpackjs.com/) as its internal packaging system, and sometimes Webpack doesn't give us the `tree-shaking` effect when our business code uses the `require` syntax or the `import default` syntax. . In such cases we use [`webpack-bundle-analyzer`](https://www.npmjs.com/package/webpack-bundle-analyzer) to analyze our dependency packaging volume, and this plugin opens a visual graphical page in our browser telling us reference the volume of each package.
+
+First install the `webpack-bundle-analyzer` dependency:
+
+```bash
+npm install webpack-bundle-analyzer -D
+```
+
+And then addd the following configuration to the [mini.webpackChain](./config-detail/#miniwebpackchain-1)：
+
+```js {4-7} title="config/index"
+const config = {
+  ...
+  mini: {
+    webpackChain (chain, webpack) {
+      chain.plugin('analyzer')
+        .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin, [])
+    }
+  }
+}
+```
+
+After running the compile command you can see the file dependencies and volumes.
+
+You can visit the [webpack-bundle-analyzer](https://www.npmjs.com/package/webpack-bundle-analyzer) documentation for detailed usage.
+
+#### SubPackages
+
+In some cases, we want our pages to be loaded on demand only when they are used. This is called subpackaging in the Taro application, and it is very simple to use, just by configuring the entry file `app.config.js`.
+
+Suppose we need to subpackage all the node pages that we have just implemented for pre-rendering.
+
+```js title="src/app.config.js"
+export default {
+  pages: [
+    'pages/index/index',
+    // 'pages/nodes/nodes', Remove the pages to be subpackaged from the `pages` field
+    'pages/hot/hot',
+    'pages/node_detail/node_detail',
+    'pages/thread_detail/thread_detail'
+  ],
+  // Add subpackages to the `subpackages` field, and if the target is an Alipay mini program, you need to add a field `subPackages` with the same value as `subpackages`
+  // Can't be in the `pages` root directory nor outside the pages directory, you need to create a new folder in the `pages` root directory for subpackages
+  "subpackages": [
+    {
+      "root": "pages",
+      "pages": [
+        "nodes/nodes"
+      ]
+    }
+  ]
+  tabBar: {
+    list: [{
+      'iconPath': 'resource/latest.png',
+      'selectedIconPath': 'resource/lastest_on.png',
+      pagePath: 'pages/index/index',
+      text: 'latest'
+    }, {
+      'iconPath': 'resource/hotest.png',
+      'selectedIconPath': 'resource/hotest_on.png',
+      pagePath: 'pages/hot/hot',
+      text: 'hot'
+    }, {
+      // 如果是分包的子页面，就不能在 `tabBar` 中使用
+      'iconPath': 'resource/node.png',
+      'selectedIconPath': 'resource/node_on.png',
+      pagePath: 'pages/nodes/nodes',
+      text: 'node'
+    }],
+    'color': '#000',
+    'selectedColor': '#56abe4',
+    'backgroundColor': '#fff',
+    'borderStyle': 'white'
+  },
+  window: {
+    backgroundTextStyle: 'light',
+    navigationBarBackgroundColor: '#fff',
+    navigationBarTitleText: 'V2EX',
+    navigationBarTextStyle: 'black'
+  }
+}
+```
+
+### Custom Compilation
+
+In specific cases where Taro's own compilation system does not meet our compilation needs, Taro offers two options for extending the compilation.
+
+#### Extending with Webpack
+
+In [package volume analysis](#package volume analysis) we added a Webpack plugin to [mini.webpackChain](./config-detail.md/#miniwebpackchain-1) and added a Webpack plugin to [mini.webpackChain](./config-detail.md/#miniwebpackchain-1) to achieve the effect of packing volume/dependency analysis.
+
+In fact with the `mini.webpackChain` configuration we can use almost any plugin and `loader` from the Webpack ecosystem, for example if we want to use `CoffeeScript` for development.
+
+```js {4-7} title="config/index"
+const config = {
+  ...
+  mini: {
+    webpackChain (chain, webpack) {
+      chain.merge({
+          module: {
+              rule: {
+                  test: /\.coffee$/,
+                  use: [ 'coffee-loader' ]
+              }
+          }
+      })
+    }
+  }
+}
+```
+
+Similarly, the `CSS Modules` that we mentioned before can be extended with support in the form of Webpack. For more information, visit the [webpack-chain](https://github.com/neutrinojs/webpack-chain) documentation for details on how to use it.
+
+#### Expansion with plugin system
+
+At [CSS Tools](#CSS Tools) we have used a plugin called `@tarojs/plugin-sass` to implement support for `Sass`. Instead of using Webpack extensions to compile, Taro's plugin functionality eliminates the need to configure Webpack on each end and just uses the plugin.
+
+In addition, Taro's plugin functionality extends the Taro CLI compilation commands, the compilation process, and the compilation platform, and you can visit the [plug-in functionality documentation](./plugin.md) for more information on custom configuration.
+
+:::info to learn more
+In addition to the above two methods, Taro also offers a number of compile-related options, which you can learn more about by visiting the [compile configuration details](./config-detail.md) documentation to learn more.
+:::
+
+## Multi-Ended Development
+
+### Cross-platform development
+
+In some cases, the performance or business logic of different platforms is qualitatively different. In such cases, there is no way for us to do "one set of code for all".
+
+For example, if we are implementing a V2EX forum application, the current API has no way to be called across domains in the browser, so we need to use another copy of the API on the H5 side, which we can solve by using the built-in environment variables.
+
+```diff
+- import api from '../../utils/api'
+// We can introduce different APIs depending on the platform
++ let api
++ if (process.env.TARO_ENV === 'weapp') {
++  api = require('../../utils/api-weapp')
++ } else if (process.env.TARO_ENV === 'h5') {
++  api = require('../../utils/api-h5')
++ }
+```
+
+Taro also provides [unified interface for multi-terminal files](./envs.md#uniform-interface-for-multi-terminal-files)，Finding dependencies by different nomenclature, in such cases we can keep.
+
+```js
+import api from '../../utils/api'
+```
+
+statement as is, modify our file structure by adding the name of the platform between the file name and the suffix name:
+
+```bash
+.
+└── utils
+    ├── api.h5.js
+    ├── api.weapp.js
+    └── index.js
+```
+
+:::info Learn more
+In addition to the "built-in environment variables" and "unified interface for multiple files", Taro also offers other cross-platform development solutions, which you can learn more about by visiting the documentation [cross-platform development](./envs) to learn more.
+:::
+
+### Synchronized debugging
+
+By default, Taro puts all the packaged files on each side in the `dist` directory. If you want to synchronize debugging on multiple ends, the files compiled first will be overwritten by the files compiled later.
+
+However, we can synchronize debugging by modifying the `outputRoot` of the compilation configuration.
+
+```js {2} title="config/index.js"
+const config = {
+  outputRoot: `dist/${process.env.TARO_ENV}`
+}
+```
+
+Under this configuration, the compiled directory of Wechat mini programs will be `dist/weapp` and the compiled directory of H5 will be `dist/h5`.
+
+### Using native mini program components
+
+In some cases we need to reuse the existing ecology of the mini program, and the components/libraries of the mini program are usually written for the specific mini program and can't be used directly on Taro, requiring some additional operations.
+
+For example, in our forum application, the post details may be returned in MarkDown format on the server side, so we need `towxml` to render our posts.
+
+First we need to reference `towxml` in the configuration file of the post details page:
+
+```js
+export default {
+  "usingComponents": {
+    "towxml":"../../towxml/towxml"
+  }
+}
+```
+
+Then using the `towxml` component, it's important to remember that whether it's React or Vue, the native mini program component declaration needs to be lowercase
+
+<Tabs
+  defaultValue="React"
+  values={[
+    { label: <ReactIcon />, value: 'React', },
+    { label: <VueIcon />, value: 'Vue', }
+  ]
+}>
+
+<TabItem value="React">
+
+```diff title="src/pages/thread_detail/thread_detail.jsx"
+- <View dangerouslySetInnerHTML={{ __html: reply.content }} className='content'></View>
++ <towxml nodes="{{reply.content}}" />
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```diff title="src/pages/thread_detail/thread_detail.vue"
+- <view v-html="reply.content_rendered | html" class='content' />
++ <towxml :nodes="reply.content_rendered | html" />
+```
+
+</TabItem>
+
+</Tabs>
+
+Finally, just follow the [towxml](https://github.com/sbfkcel/towxml/wiki/3.0-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8) document to call it.
+
+:::caution Please note
+Once the native mini program component is used, the Taro app loses its cross-over capabilities.
+:::
+
+:::info Learn more
+Taro also supports the use of mini program plugins, for details visit the documentation [Using native third-party components and plugins for mini programs](./taro-in-miniapp.md).
+:::

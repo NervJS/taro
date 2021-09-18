@@ -10,6 +10,9 @@ Taro 提供了一些官方插件
 
 - [@tarojs/plugin-mock](https://github.com/NervJS/taro-plugin-mock)，一个简易的数据 mock 插件
 
+社区[bigmeow](https://github.com/bigmeow) 提供了 Taro 小程序端构建后支持CI（持续集成）的插件 [`taro-plugin-mini-ci`](./plugin-mini-ci.md)
+
+
 ## 如何引入插件
 
 你可以从 npm 或者本地中引入插件，引入方式主要通过 [编译配置](./config-detail.md)中的 `plugins` 和 `presets`，使用如下
@@ -434,3 +437,8 @@ ctx.addPluginOptsSchema(joi => {
 
 - srcConfigName: 源码中配置名
 - distConfigName: 最终生成的配置名
+
+## 社区提供的插件（欢迎提交）
+
+- Taro 小程序端构建后支持CI（持续集成）的插件 [`taro-plugin-mini-ci`](./plugin-mini-ci.md) by [bigmeow](https://github.com/bigmeow)
+

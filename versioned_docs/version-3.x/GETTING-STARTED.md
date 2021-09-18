@@ -216,7 +216,7 @@ $ NODE_ENV=production taro build --type tt --watch # Mac
 
 #### 小程序开发者工具
 
-下载并打开[字节跳动小程序开发者工具](https://microapp.bytedance.com/docs/devtool/versionUpdate.html)，并确保已经设置了小程序项目配置文件 [project.tt.json](./project-config)。然后选择项目根目录下 `dist` 目录（根目录 `config` 中的 `outputRoot` 设置的目录）进行预览。
+下载并打开[字节跳动小程序开发者工具](https://microapp.bytedance.com/docs/zh-CN/mini-app/develop/developer-instrument/download/developer-instrument-update-and-download/)，并确保已经设置了小程序项目配置文件 [project.tt.json](./project-config)。然后选择项目根目录下 `dist` 目录（根目录 `config` 中的 `outputRoot` 设置的目录）进行预览。
 
 需要注意开发者工具的项目设置：
   * 需要关闭 ES6 转 ES5 功能，开启可能报错
@@ -300,7 +300,9 @@ $ NODE_ENV=production taro build --type jd --watch # Mac
 
 ### 企业微信小程序
 
-> Taro v3.1+ 开始支持
+:::note
+Taro v3.1+ 开始支持
+:::
 
 使用 Taro 插件能支持编译企业微信小程序，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-weapp-qy)。
 
@@ -351,7 +353,15 @@ $ NODE_ENV=production taro build --type qywx --watch # Mac
 
 ### 钉钉小程序
 
-> Taro v3.1+ 开始支持
+:::note
+Taro v3.1+ 开始支持
+
+**Taro v3.3.8+**：
+请使用 `@tarojs/plugin-platform-alipay-dd` 插件的 `~0.1.0` 版本
+
+**Taro v3.1 & v3.2**：
+请使用 `@tarojs/plugin-platform-alipay-dd` 插件的 `~0.0.5` 版本
+:::
 
 使用 Taro 插件能支持编译钉钉小程序，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-alipay-dd)。
 
@@ -402,7 +412,9 @@ $ NODE_ENV=production taro build --type dd --watch # Mac
 
 ### 支付宝 IOT 小程序
 
-> Taro v3.1+ 开始支持
+:::note
+Taro v3.1+ 开始支持
+:::
 
 使用 Taro 插件能支持编译支付宝 IOT 小程序，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-alipay-iot)。
 
@@ -453,7 +465,9 @@ $ NODE_ENV=production taro build --type iot --watch # Mac
 
 ### 飞书小程序
 
-> Taro v3.1+ 开始支持
+:::note
+Taro v3.1+ 开始支持
+:::
 
 使用 Taro 插件能支持编译飞书小程序，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-lark)。
 
@@ -499,12 +513,74 @@ $ NODE_ENV=production taro build --type lark --watch # Mac
 ```
 
 #### 小程序开发者工具
-[飞书小程序](https://open.feishu.cn/document/uYjL24iN/uMjNzUjLzYzM14yM2MTN)能运行在飞书客户端上，且一套代码多端运行(包括PC端和移动端)。你需要下载并打开[飞书小程序开发者工具](https://open.feishu.cn/document/uYjL24iN/ucDOzYjL3gzM24yN4MjN)，并确保已经设置了小程序项目配置文件。然后选择项目根目录下 `dist` 目录进行预览。
+[飞书小程序](https://open.feishu.cn/document/uYjL24iN/uMjNzUjLzYzM14yM2MTN?from=taro)能运行在飞书客户端上，且一套代码多端运行(包括PC端和移动端)。你需要下载并打开[飞书小程序开发者工具](https://open.feishu.cn/document/uYjL24iN/ucDOzYjL3gzM24yN4MjN?from=taro)，并确保已经设置了小程序项目配置文件。然后选择项目根目录下 `dist` 目录进行预览。
 
 需要注意开发者工具的项目配置
 - 需要关闭ES6转ES5功能，开启可能报错
 - 需要关闭上传代码时样式自动补全，开启可能报错
 - 需要关闭代码压缩上传，开启可能报错
+
+### 快手小程序
+
+使用 Taro 插件能支持编译快手小程序，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-kwai)。
+
+:::note
+Taro v3.1+ 开始支持
+
+**Taro v3.3+**：
+请使用 [taro-plugin-platform-kwai](https://github.com/NervJS/taro-plugin-platform-kwai) 插件的 `1.0` 或以上版本
+
+**Taro v3.2**：
+请使用 [taro-plugin-platform-ks](https://github.com/vadxq/taro-plugin-platform-ks) 插件的 `1.2.x` 版本
+
+**Taro v3.1**：
+请使用 [taro-plugin-platform-ks](https://github.com/vadxq/taro-plugin-platform-ks) 插件的 `1.0.x` 版本
+:::
+
+#### 安装插件
+
+```bash
+yarn add @tarojs/plugin-platform-kwai
+```
+
+#### 配置插件
+
+```js title="Taro 项目配置"
+config = {
+  // ...
+  plugins: [
+    '@tarojs/plugin-platform-kwai'
+  ]
+}
+```
+
+#### 编译命令
+
+```bash
+# yarn
+$ yarn dev:kwai
+$ yarn build:kwai
+
+# npm script
+$ npm run dev:kwai
+$ npm run build:kwai
+
+# 仅限全局安装
+$ taro build --type kwai --watch
+$ taro build --type kwai
+
+# npx 用户也可以使用
+$ npx taro build --type kwai --watch
+$ npx taro build --type kwai
+
+# watch 同时开启压缩
+$ set NODE_ENV=production && taro build --type kwai --watch # Windows
+$ NODE_ENV=production taro build --type kwai --watch # Mac
+```
+
+#### 小程序开发者工具
+
+下载并打开[快手小程序开发者工具](https://mp.kuaishou.com/docs/develop/guide/introduction.html)，然后选择项目根目录下 `dist` 目录（根目录 `config` 中的 `outputRoot` 设置的目录）进行预览。
 
 ### H5
 
