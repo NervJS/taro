@@ -218,7 +218,11 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
     'webpackJsonp'
   ]
 
-  const apis = new Set(Object.keys(global).filter(api => preserved.indexOf(api) === -1))
+  const apis = new Set(
+    !config.isOnlyPromisify
+      ? Object.keys(global).filter(api => preserved.indexOf(api) === -1)
+      : new Set(patchNeedPromiseApis)
+  )
 
   if (config.modifyApis) {
     config.modifyApis(apis)

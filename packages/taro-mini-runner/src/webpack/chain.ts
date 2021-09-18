@@ -378,7 +378,7 @@ export const getModule = (appPath: string, {
   if (compile.exclude && compile.exclude.length) {
     scriptRule.exclude = [
       ...compile.exclude,
-      filename => /node_modules/.test(filename) && !(/taro/.test(filename))
+      filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))
     ]
   } else if (compile.include && compile.include.length) {
     scriptRule.include = [
@@ -387,7 +387,7 @@ export const getModule = (appPath: string, {
       filename => /taro/.test(filename)
     ]
   } else {
-    scriptRule.exclude = [filename => /node_modules/.test(filename) && !(/taro/.test(filename))]
+    scriptRule.exclude = [filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))]
   }
 
   const rule: Record<string, IRule> = {

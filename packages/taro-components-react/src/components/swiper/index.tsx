@@ -257,7 +257,7 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
   }
 
   handleSwiperLoop = debounce(() => {
-    if (this.mySwiper && this.props.circular) {
+    if (this.mySwiper && this.mySwiper.$wrapperEl && this.props.circular) {
       // @ts-ignore
       this.mySwiper.loopDestroy()
       // @ts-ignore

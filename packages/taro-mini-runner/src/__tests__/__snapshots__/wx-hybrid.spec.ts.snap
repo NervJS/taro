@@ -645,7 +645,7 @@ require(\\"./taro\\");
             const patchNeedPromiseApis = config.needPromiseApis || [];
             const _needPromiseApis = new Set([ ...patchNeedPromiseApis, ...needPromiseApis ]);
             const preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
-            const apis = new Set(Object.keys(global).filter(api => preserved.indexOf(api) === -1));
+            const apis = new Set(!config.isOnlyPromisify ? Object.keys(global).filter(api => preserved.indexOf(api) === -1) : new Set(patchNeedPromiseApis));
             if (config.modifyApis) {
                 config.modifyApis(apis);
             }
@@ -1113,13 +1113,14 @@ require(\\"./taro\\");
         const pageKeyId = Object(taro_runtime[\\"incrementId\\"])();
         const hooks$1 = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
         function setReconciler() {
+            var _a;
             hooks$1.getLifecycle = function(instance, lifecycle) {
                 lifecycle = lifecycle.replace(/^on(Show|Hide)$/, \\"componentDid$1\\");
                 return instance[lifecycle];
             };
-            hooks$1.modifyMpEvent = function(event) {
+            (_a = hooks$1.modifyMpEventImpls) === null || _a === void 0 ? void 0 : _a.push((function(event) {
                 event.type = event.type.replace(/-/g, \\"\\");
-            };
+            }));
             hooks$1.batchedEventUpdates = function(cb) {
                 ReactDOM$1.unstable_batchedUpdates(cb);
             };
@@ -1228,6 +1229,7 @@ require(\\"./taro\\");
             if (true) {
                 appWrapper = ReactDOM$1.render(h$1(AppWrapper), taro_runtime[\\"document\\"].getElementById(\\"app\\"));
             }
+            const [ONLAUNCH, ONSHOW, ONHIDE] = hooks$1.getMiniLifecycleImpl().app;
             const appObj = Object.create({
                 render(cb) {
                     appWrapper.forceUpdate(cb);
@@ -1243,7 +1245,7 @@ require(\\"./taro\\");
                     configurable: true,
                     value: config
                 }),
-                onLaunch: setDefaultDescriptor({
+                [ONLAUNCH]: setDefaultDescriptor({
                     value(options) {
                         var _a;
                         setRouterParams(options);
@@ -1273,7 +1275,7 @@ require(\\"./taro\\");
                         }
                     }
                 }),
-                onShow: setDefaultDescriptor({
+                [ONSHOW]: setDefaultDescriptor({
                     value(options) {
                         var _a;
                         setRouterParams(options);
@@ -1282,7 +1284,7 @@ require(\\"./taro\\");
                         triggerAppHook(\\"onShow\\");
                     }
                 }),
-                onHide: setDefaultDescriptor({
+                [ONHIDE]: setDefaultDescriptor({
                     value(options) {
                         var _a;
                         const app = getAppInstance();
@@ -1525,6 +1527,7 @@ require(\\"./taro\\");
             }
             return componentObj;
         }
+        var _a, _b;
         const hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
         hooks.initNativeApiImpls || (hooks.initNativeApiImpls = []);
         hooks.initNativeApiImpls.push((function(taro) {
@@ -1532,6 +1535,7 @@ require(\\"./taro\\");
                 taro[hook] = taroHooks$1[hook];
             }
         }));
+        if (false) {}
         var mocks_taro = __webpack_require__(2);
         var classCallCheck = __webpack_require__(4);
         var createClass = __webpack_require__(5);

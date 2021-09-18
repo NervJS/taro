@@ -694,9 +694,9 @@ require(\\"./taro\\");
             var patchNeedPromiseApis = config.needPromiseApis || [];
             var _needPromiseApis = new Set([].concat(_toConsumableArray(patchNeedPromiseApis), _toConsumableArray(needPromiseApis)));
             var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
-            var apis = new Set(Object.keys(global).filter((function(api) {
+            var apis = new Set(!config.isOnlyPromisify ? Object.keys(global).filter((function(api) {
                 return preserved.indexOf(api) === -1;
-            })));
+            })) : new Set(patchNeedPromiseApis));
             if (config.modifyApis) {
                 config.modifyApis(apis);
             }
@@ -835,6 +835,52 @@ require(\\"./taro\\");
         mergeReconciler(hostConfig);
         mergeInternalComponents(runtime_components);
         var taro_runtime = __webpack_require__(0);
+        function _defineProperty(obj, key, value) {
+            if (key in obj) {
+                Object.defineProperty(obj, key, {
+                    value: value,
+                    enumerable: true,
+                    configurable: true,
+                    writable: true
+                });
+            } else {
+                obj[key] = value;
+            }
+            return obj;
+        }
+        function _arrayWithHoles(arr) {
+            if (Array.isArray(arr)) return arr;
+        }
+        function _iterableToArrayLimit(arr, i) {
+            var _i = arr == null ? null : typeof Symbol !== \\"undefined\\" && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
+            if (_i == null) return;
+            var _arr = [];
+            var _n = true;
+            var _d = false;
+            var _s, _e;
+            try {
+                for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
+                    _arr.push(_s.value);
+                    if (i && _arr.length === i) break;
+                }
+            } catch (err) {
+                _d = true;
+                _e = err;
+            } finally {
+                try {
+                    if (!_n && _i[\\"return\\"] != null) _i[\\"return\\"]();
+                } finally {
+                    if (_d) throw _e;
+                }
+            }
+            return _arr;
+        }
+        function _nonIterableRest() {
+            throw new TypeError(\\"Invalid attempt to destructure non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
+        }
+        function _slicedToArray(arr, i) {
+            return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+        }
         var classCallCheck = __webpack_require__(3);
         var createClass = __webpack_require__(4);
         var inherits = __webpack_require__(6);
@@ -868,13 +914,14 @@ require(\\"./taro\\");
         var pageKeyId = Object(taro_runtime[\\"incrementId\\"])();
         var hooks$1 = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
         function setReconciler() {
+            var _a;
             hooks$1.getLifecycle = function(instance, lifecycle) {
                 lifecycle = lifecycle.replace(/^on(Show|Hide)$/, \\"componentDid$1\\");
                 return instance[lifecycle];
             };
-            hooks$1.modifyMpEvent = function(event) {
+            (_a = hooks$1.modifyMpEventImpls) === null || _a === void 0 ? void 0 : _a.push((function(event) {
                 event.type = event.type.replace(/-/g, \\"\\");
-            };
+            }));
             hooks$1.batchedEventUpdates = function(cb) {
                 ReactDOM$1.unstable_batchedUpdates(cb);
             };
@@ -947,6 +994,7 @@ require(\\"./taro\\");
             };
         }
         function createReactApp(App, react, reactdom, config) {
+            var _Object$create;
             if (false) {}
             R$1 = react;
             h$1 = react.createElement;
@@ -1015,6 +1063,7 @@ require(\\"./taro\\");
             if (true) {
                 appWrapper = ReactDOM$1.render(h$1(AppWrapper), taro_runtime[\\"document\\"].getElementById(\\"app\\"));
             }
+            var _hooks$1$getMiniLifec = _slicedToArray(hooks$1.getMiniLifecycleImpl().app, 3), ONLAUNCH = _hooks$1$getMiniLifec[0], ONSHOW = _hooks$1$getMiniLifec[1], ONHIDE = _hooks$1$getMiniLifec[2];
             var appObj = Object.create({
                 render: function render(cb) {
                     appWrapper.forceUpdate(cb);
@@ -1025,67 +1074,63 @@ require(\\"./taro\\");
                 unmount: function unmount(id, cb) {
                     appWrapper.unmount(id, cb);
                 }
-            }, {
+            }, (_Object$create = {
                 config: setDefaultDescriptor({
                     configurable: true,
                     value: config
-                }),
-                onLaunch: setDefaultDescriptor({
-                    value: function value(options) {
-                        var _this3 = this;
-                        var _a;
-                        setRouterParams(options);
-                        if (false) {}
-                        var app = getAppInstance();
-                        this.$app = app;
-                        if (app) {
-                            if (app.taroGlobalData) {
-                                var globalData = app.taroGlobalData;
-                                var keys = Object.keys(globalData);
-                                var descriptors = Object.getOwnPropertyDescriptors(globalData);
-                                keys.forEach((function(key) {
-                                    Object.defineProperty(_this3, key, {
-                                        configurable: true,
-                                        enumerable: true,
-                                        get: function get() {
-                                            return globalData[key];
-                                        },
-                                        set: function set(value) {
-                                            globalData[key] = value;
-                                        }
-                                    });
-                                }));
-                                Object.defineProperties(this, descriptors);
-                            }
-                            (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, options);
-                        }
-                    }
-                }),
-                onShow: setDefaultDescriptor({
-                    value: function value(options) {
-                        var _a;
-                        setRouterParams(options);
-                        var app = getAppInstance();
-                        (_a = app === null || app === void 0 ? void 0 : app.componentDidShow) === null || _a === void 0 ? void 0 : _a.call(app, options);
-                        triggerAppHook(\\"onShow\\");
-                    }
-                }),
-                onHide: setDefaultDescriptor({
-                    value: function value(options) {
-                        var _a;
-                        var app = getAppInstance();
-                        (_a = app === null || app === void 0 ? void 0 : app.componentDidHide) === null || _a === void 0 ? void 0 : _a.call(app, options);
-                        triggerAppHook(\\"onHide\\");
-                    }
-                }),
-                onPageNotFound: setDefaultDescriptor({
-                    value: function value(res) {
-                        var _a;
-                        var app = getAppInstance();
-                        (_a = app === null || app === void 0 ? void 0 : app.onPageNotFound) === null || _a === void 0 ? void 0 : _a.call(app, res);
-                    }
                 })
-            });
+            }, _defineProperty(_Object$create, ONLAUNCH, setDefaultDescriptor({
+                value: function value(options) {
+                    var _this3 = this;
+                    var _a;
+                    setRouterParams(options);
+                    if (false) {}
+                    var app = getAppInstance();
+                    this.$app = app;
+                    if (app) {
+                        if (app.taroGlobalData) {
+                            var globalData = app.taroGlobalData;
+                            var keys = Object.keys(globalData);
+                            var descriptors = Object.getOwnPropertyDescriptors(globalData);
+                            keys.forEach((function(key) {
+                                Object.defineProperty(_this3, key, {
+                                    configurable: true,
+                                    enumerable: true,
+                                    get: function get() {
+                                        return globalData[key];
+                                    },
+                                    set: function set(value) {
+                                        globalData[key] = value;
+                                    }
+                                });
+                            }));
+                            Object.defineProperties(this, descriptors);
+                        }
+                        (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, options);
+                    }
+                }
+            })), _defineProperty(_Object$create, ONSHOW, setDefaultDescriptor({
+                value: function value(options) {
+                    var _a;
+                    setRouterParams(options);
+                    var app = getAppInstance();
+                    (_a = app === null || app === void 0 ? void 0 : app.componentDidShow) === null || _a === void 0 ? void 0 : _a.call(app, options);
+                    triggerAppHook(\\"onShow\\");
+                }
+            })), _defineProperty(_Object$create, ONHIDE, setDefaultDescriptor({
+                value: function value(options) {
+                    var _a;
+                    var app = getAppInstance();
+                    (_a = app === null || app === void 0 ? void 0 : app.componentDidHide) === null || _a === void 0 ? void 0 : _a.call(app, options);
+                    triggerAppHook(\\"onHide\\");
+                }
+            })), _defineProperty(_Object$create, \\"onPageNotFound\\", setDefaultDescriptor({
+                value: function value(res) {
+                    var _a;
+                    var app = getAppInstance();
+                    (_a = app === null || app === void 0 ? void 0 : app.onPageNotFound) === null || _a === void 0 ? void 0 : _a.call(app, res);
+                }
+            })), _Object$create));
             function triggerAppHook(lifecycle) {
                 var instance = Object(taro_runtime[\\"getPageInstance\\"])(HOOKS_APP_ID);
                 if (instance) {
@@ -1364,6 +1409,7 @@ require(\\"./taro\\");
             }
             return componentObj;
         }
+        var _a, _b;
         var hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
         hooks.initNativeApiImpls || (hooks.initNativeApiImpls = []);
         hooks.initNativeApiImpls.push((function(taro) {
@@ -1371,6 +1417,7 @@ require(\\"./taro\\");
                 taro[hook] = taroHooks$1[hook];
             }
         }));
+        if (false) {}
         var mocks_taro = \\"taro\\";
         var mocks_react = __webpack_require__(1);
         var src_app = __webpack_require__(12);
