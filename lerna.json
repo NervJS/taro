@@ -57,6 +57,7 @@
     "packages/taro-jd",
     "packages/taro-plugin-html",
     "packages/taro-plugin-react-devtools",
-    "packages/taro-plugin-vue-devtools"
+    "packages/taro-plugin-vue-devtools",
+    "packages/taro-plugin-mini-ci"
   ]
 }
