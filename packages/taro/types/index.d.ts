@@ -138,5 +138,5 @@ declare namespace Taro {
 }
 declare global {
   const defineAppConfig: (config: Taro.Config) => Taro.Config
-  const definePageConfig: (config: Taro.PageConfig) => Taro.PageConfig
+  const definePageConfig: (config: Taro.Config) => Taro.Config
 }
