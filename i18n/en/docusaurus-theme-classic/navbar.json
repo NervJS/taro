@@ -44,11 +44,15 @@
     "description": "Navbar item with label 京东小程序"
   },
   "item.label.问题反馈": {
-    "message": "Question Feedback",
+    "message": "Feedback",
     "description": "Navbar item with label 问题反馈"
   },
   "item.label.NutUI": {
     "message": "NutUI",
     "description": "Navbar item with label NutUI"
+  },
+  "item.label.生态系统": {
+    "message": "Ecosystem",
+    "description": "Navbar item with label 生态系统"
   }
 }
