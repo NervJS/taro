@@ -58,7 +58,7 @@ function readDir (fs: IFs, dir: string) {
 export function getOutput (stats, config: Partial<BuildConfig>) {
   const fs: IFs = stats.compilation.compiler.outputFileSystem
 
-  const files = readDir(fs, config.outputRoot)
+  const files = readDir(fs, config.outputRoot!)
   const output = files.reduce((content, file) => {
     return `${content}
 /** filePath: ${file} **/
@@ -117,7 +117,7 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
     }
   })
 
-  customizeChain(webpackChain, null, newConfig.webpackChain)
+  customizeChain(webpackChain, () => { }, newConfig.webpackChain)
 
   const webpackConfig: webpack.Configuration = webpackChain.toConfig()
 
