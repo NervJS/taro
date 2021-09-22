@@ -11,7 +11,7 @@ import {
 import { noop } from '../../utils'
 import { FormProps, FormValues } from './PropsType'
 
-function isFormTypeElement (typeName: string): boolean {
+function isFormTypeElement(typeName: string): boolean {
   return [
     '_Input',
     '_Textarea',
@@ -90,7 +90,7 @@ class _Form extends React.Component<FormProps> {
     onReset()
   }
 
-  render (): JSX.Element {
+  render(): JSX.Element {
     const {
       children,
       style,

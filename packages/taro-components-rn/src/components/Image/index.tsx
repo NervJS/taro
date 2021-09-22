@@ -18,21 +18,21 @@ import * as React from 'react'
 import { Image, StyleSheet, ImageSourcePropType, LayoutChangeEvent, ImageResolvedAssetSource } from 'react-native'
 import { noop, omit } from '../../utils'
 import ClickableSimplified from '../ClickableSimplified'
-import { ImageProps, ImageState, Mode, ResizeModeMap, ResizeMode } from './PropsType'
+import { ImageProps, ImageState, ResizeModeMap, ResizeMode } from './PropsType'
 
 const resizeModeMap: ResizeModeMap = {
   scaleToFill: 'stretch',
   aspectFit: 'contain',
   aspectFill: 'cover',
-  center: 'center'
+  center: 'center',
   // And widthFix
   // Not supported value...
 }
 
 export class _Image extends React.Component<ImageProps, ImageState> {
-  static defaultProps = {
+  static defaultProps: ImageProps = {
     src: '',
-    mode: Mode.ScaleToFill
+    mode: 'scaleToFill'
   }
 
   hasLayout = false
@@ -131,7 +131,7 @@ export class _Image extends React.Component<ImageProps, ImageState> {
   }
 
   render(): JSX.Element {
-    const { style, src, mode } = this.props
+    const { style, src, mode = 'scaleToFill' } = this.props
 
     const flattenStyle = StyleSheet.flatten(style) || {}
 
@@ -139,8 +139,7 @@ export class _Image extends React.Component<ImageProps, ImageState> {
     const source: ImageSourcePropType = typeof src === 'string' ? { uri: src } : src
 
     const isWidthFix = mode === 'widthFix'
-    // @ts-ignore
-    const rMode: ResizeMode = (resizeModeMap[mode] || (isWidthFix ? undefined : 'stretch')) as ResizeMode
+    const rMode: ResizeMode = (resizeModeMap[mode] || (isWidthFix ? undefined : 'stretch'))
 
     const imageHeight = (() => {
       if (isWidthFix) {
