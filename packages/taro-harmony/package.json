@@ -1,0 +1,39 @@
+{
+  "name": "@tarojs/plugin-platform-harmony",
+  "version": "3.3.9",
+  "description": "OpenHarmony & 鸿蒙系统插件",
+  "author": "drchan",
+  "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-harmony#readme",
+  "license": "MIT",
+  "main": "index.js",
+  "keywords": [
+    "taro"
+  ],
+  "files": [
+    "index.js",
+    "dist",
+    "types"
+  ],
+  "types": "types/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "dependencies": {
+    "@tarojs/components": "3.3.9",
+    "@tarojs/helper": "3.3.9",
+    "@tarojs/service": "3.3.9",
+    "@tarojs/shared": "3.3.9",
+    "webpack-sources": "2.3.0"
+  },
+  "devDependencies": {
+    "@tarojs/runtime": "3.3.9"
+  }
+}
