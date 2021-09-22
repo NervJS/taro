@@ -30,6 +30,19 @@ export default (ctx: IPluginContext, _options: IOptions) => {
         config.__TARO_FRAMEWORK__ = `"${framework}"`
         return args
       })
+
+    if (isBuildH5) {
+      chain.merge({
+        module: {
+          rule: {
+            'process-import-taro': {
+              test: /taro-h5[\\/]src[\\/]index/,
+              loader: require.resolve('./loader')
+            }
+          }
+        }
+      })
+    }
   })
 }
 
@@ -65,9 +78,9 @@ function setAlias (ctx: IPluginContext, framework: Frameworks, chain) {
 
   if (isBuildH5) {
     if (config.h5?.useHtmlComponents) {
-      alias['@tarojs/components$'] = '@tarojs/components-react/index'
+      alias.set('@tarojs/components$', '@tarojs/components-react/index')
     } else {
-      alias['@tarojs/components$'] = '@tarojs/components/dist-h5/react'
+      alias.set('@tarojs/components$', '@tarojs/components/dist-h5/react')
     }
   }
 }

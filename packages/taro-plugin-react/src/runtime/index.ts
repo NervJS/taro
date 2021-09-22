@@ -27,5 +27,6 @@ if (__TARO_FRAMEWORK__ === 'preact') {
   })
 }
 
+export * from './hooks'
 export * from './connect'
 export * from './connect-native'

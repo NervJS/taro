@@ -25,22 +25,7 @@ const {
   nextTick,
   eventCenter,
   Events,
-  preload,
-  useDidShow,
-  useDidHide,
-  usePullDownRefresh,
-  useReachBottom,
-  usePageScroll,
-  useResize,
-  useShareAppMessage,
-  useTabItemTap,
-  useTitleClick,
-  useOptionMenuClick,
-  usePullIntercept,
-  useShareTimeline,
-  useAddToFavorites,
-  useReady,
-  useRouter
+  preload
 } = Taro
 
 const taro = {
@@ -63,22 +48,7 @@ const taro = {
   reLaunch,
   redirectTo,
   getCurrentPages,
-  switchTab,
-  useDidShow,
-  useDidHide,
-  usePullDownRefresh,
-  useReachBottom,
-  usePageScroll,
-  useResize,
-  useShareAppMessage,
-  useTabItemTap,
-  useTitleClick,
-  useOptionMenuClick,
-  usePullIntercept,
-  useShareTimeline,
-  useAddToFavorites,
-  useReady,
-  useRouter
+  switchTab
 }
 
 const initPxTransform = getInitPxTransform(taro)
@@ -130,20 +100,5 @@ export {
   reLaunch,
   redirectTo,
   getCurrentPages,
-  switchTab,
-  useDidShow,
-  useDidHide,
-  usePullDownRefresh,
-  useReachBottom,
-  usePageScroll,
-  useResize,
-  useShareAppMessage,
-  useTabItemTap,
-  useTitleClick,
-  useOptionMenuClick,
-  usePullIntercept,
-  useShareTimeline,
-  useAddToFavorites,
-  useReady,
-  useRouter
+  switchTab
 }
