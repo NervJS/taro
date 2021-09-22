@@ -1,10 +1,8 @@
-// RootNavigation.js
 import * as React from 'react'
 import { camelCase } from 'lodash'
 import { StackActions, NavigationContainerRef } from '@react-navigation/native'
-import { getTabBarPages, setTabInitRoute, handleUrl } from './utils/index'
+import { getTabBarPages, setTabInitRoute, handleUrl, updateJumpAnimate } from './utils/index'
 import { CallbackResult, BaseOption } from './utils/types'
-// import { getOpenerEventChannel } from './getOpenerEventChannel'
 
 type NavigateMethod = 'navigateTo' | 'redirectTo' | 'navigateBack' | 'switchTab' | 'reLaunch'
 
@@ -55,10 +53,13 @@ export function navigate (option: NavigateOption | NavigateBackOption, method: N
   if (path) {
     routeParam = handleUrl(path)
   }
+  // 默认都带动画，redirectTo去掉动画
+  updateJumpAnimate(true)
   try {
     if (method === 'navigateTo') {
       navigationRef.current?.dispatch(StackActions.push(routeParam.pageName, routeParam.params))
     } else if (method === 'redirectTo') {
+      updateJumpAnimate(false)
       navigationRef.current?.dispatch(StackActions.replace(routeParam.pageName, routeParam.params))
     } else if (method === 'switchTab') {
       const states = navigationRef.current?.getRootState()

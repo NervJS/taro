@@ -12,6 +12,8 @@ export class Checkbox implements ComponentInterface {
   @Prop() color: string
   @Prop({ mutable: true }) id: string
   @Prop() checked = false
+  @Prop() nativeProps = {}
+
   @State() isWillLoadCalled = false
 
   @Element() el: HTMLElement
@@ -43,7 +45,7 @@ export class Checkbox implements ComponentInterface {
   }
 
   render () {
-    const { checked, name, color, value } = this
+    const { checked, name, color, value, nativeProps } = this
 
     return (
       <Host
@@ -62,6 +64,7 @@ export class Checkbox implements ComponentInterface {
           style={{ color }}
           checked={checked}
           onChange={this.handleChange}
+          {...nativeProps}
         />
         <slot />
       </Host>

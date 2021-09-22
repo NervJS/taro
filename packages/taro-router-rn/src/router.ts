@@ -4,14 +4,14 @@ import { StyleProp, ViewStyle } from 'react-native'
 import { camelCase } from 'lodash'
 import { NavigationContainer } from '@react-navigation/native'
 import { BackBehavior } from '@react-navigation/routers/src/TabRouter'
-import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack'
+import { createStackNavigator, CardStyleInterpolators, StackCardInterpolationProps } from '@react-navigation/stack'
 import { StackHeaderOptions, StackCardMode, StackHeaderMode } from '@react-navigation/stack/src/types'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { navigationRef } from './rootNavigation'
 import CustomTabBar from './view/TabBar'
 import HeadTitle from './view/HeadTitle'
 import BackButton from './view/BackButton'
-import { getTabItemConfig, getTabVisible, setTabConfig, getTabInitRoute, handleUrl } from './utils/index'
+import { getTabItemConfig, getTabVisible, setTabConfig, getTabInitRoute, handleUrl, hasJumpAnimate } from './utils/index'
 
 interface WindowConfig {
   pageOrientation?: 'auto' | 'portrait' | 'landscape'
@@ -127,7 +127,7 @@ function getStackOptions (config: RouterConfig) {
   const headColor = windowOptions.navigationBarTextStyle || 'white'
   const bgColor = windowOptions.navigationBarBackgroundColor || '#000000'
   const headerTitleAlign: StackHeaderOptions['headerTitleAlign'] = 'center'
-  const defaultOptions = {
+  const defaultOptions: Record<string, any> = {
     title: title,
     headerShown: windowOptions.navigationStyle !== 'custom',
     headerTitle: (props) => getHeaderView(title, headColor, props),
@@ -140,7 +140,13 @@ function getStackOptions (config: RouterConfig) {
       borderBottomWidth: 0
     },
     headerTintColor: headColor,
-    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+    cardStyleInterpolator: ({ current, next, inverted, layouts: { screen } }) => {
+      const animate = { current, next, inverted, layouts: { screen } } as StackCardInterpolationProps
+      if (hasJumpAnimate()) {
+        return CardStyleInterpolators.forHorizontalIOS(animate)
+      }
+      return CardStyleInterpolators.forNoAnimation()
+    },
     headerBackTitleVisible: false,
     headerPressColorAndroid: 'rgba(255,255,255,0)',
     headerTitleAlign,

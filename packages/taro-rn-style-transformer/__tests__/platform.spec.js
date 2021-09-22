@@ -1,4 +1,4 @@
-import StyleTransform, { getWrapedCSS } from '../dist/transforms'
+import StyleTransform, { getWrapedCSS } from '../src/transforms'
 
 // 初始化config
 const styleTransform = new StyleTransform()
