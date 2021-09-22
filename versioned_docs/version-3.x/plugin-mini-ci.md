@@ -11,7 +11,7 @@ title: 支持CI(持续集成)插件(小程序端构建后)
 
 ### 安装
 ```
-npm i @taro/plugin-mini-ci -D
+npm i @tarojs/plugin-mini-ci -D
 ```
 
 ### 使用插件
