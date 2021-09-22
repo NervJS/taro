@@ -96,9 +96,11 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   let unmounting = false
   let prepareMountList: (() => void)[] = []
   let loadResolver: (...args: unknown[]) => void
-  const hasLoaded = new Promise(resolve => { loadResolver = resolve })
+  let hasLoaded: Promise<void>
   const config: PageInstance = {
     onLoad (this: MpInstance, options, cb?: Func) {
+      hasLoaded = new Promise(resolve => { loadResolver = resolve })
+
       perf.start(PAGE_INIT)
 
       Current.page = this as any
