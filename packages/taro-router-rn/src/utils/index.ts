@@ -121,11 +121,3 @@ export function handleUrl (url: string): Record<string, any> {
     params
   }
 }
-
-export function hasJumpAnimate () :boolean {
-  return globalAny.__taroJumpAnimate
-}
-
-export function updateJumpAnimate (hasNeedAnimate:boolean) {
-  globalAny.__taroJumpAnimate = hasNeedAnimate
-}
