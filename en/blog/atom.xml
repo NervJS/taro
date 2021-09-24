@@ -77,18 +77,18 @@
         <summary type="html"><![CDATA[Beta 版发布后，社区很多开发者使用上了 Taro Next，他们的帮助和赞誉加上我们内部项目使用的良好反馈，Beta 发布一个月之后，我们非常自信地发布了候选版（RC）版本。]]></summary>
     </entry>
     <entry>
-        <title type="html"><![CDATA[使用 Taro 快速开发京东小程序]]></title>
-        <id>2020-04-27-taro-build-jd</id>
-        <link href="https://nervjs.github.io/taro/en/blog/2020-04-27-taro-build-jd"/>
-        <updated>2020-04-27T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[近两年来小程序逐渐成为互联网的一个行业风口，一直备受业界关注，各大厂也接踵推出了自己的小程序。近日京东也推出了小程序：京东小程序。Taro 作为一款专注于多端统一开发的框架，第一时间对京东小程序进行了适配。接下来就跟着小编一起了解一下如何使用 Taro 快速开发京东小程序吧。]]></summary>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[京东小程序 Taro 开发对比原生开发测评]]></title>
         <id>2020-04-27-taro-vs-jd</id>
         <link href="https://nervjs.github.io/taro/en/blog/2020-04-27-taro-vs-jd"/>
         <updated>2020-04-27T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Taro 已经 100% 支持转换京东小程序，受到了很多同学的关注。当中有欢呼雀跃的声音：“一键转换为京东小程序，终于可以准时下班啦”。也有对 Taro 不太了解的同学提出了一些疑问：“转换的效果如何？”、“转换后代码的性能是否达标？” 等等。]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[使用 Taro 快速开发京东小程序]]></title>
+        <id>2020-04-27-taro-build-jd</id>
+        <link href="https://nervjs.github.io/taro/en/blog/2020-04-27-taro-build-jd"/>
+        <updated>2020-04-27T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[近两年来小程序逐渐成为互联网的一个行业风口，一直备受业界关注，各大厂也接踵推出了自己的小程序。近日京东也推出了小程序：京东小程序。Taro 作为一款专注于多端统一开发的框架，第一时间对京东小程序进行了适配。接下来就跟着小编一起了解一下如何使用 Taro 快速开发京东小程序吧。]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Taro Next H5 跨框架组件库实践]]></title>
