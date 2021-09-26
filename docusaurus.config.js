@@ -281,7 +281,7 @@ const siteConfigTaroZone = {
           dropdownActiveClassDisabled: true,
           dropdownItemsAfter: [
             {
-              to: 'docs/versions',
+              to: 'versions',
               label: '全部版本',
               type: 'doc',
               docId:'version'
