@@ -27,7 +27,7 @@ export default class Selector extends React.Component<SelectorProps, SelectorSta
     pRange: [],
     range: [],
     value: 0,
-    preValue: '',
+    pValue: '',
   }
 
   dismissByOk = false
@@ -42,10 +42,10 @@ export default class Selector extends React.Component<SelectorProps, SelectorSta
         })
       }
     }
-    if (nextProps.value !== lastState.preValue) {
+    if (nextProps.value !== lastState.pValue) {
       ret = ret || {}
       ret.value = nextProps.value
-      ret.preValue = nextProps.value
+      ret.pValue = nextProps.value
     }
     return ret
   }
