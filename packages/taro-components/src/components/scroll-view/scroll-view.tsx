@@ -96,8 +96,7 @@ export class ScrollView implements ComponentInterface {
     const scrollTop = Number(newVal)
     if (
       this.scrollY &&
-      !isNaN(scrollTop) &&
-      scrollTop !== this._scrollTop
+      !isNaN(scrollTop)
     ) {
       if (this.scrollWithAnimation) {
         easeOutScroll(this._scrollTop, scrollTop, pos => (this.el.scrollTop = pos))
