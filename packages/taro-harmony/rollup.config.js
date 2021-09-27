@@ -6,7 +6,7 @@ const cwd = __dirname
 
 const base = {
   external: d => {
-    return d.includes('@tarojs/shared') || d.includes('@tarojs/service') || d.includes('@tarojs/runtime') || /^@system\./.test(d)
+    return d.includes('@tarojs/shared') || d.includes('@tarojs/service') || d.includes('@tarojs/runtime') || /^@(system|ohos)\./.test(d)
   },
   plugins: [
     copy({

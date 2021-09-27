@@ -175,7 +175,9 @@ export default class Harmony extends TaroPlatformBase {
     this.ctx.modifyWebpackChain(({ chain }) => {
       chain.merge({
         externals: {
-          '@system.router': 'commonjs @system.router'
+          '@system.app': 'commonjs @system.app',
+          '@system.router': 'commonjs @system.router',
+          '@ohos.data.storage': 'commonjs @ohos.data.storage'
         }
       })
     })
