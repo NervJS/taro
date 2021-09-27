@@ -31,6 +31,7 @@
     "@tarojs/helper": "3.3.9",
     "@tarojs/service": "3.3.9",
     "@tarojs/shared": "3.3.9",
+    "@tarojs/taro": "3.3.9",
     "webpack-sources": "2.3.0"
   },
   "devDependencies": {
