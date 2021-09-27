@@ -58,11 +58,11 @@
     "react-native-safe-area-context": "^3.1.8",
     "react-native-stylekit": "^1.0.0",
     "react-native-syan-image-picker": "0.4.10",
-    "react-native-unimodules": "^0.14.8"
+    "react-native-unimodules": "^0.14.9"
   },
   "devDependencies": {
     "@tarojs/taro": "3.3.3",
-    "@types/react-native": "0.64.10",
+    "@types/react-native": "0.65.1",
     "babel-plugin-jest-hoist": "^26.6.2",
     "cpy-cli": "^3.1.1",
     "jest-expo": "^39.0.0",
@@ -89,7 +89,7 @@
     "react-native-image-resizer": "^1.4.0",
     "react-native-safe-area-context": "^3.1.8",
     "react-native-syan-image-picker": "0.4.10",
-    "react-native-unimodules": "^0.14.8"
+    "react-native-unimodules": "^0.14.9"
   },
   "resolutions": {
     "@types/react": "17.0.11",
