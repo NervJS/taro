@@ -77,11 +77,7 @@ export class ScrollView implements ComponentInterface {
   @Watch('mpScrollLeft')
   watchScrollLeft (newVal) {
     const scrollLeft = Number(newVal)
-    if (
-      this.scrollX &&
-      !isNaN(scrollLeft) &&
-      scrollLeft !== this._scrollLeft
-    ) {
+    if (this.scrollX && !isNaN(scrollLeft)) {
       if (this.scrollWithAnimation) {
         easeOutScroll(this._scrollLeft, scrollLeft, pos => (this.el.scrollLeft = pos))
       } else {
@@ -94,11 +90,7 @@ export class ScrollView implements ComponentInterface {
   @Watch('mpScrollTop')
   watchScrollTop (newVal) {
     const scrollTop = Number(newVal)
-    if (
-      this.scrollY &&
-      !isNaN(scrollTop) &&
-      scrollTop !== this._scrollTop
-    ) {
+    if (this.scrollY && !isNaN(scrollTop)) {
       if (this.scrollWithAnimation) {
         easeOutScroll(this._scrollTop, scrollTop, pos => (this.el.scrollTop = pos))
       } else {
