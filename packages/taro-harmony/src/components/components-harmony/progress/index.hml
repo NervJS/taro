@@ -1,0 +1,29 @@
+<div class="progress">
+  <div 
+    if="{{showInfo && type == 'horizontal'}}"
+    class="progress-com"
+  >
+    <progress
+      style="color: {{color}};background-color:{{backgroundColor}};stroke-width:{{strokeWidth}}"
+      class="{{cls}}" 
+      type="{{type}}" 
+      percent="{{percent}}"
+      secondarypercent="{{secondarypercent}}" 
+      clockwise="{{clockwise}}"
+    >
+    </progress>
+    <text
+      style="font-size: {{fontSize}}"
+    >{{percent}}%</text>
+  </div>
+  <progress
+    else
+    style="color: {{color}};background-color:{{backgroundColor}};stroke-width:{{strokeWidth}}"
+    class="{{cls}}" 
+    type="{{type}}" 
+    percent="{{percent}}"
+    secondarypercent="{{secondarypercent}}" 
+    clockwise="{{clockwise}}"
+  >
+  </progress> 
+</div>

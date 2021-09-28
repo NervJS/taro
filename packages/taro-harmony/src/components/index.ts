@@ -51,5 +51,11 @@ export const components = {
     stickyradius: singleQuote('1000px'),
     clickeffect: 'true',
     bindsticky: ''
+  },
+  Progress: {
+    type: singleQuote('horizontal'),
+    fontSize: singleQuote('16px'),
+    secondarypercent: 0,
+    clockwise: 'true'
   }
 }
