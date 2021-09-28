@@ -1,4 +1,4 @@
-import { Linking, AppState } from 'react-native';
+import { Linking, AppState, NativeEventSubscription } from 'react-native';
 import * as Permissions from 'expo-permissions';
 
 const scopeMap = {
@@ -15,6 +15,7 @@ const scopeMap = {
 }
 
 let stateListener // 缓存监听函数
+let appStateSubscription: NativeEventSubscription | undefined
 
 const getAuthSetting = async () => {
   const keyArr = Object.keys(scopeMap)
@@ -42,7 +43,8 @@ const handleAppStateChange = async (nextAppState, resolve, reject, opts) => {
       success && success(res)
       complete && complete(res)
   
-      AppState.removeEventListener('change', stateListener as any);
+      appStateSubscription?.remove()
+      // TODO: deprecated. AppState.removeEventListener('change', stateListener as any);
       resolve(res)
     } catch (error) {
       res.errMsg = 'openSetting:fail'
@@ -110,7 +112,7 @@ export function getSetting(opts: Taro.getSetting.Option): Promise<Taro.getSettin
 export function openSetting(opts: Taro.openSetting.Option): Promise<Taro.openSetting.SuccessCallbackResult> {
   return new Promise((resolve, reject) => {
     stateListener = (next) => handleAppStateChange(next, resolve, reject, opts)
-    AppState.addEventListener('change', stateListener)
+    appStateSubscription = AppState.addEventListener('change', stateListener)
     Linking.openSettings()
   })
 }
