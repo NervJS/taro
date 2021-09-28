@@ -106,7 +106,10 @@ const schema = Joi.object().keys({
     output: Joi.object(),
     router: Joi.object(),
 
-    esnextModules: Joi.array().items(Joi.string()),
+    esnextModules: Joi.array().items(Joi.alternatives(
+      Joi.string(),
+      Joi.object().instance(RegExp)
+    )),
 
     // DEPRECATED: https://nervjs.github.io/taro/docs/config-detail.html#deprecated-h5webpack
     webpack: Joi.forbidden(),
