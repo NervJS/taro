@@ -87,7 +87,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     dotActiveStyle: {},
   };
 
-  viewPager = React.createRef<typeof ViewPager>();
+  viewPager = React.createRef<ViewPager>();
 
   private autoplayTimer: number;
 
@@ -120,7 +120,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
   }
 
   // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps(props: CarouselProps): void{
+  UNSAFE_componentWillReceiveProps(props: CarouselProps): void {
     const { selectedIndex } = props
     const index = selectedIndex as number
     if (selectedIndex !== this.state.selectedIndex) {
@@ -134,8 +134,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
    */
   public goTo(index: number): void {
     this.setState({ selectedIndex: index })
-    // @ts-ignore
-    this.viewPager.current.setPage(index)
+    this.viewPager.current && this.viewPager.current.setPage(index)
   }
 
   render(): any {
