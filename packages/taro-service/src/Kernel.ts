@@ -48,7 +48,7 @@ export default class Kernel extends EventEmitter {
   config: Config
   initialConfig: IProjectConfig
   hooks: Map<string, IHook[]>
-  methods: Map<string, (...args: any[]) => void>
+  methods: Map<string, ((...args: any[]) => void)[]>
   commands: Map<string, ICommand>
   platforms: Map<string, IPlatform>
   helper: any
@@ -203,7 +203,17 @@ export default class Kernel extends EventEmitter {
     })
     return new Proxy(pluginCtx, {
       get: (target, name: string) => {
-        if (this.methods.has(name)) return this.methods.get(name)
+        if (this.methods.has(name)) {
+          const method = this.methods.get(name)
+          if (Array.isArray(method)) {
+            return (...arg) => {
+              method.forEach(item => {
+                item.apply(this, arg)
+              })
+            }
+          }
+          return method
+        }
         if (kernelApis.includes(name)) {
           return typeof this[name] === 'function' ? this[name].bind(this) : this[name]
         }
