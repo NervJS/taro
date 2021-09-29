@@ -12,6 +12,6 @@ export const components = {
     bindGetPhoneNumber: ''
   },
   Map: {
-    bindregionchange: ''
+    bindRegionChange: ''
   }
 }
