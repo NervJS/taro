@@ -158,7 +158,7 @@ export default class Harmony extends TaroPlatformBase {
     })
 
     ctx.onBuildFinish(() => {
-      const dest = path.join(process.cwd(), config.outputRoot)
+      const dest = path.resolve(process.cwd(), config.outputRoot)
       const compsSrcDir = path.join(__dirname, 'components-harmony')
       const compsDestDir = path.join(dest, 'container/components-harmony')
 
