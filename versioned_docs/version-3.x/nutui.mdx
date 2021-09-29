@@ -60,6 +60,8 @@ taro init myApp
 
 ### NPM 使用示例
 
+> 注意：这种方式将会导入所有组件，打包文件大小会很大
+
 ```javascript
 import { createApp } from "vue";
 import App from "./App.vue";
@@ -68,9 +70,41 @@ import "@nutui/nutui-taro/dist/style.css";
 createApp(App).use(NutUI);
 ```
 
-> 注意：这种方式将会导入所有组件
 
-### 推荐使用按需加载
+#### 推荐使用按需加载
+
+[babel-plugin-import](https://github.com/ant-design/babel-plugin-import) 是一款 babel 插件，它会在编译过程中将 import 语句自动转换为按需引入的方式。
+##### 安装插件
+``` bash
+npm install babel-plugin-import --save-dev
+```
+
+在 `.babelrc` 或 `babel.config.js` 中添加配置：
+``` javascript
+{
+  // ...
+  plugins: [
+    [
+      "import",
+      {
+        "libraryName": "@nutui/nutui",
+        "libraryDirectory": "dist/packages/_es",
+        "camel2DashComponentName": false
+      },
+      'nutui3-vue'
+    ],
+    [
+      "import",
+      {
+        "libraryName": "@nutui/nutui-taro",
+        "libraryDirectory": "dist/packages/_es",
+        "camel2DashComponentName": false
+      },
+      'nutui3-taro'
+    ]
+  ]
+}
+```
 
 ```javascript
 import { createApp } from "vue";
@@ -81,22 +115,21 @@ createApp(App).use(Button).use(Cell).use(Icon);
 ```
 
 
-### 定制化主题使用
 
-#### 首先需要在 **app.ts** 文件中配置 使用 scss 样式文件如：
+#### 定制化主题使用
+
+首先需要在 **app.ts** 文件中配置 使用 scss 样式文件如：
 
 ```javascript
 import { createApp } from "vue";
 import App from "./App.vue";
 import { Button, Cell, Icon } from "@nutui/nutui-taro";
 // 定制化主题必须使用 scss 
-import "@nutui/nutui-taro/dist/style.scss";
+import '@nutui/nutui-taro/dist/styles/themes/default.scss';
 createApp(App).use(Button).use(Cell).use(Icon);
 ```
 
-#### 创建定制化主题样式文件 ```assets/styles/custom_theme.scss``` ，样式变量覆盖表参考 [nutui variables](https://github.com/jdf2e/nutui/blob/next/src/packages/styles/variables.scss)
-
-```custom_theme.scss```
+创建定制化主题样式文件 ```assets/styles/custom_theme.scss``` ，样式变量覆盖表参考 [nutui variables](https://github.com/jdf2e/nutui/blob/next/src/packages/styles/variables.scss)
 ``` scss
 $primary-color: #478EF2;
 $primary-color-end: #496AF2;
@@ -104,7 +137,7 @@ $primary-color-end: #496AF2;
 
 
 
-#### 然后需要在 **config/index.js** 文件中配置 scss 文件全局覆盖如：
+然后需要在 `config/index.js` 文件中配置 `scss` 文件全局覆盖如：
 
 ``` javascript
 const path = require('path');
@@ -116,14 +149,14 @@ const config = {
     375: 2 / 1
   },
   sass: {
-		resource: [
-			path.resolve(__dirname, '..', 'src/assets/styles/custom_theme.scss')
-		]
-	},
+    resource: [
+        path.resolve(__dirname, '..', 'src/assets/styles/custom_theme.scss')
+    ]
+  },
   // ...
 ```
 
-#### vue 文件中使用查看效果
+`vue` 文件中使用查看效果
 
 ``` html
 <template>
