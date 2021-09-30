@@ -51,5 +51,12 @@ export const components = {
     stickyradius: singleQuote('1000px'),
     clickeffect: 'true',
     bindsticky: ''
+  },
+  Switch: {
+    type: singleQuote('switch'),
+    showtext: 'false',
+    disabled: 'false',
+    texton: singleQuote('On'),
+    textoff: singleQuote('Off'),
   }
 }
