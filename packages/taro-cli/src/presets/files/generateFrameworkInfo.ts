@@ -22,6 +22,7 @@ export default (ctx: IPluginContext) => {
         filePath: frameworkInfoFileName,
         content: JSON.stringify(frameworkinfo, null, 2)
       })
+      printLog(processTypeEnum.START, '输出路径', `${ctx.paths.outputPath}`)
       printLog(processTypeEnum.GENERATE, '框架信息', `${outputRoot}/${frameworkInfoFileName}`)
     } else {
       printLog(processTypeEnum.WARNING, '依赖安装', chalk.red(`项目依赖 ${frameworkName} 未安装，或安装有误！`))
