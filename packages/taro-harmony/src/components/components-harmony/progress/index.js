@@ -9,6 +9,7 @@ export default {
     'borderRadius',
     'fontSize',
     'strokeWidth',
+    // 颜色只能用6位颜色符号 如：#ff0000
     'color',
     'activeColor',
     'backgroundColor',
