@@ -1,29 +1,30 @@
 <div class="progress">
-  <div 
+  <div
     if="{{showInfo && type == 'horizontal'}}"
-    class="progress-com"
+    class="progress-horizontal-showInfo"
+    style="height: 100px;"
   >
     <progress
-      style="color: {{color}};background-color:{{backgroundColor}};stroke-width:{{strokeWidth}}"
-      class="{{cls}}" 
-      type="{{type}}" 
+      style="color: {{backgroundColor}};background-color:{{color}};stroke-width:{{strokeWidth}}"
+      class="{{cls}}"
+      type="{{type}}"
       percent="{{percent}}"
-      secondarypercent="{{secondarypercent}}" 
+      secondarypercent="{{secondarypercent}}"
       clockwise="{{clockwise}}"
     >
     </progress>
     <text
-      style="font-size: {{fontSize}}"
+      style="font-size: 25px;width: 80px; text-align: center;"
     >{{percent}}%</text>
   </div>
   <progress
     else
-    style="color: {{color}};background-color:{{backgroundColor}};stroke-width:{{strokeWidth}}"
-    class="{{cls}}" 
-    type="{{type}}" 
+    style="color: {{backgroundColor}};background-color:{{color}};stroke-width:{{strokeWidth}}"
+    class="{{cls}}"
+    type="{{type}}"
     percent="{{percent}}"
-    secondarypercent="{{secondarypercent}}" 
+    secondarypercent="{{secondarypercent}}"
     clockwise="{{clockwise}}"
   >
-  </progress> 
+  </progress>
 </div>
