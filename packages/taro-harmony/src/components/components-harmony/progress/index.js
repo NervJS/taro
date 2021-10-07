@@ -16,5 +16,25 @@ export default {
     'active',
     'activeMode',
     'duration'
-  ]
+  ],
+  computed: {
+    progressColor () {
+      return this.filterColor(this.color)
+    },
+    progressBgColor () {
+      return this.filterColor(this.backgroundColor)
+    }
+  },
+  filterColor (v) {
+    const reg = /^#([0-9a-fA-F]{3})$/
+    if (reg.test(v)) {
+      const c = v.substring(1).split('')
+      let s = '#'
+      for (let i = 0; i < c.length; i++) {
+        s += c[i] + c[i]
+      }
+      return s
+    }
+    return v
+  }
 }

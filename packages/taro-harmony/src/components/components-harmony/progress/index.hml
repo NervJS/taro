@@ -5,7 +5,7 @@
     style="height: 100px;"
   >
     <progress
-      style="color: {{backgroundColor}};background-color:{{color}};stroke-width:{{strokeWidth}}"
+      style="color: {{progressBgColor}};background-color:{{progressColor}};stroke-width:{{strokeWidth}}"
       class="{{cls}}"
       type="{{type}}"
       percent="{{percent}}"
@@ -14,12 +14,12 @@
     >
     </progress>
     <text
-      style="font-size: 25px;width: 80px; text-align: center;"
+      style="font-size: {{fontSize}};width: 80px; text-align: center;"
     >{{percent}}%</text>
   </div>
   <progress
     else
-    style="color: {{backgroundColor}};background-color:{{color}};stroke-width:{{strokeWidth}}"
+    style="color: {{progressBgColor}};background-color:{{progressColor}};stroke-width:{{strokeWidth}}"
     class="{{cls}}"
     type="{{type}}"
     percent="{{percent}}"

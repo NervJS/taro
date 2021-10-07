@@ -54,7 +54,7 @@ export const components = {
   },
   Progress: {
     type: singleQuote('horizontal'),
-    'font-size': singleQuote('16px'),
+    'font-size': singleQuote('25px'),
     secondarypercent: '0',
     clockwise: 'true'
   }
