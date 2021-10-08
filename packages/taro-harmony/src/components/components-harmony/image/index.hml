@@ -1,0 +1,9 @@
+<image
+  id="{{id}}"
+  style="object-fit: {{objectFit}}"
+  class="{{cls}}"
+  src="{{src}}"
+  alt="{{alt}}"
+  @complete="onLoad"
+  @error="onError"
+></image>
