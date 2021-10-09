@@ -29,7 +29,7 @@ function makeURL (resource: string, rootDir: string) {
 function makeImportStatement (filePath: string, resource: string, rootDir: string) {
   const url = makeURL(resource, rootDir)
   const relativePath = path.relative(filePath, url).replace(/\\/g, '/') // fix window path error
-  return `@import '${relativePath}'`
+  return `@import './${relativePath}'`
 }
 
 function getGlobalResource (filename: string, config: SassGlobalConfig) {
