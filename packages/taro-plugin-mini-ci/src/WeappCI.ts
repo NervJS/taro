@@ -26,7 +26,7 @@ export default class WeappCI extends BaseCI {
       ignores: ['node_modules/**/*'],
       ...this.pluginOpts.weapp!
     }
-    const privateKeyPath = path.join(appPath, weappConfig.privateKeyPath)
+    const privateKeyPath = path.isAbsolute(weappConfig.privateKeyPath) ? weappConfig.privateKeyPath : path.join(appPath, weappConfig.privateKeyPath)
     if (!fs.pathExistsSync(privateKeyPath)) {
       throw new Error(`"weapp.privateKeyPath"选项配置的路径不存在,本次上传终止:${privateKeyPath}`)
     }
