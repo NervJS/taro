@@ -88,6 +88,7 @@ export default class MultiSelector extends React.Component<MultiSelectorProps, M
     }
 
     if (!shallowDiffValue(nextProps.value, lastState.pValue)) {
+      // 初始化的时候和点击确认时候，会走到里面
       ret = ret || {}
       ret.pValue = nextProps.value
       let tmp = (ret && ret.range) || lastState.range

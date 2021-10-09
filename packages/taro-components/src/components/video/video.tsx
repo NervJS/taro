@@ -138,6 +138,8 @@ export class Video implements ComponentInterface {
    */
   @Prop() vslideGestureInFullscreen = true
 
+  @Prop() nativeProps = {}
+
   @State() _duration: number
   @State() _enableDanmu = false
   @State() isPlaying = false
@@ -492,7 +494,8 @@ export class Video implements ComponentInterface {
       _enableDanmu,
       showMuteBtn,
       danmuBtn,
-      showFullscreenBtn
+      showFullscreenBtn,
+      nativeProps
     } = this
     const durationTime = formatTime(duration || _duration || null)
 
@@ -529,6 +532,7 @@ export class Video implements ComponentInterface {
           onDurationChange={this.handleDurationChange}
           onProgress={this.handleProgress}
           onLoadedMetaData={this.handleLoadedMetaData}
+          {...nativeProps}
         >
           暂时不支持播放该视频
         </video>

@@ -1,5 +1,6 @@
 import { Linking, AppState, NativeEventSubscription } from 'react-native';
 import * as Permissions from 'expo-permissions';
+import { errorHandler, successHandler } from '../utils';
 
 const scopeMap = {
   'scope.userLocation': Permissions.LOCATION,
@@ -40,80 +41,59 @@ const handleAppStateChange = async (nextAppState, resolve, reject, opts) => {
     try {
       res.authSetting = await getAuthSetting()
       res.errMsg = 'openSetting:ok'
-      success && success(res)
-      complete && complete(res)
+      success?.(res)
+      complete?.(res)
   
       appStateSubscription?.remove()
-      // TODO: deprecated. AppState.removeEventListener('change', stateListener as any);
       resolve(res)
     } catch (error) {
       res.errMsg = 'openSetting:fail'
-      fail && fail(res)
-      complete && complete(res)
-  
+      fail?.(res)
+      complete?.(res)
+
       reject(error)
     }
   }
   // AppState.currentState = nextAppState;
 };
 
-export function authorize(opts: Taro.authorize.Option): Promise<Taro.General.CallbackResult> {
+export async function authorize(opts: Taro.authorize.Option): Promise<Taro.General.CallbackResult> {
   const { scope, success, fail, complete } = opts
   const res: any = {}
 
-  return new Promise(async (resolve, reject) => {
     try {
       const { status } = await Permissions.askAsync(scopeMap[scope])
       if (status === 'granted') {
         res.errMsg = 'authorize:ok'
-        success && success(res)
-        complete && complete(res)
-
-        resolve(res)
+        return successHandler(success, complete)(res)
       } else {
         res.errMsg = 'authorize:denied/undetermined'
-        fail && fail(res)
-        complete && complete(res)
-
-        resolve(res)
+        return errorHandler(fail, complete)(res)
       }
     } catch (error) {
       res.errMsg = 'authorize:fail'
-      fail && fail(res)
-      complete && complete(res)
-
-      reject(error)
+      return errorHandler(fail, complete)(res)
     }
-  })
 }
 
-export function getSetting(opts: Taro.getSetting.Option): Promise<Taro.getSetting.SuccessCallbackResult> {
+export async function getSetting(opts: Taro.getSetting.Option = {}): Promise<Taro.getSetting.SuccessCallbackResult> {
   const { success, fail, complete } = opts
   const res: any = {}
 
-  return new Promise(async (resolve, reject) => {
     try {
       res.authSetting = await getAuthSetting()
       res.errMsg = 'getSetting:ok'
-      success && success(res)
-      complete && complete(res)
-
-      resolve(res)
+      return successHandler(success, complete)(res)
     } catch (error) {
       res.errMsg = 'getSetting:fail'
-      fail && fail(res)
-      complete && complete(res)
-
-      reject(error)
+      return errorHandler(fail, complete)(res)
     }
-  })
 }
 
-export function openSetting(opts: Taro.openSetting.Option): Promise<Taro.openSetting.SuccessCallbackResult> {
+export function openSetting(opts: Taro.openSetting.Option = {}): Promise<Taro.openSetting.SuccessCallbackResult> {
   return new Promise((resolve, reject) => {
     stateListener = (next) => handleAppStateChange(next, resolve, reject, opts)
     appStateSubscription = AppState.addEventListener('change', stateListener)
     Linking.openSettings()
   })
 }
-

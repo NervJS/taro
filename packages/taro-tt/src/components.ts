@@ -33,5 +33,8 @@ export const components = {
     fixed: '',
     type: singleQuote('banner'),
     scale: '100'
+  },
+  Textarea: {
+    'disable-default-padding': 'false'
   }
 }

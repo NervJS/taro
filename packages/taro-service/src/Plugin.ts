@@ -46,15 +46,14 @@ export default class Plugin {
 
   registerMethod (...args) {
     const { name, fn } = processArgs(args)
-    if (this.ctx.methods.has(name)) {
-      throw new Error(`已存在方法 ${name}`)
-    }
-    this.ctx.methods.set(name, fn || function (fn: (...args: any[]) => void) {
+    const methods = this.ctx.methods.get(name) || []
+    methods.push(fn || function (fn: (...args: any[]) => void) {
       this.register({
         name,
         fn
       })
     }.bind(this))
+    this.ctx.methods.set(name, methods)
   }
 
   addPluginOptsSchema (schema) {

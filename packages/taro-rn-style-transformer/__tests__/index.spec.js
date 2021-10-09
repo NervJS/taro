@@ -1,4 +1,4 @@
-import StyleTransform, { getWrapedCSS } from '../dist/transforms'
+import StyleTransform, { getWrapedCSS } from '../src/transforms'
 
 // 初始化
 const styleTransform = new StyleTransform()
@@ -175,6 +175,17 @@ describe('style transform', () => {
   "c": {
     "color": "red"
   },
+  "test": {
+    "color": "red"
+  }
+}`))
+  })
+
+  it('.less tranform node_modules file import', async () => {
+    const css = await run(`
+      @import 'less/test/browser/css/global-vars/simple.css';
+    `, './__tests__/styles/a.less')
+    expect(css).toEqual(getWrapedCSS(`{
   "test": {
     "color": "red"
   }

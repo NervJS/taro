@@ -119,33 +119,35 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       componentDidMount () {
         const { navigation } = this.props
         // 退到后台的触发对应的生命周期函数
-        this.appStateSubscription = AppState.addEventListener('change', (nextAppState) => this.onAppStateChange(nextAppState))
+        this.appStateSubscription = AppState.addEventListener('change', this.onAppStateChange)
         // 屏幕宽高发送变化
-        this.dimensionsSubscription = Dimensions.addEventListener('change', ({ window }) => this.onResize({ window }))
+        this.dimensionsSubscription = Dimensions.addEventListener('change', this.onResize)
 
         if (navigation) {
           this.unSubscribleTabPress = navigation.addListener('tabPress', () => this.onTabItemTap())
           this.unSubscribleFocus = navigation.addListener('focus', () => this.onFocusChange())
           this.unSubscribleBlur = navigation.addListener('blur', () => this.onBlurChange())
         }
-
-        eventCenter.on('__taroPullDownRefresh', ({ path, refresh }) => this.pullDownRefresh(path, refresh), this)
-        eventCenter.on('__taroPageScrollTo', ({ path, scrollTop }) => this.pageToScroll({ path, scrollTop }), this)
-        eventCenter.on('__taroSetRefreshStyle', () => this.setRefreshStyle(), this)
+        eventCenter.on('__taroPullDownRefresh', this.pullDownRefresh, this)
+        eventCenter.on('__taroPageScrollTo', this.pageToScroll, this)
+        eventCenter.on('__taroSetRefreshStyle', this.setRefreshStyle, this)
       }
 
       componentWillUnmount () {
-        const { navigation } = this.props
+        const { navigation, route } = this.props
 
         this.appStateSubscription?.remove()
         this.dimensionsSubscription?.remove()
-        eventCenter.off('__taroPullDownRefresh', ({ path, refresh }) => this.pullDownRefresh(path, refresh), this)
-        eventCenter.off('__taroPageScrollTo', ({ path, scrollTop }) => this.pageToScroll({ path, scrollTop }), this)
-        eventCenter.off('__taroSetRefreshStyle', () => this.setRefreshStyle(), this)
+        eventCenter.off('__taroPullDownRefresh', this.pullDownRefresh, this)
+        eventCenter.off('__taroPageScrollTo', this.pageToScroll, this)
+        eventCenter.off('__taroSetRefreshStyle', this.setRefreshStyle, this)
         if (navigation) {
           this.unSubscribleTabPress()
           this.unSubscribleBlur()
           this.unSubscribleFocus()
+        }
+        if (route && route.key) {
+          pagesObj.delete(route.key)
         }
       }
 
@@ -243,13 +245,13 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         Current.page = inst
       }
 
-      pullDownRefresh (path, refresh) {
+      pullDownRefresh = (path, refresh) => {
         if (path === pagePath) {
           this.setState({ refreshing: refresh })
         }
       }
 
-      setRefreshStyle () {
+      setRefreshStyle = () => {
         const refreshStyle = globalAny?.__taroRefreshStyle ?? {}
         this.setState({
           textColor: refreshStyle.textColor || '#ffffff',
@@ -257,7 +259,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         })
       }
 
-      pageToScroll ({ path = '', scrollTop = 0 }) {
+      pageToScroll = ({ path = '', scrollTop = 0 }) => {
         if (path === pagePath) {
           this.pageScrollView?.current?.scrollTo({ x: 0, y: scrollTop, animated: true })
         }
@@ -285,7 +287,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         }
       }
 
-      onAppStateChange (nextAppState) {
+      onAppStateChange = (nextAppState) => {
         const { appState } = this.state
         if (appState.match(/inactive|background/) && nextAppState === 'active') {
           this.handleHooksEvent('componentDidShow')
@@ -309,7 +311,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         }
       }
 
-      onResize ({ window }) {
+      onResize = ({ window }) => {
         try {
           this.handleHooksEvent('onResize', { size: window })
           if (this.screenRef?.current?.onResize) { this.screenRef?.current?.onResize({ size: window }) }

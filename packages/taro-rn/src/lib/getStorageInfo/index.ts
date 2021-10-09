@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { errorHandler, successHandler } from '../../utils'
 
 async function getStorageCurrentSize() {
   const keys = await AsyncStorage.getAllKeys()
@@ -10,29 +11,22 @@ async function getStorageCurrentSize() {
   return Number((size / 1024).toFixed(2))
 }
 
-export function getStorageInfo(option: Taro.getStorageInfo.Option = {}): Promise<Taro.General.CallbackResult> {
+export async function getStorageInfo(option: Taro.getStorageInfo.Option = {}): Promise<Taro.General.CallbackResult> {
   const { success, fail, complete } = option
   const res = { errMsg: 'getStorageInfo:ok' }
 
-  return new Promise((resolve, reject) => {
-    AsyncStorage.getAllKeys()
-      .then(async (data) => {
-        const result = {
-          ...res,
-          keys: data,
-          currentSize: await getStorageCurrentSize(),
-          limitSize: Infinity
-        }
-        success && success(result)
-        complete && complete(result)
-
-        resolve(result)
-      }).catch((err) => {
-        res.errMsg = err.message
-        fail && fail(res)
-        complete && complete(res)
-
-        reject(err)
-      })
-  })
+  try {
+    const data = await AsyncStorage.getAllKeys()
+    const result = {
+      ...res,
+      keys: data,
+      currentSize: await getStorageCurrentSize(),
+      limitSize: Infinity
+    }
+    // @ts-ignore
+    return successHandler(success, complete)(result)
+  } catch (err) {
+    res.errMsg = err.message
+    return errorHandler(fail, complete)(err)
+  }
 }

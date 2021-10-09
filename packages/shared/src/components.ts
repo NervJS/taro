@@ -96,7 +96,8 @@ const Button = {
   'hover-stop-propagation': 'false',
   'hover-start-time': '20',
   'hover-stay-time': '70',
-  name: ''
+  name: '',
+  ...touchEvents
 }
 
 const Checkbox = {

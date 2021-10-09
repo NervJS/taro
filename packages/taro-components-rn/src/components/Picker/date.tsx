@@ -4,7 +4,7 @@ import { noop } from '../../utils'
 import { DateProps, DateState } from './PropsType'
 import { TouchableWithoutFeedback } from 'react-native'
 import View from '../View'
-function formatTimeStr (time = ''): Date {
+function formatTimeStr(time = ''): Date {
   let [year, month, day]: any = time.split('-')
   year = ~~year || 2000
   month = ~~month || 1
@@ -25,7 +25,7 @@ export default class DateSelector extends React.Component<DateProps, DateState> 
 
   dismissByOk = false
 
-  static getDerivedStateFromProps (nextProps: DateProps, lastState: DateState): DateState | null {
+  static getDerivedStateFromProps(nextProps: DateProps, lastState: DateState): DateState | null {
     if (nextProps.value !== lastState.pValue) {
       const now = new Date()
       if (!nextProps.value || typeof nextProps.value !== 'string') {
@@ -77,7 +77,7 @@ export default class DateSelector extends React.Component<DateProps, DateState> 
     this.dismissByOk = false
   }
 
-  render (): JSX.Element {
+  render(): JSX.Element {
     const {
       children,
       start = '1970-01-01',

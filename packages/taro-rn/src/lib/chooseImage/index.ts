@@ -49,6 +49,7 @@ function openCamera(options: Taro.chooseImage.Option): Promise<Taro.chooseImage.
   })
 }
 
+// NOTE: 调用此函数会改变图片的像素尺寸
 function openPicker(options: Taro.chooseImage.Option): Promise<Taro.chooseImage.SuccessCallbackResult> {
   const { count: imageCount, sizeType = [],success, complete, fail } = options
   return new Promise((resolve, reject) => {

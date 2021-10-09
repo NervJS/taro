@@ -29,6 +29,8 @@ module.exports = {
     ENABLE_INNER_HTML: true,
     ENABLE_ADJACENT_HTML: true,
     ENABLE_SIZE_APIS: true,
+    ENABLE_TEMPLATE_CONTENT: true,
+    ENABLE_CLONE_NODE: true,
     'ts-jest': {
       diagnostics: false,
       tsConfig: 'tsconfig.test.json'

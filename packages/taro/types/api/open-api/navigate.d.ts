@@ -18,10 +18,10 @@ declare namespace Taro {
    * ```tsx
    * Taro.exitMiniProgram()
    * ···
-   * 
+   *
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/navigate/wx.exitMiniProgram.html
    */
-  function exitMiniProgram(option: exitMiniProgram.Option): Promise<General.CallbackResult>
+  function exitMiniProgram(option?: exitMiniProgram.Option): Promise<General.CallbackResult>
 
   namespace navigateToMiniProgram {
     interface Option {

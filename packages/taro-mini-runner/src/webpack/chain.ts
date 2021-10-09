@@ -378,7 +378,7 @@ export const getModule = (appPath: string, {
   if (compile.exclude && compile.exclude.length) {
     scriptRule.exclude = [
       ...compile.exclude,
-      filename => /node_modules/.test(filename) && !(/taro/.test(filename))
+      filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))
     ]
   } else if (compile.include && compile.include.length) {
     scriptRule.include = [
@@ -387,7 +387,7 @@ export const getModule = (appPath: string, {
       filename => /taro/.test(filename)
     ]
   } else {
-    scriptRule.exclude = [filename => /node_modules/.test(filename) && !(/taro/.test(filename))]
+    scriptRule.exclude = [filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))]
   }
 
   const rule: Record<string, IRule> = {
@@ -523,6 +523,8 @@ export function getRuntimeConstants (runtime) {
   const constants = {
     ENABLE_INNER_HTML: true,
     ENABLE_ADJACENT_HTML: true,
+    ENABLE_TEMPLATE_CONTENT: true,
+    ENABLE_CLONE_NODE: true,
     ENABLE_SIZE_APIS: false
   }
 
@@ -536,6 +538,14 @@ export function getRuntimeConstants (runtime) {
 
   if (runtime.enableSizeAPIs !== undefined) {
     constants.ENABLE_SIZE_APIS = runtime.enableSizeAPIs
+  }
+
+  if (runtime.enableTemplateContent !== undefined) {
+    constants.ENABLE_TEMPLATE_CONTENT = runtime.enableTemplateContent
+  }
+
+  if (runtime.enableCloneNode !== undefined) {
+    constants.ENABLE_CLONE_NODE = runtime.enableCloneNode
   }
 
   return constants

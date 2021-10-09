@@ -7,14 +7,14 @@ export function removeStorage(option: Taro.removeStorage.Option): Promise<Taro.G
   return new Promise((resolve, reject) => {
     AsyncStorage.removeItem(key)
       .then(() => {
-        success && success(res)
-        complete && complete(res)
+        success?.(res)
+        complete?.(res)
 
         resolve(res)
       }).catch((err) => {
         res.errMsg = err.message
-        fail && fail(res)
-        complete && complete(res)
+        fail?.(res)
+        complete?.(res)
 
         reject(err)
       })
