@@ -48,6 +48,7 @@
     "weui": "^1.1.2"
   },
   "devDependencies": {
+    "@types/react-native": "0.65.1",
     "@stencil/sass": "1.4.1",
     "jquery": "^3.4.1",
     "karmatic": "^2.1.0",
