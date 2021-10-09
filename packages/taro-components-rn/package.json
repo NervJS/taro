@@ -49,7 +49,7 @@
     "expo-constants": "~9.2.0",
     "expo-file-system": "~11.1.3",
     "jest-expo": "^39.0.0",
-    "metro-react-native-babel-preset": "^0.64.0",
+    "metro-react-native-babel-preset": "^0.66.2",
     "pre-commit": "^1.2.2",
     "react-native": "^0.66.0",
     "react-test-renderer": "^17.0.1",
@@ -68,6 +68,5 @@
   "resolutions": {
     "@types/react": "17.0.11",
     "@types/node": "^14.14.41"
-  },
-  "gitHead": "f96fa4b6b01b98e0e39e59e02e2ccec9d67f8d39"
+  }
 }
