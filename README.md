@@ -54,7 +54,7 @@ Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用
 
 #### React/Nerv 支持
 
-在 Taro 3 中可以使用完整的 React/Nerv 开发体验，具体请参考[基础教程——React](https://nervjs.github.io/taro/docs/react)
+在 Taro 3 中可以使用完整的 React/Nerv 开发体验，具体请参考[基础教程——React](https://docs.taro.zone/docs/react-overall)
 
 代码示例
 
@@ -84,7 +84,7 @@ export default class Index extends Component {
 
 #### Vue 支持
 
-在 Taro 3 中可以使用完整的 Vue 开发体验，具体请参考[基础教程——Vue](https://nervjs.github.io/taro/docs/vue)
+在 Taro 3 中可以使用完整的 Vue 开发体验，具体请参考[基础教程——Vue](https://docs.taro.zone/docs/vue-overall)
 
 代码示例
 
