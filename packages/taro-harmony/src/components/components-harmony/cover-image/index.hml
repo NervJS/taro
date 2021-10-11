@@ -1,0 +1,8 @@
+<image
+  id="{{id}}"
+  class="{{cls}}"
+  alt="{{alt}}"
+  src="{{src}}"
+  @complete="onLoad"
+  @error="onError"
+></image>
