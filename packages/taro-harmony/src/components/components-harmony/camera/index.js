@@ -3,7 +3,7 @@ export default {
     'id',
     'cls',
     'flash',
-    'deviceposition'
+    'devicePosition'
   ],
   onError () {
     this.$emit('error', { errMsg: '用户不允许使用摄像头时触发' })

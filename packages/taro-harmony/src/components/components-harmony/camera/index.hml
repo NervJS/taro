@@ -2,6 +2,6 @@
   id="{{id}}"
   class="{{cls}}"
   flash="{{flash}}"
-  deviceposition="{{deviceposition}}"
+  deviceposition="{{devicePosition}}"
   @error="onError"
 ></camera>
