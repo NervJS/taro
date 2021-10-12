@@ -79,3 +79,59 @@ export function validateOptions (funcName, options: any): {
     res
   }
 }
+
+export function validateGeolocationOptions (funcName, options: any): {
+  isPassed: boolean
+  res: any
+} {
+  // options must be an Object
+  const isObject = shouleBeObject(funcName, options)
+  if (!isObject.res) {
+    const res = { errMsg: isObject.msg }
+    console.error(res.errMsg)
+    return {
+      isPassed: false,
+      res
+    }
+  }
+  const { type, altitude, isHighAccuracy, highAccuracyExpireTime, fail, complete } = options
+  const params = [{
+    value: type,
+    param: 'type',
+    correct: 'String'
+  }, {
+    value: altitude,
+    param: 'altitude',
+    correct: 'Boolean'
+  }, {
+    value: isHighAccuracy,
+    param: 'isHighAccuracy',
+    correct: 'Boolean'
+  }, {
+    value: highAccuracyExpireTime,
+    param: 'highAccuracyExpireTime',
+    correct: 'number'
+  }]
+  const res: any = { errMsg: `${funcName}:ok` }
+  for (let i = 0; i < params.length; i++) {
+    if (params[i].value && typeof params[i].value !== params[i].correct) {
+      res.errMsg = getParameterError({
+        name: funcName,
+        param: params[i].param,
+        correct: params[i].correct,
+        wrong: params[i].value
+      })
+      console.error(res.errMsg)
+      typeof fail === 'function' && fail(res)
+      typeof complete === 'function' && complete(res)
+      return {
+        isPassed: false,
+        res
+      }
+    }
+  }
+  return {
+    isPassed: true,
+    res
+  }
+}
