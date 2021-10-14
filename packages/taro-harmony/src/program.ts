@@ -177,6 +177,7 @@ export default class Harmony extends TaroPlatformBase {
         externals: {
           '@system.app': 'commonjs @system.app',
           '@system.router': 'commonjs @system.router',
+          '@system.prompt': 'commonjs @system.prompt',
           '@ohos.data.storage': 'commonjs @ohos.data.storage'
         }
       })
