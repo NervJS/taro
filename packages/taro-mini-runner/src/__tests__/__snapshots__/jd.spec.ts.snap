@@ -839,6 +839,9 @@ require(\\"./taro\\");
             },
             Button: {
                 bindGetPhoneNumber: \\"\\"
+            },
+            Map: {
+                bindRegionChange: \\"\\"
             }
         };
         var hostConfig = {
