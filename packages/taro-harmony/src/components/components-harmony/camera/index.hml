@@ -1,7 +1,0 @@
-<camera
-  id="{{id}}"
-  class="{{cls}}"
-  flash="{{flash}}"
-  deviceposition="{{deviceposition}}"
-  @error="onError"
-></camera>
