@@ -4,6 +4,7 @@ export const components = {
   Checkbox: {
     'group-id': ''
   },
+  Icon: {},
   Span: {},
   Tabs: {
     index: '0',
