@@ -2,6 +2,8 @@ import fs from 'fs'
 import path from 'path'
 import { printLog, processTypeEnum } from '@tarojs/helper'
 import { ResolveStyleOptions, LogLevelEnum } from '../types'
+import resolve from 'resolve'
+import nodeModulesPaths from 'resolve/lib/node-modules-paths'
 
 export function insertBefore (source: string, additional: string) {
   if (!source && !additional) {
@@ -62,6 +64,7 @@ export function resolveStyle (id: string, opts: ResolveStyleOptions) {
     defaultExt = '',
     logLevel = LogLevelEnum.ERROR
   } = opts
+  id = id.trim()
   Object.keys(alias).forEach(key => {
     if (id.startsWith(key)) {
       id = id.replace(key, alias[key])
@@ -72,19 +75,36 @@ export function resolveStyle (id: string, opts: ResolveStyleOptions) {
   const incPaths = [path.resolve(basedir, dir)].concat(paths)
   const ext = idExt || defaultExt
 
-  const exts = [
+  const extensions = [
     // add the platform specific extension, first in the array to take precedence
     platform === 'android' ? '.android' + ext : '.ios' + ext,
     '.rn' + ext,
     ext
   ]
 
-  const file = findVariant(name, exts, incPaths)
+  let file: string
+  let isNodeModulesPath = false
+  try {
+    if ((/^(?:\.\.?(?:\/|$)|\/|([A-Za-z]:)?[/\\])/).test(id)) {
+      file = findVariant(name, extensions, incPaths)
+    } else {
+      // lookup node_modules file
+      isNodeModulesPath = true
+      // like `@import 'taro-ui/dist/base.css';` or `@import '~taro-ui/dist/base.css';`
+      file = resolve.sync(path.join(dir, name).replace(/^~/, ''), { basedir, extensions })
+    }
+  } catch (error) {
+  }
+
   if (!file) {
+    let includePaths = incPaths
+    if (isNodeModulesPath) {
+      includePaths = nodeModulesPaths(basedir, { extensions }, id)
+    }
     const levelMessage = `
     样式文件没有找到，请检查文件路径: ${id}
       在 [
-        ${incPaths.join(',\n       ')}
+        ${includePaths.join(',\n       ')}
       ]
     `
     if (logLevel === LogLevelEnum.ERROR) {
