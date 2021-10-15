@@ -125,6 +125,8 @@ ${elements}
 
   replacePropName (name: string, value: string, _componentName?: string) {
     if (value === 'eh') return name.toLowerCase().replace(/^bind/, '@')
+    // 由于鸿蒙不支持for属性 需要修改for属性，需要改名
+    if (_componentName === 'label' && name === 'for') return 'target'
     return name
   }
 
