@@ -113,6 +113,7 @@ function updateProp (ctx, comp, propKey, prevProps, props) {
   }
 
   if (typeof val === 'string' || typeof val === 'number') {
+    dom.setAttribute(propKey, val)
     dom[propKey] = val
     return
   }
