@@ -10,6 +10,6 @@ export default {
     'textoff'
   ],
   onChange (e) {
-    this.$emit('change', { value: e.checked })
+    this.$emit('change', { value: e.checked, id: this.id })
   }
 }

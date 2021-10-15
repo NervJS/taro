@@ -53,9 +53,7 @@ export const components = {
     bindsticky: ''
   },
   Switch: {
-    type: singleQuote('switch'),
     showtext: 'false',
-    disabled: 'false',
     texton: singleQuote('On'),
     textoff: singleQuote('Off'),
   }
