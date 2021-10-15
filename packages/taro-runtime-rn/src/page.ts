@@ -61,7 +61,7 @@ const globalAny: any = global
 // eslint-disable-next-line import/no-mutable-exports
 export let PageContext: React.Context<string> = EMPTY_OBJ
 
-// 退到后台的触发对应的生命周期函数
+// APP 前后台状态发生变化时调用对应的生命周期函数
 let appState = AppState.currentState
 
 AppState.addEventListener('change', (nextAppState) => {
@@ -83,7 +83,7 @@ AppState.addEventListener('change', (nextAppState) => {
   }
   appState = nextAppState
 })
-// 屏幕宽高发送变化
+// 屏幕宽高发生变化
 Dimensions.addEventListener('change', ({ window }) => {
   const { page } = Current
   if (!page) return
