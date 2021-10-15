@@ -1,3 +1,4 @@
+import { FormItemProps } from '@tarojs/components'
 import { ViewStyle, StyleProp } from 'react-native'
 
 export type Event = {
@@ -18,7 +19,7 @@ export interface InputState {
   value?: string;
 }
 
-export interface InputProps {
+export interface InputProps extends FormItemProps{
   style?: StyleProp<ViewStyle>;
   value?: string;
   type: 'text' | 'number' | 'idcard' | 'digit';

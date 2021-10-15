@@ -44,7 +44,7 @@ function stopGyroscope(opts: Taro.stopGyroscope.Option = {}): Promise<Taro.Gener
     const { success, fail, complete } = opts
     const res = { errMsg: 'stopGyroscope:ok' }
     try {
-        _listener.remove()
+        _listener && _listener.remove()
         _listener = null
         return successHandler(success, complete)(res)
     } catch (error) {

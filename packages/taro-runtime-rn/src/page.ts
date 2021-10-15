@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ScrollView, RefreshControl, AppState, View, Dimensions } from 'react-native'
+import { ScrollView, RefreshControl, AppState, View, Dimensions, EmitterSubscription, NativeEventSubscription } from 'react-native'
 import { camelCase } from 'lodash'
 import { PageProvider, getCurrentRoute } from '@tarojs/router-rn'
 import { isFunction, EMPTY_OBJ, isArray, incrementId, successHandler, errorHandler } from './utils'
@@ -99,6 +99,8 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       unSubscribleBlur: any
       unSubscribleFocus: any
       unSubscribleTabPress: any
+      appStateSubscription: NativeEventSubscription | undefined
+      dimensionsSubscription: EmitterSubscription | undefined
 
       constructor (props: any) {
         super(props)
@@ -117,9 +119,9 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       componentDidMount () {
         const { navigation } = this.props
         // 退到后台的触发对应的生命周期函数
-        AppState.addEventListener('change', this.onAppStateChange)
+        this.appStateSubscription = AppState.addEventListener('change', this.onAppStateChange)
         // 屏幕宽高发送变化
-        Dimensions.addEventListener('change', this.onResize)
+        this.dimensionsSubscription = Dimensions.addEventListener('change', this.onResize)
 
         if (navigation) {
           this.unSubscribleTabPress = navigation.addListener('tabPress', () => this.onTabItemTap())
@@ -133,8 +135,9 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
       componentWillUnmount () {
         const { navigation, route } = this.props
-        AppState.removeEventListener('change', this.onAppStateChange)
-        Dimensions.removeEventListener('change', this.onResize)
+
+        this.appStateSubscription?.remove()
+        this.dimensionsSubscription?.remove()
         eventCenter.off('__taroPullDownRefresh', this.pullDownRefresh, this)
         eventCenter.off('__taroPageScrollTo', this.pageToScroll, this)
         eventCenter.off('__taroSetRefreshStyle', this.setRefreshStyle, this)

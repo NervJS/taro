@@ -62,9 +62,13 @@ export declare interface IPluginContext {
    */
   onBuildStart: (fn: Function) => void
   /**
-   * 编译结束
+   * 编译结束（保存代码每次编译结束后都会触发）
    */
   onBuildFinish: (fn: Function) => void
+  /**
+   * 编译完成（启动项目后首次编译结束后会触发一次）
+   */
+  onBuildComplete: (fn: Function) => void
   /**
    * 编译中修改 webpack 配置，在这个钩子中，你可以对 webpackChain 作出想要的调整，等同于配置 [`webpackChain`](./config-detail.md#miniwebpackchain)
    */

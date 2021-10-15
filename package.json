@@ -146,8 +146,6 @@
     "prettier": "^1.18.2",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
-    "react-native": "^0.61.2",
-    "react-native-mock-render": "^0.1.5",
     "react-test-renderer": "^17.0.0",
     "rimraf": "^2.6.2",
     "rollup": "^1.23.1",
