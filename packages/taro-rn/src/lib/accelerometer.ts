@@ -58,7 +58,7 @@ function stopAccelerometer(opts: Taro.stopAccelerometer.Option = {}): Promise<Ta
   const { success, fail, complete } = opts
   const res = { errMsg: 'stopAccelerometer:ok' }
   try {
-    _listener.remove()
+    _listener && _listener.remove()
     _listener = null
     return successHandler(success, complete)(res)
   } catch (error) {

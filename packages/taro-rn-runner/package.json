@@ -38,12 +38,12 @@
     "@tarojs/rn-transformer": "3.3.9",
     "fs-extra": "^9.0.1",
     "lodash": "^4.17.4",
-    "metro": "^0.64.0",
-    "metro-cache": "^0.64.0",
-    "metro-config": "^0.64.0",
-    "metro-core": "^0.64.0",
-    "metro-react-native-babel-transformer": "^0.64.0",
-    "metro-resolver": "^0.64.0",
+    "metro": "^0.66.2",
+    "metro-cache": "^0.66.2",
+    "metro-config": "^0.66.2",
+    "metro-core": "^0.66.2",
+    "metro-react-native-babel-transformer": "^0.66.2",
+    "metro-resolver": "^0.66.2",
     "qrcode-terminal": "^0.12.0"
   }
 }
