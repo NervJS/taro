@@ -18,7 +18,7 @@ function unmountComponentAtNode (dom: TaroElement) {
     root.unmount(() => {
       ContainerMap.delete(dom)
     })
-  })
+  }, null)
 
   return true
 }
@@ -33,7 +33,7 @@ function findDOMNode (comp?: TaroElement | ReactNode) {
     return comp
   }
 
-  return TaroReconciler.findHostInstance(comp as object)
+  return TaroReconciler.findHostInstance(comp as Record<string, any>)
 }
 
 const portalType = typeof Symbol === 'function' && Symbol.for

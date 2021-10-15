@@ -1,5 +1,5 @@
 export const formatTime = time => {
-  if (time === null) return ''
+  if (time == null) return ''
   const sec = Math.round(time % 60)
   const min = Math.round((time - sec) / 60)
   return `${min < 10 ? `0${min}` : min}:${sec < 10 ? `0${sec}` : sec}`
@@ -46,7 +46,6 @@ export const screenFn = (function () {
       'webkitFullscreenEnabled',
       'webkitfullscreenchange',
       'webkitfullscreenerror'
-
     ],
     // Old WebKit
     [
@@ -74,7 +73,14 @@ export const screenFn = (function () {
       'MSFullscreenError'
     ]
   ]
-
+  var defaultIOSMap = [
+    'webkitEnterFullscreen',
+    'webkitExitFullscreen',
+    'webkitFullscreenElement',
+    'webkitFullscreenEnabled',
+    'webkitfullscreenchange',
+    'webkitfullscreenerror'
+  ]
   let i = 0
   const l = fnMap.length
   const ret = {}
@@ -88,7 +94,16 @@ export const screenFn = (function () {
       return ret
     }
   }
-  // If it doesn't find any of them, this whole function returns false
+  if (!ret[fnMap[0][0]]) {
+    // when there is no any APIs be set.
+
+    // In IOS, there is no 'webkitEnterFullscreen' property `in document` but video can use it for fullscreen.
+    // ref: https://developer.apple.com/documentation/webkitjs/htmlvideoelement/1633500-webkitenterfullscreen
+    for (i = 0; i < defaultIOSMap.length; i++) {
+      ret[fnMap[0][i]] = defaultIOSMap[i]
+    }
+  }
+  // If it doesn't find any of them, this whole function returns {}
   // and the fn variable is set to this returned value.
   return ret
 })()

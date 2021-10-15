@@ -56,6 +56,7 @@ export interface ICopyOptions {
     from: string,
     to: string,
     ignore?: string[],
+    transform?: Function,
     watch?: boolean
   }[],
   options: {
@@ -63,13 +64,7 @@ export interface ICopyOptions {
   }
 }
 
-interface IBabelOptions {
-  sourceMap: boolean,
-  presets: any[],
-  plugins: any[]
-}
-
-interface ISassOptions {
+export interface ISassOptions {
   /**
    * 引入的全局 sass 文件，如果要引入多个文件，支持数组形式传入
    */
@@ -112,6 +107,11 @@ export interface ICompileOption {
   include?: string[]
 }
 
+interface Runtime {
+  enableInnerHTML: boolean
+  enableSizeAPIs: boolean
+}
+
 export interface IMiniAppConfig {
   appOutput?: boolean,
   enableSourceMap?: boolean,
@@ -137,11 +137,16 @@ export interface IMiniAppConfig {
   customFilesTypes?: IMINI_APP_FILE_TYPE,
   commonChunks?: string[] | ((commonChunks: string[]) => string[]),
   addChunkPages?: ((pages: Map<string, string[]>, pagesNames?: string[]) => void),
+  optimizeMainPackage?: {
+    enable?: boolean,
+    exclude?: any[]
+  },
 
   compile?: {
     exclude?: any[],
     include?: any[]
   }
+  runtime?: Runtime
 }
 
 export type TogglableOptions<T = IOption> = {
@@ -155,6 +160,7 @@ export interface IH5RouterConfig {
   basename?: string,
   lazyload?: boolean | ((pagename: string) => boolean),
   renamePagename?: (pagename: string) => string
+  forcePath?: string
 }
 
 export interface IH5Config {
@@ -185,6 +191,7 @@ export interface IH5Config {
   imageUrlLoaderOption?: IOption,
   miniCssExtractPluginOption?: IOption,
   esnextModules?: string[],
+  useHtmlComponents?: boolean,
 
   postcss?: IPostcssOption
 }
@@ -361,7 +368,6 @@ export interface IProjectBaseConfig {
   alias?: IOption,
   defineConstants?: IOption,
   copy?: ICopyOptions,
-  babel?: IBabelOptions,
   csso?: TogglableOptions,
   terser?: TogglableOptions,
   uglify?: TogglableOptions,

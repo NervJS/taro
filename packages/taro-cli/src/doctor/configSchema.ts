@@ -31,7 +31,8 @@ const schema = Joi.object().keys({
       Joi.object().keys({
         from: Joi.string().required(),
         to: Joi.string().required(),
-        ignore: Joi.string()
+        ignore: Joi.array().items(Joi.string()),
+        transform: Joi.func()
       })
     ),
 
@@ -40,7 +41,7 @@ const schema = Joi.object().keys({
     })
   }),
 
-  framework: Joi.any().valid('nerv', 'react', 'vue', 'vue3'),
+  framework: Joi.any().valid('nerv', 'react', 'vue', 'vue3').required(),
 
   mini: Joi.object().keys({
     baseLevel: Joi.number().integer().positive(),
@@ -105,7 +106,10 @@ const schema = Joi.object().keys({
     output: Joi.object(),
     router: Joi.object(),
 
-    esnextModules: Joi.array().items(Joi.string()),
+    esnextModules: Joi.array().items(Joi.alternatives(
+      Joi.string(),
+      Joi.object().instance(RegExp)
+    )),
 
     // DEPRECATED: https://nervjs.github.io/taro/docs/config-detail.html#deprecated-h5webpack
     webpack: Joi.forbidden(),

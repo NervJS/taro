@@ -1,5 +1,6 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
+import { StyleProp, ViewStyle } from 'react-native'
 
 interface ButtonProps extends StandardProps {
   /** 按钮的大小
@@ -53,7 +54,7 @@ interface ButtonProps extends StandardProps {
    * @default none
    * @supported rn
    */
-  hoverStyle?: string
+  hoverStyle?: StyleProp<ViewStyle>
 
   /** 指定是否阻止本节点的祖先节点出现点击态
    * @default false
@@ -118,6 +119,13 @@ interface ButtonProps extends StandardProps {
    */
   appParameter?: string
 
+  /** 微信小程序子商户能力中，添加 business-id 字段指向子商户
+   *
+   * 生效时机：`open-type="contact"`
+   * @supported weapp
+   */
+  businessId?: string
+
   /** 支付宝小程序 scope
    *
    * 生效时机：`open-type="getAuthorize"`
@@ -131,30 +139,6 @@ interface ButtonProps extends StandardProps {
    * @default false
    */
   showMessageCard?: boolean
-
-  /**
-   * 应用的包名 （安卓）
-   * 生效时机：`open-type="launchApp"`
-   * @supported qq
-   * @see https://q.qq.com/wiki/develop/miniprogram/frame/open_ability/open_app.html
-   */
-  appPackagename?: string
-
-  /**
-   * 应用的bundleid （iOS）
-   * 生效时机：`open-type="launchApp"`
-   * @supported qq
-   * @see https://q.qq.com/wiki/develop/miniprogram/frame/open_ability/open_app.html
-   */
-  appBundleid?: string
-
-  /**
-   * QQ互联中的AppID
-   * 生效时机：`open-type="launchApp"`
-   * @supported qq
-   * @see https://q.qq.com/wiki/develop/miniprogram/frame/open_ability/open_app.html
-   */
-  appConnectId?: string
 
   /** 用户点击该按钮时，会返回获取到的用户信息，回调的detail数据与 Taro.getUserInfo 返回的一致
    *
@@ -347,6 +331,8 @@ declare namespace ButtonProps {
     iv: string
     /* 用户信息的调用状态 */
     errMsg: string
+    /** 敏感数据对应的云 ID，开通[云开发](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html)的小程序才会返回，可通过云调用直接获取开放数据，详细见[云调用直接获取开放数据](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#method-cloud) */
+    cloudID?: string
   }
 
   /** 性别的合法值 */

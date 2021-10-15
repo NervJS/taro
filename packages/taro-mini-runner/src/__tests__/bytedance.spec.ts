@@ -1,18 +1,17 @@
+import { TT } from '@tarojs/plugin-platform-tt'
+import * as helper from '@tarojs/helper'
 import { compile, getOutput } from './utils/compiler'
-import { Template } from '@tarojs/cli/src/presets/platforms/tt'
 
 describe('bytedance', () => {
   test('should build bytedance app', async () => {
+    const program = new TT({ helper } as any, {})
+
     const { stats, config } = await compile('react', {
       buildAdapter: 'tt',
-      globalObject: 'tt',
-      fileType: {
-        templ: '.ttml',
-        style: '.ttss',
-        config: '.json',
-        script: '.js'
-      },
-      template: new Template()
+      globalObject: program.globalObject,
+      fileType: program.fileType,
+      template: program.template,
+      runtimePath: program.runtimePath
     })
     const assets = stats.toJson().assets || []
 

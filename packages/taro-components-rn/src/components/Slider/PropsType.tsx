@@ -1,17 +1,17 @@
-import * as React from 'react'
+import { FormItemProps } from '@tarojs/components'
 import { StyleProp, ViewStyle } from 'react-native'
 
 export type CallbackEvent = {
   detail: {
-    value: number
-  }
+    value: number;
+  };
 }
 
 export interface SliderState {
   currentValue: number;
 }
 
-export interface SliderProps {
+export interface SliderProps extends FormItemProps {
   style?: StyleProp<ViewStyle>;
   min: number;
   max: number;

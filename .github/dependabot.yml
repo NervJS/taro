@@ -1,0 +1,62 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "21:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: "@types/node"
+    versions:
+    - ">= 13.13.a, < 13.14"
+  - dependency-name: mini-css-extract-plugin
+    versions:
+    - 1.3.5
+    - 1.3.6
+    - 1.3.9
+    - 1.4.0
+    - 1.5.0
+  - dependency-name: react-native-webview
+    versions:
+    - 11.3.2
+    - 11.4.2
+  - dependency-name: "@babel/preset-env"
+    versions:
+    - 7.12.11
+    - 7.12.13
+    - 7.13.10
+    - 7.13.12
+    - 7.13.15
+    - 7.13.5
+    - 7.13.9
+  - dependency-name: sass-loader
+    versions:
+    - 10.1.1
+    - 7.3.1
+  - dependency-name: ssri
+    versions:
+    - 6.0.2
+  - dependency-name: "@babel/register"
+    versions:
+    - 7.12.10
+    - 7.12.13
+    - 7.13.0
+    - 7.13.14
+    - 7.13.8
+  - dependency-name: y18n
+    versions:
+    - 3.2.2
+  - dependency-name: css-what
+    versions:
+    - 4.0.0
+  - dependency-name: typescript
+    versions:
+    - 4.1.3
+    - 4.1.5
+    - 4.2.2
+  - dependency-name: "@babel/plugin-proposal-object-rest-spread"
+    versions:
+    - 7.12.1
+    - 7.12.13
+    - 7.13.0

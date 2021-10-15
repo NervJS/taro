@@ -3,9 +3,7 @@ declare namespace Taro {
    * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/mdns/wx.stopLocalServiceDiscovery.html
    */
-  function stopLocalServiceDiscovery(
-    option?: stopLocalServiceDiscovery.Option,
-  ): void
+  function stopLocalServiceDiscovery(option?: stopLocalServiceDiscovery.Option): void
   namespace stopLocalServiceDiscovery {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -32,9 +30,7 @@ declare namespace Taro {
    * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/mdns/wx.startLocalServiceDiscovery.html
    */
-  function startLocalServiceDiscovery(
-    option: startLocalServiceDiscovery.Option,
-  ): void
+  function startLocalServiceDiscovery(option: startLocalServiceDiscovery.Option): void
   namespace startLocalServiceDiscovery {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -53,20 +49,18 @@ declare namespace Taro {
       errMsg: string
     }
   }
-  
+
   /** 监听 mDNS 服务解析失败的事件
    * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/mdns/wx.onLocalServiceResolveFail.html
    */
   function onLocalServiceResolveFail(
     /** mDNS 服务解析失败的事件的回调函数 */
-    callback: onLocalServiceResolveFail.Callback,
+    callback: onLocalServiceResolveFail.Callback
   ): void
   namespace onLocalServiceResolveFail {
     /** mDNS 服务解析失败的事件的回调函数 */
-    type Callback = (
-      result: CallbackResult,
-    ) => void
+    type Callback = (result: CallbackResult) => void
     interface CallbackResult {
       /** 服务的名称 */
       serviceName: string
@@ -74,20 +68,18 @@ declare namespace Taro {
       serviceType: string
     }
   }
-  
+
   /** 监听 mDNS 服务离开的事件
    * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/mdns/wx.onLocalServiceLost.html
    */
   function onLocalServiceLost(
     /** mDNS 服务离开的事件的回调函数 */
-    callback: onLocalServiceLost.Callback,
+    callback: onLocalServiceLost.Callback
   ): void
   namespace onLocalServiceLost {
     /** mDNS 服务离开的事件的回调函数 */
-    type Callback = (
-      result: CallbackResult,
-    ) => void
+    type Callback = (result: CallbackResult) => void
     interface CallbackResult {
       /** 服务的名称 */
       serviceName: string
@@ -102,13 +94,11 @@ declare namespace Taro {
    */
   function onLocalServiceFound(
     /** mDNS 服务发现的事件的回调函数 */
-    callback: onLocalServiceFound.Callback,
+    callback: onLocalServiceFound.Callback
   ): void
   namespace onLocalServiceFound {
     /** mDNS 服务发现的事件的回调函数 */
-    type Callback = (
-      result: CallbackResult,
-    ) => void
+    type Callback = (result: CallbackResult) => void
     interface CallbackResult {
       /** 服务的 ip 地址 */
       ip: string
@@ -120,66 +110,66 @@ declare namespace Taro {
       serviceType: string
     }
   }
-  
+
   /** 监听 mDNS 服务停止搜索的事件
    * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/mdns/wx.onLocalServiceDiscoveryStop.html
    */
   function onLocalServiceDiscoveryStop(
     /** mDNS 服务停止搜索的事件的回调函数 */
-    callback: onLocalServiceDiscoveryStop.Callback,
+    callback: onLocalServiceDiscoveryStop.Callback
   ): void
   namespace onLocalServiceDiscoveryStop {
     /** mDNS 服务停止搜索的事件的回调函数 */
     type Callback = (res: General.CallbackResult) => void
   }
-  
+
   /** 取消监听 mDNS 服务解析失败的事件
    * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/mdns/wx.offLocalServiceResolveFail.html
    */
   function offLocalServiceResolveFail(
     /** mDNS 服务解析失败的事件的回调函数 */
-    callback: offLocalServiceResolveFail.Callback,
+    callback: offLocalServiceResolveFail.Callback
   ): void
   namespace offLocalServiceResolveFail {
     /** mDNS 服务解析失败的事件的回调函数 */
     type Callback = (res: General.CallbackResult) => void
   }
-  
+
   /** 取消监听 mDNS 服务离开的事件
    * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/mdns/wx.offLocalServiceLost.html
    */
   function offLocalServiceLost(
     /** mDNS 服务离开的事件的回调函数 */
-    callback: offLocalServiceLost.Callback,
+    callback: offLocalServiceLost.Callback
   ): void
   namespace offLocalServiceLost {
     /** mDNS 服务离开的事件的回调函数 */
     type Callback = (res: General.CallbackResult) => void
   }
-  
+
   /** 取消监听 mDNS 服务发现的事件
    * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/mdns/wx.offLocalServiceFound.html
    */
   function offLocalServiceFound(
     /** mDNS 服务发现的事件的回调函数 */
-    callback: offLocalServiceFound.Callback,
+    callback: offLocalServiceFound.Callback
   ): void
   namespace offLocalServiceFound {
     /** mDNS 服务发现的事件的回调函数 */
     type Callback = (res: General.CallbackResult) => void
   }
-  
+
   /** 取消监听 mDNS 服务停止搜索的事件
    * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/mdns/wx.offLocalServiceDiscoveryStop.html
    */
   function offLocalServiceDiscoveryStop(
     /** mDNS 服务停止搜索的事件的回调函数 */
-    callback: offLocalServiceDiscoveryStop.Callback,
+    callback: offLocalServiceDiscoveryStop.Callback
   ): void
   namespace offLocalServiceDiscoveryStop {
     /** mDNS 服务停止搜索的事件的回调函数 */

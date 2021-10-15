@@ -15,7 +15,7 @@ declare namespace Taro {
 
     interface SuccessCallbackResult extends General.CallbackResult {
       /** 敏感数据对应的云 ID，开通云开发的小程序才会返回，可通过云调用直接获取开放数据，详细见[云调用直接获取开放数据](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#method-cloud) */
-      cloudID: string
+      cloudID?: string
       /** 包括敏感数据在内的完整用户信息的加密数据，详细见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html)。解密后得到的数据结构见后文 */
       encryptedData: string
       /** 加密算法的初始向量，详细见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html) */
@@ -42,7 +42,7 @@ declare namespace Taro {
    * **开放数据 JSON 结构**
    * 敏感数据有两种获取方式，一是使用 [加密数据解密算法]((open-ability/signature#加密数据解密算法)) 。
    * 获取得到的开放数据为以下 json 结构：
-   * 
+   *
    * ```json
    * {
    *   "stepInfoList": [
@@ -57,7 +57,7 @@ declare namespace Taro {
    *   ]
    * }
    * ```
-   * 
+   *
    * stepInfoList 中，每一项结构如下：
    *
    * | 属性 | 类型 | 说明 |

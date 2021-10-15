@@ -1,3 +1,5 @@
+import { Alipay } from '@tarojs/plugin-platform-alipay'
+import * as helper from '@tarojs/helper'
 import { compile, getOutput } from './utils/compiler'
 
 describe('tabbar', () => {
@@ -12,8 +14,14 @@ describe('tabbar', () => {
   })
 
   test('should alipay tabbar work', async () => {
+    const program = new Alipay({ helper } as any, {})
+
     const { stats, config } = await compile('tabbar', {
-      buildAdapter: 'alipay'
+      buildAdapter: 'alipay',
+      globalObject: program.globalObject,
+      fileType: program.fileType,
+      template: program.template,
+      runtimePath: program.runtimePath
     })
     const assets = stats.toJson().assets || []
 

@@ -3,7 +3,8 @@ import validator from '../doctor/configValidator'
 const baseConfig = {
   projectName: 'test',
   sourceRoot: 'src',
-  outputRoot: 'dist'
+  outputRoot: 'dist',
+  framework: 'react'
 }
 
 function getConfig (config) {
@@ -23,27 +24,30 @@ describe('config validator of doctor', () => {
       configPath: ''
     })
 
-    expect(lines.length).toEqual(3)
+    expect(lines.length).toEqual(4)
     let msgs = lines.map(line => line.desc)
     expect(msgs.includes('projectName 必须填写')).toBeTruthy()
     expect(msgs.includes('sourceRoot 必须填写')).toBeTruthy()
     expect(msgs.includes('outputRoot 必须填写')).toBeTruthy()
+    expect(msgs.includes('framework 必须填写')).toBeTruthy()
 
     const res = await validator({
       projectConfig: {
         projectName: '',
         sourceRoot: '',
-        outputRoot: ''
+        outputRoot: '',
+        framework: ''
       },
       configPath: ''
     })
     lines = res.lines
 
-    expect(lines.length).toEqual(3)
+    expect(lines.length).toEqual(4)
     msgs = lines.map(line => line.desc)
     expect(msgs.includes('projectName "projectName" is not allowed to be empty')).toBeTruthy()
     expect(msgs.includes('sourceRoot "sourceRoot" is not allowed to be empty')).toBeTruthy()
     expect(msgs.includes('outputRoot "outputRoot" is not allowed to be empty')).toBeTruthy()
+    expect(msgs.includes('framework "framework" must be one of [nerv, react, vue, vue3]')).toBeTruthy()
   })
 
   it('date', async () => {
@@ -324,7 +328,7 @@ describe('config validator of doctor', () => {
     let res = await validator(getConfig({
       copy: {
         patterns: [
-          { from: 'src/asset/tt/', to: 'dist/asset/tt/', ignore: '*.js' },
+          { from: 'src/asset/tt/', to: 'dist/asset/tt/', ignore: ['*.js'] },
           { from: 'src/asset/tt/sd.jpg', to: 'dist/asset/tt/sd.jpg' }
         ]
       }
@@ -343,7 +347,7 @@ describe('config validator of doctor', () => {
     res = await validator(getConfig({
       copy: {
         patterns: [
-          { ignore: '*.js' },
+          { ignore: ['*.js'] },
           { from: 'src/asset/tt/sd.jpg' },
           { to: 'dist/asset/tt/sd.jpg' }
         ],

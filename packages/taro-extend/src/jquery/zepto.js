@@ -711,14 +711,18 @@ export const Zepto = (function () {
       if (!this.length) return null
       if (document.documentElement !== this[0] && !$.contains(document.documentElement, this[0])) { return { top: 0, left: 0 } }
       if (!isBrowser) {
-        return new Promise((resolve) => {
-          Taro.createSelectorQuery().select('#' + this[0].uid).boundingClientRect(function (rect) {
-            resolve({
-              left: rect.left,
-              top: rect.top,
-              width: rect.height,
-              height: rect.height
-            })
+        return new Promise((resolve, reject) => {
+          Taro.createSelectorQuery().select('#' + this[0].uid).boundingClientRect(rect => {
+            if (!rect) {
+              reject(new Error('offset error: ' + '#' + this[0].uid + ' query fail'))
+            } else {
+              resolve({
+                left: rect.left,
+                top: rect.top,
+                width: rect.width,
+                height: rect.height
+              })
+            }
           }).exec()
         })
       }
@@ -888,12 +892,14 @@ export const Zepto = (function () {
       if (value === undefined) {
         if (isBrowser) {
           let v
-          if (isWindow) {
+          if (isWindow(el)) {
             v = el['inner' + dimensionProperty]
-          } else if (isDocument) {
+          } else if (isDocument(el)) {
             v = el.documentElement['scroll' + dimensionProperty]
           }
-          return Promise.resolve(v)
+          if (typeof v !== 'undefined') {
+            return Promise.resolve(v)
+          }
         }
         return this.offset().then(rect => rect[dimension])
       } else {

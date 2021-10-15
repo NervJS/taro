@@ -1,59 +1,324 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`interactive Toast should render LoadingView success 1`] = `
-<LoadingView>
-  <AnimatedComponent
-    source={1}
-    style={
-      Array [
-        Object {
-          "height": 35,
-          "margin": 10,
-          "width": 35,
-        },
-        Object {
-          "transform": Array [
-            Object {
-              "rotateZ": "0deg",
-            },
-          ],
-        },
-      ]
+exports[`interactive Mask should render Mask success 1`] = `
+<Mask
+  onPress={[MockFunction]}
+  style={
+    Object {
+      "color": "red",
     }
+  }
+>
+  <TouchableWithoutFeedback
+    onPress={[MockFunction]}
   >
-    <Image
-      source={1}
+    <View
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
       style={
-        Object {
-          "height": 35,
-          "margin": 10,
-          "transform": Array [
-            Object {
-              "rotateZ": "0deg",
-            },
-          ],
-          "width": 35,
-        }
+        Array [
+          Object {
+            "flex": 1,
+            "zIndex": 1000,
+          },
+          Object {
+            "backgroundColor": "rgba(0,0,0,.6)",
+          },
+          Object {
+            "color": "red",
+          },
+        ]
       }
     >
-      <Image
-        source={1}
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
         style={
-          Object {
-            "height": 35,
-            "margin": 10,
-            "transform": Array [
-              Object {
-                "rotateZ": "0deg",
-              },
-            ],
-            "width": 35,
-          }
+          Array [
+            Object {
+              "flex": 1,
+              "zIndex": 1000,
+            },
+            Object {
+              "backgroundColor": "rgba(0,0,0,.6)",
+            },
+            Object {
+              "color": "red",
+            },
+          ]
         }
-      />
-    </Image>
-  </AnimatedComponent>
-</LoadingView>
+      >
+        <TouchableWithoutFeedback>
+          <Text
+            accessible={true}
+            focusable={false}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+          >
+            <Text
+              accessible={true}
+              focusable={false}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+            >
+              Test
+            </Text>
+          </Text>
+        </TouchableWithoutFeedback>
+        <PressabilityDebugView
+          color="red"
+        />
+      </View>
+    </View>
+  </TouchableWithoutFeedback>
+</Mask>
+`;
+
+exports[`interactive Popup should render Popup success 1`] = `
+<Popup
+  onClose={[MockFunction]}
+  onShow={[MockFunction]}
+  style={
+    Object {
+      "color": "red",
+    }
+  }
+>
+  <Modal
+    hardwareAccelerated={false}
+    onRequestClose={[MockFunction]}
+    onShow={[MockFunction]}
+    transparent={true}
+    visible={false}
+  >
+    <Modal
+      hardwareAccelerated={false}
+      onRequestClose={[MockFunction]}
+      onShow={[MockFunction]}
+      transparent={true}
+      visible={false}
+    >
+      <Mask
+        onPress={[MockFunction]}
+      >
+        <TouchableWithoutFeedback
+          onPress={[MockFunction]}
+        >
+          <View
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Array [
+                Object {
+                  "flex": 1,
+                  "zIndex": 1000,
+                },
+                Object {
+                  "backgroundColor": "rgba(0,0,0,.6)",
+                },
+                undefined,
+              ]
+            }
+          >
+            <View
+              accessible={true}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Array [
+                  Object {
+                    "flex": 1,
+                    "zIndex": 1000,
+                  },
+                  Object {
+                    "backgroundColor": "rgba(0,0,0,.6)",
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <TouchableWithoutFeedback>
+                <ForwardRef(AnimatedComponentWrapper)
+                  accessible={true}
+                  focusable={false}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Array [
+                      Object {
+                        "backgroundColor": "#EFEFF4",
+                        "bottom": 0,
+                        "left": 0,
+                        "position": "absolute",
+                        "width": 750,
+                      },
+                      Object {
+                        "color": "red",
+                      },
+                      Object {
+                        "transform": Array [
+                          Object {
+                            "translateY": 1334,
+                          },
+                        ],
+                      },
+                    ]
+                  }
+                >
+                  <AnimatedComponent
+                    accessible={true}
+                    focusable={false}
+                    onClick={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "#EFEFF4",
+                          "bottom": 0,
+                          "left": 0,
+                          "position": "absolute",
+                          "width": 750,
+                        },
+                        Object {
+                          "color": "red",
+                        },
+                        Object {
+                          "transform": Array [
+                            Object {
+                              "translateY": 1334,
+                            },
+                          ],
+                        },
+                      ]
+                    }
+                  >
+                    <View
+                      accessible={true}
+                      focusable={false}
+                      onClick={[Function]}
+                      onResponderGrant={[Function]}
+                      onResponderMove={[Function]}
+                      onResponderRelease={[Function]}
+                      onResponderTerminate={[Function]}
+                      onResponderTerminationRequest={[Function]}
+                      onStartShouldSetResponder={[Function]}
+                      style={
+                        Object {
+                          "backgroundColor": "#EFEFF4",
+                          "bottom": 0,
+                          "color": "red",
+                          "left": 0,
+                          "position": "absolute",
+                          "transform": Array [
+                            Object {
+                              "translateY": 1334,
+                            },
+                          ],
+                          "width": 750,
+                        }
+                      }
+                    >
+                      <View
+                        accessible={true}
+                        focusable={false}
+                        onClick={[Function]}
+                        onResponderGrant={[Function]}
+                        onResponderMove={[Function]}
+                        onResponderRelease={[Function]}
+                        onResponderTerminate={[Function]}
+                        onResponderTerminationRequest={[Function]}
+                        onStartShouldSetResponder={[Function]}
+                        style={
+                          Object {
+                            "backgroundColor": "#EFEFF4",
+                            "bottom": 0,
+                            "color": "red",
+                            "left": 0,
+                            "position": "absolute",
+                            "transform": Array [
+                              Object {
+                                "translateY": 1334,
+                              },
+                            ],
+                            "width": 750,
+                          }
+                        }
+                      >
+                        <View
+                          onLayout={[Function]}
+                        >
+                          <View
+                            onLayout={[Function]}
+                          >
+                            <Text>
+                              <Text>
+                                Test
+                              </Text>
+                            </Text>
+                          </View>
+                        </View>
+                      </View>
+                    </View>
+                  </AnimatedComponent>
+                </ForwardRef(AnimatedComponentWrapper)>
+              </TouchableWithoutFeedback>
+              <PressabilityDebugView
+                color="red"
+              />
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Mask>
+    </Modal>
+  </Modal>
+</Popup>
 `;
 
 exports[`interactive showActionSheet should render ActionSheet success 1`] = `
@@ -62,7 +327,7 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
     Array [
       Object {
         "label": "取消",
-        "onPress": [Function],
+        "onPress": [MockFunction],
         "textStyle": Object {
           "color": "#000000",
         },
@@ -75,7 +340,7 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
     Array [
       Object {
         "label": "选项一",
-        "onPress": [Function],
+        "onPress": [MockFunction],
         "textStyle": Object {
           "color": "#000000",
         },
@@ -83,7 +348,7 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
       },
       Object {
         "label": "选项二",
-        "onPress": [Function],
+        "onPress": [MockFunction],
         "textStyle": Object {
           "color": "#000000",
         },
@@ -91,12 +356,12 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
       },
     ]
   }
-  onClose={[Function]}
+  onClose={[MockFunction]}
   type="ios"
   visible={false}
 >
   <Popup
-    onClose={[Function]}
+    onClose={[MockFunction]}
     style={
       Array [
         Object {
@@ -107,26 +372,28 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
     }
     visible={false}
   >
-    <Component
+    <Modal
       hardwareAccelerated={false}
-      onRequestClose={[Function]}
+      onRequestClose={[MockFunction]}
       transparent={true}
       visible={false}
     >
       <Modal
         hardwareAccelerated={false}
-        onRequestClose={[Function]}
+        onRequestClose={[MockFunction]}
         transparent={true}
         visible={false}
       >
         <Mask
-          onPress={[Function]}
+          onPress={[MockFunction]}
         >
           <TouchableWithoutFeedback
-            onPress={[Function]}
+            onPress={[MockFunction]}
           >
-            <Component
+            <View
               accessible={true}
+              focusable={true}
+              onClick={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
@@ -148,6 +415,8 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
             >
               <View
                 accessible={true}
+                focusable={true}
+                onClick={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
                 onResponderRelease={[Function]}
@@ -168,8 +437,10 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                 }
               >
                 <TouchableWithoutFeedback>
-                  <AnimatedComponent
+                  <ForwardRef(AnimatedComponentWrapper)
                     accessible={true}
+                    focusable={false}
+                    onClick={[Function]}
                     onResponderGrant={[Function]}
                     onResponderMove={[Function]}
                     onResponderRelease={[Function]}
@@ -201,8 +472,10 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                       ]
                     }
                   >
-                    <Component
+                    <AnimatedComponent
                       accessible={true}
+                      focusable={false}
+                      onClick={[Function]}
                       onResponderGrant={[Function]}
                       onResponderMove={[Function]}
                       onResponderRelease={[Function]}
@@ -210,22 +483,34 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                       onResponderTerminationRequest={[Function]}
                       onStartShouldSetResponder={[Function]}
                       style={
-                        Object {
-                          "backgroundColor": "#EFEFF4",
-                          "bottom": 0,
-                          "left": 0,
-                          "position": "absolute",
-                          "transform": Array [
+                        Array [
+                          Object {
+                            "backgroundColor": "#EFEFF4",
+                            "bottom": 0,
+                            "left": 0,
+                            "position": "absolute",
+                            "width": 750,
+                          },
+                          Array [
                             Object {
-                              "translateY": 1334,
+                              "backgroundColor": "#EFEFF4",
                             },
+                            undefined,
                           ],
-                          "width": 750,
-                        }
+                          Object {
+                            "transform": Array [
+                              Object {
+                                "translateY": 1334,
+                              },
+                            ],
+                          },
+                        ]
                       }
                     >
                       <View
                         accessible={true}
+                        focusable={false}
+                        onClick={[Function]}
                         onResponderGrant={[Function]}
                         onResponderMove={[Function]}
                         onResponderRelease={[Function]}
@@ -247,20 +532,36 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                           }
                         }
                       >
-                        <Component
-                          onLayout={[Function]}
+                        <View
+                          accessible={true}
+                          focusable={false}
+                          onClick={[Function]}
+                          onResponderGrant={[Function]}
+                          onResponderMove={[Function]}
+                          onResponderRelease={[Function]}
+                          onResponderTerminate={[Function]}
+                          onResponderTerminationRequest={[Function]}
+                          onStartShouldSetResponder={[Function]}
+                          style={
+                            Object {
+                              "backgroundColor": "#EFEFF4",
+                              "bottom": 0,
+                              "left": 0,
+                              "position": "absolute",
+                              "transform": Array [
+                                Object {
+                                  "translateY": 1334,
+                                },
+                              ],
+                              "width": 750,
+                            }
+                          }
                         >
                           <View
                             onLayout={[Function]}
                           >
-                            <Component
-                              style={
-                                Array [
-                                  Object {
-                                    "backgroundColor": "#fff",
-                                  },
-                                ]
-                              }
+                            <View
+                              onLayout={[Function]}
                             >
                               <View
                                 style={
@@ -271,39 +572,18 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                                   ]
                                 }
                               >
-                                <TouchableHighlight
-                                  activeOpacity={0.85}
-                                  delayPressOut={100}
-                                  key="0"
-                                  onPress={[Function]}
+                                <View
                                   style={
                                     Array [
                                       Object {
-                                        "borderColor": "#D9D9D9",
-                                        "borderStyle": "solid",
-                                        "borderTopWidth": 0.5,
+                                        "backgroundColor": "#fff",
                                       },
-                                      Object {
-                                        "paddingBottom": 10,
-                                        "paddingTop": 10,
-                                      },
-                                      Object {
-                                        "borderTopWidth": 0,
-                                      },
-                                      undefined,
                                     ]
                                   }
-                                  underlayColor="#ECECEC"
                                 >
-                                  <Component
-                                    accessible={true}
-                                    isTVSelectable={true}
-                                    onResponderGrant={[Function]}
-                                    onResponderMove={[Function]}
-                                    onResponderRelease={[Function]}
-                                    onResponderTerminate={[Function]}
-                                    onResponderTerminationRequest={[Function]}
-                                    onStartShouldSetResponder={[Function]}
+                                  <ForwardRef
+                                    key="0"
+                                    onPress={[MockFunction]}
                                     style={
                                       Array [
                                         Object {
@@ -321,16 +601,11 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                                         undefined,
                                       ]
                                     }
+                                    underlayColor="#ECECEC"
                                   >
-                                    <View
-                                      accessible={true}
-                                      isTVSelectable={true}
-                                      onResponderGrant={[Function]}
-                                      onResponderMove={[Function]}
-                                      onResponderRelease={[Function]}
-                                      onResponderTerminate={[Function]}
-                                      onResponderTerminationRequest={[Function]}
-                                      onStartShouldSetResponder={[Function]}
+                                    <TouchableHighlight
+                                      hostRef={null}
+                                      onPress={[MockFunction]}
                                       style={
                                         Array [
                                           Object {
@@ -348,88 +623,113 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                                           undefined,
                                         ]
                                       }
+                                      underlayColor="#ECECEC"
                                     >
-                                      <Text
+                                      <View
                                         accessible={true}
-                                        allowFontScaling={true}
-                                        ellipsizeMode="tail"
+                                        focusable={true}
+                                        onClick={[Function]}
+                                        onResponderGrant={[Function]}
+                                        onResponderMove={[Function]}
+                                        onResponderRelease={[Function]}
+                                        onResponderTerminate={[Function]}
+                                        onResponderTerminationRequest={[Function]}
+                                        onStartShouldSetResponder={[Function]}
                                         style={
                                           Array [
+                                            Object {
+                                              "borderColor": "#D9D9D9",
+                                              "borderStyle": "solid",
+                                              "borderTopWidth": 0.5,
+                                            },
+                                            Object {
+                                              "paddingBottom": 10,
+                                              "paddingTop": 10,
+                                            },
+                                            Object {
+                                              "borderTopWidth": 0,
+                                            },
                                             undefined,
-                                            Object {
-                                              "fontSize": 18,
-                                              "marginBottom": 5.4,
-                                              "marginTop": 5.4,
-                                              "textAlign": "center",
-                                            },
-                                            Object {
-                                              "color": "#000",
-                                            },
-                                            Object {
-                                              "color": "#000000",
-                                            },
                                           ]
                                         }
                                       >
-                                        <Text
+                                        <View
                                           accessible={true}
-                                          allowFontScaling={true}
-                                          ellipsizeMode="tail"
+                                          focusable={true}
+                                          onClick={[Function]}
+                                          onResponderGrant={[Function]}
+                                          onResponderMove={[Function]}
+                                          onResponderRelease={[Function]}
+                                          onResponderTerminate={[Function]}
+                                          onResponderTerminationRequest={[Function]}
+                                          onStartShouldSetResponder={[Function]}
                                           style={
                                             Array [
+                                              Object {
+                                                "borderColor": "#D9D9D9",
+                                                "borderStyle": "solid",
+                                                "borderTopWidth": 0.5,
+                                              },
+                                              Object {
+                                                "paddingBottom": 10,
+                                                "paddingTop": 10,
+                                              },
+                                              Object {
+                                                "borderTopWidth": 0,
+                                              },
                                               undefined,
-                                              Object {
-                                                "fontSize": 18,
-                                                "marginBottom": 5.4,
-                                                "marginTop": 5.4,
-                                                "textAlign": "center",
-                                              },
-                                              Object {
-                                                "color": "#000",
-                                              },
-                                              Object {
-                                                "color": "#000000",
-                                              },
                                             ]
                                           }
                                         >
-                                          选项一
-                                        </Text>
-                                      </Text>
-                                    </View>
-                                  </Component>
-                                </TouchableHighlight>
-                                <TouchableHighlight
-                                  activeOpacity={0.85}
-                                  delayPressOut={100}
-                                  key="1"
-                                  onPress={[Function]}
-                                  style={
-                                    Array [
-                                      Object {
-                                        "borderColor": "#D9D9D9",
-                                        "borderStyle": "solid",
-                                        "borderTopWidth": 0.5,
-                                      },
-                                      Object {
-                                        "paddingBottom": 10,
-                                        "paddingTop": 10,
-                                      },
-                                      Object {},
-                                      undefined,
-                                    ]
-                                  }
-                                  underlayColor="#ECECEC"
-                                >
-                                  <Component
-                                    accessible={true}
-                                    isTVSelectable={true}
-                                    onResponderGrant={[Function]}
-                                    onResponderMove={[Function]}
-                                    onResponderRelease={[Function]}
-                                    onResponderTerminate={[Function]}
-                                    onResponderTerminationRequest={[Function]}
-                                    onStartShouldSetResponder={[Function]}
+                                          <Text
+                                            style={
+                                              Array [
+                                                Object {
+                                                  "fontSize": 18,
+                                                  "marginBottom": 5.4,
+                                                  "marginTop": 5.4,
+                                                  "textAlign": "center",
+                                                },
+                                                Object {
+                                                  "color": "#000",
+                                                },
+                                                Object {
+                                                  "color": "#000000",
+                                                },
+                                              ]
+                                            }
+                                          >
+                                            <Text
+                                              style={
+                                                Array [
+                                                  Object {
+                                                    "fontSize": 18,
+                                                    "marginBottom": 5.4,
+                                                    "marginTop": 5.4,
+                                                    "textAlign": "center",
+                                                  },
+                                                  Object {
+                                                    "color": "#000",
+                                                  },
+                                                  Object {
+                                                    "color": "#000000",
+                                                  },
+                                                ]
+                                              }
+                                            >
+                                              选项一
+                                            </Text>
+                                          </Text>
+                                          <PressabilityDebugView
+                                            color="green"
+                                          />
+                                        </View>
+                                      </View>
+                                    </TouchableHighlight>
+                                  </ForwardRef>
+                                  <ForwardRef
+                                    key="1"
+                                    onPress={[MockFunction]}
                                     style={
                                       Array [
                                         Object {
@@ -445,16 +745,11 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                                         undefined,
                                       ]
                                     }
+                                    underlayColor="#ECECEC"
                                   >
-                                    <View
-                                      accessible={true}
-                                      isTVSelectable={true}
-                                      onResponderGrant={[Function]}
-                                      onResponderMove={[Function]}
-                                      onResponderRelease={[Function]}
-                                      onResponderTerminate={[Function]}
-                                      onResponderTerminationRequest={[Function]}
-                                      onStartShouldSetResponder={[Function]}
+                                    <TouchableHighlight
+                                      hostRef={null}
+                                      onPress={[MockFunction]}
                                       style={
                                         Array [
                                           Object {
@@ -470,69 +765,108 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                                           undefined,
                                         ]
                                       }
+                                      underlayColor="#ECECEC"
                                     >
-                                      <Text
+                                      <View
                                         accessible={true}
-                                        allowFontScaling={true}
-                                        ellipsizeMode="tail"
+                                        focusable={true}
+                                        onClick={[Function]}
+                                        onResponderGrant={[Function]}
+                                        onResponderMove={[Function]}
+                                        onResponderRelease={[Function]}
+                                        onResponderTerminate={[Function]}
+                                        onResponderTerminationRequest={[Function]}
+                                        onStartShouldSetResponder={[Function]}
                                         style={
                                           Array [
+                                            Object {
+                                              "borderColor": "#D9D9D9",
+                                              "borderStyle": "solid",
+                                              "borderTopWidth": 0.5,
+                                            },
+                                            Object {
+                                              "paddingBottom": 10,
+                                              "paddingTop": 10,
+                                            },
+                                            Object {},
                                             undefined,
-                                            Object {
-                                              "fontSize": 18,
-                                              "marginBottom": 5.4,
-                                              "marginTop": 5.4,
-                                              "textAlign": "center",
-                                            },
-                                            Object {
-                                              "color": "#000",
-                                            },
-                                            Object {
-                                              "color": "#000000",
-                                            },
                                           ]
                                         }
                                       >
-                                        <Text
+                                        <View
                                           accessible={true}
-                                          allowFontScaling={true}
-                                          ellipsizeMode="tail"
+                                          focusable={true}
+                                          onClick={[Function]}
+                                          onResponderGrant={[Function]}
+                                          onResponderMove={[Function]}
+                                          onResponderRelease={[Function]}
+                                          onResponderTerminate={[Function]}
+                                          onResponderTerminationRequest={[Function]}
+                                          onStartShouldSetResponder={[Function]}
                                           style={
                                             Array [
+                                              Object {
+                                                "borderColor": "#D9D9D9",
+                                                "borderStyle": "solid",
+                                                "borderTopWidth": 0.5,
+                                              },
+                                              Object {
+                                                "paddingBottom": 10,
+                                                "paddingTop": 10,
+                                              },
+                                              Object {},
                                               undefined,
-                                              Object {
-                                                "fontSize": 18,
-                                                "marginBottom": 5.4,
-                                                "marginTop": 5.4,
-                                                "textAlign": "center",
-                                              },
-                                              Object {
-                                                "color": "#000",
-                                              },
-                                              Object {
-                                                "color": "#000000",
-                                              },
                                             ]
                                           }
                                         >
-                                          选项二
-                                        </Text>
-                                      </Text>
-                                    </View>
-                                  </Component>
-                                </TouchableHighlight>
+                                          <Text
+                                            style={
+                                              Array [
+                                                Object {
+                                                  "fontSize": 18,
+                                                  "marginBottom": 5.4,
+                                                  "marginTop": 5.4,
+                                                  "textAlign": "center",
+                                                },
+                                                Object {
+                                                  "color": "#000",
+                                                },
+                                                Object {
+                                                  "color": "#000000",
+                                                },
+                                              ]
+                                            }
+                                          >
+                                            <Text
+                                              style={
+                                                Array [
+                                                  Object {
+                                                    "fontSize": 18,
+                                                    "marginBottom": 5.4,
+                                                    "marginTop": 5.4,
+                                                    "textAlign": "center",
+                                                  },
+                                                  Object {
+                                                    "color": "#000",
+                                                  },
+                                                  Object {
+                                                    "color": "#000000",
+                                                  },
+                                                ]
+                                              }
+                                            >
+                                              选项二
+                                            </Text>
+                                          </Text>
+                                          <PressabilityDebugView
+                                            color="green"
+                                          />
+                                        </View>
+                                      </View>
+                                    </TouchableHighlight>
+                                  </ForwardRef>
+                                </View>
                               </View>
-                            </Component>
-                            <Component
-                              style={
-                                Array [
-                                  Object {
-                                    "backgroundColor": "#fff",
-                                    "marginTop": 6,
-                                  },
-                                ]
-                              }
-                            >
                               <View
                                 style={
                                   Array [
@@ -543,39 +877,19 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                                   ]
                                 }
                               >
-                                <TouchableHighlight
-                                  activeOpacity={0.85}
-                                  delayPressOut={100}
-                                  key="0"
-                                  onPress={[Function]}
+                                <View
                                   style={
                                     Array [
                                       Object {
-                                        "borderColor": "#D9D9D9",
-                                        "borderStyle": "solid",
-                                        "borderTopWidth": 0.5,
+                                        "backgroundColor": "#fff",
+                                        "marginTop": 6,
                                       },
-                                      Object {
-                                        "paddingBottom": 10,
-                                        "paddingTop": 10,
-                                      },
-                                      Object {
-                                        "borderTopWidth": 0,
-                                      },
-                                      undefined,
                                     ]
                                   }
-                                  underlayColor="#ECECEC"
                                 >
-                                  <Component
-                                    accessible={true}
-                                    isTVSelectable={true}
-                                    onResponderGrant={[Function]}
-                                    onResponderMove={[Function]}
-                                    onResponderRelease={[Function]}
-                                    onResponderTerminate={[Function]}
-                                    onResponderTerminationRequest={[Function]}
-                                    onStartShouldSetResponder={[Function]}
+                                  <ForwardRef
+                                    key="0"
+                                    onPress={[MockFunction]}
                                     style={
                                       Array [
                                         Object {
@@ -593,16 +907,11 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                                         undefined,
                                       ]
                                     }
+                                    underlayColor="#ECECEC"
                                   >
-                                    <View
-                                      accessible={true}
-                                      isTVSelectable={true}
-                                      onResponderGrant={[Function]}
-                                      onResponderMove={[Function]}
-                                      onResponderRelease={[Function]}
-                                      onResponderTerminate={[Function]}
-                                      onResponderTerminationRequest={[Function]}
-                                      onStartShouldSetResponder={[Function]}
+                                    <TouchableHighlight
+                                      hostRef={null}
+                                      onPress={[MockFunction]}
                                       style={
                                         Array [
                                           Object {
@@ -620,71 +929,145 @@ exports[`interactive showActionSheet should render ActionSheet success 1`] = `
                                           undefined,
                                         ]
                                       }
+                                      underlayColor="#ECECEC"
                                     >
-                                      <Text
+                                      <View
                                         accessible={true}
-                                        allowFontScaling={true}
-                                        ellipsizeMode="tail"
+                                        focusable={true}
+                                        onClick={[Function]}
+                                        onResponderGrant={[Function]}
+                                        onResponderMove={[Function]}
+                                        onResponderRelease={[Function]}
+                                        onResponderTerminate={[Function]}
+                                        onResponderTerminationRequest={[Function]}
+                                        onStartShouldSetResponder={[Function]}
                                         style={
                                           Array [
+                                            Object {
+                                              "borderColor": "#D9D9D9",
+                                              "borderStyle": "solid",
+                                              "borderTopWidth": 0.5,
+                                            },
+                                            Object {
+                                              "paddingBottom": 10,
+                                              "paddingTop": 10,
+                                            },
+                                            Object {
+                                              "borderTopWidth": 0,
+                                            },
                                             undefined,
-                                            Object {
-                                              "fontSize": 18,
-                                              "marginBottom": 5.4,
-                                              "marginTop": 5.4,
-                                              "textAlign": "center",
-                                            },
-                                            Object {
-                                              "color": "#000",
-                                            },
-                                            Object {
-                                              "color": "#000000",
-                                            },
                                           ]
                                         }
                                       >
-                                        <Text
+                                        <View
                                           accessible={true}
-                                          allowFontScaling={true}
-                                          ellipsizeMode="tail"
+                                          focusable={true}
+                                          onClick={[Function]}
+                                          onResponderGrant={[Function]}
+                                          onResponderMove={[Function]}
+                                          onResponderRelease={[Function]}
+                                          onResponderTerminate={[Function]}
+                                          onResponderTerminationRequest={[Function]}
+                                          onStartShouldSetResponder={[Function]}
                                           style={
                                             Array [
+                                              Object {
+                                                "borderColor": "#D9D9D9",
+                                                "borderStyle": "solid",
+                                                "borderTopWidth": 0.5,
+                                              },
+                                              Object {
+                                                "paddingBottom": 10,
+                                                "paddingTop": 10,
+                                              },
+                                              Object {
+                                                "borderTopWidth": 0,
+                                              },
                                               undefined,
-                                              Object {
-                                                "fontSize": 18,
-                                                "marginBottom": 5.4,
-                                                "marginTop": 5.4,
-                                                "textAlign": "center",
-                                              },
-                                              Object {
-                                                "color": "#000",
-                                              },
-                                              Object {
-                                                "color": "#000000",
-                                              },
                                             ]
                                           }
                                         >
-                                          取消
-                                        </Text>
-                                      </Text>
-                                    </View>
-                                  </Component>
-                                </TouchableHighlight>
+                                          <Text
+                                            style={
+                                              Array [
+                                                Object {
+                                                  "fontSize": 18,
+                                                  "marginBottom": 5.4,
+                                                  "marginTop": 5.4,
+                                                  "textAlign": "center",
+                                                },
+                                                Object {
+                                                  "color": "#000",
+                                                },
+                                                Object {
+                                                  "color": "#000000",
+                                                },
+                                              ]
+                                            }
+                                          >
+                                            <Text
+                                              style={
+                                                Array [
+                                                  Object {
+                                                    "fontSize": 18,
+                                                    "marginBottom": 5.4,
+                                                    "marginTop": 5.4,
+                                                    "textAlign": "center",
+                                                  },
+                                                  Object {
+                                                    "color": "#000",
+                                                  },
+                                                  Object {
+                                                    "color": "#000000",
+                                                  },
+                                                ]
+                                              }
+                                            >
+                                              取消
+                                            </Text>
+                                          </Text>
+                                          <PressabilityDebugView
+                                            color="green"
+                                          />
+                                        </View>
+                                      </View>
+                                    </TouchableHighlight>
+                                  </ForwardRef>
+                                </View>
                               </View>
-                            </Component>
+                              <View
+                                style={
+                                  Object {
+                                    "backgroundColor": "#fff",
+                                    "paddingBottom": 16,
+                                  }
+                                }
+                              >
+                                <View
+                                  style={
+                                    Object {
+                                      "backgroundColor": "#fff",
+                                      "paddingBottom": 16,
+                                    }
+                                  }
+                                />
+                              </View>
+                            </View>
                           </View>
-                        </Component>
+                        </View>
                       </View>
-                    </Component>
-                  </AnimatedComponent>
+                    </AnimatedComponent>
+                  </ForwardRef(AnimatedComponentWrapper)>
                 </TouchableWithoutFeedback>
+                <PressabilityDebugView
+                  color="red"
+                />
               </View>
-            </Component>
+            </View>
           </TouchableWithoutFeedback>
         </Mask>
       </Modal>
-    </Component>
+    </Modal>
   </Popup>
 </Index>
 `;
@@ -696,34 +1079,56 @@ exports[`interactive showModal should render Dialog success 1`] = `
     Array [
       Object {
         "label": "取消",
-        "onPress": [Function],
+        "onPress": [MockFunction],
         "type": "#000000",
       },
       Object {
         "label": "确定",
-        "onPress": [Function],
+        "onPress": [MockFunction],
         "type": "#3CC51F",
       },
     ]
   }
-  onClose={[Function]}
+  onClose={[MockFunction]}
   title="title"
   visible={true}
 >
-  <Component
-    hardwareAccelerated={false}
-    onRequestClose={[Function]}
-    transparent={true}
-    visible={true}
+  <View
+    style={
+      Array [
+        Object {
+          "backgroundColor": "transparent",
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        Object {
+          "display": "flex",
+        },
+      ]
+    }
   >
-    <Modal
-      hardwareAccelerated={false}
-      onRequestClose={[Function]}
-      transparent={true}
-      visible={true}
+    <View
+      style={
+        Array [
+          Object {
+            "backgroundColor": "transparent",
+            "bottom": 0,
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+          },
+          Object {
+            "display": "flex",
+          },
+        ]
+      }
     >
       <Mask
-        onPress={[Function]}
+        onPress={[MockFunction]}
         style={
           Array [
             Object {
@@ -736,10 +1141,12 @@ exports[`interactive showModal should render Dialog success 1`] = `
         }
       >
         <TouchableWithoutFeedback
-          onPress={[Function]}
+          onPress={[MockFunction]}
         >
-          <Component
+          <View
             accessible={true}
+            focusable={true}
+            onClick={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
             onResponderRelease={[Function]}
@@ -768,6 +1175,8 @@ exports[`interactive showModal should render Dialog success 1`] = `
           >
             <View
               accessible={true}
+              focusable={true}
+              onClick={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
@@ -795,8 +1204,10 @@ exports[`interactive showModal should render Dialog success 1`] = `
               }
             >
               <TouchableWithoutFeedback>
-                <Component
+                <View
                   accessible={true}
+                  focusable={false}
+                  onClick={[Function]}
                   onResponderGrant={[Function]}
                   onResponderMove={[Function]}
                   onResponderRelease={[Function]}
@@ -817,6 +1228,8 @@ exports[`interactive showModal should render Dialog success 1`] = `
                 >
                   <View
                     accessible={true}
+                    focusable={false}
+                    onClick={[Function]}
                     onResponderGrant={[Function]}
                     onResponderMove={[Function]}
                     onResponderRelease={[Function]}
@@ -835,7 +1248,7 @@ exports[`interactive showModal should render Dialog success 1`] = `
                       ]
                     }
                   >
-                    <Component
+                    <View
                       style={
                         Array [
                           Object {
@@ -862,9 +1275,6 @@ exports[`interactive showModal should render Dialog success 1`] = `
                         }
                       >
                         <Text
-                          accessible={true}
-                          allowFontScaling={true}
-                          ellipsizeMode="tail"
                           style={
                             Array [
                               Object {
@@ -879,9 +1289,6 @@ exports[`interactive showModal should render Dialog success 1`] = `
                           }
                         >
                           <Text
-                            accessible={true}
-                            allowFontScaling={true}
-                            ellipsizeMode="tail"
                             style={
                               Array [
                                 Object {
@@ -899,8 +1306,8 @@ exports[`interactive showModal should render Dialog success 1`] = `
                           </Text>
                         </Text>
                       </View>
-                    </Component>
-                    <Component
+                    </View>
+                    <View
                       style={
                         Array [
                           Object {
@@ -929,9 +1336,6 @@ exports[`interactive showModal should render Dialog success 1`] = `
                         }
                       >
                         <Text
-                          accessible={true}
-                          allowFontScaling={true}
-                          ellipsizeMode="tail"
                           key=".0"
                           style={
                             Array [
@@ -949,9 +1353,6 @@ exports[`interactive showModal should render Dialog success 1`] = `
                           }
                         >
                           <Text
-                            accessible={true}
-                            allowFontScaling={true}
-                            ellipsizeMode="tail"
                             style={
                               Array [
                                 Object {
@@ -971,8 +1372,8 @@ exports[`interactive showModal should render Dialog success 1`] = `
                           </Text>
                         </Text>
                       </View>
-                    </Component>
-                    <Component
+                    </View>
+                    <View
                       style={
                         Array [
                           Object {
@@ -1008,11 +1409,9 @@ exports[`interactive showModal should render Dialog success 1`] = `
                           ]
                         }
                       >
-                        <TouchableHighlight
-                          activeOpacity={0.85}
-                          delayPressOut={100}
+                        <ForwardRef
                           key="0"
-                          onPress={[Function]}
+                          onPress={[MockFunction]}
                           style={
                             Array [
                               Object {
@@ -1029,15 +1428,9 @@ exports[`interactive showModal should render Dialog success 1`] = `
                           }
                           underlayColor="#EEEEEE"
                         >
-                          <Component
-                            accessible={true}
-                            isTVSelectable={true}
-                            onResponderGrant={[Function]}
-                            onResponderMove={[Function]}
-                            onResponderRelease={[Function]}
-                            onResponderTerminate={[Function]}
-                            onResponderTerminationRequest={[Function]}
-                            onStartShouldSetResponder={[Function]}
+                          <TouchableHighlight
+                            hostRef={null}
+                            onPress={[MockFunction]}
                             style={
                               Array [
                                 Object {
@@ -1052,10 +1445,12 @@ exports[`interactive showModal should render Dialog success 1`] = `
                                 Object {},
                               ]
                             }
+                            underlayColor="#EEEEEE"
                           >
                             <View
                               accessible={true}
-                              isTVSelectable={true}
+                              focusable={true}
+                              onClick={[Function]}
                               onResponderGrant={[Function]}
                               onResponderMove={[Function]}
                               onResponderRelease={[Function]}
@@ -1077,25 +1472,32 @@ exports[`interactive showModal should render Dialog success 1`] = `
                                 ]
                               }
                             >
-                              <Text
+                              <View
                                 accessible={true}
-                                allowFontScaling={true}
-                                ellipsizeMode="tail"
+                                focusable={true}
+                                onClick={[Function]}
+                                onResponderGrant={[Function]}
+                                onResponderMove={[Function]}
+                                onResponderRelease={[Function]}
+                                onResponderTerminate={[Function]}
+                                onResponderTerminationRequest={[Function]}
+                                onStartShouldSetResponder={[Function]}
                                 style={
                                   Array [
                                     Object {
-                                      "fontSize": 18,
+                                      "alignItems": "center",
+                                      "justifyContent": "center",
                                     },
                                     Object {
-                                      "color": "#000000",
+                                      "flex": 1,
+                                      "height": 48,
                                     },
+                                    Object {},
+                                    Object {},
                                   ]
                                 }
                               >
                                 <Text
-                                  accessible={true}
-                                  allowFontScaling={true}
-                                  ellipsizeMode="tail"
                                   style={
                                     Array [
                                       Object {
@@ -1107,17 +1509,31 @@ exports[`interactive showModal should render Dialog success 1`] = `
                                     ]
                                   }
                                 >
-                                  取消
+                                  <Text
+                                    style={
+                                      Array [
+                                        Object {
+                                          "fontSize": 18,
+                                        },
+                                        Object {
+                                          "color": "#000000",
+                                        },
+                                      ]
+                                    }
+                                  >
+                                    取消
+                                  </Text>
                                 </Text>
-                              </Text>
+                                <PressabilityDebugView
+                                  color="green"
+                                />
+                              </View>
                             </View>
-                          </Component>
-                        </TouchableHighlight>
-                        <TouchableHighlight
-                          activeOpacity={0.85}
-                          delayPressOut={100}
+                          </TouchableHighlight>
+                        </ForwardRef>
+                        <ForwardRef
                           key="1"
-                          onPress={[Function]}
+                          onPress={[MockFunction]}
                           style={
                             Array [
                               Object {
@@ -1138,15 +1554,9 @@ exports[`interactive showModal should render Dialog success 1`] = `
                           }
                           underlayColor="#EEEEEE"
                         >
-                          <Component
-                            accessible={true}
-                            isTVSelectable={true}
-                            onResponderGrant={[Function]}
-                            onResponderMove={[Function]}
-                            onResponderRelease={[Function]}
-                            onResponderTerminate={[Function]}
-                            onResponderTerminationRequest={[Function]}
-                            onStartShouldSetResponder={[Function]}
+                          <TouchableHighlight
+                            hostRef={null}
+                            onPress={[MockFunction]}
                             style={
                               Array [
                                 Object {
@@ -1165,10 +1575,12 @@ exports[`interactive showModal should render Dialog success 1`] = `
                                 Object {},
                               ]
                             }
+                            underlayColor="#EEEEEE"
                           >
                             <View
                               accessible={true}
-                              isTVSelectable={true}
+                              focusable={true}
+                              onClick={[Function]}
                               onResponderGrant={[Function]}
                               onResponderMove={[Function]}
                               onResponderRelease={[Function]}
@@ -1194,25 +1606,36 @@ exports[`interactive showModal should render Dialog success 1`] = `
                                 ]
                               }
                             >
-                              <Text
+                              <View
                                 accessible={true}
-                                allowFontScaling={true}
-                                ellipsizeMode="tail"
+                                focusable={true}
+                                onClick={[Function]}
+                                onResponderGrant={[Function]}
+                                onResponderMove={[Function]}
+                                onResponderRelease={[Function]}
+                                onResponderTerminate={[Function]}
+                                onResponderTerminationRequest={[Function]}
+                                onStartShouldSetResponder={[Function]}
                                 style={
                                   Array [
                                     Object {
-                                      "fontSize": 18,
+                                      "alignItems": "center",
+                                      "justifyContent": "center",
                                     },
                                     Object {
-                                      "color": "#3CC51F",
+                                      "flex": 1,
+                                      "height": 48,
                                     },
+                                    Object {
+                                      "borderColor": "#D5D5D6",
+                                      "borderLeftWidth": 0.5,
+                                      "borderStyle": "solid",
+                                    },
+                                    Object {},
                                   ]
                                 }
                               >
                                 <Text
-                                  accessible={true}
-                                  allowFontScaling={true}
-                                  ellipsizeMode="tail"
                                   style={
                                     Array [
                                       Object {
@@ -1224,22 +1647,44 @@ exports[`interactive showModal should render Dialog success 1`] = `
                                     ]
                                   }
                                 >
-                                  确定
+                                  <Text
+                                    style={
+                                      Array [
+                                        Object {
+                                          "fontSize": 18,
+                                        },
+                                        Object {
+                                          "color": "#3CC51F",
+                                        },
+                                      ]
+                                    }
+                                  >
+                                    确定
+                                  </Text>
                                 </Text>
-                              </Text>
+                                <PressabilityDebugView
+                                  color="green"
+                                />
+                              </View>
                             </View>
-                          </Component>
-                        </TouchableHighlight>
+                          </TouchableHighlight>
+                        </ForwardRef>
                       </View>
-                    </Component>
+                    </View>
+                    <PressabilityDebugView
+                      color="red"
+                    />
                   </View>
-                </Component>
+                </View>
               </TouchableWithoutFeedback>
+              <PressabilityDebugView
+                color="red"
+              />
             </View>
-          </Component>
+          </View>
         </TouchableWithoutFeedback>
       </Mask>
-    </Modal>
-  </Component>
+    </View>
+  </View>
 </Index>
 `;

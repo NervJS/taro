@@ -1,10 +1,12 @@
+// eslint-disable-next-line
 import React from 'react'
 import { TouchableHighlight, Text } from 'react-native'
 import { mount } from 'enzyme'
 import toJson from 'enzyme-to-json'
-import ActionSheet from '../api/ActionSheet'
-import Dialog from '../api/Dialog'
-import LoadingView from '../api/WxToast/LoadingView'
+import ActionSheet from '../lib/showActionSheet/ActionSheet'
+import Dialog from '../lib/showModal/Dialog'
+import { Mask } from '../lib/Mask'
+import { Popup } from '../lib/Popup'
 
 describe('interactive', function () {
   describe('showActionSheet', function () {
@@ -13,13 +15,13 @@ describe('interactive', function () {
         autoDectect
         type={'ios'}
         visible={false}
-        onClose={() => {}}
+        onClose={jest.fn()}
         menus={['选项一', '选项二'].map((item) => {
           return {
             type: 'default',
             label: item,
             textStyle: { color: '#000000' },
-            onPress: () => {}
+            onPress: jest.fn()
           }
         })}
         actions={[
@@ -27,7 +29,7 @@ describe('interactive', function () {
             type: 'default',
             label: '取消',
             textStyle: { color: '#000000' },
-            onPress: () => {}
+            onPress: jest.fn()
           }
         ]}
       />)
@@ -39,7 +41,7 @@ describe('interactive', function () {
         autoDectect
         type={'ios'}
         visible
-        onClose={() => {}}
+        onClose={jest.fn()}
         menus={['选项一', '选项二'].map((item) => {
           return {
             type: 'default',
@@ -53,7 +55,7 @@ describe('interactive', function () {
             type: 'default',
             label: '取消',
             textStyle: { color: '#000000' },
-            onPress: () => {}
+            onPress: jest.fn()
           }
         ]}
       />)
@@ -68,27 +70,58 @@ describe('interactive', function () {
         visible
         autoDectect
         title='title'
-        onClose={() => {}}
+        onClose={jest.fn()}
         buttons={[
           {
             type: '#000000',
             label: '取消',
-            onPress: () => {}
+            onPress: jest.fn()
           },
           {
             type: '#3CC51F',
             label: '确定',
-            onPress: () => {}
+            onPress: jest.fn()
           }
         ].filter(Boolean)}
       ><Text>Test</Text></Dialog>)
       expect(toJson(wrapper)).toMatchSnapshot()
     })
   })
-  describe('Toast', function () {
-    it('should render LoadingView success', function () {
-      const wrapper = mount(<LoadingView />)
+  describe('Mask', () => {
+    it('should render Mask success', () => {
+      const wrapper = mount(<Mask style={{ color: 'red' }} onPress={jest.fn()}><Text>Test</Text></Mask>)
       expect(toJson(wrapper)).toMatchSnapshot()
+    })
+    it('should emit Mask event success', () => {
+      const onPress = jest.fn()
+      const wrapper = mount(<Mask style={{ color: 'red' }} onPress={onPress}><Text>Test</Text></Mask>)
+      wrapper.find(Mask).first().props().onPress()
+      expect(onPress.call.length).toBe(1)
+    })
+  })
+  describe('Popup', () => {
+    it('should render Popup success', () => {
+      const onShow = jest.fn()
+      const onClose = jest.fn()
+      const wrapper = mount(<Popup
+        style={{ color: 'red' }}
+        onShow={onShow}
+        onClose={onClose}
+      ><Text>Test</Text></Popup>)
+      expect(toJson(wrapper)).toMatchSnapshot()
+    })
+    it('should emit Popup event success', () => {
+      const onShow = jest.fn()
+      const onClose = jest.fn()
+      const wrapper = mount(<Popup
+        visible
+        style={{ color: 'red' }}
+        onShow={onShow}
+        onClose={onClose}
+      ><Text>Test</Text></Popup>)
+      expect(onShow.call.length).toBe(1)
+      wrapper.find(Mask).at(0).props().onPress()
+      expect(onClose.call.length).toBe(1)
     })
   })
 })

@@ -9,7 +9,7 @@ function setStyle (this: Style, newVal: string, styleKey: string) {
     this._usedStyleProp.add(styleKey)
   }
 
-  warn(
+  process.env.NODE_ENV !== 'production' && warn(
     isString(newVal) && newVal.length > PROPERTY_THRESHOLD,
     `Style 属性 ${styleKey} 的值数据量过大，可能会影响渲染性能，考虑使用 CSS 类或其它方案替代。`
   )
@@ -39,6 +39,10 @@ function initStyle (ctor: typeof Style) {
   }
 
   Object.defineProperties(ctor.prototype, properties)
+}
+
+function isCssVariable (propertyName) {
+  return /^--/.test(propertyName)
 }
 
 export class Style {
@@ -72,7 +76,8 @@ export class Style {
     this._usedStyleProp.forEach(key => {
       const val = this[key]
       if (!val) return
-      text += `${toDashed(key)}: ${val};`
+      const styleName = isCssVariable(key) ? key : toDashed(key)
+      text += `${styleName}: ${val};`
     })
     return text
   }
@@ -98,7 +103,10 @@ export class Style {
         continue
       }
 
-      const [propName, val] = rule.split(':')
+      // 可能存在 'background: url(http:x/y/z)' 的情况
+      const [propName, ...valList] = rule.split(':')
+      const val = valList.join(':')
+
       if (isUndefined(val)) {
         continue
       }
@@ -108,6 +116,7 @@ export class Style {
 
   public setProperty (propertyName: string, value?: string | null) {
     if (propertyName[0] === '-') {
+      // 支持 webkit 属性或 css 变量
       this.setCssVariables(propertyName)
     } else {
       propertyName = toCamelCase(propertyName)

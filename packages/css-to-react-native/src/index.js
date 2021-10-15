@@ -23,13 +23,13 @@ const shorthandBorderProps = [
   'border-style'
 ]
 
-const transformDecls = (styles, declarations, result) => {
+const transformDecls = (styles, declarations, result, options) => {
   for (const d in declarations) {
     const declaration = declarations[d]
     if (declaration.type !== 'declaration') continue
 
     const property = declaration.property
-    const value = remToPx(declaration.value)
+    let value = remToPx(declaration.value)
 
     const isLengthUnit = lengthRe.test(value)
     const isViewportUnit = viewportUnitRe.test(value)
@@ -48,6 +48,15 @@ const transformDecls = (styles, declarations, result) => {
 
     if (!result.__viewportUnits && isViewportUnit) {
       result.__viewportUnits = true
+    }
+    // scalable option, when it is false, transform single value 'px' unit to 'PX'
+    // do not be wrapped by scalePx2dp function
+    if (
+      !options.scalable &&
+      isLengthUnit &&
+      /px/.test(value)
+    ) {
+      value = value.replace(/px/g, 'PX')
     }
 
     if (shorthandBorderProps.indexOf(property) > -1) {
@@ -112,7 +121,7 @@ const transform = (css, options) => {
 
       const selector = rule.selectors[s].replace(/^\./, '')
       const styles = (result[selector] = result[selector] || {})
-      transformDecls(styles, rule.declarations, result)
+      transformDecls(styles, rule.declarations, result, options)
     }
 
     if (
@@ -158,7 +167,7 @@ const transform = (css, options) => {
           const selector = ruleRule.selectors[s].replace(/^\./, '')
           const mediaStyles = (result[media][selector] =
             result[media][selector] || {})
-          transformDecls(mediaStyles, ruleRule.declarations, result)
+          transformDecls(mediaStyles, ruleRule.declarations, result, options)
         }
       }
     }
@@ -170,6 +179,10 @@ const transform = (css, options) => {
   }
 
   return result
+}
+
+export {
+  transformCSS
 }
 
 export default transform

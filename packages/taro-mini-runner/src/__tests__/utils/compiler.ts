@@ -1,18 +1,18 @@
 import * as path from 'path'
 import * as merge from 'webpack-merge'
-import { resolveMainFilePath } from '@tarojs/helper'
+import * as helper from '@tarojs/helper'
 import { IFs } from 'memfs'
-import { Template } from '@tarojs/cli/src/presets/platforms/weapp'
+import { Weapp } from '@tarojs/plugin-platform-weapp'
 
 import baseConfig from './config'
 import { IBuildConfig } from '../../utils/types'
 import build from '../../index'
 
-interface EnsuredFs extends IFs {
-  join: () => string
-}
+// interface EnsuredFs extends IFs {
+//   join: () => string
+// }
 
-function readDir (fs: IFs, dir: string) {
+export function readDir (fs: IFs, dir: string) {
   let files: string[] = []
   const list = fs.readdirSync(dir)
   list.forEach(item => {
@@ -30,7 +30,7 @@ function readDir (fs: IFs, dir: string) {
 export function getOutput (stats, config: Partial<IBuildConfig> & { fs?: any }) {
   const fs: IFs = config.fs ?? stats.compilation.compiler.outputFileSystem
 
-  const files = readDir(fs, config.outputRoot)
+  const files = readDir(fs, config.outputRoot || '')
   const output = files.reduce((content, file) => {
     return `${content}
 /** filePath: ${file} **/
@@ -42,7 +42,7 @@ ${fs.readFileSync(file)}
 
 export async function compile (app: string, customConfig: Partial<IBuildConfig> = {}) {
   const appPath = path.resolve(__dirname, '../fixtures', app)
-  const entryFilePath = resolveMainFilePath(path.join(appPath, customConfig.sourceRoot || 'src', 'app'))
+  const entryFilePath = helper.resolveMainFilePath(path.join(appPath, customConfig.sourceRoot || 'src', 'app'))
 
   process.chdir(appPath)
 
@@ -56,7 +56,7 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
           '@tarojs/components$': path.resolve(__dirname, '../mocks/taro-components'),
           '@tarojs/react': path.resolve(__dirname, '../mocks/taro-react'),
           '@tarojs/taro': path.resolve(__dirname, '../mocks/taro'),
-          react: path.resolve(__dirname, '../mocks/react'),
+          react$: path.resolve(__dirname, '../mocks/react'),
           vue: path.resolve(__dirname, '../mocks/vue'),
           nervjs: path.resolve(__dirname, '../mocks/nerv')
         }
@@ -81,6 +81,14 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
     }
   }
 
+  if (!customConfig.buildAdapter) {
+    const program = new Weapp({ helper } as any, {})
+    customConfig.globalObject = program.globalObject
+    customConfig.fileType = program.fileType
+    customConfig.template = program.template
+    customConfig.runtimePath = program.runtimePath
+  }
+
   const config: IBuildConfig = merge(baseConfig, {
     mode: 'production',
     enableSourceMap: false,
@@ -88,7 +96,6 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
       app: [entryFilePath]
     },
     framework: 'react',
-    buildAdapter: 'weapp',
     terser: {
       enable: true,
       config: {
@@ -101,9 +108,10 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
         }
       }
     },
-    template: new Template()
+    buildAdapter: 'weapp'
   }, customConfig)
 
   const stats = await build(appPath, config)
+
   return { stats, config }
 }

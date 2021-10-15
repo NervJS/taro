@@ -9,11 +9,11 @@ import {
 import styles from './styles'
 import { ContainerProps } from './PropsType'
 
-const TabbarContainer: React.SFC<ContainerProps> = ({
+const TabbarContainer: React.FC<ContainerProps> = ({
   children,
   style,
   ...reset
-}) => {
+}: ContainerProps) => {
   return (
     <View {...reset} style={[styles.container, style]}>
       {children}

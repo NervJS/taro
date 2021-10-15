@@ -29,7 +29,7 @@ export type EventOnScroll = {
     scrollWidth: number;
     deltaX: number;
     deltaY: number;
-  }
+  };
 }
 
 export interface ScrollViewState {
@@ -43,8 +43,8 @@ export interface ScrollViewProps<ItemT> {
   scrollX?: boolean;
   upperThreshold: number;
   lowerThreshold: number;
-  scrollTop: number;
-  scrollLeft: number;
+  scrollTop?: number;
+  scrollLeft?: number;
   scrollWithAnimation?: boolean;
   enableBackToTop: boolean;
   onScrollToUpper?: (evt: EventOnScrollToUpper) => void;

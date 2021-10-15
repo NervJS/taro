@@ -52,6 +52,12 @@ const chooseImage = function (options) {
     obj.setAttribute('style', 'position: fixed; top: -4000px; left: -3000px; z-index: -300;')
     document.body.appendChild(obj)
     taroChooseImageId = document.getElementById(imageId)
+  } else {
+    if (count > 1) {
+      taroChooseImageId.setAttribute('multiple', 'multiple')
+    } else {
+      taroChooseImageId.removeAttribute('multiple')
+    }
   }
   let taroChooseImageCallback
   const taroChooseImagePromise = new Promise(resolve => {
@@ -68,7 +74,7 @@ const chooseImage = function (options) {
       })
       const url = URL.createObjectURL(blob)
       res.tempFilePaths.push(url)
-      res.tempFiles.push({ path: url, size: item.size, type: item.type })
+      res.tempFiles.push({ path: url, size: item.size, type: item.type, originalFileObj: item })
     })
     typeof success === 'function' && success(res)
     typeof complete === 'function' && complete(res)

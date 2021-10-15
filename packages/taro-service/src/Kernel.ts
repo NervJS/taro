@@ -48,7 +48,7 @@ export default class Kernel extends EventEmitter {
   config: Config
   initialConfig: IProjectConfig
   hooks: Map<string, IHook[]>
-  methods: Map<string, Function>
+  methods: Map<string, ((...args: any[]) => void)[]>
   commands: Map<string, ICommand>
   platforms: Map<string, IPlatform>
   helper: any
@@ -203,7 +203,17 @@ export default class Kernel extends EventEmitter {
     })
     return new Proxy(pluginCtx, {
       get: (target, name: string) => {
-        if (this.methods.has(name)) return this.methods.get(name)
+        if (this.methods.has(name)) {
+          const method = this.methods.get(name)
+          if (Array.isArray(method)) {
+            return (...arg) => {
+              method.forEach(item => {
+                item.apply(this, arg)
+              })
+            }
+          }
+          return method
+        }
         if (kernelApis.includes(name)) {
           return typeof this[name] === 'function' ? this[name].bind(this) : this[name]
         }
@@ -288,7 +298,7 @@ export default class Kernel extends EventEmitter {
     if (!this.commands.has(name)) {
       throw new Error(`${name} 命令不存在`)
     }
-    if (opts && opts.isHelp) {
+    if (opts?.isHelp) {
       const command = this.commands.get(name)
       const defaultOptionsMap = new Map()
       defaultOptionsMap.set('-h, --help', 'output usage information')
@@ -300,9 +310,15 @@ export default class Kernel extends EventEmitter {
       printHelpLog(name, optionsMap, command?.synopsisList ? new Set(command?.synopsisList) : new Set())
       return
     }
-    if (opts && opts.platform) {
-      opts.config = this.runWithPlatform(opts.platform)
+    if (opts?.options?.platform) {
+      opts.config = this.runWithPlatform(opts.options.platform)
     }
+    await this.applyPlugins({
+      name: 'modifyRunnerOpts',
+      opts: {
+        opts: opts?.config
+      }
+    })
     await this.applyPlugins({
       name,
       opts

@@ -68,6 +68,7 @@ export const canIUse = temporarilyNotSupport('canIUse')
 // 界面
 // export const hideToast = temporarilyNotSupport('hideToast')
 // export const hideLoading = temporarilyNotSupport('hideLoading')
+export const hideHomeButton = temporarilyNotSupport('hideHomeButton')
 export const showNavigationBarLoading = temporarilyNotSupport('showNavigationBarLoading')
 export const hideNavigationBarLoading = temporarilyNotSupport('hideNavigationBarLoading')
 // export const createAnimation = temporarilyNotSupport('createAnimation')
@@ -244,6 +245,7 @@ export const chooseInvoiceTitle = temporarilyNotSupport('chooseInvoiceTitle')
 export const checkIsSupportSoterAuthentication = temporarilyNotSupport('checkIsSupportSoterAuthentication')
 export const startSoterAuthentication = temporarilyNotSupport('startSoterAuthentication')
 export const checkIsSoterEnrolledInDevice = temporarilyNotSupport('checkIsSoterEnrolledInDevice')
+export const exitMiniProgram = temporarilyNotSupport('exitMiniProgram')
 
 export const setEnableDebug = temporarilyNotSupport('setEnableDebug')
 

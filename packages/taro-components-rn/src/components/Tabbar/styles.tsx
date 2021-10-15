@@ -5,7 +5,7 @@ import {
   StyleSheet
 } from 'react-native'
 
-const { width, height }: { width: number; height: number; } = Dimensions.get('window')
+const { width, height }: { width: number; height: number } = Dimensions.get('window')
 
 // @todo what about header height.
 const contHeight = Platform.select({

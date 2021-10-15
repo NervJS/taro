@@ -18,9 +18,9 @@ declare namespace Taro {
   function canIUse(
     /**
      * 使用 `${API}.${method}.${param}.${option}` 或者 `${component}.${attribute}.${option}` 方式来调用
-     * 
+     *
      * **参数说明**
-     * 
+     *
      * - `${API}` 代表 API 名字
      * - `${method}` 代表调用方式，有效值为return, success, object, callback
      * - `${param}` 代表参数或者返回值
@@ -61,4 +61,30 @@ declare namespace Taro {
     /** 要转换成 Base64 字符串的 ArrayBuffer 对象 */
     buffer: ArrayBuffer,
   ): string
+
+  /**
+   * 跳转预加载 API
+   * @param options 预加载的数据
+   * @example
+   * ```tsx
+   * Taro.preload({ key: 'value' })
+   * ```
+   */
+  function preload (options: Record<string, any>)
+
+  /**
+   * 跳转预加载 API
+   * @param key 预加载的数据 key
+   * @param value 预加载的数据 value
+   * @example
+   * ```tsx
+   * Taro.preload('key', 'value')
+   * ```
+   */
+  function preload (key: string, value: any)
+
+  /**
+   * 预加载的数据
+   */
+  const preloadData: Record<string, any>
 }

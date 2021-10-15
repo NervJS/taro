@@ -66,7 +66,6 @@ function updatePkg (pkgPath: string, version: string) {
       ...packageMap.dependencies,
       '@tarojs/shared': version,
       '@tarojs/taro': version,
-      '@tarojs/api': version,
       '@tarojs/cli': version,
       '@tarojs/components': version,
       '@tarojs/taro-h5': version,
@@ -80,7 +79,13 @@ function updatePkg (pkgPath: string, version: string) {
       '@tarojs/service': version,
       '@tarojs/webpack-runner': version,
       '@tarojs/with-weapp': version,
-      '@tarojs/taroize': version
+      '@tarojs/taroize': version,
+      '@tarojs/plugin-platform-weapp': version,
+      '@tarojs/plugin-platform-alipay': version,
+      '@tarojs/plugin-platform-swan': version,
+      '@tarojs/plugin-platform-tt': version,
+      '@tarojs/plugin-platform-jd': version,
+      '@tarojs/plugin-platform-qq': version
     },
     devDependencies: {
       ...packageMap.devDependencies,

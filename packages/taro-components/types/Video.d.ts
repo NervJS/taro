@@ -246,7 +246,7 @@ interface VideoProps extends StandardProps {
    */
   onTimeUpdate?: CommonEventFunction<VideoProps.onTimeUpdateEventDetail>
 
-  /** 当视频进入和退出全屏是触发
+  /** 当视频进入和退出全屏时触发
    *
    * event.detail = {fullScreen, direction}，direction取为 vertical 或 horizontal
    * @supported weapp, swan, alipay
@@ -254,7 +254,7 @@ interface VideoProps extends StandardProps {
    */
   onFullscreenChange?: CommonEventFunction<VideoProps.onFullscreenChangeEventDetail>
 
-  /** 当视频进入和退出全屏是触发
+  /** 当视频进入和退出全屏时触发
    *
    * event.detail = {fullScreen, direction}，direction 取为 vertical 或 horizontal
    * @supported weapp, swan

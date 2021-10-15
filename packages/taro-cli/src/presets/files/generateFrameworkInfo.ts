@@ -3,12 +3,12 @@ import { IPluginContext } from '@tarojs/service'
 import { getPkgVersion } from '../../util'
 
 export default (ctx: IPluginContext) => {
-  ctx.registerMethod('generateFrameworkInfo', ({ platform }) => {
+  ctx.registerMethod('generateFrameworkInfo', () => {
     const { getInstalledNpmPkgVersion, processTypeEnum, printLog, chalk } = ctx.helper
     const { nodeModulesPath } = ctx.paths
     const { date, outputRoot } = ctx.initialConfig
     const frameworkInfoFileName = '.frameworkinfo'
-    const frameworkName = `@tarojs/taro-${platform}`
+    const frameworkName = '@tarojs/runtime'
     const frameworkVersion = getInstalledNpmPkgVersion(frameworkName, nodeModulesPath)
 
     if (frameworkVersion) {

@@ -11,12 +11,16 @@ export class Switch implements ComponentInterface {
   @Prop() color = '#04BE02'
   @Prop() name: string
   @Prop() disabled = false
+  @Prop() nativeProps = {}
+
   @State() isChecked: boolean
+  @State() isWillLoadCalled = false
 
   @Element() el: HTMLElement
 
   @Watch('checked')
   function (newVal: boolean, oldVal: boolean) {
+    if (!this.isWillLoadCalled) return
     if (newVal !== oldVal) this.isChecked = newVal
   }
 
@@ -26,6 +30,7 @@ export class Switch implements ComponentInterface {
   onChange: EventEmitter
 
   componentWillLoad () {
+    this.isWillLoadCalled = true
     this.isChecked = this.checked
   }
 
@@ -51,7 +56,8 @@ export class Switch implements ComponentInterface {
       color,
       isChecked,
       name,
-      disabled
+      disabled,
+      nativeProps
     } = this
 
     const style = isChecked
@@ -70,6 +76,7 @@ export class Switch implements ComponentInterface {
         name={name}
         disabled={disabled}
         onChange={this.switchChange}
+        {...nativeProps}
       />
     )
   }

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "3.0.15",
+  "version": "3.3.9",
   "description": "",
   "main:h5": "src/index.js",
   "main": "dist/index.js",
@@ -24,10 +24,10 @@
     "build-h5": "babel -d dist-h5 h5",
     "build": "npm run build-h5 & stencil build --config stencil.config.ts",
     "dev": "stencil build --config stencil.config.ts --watch",
-    "test": "karmatic --files '__tests__/**.spec.js' --coverage false",
-    "test:ci": "karmatic --files '__tests__/**.spec.js' --coverage false",
-    "test:debug": "karmatic debug --files '__tests__/**.spec.js' --coverage false",
-    "test:coverage": "karmatic --files '__tests__/**.spec.js'"
+    "test": "karmatic --files '__tests__/setup.js,__tests__/**.spec.js' --coverage false",
+    "test:ci": "karmatic --files '__tests__/setup.js,__tests__/**.spec.js' --coverage false",
+    "test:debug": "karmatic debug --files '__tests__/setup.js,__tests__/**.spec.js' --coverage false",
+    "test:coverage": "karmatic --files '__tests__/setup.js,__tests__/**.spec.js'"
   },
   "repository": {
     "type": "git",
@@ -37,18 +37,20 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@stencil/core": "~1.8.1",
-    "@tarojs/taro": "3.0.15",
+    "@stencil/core": "2.4.0",
+    "@tarojs/taro": "3.3.9",
     "better-scroll": "^1.14.1",
     "classnames": "^2.2.5",
     "intersection-observer": "^0.7.0",
     "omit.js": "^1.0.0",
     "resolve-pathname": "^3.0.0",
-    "swiper": "4.4.2",
+    "swiper": "6.8.0",
     "weui": "^1.1.2"
   },
   "devDependencies": {
-    "@stencil/sass": "~1.1.1",
+    "@types/react-native": "0.65.1",
+    "@stencil/sass": "1.4.1",
+    "@types/react-native": "0.65.1",
     "jquery": "^3.4.1",
     "karmatic": "^2.1.0",
     "simulant": "^0.2.2",

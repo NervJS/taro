@@ -56,7 +56,9 @@ export class PullToRefresh implements ComponentInterface {
 
   private _isMounted = false;
 
-  private scrollContainer = document.querySelector('.taro-tabbar__panel') || document.body
+  private get scrollContainer () {
+    return document.querySelector('.taro-tabbar__panel') || document.body
+  }
 
   @Watch('currSt')
   statusChange () {
@@ -68,7 +70,7 @@ export class PullToRefresh implements ComponentInterface {
     }
   }
 
-  componentDidUnload () {
+  disconnectedCallback () {
     this.destroy()
   }
 

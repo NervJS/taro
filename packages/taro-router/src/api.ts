@@ -1,11 +1,11 @@
 import { stacks } from './stack'
-import { history } from './history'
-import { routesAlias, addLeadingSlash } from './utils'
+import { history, parsePath } from './history'
+import { routesAlias, addLeadingSlash, setHistoryBackDelta } from './utils'
 
 interface Base {
-  success?: Function
-  fail?: Function
-  complete?: Function
+  success?: (...args: any[]) => void
+  fail?: (...args: any[]) => void
+  complete?: (...args: any[]) => void
 }
 
 interface Option extends Base {
@@ -39,25 +39,31 @@ function navigate (option: Option | NavigateBackOption, method: 'navigateTo' | '
   }
   try {
     if (method === 'navigateTo') {
-      history.push((option as Option).url)
+      history.push(parsePath((option as Option).url), { timestamp: Date.now() })
     } else if (method === 'redirectTo') {
-      history.replace((option as Option).url)
+      history.replace(parsePath((option as Option).url), { timestamp: Date.now() })
     } else if (method === 'navigateBack') {
+      setHistoryBackDelta((option as NavigateBackOption).delta)
       history.go(-(option as NavigateBackOption).delta)
     }
   } catch (error) {
     failReason = error
   }
-  return new Promise((resolve, reject) => {
+
+  return new Promise<void>((resolve, reject) => {
     if (failReason) {
       fail && fail(failReason)
       complete && complete()
       reject(failReason)
-    } else {
+      return
+    }
+
+    const unlisten = history.listen(() => {
       success && success()
       complete && complete()
       resolve()
-    }
+      unlisten()
+    })
   })
 }
 

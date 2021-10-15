@@ -41,10 +41,10 @@ import {
   Dimensions
 } from 'react-native'
 // @ts-ignore // The type definitions for MapView have not been created.
-import MapView, { Callout, Polygon, Circle, Polyline, Marker } from 'react-native-maps'
+import MapView, { Callout, Polygon, Circle, Polyline, Marker, MapEvent } from 'react-native-maps'
 import utils from '../../utils'
 
-const {width, height} = Dimensions.get('window')
+const { width, height } = Dimensions.get('window')
 const ASPECT_RATIO = width / height
 const LATITUDE_DELTA = 0.0922
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
@@ -66,23 +66,6 @@ type Callouts = {
 }
 
 /**
- * 标记点气泡 label
- */
-type Label = {
-  content?: string;
-  color?: string;
-  fontSize?: number;
-  anchorX?: number;
-  anchorY?: number;
-  borderWidth?: number;
-  borderColor?: string;
-  borderRadius?: number;
-  bgColor?: string;
-  padding?: number;
-  textAlign?: 'left' | 'right' | 'center';
-}
-
-/**
  * 标记点
  */
 type Marker = {
@@ -98,14 +81,14 @@ type Marker = {
   // height?: number;
   callout?: Callouts;
   // label?: Label;
-  anchor?: { x: number, y: number };
+  anchor?: { x: number; y: number };
 }
 
 /**
  * 多段线
  */
 type Polyline = {
-  points: Array<{ latitude: number, longitude: number }>;
+  points: Array<{ latitude: number; longitude: number }>;
   color?: string;
   width?: number;
   // dottedLine?: boolean;
@@ -119,7 +102,7 @@ type Polyline = {
  * 多边形
  */
 type Polygon = {
-  points: Array<{ latitude: number, longitude: number }>;
+  points: Array<{ latitude: number; longitude: number }>;
   strokeWidth?: number;
   strokeColor?: string;
   fillColor?: string;
@@ -146,16 +129,6 @@ type Coordinate = {
   longitude: number;
 }
 
-/**
- * 区域
- */
-type Region = {
-  latitude: Number;
-  longitude: Number;
-  latitudeDelta: Number;
-  longitudeDelta: Number;
-}
-
 export interface Props {
   longitude: number;
   latitude: number;
@@ -180,7 +153,7 @@ export interface Props {
 
   onControlClick? (controlId?: number): void;
 
-  onRegionChange? (event: { type: 'begin' | 'end', timeStamp: number, causedBy?: 'scale' | 'drag' | 'update' }): void;
+  onRegionChange? (event: { type: 'begin' | 'end'; timeStamp: number; causedBy?: 'scale' | 'drag' | 'update' }): void;
 
   onClick? (coordinate: Coordinate): void;
 
@@ -219,40 +192,40 @@ class _Map extends React.Component<Props, State> {
     networkState: ''
   }
 
-  _onRegionChange = (region: Region) => {
-    const {onRegionChange} = this.props
+  _onRegionChange = (): void => {
+    const { onRegionChange } = this.props
     onRegionChange && onRegionChange({
       type: 'begin',
       timeStamp: Date.now()
     })
   }
 
-  _onRegionChangeComplete = (region: Region) => {
-    const {onRegionChange} = this.props
+  _onRegionChangeComplete = (): void => {
+    const { onRegionChange } = this.props
     onRegionChange && onRegionChange({
       type: 'end',
       timeStamp: Date.now()
     })
   }
 
-  _onClick = (e: any) => {
-    const {onClick} = this.props
+  _onClick = (e: MapEvent): void => {
+    const { onClick } = this.props
     onClick && onClick(e.nativeEvent.coordinate)
   }
 
-  _onMapReady = () => {
-    const {onUpdated} = this.props
+  _onMapReady = (): void => {
+    const { onUpdated } = this.props
     onUpdated && onUpdated()
   }
 
-  _onPoiClick = () => {
-    const {onPoiClick} = this.props
+  _onPoiClick = (): void => {
+    const { onPoiClick } = this.props
     onPoiClick && onPoiClick()
   }
 
-  getCallout = (marker: Marker) => {
-    const {onCalloutClick} = this.props
-    const {id, callout} = marker
+  getCallout = (marker: Marker): JSX.Element | null => {
+    const { onCalloutClick } = this.props
+    const { id, callout } = marker
     if (!callout) return null
     return (
       <Callout
@@ -283,7 +256,7 @@ class _Map extends React.Component<Props, State> {
     )
   }
 
-  render () {
+  render (): JSX.Element {
     const {
       latitude,
       longitude,
@@ -301,7 +274,7 @@ class _Map extends React.Component<Props, State> {
 
     return (
       <MapView
-        style={{flex: 1}}
+        style={{ flex: 1 }}
         // provider={MapView.PROVIDER_GOOGLE}
         initialRegion={{
           latitude,
@@ -367,7 +340,7 @@ class _Map extends React.Component<Props, State> {
         {(circles || []).map((c, index) => (
           <Circle
             key={`circle_${index}`}
-            center={{latitude: c.latitude, longitude: c.longitude}}
+            center={{ latitude: c.latitude, longitude: c.longitude }}
             strokeColor={c.color}
             fillColor={c.fillColor}
             radius={c.radius}
