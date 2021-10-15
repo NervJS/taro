@@ -135,10 +135,17 @@ ${elements}
   }
 
   buildPageTemplate = (baseTempPath: string) => {
-    const template = `<element name="container" src="${baseTempPath.replace('base', 'container/index')}"></element>
+    const containerPath = path.join(path.dirname(baseTempPath), 'container')
+    const containerTempPath = path.join(containerPath, 'index.hml')
+    const navbarTempPath = path.join(containerPath, 'components-harmony/navbar/index.hml')
+    const template = `<element name="container" src="${containerTempPath}"></element>
+<element name="navbar" src="${navbarTempPath}"></element>
 
 <div class="container">
-  <container root="{{root}}"></container>
+  <navbar title="{{taroNavBar.title}}" background="{{taroNavBar.background}}" text-style="{{taroNavBar.textStyle}}" st="{{taroNavBar.style}}"></navbar>
+  <div class="body">
+    <container root="{{root}}"></container>
+  </div>
 </div>
 `
 

@@ -1,3 +1,13 @@
+import { IAsyncParams } from './types'
+
+interface Current {
+  taro: Record<string, any>
+}
+
+export const current: Current = {
+  taro: {}
+}
+
 export function noop () {}
 
 export function unsupport (str: string) {
@@ -78,4 +88,16 @@ export function validateOptions (funcName, options: any): {
     isPassed: true,
     res
   }
+}
+
+export function callAsyncSuccess (options: IAsyncParams, resolve, res) {
+  options.success?.(res)
+  options.complete?.(res)
+  resolve(res)
+}
+
+export function callAsyncfail (options: IAsyncParams, reject, res) {
+  options.fail?.(res)
+  options.complete?.(res)
+  reject(res)
 }
