@@ -1,7 +1,7 @@
 import router from '@system.router'
 
 function covertHex3ToHex6 (color) {
-  return color.replace(/^#([a-zA-Z])([a-zA-Z])([a-zA-Z])$/, '#$1$1$2$2$3$3')
+  return color.replace(/^#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])$/, '#$1$1$2$2$3$3')
 }
 
 export default {
