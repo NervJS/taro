@@ -9,6 +9,6 @@ export default {
     this.$emit('complete', { width: e.width, height: e.height })
   },
   onError () {
-    this.$emit('error', { errMsg: '图片加载异常' })
+    this.$emit('error', { id: this.id, errMsg: '图片加载异常' })
   }
 }
