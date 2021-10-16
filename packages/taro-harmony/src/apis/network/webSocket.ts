@@ -14,24 +14,55 @@
 //  ❌ SocketTask.send
 import { IAsyncParams } from '../utils/types'
 import { General } from '@tarojs/taro/types'
+import { validateParams } from './validate'
 const webSocket = require('@ohos.net.webSocket')
 
 const ws = webSocket.createWebSocket()
 
-interface IConnectSocket extends IAsyncParams {
-  url: string
+interface IOptions extends IAsyncParams {
   header?: General.IAnyObject
 }
-function connectSocket (options: IConnectSocket) {
-  ws.connect(options.url, (err: boolean, value: General.IAnyObject) => {
-    if (!err) {
-      // eslint-disable-next-line no-console
-      console.log('connect success' + value)
+interface IConnectSocket {
+  url: string
+  options: IOptions
+}
+function connectSocket (params: IConnectSocket = { url: '', options: {} }) {
+  const requiredParams: Array<any> = params.url === '' ? [] : [params.url]
+  const requiredParamsName: Array<string> = ['url']
+  const required: Array<string> = ['string']
+  const { res, isPassed } = validateParams('connectSockets', params, requiredParams, required, requiredParamsName)
+  if (!isPassed) {
+    return Promise.reject(res)
+  }
+  const { url, options } = params
+  const { header, success, fail, complete } = options
+
+  if (success || fail || complete) {
+    if (header) {
+      ws.connect(url, { header }, (res: any) => {
+        if (!res) {
+          fail && fail(res)
+        } else {
+          success && success(res)
+          return ws
+        }
+        complete && complete(res)
+      })
     } else {
-      // eslint-disable-next-line no-console
-      console.log('connect fail, err:' + JSON.stringify(err))
+      ws.connect(url, (res: any) => {
+        if (!res) {
+          fail && fail(res)
+        } else {
+          success && success(res)
+          return ws
+        }
+        complete && complete(res)
+      })
     }
-  })
+  } else {
+    const wsPromise = ws.connect(url)
+    return Promise.resolve(wsPromise)
+  }
 }
 
 export {
