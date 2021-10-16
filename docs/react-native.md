@@ -40,7 +40,8 @@ Taro 移动端的开发基于 Facebook 的开源项目 [React Native](https://gi
 | 0.62.x | 兼容，但未全面测试，有问题请提供 issue | [0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2)，更改 react-native 版本为 0.62.0 |
 | 0.63.x | >= 3.2.0，但 3.2.13 版本以后，需手动添加配置，参考 [PR](https://github.com/NervJS/taro/pull/9540) | [0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2) |
 | 0.64.x | >= 3.2.0 | [0.64.0](https://github.com/NervJS/taro-native-shell/tree/0.64.0) |
-| 0.65.x | 开发中 | [0.65.1](https://github.com/NervJS/taro-native-shell/tree/0.65.1) |
+| 0.65.x | 不建议使用 | - |
+| 0.66.x | >= 3.2.10 | [0.66.0](https://github.com/NervJS/taro-native-shell/tree/0.66.0) |
 
 ## 通过模板进行初始化
 
