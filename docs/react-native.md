@@ -6,6 +6,8 @@ title: React Native 端开发流程
 > 本篇主要讲解 Taro React Native 端 环境安装-开发-调试-打包-发布 原理及流程，React Native 开发前注意事项请看 [开发前注意](./react-native-remind.md)
 > 
 > Taro3.x 跨端（h5、weapp、rn）开发可参考项目：[Taro 跨平台demo（React Native + Weapp + h5）](https://github.com/wuba/Taro-Mortgage-Calculator)
+> 
+> Taro React Native APP 开发调试工具，请查看 [Taro Playground](https://github.com/wuba/taro-playground) 项目。
 
 ## 简介
 
@@ -41,7 +43,7 @@ Taro 移动端的开发基于 Facebook 的开源项目 [React Native](https://gi
 | 0.63.x | >= 3.2.0，但 3.2.13 版本以后，需手动添加配置，参考 [PR](https://github.com/NervJS/taro/pull/9540) | [0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2) |
 | 0.64.x | >= 3.2.0 | [0.64.0](https://github.com/NervJS/taro-native-shell/tree/0.64.0) |
 | 0.65.x | 不建议使用 | - |
-| 0.66.x | >= 3.2.10 | [0.66.0](https://github.com/NervJS/taro-native-shell/tree/0.66.0) |
+| 0.66.x | >= 3.3.10 | [0.66.0](https://github.com/NervJS/taro-native-shell/tree/0.66.0) |
 
 ## 通过模板进行初始化
 

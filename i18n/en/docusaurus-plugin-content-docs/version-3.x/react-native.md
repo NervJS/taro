@@ -6,6 +6,8 @@ title: React Native Development Process
 > This article mainly explains the Taro React Native end environment installation - development - debugging - packaging - release principles and processes, React Native development before the considerations, please see [Note before development](./react-native-remind.md)
 > 
 > Taro3.x cross-platform（h5、weapp、rn）project development can refer to:[Taro cross-platform demo（React Native + Weapp + h5）](https://github.com/wuba/Taro-Mortgage-Calculator)
+> 
+> For Taro React Native APP development debugging tool, please check [Taro Playground](https://github.com/wuba/taro-playground) project.
 
 ## Introduction
 
@@ -42,7 +44,7 @@ The initialization template provided by `taro init` will use the latest version 
 | 0.63.x | >= 3.2.0, but after version 3.2.13, you need to add the configuration manually, refer to [PR](https://github.com/NervJS/taro/pull/9540) | [0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2) |
 | 0.64.x | >= 3.2.0 | [0.64.0](https://github.com/NervJS/taro-native-shell/tree/0.64.0) |
 | 0.65.x | Not recommended | - |
-| 0.66.x | >= 3.2.10 | [0.66.0](https://github.com/NervJS/taro-native-shell/tree/0.66.0) |
+| 0.66.x | >= 3.3.10 | [0.66.0](https://github.com/NervJS/taro-native-shell/tree/0.66.0) |
 
 ## Initialization by template
 
