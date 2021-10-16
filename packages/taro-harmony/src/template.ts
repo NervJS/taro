@@ -20,7 +20,7 @@ export class Template extends RecursiveTemplate {
 
   constructor () {
     super()
-    this.voidElements.add('button')
+    // this.voidElements.add('button') button有文本类型子节点
     this.voidElements.add('image')
     this.voidElements.add('static-image')
     this.voidElements.add('camera')
@@ -67,7 +67,7 @@ ${elements}
   }
 
   buildStandardComponentTemplate (comp) {
-    const children = this.voidElements.has(comp.nodeName) ? '' : '<container root="{{i}}"></container>'
+    const children = this.voidElements.has(comp.nodeName) ? '' : (comp.nodeName === 'button' ? '{{i.value}}' : '<container root="{{i}}"></container>')
 
     let nodeName = ''
     switch (comp.nodeName) {

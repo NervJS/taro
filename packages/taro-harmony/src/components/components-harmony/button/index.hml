@@ -1,0 +1,10 @@
+<div>
+<button
+  id="{{id}}"
+  class="{{cls}} {{clsType}} {{clsSize}} {{clsPlain}} {{clsDisable}} {{clsDisableType}} {{clsHover}}"
+  type="capsule"
+  disabled="{{disabled}}"
+  waiting="{{loading}}"
+  @click="{{onClick}}"
+>{{value}}</button>
+</div>
