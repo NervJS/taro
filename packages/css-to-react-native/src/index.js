@@ -93,8 +93,8 @@ const transform = (css, options) => {
 
         rule.declarations.forEach(({ property, value }) => {
           const isAlreadyDefinedAsClass =
-            result[property] !== undefined &&
-            result.__exportProps[property] === undefined
+            typeof result[property] !== 'undefined' &&
+            typeof result.__exportProps[property] === 'undefined'
 
           if (isAlreadyDefinedAsClass) {
             throw new Error(
