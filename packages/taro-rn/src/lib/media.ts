@@ -1,5 +1,5 @@
 import CameraRoll from '@react-native-community/cameraroll'
-import { Permissions } from 'react-native-unimodules'
+import * as Permissions from 'expo-permissions'
 import * as ImagePicker from 'expo-image-picker'
 import { askAsyncPermissions } from '../utils/premissions'
 import { successHandler, errorHandler } from '../utils'

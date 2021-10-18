@@ -469,12 +469,12 @@ declare namespace Taro {
     readFileSync(
       /** 要读取的文件的路径 */
       filePath: string,
+      /** 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 */
+      encoding?: keyof FileSystemManager.encoding,
       /**从文件指定位置开始读，如果不指定，则从文件头开始读。读取的范围应该是左闭右开区间 [position, position+length)。有效范围：[0, fileLength - 1]。单位：byte */
       position?: number,
       /**指定文件的长度，如果不指定，则读到文件末尾。有效范围：[1, fileLength]。单位：byte */
       length?: number,
-      /** 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 */
-      encoding?: keyof FileSystemManager.encoding,
     ): string | ArrayBuffer
     /** 获取文件的状态信息
      * @supported weapp
