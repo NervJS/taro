@@ -16,4 +16,22 @@ declare namespace Taro {
     /** 上报的自定义数据，key 为配置中的字段名，value 为上报的数据。 */
     data: General.IAnyObject,
   ): void
+  
+  /** 事件上报
+   * @supported weapp
+   * @example
+   * ```tsx
+   * Taro.reportEvent('purchase', {
+   *   price: 120,
+   *   color: 'red'
+   * })
+   * ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/data-analysis/wx.reportEvent.html
+   */
+  function reportEvent(
+    /** 事件名 */
+    eventId: string,
+    /** 上报的自定义数据，key 为配置中的字段名，value 为上报的数据。 */
+    data: General.IAnyObject,
+  ): void
 }
