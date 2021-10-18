@@ -1,6 +1,7 @@
 describe('vue', () => {
   process.env.FRAMEWORK = 'vue'
   const runtime = require('../../dist/runtime.esm')
+  const vue2Plugin = require('@tarojs/plugin-framework-vue2/dist/runtime')
   global.document = runtime.document
   global.window = runtime.window
   global.navigator = runtime.navigator
@@ -43,7 +44,7 @@ describe('vue', () => {
       }
     })
 
-    const app = runtime.createVueApp(App, Vue)
+    const app = vue2Plugin.createVueApp(App, Vue)
 
     const Home = new Vue({
       onLoad () {
