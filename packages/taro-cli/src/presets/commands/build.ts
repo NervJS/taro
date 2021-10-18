@@ -151,6 +151,7 @@ export default (ctx: IPluginContext) => {
           }
         }
       })
+      await ctx.applyPlugins(hooks.ON_BUILD_COMPLETE)
     }
   })
 }
@@ -165,6 +166,7 @@ function registerBuildHooks (ctx) {
     hooks.ON_PARSE_CREATE_ELEMENT,
     hooks.ON_BUILD_START,
     hooks.ON_BUILD_FINISH,
+    hooks.ON_BUILD_COMPLETE,
     hooks.MODIFY_RUNNER_OPTS
   ].forEach(methodName => {
     ctx.registerMethod(methodName)

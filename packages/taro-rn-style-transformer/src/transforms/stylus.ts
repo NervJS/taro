@@ -1,4 +1,6 @@
 import stylus from 'stylus'
+import { RenderResult, RenderAdditionalResult } from '../types'
+import { getAdditionalData, insertBefore } from '../utils'
 
 class Evaluator { }
 
@@ -99,7 +101,7 @@ interface RenderOptions {
 export interface Config {
   alias?: Record<string, string>
   options: RenderOptions
-  additionalData?: string | ((string) => string)
+  additionalData?: string | ((key: string) => string)
 }
 
 export const defaultOptions = {
@@ -117,6 +119,15 @@ export const defaultOptions = {
 function renderToCSS (src, filename, options = {} as RenderOptions) {
   const stylusOptions = { filename, ...options }
   const styl = stylus(src, stylusOptions)
+
+  styl.set(
+    'sourcemap',
+    {
+      comment: true,
+      sourceRoot: '.', // stylusOptions.dest
+      basePath: '.'
+    }
+  )
 
   // include regular CSS on @import
   if (stylusOptions.includeCSS) {
@@ -191,23 +202,24 @@ function renderToCSS (src, filename, options = {} as RenderOptions) {
       if (err) {
         reject(err)
       } else {
-        resolve(css)
+        resolve({
+          css,
+          map: styl.sourcemap
+        })
       }
     })
   })
 }
 
 export default function transform (src: string, filename: string, config: Config) {
-  let data = src
+  const additionalData = getAdditionalData(src, config.additionalData)
+  const data = insertBefore(src, additionalData)
 
-  if (typeof config.additionalData !== 'undefined') {
-    data =
-      typeof config.additionalData === 'function'
-        ? `${config.additionalData(data)}`
-        : `${config.additionalData}\n${data}`
-  }
-  return renderToCSS(data, filename, config.options)
-    .then((css: string) => {
-      return css
-    })
+  return renderToCSS(
+    data,
+    filename,
+    config.options
+  ).then((result: RenderResult) => {
+    return { ...result, additionalData } as RenderAdditionalResult
+  })
 }

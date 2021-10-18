@@ -185,13 +185,24 @@ export function createRouter (
       delete config['load']
 
       const pathname = basename ? location.pathname.replace(basename, '') : location.pathname
+      let routerIndex
+
+      const isTabBar = routerConfig.tabBar?.list.some((TabBarItem) => {
+        return TabBarItem.pagePath?.replace(/\?.*/g, '') === pathname
+      })
+      if (stacks?.length > 0 && isTabBar) {
+        routerIndex = stacks.findIndex((r) => {
+          return r.path?.replace(/\?.*/g, '') === pathname
+        })
+      }
+      routerIndex = ((routerIndex || routerIndex === 0) && routerIndex !== -1) ? routerIndex : stacks.length
       const page = createPageConfig(
         enablePullDownRefresh ? runtimeHooks.createPullDownComponent?.(el, location.pathname, framework, routerConfig.PullDownRefresh) : el,
-        pathname + stringify(qs(stacks.length)),
+        pathname + stringify(qs(routerIndex)),
         {},
         config
       )
-      loadPage(page, pageConfig, stacks.length)
+      loadPage(page, pageConfig, routerIndex)
     }
   }, 500)
 

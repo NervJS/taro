@@ -38,6 +38,7 @@ export class Input implements ComponentInterface {
   @Prop() autoFocus = false
   @Prop() confirmType = 'done'
   @Prop() name: string
+  @Prop() nativeProps = {}
 
   @State() _value: string
 
@@ -200,7 +201,8 @@ export class Input implements ComponentInterface {
       maxlength,
       autoFocus,
       confirmType,
-      name
+      name,
+      nativeProps
     } = this
 
     return (
@@ -222,6 +224,7 @@ export class Input implements ComponentInterface {
         onBlur={this.handleBlur}
         onChange={this.handleChange}
         onKeyDown={this.handleKeyDown}
+        {...nativeProps}
       />
     )
   }

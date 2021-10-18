@@ -5,22 +5,27 @@ import {
   PixelRatio
 } from 'react-native'
 import { initialWindowMetrics } from 'react-native-safe-area-context'
+import DeviceInfo from 'react-native-device-info'
 
 import { isIPhoneX } from '../system'
 
 export function getSystemInfoSync(): Taro.getSystemInfoSync.Result {
   const res: any = {}
 
+  const brand = DeviceInfo.getBrand()
+  const model = DeviceInfo.getModel()
   const pixelRatio = PixelRatio.get()
   const fontScale = PixelRatio.getFontScale()
   const os = Platform.OS
-  const version = Platform.Version
+  const version = DeviceInfo.getVersion()
+  const system = os + ' ' + Platform.Version
   const isAndroid = Platform.OS === 'android'
   const statusBarHeight = isAndroid ? StatusBar.currentHeight || 0 : isIPhoneX ? 44 : 20
   const screenWidth = Dimensions.get('screen').width
   const screenHeight = Dimensions.get('screen').height
   const windowWidth = Dimensions.get('window').width
   const windowHeight = Dimensions.get('window').height
+  const deviceOrientation = screenHeight > screenWidth ? 'portrait' : 'landscape'
 
   // NOTE：在竖屏正方向下的安全区域
   let safeArea = {}
@@ -40,8 +45,8 @@ export function getSystemInfoSync(): Taro.getSystemInfoSync.Result {
     console.log('calculate safeArea fail: ', error)
   }
 
-  res.brand = null
-  res.model = null
+  res.brand = brand
+  res.model = model
   res.pixelRatio = pixelRatio
   res.safeArea = safeArea
   res.screenWidth = screenWidth
@@ -50,11 +55,12 @@ export function getSystemInfoSync(): Taro.getSystemInfoSync.Result {
   res.windowHeight = windowHeight
   res.statusBarHeight = statusBarHeight
   res.language = null
-  res.version = null
-  res.system = version
+  res.version = version
+  res.system = system
   res.platform = os
   res.fontSizeSetting = fontScale
   res.SDKVersion = null
+  res.deviceOrientation = deviceOrientation
 
   return res
 }
