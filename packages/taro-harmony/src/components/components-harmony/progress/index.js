@@ -9,7 +9,6 @@ export default {
     'borderRadius',
     'fontSize',
     'strokeWidth',
-    // 颜色只能用6位颜色符号 如：#ff0000
     'color',
     'activeColor',
     'backgroundColor',
@@ -19,12 +18,13 @@ export default {
   ],
   computed: {
     progressColor () {
-      return this.filterColor(this.color)
+      return this.filterColor(this.activeColor)
     },
     progressBgColor () {
       return this.filterColor(this.backgroundColor)
     }
   },
+  // 颜色只能用6位颜色符号 如：#ff0000
   filterColor (v) {
     const reg = /^#([0-9a-fA-F]{3})$/
     if (reg.test(v)) {
