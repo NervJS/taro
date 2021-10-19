@@ -9,7 +9,6 @@ export default {
     'borderRadius',
     'fontSize',
     'strokeWidth',
-    'color',
     'activeColor',
     'backgroundColor',
     'active',

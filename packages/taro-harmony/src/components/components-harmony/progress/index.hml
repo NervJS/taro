@@ -5,7 +5,7 @@
     style="height: 100px;"
   >
     <progress
-      style="color: {{progressBgColor}};background-color:{{progressColor}};stroke-width:{{strokeWidth}}"
+      style="color: {{progressColor}};background-color:{{progressBgColor}};stroke-width:{{strokeWidth}}"
       class="{{cls}}"
       type="{{type}}"
       percent="{{percent}}"
@@ -19,7 +19,7 @@
   </div>
   <progress
     else
-    style="color: {{progressBgColor}};background-color:{{progressColor}};stroke-width:{{strokeWidth}}"
+    style="color: {{progressColor}};background-color:{{progressBgColor}};stroke-width:{{strokeWidth}}"
     class="{{cls}}"
     type="{{type}}"
     percent="{{percent}}"

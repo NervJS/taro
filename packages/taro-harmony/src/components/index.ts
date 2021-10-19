@@ -53,8 +53,8 @@ export const components = {
     bindsticky: ''
   },
   Progress: {
-    'active-color': singleQuote('activeColor'),
-    'background-color': singleQuote('backgroundColor'),
+    'active-color': singleQuote('#09BB07'),
+    'background-color': singleQuote('#EBEBEB'),
     type: singleQuote('horizontal'),
     'font-size': singleQuote('25px'),
     secondarypercent: '0',
