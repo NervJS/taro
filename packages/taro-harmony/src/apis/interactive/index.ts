@@ -14,7 +14,9 @@ export function showToast (options) {
   }
   options = { ..._default, ...options }
 
-  if (typeof options.title !== 'string') {
+  const { title, duration, bottom } = options
+
+  if (typeof title !== 'string') {
     return console.error(getParameterError({
       name: 'showToast',
       correct: 'String',
@@ -22,7 +24,7 @@ export function showToast (options) {
     }))
   }
 
-  if (typeof options.duration !== 'number') {
+  if (typeof duration !== 'number') {
     return console.error(getParameterError({
       name: 'showToast',
       correct: 'Number',
@@ -30,7 +32,7 @@ export function showToast (options) {
     }))
   }
 
-  if (typeof options.bottom !== 'string') {
+  if (typeof bottom !== 'string') {
     return console.error(getParameterError({
       name: 'showToast',
       correct: 'String',
@@ -39,8 +41,9 @@ export function showToast (options) {
   }
 
   return prompt.showToast({
-    message: options.title,
-    duration: options.duration
+    message: title,
+    duration,
+    bottom
   })
 }
 
