@@ -56,5 +56,11 @@ export const components = {
     showtext: 'false',
     texton: singleQuote('On'),
     textoff: singleQuote('Off'),
+  },
+  Video: {
+    speed: '1',
+    bindloadedmetadata: '',
+    bindprogress: '',
+    bindtap: ''
   }
 }
