@@ -41,7 +41,8 @@ export default tokenStream => {
 
   if (tokenStream.matches(SLASH)) {
     if (tokenStream.matches(NUMBER)) {
-      lineHeight = fontSize * tokenStream.lastValue
+      const size = typeof fontSize === 'string' ? fontSize.replace(/scalePx2dp\((\d+)\)/, '$1') : fontSize
+      lineHeight = size * tokenStream.lastValue
     } else {
       lineHeight = tokenStream.expect(LENGTH, UNSUPPORTED_LENGTH_UNIT)
     }

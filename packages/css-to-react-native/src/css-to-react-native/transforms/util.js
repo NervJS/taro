@@ -106,8 +106,15 @@ export const parseShadow = tokenStream => {
       tokenStream.matches(LENGTH, UNSUPPORTED_LENGTH_UNIT)
     ) {
       offsetX = tokenStream.lastValue
-      tokenStream.expect(SPACE)
-      offsetY = tokenStream.expect(LENGTH, UNSUPPORTED_LENGTH_UNIT)
+      if (
+        tokenStream.matches(SPACE) &&
+        tokenStream.matches(LENGTH, UNSUPPORTED_LENGTH_UNIT)
+      ) {
+        offsetY = tokenStream.lastValue
+      } else {
+        offsetY = offsetX
+        tokenStream.rewind()
+      }
 
       tokenStream.saveRewindPoint()
       if (
@@ -130,7 +137,7 @@ export const parseShadow = tokenStream => {
     didParseFirst = true
   }
 
-  if (typeof offsetX === 'undefined' || typeof color === 'undefined') tokenStream.throw()
+  if (typeof offsetX === 'undefined') tokenStream.throw()
 
   return {
     offset: { width: offsetX, height: offsetY },

@@ -45,7 +45,7 @@ export const regExpToken = (regExp, transform = String) => node => {
   if (match === null) return null
 
   const value = transform(match[1])
-  if (/px/.test(node.value)) {
+  if (/(\d+)px/.test(node.value)) {
     return `scalePx2dp(${value})`
   } else {
     return value
