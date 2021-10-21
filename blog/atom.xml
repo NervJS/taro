@@ -2,11 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://nervjs.github.io/blog</id>
     <title>Taro 文档 Blog</title>
-    <updated>2021-08-13T00:00:00.000Z</updated>
+    <updated>2021-10-14T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://nervjs.github.io/blog"/>
     <subtitle>Taro 文档 Blog</subtitle>
     <icon>https://nervjs.github.io/./img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[Taro React Native 重大更新：帮助开发者高效开发APP]]></title>
+        <id>2021-10-14-Taro-React-Native-update</id>
+        <link href="https://nervjs.github.io/taro/blog/2021-10-14-Taro-React-Native-update"/>
+        <updated>2021-10-14T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[三个方向去优化开发流程，全面降低上手成本，让 Taro 开发 APP，变得无比轻松。]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Taro 正式发布 3.3 版本：支持使用 H5 标签与框架 DevTools]]></title>
         <id>2021-08-13-Taro-3.3</id>
