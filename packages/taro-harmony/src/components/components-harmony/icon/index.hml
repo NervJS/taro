@@ -5,51 +5,51 @@
   <text
     if="{{type === 'success'}}"
     class="taro-icon icon-success"
-    style=" color: {{color}};font-size: {{iconSize}}px;"
+    style=" color: {{iconColor}};font-size: {{size}}px;"
   >&#xe60c;</text>
   <text
     if="{{type === 'success_no_circle'}}"
     class="taro-icon icon-success_no_circle"
-    style=" color: {{color}};font-size: {{iconSize}}px;"
+    style=" color: {{iconColor}};font-size: {{size}}px;"
   >&#xe60d;</text>
   <text
     if="{{type === 'info'}}"
     class="taro-icon icon-info"
-    style=" color: {{color}};font-size: {{iconSize}}px;"
+    style=" color: {{iconColor}};font-size: {{size}}px;"
   >&#xe60e;</text>
   <text
     if="{{type === 'info_circle'}}"
     class="taro-icon icon-info_circle"
-    style=" color: {{color}};font-size: {{iconSize}}px;"
+    style=" color: {{iconColor}};font-size: {{size}}px;"
   >&#xe608;</text>
   <text
     if="{{type === 'warn'}}"
     class="taro-icon icon-warn"
-    style=" color: {{color}};font-size: {{iconSize}}px;"
+    style=" color: {{iconColor}};font-size: {{size}}px;"
   >&#xe60b;</text>
   <text
     if="{{type === 'waiting'}}"
     class="taro-icon icon-waiting"
-    style=" color: {{color}};font-size: {{iconSize}}px;"
+    style=" color: {{iconColor}};font-size: {{size}}px;"
   >&#xe60a;</text>
   <text
     if="{{type === 'cancel'}}"
     class="taro-icon icon-cancel"
-    style=" color: {{color}};font-size: {{iconSize}}px;"
+    style=" color: {{iconColor}};font-size: {{size}}px;"
   >&#xe607;</text>
   <text
     if="{{type === 'download'}}"
     class="taro-icon icon-download"
-    style=" color: {{color}};font-size: {{iconSize}}px;"
+    style=" color: {{iconColor}};font-size: {{size}}px;"
   >&#xe606;</text>
   <text
     if="{{type === 'search'}}"
     class="taro-icon icon-search"
-    style=" color: {{color}};font-size: {{iconSize}}px;"
+    style=" color: {{iconColor}};font-size: {{size}}px;"
   >&#xe609;</text>
   <text
     if="{{type === 'clear'}}"
     class="taro-icon icon-clear"
-    style=" color: {{color}};font-size: {{iconSize}}px;"
+    style=" color: {{iconColor}};font-size: {{size}}px;"
   >&#xe605;</text>
 </div>

@@ -192,7 +192,7 @@ export default class Harmony extends TaroPlatformBase {
       const compsDestDir = path.join(dest, 'container/components-harmony')
 
       fs.ensureDirSync(compsDestDir)
-      ;[...this.template.usedNativeComps, 'navbar'].forEach(name => {
+      ;[...this.template.usedNativeComps, 'navbar', 'utils'].forEach(name => {
         const src = path.join(compsSrcDir, name)
         const dest = path.join(compsDestDir, name)
         fs.copy(src, dest)

@@ -1,14 +1,18 @@
+import { covertHex3ToHex6 } from '../utils'
+
 export default {
-  data () {
-    return {
-      iconSize: this.size || 23
-    }
+  props: {
+    size: {
+      default: 23
+    },
+    type: String,
+    id: String,
+    cls: String,
+    color: String
   },
-  props: [
-    'type',
-    'id',
-    'cls',
-    'color',
-    'size'
-  ]
+  computed: {
+    iconColor () {
+      return covertHex3ToHex6(this.color)
+    }
+  }
 }

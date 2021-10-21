@@ -7,15 +7,21 @@
   font-size: 23px;
   font-style: normal;
 }
-.icon-success, .icon-success_no_circle, .icon-download, .icon-info_circle {
-  color: #09BB07;
+.icon-success,
+.icon-success_no_circle,
+.icon-download,
+.icon-info_circle {
+  color: #09bb07;
 }
-.icon-info, .icon-waiting {
-  color: #10AEFF;
+.icon-info,
+.icon-waiting {
+  color: #10aeff;
 }
-.icon-warn, .icon-cancel {
-  color: #F76260;
+.icon-warn,
+.icon-cancel {
+  color: #f76260;
 }
-.icon-clear, .icon-search {
-  color: #B2B2B2;
+.icon-clear,
+.icon-search {
+  color: #b2b2b2;
 }
