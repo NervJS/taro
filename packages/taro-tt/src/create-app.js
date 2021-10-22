@@ -15,7 +15,7 @@ function createApp (AppClass) {
     },
 
     onShow (options) {
-      Object.assign(app.$router.params, options)
+      Object.assign(app.$app.$router.params, options)
       if (app.componentDidShow) {
         app.componentDidShow()
       }
