@@ -30,6 +30,7 @@ interface IConnectSocket {
 }
 // 不支持微信小程序 protocols，tcpNoDelay，perMessageDeflate，timeout 参数
 function connectSocket (params: IConnectSocket = { url: '', options: {} }) {
+  // 必填参数校验
   const requiredParams: Array<any> = params.url === '' ? [] : [params.url]
   const requiredParamsName: Array<string> = ['url']
   const required: Array<string> = ['string']
@@ -126,7 +127,36 @@ function close (params: IWebSocketCloseOptions) {
   return ws
 }
 
+interface IWebSocketSendOptions extends IAsyncParams{
+  data: string
+}
+
+function send (params: IWebSocketSendOptions) {
+  const requiredParams: Array<any> = params.data === '' ? [] : [params.data]
+  const requiredParamsName: Array<string> = ['data']
+  const required: Array<string> = ['string']
+  const { res, isPassed } = validateParams('send', params, requiredParams, required, requiredParamsName)
+  if (!isPassed) {
+    return Promise.reject(res)
+  }
+
+  const { data, success, fail, complete } = params
+  if (success || fail || complete) {
+    ws.send(data, (res: any) => {
+      if (!res) {
+        success && success(res)
+      } else {
+        fail && fail(res)
+      }
+      complete && complete(res)
+    })
+  } else {
+    return ws.send(data)
+  }
+}
+
 export {
   connectSocket,
-  close
+  close,
+  send
 }
