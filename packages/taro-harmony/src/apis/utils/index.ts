@@ -90,14 +90,14 @@ export function validateOptions (funcName, options: any): {
   }
 }
 
-export function callAsyncSuccess (options: IAsyncParams, resolve, res) {
-  options.success?.(res)
-  options.complete?.(res)
+export function callAsyncSuccess (resolve, res, options?: IAsyncParams) {
+  options?.success?.(res)
+  options?.complete?.(res)
   resolve(res)
 }
 
-export function callAsyncfail (options: IAsyncParams, reject, res) {
-  options.fail?.(res)
-  options.complete?.(res)
+export function callAsyncfail (reject, res, options?: IAsyncParams) {
+  options?.fail?.(res)
+  options?.complete?.(res)
   reject(res)
 }
