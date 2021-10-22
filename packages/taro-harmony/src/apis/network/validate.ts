@@ -1,5 +1,21 @@
-import { shouleBeObject, upperCaseFirstLetter } from '../utils'
+import { upperCaseFirstLetter } from '../utils'
 import { General } from '@tarojs/taro/types'
+
+export function shouleBeObject (funcName: string, target: any, pName?: string): {
+  res: boolean,
+  msg?: string
+} {
+  if (target && typeof target === 'object') return { res: true }
+  return {
+    res: false,
+    msg: getParameterError({
+      funcName,
+      pName,
+      pType: 'Object',
+      pWrongType: typeof target
+    })
+  }
+}
 
 export function getParameterError ({
   funcName = '',
