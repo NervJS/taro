@@ -158,6 +158,19 @@ mini: {
   }
 }
 ```
+PS:3.3.5版本发现上述配置不管用，可以修改为如下配置：
+```js title="/config/index.js"
+// mini 也可改为 h5，分别对应小程序与 h5 端配置
+mini: {
+  webpackChain (chain) {
+    chain.resolve.plugin('MultiPlatformPlugin')
+      .tap(args => {
+         args[2]["include"] = ['souge-taro-base']
+         return args
+      })
+  }
+}
+```
 Taro 3 RN 端没有使用 webpack，所以不能跟其他端一致 ，这里需增加了一个配置支持：
 ```js title="/config/index.js"
 rn: {
