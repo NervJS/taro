@@ -7,13 +7,13 @@
 // ❌ wx.closeSocket
 
 // ✅ wx.connectSocket
-// ❌ SocketTask
-//  ✅ SocketTask.close
-//  ❌ SocketTask.onClose
-//  ❌ SocketTask.onError
-//  ❌ SocketTask.onMessage
-//  ❌ SocketTask.onOpen
-//  ❌ SocketTask.send
+// ✅ SocketTask
+// ✅ SocketTask.close
+// ✅ SocketTask.onClose
+// ✅ SocketTask.onError
+// ✅ SocketTask.onMessage
+// ✅ SocketTask.onOpen
+// ✅ SocketTask.send
 import { IAsyncParams } from '../utils/types'
 import { General } from '@tarojs/taro/types'
 import { validateParams, shouleBeObject } from './validate'
@@ -153,10 +153,77 @@ function send (params: IWebSocketSendOptions) {
   } else {
     return ws.send(data)
   }
+  return ws
+}
+
+interface IOnOpenCallbackValue {
+  // TODO: 调试时确认 status 类型
+  status: string,
+  message: string
+}
+function onOpen (callback?: any) {
+  ws.on('open', (err: any, value: IOnOpenCallbackValue) => {
+    if (!err) {
+      if (callback) {
+        callback(value)
+      } else {
+        return Promise.resolve(value)
+      }
+    } else {
+      return Promise.reject(err)
+    }
+  })
+}
+
+function onMessage (callback?: any) {
+  ws.on('message', (err: any, value: string) => {
+    if (!err) {
+      if (callback) {
+        callback(value)
+      } else {
+        return Promise.resolve(value)
+      }
+    } else {
+      return Promise.reject(err)
+    }
+  })
+}
+
+function onError (callback?: any) {
+  ws.on('error', (err: any) => {
+    if (callback) {
+      callback(err)
+    } else {
+      return Promise.resolve(err)
+    }
+  })
+}
+
+interface IOnCloseCallbackValue {
+  // TODO: 调试时确认 status 类型
+  code: number,
+  reason: string
+}
+function onClose (callback?: any) {
+  ws.on('close', (err: any, value: IOnCloseCallbackValue) => {
+    if (!err) {
+      if (callback) {
+        callback(value)
+      } else {
+        return Promise.resolve(value)
+      }
+    } else {
+      return Promise.reject(err)
+    }
+  })
 }
 
 export {
   connectSocket,
   close,
-  send
+  send,
+  onOpen,
+  onMessage,
+  onError,
+  onClose
 }
