@@ -61,6 +61,41 @@ const globalAny: any = global
 // eslint-disable-next-line import/no-mutable-exports
 export let PageContext: React.Context<string> = EMPTY_OBJ
 
+// APP 前后台状态发生变化时调用对应的生命周期函数
+let appState = AppState.currentState
+
+AppState.addEventListener('change', (nextAppState) => {
+  const { page } = Current
+  if (!page) return
+  if (appState.match(/inactive|background/) && nextAppState === 'active') {
+    if (!page.__isReactComponent && page.__safeExecute) {
+      page.__safeExecute('componentDidShow')
+    } else if (page.onShow) {
+      page.onShow()
+    }
+  }
+  if (appState === 'active' && nextAppState.match(/inactive|background/)) {
+    if (!page.__isReactComponent && page.__safeExecute) {
+      page.__safeExecute('componentDidHide')
+    } else if (page.onHide) {
+      page.onHide()
+    }
+  }
+  appState = nextAppState
+})
+// 屏幕宽高发生变化
+Dimensions.addEventListener('change', ({ window }) => {
+  const { page } = Current
+  if (!page) return
+  if (!page.__isReactComponent && page.__safeExecute) {
+    page.__safeExecute('onResize', { size: window })
+  } else {
+    if (page.onResize) {
+      page.onResize({ size: window })
+    }
+  }
+})
+
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function createPageConfig (Page: any, pageConfig: PageConfig): any {
   const h = React.createElement
@@ -118,10 +153,6 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
       componentDidMount () {
         const { navigation } = this.props
-        // 退到后台的触发对应的生命周期函数
-        this.appStateSubscription = AppState.addEventListener('change', this.onAppStateChange)
-        // 屏幕宽高发送变化
-        this.dimensionsSubscription = Dimensions.addEventListener('change', this.onResize)
 
         if (navigation) {
           this.unSubscribleTabPress = navigation.addListener('tabPress', () => this.onTabItemTap())
@@ -135,9 +166,6 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
       componentWillUnmount () {
         const { navigation, route } = this.props
-
-        this.appStateSubscription?.remove()
-        this.dimensionsSubscription?.remove()
         eventCenter.off('__taroPullDownRefresh', this.pullDownRefresh, this)
         eventCenter.off('__taroPageScrollTo', this.pageToScroll, this)
         eventCenter.off('__taroSetRefreshStyle', this.setRefreshStyle, this)
@@ -159,6 +187,10 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
           config: pageConfig,
           route: pagePath,
           options: params,
+          __isReactComponent: isReactComponent,
+          __safeExecute (lifecycle, ...rest) {
+            safeExecute(pageId, lifecycle, ...rest)
+          },
           onReady () {
             const page = pageRef.current
             if (page != null && isFunction(page.componentDidMount)) {
@@ -287,18 +319,6 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         }
       }
 
-      onAppStateChange = (nextAppState) => {
-        const { appState } = this.state
-        if (appState.match(/inactive|background/) && nextAppState === 'active') {
-          this.handleHooksEvent('componentDidShow')
-          if (this.screenRef?.current?.componentDidShow) { this.screenRef?.current?.componentDidShow() }
-        } else {
-          this.handleHooksEvent('componentDidHide')
-          if (this.screenRef?.current?.componentDidHide) { this.screenRef?.current?.componentDidHide() }
-        }
-        this.setState({ appState: nextAppState })
-      }
-
       onPageScroll (e) {
         const { contentOffset } = e.nativeEvent
         const scrollTop = contentOffset.y
@@ -306,15 +326,6 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         try {
           this.handleHooksEvent('onPageScroll', { scrollTop })
           if (this.screenRef?.current?.onPageScroll) { this.screenRef?.current?.onPageScroll({ scrollTop }) }
-        } catch (err) {
-          throw new Error(err)
-        }
-      }
-
-      onResize = ({ window }) => {
-        try {
-          this.handleHooksEvent('onResize', { size: window })
-          if (this.screenRef?.current?.onResize) { this.screenRef?.current?.onResize({ size: window }) }
         } catch (err) {
           throw new Error(err)
         }
