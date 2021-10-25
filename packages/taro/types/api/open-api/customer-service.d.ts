@@ -35,6 +35,7 @@ declare namespace Taro {
    *   success: function (res) { }
    * })
    * ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/service-chat/wx.openCustomerServiceChat.html
    */
   function openCustomerServiceChat(option?: openCustomerServiceChat.Option): Promise<General.CallbackResult>
 }
