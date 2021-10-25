@@ -83,10 +83,12 @@ export function navigateBack (options: NavigateBackOption = { delta: 1 }) {
 }
 
 export function switchTab (option: Option) {
-  return navigateTo(option)
+  // TODO: 清除掉所有的栈去目标页面
+  return redirectTo(option)
 }
 
 export function reLaunch (option: Option) {
+  // TODO: 清除掉所有的栈去目标页面
   return redirectTo(option)
 }
 
