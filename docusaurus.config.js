@@ -169,8 +169,8 @@ const siteConfigGithub = {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl: 'https://github.com/nervjs/taro/edit/blog/',
-          blogSidebarCount: 5,
-          blogSidebarTitle: '最近更新'
+          blogSidebarCount: 'ALL',
+          blogSidebarTitle: '全部'
         },
         // For top-level user or org sites, the organization is still the same.
         // e.g., for the https://JoelMarcey.github.io site, it would be set like...
@@ -371,8 +371,8 @@ const siteConfigTaroZone = {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl: 'https://github.com/nervjs/taro/edit/blog/',
-          blogSidebarCount: 5,
-          blogSidebarTitle: '最近更新'
+          blogSidebarCount: 'ALL',
+          blogSidebarTitle: '全部'
         },
         // For top-level user or org sites, the organization is still the same.
         // e.g., for the https://JoelMarcey.github.io site, it would be set like...
