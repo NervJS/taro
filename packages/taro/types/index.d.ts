@@ -1,6 +1,6 @@
 /**
  * Taro 类型定义文件
- * 
+ *
  * 目录结构
  * ├── api                                  小程序端能力 API
  * │   ├── ad
@@ -143,6 +143,7 @@
 /// <reference path="api/base/env.d.ts" />
 /// <reference path="api/canvas/index.d.ts" />
 /// <reference path="api/cloud/index.d.ts" />
+/// <reference path="api/data-analysis/index.d.ts" />
 /// <reference path="api/device/accelerometer.d.ts" />
 /// <reference path="api/device/battery.d.ts" />
 /// <reference path="api/device/ble.d.ts" />
@@ -185,13 +186,11 @@
 /// <reference path="api/open-api/address.d.ts" />
 /// <reference path="api/open-api/authorize.d.ts" />
 /// <reference path="api/open-api/card.d.ts" />
-/// <reference path="api/open-api/data-analysis.d.ts" />
 /// <reference path="api/open-api/facial.d.ts" />
 /// <reference path="api/open-api/invoice.d.ts" />
 /// <reference path="api/open-api/login.d.ts" />
 /// <reference path="api/open-api/navigate.d.ts" />
 /// <reference path="api/open-api/payment.d.ts" />
-/// <reference path="api/open-api/report.d.ts" />
 /// <reference path="api/open-api/settings.d.ts" />
 /// <reference path="api/open-api/soter.d.ts" />
 /// <reference path="api/open-api/subscribe-message.d.ts" />
