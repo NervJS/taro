@@ -27,6 +27,10 @@ export default (appPath: string) => {
     },
     optimization: {
       sideEffects: true
+    },
+    node: {
+      fs: 'empty',
+      path: 'empty'
     }
   })
 

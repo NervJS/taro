@@ -4000,7 +4000,7 @@ expo-image-picker@~10.2.3:
     expo-modules-core "~0.2.0"
     uuid "7.0.2"
 
-expo-keep-awake@^9.2.0:
+expo-keep-awake@~9.2.0:
   version "9.2.0"
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-9.2.0.tgz#9cbdcc8264c943ef29a58326236cd34267e98f43"
   integrity sha512-R5jAx5j3MqrhKFB307FBpaHtYSYeVIFX/rVforBF5inKonYjXRWVhjGoBjolF4geAryNamC3NKhMfxyaaB0W6Q==
