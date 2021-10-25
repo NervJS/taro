@@ -4,7 +4,7 @@ exports[`prerender should prerender selected pages 1`] = `25`;
 
 exports[`prerender should prerender selected pages 2`] = `
 "
-/** filePath: dist\\\\app.js **/
+/** filePath: dist/app.js **/
 require(\\"./runtime\\");
 
 require(\\"./common\\");
@@ -27,8 +27,8 @@ require(\\"./taro\\");
     __webpack_require__.d(__webpack_exports__, \\"d\\", (function() {
         return singleQuote;
     }));
-    var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
-    var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(20);
+    var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+    var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
     function isString(o) {
         return typeof o === \\"string\\";
     }
@@ -677,9 +677,9 @@ require(\\"./taro\\");
         var patchNeedPromiseApis = config.needPromiseApis || [];
         var _needPromiseApis = new Set([].concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(patchNeedPromiseApis), Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(needPromiseApis)));
         var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
-        var apis = new Set(Object.keys(global).filter((function(api) {
+        var apis = new Set(!config.isOnlyPromisify ? Object.keys(global).filter((function(api) {
             return preserved.indexOf(api) === -1;
-        })));
+        })) : new Set(patchNeedPromiseApis));
         if (config.modifyApis) {
             config.modifyApis(apis);
         }
@@ -810,15 +810,15 @@ require(\\"./taro\\");
         }
         return arr2;
     }
-}, , , function(module, __webpack_exports__, __webpack_require__) {
+}, , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _toConsumableArray;
     }));
-    var _arrayWithoutHoles_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
-    var _iterableToArray_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
-    var _unsupportedIterableToArray_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(18);
-    var _nonIterableSpread_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(19);
+    var _arrayWithoutHoles_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
+    var _iterableToArray_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
+    var _unsupportedIterableToArray_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(17);
+    var _nonIterableSpread_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(18);
     function _toConsumableArray(arr) {
         return Object(_arrayWithoutHoles_js__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(arr) || Object(_iterableToArray_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(arr) || Object(_unsupportedIterableToArray_js__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(arr) || Object(_nonIterableSpread_js__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])();
     }
@@ -919,14 +919,14 @@ require(\\"./taro\\");
         return App;
     }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
     __webpack_exports__[\\"a\\"] = App;
-}, , , , , , , , , , function(module, __webpack_exports__, __webpack_require__) {
+}, , , , , , , , , , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     (function(global) {
         var _tarojs_plugin_platform_weapp_dist_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(33);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
-        var _tarojs_taro__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(21);
-        var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(22);
+        var _tarojs_taro__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(20);
+        var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(21);
         var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(1);
         var react_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(26);
         var config = {
@@ -1289,13 +1289,13 @@ require(\\"./taro\\");
         module.exports = global._prerender
       }
 
-/** filePath: dist\\\\app.json **/
+/** filePath: dist/app.json **/
 {\\"pages\\":[\\"pages/index/index\\",\\"others/detail/index\\",\\"others/normal/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
 
-/** filePath: dist\\\\app.wxss **/
+/** filePath: dist/app.wxss **/
 
 
-/** filePath: dist\\\\base.wxml **/
+/** filePath: dist/base.wxml **/
 <wxs module=\\"xs\\" src=\\"./utils.wxs\\" />
 <template name=\\"taro_tmpl\\">
   <block wx:for=\\"{{root.cn}}\\" wx:key=\\"uid\\">
@@ -2081,14 +2081,14 @@ require(\\"./taro\\");
 </template>
 
 
-/** filePath: dist\\\\common.js **/
+/** filePath: dist/common.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
 } ] ]);
 
-/** filePath: dist\\\\comp.js **/
+/** filePath: dist/comp.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
     35: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -2098,14 +2098,14 @@ require(\\"./taro\\");
     }
 }, [ [ 35, 0, 1 ] ] ]);
 
-/** filePath: dist\\\\comp.json **/
+/** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
-/** filePath: dist\\\\comp.wxml **/
+/** filePath: dist/comp.wxml **/
 <import src=\\"./base.wxml\\" />
 <template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
 
-/** filePath: dist\\\\custom-wrapper.js **/
+/** filePath: dist/custom-wrapper.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
     36: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -2115,16 +2115,16 @@ require(\\"./taro\\");
     }
 }, [ [ 36, 0, 1 ] ] ]);
 
-/** filePath: dist\\\\custom-wrapper.json **/
+/** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
-/** filePath: dist\\\\custom-wrapper.wxml **/
+/** filePath: dist/custom-wrapper.wxml **/
 <import src=\\"./base.wxml\\" />
   <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
   </block>
 
-/** filePath: dist\\\\others\\\\detail\\\\index.js **/
+/** filePath: dist/others/detail/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
     28: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -3416,10 +3416,10 @@ require(\\"./taro\\");
         module.exports = global._prerender
       }
 
-/** filePath: dist\\\\others\\\\detail\\\\index.json **/
+/** filePath: dist/others/detail/index.json **/
 {\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
-/** filePath: dist\\\\others\\\\detail\\\\index.wxml **/
+/** filePath: dist/others/detail/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <block wx:if=\\"{{root.uid}}\\">
   <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
@@ -3428,7 +3428,7 @@ require(\\"./taro\\");
 <view ><view class=\\"taro-region-picker taro-region-picker-gray\\" ><picker mode=\\"multiSelector\\" range='[[\\"北京市\\",\\"天津市\\",\\"上海市\\",\\"重庆市\\",\\"河北省\\",\\"山西省\\",\\"内蒙古\\",\\"辽宁省\\",\\"吉林省\\",\\"黑龙江省\\",\\"江苏省\\",\\"浙江省\\",\\"安徽省\\",\\"福建省\\",\\"江西省\\",\\"山东省\\",\\"河南省\\",\\"湖北省\\",\\"湖南省\\",\\"广东省\\",\\"广西\\",\\"海南省\\",\\"四川省\\",\\"贵州省\\",\\"云南省\\",\\"西藏\\",\\"陕西省\\",\\"甘肃省\\",\\"青海省\\",\\"宁夏\\",\\"新疆\\",\\"香港\\",\\"澳门\\",\\"台湾省\\"],[\\"北京市\\"],[\\"东城区\\",\\"西城区\\",\\"崇文区\\",\\"宣武区\\",\\"朝阳区\\",\\"丰台区\\",\\"石景山区\\",\\"海淀区\\",\\"门头沟区\\",\\"房山区\\",\\"通州区\\",\\"顺义区\\",\\"昌平区\\",\\"大兴区\\",\\"怀柔区\\",\\"平谷区\\",\\"密云县\\",\\"延庆县\\",\\"延庆镇\\"]]' value='[0,0,0]' ><view style=\\"width: 100%;height: 44px;\\" ><text >请选择省市区</text></view></picker></view></view>
 </block>
 
-/** filePath: dist\\\\others\\\\normal\\\\index.js **/
+/** filePath: dist/others/normal/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
     29: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -3481,14 +3481,14 @@ require(\\"./taro\\");
     }
 }, [ [ 40, 0, 1, 3, 2 ] ] ]);
 
-/** filePath: dist\\\\others\\\\normal\\\\index.json **/
+/** filePath: dist/others/normal/index.json **/
 {\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
-/** filePath: dist\\\\others\\\\normal\\\\index.wxml **/
+/** filePath: dist/others/normal/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 
-/** filePath: dist\\\\pages\\\\index\\\\index.js **/
+/** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
     27: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -3546,10 +3546,10 @@ require(\\"./taro\\");
         module.exports = global._prerender
       }
 
-/** filePath: dist\\\\pages\\\\index\\\\index.json **/
+/** filePath: dist/pages/index/index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
-/** filePath: dist\\\\pages\\\\index\\\\index.wxml **/
+/** filePath: dist/pages/index/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <block wx:if=\\"{{root.uid}}\\">
   <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
@@ -3558,10 +3558,10 @@ require(\\"./taro\\");
 <view class=\\"index\\" ><text >Hello world!</text></view>
 </block>
 
-/** filePath: dist\\\\pages\\\\index\\\\index.wxss **/
+/** filePath: dist/pages/index/index.wxss **/
 
 
-/** filePath: dist\\\\runtime.js **/
+/** filePath: dist/runtime.js **/
 (function(modules) {
     function webpackJsonpCallback(data) {
         var chunkIds = data[0];
@@ -3678,7 +3678,7 @@ require(\\"./taro\\");
     checkDeferredModules();
 })([]);
 
-/** filePath: dist\\\\taro.js **/
+/** filePath: dist/taro.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
     2: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -3695,7 +3695,7 @@ require(\\"./taro\\");
     }
 } ]);
 
-/** filePath: dist\\\\utils.wxs **/
+/** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
     var a = [\\"view\\",\\"catch-view\\",\\"cover-view\\",\\"static-view\\",\\"pure-view\\",\\"block\\",\\"text\\",\\"static-text\\",\\"slot\\",\\"slot-view\\",\\"label\\",\\"form\\",\\"scroll-view\\",\\"swiper\\",\\"swiper-item\\"]
@@ -3736,7 +3736,7 @@ module.exports = {
   }
 }
 
-/** filePath: dist\\\\vendors.js **/
+/** filePath: dist/vendors.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -3771,7 +3771,7 @@ module.exports = {
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _inherits;
     }));
-    var _setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(23);
+    var _setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
     function _inherits(subClass, superClass) {
         if (typeof superClass !== \\"function\\" && superClass !== null) {
             throw new TypeError(\\"Super expression must either be null or a function\\");
@@ -3790,9 +3790,9 @@ module.exports = {
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _createSuper;
     }));
-    var _getPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
-    var _isNativeReflectConstruct_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
-    var _possibleConstructorReturn_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(25);
+    var _getPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
+    var _isNativeReflectConstruct_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
+    var _possibleConstructorReturn_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(24);
     function _createSuper(Derived) {
         var hasNativeReflectConstruct = Object(_isNativeReflectConstruct_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])();
         return function _createSuperInternal() {
@@ -3837,7 +3837,6 @@ module.exports = {
     }
 }, , function(module, exports, __webpack_require__) {
     (function(window) {
-        var _typeof = __webpack_require__(13);
         var g;
         g = function() {
             return this;
@@ -3845,28 +3844,10 @@ module.exports = {
         try {
             g = g || new Function(\\"return this\\")();
         } catch (e) {
-            if ((typeof window === \\"undefined\\" ? \\"undefined\\" : _typeof(window)) === \\"object\\") g = window;
+            if (typeof window === \\"object\\") g = window;
         }
         module.exports = g;
     }).call(this, __webpack_require__(3)[\\"window\\"]);
-}, function(module, exports) {
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-            module.exports = _typeof = function _typeof(obj) {
-                return typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        } else {
-            module.exports = _typeof = function _typeof(obj) {
-                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        }
-        return _typeof(obj);
-    }
-    module.exports = _typeof;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
 }, , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -3911,17 +3892,33 @@ module.exports = {
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _possibleConstructorReturn;
     }));
-    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
     var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__);
     var _assertThisInitialized_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8);
     function _possibleConstructorReturn(self, call) {
         if (call && (_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
-        } else if (call !== void 0) {
-            throw new TypeError(\\"Derived constructors may only return object or undefined\\");
         }
         return Object(_assertThisInitialized_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(self);
     }
+}, function(module, exports) {
+    function _typeof(obj) {
+        \\"@babel/helpers - typeof\\";
+        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
+            module.exports = _typeof = function _typeof(obj) {
+                return typeof obj;
+            };
+            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+        } else {
+            module.exports = _typeof = function _typeof(obj) {
+                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+            };
+            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+        }
+        return _typeof(obj);
+    }
+    module.exports = _typeof;
+    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
 } ] ]);
 "
 `;
@@ -3930,7 +3927,7 @@ exports[`prerender should transform dom tree 1`] = `25`;
 
 exports[`prerender should transform dom tree 2`] = `
 "
-/** filePath: dist\\\\app.js **/
+/** filePath: dist/app.js **/
 require(\\"./runtime\\");
 
 require(\\"./common\\");
@@ -3940,11 +3937,11 @@ require(\\"./vendors\\");
 require(\\"./taro\\");
 
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    11: function(module, __webpack_exports__, __webpack_require__) {
+    10: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro\\";
     },
-    12: function(module, __webpack_exports__, __webpack_require__) {
+    11: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
         var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
@@ -3988,8 +3985,8 @@ require(\\"./taro\\");
         (function(global) {
             var _tarojs_plugin_platform_weapp_dist_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
             var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-            var _tarojs_taro__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(11);
-            var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(12);
+            var _tarojs_taro__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(10);
+            var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(11);
             var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
             var react_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(13);
             var config = {
@@ -4707,9 +4704,9 @@ require(\\"./taro\\");
             var patchNeedPromiseApis = config.needPromiseApis || [];
             var _needPromiseApis = new Set([].concat(_toConsumableArray(patchNeedPromiseApis), _toConsumableArray(needPromiseApis)));
             var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
-            var apis = new Set(Object.keys(global).filter((function(api) {
+            var apis = new Set(!config.isOnlyPromisify ? Object.keys(global).filter((function(api) {
                 return preserved.indexOf(api) === -1;
-            })));
+            })) : new Set(patchNeedPromiseApis));
             if (config.modifyApis) {
                 config.modifyApis(apis);
             }
@@ -5163,13 +5160,13 @@ require(\\"./taro\\");
         module.exports = global._prerender
       }
 
-/** filePath: dist\\\\app.json **/
+/** filePath: dist/app.json **/
 {\\"pages\\":[\\"pages/index/index\\",\\"others/detail/index\\",\\"others/normal/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
 
-/** filePath: dist\\\\app.wxss **/
+/** filePath: dist/app.wxss **/
 
 
-/** filePath: dist\\\\base.wxml **/
+/** filePath: dist/base.wxml **/
 <wxs module=\\"xs\\" src=\\"./utils.wxs\\" />
 <template name=\\"taro_tmpl\\">
   <block wx:for=\\"{{root.cn}}\\" wx:key=\\"uid\\">
@@ -5955,14 +5952,14 @@ require(\\"./taro\\");
 </template>
 
 
-/** filePath: dist\\\\common.js **/
+/** filePath: dist/common.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
 } ] ]);
 
-/** filePath: dist\\\\comp.js **/
+/** filePath: dist/comp.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
     20: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -5972,14 +5969,14 @@ require(\\"./taro\\");
     }
 }, [ [ 20, 0, 1 ] ] ]);
 
-/** filePath: dist\\\\comp.json **/
+/** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
-/** filePath: dist\\\\comp.wxml **/
+/** filePath: dist/comp.wxml **/
 <import src=\\"./base.wxml\\" />
 <template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
 
-/** filePath: dist\\\\custom-wrapper.js **/
+/** filePath: dist/custom-wrapper.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
     21: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -5989,16 +5986,16 @@ require(\\"./taro\\");
     }
 }, [ [ 21, 0, 1 ] ] ]);
 
-/** filePath: dist\\\\custom-wrapper.json **/
+/** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
-/** filePath: dist\\\\custom-wrapper.wxml **/
+/** filePath: dist/custom-wrapper.wxml **/
 <import src=\\"./base.wxml\\" />
   <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
   </block>
 
-/** filePath: dist\\\\others\\\\detail\\\\index.js **/
+/** filePath: dist/others/detail/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
     15: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -7286,10 +7283,10 @@ require(\\"./taro\\");
         module.exports = global._prerender
       }
 
-/** filePath: dist\\\\others\\\\detail\\\\index.json **/
+/** filePath: dist/others/detail/index.json **/
 {\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
-/** filePath: dist\\\\others\\\\detail\\\\index.wxml **/
+/** filePath: dist/others/detail/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <block wx:if=\\"{{root.uid}}\\">
   <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
@@ -7298,7 +7295,7 @@ require(\\"./taro\\");
 <video src=\\"https://github.com/taro\\" ></video>
 </block>
 
-/** filePath: dist\\\\others\\\\normal\\\\index.js **/
+/** filePath: dist/others/normal/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
     26: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -7344,14 +7341,14 @@ require(\\"./taro\\");
     }
 }, [ [ 26, 0, 1, 3, 2 ] ] ]);
 
-/** filePath: dist\\\\others\\\\normal\\\\index.json **/
+/** filePath: dist/others/normal/index.json **/
 {\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
-/** filePath: dist\\\\others\\\\normal\\\\index.wxml **/
+/** filePath: dist/others/normal/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 
-/** filePath: dist\\\\pages\\\\index\\\\index.js **/
+/** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
     14: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -7409,10 +7406,10 @@ require(\\"./taro\\");
         module.exports = global._prerender
       }
 
-/** filePath: dist\\\\pages\\\\index\\\\index.json **/
+/** filePath: dist/pages/index/index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
-/** filePath: dist\\\\pages\\\\index\\\\index.wxml **/
+/** filePath: dist/pages/index/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <block wx:if=\\"{{root.uid}}\\">
   <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
@@ -7421,10 +7418,10 @@ require(\\"./taro\\");
 <view class=\\"index\\" ><text >Hello world!</text></view>
 </block>
 
-/** filePath: dist\\\\pages\\\\index\\\\index.wxss **/
+/** filePath: dist/pages/index/index.wxss **/
 
 
-/** filePath: dist\\\\runtime.js **/
+/** filePath: dist/runtime.js **/
 (function(modules) {
     function webpackJsonpCallback(data) {
         var chunkIds = data[0];
@@ -7541,7 +7538,7 @@ require(\\"./taro\\");
     checkDeferredModules();
 })([]);
 
-/** filePath: dist\\\\taro.js **/
+/** filePath: dist/taro.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
     1: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -7558,7 +7555,7 @@ require(\\"./taro\\");
     }
 } ]);
 
-/** filePath: dist\\\\utils.wxs **/
+/** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
     var a = [\\"view\\",\\"catch-view\\",\\"cover-view\\",\\"static-view\\",\\"pure-view\\",\\"block\\",\\"text\\",\\"static-text\\",\\"slot\\",\\"slot-view\\",\\"label\\",\\"form\\",\\"scroll-view\\",\\"swiper\\",\\"swiper-item\\"]
@@ -7599,7 +7596,7 @@ module.exports = {
   }
 }
 
-/** filePath: dist\\\\vendors.js **/
+/** filePath: dist/vendors.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -7651,14 +7648,12 @@ module.exports = {
             return false;
         }
     }
-    var helpers_typeof = __webpack_require__(10);
+    var helpers_typeof = __webpack_require__(12);
     var typeof_default = __webpack_require__.n(helpers_typeof);
     var assertThisInitialized = __webpack_require__(7);
     function _possibleConstructorReturn(self, call) {
         if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
-        } else if (call !== void 0) {
-            throw new TypeError(\\"Derived constructors may only return object or undefined\\");
         }
         return Object(assertThisInitialized[\\"a\\"])(self);
     }
@@ -7731,7 +7726,6 @@ module.exports = {
     }
 }, function(module, exports, __webpack_require__) {
     (function(window) {
-        var _typeof = __webpack_require__(10);
         var g;
         g = function() {
             return this;
@@ -7739,11 +7733,11 @@ module.exports = {
         try {
             g = g || new Function(\\"return this\\")();
         } catch (e) {
-            if ((typeof window === \\"undefined\\" ? \\"undefined\\" : _typeof(window)) === \\"object\\") g = window;
+            if (typeof window === \\"object\\") g = window;
         }
         module.exports = g;
     }).call(this, __webpack_require__(2)[\\"window\\"]);
-}, function(module, exports) {
+}, , , function(module, exports) {
     function _typeof(obj) {
         \\"@babel/helpers - typeof\\";
         if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
@@ -7769,7 +7763,7 @@ exports[`prerender should transform result xml 1`] = `25`;
 
 exports[`prerender should transform result xml 2`] = `
 "
-/** filePath: dist\\\\app.js **/
+/** filePath: dist/app.js **/
 require(\\"./runtime\\");
 
 require(\\"./common\\");
@@ -7779,11 +7773,11 @@ require(\\"./vendors\\");
 require(\\"./taro\\");
 
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    11: function(module, __webpack_exports__, __webpack_require__) {
+    10: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro\\";
     },
-    12: function(module, __webpack_exports__, __webpack_require__) {
+    11: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
         var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
@@ -7827,8 +7821,8 @@ require(\\"./taro\\");
         (function(global) {
             var _tarojs_plugin_platform_weapp_dist_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
             var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-            var _tarojs_taro__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(11);
-            var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(12);
+            var _tarojs_taro__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(10);
+            var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(11);
             var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
             var react_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(13);
             var config = {
@@ -8546,9 +8540,9 @@ require(\\"./taro\\");
             var patchNeedPromiseApis = config.needPromiseApis || [];
             var _needPromiseApis = new Set([].concat(_toConsumableArray(patchNeedPromiseApis), _toConsumableArray(needPromiseApis)));
             var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
-            var apis = new Set(Object.keys(global).filter((function(api) {
+            var apis = new Set(!config.isOnlyPromisify ? Object.keys(global).filter((function(api) {
                 return preserved.indexOf(api) === -1;
-            })));
+            })) : new Set(patchNeedPromiseApis));
             if (config.modifyApis) {
                 config.modifyApis(apis);
             }
@@ -9002,13 +8996,13 @@ require(\\"./taro\\");
         module.exports = global._prerender
       }
 
-/** filePath: dist\\\\app.json **/
+/** filePath: dist/app.json **/
 {\\"pages\\":[\\"pages/index/index\\",\\"others/detail/index\\",\\"others/normal/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
 
-/** filePath: dist\\\\app.wxss **/
+/** filePath: dist/app.wxss **/
 
 
-/** filePath: dist\\\\base.wxml **/
+/** filePath: dist/base.wxml **/
 <wxs module=\\"xs\\" src=\\"./utils.wxs\\" />
 <template name=\\"taro_tmpl\\">
   <block wx:for=\\"{{root.cn}}\\" wx:key=\\"uid\\">
@@ -9794,14 +9788,14 @@ require(\\"./taro\\");
 </template>
 
 
-/** filePath: dist\\\\common.js **/
+/** filePath: dist/common.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
 } ] ]);
 
-/** filePath: dist\\\\comp.js **/
+/** filePath: dist/comp.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
     20: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -9811,14 +9805,14 @@ require(\\"./taro\\");
     }
 }, [ [ 20, 0, 1 ] ] ]);
 
-/** filePath: dist\\\\comp.json **/
+/** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
-/** filePath: dist\\\\comp.wxml **/
+/** filePath: dist/comp.wxml **/
 <import src=\\"./base.wxml\\" />
 <template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
 
-/** filePath: dist\\\\custom-wrapper.js **/
+/** filePath: dist/custom-wrapper.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
     21: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -9828,16 +9822,16 @@ require(\\"./taro\\");
     }
 }, [ [ 21, 0, 1 ] ] ]);
 
-/** filePath: dist\\\\custom-wrapper.json **/
+/** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
-/** filePath: dist\\\\custom-wrapper.wxml **/
+/** filePath: dist/custom-wrapper.wxml **/
 <import src=\\"./base.wxml\\" />
   <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
   </block>
 
-/** filePath: dist\\\\others\\\\detail\\\\index.js **/
+/** filePath: dist/others/detail/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
     15: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -11125,10 +11119,10 @@ require(\\"./taro\\");
         module.exports = global._prerender
       }
 
-/** filePath: dist\\\\others\\\\detail\\\\index.json **/
+/** filePath: dist/others/detail/index.json **/
 {\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
-/** filePath: dist\\\\others\\\\detail\\\\index.wxml **/
+/** filePath: dist/others/detail/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <block wx:if=\\"{{root.uid}}\\">
   <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
@@ -11137,7 +11131,7 @@ require(\\"./taro\\");
 <video src=\\"https://github.com/taro\\" />
 </block>
 
-/** filePath: dist\\\\others\\\\normal\\\\index.js **/
+/** filePath: dist/others/normal/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
     26: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -11183,14 +11177,14 @@ require(\\"./taro\\");
     }
 }, [ [ 26, 0, 1, 3, 2 ] ] ]);
 
-/** filePath: dist\\\\others\\\\normal\\\\index.json **/
+/** filePath: dist/others/normal/index.json **/
 {\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
-/** filePath: dist\\\\others\\\\normal\\\\index.wxml **/
+/** filePath: dist/others/normal/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 
-/** filePath: dist\\\\pages\\\\index\\\\index.js **/
+/** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
     14: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -11248,10 +11242,10 @@ require(\\"./taro\\");
         module.exports = global._prerender
       }
 
-/** filePath: dist\\\\pages\\\\index\\\\index.json **/
+/** filePath: dist/pages/index/index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
-/** filePath: dist\\\\pages\\\\index\\\\index.wxml **/
+/** filePath: dist/pages/index/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <block wx:if=\\"{{root.uid}}\\">
   <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
@@ -11260,10 +11254,10 @@ require(\\"./taro\\");
 <view class=\\"index\\" ><text >Hello world!</text></view>
 </block>
 
-/** filePath: dist\\\\pages\\\\index\\\\index.wxss **/
+/** filePath: dist/pages/index/index.wxss **/
 
 
-/** filePath: dist\\\\runtime.js **/
+/** filePath: dist/runtime.js **/
 (function(modules) {
     function webpackJsonpCallback(data) {
         var chunkIds = data[0];
@@ -11380,7 +11374,7 @@ require(\\"./taro\\");
     checkDeferredModules();
 })([]);
 
-/** filePath: dist\\\\taro.js **/
+/** filePath: dist/taro.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
     1: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -11397,7 +11391,7 @@ require(\\"./taro\\");
     }
 } ]);
 
-/** filePath: dist\\\\utils.wxs **/
+/** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
     var a = [\\"view\\",\\"catch-view\\",\\"cover-view\\",\\"static-view\\",\\"pure-view\\",\\"block\\",\\"text\\",\\"static-text\\",\\"slot\\",\\"slot-view\\",\\"label\\",\\"form\\",\\"scroll-view\\",\\"swiper\\",\\"swiper-item\\"]
@@ -11438,7 +11432,7 @@ module.exports = {
   }
 }
 
-/** filePath: dist\\\\vendors.js **/
+/** filePath: dist/vendors.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -11490,14 +11484,12 @@ module.exports = {
             return false;
         }
     }
-    var helpers_typeof = __webpack_require__(10);
+    var helpers_typeof = __webpack_require__(12);
     var typeof_default = __webpack_require__.n(helpers_typeof);
     var assertThisInitialized = __webpack_require__(7);
     function _possibleConstructorReturn(self, call) {
         if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
-        } else if (call !== void 0) {
-            throw new TypeError(\\"Derived constructors may only return object or undefined\\");
         }
         return Object(assertThisInitialized[\\"a\\"])(self);
     }
@@ -11570,7 +11562,6 @@ module.exports = {
     }
 }, function(module, exports, __webpack_require__) {
     (function(window) {
-        var _typeof = __webpack_require__(10);
         var g;
         g = function() {
             return this;
@@ -11578,11 +11569,11 @@ module.exports = {
         try {
             g = g || new Function(\\"return this\\")();
         } catch (e) {
-            if ((typeof window === \\"undefined\\" ? \\"undefined\\" : _typeof(window)) === \\"object\\") g = window;
+            if (typeof window === \\"object\\") g = window;
         }
         module.exports = g;
     }).call(this, __webpack_require__(2)[\\"window\\"]);
-}, function(module, exports) {
+}, , , function(module, exports) {
     function _typeof(obj) {
         \\"@babel/helpers - typeof\\";
         if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
