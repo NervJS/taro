@@ -81,6 +81,7 @@
  * │   │   ├── soter.d.ts                   开放接口 -> 生物认证 API
  * |   |   ├── subscribe-message.d.ts       开放接口 -> 订阅消息 API
  * │   │   ├── user-info.d.ts               开放接口 -> 用户信息 API
+ * │   │   ├── customer-service.d.ts        开放接口 -> 微信客服 API
  * │   │   └── werun.d.ts                   开放接口 -> 微信运动 API
  * │   ├── route
  * │   │   └── index.d.ts                   路由 API
@@ -196,6 +197,7 @@
 /// <reference path="api/open-api/subscribe-message.d.ts" />
 /// <reference path="api/open-api/user-info.d.ts" />
 /// <reference path="api/open-api/werun.d.ts" />
+/// <reference path="api/open-api/customer-service.d.ts" />
 /// <reference path="api/route/index.d.ts" />
 /// <reference path="api/share/index.d.ts" />
 /// <reference path="api/storage/background-fetch.d.ts" />
