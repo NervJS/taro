@@ -1,5 +1,19 @@
-import { connectSocket } from './webSocket'
+import {
+  connectSocket,
+  close,
+  send,
+  onOpen,
+  onMessage,
+  onError,
+  onClose
+} from './webSocket'
 
 export {
-  connectSocket
+  connectSocket,
+  close,
+  send,
+  onOpen,
+  onMessage,
+  onError,
+  onClose
 }
