@@ -4,13 +4,21 @@ title: 插件功能
 
 Taro 引入了插件化机制，目的是为了让开发者能够通过编写插件的方式来为 Taro 拓展更多功能或为自身业务定制个性化功能。
 
-## 官方插件
+## 插件集合
 
-Taro 提供了一些官方插件
+### 官方插件
 
-- [@tarojs/plugin-mock](https://github.com/NervJS/taro-plugin-mock)，一个简易的数据 mock 插件
+- [@taro/plugin-mini-ci](plugin-mini-ci.md)，小程序持续集成插件。感谢 [@bigmeow](https://github.com/bigmeow) 的贡献！
+- [@tarojs/plugin-mock](https://github.com/NervJS/taro-plugin-mock)，一个简易的数据 mock 插件。
 
-社区[bigmeow](https://github.com/bigmeow) 提供了 Taro 小程序端构建后支持CI（持续集成）的插件 [`taro-plugin-mini-ci`](./plugin-mini-ci.md)
+### 社区优质插件
+
+- [编译提速插件](treasures#插件)
+- [骨架屏插件](treasures#插件)
+- [tailwindcss 插件](treasures#插件)
+- [动态加载代码插件](treasures#插件)
+- [命令行创建组件/页面插件](treasures#插件)
+- [兼容 wsl 插件](treasures#插件)
 
 ## 如何引入插件
 
@@ -436,8 +444,3 @@ ctx.addPluginOptsSchema(joi => {
 
 - srcConfigName: 源码中配置名
 - distConfigName: 最终生成的配置名
-
-## 社区提供的插件（欢迎提交）
-
-- Taro 小程序端构建后支持CI（持续集成）的插件 [`taro-plugin-mini-ci`](./plugin-mini-ci.md) by [bigmeow](https://github.com/bigmeow)
-
