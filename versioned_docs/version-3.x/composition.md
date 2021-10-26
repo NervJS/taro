@@ -11,6 +11,7 @@ title: 更多资源
 - [Taro UI Vue3](https://b2nil.github.io/taro-ui-vue3/)
 - [Taro UI Vue](https://github.com/psaren/taro-ui-vue)
 - [基于 Taro + Taro-ui + Typescript + redux 开发的网易云音乐小程序](https://github.com/lsqy/taro-music/tree/feature_upgrade_taro3.0)
+- [Taro Design 开源页面设计器](https://github.com/ShaoGongBra/taro-design)
 
 
 ### Taro2
