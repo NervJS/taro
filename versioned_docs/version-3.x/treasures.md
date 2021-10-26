@@ -300,6 +300,18 @@ Taroify 是移动端组件库 Vant 的 Taro 版本，两者基于相同的视觉
 
 ---
 
+### 编译提速插件
+
+采用**多核心**和**缓存**提升 Taro 编译打包速度。详情请阅读文章[《编写插件，将 Taro 编译打包耗时缩短至三分之一》](https://mp.weixin.qq.com/s/Z79QhAlP8tBQn3mXQ11byQ)。
+
+智行小程序团队出品。【[Github](https://github.com/CANntyield/taro-plugin-compiler-optimization)】
+
+|  | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| 支持度 | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | |
+
+---
+
 ### 骨架屏插件
 
 让你的 Taro3 页面更流畅，Taro page 初始化 `setData()` 需要传递一个比较大的数据，导致初始化页面时会一段白屏的时间，该插件可以解决这个问题。

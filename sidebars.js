@@ -55,6 +55,7 @@ module.exports = {
           'optimized',
           'prerender',
           'virtual-list',
+          'compile-optimized'
         ]
       },
       {

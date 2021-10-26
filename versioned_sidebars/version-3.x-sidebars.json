@@ -241,6 +241,10 @@
             {
               "type": "doc",
               "id": "version-3.x/virtual-list"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/compile-optimized"
             }
           ]
         },
