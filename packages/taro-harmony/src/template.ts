@@ -140,14 +140,17 @@ ${elements}
     const containerPath = path.join(path.dirname(baseTempPath), 'container')
     const containerTempPath = path.join(containerPath, 'index.hml')
     const navbarTempPath = path.join(containerPath, 'components-harmony/navbar/index.hml')
+    const tabbarTempPath = path.join(containerPath, 'components-harmony/tabbar/index.hml')
     const template = `<element name="container" src="${containerTempPath}"></element>
 <element name="navbar" src="${navbarTempPath}"></element>
+<element name="tabbar" src="${tabbarTempPath}"></element>
 
 <div class="container">
   <navbar title="{{taroNavBar.title}}" background="{{taroNavBar.background}}" text-style="{{taroNavBar.textStyle}}" st="{{taroNavBar.style}}"></navbar>
-  <div class="body">
+  <div class="body" style="padding-top: 44px;padding-bottom: {{isShowTaroTabBar ? '56px' : '0'}}">
     <container root="{{root}}"></container>
   </div>
+  <tabbar if="{{isShowTaroTabBar}}" data="{{taroTabBar}}" selected="{{selected}}"></tabbar>
 </div>
 `
 
