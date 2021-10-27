@@ -17,6 +17,6 @@ export function setHistoryMode (mode?: 'hash' | 'browser', base = '/') {
   }
 }
 
-export function parsePath (url = '') {
+export function prependBasename (url = '') {
   return basename.replace(/\/$/, '') + '/' + url.replace(/^\//, '')
 }
