@@ -97,6 +97,7 @@ function request (params: IRequestParams) {
   return httpRequest
 }
 
+// 以下方法需要先获取 RequestTask 对象
 function destroy () {
   httpRequest.destroy
 }

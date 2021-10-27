@@ -8,6 +8,13 @@ import {
   onClose
 } from './webSocket'
 
+import {
+  request,
+  destroy,
+  onHeadersReceived,
+  offHeadersReceived
+} from './request'
+
 export {
   connectSocket,
   close,
@@ -15,5 +22,9 @@ export {
   onOpen,
   onMessage,
   onError,
-  onClose
+  onClose,
+  request,
+  destroy,
+  onHeadersReceived,
+  offHeadersReceived
 }

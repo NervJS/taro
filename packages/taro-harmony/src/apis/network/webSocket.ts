@@ -73,7 +73,8 @@ function connectSocket (params: IConnectSocket = { url: '', options: {} }) {
       })
     }
   } else {
-    ws = ws.connect(url)
+    const promise = ws.connect(url)
+    return promise
   }
 
   return ws
@@ -97,11 +98,11 @@ function close (params: IWebSocketCloseOptions) {
   if (params.reason !== undefined) {
     requiredParamsName.push('reason')
   }
-  const required: Array<string> = params.code === undefined ? [] : ['number']
+  const requiredParamsType: Array<string> = params.code === undefined ? [] : ['number']
   if (params.reason !== undefined) {
-    requiredParamsName.push('string')
+    requiredParamsType.push('string')
   }
-  const { res, isPassed } = validateParams('connectSockets', params, requiredParams, required, requiredParamsName)
+  const { res, isPassed } = validateParams('connectSockets', params, requiredParams, requiredParamsType, requiredParamsName)
   if (!isPassed) {
     return Promise.reject(res)
   }
