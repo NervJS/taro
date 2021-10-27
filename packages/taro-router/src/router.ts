@@ -3,7 +3,7 @@ import UniversalRouter, { Routes } from 'universal-router'
 import { Listener as LocationListener, State as LocationState, Action as LocationAction } from 'history'
 import { createPageConfig, Current, eventCenter, container, SERVICE_IDENTIFIER, stringify, requestAnimationFrame } from '@tarojs/runtime'
 import { qs } from './qs'
-import { history, parsePath } from './history'
+import { history, prependBasename } from './history'
 import { stacks } from './stack'
 import { init, routerConfig } from './init'
 import { bindPageScroll } from './scroll'
@@ -212,7 +212,7 @@ export function createRouter (
   }, 500)
 
   if (history.location.pathname === '/') {
-    history.replace(parsePath(routes[0].path as string + history.location.search))
+    history.replace(prependBasename(routes[0].path as string + history.location.search))
   }
 
   render({ location: history.location, action: LocationAction.Push })
