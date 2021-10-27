@@ -176,6 +176,16 @@ export function createRouter (
     } else if (action === 'REPLACE') {
       if (isTabBar(config)) {
         hidePage(Current.page)
+
+        const pathname = stripBasename(config.router.pathname, basename)
+        const prevIndex = stacks.findIndex((r) => {
+          return r.path?.replace(/\?.*/g, '') === pathname
+        })
+        if (prevIndex > -1) {
+          // tabbar 页且之前出现过，直接复用
+          const prev = stacks[prevIndex]
+          return showPage(prev, pageConfig, prevIndex)
+        }
       } else {
         unloadPage(Current.page)
       }
@@ -189,17 +199,7 @@ export function createRouter (
       delete loadConfig['load']
 
       const pathname = stripBasename(config.router.pathname, basename)
-      let routerIndex = stacks.length
-
-      if (stacks.length && isTabBar(config)) {
-        const stackIndex = stacks.findIndex((r) => {
-          return r.path?.replace(/\?.*/g, '') === pathname
-        })
-
-        if (stackIndex > -1) {
-          routerIndex = stackIndex
-        }
-      }
+      const routerIndex = stacks.length
 
       const page = createPageConfig(
         enablePullDownRefresh ? runtimeHooks.createPullDownComponent?.(el, location.pathname, framework, routerConfig.PullDownRefresh) : el,
