@@ -610,6 +610,32 @@ $ npx taro build --type h5
 
 请参考 [React Native 端开发流程](./react-native)
 
+### dev环境压缩代码
+```js
+// config/dev.sj
+module.exports = {
+ mini: {
+    webpackChain: (chain, webpack) => {
+      chain.merge({
+        plugin: {
+          install: {
+            plugin: require('terser-webpack-plugin'),
+            args: [{
+              terserOptions: {
+                compress: true, // 默认使用terser压缩
+                // mangle: false,
+                keep_classnames: true, // 不改变class名称
+                keep_fnames: true // 不改变函数名称
+              }
+            }]
+          }
+        }
+      })
+    }
+  }
+}
+```
+
 ## 渐进式入门教程
 
 我们提供了一个由浅入深的实战教程，请参考[《教程》](./guide)。
