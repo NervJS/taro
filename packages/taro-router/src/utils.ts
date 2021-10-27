@@ -1,3 +1,4 @@
+import { RouterConfig } from './router'
 export let routesAlias = {}
 
 export function setRoutesAlias (alias) {
@@ -29,4 +30,16 @@ export const throttle = (fn: Function, threshold: number) => {
       lastTime = now
     }
   }
+}
+
+export const stripBasename = (path: string, basename: string): string => path.startsWith(basename) ? path.replace(basename, '') : path
+
+export const isTabBar = (config: RouterConfig): boolean => {
+  const { customRoutes = {}, basename = '', pathname } = config.router
+  const routePath = stripBasename(pathname, basename)
+  const pagePath = Object.entries(customRoutes).find(
+    ([, target]) => target === routePath
+  )?.[0] || routePath
+
+  return !!pagePath && (config.tabBar?.list || []).some(t => t.pagePath === pagePath)
 }
