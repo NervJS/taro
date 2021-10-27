@@ -21,6 +21,9 @@ export function initTabbar (config: AppConfig) {
     tabbar.conf.custom = false
     tabbar.conf.customRoutes = {}
   }
+  if (typeof routerConfig.basename !== 'undefined') {
+    tabbar.conf.basename = routerConfig.basename
+  }
   const container = document.getElementById('container')
   // eslint-disable-next-line no-unused-expressions
   container?.appendChild(tabbar)
