@@ -39,3 +39,29 @@ config = {
 ## 解决包体积过大无法进行预览的问题
 
 智行小程序团队通过在开发环境下配置压缩指定文件，解决了小程序端包体积过大无法进行预览的问题。详情请阅读文章[《编写插件，将 Taro 编译打包耗时缩短至三分之一》](https://mp.weixin.qq.com/s/Z79QhAlP8tBQn3mXQ11byQ)。
+
+## 通过webpackChain配置解决开发环境下小程序包体积过大无法进行预览上传的问题(不影响devtools的使用)
+```js
+// config/dev.sj
+module.exports = {
+ mini: {
+    webpackChain: (chain, webpack) => {
+      chain.merge({
+        plugin: {
+          install: {
+            plugin: require('terser-webpack-plugin'),
+            args: [{
+              terserOptions: {
+                compress: true, // 默认使用terser压缩
+                // mangle: false,
+                keep_classnames: true, // 不改变class名称
+                keep_fnames: true // 不改变函数名称
+              }
+            }]
+          }
+        }
+      })
+    }
+  }
+}
+```
