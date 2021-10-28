@@ -24,6 +24,7 @@ export class Template extends RecursiveTemplate {
     this.voidElements.add('image')
     this.voidElements.add('static-image')
     this.voidElements.add('camera')
+    this.voidElements.add('input')
 
     this.nativeComps = fs.readdirSync(path.resolve(__dirname, './components-harmony'))
   }
@@ -64,6 +65,28 @@ ${elements}
     template += '\n</block>'
 
     return template
+  }
+
+  buildFocusComponentTemplte (comp): string {
+    const children = this.voidElements.has(comp.nodeName) ? '' : '<container root="{{i}}"></container>'
+
+    let nodeName = ''
+
+    if (this.nativeComps.includes(comp.nodeName)) {
+      nodeName = `taro-${comp.nodeName}`
+      // 鸿蒙自定义组件不能传 class 属性
+      comp.attributes.cls = comp.attributes.class
+      delete comp.attributes.class
+    }
+
+    const res = `
+<block if="{{i.nn == '${comp.nodeName}'}}">
+  <${nodeName} ${this.buildAttrs(comp.attributes, comp.nodeName)} id="{{i.uid}}">
+    ${children}
+  </${nodeName}>
+</block>
+`
+    return res
   }
 
   buildStandardComponentTemplate (comp) {
