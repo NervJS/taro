@@ -1,30 +1,11 @@
-import {
-  connectSocket,
-  close,
-  send,
-  onOpen,
-  onMessage,
-  onError,
-  onClose
-} from './webSocket'
-
-import {
-  request,
-  destroy,
-  onHeadersReceived,
-  offHeadersReceived
-} from './request'
+import { connectSocket } from './webSocket'
+import { request } from './request'
+import { uploadFile } from './uploadFile'
+import { downloadFile } from './downloadFile'
 
 export {
   connectSocket,
-  close,
-  send,
-  onOpen,
-  onMessage,
-  onError,
-  onClose,
   request,
-  destroy,
-  onHeadersReceived,
-  offHeadersReceived
+  uploadFile,
+  downloadFile
 }

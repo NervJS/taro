@@ -19,7 +19,8 @@ import { General } from '@tarojs/taro/types'
 import { validateParams, shouleBeObject } from './validate'
 const webSocket = require('@ohos.net.webSocket')
 
-let ws = webSocket.createWebSocket()
+const ws = webSocket.createWebSocket()
+const SocketTaskWX: General.IAnyObject = {}
 
 interface IOptions extends IAsyncParams {
   header?: General.IAnyObject
@@ -55,29 +56,31 @@ function connectSocket (params: IConnectSocket = { url: '', options: {} }) {
       ws.connect(url, { header }, (res: any) => {
         if (!res) {
           fail && fail(res)
+          complete && complete(res)
         } else {
           success && success(res)
-          return ws
+          complete && complete(res)
+          return SocketTaskWX
         }
-        complete && complete(res)
       })
     } else {
       ws.connect(url, (res: any) => {
         if (!res) {
           fail && fail(res)
+          complete && complete(res)
         } else {
           success && success(res)
-          return ws
+          complete && complete(res)
+          return SocketTaskWX
         }
-        complete && complete(res)
       })
     }
   } else {
-    const promise = ws.connect(url)
-    return promise
+    ws.connect(url)
+    return Promise.resolve(SocketTaskWX)
   }
 
-  return ws
+  return SocketTaskWX
 }
 
 interface IWebSocketCloseOptions extends IAsyncParams {
@@ -89,7 +92,7 @@ interface ISimpleWebSocketCloseOptions {
   reason?: string
 }
 
-function close (params: IWebSocketCloseOptions) {
+SocketTaskWX.close = function close (params: IWebSocketCloseOptions) {
   const requiredParams: Array<any> = params.code === undefined ? [] : [params.code]
   if (params.reason !== undefined) {
     requiredParams.push(params.reason)
@@ -123,16 +126,15 @@ function close (params: IWebSocketCloseOptions) {
       complete && complete(res)
     })
   } else {
-    ws = ws.close(options)
+    ws.close(options)
   }
-  return ws
 }
 
 interface IWebSocketSendOptions extends IAsyncParams{
   data: string
 }
 
-function send (params: IWebSocketSendOptions) {
+SocketTaskWX.send = function send (params: IWebSocketSendOptions) {
   const requiredParams: Array<any> = params.data === '' ? [] : [params.data]
   const requiredParamsName: Array<string> = ['data']
   const required: Array<string> = ['string']
@@ -152,9 +154,8 @@ function send (params: IWebSocketSendOptions) {
       complete && complete(res)
     })
   } else {
-    return ws.send(data)
+    ws.send(data)
   }
-  return ws
 }
 
 interface IOnOpenCallbackValue {
@@ -162,40 +163,28 @@ interface IOnOpenCallbackValue {
   status: string,
   message: string
 }
-function onOpen (callback?: any) {
+SocketTaskWX.onOpen = function onOpen (callback?: any) {
   ws.on('open', (err: any, value: IOnOpenCallbackValue) => {
     if (!err) {
-      if (callback) {
-        callback(value)
-      } else {
-        return Promise.resolve(value)
-      }
-    } else {
-      return Promise.reject(err)
+      callback(value)
     }
   })
 }
 
-function onMessage (callback?: any) {
+SocketTaskWX.onMessage = function onMessage (callback?: any) {
   ws.on('message', (err: any, value: string) => {
     if (!err) {
       if (callback) {
         callback(value)
-      } else {
-        return Promise.resolve(value)
       }
-    } else {
-      return Promise.reject(err)
     }
   })
 }
 
-function onError (callback?: any) {
+SocketTaskWX.onError = function onError (callback?: any) {
   ws.on('error', (err: any) => {
     if (callback) {
       callback(err)
-    } else {
-      return Promise.resolve(err)
     }
   })
 }
@@ -205,26 +194,16 @@ interface IOnCloseCallbackValue {
   code: number,
   reason: string
 }
-function onClose (callback?: any) {
+SocketTaskWX.onClose = function onClose (callback?: any) {
   ws.on('close', (err: any, value: IOnCloseCallbackValue) => {
     if (!err) {
       if (callback) {
         callback(value)
-      } else {
-        return Promise.resolve(value)
       }
-    } else {
-      return Promise.reject(err)
     }
   })
 }
 
 export {
-  connectSocket,
-  close,
-  send,
-  onOpen,
-  onMessage,
-  onError,
-  onClose
+  connectSocket
 }

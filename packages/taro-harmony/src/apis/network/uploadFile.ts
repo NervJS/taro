@@ -1,8 +1,16 @@
+// ✅ wx.uploadFile
+// ✅ UploadTask.abort
+// ✅ UploadTask.offHeadersReceived
+// ✅ UploadTask.offProgressUpdate
+// ✅ UploadTask.onHeadersReceived
+// ✅ UploadTask.onProgressUpdate
+
 import { General } from '@tarojs/taro'
 import { validateParams } from './validate'
 
 const request = require('@ohos.request')
 let uploadTask: General.IAnyObject = {}
+const UploadTaskWX: General.IAnyObject = {}
 
 interface ISuccessParams {
   data: string
@@ -97,16 +105,17 @@ function uploadFile (params: IUploadFileParamsWX) {
       uploadTask = res
       success && success(res)
       complete && complete(res)
+      return UploadTaskWX
     })
   } else {
     request.upload(ohosParams).then((res: any) => {
       uploadTask = res
     })
-    return Promise.resolve(uploadTask)
+    return Promise.resolve(UploadTaskWX)
   }
 }
 
-function abort () {
+UploadTaskWX.abort = function abort () {
   uploadTask.remove((err: any, result: any) => {
     if (err) {
       console.error('Failed to remove the upload task. Cause: ' + JSON.stringify(err))
@@ -120,13 +129,13 @@ function abort () {
   })
 }
 
-function onHeadersReceived (callback: (params: General.IAnyObject) => void) {
+UploadTaskWX.onHeadersReceived = function onHeadersReceived (callback: (params: General.IAnyObject) => void) {
   uploadTask.on('headerReceive', (headers: General.IAnyObject) => {
     callback(headers)
   })
 }
 
-function offHeadersReceived (callback: (params: any) => void) {
+UploadTaskWX.offHeadersReceived = function offHeadersReceived (callback: (params: any) => void) {
   uploadTask.off('headerReceive', (headers: General.IAnyObject) => {
     callback(headers)
   })
@@ -137,7 +146,7 @@ interface IProgressUpdateParams {
   totalBytesSent: number
   totalBytesExpectedToSend: number
 }
-function onProgressUpdate (callback: (params: IProgressUpdateParams) => void) {
+UploadTaskWX.onProgressUpdate = function onProgressUpdate (callback: (params: IProgressUpdateParams) => void) {
   uploadTask.on('progress', (uploadSize: number, totalSize: number) => {
     const totalBytesSent: number = uploadSize * 1024
     const totalBytesExpectedToSend: number = totalSize * 1024
@@ -152,7 +161,7 @@ function onProgressUpdate (callback: (params: IProgressUpdateParams) => void) {
   })
 }
 
-function offProgressUpdate (callback: any) {
+UploadTaskWX.offProgressUpdate = function offProgressUpdate (callback: any) {
   uploadTask.off('progress', (uploadSize: number, totalSize: number) => {
     const totalBytesSent: number = uploadSize * 1024
     const totalBytesExpectedToSend: number = totalSize * 1024
@@ -168,10 +177,5 @@ function offProgressUpdate (callback: any) {
 }
 
 export {
-  uploadFile,
-  abort,
-  onHeadersReceived,
-  offHeadersReceived,
-  onProgressUpdate,
-  offProgressUpdate
+  uploadFile
 }

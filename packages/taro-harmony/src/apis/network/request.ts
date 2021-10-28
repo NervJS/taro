@@ -7,6 +7,7 @@ import { validateParams } from './validate'
 const http = require('@ohos.net.http')
 
 const httpRequest = http.createHttp()
+const RequestTask: General.IAnyObject = {}
 
 // const METHOD = {
 //   OPTIONS: 'OPTIONS',
@@ -37,7 +38,7 @@ interface IRequestParams {
   method?: string,
   header?: General.IAnyObject,
   timeout?: number,
-  complete?: (res: General.CallbackResult) => void
+  complete?: (res: any) => void
   fail?: (res: General.CallbackResult) => void
   success?: (res: IHttpOptionsWX) => void
 }
@@ -67,56 +68,54 @@ function request (params: IRequestParams) {
     options.connectTimeout = timeout
   }
 
-  if (success || fail || complete) {
-    httpRequest.request(url, options, (err: any, res: IHttpOptionsOHOS) => {
-      if (!err) {
-        const wxParams: IHttpOptionsWX = {
-          data: res.result,
-          statusCode: res.responseCode,
-          header: res.header
-        }
-        success && success(wxParams)
-      } else {
-        fail && fail(err)
+  // if (success || fail || complete) {
+  httpRequest.request(url, options, (err: any, res: IHttpOptionsOHOS) => {
+    if (!err) {
+      const wxParams: IHttpOptionsWX = {
+        data: res.result,
+        statusCode: res.responseCode,
+        header: res.header
       }
+      success && success(wxParams)
+      complete && complete(wxParams)
+    } else {
+      fail && fail(err)
       complete && complete(err)
-    })
-  } else {
-    const promise = httpRequest.request(url, options)
-    promise.then((value) => {
-      const pres: IHttpOptionsWX = {
-        data: value.result,
-        statusCode: value.responseCode,
-        header: value.header
-      }
-      return Promise.resolve(pres)
-    }).catch((err) => {
-      return Promise.reject(err)
-    })
-  }
-  return httpRequest
+    }
+  })
+  // } else {
+  //   const promise = httpRequest.request(url, options)
+  //   promise.then((value) => {
+  //     const pres: IHttpOptionsWX = {
+  //       data: value.result,
+  //       statusCode: value.responseCode,
+  //       header: value.header
+  //     }
+  //     return Promise.resolve(pres)
+  //   }).catch((err) => {
+  //     return Promise.reject(err)
+  //   })
+  // }
+  // return RequestTask
 }
 
 // 以下方法需要先获取 RequestTask 对象
-function destroy () {
+RequestTask.destroy = function destroy () {
   httpRequest.destroy
 }
 
-function onHeadersReceived (callback: (options: General.IAnyObject) => void) {
+RequestTask.onHeadersReceived = function onHeadersReceived (callback: (options: General.IAnyObject) => void) {
   httpRequest.on('headerReceive', (err: any, res: IHttpOptionsOHOS) => {
     callback(!err ? res : err)
   })
 }
 
-function offHeadersReceived (callback: (options: General.IAnyObject) => void) {
+RequestTask.offHeadersReceived = function offHeadersReceived (callback: (options: General.IAnyObject) => void) {
   httpRequest.off('headerReceive', (err: any, res: IHttpOptionsOHOS) => {
     callback(!err ? res : err)
   })
 }
 
 export {
-  request,
-  destroy,
-  onHeadersReceived,
-  offHeadersReceived
+  request
 }
