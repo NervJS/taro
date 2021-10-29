@@ -56,5 +56,10 @@ export const components = {
     showtext: 'false',
     texton: singleQuote('On'),
     textoff: singleQuote('Off'),
+  },
+  Slider: {
+    showsteps: 'false',
+    showtips: 'false',
   }
 }
+
