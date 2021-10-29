@@ -96,7 +96,7 @@ export function callAsyncSuccess (resolve, res, options?: IAsyncParams) {
   resolve(res)
 }
 
-export function callAsyncfail (reject, res, options?: IAsyncParams) {
+export function callAsyncFail (reject, res, options?: IAsyncParams) {
   options?.fail?.(res)
   options?.complete?.(res)
   reject(res)
