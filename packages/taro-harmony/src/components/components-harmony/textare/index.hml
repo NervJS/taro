@@ -1,0 +1,21 @@
+<textarea 
+  id={{ id }}
+  class="{{cls}}"
+  placeholder="{{placeholder}}"
+  maxlength="{{maxlength}}"
+  headericon="{{headericon}}"
+  extend="{{autoHeight}}"
+  value="{{value}}"
+  showcounter="{{showcounter}}"
+  menuoptions="{{menuoptions}}"
+  autofocus="{{autoFocus}}"
+  selectedstart="{{selectionStart}}"
+  selectedend="{{selectionEnd}}"
+  softkeyboardenabled="{{softkeyboardenabled}}"
+  @change="onChange"
+  @translate="onTranslate"
+  @share="onShare"
+  @search="onSearch"
+  @optionselect="onOptionSelect"
+  @selectchange="onSelectChange"
+</textarea>

@@ -24,6 +24,7 @@ export class Template extends RecursiveTemplate {
     this.voidElements.add('image')
     this.voidElements.add('static-image')
     this.voidElements.add('camera')
+    this.voidElements.add('textare')
 
     this.nativeComps = fs.readdirSync(path.resolve(__dirname, './components-harmony'))
   }
