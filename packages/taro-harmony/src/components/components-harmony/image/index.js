@@ -1,9 +1,9 @@
-
 const modeMap = {
   scaleToFill: 'fill',
   aspectFit: 'contain',
   aspectFill: 'cover'
 }
+
 export default {
   props: [
     'id',
@@ -12,15 +12,15 @@ export default {
     'src',
     'alt'
   ],
-  data () {
-    return {
-      objectFit: modeMap[this.props.mode]
+  computed: {
+    objectFit () {
+      return modeMap[this.mode] || ''
     }
   },
   onLoad (e) {
-    this.$emit('complete', { width: e.width, height: e.height })
+    this.$emit('load', { id: this.id, width: e.width, height: e.height })
   },
   onError () {
-    this.$emit('error', { errMsg: '图片加载异常' })
+    this.$emit('error', { id: this.id, errMsg: '图片加载异常' })
   }
 }
