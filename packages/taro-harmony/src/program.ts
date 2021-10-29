@@ -76,23 +76,12 @@ export default class Harmony extends TaroPlatformBase {
   addEntry () {
     this.ctx.onCompilerMake(async ({ compilation, plugin }) => {
       // container/index.hml
-      const baseTempPath = path.resolve(__dirname, 'template/container')
-      plugin.addEntry(baseTempPath, 'container/index', META_TYPE.STATIC)
-      // container/global.css
-      const globalCSSPath = path.resolve(__dirname, 'template/global.scss')
-      plugin.addEntry(globalCSSPath, 'container/global', META_TYPE.STATIC)
-
-      await Promise.all([
-        this.addingEntry(compilation, plugin, baseTempPath),
-        this.addingEntry(compilation, plugin, globalCSSPath)
-      ])
-    })
-  }
-
-  addingEntry (compilation, plugin, filePath) {
-    const dep = plugin.dependencies.get(filePath)
-    return new Promise((resolve, reject) => {
-      compilation.addEntry(plugin.options.sourceDir, dep, dep.name, err => err ? reject(err) : resolve(null))
+      const filePath = path.resolve(__dirname, 'template/container')
+      plugin.addEntry(filePath, 'container/index', META_TYPE.STATIC)
+      const dep = plugin.dependencies.get(filePath)
+      await new Promise((resolve, reject) => {
+        compilation.addEntry(plugin.options.sourceDir, dep, dep.name, err => err ? reject(err) : resolve(null))
+      })
     })
   }
 
@@ -146,7 +135,7 @@ export default class Harmony extends TaroPlatformBase {
       delete assets[base]
 
       // 模板自定义组件 css
-      const styles = Object.keys(assets).filter(key => key.endsWith(styleExt) && key !== 'container/global.css')
+      const styles = Object.keys(assets).filter(key => key.endsWith(styleExt))
       const source = new ConcatSource()
       styles.forEach(file => {
         const re = path.relative('container', file)
@@ -156,19 +145,6 @@ export default class Harmony extends TaroPlatformBase {
         size: () => source.source().length,
         source: () => source.source()
       }
-
-      miniPlugin.pages.forEach(item => {
-        const stylePath = item.name + styleExt
-        const origin = assets[stylePath].source()
-        const source = new ConcatSource()
-        const re = path.relative(path.dirname(stylePath), 'container/global.css')
-        source.add(`@import '${re}';\n`)
-        source.add(origin)
-        assets[stylePath] = {
-          size: () => source.source().length,
-          source: () => source.source()
-        }
-      })
 
       // 不需要生成 json 配置文件
       miniPlugin.pages.forEach(page => {
@@ -192,7 +168,7 @@ export default class Harmony extends TaroPlatformBase {
       const compsDestDir = path.join(dest, 'container/components-harmony')
 
       fs.ensureDirSync(compsDestDir)
-      ;[...this.template.usedNativeComps, 'navbar', 'utils'].forEach(name => {
+      ;[...this.template.usedNativeComps, 'navbar', 'tabbar', 'utils'].forEach(name => {
         const src = path.join(compsSrcDir, name)
         const dest = path.join(compsDestDir, name)
         fs.copy(src, dest)
