@@ -55,6 +55,14 @@ export const components = {
   Switch: {
     showtext: 'false',
     texton: singleQuote('On'),
-    textoff: singleQuote('Off'),
+    textoff: singleQuote('Off')
+  },
+  Textarea: {
+    headericon: '',
+    showcounter: 'false',
+    menuoptions: '[]',
+    selectedstart: '-1',
+    selectedend: '-1',
+    softkeyboardenabled: 'true'
   }
 }

@@ -1,4 +1,7 @@
 export default {
+  data: {
+    textareaValue: ''
+  },
   props: [
     'id',
     'cls',
@@ -24,8 +27,21 @@ export default {
     'menuoptions',
     'softkeyboardenabled'
   ],
-  onChange (e) {
-    this.$emit('input', { current: { value: e.text } })
+  onInput (e) {
+    this.textareaValue = e.value
+    this.$emit('input', {
+      id: this.id, value: e.text, cursor: e.text.length, keyCode: null
+    })
+  },
+  onFocus () {
+    this.$emit('focus', {
+      id: this.id, value: this.textareaValue
+    })
+  },
+  onBlur () {
+    this.$emit('blur', {
+      id: this.id, value: this.textareaValue
+    })
   },
   onTranslate (e) {
     this.$emit('translate', e)
