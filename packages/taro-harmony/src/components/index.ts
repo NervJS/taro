@@ -52,6 +52,11 @@ export const components = {
     clickeffect: 'true',
     bindsticky: ''
   },
+  Switch: {
+    showtext: 'false',
+    texton: singleQuote('On'),
+    textoff: singleQuote('Off')
+  },
   Progress: {
     'active-color': singleQuote('#09BB07'),
     'background-color': singleQuote('#EBEBEB'),
