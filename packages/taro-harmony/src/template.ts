@@ -23,6 +23,7 @@ export class Template extends RecursiveTemplate {
     this.voidElements.add('button')
     this.voidElements.add('image')
     this.voidElements.add('static-image')
+    this.voidElements.add('camera')
 
     this.nativeComps = fs.readdirSync(path.resolve(__dirname, './components-harmony'))
   }
@@ -122,8 +123,10 @@ ${elements}
       .join('')
   }
 
-  replacePropName (name: string, value: string, _componentName?: string) {
+  replacePropName (name: string, value: string, componentName?: string) {
     if (value === 'eh') return name.toLowerCase().replace(/^bind/, '@')
+    // 由于鸿蒙不支持for属性 需要修改for属性，需要改名
+    if (componentName === 'label' && name === 'for') return 'target'
     return name
   }
 
@@ -134,10 +137,20 @@ ${elements}
   }
 
   buildPageTemplate = (baseTempPath: string) => {
-    const template = `<element name="container" src="${baseTempPath.replace('base', 'container/index')}"></element>
+    const containerPath = path.join(path.dirname(baseTempPath), 'container')
+    const containerTempPath = path.join(containerPath, 'index.hml')
+    const navbarTempPath = path.join(containerPath, 'components-harmony/navbar/index.hml')
+    const tabbarTempPath = path.join(containerPath, 'components-harmony/tabbar/index.hml')
+    const template = `<element name="container" src="${containerTempPath}"></element>
+<element name="navbar" src="${navbarTempPath}"></element>
+<element name="tabbar" src="${tabbarTempPath}"></element>
 
 <div class="container">
-  <container root="{{root}}"></container>
+  <navbar title="{{taroNavBar.title}}" background="{{taroNavBar.background}}" text-style="{{taroNavBar.textStyle}}" st="{{taroNavBar.style}}"></navbar>
+  <div class="body" style="padding-top: 44px;padding-bottom: {{isShowTaroTabBar ? '56px' : '0'}}">
+    <container root="{{root}}"></container>
+  </div>
+  <tabbar if="{{isShowTaroTabBar}}" data="{{taroTabBar}}" selected="{{selected}}"></tabbar>
 </div>
 `
 
