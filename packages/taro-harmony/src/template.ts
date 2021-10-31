@@ -68,30 +68,10 @@ ${elements}
   }
 
   buildFocusComponentTemplte (comp): string {
-    const children = this.voidElements.has(comp.nodeName) ? '' : '<container root="{{i}}"></container>'
-
-    let nodeName = ''
-
-    if (this.nativeComps.includes(comp.nodeName)) {
-      nodeName = `taro-${comp.nodeName}`
-      // 鸿蒙自定义组件不能传 class 属性
-      comp.attributes.cls = comp.attributes.class
-      delete comp.attributes.class
-    }
-
-    const res = `
-<block if="{{i.nn == '${comp.nodeName}'}}">
-  <${nodeName} ${this.buildAttrs(comp.attributes, comp.nodeName)} id="{{i.uid}}">
-    ${children}
-  </${nodeName}>
-</block>
-`
-    return res
+    return this.generateComponentTemplateSrc(comp)
   }
 
   buildStandardComponentTemplate (comp) {
-    const children = this.voidElements.has(comp.nodeName) ? '' : '<container root="{{i}}"></container>'
-
     let nodeName = ''
     switch (comp.nodeName) {
       case 'slot':
@@ -113,7 +93,14 @@ ${elements}
         nodeName = comp.nodeName
         break
     }
+    return this.generateComponentTemplateSrc(comp, nodeName)
+  }
 
+  generateComponentTemplateSrc (comp, nodeName?): string {
+    const children = this.voidElements.has(comp.nodeName) ? '' : '<container root="{{i}}"></container>'
+    if (!nodeName) {
+      nodeName = comp.nodeName
+    }
     if (this.nativeComps.includes(nodeName)) {
       nodeName = `taro-${nodeName}`
       // 鸿蒙自定义组件不能传 class 属性

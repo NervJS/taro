@@ -2,17 +2,18 @@ import window from '@ohos.window'
 
 export default {
   data: {
-    inputValue: '',
     type: 'keyboardHeightChange',
     windowClass: null,
     height: 0
   },
   props: {
     id: String,
+    value: String,
     cls: String,
     type: String,
     password: Boolean,
     placeholder: String,
+    placeholderColor: '#99000000',
     disabled: Boolean,
     maxlength: {
       default: 140
@@ -55,27 +56,27 @@ export default {
   },
 
   onInput (e) {
-    this.inputValue = e.value
+    this.value = e.value
     this.$emit('input', {
-      id: this.id, value: e.value, cursor: this.inputValue.length, keyCode: null
+      id: this.id, value: e.value, cursor: this.value.length, keyCode: null
     })
   },
 
   onFocus () {
     this.$emit('focus', {
-      id: this.id, value: this.inputValue, height: this.height
+      id: this.id, value: this.value, height: this.height
     })
   },
 
   onBlur () {
     this.$emit('blur', {
-      id: this.id, value: this.inputValue
+      id: this.id, value: this.value
     })
   },
 
   onEnterKeyClick () {
     this.$emit('confirm', {
-      id: this.id, value: this.inputValue
+      id: this.id, value: this.value
     })
   },
 

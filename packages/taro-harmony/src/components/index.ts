@@ -56,5 +56,8 @@ export const components = {
     showtext: 'false',
     texton: singleQuote('On'),
     textoff: singleQuote('Off'),
+  },
+  Input: {
+    'placeholder-color': singleQuote('#99000000')
   }
 }

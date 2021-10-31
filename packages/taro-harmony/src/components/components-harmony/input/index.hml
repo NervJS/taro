@@ -1,19 +1,21 @@
 <div>
-    <input
-            id="{{ id }}"
-            class="{{ cls }}"
-            type="{{ realType }}"
-            placeholder="{{ placeholder }}"
-            autofocus="{{ focus }}"
-            enterkeytype="{{ confirmType }}"
-            maxlength="{{ maxlength }}"
-            disabled="{{ disabled }}"
+  <input
+    id="{{ id }}"
+    class="{{ cls }}"
+    value="{{ value }}"
+    type="{{ realType }}"
+    placeholder="{{ placeholder }}"
+    style="placeholder-color: {{placeholderColor}};"
+    autofocus="{{ focus }}"
+    enterkeytype="{{ confirmType }}"
+    maxlength="{{ maxlength }}"
+    disabled="{{ disabled }}"
 
-            @change="onInput"
-            @focus="onFocus"
-            @blur="onBlur"
-            @enterkeyclick="onEnterKeyClick"
-            >
+    @change="onInput"
+    @focus="onFocus"
+    @blur="onBlur"
+    @enterkeyclick="onEnterKeyClick"
+    >
     </input>
 </div>
 
