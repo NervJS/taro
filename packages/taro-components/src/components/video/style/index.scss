@@ -23,7 +23,7 @@
   top: 0;
   left: 0;
   overflow: hidden;
-  object-position: inherit
+  object-position: inherit;
 }
 
 .taro-video-container.taro-video-type-fullscreen {
@@ -104,7 +104,7 @@
   -webkit-align-items: center;
   align-items: center;
   padding: 0 10px;
-  z-index: 0
+  z-index: 1;
 }
 
 .taro-video-bar.taro-video-bar-full {

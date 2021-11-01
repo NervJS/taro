@@ -1,4 +1,5 @@
 import { REG_VUE, chalk } from '@tarojs/helper'
+import * as webpack from 'webpack'
 import { DEFAULT_Components } from '../util/chain'
 import type { RootNode, TemplateChildNode, ElementNode } from '@vue/compiler-core'
 
@@ -22,6 +23,13 @@ export function customVue3Chain (chain, config) {
   chain
     .plugin('vueLoaderPlugin')
     .use(VueLoaderPlugin)
+
+  chain
+    .plugin('defined')
+    .use(webpack.DefinePlugin, [{
+      __VUE_OPTIONS_API__: JSON.stringify(true),
+      __VUE_PROD_DEVTOOLS__: JSON.stringify(false)
+    }])
 
   chain.module
     .rule('customStyle')

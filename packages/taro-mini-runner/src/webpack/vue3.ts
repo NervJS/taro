@@ -1,7 +1,10 @@
 import { REG_VUE, chalk } from '@tarojs/helper'
-import { toCamelCase, internalComponents, capitalize } from '@tarojs/shared'
+import * as webpack from 'webpack'
+import { toCamelCase, internalComponents, capitalize } from '@tarojs/shared/dist/template'
 import { componentConfig } from '../template/component'
 import type { RootNode, TemplateChildNode, ElementNode, AttributeNode, DirectiveNode, SimpleExpressionNode } from '@vue/compiler-core'
+
+const CUSTOM_WRAPPER = 'custom-wrapper'
 
 export function customVue3Chain (chain) {
   let vueLoaderPath: string
@@ -22,6 +25,13 @@ export function customVue3Chain (chain) {
   chain
     .plugin('vueLoaderPlugin')
     .use(VueLoaderPlugin)
+
+  chain
+    .plugin('defined')
+    .use(webpack.DefinePlugin, [{
+      __VUE_OPTIONS_API__: JSON.stringify(true),
+      __VUE_PROD_DEVTOOLS__: JSON.stringify(false)
+    }])
 
   chain.module
     .rule('vue')
@@ -46,7 +56,17 @@ export function customVue3Chain (chain) {
             const nodeName = node.tag
 
             if (capitalize(toCamelCase(nodeName)) in internalComponents) {
+              // change only ElementTypes.COMPONENT to ElementTypes.ELEMENT
+              // and leave ElementTypes.SLOT untouched
+              if (node.tagType === 1 /* COMPONENT */) {
+                node.tagType = 0 /* ELEMENT */
+              }
               componentConfig.includes.add(nodeName)
+            }
+
+            if (nodeName === CUSTOM_WRAPPER) {
+              node.tagType = 0 /* ELEMENT */
+              componentConfig.thirdPartyComponents.set(CUSTOM_WRAPPER, new Set())
             }
 
             const usingComponent = componentConfig.thirdPartyComponents.get(nodeName)
@@ -54,10 +74,14 @@ export function customVue3Chain (chain) {
               node.props.forEach(prop => {
                 if (prop.type === 6 /* ATTRIBUTE */) {
                   usingComponent.add((prop as AttributeNode).name)
-                } else if (prop.type === 7 /* DIRECTIVE */) {
+                } else if ((prop as any).type === 7 /* DIRECTIVE */) {
                   prop = prop as DirectiveNode
                   if (prop.arg?.type === 4 /* SimpleExpression */) {
-                    usingComponent.add((prop.arg as SimpleExpressionNode).content)
+                    let value = (prop.arg as SimpleExpressionNode).content
+                    if (prop.name === 'on') {
+                      value = `on${value}`
+                    }
+                    usingComponent.add(value)
                   }
                 }
               })

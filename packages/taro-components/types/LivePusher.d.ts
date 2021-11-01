@@ -120,7 +120,7 @@ interface LivePusherProps extends StandardProps {
   mirror?: boolean
 
   /** 设置推流画面是否镜像，产生的效果在 LivePlayer 反应到
-   * 
+   *
    * **Note:** 同 mirror 属性，后续 mirror 将废弃
    * @default false
    * @supported weapp
@@ -175,6 +175,18 @@ interface LivePusherProps extends StandardProps {
    */
   videoHeight?: number
 
+  /** 设置美颜类型
+   * @default smooth
+   * @supported weapp
+   */
+  beautyStyle?: keyof LivePusherProps.beautyStyleType
+
+  /** 设置色彩滤镜
+   * @default standard
+   * @supported weapp
+   */
+  filter?: keyof LivePusherProps.filterType
+
   /** 状态变化事件，detail = {code}
    * @supported weapp
    */
@@ -204,6 +216,11 @@ interface LivePusherProps extends StandardProps {
    * @supported weapp
    */
   onBgmComplete?: CommonEventFunction
+
+  /** 返回麦克风采集的音量大小
+   * @supported weapp
+   */
+  onAudioVolumeNotify?: CommonEventFunction
 }
 
 declare namespace LivePusherProps {
@@ -226,7 +243,7 @@ declare namespace LivePusherProps {
   /** audioReverbType 的合法值 */
   interface audioReverbType {
     /** 关闭 */
-    0		
+    0
     /** KTV */
     1
     /** 小房间 */
@@ -248,6 +265,38 @@ declare namespace LivePusherProps {
     media
     /** 通话音量 */
     voicecall
+  }
+  /** beautyStyleType 的合法值 */
+  interface beautyStyleType {
+    /** 光滑美颜 */
+    smooth
+    /** 自然美颜 */
+    nature
+  }
+  /** filterType 的合法值 */
+  interface filterType {
+    /** 标准 */
+    standard
+    /** 粉嫩 */
+    pink
+    /** 怀旧 */
+    nostalgia
+    /** 蓝调 */
+    blues
+    /** 浪漫 */
+    romantic
+    /** 清凉 */
+    cool
+    /** 清新 */
+    fresher
+    /** 日系 */
+    solor
+    /** 唯美 */
+    aestheticism
+    /** 美白 */
+    whitening
+    /** 樱红 */
+    cerisered
   }
   interface onStateChangeEventDetail {
     /** 状态码 */
@@ -272,7 +321,6 @@ declare namespace LivePusherProps {
 }
 
 /** 实时音视频录制。需要用户授权 scope.camera、scope.record
- * 
  * 需要先通过类目审核，再在小程序管理后台，「开发」-「接口设置」中自助开通该组件权限。
  * @classification media
  * @supported weapp

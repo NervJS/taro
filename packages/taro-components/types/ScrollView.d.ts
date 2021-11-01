@@ -97,6 +97,36 @@ interface ScrollViewProps extends StandardProps {
    */
   refresherTriggered?: boolean
 
+  /** 启用 scroll-view 增强特性
+   * @supported weapp 2.12.0+
+   * @default false
+   */
+  enhanced?: boolean
+
+  /** iOS 下 scroll-view 边界弹性控制 (同时开启 enhanced 属性后生效)
+   * @supported weapp 2.12.0+
+   * @default true
+   */
+  bounces?: boolean
+
+  /** 滚动条显隐控制 (同时开启 enhanced 属性后生效)
+   * @supported weapp 2.12.0+
+   * @default true
+   */
+  showScrollbar?: boolean
+
+  /** 分页滑动效果 (同时开启 enhanced 属性后生效)
+   * @supported weapp 2.12.0+
+   * @default false
+   */
+  pagingEnabled?: boolean
+
+  /** boolean	false	滑动减速速率控制 (同时开启 enhanced 属性后生效)
+   * @supported weapp 2.12.0+
+   * @default false
+   */
+  fastDeceleration?: boolean
+
   /** 滚动到顶部/左边，会触发 scrolltoupper 事件
    * @supported weapp, swan, alipay, tt, h5, rn
    */
@@ -132,6 +162,21 @@ interface ScrollViewProps extends StandardProps {
    * @supported weapp
    */
   onRefresherAbort?: CommonEventFunction
+
+  /** 滑动开始事件 (同时开启 enhanced 属性后生效)
+   * @supported weapp 2.12.0+
+   */
+  onDragStart?: CommonEventFunction
+
+  /** 滑动事件 (同时开启 enhanced 属性后生效)
+   * @supported weapp 2.12.0+
+   */
+  onDragging?: CommonEventFunction
+
+  /** 滑动结束事件 (同时开启 enhanced 属性后生效)
+   * @supported weapp 2.12.0+
+   */
+  onDragEnd?: CommonEventFunction
 }
 
 declare namespace ScrollViewProps {

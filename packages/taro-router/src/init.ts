@@ -2,10 +2,12 @@ import { initTabbar } from './tabbar'
 import { setHistoryMode } from './history'
 import { RouterConfig } from './router'
 
+export const routerConfig: RouterConfig = Object.create(null)
+
 export function init (config: RouterConfig) {
+  config.router.mode = config.router.mode || 'hash'
   setHistoryMode(config.router.mode, config.router.basename)
   Object.assign(routerConfig, config)
-  // eslint-disable-next-line no-unused-expressions
   document.getElementById('app')?.remove()
 
   const container = document.createElement('div')
@@ -26,5 +28,3 @@ export function init (config: RouterConfig) {
 
   initTabbar(config)
 }
-
-export const routerConfig: RouterConfig = Object.create({})

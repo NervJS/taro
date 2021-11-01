@@ -18,11 +18,13 @@ export default function createBabelRegister ({ only }) {
         helpers: true,
         regenerator: true,
         useESModules: false,
+        version: '^7.7.7',
         absoluteRuntime: path.resolve(__dirname, '..', 'node_modules/@babel/runtime')
       }]
     ],
     extensions: ['.jsx', '.js', '.ts', '.tsx'],
     babelrc: false,
+    configFile: false,
     cache: false
   })
 }

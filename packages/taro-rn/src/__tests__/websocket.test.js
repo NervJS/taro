@@ -1,7 +1,7 @@
 import { WebSocket, Server } from 'mock-socket'
-import webSocket from '../api/webSocket'
+import * as connectSocket from '../lib/connectSocket'
 
-const Taro = Object.assign({}, webSocket)
+const Taro = Object.assign({}, connectSocket)
 
 describe('websocket', () => {
   beforeEach(() => {
@@ -102,9 +102,10 @@ describe('websocket', () => {
     socketTaskTwo.close()
     socketTaskThree.close()
   })
-
+  // eslint-disable-next-line
   test('should work basically', async (done) => {
-    const mockServer = new Server('wss://localhost:8080')
+    const fakeURL = 'wss://localhost:8080'
+    const mockServer = new Server(fakeURL)
     const connected = jest.fn()
     const success = jest.fn()
     const complete = jest.fn()
@@ -114,13 +115,14 @@ describe('websocket', () => {
     expect.assertions(11)
 
     mockServer.on('connection', connected)
+
     mockServer.on('message', message => {
       expect(message).toMatch(msg)
       mockServer.send(msg2)
     })
 
     const socketTask = await Taro.connectSocket({
-      url: 'wss://localhost:8080',
+      url: fakeURL,
       success,
       complete
     })
@@ -131,21 +133,24 @@ describe('websocket', () => {
     const closeReason = 'hey'
 
     socketTask.onOpen(() => {
-      socketTask.send({ data: msg })
-        .then(res => {
+      socketTask.send({
+        data: msg,
+        success: (res) => {
           expect(socketTaskSend).toHaveBeenCalled()
           expect(res.errMsg).toMatch('sendSocketMessage:ok')
-        })
+        },
+      })
     })
 
     socketTask.onMessage(res => {
       expect(res.data).toMatch(msg2)
       socketTask.close({
         code: closeCode,
-        reason: closeReason
-      }).then(res => {
-        expect(socketTaskClose).toHaveBeenCalled()
-        expect(res.errMsg).toMatch('closeSocket:ok')
+        reason: closeReason,
+        success: (res) => {
+          expect(socketTaskClose).toHaveBeenCalled()
+          expect(res.errMsg).toMatch('sendSocketMessage:ok')
+        },
       })
     })
 

@@ -157,4 +157,31 @@ declare namespace Taro {
     /** 小程序切后台事件的回调函数 */
     callback: (res: General.CallbackResult) => void,
   ): void
+
+  namespace themeChange {
+    interface ITheme {
+      /** 浅色主题 */
+      light
+      /** 深色主题 */
+      dark
+    }
+    interface onThemeChangeResult {
+      /** 系统当前的主题，取值为`light`或`dark` */
+      theme: keyof ITheme
+    }
+    /** 系统主题改变事件的回调函数 */
+    type onThemeChangeCallback = (res: onThemeChangeResult) => void
+    /** 系统主题改变事件的回调函数 */
+    type offThemeChangeCallback = (res: General.CallbackResult) => void
+  }
+  /** 监听系统主题改变事件。该事件与 [`App.onThemeChange`](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onThemeChange-Object-object) 的回调时机一致。
+   * @supported weapp
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onThemeChange.html
+   */
+  function onThemeChange(callback: themeChange.onThemeChangeCallback): void
+  /** 取消监听系统主题改变事件
+   * @supported weapp
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.offThemeChange.html
+   */
+  function offThemeChange(callback: themeChange.offThemeChangeCallback): void
 }

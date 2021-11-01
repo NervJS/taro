@@ -1,6 +1,6 @@
 import { AppInstance, PageInstance } from './dsl/instance'
 
-interface Router {
+export interface Router {
   params: Record<string, unknown>,
   path: string,
   onReady: string,
@@ -11,7 +11,8 @@ interface Router {
 interface Current {
   app: AppInstance | null,
   router: Router | null,
-  page: PageInstance | null
+  page: PageInstance | null,
+  preloadData?: any
 }
 
 export const Current: Current = {

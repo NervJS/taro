@@ -38,8 +38,12 @@ declare namespace IconProps {
     download
     /** 搜索图标 */
     search
-    /** 清楚图标 */
+    /** 清除图标 */
     clear
+    /** 圆环图标(多选控件图标未选择)「微信文档未标注属性」 */
+    circle
+    /** 带圆环的信息图标「微信文档未标注属性」 */
+    info_circle
   }
 }
 
@@ -52,7 +56,7 @@ declare namespace IconProps {
  *   constructor() {
  *     super(...arguments)
  *   }
- * 
+ *
  *   render() {
  *     return (
  *       <View className='components-page'>

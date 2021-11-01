@@ -31,7 +31,8 @@ const schema = Joi.object().keys({
       Joi.object().keys({
         from: Joi.string().required(),
         to: Joi.string().required(),
-        ignore: Joi.string()
+        ignore: Joi.array().items(Joi.string()),
+        transform: Joi.func()
       })
     ),
 
@@ -40,9 +41,10 @@ const schema = Joi.object().keys({
     })
   }),
 
-  framework: Joi.any().valid('nerv', 'react', 'vue', 'vue3'),
+  framework: Joi.any().valid('nerv', 'react', 'vue', 'vue3').required(),
 
   mini: Joi.object().keys({
+    baseLevel: Joi.number().integer().positive(),
     compile: Joi.object().keys({
       exclude: Joi.array().items(Joi.string(), Joi.function()),
       include: Joi.array().items(Joi.string(), Joi.function())
@@ -51,6 +53,12 @@ const schema = Joi.object().keys({
     commonChunks: Joi.alternatives(Joi.func(), Joi.array().items(Joi.string())),
     addChunkPages: Joi.func(),
     output: Joi.object(),
+    enableSourceMap: Joi.bool(),
+    sourceMapType: Joi.string(),
+    debugReact: Joi.bool(),
+    minifyXML: Joi.object().keys({
+      collapseWhitespace: Joi.bool()
+    }),
     postcss: Joi.object().pattern(
       Joi.string(),
       Joi.object().keys({
@@ -98,7 +106,10 @@ const schema = Joi.object().keys({
     output: Joi.object(),
     router: Joi.object(),
 
-    esnextModules: Joi.array().items(Joi.string()),
+    esnextModules: Joi.array().items(Joi.alternatives(
+      Joi.string(),
+      Joi.object().instance(RegExp)
+    )),
 
     // DEPRECATED: https://nervjs.github.io/taro/docs/config-detail.html#deprecated-h5webpack
     webpack: Joi.forbidden(),
@@ -114,6 +125,7 @@ const schema = Joi.object().keys({
       Joi.func()
     ),
     enableSourceMap: Joi.bool(),
+    sourceMapType: Joi.string(),
     enableExtract: Joi.bool(),
     cssLoaderOption: Joi.object(), // 第三方配置
     styleLoaderOption: Joi.object(), // 第三方配置

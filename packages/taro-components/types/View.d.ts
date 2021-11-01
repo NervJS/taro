@@ -1,5 +1,6 @@
 import { ComponentType } from 'react'
 import { StandardProps } from './common'
+import { StyleProp, ViewStyle } from 'react-native'
 
 interface ViewProps extends StandardProps {
   /** 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果
@@ -13,7 +14,7 @@ interface ViewProps extends StandardProps {
    * @default none
    * @supported rn
    */
-  hoverStyle?: string
+  hoverStyle?: StyleProp<ViewStyle>
 
   /** 指定是否阻止本节点的祖先节点出现点击态
    * @default fasle
@@ -32,6 +33,9 @@ interface ViewProps extends StandardProps {
    * @supported weapp, swan, alipay, tt, h5, rn
    */
   hoverStayTime?: number
+
+  /** 是否以 catch 的形式绑定 touchmove 事件 */
+  catchMove?: boolean
 }
 
 /** 视图容器
@@ -43,7 +47,7 @@ interface ViewProps extends StandardProps {
  *   constructor() {
  *     super(...arguments)
  *   }
- * 
+ *
  *   render() {
  *     return (
  *       <View className='components-page'>

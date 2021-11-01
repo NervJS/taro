@@ -13,15 +13,18 @@ import {
   getModule,
   mergeOption,
   getMiniPlugin,
+  getMiniSplitChunksPlugin,
+  getBuildNativePlugin,
   getProviderPlugin,
   getMiniCssExtractPlugin,
-  getEntry
+  getEntry,
+  getRuntimeConstants
 } from './chain'
 import getBaseConf from './base.conf'
 import { createTarget } from '../plugins/MiniPlugin'
-import { weixinAdapter } from '../template/adapters'
 import { customVueChain } from './vue'
 import { customVue3Chain } from './vue3'
+import { componentConfig } from '../template/component'
 
 export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const chain = getBaseConf(appPath)
@@ -36,20 +39,25 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       script: '.js',
       templ: '.wxml'
     },
-    templateAdapter = weixinAdapter,
-    isSupportXS = true,
     globalObject = 'wx',
     outputRoot = 'dist',
     sourceRoot = 'src',
+    isBuildPlugin = false,
+    runtimePath,
+    taroComponentsPath,
 
     designWidth = 750,
     deviceRatio,
     enableSourceMap = process.env.NODE_ENV !== 'production',
+    sourceMapType,
+    debugReact = false,
     baseLevel = 16,
     framework = 'nerv',
     prerender,
+    minifyXML = {},
 
     defineConstants = {},
+    runtime = {},
     env = {},
     cssLoaderOption = {},
     sassLoaderOption = {},
@@ -63,17 +71,27 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     postcss = {},
     nodeModulesPath,
     isBuildQuickapp = false,
-    isSupportRecursive = false,
+    template,
     quickappJSON,
 
     csso,
     terser,
     commonChunks,
     addChunkPages,
+    optimizeMainPackage = {
+      enable: false
+    },
+
+    blended,
+    isBuildNativeComp,
 
     modifyMiniConfigs,
-    modifyBuildAssets
+    modifyBuildAssets,
+    onCompilerMake,
+    onParseCreateElement
   } = config
+
+  config.modifyComponentConfig?.(componentConfig, config)
 
   let { copy } = config
 
@@ -82,24 +100,28 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const sourceDir = path.join(appPath, sourceRoot)
   const outputDir = path.join(appPath, outputRoot)
   const taroBaseReg = /@tarojs[\\/][a-z]+/
-  if (config.isBuildPlugin) {
+  if (isBuildPlugin) {
     const patterns = copy ? copy.patterns : []
     patterns.push({
       from: path.join(sourceRoot, 'plugin', 'doc'),
       to: path.join(outputRoot, 'doc')
-    })
-    patterns.push({
-      from: path.join(sourceRoot, 'plugin', 'plugin.json'),
-      to: path.join(outputRoot, 'plugin', 'plugin.json')
     })
     copy = Object.assign({}, copy, { patterns })
   }
   if (copy) {
     plugin.copyWebpackPlugin = getCopyWebpackPlugin({ copy, appPath })
   }
-  alias[taroJsComponents + '$'] = `${taroJsComponents}/mini`
+  alias[taroJsComponents + '$'] = taroComponentsPath || `${taroJsComponents}/mini`
   if (framework === 'react') {
-    alias['react-dom'] = '@tarojs/react'
+    alias['react-dom$'] = '@tarojs/react'
+    if (process.env.NODE_ENV !== 'production' && !debugReact) {
+      alias['react-reconciler$'] = 'react-reconciler/cjs/react-reconciler.production.min.js'
+      // eslint-disable-next-line dot-notation
+      alias['react$'] = 'react/cjs/react.production.min.js'
+      // eslint-disable-next-line dot-notation
+      alias['scheduler$'] = 'scheduler/cjs/scheduler.production.min.js'
+      alias['react/jsx-runtime$'] = 'react/cjs/react-jsx-runtime.production.min.js'
+    }
   }
   if (framework === 'nerv') {
     alias['react-dom'] = 'nervjs'
@@ -108,13 +130,14 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
 
   env.FRAMEWORK = JSON.stringify(framework)
   env.TARO_ENV = JSON.stringify(buildAdapter)
-  const constantsReplaceList = mergeOption([processEnvOption(env), defineConstants])
+  const runtimeConstants = getRuntimeConstants(runtime)
+  const constantsReplaceList = mergeOption([processEnvOption(env), defineConstants, runtimeConstants])
   const entryRes = getEntry({
     sourceDir,
     entry,
-    isBuildPlugin: config.isBuildPlugin
+    isBuildPlugin
   })
-  const defaultCommonChunks = config.isBuildPlugin
+  const defaultCommonChunks = isBuildPlugin
     ? ['plugin/runtime', 'plugin/vendors', 'plugin/taro', 'plugin/common']
     : ['runtime', 'vendors', 'taro', 'common']
   let customCommonChunks = defaultCommonChunks
@@ -124,29 +147,45 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     customCommonChunks = commonChunks
   }
   plugin.definePlugin = getDefinePlugin([constantsReplaceList])
-  plugin.miniPlugin = getMiniPlugin({
+
+  /** 需要在miniPlugin前，否则无法获取entry地址 */
+  if (optimizeMainPackage.enable) {
+    plugin.miniSplitChunksPlugin = getMiniSplitChunksPlugin({
+      exclude: optimizeMainPackage.exclude,
+      fileType
+    })
+  }
+
+  const miniPluginOptions = {
     sourceDir,
     outputDir,
-    buildAdapter,
     constantsReplaceList,
     nodeModulesPath,
     isBuildQuickapp,
-    isSupportRecursive,
+    template,
     fileType,
-    templateAdapter,
-    isSupportXS,
     quickappJSON,
     designWidth,
+    deviceRatio,
     pluginConfig: entryRes!.pluginConfig,
-    isBuildPlugin: !!config.isBuildPlugin,
+    pluginMainEntry: entryRes!.pluginMainEntry,
+    isBuildPlugin: Boolean(isBuildPlugin),
     commonChunks: customCommonChunks,
     baseLevel,
     framework,
     prerender,
     addChunkPages,
     modifyMiniConfigs,
-    modifyBuildAssets
-  })
+    modifyBuildAssets,
+    onCompilerMake,
+    onParseCreateElement,
+    minifyXML,
+    runtimePath,
+    blended,
+    isBuildNativeComp,
+    alias
+  }
+  plugin.miniPlugin = !isBuildNativeComp ? getMiniPlugin(miniPluginOptions) : getBuildNativePlugin(miniPluginOptions)
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
     filename: `[name]${fileType.style}`,
@@ -158,7 +197,9 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     document: ['@tarojs/runtime', 'document'],
     navigator: ['@tarojs/runtime', 'navigator'],
     requestAnimationFrame: ['@tarojs/runtime', 'requestAnimationFrame'],
-    cancelAnimationFrame: ['@tarojs/runtime', 'cancelAnimationFrame']
+    cancelAnimationFrame: ['@tarojs/runtime', 'cancelAnimationFrame'],
+    Element: ['@tarojs/runtime', 'TaroElement'],
+    SVGElement: ['@tarojs/runtime', 'SVGElement']
   })
 
   const isCssoEnabled = !((csso && csso.enable === false))
@@ -181,14 +222,16 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
 
   chain.merge({
     mode,
-    devtool: getDevtool(enableSourceMap),
+    devtool: getDevtool(enableSourceMap, sourceMapType),
     entry: entryRes!.entry,
     output: getOutput(appPath, [{
       outputRoot,
       publicPath: '/',
       globalObject
     }, output]),
-    target: createTarget(buildAdapter),
+    target: createTarget({
+      framework
+    }),
     resolve: { alias },
     module: getModule(appPath, {
       sourceDir,
@@ -217,7 +260,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       usedExports: true,
       minimizer,
       runtimeChunk: {
-        name: config.isBuildPlugin ? 'plugin/runtime' : 'runtime'
+        name: isBuildPlugin ? 'plugin/runtime' : 'runtime'
       },
       splitChunks: {
         chunks: 'all',
@@ -225,12 +268,12 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
         minSize: 0,
         cacheGroups: {
           common: {
-            name: config.isBuildPlugin ? 'plugin/common' : 'common',
+            name: isBuildPlugin ? 'plugin/common' : 'common',
             minChunks: 2,
             priority: 1
           },
           vendors: {
-            name: config.isBuildPlugin ? 'plugin/vendors' : 'vendors',
+            name: isBuildPlugin ? 'plugin/vendors' : 'vendors',
             minChunks: 2,
             test: module => {
               return /[\\/]node_modules[\\/]/.test(module.resource)
@@ -238,7 +281,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
             priority: 10
           },
           taro: {
-            name: config.isBuildPlugin ? 'plugin/taro' : 'taro',
+            name: isBuildPlugin ? 'plugin/taro' : 'taro',
             test: module => {
               return taroBaseReg.test(module.context)
             },

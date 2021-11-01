@@ -28,7 +28,7 @@ describe('request', () => {
       complete
     })
       .then(res => {
-        expect(fetch.mock.calls[0][0]).toBe('https://github.com?x=123&y=abc&z=1%2C2%2C3')
+        expect(fetch.mock.calls[0][0]).toBe('https://github.com?x=123&y=abc&z=%5B1%2C2%2C3%5D')
         expect(res.statusCode).toBe(200)
         expect(res.data).toEqual({
           data: '12345'
@@ -73,11 +73,10 @@ describe('request', () => {
         expect(fetch.mock.calls[0][0]).toBe('https://github.com')
         expect(fetch.mock.calls[0][1]).toEqual({
           method: 'POST',
-          body: {
-            arg: 123
-          },
+          body: JSON.stringify({ arg: 123 }),
           headers: {
-            'A': 'CCC'
+            'A': 'CCC',
+            'Content-Type': 'application/json'
           },
           mode: 'cors',
           cache: 'no-cache',

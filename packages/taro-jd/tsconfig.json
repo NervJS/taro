@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "ES2015",
+    "rootDir": "./src",
+    "outDir": "dist",
+    "sourceMap": true,
+    "baseUrl": ".",
+    "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "removeComments": false,
+    "strictNullChecks": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "declaration": true,
+    "declarationDir": "types"
+  },
+  "include": [
+    "./src"
+  ],
+  "exclude": [
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ],
+  "compileOnSave": false
+}

@@ -6,6 +6,13 @@
 [![](https://img.shields.io/npm/l/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
 [![](https://img.shields.io/npm/dt/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
 [![](https://img.shields.io/travis/NervJS/taro.svg?style=flat-square)](https://travis-ci.org/NervJS/taro)
+[![GitHub contributors](https://img.shields.io/github/contributors/NervJS/taro)](https://github.com/NervJS/taro)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/w/NervJS/taro)](https://github.com/NervJS/taro)
+[![GitHub closed issues](https://img.shields.io/github/issues-closed/NervJS/taro)](https://github.com/NervJS/taro)
+[![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/NervJS/taro/latest/next)](https://github.com/NervJS/taro)
+[![GitHub Release Date](https://img.shields.io/github/release-date/NervJS/taro)](https://github.com/NervJS/taro)
+
+[简体中文](./README.md) | [English](./README_EN.md)
 
 > 👽 Taro['tɑ:roʊ]，泰罗·奥特曼，宇宙警备队总教官，实力最强的奥特曼。
 
@@ -47,7 +54,7 @@ Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用
 
 #### React/Nerv 支持
 
-在 Taro 3 中可以使用完整的 React/Nerv 开发体验，具体请参考[基础教程——React](https://nervjs.github.io/taro/docs/react)
+在 Taro 3 中可以使用完整的 React/Nerv 开发体验，具体请参考[基础教程——React](https://docs.taro.zone/docs/react-overall)
 
 代码示例
 
@@ -57,7 +64,7 @@ import { View, Text } from '@tarojs/components'
 
 export default class Index extends Component {
   state = {
-    msg: 'Hello World！'
+    msg: 'Hello World！ '
   }
   componentWillUnmount () { }
 
@@ -77,7 +84,7 @@ export default class Index extends Component {
 
 #### Vue 支持
 
-在 Taro 3 中可以使用完整的 Vue 开发体验，具体请参考[基础教程——Vue](https://nervjs.github.io/taro/docs/vue)
+在 Taro 3 中可以使用完整的 Vue 开发体验，具体请参考[基础教程——Vue](https://docs.taro.zone/docs/vue-overall)
 
 代码示例
 
@@ -92,7 +99,7 @@ export default class Index extends Component {
 export default {
   data () {
     return {
-      msg: 'Hello World！'
+      msg: 'Hello World!'
     }
   },
   created () {},
@@ -130,7 +137,7 @@ Taro 非常欢迎社区开发者为 Taro 贡献代码，在贡献之前请先阅
 
 ## 特别鸣谢
 
-[![nanjingboy](https://avatars1.githubusercontent.com/u/1390888?s=100&v=4)](https://github.com/nanjingboy/) | [![jsNewbee](https://avatars3.githubusercontent.com/u/20449400?s=100&v=4)](https://github.com/js-newbee/) | [![Qiyu8](https://avatars2.githubusercontent.com/u/15245051?s=100&v=4)](https://github.com/Qiyu8/) | [![Garfield550](https://avatars2.githubusercontent.com/u/3471836?s=100&v=4)](https://github.com/Qiyu8/)
+[![nanjingboy](https://avatars1.githubusercontent.com/u/1390888?s=100&v=4)](https://github.com/nanjingboy/) | [![jsNewbee](https://avatars3.githubusercontent.com/u/20449400?s=100&v=4)](https://github.com/js-newbee/) | [![Qiyu8](https://avatars2.githubusercontent.com/u/15245051?s=100&v=4)](https://github.com/Qiyu8/) | [![Garfield550](https://avatars2.githubusercontent.com/u/3471836?s=100&v=4)](https://github.com/Garfield550/)
 :---:|:---:|:---:|:---:
 [nanjingboy](https://github.com/nanjingboy/) | [jsNewbee](https://github.com/js-newbee/) |  [Qiyu8](https://github.com/Qiyu8/) |  [Garfield Lee](https://github.com/Garfield550/)
 

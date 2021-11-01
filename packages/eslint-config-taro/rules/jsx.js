@@ -3,7 +3,7 @@ const htmlTags = require('../html-tags')
 const forbidElements = htmlTags.map(tag => {
   return {
     element: tag.element,
-    message: '在 Taro 中无法使用 HTML 标签。'
+    message: tag.message
   }
 })
 

@@ -1,21 +1,12 @@
+// eslint-disable-next-line no-use-before-define
 import * as React from 'react'
-import { ART, View, Image, Platform } from 'react-native'
+import { View, Image, Platform } from 'react-native'
 import { shallow } from 'enzyme'
-// import { Icon } from '../src'
-// import renderer from 'react-test-renderer'
-
-// it('renders correctly', () => {
-//   const tree = renderer.create(TestedIcon).toJSON()
-//   expect(tree).toMatchSnapshot()
-// })
+import Icon from '../src/components/Icon'
 
 describe('<Icon />', () => {
   describe('ios & android', () => {
-    // jest.resetModules().doMock('../src/components/Icon', () => {
-    //   return require.requireActual(`../src/components/Icon.${Platform.OS}.js`)
-    // })
-    // Platform.OS = 'ios'
-    const { Icon } = require('../src')
+    Platform.OS = 'ios'
 
     const TestedIcon = (<Icon type='success' size={50} />)
 
@@ -34,6 +25,8 @@ describe('<Icon />', () => {
     })
 
     it('invalid prop value check', () => {
+      // eslint-disable-next-line
+      // @ts-ignore
       const wrapperOfType = shallow(<Icon type='miao' />)
       expect(wrapperOfType.find(View)).toHaveProperty('length', 1)
       // expect(() => shallow(<Icon type='success' size={'miao'} />)).toThrow()

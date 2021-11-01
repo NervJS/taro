@@ -4,7 +4,7 @@ import { StandardProps, CommonEventFunction } from './common'
 interface CameraProps extends StandardProps {
   /** 模式，有效值为normal, scanCode
    * @default "normal"
-   * @supported weapp
+   * @supported weapp, rn
    */
   mode?: keyof CameraProps.mode
 
@@ -16,13 +16,13 @@ interface CameraProps extends StandardProps {
 
   /** 摄像头朝向
    * @default "back"
-   * @supported weapp
+   * @supported weapp, rn
    */
   devicePosition?: keyof CameraProps.devicePosition
 
   /** 闪光灯
    * @default "auto"
-   * @supported weapp
+   * @supported weapp, rn
    */
   flash?: keyof CameraProps.flash
 
@@ -41,23 +41,23 @@ interface CameraProps extends StandardProps {
 
   /** 摄像头在非正常终止时触发，
    * 如退出后台等情况
-   * @supported weapp
+   * @supported weapp, rn
    */
   onStop?: CommonEventFunction
 
   /** 用户不允许使用摄像头时触发
-   * @supported weapp
+   * @supported weapp, rn
    */
   onError?: CommonEventFunction
 
   /** 相机初始化完成时触发
-   * @supported weapp
+   * @supported weapp, rn
    */
   onInitDone?: CommonEventFunction<CameraProps.onInitDoneEventDetail>
 
   /** 在成功识别到一维码时触发，
    * 仅在 mode="scanCode" 时生效
-   * @supported weapp
+   * @supported weapp, rn
    */
   onScanCode?: CommonEventFunction
 }

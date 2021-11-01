@@ -6,9 +6,9 @@
 
 小程序端入口文件
 
-## apis
+## h5.js
 
-各小程序平台 API
+H5 端入口文件
 
 ## html.css
 
@@ -17,7 +17,3 @@ W3C HTML4 的内置样式，用于 [渲染 HTML](https://taro-docs.jd.com/taro/n
 ## html5.css
 
 Chrome(Blink) HTML5 的内置样式，用于 [渲染 HTML](https://taro-docs.jd.com/taro/next/docs/html.html)。
-
-## h5.js
-
-H5 端入口文件

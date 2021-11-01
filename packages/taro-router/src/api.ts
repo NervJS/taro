@@ -1,10 +1,12 @@
+import { parsePath } from 'history'
 import { stacks } from './stack'
-import { history } from './history'
+import { history, prependBasename } from './history'
+import { routesAlias, addLeadingSlash, setHistoryBackDelta } from './utils'
 
 interface Base {
-  success?: Function
-  fail?: Function
-  complete?: Function
+  success?: (...args: any[]) => void
+  fail?: (...args: any[]) => void
+  complete?: (...args: any[]) => void
 }
 
 interface Option extends Base {
@@ -15,30 +17,60 @@ interface NavigateBackOption extends Base {
   delta: number
 }
 
+function processNavigateUrl (option: Option) {
+  const pathPieces = parsePath(option.url)
+
+  // 处理自定义路由
+  Object.keys(routesAlias).forEach(key => {
+    if (addLeadingSlash(key) === addLeadingSlash(pathPieces.pathname)) {
+      pathPieces.pathname = routesAlias[key]
+    }
+  })
+
+  // 处理 basename
+  pathPieces.pathname = prependBasename(pathPieces.pathname)
+
+  // hack fix history v5 bug: https://github.com/remix-run/history/issues/814
+  if (!pathPieces.search) pathPieces.search = ''
+
+  return pathPieces
+}
+
 function navigate (option: Option | NavigateBackOption, method: 'navigateTo' | 'redirectTo' | 'navigateBack') {
   const { success, complete, fail } = option
   let failReason
+
   try {
-    if (method === 'navigateTo') {
-      history.push((option as Option).url)
-    } else if (method === 'redirectTo') {
-      history.replace((option as Option).url)
+    if ('url' in option) {
+      const pathPieces = processNavigateUrl(option)
+      const state = { timestamp: Date.now() }
+      if (method === 'navigateTo') {
+        history.push(pathPieces, state)
+      } else if (method === 'redirectTo') {
+        history.replace(pathPieces, state)
+      }
     } else if (method === 'navigateBack') {
-      history.go(-(option as NavigateBackOption).delta)
+      setHistoryBackDelta(option.delta)
+      history.go(-option.delta)
     }
   } catch (error) {
     failReason = error
   }
-  return new Promise((resolve, reject) => {
+
+  return new Promise<void>((resolve, reject) => {
     if (failReason) {
       fail && fail(failReason)
       complete && complete()
       reject(failReason)
-    } else {
+      return
+    }
+
+    const unlisten = history.listen(() => {
       success && success()
       complete && complete()
       resolve()
-    }
+      unlisten()
+    })
   })
 }
 
@@ -58,10 +90,12 @@ export function navigateBack (options: NavigateBackOption = { delta: 1 }) {
 }
 
 export function switchTab (option: Option) {
-  return navigateTo(option)
+  // TODO: 清除掉所有的栈去目标页面
+  return redirectTo(option)
 }
 
 export function reLaunch (option: Option) {
+  // TODO: 清除掉所有的栈去目标页面
   return redirectTo(option)
 }
 

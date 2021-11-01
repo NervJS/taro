@@ -1,17 +1,15 @@
 import { Shortcuts } from './shortcuts'
-import { toDashed, hasOwn, toCamelCase } from './utils'
-import { isBooleanStringLiteral, isNumber } from './is'
 
-const styles = {
+export const styles = {
   style: `i.${Shortcuts.Style}`,
   class: `i.${Shortcuts.Class}`
 }
 
-const events = {
+export const events = {
   bindtap: 'eh'
 }
 
-const touchEvents = {
+export const touchEvents = {
   bindTouchStart: '',
   bindTouchMove: '',
   bindTouchEnd: '',
@@ -19,12 +17,15 @@ const touchEvents = {
   bindLongTap: ''
 }
 
-const alipayEvents = {
-  onTap: 'eh',
-  onTouchMove: 'eh',
-  onTouchEnd: 'eh',
-  onTouchCancel: 'eh',
-  onLongTap: 'eh'
+export const animationEvents = {
+  bindAnimationStart: '',
+  bindAnimationIteration: '',
+  bindAnimationEnd: '',
+  bindTransitionEnd: ''
+}
+
+export function singleQuote (s: string) {
+  return `'${s}'`
 }
 
 const View = {
@@ -33,11 +34,8 @@ const View = {
   'hover-start-time': '50',
   'hover-stay-time': '400',
   animation: '',
-  bindAnimationStart: '',
-  bindAnimationIteration: '',
-  bindAnimationEnd: '',
-  bindTransitionEnd: '',
-  ...touchEvents
+  ...touchEvents,
+  ...animationEvents
 }
 
 const Icon = {
@@ -46,60 +44,38 @@ const Icon = {
   color: ''
 }
 
-const Map = {
+const MapComp = {
   longitude: '',
   latitude: '',
   scale: '16',
-  markers: '',
+  markers: '[]',
   covers: '',
-  polyline: '',
-  circles: '',
-  controls: '',
-  'include-point': 'false',
+  polyline: '[]',
+  circles: '[]',
+  controls: '[]',
+  'include-points': '[]',
   'show-location': '',
-  polygons: '',
-  subkey: '',
   'layer-style': '1',
-  rotate: '0',
-  skew: 'skew',
-  'enable-3D': 'false',
-  'show-compass': 'false',
-  'show-scale': 'false',
-  'enable-overlooking': 'false',
-  'enable-zoom': 'true',
-  'enable-scroll': 'true',
-  'enable-rotate': 'false',
-  'enable-satellite': 'false',
-  'enable-traffic': 'false',
-  setting: '',
   bindMarkerTap: '',
-  bindLabelTap: '',
   bindControlTap: '',
   bindCalloutTap: '',
   bindUpdated: '',
-  bindRegionChange: '',
-  bindPoiTap: '',
   ...touchEvents
 }
 
 const Progress = {
   percent: '',
-  'show-info': 'false',
-  'border-radius': '0',
-  'font-size': '16',
   'stroke-width': '6',
   color: singleQuote('#09BB07'),
   activeColor: singleQuote('#09BB07'),
   backgroundColor: singleQuote('#EBEBEB'),
   active: 'false',
   'active-mode': singleQuote('backwards'),
-  duration: '30',
-  bindActiveEnd: ''
+  'show-info': 'false'
 }
 
 const RichText = {
-  nodes: '[]',
-  space: ''
+  nodes: '[]'
 }
 
 const Text = {
@@ -120,28 +96,8 @@ const Button = {
   'hover-stop-propagation': 'false',
   'hover-start-time': '20',
   'hover-stay-time': '70',
-  lang: 'en',
-  'session-from': '',
-  'send-message-title': '',
-  'send-message-path': '',
-  'send-message-img': '',
-  'app-parameter': '',
-  'show-message-card': 'false',
-  bindGetUserInfo: '',
-  bindGetAuthorize: '',
-  bindContact: '',
-  bindGetPhoneNumber: '',
-  bindError: '',
-  bindOpenSetting: '',
-  bindLaunchApp: '',
-  scope: '',
-  name: ''
-}
-
-if (process.env.TARO_ENV === 'qq') {
-  Button['app-packagename'] = ''
-  Button['app-bundleid'] = ''
-  Button['app-connect-id'] = ''
+  name: '',
+  ...touchEvents
 }
 
 const Checkbox = {
@@ -157,24 +113,8 @@ const CheckboxGroup = {
   name: ''
 }
 
-const Editor = {
-  'read-only': 'false',
-  placeholder: '',
-  'show-img-size': 'false',
-  'show-img-toolbar': 'false',
-  'show-img-resize': 'false',
-  focus: 'false',
-  bindReady: '',
-  bindFocus: '',
-  bindBlur: '',
-  bindInput: '',
-  bindStatusChange: '',
-  name: ''
-}
-
 const Form = {
   'report-submit': 'false',
-  'report-submit-timeout': '0',
   bindSubmit: '',
   bindReset: '',
   name: ''
@@ -190,20 +130,16 @@ const Input = {
   disabled: '',
   maxlength: '140',
   'cursor-spacing': '0',
-  'auto-focus': 'false',
   focus: 'false',
   'confirm-type': singleQuote('done'),
   'confirm-hold': 'false',
   cursor: 'i.value.length',
   'selection-start': '-1',
   'selection-end': '-1',
-  'adjust-position': 'true',
-  'hold-keyboard': 'false',
   bindInput: '',
   bindFocus: '',
   bindBlur: '',
   bindConfirm: '',
-  bindKeyboardHeightChange: '',
   name: ''
 }
 
@@ -215,17 +151,17 @@ const Label = {
 const Picker = {
   mode: singleQuote('selector'),
   disabled: '',
-  bindCancel: '',
   range: '',
   'range-key': '',
   value: '',
-  bindChange: '',
-  bindColumnChange: '',
   start: '',
   end: '',
   fields: singleQuote('day'),
   'custom-item': '',
-  name: ''
+  name: '',
+  bindCancel: '',
+  bindChange: '',
+  bindColumnChange: ''
 }
 
 const PickerView = {
@@ -235,8 +171,6 @@ const PickerView = {
   'mask-style': '',
   'mask-class': '',
   bindChange: '',
-  bindPickStart: '',
-  bindPickEnd: '',
   name: ''
 }
 
@@ -263,8 +197,6 @@ const Slider = {
   step: '1',
   disabled: '',
   value: '0',
-  color: singleQuote('#e9e9e9'),
-  'selected-color': singleQuote('#1aad19'),
   activeColor: singleQuote('#1aad19'),
   backgroundColor: singleQuote('#e9e9e9'),
   'block-size': '28',
@@ -284,12 +216,6 @@ const Switch = {
   name: ''
 }
 
-const CoverImage = {
-  src: '',
-  bindLoad: 'eh',
-  bindError: 'eh'
-}
-
 const Textarea = {
   value: '',
   placeholder: '',
@@ -303,18 +229,20 @@ const Textarea = {
   fixed: 'false',
   'cursor-spacing': '0',
   cursor: '-1',
-  'show-confirm-bar': 'true',
   'selection-start': '-1',
   'selection-end': '-1',
-  'adjust-position': 'true',
-  'hold-keyboard': 'false',
   bindFocus: '',
   bindBlur: '',
   bindLineChange: '',
   bindInput: '',
   bindConfirm: '',
-  bindKeyboardHeightChange: '',
   name: ''
+}
+
+const CoverImage = {
+  src: '',
+  bindLoad: 'eh',
+  bindError: 'eh'
 }
 
 const CoverView = {
@@ -340,14 +268,14 @@ const MovableView = {
   'scale-max': '10',
   'scale-value': '1',
   animation: 'true',
-  bindAnimationEnd: '',
   bindChange: '',
   bindScale: '',
-  htouchmove: '',
-  vtouchmove: '',
+  bindHTouchMove: '',
+  bindVTouchMove: '',
   width: singleQuote('10px'),
   height: singleQuote('10px'),
-  ...touchEvents
+  ...touchEvents,
+  ...animationEvents
 }
 
 const ScrollView = {
@@ -360,25 +288,11 @@ const ScrollView = {
   'scroll-into-view': '',
   'scroll-with-animation': 'false',
   'enable-back-to-top': 'false',
-  'enable-flex': 'false',
-  'scroll-anchoring': 'false',
-  'refresher-enabled': 'false',
-  'refresher-threshold': '45',
-  'refresher-default-style': singleQuote('black'),
-  'refresher-background': singleQuote('#FFF'),
-  'refresher-triggered': 'false',
-  bindRefresherPulling: '',
-  bindRefresherRefresh: '',
-  bindRefresherRestore: '',
-  bindRefresherAbort: '',
-  bindScrolltoUpper: '',
-  bindScrolltoLower: '',
+  bindScrollToUpper: '',
+  bindScrollToLower: '',
   bindScroll: '',
-  ...touchEvents
-}
-
-function singleQuote (s: string) {
-  return `'${s}'`
+  ...touchEvents,
+  ...animationEvents
 }
 
 const Swiper = {
@@ -394,8 +308,6 @@ const Swiper = {
   'previous-margin': '\'0px\'',
   'next-margin': '\'0px\'',
   'display-multiple-items': '1',
-  'skip-hidden-item-layout': 'false',
-  'easing-function': singleQuote('default'),
   bindChange: '',
   bindTransition: '',
   bindAnimationFinish: '',
@@ -406,24 +318,10 @@ const SwiperItem = {
   'item-id': ''
 }
 
-const FunctionalPageNavigator = {
-  version: singleQuote('release'),
-  name: '',
-  args: '',
-  bindSuccess: '',
-  bindFail: '',
-  bindCancel: ''
-}
-
 const Navigator = {
-  target: singleQuote('self'),
   url: '',
   'open-type': singleQuote('navigate'),
   delta: '1',
-  'app-id': '',
-  path: '',
-  'extra-data': '',
-  version: singleQuote('version'),
   'hover-class': singleQuote('navigator-hover'),
   'hover-stop-propagation': 'false',
   'hover-start-time': '50',
@@ -448,35 +346,24 @@ const Audio = {
   bindEnded: ''
 }
 
-const specialEvents = new Set([
-  'htouchmove',
-  'vtouchmove'
-])
-
 const Camera = {
-  mode: singleQuote('normal'),
   'device-position': singleQuote('back'),
   flash: singleQuote('auto'),
-  'frame-size': singleQuote('medium'),
   bindStop: '',
-  bindError: '',
-  bindInitDone: '',
-  bindScanCode: ''
+  bindError: ''
 }
 
 const Image = {
   src: '',
   mode: singleQuote('scaleToFill'),
-  webp: 'false',
   'lazy-load': 'false',
-  'show-menu-by-longpress': 'false',
   bindError: '',
-  bindLoad: ''
+  bindLoad: '',
+  ...touchEvents
 }
 
 const LivePlayer = {
   src: '',
-  mode: singleQuote('live'),
   autoplay: 'false',
   muted: 'false',
   orientation: singleQuote('vertical'),
@@ -484,48 +371,10 @@ const LivePlayer = {
   'background-mute': 'false',
   'min-cache': '1',
   'max-cache': '3',
-  'sound-mode': singleQuote('speaker'),
-  'auto-pause-if-navigate': 'true',
-  'auto-pause-if-open-native': 'true',
+  animation: '',
   bindStateChange: '',
   bindFullScreenChange: '',
   bindNetStatus: ''
-}
-
-const LivePusher = {
-  url: '',
-  mode: singleQuote('RTC'),
-  autopush: 'false',
-  muted: 'false',
-  'enable-camera': 'true',
-  'auto-focus': 'true',
-  orientation: singleQuote('vertical'),
-  beauty: '0',
-  whiteness: '0',
-  aspect: singleQuote('9:16'),
-  'min-bitrate': '200',
-  'max-bitrate': '1000',
-  'audio-quality': singleQuote('high'),
-  'waiting-image': '',
-  'waiting-image-hash': '',
-  zoom: 'false',
-  'device-position': singleQuote('front'),
-  'background-mute': 'false',
-  mirror: 'false',
-  'remote-mirror': 'false',
-  'local-mirror': 'false',
-  'audio-reverb-type': '0',
-  'enable-mic': 'true',
-  'enable-agc': 'false',
-  'enable-ans': 'false',
-  'audio-volume-type': singleQuote('voicecall'),
-  'video-width': '360',
-  'video-height': '640',
-  bindStateChange: '',
-  bindNetStatus: '',
-  bindBgmStart: '',
-  bindBgmProgress: '',
-  bindBgmComplete: ''
 }
 
 const Video = {
@@ -549,35 +398,21 @@ const Video = {
   'object-fit': singleQuote('contain'),
   poster: '',
   'show-mute-btn': 'false',
-  title: '',
-  'play-btn-position': singleQuote('bottom'),
-  'enable-play-gesture': 'false',
-  'auto-pause-if-navigate': 'true',
-  'auto-pause-if-open-native': 'true',
-  'vslide-gesture': 'false',
-  'vslide-gesture-in-fullscreen': 'true',
-  'ad-unit-id': '',
+  animation: '',
   bindPlay: '',
   bindPause: '',
   bindEnded: '',
   bindTimeUpdate: '',
   bindFullScreenChange: '',
   bindWaiting: '',
-  bindError: '',
-  bindProgress: '',
-  bindLoadedMetadata: ''
+  bindError: ''
 }
 
 const Canvas = {
-  type: '',
   'canvas-id': '',
   'disable-scroll': 'false',
-  bindTouchStart: '',
-  bindTouchMove: '',
-  bindTouchEnd: '',
-  bindTouchCancel: '',
-  bindLongtap: '',
-  bindError: ''
+  bindError: '',
+  ...touchEvents
 }
 
 const Ad = {
@@ -588,47 +423,11 @@ const Ad = {
   bindClose: ''
 }
 
-const OfficialAccount = {
-  bindLoad: '',
-  bindError: ''
-}
-
-const OpenData = {
-  type: '',
-  'open-gid': '',
-  lang: singleQuote('en'),
-  'default-text': '',
-  'default-avatar': '',
-  bindError: ''
-}
-
 const WebView = {
   src: '',
   bindMessage: '',
-  bindLoad: ''
-}
-
-const NavigationBar = {
-  title: '',
-  loading: 'false',
-  'front-color': '',
-  'background-color': '',
-  'color-animation-duration': '0',
-  'color-animation-timing-func': singleQuote('linear')
-}
-
-const PageMeta = {
-  'background-text-style': '',
-  'background-color': '',
-  'background-color-top': '',
-  'background-color-bottom': '',
-  'scroll-top': singleQuote(''),
-  'scroll-duration': '300',
-  'page-style': singleQuote(''),
-  'root-font-size': singleQuote(''),
-  bindResize: '',
-  bindScroll: '',
-  bindScrollDone: ''
+  bindLoad: '',
+  bindError: ''
 }
 
 const Block = {}
@@ -646,57 +445,7 @@ const Slot = {
   name: ''
 }
 
-interface Components {
-  [key: string]: Record<string, string>;
-}
-
-export function createMiniComponents (components: Components, buildType: string) {
-  const result: Components = Object.create(null)
-  const isAlipay = buildType === 'alipay'
-
-  for (const key in components) {
-    if (hasOwn(components, key)) {
-      const component = components[key]
-      const compName = toDashed(key)
-      const newComp: Record<string, string> = Object.create(null)
-      for (let prop in component) {
-        if (hasOwn(component, prop)) {
-          let propValue = component[prop]
-          if (prop.startsWith('bind') || specialEvents.has(prop)) {
-            prop = isAlipay ? prop.replace('bind', 'on') : prop.toLowerCase()
-            if ((buildType === 'weapp' || buildType === 'qq') && prop === 'bindlongtap') {
-              prop = 'bindlongpress'
-            }
-            propValue = 'eh'
-          } else if (propValue === '') {
-            propValue = `i.${toCamelCase(prop)}`
-          } else if (isBooleanStringLiteral(propValue) || isNumber(+propValue)) {
-            propValue = `i.${toCamelCase(prop)} === undefined ? ${propValue} : i.${toCamelCase(prop)}`
-          } else {
-            propValue = `i.${toCamelCase(prop)} || ${propValue || singleQuote('')}`
-          }
-
-          newComp[prop] = propValue
-        }
-      }
-      if (compName !== 'block') {
-        Object.assign(newComp, styles, isAlipay ? alipayEvents : events)
-      }
-
-      if (compName === 'slot' || compName === 'slot-view') {
-        result[compName] = {
-          slot: 'i.name'
-        }
-      } else {
-        result[compName] = newComp
-      }
-    }
-  }
-
-  return result
-}
-
-export const internalComponents = {
+export const internalComponents: Record<string, Record<string, string>> = {
   View,
   Icon,
   Progress,
@@ -705,7 +454,6 @@ export const internalComponents = {
   Button,
   Checkbox,
   CheckboxGroup,
-  Editor,
   Form,
   Input,
   Label,
@@ -724,23 +472,17 @@ export const internalComponents = {
   ScrollView,
   Swiper,
   SwiperItem,
-  FunctionalPageNavigator,
   Navigator,
   Audio,
   Camera,
   Image,
   LivePlayer,
-  LivePusher,
   Video,
   Canvas,
   Ad,
-  OfficialAccount,
-  OpenData,
   WebView,
-  NavigationBar,
-  PageMeta,
   Block,
-  Map,
+  Map: MapComp,
   Slot,
   SlotView
 }
@@ -758,6 +500,38 @@ export const controlledComponent = new Set([
 
 export const focusComponents = new Set([
   'input',
+  'textarea'
+])
+
+export const voidElements = new Set([
+  'progress',
+  'icon',
+  'rich-text',
+  'input',
   'textarea',
-  'editor'
+  'slider',
+  'switch',
+  'audio',
+  'ad',
+  'official-account',
+  'open-data',
+  'navigation-bar'
+])
+
+export const nestElements = new Map([
+  ['view', -1],
+  ['catch-view', -1],
+  ['cover-view', -1],
+  ['static-view', -1],
+  ['pure-view', -1],
+  ['block', -1],
+  ['text', -1],
+  ['static-text', 6],
+  ['slot', 8],
+  ['slot-view', 8],
+  ['label', 6],
+  ['form', 4],
+  ['scroll-view', 4],
+  ['swiper', 4],
+  ['swiper-item', 4]
 ])

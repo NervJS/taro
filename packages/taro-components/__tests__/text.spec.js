@@ -43,6 +43,6 @@ describe('Text', () => {
   it('slot', async () => {
     const { node } = await mount(<Text>Taro Next</Text>, scratch)
 
-    assert(node.childNodes.length === 1)
+    assert(node.textContent === 'Taro Next')
   })
 })

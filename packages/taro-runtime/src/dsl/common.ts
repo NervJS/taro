@@ -1,52 +1,54 @@
 /* eslint-disable dot-notation */
-import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray, warn } from '@tarojs/shared'
+import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray } from '@tarojs/shared'
+import container from '../container'
+import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { eventHandler } from '../dom/event'
 import { Current } from '../current'
 import { document } from '../bom/document'
-import { TaroRootElement } from '../dom/root'
-import { MpInstance } from '../hydrate'
-import { Instance, PageInstance, PageProps } from './instance'
 import { incrementId } from '../utils'
 import { perf } from '../perf'
 import { PAGE_INIT } from '../constants'
 import { isBrowser } from '../env'
 import { eventCenter } from '../emitter/emitter'
 import { raf } from '../bom/raf'
-import { CurrentReconciler } from '../reconciler'
+
+import type { PageConfig } from '@tarojs/taro'
+import type { Instance, PageInstance, PageProps } from './instance'
+import type { Func, IHooks, MpInstance } from '../interface'
+import type { TaroRootElement } from '../dom/root'
 
 const instances = new Map<string, Instance>()
+const pageId = incrementId()
+const hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
 
 export function injectPageInstance (inst: Instance<PageProps>, id: string) {
+  hooks.mergePageInstance?.(instances.get(id), inst)
   instances.set(id, inst)
 }
 
-export function getPageInstance (id: string) {
+export function getPageInstance (id: string): Instance | undefined {
   return instances.get(id)
 }
 
-function addLeadingSlash (path?: string) {
+export function addLeadingSlash (path?: string): string {
   if (path == null) {
     return ''
   }
   return path.charAt(0) === '/' ? path : '/' + path
 }
 
-const pageId = incrementId()
-
-function safeExecute (path: string, lifecycle: keyof PageInstance, ...args: unknown[]) {
+export function safeExecute (path: string, lifecycle: keyof PageInstance, ...args: unknown[]) {
   const instance = instances.get(path)
 
   if (instance == null) {
     return
   }
 
-  const func = CurrentReconciler.getLifecyle(instance, lifecycle)
+  const func = hooks.getLifecycle(instance, lifecycle)
 
   if (isArray(func)) {
-    for (let i = 0; i < func.length; i++) {
-      func[i].apply(instance, args)
-    }
-    return
+    const res = func.map(fn => fn.apply(instance, args))
+    return res[0]
   }
 
   if (!isFunction(func)) {
@@ -86,61 +88,87 @@ export function getOnHideEventKey (path: string) {
   return path + '.' + 'onHide'
 }
 
-export function createPageConfig (component: React.ComponentClass, pageName?: string, data?: Record<string, unknown>) {
+export function createPageConfig (component: any, pageName?: string, data?: Record<string, unknown>, pageConfig?: PageConfig) {
   const id = pageName ?? `taro_page_${pageId()}`
   // 小程序 Page 构造器是一个傲娇小公主，不能把复杂的对象挂载到参数上
   let pageElement: TaroRootElement | null = null
 
+  let unmounting = false
+  let prepareMountList: (() => void)[] = []
+
   const config: PageInstance = {
-    onLoad (this: MpInstance, options, cb?: Function) {
+    onLoad (this: MpInstance, options, cb?: Func) {
       perf.start(PAGE_INIT)
 
-      const path = getPath(id, options)
+      Current.page = this as any
+      this.config = pageConfig || {}
+      options.$taroTimestamp = Date.now()
 
+      // this.$taroPath 是页面唯一标识，不可变，因此页面参数 options 也不可变
+      this.$taroPath = getPath(id, options)
+      // this.$taroParams 作为暴露给开发者的页面参数对象，可以被随意修改
+      if (this.$taroParams == null) {
+        this.$taroParams = Object.assign({}, options)
+      }
+
+      const router = isBrowser ? this.$taroPath : this.route || this.__route__
       Current.router = {
-        params: options,
-        path: addLeadingSlash(this.route || this.__route__),
+        params: this.$taroParams,
+        path: addLeadingSlash(router),
         onReady: getOnReadyEventKey(id),
         onShow: getOnShowEventKey(id),
         onHide: getOnHideEventKey(id)
       }
 
-      Current.app!.mount!(component, path, () => {
-        pageElement = document.getElementById<TaroRootElement>(path)
+      const mount = () => {
+        Current.app!.mount!(component, this.$taroPath, () => {
+          pageElement = document.getElementById<TaroRootElement>(this.$taroPath)
 
-        ensure(pageElement !== null, '没有找到页面实例。')
-        safeExecute(path, 'onLoad', options)
-        if (!isBrowser) {
-          pageElement.ctx = this
-          pageElement.performUpdate(true, cb)
-        }
-      })
+          ensure(pageElement !== null, '没有找到页面实例。')
+          safeExecute(this.$taroPath, 'onLoad', this.$taroParams)
+          if (!isBrowser) {
+            pageElement.ctx = this
+            pageElement.performUpdate(true, cb)
+          } else {
+            isFunction(cb) && cb()
+          }
+        })
+      }
+      if (unmounting) {
+        prepareMountList.push(mount)
+      } else {
+        mount()
+      }
     },
     onReady () {
-      const path = getPath(id, this.options)
-
       raf(() => {
         eventCenter.trigger(getOnReadyEventKey(id))
       })
 
-      safeExecute(path, 'onReady')
+      safeExecute(this.$taroPath, 'onReady')
+      this.onReady.called = true
     },
     onUnload () {
-      const path = getPath(id, this.options)
-      Current.app!.unmount!(path, () => {
-        instances.delete(path)
+      unmounting = true
+      Current.app!.unmount!(this.$taroPath, () => {
+        unmounting = false
+        instances.delete(this.$taroPath)
         if (pageElement) {
           pageElement.ctx = null
+        }
+        if (prepareMountList.length) {
+          prepareMountList.forEach(fn => fn())
+          prepareMountList = []
         }
       })
     },
     onShow () {
       Current.page = this as any
-      const path = getPath(id, this.options)
-
+      this.config = pageConfig || {}
+      const router = isBrowser ? this.$taroPath : this.route || this.__route__
       Current.router = {
-        params: this.options,
-        path: addLeadingSlash(this.route || this.__route__),
+        params: this.$taroParams,
+        path: addLeadingSlash(router),
         onReady: getOnReadyEventKey(id),
         onShow: getOnShowEventKey(id),
         onHide: getOnHideEventKey(id)
@@ -150,33 +178,52 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
         eventCenter.trigger(getOnShowEventKey(id))
       })
 
-      safeExecute(path, 'onShow')
+      safeExecute(this.$taroPath, 'onShow')
     },
     onHide () {
       Current.page = null
       Current.router = null
-      const path = getPath(id, this.options)
-
-      raf(() => {
-        eventCenter.trigger(getOnHideEventKey(id))
-      })
-
-      safeExecute(path, 'onHide')
+      safeExecute(this.$taroPath, 'onHide')
+      eventCenter.trigger(getOnHideEventKey(id))
     },
     onPullDownRefresh () {
-      const path = getPath(id, this.options)
-      return safeExecute(path, 'onPullDownRefresh')
+      return safeExecute(this.$taroPath, 'onPullDownRefresh')
     },
     onReachBottom () {
-      const path = getPath(id, this.options)
-      return safeExecute(path, 'onReachBottom')
+      return safeExecute(this.$taroPath, 'onReachBottom')
     },
     onPageScroll (options) {
-      const path = getPath(id, this.options)
-      return safeExecute(path, 'onPageScroll', options)
+      return safeExecute(this.$taroPath, 'onPageScroll', options)
     },
-    onShareAppMessage (options) {
-      const target = options.target
+    onResize (options) {
+      return safeExecute(this.$taroPath, 'onResize', options)
+    },
+    onTabItemTap (options) {
+      return safeExecute(this.$taroPath, 'onTabItemTap', options)
+    },
+    onTitleClick () {
+      return safeExecute(this.$taroPath, 'onTitleClick')
+    },
+    onOptionMenuClick () {
+      return safeExecute(this.$taroPath, 'onOptionMenuClick')
+    },
+    onPopMenuClick () {
+      return safeExecute(this.$taroPath, 'onPopMenuClick')
+    },
+    onPullIntercept () {
+      return safeExecute(this.$taroPath, 'onPullIntercept')
+    },
+    onAddToFavorites () {
+      return safeExecute(this.$taroPath, 'onAddToFavorites')
+    }
+  }
+
+  // onShareAppMessage 和 onShareTimeline 一样，会影响小程序右上方按钮的选项，因此不能默认注册。
+  if (component.onShareAppMessage ||
+      component.prototype?.onShareAppMessage ||
+      component.enableShareAppMessage) {
+    config.onShareAppMessage = function (options) {
+      const target = options?.target
       if (target != null) {
         const id = target.id
         const element = document.getElementById(id)
@@ -184,32 +231,14 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
           options.target!.dataset = element.dataset
         }
       }
-      const path = getPath(id, this.options)
-      return safeExecute(path, 'onShareAppMessage', options)
-    },
-    onResize (options) {
-      const path = getPath(id, this.options)
-      return safeExecute(path, 'onResize', options)
-    },
-    onTabItemTap (options) {
-      const path = getPath(id, this.options)
-      return safeExecute(path, 'onTabItemTap', options)
-    },
-    onTitleClick () {
-      const path = getPath(id, this.options)
-      return safeExecute(path, 'onTitleClick')
-    },
-    onOptionMenuClick () {
-      const path = getPath(id, this.options)
-      return safeExecute(path, 'onOptionMenuClick')
-    },
-    onPopMenuClick () {
-      const path = getPath(id, this.options)
-      return safeExecute(path, 'onPopMenuClick')
-    },
-    onPullIntercept () {
-      const path = getPath(id, this.options)
-      return safeExecute(path, 'onPullIntercept')
+      return safeExecute(this.$taroPath, 'onShareAppMessage', options)
+    }
+  }
+  if (component.onShareTimeline ||
+      component.prototype?.onShareTimeline ||
+      component.enableShareTimeline) {
+    config.onShareTimeline = function () {
+      return safeExecute(this.$taroPath, 'onShareTimeline')
     }
   }
 
@@ -233,10 +262,11 @@ export function createComponentConfig (component: React.ComponentClass, componen
   const config: any = {
     attached () {
       perf.start(PAGE_INIT)
-      Current.app!.mount!(component, id, () => {
-        componentElement = document.getElementById<TaroRootElement>(id)
+      const path = getPath(id, { id: this.getPageId?.() || pageId() })
+      Current.app!.mount!(component, path, () => {
+        componentElement = document.getElementById<TaroRootElement>(path)
         ensure(componentElement !== null, '没有找到组件实例。')
-        safeExecute(id, 'onLoad')
+        safeExecute(path, 'onLoad')
         if (!isBrowser) {
           componentElement.ctx = this
           componentElement.performUpdate(true)
@@ -244,19 +274,13 @@ export function createComponentConfig (component: React.ComponentClass, componen
       })
     },
     detached () {
-      Current.app!.unmount!(id, () => {
+      const path = getPath(id, { id: this.getPageId() })
+      Current.app!.unmount!(path, () => {
+        instances.delete(path)
         if (componentElement) {
           componentElement.ctx = null
         }
       })
-    },
-    pageLifetimes: {
-      show () {
-        safeExecute(id, 'onShow')
-      },
-      hide () {
-        safeExecute(id, 'onHide')
-      }
     },
     methods: {
       eh: eventHandler
@@ -272,7 +296,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
   return config
 }
 
-export function createRecursiveComponentConfig () {
+export function createRecursiveComponentConfig (componentName?: string) {
   return {
     properties: {
       i: {
@@ -280,18 +304,15 @@ export function createRecursiveComponentConfig () {
         value: {
           [Shortcuts.NodeName]: 'view'
         }
-      }
-    },
-    observers: {
-      i (val: Record<string, unknown>) {
-        warn(
-          val[Shortcuts.NodeName] === '#text',
-          `请在此元素外再套一层非 Text 元素：<text>${val[Shortcuts.Text]}</text>，详情：https://github.com/NervJS/taro/issues/6054`
-        )
+      },
+      l: {
+        type: String,
+        value: ''
       }
     },
     options: {
-      addGlobalClass: true
+      addGlobalClass: true,
+      virtualHost: componentName !== 'custom-wrapper'
     },
     methods: {
       eh: eventHandler

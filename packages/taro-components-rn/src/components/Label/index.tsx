@@ -3,46 +3,41 @@
  */
 
 import * as React from 'react'
-import {
-  View,
-  TouchableWithoutFeedback
-} from 'react-native'
+import { TouchableWithoutFeedback } from 'react-native'
+import View from '../View'
 import { LabelProps } from './PropsType'
 
 class _Label extends React.Component<LabelProps> {
-  hadFoundValidWidget: boolean = false
+  hadFoundValidWidget = false
   $validWidget: any = null
 
-  findValidWidget = (children: any): React.ReactNode => {
+  findValidWidget = (children: React.ReactNode): React.ReactNode => {
     if (this.hadFoundValidWidget) return children
 
-    return React.Children.toArray(children).map((child, index) => {
+    return React.Children.toArray(children).map((child: any) => {
       if (!child.type) return child
 
-      const childTypeName = child.type.name
-      if (!this.hadFoundValidWidget &&
-        (
-          childTypeName === '_Checkbox' ||
+      const childTypeName = child.type.displayName
+      if (
+        !this.hadFoundValidWidget &&
+        (childTypeName === '_Checkbox' ||
           childTypeName === '_Button' ||
           childTypeName === '_Radio' ||
-          childTypeName === '_Switch'
-        )
+          childTypeName === '_Switch')
       ) {
         this.hadFoundValidWidget = true
         return React.cloneElement(
           child,
           {
             ...child.props,
-            ref: (vw: React.ReactNode) => { this.$validWidget = vw }
+            ref: (vw: React.ReactNode) => {
+              this.$validWidget = vw
+            }
           },
           child.props.children
         )
       }
-      return React.cloneElement(
-        child,
-        { ...child.props },
-        this.findValidWidget(child.props.children)
-      )
+      return React.cloneElement(child, { ...child.props }, this.findValidWidget(child.props.children))
     })
   }
 
@@ -50,20 +45,15 @@ class _Label extends React.Component<LabelProps> {
     this.$validWidget && this.$validWidget._simulateNativePress()
   }
 
-  render () {
-    const {
-      children,
-      style,
-    } = this.props
+  render (): JSX.Element {
+    const { children, style } = this.props
 
     const mapChildren = this.findValidWidget(children)
     // Prepare for next rerender
     this.hadFoundValidWidget = false
 
     return (
-      <TouchableWithoutFeedback
-        onPress={this.onPress}
-      >
+      <TouchableWithoutFeedback onPress={this.onPress}>
         <View
           onStartShouldSetResponder={() => true}
           onMoveShouldSetResponder={() => true}

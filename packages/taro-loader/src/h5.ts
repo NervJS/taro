@@ -1,10 +1,10 @@
 import * as webpack from 'webpack'
 import { getOptions, stringifyRequest } from 'loader-utils'
-import { AppConfig, PageConfig } from '@tarojs/taro'
+import { AppConfig } from '@tarojs/taro'
 import { join, dirname } from 'path'
 import { frameworkMeta } from './utils'
 
-function genResource (path: string, pages: Map<string, PageConfig>, loaderContext: webpack.loader.LoaderContext) {
+function genResource (path: string, pages: Map<string, string>, loaderContext: webpack.loader.LoaderContext) {
   const stringify = (s: string): string => stringifyRequest(loaderContext, s)
   return `
   Object.assign({
@@ -12,7 +12,7 @@ function genResource (path: string, pages: Map<string, PageConfig>, loaderContex
       load: function() {
           return import(${stringify(join(loaderContext.context, path))})
       }
-  }, ${JSON.stringify(pages.get(path))} || {}),
+  }, require(${stringify(pages.get(path)!)}).default || {}),
 `
 }
 
@@ -25,10 +25,13 @@ export default function (this: webpack.loader.LoaderContext) {
     creator,
     importFrameworkName,
     extraImportForWeb,
-    execBeforeCreateWebApp
+    execBeforeCreateWebApp,
+    compatComponentImport,
+    compatComponentExtra
   } = frameworkMeta[options.framework]
   const config: AppConfig = options.config
-  const pages: Map<string, PageConfig> = options.pages
+  const pages: Map<string, string> = options.pages
+  const pxTransformConfig = options.pxTransformConfig
   let tabBarCode = `var tabbarIconPath = []
 var tabbarSelectedIconPath = []
 `
@@ -37,33 +40,38 @@ var tabbarSelectedIconPath = []
     for (let i = 0; i < tabbarList.length; i++) {
       const t = tabbarList[i]
       if (t.iconPath) {
-        tabBarCode += `tabbarIconPath[${i}] = require(${stringify(join(dirname(this.resourcePath), t.iconPath))}).default\n`
+        const iconPath = stringify(join(dirname(this.resourcePath), t.iconPath))
+        tabBarCode += `tabbarIconPath[${i}] = typeof require(${iconPath}) === 'object' ? require(${iconPath}).default : require(${iconPath})\n`
       }
       if (t.selectedIconPath) {
-        tabBarCode += `tabbarSelectedIconPath[${i}] = require(${stringify(join(dirname(this.resourcePath), t.selectedIconPath))}).default\n`
+        const iconPath = stringify(join(dirname(this.resourcePath), t.selectedIconPath))
+        tabBarCode += `tabbarSelectedIconPath[${i}] = typeof require(${iconPath}) === 'object' ? require(${iconPath}).default : require(${iconPath})\n`
       }
     }
   }
 
-  const webComponents = `applyPolyfills().then(function () {
+  const webComponents = `
+import { defineCustomElements, applyPolyfills } from '@tarojs/components/loader'
+import '@tarojs/components/dist/taro-components/taro-components.css'
+${extraImportForWeb || ''}
+applyPolyfills().then(function () {
   defineCustomElements(window)
 })
 `
 
-  const code = `import { createRouter } from '@tarojs/taro'
+  const components = options.useHtmlComponents ? compatComponentImport || '' : webComponents
+
+  const code = `import { createRouter, initPxTransform } from '@tarojs/taro'
 import component from ${stringify(join(dirname(this.resourcePath), options.filename))}
 import { ${creator}, window } from '@tarojs/runtime'
-import { defineCustomElements, applyPolyfills } from '@tarojs/components/loader'
 ${importFrameworkStatement}
-import '@tarojs/components/dist/taro-components/taro-components.css'
-${extraImportForWeb || ''}
-${webComponents}
+${components}
 var config = ${JSON.stringify(config)}
 window.__taroAppConfig = config
 ${config.tabBar ? tabBarCode : ''}
 if (config.tabBar) {
   var tabbarList = config.tabBar.list
-  for (let i = 0; i < tabbarList.length; i++) {
+  for (var i = 0; i < tabbarList.length; i++) {
     var t = tabbarList[i]
     if (t.iconPath) {
       t.iconPath = tabbarIconPath[i]
@@ -76,9 +84,14 @@ if (config.tabBar) {
 config.routes = [
   ${config.pages?.map(path => genResource(path, pages, this)).join('')}
 ]
+${options.useHtmlComponents ? compatComponentExtra : ''}
 ${execBeforeCreateWebApp || ''}
 var inst = ${creator}(component, ${frameworkArgs})
 createRouter(inst, config, ${importFrameworkName})
+initPxTransform({
+  designWidth: ${pxTransformConfig.designWidth},
+  deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)}
+})
 `
 
   return code

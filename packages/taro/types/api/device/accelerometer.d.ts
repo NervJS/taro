@@ -83,11 +83,11 @@ declare namespace Taro {
 
   /**
    * 取消监听加速度数据事件，参数为空，则取消所有的事件监听。
-   * @supported weapp
+   * @supported weapp, rn
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/accelerometer/wx.offAccelerometerChange.html 
    */
   function offAccelerometerChange(
     /** 加速度数据事件的回调函数 */
-    callback: (...args: any[]) => any,
+    callback?: (...args: any[]) => any,
   ): void
 }

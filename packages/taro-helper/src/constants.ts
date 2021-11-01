@@ -77,7 +77,7 @@ export const processTypeMap: IProcessTypeMap = {
   }
 }
 
-export const CSS_EXT: string[] = ['.css', '.scss', '.sass', '.less', '.styl', '.wxss', '.acss']
+export const CSS_EXT: string[] = ['.css', '.scss', '.sass', '.less', '.styl', '.stylus', '.wxss', '.acss']
 export const SCSS_EXT: string[] = ['.scss']
 export const JS_EXT: string[] = ['.js', '.jsx']
 export const TS_EXT: string[] = ['.ts', '.tsx']
@@ -94,17 +94,17 @@ export const REG_SASS = /\.(s[ac]ss)$/
 export const REG_SASS_SASS = /\.sass$/
 export const REG_SASS_SCSS = /\.scss$/
 export const REG_LESS = /\.less$/
-export const REG_STYLUS = /\.styl$/
-export const REG_STYLE = /\.(css|scss|sass|less|styl|wxss|acss|ttss|jxss|qss)(\?.*)?$/
+export const REG_STYLUS = /\.styl(us)?$/
+export const REG_STYLE = /\.(css|scss|sass|less|styl|stylus|wxss|acss|ttss|jxss|qss)(\?.*)?$/
 export const REG_CSS = /\.(css|wxss|acss|ttss)(\?.*)?$/
-export const REG_MEDIA = /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/
+export const REG_MEDIA = /\.(mp4|webm|ogg|mp3|m4a|wav|flac|aac)(\?.*)?$/
 export const REG_IMAGE = /\.(png|jpe?g|gif|bpm|svg|webp)(\?.*)?$/
 export const REG_FONT = /\.(woff2?|eot|ttf|otf)(\?.*)?$/
 export const REG_JSON = /\.json(\?.*)?$/
 export const REG_UX = /\.ux(\?.*)?$/
 export const REG_TEMPLATE = /\.(wxml|axml|ttml|qml|swan|jxml)(\?.*)?$/
 export const REG_WXML_IMPORT = /<import(.*)?src=(?:(?:'([^']*)')|(?:"([^"]*)"))/gi
-export const REG_URL = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i
+export const REG_URL = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z0-9\u00a1-\uffff][a-z0-9\u00a1-\uffff_-]{0,62})?[a-z0-9\u00a1-\uffff]\.)+(?:[a-z\u00a1-\uffff]{2,}\.?))(?::\d{2,5})?(?:[/?#]\S*)?$/i
 export const CSS_IMPORT_REG = /@import (["'])(.+?)\1;/g
 
 export const NODE_MODULES = 'node_modules'
@@ -135,7 +135,6 @@ export const UPDATE_PACKAGE_LIST = [
   'postcss-pxtransform',
   '@tarojs/shared',
   '@tarojs/taro',
-  '@tarojs/api',
   '@tarojs/cli',
   '@tarojs/components',
   '@tarojs/taro-h5',
@@ -150,6 +149,12 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/webpack-runner',
   '@tarojs/with-weapp',
   '@tarojs/taroize',
+  '@tarojs/plugin-platform-weapp',
+  '@tarojs/plugin-platform-alipay',
+  '@tarojs/plugin-platform-swan',
+  '@tarojs/plugin-platform-tt',
+  '@tarojs/plugin-platform-qq',
+  '@tarojs/plugin-platform-jd',
   'nervjs',
   'nerv-devtools'
 ]
@@ -174,8 +179,9 @@ export const taroJsMobxCommon = '@tarojs/mobx-common'
 export const DEVICE_RATIO_NAME = 'deviceRatio'
 export const isWindows = os.platform() === 'win32'
 
-export const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates#v3'
-export const TARO_CONFIG_FLODER = '.taro3'
+export const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates#v3.1'
+export const DEFAULT_TEMPLATE_SRC_GITEE = 'direct:https://gitee.com/o2team/taro-project-templates.git#v3.1'
+export const TARO_CONFIG_FLODER = '.taro3.1'
 export const TARO_BASE_CONFIG = 'index.json'
 
 export const OUTPUT_DIR = 'dist'

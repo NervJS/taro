@@ -15,7 +15,7 @@ class Root {
 
   public constructor (renderer: Renderer, domContainer: TaroElement) {
     this.renderer = renderer
-    this.internalRoot = renderer.createContainer(domContainer, false, false)
+    this.internalRoot = renderer.createContainer(domContainer, 0/** LegacyRoot: react-reconciler/src/ReactRootTags.js */, false, null)
   }
 
   public render (children: ReactNode, cb: Callback) {

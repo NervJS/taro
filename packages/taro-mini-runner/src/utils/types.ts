@@ -1,7 +1,8 @@
 import * as webpack from 'webpack'
 import { IProjectBaseConfig, IMiniAppConfig } from '@tarojs/taro/types/compile'
 import { PrerenderConfig } from '../prerender/prerender'
-import { IAdapter } from 'src/template/adapters'
+
+import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 
 type FunctionLikeCustomWebpackConfig = (webpackConfig: webpack.Configuration, webpack) => webpack.Configuration
 
@@ -36,6 +37,8 @@ export interface IFileType {
   xs?: string
 }
 
+export type Func = (...args: any[]) => any
+
 export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   isWatch: boolean,
   mode: 'production' | 'development',
@@ -47,18 +50,24 @@ export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   isBuildQuickapp: boolean,
   isSupportRecursive: boolean,
   fileType: IFileType,
-  templateAdapter: IAdapter,
   isSupportXS: boolean,
   globalObject: string,
-  isUseComponentBuildPage: boolean,
-  modifyWebpackChain: Function,
-  modifyBuildAssets: Function,
-  modifyMiniConfigs: Function,
-  onWebpackChainReady: Function,
-  onBuildFinish: Function
+  modifyWebpackChain: Func,
+  modifyBuildAssets: Func,
+  modifyMiniConfigs: Func,
+  modifyComponentConfig: Func,
+  onCompilerMake: Func,
+  onParseCreateElement: Func,
+  onWebpackChainReady: Func,
+  onBuildFinish: Func
   framework: string,
   baseLevel: number,
   prerender?: PrerenderConfig
+  template: RecursiveTemplate | UnRecursiveTemplate
+  runtimePath?: string | string[]
+  taroComponentsPath?: string
+  blended?: boolean
+  isBuildNativeComp?: boolean
 }
 
 export type AddPageChunks = ((pages: Map<string, string[]>, pagesNames?: string[]) => void)

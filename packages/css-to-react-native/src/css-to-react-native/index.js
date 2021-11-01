@@ -43,16 +43,18 @@ const baseTransformShorthandValue = (propName, inputValue) => {
   return transforms[propName](tokenStream)
 }
 
+const checkBaseTransformShorthandValue = (propName, inputValue) => {
+  try {
+    return baseTransformShorthandValue(propName, inputValue)
+  } catch (e) {
+    throw new Error(`${e.message} Failed to parse declaration "${propName}: ${inputValue}"`)
+  }
+}
+
 const transformShorthandValue =
   process.env.NODE_ENV === 'production'
     ? baseTransformShorthandValue
-    : (propName, inputValue) => {
-      try {
-        return baseTransformShorthandValue(propName, inputValue)
-      } catch (e) {
-        throw new Error(`${e.message} Failed to parse declaration "${propName}: ${inputValue}"`)
-      }
-    }
+    : checkBaseTransformShorthandValue
 
 export const getStylesForProperty = (propName, inputValue, allowShorthand) => {
   const isRawValue = allowShorthand === false || !(propName in transforms)

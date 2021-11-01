@@ -11,15 +11,15 @@ export default (appPath: string, config: Partial<BuildConfig>) => {
 
   if (config.framework === 'nerv') {
     alias = {
-      react$: require.resolve('nervjs', { paths: [appPath] }),
-      'react-dom$': require.resolve('nervjs', { paths: [appPath] })
+      react$: 'nervjs',
+      'react-dom$': 'nervjs'
     }
   }
 
   chain.merge({
     resolve: {
       extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx', '.vue'],
-      mainFields: ['main:h5', 'browser', 'module', 'main'],
+      mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main'],
       symlinks: true,
       modules: [path.join(appPath, 'node_modules'), 'node_modules'],
       alias
@@ -31,7 +31,9 @@ export default (appPath: string, config: Partial<BuildConfig>) => {
 
   chain.resolve
     .plugin('MultiPlatformPlugin')
-    .use(MultiPlatformPlugin, ['described-resolve', 'resolve'])
+    .use(MultiPlatformPlugin, ['described-resolve', 'resolve', {
+      chain
+    }])
 
   return chain
 }

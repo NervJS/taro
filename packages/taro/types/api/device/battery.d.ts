@@ -13,12 +13,12 @@ declare namespace Taro {
       level: string
     }
   }
-  
+
   /** 获取设备电量。同步 API Taro.getBatteryInfoSync 在 iOS 上不可用。
    * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/battery/wx.getBatteryInfo.html
    */
-  function getBatteryInfo(option?: getBatteryInfo.Option): void
+  function getBatteryInfo(option?: getBatteryInfo.Option): Promise<getBatteryInfo.SuccessCallbackResult>
 
   namespace getBatteryInfo {
     interface Option {

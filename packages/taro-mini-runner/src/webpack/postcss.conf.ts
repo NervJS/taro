@@ -2,6 +2,7 @@ import * as path from 'path'
 
 import * as autoprefixer from 'autoprefixer'
 import * as pxtransform from 'postcss-pxtransform'
+import * as htmlTransform from 'postcss-html-transform'
 import { sync as resolveSync } from 'resolve'
 import * as url from 'postcss-url'
 import { IPostcssOption } from '@tarojs/taro/types/compile'
@@ -32,7 +33,7 @@ const defaultUrlOption: {
   }
 }
 
-const optionsWithDefaults = ['autoprefixer', 'pxtransform', 'cssModules', 'url']
+const optionsWithDefaults = ['autoprefixer', 'pxtransform', 'cssModules', 'url', 'htmltransform']
 
 const plugins = [] as any[]
 
@@ -62,6 +63,9 @@ export const getPostcssPlugins = function (appPath: string, {
   }
   if (urlOption.enable) {
     plugins.push(url(urlOption.config))
+  }
+  if (postcssOption.htmltransform?.enable) {
+    plugins.push(htmlTransform(postcssOption.htmltransform.config))
   }
   plugins.unshift(require('postcss-import'))
   Object.entries(postcssOption).forEach(([pluginName, pluginOption]) => {

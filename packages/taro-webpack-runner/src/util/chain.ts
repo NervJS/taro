@@ -1,3 +1,5 @@
+import * as fs from 'fs-extra'
+import * as path from 'path'
 import { recursiveMerge, REG_SCRIPTS, REG_SASS_SASS, REG_SASS_SCSS, REG_LESS, REG_STYLUS, REG_STYLE, REG_MEDIA, REG_FONT, REG_IMAGE } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
@@ -11,6 +13,7 @@ import { join, resolve } from 'path'
 import * as TerserPlugin from 'terser-webpack-plugin'
 import * as webpack from 'webpack'
 import { PostcssOption, IPostcssOption, ICopyOptions } from '@tarojs/taro/types/compile'
+import * as ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
 
 import MainPlugin from '../plugins/MainPlugin'
 import { getPostcssPlugins } from '../config/postcss.conf'
@@ -42,13 +45,16 @@ const defaultCSSCompressOption = {
   minifySelectors: false
 }
 const defaultMediaUrlLoaderOption = {
-  limit: 10240
+  limit: 10240,
+  esModule: false
 }
 const defaultFontUrlLoaderOption = {
-  limit: 10240
+  limit: 10240,
+  esModule: false
 }
 const defaultImageUrlLoaderOption = {
-  limit: 10240
+  limit: 10240,
+  esModule: false
 }
 const defaultCssModuleOption: PostcssOption.cssModules = {
   enable: false,
@@ -207,11 +213,12 @@ export const getCssoWebpackPlugin = ([cssoOption]) => {
 }
 export const getCopyWebpackPlugin = ({ copy, appPath }: { copy: ICopyOptions; appPath: string }) => {
   const args = [
-    copy.patterns.map(({ from, to }) => {
+    copy.patterns.map(({ from, to, ...extra }) => {
       return {
         from,
         to: resolve(appPath, to),
-        context: appPath
+        context: appPath,
+        ...extra
       }
     }),
     copy.options
@@ -221,6 +228,10 @@ export const getCopyWebpackPlugin = ({ copy, appPath }: { copy: ICopyOptions; ap
 
 export const getMainPlugin = args => {
   return partial(getPlugin, MainPlugin)([args])
+}
+
+export const getFastRefreshPlugin = () => {
+  return partial(getPlugin, ReactRefreshWebpackPlugin)([])
 }
 
 const styleModuleReg = /(.*\.module).*\.(css|s[ac]ss|less|styl)\b/
@@ -327,9 +338,11 @@ export const getModule = (appPath: string, {
   const styleLoader = getStyleLoader([defaultStyleLoaderOption, styleLoaderOption])
   const topStyleLoader = getStyleLoader([defaultStyleLoaderOption, {
     insert: function insertAtTop (element) {
-      const parent = document.querySelector('head')
+      // eslint-disable-next-line no-var
+      var parent = document.querySelector('head')
       if (parent) {
-        const lastInsertedElement = (window as any)._lastElementInsertedByStyleLoader
+        // eslint-disable-next-line no-var
+        var lastInsertedElement = (window as any)._lastElementInsertedByStyleLoader
         if (!lastInsertedElement) {
           parent.insertBefore(element, parent.firstChild)
         } else if (lastInsertedElement.nextSibling) {
@@ -382,34 +395,57 @@ export const getModule = (appPath: string, {
   const postcssLoader = getPostcssLoader([
     { sourceMap: enableSourceMap },
     {
-      ident: 'postcss',
-      plugins: getPostcssPlugins(appPath, {
-        designWidth,
-        deviceRatio,
-        postcssOption
-      })
+      postcssOptions: {
+        plugins: getPostcssPlugins(appPath, {
+          designWidth,
+          deviceRatio,
+          postcssOption
+        })
+      }
     }
   ])
 
   const resolveUrlLoader = getResolveUrlLoader([{}])
 
-  const sassLoader = getSassLoader([
-    {
-      sourceMap: true,
-      implementation: sass,
-      sassOptions: {
-        indentedSyntax: true
+  const baseSassOptions = {
+    sourceMap: true,
+    implementation: sass,
+    sassOptions: {
+      outputStyle: 'expanded',
+      fiber: false,
+      importer (url, prev, done) {
+        // 让 sass 文件里的 @import 能解析小程序原生样式文体，如 @import "a.wxss";
+        const extname = path.extname(url)
+        // fix: @import 文件可以不带scss/sass缀，如: @import "define";
+        if (extname === '.scss' || extname === '.sass' || extname === '.css' || !extname) {
+          return null
+        } else {
+          const filePath = path.resolve(path.dirname(prev), url)
+          fs.access(filePath, fs.constants.F_OK, (err) => {
+            if (err) {
+              console.log(err)
+              return null
+            } else {
+              fs.readFile(filePath)
+                .then(res => {
+                  done({ contents: res.toString() })
+                })
+                .catch(err => {
+                  console.log(err)
+                  return null
+                })
+            }
+          })
+        }
       }
-    },
-    sassLoaderOption
-  ])
-  const scssLoader = getSassLoader([
-    {
-      sourceMap: true,
-      implementation: sass
-    },
-    sassLoaderOption
-  ])
+    }
+  }
+  const sassLoader = getSassLoader([baseSassOptions, {
+    sassOptions: {
+      indentedSyntax: true
+    }
+  }, sassLoaderOption])
+  const scssLoader = getSassLoader([baseSassOptions, sassLoaderOption])
 
   const lessLoader = getLessLoader([{ sourceMap: enableSourceMap }, lessLoaderOption])
 
@@ -466,7 +502,25 @@ export const getModule = (appPath: string, {
   }
   rule.script = {
     test: REG_SCRIPTS,
-    exclude: [filename => /@tarojs\/components/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))],
+    exclude: [filename => {
+      /**
+       * 要优先处理 css-loader 问题
+       *
+       * https://github.com/webpack-contrib/mini-css-extract-plugin/issues/471#issuecomment-750266195
+       */
+      if (/css-loader/.test(filename)) return true
+      // 若包含 @tarojs/components，则跳过 babel-loader 处理
+      if (/@tarojs\/components/.test(filename)) return true
+
+      // 非 node_modules 下的文件直接走 babel-loader 逻辑
+      if (!(/node_modules/.test(filename))) return false
+
+      // 除了包含 taro 和 inversify 的第三方依赖均不经过 babel-loader 处理
+      if (/taro/.test(filename)) return false
+      if (/inversify/.test(filename)) return false
+
+      return true
+    }],
     use: {
       babelLoader: getBabelLoader([{
         compact: false

@@ -6,7 +6,7 @@ declare namespace Taro {
   function createOffscreenCanvas(): OffscreenCanvas
 
   /** 创建 canvas 的绘图上下文 [CanvasContext](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.html) 对象
-   * 
+   *
    * **Tip**: 需要指定 canvasId，该绘图上下文只作用于对应的 `<canvas/>`
    * @supported weapp, h5
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.createCanvasContext.html
@@ -19,7 +19,7 @@ declare namespace Taro {
   ): CanvasContext
 
   /** 把当前画布指定区域的内容导出生成指定大小的图片。在 `draw()` 回调里调用该方法才能保证图片导出成功。
-   * 
+   *
    * **Bug & Tip：**
    *
    * 1.  `tip`: 在 `draw` 回调里调用该方法才能保证图片导出成功。
@@ -51,7 +51,7 @@ declare namespace Taro {
       /** 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件实例 （canvas type="2d" 时使用该属性）。 */
       canvas?: CanvasProps
       /** 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件的 canvas-id */
-      canvasId: string
+      canvasId?: string
       /** 图片的质量，目前仅对 jpg 有效。取值范围为 (0, 1]，不在范围内时当作 1.0 处理。 */
       quality?: number
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -219,10 +219,19 @@ declare namespace Taro {
     }
   }
 
+  /** Canvas 2D API 的接口 Path2D 用来声明路径，此路径稍后会被CanvasRenderingContext2D 对象使用。CanvasRenderingContext2D 接口的 路径方法 也存在于 Path2D 这个接口中，允许你在 canvas 中根据需要创建可以保留并重用的路径。
+   *  @supported weapp
+   */
+  interface Path2D {}
+
   /** Canvas 实例，可通过 SelectorQuery 获取。
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.html
    */
   interface Canvas {
+    /** 画布高度 */
+    height: number
+    /** 画布宽度 */
+    width: number
     /** 取消由 requestAnimationFrame 添加到计划中的动画帧请求。支持在 2D Canvas 和 WebGL Canvas 下使用, 但不支持混用 2D 和 WebGL 的方法。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.cancelAnimationFrame.html
@@ -238,6 +247,13 @@ declare namespace Taro {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.createImage.html
      */
     createImage(): Image
+    /** 创建 Path2D 对象
+     *  @supported weapp
+     *  @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Path2D.html
+     */
+    createPath2D(
+      path: Path2D
+    ): Path2D
     /** 支持获取 2D 和 WebGL 绘图上下文
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.getContext.html
@@ -251,6 +267,16 @@ declare namespace Taro {
       /** 执行的 callback */
       callback: (...args: any[]) => any,
     ): number
+    /** 返回一个包含图片展示的 data URI 。可以使用 type 参数其类型，默认为 PNG 格式。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.toDataURL.html
+     */
+    toDataURL(
+      /** 图片格式，默认为 image/png */
+      type: string,
+      /** 在指定图片格式为 image/jpeg 或 image/webp的情况下，可以从 0 到 1 的区间内选择图片的质量。如果超出取值范围，将会使用默认值 0.92。其他参数会被忽略。 */
+      encoderOptions: number
+    ): string
   }
 
   /** canvas 组件的绘图上下文
@@ -772,7 +798,7 @@ declare namespace Taro {
       y: number,
     ): void
     /** 创建二次贝塞尔曲线路径。曲线的起始点为路径中前一个点。
-     * 
+     *
      * 针对 moveTo(20, 20) quadraticCurveTo(20, 100, 200, 20) 的三个关键坐标如下：
      *
      * - 红色：起始点(20, 20)
@@ -1715,7 +1741,7 @@ declare namespace Taro {
     /** 图片的真实宽度 */
     width: number
   }
-  
+
   /** ImageData 对象
    * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/ImageData.html
@@ -1736,7 +1762,7 @@ declare namespace Taro {
     /** 该方法返回 OffscreenCanvas 的绘图上下文
      *
      * ****
-     * 
+     *
      * 当前仅支持获取 WebGL 绘图上下文
      * @supported weapp
      */

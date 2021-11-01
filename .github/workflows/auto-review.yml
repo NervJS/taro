@@ -18,12 +18,13 @@ jobs:
         run: echo "$GITHUB_CONTEXT" 
       - name: Get commit message
         run: |
-           echo ::set-env name=commitmsg::$(git log --format=%B -n 1 ${{ github.event.after }})
+          COMMIT_MESSAGE=$(git log --format=%B -n 1)
+          echo "commitmsg=${COMMIT_MESSAGE}" >> $GITHUB_ENV
       - name: Show commit message
-        run : echo $commitmsg
+        run : echo "$commitmsg"
       - name: Auto reviews branches
         uses: golfzaptw/action-auto-reviews-from-branches@master
         if: contains( env.commitmsg , '[auto review]' ) || contains(github.event.pull_request.title, '[auto review]')
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EVENT_TYPE: APPROVE

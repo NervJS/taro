@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 const noop = () => {}
 
 export default class NetInfo {
@@ -14,7 +15,9 @@ export default class NetInfo {
 
   fetch () {
     return new Promise((resolve) => {
-      resolve(this.connectedStatus)
+      resolve({
+        type: this.connectionType,
+      })
     })
   }
 

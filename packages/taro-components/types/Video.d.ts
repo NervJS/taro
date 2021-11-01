@@ -194,6 +194,36 @@ interface VideoProps extends StandardProps {
    */
   showCastingButton?: boolean
 
+  /**
+   * 设置小窗模式： push, pop，空字符串或通过数组形式设置多种模式（如： ["push", "pop"]）
+   * @supported weapp
+   */
+  pictureInPictureMode?: ('push' | 'pop')[] | 'push' | 'pop' | ''
+
+  /**
+   * 是否在小窗模式下显示播放进度（目前有bug，先注释掉）
+   * @supported weapp
+   * 
+   * 先注释掉，原因如下：
+   * 该属性超过了 wxml 属性的长度限制，实际无法使用且导致编译报错。可等微信官方修复后再放开。
+   * 参考1：https://developers.weixin.qq.com/community/develop/doc/000a429beb87f0eac07acc0fc5b400
+   * 参考2: https://developers.weixin.qq.com/community/develop/doc/0006883619c48054286a4308258c00?_at=vyxqpllafi
+   * 
+   */
+  // pictureInPictureShowProgress?: boolean
+
+  /**
+   * 是否开启手机横屏时自动全屏，当系统设置开启自动旋转时生效
+   * @supported weapp
+   */
+  enableAutoRotation?: boolean
+  
+  /**
+   * 是否显示锁屏按钮，仅在全屏时显示，锁屏后控制栏的操作
+   * @supported weapp
+   */
+  showScreenLockButton?: boolean
+
   /** 当开始/继续播放时触发 play 事件
    * @supported weapp, h5, swan, alipay, tt
    */
@@ -216,7 +246,7 @@ interface VideoProps extends StandardProps {
    */
   onTimeUpdate?: CommonEventFunction<VideoProps.onTimeUpdateEventDetail>
 
-  /** 当视频进入和退出全屏是触发
+  /** 当视频进入和退出全屏时触发
    *
    * event.detail = {fullScreen, direction}，direction取为 vertical 或 horizontal
    * @supported weapp, swan, alipay
@@ -224,7 +254,7 @@ interface VideoProps extends StandardProps {
    */
   onFullscreenChange?: CommonEventFunction<VideoProps.onFullscreenChangeEventDetail>
 
-  /** 当视频进入和退出全屏是触发
+  /** 当视频进入和退出全屏时触发
    *
    * event.detail = {fullScreen, direction}，direction 取为 vertical 或 horizontal
    * @supported weapp, swan
@@ -246,6 +276,30 @@ interface VideoProps extends StandardProps {
    * @supported weapp
    */
   onLoadedMetaData?: CommonEventFunction
+
+  /**
+   * 切换 controls 显示隐藏时触发。event.detail = {show}
+   * @supported weapp
+   */
+  onControlsToggle?: CommonEventFunction<VideoProps.onControlsToggleEventDetail>
+
+  /**
+   * 播放器进入小窗
+   * @supported weapp
+   */
+  onEnterPictureInPicture?: CommonEventFunction
+
+  /**
+   * 播放器退出小窗
+   * @supported weapp
+   */
+  onLeavePictureInPicture?: CommonEventFunction
+
+  /**
+   * seek 完成时触发
+   * @supported weapp
+   */
+  onSeekComplete?: CommonEventFunction
 }
 
 declare namespace VideoProps {
@@ -296,6 +350,11 @@ declare namespace VideoProps {
   interface onProgressEventDetail {
     /** 百分比 */
     buffered: number
+  }
+
+  interface onControlsToggleEventDetail {
+    /** 是否显示 */
+    show: boolean
   }
 }
 

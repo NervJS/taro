@@ -1,9 +1,9 @@
-import { isFunction, isArray, ensure, capitalize, toCamelCase, internalComponents, hasOwn, isBooleanStringLiteral } from '@tarojs/shared'
-import { AppInstance } from './instance'
+import { isFunction, isArray, ensure } from '@tarojs/shared'
+import container from '../container'
+import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { Current } from '../current'
-import { injectPageInstance } from './common'
+import { injectPageInstance, safeExecute } from './common'
 import { isBrowser } from '../env'
-import { options } from '../options'
 
 import type {
   App,
@@ -14,7 +14,8 @@ import type {
 } from '@vue/runtime-core'
 import type { TaroElement } from '../dom/element'
 import type { AppConfig as Config } from '@tarojs/taro'
-import type { Reconciler } from '../reconciler'
+import type { GetLifecycle, IHooks } from '../interface'
+import type { AppInstance } from './instance'
 
 function createVue3Page (h: typeof createElement, id: string) {
   return function (component): VNode {
@@ -24,11 +25,26 @@ function createVue3Page (h: typeof createElement, id: string) {
       },
       created () {
         injectPageInstance(this, id)
+        // vue3 组件 created 时机比小程序页面 onShow 慢，因此在 created 后再手动触发一次 onShow。
+        this.$nextTick(() => {
+          safeExecute(id, 'onShow')
+        })
       }
     }
-    component.mixins = isArray(component.mixins)
-      ? component.mixins.push(inject)
-      : [inject]
+
+    if (isArray(component.mixins)) {
+      const mixins = component.mixins
+      const idx = mixins.length - 1
+      if (!mixins[idx].props?.tid) {
+        // mixins 里还没注入过，直接推入数组
+        component.mixins.push(inject)
+      } else {
+        // mixins 里已经注入过，代替前者
+        component.mixins[idx] = inject
+      }
+    } else {
+      component.mixins = [inject]
+    }
 
     return h(
       isBrowser ? 'div' : 'root',
@@ -38,7 +54,7 @@ function createVue3Page (h: typeof createElement, id: string) {
         class: isBrowser ? 'taro_page' : ''
       },
       [
-        h(component, {
+        h(Object.assign({}, component), {
           tid: id
         })
       ]
@@ -47,27 +63,21 @@ function createVue3Page (h: typeof createElement, id: string) {
 }
 
 function setReconciler () {
-  const hostConfig: Reconciler<any> = {
-    getLifecyle (instance, lifecycle) {
-      return instance.$options[lifecycle]
-    },
-    removeAttribute (dom, qualifiedName) {
-      const compName = capitalize(toCamelCase(dom.tagName.toLowerCase()))
-      if (
-        compName in internalComponents &&
-        hasOwn(internalComponents[compName], qualifiedName) &&
-        isBooleanStringLiteral(internalComponents[compName][qualifiedName])
-      ) {
-        // avoid attribute being removed because set false value in vue
-        dom.setAttribute(qualifiedName, false)
-      } else {
-        delete dom.props[qualifiedName]
-      }
-    }
+  const hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
+
+  const getLifecycle: GetLifecycle = function (instance, lifecycle) {
+    return instance.$options[lifecycle]
   }
 
-  if (isBrowser) {
-    hostConfig.createPullDownComponent = (component, path, h: typeof createElement) => {
+  const modifyMpEvent = function (event) {
+    event.type = event.type.replace(/-/g, '')
+  }
+
+  hooks.getLifecycle = getLifecycle
+  hooks.modifyMpEvent = modifyMpEvent
+
+  if (process.env.TARO_ENV === 'h5') {
+    hooks.createPullDownComponent = (component, path, h: typeof createElement) => {
       const inject = {
         props: {
           tid: String
@@ -94,12 +104,10 @@ function setReconciler () {
       }
     }
 
-    hostConfig.findDOMNode = (el) => {
+    hooks.getDOMNode = (el) => {
       return el.$el as any
     }
   }
-
-  options.reconciler(hostConfig)
 }
 
 export function createVue3App (app: App<TaroElement>, h: typeof createElement, config: Config) {
@@ -113,52 +121,96 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
   app._component.render = function () {
     return pages.slice()
   }
-
-  class AppConfig implements AppInstance {
-    config = config
-
-    onLaunch (options) {
-      Current.router = {
-        params: options?.query,
-        ...options
-      }
-      appInstance = app.mount('#app')
-      const onLaunch = appInstance?.$options?.onLaunch
-      isFunction(onLaunch) && onLaunch.call(appInstance, options)
-    }
-
-    onShow (options) {
-      Current.router = {
-        params: options?.query,
-        ...options
-      }
-      const onShow = appInstance?.$options?.onShow
-      isFunction(onShow) && onShow.call(appInstance, options)
-    }
-
-    onHide (options: unknown) {
-      const onHide = appInstance?.$options?.onHide
-      isFunction(onHide) && onHide.call(appInstance, options)
-    }
-
-    mount = (component: Component, id: string, cb: () => void) => {
+  if (!isBrowser) {
+    appInstance = app.mount('#app')
+  }
+  const appConfig: AppInstance = Object.create({
+    mount (component: Component, id: string, cb: () => void) {
       const page = createVue3Page(h, id)(component)
       pages.push(page)
       this.updateAppInstance(cb)
-    }
+    },
 
-    unmount = (id: string, cb: () => void) => {
+    unmount (id: string, cb: () => void) {
       pages = pages.filter(page => page.key !== id)
       this.updateAppInstance(cb)
-    }
+    },
 
     updateAppInstance (cb?: (() => void | undefined)) {
       appInstance.$forceUpdate()
       appInstance.$nextTick(cb)
     }
-  }
+  }, {
+    config: {
+      writable: true,
+      enumerable: true,
+      configurable: true,
+      value: config
+    },
 
-  Current.app = new AppConfig()
+    onLaunch: {
+      writable: true,
+      enumerable: true,
+      value (options) {
+        Current.router = {
+          params: options?.query,
+          ...options
+        }
+        if (isBrowser) {
+          appInstance = app.mount('#app')
+        }
+
+        // 把 App Class 上挂载的额外属性同步到全局 app 对象中
+        // eslint-disable-next-line dot-notation
+        if (app['taroGlobalData']) {
+          // eslint-disable-next-line dot-notation
+          const globalData = app['taroGlobalData']
+          const keys = Object.keys(globalData)
+          const descriptors = Object.getOwnPropertyDescriptors(globalData)
+          keys.forEach(key => {
+            Object.defineProperty(this, key, {
+              configurable: true,
+              enumerable: true,
+              get () {
+                return globalData[key]
+              },
+              set (value) {
+                globalData[key] = value
+              }
+            })
+          })
+          Object.defineProperties(this, descriptors)
+        }
+
+        const onLaunch = appInstance?.$options?.onLaunch
+        isFunction(onLaunch) && onLaunch.call(appInstance, options)
+      }
+    },
+
+    onShow: {
+      writable: true,
+      enumerable: true,
+      value (options) {
+        Current.router = {
+          params: options?.query,
+          ...options
+        }
+        const onShow = appInstance?.$options?.onShow
+        isFunction(onShow) && onShow.call(appInstance, options)
+      }
+    },
+
+    onHide: {
+      writable: true,
+      enumerable: true,
+      value (options) {
+        const onHide = appInstance?.$options?.onHide
+        isFunction(onHide) && onHide.call(appInstance, options)
+      }
+    }
+  })
+
+  Current.app = appConfig
 
   return Current.app
 }

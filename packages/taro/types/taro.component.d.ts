@@ -12,7 +12,6 @@ declare namespace Taro {
     shouldComponentUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): boolean
     componentWillUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): void
     componentWillUnmount?(): void
-    componentWillPreload?(params: { [propName: string]: any }): any
     componentDidShow?(): void
     componentDidHide?(): void
     componentDidCatchError?(err: string): void
@@ -38,7 +37,7 @@ declare namespace Taro {
   }
 
   // ref: packages/taro-runtime/src/current.ts
-  interface RouterInfo<TParams extends Record<string, string> = Record<string, string>> {
+  interface RouterInfo<TParams extends Partial<Record<string, string>> = Partial<Record<string, string>>> {
     /**
      * 路由参数。
      */
@@ -52,6 +51,9 @@ declare namespace Taro {
     onReady: string
     onHide: string
     onShow: string
+
+    shareTicket: string | undefined
+    scene: number | undefined
   }
 
   interface Component<P = {}, S = {}, SS = any> extends ComponentLifecycle<P, S, SS> {
@@ -159,7 +161,6 @@ declare namespace Taro {
     onShareAppMessage?(obj: { from: string; target?: any; webViewUrl: string }): void
     onResize?(options: unknown): void
     onTabItemTap?(obj: { index: string; pagePath: string; text: string }): void
-    componentWillPreload?(): void
     onTitleClick?(): void
     onOptionMenuClick?(): void
     onPopMenuClick?(): void
@@ -170,6 +171,10 @@ declare namespace Taro {
   }
 
   interface PageInstance extends PageLifeCycle {
+    /**
+     * 页面配置。
+     */
+    config?: PageConfig
     data?: Record<string, unknown>
     path?: string
     options?: Record<string, unknown>

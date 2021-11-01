@@ -26,6 +26,7 @@ export const simpleComponents = [
   'taro-navigation-bar',
   'taro-block',
   'taro-canvas',
+  'taro-custom-wrapper',
   {
     name: 'taro-checkbox',
     classNames: ['weui-cells_checkbox']

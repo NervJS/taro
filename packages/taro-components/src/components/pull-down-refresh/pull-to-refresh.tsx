@@ -26,7 +26,7 @@ try {
     }
   })
   window.addEventListener('cancel', () => ({}), opts)
-} catch (e) {}
+} catch (e) { }
 
 const willPreventDefault = supportsPassive ? { passive: false } : false
 
@@ -56,7 +56,9 @@ export class PullToRefresh implements ComponentInterface {
 
   private _isMounted = false;
 
-  private scrollContainer = document.querySelector('.taro-tabbar__panel') || document.body
+  private get scrollContainer () {
+    return document.querySelector('.taro-tabbar__panel') || document.body
+  }
 
   @Watch('currSt')
   statusChange () {
@@ -68,7 +70,7 @@ export class PullToRefresh implements ComponentInterface {
     }
   }
 
-  componentDidUnload () {
+  disconnectedCallback () {
     this.destroy()
   }
 
@@ -239,7 +241,12 @@ export class PullToRefresh implements ComponentInterface {
   setContentStyle = (ty: number) => {
     // todos: Why sometimes do not have `this.contentRef` ?
     if (this.contentRef) {
-      setTransform(this.contentRef.style, `translate3d(0px,${ty}px,0)`)
+      // translate3d 不清理 会影响内部元素 定位
+      if (ty) {
+        setTransform(this.contentRef.style, `translate3d(0px,${ty}px,0)`)
+      } else {
+        setTransform(this.contentRef.style, '')
+      }
     }
   }
 

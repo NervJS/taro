@@ -1,5 +1,5 @@
 /* eslint-disable prefer-promise-reject-errors */
-import { Current, CurrentReconciler } from '@tarojs/runtime'
+import { Current, container, SERVICE_IDENTIFIER } from '@tarojs/runtime'
 
 function shouleBeObject (target) {
   if (target && typeof target === 'object') return { res: true }
@@ -13,8 +13,10 @@ function shouleBeObject (target) {
 }
 
 export function findDOM (inst) {
+  const runtimeHooks = container.get(SERVICE_IDENTIFIER.Hooks)
+
   if (inst) {
-    const find = CurrentReconciler.findDOMNode
+    const find = runtimeHooks.getDOMNode
     if (typeof find === 'function') {
       return find(inst)
     }
@@ -185,37 +187,6 @@ const createCallbackManager = () => {
   }
 }
 
-const createScroller = () => {
-  const el = document.querySelector('.taro-tabbar__panel') || window
-
-  const getScrollHeight = el === window
-    ? () => document.documentElement.scrollHeight
-    : () => el.scrollHeight
-
-  const getPos = el === window
-    ? () => window.pageYOffset
-    : () => el.scrollTop
-
-  const getClientHeight = el === window
-    ? () => window.screen.height
-    : () => el.clientHeight
-
-  const listen = callback => {
-    el.addEventListener('scroll', callback)
-    document.body.addEventListener('touchmove', callback)
-  }
-  const unlisten = callback => {
-    el.removeEventListener('scroll', callback)
-    document.body.removeEventListener('touchmove', callback)
-  }
-
-  const isReachBottom = (distance = 0) => {
-    return getScrollHeight() - getPos() - getClientHeight() < distance
-  }
-
-  return { listen, unlisten, getPos, isReachBottom }
-}
-
 function processOpenapi (apiName, defaultOptions, formatResult = res => res, formatParams = options => options) {
   if (!window.wx) {
     return weixinCorpSupport(apiName)
@@ -224,7 +195,7 @@ function processOpenapi (apiName, defaultOptions, formatResult = res => res, for
     options = options || {}
     const obj = Object.assign({}, defaultOptions, options)
     const p = new Promise((resolve, reject) => {
-      ;['fail', 'success', 'complete'].forEach(k => {
+      ['fail', 'success', 'complete'].forEach(k => {
         obj[k] = oriRes => {
           const res = formatResult(oriRes)
           options[k] && options[k](res)
@@ -241,11 +212,6 @@ function processOpenapi (apiName, defaultOptions, formatResult = res => res, for
   }
 }
 
-const findRef = (refId, componentInstance) => {
-  if (componentInstance.isRoute) return
-  return componentInstance[refId] || findRef(refId, componentInstance.vnode._owner)
-}
-
 /**
  * ease-in-out的函数
  * @param {number} t 0-1的数字
@@ -254,6 +220,9 @@ const easeInOut = t => t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t 
 
 const getTimingFunc = (easeFunc, frameCnt) => {
   return x => {
+    if (frameCnt <= 1) {
+      return easeFunc(1)
+    }
     const t = x / (frameCnt - 1)
     return easeFunc(t)
   }
@@ -273,9 +242,7 @@ export {
   isValidColor,
   isFunction,
   createCallbackManager,
-  createScroller,
   processOpenapi,
-  findRef,
   easeInOut,
   getTimingFunc
 }

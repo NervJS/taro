@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - next
+      - feat/use-h5
   pull_request:
     branches:
       - next
@@ -14,9 +15,9 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      fail-fast: false      
+      fail-fast: false
       matrix:
-        node-version: [12.x, 13.x, 14.x]
+        node-version: [12.x, 14.x, 15.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -51,7 +52,7 @@ jobs:
     - name: lint
       run: yarn run lint
     - name: build
-      run: yarn run build:parallel
+      run: yarn run build
     - name: test
       run: yarn test
       env:
