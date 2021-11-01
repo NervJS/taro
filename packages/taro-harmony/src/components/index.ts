@@ -57,6 +57,9 @@ export const components = {
     texton: singleQuote('On'),
     textoff: singleQuote('Off'),
   },
+  Input: {
+    'placeholder-color': singleQuote('#99000000')
+  },
   Video: {
     speed: '1',
     bindloadedmetadata: '',
