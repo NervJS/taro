@@ -1,8 +1,4 @@
-// import { covertHex3ToHex6 } from '../utils'
-
-function covertHex3ToHex6 (color) {
-  return color && color.replace(/^#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])$/, '#$1$1$2$2$3$3')
-}
+import { covertHex3ToHex6 } from '../utils'
 
 export default {
   props: [
