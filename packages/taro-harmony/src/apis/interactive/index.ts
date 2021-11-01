@@ -1,7 +1,8 @@
-import { getParameterError } from '../utils'
+import { isString, isNumber } from '@tarojs/shared'
+import { getParameterError, unsupport } from '../utils'
 const prompt = require('@system.prompt')
 
-const noop = function () {}
+const noop = () => {}
 
 export function showToast (options) {
   const _default = {
@@ -10,13 +11,13 @@ export function showToast (options) {
     image: '',
     duration: 1500,
     mask: false,
-    bottom: ''
+    bottom: '100px'
   }
   options = { ..._default, ...options }
 
   const { title, duration, bottom } = options
 
-  if (typeof title !== 'string') {
+  if (!isString(title)) {
     return console.error(getParameterError({
       name: 'showToast',
       correct: 'String',
@@ -24,7 +25,7 @@ export function showToast (options) {
     }))
   }
 
-  if (typeof duration !== 'number') {
+  if (!isNumber(duration)) {
     return console.error(getParameterError({
       name: 'showToast',
       correct: 'Number',
@@ -32,18 +33,20 @@ export function showToast (options) {
     }))
   }
 
-  if (typeof bottom !== 'string') {
+  if (!isString(bottom)) {
     return console.error(getParameterError({
       name: 'showToast',
       correct: 'String',
       wrong: 'bottom'
     }))
   }
-
-  return prompt.showToast({
-    message: title,
-    duration,
-    bottom
+  return new Promise(resolve => {
+    prompt.showToast({
+      message: title,
+      duration,
+      bottom
+    })
+    resolve(null)
   })
 }
 
@@ -87,15 +90,22 @@ export function showModal (options) {
     title,
     message: content,
     buttons: buttons,
-    success: function (data) {
-      success(data)
+    success: (data) => {
+      if (data.index === 1) {
+        return success({ confirm: true, cancel: null })
+      } else {
+        return success({ confirm: null, cancel: true })
+      }
     },
     cancel: function () {
       fail()
     }
   }
 
-  return prompt.showDialog(modalOptions)
+  return new Promise(resolve => {
+    prompt.showDialog(modalOptions)
+    resolve(null)
+  })
 }
 
 export function showActionSheet (options) {
@@ -137,12 +147,27 @@ export function showActionSheet (options) {
     }
   }
 
-  prompt.showActionMenu(actionSheetOptions)
+  return new Promise(resolve => {
+    prompt.showActionMenu(actionSheetOptions)
+    resolve(null)
+  })
 }
 
 export function hideToast () {
-  return prompt.showToast({
-    message: '',
-    duration: 10
+  return new Promise(resolve => {
+    prompt.showToast({
+      message: '关闭中',
+      duration: 10,
+      bottom: '9999px'
+    })
+    resolve(null)
   })
+}
+
+export function showLoading () {
+  process.env.NODE_ENV !== 'production' && unsupport('showLoading')
+}
+
+export function hideLoading () {
+  process.env.NODE_ENV !== 'production' && unsupport('hideLoading')
 }
