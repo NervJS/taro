@@ -24,6 +24,8 @@ export class Template extends RecursiveTemplate {
     this.voidElements.add('image')
     this.voidElements.add('static-image')
     this.voidElements.add('camera')
+    this.voidElements.add('input')
+    this.voidElements.add('video')
 
     this.nativeComps = fs.readdirSync(path.resolve(__dirname, './components-harmony'))
   }
@@ -89,8 +91,6 @@ ${elements}
   }
 
   buildStandardComponentTemplate (comp) {
-    const children = this.voidElements.has(comp.nodeName) ? '' : '<container root="{{i}}"></container>'
-
     let nodeName = ''
     switch (comp.nodeName) {
       case 'slot':
@@ -112,7 +112,14 @@ ${elements}
         nodeName = comp.nodeName
         break
     }
+    return this.generateComponentTemplateSrc(comp, nodeName)
+  }
 
+  generateComponentTemplateSrc (comp, nodeName?): string {
+    const children = this.voidElements.has(comp.nodeName) ? '' : '<container root="{{i}}"></container>'
+    if (!nodeName) {
+      nodeName = comp.nodeName
+    }
     if (this.nativeComps.includes(nodeName)) {
       nodeName = `taro-${nodeName}`
       // 鸿蒙自定义组件不能传 class 属性
@@ -145,10 +152,10 @@ ${elements}
       .join('')
   }
 
-  replacePropName (name: string, value: string, _componentName?: string) {
+  replacePropName (name: string, value: string, componentName?: string) {
     if (value === 'eh') return name.toLowerCase().replace(/^bind/, '@')
     // 由于鸿蒙不支持for属性 需要修改for属性，需要改名
-    if (_componentName === 'label' && name === 'for') return 'target'
+    if (componentName === 'label' && name === 'for') return 'target'
     return name
   }
 

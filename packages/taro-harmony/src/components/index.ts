@@ -64,5 +64,14 @@ export const components = {
     selectedstart: '-1',
     selectedend: '-1',
     softkeyboardenabled: 'true'
+  },
+  Input: {
+    'placeholder-color': singleQuote('#99000000')
+  },
+  Video: {
+    speed: '1',
+    bindloadedmetadata: '',
+    bindprogress: '',
+    bindtap: ''
   }
 }

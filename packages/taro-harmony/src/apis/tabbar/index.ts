@@ -1,4 +1,4 @@
-import { unsupport, current, callAsyncSuccess, callAsyncfail } from '../utils'
+import { unsupport, current, callAsyncSuccess, callAsyncFail } from '../utils'
 
 import type Taro from '@tarojs/taro'
 
@@ -27,7 +27,7 @@ const toggleTabBar = function<T extends ToggleAPIs['type']> (type: T): Extract<T
       const error = { errMsg: `${type}TabBar:fail not TabBar page` }
 
       if (!currentData) {
-        callAsyncfail(reject, error, options)
+        callAsyncFail(reject, error, options)
       } else {
         page.$set('isShowTaroTabBar', type === 'show')
         callAsyncSuccess(resolve, res, options)
@@ -49,7 +49,7 @@ export const setTabBarStyle: SetTabBarStyle = function (options = {}) {
     const error = { errMsg: 'setTabBarStyle:fail not TabBar page' }
 
     if (!currentData) {
-      callAsyncfail(reject, error, options)
+      callAsyncFail(reject, error, options)
     } else {
       const data = Object.assign({}, currentData)
 
@@ -73,7 +73,7 @@ export const setTabBarItem: SetTabBarItem = function (options) {
     const error = { errMsg: 'setTabBarItem:fail not TabBar page' }
 
     if (!currentData) {
-      callAsyncfail(reject, error, options)
+      callAsyncFail(reject, error, options)
     } else {
       const index = options.index
       const item = Object.assign({}, currentData.list[index])
