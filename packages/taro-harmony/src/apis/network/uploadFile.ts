@@ -23,6 +23,7 @@ interface IUploadFileParamsWX {
   name: string
   header?: General.IAnyObject
   formData?: General.IAnyObject
+  timeout?: number
   complete?: (res: General.CallbackResult) => void
   fail?: (res: General.CallbackResult) => void
   success?: (res: ISuccessParams) => void
@@ -69,7 +70,7 @@ function uploadFile (params: IUploadFileParamsWX) {
     return Promise.reject(res)
   }
 
-  const { url, filePath, name, header, formData, success, fail, complete } = params
+  const { url, filePath, name, header, formData, timeout, success, fail, complete } = params
 
   const file: IOHOSFileType = {
     url: filePath,
@@ -94,14 +95,27 @@ function uploadFile (params: IUploadFileParamsWX) {
   }
   if (header) ohosParams.header = header
 
-  if (success && fail && complete) {
+  const timer = setTimeout(() => {
+    const err: {errMsg: string} = {
+      errMsg: 'uploadFile request timeout, please try again later.'
+    }
+    if (success || fail || complete) {
+      fail && fail(err)
+      complete && complete(err)
+      return err
+    } else {
+      return Promise.reject(err)
+    }
+  }, timeout)
+
+  if (success || fail || complete) {
     request.upload(ohosParams, (err: any, res: any) => {
+      clearTimeout(timer)
       if (err) {
         fail && fail(err)
         complete && complete(err)
         return
       }
-
       uploadTask = res
       success && success(res)
       complete && complete(res)
@@ -109,6 +123,7 @@ function uploadFile (params: IUploadFileParamsWX) {
     })
   } else {
     request.upload(ohosParams).then((res: any) => {
+      clearTimeout(timer)
       uploadTask = res
     })
     return Promise.resolve(UploadTaskWX)
