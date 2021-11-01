@@ -1,8 +1,13 @@
-import { isString, isNumber } from '@tarojs/shared'
-import { getParameterError, unsupport } from '../utils'
+import { isString, isNumber, isArray } from '@tarojs/shared'
+import {
+  getParameterError, unsupport, noop, callAsyncSuccess
+} from '../utils'
+
 const prompt = require('@system.prompt')
 
-const noop = () => {}
+const resCallback = (res) => {
+  return { errMsg: `${res}:ok` }
+}
 
 export function showToast (options) {
   const _default = {
@@ -11,8 +16,11 @@ export function showToast (options) {
     image: '',
     duration: 1500,
     mask: false,
-    bottom: '100px'
+    bottom: '100px',
+    success: noop,
+    complete: noop
   }
+
   options = { ..._default, ...options }
 
   const { title, duration, bottom } = options
@@ -40,13 +48,16 @@ export function showToast (options) {
       wrong: 'bottom'
     }))
   }
+
+  const toastOptions = {
+    message: title,
+    duration,
+    bottom
+  }
+
   return new Promise(resolve => {
-    prompt.showToast({
-      message: title,
-      duration,
-      bottom
-    })
-    resolve(null)
+    prompt.showToast(toastOptions)
+    callAsyncSuccess(resolve, resCallback('showToast'), options)
   })
 }
 
@@ -54,25 +65,26 @@ export function showModal (options) {
   const _default = {
     title: '',
     content: '',
-    showCancel: true,
+    showCancel: false,
     cancelText: '取消',
     cancelColor: '#000000',
     confirmText: '确定',
     confirmColor: '#3CC51F',
+    cancel: noop,
     success: noop,
-    fail: noop,
     complete: noop
   }
+
   options = { ..._default, ...options }
 
   const {
-    title, content, success, fail,
-    cancelText, confirmText, cancelColor, confirmColor
+    title, content, cancelText, confirmText,
+    cancelColor, confirmColor, showCancel, cancel
   } = options
 
   const buttons: any = []
 
-  if (cancelText !== '') {
+  if (cancelText !== '' && !showCancel) {
     buttons.push({
       text: cancelText,
       color: cancelColor
@@ -86,25 +98,38 @@ export function showModal (options) {
     })
   }
 
-  const modalOptions = {
-    title,
-    message: content,
-    buttons: buttons,
-    success: (data) => {
-      if (data.index === 1) {
-        return success({ confirm: true, cancel: null })
-      } else {
-        return success({ confirm: null, cancel: true })
-      }
-    },
-    cancel: function () {
-      fail()
-    }
-  }
-
   return new Promise(resolve => {
+    const modalOptions = {
+      title,
+      message: content,
+      buttons: buttons,
+      success: (data) => {
+        if (data.index === 1) {
+          return resolve(options.success(
+            {
+              ...resCallback('showModal'),
+              confirm: true,
+              cancel: false,
+              content: null
+            }
+          ))
+        } else {
+          return resolve(options.success(
+            {
+              ...resCallback('showModal'),
+              confirm: false,
+              cancel: true
+            }
+          ))
+        }
+      },
+      // 鸿蒙没有失败方法，只有取消
+      cancel: (data) => {
+        return cancel({ errMsg: `showModal:fail ${data}` })
+      }
+    }
+
     prompt.showDialog(modalOptions)
-    resolve(null)
   })
 }
 
@@ -117,11 +142,20 @@ export function showActionSheet (options) {
     fail: noop,
     complete: noop
   }
+
   options = { ..._default, ...options }
 
-  const { itemList, itemColor, success, fail } = options
+  const { title, itemList, itemColor } = options
 
-  if (!Array.isArray(itemList)) {
+  if (!isString(title)) {
+    return console.error(getParameterError({
+      name: 'showActionSheet',
+      correct: 'String',
+      wrong: 'title'
+    }))
+  }
+
+  if (!isArray(itemList)) {
     return console.error(getParameterError({
       name: 'showActionSheet',
       correct: 'Array',
@@ -136,31 +170,48 @@ export function showActionSheet (options) {
     }
   })
 
-  const actionSheetOptions = {
-    title: 'Title Info',
-    buttons: buttons,
-    success: function (data) {
-      success(data)
-    },
-    fail: function (data) {
-      fail(data)
+  return new Promise((resolve) => {
+    const actionSheetOptions = {
+      title,
+      buttons,
+      success: (data) => {
+        return resolve(options.success({
+          ...data,
+          ...resCallback('showActionSheet')
+        }))
+      },
+      // 取消方法，并非失败
+      fail: (data) => {
+        return resolve(options.fail({
+          ...data,
+          errMsg: data.errMsg.replace('showActionMenu', 'showActionSheet')
+        }))
+      },
+      complete: (data) => {
+        return resolve(options.complete({
+          ...data,
+          errMsg: data.errMsg.replace('showActionMenu', 'showActionSheet')
+        }))
+      }
     }
-  }
 
-  return new Promise(resolve => {
     prompt.showActionMenu(actionSheetOptions)
-    resolve(null)
   })
 }
 
-export function hideToast () {
+export function hideToast (options) {
+  const _default = {
+    success: noop,
+    complete: noop
+  }
+  options = { ..._default, ...options }
   return new Promise(resolve => {
     prompt.showToast({
       message: '关闭中',
       duration: 10,
       bottom: '9999px'
     })
-    resolve(null)
+    callAsyncSuccess(resolve, resCallback('hideToast'), options)
   })
 }
 
