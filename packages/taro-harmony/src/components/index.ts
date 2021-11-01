@@ -65,6 +65,9 @@ export const components = {
     secondarypercent: '0',
     clockwise: 'true'
   },
+  Input: {
+    'placeholder-color': singleQuote('#99000000')
+  },
   Video: {
     speed: '1',
     bindloadedmetadata: '',
