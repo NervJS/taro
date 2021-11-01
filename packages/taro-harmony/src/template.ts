@@ -25,6 +25,7 @@ export class Template extends RecursiveTemplate {
     this.voidElements.add('static-image')
     this.voidElements.add('camera')
     this.voidElements.add('input')
+    this.voidElements.add('video')
 
     this.nativeComps = fs.readdirSync(path.resolve(__dirname, './components-harmony'))
   }
@@ -133,10 +134,10 @@ ${elements}
       .join('')
   }
 
-  replacePropName (name: string, value: string, _componentName?: string) {
+  replacePropName (name: string, value: string, componentName?: string) {
     if (value === 'eh') return name.toLowerCase().replace(/^bind/, '@')
     // 由于鸿蒙不支持for属性 需要修改for属性，需要改名
-    if (_componentName === 'label' && name === 'for') return 'target'
+    if (componentName === 'label' && name === 'for') return 'target'
     return name
   }
 

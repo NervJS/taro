@@ -59,5 +59,11 @@ export const components = {
   },
   Input: {
     'placeholder-color': singleQuote('#99000000')
+  },
+  Video: {
+    speed: '1',
+    bindloadedmetadata: '',
+    bindprogress: '',
+    bindtap: ''
   }
 }
