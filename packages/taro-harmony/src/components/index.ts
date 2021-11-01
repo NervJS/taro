@@ -64,5 +64,11 @@ export const components = {
     'font-size': singleQuote('25px'),
     secondarypercent: '0',
     clockwise: 'true'
+  },
+  Video: {
+    speed: '1',
+    bindloadedmetadata: '',
+    bindprogress: '',
+    bindtap: ''
   }
 }
