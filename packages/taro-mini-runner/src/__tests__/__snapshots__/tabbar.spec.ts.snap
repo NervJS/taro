@@ -2819,6 +2819,8 @@ require(\\"./taro\\");
                 subkey: \\"\\",
                 rotate: \\"0\\",
                 skew: \\"0\\",
+                \\"max-scale\\": \\"20\\",
+                \\"min-scale\\": \\"3\\",
                 \\"enable-3D\\": \\"false\\",
                 \\"show-compass\\": \\"false\\",
                 \\"show-scale\\": \\"false\\",
