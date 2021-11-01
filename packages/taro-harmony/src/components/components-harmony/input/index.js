@@ -34,7 +34,7 @@ export default {
   computed: {
     realType () {
       let temp = this.type
-      if (this.password && this.password === 'true') {
+      if (this.password === true) {
         temp = 'password'
       }
       return temp
