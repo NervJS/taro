@@ -1,8 +1,10 @@
+import { createOption } from '../utils'
+
 const NUM_HORIZONTAL = -90
 const NUM_HORIZONTAL_ANTI = 90
 const NUM_VERTICAL = 0
 
-export default {
+export default createOption({
   props: [
     'id',
     'cls',
@@ -34,32 +36,32 @@ export default {
 
   preparedCallback: function (e) {
     this.duration = e.duration
-    this.$emit('loadedmetadata', { id: this.id, duration: this.duration })
+    this.$trigger('loadedmetadata', { duration: this.duration })
   },
   startCallback: function () {
-    this.$emit('play', { id: this.id })
+    this.$trigger('play')
   },
   pauseCallback: function () {
-    this.$emit('pause', { id: this.id })
+    this.$trigger('pause')
   },
   finishCallback: function () {
-    this.$emit('ended', { id: this.id })
+    this.$trigger('ended')
   },
   stopCallback: function () {
-    this.$emit('stop', { id: this.id })
+    this.$trigger('stop')
   },
   errorCallback: function () {
-    this.$emit('error', { id: this.id })
+    this.$trigger('error')
   },
   seekedCallback: function (e) {
     const buffered = this.duration > 0 ? (e.currenttime / this.duration) * 100 : 0
-    this.$emit('progress', { id: this.id, buffered })
+    this.$trigger('progress', { buffered })
   },
   timeupdateCallback: function (e) {
-    this.$emit('timeupdate', { id: this.id, currentTime: e.currenttime, duration: this.duration })
+    this.$trigger('timeupdate', { currentTime: e.currenttime, duration: this.duration })
   },
   clickCallback: function () {
-    this.$emit('tap', { id: this.id })
+    this.$trigger('tap')
   },
   fullscreenChangeCallback: function (e) {
     const isFullScreen = !!e.fullscreen
@@ -67,6 +69,6 @@ export default {
     if (isFullScreen) {
       direction = this.videoDirection === 'horizontal' ? NUM_HORIZONTAL_ANTI : NUM_VERTICAL
     }
-    this.$emit('fullscreenchange', { id: this.id, fullScreen: isFullScreen, direction })
+    this.$trigger('fullscreenchange', { fullScreen: isFullScreen, direction })
   }
-}
+})

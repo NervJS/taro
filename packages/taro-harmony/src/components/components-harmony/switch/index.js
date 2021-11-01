@@ -1,4 +1,6 @@
-export default {
+import { createOption } from '../utils'
+
+export default createOption({
   props: [
     'id',
     'cls',
@@ -10,6 +12,6 @@ export default {
     'textoff'
   ],
   onChange (e) {
-    this.$emit('change', { value: e.checked, id: this.id })
+    this.$trigger('change', { value: e.checked })
   }
-}
+})
