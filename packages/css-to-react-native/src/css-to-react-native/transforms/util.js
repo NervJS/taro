@@ -126,12 +126,20 @@ export const parseShadow = tokenStream => {
       } else {
         tokenStream.rewind()
       }
+      tokenStream.saveRewindPoint()
+      if (
+        tokenStream.matches(SPACE) &&
+        tokenStream.matches(LENGTH, UNSUPPORTED_LENGTH_UNIT)
+      ) {
+        // spread-radius
+        // 兼容web写法，防止报错
+      } else {
+        tokenStream.rewind()
+      }
     } else if (typeof color === 'undefined' && tokenStream.matches(COLOR)) {
       color = tokenStream.lastValue
     } else {
-      // spread-radius
-      tokenStream.matches(SPACE)
-      tokenStream.matches(LENGTH, UNSUPPORTED_LENGTH_UNIT)
+      tokenStream.throw()
     }
 
     didParseFirst = true
