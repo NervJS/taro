@@ -167,7 +167,13 @@ function setReconciler () {
 
 const pageKeyId = incrementId()
 
-export function createReactApp (App: React.ComponentClass, react: typeof React, reactdom, config: AppConfig) {
+/**
+ * 构建一个临时类型，等taro新版本更新后即可删除此类型，将AppConfigTemp改为AppConfig
+ */
+interface AppConfigTemp extends AppConfig {
+  h5RenderDomId?: string
+}
+export function createReactApp (App: React.ComponentClass, react: typeof React, reactdom, config: AppConfigTemp) {
   R = react
   ReactDOM = reactdom
   ensure(!!ReactDOM, '构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'nerv\' ')

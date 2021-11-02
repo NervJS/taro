@@ -104,8 +104,14 @@ function setReconciler () {
 }
 
 let Vue
+/**
+ * 构建一个临时类型，等taro新版本更新后即可删除此类型，将AppConfigTemp改为AppConfig
+ */
+interface AppConfigTemp extends AppConfig {
+  h5RenderDomId?: string
+}
 
-export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: AppConfig) {
+export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: AppConfigTemp) {
   Vue = vue
   ensure(!!Vue, '构建 Vue 项目请把 process.env.FRAMEWORK 设置为 \'vue\'')
 

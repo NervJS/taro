@@ -2,9 +2,16 @@ import { initTabbar } from './tabbar'
 import { setHistoryMode } from './history'
 import { RouterConfig } from './router'
 
-export const routerConfig: RouterConfig = Object.create(null)
+/**
+ * 构建一个临时类型，等taro新版本更新后即可删除此类型，将AppConfigTemp改为RouterConfig
+ */
+interface AppConfigTemp extends RouterConfig {
+  h5RenderDomId?: string
+}
 
-export function init (config: RouterConfig) {
+export const routerConfig: AppConfigTemp = Object.create(null)
+
+export function init (config: AppConfigTemp) {
   config.router.mode = config.router.mode || 'hash'
   setHistoryMode(config.router.mode, config.router.basename)
   Object.assign(routerConfig, config)
