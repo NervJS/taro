@@ -173,6 +173,7 @@ const pageKeyId = incrementId()
 interface AppConfigTemp extends AppConfig {
   h5RenderDomId?: string
 }
+
 export function createReactApp (App: React.ComponentClass, react: typeof React, reactdom, config: AppConfigTemp) {
   R = react
   ReactDOM = reactdom
