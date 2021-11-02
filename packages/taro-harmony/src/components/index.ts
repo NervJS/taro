@@ -60,6 +60,15 @@ export const components = {
   Slider: {
     showsteps: 'false',
     showtips: 'false',
+  },
+  Input: {
+    'placeholder-color': singleQuote('#99000000')
+  },
+  Video: {
+    speed: '1',
+    bindloadedmetadata: '',
+    bindprogress: '',
+    bindtap: ''
   }
 }
 
