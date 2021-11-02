@@ -5,7 +5,6 @@ export default createOption({
     values: []
   },
   props: [
-    'cls',
     'id'
   ],
   onChange () {
