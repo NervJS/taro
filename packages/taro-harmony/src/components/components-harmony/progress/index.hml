@@ -6,7 +6,6 @@
   >
     <progress
       style="color: {{progressColor}};background-color:{{progressBgColor}};stroke-width:{{strokeWidth}}"
-      class="{{cls}}"
       type="{{type}}"
       percent="{{percent}}"
       secondarypercent="{{secondarypercent}}"
@@ -20,7 +19,6 @@
   <progress
     else
     style="color: {{progressColor}};background-color:{{progressBgColor}};stroke-width:{{strokeWidth}}"
-    class="{{cls}}"
     type="{{type}}"
     percent="{{percent}}"
     secondarypercent="{{secondarypercent}}"

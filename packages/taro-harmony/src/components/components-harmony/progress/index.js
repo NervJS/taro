@@ -2,7 +2,6 @@ import { covertHex3ToHex6 } from '../utils'
 
 export default {
   props: [
-    'cls',
     'type',
     'percent',
     'secondarypercent',
