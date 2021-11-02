@@ -233,7 +233,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
           },
           onPageScroll (options) {
             const page = pageRef.current
-            if (page != null && isFunction(page.onReachBottom)) {
+            if (page != null && isFunction(page.onPageScroll)) {
               page.onPageScroll && page.onPageScroll(options)
             } else {
               safeExecute(pageId, 'onPageScroll', options)
