@@ -16,10 +16,10 @@ export function init (config: AppConfigTemp) {
   setHistoryMode(config.router.mode, config.router.basename)
   Object.assign(routerConfig, config)
 
-  let app = document.getElementById(config.h5RenderDomId || 'app')
+  let app = document.getElementById(config?.h5RenderDomId || 'app')
   if (!app) {
     app = document.createElement('div')
-    app.id = config.h5RenderDomId || 'app'
+    app.id = config?.h5RenderDomId || 'app'
     document.body.appendChild(app)
   }
   app.classList.add('taro_router')
