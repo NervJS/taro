@@ -69,25 +69,7 @@ ${elements}
   }
 
   buildFocusComponentTemplte (comp): string {
-    const children = this.voidElements.has(comp.nodeName) ? '' : '<container root="{{i}}"></container>'
-
-    let nodeName = ''
-
-    if (this.nativeComps.includes(comp.nodeName)) {
-      nodeName = `taro-${comp.nodeName}`
-      // 鸿蒙自定义组件不能传 class 属性
-      comp.attributes.cls = comp.attributes.class
-      delete comp.attributes.class
-    }
-
-    const res = `
-<block if="{{i.nn == '${comp.nodeName}'}}">
-  <${nodeName} ${this.buildAttrs(comp.attributes, comp.nodeName)} id="{{i.uid}}">
-    ${children}
-  </${nodeName}>
-</block>
-`
-    return res
+    return this.generateComponentTemplateSrc(comp)
   }
 
   buildStandardComponentTemplate (comp) {
