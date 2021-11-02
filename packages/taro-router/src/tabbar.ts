@@ -1,7 +1,7 @@
 import { AppConfig } from '@tarojs/taro'
 import { history } from './history'
 
-export function initTabbar (config: AppConfig) {
+export function initTabbar (config: AppConfig, container: Element) {
   if (config.tabBar == null) {
     return
   }
@@ -24,7 +24,6 @@ export function initTabbar (config: AppConfig) {
   if (typeof routerConfig.basename !== 'undefined') {
     tabbar.conf.basename = routerConfig.basename
   }
-  const container = document.getElementById('container')
   // eslint-disable-next-line no-unused-expressions
   container?.appendChild(tabbar)
 }

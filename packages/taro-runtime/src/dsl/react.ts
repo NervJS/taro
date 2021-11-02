@@ -215,7 +215,7 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
       return R.createElement(
         App,
         props,
-        isBrowser ? R.createElement('div', null, this.elements.slice()) : this.elements.slice()
+        this.elements.slice()
       )
     }
   }
@@ -223,7 +223,7 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
   let wrapper: AppWrapper
   if (!isBrowser) {
     // eslint-disable-next-line react/no-render-return-value
-    wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById('app'))
+    wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById(config.h5RenderDomId || 'app'))
   }
 
   const app: AppInstance = Object.create({
@@ -258,7 +258,7 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
         if (isBrowser) {
           // 由于 H5 路由初始化的时候会清除 app 下的 dom 元素，所以需要在路由初始化后执行 render
           // eslint-disable-next-line react/no-render-return-value
-          wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById('app'))
+          wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById(config.h5RenderDomId || 'app'))
         }
         const app = ref.current
 

@@ -328,7 +328,13 @@ declare namespace Taro {
     /**
      * 接受一个数组，每一项都是字符串，来指定编译为原生小程序组件的组件入口
      */
-    components?: string[]
+    components?: string[],
+    /**
+     * 指定h5端要用来渲染页面的容器id
+     * 当你未指定或者指定错误时，将会自动创建一个id为'app'或者是你指定id的div标签插入body下作为渲染容器
+     * 这个配置使用vue开发框架的情况下未测试，可能出现无法使用的情况
+     */
+    h5RenderDomId?: string
   }
 
   interface Config extends PageConfig, AppConfig {
