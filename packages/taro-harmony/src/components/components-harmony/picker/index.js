@@ -1,3 +1,5 @@
+import { createOption } from '../utils'
+
 const DEFAULT_MODE = 'selector'
 const DEFAULT_TYPE = 'text'
 const MODE_TYPE_MAP = {
@@ -8,10 +10,9 @@ const MODE_TYPE_MAP = {
   datetime: 'datetime'
 }
 
-export default {
+export default createOption({
   props: [
     'id',
-    'cls',
     'disabled',
     'mode',
     'range',
@@ -75,36 +76,36 @@ export default {
   textChange (e) {
     const { newValue, newSelected } = e
     this.localValue = newValue
-    this.$emit('change', { id: this.id, value: newSelected })
+    this.$trigger('change', { value: newSelected })
   },
   multiTextChange (e) {
     const { newValue, newSelected } = e
     this.localValue = newValue
-    this.$emit('change', { id: this.id, value: newSelected })
+    this.$trigger('change', { value: newSelected })
   },
   multiTextColumnChange (e) {
     const { column, newSelected } = e
-    this.$emit('columnchange', { id: this.id, column, value: newSelected })
+    this.$trigger('columnchange', { column, value: newSelected })
   },
   timeChange (e) {
     const { hour, minute } = e
     this.localValue = padNumZero(hour) + ':' + padNumZero(minute)
-    this.$emit('change', { id: this.id, value: this.localValue, hour, minute })
+    this.$trigger('change', { value: this.localValue, hour, minute })
   },
   dateChange (e) {
     const { year, month, day } = e
     this.localValue = [year, padNumZero(month + 1), padNumZero(day)].join('-')
-    this.$emit('change', { id: this.id, value: this.localValue, year, month, day })
+    this.$trigger('change', { value: this.localValue, year, month, day })
   },
   datetimeChange (e) {
     const { year, month, day, hour, minute } = e
     this.localValue = [year, padNumZero(month + 1), padNumZero(day), padNumZero(hour), padNumZero(minute)].join('-')
-    this.$emit('change', { id: this.id, value: this.localValue, year, month, day, hour, minute })
+    this.$trigger('change', { value: this.localValue, year, month, day, hour, minute })
   },
   cancel () {
-    this.$emit('cancel', { id: this.id })
+    this.$trigger('cancel')
   }
-}
+})
 
 function padNumZero (num) {
   return num.toString().padStart(2, '0')
