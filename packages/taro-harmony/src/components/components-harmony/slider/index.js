@@ -1,6 +1,6 @@
-import { covertHex3ToHex6 } from '../utils'
+import { covertHex3ToHex6, createOption } from '../utils'
 
-export default {
+export default createOption({
   props: [
     'id',
     'cls',
@@ -35,9 +35,9 @@ export default {
   },
   onChange (e) {
     if (e.isEnd === 'true') {
-      this.$emit('change', { id: this.id, progress: e.progress, isEnd: e.isEnd, value: e.value })
+      this.$trigger('change', { progress: e.progress, isEnd: e.isEnd, value: e.value })
     }
-    this.$emit('changing', { id: this.id, progress: e.progress, isEnd: e.isEnd, value: e.value })
+    this.$trigger('changing', { progress: e.progress, isEnd: e.isEnd, value: e.value })
     this.currentValue = e.value
   }
-}
+})
