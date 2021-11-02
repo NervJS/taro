@@ -1,4 +1,6 @@
-export default {
+import { createOption } from '../utils'
+
+export default createOption({
   props: [
     'cls',
     'id',
@@ -13,6 +15,6 @@ export default {
     'vertical'
   ],
   onChange (e) {
-    this.$emit('change', { current: e.index, id: this.id })
+    this.$trigger('change', { current: e.index })
   }
-}
+})
