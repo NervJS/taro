@@ -104,9 +104,6 @@ ${elements}
     }
     if (this.nativeComps.includes(nodeName)) {
       nodeName = `taro-${nodeName}`
-      // 鸿蒙自定义组件不能传 class 属性
-      comp.attributes.cls = comp.attributes.class
-      delete comp.attributes.class
     }
 
     const res = `
