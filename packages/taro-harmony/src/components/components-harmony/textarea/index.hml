@@ -1,6 +1,5 @@
 <textarea 
   id={{ id }}
-  class="{{cls}}"
   value="{{value}}"
   placeholder="{{placeholder}}"
   maxlength="{{maxlength}}"

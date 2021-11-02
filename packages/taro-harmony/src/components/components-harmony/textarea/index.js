@@ -8,7 +8,6 @@ export default {
 
   props: [
     'id',
-    'cls',
     'value',
     'placeholder',
     'maxlength',
