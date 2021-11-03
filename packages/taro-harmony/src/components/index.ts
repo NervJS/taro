@@ -78,6 +78,9 @@ export const components = {
     bindprogress: '',
     bindtap: ''
   },
+  Image: {
+    alt: ''
+  },
   Radio: {
     'group-id': ''
   }
