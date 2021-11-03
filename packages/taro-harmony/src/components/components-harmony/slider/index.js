@@ -3,7 +3,6 @@ import { covertHex3ToHex6, createOption } from '../utils'
 export default createOption({
   props: [
     'id',
-    'cls',
     'min',
     'max',
     'step',
