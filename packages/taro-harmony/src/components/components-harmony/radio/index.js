@@ -1,7 +1,6 @@
 export default {
   props: [
     'id',
-    'cls',
     'groupId',
     'value',
     'checked',
@@ -21,9 +20,9 @@ export default {
     let parent = this.$parent()
     while (parent) {
       if (!parent.$child) break
-      const radioItem = parent.$child(this.id)
-      if (radioItem) {
-        return parent
+      const radioGroup = parent.$child(this.groupId)
+      if (radioGroup) {
+        return radioGroup
       }
       parent = parent.$parent()
     }

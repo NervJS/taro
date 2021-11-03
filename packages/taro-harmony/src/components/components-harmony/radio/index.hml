@@ -1,15 +1,12 @@
-<div>
-  <input
-    id="{{id}}"
-    value="{{ value }}"
-    class="{{ cls }}"
-    type="radio"
-    name="{{ groupId }}"
-    disabled="{{disabled}}"
-    checked="{{ checked }}"
-    style="color: {{color}};"
-    @change="onChange"
-    >
-  </input>
-</div>
+<input
+  id="{{ id }}"
+  value="{{ value }}"
+  class="{{ cls }}"
+  type="radio"
+  name="{{ groupId }}"
+  disabled="{{disabled}}"
+  checked="{{ checked }}"
+  @change="onChange"
+  >
+</input>
 
