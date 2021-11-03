@@ -1,6 +1,7 @@
 import window from '@ohos.window'
+import { createOption } from '../utils'
 
-export default {
+export default createOption({
   data: {
     textareaValue: '',
     height: 0
@@ -36,48 +37,46 @@ export default {
 
   onInput (e) {
     this.textareaValue = e.value
-    this.$emit('input', {
-      id: this.id, value: e.text, cursor: e.text.length, keyCode: null
+    this.$trigger('input', {
+      value: e.text, cursor: e.text.length, keyCode: null
     })
   },
 
   onFocus () {
-    this.$emit('focus', {
-      id: this.id, value: this.textareaValue, height: this.height
+    this.$trigger('focus', {
+      value: this.textareaValue, height: this.height
     })
   },
 
   onBlur () {
-    this.$emit('blur', {
-      id: this.id, value: this.textareaValue, height: this.height
+    this.$trigger('blur', {
+      value: this.textareaValue, height: this.height
     })
   },
 
   onTranslate (e) {
-    this.$emit('translate', e)
+    this.$trigger('translate', e)
   },
 
   onShare (e) {
-    this.$emit('share', e)
+    this.$trigger('share', e)
   },
 
   onSearch (e) {
-    this.$emit('confirm', {
-      id: this.id, ...e
-    })
+    this.$trigger('confirm', e)
   },
 
   onOptionSelect (e) {
-    this.$emit('optionselect', e)
+    this.$trigger('optionselect', e)
   },
 
   onSelectChange (e) {
-    this.$emit('selectchange', e)
+    this.$trigger('selectchange', e)
   },
 
   onKeyboardHeightChange (height) {
-    this.$emit('keyboardheightchange', {
-      id: this.id, height, duration: 0
+    this.$trigger('keyboardheightchange', {
+      height, duration: 0
     })
   }
-}
+})
