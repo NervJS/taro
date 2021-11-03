@@ -16,6 +16,8 @@ export function init (config: AppConfigTemp) {
   setHistoryMode(config.router.mode, config.router.basename)
   Object.assign(routerConfig, config)
 
+  config?.h5RouterAnimate && loadAnimateCss()
+
   let app = document.getElementById(config?.h5RenderDomId || 'app')
   if (!app) {
     app = document.createElement('div')
@@ -38,4 +40,39 @@ export function init (config: AppConfigTemp) {
 
     initTabbar(config, container)
   }
+}
+
+/**
+ * 插入页面动画需要的样式
+ */
+function loadAnimateCss () {
+  const css = `.taro_router {
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.taro_router .taro_page {
+  background-color: #fff;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  transform: translate3d(100%, 0, 0);
+  transition: transform 0.3s;
+}
+
+.taro_router .taro_page.taro_tabbar_page {
+  transform: none;
+}
+
+.taro_router .taro_page.taro_page_show {
+  transform: translate3d(0, 0, 0);
+}`
+
+  const style = document.createElement('style')
+  style.innerHTML = css
+  document.getElementsByTagName('head')[0].appendChild(style)
 }

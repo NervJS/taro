@@ -15,7 +15,7 @@ import type { IHooks } from '../interface'
 
 export type V = typeof VueCtor
 
-export function connectVuePage (Vue: VueConstructor, id: string) {
+export function connectVuePage (Vue: VueConstructor, id: string, config: AppConfigTemp) {
   return (component: ComponentOptions<VueCtor>) => {
     const injectedPage = Vue.extend({
       props: {
@@ -35,7 +35,9 @@ export function connectVuePage (Vue: VueConstructor, id: string) {
           {
             attrs: {
               id,
-              class: isBrowser ? 'taro_page' : ''
+              class: isBrowser
+                ? 'taro_page' + (config?.tabBar?.list?.some(page => id.split('?')[0] === (page.pagePath.substr(0, 1) === '/' ? page.pagePath : '/' + page.pagePath)) ? ' taro_tabbar_page' : '')
+                : ''
             }
           },
           [
@@ -159,7 +161,7 @@ export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: Ap
   }
   const app: AppInstance = Object.create({
     mount (component: ComponentOptions<VueCtor>, id: string, cb: () => void) {
-      const page = connectVuePage(Vue, id)(component)
+      const page = connectVuePage(Vue, id, config)(component)
       wrapper.mount(page, id, cb)
     },
 

@@ -17,6 +17,13 @@ export interface Route extends PageConfig {
   load?: () => Promise<any>
 }
 
+interface H5RouterAnimate {
+  /**
+   * 动画切换时间，单位毫秒，默认300
+   */
+  animateTime: number
+}
+
 export interface RouterConfig extends AppConfig {
   routes: Route[],
   router: {
@@ -26,15 +33,38 @@ export interface RouterConfig extends AppConfig {
     pathname: string,
     forcePath?: string
   },
-  PullDownRefresh?: any
+  PullDownRefresh?: any,
+  /**
+   * 是否开启h5端路由动画功能，默认关闭
+   */
+  h5RouterAnimate?: H5RouterAnimate | boolean
+}
+
+let appConfig: RouterConfig
+
+function animateOpen () {
+  return !!appConfig?.h5RouterAnimate
+}
+
+function animateTime () {
+  return typeof appConfig?.h5RouterAnimate === 'object'
+    ? appConfig?.h5RouterAnimate?.animateTime || 300
+    : 300
 }
 
 function hidePage (page: PageInstance | null) {
   if (page != null) {
     page.onHide!()
     const pageEl = document.getElementById(page.path!)
-    if (pageEl) {
-      pageEl.style.display = 'none'
+    if (!pageEl) {
+      return
+    }
+    if (animateOpen()) {
+      setTimeout(() => {
+        pageEl.style.display = 'none'
+      }, animateTime())
+    } else {
+      pageEl!.style.display = 'none'
     }
   }
 }
@@ -44,20 +74,54 @@ function showPage (page: PageInstance | null, pageConfig: Route | undefined, sta
     page.onShow!()
     let pageEl = document.getElementById(page.path!)
     if (pageEl) {
-      pageEl.style.display = 'block'
+      pageEl.style.display = ''
     } else {
       page.onLoad(qs(stacksIndex))
       pageEl = document.getElementById(page.path!)
       pageOnReady(pageEl, page, false)
     }
     bindPageScroll(page, pageConfig || {})
+    if (animateOpen() && pageEl) {
+      setTimeout(() => {
+        pageEl!.classList.add('taro_page_show')
+      }, 5)
+    }
   }
 }
 
-function unloadPage (page: PageInstance | null) {
+const topPageUnload = {
+  clear () {
+    if (this.timer) {
+      clearTimeout(this.timer)
+      this.page?.onUnload()
+      this.timer = null
+    }
+  },
+  add (page: PageInstance) {
+    this.clear()
+    this.page = page
+    const pageEl = document.getElementById(page.path!)
+    if (pageEl) {
+      pageEl.classList.remove('taro_page_show')
+    }
+    this.timer = setTimeout(() => {
+      page.onUnload()
+      this.timer = null
+      this.page = null
+    }, 300)
+  },
+  timer: null,
+  page: null
+}
+
+function unloadPage (page: PageInstance | null, topPage = false) {
   if (page != null) {
     stacks.pop()
-    page.onUnload()
+    if (animateOpen() && topPage) {
+      topPageUnload.add(page)
+    } else {
+      page.onUnload()
+    }
   }
 }
 
@@ -79,7 +143,7 @@ function loadPage (page: PageInstance | null, pageConfig: Route | undefined, sta
   if (page !== null) {
     let pageEl = document.getElementById(page.path!)
     if (pageEl) {
-      pageEl.style.display = 'block'
+      pageEl.style.display = ''
     } else {
       page.onLoad(qs(stacksIndex), function () {
         pageEl = document.getElementById(page.path!)
@@ -89,6 +153,11 @@ function loadPage (page: PageInstance | null, pageConfig: Route | undefined, sta
     stacks.push(page)
     page.onShow!()
     bindPageScroll(page, pageConfig || {})
+    if (animateOpen() && pageEl) {
+      setTimeout(() => {
+        pageEl!.classList.add('taro_page_show')
+      }, 5)
+    }
   }
 }
 
@@ -97,6 +166,8 @@ export function createRouter (
   config: RouterConfig,
   framework
 ) {
+  appConfig = config
+
   init(config)
 
   const routes: Routes = []
@@ -152,7 +223,7 @@ export function createRouter (
     let shouldLoad = false
 
     if (action === 'POP') {
-      unloadPage(Current.page)
+      unloadPage(Current.page, stacks.length > 1)
       let delta = historyBackDelta
       while (delta-- > 1) {
         unloadPage(stacks.slice(-1)[0])

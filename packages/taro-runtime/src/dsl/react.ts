@@ -30,7 +30,8 @@ export let PageContext: React.Context<string> = EMPTY_OBJ
 
 export function connectReactPage (
   R: typeof React,
-  id: string
+  id: string,
+  config: AppConfigTemp
 ) {
   const h = R.createElement
   return (component: ReactPageComponent): React.ComponentClass<PageProps> => {
@@ -76,7 +77,10 @@ export function connectReactPage (
         if (isBrowser) {
           return h(
             'div',
-            { id, className: 'taro_page' },
+            {
+              id,
+              className: 'taro_page' + (config?.tabBar?.list?.some(page => id.split('?')[0] === (page.pagePath.substr(0, 1) === '/' ? page.pagePath : '/' + page.pagePath)) ? ' taro_tabbar_page' : '')
+            },
             children
           )
         }
@@ -239,7 +243,7 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
     },
 
     mount (component: ReactPageComponent, id: string, cb: () => void) {
-      const page = connectReactPage(R, id)(component)
+      const page = connectReactPage(R, id, config)(component)
       wrapper.mount(page, id, cb)
     },
 

@@ -17,7 +17,7 @@ import type { AppConfig as Config } from '@tarojs/taro'
 import type { GetLifecycle, IHooks } from '../interface'
 import type { AppInstance } from './instance'
 
-function createVue3Page (h: typeof createElement, id: string) {
+function createVue3Page (h: typeof createElement, id: string, config: AppConfigTemp) {
   return function (component): VNode {
     const inject = {
       props: {
@@ -51,7 +51,9 @@ function createVue3Page (h: typeof createElement, id: string) {
       {
         key: id,
         id,
-        class: isBrowser ? 'taro_page' : ''
+        class: isBrowser
+          ? 'taro_page' + (config?.tabBar?.list?.some(page => id.split('?')[0] === (page.pagePath.substr(0, 1) === '/' ? page.pagePath : '/' + page.pagePath)) ? ' taro_tabbar_page' : '')
+          : ''
       },
       [
         h(Object.assign({}, component), {
@@ -110,7 +112,13 @@ function setReconciler () {
   }
 }
 
-export function createVue3App (app: App<TaroElement>, h: typeof createElement, config: Config) {
+/**
+ * 构建一个临时类型，等taro新版本更新后即可删除此类型，将AppConfigTemp改为AppConfig
+ */
+interface AppConfigTemp extends Config {
+  h5RenderDomId?: string
+}
+export function createVue3App (app: App<TaroElement>, h: typeof createElement, config: AppConfigTemp) {
   let pages: VNode[] = []
   let appInstance: ComponentPublicInstance
 
@@ -122,11 +130,11 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
     return pages.slice()
   }
   if (!isBrowser) {
-    appInstance = app.mount('#app')
+    appInstance = app.mount('#' + config.h5RenderDomId || 'app')
   }
   const appConfig: AppInstance = Object.create({
     mount (component: Component, id: string, cb: () => void) {
-      const page = createVue3Page(h, id)(component)
+      const page = createVue3Page(h, id, config)(component)
       pages.push(page)
       this.updateAppInstance(cb)
     },
@@ -157,7 +165,7 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
           ...options
         }
         if (isBrowser) {
-          appInstance = app.mount('#app')
+          appInstance = app.mount('#' + config.h5RenderDomId || 'app')
         }
 
         // 把 App Class 上挂载的额外属性同步到全局 app 对象中
