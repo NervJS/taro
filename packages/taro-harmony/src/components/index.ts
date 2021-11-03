@@ -55,7 +55,15 @@ export const components = {
   Switch: {
     showtext: 'false',
     texton: singleQuote('On'),
-    textoff: singleQuote('Off'),
+    textoff: singleQuote('Off')
+  },
+  Progress: {
+    'active-color': singleQuote('#09BB07'),
+    'background-color': singleQuote('#EBEBEB'),
+    type: singleQuote('horizontal'),
+    'font-size': singleQuote('25px'),
+    secondarypercent: '0',
+    clockwise: 'true'
   },
   Input: {
     'placeholder-color': singleQuote('#99000000')
