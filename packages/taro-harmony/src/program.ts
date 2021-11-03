@@ -75,6 +75,7 @@ export default class Harmony extends TaroPlatformBase {
    */
   addEntry () {
     this.ctx.onCompilerMake(async ({ compilation, plugin }) => {
+      // container/index.hml
       const filePath = path.resolve(__dirname, 'template/container')
       plugin.addEntry(filePath, 'container/index', META_TYPE.STATIC)
       const dep = plugin.dependencies.get(filePath)
@@ -155,15 +156,19 @@ export default class Harmony extends TaroPlatformBase {
       delete assets[`custom-wrapper${scriptExt}`]
       delete assets[`custom-wrapper${templateExt}`]
       delete assets[`custom-wrapper${configExt}`]
+
+      // 其他冗余文件
+      delete assets[`container/global${scriptExt}`]
     })
 
+    // 把 components-harmony 中被使用到的组件移动到输出目录
     ctx.onBuildFinish(() => {
       const dest = path.resolve(process.cwd(), config.outputRoot)
       const compsSrcDir = path.join(__dirname, 'components-harmony')
       const compsDestDir = path.join(dest, 'container/components-harmony')
 
       fs.ensureDirSync(compsDestDir)
-      this.template.usedNativeComps.forEach(name => {
+      ;[...this.template.usedNativeComps, 'navbar', 'tabbar', 'utils'].forEach(name => {
         const src = path.join(compsSrcDir, name)
         const dest = path.join(compsDestDir, name)
         fs.copy(src, dest)

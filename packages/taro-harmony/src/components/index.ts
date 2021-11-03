@@ -51,5 +51,19 @@ export const components = {
     stickyradius: singleQuote('1000px'),
     clickeffect: 'true',
     bindsticky: ''
+  },
+  Switch: {
+    showtext: 'false',
+    texton: singleQuote('On'),
+    textoff: singleQuote('Off'),
+  },
+  Input: {
+    'placeholder-color': singleQuote('#99000000')
+  },
+  Video: {
+    speed: '1',
+    bindloadedmetadata: '',
+    bindprogress: '',
+    bindtap: ''
   }
 }

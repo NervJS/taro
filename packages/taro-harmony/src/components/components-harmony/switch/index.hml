@@ -1,0 +1,7 @@
+<div class="switch">
+  <input if="{{type === 'checkbox'}}" id="{{id}}" type="checkbox" checked="{{checked}}"
+    disabled="{{disabled}}" @change="onChange"></input>
+  <switch else id="{{id}}" checked="{{checked}}" disabled="{{disabled}}" showtext="{{showtext}}"
+    texton="{{texton}}" textoff="{{textoff}}" @change="onChange">
+  </switch>
+</div>
