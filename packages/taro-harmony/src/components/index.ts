@@ -80,6 +80,9 @@ export const components = {
   },
   Image: {
     alt: ''
+  },
+  Radio: {
+    'group-id': ''
   }
 }
 
