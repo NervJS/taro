@@ -2,7 +2,6 @@
   <slider
     id="{{id}}"
     style="color: {{color}};selected-color: {{selectedColor}};block-color: {{sliderBlockColor}}"
-    class="{{cls}}"
     min="{{min}}"
     max="{{max}}"
     step="{{step}}"
