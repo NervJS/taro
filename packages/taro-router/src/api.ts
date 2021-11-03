@@ -1,5 +1,6 @@
+import { parsePath } from 'history'
 import { stacks } from './stack'
-import { history, parsePath } from './history'
+import { history, prependBasename } from './history'
 import { routesAlias, addLeadingSlash, setHistoryBackDelta } from './utils'
 
 interface Base {
@@ -17,34 +18,40 @@ interface NavigateBackOption extends Base {
 }
 
 function processNavigateUrl (option: Option) {
-  let url = option.url
-  const matches = option.url.match(/[?&?].*/)
-  let parameters = ''
-  if (matches && matches.length) {
-    parameters = matches[0]
-    url = url.replace(parameters, '')
-  }
+  const pathPieces = parsePath(option.url)
+
+  // 处理自定义路由
   Object.keys(routesAlias).forEach(key => {
-    if (addLeadingSlash(key) === addLeadingSlash(url)) {
-      option.url = routesAlias[key] + parameters
+    if (addLeadingSlash(key) === addLeadingSlash(pathPieces.pathname)) {
+      pathPieces.pathname = routesAlias[key]
     }
   })
+
+  // 处理 basename
+  pathPieces.pathname = prependBasename(pathPieces.pathname)
+
+  // hack fix history v5 bug: https://github.com/remix-run/history/issues/814
+  if (!pathPieces.search) pathPieces.search = ''
+
+  return pathPieces
 }
 
 function navigate (option: Option | NavigateBackOption, method: 'navigateTo' | 'redirectTo' | 'navigateBack') {
   const { success, complete, fail } = option
   let failReason
-  if ((option as Option).url) {
-    processNavigateUrl(option as Option)
-  }
+
   try {
-    if (method === 'navigateTo') {
-      history.push(parsePath((option as Option).url), { timestamp: Date.now() })
-    } else if (method === 'redirectTo') {
-      history.replace(parsePath((option as Option).url), { timestamp: Date.now() })
+    if ('url' in option) {
+      const pathPieces = processNavigateUrl(option)
+      const state = { timestamp: Date.now() }
+      if (method === 'navigateTo') {
+        history.push(pathPieces, state)
+      } else if (method === 'redirectTo') {
+        history.replace(pathPieces, state)
+      }
     } else if (method === 'navigateBack') {
-      setHistoryBackDelta((option as NavigateBackOption).delta)
-      history.go(-(option as NavigateBackOption).delta)
+      setHistoryBackDelta(option.delta)
+      history.go(-option.delta)
     }
   } catch (error) {
     failReason = error
@@ -83,10 +90,12 @@ export function navigateBack (options: NavigateBackOption = { delta: 1 }) {
 }
 
 export function switchTab (option: Option) {
-  return navigateTo(option)
+  // TODO: 清除掉所有的栈去目标页面
+  return redirectTo(option)
 }
 
 export function reLaunch (option: Option) {
+  // TODO: 清除掉所有的栈去目标页面
   return redirectTo(option)
 }
 
