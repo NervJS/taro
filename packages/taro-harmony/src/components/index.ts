@@ -77,6 +77,9 @@ export const components = {
     bindloadedmetadata: '',
     bindprogress: '',
     bindtap: ''
+  },
+  Image: {
+    alt: ''
   }
 }
 
