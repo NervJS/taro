@@ -65,6 +65,10 @@ export const components = {
     secondarypercent: '0',
     clockwise: 'true'
   },
+  Slider: {
+    showsteps: 'false',
+    showtips: 'false',
+  },
   Input: {
     'placeholder-color': singleQuote('#99000000')
   },
@@ -75,3 +79,4 @@ export const components = {
     bindtap: ''
   }
 }
+
