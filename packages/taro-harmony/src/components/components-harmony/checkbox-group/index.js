@@ -1,13 +1,14 @@
-export default {
+import { createOption } from '../utils'
+
+export default createOption({
   data: {
     values: []
   },
   props: [
-    'cls',
     'id'
   ],
   onChange () {
-    this.$emit('change', { value: this.values, id: this.id })
+    this.$trigger('change', { value: this.values })
   },
   collectValue (value) {
     this.values.push(value)
@@ -18,4 +19,4 @@ export default {
       this.values.splice(idx, 1)
     }
   }
-}
+})

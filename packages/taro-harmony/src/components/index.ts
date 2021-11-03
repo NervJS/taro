@@ -65,6 +65,18 @@ export const components = {
     selectedend: '-1',
     softkeyboardenabled: 'true'
   },
+  Progress: {
+    'active-color': singleQuote('#09BB07'),
+    'background-color': singleQuote('#EBEBEB'),
+    type: singleQuote('horizontal'),
+    'font-size': singleQuote('25px'),
+    secondarypercent: '0',
+    clockwise: 'true'
+  },
+  Slider: {
+    showsteps: 'false',
+    showtips: 'false'
+  },
   Input: {
     'placeholder-color': singleQuote('#99000000')
   },

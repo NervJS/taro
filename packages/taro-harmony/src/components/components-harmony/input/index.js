@@ -1,6 +1,7 @@
 import window from '@ohos.window'
+import { createOption } from '../utils'
 
-export default {
+export default createOption({
   data: {
     type: 'keyboardHeightChange',
     windowClass: null,
@@ -9,7 +10,6 @@ export default {
   props: {
     id: String,
     value: String,
-    cls: String,
     type: String,
     password: Boolean,
     placeholder: String,
@@ -57,32 +57,32 @@ export default {
 
   onInput (e) {
     this.value = e.value
-    this.$emit('input', {
-      id: this.id, value: e.value, cursor: this.value.length, keyCode: null
+    this.$trigger('input', {
+      value: e.value, cursor: this.value.length, keyCode: null
     })
   },
 
   onFocus () {
-    this.$emit('focus', {
-      id: this.id, value: this.value, height: this.height
+    this.$trigger('focus', {
+      value: this.value, height: this.height
     })
   },
 
   onBlur () {
-    this.$emit('blur', {
-      id: this.id, value: this.value
+    this.$trigger('blur', {
+      value: this.value
     })
   },
 
   onEnterKeyClick () {
-    this.$emit('confirm', {
-      id: this.id, value: this.value
+    this.$trigger('confirm', {
+      value: this.value
     })
   },
 
   onKeyboardHeightChange (height) {
-    this.$emit('keyboardheightchange', {
-      id: this.id, height: height, duration: 0
+    this.$trigger('keyboardheightchange', {
+      height: height, duration: 0
     })
   },
 
@@ -91,4 +91,4 @@ export default {
       this.windowClass.off(this.type)
     }
   }
-}
+})

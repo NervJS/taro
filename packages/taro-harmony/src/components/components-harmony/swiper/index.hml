@@ -1,5 +1,4 @@
 <swiper
-  class="{{cls}}"
   style="indicator-color: {{indicatorColor}};indicator-selected-color: {{indicatorActiveColor}}"
   id="{{id}}"
   index="{{current}}"

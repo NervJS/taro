@@ -104,9 +104,6 @@ ${elements}
     }
     if (this.nativeComps.includes(nodeName)) {
       nodeName = `taro-${nodeName}`
-      // 鸿蒙自定义组件不能传 class 属性
-      comp.attributes.cls = comp.attributes.class
-      delete comp.attributes.class
     }
 
     const res = `
@@ -159,7 +156,9 @@ ${elements}
 <div class="container">
   <navbar title="{{taroNavBar.title}}" background="{{taroNavBar.background}}" text-style="{{taroNavBar.textStyle}}" st="{{taroNavBar.style}}"></navbar>
   <div class="body" style="padding-top: 44px;padding-bottom: {{isShowTaroTabBar ? '56px' : '0'}}">
-    <container root="{{root}}"></container>
+    <refresh type="pulldown" disabled="{{!enablePullDownRefresh}}" refreshing="{{isRefreshing}}" onrefresh="onPullDownRefresh">
+      <container root="{{root}}"></container>
+    </refresh>
   </div>
   <tabbar if="{{isShowTaroTabBar}}" data="{{taroTabBar}}" selected="{{selected}}"></tabbar>
 </div>

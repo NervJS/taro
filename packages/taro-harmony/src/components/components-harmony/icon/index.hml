@@ -1,6 +1,5 @@
 <div
   id="{{id}}"
-  class="{{cls}}"
 >
   <text
     if="{{type === 'success'}}"

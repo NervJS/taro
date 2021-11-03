@@ -1,6 +1,5 @@
 <input
   id="{{id}}"
-  class="{{cls}}"
   type="checkbox"
   checked="{{checked}}"
   disabled="{{disabled}}"
