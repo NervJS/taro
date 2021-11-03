@@ -5,14 +5,13 @@ export default {
     'groupId',
     'value',
     'checked',
-    'disabled',
-    'color'
+    'disabled'
   ],
 
   onChange (e) {
     if (e.checked) {
       const radioGroup = this.findRadioGroup()
-      if (radioGroup) {
+      if (radioGroup && radioGroup.onChange) {
         radioGroup.onChange({ id: this.id, value: e.value })
       }
     }
