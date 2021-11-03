@@ -156,9 +156,10 @@ ${elements}
 <div class="container">
   <navbar title="{{taroNavBar.title}}" background="{{taroNavBar.background}}" text-style="{{taroNavBar.textStyle}}" st="{{taroNavBar.style}}"></navbar>
   <div class="body" style="padding-top: 44px;padding-bottom: {{isShowTaroTabBar ? '56px' : '0'}}">
-    <refresh type="pulldown" disabled="{{!enablePullDownRefresh}}" refreshing="{{isRefreshing}}" onrefresh="onPullDownRefresh">
+    <refresh if="{{enablePullDownRefresh}}" type="pulldown" refreshing="{{isRefreshing}}" onrefresh="onPullDownRefresh">
       <container root="{{root}}"></container>
     </refresh>
+    <container else root="{{root}}"></container>
   </div>
   <tabbar if="{{isShowTaroTabBar}}" data="{{taroTabBar}}" selected="{{selected}}"></tabbar>
 </div>
