@@ -8,5 +8,3 @@
     @error="onError"
   ></image>
 </div>
-
-
