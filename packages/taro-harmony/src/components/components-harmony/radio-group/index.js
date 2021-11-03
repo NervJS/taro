@@ -1,13 +1,10 @@
 export default {
   props: [
     'id',
-    'cls',
-    'groupId'
+    'cls'
   ],
 
-  computed: {
-    ref () {
-      return 'ref_' + this.groupId
-    }
+  onChange (e) {
+    this.$trigger('change', { value: e.value })
   }
 }
