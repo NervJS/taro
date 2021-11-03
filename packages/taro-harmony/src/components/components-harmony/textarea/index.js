@@ -15,7 +15,7 @@ export default createOption({
     'autoFocus',
     'selectionStart',
     'selectionEnd',
-    'headerIcon',
+    'headericon',
     'showcounter',
     'menuoptions',
     'softkeyboardenabled'
