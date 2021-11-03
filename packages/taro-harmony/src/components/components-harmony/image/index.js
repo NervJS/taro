@@ -26,3 +26,4 @@ export default createOption({
     this.$trigger('error', { errMsg: '图片加载异常' })
   }
 })
+
