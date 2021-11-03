@@ -30,6 +30,53 @@ interface IDownloadConfig extends IDownloadConfigOHOS {
   timeout?: number
 }
 
+interface IDownloadTaskQuery {
+  downloadId: number
+  failedReason?: number
+  fileName: string
+  filePath: string
+  pausedReason?: number
+  status: number
+  targetURI: string
+  downloadTitle: string
+  downloadTotalBytes: number
+  description: string
+  downloadedBytes: number
+}
+
+interface IWXDownloadSuccess {
+  tempFilePath?: string
+  fileParh?: string
+  statusCode: number
+  profile?: IWXDownloadSuccessProfile
+}
+
+interface IWXDownloadSuccessProfile {
+  redirectStart?: number
+  redirectEnd?: number
+  fetchStart?: number
+  domainLookupStart?: number
+  domainLookupEnd?: number
+  connectStart?: number
+  connectEnd?: number
+  SSLconnectionStart?: number
+  SSLconnectionEnd?: number
+  requestStart?: number
+  requestEnd?: number
+  rtt?: number
+  estimate_nettype?: number
+  httpRttEstimate?: number
+  transportRttEstimate?: number
+  downstreamThroughputKbpsEstimate?: number
+  throughputKbps?: number
+  peerIP?: string
+  port?: number
+  socketReused?: boolean
+  sendBytesCount?: number
+  receivedBytedCount?: number
+  protocol?: string
+}
+
 function downloadFile (params: IDownloadConfig) {
   const requiredParamsValue: Array<any> = params.url === undefined ? [] : [params.url]
   const requiredParamsName: Array<string> = params.url === undefined ? [] : ['url']
@@ -54,7 +101,24 @@ function downloadFile (params: IDownloadConfig) {
       throw new Error(err)
     }
     downloadTask = data
-    success && success(downloadTask)
+    downloadTask.on('complete', () => {
+      downloadTask.query((errQuery: any, data: IDownloadTaskQuery) => {
+        if (errQuery) {
+          fail && fail(errQuery)
+          complete && complete(errQuery)
+          throw new Error(errQuery)
+        }
+        const wxdata: IWXDownloadSuccess = {
+          tempFilePath: data.filePath,
+          fileParh: data.filePath,
+          statusCode: data.status,
+          profile: {
+            receivedBytedCount: data.downloadedBytes
+          }
+        }
+        success && success(wxdata)
+      })
+    })
     complete && complete(downloadTask)
   })
 }
