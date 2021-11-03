@@ -27,5 +27,4 @@ export default {
       parent = parent.$parent()
     }
   }
-
 }

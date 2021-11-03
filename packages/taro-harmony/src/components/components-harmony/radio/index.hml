@@ -1,7 +1,6 @@
 <input
   id="{{ id }}"
   value="{{ value }}"
-  class="{{ cls }}"
   type="radio"
   name="{{ groupId }}"
   disabled="{{disabled}}"
