@@ -17,8 +17,6 @@ export function showToast (options) {
     duration: 1500,
     mask: false,
     bottom: '100px',
-    success: noop,
-    complete: noop
   }
 
   options = { ..._default, ...options }
@@ -71,14 +69,13 @@ export function showModal (options) {
     confirmText: '确定',
     confirmColor: '#3CC51F',
     cancel: noop,
-    success: noop,
-    complete: noop
+    complete: noop,
   }
 
   options = { ..._default, ...options }
 
   const {
-    title, content, cancelText, confirmText,
+    title, content, cancelText, confirmText, complete,
     cancelColor, confirmColor, showCancel, cancel
   } = options
 
@@ -105,27 +102,34 @@ export function showModal (options) {
       buttons: buttons,
       success: (data) => {
         if (data.index === 1) {
-          return resolve(options.success(
+          callAsyncSuccess(
+            resolve, 
             {
               ...resCallback('showModal'),
               confirm: true,
               cancel: false,
               content: null
-            }
-          ))
+            }, 
+            options
+          )
         } else {
-          return resolve(options.success(
+          callAsyncSuccess(
+            resolve, 
             {
               ...resCallback('showModal'),
               confirm: false,
               cancel: true
-            }
-          ))
+            }, 
+            options
+          )
         }
       },
       // 鸿蒙没有失败方法，只有取消
       cancel: (data) => {
-        return cancel({ errMsg: `showModal:fail ${data}` })
+        const cancelObject = { errMsg: `showModal:fail ${data}` }
+        resolve(cancelObject)
+        cancel(cancelObject)
+        complete(cancelObject)
       }
     }
 
@@ -138,14 +142,12 @@ export function showActionSheet (options) {
     title: '',
     itemList: [],
     itemColor: '#000000',
-    success: noop,
-    fail: noop,
-    complete: noop
+    fail: noop
   }
 
   options = { ..._default, ...options }
 
-  const { title, itemList, itemColor } = options
+  const { title, itemList, itemColor, fail } = options
 
   if (!isString(title)) {
     return console.error(getParameterError({
@@ -175,24 +177,24 @@ export function showActionSheet (options) {
       title,
       buttons,
       success: (data) => {
-        return resolve(options.success({
-          ...data,
-          ...resCallback('showActionSheet')
-        }))
+        callAsyncSuccess(
+          resolve, 
+          {
+            ...data,
+            ...resCallback('showActionSheet')
+          }, 
+          options
+        )
       },
       // 取消方法，并非失败
       fail: (data) => {
-        return resolve(options.fail({
+        const failObject = {
           ...data,
           errMsg: data.errMsg.replace('showActionMenu', 'showActionSheet')
-        }))
+        }
+        resolve(failObject)
+        fail(failObject)
       },
-      complete: (data) => {
-        return resolve(options.complete({
-          ...data,
-          errMsg: data.errMsg.replace('showActionMenu', 'showActionSheet')
-        }))
-      }
     }
 
     prompt.showActionMenu(actionSheetOptions)
@@ -200,11 +202,6 @@ export function showActionSheet (options) {
 }
 
 export function hideToast (options) {
-  const _default = {
-    success: noop,
-    complete: noop
-  }
-  options = { ..._default, ...options }
   return new Promise(resolve => {
     prompt.showToast({
       message: '关闭中',
