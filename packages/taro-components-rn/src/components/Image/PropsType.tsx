@@ -1,4 +1,4 @@
-import { StyleProp, ImageStyle, ImageResizeMode } from 'react-native'
+import { StyleProp, ImageStyle, ImageResizeMode, Image } from 'react-native'
 import { ImageProps as _ImageProps } from '@tarojs/components/types/Image'
 export interface ImageState {
   ratio: number;
@@ -32,4 +32,5 @@ export interface ImageProps {
   mode?:keyof _ImageProps.mode;
   onError?: (event: EventError) => void;
   onLoad?: (event: EventLoad) => void;
+  onRef?: React.RefObject<Image>;
 }

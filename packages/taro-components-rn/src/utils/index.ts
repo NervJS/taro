@@ -80,6 +80,35 @@ export const parseStyles = (styles = ''): { [key: string]: string } => {
 // eslint-disable-next-line
 export const noop = (...args: any[]): void => {}
 
+export const getBoundingClientRect = (ref?: React.RefObject<any>): Promise<{
+  width: number
+  height: number
+  left: number
+  top: number
+  right: number
+  bottom: number
+} | null> => {
+  return new Promise((resolve) => {
+    const rect = {
+      width: 0,
+      height: 0,
+      left: 0,
+      top: 0,
+      // NOTE: 暂不考虑适配
+      right: 0,
+      bottom: 0
+    }
+    const node = ref?.current
+    if (node) {
+      node.measure((_x = 0, _y = 0, width = 0, height = 0, left = 0, top = 0) => {
+        resolve({ ...rect, width, height, left, top })
+      })
+    } else {
+      resolve(null)
+    }
+  })
+}
+
 export default {
   omit,
   dismemberStyle,

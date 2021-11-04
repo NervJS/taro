@@ -16,7 +16,7 @@ import {
   PanResponder,
   GestureResponderEvent,
 } from 'react-native'
-import { omit } from '../../utils'
+import { getBoundingClientRect, omit } from '../../utils'
 import { ClickableProps } from './PropsType'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -30,6 +30,8 @@ export default function <P extends Record<string, any>>(WrappedComponent: React.
     state: any = {
       isHover: false
     }
+
+    $ref = React.createRef<React.ComponentType<P>>()
 
     startTimestamp = 0
     startTimer: any
@@ -145,6 +147,8 @@ export default function <P extends Record<string, any>>(WrappedComponent: React.
       }
     }
 
+    getBoundingClientRect = getBoundingClientRect.bind(this, this.$ref)
+
     componentWillUnmount () {
       this.startTimer && clearTimeout(this.startTimer)
       this.stayTimer && clearTimeout(this.stayTimer)
@@ -175,7 +179,7 @@ export default function <P extends Record<string, any>>(WrappedComponent: React.
         !onTouchEnd
       ) {
         return (
-          <WrappedComponent {...this.props} />
+          <WrappedComponent {...this.props} onRef={this.$ref} />
         )
       }
 
@@ -193,6 +197,7 @@ export default function <P extends Record<string, any>>(WrappedComponent: React.
             // 'onTouchCancel',
             'onTouchEnd'
           ])}
+          onRef={this.$ref}
           {...this.panResponder.panHandlers}
           style={[{ backgroundColor: 'transparent' }, style, isHover && hoverStyle]}
         />

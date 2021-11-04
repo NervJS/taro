@@ -21,12 +21,16 @@ const stringToText = (child: any, props: any) => {
 
 const _View: React.FC<_ViewProps> = (props: _ViewProps) => {
   const textStyle = extracteTextStyle(props.style)
-  // 兼容View中没用Text包裹的文字 防止报错 直接继承props在安卓中文字会消失？？？
-  const child = Array.isArray(props.children) ? props.children.map((c: any, i: number) => stringToText(c, { key: i, ...props, style: textStyle })) : stringToText(props.children, { ...props, style: textStyle })
+  // NOTE: 兼容 View 中没用 Text 包裹的文字 防止报错 直接继承props在安卓中文字会消失？？？
+  const child = Array.isArray(props.children)
+    ? props.children.map((c: any, i: number) => stringToText(c, { key: i, ...props, style: textStyle }))
+    : stringToText(props.children, { ...props, style: textStyle })
+
   return (
     <View
-      style={props.style}
       {...props}
+      style={props.style}
+      ref={props.onRef}
     >
       {child}
     </View>

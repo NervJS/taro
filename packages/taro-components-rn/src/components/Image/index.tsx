@@ -163,6 +163,7 @@ export class _Image extends React.Component<ImageProps, ImageState> {
         onError={this.onError}
         onLoad={this.onLoad}
         onLayout={this.onLayout}
+        ref={this.props.onRef}
         style={[
           {
             width: 300
