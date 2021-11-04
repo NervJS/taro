@@ -17,7 +17,6 @@ export default createOption({
     'mode',
     'range',
     'value',
-    'selected',
     'rangeKey',
     'start',
     'end',
@@ -31,27 +30,26 @@ export default createOption({
     const isArray = Array.isArray
     const range = isArray(this.range) ? this.range : []
     const type = MODE_TYPE_MAP[this.mode || DEFAULT_MODE] || DEFAULT_TYPE
-    let rest = {}, selected = ''
 
     if (type === 'text') {
-      let localRange = range
-      // 遵照taro规范，弹窗默认选中用户指定的value下标
-      selected = Number(this.value) || 0
+      let localRange = range; const selected = this.value || 0
       if (this.rangeKey) {
         localRange = localRange.map(v => v[this.rangeKey])
       }
       // this.value代表的是下标，鸿蒙组件的value代表选择器的值
       const localValue = localRange[selected]
-      rest = {
+      return {
+        type,
         localRange,
-        localValue
+        localValue,
+        selected
       }
     }
 
     if (type === 'multi-text') {
       const columns = range.length
       let localRange = range
-      selected = isArray(this.value) ? this.value.map(v => Number(v)) : Array(columns).fill(0)
+      const selected = isArray(this.value) ? this.value : Array(columns).fill(0)
       if (this.rangeKey) {
         localRange = range.map(column => {
           return (column || []).map(v => v[this.rangeKey])
@@ -60,22 +58,37 @@ export default createOption({
       const localValue = localRange.map((column, idx) => {
         return column[selected[idx]]
       })
-      rest = {
+      return {
+        type,
         localRange,
         localValue,
+        selected,
         columns
       }
     }
 
-    if (['time', 'date', 'datetime'].includes(type)) {
-      selected = this.value || ''
+    if (type === 'time') {
+      return {
+        type,
+        localValue: this.value,
+        selected: this.value || ''
+      }
     }
 
-    return {
-      type,
-      localValue: this.value,
-      localSelected: this.selected || selected,
-      ...rest
+    if (type === 'date') {
+      return {
+        type,
+        localValue: this.value,
+        selected: this.value || ''
+      }
+    }
+
+    if (type === 'datetime') {
+      return {
+        type,
+        localValue: this.value,
+        selected: this.value || ''
+      }
     }
   },
 
