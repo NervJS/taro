@@ -113,7 +113,10 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
       const router = isBrowser ? this.$taroPath : this.route || this.__route__
       Current.router = {
-        params: this.$taroParams,
+        params: {
+          ...this.$taroParams,
+          ...Current.router?.params,
+        },
         path: addLeadingSlash(router),
         onReady: getOnReadyEventKey(id),
         onShow: getOnShowEventKey(id),
