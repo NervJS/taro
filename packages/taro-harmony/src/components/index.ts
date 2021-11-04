@@ -61,8 +61,6 @@ export const components = {
     headericon: '',
     showcounter: 'false',
     menuoptions: '[]',
-    selectedstart: '-1',
-    selectedend: '-1',
     softkeyboardenabled: 'true'
   },
   Progress: {
