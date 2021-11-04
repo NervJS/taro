@@ -31,11 +31,12 @@ export default createOption({
     const isArray = Array.isArray
     const range = isArray(this.range) ? this.range : []
     const type = MODE_TYPE_MAP[this.mode || DEFAULT_MODE] || DEFAULT_TYPE
-    let rest = {}
+    let rest = {}, selected = ''
 
     if (type === 'text') {
       let localRange = range
-      const selected = Number(this.value) || 0
+      // 遵照taro规范，弹窗默认选中用户指定的value下标
+      selected = Number(this.value) || 0
       if (this.rangeKey) {
         localRange = localRange.map(v => v[this.rangeKey])
       }
@@ -49,8 +50,8 @@ export default createOption({
 
     if (type === 'multi-text') {
       const columns = range.length
-      const selected = isArray(this.value) ? this.value.map(v => Number(v)) : Array(columns).fill(0)
       let localRange = range
+      selected = isArray(this.value) ? this.value.map(v => Number(v)) : Array(columns).fill(0)
       if (this.rangeKey) {
         localRange = range.map(column => {
           return (column || []).map(v => v[this.rangeKey])
@@ -66,9 +67,14 @@ export default createOption({
       }
     }
 
+    if (['time', 'date', 'datetime'].includes(type)) {
+      selected = this.value || ''
+    }
+
     return {
       type,
       localValue: this.value,
+      localSelected: this.selected || selected,
       ...rest
     }
   },
