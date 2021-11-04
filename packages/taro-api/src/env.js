@@ -6,7 +6,8 @@ export const ENV_TYPE = {
   ALIPAY: 'ALIPAY',
   TT: 'TT',
   QQ: 'QQ',
-  JD: 'JD'
+  JD: 'JD',
+  KWAI: 'KWAI',
 }
 
 let _env = null
@@ -37,6 +38,10 @@ export function getEnv () {
   if (typeof my !== 'undefined' && my.getSystemInfo) {
     _env = ENV_TYPE.ALIPAY
     return ENV_TYPE.ALIPAY
+  }
+  if (typeof ks !== 'undefined' && ks.getSystemInfo) {
+    _env = ENV_TYPE.KWAI
+    return ENV_TYPE.KWAI
   }
   if (typeof global !== 'undefined' && global.__fbGenNativeModule) {
     _env = ENV_TYPE.RN
