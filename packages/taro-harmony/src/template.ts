@@ -18,15 +18,20 @@ export class Template extends RecursiveTemplate {
 
   usedNativeComps: string[] = []
 
+  patchVoidElements: string[] = [
+    'button',
+    'image',
+    'camera',
+    'video',
+    'web-view'
+  ]
+
   constructor () {
     super()
-    this.voidElements.add('button')
-    this.voidElements.add('image')
-    this.voidElements.add('static-image')
-    this.voidElements.add('camera')
-    this.voidElements.add('input')
-    this.voidElements.add('video')
-    this.voidElements.add('web-view')
+
+    this.patchVoidElements.forEach(item => {
+      this.voidElements.add(item)
+    })
 
     this.nativeComps = fs.readdirSync(path.resolve(__dirname, './components-harmony'))
   }
@@ -45,6 +50,17 @@ ${elements}
 
 <block for="{{i in root.cn}}">
 `
+  }
+
+  createMiniComponents (components): any {
+    const result = super.createMiniComponents(components)
+
+    delete result['pure-view']
+    delete result['static-view']
+    delete result['static-text']
+    delete result['static-image']
+
+    return result
   }
 
   buildTemplate = (componentConfig) => {
