@@ -32,12 +32,13 @@ export const hostConfig = {
       'onStartContinuation',
       'onSaveData',
       'onRestoreData',
-      'onCompleteContinuation'
+      'onCompleteContinuation',
+      'onPullDownRefresh'
     ]
     return config
   },
   modifyPageObject (config) {
-    const origin = config.onInit
+    const originOnInit = config.onInit
     config.onInit = function () {
       // 对接小程序规范的 setData 到 harmony 规范的 $set
       this.setData = function (normalUpdate: Record<string, any>, cb) {
@@ -56,7 +57,7 @@ export const hostConfig = {
       })
 
       // 调用 onInit
-      origin.call(this, options)
+      originOnInit.call(this, options)
 
       // 手动记录路由堆栈
       const app = getApp()
@@ -78,6 +79,10 @@ export const hostConfig = {
         style: window.navigationStyle || 'default'
       })
 
+      // 初始化下拉刷新组件
+      this.$set('enablePullDownRefresh', Boolean(window.enablePullDownRefresh))
+      this.$set('isRefreshing', false)
+
       // 根据 app.config 初始化 tabbar
       if (appConfig.tabBar) {
         const list = appConfig.tabBar.list
@@ -91,6 +96,14 @@ export const hostConfig = {
           }
         }
       }
+    }
+
+    const originOnPullDownRefresh = config.onPullDownRefresh
+    config.onPullDownRefresh = function (e) {
+      this.$set('isRefreshing', e.refreshing)
+
+      // 调用 onPullDownRefresh
+      originOnPullDownRefresh.call(this)
     }
   }
 }
