@@ -6,9 +6,9 @@ export default {
     'alt'
   ],
   onLoad (e) {
-    this.$trigger('load', { id: this.id, width: e.width, height: e.height })
+    this.$trigger('load', { width: e.width, height: e.height })
   },
   onError () {
-    this.$trigger('error', { id: this.id, errMsg: '图片加载异常' })
+    this.$trigger('error', { errMsg: '图片加载异常' })
   }
 }
