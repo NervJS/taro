@@ -9,12 +9,14 @@
  * 文档地址 https://developer.harmonyos.com/cn/docs/documentation/doc-references/js-components-web-0000001135254399
  */
 
-export default {
+import { createOption } from '../utils'
+
+export default createOption({
   props: ['id', 'src'],
   onError ({ url: src, errorCode, description }) {
-    this.$trigger('error', { detail: { src, errorCode, description } })
+    this.$trigger('error', { src, errorCode, description })
   },
   onLoad ({ url: src }) {
-    this.$trigger('load', { detail: { src } })
+    this.$trigger('load', { src })
   }
-}
+})
