@@ -83,5 +83,11 @@ export const components = {
     bindloadedmetadata: '',
     bindprogress: '',
     bindtap: ''
+  },
+  Image: {
+    alt: ''
+  },
+  Radio: {
+    'group-id': ''
   }
 }
