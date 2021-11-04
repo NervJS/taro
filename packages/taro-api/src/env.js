@@ -7,7 +7,7 @@ export const ENV_TYPE = {
   TT: 'TT',
   QQ: 'QQ',
   JD: 'JD',
-  KWAI: 'KWAI',
+  KWAI: 'KWAI'
 }
 
 let _env = null
