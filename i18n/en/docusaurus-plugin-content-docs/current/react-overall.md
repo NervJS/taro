@@ -263,7 +263,7 @@ On the mini program side, there are some additional configuration options and th
 
 Because the development version of React is larger, Taro uses the production version of React as the default dependency when building mini programs to reduce the size of the mini program and to facilitate real-world previews during development.
 
-However, the production version of React does not show the error stack when there is an error. So when you encounter an error like this: [Error: Minified React error #152]. You can change the [mini.debugReact](https://localhost:3000/taro/docs/next/config-detail#minidebugreact) option in the build configuration and turn the build back on. This will cause Taro to use the development version of React and output the error stack.
+However, the production version of React does not show the error stack when there is an error. So when you encounter an error like this: [Error: Minified React error #152]. You can change the [mini.debugReact](http://localhost:3000/taro/docs/next/config-detail#minidebugreact) option in the build configuration and turn the build back on. This will cause Taro to use the development version of React and output the error stack.
 
 #### Error: Minified React error #152 
 

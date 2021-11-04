@@ -45,7 +45,7 @@ sidebar_label: request
 import Taro from '@tarojs/taro'
 
 Taro.request({
-  url: 'https://localhost:8080/test',
+  url: 'http://localhost:8080/test',
   data: {
     foo: 'foo',
     bar: 10

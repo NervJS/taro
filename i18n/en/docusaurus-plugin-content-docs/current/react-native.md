@@ -310,7 +310,7 @@ To open developer menu press "d"
 ```
 ![image](https://wos2.58cdn.com.cn/DeFazYxWvDti/frsupload/87c9f57282c511d4920d86cf6c3adde7.gif)
 
-At this point, typing https://127.0.0.1:8081/index.bundle?platform=ios&dev=true into the browser will trigger a js bundle build for the corresponding endpoint platform.
+At this point, typing http://127.0.0.1:8081/index.bundle?platform=ios&dev=true into the browser will trigger a js bundle build for the corresponding endpoint platform.
 
 ![image](https://pic1.58cdn.com.cn/nowater/fangfe/n_v2beae27152fcd4d118b60d5284e29d9c9.png)
 
@@ -606,7 +606,7 @@ In CI/Xcode, yellow screen warnings can also be controlled by setting the `IS_TE
 
 ### Chrome Develop Tools
 
-You can start debugging JavaScript code in Chrome by selecting the "Debug JS Remotely" option in the Developer menu. Clicking this option will automatically open the debug page https://localhost:8081/debugger-ui. (If the address bar opens with an ip address, please change it to localhost yourself)
+You can start debugging JavaScript code in Chrome by selecting the "Debug JS Remotely" option in the Developer menu. Clicking this option will automatically open the debug page http://localhost:8081/debugger-ui. (If the address bar opens with an ip address, please change it to localhost yourself)
 
 Select `Tools → Developer Tools` in Chrome's menu to open Developer Tools, which can also be opened via keyboard shortcuts (`Command⌘ + Option⌥ + I` on Mac, `Ctrl + Shift + I or F12` on Windows)。Open can  [Pause On Caught Exceptions](https://stackoverflow.com/questions/2233339/javascript-is-there-a-way-to-get-chrome-to-break-on-all-errors/17324511#17324511) 
 
@@ -712,7 +712,7 @@ $ brew update && brew cask install react-native-debugger
 
 在启动 React Native Debugger 之前，请先确认以下内容：
 
-- 所有的 React Native 的 debugger 客户端已关闭，特别是 `https://localhost:<port>/debugger-ui`
+- 所有的 React Native 的 debugger 客户端已关闭，特别是 `http://localhost:<port>/debugger-ui`
 - React Native Debugger 会尝试连接 debugger 代理， React Native 默认使用 `8081` 端口， 你可以新建一个 debugger 窗口 (macOS: `Command + T`，Linux/Windows: `Ctrl + T`) 开定义端口
 - 保证 [developer menu](https://facebook.github.io/react-native/docs/debugging.html#accessing-the-in-app-developer-menu)  的  `Debug JS Remotely` 处于开启状态
 

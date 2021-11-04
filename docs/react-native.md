@@ -305,7 +305,7 @@ To open developer menu press "d"
 ```
 ![image](https://wos2.58cdn.com.cn/DeFazYxWvDti/frsupload/87c9f57282c511d4920d86cf6c3adde7.gif)
 
-这时，在浏览器输入 https://127.0.0.1:8081/index.bundle?platform=ios&dev=true 会触发对应终端平台的 js bundle 构建。
+这时，在浏览器输入 http://127.0.0.1:8081/index.bundle?platform=ios&dev=true 会触发对应终端平台的 js bundle 构建。
 
 ![image](https://pic1.58cdn.com.cn/nowater/fangfe/n_v2beae27152fcd4d118b60d5284e29d9c9.png)
 
@@ -597,7 +597,7 @@ YellowBox.ignoreWarnings(['Warning: ...']);
 > 红屏错误和黄屏警告在发布版（release/production）中都是自动禁用的。
 
 ### Chrome 开发者工具
-在开发者菜单中选择 "Debug JS Remotely" 选项，即可以开始在 Chrome 中调试 JavaScript 代码。点击这个选项的同时会自动打开调试页面 https://localhost:8081/debugger-ui.(如果地址栏打开的是 ip 地址，则请自行改为 localhost)
+在开发者菜单中选择 "Debug JS Remotely" 选项，即可以开始在 Chrome 中调试 JavaScript 代码。点击这个选项的同时会自动打开调试页面 http://localhost:8081/debugger-ui.(如果地址栏打开的是 ip 地址，则请自行改为 localhost)
 
 在 Chrome 的菜单中选择 `Tools → Developer Tools` 可以打开开发者工具，也可以通过键盘快捷键来打开（Mac 上是 `Command⌘ + Option⌥ + I`，Windows 上是 `Ctrl + Shift + I或是 F12`）。打开有 [异常时暂停（Pause On Caught Exceptions）](https://stackoverflow.com/questions/2233339/javascript-is-there-a-way-to-get-chrome-to-break-on-all-errors/17324511#17324511) 选项，能够获得更好的开发体验。
 
@@ -700,7 +700,7 @@ $ brew update && brew cask install react-native-debugger
 
 在启动 React Native Debugger 之前，请先确认以下内容：
 
-- 所有的 React Native 的 debugger 客户端已关闭，特别是 `https://localhost:<port>/debugger-ui`
+- 所有的 React Native 的 debugger 客户端已关闭，特别是 `http://localhost:<port>/debugger-ui`
 - React Native Debugger 会尝试连接 debugger 代理， React Native 默认使用 `8081` 端口， 你可以新建一个 debugger 窗口 (macOS: `Command + T`，Linux/Windows: `Ctrl + T`) 开定义端口
 - 保证 [developer menu](https://facebook.github.io/react-native/docs/debugging.html#accessing-the-in-app-developer-menu)  的  `Debug JS Remotely` 处于开启状态
 
