@@ -12,7 +12,7 @@ export const Wechat = () => {
             className="icon svgicon"
             viewBox="0 0 1024 1024"
             version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
+            xmlns="https://www.w3.org/2000/svg"
             p-id="2588"
             data-spm-anchor-id="a313x.7781069.0.i0"
           >
@@ -50,7 +50,7 @@ export function VueIcon () {
   return (
     <span>
       <svg
-        xmlns="http://www.w3.org/2000/svg"
+        xmlns="https://www.w3.org/2000/svg"
         className="inline-svg-icon"
         viewBox="0 0 1024 1024"
       >
@@ -78,7 +78,7 @@ export function ReactIcon () {
   return (
     <span>
       <svg
-        xmlns="http://www.w3.org/2000/svg"
+        xmlns="https://www.w3.org/2000/svg"
         width="200"
         height="200"
         className="inline-svg-icon"

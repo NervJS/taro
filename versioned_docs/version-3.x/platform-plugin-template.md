@@ -18,7 +18,7 @@ Taro3 通过把 DOM 树的数据进行 `setData`，从而驱动模板（`<templa
 
 `view_0` 引用 `container_0`，`container_0` 能再引用 `view_0`：
 
-![](http://storage.jd.com/cjj-pub-images/recursive_temp.png)
+![](https://storage.jd.com/cjj-pub-images/recursive_temp.png)
 
 ### 非递归模板
 
@@ -26,7 +26,7 @@ Taro3 通过把 DOM 树的数据进行 `setData`，从而驱动模板（`<templa
 
 `view_0` 引用 `container_0`，`container_0` 不能再引用 `view_0`，只能引用新的 `view` 模板 `view_1`：
 
-![](http://storage.jd.com/cjj-pub-images/unrecursive_temp.png)
+![](https://storage.jd.com/cjj-pub-images/unrecursive_temp.png)
 
 ## 模板基类
 

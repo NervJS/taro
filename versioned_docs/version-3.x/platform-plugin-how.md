@@ -29,7 +29,7 @@ title: 编写端平台插件
 
 ### 架构图
 
-![](http://storage.jd.com/cjj-pub-images/platform-plugin-construct.png)
+![](https://storage.jd.com/cjj-pub-images/platform-plugin-construct.png)
 
 ## 编译时
 

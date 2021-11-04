@@ -370,7 +370,7 @@ onAddToFavorites(res) {
   console.log('WebviewUrl: ', res.webviewUrl)
   return {
     title: 'custom title',
-    imageUrl: 'http://demo.png',
+    imageUrl: 'https://demo.png',
     query: 'name=xxx&age=xxx',
   }
 }

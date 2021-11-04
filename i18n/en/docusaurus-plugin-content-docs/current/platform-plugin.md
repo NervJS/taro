@@ -71,7 +71,7 @@ Platform extensions can be further divided into horizontal and vertical extensio
 
 #### Open compilation platform architecture diagram
 
-![](http://storage.jd.com/cjj-pub-images/platform-plugin-all.png)
+![](https://storage.jd.com/cjj-pub-images/platform-plugin-all.png)
 
 ### What else is interesting to do
 

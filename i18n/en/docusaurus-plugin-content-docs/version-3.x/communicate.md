@@ -20,13 +20,13 @@ If you have questions or ideas please discuss them on [Github Discussion](https:
 
 ### Forum
 
-[Taro Community - Let every communication be accumulated](http://taro-club.jd.com/)
+[Taro Community - Let every communication be accumulated](https://taro-club.jd.com/)
 
 You can ask questions, discuss, and tweet in the communication community.
 
 ### Examples
 
-[Taro examples marketplace - Making each example generate Value](http://taro-ext.jd.com/)
+[Taro examples marketplace - Making each example generate Value](https://taro-ext.jd.com/)
 
 You can find some open source templates, components and projects in the examples, and you are welcome to share your results.
 

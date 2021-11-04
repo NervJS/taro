@@ -350,7 +350,7 @@ const height = await $('#foo').height() // => 123
 // autolink everything that looks like a Twitter username
 $('.comment p').html(function(idx, oldHtml){
   return oldHtml.replace(/(^|\W)@(\w{1,15})/g,
-    '$1@<a href="http://twitter.com/$2">$2</a>')
+    '$1@<a href="https://twitter.com/$2">$2</a>')
 })
 ```
 

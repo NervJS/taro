@@ -59,7 +59,7 @@ div span {
 }
 ```
 
-If we develop based on a pre-compiled language such as `scss`, we can write styles based on [BEM](http://getbem.com/) eg:
+If we develop based on a pre-compiled language such as `scss`, we can write styles based on [BEM](https://getbem.com/) eg:
 
 ```jsx
 <View className="block">

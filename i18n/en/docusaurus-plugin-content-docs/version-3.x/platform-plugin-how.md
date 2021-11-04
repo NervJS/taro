@@ -29,7 +29,7 @@ Using `@tarojs/plugin-platform-weapp` as an example.
 
 ### Architecture Diagram
 
-![](http://storage.jd.com/cjj-pub-images/platform-plugin-construct.png)
+![](https://storage.jd.com/cjj-pub-images/platform-plugin-construct.png)
 
 ## Compile Time
 

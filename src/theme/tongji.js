@@ -6,7 +6,7 @@ var _hmt = _hmt || [];
     img.src = 'http://xcx.jd.com/static/images/taro.png'
     img.onload = () => {
       if (window.location.hostname !== 'taro-docs-in.jd.com') {
-        window.location.href = 'http://taro-docs-in.jd.com' + window.location.pathname
+        window.location.href = 'https://taro-docs-in.jd.com' + window.location.pathname
       }
     }
 })();

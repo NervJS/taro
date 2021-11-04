@@ -72,7 +72,7 @@ taro build --type iot --watch
 
 #### 开放式编译平台架构图
 
-![](http://storage.jd.com/cjj-pub-images/platform-plugin-all.png)
+![](https://storage.jd.com/cjj-pub-images/platform-plugin-all.png)
 
 ### 还可以做什么有意思的事
 

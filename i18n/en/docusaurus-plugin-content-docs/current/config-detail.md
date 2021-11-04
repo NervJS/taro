@@ -1536,7 +1536,7 @@ module.exports = {
 
 `object`
 
-`less` related configurations. `options` configuration item reference [documentation](http://lesscss.org/usage/#less-options)。
+`less` related configurations. `options` configuration item reference [documentation](https://lesscss.org/usage/#less-options)。
 
 ```js
 module.exports = {

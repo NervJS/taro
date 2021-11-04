@@ -20,13 +20,13 @@ title: 沟通与反馈
 
 ### 论坛
 
-[Taro 交流社区——让每一次交流都被沉淀](http://taro-club.jd.com/)
+[Taro 交流社区——让每一次交流都被沉淀](https://taro-club.jd.com/)
 
 你可以在交流社区里提问、讨论、吐槽。
 
 ### 物料市场
 
-[Taro 物料市场——让每一个轮子产生价值](http://taro-ext.jd.com/)
+[Taro 物料市场——让每一个轮子产生价值](https://taro-ext.jd.com/)
 
 你可以在物料市场里找到一些开源的模板、组件和项目，也欢迎你分享你的成果。
 

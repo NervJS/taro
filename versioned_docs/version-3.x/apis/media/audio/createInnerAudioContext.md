@@ -20,7 +20,7 @@ sidebar_label: createInnerAudioContext
 ```tsx
 const innerAudioContext = Taro.createInnerAudioContext()
 innerAudioContext.autoplay = true
-innerAudioContext.src = 'http://storage.360buyimg.com/jdrd-blog/27.mp3'
+innerAudioContext.src = 'https://storage.360buyimg.com/jdrd-blog/27.mp3'
 innerAudioContext.onPlay(() => {
   console.log('开始播放')
 })

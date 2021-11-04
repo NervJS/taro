@@ -164,7 +164,7 @@ useAddToFavorites(res => {
   console.log('WebviewUrl: ', res.webviewUrl)
   return {
     title: '自定义标题',
-    imageUrl: 'http://demo.png',
+    imageUrl: 'https://demo.png',
     query: 'name=xxx&age=xxx',
   }
 })

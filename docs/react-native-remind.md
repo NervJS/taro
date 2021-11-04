@@ -59,7 +59,7 @@ div span {
 }
 ```
 
-若我们基于 `scss` 等预编译语言开发，则可基于 [BEM](http://getbem.com/) 写样式，如：
+若我们基于 `scss` 等预编译语言开发，则可基于 [BEM](https://getbem.com/) 写样式，如：
 
 ```jsx
 <View className="block">

@@ -22,7 +22,7 @@ author_image_url: https://storage.jd.com/cjj-pub-images/11807297.png
 
 京东小程序只需一次开发即可运行在京东 APP、京东金融 APP、京麦 APP 三端。京东 APP、京东金融 APP 会开放特定的能力，对优质小程序还会开放多个高流量入口，包含扫码、搜索、消息等多种方式触达。而京麦 APP 小程序主要用于商家工具插件的开发定制。
 
-![jdapp_3apps](http://storage.jd.com/cjj-pub-images/jdapp_3apps.png)
+![jdapp_3apps](https://storage.jd.com/cjj-pub-images/jdapp_3apps.png)
 
 ### Taro
 
@@ -76,11 +76,11 @@ Taro 已 100% 完成了转换京东小程序的工作，全面支持京东小程
 
 ##### 微信小程序端
 
-![yanxuan_wx](http://storage.jd.com/cjj-pub-images/jdapp_yanxuan_wx_demo.jpg)
+![yanxuan_wx](https://storage.jd.com/cjj-pub-images/jdapp_yanxuan_wx_demo.jpg)
 
 ##### 京东小程序端
 
-![yanxuan_jd](http://storage.jd.com/cjj-pub-images/jdapp_yanxuan_jd_demo.jpg)
+![yanxuan_jd](https://storage.jd.com/cjj-pub-images/jdapp_yanxuan_jd_demo.jpg)
 
 ## 未来规划
 

@@ -37,7 +37,7 @@ title: 更多资源
 ## 官方资源
 
 - [Taro 项目仓库](https://github.com/NervJS/taro)
-- [Taro 官方文档](http://nervjs.github.io/taro)
+- [Taro 官方文档](https://nervjs.github.io/taro)
 - [Taro UI 项目仓库](https://github.com/NervJS/taro-ui)
 - [Taro UI 官方文档](https://taro-ui.jd.com)
 

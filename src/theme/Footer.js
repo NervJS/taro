@@ -89,7 +89,7 @@ function Footer() {
                     className="icon svgicon"
                     viewBox="0 0 1024 1024"
                     version="1.1"
-                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns="https://www.w3.org/2000/svg"
                     p-id="2588"
                     data-spm-anchor-id="a313x.7781069.0.i0"
                   >
@@ -156,7 +156,7 @@ function Footer() {
               </Translate>
             </h3>
             <p>
-              <a href="http://jdc.jd.com/" target="_blank">
+              <a href="https://jdc.jd.com/" target="_blank">
               <Translate description="The footer content">
                用户体验设计部
               </Translate>

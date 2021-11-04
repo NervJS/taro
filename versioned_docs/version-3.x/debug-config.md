@@ -151,7 +151,7 @@ launch.json 的详细配置请见 [VSCode 文档](https://code.visualstudio.com/
 
 按下图操作即可开始单步调试，详细调试操作可参考 VSCode 文档。
 
-![](http://storage.jd.com/cjj-pub-images/WX20200602-221337.png)
+![](https://storage.jd.com/cjj-pub-images/WX20200602-221337.png)
 
 :::note
 目前 Taro 项目的子包一般编译都会产生 `source-map`，所以一般都能够直接在源码位置使用断点。如果某些包编译时没有开启 `source-map`，可手动开启然后提交 `Pull Requests`。

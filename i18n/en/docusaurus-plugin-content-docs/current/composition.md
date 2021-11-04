@@ -36,7 +36,7 @@ For more recent resources, please refer to.[NervJS/awesome-taro](https://github.
 ## Official Resources
 
 - [Taro Project Repositry](https://github.com/NervJS/taro)
-- [Taro Official Documentaion](http://nervjs.github.io/taro)
+- [Taro Official Documentaion](https://nervjs.github.io/taro)
 - [Taro UI Project Repositry](https://github.com/NervJS/taro-ui)
 - [Taro UI Official Documentaion](https://taro-ui.jd.com)
 

@@ -148,6 +148,6 @@ Alternatively, if the softlink fails (e.g. `yarn add` is executed in a subpackag
 
 You can start single-step debugging by following the diagram below, please refer to VSCode documentation for detailed debugging operation.
 
-![](http://storage.jd.com/cjj-pub-images/WX20200602-221337.png)
+![](https://storage.jd.com/cjj-pub-images/WX20200602-221337.png)
 
 > Currently, subpackages of the Taro project are generally compiled with `source-map`, so it is usually possible to use breakpoints directly in the source code location. If some packages are not compiled with `source-map` enabled, you can enable it manually and submit `Pull Requests`.

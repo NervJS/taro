@@ -82,7 +82,7 @@ Obtains image information. For network images, it only takes effect when the dow
       <td>orientation</td>
       <td><code>&quot;up&quot; | &quot;up-mirrored&quot; | &quot;down&quot; | &quot;down-mirrored&quot; | &quot;left-mirrored&quot; | &quot;right&quot; | &quot;right-mirrored&quot; | &quot;left&quot;</code></td>
       <td style={{ textAlign: "center"}}><code>&quot;up&quot;</code></td>
-      <td><a href="http://sylvana.net/jpegcrop/exif_orientation.html">Device orientation when taking photos</a></td>
+      <td><a href="https://sylvana.net/jpegcrop/exif_orientation.html">Device orientation when taking photos</a></td>
     </tr>
     <tr>
       <td>path</td>

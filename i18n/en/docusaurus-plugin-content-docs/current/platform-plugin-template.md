@@ -19,7 +19,7 @@ In the mini program that support template recursion, the same template is able t
 
 `view_0` references `container_0`，`container_0` then reference `view_0`：
 
-![](http://storage.jd.com/cjj-pub-images/recursive_temp.png)
+![](https://storage.jd.com/cjj-pub-images/recursive_temp.png)
 
 ### Non-recursive Templates
 
@@ -27,7 +27,7 @@ In mini program that do not support template recursion, the referenced template 
 
 `view_0` references `container_0`，`container_0` can not references `view_0`，only references new  `view` template `view_1`：
 
-![](http://storage.jd.com/cjj-pub-images/unrecursive_temp.png)
+![](https://storage.jd.com/cjj-pub-images/unrecursive_temp.png)
 
 ## Template Base Classes
 

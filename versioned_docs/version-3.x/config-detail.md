@@ -1531,7 +1531,7 @@ module.exports = {
 
 `object`
 
-`less` 相关配置。`options` 配置项参考[官方文档](http://lesscss.org/usage/#less-options)。
+`less` 相关配置。`options` 配置项参考[官方文档](https://lesscss.org/usage/#less-options)。
 
 ```js
 module.exports = {
