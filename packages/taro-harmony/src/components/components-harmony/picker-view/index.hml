@@ -1,0 +1,24 @@
+<div>
+  <picker-view if="{{type === 'date'}}" id="{{id}}" type="date" start="{{start}}" end="{{end}}" selected="{{selected}}"
+    disabled="{{disabled}}" lunar="{{lunar}}" lunarswitch="{{lunarswitch}}" vibrate="{{vibrate}}" @change="dateChange"
+    @cancel="cancel">
+  </picker-view>
+
+  <picker-view elif="{{type === 'time'}}" id="{{id}}" type="time" selected="{{selected}}" hours="{{hours}}"
+    disabled="{{disabled}}" vibrate="{{vibrate}}" @change="timeChange" @cancel="cancel">
+  </picker-view>
+
+  <picker-view elif="{{type === 'datetime'}}" id="{{id}}" type="datetime" selected="{{selected}}" hours="{{hours}}"
+    disabled="{{disabled}}" lunar="{{lunar}}" lunarswitch="{{lunarswitch}}" vibrate="{{vibrate}}"
+    @change="datetimeChange" @cancel="cancel">
+  </picker-view>
+
+  <picker-view elif="{{type === 'multi-text'}}" id="{{id}}" type="multi-text" columns="{{columns}}"
+    range="{{localRange}}" selected="{{selected}}" disabled="{{disabled}}" vibrate="{{vibrate}}"
+    @change="multiTextChange" @columnchange="multiTextColumnChange" @cancel="cancel">
+  </picker-view>
+
+  <picker-view else id="{{id}}" type="text" selected="{{selected}}" range="{{localRange}}" disabled="{{disabled}}"
+    vibrate="{{vibrate}}" @change="textChange" @cancel="cancel">
+  </picker-view>
+</div>
