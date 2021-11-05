@@ -54,7 +54,7 @@ export class Input implements ComponentInterface {
   @Watch('autoFocus')
   watchFocus (newValue: boolean, oldValue: boolean) {
     if (!oldValue && newValue) {
-      this.inputRef.focus()
+      this.inputRef?.focus()
     }
   }
 
@@ -91,14 +91,14 @@ export class Input implements ComponentInterface {
       this.fileListener = () => {
         this.onInput.emit()
       }
-      this.inputRef.addEventListener('change', this.fileListener)
+      this.inputRef?.addEventListener('change', this.fileListener)
     } else {
-      this.inputRef.addEventListener('compositionstart', this.handleComposition)
-      this.inputRef.addEventListener('compositionend', this.handleComposition)
+      this.inputRef?.addEventListener('compositionstart', this.handleComposition)
+      this.inputRef?.addEventListener('compositionend', this.handleComposition)
     }
 
     Object.defineProperty(this.el, 'value', {
-      get: () => this.inputRef.value,
+      get: () => this.inputRef?.value,
       set: value => {
         this._value = value
       },
@@ -108,7 +108,7 @@ export class Input implements ComponentInterface {
 
   disconnectedCallback () {
     if (this.type === 'file') {
-      this.inputRef.removeEventListener('change', this.fileListener)
+      this.inputRef?.removeEventListener('change', this.fileListener)
     }
   }
 
