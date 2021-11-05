@@ -12,10 +12,7 @@ const resCallback = (res) => {
 export function showToast (options) {
   const _default = {
     title: '',
-    icon: 'success',
-    image: '',
     duration: 1500,
-    mask: false,
     bottom: '100px',
   }
 
@@ -63,7 +60,7 @@ export function showModal (options) {
   const _default = {
     title: '',
     content: '',
-    showCancel: false,
+    showCancel: true,
     cancelText: '取消',
     cancelColor: '#000000',
     confirmText: '确定',
@@ -81,7 +78,7 @@ export function showModal (options) {
 
   const buttons: any = []
 
-  if (cancelText !== '' && !showCancel) {
+  if (cancelText !== '' && showCancel) {
     buttons.push({
       text: cancelText,
       color: cancelColor
@@ -126,7 +123,7 @@ export function showModal (options) {
       },
       // 鸿蒙没有失败方法，只有取消
       cancel: (data) => {
-        const cancelObject = { errMsg: `showModal:fail ${data}` }
+        const cancelObject = { errMsg: `showModal: ${data}` }
         resolve(cancelObject)
         cancel(cancelObject)
         complete(cancelObject)
