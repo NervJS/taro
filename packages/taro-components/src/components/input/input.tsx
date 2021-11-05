@@ -172,12 +172,17 @@ export class Input implements ComponentInterface {
 
   handleKeyDown = (e: TaroEvent<HTMLInputElement> & KeyboardEvent) => {
     const { value } = e.target
+    const keyCode = e.keyCode || e.code
     this.onInputExcuted = false
     e.stopPropagation()
 
-    this.onKeyDown.emit({ value })
+    this.onKeyDown.emit({
+      value,
+      cursor: value.length,
+      keyCode
+    })
 
-    e.keyCode === 13 && this.onConfirm.emit({ value })
+    keyCode === 13 && this.onConfirm.emit({ value })
   }
 
   handleComposition = (e) => {
