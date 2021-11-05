@@ -139,12 +139,13 @@ export function showActionSheet (options) {
     title: '',
     itemList: [],
     itemColor: '#000000',
-    fail: noop
+    fail: noop,
+    complete: noop
   }
 
   options = { ..._default, ...options }
 
-  const { title, itemList, itemColor, fail } = options
+  const { title, itemList, itemColor, fail, complete } = options
 
   if (!isString(title)) {
     return console.error(getParameterError({
@@ -191,6 +192,7 @@ export function showActionSheet (options) {
         }
         resolve(failObject)
         fail(failObject)
+        complete(failObject)
       },
     }
 
