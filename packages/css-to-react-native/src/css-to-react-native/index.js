@@ -17,7 +17,7 @@ export const transformRawValue = input => {
   const numberMatch = value.match(numberOrLengthRe)
   if (numberMatch !== null) {
     const num = Number(numberMatch[1])
-    if (/px/.test(value)) {
+    if (/(\d+)px/.test(value)) {
       return `scalePx2dp(${num})`
     } else {
       return num
