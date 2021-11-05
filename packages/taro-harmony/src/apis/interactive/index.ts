@@ -98,7 +98,7 @@ export function showModal (options) {
       message: content,
       buttons: buttons,
       success: (data) => {
-        if (data.index === 1) {
+        if (data.index === 1 || !showCancel) {
           callAsyncSuccess(
             resolve, 
             {
