@@ -296,6 +296,22 @@ Taroify 是移动端组件库 Vant 的 Taro 版本，两者基于相同的视觉
 
 ---
 
+### @antmjs/vantui
+
+`React`
+
+@antmjs/vantui 是一款基于vant开发的React / Taro-React 多端UI组件库。
+
+[@antmjs](https://github.com/AntmJS) 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/6183a65b89dfc6bef5d5a88e)】【[Github](https://github.com/AntmJS/vantui)】
+
+<img src="http://img30.360buyimg.com/img/jfs/t1/136536/19/21123/599490/6183a34bE2b06216c/0b9557af04c325d1.png.webp" width="700px" />
+
+|  | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| 支持度 | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | |
+
+---
+
 ## 插件
 
 ---
