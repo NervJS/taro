@@ -13,7 +13,7 @@ export function showToast (options) {
   const _default = {
     title: '',
     duration: 1500,
-    bottom: '100px',
+    bottom: '100px'
   }
 
   options = { ..._default, ...options }
@@ -66,7 +66,7 @@ export function showModal (options) {
     confirmText: '确定',
     confirmColor: '#3CC51F',
     cancel: noop,
-    complete: noop,
+    complete: noop
   }
 
   options = { ..._default, ...options }
@@ -100,23 +100,23 @@ export function showModal (options) {
       success: (data) => {
         if (data.index === 1 || !showCancel) {
           callAsyncSuccess(
-            resolve, 
+            resolve,
             {
               ...resCallback('showModal'),
               confirm: true,
               cancel: false,
               content: null
-            }, 
+            },
             options
           )
         } else {
           callAsyncSuccess(
-            resolve, 
+            resolve,
             {
               ...resCallback('showModal'),
               confirm: false,
               cancel: true
-            }, 
+            },
             options
           )
         }
@@ -176,11 +176,11 @@ export function showActionSheet (options) {
       buttons,
       success: (data) => {
         callAsyncSuccess(
-          resolve, 
+          resolve,
           {
             ...data,
             ...resCallback('showActionSheet')
-          }, 
+          },
           options
         )
       },
@@ -193,7 +193,7 @@ export function showActionSheet (options) {
         resolve(failObject)
         fail(failObject)
         complete(failObject)
-      },
+      }
     }
 
     prompt.showActionMenu(actionSheetOptions)
