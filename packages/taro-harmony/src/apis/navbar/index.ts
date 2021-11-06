@@ -2,21 +2,21 @@ import { unsupport, current, callAsyncSuccess } from '../utils'
 
 import type Taro from '@tarojs/taro'
 
-type setNavigationBarTitle = typeof Taro.setNavigationBarTitle
-type setNavigationBarColor = typeof Taro.setNavigationBarColor
+type SetNavigationBarTitle = typeof Taro.setNavigationBarTitle
+type SetNavigationBarColor = typeof Taro.setNavigationBarColor
 
-export const setNavigationBarTitle: setNavigationBarTitle = function (options) {
+export const setNavigationBarTitle: SetNavigationBarTitle = function (options) {
   return new Promise(resolve => {
     const taro = current.taro
     const page = taro.getCurrentInstance().page
     const res = { errMsg: 'setNavigationBarTitle:ok' }
 
     page.$set('taroNavBar.title', options.title)
-    callAsyncSuccess(options, resolve, res)
+    callAsyncSuccess(resolve, res, options)
   })
 }
 
-export const setNavigationBarColor: setNavigationBarColor = function (options) {
+export const setNavigationBarColor: SetNavigationBarColor = function (options) {
   return new Promise(resolve => {
     const taro = current.taro
     const page = taro.getCurrentInstance().page
@@ -25,7 +25,7 @@ export const setNavigationBarColor: setNavigationBarColor = function (options) {
 
     page.$set('taroNavBar.textStyle', frontColor)
     page.$set('taroNavBar.background', backgroundColor)
-    callAsyncSuccess(options, resolve, res)
+    callAsyncSuccess(resolve, res, options)
   })
 }
 

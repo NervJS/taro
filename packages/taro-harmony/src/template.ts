@@ -18,12 +18,20 @@ export class Template extends RecursiveTemplate {
 
   usedNativeComps: string[] = []
 
+  patchVoidElements: string[] = [
+    'button',
+    'image',
+    'camera',
+    'video',
+    'web-view'
+  ]
+
   constructor () {
     super()
-    // this.voidElements.add('button') button有文本类型子节点
-    this.voidElements.add('image')
-    this.voidElements.add('static-image')
-    this.voidElements.add('camera')
+
+    this.patchVoidElements.forEach(item => {
+      this.voidElements.add(item)
+    })
 
     this.nativeComps = fs.readdirSync(path.resolve(__dirname, './components-harmony'))
   }
@@ -42,6 +50,17 @@ ${elements}
 
 <block for="{{i in root.cn}}">
 `
+  }
+
+  createMiniComponents (components): any {
+    const result = super.createMiniComponents(components)
+
+    delete result['pure-view']
+    delete result['static-view']
+    delete result['static-text']
+    delete result['static-image']
+
+    return result
   }
 
   buildTemplate = (componentConfig) => {
@@ -66,9 +85,11 @@ ${elements}
     return template
   }
 
-  buildStandardComponentTemplate (comp) {
-    const children = this.voidElements.has(comp.nodeName) ? '' : (comp.nodeName === 'button' ? '{{i.value}}' : '<container root="{{i}}"></container>')
+  buildFocusComponentTemplte (comp): string {
+    return this.generateComponentTemplateSrc(comp)
+  }
 
+  buildStandardComponentTemplate (comp) {
     let nodeName = ''
     switch (comp.nodeName) {
       case 'slot':
@@ -90,12 +111,16 @@ ${elements}
         nodeName = comp.nodeName
         break
     }
+    return this.generateComponentTemplateSrc(comp, nodeName)
+  }
 
+  generateComponentTemplateSrc (comp, nodeName?): string {
+    const children = this.voidElements.has(comp.nodeName) ? '' : '<container root="{{i}}"></container>'
+    if (!nodeName) {
+      nodeName = comp.nodeName
+    }
     if (this.nativeComps.includes(nodeName)) {
       nodeName = `taro-${nodeName}`
-      // 鸿蒙自定义组件不能传 class 属性
-      comp.attributes.cls = comp.attributes.class
-      delete comp.attributes.class
     }
 
     const res = `
@@ -123,10 +148,10 @@ ${elements}
       .join('')
   }
 
-  replacePropName (name: string, value: string, _componentName?: string) {
+  replacePropName (name: string, value: string, componentName?: string) {
     if (value === 'eh') return name.toLowerCase().replace(/^bind/, '@')
     // 由于鸿蒙不支持for属性 需要修改for属性，需要改名
-    if (_componentName === 'label' && name === 'for') return 'target'
+    if (componentName === 'label' && name === 'for') return 'target'
     return name
   }
 
@@ -140,14 +165,20 @@ ${elements}
     const containerPath = path.join(path.dirname(baseTempPath), 'container')
     const containerTempPath = path.join(containerPath, 'index.hml')
     const navbarTempPath = path.join(containerPath, 'components-harmony/navbar/index.hml')
+    const tabbarTempPath = path.join(containerPath, 'components-harmony/tabbar/index.hml')
     const template = `<element name="container" src="${containerTempPath}"></element>
 <element name="navbar" src="${navbarTempPath}"></element>
+<element name="tabbar" src="${tabbarTempPath}"></element>
 
 <div class="container">
   <navbar title="{{taroNavBar.title}}" background="{{taroNavBar.background}}" text-style="{{taroNavBar.textStyle}}" st="{{taroNavBar.style}}"></navbar>
-  <div class="body">
-    <container root="{{root}}"></container>
+  <div class="body" style="padding-top: 44px;padding-bottom: {{isShowTaroTabBar ? '56px' : '0'}}">
+    <refresh if="{{enablePullDownRefresh}}" type="pulldown" refreshing="{{isRefreshing}}" onrefresh="onPullDownRefresh">
+      <container root="{{root}}"></container>
+    </refresh>
+    <container else root="{{root}}"></container>
   </div>
+  <tabbar if="{{isShowTaroTabBar}}" data="{{taroTabBar}}" selected="{{selected}}"></tabbar>
 </div>
 `
 
