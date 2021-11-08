@@ -119,9 +119,9 @@ function format (
     .map((child: Text | Element) => {
       // 文本节点
       if (child.type === 'text') {
-        const text = document.createTextNode(child.content)
+        let text = document.createTextNode(child.content)
         if (isFunction(options.html!.transformText)) {
-          return options.html!.transformText(text, child)
+          text = options.html!.transformText(text, child)
         }
         parent?.appendChild(text)
         return text
