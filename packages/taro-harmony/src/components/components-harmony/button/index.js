@@ -1,5 +1,6 @@
+import { createOption } from '../utils'
 
-export default {
+export default createOption({
   props: {
     id: {
       default: ''
@@ -13,6 +14,9 @@ export default {
     type: {
       default: 'default'
     },
+    harmonyType: {
+      default: 'capsule'
+    },
     size: {
       default: 'default'
     },
@@ -24,23 +28,6 @@ export default {
     },
     loading: {
       default: false
-    },
-    hover: {
-      default: 'button-hover'
-    },
-    hoverClass: {
-      default: 'a'
-    }
-    //  hoverStartTime: {
-    //   default: '20',
-    //  },
-    //  hoverStayTime: {
-    //   default: '70',
-    //  },
-  },
-  data () {
-    return {
-      clsHover: ''
     }
   },
   computed: {
@@ -63,18 +50,5 @@ export default {
       if (this.plain) return `type-${this.type}-plain-disabled`
       return `type-${this.type}-disabled`
     }
-  },
-
-  onClick () {
-    this.$emit('click', { id: this.id })
-    this.handleHoverClass()
-  },
-
-  handleHoverClass () {
-    this.clsHover = this.hoverClass
-    const timer = setTimeout(() => {
-      this.clsHover = ''
-      clearTimeout(timer)
-    }, 70)
   }
-}
+})

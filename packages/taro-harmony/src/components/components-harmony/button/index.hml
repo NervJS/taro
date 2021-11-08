@@ -2,9 +2,8 @@
 <button
   id="{{id}}"
   class="{{cls}} {{clsType}} {{clsSize}} {{clsPlain}} {{clsDisable}} {{clsDisableType}} {{clsHover}}"
-  type="capsule"
+  type="{{harmonyType}}"
   disabled="{{disabled}}"
   waiting="{{loading}}"
-  @click="{{onClick}}"
 >{{value}}</button>
 </div>

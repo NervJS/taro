@@ -115,7 +115,7 @@ ${elements}
   }
 
   generateComponentTemplateSrc (comp, nodeName?): string {
-    const children = this.voidElements.has(comp.nodeName) ? '' : '<container root="{{i}}"></container>'
+    const children = this.voidElements.has(comp.nodeName) ?  (comp.nodeName === 'button' ? '{{i.value}}' : '') : '<container root="{{i}}"></container>'
     if (!nodeName) {
       nodeName = comp.nodeName
     }
