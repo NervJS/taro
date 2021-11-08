@@ -101,14 +101,13 @@ export default class Harmony extends TaroPlatformBase {
             (miniType === META_TYPE.STATIC && entryModule.name === 'container/index')
           ) {
             const origin: string = modules._value ? modules._value.toString() : modules.source()
-            const editedOrigin = origin.replace(/var inst = (App|Page)\(/, 'taroExport = (')
+            let editedOrigin = origin.replace(/\(globalThis/, 'var taroExport = (globalThis')
+            editedOrigin = editedOrigin.replace(/var inst = (App|Page)\(/, '__webpack_exports__.default = (')
 
             const source = new ConcatSource()
-            source.add('var taroExport;\n')
-            source.add('\n')
             source.add(editedOrigin)
             source.add(';')
-            source.add('\nexport default taroExport;')
+            source.add('\nexport default taroExport.default;')
             return source
           }
         }

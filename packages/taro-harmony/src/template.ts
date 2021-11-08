@@ -48,7 +48,7 @@ export class Template extends RecursiveTemplate {
     return `<element name="container" src="./index.hml"></element>
 ${elements}
 
-<block for="{{i in root.cn}}">
+<block>
 `
   }
 
@@ -113,7 +113,11 @@ ${elements}
   }
 
   generateComponentTemplateSrc (comp, nodeName?): string {
-    const children = this.voidElements.has(comp.nodeName) ? '' : '<container root="{{i}}"></container>'
+    const children = this.voidElements.has(comp.nodeName)
+      ? ''
+      : `<block for="{{i.cn}}">
+      <container i="{{$item}}"></container>
+    </block>`
     if (!nodeName) {
       nodeName = comp.nodeName
     }
@@ -169,12 +173,16 @@ ${elements}
 <element name="tabbar" src="${tabbarTempPath}"></element>
 
 <div class="container">
-  <navbar title="{{taroNavBar.title}}" background="{{taroNavBar.background}}" text-style="{{taroNavBar.textStyle}}" st="{{taroNavBar.style}}"></navbar>
+  <navbar if="{{taroNavBar}}" title="{{taroNavBar.title}}" background="{{taroNavBar.background}}" text-style="{{taroNavBar.textStyle}}" st="{{taroNavBar.style}}"></navbar>
   <div class="body" style="padding-top: 44px;padding-bottom: {{isShowTaroTabBar ? '56px' : '0'}}">
     <refresh if="{{enablePullDownRefresh}}" type="pulldown" refreshing="{{isRefreshing}}" onrefresh="onPullDownRefresh">
-      <container root="{{root}}"></container>
+      <block for="{{root.cn}}">
+        <container i="{{$item}}"></container>
+      </block>
     </refresh>
-    <container else root="{{root}}"></container>
+    <block else for="{{root.cn}}">
+      <container i="{{$item}}"></container>
+    </block>
   </div>
   <tabbar if="{{isShowTaroTabBar}}" data="{{taroTabBar}}" selected="{{selected}}"></tabbar>
 </div>
