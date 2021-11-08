@@ -3,7 +3,6 @@ import { createOption } from '../utils'
 export default createOption({
   props: [
     'id',
-    'cls',
     'src',
     'alt'
   ],
