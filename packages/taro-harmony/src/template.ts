@@ -94,9 +94,7 @@ ${elements}
     switch (comp.nodeName) {
       case 'slot':
       case 'slot-view':
-      case 'catch-view':
-      case 'static-view':
-      case 'pure-view':
+      case 'cover-view':
       case 'view':
       case 'swiper-item':
         nodeName = 'div'
