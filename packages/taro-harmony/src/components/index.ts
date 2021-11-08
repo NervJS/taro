@@ -61,7 +61,12 @@ export const components = {
     headericon: '',
     showcounter: 'false',
     menuoptions: '[]',
-    softkeyboardenabled: 'true'
+    softkeyboardenabled: 'true',
+    bindtranslate: '',
+    bindshare: '',
+    bindsearch: '',
+    bindoptionselect: '',
+    bindselectchange: ''
   },
   Progress: {
     'active-color': singleQuote('#09BB07'),

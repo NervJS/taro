@@ -1,5 +1,5 @@
 <textarea 
-  id={{ id }}
+  id={{id}}
   value="{{value}}"
   placeholder="{{placeholder}}"
   maxlength="{{maxlength}}"
@@ -19,4 +19,5 @@
   @search="onSearch"
   @optionselect="onOptionSelect"
   @selectchange="onSelectChange"
+>
 </textarea>
