@@ -54,7 +54,7 @@ export class Input implements ComponentInterface {
   @Watch('autoFocus')
   watchFocus (newValue: boolean, oldValue: boolean) {
     if (!oldValue && newValue) {
-      this.inputRef.focus()
+      this.inputRef?.focus()
     }
   }
 
@@ -104,6 +104,8 @@ export class Input implements ComponentInterface {
       },
       configurable: true
     })
+
+    this.autoFocus && this.inputRef?.focus()
   }
 
   disconnectedCallback () {
@@ -199,7 +201,6 @@ export class Input implements ComponentInterface {
       placeholder,
       disabled,
       maxlength,
-      autoFocus,
       confirmType,
       name,
       nativeProps
@@ -209,7 +210,6 @@ export class Input implements ComponentInterface {
       <input
         ref={input => {
           this.inputRef = input!
-          autoFocus && input?.focus()
         }}
         class='weui-input'
         value={fixControlledValue(_value)}
@@ -217,7 +217,6 @@ export class Input implements ComponentInterface {
         placeholder={placeholder}
         disabled={disabled}
         maxlength={maxlength}
-        autofocus={autoFocus}
         name={name}
         onInput={this.handleInput}
         onFocus={this.handleFocus}
