@@ -2,32 +2,23 @@ import { createOption } from '../utils'
 
 export default createOption({
   props: {
-    id: {
-      default: ''
-    },
-    cls: {
-      default: ''
-    },
-    value: {
-      default: ''
-    },
-    type: {
-      default: 'default'
-    },
-    harmonyType: {
-      default: 'capsule'
-    },
-    size: {
-      default: 'default'
-    },
-    plain: {
-      default: false
-    },
-    disabled: {
-      default: false
-    },
-    loading: {
-      default: false
+    id: '',
+    cls: '',
+    value: '',
+    type: 'capsule',
+    harmonyType: 'capsule',
+    size: 'default',
+    plain: false,
+    disabled: false,
+    loading: false,
+    hoverStartTime: 20,
+    hoverStayTime: 70,
+    hoverClass: 'button-hover'
+  },
+  data () {
+    return {
+      hover: false,
+      touch: false
     }
   },
   computed: {
@@ -49,6 +40,37 @@ export default createOption({
       if (!this.disabled) return ''
       if (this.plain) return `type-${this.type}-plain-disabled`
       return `type-${this.type}-disabled`
+    },
+    clsHover () {
+      return this.hover && !this.disabled ? this.hoverClass : ''
+    }
+  },
+  onTouchStart () {
+    if (this.disabled) {
+      return
+    }
+
+    this.touch = true
+    if (this.hoverClass && !this.disabled) {
+      setTimeout(() => {
+        if (this.touch) {
+          this.hover = true
+        }
+      }, this.hoverStartTime)
+    }
+  },
+  onTouchEnd () {
+    if (this.disabled) {
+      return
+    }
+
+    this.touch = false
+    if (this.hoverClass && !this.disabled) {
+      setTimeout(() => {
+        if (!this.touch) {
+          this.hover = false
+        }
+      }, this.hoverStayTime)
     }
   }
 })

@@ -5,5 +5,7 @@
     type="{{harmonyType}}"
     disabled="{{disabled}}"
     waiting="{{loading}}"
+    @touchstart="{{onTouchStart}}"
+    @touchend="{{onTouchEnd}}"
   >{{value}}</button>
 </div>
