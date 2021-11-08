@@ -19,7 +19,7 @@ export class CoverImage implements ComponentInterface {
   private imgRef: HTMLImageElement
 
   componentDidLoad () {
-    console.error('H5 暂不支持 CoverImage 组件！222')
+    console.error('H5 暂不支持 CoverImage 组件！')
     console.log(Host)
     console.log(this.src)
   }
