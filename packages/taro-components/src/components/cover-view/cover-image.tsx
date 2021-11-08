@@ -1,17 +1,60 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, Host } from '@stencil/core'
+import { Component, Prop, Event, h, Host, ComponentInterface, EventEmitter } from '@stencil/core'
 
 @Component({
-  tag: 'taro-cover-image-core'
+  tag: 'taro-cover-image-core',
+  styleUrl: './style/cover-image.scss'
 })
-export class CoverImage {
+export class CoverImage implements ComponentInterface {
+  @Prop() src: string
+  @Prop() nativeProps = {}
+  @Event({
+    eventName: 'load'
+  }) onLoad: EventEmitter
+
+  @Event({
+    eventName: 'error'
+  }) onError: EventEmitter
+
+  private imgRef: HTMLImageElement
+
   componentDidLoad () {
-    console.error('H5 暂不支持 CoverImage 组件！')
+    console.error('H5 暂不支持 CoverImage 组件！222')
+    console.log(Host)
+    console.log(this.src)
+  }
+
+  imageOnLoad () {
+    const {
+      width,
+      height,
+    } = this.imgRef
+
+    this.onLoad.emit({
+      width,
+      height
+    })
+  }
+
+  imageOnError () {
+    this.onError.emit()
   }
 
   render () {
+    const {
+      src,
+      imageOnLoad,
+      imageOnError,
+      nativeProps
+    } = this
     return (
-      <Host />
+      <img
+        ref={img => (this.imgRef = img!)}
+        src={src}
+        onLoad={imageOnLoad.bind(this)}
+        onError={imageOnError.bind(this)}
+        {...nativeProps}
+      />
     )
   }
 }
