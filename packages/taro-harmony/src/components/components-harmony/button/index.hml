@@ -1,9 +1,9 @@
 <div>
-<button
-  id="{{id}}"
-  class="{{cls}} {{clsType}} {{clsSize}} {{clsPlain}} {{clsDisable}} {{clsDisableType}} {{clsHover}}"
-  type="{{harmonyType}}"
-  disabled="{{disabled}}"
-  waiting="{{loading}}"
->{{value}}</button>
+  <button
+    id="{{id}}"
+    class="{{cls}} {{clsType}} {{clsSize}} {{clsPlain}} {{clsDisable}} {{clsDisableType}} {{clsHover}}"
+    type="{{harmonyType}}"
+    disabled="{{disabled}}"
+    waiting="{{loading}}"
+  >{{value}}</button>
 </div>
