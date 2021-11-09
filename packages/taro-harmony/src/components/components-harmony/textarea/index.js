@@ -3,6 +3,7 @@ import { createOption } from '../utils'
 
 export default createOption({
   data: {
+    textareaValue: '',
     height: 0
   },
 
@@ -34,10 +35,11 @@ export default createOption({
         }
       })
     })
+    this.textareaValue = this.value || ''
   },
 
   onInput (e) {
-    this.value = e.value
+    this.textareaValue = e.value
     this.$trigger('input', {
       value: e.text, cursor: e.text.length, keyCode: null
     })
@@ -45,13 +47,13 @@ export default createOption({
 
   onFocus () {
     this.$trigger('focus', {
-      value: this.value, height: this.height
+      value: this.textareaValue, height: this.height
     })
   },
 
   onBlur () {
     this.$trigger('blur', {
-      value: this.value, height: this.height
+      value: this.textareaValue, height: this.height
     })
   },
 
