@@ -3,19 +3,19 @@ import { createOption } from '../utils'
 
 export default createOption({
   data: {
-    textareaValue: '',
     height: 0
   },
 
   props: [
     'id',
     'value',
+    'disabled',
     'placeholder',
     'maxlength',
-    'auto-focus',
-    'auto-height',
-    'selection-start',
-    'selection-end',
+    'autoFocus',
+    'autoHeight',
+    'selectionStart',
+    'selectionEnd',
     'headericon',
     'showcounter',
     'menuoptions',
@@ -37,7 +37,7 @@ export default createOption({
   },
 
   onInput (e) {
-    this.textareaValue = e.value
+    this.value = e.value
     this.$trigger('input', {
       value: e.text, cursor: e.text.length, keyCode: null
     })
@@ -45,13 +45,13 @@ export default createOption({
 
   onFocus () {
     this.$trigger('focus', {
-      value: this.textareaValue, height: this.height
+      value: this.value, height: this.height
     })
   },
 
   onBlur () {
     this.$trigger('blur', {
-      value: this.textareaValue, height: this.height
+      value: this.value, height: this.height
     })
   },
 
@@ -64,7 +64,7 @@ export default createOption({
   },
 
   onSearch (e) {
-    this.$trigger('confirm', e)
+    this.$trigger('search', e)
   },
 
   onOptionSelect (e) {
