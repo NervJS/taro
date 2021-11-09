@@ -1,6 +1,6 @@
 import { isString, isNumber, isArray } from '@tarojs/shared'
 import {
-  getParameterError, unsupport, noop, callAsyncSuccess
+  getParameterError, unsupport, noop, callAsyncSuccess, callAsyncFail
 } from '../utils'
 
 const prompt = require('@system.prompt')
@@ -64,16 +64,14 @@ export function showModal (options) {
     cancelText: '取消',
     cancelColor: '#000000',
     confirmText: '确定',
-    confirmColor: '#3CC51F',
-    cancel: noop,
-    complete: noop
+    confirmColor: '#3CC51F'
   }
 
   options = { ..._default, ...options }
 
   const {
-    title, content, cancelText, confirmText, complete,
-    cancelColor, confirmColor, showCancel, cancel
+    title, content, cancelText, confirmText,
+    cancelColor, confirmColor, showCancel
   } = options
 
   const buttons: any = []
@@ -113,7 +111,7 @@ export function showModal (options) {
           callAsyncSuccess(
             resolve,
             {
-              ...resCallback('showModal'),
+              errMsg: 'fail: cancel',
               confirm: false,
               cancel: true
             },
@@ -122,11 +120,16 @@ export function showModal (options) {
         }
       },
       // 鸿蒙没有失败方法，只有取消
-      cancel: (data) => {
-        const cancelObject = { errMsg: `showModal: ${data}` }
-        resolve(cancelObject)
-        cancel(cancelObject)
-        complete(cancelObject)
+      cancel: (_) => {
+        callAsyncSuccess(
+          resolve,
+          {
+            errMsg: 'fail: cancel',
+            confirm: false,
+            cancel: true
+          },
+          options
+        )
       }
     }
 
@@ -145,7 +148,7 @@ export function showActionSheet (options) {
 
   options = { ..._default, ...options }
 
-  const { title, itemList, itemColor, fail, complete } = options
+  const { title, itemList, itemColor } = options
 
   if (!isString(title)) {
     return console.error(getParameterError({
@@ -170,7 +173,7 @@ export function showActionSheet (options) {
     }
   })
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const actionSheetOptions = {
       title,
       buttons,
@@ -186,13 +189,14 @@ export function showActionSheet (options) {
       },
       // 取消方法，并非失败
       fail: (data) => {
-        const failObject = {
-          ...data,
-          errMsg: data.errMsg.replace('showActionMenu', 'showActionSheet')
-        }
-        resolve(failObject)
-        fail(failObject)
-        complete(failObject)
+        callAsyncFail(
+          reject,
+          {
+            ...data,
+            errMsg: data.errMsg.replace('showActionMenu', 'showActionSheet')
+          },
+          options
+        )
       }
     }
 
