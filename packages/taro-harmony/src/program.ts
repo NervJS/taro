@@ -181,7 +181,15 @@ export default class Harmony extends TaroPlatformBase {
         externals: {
           '@system.app': 'commonjs @system.app',
           '@system.router': 'commonjs @system.router',
-          '@ohos.data.storage': 'commonjs @ohos.data.storage'
+          '@ohos.data.storage': 'commonjs @ohos.data.storage',
+          '@system.network': 'commonjs @system.network',
+          '@ohos.deviceInfo': 'commonjs @ohos.deviceInfo',
+          '@system.device': 'commonjs @system.device',
+          '@ohos.display': 'commonjs @ohos.display',
+          '@ohos.i18n': 'commonjs @ohos.i18n',
+          '@system.brightness': 'commonjs @system.brightness',
+          '@ohos.telephony.call': 'commonjs @ohos.telephony.call',
+          '@ohos.pasteboard': 'commonjs @ohos.pasteboard'
         }
       })
     })
