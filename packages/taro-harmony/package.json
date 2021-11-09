@@ -32,7 +32,10 @@
     "@tarojs/service": "3.3.9",
     "@tarojs/shared": "3.3.9",
     "@tarojs/taro": "3.3.9",
-    "webpack-sources": "2.3.0"
+    "webpack-sources": "2.3.0",
+
+    "@hmscore/hms-js-base": "^6.1.0-300",
+    "@hmscore/hms-jsb-account": "^1.0.300"
   },
   "devDependencies": {
     "@tarojs/runtime": "3.3.9"
