@@ -1,6 +1,6 @@
 import { isString, isNumber, isArray } from '@tarojs/shared'
 import {
-  getParameterError, unsupport, noop, callAsyncSuccess, callAsyncFail
+  getParameterError, unsupport, callAsyncSuccess, callAsyncFail
 } from '../utils'
 
 const prompt = require('@system.prompt')
@@ -111,7 +111,7 @@ export function showModal (options) {
           callAsyncSuccess(
             resolve,
             {
-              errMsg: 'fail: cancel',
+              ...resCallback('showModal'),
               confirm: false,
               cancel: true
             },
@@ -124,7 +124,7 @@ export function showModal (options) {
         callAsyncSuccess(
           resolve,
           {
-            errMsg: 'fail: cancel',
+            ...resCallback('showModal'),
             confirm: false,
             cancel: true
           },
@@ -141,9 +141,7 @@ export function showActionSheet (options) {
   const _default = {
     title: '',
     itemList: [],
-    itemColor: '#000000',
-    fail: noop,
-    complete: noop
+    itemColor: '#000000'
   }
 
   options = { ..._default, ...options }
