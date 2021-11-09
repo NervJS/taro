@@ -2,9 +2,11 @@ import window from '@ohos.window'
 import { createOption } from '../utils'
 
 export default createOption({
-  data: {
-    textareaValue: '',
-    height: 0
+  data () {
+    return {
+      textareaValue: this.value || '',
+      height: 0
+    }
   },
 
   props: [
@@ -35,7 +37,11 @@ export default createOption({
         }
       })
     })
-    this.textareaValue = this.value || ''
+    this.$watch('value', 'onPropertyChange')
+  },
+
+  onPropertyChange (newV) {
+    this.textareaValue = newV
   },
 
   onInput (e) {
