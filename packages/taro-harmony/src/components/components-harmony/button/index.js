@@ -4,7 +4,6 @@ export default createOption({
   props: {
     id: '',
     cls: '',
-    value: '',
     type: 'capsule',
     harmonyType: 'capsule',
     size: 'default',
@@ -13,7 +12,8 @@ export default createOption({
     loading: false,
     hoverStartTime: 20,
     hoverStayTime: 70,
-    hoverClass: 'button-hover'
+    hoverClass: 'button-hover',
+    cn: []
   },
   data () {
     return {
@@ -43,6 +43,9 @@ export default createOption({
     },
     clsHover () {
       return this.hover && !this.disabled ? this.hoverClass : ''
+    },
+    value () {
+      return this.cn[0].v
     }
   },
   onTouchStart () {

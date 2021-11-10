@@ -115,17 +115,21 @@ ${elements}
   }
 
   generateComponentTemplateSrc (comp, nodeName?): string {
-    const children = this.voidElements.has(comp.nodeName) ?  (comp.nodeName === 'button' ? '{{i.value}}' : '') : '<container root="{{i}}"></container>'
+    const children = this.voidElements.has(comp.nodeName) ?  '' : '<container root="{{i}}"></container>'
+    let otherAttrs = ''
     if (!nodeName) {
       nodeName = comp.nodeName
     }
     if (this.nativeComps.includes(nodeName)) {
       nodeName = `taro-${nodeName}`
     }
+    if (comp.nodeName === 'button') {
+      otherAttrs += 'cn="{{i.cn}}"'
+    }
 
     const res = `
 <block if="{{i.nn == '${comp.nodeName}'}}">
-  <${nodeName} ${this.buildAttrs(comp.attributes, comp.nodeName)} id="{{i.uid}}">
+  <${nodeName} ${this.buildAttrs(comp.attributes, comp.nodeName)} id="{{i.uid}}" ${otherAttrs}>
     ${children}
   </${nodeName}>
 </block>
