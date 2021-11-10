@@ -5,7 +5,7 @@
   </picker>
 
   <picker elif="{{type === 'time'}}" id="{{id}}" type="time" value="{{localValue}}"
-    selected="{{selected}}" hours="{{hours}}" disabled="{{disabled}}" vibrate="{{vibrate}}" @change="timeChange"
+    selected="{{selected}}" hours="{{hours}}" containsecond="{{containsecond}}" disabled="{{disabled}}" vibrate="{{vibrate}}" @change="timeChange"
     @cancel="cancel">
   </picker>
 

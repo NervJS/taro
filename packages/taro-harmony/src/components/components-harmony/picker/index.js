@@ -21,6 +21,7 @@ export default createOption({
     'start',
     'end',
     'hours',
+    'containsecond',
     'vibrate',
     'lunar',
     'lunarswitch'
@@ -107,9 +108,9 @@ export default createOption({
     this.$trigger('columnchange', { column, value: newSelected })
   },
   timeChange (e) {
-    const { hour, minute } = e
-    this.localValue = padNumZero(hour) + ':' + padNumZero(minute)
-    this.$trigger('change', { value: this.localValue, hour, minute })
+    const { hour, minute, second } = e
+    this.localValue = padNumZero(hour) + ':' + padNumZero(minute) + (this.containsecond ? ':' + padNumZero(second) : '')
+    this.$trigger('change', { value: this.localValue, hour, minute, second })
   },
   dateChange (e) {
     const { year, month, day } = e

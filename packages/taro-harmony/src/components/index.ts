@@ -98,6 +98,7 @@ export const components = {
   Picker: {
     selected: '',
     hours: '',
+    containsecond: 'false',
     vibrate: 'true',
     lunar: 'false',
     lunarswitch: 'false'
