@@ -45,7 +45,7 @@ export default createOption({
       return this.hover && !this.disabled ? this.hoverClass : ''
     },
     value () {
-      return this.cn[0].v
+      return (this.cn[0] && this.cn[0].v) || ''
     }
   },
   onTouchStart () {
