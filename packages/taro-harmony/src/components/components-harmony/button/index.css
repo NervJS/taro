@@ -97,8 +97,8 @@ button {
 
 .size-mini {
   width: 100px;
+  height: 36px;
   font-size: 13px;
-  line-height: 2.3;
 }
 
 .button-hover {
