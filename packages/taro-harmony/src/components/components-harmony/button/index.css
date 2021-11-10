@@ -1,3 +1,8 @@
+div {
+  display: flex;
+  justify-content: center;
+}
+
 button {
   border-radius: 5px;
   height: 46px;
@@ -69,6 +74,21 @@ button {
 .type-warn-plain-disabled {
   border-color: rgba(0,0,0,.2);
   text-color: rgba(0,0,0,.2);
+}
+
+.type-default-loading {
+  background-color: #dedede;
+  color: rgba(0,0,0,.6);
+}
+
+.type-warn-loading {
+  background-color: #ce3c39;
+  color: hsla(0,0%,100%,.6);
+}
+
+.type-primary-loading {
+  background-color: #179b16;
+  color: hsla(0,0%,100%,.6);
 }
 
 .size-default {

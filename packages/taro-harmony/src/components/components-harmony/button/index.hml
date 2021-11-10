@@ -1,7 +1,7 @@
 <div>
   <button
     id="{{id}}"
-    class="{{cls}} {{clsType}} {{clsSize}} {{clsPlain}} {{clsDisable}} {{clsDisableType}} {{clsHover}}"
+    class="{{cls}} {{clsType}} {{clsSize}} {{clsPlain}} {{clsDisable}}{{clsDisableType}} {{clsLoading}} {{clsHover}}"
     type="{{harmonyType}}"
     disabled="{{disabled}}"
     waiting="{{loading}}"

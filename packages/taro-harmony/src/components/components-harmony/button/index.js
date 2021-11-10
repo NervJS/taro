@@ -36,6 +36,10 @@ export default createOption({
       if (!this.disabled) return ''
       return 'disabled'
     },
+    clsLoading () {
+      if (!this.loading) return ''
+      return `type-${this.type}-loading`
+    },
     clsDisableType () {
       if (!this.disabled) return ''
       if (this.plain) return `type-${this.type}-plain-disabled`
@@ -45,15 +49,19 @@ export default createOption({
       return this.hover && !this.disabled ? this.hoverClass : ''
     },
     value () {
-      return (this.cn[0] && this.cn[0].v) || ''
+      return this.cn.map(i => i.v).join('')
     }
   },
   onTouchStart () {
     if (this.disabled) {
       return
     }
-
+    // console.log('harmony touch start')
     this.touch = true
+    // this.$trigger('TouchStart')
+    // this.$trigger('touchStart')
+    // this.$trigger('touchstart')
+    // this.$trigger('tap')
     if (this.hoverClass && !this.disabled) {
       setTimeout(() => {
         if (this.touch) {
@@ -67,6 +75,7 @@ export default createOption({
       return
     }
 
+    // console.log('harmony touch end')
     this.touch = false
     if (this.hoverClass && !this.disabled) {
       setTimeout(() => {
