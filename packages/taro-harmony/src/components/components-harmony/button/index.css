@@ -1,10 +1,13 @@
 button {
   border-radius: 5px;
+  height: 46px;
+  font-size: 18px;
 }
 
 .type-default {
   background-color: #f8f8f8;
   text-color: #000;
+  border: 1px solid #eee;
 }
 
 .type-primary {
@@ -42,6 +45,7 @@ button {
 .type-default-disabled {
   background-color: #f7f7f7;
   text-color: rgba(0,0,0,.3);
+  border: 1px solid #eee;
 }
 
 .type-primary-disabled {
@@ -73,6 +77,8 @@ button {
 
 .size-mini {
   width: 100px;
+  font-size: 13px;
+  line-height: 2.3;
 }
 
 .button-hover {
