@@ -1,4 +1,4 @@
-import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared'
+import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import type { IPluginContext } from '../types/index'
 
 interface IFileType {
@@ -76,6 +76,8 @@ export abstract class TaroPlatformBase {
       this.emptyOutputDir()
     }
     this.printDevelopmentTip(this.platform)
+    const { printLog, processTypeEnum } = this.ctx.helper
+    printLog(processTypeEnum.START, '开发者工具-项目目录', `${this.ctx.paths.outputPath}`)
     if (this.projectConfigJson) {
       this.generateProjectConfig(this.projectConfigJson)
     }

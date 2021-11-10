@@ -19,6 +19,8 @@ export const components = {
     subkey: '',
     rotate: '0',
     skew: '0',
+    'max-scale': '20',
+    'min-scale': '3',
     'enable-3D': 'false',
     'show-compass': 'false',
     'show-scale': 'false',
@@ -156,6 +158,9 @@ export const components = {
     // 'picture-in-picture-show-progress': 'false',
     'enable-auto-rotation': 'false',
     'show-screen-lock-button': 'false',
+    'show-snapshot-button': 'false',
+    'show-background-playback-button': 'false',
+    'background-poster': '',
     bindProgress: '',
     bindLoadedMetadata: '',
     bindControlsToggle: '',
@@ -311,5 +316,6 @@ export const components = {
     bindLeave: '',
     bindAfterLeave: '',
     bindClickOverlay: ''
-  }
+  },
+  KeyboardAccessory: {}
 }

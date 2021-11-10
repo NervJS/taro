@@ -1,53 +1,71 @@
-import get from 'lodash-es/get'
-import { TaroElement } from './element'
-import { NodeType } from './node_types'
-import { MpInstance, HydratedData } from '../hydrate'
-import { UpdatePayload, UpdatePayloadValue } from './node'
+import { inject, injectable } from 'inversify'
 import { isFunction, Shortcuts } from '@tarojs/shared'
-import { perf } from '../perf'
-import { SET_DATA, PAGE_INIT } from '../constants'
-import { CurrentReconciler } from '../reconciler'
-import { eventCenter } from '../emitter/emitter'
+import get from 'lodash-es/get'
+import SERVICE_IDENTIFIER from '../constants/identifiers'
+import { TaroElement } from './element'
 import { incrementId } from '../utils'
-import type { Func } from '../utils/types'
+import { perf } from '../perf'
+import { options } from '../options'
+import {
+  SET_DATA,
+  PAGE_INIT,
+  ROOT_STR,
+  CUSTOM_WRAPPER
+} from '../constants'
+
+import type { Func, UpdatePayload, UpdatePayloadValue, InstanceNamedFactory, MpInstance, HydratedData } from '../interface'
+import type { TaroNodeImpl } from '../dom-external/node-impl'
+import type { TaroElementImpl } from '../dom-external/element-impl'
+import type { Hooks } from '../hooks'
+import type { Events } from '../emitter/emitter'
 
 const eventIncrementId = incrementId()
 
+@injectable()
 export class TaroRootElement extends TaroElement {
-  private pendingUpdate = false
+  private pendingFlush = false
 
   private updatePayloads: UpdatePayload[] = []
 
-  private pendingFlush = false
-
   private updateCallbacks: Func[]= []
+
+  private eventCenter: Events
+
+  public pendingUpdate = false
 
   public ctx: null | MpInstance = null
 
-  public constructor () {
-    super(NodeType.ELEMENT_NODE, 'root')
+  public constructor (// eslint-disable-next-line @typescript-eslint/indent
+    @inject(SERVICE_IDENTIFIER.TaroNodeImpl) nodeImpl: TaroNodeImpl,
+    @inject(SERVICE_IDENTIFIER.TaroElementFactory) getElement: InstanceNamedFactory,
+    @inject(SERVICE_IDENTIFIER.Hooks) hooks: Hooks,
+    @inject(SERVICE_IDENTIFIER.TaroElementImpl) elementImpl: TaroElementImpl,
+    @inject(SERVICE_IDENTIFIER.eventCenter) eventCenter: Events
+  ) {
+    super(nodeImpl, getElement, hooks, elementImpl)
+    this.nodeName = ROOT_STR
+    this.eventCenter = eventCenter
   }
 
-  public get _path () {
-    return 'root'
+  public get _path (): string {
+    return ROOT_STR
   }
 
-  protected get _root () {
+  protected get _root (): TaroRootElement {
     return this
   }
 
-  public enqueueUpdate (payload: UpdatePayload) {
+  public enqueueUpdate (payload: UpdatePayload): void {
     this.updatePayloads.push(payload)
 
-    if (this.pendingUpdate || this.ctx === null) {
-      return
+    if (!this.pendingUpdate && this.ctx !== null) {
+      this.performUpdate()
     }
-
-    this.performUpdate()
   }
 
   public performUpdate (initRender = false, prerender?: Func) {
     this.pendingUpdate = true
+
     const ctx = this.ctx!
 
     setTimeout(() => {
@@ -81,17 +99,12 @@ export class TaroRootElement extends TaroElement {
         }
       }
 
-      CurrentReconciler.prepareUpdateData?.(data, this)
-
-      if (initRender) {
-        CurrentReconciler.appendInitialPage?.(data, this)
-      }
-
       if (isFunction(prerender)) {
         prerender(data)
       } else {
         this.pendingUpdate = false
         const customWrapperUpdate: { ctx: any, data: Record<string, any> }[] = []
+        const customWrapperMap: Map<Record<any, any>, Record<string, any>> = new Map()
         const normalUpdate = {}
         if (!initRender) {
           for (const p in data) {
@@ -100,18 +113,13 @@ export class TaroRootElement extends TaroElement {
             for (let i = dataPathArr.length; i > 0; i--) {
               const allPath = dataPathArr.slice(0, i).join('.')
               const getData = get(ctx.__data__ || ctx.data, allPath)
-              if (getData && getData.nn && getData.nn === 'custom-wrapper') {
+              if (getData && getData.nn && getData.nn === CUSTOM_WRAPPER) {
                 const customWrapperId = getData.uid
                 const customWrapper = ctx.selectComponent(`#${customWrapperId}`)
                 const splitedPath = dataPathArr.slice(i).join('.')
                 if (customWrapper) {
                   hasCustomWrapper = true
-                  customWrapperUpdate.push({
-                    ctx: ctx.selectComponent(`#${customWrapperId}`),
-                    data: {
-                      [`i.${splitedPath}`]: data[p]
-                    }
-                  })
+                  customWrapperMap.set(customWrapper, { ...(customWrapperMap.get(customWrapper) || {}), [`i.${splitedPath}`]: data[p] })
                 }
                 break
               }
@@ -120,10 +128,16 @@ export class TaroRootElement extends TaroElement {
               normalUpdate[p] = data[p]
             }
           }
+          if (customWrapperMap.size > 0) {
+            customWrapperMap.forEach((data, ctx) => {
+              customWrapperUpdate.push({ ctx, data })
+            })
+          }
         }
         const updateArrLen = customWrapperUpdate.length
         if (updateArrLen) {
           const eventId = `${this._path}_update_${eventIncrementId()}`
+          const eventCenter = this.eventCenter
           let executeTime = 0
           eventCenter.once(eventId, () => {
             executeTime++
@@ -138,14 +152,28 @@ export class TaroRootElement extends TaroElement {
             }
           }, eventCenter)
           customWrapperUpdate.forEach(item => {
+            if (process.env.NODE_ENV !== 'production' && options.debug) {
+              // eslint-disable-next-line no-console
+              console.log('custom wrapper setData: ', item.data)
+            }
             item.ctx.setData(item.data, () => {
               eventCenter.trigger(eventId)
             })
           })
-          Object.keys(normalUpdate).length && ctx.setData(normalUpdate, () => {
-            eventCenter.trigger(eventId)
-          })
+          if (Object.keys(normalUpdate).length) {
+            if (process.env.NODE_ENV !== 'production' && options.debug) {
+              // eslint-disable-next-line no-console
+              console.log('setData:', normalUpdate)
+            }
+            ctx.setData(normalUpdate, () => {
+              eventCenter.trigger(eventId)
+            })
+          }
         } else {
+          if (process.env.NODE_ENV !== 'production' && options.debug) {
+            // eslint-disable-next-line no-console
+            console.log('setData:', data)
+          }
           ctx.setData(data, () => {
             perf.stop(SET_DATA)
             if (!this.pendingFlush) {

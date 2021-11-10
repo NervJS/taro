@@ -1,5 +1,6 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
+import { StyleProp, ViewStyle } from 'react-native'
 
 interface ButtonProps extends StandardProps {
   /** 按钮的大小
@@ -53,7 +54,7 @@ interface ButtonProps extends StandardProps {
    * @default none
    * @supported rn
    */
-  hoverStyle?: string
+  hoverStyle?: StyleProp<ViewStyle>
 
   /** 指定是否阻止本节点的祖先节点出现点击态
    * @default false
@@ -330,6 +331,8 @@ declare namespace ButtonProps {
     iv: string
     /* 用户信息的调用状态 */
     errMsg: string
+    /** 敏感数据对应的云 ID，开通[云开发](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html)的小程序才会返回，可通过云调用直接获取开放数据，详细见[云调用直接获取开放数据](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#method-cloud) */
+    cloudID?: string
   }
 
   /** 性别的合法值 */

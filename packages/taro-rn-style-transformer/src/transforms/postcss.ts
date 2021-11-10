@@ -3,6 +3,7 @@ import pxtransform from 'postcss-pxtransform'
 import postcssImport from 'postcss-import'
 import { recursiveMerge } from '@tarojs/helper'
 import { resolveStyle } from '../utils'
+import reporterSkip from '../utils/reporterSkip'
 import stylelintConfig from '../config/rn-stylelint.json'
 
 export interface Config {
@@ -11,7 +12,7 @@ export interface Config {
   pxtransform: {
     enable: boolean;
     config: any;
-  },
+  };
 }
 
 const defaultPxtransformOption: {
@@ -23,11 +24,13 @@ const defaultPxtransformOption: {
   }
 }
 
-export function getPostcssPlugins ({
+export function makePostcssPlugins ({
+  filename,
   designWidth,
   deviceRatio,
   postcssConfig,
-  transformOptions
+  transformOptions,
+  additionalData
 }) {
   if (designWidth) {
     defaultPxtransformOption.config.designWidth = designWidth
@@ -59,8 +62,11 @@ export function getPostcssPlugins ({
     plugins.push(pxtransform(pxtransformOption.config))
   }
 
+  const skipRows = additionalData ? additionalData.split('\n').length : 0
+
   plugins.push(
     require('stylelint')(stylelintConfig),
+    reporterSkip({ skipRows, filename }),
     require('postcss-reporter')({ clearReportedMessages: true })
   )
 
@@ -71,7 +77,6 @@ export default function transform (src: string, filename: string, { options, plu
   return postcss(plugins)
     .process(src, { from: filename, ...options })
     .then(result => {
-      const css = result.css
-      return css
+      return result
     })
 }

@@ -1,8 +1,9 @@
-const { CurrentReconciler } = require('@tarojs/runtime')
+const { container, SERVICE_IDENTIFIER } = require('@tarojs/runtime')
 const taro = require('@tarojs/api').default
 
-if (typeof CurrentReconciler.initNativeApi === 'function') {
-  CurrentReconciler.initNativeApi(taro)
+const hooks = container.get(SERVICE_IDENTIFIER.Hooks)
+if (typeof hooks.initNativeApi === 'function') {
+  hooks.initNativeApi(taro)
 }
 
 module.exports = taro

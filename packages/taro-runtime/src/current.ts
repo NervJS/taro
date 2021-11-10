@@ -1,6 +1,6 @@
 import { AppInstance, PageInstance } from './dsl/instance'
 
-interface Router {
+export interface Router {
   params: Record<string, unknown>,
   path: string,
   onReady: string,

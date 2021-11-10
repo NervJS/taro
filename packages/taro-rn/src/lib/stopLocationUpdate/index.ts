@@ -1,0 +1,1 @@
+export { stopLocationUpdate } from '../location'

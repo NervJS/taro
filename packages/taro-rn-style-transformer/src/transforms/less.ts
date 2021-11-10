@@ -1,6 +1,8 @@
 import path from 'path'
 import less from 'less'
 import makeLessImport from '../utils/lessImport'
+import { insertBefore, getAdditionalData } from '../utils'
+import { RenderResult, RenderAdditionalResult } from '../types'
 
 interface SourceMapOption {
   sourceMapURL?: string;
@@ -58,7 +60,7 @@ export interface Options {
 export interface Config {
   alias?: Record<string, string>
   options: Options
-  additionalData?: string | ((string) => string)
+  additionalData?: string | ((key: string) => string)
 }
 
 function renderToCSS (src, filename, options = {} as any) {
@@ -73,26 +75,34 @@ function renderToCSS (src, filename, options = {} as any) {
         filename,
         plugins: plugins.concat(options.plugins || []),
         paths: paths.concat(options.paths || [])
-      }, (err, output) => {
+      }, (err, result) => {
         if (err) {
           return reject(err.message)
         }
-        resolve(output.css)
+        resolve(result)
       })
   })
 }
 
-export default function transform (src: string, filename: string, config: Config) {
-  let data = src
+export default function transform (
+  src: string,
+  filename: string,
+  config: Config
+) {
+  const additionalData = getAdditionalData(src, config.additionalData)
+  const data = insertBefore(src, additionalData)
 
-  if (typeof config.additionalData !== 'undefined') {
-    data =
-      typeof config.additionalData === 'function'
-        ? `${config.additionalData(data)}`
-        : `${config.additionalData}\n${data}`
-  }
-  return renderToCSS(data, filename, { ...config.options, alias: config.alias })
-    .then((css: string) => {
-      return css
-    })
+  return renderToCSS(
+    data,
+    filename,
+    {
+      sourceMap: {
+        outputFilename: `${filename}.map`
+      },
+      alias: config.alias,
+      ...config.options
+    }
+  ).then((result: RenderResult) => {
+    return { ...result, additionalData } as RenderAdditionalResult
+  })
 }

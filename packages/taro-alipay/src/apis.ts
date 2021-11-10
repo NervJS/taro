@@ -1,5 +1,5 @@
 import { processApis } from '@tarojs/shared'
-import { noPromiseApis, needPromiseApis } from './apis-list'
+import { needPromiseApis } from './apis-list'
 
 declare const my: any
 
@@ -307,6 +307,17 @@ export function transformMeta (api: string, options: Record<string, any>) {
   }
 }
 
+export function modifyApis (apis: Set<string>) {
+  Object.keys(apiDiff).map(key => {
+    apis.add(key)
+    const platformKey = apiDiff[key].alias
+    platformKey && apis.delete(platformKey)
+  })
+  apis.add('showModal')
+  apis.delete('confirm')
+  apis.delete('alert')
+}
+
 export function modifyAsyncResult (key, res) {
   if (key === 'saveFile') {
     res.savedFilePath = res.apFilePath
@@ -321,15 +332,39 @@ export function modifyAsyncResult (key, res) {
   } else if (key === 'getScreenBrightness') {
     res.value = res.brightness
     delete res.brightness
+  } else if (key === 'connectSocket') {
+    res.onClose = function (cb) {
+      my.onSocketClose(cb)
+    }
+
+    res.onError = function (cb) {
+      my.onSocketError(cb)
+    }
+
+    res.onMessage = function (cb) {
+      my.onSocketMessage(cb)
+    }
+
+    res.onOpen = function (cb) {
+      my.onSocketOpen(cb)
+    }
+
+    res.send = function (opt) {
+      my.sendSocketMessage(opt)
+    }
+
+    res.close = function () {
+      my.closeSocket()
+    }
   }
 }
 
 export function initNativeApi (taro) {
   processApis(taro, my, {
-    noPromiseApis,
     needPromiseApis,
     handleSyncApis,
     transformMeta,
+    modifyApis,
     modifyAsyncResult,
     request
   })

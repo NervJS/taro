@@ -6,7 +6,8 @@ export const components = {
     size: '24'
   },
   Button: {
-    bindGetPhoneNumber: ''
+    bindGetPhoneNumber: '',
+    'data-channel': ''
   },
   Form: {
     'report-submit-timeout': '0'
@@ -32,5 +33,8 @@ export const components = {
     fixed: '',
     type: singleQuote('banner'),
     scale: '100'
+  },
+  Textarea: {
+    'disable-default-padding': 'false'
   }
 }

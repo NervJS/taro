@@ -1,4 +1,4 @@
-import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Element } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Element, State, Watch } from '@stencil/core'
 import { EventHandler, TaroEvent } from '../../../types'
 
 function getTrueType (type: string | undefined, confirmType: string, password: boolean) {
@@ -38,8 +38,25 @@ export class Input implements ComponentInterface {
   @Prop() autoFocus = false
   @Prop() confirmType = 'done'
   @Prop() name: string
+  @Prop() nativeProps = {}
+
+  @State() _value: string
 
   @Element() el: HTMLElement
+
+  @Watch('value')
+  watchHandler (newValue: string, oldValue: string) {
+    if (newValue !== oldValue) {
+      this._value = newValue
+    }
+  }
+
+  @Watch('autoFocus')
+  watchFocus (newValue: boolean, oldValue: boolean) {
+    if (!oldValue && newValue) {
+      this.inputRef?.focus()
+    }
+  }
 
   @Event({
     eventName: 'input'
@@ -65,27 +82,33 @@ export class Input implements ComponentInterface {
     eventName: 'keydown'
   }) onKeyDown: EventEmitter
 
+  componentWillLoad () {
+    this._value = this.value
+  }
+
   componentDidLoad () {
     if (this.type === 'file') {
       this.fileListener = () => {
         this.onInput.emit()
       }
-      this.inputRef.addEventListener('change', this.fileListener)
+      this.inputRef?.addEventListener('change', this.fileListener)
     } else {
-      this.inputRef.addEventListener('compositionstart', this.handleComposition)
-      this.inputRef.addEventListener('compositionend', this.handleComposition)
+      this.inputRef?.addEventListener('compositionstart', this.handleComposition)
+      this.inputRef?.addEventListener('compositionend', this.handleComposition)
     }
 
     Object.defineProperty(this.el, 'value', {
-      get: () => this.inputRef.value,
-      set: value => (this.value = value),
+      get: () => this.inputRef?.value,
+      set: value => {
+        this._value = value
+      },
       configurable: true
     })
   }
 
   disconnectedCallback () {
     if (this.type === 'file') {
-      this.inputRef.removeEventListener('change', this.fileListener)
+      this.inputRef?.removeEventListener('change', this.fileListener)
     }
   }
 
@@ -118,6 +141,8 @@ export class Input implements ComponentInterface {
       //   )
       // }
 
+      this._value = value
+
       this.onInput.emit({
         value,
         cursor: value.length
@@ -147,12 +172,17 @@ export class Input implements ComponentInterface {
 
   handleKeyDown = (e: TaroEvent<HTMLInputElement> & KeyboardEvent) => {
     const { value } = e.target
+    const keyCode = e.keyCode || e.code
     this.onInputExcuted = false
     e.stopPropagation()
 
-    this.onKeyDown.emit({ value })
+    this.onKeyDown.emit({
+      value,
+      cursor: value.length,
+      keyCode
+    })
 
-    e.keyCode === 13 && this.onConfirm.emit({ value })
+    keyCode === 13 && this.onConfirm.emit({ value })
   }
 
   handleComposition = (e) => {
@@ -168,7 +198,7 @@ export class Input implements ComponentInterface {
 
   render () {
     const {
-      value,
+      _value,
       type,
       password,
       placeholder,
@@ -176,7 +206,8 @@ export class Input implements ComponentInterface {
       maxlength,
       autoFocus,
       confirmType,
-      name
+      name,
+      nativeProps
     } = this
 
     return (
@@ -186,7 +217,7 @@ export class Input implements ComponentInterface {
           autoFocus && input?.focus()
         }}
         class='weui-input'
-        value={fixControlledValue(value)}
+        value={fixControlledValue(_value)}
         type={getTrueType(type, confirmType, password)}
         placeholder={placeholder}
         disabled={disabled}
@@ -198,6 +229,7 @@ export class Input implements ComponentInterface {
         onBlur={this.handleBlur}
         onChange={this.handleChange}
         onKeyDown={this.handleKeyDown}
+        {...nativeProps}
       />
     )
   }

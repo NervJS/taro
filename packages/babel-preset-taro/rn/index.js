@@ -116,6 +116,7 @@ module.exports = (_, options = {}) => {
   const defineConstants = getDefineConstants()
   const presets = []
   const plugins = []
+  const { enableMultipleClassName = false, enableMergeStyle = false } = getRNConfig()
 
   presets.push(reactNativeBabelPreset(_, options))
   plugins.push(
@@ -123,7 +124,12 @@ module.exports = (_, options = {}) => {
     [require('@babel/plugin-transform-react-jsx'), {
       runtime: options.reactJsxRuntime || 'automatic'
     }],
-    [require('babel-plugin-transform-react-jsx-to-rn-stylesheet'), { isCSSModule: getCSSModule() }],
+    [require('babel-plugin-transform-react-jsx-to-rn-stylesheet'), { enableCSSModule: getCSSModule(), enableMultipleClassName }]
+  )
+  if (enableMergeStyle) {
+    plugins.push([require('babel-plugin-jsx-attributes-array-to-object'), { attributes: ['style'] }])
+  }
+  plugins.push(
     [require('babel-plugin-transform-imports-api').default, {
       packagesApis: new Map([
         ['@tarojs/taro', new Set(nativeInterfaces)],

@@ -1,5 +1,6 @@
 import { ComponentType } from 'react'
 import { StandardProps } from './common'
+import { StyleProp, ViewStyle } from 'react-native'
 
 interface ViewProps extends StandardProps {
   /** 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果
@@ -13,7 +14,7 @@ interface ViewProps extends StandardProps {
    * @default none
    * @supported rn
    */
-  hoverStyle?: string
+  hoverStyle?: StyleProp<ViewStyle>
 
   /** 指定是否阻止本节点的祖先节点出现点击态
    * @default fasle

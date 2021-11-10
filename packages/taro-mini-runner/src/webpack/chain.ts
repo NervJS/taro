@@ -147,11 +147,6 @@ const getExtractCssLoader = () => {
     loader: MiniCssExtractPlugin.loader
   }
 }
-const getQuickappStyleLoader = () => {
-  return {
-    loader: require.resolve(path.resolve(__dirname, '../loaders/quickappStyleLoader'))
-  }
-}
 export const getMiniCssExtractPlugin = pipe(mergeOption, listify, partial(getPlugin, MiniCssExtractPlugin))
 export const getDefinePlugin = pipe(mergeOption, listify, partial(getPlugin, webpack.DefinePlugin))
 export const getTerserPlugin = ([enableSourceMap, terserOptions]) => {
@@ -252,7 +247,6 @@ export const getModule = (appPath: string, {
     cssLoaderOption
   ]
   const extractCssLoader = getExtractCssLoader()
-  const quickappStyleLoader = getQuickappStyleLoader()
   const miniTemplateLoader = getMiniTemplateLoader([{
     buildAdapter
   }])
@@ -305,13 +299,14 @@ export const getModule = (appPath: string, {
   const postcssLoader = getPostcssLoader([
     { sourceMap: enableSourceMap },
     {
-      ident: 'postcss',
-      plugins: getPostcssPlugins(appPath, {
-        isBuildQuickapp,
-        designWidth,
-        deviceRatio,
-        postcssOption
-      })
+      postcssOptions: {
+        plugins: getPostcssPlugins(appPath, {
+          isBuildQuickapp,
+          designWidth,
+          deviceRatio,
+          postcssOption
+        })
+      }
     }
   ])
 
@@ -323,12 +318,7 @@ export const getModule = (appPath: string, {
     include?;
     use;
   }[] = [{
-    use: isBuildQuickapp ? [
-      extractCssLoader,
-      quickappStyleLoader,
-      cssLoader,
-      postcssLoader
-    ] : [
+    use: [
       extractCssLoader,
       cssLoader,
       postcssLoader
@@ -388,7 +378,7 @@ export const getModule = (appPath: string, {
   if (compile.exclude && compile.exclude.length) {
     scriptRule.exclude = [
       ...compile.exclude,
-      filename => /node_modules/.test(filename) && !(/taro/.test(filename))
+      filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))
     ]
   } else if (compile.include && compile.include.length) {
     scriptRule.include = [
@@ -397,7 +387,7 @@ export const getModule = (appPath: string, {
       filename => /taro/.test(filename)
     ]
   } else {
-    scriptRule.exclude = [filename => /node_modules/.test(filename) && !(/taro/.test(filename))]
+    scriptRule.exclude = [filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))]
   }
 
   const rule: Record<string, IRule> = {
@@ -527,4 +517,36 @@ export function getOutput (appPath: string, [{ outputRoot, publicPath, globalObj
 
 export function getDevtool (enableSourceMap, sourceMapType = 'cheap-module-source-map') {
   return enableSourceMap ? sourceMapType : 'none'
+}
+
+export function getRuntimeConstants (runtime) {
+  const constants = {
+    ENABLE_INNER_HTML: true,
+    ENABLE_ADJACENT_HTML: true,
+    ENABLE_TEMPLATE_CONTENT: true,
+    ENABLE_CLONE_NODE: true,
+    ENABLE_SIZE_APIS: false
+  }
+
+  if (runtime.enableInnerHTML !== undefined) {
+    constants.ENABLE_INNER_HTML = runtime.enableInnerHTML
+  }
+
+  if (runtime.enableAdjacentHTML !== undefined) {
+    constants.ENABLE_ADJACENT_HTML = runtime.enableAdjacentHTML
+  }
+
+  if (runtime.enableSizeAPIs !== undefined) {
+    constants.ENABLE_SIZE_APIS = runtime.enableSizeAPIs
+  }
+
+  if (runtime.enableTemplateContent !== undefined) {
+    constants.ENABLE_TEMPLATE_CONTENT = runtime.enableTemplateContent
+  }
+
+  if (runtime.enableCloneNode !== undefined) {
+    constants.ENABLE_CLONE_NODE = runtime.enableCloneNode
+  }
+
+  return constants
 }

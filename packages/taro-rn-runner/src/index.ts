@@ -6,6 +6,8 @@ import { PLATFORMS } from '@tarojs/helper'
 import * as path from 'path'
 import * as fse from 'fs-extra'
 import * as url from 'url'
+import { networkInterfaces } from 'os'
+import { generate } from 'qrcode-terminal'
 
 import * as readline from 'readline'
 import { createDevServerMiddleware } from '@react-native-community/cli-server-api'
@@ -46,6 +48,47 @@ function concatOutputAssetsDest (config: any): string | undefined {
   return res
 }
 
+function getOutputSourceMapOption (config: any): Record<string, any> {
+  if (!config?.deviceType || !config?.output) {
+    return {}
+  }
+  if (config.deviceType === 'ios') {
+    config.output.iosSourcemapOutput && fse.ensureDirSync(path.dirname(config.output.iosSourcemapOutput))
+    return {
+      sourceMapUrl: config.output.iosSourceMapUrl,
+      sourcemapOutput: config.output.iosSourcemapOutput,
+      sourcemapSourcesRoot: config.output.iosSourcemapSourcesRoot
+    }
+  } else {
+    config.output.androidSourcemapOutput && fse.ensureDirSync(path.dirname(config.output.androidSourcemapOutput))
+    return {
+      sourceMapUrl: config.output.androidSourceMapUrl,
+      sourcemapOutput: config.output.androidSourcemapOutput,
+      sourcemapSourcesRoot: config.output.androidSourcemapSourcesRoot
+    }
+  }
+}
+
+function getOpenHost () {
+  let result
+  const interfaces = networkInterfaces()
+  for (const devName in interfaces) {
+    const isEnd = interfaces[devName]?.some(item => {
+      // 取IPv4, 不为127.0.0.1的内网ip
+      if (item.family === 'IPv4' && item.address !== '127.0.0.1' && !item.internal) {
+        result = item.address
+        return true
+      }
+      return false
+    })
+    // 若获取到ip, 结束遍历
+    if (isEnd) {
+      break
+    }
+  }
+  return result
+}
+
 // TODO: 返回值
 // HttpServer | {code: string, map: string}
 // IBuildConfig
@@ -68,11 +111,13 @@ export default async function build (appPath: string, config: any): Promise<any>
   metroConfig.reporter = new TerminalReporter(entry, sourceRoot, metroConfig.cacheStores[0])
 
   const onFinish = function (error?) {
-    if (typeof config.onBuildFinish !== 'function') return
-    config.onBuildFinish({
-      error,
-      isWatch: config.isWatch
-    })
+    if (typeof config.onBuildFinish === 'function') {
+      config.onBuildFinish({
+        error,
+        isWatch: config.isWatch
+      })
+    }
+    if (error instanceof Error) throw error
   }
 
   if (config.isWatch) {
@@ -132,6 +177,17 @@ export default async function build (appPath: string, config: any): Promise<any>
           process.exit()
         }
       })
+
+      if (config.qr) {
+        const host = getOpenHost()
+        if (host) {
+          const url = `taro://${host}:${metroConfig.server.port}`
+          console.log(`print qrcode of '${url}':`)
+          generate(url, { small: true })
+        } else {
+          console.log('print qrcode error: host not found.')
+        }
+      }
       onFinish(null)
       return server
     }).catch(e => {
@@ -152,9 +208,12 @@ export default async function build (appPath: string, config: any): Promise<any>
 
     const server = new Server(metroConfig)
 
+    const sourceMapOption = getOutputSourceMapOption(config)
+
     try {
       const requestOptions = {
         ...commonOptions,
+        ...sourceMapOption,
         entryFile: options.entry,
         inlineSourceMap: false,
         createModuleIdFactory: metroConfig.serializer.createModuleIdFactory
@@ -162,6 +221,7 @@ export default async function build (appPath: string, config: any): Promise<any>
       const bundle = await outputBundle.build(server, requestOptions)
       const outputOptions = {
         ...commonOptions,
+        ...sourceMapOption,
         bundleOutput: options.out
       }
       await outputBundle.save(bundle, outputOptions, console.log)

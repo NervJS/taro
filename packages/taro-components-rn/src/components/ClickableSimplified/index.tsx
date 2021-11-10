@@ -98,11 +98,9 @@ export default function <P extends Record<string, any>>(WrappedComponent: React.
 
     setStayTimer = () => {
       const { hoverStyle, hoverStayTime } = this.props
-      this.startTimer && clearTimeout(this.startTimer)
       if (hoverStyle) {
         this.stayTimer && clearTimeout(this.stayTimer)
         this.stayTimer = setTimeout(() => {
-          this.startTimer && clearTimeout(this.startTimer)
           this.state.isHover && this.setState({ isHover: false })
         }, hoverStayTime)
       }
@@ -196,7 +194,7 @@ export default function <P extends Record<string, any>>(WrappedComponent: React.
             'onTouchEnd'
           ])}
           {...this.panResponder.panHandlers}
-          style={[style, isHover && hoverStyle]}
+          style={[{ backgroundColor: 'transparent' }, style, isHover && hoverStyle]}
         />
       )
     }

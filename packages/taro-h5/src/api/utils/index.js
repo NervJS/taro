@@ -1,5 +1,5 @@
 /* eslint-disable prefer-promise-reject-errors */
-import { Current, CurrentReconciler } from '@tarojs/runtime'
+import { Current, container, SERVICE_IDENTIFIER } from '@tarojs/runtime'
 
 function shouleBeObject (target) {
   if (target && typeof target === 'object') return { res: true }
@@ -13,8 +13,10 @@ function shouleBeObject (target) {
 }
 
 export function findDOM (inst) {
+  const runtimeHooks = container.get(SERVICE_IDENTIFIER.Hooks)
+
   if (inst) {
-    const find = CurrentReconciler.findDOMNode
+    const find = runtimeHooks.getDOMNode
     if (typeof find === 'function') {
       return find(inst)
     }

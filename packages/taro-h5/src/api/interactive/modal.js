@@ -83,10 +83,12 @@ export default class Modal {
 
     // mask
     const mask = document.createElement('div')
+    mask.className = 'taro-modal__mask'
     mask.setAttribute('style', inlineStyle(maskStyle))
 
     // modal
     const modal = document.createElement('div')
+    modal.className = 'taro-modal__content'
     modal.setAttribute('style', inlineStyle(modalStyle))
 
     // title
@@ -95,6 +97,8 @@ export default class Modal {
       display: 'none'
     }
     this.title = document.createElement('div')
+
+    this.title.className = 'taro-modal__title'
     this.title.setAttribute('style', inlineStyle(titleCSS))
     this.title.textContent = config.title
 
@@ -105,6 +109,7 @@ export default class Modal {
       color: '#353535'
     }
     this.text = document.createElement('div')
+    this.text.className = 'taro-modal__text'
     this.text.setAttribute('style', inlineStyle(textCSS))
     this.text.textContent = config.content
 
@@ -120,7 +125,7 @@ export default class Modal {
       display: config.showCancel ? 'block' : 'none'
     }
     this.cancel = document.createElement('div')
-    this.cancel.className = 'taro-model__btn'
+    this.cancel.className = 'taro-model__btn taro-model__cancel'
     this.cancel.setAttribute('style', inlineStyle(cancelCSS))
     this.cancel.textContent = config.cancelText
     this.cancel.onclick = () => {
@@ -133,7 +138,7 @@ export default class Modal {
 
     // confirm button
     this.confirm = document.createElement('div')
-    this.confirm.className = 'taro-model__btn'
+    this.confirm.className = 'taro-model__btn taro-model__confirm'
     this.confirm.setAttribute('style', inlineStyle(btnStyle))
     this.confirm.style.color = config.confirmColor
     this.confirm.textContent = config.confirmText

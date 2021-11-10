@@ -31,7 +31,7 @@ describe('vue', () => {
     // const onPopMenuClick = jest.fn()
     // const onPullIntercept = jest.fn()
 
-    const App = new Vue({
+    const App = ({
       onShow () {
         appDidShow.apply(this, arguments)
       },

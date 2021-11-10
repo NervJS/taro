@@ -27,10 +27,14 @@ declare namespace Taro {
     interface Option {
       /** 需要预览的图片链接列表。 */
       urls: string[]
-      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
       /** 当前显示图片的链接 */
       current?: string
+      /** @support weapp 最低版本：2.13.0。是否显示长按菜单，默认值：true */
+      showmenu?: boolean
+      /** @support weapp 最低版本：2.13.0。origin: 发送完整的referrer; no-referrer: 不发送。格式固定为 https://servicewechat.com/{appid}/{version}/page-frame.html，其中 {appid} 为小程序的 appid，{version} 为小程序的版本号，版本号为 0 表示为开发版、体验版以及审核版本，版本号为 devtools 表示为开发者工具，其余为正式版本；默认值：no-referrer */
+      referrerPolicy?: string
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (res: General.CallbackResult) => void
       /** 接口调用成功的回调函数 */
@@ -49,6 +53,44 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.previewImage.html
    */
   function previewImage(option: previewImage.Option): Promise<General.CallbackResult>
+
+  namespace previewMedia {
+    interface Sources {
+      /** 图片或视频的地址 */
+      url: string
+      /** 资源的类型（图片或视频），默认值：image */
+      type?: 'image' | 'video'
+      /** 视频的封面图片 */
+      poster?: string
+    }
+    interface Option {
+      /** 需要预览的资源列表 */
+      sources: Sources[]
+      /** 当前显示的资源序号，默认值：0 */
+      current?:	number
+      /** 是否显示长按菜单	2.13.0，默认值：true */
+      showmenu?: boolean
+      /** origin: 发送完整的referrer; no-referrer: 不发送。格式固定为 https://servicewechat.com/{appid}/{version}/page-frame.html，其中 {appid} 为小程序的 appid，{version} 为小程序的版本号，版本号为 0 表示为开发版、体验版以及审核版本，版本号为 devtools 表示为开发者工具，其余为正式版本；默认值：no-referrer */
+      referrerPolicy?: string
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.CallbackResult) => void
+    }
+  }
+  /** 预览图片和视频。
+   * @supported weapp 基础库 2.12.0 开始支持，低版本需做兼容处理。
+   * @example
+   * ```tsx
+   * Taro.previewMedia({
+   *   sources: []
+   * })
+   * ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.previewMedia.html
+   */
+  function previewMedia(option: previewMedia.Option): Promise<General.CallbackResult>
 
   namespace getImageInfo {
     interface Option {

@@ -7,6 +7,7 @@ import classNames from 'classnames'
   styleUrl: './style/index.scss'
 })
 export class View implements ComponentInterface {
+  @Prop() animation: string
   @Prop() hoverClass: string
   @Prop() hoverStartTime = 50
   @Prop() hoverStayTime = 400
@@ -58,12 +59,17 @@ export class View implements ComponentInterface {
     }
   }
 
-  render () {
+  render() {
     const cls = classNames({
       [`${this.hoverClass}`]: this.hover
     })
+    let attr = {}
+    if (!!this.animation) {
+      attr['animation'] = this.animation
+      attr['data-animation'] = this.animation
+    }
     return (
-      <Host class={cls}>
+      <Host class={cls} {...attr}>
         <slot></slot>
       </Host>
     )

@@ -17,7 +17,7 @@ export default tokenStream => {
   while (tokenStream.hasTokens()) {
     if (didParseFirst) tokenStream.expect(SPACE)
 
-    if (line === undefined && tokenStream.matches(LINE)) {
+    if (typeof line === 'undefined' && tokenStream.matches(LINE)) {
       const lines = [tokenStream.lastValue.toLowerCase()]
 
       tokenStream.saveRewindPoint()
@@ -34,9 +34,9 @@ export default tokenStream => {
       }
 
       line = lines.join(' ')
-    } else if (style === undefined && tokenStream.matches(STYLE)) {
+    } else if (typeof style === 'undefined' && tokenStream.matches(STYLE)) {
       style = tokenStream.lastValue
-    } else if (color === undefined && tokenStream.matches(COLOR)) {
+    } else if (typeof color === 'undefined' && tokenStream.matches(COLOR)) {
       color = tokenStream.lastValue
     } else {
       tokenStream.throw()
@@ -46,11 +46,11 @@ export default tokenStream => {
   }
 
   const $merge = {
-    textDecorationLine: line !== undefined ? line : defaultTextDecorationLine,
+    textDecorationLine: typeof line !== 'undefined' ? line : defaultTextDecorationLine,
     textDecorationColor:
-      color !== undefined ? color : defaultTextDecorationColor,
+      typeof color !== 'undefined' ? color : defaultTextDecorationColor,
     textDecorationStyle:
-      style !== undefined ? style : defaultTextDecorationStyle
+      typeof style !== 'undefined' ? style : defaultTextDecorationStyle
   }
   return { $merge }
 }

@@ -20,6 +20,13 @@ describe('mini-split-chunks', () => {
   test('should process mini-split-chunks', async () => {
     const appName = 'mini-split-chunks'
     const { stats, config } = await compile(appName, {
+      webpackChain (chain) {
+        chain.merge({
+          externals: [
+            'lodash'
+          ]
+        })
+      },
       optimizeMainPackage: {
         enable: true,
         exclude: [
