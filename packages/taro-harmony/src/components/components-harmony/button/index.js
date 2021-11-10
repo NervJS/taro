@@ -58,10 +58,7 @@ export default createOption({
     }
     // console.log('harmony touch start')
     this.touch = true
-    // this.$trigger('TouchStart')
-    // this.$trigger('touchStart')
-    // this.$trigger('touchstart')
-    // this.$trigger('tap')
+    this.$trigger('touchstart')
     if (this.hoverClass && !this.disabled) {
       setTimeout(() => {
         if (this.touch) {
@@ -76,6 +73,8 @@ export default createOption({
     }
 
     // console.log('harmony touch end')
+
+    this.$trigger('touchend')
     this.touch = false
     if (this.hoverClass && !this.disabled) {
       setTimeout(() => {
@@ -84,5 +83,8 @@ export default createOption({
         }
       }, this.hoverStayTime)
     }
+  },
+  onClick () {
+    this.$trigger('tap')
   }
 })

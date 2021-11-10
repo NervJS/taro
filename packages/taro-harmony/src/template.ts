@@ -60,6 +60,9 @@ ${elements}
     delete result['static-text']
     delete result['static-image']
 
+    result['button'].cn = 'i.cn'
+    result['button']['@tap'] = 'eh'
+
     return result
   }
 
@@ -122,9 +125,6 @@ ${elements}
     }
     if (this.nativeComps.includes(nodeName)) {
       nodeName = `taro-${nodeName}`
-    }
-    if (comp.nodeName === 'button') {
-      otherAttrs += 'cn="{{i.cn}}"'
     }
 
     const res = `
