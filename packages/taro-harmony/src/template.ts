@@ -119,7 +119,6 @@ ${elements}
 
   generateComponentTemplateSrc (comp, nodeName?): string {
     const children = this.voidElements.has(comp.nodeName) ?  '' : '<container root="{{i}}"></container>'
-    let otherAttrs = ''
     if (!nodeName) {
       nodeName = comp.nodeName
     }
@@ -129,7 +128,7 @@ ${elements}
 
     const res = `
 <block if="{{i.nn == '${comp.nodeName}'}}">
-  <${nodeName} ${this.buildAttrs(comp.attributes, comp.nodeName)} id="{{i.uid}}" ${otherAttrs}>
+  <${nodeName} ${this.buildAttrs(comp.attributes, comp.nodeName)} id="{{i.uid}}">
     ${children}
   </${nodeName}>
 </block>
