@@ -94,5 +94,13 @@ export const components = {
   },
   Radio: {
     'group-id': ''
+  },
+  Picker: {
+    selected: '',
+    hours: '',
+    containsecond: 'false',
+    vibrate: 'true',
+    lunar: 'false',
+    lunarswitch: 'false'
   }
 }
