@@ -1,7 +1,6 @@
 export default {
   props: [
     'id',
-    'cls',
     'value',
     'disabled',
     'checked',
