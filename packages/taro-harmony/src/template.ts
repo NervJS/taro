@@ -53,16 +53,16 @@ ${elements}
   }
 
   createMiniComponents (components): any {
+    components.Button.cn = ''
+    components.Button.bindtap = ''
+    components.Button.type = "'default'"
+
     const result = super.createMiniComponents(components)
 
     delete result['pure-view']
     delete result['static-view']
     delete result['static-text']
     delete result['static-image']
-
-    result.button.cn = 'i.cn'
-    result.button['@tap'] = 'eh'
-    result.button.type = `i.type===undefined?'default':i.type`
 
     return result
   }
