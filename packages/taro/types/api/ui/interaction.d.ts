@@ -219,4 +219,46 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.hideLoading.html
    */
   function hideLoading(option?: hideLoading.Option): void
+  
+  namespace enableAlertBeforeUnload {
+    interface Option {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.CallbackResult) => void
+    }
+  }
+  
+  /** 开启小程序页面返回询问对话框
+   * @supported weapp
+   * @example
+   * ```tsx
+   * Taro.enableAlertBeforeUnload({
+   *   success: function () {
+   *     console.log('success')
+   *   },
+   * })
+   * ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.enableAlertBeforeUnload.html
+   */
+  function enableAlertBeforeUnload(option?: enableAlertBeforeUnload.Option): void
+  
+  namespace disableAlertBeforeUnload {
+    interface Option {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.CallbackResult) => void
+    }
+  }
+  
+  /** 关闭小程序页面返回询问对话框
+   * @supported weapp
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.disableAlertBeforeUnload.html
+   */
+  function disableAlertBeforeUnload(option?: disableAlertBeforeUnload.Option): void
 }
