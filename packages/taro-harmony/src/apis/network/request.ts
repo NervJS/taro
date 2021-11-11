@@ -1,38 +1,28 @@
 // ✅ wx.request
 // ✅ RequestTask.abort
-// ✅RequestTask.offHeadersReceived
+// ✅ RequestTask.offHeadersReceived
 // ✅ RequestTask.onHeadersReceived
 import { General } from '@tarojs/taro'
 import { validateParams } from './validate'
 const http = require('@ohos.net.http')
+console.warn(http)
 
 const httpRequest = http.createHttp()
 const RequestTask: General.IAnyObject = {}
 
-// const METHOD = {
-//   OPTIONS: 'OPTIONS',
-//   GET: 'GET',
-//   HEAD: 'HEAD',
-//   POST: 'POST',
-//   PUT: 'PUT',
-//   DELETE: 'DELETE',
-//   TRACT: 'TRACE',
-//   CONNECT: 'CONNECT'
-// }
-
 const METHOD: string [] = ['OPTIONS', 'GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'TRACE', 'CONNECT']
-
+console.warn(httpRequest)
 // wx 和 鸿蒙接口的参数不一致
 interface IHttpOptionsWX {
   data: string | General.IAnyObject
   statusCode: number
   header
 }
-interface IHttpOptionsOHOS {
-  result: string | General.IAnyObject
-  responseCode: number
-  header
-}
+// interface IHttpOptionsOHOS {
+//   result: string | General.IAnyObject
+//   responseCode: number
+//   header
+// }
 interface IRequestParams {
   url: string,
   method?: string,
@@ -53,6 +43,7 @@ function request (params: IRequestParams) {
   }
 
   const { url, method, header, timeout, success, fail, complete } = params
+  console.warn(url, method, header, timeout, success, fail, complete)
 
   const options: General.IAnyObject = {}
   if (method) {
@@ -68,21 +59,36 @@ function request (params: IRequestParams) {
     options.connectTimeout = timeout
   }
 
+  // httpRequest.request(url, options, (err: any, res: IHttpOptionsOHOS) => {
+  //   if (!err) {
+  //     const wxParams: IHttpOptionsWX = {
+  //       data: res.result,
+  //       statusCode: res.responseCode,
+  //       header: res.header
+  //     }
+  //     success && success(wxParams)
+  //     complete && complete(wxParams)
+  //   } else {
+  //     fail && fail(err)
+  //     complete && complete(err)
+  //   }
+  // })
+
   // if (success || fail || complete) {
-  httpRequest.request(url, options, (err: any, res: IHttpOptionsOHOS) => {
-    if (!err) {
-      const wxParams: IHttpOptionsWX = {
-        data: res.result,
-        statusCode: res.responseCode,
-        header: res.header
-      }
-      success && success(wxParams)
-      complete && complete(wxParams)
-    } else {
-      fail && fail(err)
-      complete && complete(err)
-    }
-  })
+  // httpRequest.request(url, options, (err: any, res: IHttpOptionsOHOS) => {
+  //   if (!err) {
+  //     const wxParams: IHttpOptionsWX = {
+  //       data: res.result,
+  //       statusCode: res.responseCode,
+  //       header: res.header
+  //     }
+  //     success && success(wxParams)
+  //     complete && complete(wxParams)
+  //   } else {
+  //     fail && fail(err)
+  //     complete && complete(err)
+  //   }
+  // })
   // } else {
   //   const promise = httpRequest.request(url, options)
   //   promise.then((value) => {
@@ -96,25 +102,24 @@ function request (params: IRequestParams) {
   //     return Promise.reject(err)
   //   })
   // }
-  // return RequestTask
+  return RequestTask
 }
-
 // 以下方法需要先获取 RequestTask 对象
-RequestTask.destroy = function destroy () {
-  httpRequest.destroy
-}
+// RequestTask.destroy = function destroy () {
+//   httpRequest.destroy
+// }
 
-RequestTask.onHeadersReceived = function onHeadersReceived (callback: (options: General.IAnyObject) => void) {
-  httpRequest.on('headerReceive', (err: any, res: IHttpOptionsOHOS) => {
-    callback(!err ? res : err)
-  })
-}
+// RequestTask.onHeadersReceived = function onHeadersReceived (callback: (options: General.IAnyObject) => void) {
+//   httpRequest.on('headerReceive', (err: any, res: IHttpOptionsOHOS) => {
+//     callback(!err ? res : err)
+//   })
+// }
 
-RequestTask.offHeadersReceived = function offHeadersReceived (callback: (options: General.IAnyObject) => void) {
-  httpRequest.off('headerReceive', (err: any, res: IHttpOptionsOHOS) => {
-    callback(!err ? res : err)
-  })
-}
+// RequestTask.offHeadersReceived = function offHeadersReceived (callback: (options: General.IAnyObject) => void) {
+//   httpRequest.off('headerReceive', (err: any, res: IHttpOptionsOHOS) => {
+//     callback(!err ? res : err)
+//   })
+// }
 
 export {
   request
