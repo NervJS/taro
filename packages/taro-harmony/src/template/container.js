@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import { eventHandler } from '@tarojs/runtime'
 // @ts-ignore
-taroExport = {
-  props: ['root'],
+export default {
+  props: ['i'],
   eh: eventHandler
 }
