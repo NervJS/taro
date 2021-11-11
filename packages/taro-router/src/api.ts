@@ -36,41 +36,34 @@ function processNavigateUrl (option: Option) {
   return pathPieces
 }
 
-function navigate (option: Option | NavigateBackOption, method: 'navigateTo' | 'redirectTo' | 'navigateBack') {
-  const { success, complete, fail } = option
-  let failReason
-
-  try {
-    if ('url' in option) {
-      const pathPieces = processNavigateUrl(option)
-      const state = { timestamp: Date.now() }
-      if (method === 'navigateTo') {
-        history.push(pathPieces, state)
-      } else if (method === 'redirectTo') {
-        history.replace(pathPieces, state)
-      }
-    } else if (method === 'navigateBack') {
-      setHistoryBackDelta(option.delta)
-      history.go(-option.delta)
-    }
-  } catch (error) {
-    failReason = error
-  }
-
+async function navigate (option: Option | NavigateBackOption, method: 'navigateTo' | 'redirectTo' | 'navigateBack') {
   return new Promise<void>((resolve, reject) => {
-    if (failReason) {
-      fail && fail(failReason)
-      complete && complete()
-      reject(failReason)
-      return
-    }
-
-    const unlisten = history.listen(() => {
-      success && success()
-      complete && complete()
+    const { success, complete, fail } = option
+    const unListen = history.listen(() => {
+      success?.()
+      complete?.()
       resolve()
-      unlisten()
+      unListen()
     })
+
+    try {
+      if ('url' in option) {
+        const pathPieces = processNavigateUrl(option)
+        const state = { timestamp: Date.now() }
+        if (method === 'navigateTo') {
+          history.push(pathPieces, state)
+        } else if (method === 'redirectTo') {
+          history.replace(pathPieces, state)
+        }
+      } else if (method === 'navigateBack') {
+        setHistoryBackDelta(option.delta)
+        history.go(-option.delta)
+      }
+    } catch (error) {
+      fail?.(error)
+      complete?.()
+      reject(error)
+    }
   })
 }
 
