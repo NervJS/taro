@@ -2582,10 +2582,8 @@ declare module '../../index' {
   }
 }
 
-type Optional<T> = { [K in keyof T]+?: T[K] }
-
 type OQ<
-  T extends Optional<
+  T extends Partial<
     Record<'complete' | 'success' | 'fail', (...args: any[]) => any>
   >
 > =
@@ -2598,7 +2596,7 @@ type OQ<
   | (RQ<T> & Required<Pick<T, 'fail' | 'complete' | 'success'>>)
 
 type RQ<
-  T extends Optional<
+  T extends Partial<
     Record<'complete' | 'success' | 'fail', (...args: any[]) => any>
   >
 > = Pick<T, Exclude<keyof T, 'complete' | 'success' | 'fail'>>
