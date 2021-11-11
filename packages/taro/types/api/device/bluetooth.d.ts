@@ -2,22 +2,22 @@ import Taro from '../../index'
 
 declare module '../../index' {
   namespace stopBluetoothDevicesDiscovery {
-    interface Promised extends General.CallbackResult {
+    interface Promised extends TaroGeneral.CallbackResult {
       /** 成功：ok，错误：详细信息 */
       errMsg: string
     }
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.BluetoothError) => void
+      complete?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.BluetoothError) => void
+      fail?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.BluetoothError) => void
+      success?: (res: TaroGeneral.BluetoothError) => void
     }
   }
 
   namespace startBluetoothDevicesDiscovery {
-    interface Promised extends General.CallbackResult {
+    interface Promised extends TaroGeneral.CallbackResult {
       /** 成功：ok，错误：详细信息 */
       errMsg: string
     }
@@ -25,26 +25,26 @@ declare module '../../index' {
       /** 是否允许重复上报同一设备。如果允许重复上报，则 Taro.onBlueToothDeviceFound 方法会多次上报同一设备，但是 RSSI 值会有不同。 */
       allowDuplicatesKey?: boolean
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.BluetoothError) => void
+      complete?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.BluetoothError) => void
+      fail?: (res: TaroGeneral.BluetoothError) => void
       /** 上报设备的间隔。0 表示找到新设备立即上报，其他数值根据传入的间隔上报。 */
       interval?: number
       /** 要搜索的蓝牙设备主 service 的 uuid 列表。某些蓝牙设备会广播自己的主 service 的 uuid。如果设置此参数，则只搜索广播包有对应 uuid 的主服务的蓝牙设备。建议主要通过该参数过滤掉周边不需要处理的其他蓝牙设备。 */
       services?: string[]
       /** 接口调用成功的回调函数 */
-      success?: (res: General.BluetoothError) => void
+      success?: (res: TaroGeneral.BluetoothError) => void
     }
   }
 
   namespace openBluetoothAdapter {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.BluetoothError) => void
+      complete?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.BluetoothError) => void
+      fail?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.BluetoothError) => void
+      success?: (res: TaroGeneral.BluetoothError) => void
     }
 
     /** object.fail 回调函数返回的 state 参数（仅 iOS） */
@@ -86,7 +86,7 @@ declare module '../../index' {
       /** 蓝牙设备名称，某些设备可能没有 */
       name: string
       /** 当前蓝牙设备的广播数据段中的 ServiceData 数据段 */
-      serviceData: General.IAnyObject
+      serviceData: TaroGeneral.IAnyObject
     }
   }
 
@@ -108,13 +108,13 @@ declare module '../../index' {
       /** 蓝牙设备主 service 的 uuid 列表 */
       services: string[]
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.BluetoothError) => void
+      complete?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.BluetoothError) => void
+      fail?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 搜索到的设备列表 */
       devices: BluetoothDeviceInfo[]
       /** 成功：ok，错误：详细信息 */
@@ -132,20 +132,20 @@ declare module '../../index' {
   namespace getBluetoothDevices {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.BluetoothError) => void
+      complete?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.BluetoothError) => void
+      fail?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用成功的回调函数 */
       success?: (res: SuccessCallbackResult) => void
     }
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** uuid 对应的的已连接设备列表 */
       devices: SuccessCallbackResultBlueToothDevice[]
       /** 成功：ok，错误：详细信息 */
       errMsg: string
     }
     /** uuid 对应的的已连接设备列表 */
-    interface SuccessCallbackResultBlueToothDevice extends General.CallbackResult {
+    interface SuccessCallbackResultBlueToothDevice extends TaroGeneral.CallbackResult {
         /** 当前蓝牙设备的信号强度 */
         RSSI: number
         /** 当前蓝牙设备的广播数据段中的 ManufacturerData 数据段。 */
@@ -159,21 +159,21 @@ declare module '../../index' {
         /** 蓝牙设备名称，某些设备可能没有 */
         name: string
         /** 当前蓝牙设备的广播数据段中的 ServiceData 数据段 */
-        serviceData: General.IAnyObject
+        serviceData: TaroGeneral.IAnyObject
     }
   }
 
   namespace getBluetoothAdapterState {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.BluetoothError) => void
+      complete?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.BluetoothError) => void
+      fail?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
 
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 蓝牙适配器是否可用 */
       available: boolean
       /** 是否正在搜索设备 */
@@ -186,11 +186,11 @@ declare module '../../index' {
   namespace closeBluetoothAdapter {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.BluetoothError) => void
+      complete?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.BluetoothError) => void
+      fail?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.BluetoothError) => void
+      success?: (res: TaroGeneral.BluetoothError) => void
     }
   }
 
@@ -245,7 +245,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.openBluetoothAdapter.html
      */
-    openBluetoothAdapter(option?: openBluetoothAdapter.Option): Promise<General.CallbackResult>
+    openBluetoothAdapter(option?: openBluetoothAdapter.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 监听寻找到新设备的事件
      *
@@ -369,6 +369,6 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.closeBluetoothAdapter.html
      */
-    closeBluetoothAdapter(option?: closeBluetoothAdapter.Option): Promise<General.CallbackResult>
+    closeBluetoothAdapter(option?: closeBluetoothAdapter.Option): Promise<TaroGeneral.CallbackResult>
   }
 }

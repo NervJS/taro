@@ -12,13 +12,13 @@ declare module '../../index' {
       /** 时间戳，从 1970 年 1 月 1 日 00:00:00 至今的秒数，即当前的时间 */
       timeStamp: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 签名算法 */
       signType?: keyof signType
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
 
     interface signType {
@@ -46,7 +46,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/payment/wx.requestPayment.html
      */
-    requestPayment(option: requestPayment.Option): Promise<General.CallbackResult>
+    requestPayment(option: requestPayment.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 支付各个安全场景验证人脸
      * @supported weapp

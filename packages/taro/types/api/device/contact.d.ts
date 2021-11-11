@@ -16,11 +16,11 @@ declare module '../../index' {
       /** 联系地址街道 */
       addressStreet?: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 电子邮件 */
       email?: string
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 住宅地址城市 */
       homeAddressCity?: string
       /** 住宅地址国家 */
@@ -52,7 +52,7 @@ declare module '../../index' {
       /** 备注 */
       remark?: string
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
       /** 职位 */
       title?: string
       /** 网站 */
@@ -81,6 +81,6 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/contact/wx.addPhoneContact.html
      */
-    addPhoneContact(option: addPhoneContact.Option): Promise<General.CallbackResult>
+    addPhoneContact(option: addPhoneContact.Option): Promise<TaroGeneral.CallbackResult>
   }
 }

@@ -10,15 +10,15 @@ declare module '../../index' {
       /** 地址的详细说明 */
       address?: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 位置名 */
       name?: string
       /** 缩放比例，范围5~18 */
       scale?: number
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
@@ -27,9 +27,9 @@ declare module '../../index' {
       /** 传入 true 会返回高度信息，由于获取高度需要较高精确度，会减慢接口返回速度 */
       altitude?: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 高精度定位超时时间(ms)，指定时间内返回最高精度，该值3000ms以上高精度定位才有效果 */
       highAccuracyExpireTime?: number
       /** 开启高精度定位 */
@@ -39,7 +39,7 @@ declare module '../../index' {
       /** wgs84 返回 gps 坐标，gcj02 返回可用于 Taro.openLocation 的坐标 */
       type?: string
     }
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 位置的精确度 */
       accuracy: number
       /** 高度，单位 m */
@@ -62,9 +62,9 @@ declare module '../../index' {
   namespace chooseLocation {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 目标地纬度 */
       latitude?: number
       /** 目标地经度 */
@@ -73,7 +73,7 @@ declare module '../../index' {
       success?: (result: SuccessCallbackResult) => void
     }
 
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 详细地址 */
       address: string
       /** 纬度，浮点数，范围为-90~90，负数表示南纬。使用 gcj02 国测局坐标系 */
@@ -90,33 +90,33 @@ declare module '../../index' {
   namespace stopLocationUpdate {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
   namespace startLocationUpdateBackground {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
   namespace startLocationUpdate {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
@@ -164,7 +164,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.openLocation.html
      */
-    openLocation(option: openLocation.Option): Promise<General.CallbackResult>
+    openLocation(option: openLocation.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 获取当前的地理位置、速度。当用户离开小程序后，此接口无法调用。开启高精度定位，接口耗时会增加，可指定 highAccuracyExpireTime 作为超时时间。
      *
@@ -260,7 +260,7 @@ declare module '../../index' {
      */
     offLocationChange(
       /** 实时地理位置变化事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
   }
 }

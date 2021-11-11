@@ -10,6 +10,6 @@ declare module '../../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/life-cycle/wx.getLaunchOptionsSync.html
      */
-    getLaunchOptionsSync(): General.LaunchOptionsApp
+    getLaunchOptionsSync(): TaroGeneral.LaunchOptionsApp
   }
 }

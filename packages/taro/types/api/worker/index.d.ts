@@ -7,7 +7,7 @@ declare module '../../index' {
     ) => void
     interface OnMessageCallbackResult {
       /** 主线程/Worker 线程向当前线程发送的消息 */
-      message: General.IAnyObject
+      message: TaroGeneral.IAnyObject
     }
   }
   interface Worker {
@@ -42,7 +42,7 @@ declare module '../../index' {
      */
     postMessage(
       /** 需要发送的消息，必须是一个可序列化的 JavaScript key-value 形式的对象。 */
-      message: General.IAnyObject,
+      message: TaroGeneral.IAnyObject,
     ): void
     /** 结束当前 Worker 线程。仅限在主线程 worker 对象上调用。
      * @supported weapp

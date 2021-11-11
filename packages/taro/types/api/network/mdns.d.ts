@@ -4,13 +4,13 @@ declare module '../../index' {
   namespace stopLocalServiceDiscovery {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: FailCallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
-    interface FailCallbackResult extends General.CallbackResult {
+    interface FailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
@@ -21,13 +21,13 @@ declare module '../../index' {
   namespace startLocalServiceDiscovery {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: FailCallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
-    interface FailCallbackResult extends General.CallbackResult {
+    interface FailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
@@ -76,27 +76,27 @@ declare module '../../index' {
 
   namespace onLocalServiceDiscoveryStop {
     /** mDNS 服务停止搜索的事件的回调函数 */
-    type Callback = (res: General.CallbackResult) => void
+    type Callback = (res: TaroGeneral.CallbackResult) => void
   }
 
   namespace offLocalServiceResolveFail {
     /** mDNS 服务解析失败的事件的回调函数 */
-    type Callback = (res: General.CallbackResult) => void
+    type Callback = (res: TaroGeneral.CallbackResult) => void
   }
 
   namespace offLocalServiceLost {
     /** mDNS 服务离开的事件的回调函数 */
-    type Callback = (res: General.CallbackResult) => void
+    type Callback = (res: TaroGeneral.CallbackResult) => void
   }
 
   namespace offLocalServiceFound {
     /** mDNS 服务发现的事件的回调函数 */
-    type Callback = (res: General.CallbackResult) => void
+    type Callback = (res: TaroGeneral.CallbackResult) => void
   }
 
   namespace offLocalServiceDiscoveryStop {
     /** mDNS 服务停止搜索的事件的回调函数 */
-    type Callback = (res: General.CallbackResult) => void
+    type Callback = (res: TaroGeneral.CallbackResult) => void
   }
 
   interface TaroStatic {

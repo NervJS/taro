@@ -22,7 +22,7 @@ declare module '../../index' {
   /** 注册小程序。接受一个 `Object` 参数，其指定小程序的生命周期回调等。
    * @ignore
    */
-  interface App extends General.IAnyObject {
+  interface App extends TaroGeneral.IAnyObject {
     /** @ignore */
     [key: string]: any
   }
@@ -45,6 +45,6 @@ declare module '../../index' {
      * @supported weapp, alipay, h5, rn, jd, qq, swan, tt, quickapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/reference/api/getApp.html
      */
-    getApp<T = General.IAnyObject>(opts?: getApp.Option): getApp.Instance<T>
+    getApp<T = TaroGeneral.IAnyObject>(opts?: getApp.Option): getApp.Instance<T>
   }
 }

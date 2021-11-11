@@ -4,14 +4,14 @@ declare module '../../index' {
   namespace chooseInvoiceTitle {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
 
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 银行账号 */
       bankAccount: string
       /** 银行名称 */
@@ -40,14 +40,14 @@ declare module '../../index' {
   namespace chooseInvoice {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
 
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 用户选中的发票信息，格式为一个 JSON 字符串，包含三个字段： card_id：所选发票卡券的 cardId，encrypt_code：所选发票卡券的加密 code，报销方可以通过 cardId 和 encryptCode 获得报销发票的信息，app_id： 发票方的 appId。 */
       invoiceInfo: string
       /** 调用结果 */

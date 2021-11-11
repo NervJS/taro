@@ -2,7 +2,7 @@ import Taro from '../../index'
 
 declare module '../../index' {
   namespace setClipboardData {
-    interface Promised extends General.CallbackResult {
+    interface Promised extends TaroGeneral.CallbackResult {
       /** 调用信息 */
       errMsg: string
       /** 剪贴板的内容 */
@@ -12,16 +12,16 @@ declare module '../../index' {
       /** 剪贴板的内容 */
       data: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
   namespace getClipboardData {
-    interface Promised extends General.CallbackResult {
+    interface Promised extends TaroGeneral.CallbackResult {
       /** 调用信息 */
       errMsg: string
       /** 剪贴板的内容 */
@@ -29,9 +29,9 @@ declare module '../../index' {
     }
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (res: SuccessCallbackOption) => void
     }

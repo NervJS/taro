@@ -6,11 +6,11 @@ declare module '../../index' {
       /** 需要打开的卡券列表 */
       cardList: RequestInfo[]
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
 
     /** 需要打开的卡券列表 */
@@ -27,9 +27,9 @@ declare module '../../index' {
       /** 需要添加的卡券列表 */
       cardList: RequestInfo[]
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
@@ -42,7 +42,7 @@ declare module '../../index' {
       cardId: string
     }
 
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 卡券添加结果列表 */
       cardList: AddCardResponseInfo[]
       /** 调用结果 */
@@ -79,7 +79,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/card/wx.openCard.html
      */
-    openCard(option: openCard.Option): Promise<General.CallbackResult>
+    openCard(option: openCard.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 批量添加卡券。只有通过 [认证](https://developers.weixin.qq.com/miniprogram/product/renzheng.html) 的小程序或文化互动类目的小游戏才能使用。更多文档请参考 [微信卡券接口文档](https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&key=1490190158&version=1&lang=zh_CN&platform=2)。
      *

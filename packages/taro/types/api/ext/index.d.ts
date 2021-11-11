@@ -4,23 +4,23 @@ declare module '../../index' {
   namespace getExtConfigSync {
     interface ExtInfo {
       /** 第三方平台自定义的数据 */
-      extConfig: General.IAnyObject
+      extConfig: TaroGeneral.IAnyObject
     }
   }
 
   namespace getExtConfig {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
 
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 第三方平台自定义的数据 */
-      extConfig: General.IAnyObject
+      extConfig: TaroGeneral.IAnyObject
       /** 调用结果 */
       errMsg: string
     }
@@ -40,7 +40,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ext/wx.getExtConfigSync.html
      */
-    getExtConfigSync(): General.IAnyObject
+    getExtConfigSync(): TaroGeneral.IAnyObject
 
     /** 获取[第三方平台](https://developers.weixin.qq.com/miniprogram/dev/devtools/ext.html)自定义的数据字段。
      *

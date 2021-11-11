@@ -4,11 +4,11 @@ declare module '../../index' {
   namespace exitMiniProgram {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
@@ -17,17 +17,17 @@ declare module '../../index' {
       /** 要打开的小程序 appId */
       appId: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 要打开的小程序版本。仅在当前小程序为开发版或体验版时此参数有效。如果当前小程序是正式版，则打开的小程序必定是正式版。*/
       envVersion?: keyof envVersion
       /** 需要传递给目标小程序的数据，目标小程序可在 `App.onLaunch`，`App.onShow` 中获取到这份数据。如果跳转的是小游戏，可以在 [wx.onShow](#)、[wx.getLaunchOptionsSync](https://developers.weixin.qq.com/miniprogram/dev/api/base/app/life-cycle/wx.getLaunchOptionsSync.html) 中可以获取到这份数据数据。 */
-      extraData?: General.IAnyObject
+      extraData?: TaroGeneral.IAnyObject
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 打开的页面路径，如果为空则打开首页。path 中 ? 后面的部分会成为 query，在小程序的 `App.onLaunch`、`App.onShow` 和 `Page.onLoad` 的回调函数或小游戏的 [wx.onShow](#) 回调函数、[wx.getLaunchOptionsSync](https://developers.weixin.qq.com/miniprogram/dev/api/base/app/life-cycle/wx.getLaunchOptionsSync.html) 中可以获取到 query 数据。对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。 */
       path?: string
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
 
     interface envVersion {
@@ -43,13 +43,13 @@ declare module '../../index' {
   namespace navigateBackMiniProgram {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 需要返回给上一个小程序的数据，上一个小程序可在 `App.onShow` 中获取到这份数据。 [详情](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html)。 */
-      extraData?: General.IAnyObject
+      extraData?: TaroGeneral.IAnyObject
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
@@ -65,7 +65,7 @@ declare module '../../index' {
      *
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/navigate/wx.exitMiniProgram.html
      */
-    exitMiniProgram(option?: exitMiniProgram.Option): Promise<General.CallbackResult>
+    exitMiniProgram(option?: exitMiniProgram.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 打开另一个小程序
      *
@@ -97,7 +97,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/miniprogram-navigate/wx.navigateToMiniProgram.html
      */
-    navigateToMiniProgram(option: navigateToMiniProgram.Option): Promise<General.CallbackResult>
+    navigateToMiniProgram(option: navigateToMiniProgram.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 返回到上一个小程序。只有在当前小程序是被其他小程序打开时可以调用成功
      *
@@ -116,6 +116,6 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/miniprogram-navigate/wx.navigateBackMiniProgram.html
      */
-    navigateBackMiniProgram(option: navigateBackMiniProgram.Option): Promise<General.CallbackResult>
+    navigateBackMiniProgram(option: navigateBackMiniProgram.Option): Promise<TaroGeneral.CallbackResult>
   }
 }

@@ -6,11 +6,11 @@ declare module '../../index' {
       /** 视频文件路径，可以是临时文件路径也可以是永久文件路径 */
       filePath: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
@@ -19,11 +19,11 @@ declare module '../../index' {
       /** 默认拉起的是前置或者后置摄像头。部分 Android 手机下由于系统 ROM 不支持无法生效 */
       camera?: keyof camera
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 是否压缩所选择的视频文件 */
       compressed?: boolean
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 拍摄视频最长拍摄时间，单位秒 */
       maxDuration?: number
       /** 视频选择的来源 */
@@ -31,7 +31,7 @@ declare module '../../index' {
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 选定视频的时间长度 */
       duration: number
       /** 返回选定视频的高度 */
@@ -159,7 +159,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.saveVideoToPhotosAlbum.html
      */
-    saveVideoToPhotosAlbum(option: saveVideoToPhotosAlbum.Option): Promise<General.CallbackResult>
+    saveVideoToPhotosAlbum(option: saveVideoToPhotosAlbum.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 创建 video 上下文 VideoContext 对象。
      * @supported weapp, h5
@@ -173,7 +173,7 @@ declare module '../../index' {
       /** video 组件的 id */
       id: string,
       /** 在自定义组件下，当前组件实例的this，以操作组件内 video 组件 */
-      component?: General.IAnyObject,
+      component?: TaroGeneral.IAnyObject,
     ): VideoContext
 
     /** 拍摄视频或从手机相册中选视频。

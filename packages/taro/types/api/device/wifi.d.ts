@@ -4,22 +4,22 @@ declare module '../../index' {
   namespace stopWifi {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.WifiError) => void
+      complete?: (res: TaroGeneral.WifiError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.WifiError) => void
+      fail?: (res: TaroGeneral.WifiError) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.WifiError) => void
+      success?: (res: TaroGeneral.WifiError) => void
     }
   }
 
   namespace startWifi {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.WifiError) => void
+      complete?: (res: TaroGeneral.WifiError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.WifiError) => void
+      fail?: (res: TaroGeneral.WifiError) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.WifiError) => void
+      success?: (res: TaroGeneral.WifiError) => void
     }
   }
 
@@ -28,11 +28,11 @@ declare module '../../index' {
       /** 提供预设的 Wi-Fi 信息列表 */
       wifiList: WifiData[]
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.WifiError) => void
+      complete?: (res: TaroGeneral.WifiError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.WifiError) => void
+      fail?: (res: TaroGeneral.WifiError) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.WifiError) => void
+      success?: (res: TaroGeneral.WifiError) => void
     }
 
     /** 提供预设的 Wi-Fi 信息列表 */
@@ -69,24 +69,24 @@ declare module '../../index' {
   namespace getWifiList {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.WifiError) => void
+      complete?: (res: TaroGeneral.WifiError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.WifiError) => void
+      fail?: (res: TaroGeneral.WifiError) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.WifiError) => void
+      success?: (res: TaroGeneral.WifiError) => void
     }
   }
 
   namespace getConnectedWifi {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.WifiError) => void
+      complete?: (res: TaroGeneral.WifiError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.WifiError) => void
+      fail?: (res: TaroGeneral.WifiError) => void
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
-    interface SuccessCallbackResult extends General.WifiError {
+    interface SuccessCallbackResult extends TaroGeneral.WifiError {
       /** Wi-Fi 信息 */
       wifi: WifiInfo
       /** 调用结果 */
@@ -103,11 +103,11 @@ declare module '../../index' {
       /** Wi-Fi 设备 BSSID */
       BSSID?: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.WifiError) => void
+      complete?: (res: TaroGeneral.WifiError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.WifiError) => void
+      fail?: (res: TaroGeneral.WifiError) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.WifiError) => void
+      success?: (res: TaroGeneral.WifiError) => void
     }
   }
 
@@ -136,7 +136,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.stopWifi.html
      */
-    stopWifi(option?: stopWifi.Option): Promise<General.WifiError>
+    stopWifi(option?: stopWifi.Option): Promise<TaroGeneral.WifiError>
 
     /** 初始化 Wi-Fi 模块。
      * @supported weapp
@@ -150,7 +150,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.startWifi.html
      */
-    startWifi(option?: startWifi.Option): Promise<General.WifiError>
+    startWifi(option?: startWifi.Option): Promise<TaroGeneral.WifiError>
 
     /** 设置 `wifiList` 中 AP 的相关信息。在 `onGetWifiList` 回调后调用，**iOS特有接口**。
      *
@@ -180,7 +180,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.setWifiList.html
      */
-    setWifiList(option: setWifiList.Option): Promise<General.WifiError>
+    setWifiList(option: setWifiList.Option): Promise<TaroGeneral.WifiError>
 
     /** 监听连接上 Wi-Fi 的事件。
      * @supported weapp
@@ -226,13 +226,13 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.getWifiList.html
      */
-    getWifiList(option?: getWifiList.Option): Promise<General.WifiError>
+    getWifiList(option?: getWifiList.Option): Promise<TaroGeneral.WifiError>
 
     /** 获取已连接中的 Wi-Fi 信息。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.getConnectedWifi.html
      */
-    getConnectedWifi(option?: getConnectedWifi.Option): Promise<General.WifiError>
+    getConnectedWifi(option?: getConnectedWifi.Option): Promise<TaroGeneral.WifiError>
 
     /**
      * 连接 Wi-Fi。若已知 Wi-Fi 信息，可以直接利用该接口连接。仅 Android 与 iOS 11 以上版本支持。
@@ -249,6 +249,6 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.connectWifi.html
      */
-    connectWifi(option: connectWifi.Option): Promise<General.WifiError>
+    connectWifi(option: connectWifi.Option): Promise<TaroGeneral.WifiError>
   }
 }

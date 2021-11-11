@@ -32,7 +32,7 @@ declare module '../../index' {
      */
     offListening(
       /** 开始监听数据包消息的事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 取消监听收到消息的事件
      * @supported weapp
@@ -40,7 +40,7 @@ declare module '../../index' {
      */
     offMessage(
       /** 收到消息的事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听关闭事件
      * @supported weapp
@@ -64,7 +64,7 @@ declare module '../../index' {
      */
     onListening(
       /** 开始监听数据包消息的事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听收到消息的事件
      * @supported weapp
@@ -91,11 +91,11 @@ declare module '../../index' {
 
   namespace UDPSocket {
     /** 关闭事件的回调函数 */
-    type OffCloseCallback = (res: General.CallbackResult) => void
+    type OffCloseCallback = (res: TaroGeneral.CallbackResult) => void
     /** 错误事件的回调函数 */
-    type OffErrorCallback = (res: General.CallbackResult) => void
+    type OffErrorCallback = (res: TaroGeneral.CallbackResult) => void
     /** 关闭事件的回调函数 */
-    type OnCloseCallback = (res: General.CallbackResult) => void
+    type OnCloseCallback = (res: TaroGeneral.CallbackResult) => void
     /** 错误事件的回调函数 */
     type OnErrorCallback = (
         result: OnErrorCallbackResult,
@@ -104,7 +104,7 @@ declare module '../../index' {
     type OnMessageCallback = (
         result: OnMessageCallbackResult,
     ) => void
-    interface OnErrorCallbackResult extends General.CallbackResult {
+    interface OnErrorCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息 */
       errMsg: string
     }
@@ -129,11 +129,11 @@ declare module '../../index' {
       /** 需要发送的内容 */
       data: string | ArrayBuffer
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 

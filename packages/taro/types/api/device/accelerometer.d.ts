@@ -9,11 +9,11 @@ declare module '../../index' {
        */
       interval?: keyof interval
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
 
     type interval = {
@@ -29,11 +29,11 @@ declare module '../../index' {
   namespace stopAccelerometer {
     type Option = {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
@@ -59,7 +59,7 @@ declare module '../../index' {
      * @supported weapp, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/accelerometer/wx.startAccelerometer.html
      */
-    startAccelerometer (res?: startAccelerometer.Option): Promise<General.CallbackResult>
+    startAccelerometer (res?: startAccelerometer.Option): Promise<TaroGeneral.CallbackResult>
 
     /**
      * 停止监听加速度数据。
@@ -70,7 +70,7 @@ declare module '../../index' {
      * @supported weapp, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/accelerometer/wx.stopAccelerometer.html
      */
-    stopAccelerometer (res?: stopAccelerometer.Option): Promise<General.CallbackResult>
+    stopAccelerometer (res?: stopAccelerometer.Option): Promise<TaroGeneral.CallbackResult>
 
     /**
      * 监听加速度数据，频率：5次/秒，接口调用后会自动开始监听，可使用 `Taro.stopAccelerometer` 停止监听。

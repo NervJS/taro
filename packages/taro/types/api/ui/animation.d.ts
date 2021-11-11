@@ -35,7 +35,7 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.export.html
      */
     export(): {
-      actions: General.IAnyObject[]
+      actions: TaroGeneral.IAnyObject[]
     }
     /** 设置背景色
      * @supported weapp

@@ -8,7 +8,7 @@ declare module '../../../index' {
       /** 不存在页面的路径 */
       path: string
       /** 打开不存在页面的 query 参数 */
-      query: General.IAnyObject
+      query: TaroGeneral.IAnyObject
   }
     /** 小程序要打开的页面不存在事件的回调函数 */
     type Callback = (res: Result) => void
@@ -27,7 +27,7 @@ declare module '../../../index' {
       /** 小程序切前台的路径 */
       path: string
       /** 小程序切前台的 query 参数 */
-      query: General.IAnyObject
+      query: TaroGeneral.IAnyObject
       /** 来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 `{}`。(参见后文注意) */
       referrerInfo: ResultReferrerInfo
       /** 小程序切前台的[场景值](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html) */
@@ -40,7 +40,7 @@ declare module '../../../index' {
       /** 来源小程序、公众号或 App 的 appId */
       appId: string
       /** 来源小程序传过来的数据，scene=1037或1038时支持 */
-      extraData: General.IAnyObject
+      extraData: TaroGeneral.IAnyObject
     }
   }
 
@@ -58,7 +58,7 @@ declare module '../../../index' {
     /** 系统主题改变事件的回调函数 */
     type onThemeChangeCallback = (res: onThemeChangeResult) => void
     /** 系统主题改变事件的回调函数 */
-    type offThemeChangeCallback = (res: General.CallbackResult) => void
+    type offThemeChangeCallback = (res: TaroGeneral.CallbackResult) => void
   }
 
   interface TaroStatic {
@@ -87,7 +87,7 @@ declare module '../../../index' {
      */
     onAudioInterruptionEnd (
       /** 音频中断结束事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
 
     /**
@@ -97,7 +97,7 @@ declare module '../../../index' {
      */
     onAudioInterruptionBegin(
       /** 音频因为受到系统占用而被中断开始事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
 
     /** 监听小程序切前台事件。该事件与 [`App.onShow`](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onshowobject-object) 的回调参数一致。
@@ -130,7 +130,7 @@ declare module '../../../index' {
      */
     onAppHide(
       /** 小程序切后台事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
 
     /** 取消监听小程序要打开的页面不存在事件
@@ -139,7 +139,7 @@ declare module '../../../index' {
      */
     offPageNotFound(
       /** 小程序要打开的页面不存在事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
 
     /** 取消监听音频播放错误事件
@@ -149,7 +149,7 @@ declare module '../../../index' {
 
     offError(
       /** 音频播放错误事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
 
     /** 取消监听音频中断结束事件
@@ -158,7 +158,7 @@ declare module '../../../index' {
      */
     offAudioInterruptionEnd(
       /** 音频中断结束事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
 
     /** 取消监听音频因为受到系统占用而被中断开始事件
@@ -167,7 +167,7 @@ declare module '../../../index' {
      */
     offAudioInterruptionBegin(
       /** 音频因为受到系统占用而被中断开始事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
 
     /** 取消监听小程序切前台事件
@@ -176,7 +176,7 @@ declare module '../../../index' {
      */
     offAppShow(
       /** 小程序切前台事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
 
     /** 取消监听小程序切后台事件
@@ -185,7 +185,7 @@ declare module '../../../index' {
      */
     offAppHide(
       /** 小程序切后台事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
 
     /** 监听系统主题改变事件。该事件与 [`App.onThemeChange`](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onThemeChange-Object-object) 的回调时机一致。

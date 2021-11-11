@@ -10,11 +10,11 @@ declare module '../../index' {
       /** 蓝牙特征值对应服务的 uuid */
       serviceId: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.BluetoothError) => void
+      complete?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.BluetoothError) => void
+      fail?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.BluetoothError) => void
+      success?: (res: TaroGeneral.BluetoothError) => void
     }
   }
 
@@ -49,7 +49,7 @@ declare module '../../index' {
   }
 
   namespace notifyBLECharacteristicValueChange {
-    interface Promised extends General.CallbackResult {
+    interface Promised extends TaroGeneral.CallbackResult {
       /** 成功：ok，错误：详细信息 */
       errMsg: string
     }
@@ -63,11 +63,11 @@ declare module '../../index' {
       /** 是否启用 notify */
       state: boolean
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.BluetoothError) => void
+      complete?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.BluetoothError) => void
+      fail?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.BluetoothError) => void
+      success?: (res: TaroGeneral.BluetoothError) => void
     }
   }
 
@@ -76,15 +76,15 @@ declare module '../../index' {
       /** 蓝牙设备 id */
       deviceId: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.BluetoothError) => void
+      complete?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.BluetoothError) => void
+      fail?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用成功的回调函数 */
       success?: (
         result: SuccessCallbackResult,
       ) => void
     }
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 设备服务列表 */
       services: BLEService[]
       /** 成功：ok，错误：详细信息 */
@@ -106,13 +106,13 @@ declare module '../../index' {
       /** 蓝牙服务 uuid，需要使用 `getBLEDeviceServices` 获取 */
       serviceId: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.BluetoothError) => void
+      complete?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.BluetoothError) => void
+      fail?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用成功的回调函数 */
       success?: (res: SuccessCallbackResult) => void
     }
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 设备特征值列表 */
       characteristics: BLECharacteristic[]
       /** 成功：ok，错误：详细信息 */
@@ -139,7 +139,7 @@ declare module '../../index' {
   }
 
   namespace createBLEConnection {
-    interface Promised extends General.CallbackResult {
+    interface Promised extends TaroGeneral.CallbackResult {
       /** 成功：ok，错误：详细信息 */
       errMsg: string
     }
@@ -147,18 +147,18 @@ declare module '../../index' {
       /** 用于区分设备的 id */
       deviceId: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.BluetoothError) => void
+      complete?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.BluetoothError) => void
+      fail?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.BluetoothError) => void
+      success?: (res: TaroGeneral.BluetoothError) => void
       /** 超时时间，单位ms，不填表示不会超时 */
       timeout?: number
     }
   }
 
   namespace closeBLEConnection {
-    interface Promised extends General.CallbackResult {
+    interface Promised extends TaroGeneral.CallbackResult {
       /** 成功：ok，错误：详细信息 */
       errMsg: string
     }
@@ -166,16 +166,16 @@ declare module '../../index' {
       /** 用于区分设备的 id */
       deviceId: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.BluetoothError) => void
+      complete?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.BluetoothError) => void
+      fail?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.BluetoothError) => void
+      success?: (res: TaroGeneral.BluetoothError) => void
     }
   }
 
   namespace writeBLECharacteristicValue {
-    interface Promised extends General.CallbackResult {
+    interface Promised extends TaroGeneral.CallbackResult {
       /** 成功：ok，错误：详细信息 */
       errMsg: string
     }
@@ -189,11 +189,11 @@ declare module '../../index' {
       /** 蓝牙设备特征值对应的二进制值 */
       value: ArrayBuffer
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.BluetoothError) => void
+      complete?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.BluetoothError) => void
+      fail?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.BluetoothError) => void
+      success?: (res: TaroGeneral.BluetoothError) => void
     }
   }
 
@@ -226,7 +226,7 @@ declare module '../../index' {
      */
     readBLECharacteristicValue(
       option: readBLECharacteristicValue.Option,
-    ): Promise<General.BluetoothError>
+    ): Promise<TaroGeneral.BluetoothError>
 
     /** 监听低功耗蓝牙连接状态的改变事件。包括开发者主动连接或断开连接，设备丢失，连接异常断开等等
      * @supported weapp

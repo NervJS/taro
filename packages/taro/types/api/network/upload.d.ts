@@ -10,9 +10,9 @@ declare module '../../index' {
       /** 文件对应的 key，开发者在服务端可以通过这个 key 获取文件的二进制内容 */
       name: string
       /** HTTP 请求 Header，Header 中不能设置 Referer */
-      header?: General.IAnyObject
+      header?: TaroGeneral.IAnyObject
       /** HTTP 请求中其他额外的 form data */
-      formData?: General.IAnyObject
+      formData?: TaroGeneral.IAnyObject
       /** 超时时间，单位为毫秒 */
       timeout?: number
       /** 上传的文件名
@@ -20,15 +20,15 @@ declare module '../../index' {
        */
       fileName?: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (
         result: SuccessCallbackResult,
       ) => void
     }
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 开发者服务器返回的数据 */
       data: string
       /** 开发者服务器返回的 HTTP 状态码 */
@@ -41,11 +41,11 @@ declare module '../../index' {
   namespace UploadTask {
     /** HTTP Response Header 事件的回调函数 */
     type OffHeadersReceivedCallback = (
-      res: General.CallbackResult,
+      res: TaroGeneral.CallbackResult,
     ) => void
     /** 上传进度变化事件的回调函数 */
     type OffProgressUpdateCallback = (
-      res: General.CallbackResult,
+      res: TaroGeneral.CallbackResult,
     ) => void
     /** HTTP Response Header 事件的回调函数 */
     type OnHeadersReceivedCallback = (
@@ -57,7 +57,7 @@ declare module '../../index' {
     ) => void
     interface OnHeadersReceivedCallbackResult {
       /** 开发者服务器返回的 HTTP Response Header */
-      header: General.IAnyObject
+      header: TaroGeneral.IAnyObject
     }
     interface OnProgressUpdateCallbackResult {
       /** 上传进度百分比 */

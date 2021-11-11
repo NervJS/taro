@@ -4,24 +4,24 @@ declare module '../../index' {
   namespace stopRecord {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
   namespace startRecord {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 录音文件的临时路径 */
       tempFilePath: string
       /** 调用结果 */
@@ -34,7 +34,7 @@ declare module '../../index' {
     type OnErrorCallback = (
       result: OnErrorCallbackResult,
     ) => void
-    interface OnErrorCallbackResult extends General.CallbackResult {
+    interface OnErrorCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息 */
       errMsg: string
     }
@@ -176,7 +176,7 @@ declare module '../../index' {
      */
     onInterruptionBegin(
       /** 录音因为受到系统占用而被中断开始事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听录音中断结束事件。在收到 interruptionBegin 事件之后，小程序内所有录音会暂停，收到此事件之后才可再次录音成功。
      * @supported weapp
@@ -184,7 +184,7 @@ declare module '../../index' {
      */
     onInterruptionEnd(
       /** 录音中断结束事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听录音暂停事件
      * @supported weapp
@@ -192,7 +192,7 @@ declare module '../../index' {
      */
     onPause(
       /** 录音暂停事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听录音继续事件
      * @supported weapp
@@ -200,7 +200,7 @@ declare module '../../index' {
      */
     onResume(
       /** 录音继续事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听录音开始事件
      * @supported weapp
@@ -208,7 +208,7 @@ declare module '../../index' {
      */
     onStart(
       /** 录音开始事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听录音结束事件
      * @supported weapp

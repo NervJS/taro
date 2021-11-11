@@ -6,13 +6,13 @@ declare module '../../index' {
       /** 动态消息的 activityId。通过 [updatableMessage.createActivityId](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/updatable-message/updatableMessage.createActivityId.html) 接口获取 */
       activityId?: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 是否是动态消息，详见[动态消息](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share/updatable-message.html) */
       isUpdatableMessage?: boolean
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
       /** 动态消息的模板信息 */
       templateInfo?: UpdatableMessageFrontEndTemplateInfo
       /** 是否使用带 shareTicket 的转发[详情](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html) */
@@ -36,11 +36,11 @@ declare module '../../index' {
   namespace showShareMenu {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
       /** 是否使用带 shareTicket 的转发[详情](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html) */
       withShareTicket?: boolean
       /** QQ小程序分享功能，支持分享到QQ、QQ空间、微信好友、微信朋友圈
@@ -54,11 +54,11 @@ declare module '../../index' {
   namespace hideShareMenu {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
@@ -67,16 +67,16 @@ declare module '../../index' {
       /** shareTicket */
       shareTicket: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
       /** 超时时间，单位 ms */
       timeout?: number
     }
 
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 敏感数据对应的云 ID，开通[云开发](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html)的小程序才会返回，可通过云调用直接获取开放数据，详细见[云调用直接获取开放数据](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#method-cloud) */
       cloudID?: string
       /** 包括敏感数据在内的完整转发信息的加密数据，详细见[加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html) */
@@ -100,7 +100,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.updateShareMenu.html
      */
-    updateShareMenu(option: updateShareMenu.Option): Promise<General.CallbackResult>
+    updateShareMenu(option: updateShareMenu.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 显示当前页面的转发按钮
      * @supported weapp
@@ -112,7 +112,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.showShareMenu.html
      */
-    showShareMenu(option: showShareMenu.Option): Promise<General.CallbackResult>
+    showShareMenu(option: showShareMenu.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 隐藏转发按钮
      * @supported weapp
@@ -122,7 +122,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.hideShareMenu.html
      */
-    hideShareMenu(option?: hideShareMenu.Option): Promise<General.CallbackResult>
+    hideShareMenu(option?: hideShareMenu.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 获取转发详细信息
      *

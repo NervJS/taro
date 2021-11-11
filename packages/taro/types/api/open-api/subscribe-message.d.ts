@@ -6,14 +6,14 @@ declare module '../../index' {
       /** 需要订阅的消息模板的id的集合（注意：iOS客户端7.0.6版本、Android客户端7.0.7版本之后的一次性订阅/长期订阅才支持多个模板消息，iOS客户端7.0.5版本、Android客户端7.0.6版本之前的一次订阅只支持一个模板消息）消息模板id在[微信公众平台(mp.weixin.qq.com)-功能-订阅消息]中配置 */
       tmplIds: any[]
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: FailCallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
 
-    interface FailCallbackResult extends General.CallbackResult {
+    interface FailCallbackResult extends TaroGeneral.CallbackResult {
       /** 接口调用失败错误码 */
       errCode: number
       /** 接口调用失败错误信息 */
@@ -31,7 +31,7 @@ declare module '../../index' {
      * }
      * ```
      */
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 动态的键，即模板id
        * @name [TEMPLATE_ID]
        * @type "accept" | "reject" | "ban"

@@ -3,9 +3,9 @@ import Taro, { DownloadTask, UploadTask } from "../../index"
 declare module '../../index' {
   namespace cloud {
     /** 云函数通用返回 */
-    interface CallFunctionResult extends General.CallbackResult {
+    interface CallFunctionResult extends TaroGeneral.CallbackResult {
       /** 云函数返回的结果 */
-      result: General.IAnyObject | string | undefined
+      result: TaroGeneral.IAnyObject | string | undefined
       /** 调用结果 */
       errMsg: string
     }
@@ -16,9 +16,9 @@ declare module '../../index' {
       /** 接口调用成功的回调函数 */
       success?: (res: T) => void
       /** 接口调用失败的回调函数 */
-      fail?: (err: General.CallbackResult) => void
+      fail?: (err: TaroGeneral.CallbackResult) => void
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (val: T | General.CallbackResult) => void
+      complete?: (val: T | TaroGeneral.CallbackResult) => void
     }
 
     // type IApiFunction<T, P extends IApiParam<T>> = (param?: P) => Promise<T>
@@ -72,20 +72,20 @@ declare module '../../index' {
       /** 云函数名 */
       name: string
       /** 传递给云函数的参数，在云函数中可通过 event 参数获取 */
-      data?: General.IAnyObject
+      data?: TaroGeneral.IAnyObject
       slow?: boolean
       /** 配置 */
       config?: IConfig
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: CallFunctionResult | General.CallbackResult) => void
+      complete?: (res: CallFunctionResult | TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (res: CallFunctionResult) => void
     }
 
     /** 上传文件结果 */
-    interface UploadFileResult extends General.CallbackResult {
+    interface UploadFileResult extends TaroGeneral.CallbackResult {
       /** 文件 ID */
       fileID: string
       /** 服务器返回的 HTTP 状态码 */
@@ -100,19 +100,19 @@ declare module '../../index' {
       cloudPath: string
       /** 要上传文件资源的路径 */
       filePath: string
-      header?: General.IAnyObject
+      header?: TaroGeneral.IAnyObject
       /** 配置 */
       config?: IConfig
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: UploadFileResult | General.CallbackResult) => void
+      complete?: (res: UploadFileResult | TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (res: UploadFileResult) => void
     }
 
     /** 下载文件结果 */
-    interface DownloadFileResult extends General.CallbackResult {
+    interface DownloadFileResult extends TaroGeneral.CallbackResult {
       /** 临时文件路径 */
       tempFilePath: string
       /** 服务器返回的 HTTP 状态码 */
@@ -129,15 +129,15 @@ declare module '../../index' {
       /** 配置 */
       config?: IConfig
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: DownloadFileResult | General.CallbackResult) => void
+      complete?: (res: DownloadFileResult | TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (res: DownloadFileResult) => void
     }
 
     /** 获取临时文件结果 */
-    interface GetTempFileURLResult extends General.CallbackResult {
+    interface GetTempFileURLResult extends TaroGeneral.CallbackResult {
       /** 文件列表 */
       fileList: GetTempFileURLResultItem[]
       /** 调用结果 */
@@ -145,7 +145,7 @@ declare module '../../index' {
     }
 
     /** 临时文件列表 */
-    interface GetTempFileURLResultItem extends General.CallbackResult {
+    interface GetTempFileURLResultItem extends TaroGeneral.CallbackResult {
       /** 云文件 ID */
       fileID: string
       /** 临时文件路径 */
@@ -163,15 +163,15 @@ declare module '../../index' {
       /** 配置 */
       config?: IConfig
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: GetTempFileURLResult | General.CallbackResult) => void
+      complete?: (res: GetTempFileURLResult | TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (res: GetTempFileURLResult) => void
     }
 
     /** 删除文件结果 */
-    interface DeleteFileResult extends General.CallbackResult {
+    interface DeleteFileResult extends TaroGeneral.CallbackResult {
       /** 文件列表 */
       fileList: DeleteFileResultItem[]
       /** 调用结果 */
@@ -179,7 +179,7 @@ declare module '../../index' {
     }
 
     /** 删除文件列表 */
-    interface DeleteFileResultItem extends General.CallbackResult {
+    interface DeleteFileResultItem extends TaroGeneral.CallbackResult {
       /** 云文件 ID */
       fileID: string
       /** 状态码 */
@@ -195,9 +195,9 @@ declare module '../../index' {
       /** 配置 */
       config?: IConfig
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: DeleteFileResult | General.CallbackResult) => void
+      complete?: (res: DeleteFileResult | TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (res: DeleteFileResult) => void
     }
@@ -211,7 +211,7 @@ declare module '../../index' {
     }
 
     /** 调用云托管参数 */
-    interface CallContainerParam < P extends string | General.IAnyObject | ArrayBuffer = any | any > {
+    interface CallContainerParam < P extends string | TaroGeneral.IAnyObject | ArrayBuffer = any | any > {
       /** 服务路径 */
       path: string
       /** HTTP请求方法，默认 GET */
@@ -219,7 +219,7 @@ declare module '../../index' {
       /** 请求数据 */
       data?: P
       /** 设置请求的 header，header 中不能设置 Referer。content-type 默认为 application/json */
-      header?: General.IAnyObject
+      header?: TaroGeneral.IAnyObject
       /** 超时时间，单位为毫秒 */
       timeout?: number
       /** 返回的数据格式 */
@@ -230,23 +230,23 @@ declare module '../../index' {
         arraybuffer
       }
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: CallFunctionResult | General.CallbackResult) => void
+      complete?: (res: CallFunctionResult | TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (res: CallFunctionResult) => void
     }
 
     /** 调用云托管返回值 */
-    interface CallContainerResult < R extends string | General.IAnyObject | ArrayBuffer = any | any > {
+    interface CallContainerResult < R extends string | TaroGeneral.IAnyObject | ArrayBuffer = any | any > {
       /** 开发者云托管服务返回的数据 */
       data: R
       /** 开发者云托管返回的 HTTP Response Header */
-      header: General.IAnyObject
+      header: TaroGeneral.IAnyObject
       /** 开发者云托管服务返回的 HTTP 状态码 */
       statusCode: number
       /** 开发者云托管返回的 cookies，格式为字符串数组，仅小程序端有此字段 */
-      cookies?: General.IAnyObject
+      cookies?: TaroGeneral.IAnyObject
     }
   }
 
@@ -958,7 +958,7 @@ declare module '../../index' {
        * ```
        * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.field.html
        */
-      field(object: General.IAnyObject): Collection
+      field(object: TaroGeneral.IAnyObject): Collection
 
       /** 获取集合数据，或获取根据查询条件筛选后的集合数据。
        *
@@ -1277,19 +1277,19 @@ declare module '../../index' {
         /** 配置 */
         config?: cloud.IConfig
         /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-        complete?: (res: General.CallbackResult) => void
+        complete?: (res: TaroGeneral.CallbackResult) => void
         /** 接口调用失败的回调函数 */
-        fail?: (res: General.CallbackResult) => void
+        fail?: (res: TaroGeneral.CallbackResult) => void
         /** 接口调用成功的回调函数 */
-        success?: (res: General.CallbackResult) => void
+        success?: (res: TaroGeneral.CallbackResult) => void
       }
 
       /** 监听集合中符合查询条件的数据的更新事件 */
       interface IWatchDocumentOptions {
         /** 成功回调，回调传入的参数 snapshot 是变更快照 */
-        onChange?: (res: General.CallbackResult) => void
+        onChange?: (res: TaroGeneral.CallbackResult) => void
         /** 失败回调 */
-        onError?: (res: General.CallbackResult) => void
+        onError?: (res: TaroGeneral.CallbackResult) => void
       }
 
       /** 变更快照 */
@@ -1297,7 +1297,7 @@ declare module '../../index' {
         /** 更新事件数组 */
         docChanges: ChangeEvent[]
         /** 数据快照，表示此更新事件发生后查询语句对应的查询结果 */
-        docs: General.IAnyObject[]
+        docs: TaroGeneral.IAnyObject[]
         /** 快照类型，仅在第一次初始化数据时有值为 init */
         type: string
         /** 变更事件 id */
@@ -1315,9 +1315,9 @@ declare module '../../index' {
         /** 更新的记录 id */
         docId: string
         /** 更新的完整记录 */
-        doc: General.IAnyObject
+        doc: TaroGeneral.IAnyObject
         /** 所有更新的字段及字段更新后的值，`key` 为更新的字段路径，`value` 为字段更新后的值，仅在 `update` 操作时有此信息 */
-        updatedFields: General.IAnyObject
+        updatedFields: TaroGeneral.IAnyObject
         /** 所有被删除的字段，仅在 `update` 操作时有此信息 */
         removedFields: string[]
       }
@@ -1365,11 +1365,11 @@ declare module '../../index' {
         /** 配置 */
         config?: cloud.IConfig
         /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-        complete?: (res: General.CallbackResult) => void
+        complete?: (res: TaroGeneral.CallbackResult) => void
         /** 接口调用失败的回调函数 */
-        fail?: (res: General.CallbackResult) => void
+        fail?: (res: TaroGeneral.CallbackResult) => void
         /** 接口调用成功的回调函数 */
-        success?: (res: General.CallbackResult) => void
+        success?: (res: TaroGeneral.CallbackResult) => void
       }
 
       /** 更新单条记录参数 */
@@ -1379,11 +1379,11 @@ declare module '../../index' {
         /** 配置 */
         config?: cloud.IConfig
         /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-        complete?: (res: General.CallbackResult) => void
+        complete?: (res: TaroGeneral.CallbackResult) => void
         /** 接口调用失败的回调函数 */
-        fail?: (res: General.CallbackResult) => void
+        fail?: (res: TaroGeneral.CallbackResult) => void
         /** 接口调用成功的回调函数 */
-        success?: (res: General.CallbackResult) => void
+        success?: (res: TaroGeneral.CallbackResult) => void
       }
 
       /** 替换记录参数 */
@@ -1393,11 +1393,11 @@ declare module '../../index' {
         /** 配置 */
         config?: cloud.IConfig
         /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-        complete?: (res: General.CallbackResult) => void
+        complete?: (res: TaroGeneral.CallbackResult) => void
         /** 接口调用失败的回调函数 */
-        fail?: (res: General.CallbackResult) => void
+        fail?: (res: TaroGeneral.CallbackResult) => void
         /** 接口调用成功的回调函数 */
-        success?: (res: General.CallbackResult) => void
+        success?: (res: TaroGeneral.CallbackResult) => void
       }
 
       /** 替换一条记录参数 */
@@ -1406,11 +1406,11 @@ declare module '../../index' {
         /** 配置 */
         config?: cloud.IConfig
         /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-        complete?: (res: General.CallbackResult) => void
+        complete?: (res: TaroGeneral.CallbackResult) => void
         /** 接口调用失败的回调函数 */
-        fail?: (res: General.CallbackResult) => void
+        fail?: (res: TaroGeneral.CallbackResult) => void
         /** 接口调用成功的回调函数 */
-        success?: (res: General.CallbackResult) => void
+        success?: (res: TaroGeneral.CallbackResult) => void
       }
 
       /** 删除记录参数 */
@@ -1419,11 +1419,11 @@ declare module '../../index' {
         /** 配置 */
         config?: cloud.IConfig
         /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-        complete?: (res: General.CallbackResult) => void
+        complete?: (res: TaroGeneral.CallbackResult) => void
         /** 接口调用失败的回调函数 */
-        fail?: (res: General.CallbackResult) => void
+        fail?: (res: TaroGeneral.CallbackResult) => void
         /** 接口调用成功的回调函数 */
-        success?: (res: General.CallbackResult) => void
+        success?: (res: TaroGeneral.CallbackResult) => void
       }
 
       /** 删除一条记录参数 */
@@ -1535,7 +1535,7 @@ declare module '../../index' {
        * ```
        * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.field.html
        */
-      field(object: General.IAnyObject): Query
+      field(object: TaroGeneral.IAnyObject): Query
 
       /** 获取集合数据，或获取根据查询条件筛选后的集合数据。
        *
@@ -1602,26 +1602,26 @@ declare module '../../index' {
 
       type IStringQueryCondition = string
 
-      interface IQueryResult extends General.CallbackResult {
+      interface IQueryResult extends TaroGeneral.CallbackResult {
         /** 查询的结果数组，数据的每个元素是一个 Object，代表一条记录 */
         data: Document.IDocumentData[]
         /** 调用结果 */
         errMsg: string
       }
 
-      interface IQuerySingleResult extends General.CallbackResult {
+      interface IQuerySingleResult extends TaroGeneral.CallbackResult {
         data: Document.IDocumentData
         /** 调用结果 */
         errMsg: string
       }
 
-      interface IAddResult extends General.CallbackResult {
+      interface IAddResult extends TaroGeneral.CallbackResult {
         _id: Document.DocumentId
         /** 调用结果 */
         errMsg: string
       }
 
-      interface IUpdateResult extends General.CallbackResult {
+      interface IUpdateResult extends TaroGeneral.CallbackResult {
         stats: {
           updated: number
           // created: number
@@ -1630,7 +1630,7 @@ declare module '../../index' {
         errMsg: string
       }
 
-      interface ISetResult extends General.CallbackResult {
+      interface ISetResult extends TaroGeneral.CallbackResult {
         _id: Document.DocumentId
         stats: {
           updated: number
@@ -1640,7 +1640,7 @@ declare module '../../index' {
         errMsg: string
       }
 
-      interface IRemoveResult extends General.CallbackResult {
+      interface IRemoveResult extends TaroGeneral.CallbackResult {
         stats: {
           removed: number,
         }
@@ -1648,7 +1648,7 @@ declare module '../../index' {
         errMsg: string
       }
 
-      interface ICountResult extends General.CallbackResult {
+      interface ICountResult extends TaroGeneral.CallbackResult {
         /** 结果数量 */
         total: number
         /** 调用结果 */

@@ -6,11 +6,11 @@ declare module '../../index' {
       /** 提示的内容 */
       title: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 提示的延迟时间 */
       duration?: number
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 图标
        *
        * 可选值：
@@ -23,7 +23,7 @@ declare module '../../index' {
       /** 是否显示透明蒙层，防止触摸穿透 */
       mask?: boolean
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
@@ -34,7 +34,7 @@ declare module '../../index' {
       /** 取消按钮的文字，最多 4 个字符 */
       cancelText?: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 确认按钮的文字颜色，必须是 16 进制格式的颜色字符串 */
       confirmColor?: string
       /** 确认按钮的文字，最多 4 个字符 */
@@ -42,7 +42,7 @@ declare module '../../index' {
       /** 提示的内容 */
       content?: string
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 是否显示取消按钮 */
       showCancel?: boolean
       /** 接口调用成功的回调函数 */
@@ -51,7 +51,7 @@ declare module '../../index' {
       title?: string
     }
 
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 为 true 时，表示用户点击了取消（用于 Android 系统区分点击蒙层关闭还是点击取消按钮关闭） */
       cancel: boolean
       /** 为 true 时，表示用户点击了确定按钮 */
@@ -66,13 +66,13 @@ declare module '../../index' {
       /** 提示的内容 */
       title: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 是否显示透明蒙层，防止触摸穿透 */
       mask?: boolean
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
@@ -81,15 +81,15 @@ declare module '../../index' {
       /** 按钮的文字数组，数组长度最大为 6 */
       itemList: string[]
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 按钮的文字颜色 */
       itemColor?: string
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 用户点击的按钮序号，从上到下的顺序，从0开始 */
       tapIndex: number
       /** 调用结果 */
@@ -100,44 +100,44 @@ declare module '../../index' {
   namespace hideToast {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
   namespace hideLoading {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
   namespace enableAlertBeforeUnload {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
   namespace disableAlertBeforeUnload {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
@@ -158,7 +158,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showToast.html
      */
-    showToast(option?: showToast.Option): Promise<General.CallbackResult>
+    showToast(option?: showToast.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 显示模态对话框
      * **注意**
@@ -200,7 +200,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showLoading.html
      */
-    showLoading(option?: showLoading.Option): Promise<General.CallbackResult>
+    showLoading(option?: showLoading.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 显示操作菜单
      *

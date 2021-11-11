@@ -4,26 +4,26 @@ declare module '../../index' {
   namespace stopVoice {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
   namespace setInnerAudioOption {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 是否与其他音频混播，设置为 true 之后，不会终止其他应用或微信内的音乐 */
       mixWithOther?: boolean
       /** （仅在 iOS 生效）是否遵循静音开关，设置为 false 之后，即使是在静音模式下，也能播放声音 */
       obeyMuteSwitch?: boolean
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
@@ -32,37 +32,37 @@ declare module '../../index' {
       /** 需要播放的语音文件的文件路径 */
       filePath: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 指定录音时长，到达指定的录音时长后会自动停止录音，单位：秒 */
       duration?: number
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
   namespace pauseVoice {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
   namespace getAvailableAudioSources {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 支持的音频输入源列表，可在 [RecorderManager.start()](https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.start.html) 接口中使用。返回值定义参考 https://developer.android.com/reference/kotlin/android/media/MediaRecorder.AudioSource */
       audioSources: Array<keyof audioSources>
       /** 调用结果 */
@@ -248,7 +248,7 @@ declare module '../../index' {
   }
 
   namespace InnerAudioContext {
-    interface onErrorDetail extends General.CallbackResult {
+    interface onErrorDetail extends TaroGeneral.CallbackResult {
       /** 错误码 */
       errCode: number
       /** 错误信息 */
@@ -301,7 +301,7 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.setInnerAudioOption.html
      */
-    setInnerAudioOption(option: setInnerAudioOption.Option): Promise<General.CallbackResult>
+    setInnerAudioOption(option: setInnerAudioOption.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 开始播放语音。同时只允许一个语音文件正在播放，如果前一个语音文件还没播放完，将中断前一个语音播放。
      * @supported weapp
@@ -319,7 +319,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.playVoice.html
      */
-    playVoice(option: playVoice.Option): Promise<General.CallbackResult>
+    playVoice(option: playVoice.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 暂停正在播放的语音。再次调用 [Taro.playVoice](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.playVoice.html) 播放同一个文件时，会从暂停处开始播放。如果想从头开始播放，需要先调用 [Taro.stopVoice](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.stopVoice.html)。
      * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createInnerAudioContext.html) 接口**
@@ -381,7 +381,7 @@ declare module '../../index' {
       /** [audio](https://developers.weixin.qq.com/miniprogram/dev/component/audio.html) 组件的 id */
       id: string,
       /** 在自定义组件下，当前组件实例的this，以操作组件内 [audio](https://developers.weixin.qq.com/miniprogram/dev/component/audio.html) 组件 */
-      component?: General.IAnyObject,
+      component?: TaroGeneral.IAnyObject,
     ): AudioContext
   }
 }

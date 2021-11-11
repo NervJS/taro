@@ -35,7 +35,7 @@ declare module '../../index' {
       /** 事件名 */
       eventName: string,
       /** 上报的自定义数据，key 为配置中的字段名，value 为上报的数据。 */
-      data: General.IAnyObject,
+      data: TaroGeneral.IAnyObject,
     ): void
 
     /** 事件上报
@@ -53,7 +53,7 @@ declare module '../../index' {
       /** 事件名 */
       eventId: string,
       /** 上报的自定义数据，key 为配置中的字段名，value 为上报的数据。 */
-      data: General.IAnyObject,
+      data: TaroGeneral.IAnyObject,
     ): void
 
     /** 给定实验参数数组，获取对应的实验参数值
@@ -67,6 +67,6 @@ declare module '../../index' {
     getExptInfoSync(
       /** 实验参数数组，不填则获取所有实验参数 */
       keys?: Array<string>
-    ): General.IAnyObject
+    ): TaroGeneral.IAnyObject
   }
 }

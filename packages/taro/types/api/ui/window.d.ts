@@ -19,7 +19,7 @@ declare module '../../index' {
 
   namespace offWindowResize {
     /** 窗口尺寸变化事件的回调函数 */
-    type Callback = (res: General.CallbackResult) => void
+    type Callback = (res: TaroGeneral.CallbackResult) => void
   }
 
   interface TaroStatic {

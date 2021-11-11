@@ -6,11 +6,11 @@ declare module '../../index' {
       /** 需要跳转的 tabBar 页面的路径（需在 app.json 的 [tabBar](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#tabbar) 字段定义的页面），路径后不能带参数。 */
       url: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
@@ -19,11 +19,11 @@ declare module '../../index' {
       /** 需要跳转的应用内页面路径，路径后可以带参数。参数与路径之间使用?分隔，参数键与参数值用=相连，不同参数用&分隔；如 'path?key=value&key2=value2' */
       url: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
@@ -32,11 +32,11 @@ declare module '../../index' {
       /** 需要跳转的应用内非 tabBar 的页面的路径, 路径后可以带参数。参数与路径之间使用 `?` 分隔，参数键与参数值用 `=` 相连，不同参数用 `&` 分隔；如 'path?key=value&key2=value2' */
       url: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
@@ -45,26 +45,26 @@ declare module '../../index' {
       /** 需要跳转的应用内非 tabBar 的页面的路径, 路径后可以带参数。参数与路径之间使用 `?` 分隔，参数键与参数值用 `=` 相连，不同参数用 `&` 分隔；如 'path?key=value&key2=value2' */
       url: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 页面间通信接口，用于监听被打开页面发送到当前页面的数据。 */
-      events?: General.IAnyObject
+      events?: TaroGeneral.IAnyObject
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult & { eventChannel: EventChannel }) => void
+      success?: (res: TaroGeneral.CallbackResult & { eventChannel: EventChannel }) => void
     }
   }
 
   namespace navigateBack {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 返回的页面数，如果 delta 大于现有页面数，则返回到首页。 */
       delta?: number
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
@@ -87,7 +87,7 @@ declare module '../../index' {
       /** 事件名称 */
       eventName: string,
       /** 事件监听函数 */
-      fn: General.EventCallback,
+      fn: TaroGeneral.EventCallback,
     ): void
     /** 持续监听一个事件
      * @supported weapp
@@ -97,7 +97,7 @@ declare module '../../index' {
       /** 事件名称 */
       eventName: string,
       /** 事件监听函数 */
-      fn: General.EventCallback,
+      fn: TaroGeneral.EventCallback,
     ): void
     /** 监听一个事件一次，触发后失效
      * @supported weapp
@@ -107,7 +107,7 @@ declare module '../../index' {
       /** 事件名称 */
       eventName: string,
       /** 事件监听函数 */
-      fn: General.EventCallback,
+      fn: TaroGeneral.EventCallback,
     ): void
   }
 
@@ -136,7 +136,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.switchTab.html
      */
-    switchTab(option: switchTab.Option): Promise<General.CallbackResult>
+    switchTab(option: switchTab.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 关闭所有页面，打开到应用内的某个页面
      * @supported weapp, h5, rn
@@ -148,7 +148,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.reLaunch.html
      */
-    reLaunch(option: reLaunch.Option): Promise<General.CallbackResult>
+    reLaunch(option: reLaunch.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 关闭当前页面，跳转到应用内的某个页面。但是不允许跳转到 tabbar 页面。
      * @supported weapp, h5, rn
@@ -160,7 +160,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.redirectTo.html
      */
-    redirectTo(option: redirectTo.Option): Promise<General.CallbackResult>
+    redirectTo(option: redirectTo.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 保留当前页面，跳转到应用内的某个页面。但是不能跳到 tabbar 页面。使用 Taro.navigateBack 可以返回到原页面。小程序中页面栈最多十层。
      * @supported weapp, h5, rn
@@ -186,7 +186,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.navigateTo.html
      */
-    navigateTo(option: navigateTo.Option): Promise<General.CallbackResult>
+    navigateTo(option: navigateTo.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 关闭当前页面，返回上一页面或多级页面。可通过 getCurrentPages 获取当前的页面栈，决定需要返回几层。
      * @supported weapp, h5, rn
@@ -208,6 +208,6 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.navigateBack.html
      */
-    navigateBack(option?: navigateBack.Option): Promise<General.CallbackResult>
+    navigateBack(option?: navigateBack.Option): Promise<TaroGeneral.CallbackResult>
   }
 }

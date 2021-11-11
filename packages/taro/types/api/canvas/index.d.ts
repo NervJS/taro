@@ -10,13 +10,13 @@ declare module '../../index' {
       /** 图片的质量，目前仅对 jpg 有效。取值范围为 (0, 1]，不在范围内时当作 1.0 处理。 */
       quality?: number
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 输出的图片的高度 */
       destHeight?: number
       /** 输出的图片的宽度 */
       destWidth?: number
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 目标文件的类型
        * @default "png"
        */
@@ -32,7 +32,7 @@ declare module '../../index' {
       /** 指定的画布区域的左上角纵坐标 */
       y?: number
     }
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 生成文件的临时路径 */
       tempFilePath: string
       /** 调用结果 */
@@ -54,17 +54,17 @@ declare module '../../index' {
        */
       disableScroll?: boolean
       /** 手指触摸动作开始 */
-      onTouchStart?: General.CommonEventFunction
+      onTouchStart?: TaroGeneral.CommonEventFunction
       /** 手指触摸后移动 */
-      onTouchMove?: General.CommonEventFunction
+      onTouchMove?: TaroGeneral.CommonEventFunction
       /** 手指触摸动作结束 */
-      onTouchEnd?: General.CommonEventFunction
+      onTouchEnd?: TaroGeneral.CommonEventFunction
       /** 手指触摸动作被打断，如来电提醒，弹窗 */
-      onTouchCancel?: General.CommonEventFunction
+      onTouchCancel?: TaroGeneral.CommonEventFunction
       /** 手指长按 500ms 之后触发，触发了长按事件后进行移动不会触发屏幕的滚动 */
-      onLongTap?: General.CommonEventFunction
+      onLongTap?: TaroGeneral.CommonEventFunction
       /** 当发生错误时触发 error 事件，detail = {errMsg: 'something wrong'} */
-      onError?: General.CommonEventFunction<CanvasProps.onErrorEventDetail>
+      onError?: TaroGeneral.CommonEventFunction<CanvasProps.onErrorEventDetail>
     }
 
     namespace CanvasProps {
@@ -88,11 +88,11 @@ declare module '../../index' {
       /** 源图像数据在目标画布中的位置偏移量（y 轴方向的偏移量） */
       y: number
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
   namespace canvasGetImageData {
@@ -108,13 +108,13 @@ declare module '../../index' {
       /** 将要被提取的图像数据矩形区域的左上角纵坐标 */
       y: number
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 图像像素点数据，一维数组，每四项表示一个像素点的 rgba */
       data: Uint8ClampedArray
       /** 图像数据矩形的高度 */
@@ -1704,7 +1704,7 @@ declare module '../../index' {
       /** 要获取上下文的 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件 canvas-id 属性 */
       canvasId: string,
       /** 在自定义组件下，当前组件实例的this，表示在这个自定义组件下查找拥有 canvas-id 的 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) ，如果省略则不在任何自定义组件内查找 */
-      component?: General.IAnyObject,
+      component?: TaroGeneral.IAnyObject,
     ): CanvasContext
 
     /** 把当前画布指定区域的内容导出生成指定大小的图片。在 `draw()` 回调里调用该方法才能保证图片导出成功。
@@ -1733,7 +1733,7 @@ declare module '../../index' {
     canvasToTempFilePath(
       option: canvasToTempFilePath.Option,
       /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件 */
-      component?: General.IAnyObject,
+      component?: TaroGeneral.IAnyObject,
     ): Promise<canvasToTempFilePath.SuccessCallbackResult>
 
     /** 将像素数据绘制到画布。在自定义组件下，第二个参数传入自定义组件实例 this，以操作组件内 <canvas> 组件
@@ -1755,8 +1755,8 @@ declare module '../../index' {
     canvasPutImageData(
       option: canvasPutImageData.Option,
       /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件 */
-      component?: General.IAnyObject,
-    ): Promise<General.CallbackResult>
+      component?: TaroGeneral.IAnyObject,
+    ): Promise<TaroGeneral.CallbackResult>
 
     /** 获取 canvas 区域隐含的像素数据。
      * @supported weapp, h5
@@ -1781,7 +1781,7 @@ declare module '../../index' {
     canvasGetImageData(
       option: canvasGetImageData.Option,
       /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件 */
-      component?: General.IAnyObject,
+      component?: TaroGeneral.IAnyObject,
     ): Promise<canvasGetImageData.SuccessCallbackResult>
   }
 }

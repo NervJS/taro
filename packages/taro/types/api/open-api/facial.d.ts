@@ -12,7 +12,7 @@ declare module '../../index' {
       /** 接口调用成功的回调函数 */
       success?: (result: CallbackResult) => void
     }
-    interface CallbackResult extends General.CallbackResult {
+    interface CallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息 */
       errMsg: string
       /** 错误码 */
@@ -35,7 +35,7 @@ declare module '../../index' {
       /** 接口调用成功的回调函数 */
       success?: (result: CallbackResult) => void
     }
-    interface CallbackResult extends General.CallbackResult {
+    interface CallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息 */
       errMsg: string
       /** 错误码 */
@@ -60,7 +60,7 @@ declare module '../../index' {
       /** 接口调用成功的回调函数 */
       success?: (result: CallbackResult) => void
     }
-    interface CallbackResult extends General.CallbackResult {
+    interface CallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息 */
       errMsg: string
       /** 错误码 */

@@ -1,8 +1,8 @@
-import { shouleBeObject, getParameterError } from '../utils'
+import { shouldBeObject, getParameterError } from '../utils'
 
 export function setNavigationBarTitle (options) {
   // options must be an Object
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `setNavigationBarTitle${isObject.msg}` }
     console.error(res.errMsg)

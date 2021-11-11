@@ -32,14 +32,14 @@ declare module '../../index' {
      */
     onUpdateFailed(
         /** 小程序更新失败事件的回调函数 */
-        callback: (res: General.CallbackResult) => void,
+        callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听小程序有版本更新事件。客户端主动触发下载（无需开发者触发），下载成功后回调
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/update/UpdateManager.onUpdateReady.html
      */
     onUpdateReady(
         /** 小程序有版本更新事件的回调函数 */
-        callback: (res: General.CallbackResult) => void,
+        callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
   }
 

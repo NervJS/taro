@@ -46,7 +46,7 @@ declare module '../../index' {
       /** 客户端平台 */
       platform: string
       /** 在竖屏正方向下的安全区域 */
-      safeArea: General.SafeAreaResult
+      safeArea: TaroGeneral.SafeAreaResult
       /** 屏幕高度，单位px */
       screenHeight: number
       /** 屏幕宽度，单位px */
@@ -83,7 +83,7 @@ declare module '../../index' {
      * 注意：**H5** 端不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
      * 小程序可以在微信和企业微信中调用此接口，但是在企业微信中调用此接口时，会额外返回一个 environment 字段（微信中不返回），如此字段值为 wxwork，则表示当前小程序运行在企业微信环境中。
      */
-    interface Result extends General.CallbackResult {
+    interface Result extends TaroGeneral.CallbackResult {
       /** 客户端基础库版本 */
       SDKVersion: string
       /** 允许微信使用相册的开关（仅 iOS 有效） */
@@ -121,7 +121,7 @@ declare module '../../index' {
       /** 客户端平台 */
       platform: string
       /** 在竖屏正方向下的安全区域 */
-      safeArea: General.SafeAreaResult
+      safeArea: TaroGeneral.SafeAreaResult
       /** 屏幕高度，单位px */
       screenHeight: number
       /** 屏幕宽度，单位px */

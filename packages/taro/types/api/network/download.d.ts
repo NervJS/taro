@@ -6,18 +6,18 @@ declare module '../../index' {
       /** 下载资源的 url */
       url: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 指定文件下载后存储的路径 */
       filePath?: string
       /** HTTP 请求的 Header，Header 中不能设置 Referer */
-      header?: General.IAnyObject
+      header?: TaroGeneral.IAnyObject
       /** 接口调用成功的回调函数 */
       success?: (result: FileSuccessCallbackResult) => void
     }
 
-    interface FileSuccessCallbackResult extends General.CallbackResult {
+    interface FileSuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 用户文件路径。传入 filePath 时会返回，跟传入的 filePath 一致 */
       filePath: string
       /** 开发者服务器返回的 HTTP 状态码 */
@@ -32,11 +32,11 @@ declare module '../../index' {
   namespace DownloadTask {
     /** HTTP Response Header 事件的回调函数 */
     type OffHeadersReceivedCallback = (
-      res: General.CallbackResult,
+      res: TaroGeneral.CallbackResult,
     ) => void
     /** 下载进度变化事件的回调函数 */
     type OffProgressUpdateCallback = (
-        res: General.CallbackResult,
+        res: TaroGeneral.CallbackResult,
     ) => void
     /** HTTP Response Header 事件的回调函数 */
     type OnHeadersReceivedCallback = (
@@ -48,7 +48,7 @@ declare module '../../index' {
     ) => void
     interface OnHeadersReceivedCallbackResult {
       /** 开发者服务器返回的 HTTP Response Header */
-      header: General.IAnyObject
+      header: TaroGeneral.IAnyObject
     }
     interface OnProgressUpdateCallbackResult {
       /** 下载进度百分比 */

@@ -1,7 +1,7 @@
 import { Linking } from 'react-native'
 import { successHandler, errorHandler } from '../../utils'
 
-export async function makePhoneCall(opts: Taro.makePhoneCall.Option): Promise<Taro.General.CallbackResult> {
+export async function makePhoneCall(opts: Taro.makePhoneCall.Option): Promise<TaroGeneral.CallbackResult> {
   const { phoneNumber, success, fail, complete } = opts
   const res = { errMsg: 'makePhoneCall:ok' }
   const telUrl = `tel:${phoneNumber}`

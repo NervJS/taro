@@ -4,11 +4,11 @@ declare module '../../index' {
   namespace stopBackgroundAudio {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
@@ -17,11 +17,11 @@ declare module '../../index' {
       /** 音乐位置，单位：秒 */
       position: number
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
@@ -30,13 +30,13 @@ declare module '../../index' {
       /** 音乐链接，目前支持的格式有 m4a, aac, mp3, wav */
       dataUrl: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 封面URL */
       coverImgUrl?: string
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
       /** 音乐标题 */
       title?: string
     }
@@ -45,24 +45,24 @@ declare module '../../index' {
   namespace pauseBackgroundAudio {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
   namespace getBackgroundAudioPlayerState {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 选定音频的播放位置（单位：s），只有在音乐播放中时返回 */
       currentPosition: number
       /** 歌曲数据链接，只有在音乐播放中时返回 */
@@ -188,7 +188,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.seekBackgroundAudio.html
      */
-    seekBackgroundAudio(option: seekBackgroundAudio.Option): Promise<General.CallbackResult>
+    seekBackgroundAudio(option: seekBackgroundAudio.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 使用后台播放器播放音乐，对于微信客户端来说，只能同时有一个后台音乐在播放。当用户离开小程序后，音乐将暂停播放；当用户点击“显示在聊天顶部”时，音乐不会暂停播放；当用户在其他小程序占用了音乐播放器，原有小程序内的音乐将停止播放。
      * @supported weapp
@@ -202,7 +202,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.playBackgroundAudio.html
      */
-    playBackgroundAudio(option: playBackgroundAudio.Option): Promise<General.CallbackResult>
+    playBackgroundAudio(option: playBackgroundAudio.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 暂停播放音乐。
      * @supported weapp
@@ -224,7 +224,7 @@ declare module '../../index' {
      */
     onBackgroundAudioStop(
       /** 音乐停止事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
 
     /** 监听音乐播放。
@@ -233,7 +233,7 @@ declare module '../../index' {
      */
     onBackgroundAudioPlay(
       /** 音乐播放事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
 
     /** 监听音乐暂停。
@@ -242,7 +242,7 @@ declare module '../../index' {
      */
     onBackgroundAudioPause(
       /** 音乐暂停事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
 
     /** 获取后台音乐播放状态。

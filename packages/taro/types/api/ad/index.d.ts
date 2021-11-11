@@ -84,22 +84,22 @@ declare module '../../index' {
   }
   namespace InterstitialAd {
     /** 插屏广告关闭事件的回调函数 */
-    type OffCloseCallback = (res: General.CallbackResult) => void
+    type OffCloseCallback = (res: TaroGeneral.CallbackResult) => void
     /** 插屏错误事件的回调函数 */
-    type OffErrorCallback = (res: General.CallbackResult) => void
+    type OffErrorCallback = (res: TaroGeneral.CallbackResult) => void
     /** 插屏广告加载事件的回调函数 */
-    type OffLoadCallback = (res: General.CallbackResult) => void
+    type OffLoadCallback = (res: TaroGeneral.CallbackResult) => void
     /** 插屏广告关闭事件的回调函数 */
-    type OnCloseCallback = (res: General.CallbackResult) => void
+    type OnCloseCallback = (res: TaroGeneral.CallbackResult) => void
     /** 插屏错误事件的回调函数 */
     type OnErrorCallback = (result: OnErrorCallbackResult) => void
     /** 插屏广告加载事件的回调函数 */
-    type OnLoadCallback = (res: General.CallbackResult) => void
-    interface OnErrorCallbackResult extends General.CallbackResult {
+    type OnLoadCallback = (res: TaroGeneral.CallbackResult) => void
+    interface OnErrorCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误码
        * @see https://nervjs.github.io/taro/docs/apis/General#AdErrCode
        */
-      errCode: keyof General.AdErrCode
+      errCode: keyof TaroGeneral.AdErrCode
       /** 错误信息 */
       errMsg: string
     }
@@ -158,11 +158,11 @@ declare module '../../index' {
     onLoad(callback: RewardedVideoAd.OnLoadCallback): void
   }
   namespace RewardedVideoAd {
-    interface OnErrorCallbackResult extends General.CallbackResult {
+    interface OnErrorCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误码
        * @see https://nervjs.github.io/taro/docs/apis/General#AdErrCode
        */
-      errCode: keyof General.AdErrCode
+      errCode: keyof TaroGeneral.AdErrCode
       /** 错误信息 */
       errMsg: string
     }
@@ -171,17 +171,17 @@ declare module '../../index' {
       isEnded: boolean
     }
     /** 用户点击 `关闭广告` 按钮的事件的回调函数 */
-    type OffCloseCallback = (res: General.CallbackResult) => void
+    type OffCloseCallback = (res: TaroGeneral.CallbackResult) => void
     /** 激励视频错误事件的回调函数 */
-    type OffErrorCallback = (res: General.CallbackResult) => void
+    type OffErrorCallback = (res: TaroGeneral.CallbackResult) => void
     /** 激励视频广告加载事件的回调函数 */
-    type OffLoadCallback = (res: General.CallbackResult) => void
+    type OffLoadCallback = (res: TaroGeneral.CallbackResult) => void
     /** 用户点击 `关闭广告` 按钮的事件的回调函数 */
     type OnCloseCallback = (result: OnCloseCallbackResult) => void
     /** 激励视频错误事件的回调函数 */
     type OnErrorCallback = (result: OnErrorCallbackResult) => void
     /** 激励视频广告加载事件的回调函数 */
-    type OnLoadCallback = (res: General.CallbackResult) => void
+    type OnLoadCallback = (res: TaroGeneral.CallbackResult) => void
   }
 
   interface TaroStatic {

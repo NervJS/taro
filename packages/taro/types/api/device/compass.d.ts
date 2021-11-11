@@ -4,22 +4,22 @@ declare module '../../index' {
   namespace stopCompass {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
   namespace startCompass {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
@@ -66,7 +66,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/compass/wx.stopCompass.html
      */
-    stopCompass(option?: stopCompass.Option): Promise<General.CallbackResult>
+    stopCompass(option?: stopCompass.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 开始监听罗盘数据
      * @supported weapp, h5
@@ -76,7 +76,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/compass/wx.startCompass.html
      */
-    startCompass(option?: startCompass.Option): Promise<General.CallbackResult>
+    startCompass(option?: startCompass.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 监听罗盘数据变化事件。频率：5 次/秒，接口调用后会自动开始监听，可使用 Taro.stopCompass 停止监听。
      * @supported weapp, h5

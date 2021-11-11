@@ -19,11 +19,11 @@ declare module '../../index' {
       /** 气泡消息图片 */
       sendMessageImg?: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (result: General.CallbackResult) => void
+      success?: (result: TaroGeneral.CallbackResult) => void
     }
   }
 
@@ -40,6 +40,6 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/service-chat/wx.openCustomerServiceChat.html
      */
-    openCustomerServiceChat(option?: openCustomerServiceChat.Option): Promise<General.CallbackResult>
+    openCustomerServiceChat(option?: openCustomerServiceChat.Option): Promise<TaroGeneral.CallbackResult>
   }
 }

@@ -4,11 +4,11 @@ declare module '../../index' {
   namespace stopBeaconDiscovery {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.IBeaconError) => void
+      complete?: (res: TaroGeneral.IBeaconError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.IBeaconError) => void
+      fail?: (res: TaroGeneral.IBeaconError) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.IBeaconError) => void
+      success?: (res: TaroGeneral.IBeaconError) => void
     }
   }
 
@@ -17,13 +17,13 @@ declare module '../../index' {
       /** iBeacon 设备广播的 uuid 列表 */
       uuids: string[]
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.IBeaconError) => void
+      complete?: (res: TaroGeneral.IBeaconError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.IBeaconError) => void
+      fail?: (res: TaroGeneral.IBeaconError) => void
       /** 是否校验蓝牙开关，仅在 iOS 下有效 */
       ignoreBluetoothAvailable?: boolean
       /** 接口调用成功的回调函数 */
-      success?: (res: General.IBeaconError) => void
+      success?: (res: TaroGeneral.IBeaconError) => void
     }
   }
 
@@ -54,14 +54,14 @@ declare module '../../index' {
   namespace getBeacons {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.IBeaconError) => void
+      complete?: (res: TaroGeneral.IBeaconError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.IBeaconError) => void
+      fail?: (res: TaroGeneral.IBeaconError) => void
       /** 接口调用成功的回调函数 */
       success?: (result: CallbackResult) => void
     }
 
-    interface CallbackResult extends General.IBeaconError {
+    interface CallbackResult extends TaroGeneral.IBeaconError {
       /** iBeacon 设备列表 */
       beacons: IBeaconInfo[]
       /** 调用结果 */
@@ -93,7 +93,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.stopBeaconDiscovery.html
      */
-    stopBeaconDiscovery(option?: stopBeaconDiscovery.Option): Promise<General.CallbackResult>
+    stopBeaconDiscovery(option?: stopBeaconDiscovery.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 开始搜索附近的 iBeacon 设备
      * @supported weapp
@@ -105,7 +105,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.startBeaconDiscovery.html
      */
-    startBeaconDiscovery(option: startBeaconDiscovery.Option): Promise<General.CallbackResult>
+    startBeaconDiscovery(option: startBeaconDiscovery.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 监听 iBeacon 设备更新事件，仅能注册一个监听
      * @supported weapp
@@ -137,7 +137,7 @@ declare module '../../index' {
      */
     offBeaconUpdate(
       /** iBeacon 设备更新事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
 
     /** 取消监听 iBeacon 服务状态变化事件
@@ -146,7 +146,7 @@ declare module '../../index' {
      */
     offBeaconServiceChange(
       /** iBeacon 服务状态变化事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
   }
 }

@@ -2,21 +2,21 @@ import Taro from '../../index'
 
 declare module '../../index' {
   namespace request {
-    interface Option < U extends string | General.IAnyObject | ArrayBuffer = any | any > {
+    interface Option < U extends string | TaroGeneral.IAnyObject | ArrayBuffer = any | any > {
       /** 开发者服务器接口地址 */
       url: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 请求的参数 */
       data?: U
       /** 返回的数据格式 */
       dataType?: keyof dataType | string
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 设置请求的 header，header 中不能设置 Referer。
        *
        * `content-type` 默认为 `application/json` */
-      header?: General.IAnyObject
+      header?: TaroGeneral.IAnyObject
       /** HTTP 请求方法 */
       method?: keyof method
       /** 响应的数据类型 */
@@ -67,11 +67,11 @@ declare module '../../index' {
       storeCheck?(): boolean
     }
 
-    interface SuccessCallbackResult < T extends string | General.IAnyObject | ArrayBuffer = any | any > extends General.CallbackResult {
+    interface SuccessCallbackResult < T extends string | TaroGeneral.IAnyObject | ArrayBuffer = any | any > extends TaroGeneral.CallbackResult {
       /** 开发者服务器返回的数据 */
       data: T
       /** 开发者服务器返回的 HTTP Response Header */
-      header: General.IAnyObject
+      header: TaroGeneral.IAnyObject
       /** 开发者服务器返回的 HTTP 状态码 */
       statusCode: number
       /** 调用结果 */
@@ -212,7 +212,7 @@ declare module '../../index' {
      */
     offHeadersReceived(
       /** HTTP Response Header 事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听 HTTP Response Header 事件。会比请求完成事件更早
      * @supported weapp
@@ -227,7 +227,7 @@ declare module '../../index' {
   namespace RequestTask {
     interface OnHeadersReceivedCallbackResult {
       /** 开发者服务器返回的 HTTP Response Header */
-      header: General.IAnyObject
+      header: TaroGeneral.IAnyObject
     }
   }
 

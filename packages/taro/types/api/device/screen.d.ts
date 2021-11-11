@@ -6,16 +6,16 @@ declare module '../../index' {
       /** 屏幕亮度值，范围 0 ~ 1。0 最暗，1 最亮 */
       value: number
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
   namespace setKeepScreenOn {
-    interface Promised extends General.CallbackResult {
+    interface Promised extends TaroGeneral.CallbackResult {
       /** 调用结果 */
       errMsg: string
     }
@@ -23,20 +23,20 @@ declare module '../../index' {
       /** 是否保持屏幕常亮 */
       keepScreenOn: boolean
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
   namespace getScreenBrightness {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (option: SuccessCallbackOption) => void
     }
@@ -56,7 +56,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.setScreenBrightness.html
      */
-    setScreenBrightness(option: setScreenBrightness.Option): Promise<General.CallbackResult>
+    setScreenBrightness(option: setScreenBrightness.Option): Promise<TaroGeneral.CallbackResult>
 
     /**
      * 设置是否保持常亮状态。仅在当前小程序生效，离开小程序后设置失效。
@@ -85,7 +85,7 @@ declare module '../../index' {
      */
     onUserCaptureScreen(
       /** 用户主动截屏事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
 
     /**

@@ -6,11 +6,11 @@ declare module '../../index' {
       /** 需要发送的内容 */
       data: string | ArrayBuffer
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
@@ -19,7 +19,7 @@ declare module '../../index' {
     type Callback = (result: OpenCallbackResult) => void
     interface OpenCallbackResult {
       /** 连接成功的 HTTP 响应 Header */
-      header: General.IAnyObject
+      header: TaroGeneral.IAnyObject
     }
   }
 
@@ -35,7 +35,7 @@ declare module '../../index' {
   namespace onSocketError {
     /** WebSocket 错误事件的回调函数 */
     type Callback = (result: CallbackResult) => void
-    interface CallbackResult extends General.CallbackResult {
+    interface CallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息 */
       errMsg: string
     }
@@ -57,15 +57,15 @@ declare module '../../index' {
       /** 开发者服务器 wss 接口地址 */
       url: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** HTTP Header，Header 中不能设置 Referer */
-      header?: General.IAnyObject
+      header?: TaroGeneral.IAnyObject
       /** 子协议数组 */
       protocols?: string[]
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
       /** 建立 TCP 连接的时候的 TCP_NODELAY 设置 */
       tcpNoDelay?: boolean
     }
@@ -76,13 +76,13 @@ declare module '../../index' {
       /** 一个数字值表示关闭连接的状态号，表示连接被关闭的原因。 */
       code?: number
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 一个可读的字符串，表示连接被关闭的原因。这个字符串必须是不长于 123 字节的 UTF-8 文本（不是字符）。 */
       reason?: string
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
@@ -91,13 +91,13 @@ declare module '../../index' {
       /** 一个数字值表示关闭连接的状态号，表示连接被关闭的原因。 */
       code?: number
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 一个可读的字符串，表示连接被关闭的原因。这个字符串必须是不长于 123 字节的 UTF-8 文本（不是字符）。 */
       reason?: string
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
     /** WebSocket 连接关闭事件的回调函数 */
     type OnCloseCallback = (result: OnCloseCallbackResult) => void
@@ -109,7 +109,7 @@ declare module '../../index' {
     }
     /** WebSocket 错误事件的回调函数 */
     type OnErrorCallback = (result: OnErrorCallbackResult) => void
-    interface OnErrorCallbackResult extends General.CallbackResult {
+    interface OnErrorCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息 */
       errMsg: string
     }
@@ -123,17 +123,17 @@ declare module '../../index' {
     type OnOpenCallback = (result: OnOpenCallbackResult) => void
     interface OnOpenCallbackResult {
       /** 连接成功的 HTTP 响应 Header*/
-      header: General.IAnyObject
+      header: TaroGeneral.IAnyObject
     }
     interface SendOption {
       /** 需要发送的内容 */
       data: string | ArrayBuffer
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
@@ -231,7 +231,7 @@ declare module '../../index' {
      * ```
      @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.sendSocketMessage.html
      */
-    sendSocketMessage(option: sendSocketMessage.Option): Promise<General.CallbackResult>
+    sendSocketMessage(option: sendSocketMessage.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 监听 WebSocket 连接打开事件
      * @supported weapp, alipay, swan
@@ -377,6 +377,6 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.closeSocket.html
      */
-    closeSocket(option?: closeSocket.Option): Promise<General.CallbackResult>
+    closeSocket(option?: closeSocket.Option): Promise<TaroGeneral.CallbackResult>
   }
 }

@@ -4,11 +4,11 @@ declare module '../../index' {
   namespace stopHCE {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.NFCError) => void
+      complete?: (res: TaroGeneral.NFCError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.NFCError) => void
+      fail?: (res: TaroGeneral.NFCError) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.NFCError) => void
+      success?: (res: TaroGeneral.NFCError) => void
     }
   }
 
@@ -17,11 +17,11 @@ declare module '../../index' {
       /** 需要注册到系统的 AID 列表 */
       aid_list: string[]
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.NFCError) => void
+      complete?: (res: TaroGeneral.NFCError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.NFCError) => void
+      fail?: (res: TaroGeneral.NFCError) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.NFCError) => void
+      success?: (res: TaroGeneral.NFCError) => void
     }
   }
 
@@ -30,11 +30,11 @@ declare module '../../index' {
       /** 二进制数据 */
       data: ArrayBuffer
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.NFCError) => void
+      complete?: (res: TaroGeneral.NFCError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.NFCError) => void
+      fail?: (res: TaroGeneral.NFCError) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.NFCError) => void
+      success?: (res: TaroGeneral.NFCError) => void
     }
   }
 
@@ -63,11 +63,11 @@ declare module '../../index' {
   namespace getHCEState {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.NFCError) => void
+      complete?: (res: TaroGeneral.NFCError) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.NFCError) => void
+      fail?: (res: TaroGeneral.NFCError) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.NFCError) => void
+      success?: (res: TaroGeneral.NFCError) => void
     }
   }
 
@@ -85,7 +85,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.stopHCE.html
      */
-    stopHCE(option?: stopHCE.Option): Promise<General.NFCError>
+    stopHCE(option?: stopHCE.Option): Promise<TaroGeneral.NFCError>
 
     /**
      * 初始化 NFC 模块。
@@ -101,7 +101,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.startHCE.html
      */
-    startHCE(option: startHCE.Option): Promise<General.NFCError>
+    startHCE(option: startHCE.Option): Promise<TaroGeneral.NFCError>
 
     /**
      * 发送 NFC 消息。仅在安卓系统下有效。
@@ -123,7 +123,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.sendHCEMessage.html
      */
-    sendHCEMessage(option: sendHCEMessage.Option): Promise<General.NFCError>
+    sendHCEMessage(option: sendHCEMessage.Option): Promise<TaroGeneral.NFCError>
 
     /**
      * 监听接收 NFC 设备消息事件，仅能注册一个监听
@@ -148,7 +148,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.getHCEState.html
      */
-    getHCEState(option?: getHCEState.Option): Promise<General.NFCError>
+    getHCEState(option?: getHCEState.Option): Promise<TaroGeneral.NFCError>
 
     /** 接收 NFC 设备消息事件，取消事件监听。
      * @supported weapp

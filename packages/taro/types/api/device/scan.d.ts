@@ -4,9 +4,9 @@ declare module '../../index' {
   namespace scanCode {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 是否只能从相机扫码，不允许从相册选择图片 */
       onlyFromCamera?: boolean
       /** 扫码类型 */
@@ -14,7 +14,7 @@ declare module '../../index' {
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
         /** 所扫码的字符集 */
         charSet: string
         /** 当所扫的码为当前小程序二维码时，会返回此字段，内容为二维码携带的 path */

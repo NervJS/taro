@@ -240,7 +240,7 @@ declare module '../../index' {
      */
     in(
         /** 自定义组件实例 */
-        component: General.IAnyObject,
+        component: TaroGeneral.IAnyObject,
     ): SelectorQuery
   }
 
@@ -375,7 +375,7 @@ declare module '../../index' {
       /** 节点的下边界坐标 */
       bottom: number
       /** 节点的 dataset */
-      dataset: General.IAnyObject
+      dataset: TaroGeneral.IAnyObject
       /** 节点的高度 */
       height: number
       /** 节点的 ID */
@@ -393,7 +393,7 @@ declare module '../../index' {
     type ContextCallback = (result: ContextCallbackResult) => void
     interface ContextCallbackResult {
       /** 节点对应的 Context 对象 */
-      context: General.IAnyObject
+      context: TaroGeneral.IAnyObject
     }
 
     interface Fields {
@@ -421,20 +421,20 @@ declare module '../../index' {
     /** 回调函数 */
     type FieldsCallback = (
       /** 节点的相关信息 */
-      res: General.IAnyObject,
+      res: TaroGeneral.IAnyObject,
     ) => void
     /** 回调函数，在执行 `SelectorQuery.exec` 方法后，返回节点信息。 */
     type NodeCallback = (result: NodeCallbackResult) => void
     /** 回调函数 */
     interface NodeCallbackResult {
       /** 节点对应的 Node 实例 */
-      node: General.IAnyObject
+      node: TaroGeneral.IAnyObject
     }
     /** 回调函数，在执行 `SelectorQuery.exec` 方法后，节点信息会在 `callback` 中返回。 */
     type ScrollOffsetCallback = (result: ScrollOffsetCallbackResult) => void
     interface ScrollOffsetCallbackResult {
       /** 节点的 dataset */
-      dataset: General.IAnyObject
+      dataset: TaroGeneral.IAnyObject
       /** 节点的 ID */
       id: string
       /** 节点的水平滚动位置 */
@@ -471,7 +471,7 @@ declare module '../../index' {
      */
     createIntersectionObserver(
       /** 自定义组件实例 */
-      component: General.IAnyObject,
+      component: TaroGeneral.IAnyObject,
       /** 选项 */
       options?: createIntersectionObserver.Option,
     ): IntersectionObserver
