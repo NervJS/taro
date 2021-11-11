@@ -12,8 +12,6 @@ export const hostConfig = {
     const tagName = node.tagName.toLowerCase()
     if (event.type === 'click' && comps.includes(tagName)) {
       event.type = 'tap'
-    } else if (event.type === 'tap' && tagName === 'button') { // TODO
-      event.type = 'click'
     }
   },
   getPathIndex (indexOfNode) {

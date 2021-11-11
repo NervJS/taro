@@ -60,8 +60,9 @@ ${elements}
     delete result['static-text']
     delete result['static-image']
 
-    result['button'].cn = 'i.cn'
-    result['button']['@tap'] = 'eh'
+    result.button.cn = 'i.cn'
+    result.button['@tap'] = 'eh'
+    result.button.type = `i.type===undefined?'default':i.type`
 
     return result
   }

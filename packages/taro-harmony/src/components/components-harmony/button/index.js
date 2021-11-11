@@ -2,18 +2,42 @@ import { createOption } from '../utils'
 
 export default createOption({
   props: {
-    id: '',
-    cls: '',
-    type: 'capsule',
-    harmonyType: 'capsule',
-    size: 'default',
-    plain: false,
-    disabled: false,
-    loading: false,
-    hoverStartTime: 20,
-    hoverStayTime: 70,
-    hoverClass: 'button-hover',
-    cn: []
+    id: {
+      default: ''
+    },
+    cls: {
+      default: ''
+    },
+    type: {
+      default: 'default'
+    },
+    harmonyType: {
+      default: 'capsule'
+    },
+    size: {
+      default: 'default'
+    },
+    plain: {
+      default: false
+    },
+    disabled: {
+      default: false
+    },
+    loading: {
+      default: false
+    },
+    hoverStartTime: {
+      default: 20
+    },
+    hoverStayTime: {
+      default: 70
+    },
+    hoverClass: {
+      default: 'button-hover'
+    },
+    cn: {
+      default: []
+    }
   },
   data () {
     return {
@@ -56,9 +80,7 @@ export default createOption({
     if (this.disabled) {
       return
     }
-    // console.log('harmony touch start')
     this.touch = true
-    this.$trigger('touchstart')
     if (this.hoverClass && !this.disabled) {
       setTimeout(() => {
         if (this.touch) {
@@ -71,10 +93,6 @@ export default createOption({
     if (this.disabled) {
       return
     }
-
-    // console.log('harmony touch end')
-
-    this.$trigger('touchend')
     this.touch = false
     if (this.hoverClass && !this.disabled) {
       setTimeout(() => {
