@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace checkIsSupportFacialRecognition {
     interface Option {
       /** 交互方式 */
@@ -17,13 +19,6 @@ declare namespace Taro {
       errCode: number
     }
   }
-
-  /** 检查是否支持面部识别
-   * @supported weapp
-   */
-  function checkIsSupportFacialRecognition(
-    option?: checkIsSupportFacialRecognition.Option
-  ): Promise<checkIsSupportFacialRecognition.CallbackResult>
 
   namespace startFacialRecognitionVerify {
     interface Option {
@@ -50,13 +45,6 @@ declare namespace Taro {
     }
   }
 
-  /** 开始人脸识别认证
-   * @supported weapp
-   */
-  function startFacialRecognitionVerify(
-    option?: startFacialRecognitionVerify.Option
-  ): Promise<startFacialRecognitionVerify.CallbackResult>
-
   namespace startFacialRecognitionVerifyAndUploadVideo {
     interface Option {
       /** 身份证名称 */
@@ -82,10 +70,26 @@ declare namespace Taro {
     }
   }
 
-  /** 开始人脸识别认证并上传认证视频
-   * @supported weapp
-   */
-  function startFacialRecognitionVerifyAndUploadVideo(
-    option?: startFacialRecognitionVerifyAndUploadVideo.Option
-  ): Promise<startFacialRecognitionVerifyAndUploadVideo.CallbackResult>
+  interface TaroStatic {
+    /** 检查是否支持面部识别
+     * @supported weapp
+     */
+    checkIsSupportFacialRecognition(
+      option?: checkIsSupportFacialRecognition.Option
+    ): Promise<checkIsSupportFacialRecognition.CallbackResult>
+
+    /** 开始人脸识别认证
+     * @supported weapp
+     */
+    startFacialRecognitionVerify(
+      option?: startFacialRecognitionVerify.Option
+    ): Promise<startFacialRecognitionVerify.CallbackResult>
+
+    /** 开始人脸识别认证并上传认证视频
+     * @supported weapp
+     */
+    startFacialRecognitionVerifyAndUploadVideo(
+      option?: startFacialRecognitionVerifyAndUploadVideo.Option
+    ): Promise<startFacialRecognitionVerifyAndUploadVideo.CallbackResult>
+  }
 }

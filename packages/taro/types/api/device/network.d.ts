@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace onNetworkStatusChange {
     /** 网络状态变化事件的回调函数 */
     type Callback = (
@@ -12,21 +14,6 @@ declare namespace Taro {
       networkType: keyof getNetworkType.networkType
     }
   }
-  /** 监听网络状态变化。
-   * @supported weapp, h5, rn
-   * @example
-   * ```tsx
-   * Taro.onNetworkStatusChange(function (res) {
-   *   console.log(res.isConnected)
-   *   console.log(res.networkType)
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.onNetworkStatusChange.html
-   */
-  function onNetworkStatusChange(
-    /** 网络状态变化事件的回调函数 */
-    callback: onNetworkStatusChange.Callback,
-  ): void
 
   namespace getNetworkType {
     interface Option {
@@ -60,28 +47,47 @@ declare namespace Taro {
       'none'
     }
   }
-  /** 获取网络类型。
-   * @supported weapp, h5, rn
-   * @example
-   * ```tsx
-   * Taro.getNetworkType({
-   *   success: function (res)) {
-   *     // 返回网络类型, 有效值：
-   *     // wifi/2g/3g/4g/unknown(Android下不常见的网络类型)/none(无网络)
-   *     var networkType = res.networkType
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.getNetworkType.html
-   */
-  function getNetworkType(option?: getNetworkType.Option): Promise<getNetworkType.SuccessCallbackResult>
 
-  /** 取消监听网络状态变化事件，参数为空，则取消所有的事件监听。
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.offNetworkStatusChange.html
-   */
-  function offNetworkStatusChange(
-    /** 取消监听网络状态变化事件，参数为空，则取消所有的事件监听 */
-    callback?: (...args: any[]) => any,
-  ): void
+  interface TaroStatic {
+    /** 监听网络状态变化。
+     * @supported weapp, h5, rn
+     * @example
+     * ```tsx
+     * Taro.onNetworkStatusChange(function (res) {
+     *   console.log(res.isConnected)
+     *   console.log(res.networkType)
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.onNetworkStatusChange.html
+     */
+    onNetworkStatusChange(
+      /** 网络状态变化事件的回调函数 */
+      callback: onNetworkStatusChange.Callback,
+    ): void
+
+    /** 获取网络类型。
+     * @supported weapp, h5, rn
+     * @example
+     * ```tsx
+     * Taro.getNetworkType({
+     *   success: function (res)) {
+     *     // 返回网络类型, 有效值：
+     *     // wifi/2g/3g/4g/unknown(Android下不常见的网络类型)/none(无网络)
+     *     var networkType = res.networkType
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.getNetworkType.html
+     */
+    getNetworkType(option?: getNetworkType.Option): Promise<getNetworkType.SuccessCallbackResult>
+
+    /** 取消监听网络状态变化事件，参数为空，则取消所有的事件监听。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.offNetworkStatusChange.html
+     */
+    offNetworkStatusChange(
+      /** 取消监听网络状态变化事件，参数为空，则取消所有的事件监听 */
+      callback?: (...args: any[]) => any,
+    ): void
+  }
 }

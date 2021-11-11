@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace stopBackgroundAudio {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -9,16 +11,6 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-  /**
-   * 停止播放音乐。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.stopBackgroundAudio()
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.stopBackgroundAudio.html
-   */
-  function stopBackgroundAudio(option?: stopBackgroundAudio.Option): void
 
   namespace seekBackgroundAudio {
     interface Option {
@@ -32,17 +24,6 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-  /** 控制音乐播放进度。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.seekBackgroundAudio({
-   *   position: 30
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.seekBackgroundAudio.html
-   */
-  function seekBackgroundAudio(option: seekBackgroundAudio.Option): Promise<General.CallbackResult>
 
   namespace playBackgroundAudio {
     interface Option {
@@ -60,19 +41,6 @@ declare namespace Taro {
       title?: string
     }
   }
-  /** 使用后台播放器播放音乐，对于微信客户端来说，只能同时有一个后台音乐在播放。当用户离开小程序后，音乐将暂停播放；当用户点击“显示在聊天顶部”时，音乐不会暂停播放；当用户在其他小程序占用了音乐播放器，原有小程序内的音乐将停止播放。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.playBackgroundAudio({
-   *   dataUrl: '',
-   *   title: '',
-   *   coverImgUrl: ''
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.playBackgroundAudio.html
-   */
-  function playBackgroundAudio(option: playBackgroundAudio.Option): Promise<General.CallbackResult>
 
   namespace pauseBackgroundAudio {
     interface Option {
@@ -84,46 +52,6 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-  /** 暂停播放音乐。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.pauseBackgroundAudio()
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.pauseBackgroundAudio.html
-   */
-  function pauseBackgroundAudio(option?: pauseBackgroundAudio.Option): void
-
-  /** 监听音乐停止。
-   *
-   * **bug & tip：**
-   *
-   * 1.  `bug`: `iOS` `6.3.30` Taro.seekBackgroundAudio 会有短暂延迟
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.onBackgroundAudioStop.html
-   */
-  function onBackgroundAudioStop(
-    /** 音乐停止事件的回调函数 */
-    callback: (res: General.CallbackResult) => void,
-  ): void
-
-  /** 监听音乐播放。
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.onBackgroundAudioPlay.html
-   */
-  function onBackgroundAudioPlay(
-    /** 音乐播放事件的回调函数 */
-    callback: (res: General.CallbackResult) => void,
-  ): void
-
-  /** 监听音乐暂停。
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.onBackgroundAudioPause.html
-   */
-  function onBackgroundAudioPause(
-    /** 音乐暂停事件的回调函数 */
-    callback: (res: General.CallbackResult) => void,
-  ): void
 
   namespace getBackgroundAudioPlayerState {
     interface Option {
@@ -157,42 +85,6 @@ declare namespace Taro {
       2
     }
   }
-  /** 获取后台音乐播放状态。
-   * **注意：1.2.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.getBackgroundAudioManager](https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.getBackgroundAudioManager.html) 接口**
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.getBackgroundAudioPlayerState({
-   *   success: function (res) {
-   *     var status = res.status
-   *     var dataUrl = res.dataUrl
-   *     var currentPosition = res.currentPosition
-   *     var duration = res.duration
-   *     var downloadPercent = res.downloadPercent
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.getBackgroundAudioPlayerState.html
-   */
-  function getBackgroundAudioPlayerState(option?: getBackgroundAudioPlayerState.Option): Promise<getBackgroundAudioPlayerState.SuccessCallbackResult>
-
-  /** 获取**全局唯一**的背景音频管理器。
-   * 小程序切入后台，如果音频处于播放状态，可以继续播放。但是后台状态不能通过调用API操纵音频的播放状态。
-   *
-   * 从微信客户端6.7.2版本开始，若需要在小程序切后台后继续播放音频，需要在 [app.json](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html) 中配置 `requiredBackgroundModes` 属性。开发版和体验版上可以直接生效，正式版还需通过审核。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * const backgroundAudioManager = Taro.getBackgroundAudioManager()
-   * backgroundAudioManager.title = '此时此刻'
-   * backgroundAudioManager.epname = '此时此刻'
-   * backgroundAudioManager.singer = '许巍'
-   * backgroundAudioManager.coverImgUrl = 'http://y.gtimg.cn/music/photo_new/T002R300x300M000003rsKF44GyaSk.jpg?max_age=2592000'
-   * backgroundAudioManager.src = 'http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46' // 设置了 src 之后会自动播放
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.getBackgroundAudioManager.html
-   */
-  function getBackgroundAudioManager(): BackgroundAudioManager
 
   /** BackgroundAudioManager 实例，可通过 [Taro.getBackgroundAudioManager](https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.getBackgroundAudioManager.html) 获取。
    * @example
@@ -272,5 +164,122 @@ declare namespace Taro {
     onSeeking(callback?: () => void): void
     /** 背景音频完成跳转操作事件 */
     onSeeked(callback?: () => void): void
+  }
+
+  interface TaroStatic {
+    /**
+     * 停止播放音乐。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.stopBackgroundAudio()
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.stopBackgroundAudio.html
+     */
+    stopBackgroundAudio(option?: stopBackgroundAudio.Option): void
+
+    /** 控制音乐播放进度。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.seekBackgroundAudio({
+     *   position: 30
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.seekBackgroundAudio.html
+     */
+    seekBackgroundAudio(option: seekBackgroundAudio.Option): Promise<General.CallbackResult>
+
+    /** 使用后台播放器播放音乐，对于微信客户端来说，只能同时有一个后台音乐在播放。当用户离开小程序后，音乐将暂停播放；当用户点击“显示在聊天顶部”时，音乐不会暂停播放；当用户在其他小程序占用了音乐播放器，原有小程序内的音乐将停止播放。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.playBackgroundAudio({
+     *   dataUrl: '',
+     *   title: '',
+     *   coverImgUrl: ''
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.playBackgroundAudio.html
+     */
+    playBackgroundAudio(option: playBackgroundAudio.Option): Promise<General.CallbackResult>
+
+    /** 暂停播放音乐。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.pauseBackgroundAudio()
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.pauseBackgroundAudio.html
+     */
+    pauseBackgroundAudio(option?: pauseBackgroundAudio.Option): void
+
+    /** 监听音乐停止。
+     *
+     * **bug & tip：**
+     *
+     * 1.  `bug`: `iOS` `6.3.30` Taro.seekBackgroundAudio 会有短暂延迟
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.onBackgroundAudioStop.html
+     */
+    onBackgroundAudioStop(
+      /** 音乐停止事件的回调函数 */
+      callback: (res: General.CallbackResult) => void,
+    ): void
+
+    /** 监听音乐播放。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.onBackgroundAudioPlay.html
+     */
+    onBackgroundAudioPlay(
+      /** 音乐播放事件的回调函数 */
+      callback: (res: General.CallbackResult) => void,
+    ): void
+
+    /** 监听音乐暂停。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.onBackgroundAudioPause.html
+     */
+    onBackgroundAudioPause(
+      /** 音乐暂停事件的回调函数 */
+      callback: (res: General.CallbackResult) => void,
+    ): void
+
+    /** 获取后台音乐播放状态。
+     * **注意：1.2.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.getBackgroundAudioManager](https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.getBackgroundAudioManager.html) 接口**
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.getBackgroundAudioPlayerState({
+     *   success: function (res) {
+     *     var status = res.status
+     *     var dataUrl = res.dataUrl
+     *     var currentPosition = res.currentPosition
+     *     var duration = res.duration
+     *     var downloadPercent = res.downloadPercent
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.getBackgroundAudioPlayerState.html
+     */
+    getBackgroundAudioPlayerState(option?: getBackgroundAudioPlayerState.Option): Promise<getBackgroundAudioPlayerState.SuccessCallbackResult>
+
+    /** 获取**全局唯一**的背景音频管理器。
+     * 小程序切入后台，如果音频处于播放状态，可以继续播放。但是后台状态不能通过调用API操纵音频的播放状态。
+     *
+     * 从微信客户端6.7.2版本开始，若需要在小程序切后台后继续播放音频，需要在 [app.json](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html) 中配置 `requiredBackgroundModes` 属性。开发版和体验版上可以直接生效，正式版还需通过审核。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * const backgroundAudioManager = Taro.getBackgroundAudioManager()
+     * backgroundAudioManager.title = '此时此刻'
+     * backgroundAudioManager.epname = '此时此刻'
+     * backgroundAudioManager.singer = '许巍'
+     * backgroundAudioManager.coverImgUrl = 'http://y.gtimg.cn/music/photo_new/T002R300x300M000003rsKF44GyaSk.jpg?max_age=2592000'
+     * backgroundAudioManager.src = 'http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46' // 设置了 src 之后会自动播放
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.getBackgroundAudioManager.html
+     */
+    getBackgroundAudioManager(): BackgroundAudioManager
   }
 }

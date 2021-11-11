@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace saveVideoToPhotosAlbum {
     interface Option {
       /** 视频文件路径，可以是临时文件路径也可以是永久文件路径 */
@@ -11,57 +13,6 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-  /**
-   * 保存视频到系统相册。支持mp4视频格式。需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.writePhotosAlbum
-   *
-   * **Bug & Tip：**
-   *
-   * 1.  `tip`: camera 参数在部分 Android 手机下由于系统 ROM 不支持无法生效
-   * @supported weapp, rn
-   * @example
-   ```tsx
-   * Taro.saveVideoToPhotosAlbum({
-   *   filePath: 'wxfile://xxx'
-   *   success: function (res) {
-   *     console.log(res.errMsg)
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.saveVideoToPhotosAlbum.html
-   */
-  function saveVideoToPhotosAlbum(option: saveVideoToPhotosAlbum.Option): Promise<General.CallbackResult>
-
-  /** 创建 video 上下文 VideoContext 对象。
-   * @supported weapp, h5
-   * @example
-   * ```tsx
-   * videoContext = Taro.createVideoContext('myVideo')
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.createVideoContext.html
-   */
-  function createVideoContext(
-    /** video 组件的 id */
-    id: string,
-    /** 在自定义组件下，当前组件实例的this，以操作组件内 video 组件 */
-    component?: General.IAnyObject,
-  ): VideoContext
-
-  /** 拍摄视频或从手机相册中选视频。
-   * @supported weapp, rn
-   * @example
-   * ```tsx
-   * Taro.chooseVideo({
-   *   sourceType: ['album','camera'],
-   *   maxDuration: 60,
-   *   camera: 'back',
-   *   success: function (res) {
-   *     console.log(res.tempFilePath)
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.chooseVideo.html
-   */
-  function chooseVideo(option: chooseVideo.Option): Promise<void>
 
   namespace chooseVideo {
     interface Option {
@@ -187,5 +138,59 @@ declare namespace Taro {
       /** 弹幕颜色 */
       color?: string
     }
+  }
+
+  interface TaroStatic {
+    /**
+     * 保存视频到系统相册。支持mp4视频格式。需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.writePhotosAlbum
+     *
+     * **Bug & Tip：**
+     *
+     * 1.  `tip`: camera 参数在部分 Android 手机下由于系统 ROM 不支持无法生效
+     * @supported weapp, rn
+     * @example
+     ```tsx
+     * Taro.saveVideoToPhotosAlbum({
+     *   filePath: 'wxfile://xxx'
+     *   success: function (res) {
+     *     console.log(res.errMsg)
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.saveVideoToPhotosAlbum.html
+     */
+    saveVideoToPhotosAlbum(option: saveVideoToPhotosAlbum.Option): Promise<General.CallbackResult>
+
+    /** 创建 video 上下文 VideoContext 对象。
+     * @supported weapp, h5
+     * @example
+     * ```tsx
+     * videoContext = Taro.createVideoContext('myVideo')
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.createVideoContext.html
+     */
+    createVideoContext(
+      /** video 组件的 id */
+      id: string,
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 video 组件 */
+      component?: General.IAnyObject,
+    ): VideoContext
+
+    /** 拍摄视频或从手机相册中选视频。
+     * @supported weapp, rn
+     * @example
+     * ```tsx
+     * Taro.chooseVideo({
+     *   sourceType: ['album','camera'],
+     *   maxDuration: 60,
+     *   camera: 'back',
+     *   success: function (res) {
+     *     console.log(res.tempFilePath)
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.chooseVideo.html
+     */
+    chooseVideo(option: chooseVideo.Option): Promise<void>
   }
 }

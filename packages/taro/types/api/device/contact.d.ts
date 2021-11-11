@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace addPhoneContact {
     interface Option {
       /** 名字 */
@@ -74,9 +76,11 @@ declare namespace Taro {
     }
   }
 
-  /** 添加手机通讯录联系人。用户可以选择将该表单以「新增联系人」或「添加到已有联系人」的方式，写入手机系统通讯录。
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/contact/wx.addPhoneContact.html
-   */
-  function addPhoneContact(option: addPhoneContact.Option): Promise<General.CallbackResult>
+  interface TaroStatic {
+    /** 添加手机通讯录联系人。用户可以选择将该表单以「新增联系人」或「添加到已有联系人」的方式，写入手机系统通讯录。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/contact/wx.addPhoneContact.html
+     */
+    addPhoneContact(option: addPhoneContact.Option): Promise<General.CallbackResult>
+  }
 }

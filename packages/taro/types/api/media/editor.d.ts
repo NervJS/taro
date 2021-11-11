@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   /** `EditorContext` 实例，可通过 `Taro.createSelectorQuery` 获取。
    * `EditorContext` 通过 `id` 跟一个 `editor` 组件绑定，操作对应的 `editor` 组件。
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.html

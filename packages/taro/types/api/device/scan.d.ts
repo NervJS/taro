@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace scanCode {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -79,26 +81,29 @@ declare namespace Taro {
       CODE_25
     }
   }
-  /**
-   * 调起客户端扫码界面，扫码成功后返回对应的结果
-   * @supported weapp, h5
-   * @example
-   * ```tsx
-   * // 允许从相机和相册扫码
-   * Taro.scanCode({
-   *   success: (res) => {
-   *     console.log(res)
-   *   }
-   * })
-   *       // 只允许从相机扫码
-   * Taro.scanCode({
-   *   onlyFromCamera: true,
-   *   success: (res) => {
-   *     console.log(res)
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/scan/wx.scanCode.html
-   */
-  function scanCode(option: scanCode.Option): Promise<scanCode.SuccessCallbackResult>
+
+  interface TaroStatic {
+    /**
+     * 调起客户端扫码界面，扫码成功后返回对应的结果
+     * @supported weapp, h5
+     * @example
+     * ```tsx
+     * // 允许从相机和相册扫码
+     * Taro.scanCode({
+     *   success: (res) => {
+     *     console.log(res)
+     *   }
+     * })
+     *       // 只允许从相机扫码
+     * Taro.scanCode({
+     *   onlyFromCamera: true,
+     *   success: (res) => {
+     *     console.log(res)
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/scan/wx.scanCode.html
+     */
+    scanCode(option: scanCode.Option): Promise<scanCode.SuccessCallbackResult>
+  }
 }

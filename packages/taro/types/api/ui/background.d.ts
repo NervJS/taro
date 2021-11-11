@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace setBackgroundTextStyle {
     interface Option {
       /** 下拉背景字体、loading 图的样式。
@@ -15,18 +17,6 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-
-  /** 动态设置下拉背景字体、loading 图的样式
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.setBackgroundTextStyle({
-   *   textStyle: 'dark' // 下拉背景字体、loading 图的样式为dark
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/background/wx.setBackgroundTextStyle.html
-   */
-  function setBackgroundTextStyle(option: setBackgroundTextStyle.Option): Promise<General.CallbackResult>
 
   namespace setBackgroundColor {
     interface Option {
@@ -45,19 +35,33 @@ declare namespace Taro {
     }
   }
 
-  /** 动态设置窗口的背景色
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.setBackgroundColor({
-   *   backgroundColor: '#ffffff', // 窗口的背景色为白色
-   * })
-   * Taro.setBackgroundColor({
-   *   backgroundColorTop: '#ffffff', // 顶部窗口的背景色为白色
-   *   backgroundColorBottom: '#ffffff', // 底部窗口的背景色为白色
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/background/wx.setBackgroundColor.html
-   */
-  function setBackgroundColor(option: setBackgroundColor.Option): Promise<General.CallbackResult>
+  interface TaroStatic {
+    /** 动态设置下拉背景字体、loading 图的样式
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.setBackgroundTextStyle({
+     *   textStyle: 'dark' // 下拉背景字体、loading 图的样式为dark
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/background/wx.setBackgroundTextStyle.html
+     */
+    setBackgroundTextStyle(option: setBackgroundTextStyle.Option): Promise<General.CallbackResult>
+
+    /** 动态设置窗口的背景色
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.setBackgroundColor({
+     *   backgroundColor: '#ffffff', // 窗口的背景色为白色
+     * })
+     * Taro.setBackgroundColor({
+     *   backgroundColorTop: '#ffffff', // 顶部窗口的背景色为白色
+     *   backgroundColorBottom: '#ffffff', // 底部窗口的背景色为白色
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/background/wx.setBackgroundColor.html
+     */
+    setBackgroundColor(option: setBackgroundColor.Option): Promise<General.CallbackResult>
+  }
 }

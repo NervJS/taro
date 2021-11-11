@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from './index'
+
+declare module './index' {
   /**
    * 微信小程序全局 Window 配置和页面配置的公共项目
    */
@@ -106,7 +108,7 @@ declare namespace Taro {
     allowsBounceVertical?: 'YES' | 'NO'
   }
 
-  interface TarbarList {
+  interface TarBarList {
     /**
      * 页面路径，必须在 pages 中先定义
      */
@@ -155,7 +157,7 @@ declare namespace Taro {
      */
     custom?: boolean
 
-    list: TarbarList[]
+    list: TarBarList[]
   }
 
   interface NetworkTimeout {
@@ -339,4 +341,20 @@ declare namespace Taro {
     cloud?: boolean
     pageOrientation?: 'auto' | 'portrait' | 'landscape'
   }
+
+  interface TaroStatic {
+    CommonPageConfig: CommonPageConfig
+    PageConfig: PageConfig
+    WindowConfig: WindowConfig
+    TarBarList: TarBarList
+    TabBar: TabBar
+    NetworkTimeout: NetworkTimeout
+    SubPackage: SubPackage
+    Plugins: Plugins
+    PreloadRule: PreloadRule
+    Permission: Permission
+    AppConfig: AppConfig
+    Config: Config
+  }
 }
+

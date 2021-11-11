@@ -1,20 +1,6 @@
-declare namespace Taro {
-  /**
-   * 创建 [map](https://developers.weixin.qq.com/miniprogram/dev/component/map.html) 上下文 [MapContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.html) 对象。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * const mapCtx = Taro.createMapContext('myMap')
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/wx.createMapContext.html
-   */
-  function createMapContext(
-    /** Map 组件的 id */
-    mapId: string,
-    /** 在自定义组件下，当前组件实例的this，以操作组件内 Map 组件 */
-    component?: General.IAnyObject,
-  ): MapContext
+import Taro from '../../index'
 
+declare module '../../index' {
   /** `MapContext` 实例，可通过 Taro.createMapContext 获取。
    * `MapContext` 通过 id 跟一个 map 组件绑定，操作对应的 map 组件。
    */
@@ -210,5 +196,23 @@ declare namespace Taro {
       /** 经度 */
       longitude: number
     }
+  }
+
+  interface TaroStatic {
+    /**
+     * 创建 [map](https://developers.weixin.qq.com/miniprogram/dev/component/map.html) 上下文 [MapContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.html) 对象。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * const mapCtx = Taro.createMapContext('myMap')
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/wx.createMapContext.html
+     */
+    createMapContext(
+      /** Map 组件的 id */
+      mapId: string,
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 Map 组件 */
+      component?: General.IAnyObject,
+    ): MapContext
   }
 }

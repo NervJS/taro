@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace setEnableDebug {
     type Option = {
       /** 是否打开调试 */
@@ -15,23 +17,6 @@ declare namespace Taro {
       errMsg: string
     }
   }
-  /**
-   * 设置是否打开调试开关，此开关对正式版也能生效。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * // 打开调试
-   * Taro.setEnableDebug({
-   *     enableDebug: true
-   * })
-   * // 关闭调试
-   * Taro.setEnableDebug({
-   *     enableDebug: false
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/wx.setEnableDebug.html
-   */
-  function setEnableDebug(res: setEnableDebug.Option): Promise<setEnableDebug.Promised>
 
   namespace getLogManager {
     type Option = {
@@ -48,31 +33,16 @@ declare namespace Taro {
       1
     }
   }
-  /**
-   * 获取日志管理器对象。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * const logger = Taro.getLogManager({level: 1})
-   * 
-   * logger.log({str: 'hello world'}, 'basic log', 100, [1, 2, 3])
-   * logger.info({str: 'hello world'}, 'info log', 100, [1, 2, 3])
-   * logger.debug({str: 'hello world'}, 'debug log', 100, [1, 2, 3])
-   * logger.warn({str: 'hello world'}, 'warn log', 100, [1, 2, 3])
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/wx.getLogManager.html
-   */
-  function getLogManager(res?: getLogManager.Option): LogManager
 
   /**
    * 日志管理器实例，可以通过 Taro.getLogManager 获取。
-   * 
+   *
    * 使用说明
    * 最多保存5M的日志内容，超过5M后，旧的日志内容会被删除。
    * 对于小程序，用户可以通过使用 button 组件的 open-type="feedback" 来上传打印的日志。
    * 对于小游戏，用户可以通过使用 Taro.createFeedbackButton 来创建上传打印的日志的按钮。
    * 开发者可以通过小程序管理后台左侧菜单“反馈管理”页面查看相关打印日志。
-   * 
+   *
    * 基础库默认会把 App、Page 的生命周期函数和 wx 命名空间下的函数调用写入日志。
    */
   interface LogManager {
@@ -108,24 +78,11 @@ declare namespace Taro {
       /** 日志内容，可以有任意多个。每次调用的参数的总大小不超过100Kb */
       ...args: any[]
     ): void
-}
-
-  /**
-   * 获取实时日志管理器对象。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * const logger = Taro.getRealtimeLogManager()
-   * logger.info({str: 'hello world'}, 'info log', 100, [1, 2, 3])
-   * logger.error({str: 'hello world'}, 'error log', 100, [1, 2, 3])
-   * logger.warn({str: 'hello world'}, 'warn log', 100, [1, 2, 3])
-   * ```
-   */
-  function getRealtimeLogManager(): RealtimeLogManager
+  }
 
   /**
    * 实时日志管理器实例，可以通过 Taro.getRealtimeLogManager 获取。
-   * 
+   *
    * 使用说明
    * 为帮助小程序开发者快捷地排查小程序漏洞、定位问题，我们推出了实时日志功能。从基础库2.7.1开始，开发者可通过提供的接口打印日志，日志汇聚并实时上报到小程序后台。
    * 开发者可从小程序管理后台“开发->运维中心->实时日志”进入日志查询页面，查看开发者打印的日志信息。
@@ -180,5 +137,54 @@ declare namespace Taro {
       /** 日志内容，可以有任意多个。每次调用的参数的总大小不超过5Kb */
       ...args: any[]
     ): void
+  }
+
+  interface TaroStatic {
+    /**
+     * 设置是否打开调试开关，此开关对正式版也能生效。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * // 打开调试
+     * Taro.setEnableDebug({
+     *     enableDebug: true
+     * })
+     * // 关闭调试
+     * Taro.setEnableDebug({
+     *     enableDebug: false
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/wx.setEnableDebug.html
+     */
+    setEnableDebug(res: setEnableDebug.Option): Promise<setEnableDebug.Promised>
+
+    /**
+     * 获取日志管理器对象。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * const logger = Taro.getLogManager({level: 1})
+     *
+     * logger.log({str: 'hello world'}, 'basic log', 100, [1, 2, 3])
+     * logger.info({str: 'hello world'}, 'info log', 100, [1, 2, 3])
+     * logger.debug({str: 'hello world'}, 'debug log', 100, [1, 2, 3])
+     * logger.warn({str: 'hello world'}, 'warn log', 100, [1, 2, 3])
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/wx.getLogManager.html
+     */
+    getLogManager(res?: getLogManager.Option): LogManager
+
+    /**
+     * 获取实时日志管理器对象。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * const logger = Taro.getRealtimeLogManager()
+     * logger.info({str: 'hello world'}, 'info log', 100, [1, 2, 3])
+     * logger.error({str: 'hello world'}, 'error log', 100, [1, 2, 3])
+     * logger.warn({str: 'hello world'}, 'warn log', 100, [1, 2, 3])
+     * ```
+     */
+    getRealtimeLogManager(): RealtimeLogManager
   }
 }

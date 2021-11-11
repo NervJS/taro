@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace openCard {
     interface Option {
       /** 需要打开的卡券列表 */
@@ -19,25 +21,6 @@ declare namespace Taro {
       code: string
     }
   }
-
-  /** 查看微信卡包中的卡券。只有通过 [认证](https://developers.weixin.qq.com/miniprogram/product/renzheng.html) 的小程序或文化互动类目的小游戏才能使用。更多文档请参考 [微信卡券接口文档](https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&key=1490190158&version=1&lang=zh_CN&platform=2)。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.openCard({
-   *   cardList: [{
-   *     cardId: '',
-   *     code: ''
-   *   }, {
-   *     cardId: '',
-   *     code: ''
-   *   }],
-   *   success: function (res) { }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/card/wx.openCard.html
-   */
-  function openCard(option: openCard.Option): Promise<General.CallbackResult>
 
   namespace addCard {
     interface Option {
@@ -78,29 +61,50 @@ declare namespace Taro {
     }
   }
 
-  /** 批量添加卡券。只有通过 [认证](https://developers.weixin.qq.com/miniprogram/product/renzheng.html) 的小程序或文化互动类目的小游戏才能使用。更多文档请参考 [微信卡券接口文档](https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&key=1490190158&version=1&lang=zh_CN&platform=2)。
-   *
-   * **cardExt 说明**
-   * cardExt 是卡券的扩展参数，其值是一个 JSON 字符串。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.addCard({
-   *   cardList: [
-   *     {
-   *       cardId: '',
-   *       cardExt: '{"code": "", "openid": "", "timestamp": "", "signature":""}'
-   *     }, {
-   *       cardId: '',
-   *       cardExt: '{"code": "", "openid": "", "timestamp": "", "signature":""}'
-   *     }
-   *   ],
-   *   success: function (res) {
-   *     console.log(res.cardList) // 卡券添加结果
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/card/wx.addCard.html
-   */
-  function addCard(option: addCard.Option): Promise<addCard.SuccessCallbackResult>
+  interface TaroStatic {
+    /** 查看微信卡包中的卡券。只有通过 [认证](https://developers.weixin.qq.com/miniprogram/product/renzheng.html) 的小程序或文化互动类目的小游戏才能使用。更多文档请参考 [微信卡券接口文档](https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&key=1490190158&version=1&lang=zh_CN&platform=2)。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.openCard({
+     *   cardList: [{
+     *     cardId: '',
+     *     code: ''
+     *   }, {
+     *     cardId: '',
+     *     code: ''
+     *   }],
+     *   success: function (res) { }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/card/wx.openCard.html
+     */
+    openCard(option: openCard.Option): Promise<General.CallbackResult>
+
+    /** 批量添加卡券。只有通过 [认证](https://developers.weixin.qq.com/miniprogram/product/renzheng.html) 的小程序或文化互动类目的小游戏才能使用。更多文档请参考 [微信卡券接口文档](https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&key=1490190158&version=1&lang=zh_CN&platform=2)。
+     *
+     * **cardExt 说明**
+     * cardExt 是卡券的扩展参数，其值是一个 JSON 字符串。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.addCard({
+     *   cardList: [
+     *     {
+     *       cardId: '',
+     *       cardExt: '{"code": "", "openid": "", "timestamp": "", "signature":""}'
+     *     }, {
+     *       cardId: '',
+     *       cardExt: '{"code": "", "openid": "", "timestamp": "", "signature":""}'
+     *     }
+     *   ],
+     *   success: function (res) {
+     *     console.log(res.cardList) // 卡券添加结果
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/card/wx.addCard.html
+     */
+    addCard(option: addCard.Option): Promise<addCard.SuccessCallbackResult>
+  }
 }

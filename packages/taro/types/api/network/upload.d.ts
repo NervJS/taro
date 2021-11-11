@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace uploadFile {
     interface Option {
       /** 开发者服务器地址 */
@@ -67,53 +69,6 @@ declare namespace Taro {
     }
   }
 
-  /** 将本地资源上传到服务器。客户端发起一个 HTTPS POST 请求，其中 `content-type` 为 `multipart/form-data`。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)。
-   * @supported weapp, swan, alipay, h5
-   * @example
-   * ```tsx
-   * Taro.chooseImage({
-   *   success (res) {
-   *     const tempFilePaths = res.tempFilePaths
-   *     Taro.uploadFile({
-   *       url: 'https://example.weixin.qq.com/upload', //仅为示例，非真实的接口地址
-   *       filePath: tempFilePaths[0],
-   *       name: 'file',
-   *       formData: {
-   *         'user': 'test'
-   *       },
-   *       success (res){
-   *         const data = res.data
-   *         //do something
-   *       }
-   *     })
-   *   }
-   * })
-   * ```
-   * @example
-   * ```tsx
-   * const uploadTask = Taro.uploadFile({
-   *   url: 'http://example.weixin.qq.com/upload', //仅为示例，非真实的接口地址
-   *   filePath: tempFilePaths[0],
-   *   name: 'file',
-   *   formData:{
-   *     'user': 'test'
-   *   },
-   *   success: function (res){
-   *     var data = res.data
-   *     //do something
-   *   }
-   * })
-   * uploadTask.progress((res) => {
-   *   console.log('上传进度', res.progress)
-   *   console.log('已经上传的数据长度', res.totalBytesSent)
-   *   console.log('预期需要上传的数据总长度', res.totalBytesExpectedToSend)
-   * })
-   * uploadTask.abort() // 取消上传任务
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/wx.uploadFile.html
-   */
-  function uploadFile(option: uploadFile.Option): Promise<uploadFile.SuccessCallbackResult & UploadTask> & UploadTask
-
   /** 一个可以监听上传进度变化事件，以及取消上传任务的对象
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.html
    */
@@ -163,5 +118,54 @@ declare namespace Taro {
       /** 上传进度变化事件的回调函数 */
       callback: UploadTask.OnProgressUpdateCallback,
     ): void
+  }
+
+  interface TaroStatic {
+    /** 将本地资源上传到服务器。客户端发起一个 HTTPS POST 请求，其中 `content-type` 为 `multipart/form-data`。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)。
+     * @supported weapp, swan, alipay, h5
+     * @example
+     * ```tsx
+     * Taro.chooseImage({
+     *   success (res) {
+     *     const tempFilePaths = res.tempFilePaths
+     *     Taro.uploadFile({
+     *       url: 'https://example.weixin.qq.com/upload', //仅为示例，非真实的接口地址
+     *       filePath: tempFilePaths[0],
+     *       name: 'file',
+     *       formData: {
+     *         'user': 'test'
+     *       },
+     *       success (res){
+     *         const data = res.data
+     *         //do something
+     *       }
+     *     })
+     *   }
+     * })
+     * ```
+     * @example
+     * ```tsx
+     * const uploadTask = Taro.uploadFile({
+     *   url: 'http://example.weixin.qq.com/upload', //仅为示例，非真实的接口地址
+     *   filePath: tempFilePaths[0],
+     *   name: 'file',
+     *   formData:{
+     *     'user': 'test'
+     *   },
+     *   success: function (res){
+     *     var data = res.data
+     *     //do something
+     *   }
+     * })
+     * uploadTask.progress((res) => {
+     *   console.log('上传进度', res.progress)
+     *   console.log('已经上传的数据长度', res.totalBytesSent)
+     *   console.log('预期需要上传的数据总长度', res.totalBytesExpectedToSend)
+     * })
+     * uploadTask.abort() // 取消上传任务
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/wx.uploadFile.html
+     */
+    uploadFile(option: uploadFile.Option): Promise<uploadFile.SuccessCallbackResult & UploadTask> & UploadTask
   }
 }

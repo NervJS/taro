@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace stopBeaconDiscovery {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -7,18 +9,8 @@ declare namespace Taro {
       fail?: (res: General.IBeaconError) => void
       /** 接口调用成功的回调函数 */
       success?: (res: General.IBeaconError) => void
+    }
   }
-  }
-
-  /** 停止搜索附近的 iBeacon 设备
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.stopBeaconDiscovery(params).then(...)
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.stopBeaconDiscovery.html
-   */
-  function stopBeaconDiscovery(option?: stopBeaconDiscovery.Option): Promise<General.CallbackResult>
 
   namespace startBeaconDiscovery {
     interface Option {
@@ -35,18 +27,6 @@ declare namespace Taro {
     }
   }
 
-  /** 开始搜索附近的 iBeacon 设备
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.startBeaconDiscovery({
-   *   success: function (res) { }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.startBeaconDiscovery.html
-   */
-  function startBeaconDiscovery(option: startBeaconDiscovery.Option): Promise<General.CallbackResult>
-
   namespace onBeaconUpdate {
     /** iBeacon 设备更新事件的回调函数 */
     type Callback = (result: CallbackResult) => void
@@ -56,14 +36,6 @@ declare namespace Taro {
       beacons: IBeaconInfo[]
     }
   }
-  /** 监听 iBeacon 设备更新事件，仅能注册一个监听
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.onBeaconUpdate.html
-   */
-  function onBeaconUpdate(
-    /** iBeacon 设备更新事件的回调函数 */
-    callback: onBeaconUpdate.Callback,
-  ): void
 
   namespace onBeaconServiceChange {
     /** iBeacon 服务状态变化事件的回调函数 */
@@ -78,15 +50,6 @@ declare namespace Taro {
       discovering: boolean
     }
   }
-
-  /** 监听 iBeacon 服务状态变化事件，仅能注册一个监听
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.onBeaconServiceChange.html
-   */
-  function onBeaconServiceChange(
-    /** iBeacon 服务状态变化事件的回调函数 */
-    callback: onBeaconServiceChange.Callback,
-  ): void
 
   namespace getBeacons {
     interface Option {
@@ -106,29 +69,6 @@ declare namespace Taro {
     }
   }
 
-  /** 获取所有已搜索到的 iBeacon 设备
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.getBeacons.html
-   */
-  function getBeacons(option?: getBeacons.Option): Promise<getBeacons.CallbackResult>
-
-  /** 取消监听 iBeacon 设备更新事件
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.offBeaconUpdate.html
-   */
-  function offBeaconUpdate(
-    /** iBeacon 设备更新事件的回调函数 */
-    callback: (res: General.CallbackResult) => void,
-  ): void
-
-  /** 取消监听 iBeacon 服务状态变化事件
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.offBeaconServiceChange.html
-   */
-  function offBeaconServiceChange(
-    /** iBeacon 服务状态变化事件的回调函数 */
-    callback: (res: General.CallbackResult) => void,
-  ): void
   interface IBeaconInfo {
     /** iBeacon 设备的距离 */
     accuracy: number
@@ -142,5 +82,71 @@ declare namespace Taro {
     rssi: number
     /** iBeacon 设备广播的 uuid */
     uuid: string
+  }
+
+  interface TaroStatic {
+    /** 停止搜索附近的 iBeacon 设备
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.stopBeaconDiscovery(params).then(...)
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.stopBeaconDiscovery.html
+     */
+    stopBeaconDiscovery(option?: stopBeaconDiscovery.Option): Promise<General.CallbackResult>
+
+    /** 开始搜索附近的 iBeacon 设备
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.startBeaconDiscovery({
+     *   success: function (res) { }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.startBeaconDiscovery.html
+     */
+    startBeaconDiscovery(option: startBeaconDiscovery.Option): Promise<General.CallbackResult>
+
+    /** 监听 iBeacon 设备更新事件，仅能注册一个监听
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.onBeaconUpdate.html
+     */
+    onBeaconUpdate(
+      /** iBeacon 设备更新事件的回调函数 */
+      callback: onBeaconUpdate.Callback,
+    ): void
+
+    /** 监听 iBeacon 服务状态变化事件，仅能注册一个监听
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.onBeaconServiceChange.html
+     */
+    onBeaconServiceChange(
+      /** iBeacon 服务状态变化事件的回调函数 */
+      callback: onBeaconServiceChange.Callback,
+    ): void
+
+    /** 获取所有已搜索到的 iBeacon 设备
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.getBeacons.html
+     */
+    getBeacons(option?: getBeacons.Option): Promise<getBeacons.CallbackResult>
+
+    /** 取消监听 iBeacon 设备更新事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.offBeaconUpdate.html
+     */
+    offBeaconUpdate(
+      /** iBeacon 设备更新事件的回调函数 */
+      callback: (res: General.CallbackResult) => void,
+    ): void
+
+    /** 取消监听 iBeacon 服务状态变化事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.offBeaconServiceChange.html
+     */
+    offBeaconServiceChange(
+      /** iBeacon 服务状态变化事件的回调函数 */
+      callback: (res: General.CallbackResult) => void,
+    ): void
   }
 }

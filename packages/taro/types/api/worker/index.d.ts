@@ -1,24 +1,6 @@
-declare namespace Taro {
-  /** 创建一个 Worker 线程。目前限制最多只能创建一个 Worker，创建下一个 Worker 前请先调用 [Worker.terminate](https://developers.weixin.qq.com/miniprogram/dev/api/worker/Worker.terminate.html)
-   * @supported weapp
-   * @example
-   * ```tsx
-   * const worker = Taro.createWorker('workers/request/index.js') // 文件名指定 worker 的入口文件路径，绝对路径
-   *   worker.onMessage(function (res) {
-   *   console.log(res)
-   * })
-   * worker.postMessage({
-   *   msg: 'hello worker'
-   * })
-   * worker.terminate()
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/worker/wx.createWorker.html
-   */
-  function createWorker(
-    /** worker 入口文件的**绝对路径** */
-    scriptPath: string,
-  ): Worker
+import Taro from '../../index'
 
+declare module '../../index' {
   namespace Worker {
     type OnMessageCallback = (
       result: OnMessageCallbackResult,
@@ -41,7 +23,7 @@ declare namespace Taro {
      * @supported weapp
      * @example
      * worker 线程中
-     * 
+     *
      * ```tsx
      * worker.postMessage({
      *   msg: 'hello from worker'
@@ -49,7 +31,7 @@ declare namespace Taro {
      * ```
      *
      * 主线程中
-     * 
+     *
      * ```tsx
      * const worker = Taro.createWorker('workers/request/index.js')
      * worker.postMessage({
@@ -67,5 +49,27 @@ declare namespace Taro {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/worker/Worker.terminate.html
      */
     terminate(): void
+  }
+
+  interface TaroStatic {
+    /** 创建一个 Worker 线程。目前限制最多只能创建一个 Worker，创建下一个 Worker 前请先调用 [Worker.terminate](https://developers.weixin.qq.com/miniprogram/dev/api/worker/Worker.terminate.html)
+     * @supported weapp
+     * @example
+     * ```tsx
+     * const worker = Taro.createWorker('workers/request/index.js') // 文件名指定 worker 的入口文件路径，绝对路径
+     *   worker.onMessage(function (res) {
+     *   console.log(res)
+     * })
+     * worker.postMessage({
+     *   msg: 'hello worker'
+     * })
+     * worker.terminate()
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/worker/wx.createWorker.html
+     */
+    createWorker(
+      /** worker 入口文件的**绝对路径** */
+      scriptPath: string,
+    ): Worker
   }
 }

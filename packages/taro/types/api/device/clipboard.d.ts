@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace setClipboardData {
     interface Promised extends General.CallbackResult {
       /** 调用信息 */
@@ -17,26 +19,6 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-
-  /** 设置系统剪贴板的内容。调用成功后，会弹出 toast 提示"内容已复制"，持续 1.5s
-   * @supported weapp, h5, rn
-   * @h5 部分实现
-   * @example
-   * ```tsx
-   * Taro.setClipboardData({
-   *   data: 'data',
-   *   success: function (res) {
-   *     Taro.getClipboardData({
-   *       success: function (res) {
-   *         console.log(res.data) // data
-   *       }
-   *     })
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/clipboard/wx.setClipboardData.html
-   */
- function setClipboardData(option: setClipboardData.Option): Promise<setClipboardData.Promised>
 
   namespace getClipboardData {
     interface Promised extends General.CallbackResult {
@@ -58,19 +40,42 @@ declare namespace Taro {
       data: string
     }
   }
-  /**
-   * 获取系统剪贴板内容
-   * @supported weapp, h5, rn
-   * @h5 部分实现
-   * @example
-   * ```tsx
-   * Taro.getClipboardData({
-   *   success: function (res){
-   *     console.log(res.data)
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/clipboard/wx.getClipboardData.html
-   */
-  function getClipboardData(res?: getClipboardData.Option): Promise<getClipboardData.Promised>
+
+  interface TaroStatic {
+    /** 设置系统剪贴板的内容。调用成功后，会弹出 toast 提示"内容已复制"，持续 1.5s
+     * @supported weapp, h5, rn
+     * @h5 部分实现
+     * @example
+     * ```tsx
+     * Taro.setClipboardData({
+     *   data: 'data',
+     *   success: function (res) {
+     *     Taro.getClipboardData({
+     *       success: function (res) {
+     *         console.log(res.data) // data
+     *       }
+     *     })
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/clipboard/wx.setClipboardData.html
+     */
+   setClipboardData(option: setClipboardData.Option): Promise<setClipboardData.Promised>
+
+   /**
+    * 获取系统剪贴板内容
+    * @supported weapp, h5, rn
+    * @h5 部分实现
+    * @example
+    * ```tsx
+    * Taro.getClipboardData({
+    *   success: function (res){
+    *     console.log(res.data)
+    *   }
+    * })
+    * ```
+    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/clipboard/wx.getClipboardData.html
+    */
+   getClipboardData(res?: getClipboardData.Option): Promise<getClipboardData.Promised>
+  }
 }

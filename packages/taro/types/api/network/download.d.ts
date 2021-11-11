@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace downloadFile {
     interface Option {
       /** 下载资源的 url */
@@ -26,28 +28,6 @@ declare namespace Taro {
       errMsg: string
     }
   }
-
-  /** 下载文件资源到本地。客户端直接发起一个 HTTPS GET 请求，返回文件的本地临时路径，单次下载允许的最大文件为 50MB。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)。
-   *
-   * 注意：请在服务端响应的 header 中指定合理的 `Content-Type` 字段，以保证客户端正确处理文件类型。
-   * @supported weapp, h5, alipay, swan
-   * @example
-   * ```tsx
-   * Taro.downloadFile({
-   *   url: 'https://example.com/audio/123', //仅为示例，并非真实的资源
-   *   success: function (res) {
-   *     // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
-   *     if (res.statusCode === 200) {
-   *       Taro.playVoice({
-   *         filePath: res.tempFilePath
-   *       })
-   *     }
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/wx.downloadFile.html
-   */
-  function downloadFile(option: downloadFile.Option): DownloadTask
 
   namespace DownloadTask {
     /** HTTP Response Header 事件的回调函数 */
@@ -118,5 +98,29 @@ declare namespace Taro {
       /** 下载进度变化事件的回调函数 */
       callback: DownloadTask.OnProgressUpdateCallback,
     ): void
+  }
+
+  interface TaroStatic {
+    /** 下载文件资源到本地。客户端直接发起一个 HTTPS GET 请求，返回文件的本地临时路径，单次下载允许的最大文件为 50MB。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)。
+     *
+     * 注意：请在服务端响应的 header 中指定合理的 `Content-Type` 字段，以保证客户端正确处理文件类型。
+     * @supported weapp, h5, alipay, swan
+     * @example
+     * ```tsx
+     * Taro.downloadFile({
+     *   url: 'https://example.com/audio/123', //仅为示例，并非真实的资源
+     *   success: function (res) {
+     *     // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
+     *     if (res.statusCode === 200) {
+     *       Taro.playVoice({
+     *         filePath: res.tempFilePath
+     *       })
+     *     }
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/wx.downloadFile.html
+     */
+    downloadFile(option: downloadFile.Option): DownloadTask
   }
 }

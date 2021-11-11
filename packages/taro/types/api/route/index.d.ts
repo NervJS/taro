@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace switchTab {
     interface Option {
       /** 需要跳转的 tabBar 页面的路径（需在 app.json 的 [tabBar](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#tabbar) 字段定义的页面），路径后不能带参数。 */
@@ -11,32 +13,6 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-
-  /** 跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
-   * @supported weapp, h5, rn
-   * @example
-   * ```json
-   * {
-   *   "tabBar": {
-   *     "list": [{
-   *       "pagePath": "index",
-   *       "text": "首页"
-   *     },{
-   *       "pagePath": "other",
-   *       "text": "其他"
-   *     }]
-   *   }
-   * }
-   * ```
-   *
-   * ```tsx
-   * Taro.switchTab({
-   *   url: '/index'
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.switchTab.html
-   */
-  function switchTab(option: switchTab.Option): Promise<General.CallbackResult>
 
   namespace reLaunch {
     interface Option {
@@ -51,18 +27,6 @@ declare namespace Taro {
     }
   }
 
-  /** 关闭所有页面，打开到应用内的某个页面
-   * @supported weapp, h5, rn
-   * @example
-   * ```tsx
-   * Taro.reLaunch({
-   *   url: 'test?id=1'
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.reLaunch.html
-   */
-  function reLaunch(option: reLaunch.Option): Promise<General.CallbackResult>
-
   namespace redirectTo {
     interface Option {
       /** 需要跳转的应用内非 tabBar 的页面的路径, 路径后可以带参数。参数与路径之间使用 `?` 分隔，参数键与参数值用 `=` 相连，不同参数用 `&` 分隔；如 'path?key=value&key2=value2' */
@@ -75,18 +39,6 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-
-  /** 关闭当前页面，跳转到应用内的某个页面。但是不允许跳转到 tabbar 页面。
-   * @supported weapp, h5, rn
-   * @example
-   * ```tsx
-   * Taro.redirectTo({
-   *   url: 'test?id=1'
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.redirectTo.html
-   */
-  function redirectTo(option: redirectTo.Option): Promise<General.CallbackResult>
 
   namespace navigateTo {
     interface Option {
@@ -103,32 +55,6 @@ declare namespace Taro {
     }
   }
 
-  /** 保留当前页面，跳转到应用内的某个页面。但是不能跳到 tabbar 页面。使用 Taro.navigateBack 可以返回到原页面。小程序中页面栈最多十层。
-   * @supported weapp, h5, rn
-   * @example
-   * ```tsx
-   * Taro.navigateTo({
-   *   url: 'test?id=1',
-   *   events: {
-   *     // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
-   *     acceptDataFromOpenedPage: function(data) {
-   *       console.log(data)
-   *     },
-   *     someEvent: function(data) {
-   *       console.log(data)
-   *     }
-   *     ...
-   *   },
-   *   success: function (res) {
-   *     // 通过eventChannel向被打开页面传送数据
-   *     res.eventChannel.emit('acceptDataFromOpenerPage', { data: 'test' })
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.navigateTo.html
-   */
-  function navigateTo(option: navigateTo.Option): Promise<General.CallbackResult>
-
   namespace navigateBack {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -141,28 +67,6 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-
-  /** 关闭当前页面，返回上一页面或多级页面。可通过 getCurrentPages 获取当前的页面栈，决定需要返回几层。
-   * @supported weapp, h5, rn
-   * @example
-   * ```tsx
-   * // 注意：调用 navigateTo 跳转时，调用该方法的页面会被加入堆栈，而 redirectTo 方法则不会。见下方示例代码
-   * // 此处是A页面
-   * Taro.navigateTo({
-   *   url: 'B?id=1'
-   * })
-   * // 此处是B页面
-   * Taro.navigateTo({
-   *   url: 'C?id=1'
-   * })
-   * // 在C页面内 navigateBack，将返回A页面
-   * Taro.navigateBack({
-   *   delta: 2
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.navigateBack.html
-   */
-  function navigateBack(option?: navigateBack.Option): Promise<General.CallbackResult>
 
   interface EventChannel {
     /** 触发一个事件
@@ -205,5 +109,105 @@ declare namespace Taro {
       /** 事件监听函数 */
       fn: General.EventCallback,
     ): void
+  }
+
+  interface TaroStatic {
+    /** 跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
+     * @supported weapp, h5, rn
+     * @example
+     * ```json
+     * {
+     *   "tabBar": {
+     *     "list": [{
+     *       "pagePath": "index",
+     *       "text": "首页"
+     *     },{
+     *       "pagePath": "other",
+     *       "text": "其他"
+     *     }]
+     *   }
+     * }
+     * ```
+     *
+     * ```tsx
+     * Taro.switchTab({
+     *   url: '/index'
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.switchTab.html
+     */
+    switchTab(option: switchTab.Option): Promise<General.CallbackResult>
+
+    /** 关闭所有页面，打开到应用内的某个页面
+     * @supported weapp, h5, rn
+     * @example
+     * ```tsx
+     * Taro.reLaunch({
+     *   url: 'test?id=1'
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.reLaunch.html
+     */
+    reLaunch(option: reLaunch.Option): Promise<General.CallbackResult>
+
+    /** 关闭当前页面，跳转到应用内的某个页面。但是不允许跳转到 tabbar 页面。
+     * @supported weapp, h5, rn
+     * @example
+     * ```tsx
+     * Taro.redirectTo({
+     *   url: 'test?id=1'
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.redirectTo.html
+     */
+    redirectTo(option: redirectTo.Option): Promise<General.CallbackResult>
+
+    /** 保留当前页面，跳转到应用内的某个页面。但是不能跳到 tabbar 页面。使用 Taro.navigateBack 可以返回到原页面。小程序中页面栈最多十层。
+     * @supported weapp, h5, rn
+     * @example
+     * ```tsx
+     * Taro.navigateTo({
+     *   url: 'test?id=1',
+     *   events: {
+     *     // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+     *     acceptDataFromOpenedPage: function(data) {
+     *       console.log(data)
+     *     },
+     *     someEvent: function(data) {
+     *       console.log(data)
+     *     }
+     *     ...
+     *   },
+     *   success: function (res) {
+     *     // 通过eventChannel向被打开页面传送数据
+     *     res.eventChannel.emit('acceptDataFromOpenerPage', { data: 'test' })
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.navigateTo.html
+     */
+    navigateTo(option: navigateTo.Option): Promise<General.CallbackResult>
+
+    /** 关闭当前页面，返回上一页面或多级页面。可通过 getCurrentPages 获取当前的页面栈，决定需要返回几层。
+     * @supported weapp, h5, rn
+     * @example
+     * ```tsx
+     * // 注意：调用 navigateTo 跳转时，调用该方法的页面会被加入堆栈，而 redirectTo 方法则不会。见下方示例代码
+     * // 此处是A页面
+     * Taro.navigateTo({
+     *   url: 'B?id=1'
+     * })
+     * // 此处是B页面
+     * Taro.navigateTo({
+     *   url: 'C?id=1'
+     * })
+     * // 在C页面内 navigateBack，将返回A页面
+     * Taro.navigateBack({
+     *   delta: 2
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.navigateBack.html
+     */
+    navigateBack(option?: navigateBack.Option): Promise<General.CallbackResult>
   }
 }

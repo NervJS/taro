@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace showNavigationBarLoading {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -9,12 +11,6 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-
-  /** 在当前页面显示导航条加载动画
-   * @supported weapp, rn
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.showNavigationBarLoading.html
-   */
-  function showNavigationBarLoading(option?: showNavigationBarLoading.Option): void
 
   namespace setNavigationBarTitle {
     interface Option {
@@ -28,18 +24,6 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-
-  /** 动态设置当前页面的标题
-   * @supported weapp, h5, rn
-   * @example
-   * ```tsx
-   * Taro.setNavigationBarTitle({
-   *   title: '当前页面'
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.setNavigationBarTitle.html
-   */
-  function setNavigationBarTitle(option: setNavigationBarTitle.Option): Promise<General.CallbackResult>
 
   namespace setNavigationBarColor {
     interface Option {
@@ -71,24 +55,6 @@ declare namespace Taro {
     }
   }
 
-  /** 设置页面导航条颜色
-   * @supported weapp, h5, rn
-   * @rn 不支持 animation 参数
-   * @example
-   * ```tsx
-   * Taro.setNavigationBarColor({
-   *     frontColor: '#ffffff',
-   *     backgroundColor: '#ff0000',
-   *     animation: {
-   *         duration: 400,
-   *         timingFunc: 'easeIn'
-   *     }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.setNavigationBarColor.html
-   */
-  function setNavigationBarColor(option: setNavigationBarColor.Option): Promise<General.CallbackResult>
-
   namespace hideNavigationBarLoading {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -99,12 +65,6 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-
-  /** 在当前页面隐藏导航条加载动画
-   * @supported weapp, rn
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.hideNavigationBarLoading.html
-   */
-  function hideNavigationBarLoading(option?: hideNavigationBarLoading.Option): void
 
   namespace hideHomeButton {
     interface Option {
@@ -117,9 +77,53 @@ declare namespace Taro {
     }
   }
 
-  /** 隐藏返回首页按钮。微信7.0.7版本起，当用户打开的小程序最底层页面是非首页时，默认展示“返回首页”按钮，开发者可在页面 onShow 中调用 hideHomeButton 进行隐藏。
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.hideHomeButton.html
-   */
-  function hideHomeButton(option?: hideHomeButton.Option): Promise<General.CallbackResult>
+  interface TaroStatic {
+    /** 在当前页面显示导航条加载动画
+     * @supported weapp, rn
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.showNavigationBarLoading.html
+     */
+    showNavigationBarLoading(option?: showNavigationBarLoading.Option): void
+
+    /** 动态设置当前页面的标题
+     * @supported weapp, h5, rn
+     * @example
+     * ```tsx
+     * Taro.setNavigationBarTitle({
+     *   title: '当前页面'
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.setNavigationBarTitle.html
+     */
+    setNavigationBarTitle(option: setNavigationBarTitle.Option): Promise<General.CallbackResult>
+
+    /** 设置页面导航条颜色
+     * @supported weapp, h5, rn
+     * @rn 不支持 animation 参数
+     * @example
+     * ```tsx
+     * Taro.setNavigationBarColor({
+     *     frontColor: '#ffffff',
+     *     backgroundColor: '#ff0000',
+     *     animation: {
+     *         duration: 400,
+     *         timingFunc: 'easeIn'
+     *     }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.setNavigationBarColor.html
+     */
+    setNavigationBarColor(option: setNavigationBarColor.Option): Promise<General.CallbackResult>
+
+    /** 在当前页面隐藏导航条加载动画
+     * @supported weapp, rn
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.hideNavigationBarLoading.html
+     */
+    hideNavigationBarLoading(option?: hideNavigationBarLoading.Option): void
+
+    /** 隐藏返回首页按钮。微信7.0.7版本起，当用户打开的小程序最底层页面是非首页时，默认展示“返回首页”按钮，开发者可在页面 onShow 中调用 hideHomeButton 进行隐藏。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.hideHomeButton.html
+     */
+    hideHomeButton(option?: hideHomeButton.Option): Promise<General.CallbackResult>
+  }
 }

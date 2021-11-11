@@ -1,5 +1,4 @@
-declare namespace Taro {
-  namespace General {
+declare namespace General {
     type IAnyObject = Record<string, any>
     type Optional<F> = F extends (arg: infer P) => infer R ? (arg?: P) => R : F
     type OptionalInterface<T> = { [K in keyof T]: Optional<T[K]> }
@@ -17,22 +16,22 @@ declare namespace Taro {
     interface BaseEventOrig<T> {
       /** 事件类型 */
       type: string
-    
+
       /** 事件生成时的时间戳 */
       timeStamp: number
-    
+
       /** 触发事件的组件的一些属性值集合 */
       target: Target
-    
+
       /** 当前组件的一些属性值集合 */
       currentTarget: currentTarget
-    
+
       /** 额外的信息 */
       detail: T
-    
+
       /** 阻止元素发生默认的行为 */
       preventDefault: () => void
-    
+
       /** 阻止事件冒泡到父元素,阻止任何父事件处理程序被执行 */
       stopPropagation: () => void
     }
@@ -92,9 +91,9 @@ declare namespace Taro {
       /** 安全区域的宽度，单位逻辑像素 */
       width: number
     }
-    /** 
+    /**
      * 广告错误码
-     * 
+     *
      * 错误码是通过onError获取到的错误信息。调试期间，可以通过异常返回来捕获信息。
      * 在小程序发布上线之后，如果遇到异常问题，可以在[“运维中心“](https://mp.weixin.qq.com/)里面搜寻错误日志，还可以针对异常返回加上适当的监控信息。
      */
@@ -331,7 +330,7 @@ declare namespace Taro {
       /** 启动小程序的路径 */
       path: string
       /** 启动小程序的 query 参数 */
-      query: IAnyObject
+      query: General.IAnyObject
       /** 来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 `{}`。(参见后文注意) */
       referrerInfo: LaunchOptionsApp.ReferrerInfo
       /** 启动小程序的[场景值](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html) */
@@ -345,8 +344,7 @@ declare namespace Taro {
         /** 来源小程序、公众号或 App 的 appId */
         appId: string
         /** 来源小程序传过来的数据，scene=1037或1038时支持 */
-        extraData: IAnyObject
+        extraData: General.IAnyObject
       }
     }
   }
-}

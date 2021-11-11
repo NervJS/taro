@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace makePhoneCall {
     interface Option {
       /** 需要拨打的电话号码 */
@@ -11,15 +13,18 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-  /** 拨打电话
-   * @supported weapp, h5, rn
-   * @example
-   * ```tsx
-   * Taro.makePhoneCall({
-   *   phoneNumber: '1340000' //仅为示例，并非真实的电话号码
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/phone/wx.makePhoneCall.html
-   */
-  function makePhoneCall(option: makePhoneCall.Option): Promise<General.CallbackResult>
+
+  interface TaroStatic {
+    /** 拨打电话
+     * @supported weapp, h5, rn
+     * @example
+     * ```tsx
+     * Taro.makePhoneCall({
+     *   phoneNumber: '1340000' //仅为示例，并非真实的电话号码
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/phone/wx.makePhoneCall.html
+     */
+    makePhoneCall(option: makePhoneCall.Option): Promise<General.CallbackResult>
+  }
 }

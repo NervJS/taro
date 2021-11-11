@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace saveImageToPhotosAlbum {
     interface Option {
       /** 图片文件路径，可以是临时文件路径或永久文件路径，不支持网络图片路径 */
@@ -11,17 +13,6 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-  /** 保存图片到系统相册。需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.writePhotosAlbum
-   * @supported weapp, rn, alipay, swan
-   * @example
-   * ```tsx
-   * Taro.saveImageToPhotosAlbum({
-   *   success: function (res) { }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.saveImageToPhotosAlbum.html
-   */
-  function saveImageToPhotosAlbum(option: saveImageToPhotosAlbum.Option): Promise<General.CallbackResult>
 
   namespace previewImage {
     interface Option {
@@ -41,18 +32,6 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-  /** 在新页面中全屏预览图片。预览的过程中用户可以进行保存图片、发送给朋友等操作。
-   * @supported weapp, h5, rn, alipay, swan
-   * @example
-   * ```tsx
-   * Taro.previewImage({
-   *   current: '', // 当前显示图片的http链接
-   *   urls: [] // 需要预览的图片http链接列表
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.previewImage.html
-   */
-  function previewImage(option: previewImage.Option): Promise<General.CallbackResult>
 
   namespace previewMedia {
     interface Sources {
@@ -80,17 +59,6 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-  /** 预览图片和视频。
-   * @supported weapp 基础库 2.12.0 开始支持，低版本需做兼容处理。
-   * @example
-   * ```tsx
-   * Taro.previewMedia({
-   *   sources: []
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.previewMedia.html
-   */
-  function previewMedia(option: previewMedia.Option): Promise<General.CallbackResult>
 
   namespace getImageInfo {
     interface Option {
@@ -139,32 +107,6 @@ declare namespace Taro {
       'left'
     }
   }
-  /** 获取图片信息。网络图片需先配置download域名才能生效。
-   * @supported weapp, h5, rn, alipay, swan
-   * @example
-   * ```tsx
-   * Taro.getImageInfo({
-   *   src: 'images/a.jpg',
-   *   success: function (res) {
-   *     console.log(res.width)
-   *     console.log(res.height)
-   *   }
-   * })
-   * Taro.chooseImage({
-   *   success: function (res) {
-   *     Taro.getImageInfo({
-   *       src: res.tempFilePaths[0],
-   *       success: function (res) {
-   *         console.log(res.width)
-   *         console.log(res.height)
-   *       }
-   *     })
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.getImageInfo.html
-   */
-  function getImageInfo(option: getImageInfo.Option): Promise<getImageInfo.SuccessCallbackResult>
 
   namespace chooseImage {
     interface Option {
@@ -223,24 +165,6 @@ declare namespace Taro {
       originalFileObj?: File
     }
   }
-  /**
-   * 从本地相册选择图片或使用相机拍照。
-   * @supported weapp, h5, rn, alipay, swan
-   * @example
-   * ```tsx
-   * Taro.chooseImage({
-   *   count: 1, // 默认9
-   *   sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-   *   sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有，在H5浏览器端支持使用 `user` 和 `environment`分别指定为前后摄像头
-   *   success: function (res) {
-   *     // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-   *     var tempFilePaths = res.tempFilePaths
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.chooseImage.html
-   */
-  function chooseImage(option: chooseImage.Option): Promise<chooseImage.SuccessCallbackResult>
 
   namespace compressImage {
     interface Option {
@@ -262,19 +186,6 @@ declare namespace Taro {
       errMsg: string
     }
   }
-
-  /** 压缩图片接口，可选压缩质量
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.compressImage({
-   *   src: '', // 图片路径
-   *   quality: 80 // 压缩质量
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.compressImage.html
-   */
-  function compressImage(option: compressImage.Option): Promise<compressImage.SuccessCallbackResult>
 
   namespace chooseMessageFile {
     interface Option {
@@ -329,22 +240,6 @@ declare namespace Taro {
       file
     }
   }
-  /** 从客户端会话选择文件。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.chooseMessageFile({
-   *   count: 10,
-   *   type: 'image',
-   *   success: function (res) {
-   *     // tempFilePath可以作为img标签的src属性显示图片
-   *     const tempFilePaths = res.tempFilePaths
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.chooseMessageFile.html
-   */
-  function chooseMessageFile(option: chooseMessageFile.Option): Promise<chooseMessageFile.SuccessCallbackResult>
 
   namespace chooseMedia {
     interface Option {
@@ -405,23 +300,139 @@ declare namespace Taro {
       front
     }
   }
-  /** 拍摄或从手机相册中选择图片或视频。
-   * @supported weapp, rn
-   * @example
-   * ```tsx
-   * Taro.chooseMedia({
-   *   count: 9,
-   *   mediaType: ['image','video'],
-   *   sourceType: ['album', 'camera'],
-   *   maxDuration: 30,
-   *   camera: 'back',
-   *   success: (res) => {
-   *     console.log(res.tempFiles)
-   *     console.log(res.type)
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.chooseMedia.html
-   */
-  function chooseMedia(option: chooseMedia.Option): Promise<chooseMedia.SuccessCallbackResult>
+
+  interface TaroStatic {
+    /** 保存图片到系统相册。需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.writePhotosAlbum
+     * @supported weapp, rn, alipay, swan
+     * @example
+     * ```tsx
+     * Taro.saveImageToPhotosAlbum({
+     *   success: function (res) { }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.saveImageToPhotosAlbum.html
+     */
+    saveImageToPhotosAlbum(option: saveImageToPhotosAlbum.Option): Promise<General.CallbackResult>
+
+    /** 在新页面中全屏预览图片。预览的过程中用户可以进行保存图片、发送给朋友等操作。
+     * @supported weapp, h5, rn, alipay, swan
+     * @example
+     * ```tsx
+     * Taro.previewImage({
+     *   current: '', // 当前显示图片的http链接
+     *   urls: [] // 需要预览的图片http链接列表
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.previewImage.html
+     */
+    previewImage(option: previewImage.Option): Promise<General.CallbackResult>
+
+    /** 预览图片和视频。
+     * @supported weapp 基础库 2.12.0 开始支持，低版本需做兼容处理。
+     * @example
+     * ```tsx
+     * Taro.previewMedia({
+     *   sources: []
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.previewMedia.html
+     */
+    previewMedia(option: previewMedia.Option): Promise<General.CallbackResult>
+
+    /** 获取图片信息。网络图片需先配置download域名才能生效。
+     * @supported weapp, h5, rn, alipay, swan
+     * @example
+     * ```tsx
+     * Taro.getImageInfo({
+     *   src: 'images/a.jpg',
+     *   success: function (res) {
+     *     console.log(res.width)
+     *     console.log(res.height)
+     *   }
+     * })
+     * Taro.chooseImage({
+     *   success: function (res) {
+     *     Taro.getImageInfo({
+     *       src: res.tempFilePaths[0],
+     *       success: function (res) {
+     *         console.log(res.width)
+     *         console.log(res.height)
+     *       }
+     *     })
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.getImageInfo.html
+     */
+    getImageInfo(option: getImageInfo.Option): Promise<getImageInfo.SuccessCallbackResult>
+
+    /**
+     * 从本地相册选择图片或使用相机拍照。
+     * @supported weapp, h5, rn, alipay, swan
+     * @example
+     * ```tsx
+     * Taro.chooseImage({
+     *   count: 1, // 默认9
+     *   sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+     *   sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有，在H5浏览器端支持使用 `user` 和 `environment`分别指定为前后摄像头
+     *   success: function (res) {
+     *     // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+     *     var tempFilePaths = res.tempFilePaths
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.chooseImage.html
+     */
+    chooseImage(option: chooseImage.Option): Promise<chooseImage.SuccessCallbackResult>
+
+    /** 压缩图片接口，可选压缩质量
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.compressImage({
+     *   src: '', // 图片路径
+     *   quality: 80 // 压缩质量
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.compressImage.html
+     */
+    compressImage(option: compressImage.Option): Promise<compressImage.SuccessCallbackResult>
+
+    /** 从客户端会话选择文件。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.chooseMessageFile({
+     *   count: 10,
+     *   type: 'image',
+     *   success: function (res) {
+     *     // tempFilePath可以作为img标签的src属性显示图片
+     *     const tempFilePaths = res.tempFilePaths
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.chooseMessageFile.html
+     */
+    chooseMessageFile(option: chooseMessageFile.Option): Promise<chooseMessageFile.SuccessCallbackResult>
+
+    /** 拍摄或从手机相册中选择图片或视频。
+     * @supported weapp, rn
+     * @example
+     * ```tsx
+     * Taro.chooseMedia({
+     *   count: 9,
+     *   mediaType: ['image','video'],
+     *   sourceType: ['album', 'camera'],
+     *   maxDuration: 30,
+     *   camera: 'back',
+     *   success: (res) => {
+     *     console.log(res.tempFiles)
+     *     console.log(res.type)
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.chooseMedia.html
+     */
+    chooseMedia(option: chooseMedia.Option): Promise<chooseMedia.SuccessCallbackResult>
+  }
 }

@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace requestPayment {
     interface Option {
       /** 随机字符串，长度为32个字符以下 */
@@ -27,31 +29,33 @@ declare namespace Taro {
     }
   }
 
-  /** 发起微信支付。了解更多信息，请查看[微信支付接口文档](https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=7_3&index=1)
-   * @supported weapp, h5
-   * @example
-   * ```tsx
-   * Taro.requestPayment({
-   *   timeStamp: '',
-   *   nonceStr: '',
-   *   package: '',
-   *   signType: 'MD5',
-   *   paySign: '',
-   *   success: function (res) { },
-   *   fail: function (res) { }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/payment/wx.requestPayment.html
-   */
-  function requestPayment(option: requestPayment.Option): Promise<General.CallbackResult>
+  interface TaroStatic {
+    /** 发起微信支付。了解更多信息，请查看[微信支付接口文档](https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=7_3&index=1)
+     * @supported weapp, h5
+     * @example
+     * ```tsx
+     * Taro.requestPayment({
+     *   timeStamp: '',
+     *   nonceStr: '',
+     *   package: '',
+     *   signType: 'MD5',
+     *   paySign: '',
+     *   success: function (res) { },
+     *   fail: function (res) { }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/payment/wx.requestPayment.html
+     */
+    requestPayment(option: requestPayment.Option): Promise<General.CallbackResult>
 
-  /** 支付各个安全场景验证人脸
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.faceVerifyForPay(params).then(...)
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/payment/wx.faceVerifyForPay.html
-   */
-  function faceVerifyForPay(option: any): Promise<any>
+    /** 支付各个安全场景验证人脸
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.faceVerifyForPay(params).then(...)
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/payment/wx.faceVerifyForPay.html
+     */
+    faceVerifyForPay(option: any): Promise<any>
+  }
 }

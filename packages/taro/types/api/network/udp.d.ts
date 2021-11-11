@@ -1,10 +1,6 @@
-declare namespace Taro {
-  /** 创建一个 UDP Socket 实例。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)。
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/wx.createUDPSocket.html
-   */
-  function createUDPSocket(): UDPSocket
+import Taro from '../../index'
 
+declare module '../../index' {
   /** 一个 UDP Socket 实例，默认使用 IPv4 协议。
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.html
    */
@@ -139,5 +135,13 @@ declare namespace Taro {
       /** 接口调用成功的回调函数 */
       success?: (res: General.CallbackResult) => void
     }
+  }
+
+  interface TaroStatic {
+    /** 创建一个 UDP Socket 实例。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/wx.createUDPSocket.html
+     */
+    createUDPSocket(): UDPSocket
   }
 }

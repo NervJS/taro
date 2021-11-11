@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace saveFile {
     interface Option {
       /** 临时存储文件路径 */
@@ -29,25 +31,6 @@ declare namespace Taro {
       errMsg: string
     }
   }
-  /** 保存文件到本地。**注意：saveFile 会把临时文件移动，因此调用成功后传入的 tempFilePath 将不可用**
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.chooseImage({
-   *   success: function (res) {
-   *     var tempFilePaths = res.tempFilePaths
-   *     Taro.saveFile({
-   *       tempFilePath: tempFilePaths[0],
-   *       success: function (res) {
-   *         var savedFilePath = res.savedFilePath
-   *       }
-   *     })
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.saveFile.html
-   */
-  function saveFile(option: saveFile.Option): Promise<saveFile.SuccessCallbackResult | saveFile.FailCallbackResult>
 
   namespace removeSavedFile {
     interface Option {
@@ -68,26 +51,6 @@ declare namespace Taro {
       errMsg: string
     }
   }
-  /** 删除该小程序下已保存的本地缓存文件
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.getSavedFileList({
-   *   success: function (res) {
-   *     if (res.fileList.length > 0){
-   *       Taro.removeSavedFile({
-   *         filePath: res.fileList[0].filePath,
-   *         complete: function (res) {
-   *           console.log(res)
-   *         }
-   *       })
-   *     }
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.removeSavedFile.html
-   */
-  function removeSavedFile(option: removeSavedFile.Option): Promise<General.CallbackResult>
 
   namespace openDocument {
     interface Option {
@@ -122,26 +85,6 @@ declare namespace Taro {
       pdf
     }
   }
-  /** 新开页面打开文档，支持格式
-   * @supported weapp
-   * @example
-   ```tsx
-   * Taro.downloadFile({
-   *   url: 'http://example.com/somefile.pdf',
-   *   success: function (res) {
-   *     var filePath = res.tempFilePath
-   *     Taro.openDocument({
-   *       filePath: filePath,
-   *       success: function (res) {
-   *         console.log('打开文档成功')
-   *       }
-   *     })
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.openDocument.html
-   */
-  function openDocument(option: openDocument.Option): Promise<General.CallbackResult>
 
   namespace getSavedFileList {
     interface Option {
@@ -168,19 +111,6 @@ declare namespace Taro {
       size: number
     }
   }
-  /** 获取本地已保存的文件列表
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.getSavedFileList({
-   *   success: function (res) {
-   *     console.log(res.fileList)
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getSavedFileList.html
-   */
-  function getSavedFileList(option?: getSavedFileList.Option): Promise<getSavedFileList.SuccessCallbackResult>
 
   namespace getSavedFileInfo {
     interface Option {
@@ -202,21 +132,6 @@ declare namespace Taro {
       errMsg: string
     }
   }
-  /** 获取本地文件的文件信息。此接口只能用于获取已保存到本地的文件，若需要获取临时文件信息，请使用 [Taro.getFileInfo](https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileInfo.html) 接口。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.getSavedFileInfo({
-   *   filePath: 'wxfile://somefile', //仅做示例用，非真正的文件路径
-   *   success: function (res) {
-   *     console.log(res.size)
-   *     console.log(res.createTime)
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getSavedFileInfo.html
-   */
-  function getSavedFileInfo(option: getSavedFileInfo.Option): Promise<getSavedFileInfo.SuccessCallbackResult>
 
   namespace getFileInfo {
     interface Option {
@@ -250,27 +165,6 @@ declare namespace Taro {
       errMsg: string
     }
   }
-  /**
-   * 获取该小程序下的 本地临时文件 或 本地缓存文件 信息
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.getFileInfo({
-   *     success: function (res) {
-   *         console.log(res.size)
-   *         console.log(res.digest)
-   *     }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileInfo.html
-   */
-  function getFileInfo(option: getFileInfo.Option): Promise<getFileInfo.SuccessCallbackResult | getFileInfo.FailCallbackResult>
-
-  /** 获取全局唯一的文件管理器
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileSystemManager.html
-   */
-  function getFileSystemManager(): FileSystemManager
 
   /** 文件管理器 */
   interface FileSystemManager {
@@ -1110,12 +1004,12 @@ declare namespace Taro {
       /** 错误信息
        *
        * 可选值：
-       * - 'bad file descriptor':	无效的文件描述符	
-        - 'fail permission denied':	指定的 fd 路径没有读权限	
-        - 'fail the value of "offset" is out of range':	传入的 offset 不合法	
-        - 'fail the value of "length" is out of range':	传入的 length 不合法	
-        - 'fail sdcard not mounted':	android sdcard 挂载失败	
-        - 'bad file descriptor':	无效的文件描述符 
+       * - 'bad file descriptor':	无效的文件描述符
+        - 'fail permission denied':	指定的 fd 路径没有读权限
+        - 'fail the value of "offset" is out of range':	传入的 offset 不合法
+        - 'fail the value of "length" is out of range':	传入的 length 不合法
+        - 'fail sdcard not mounted':	android sdcard 挂载失败
+        - 'bad file descriptor':	无效的文件描述符
        *  */
       errMsg: string
     }
@@ -1155,11 +1049,11 @@ declare namespace Taro {
       /** 错误信息
        *
        * 可选值：
-       * - 'fail no such file or directory, open ${filePath}':	指定的 filePath 所在目录不存在	
+       * - 'fail no such file or directory, open ${filePath}':	指定的 filePath 所在目录不存在
         - 'fail illegal operation on a directory, open "${filePath}"':	指定的 filePath 是一个已经存在的目录
-        - 'fail permission denied, open ${dirPath}':	指定的 filePath 路径没有写权限	
-        - 'fail the maximum size of the file storage limit is exceeded':	存储空间不足	
-        - 'fail sdcard not mounted':	android sdcard 挂载失败	
+        - 'fail permission denied, open ${dirPath}':	指定的 filePath 路径没有写权限
+        - 'fail the maximum size of the file storage limit is exceeded':	存储空间不足
+        - 'fail sdcard not mounted':	android sdcard 挂载失败
        *  */
       errMsg: string
     }
@@ -1241,5 +1135,121 @@ declare namespace Taro {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/Stats.isFile.html
      */
     isFile(): boolean
+  }
+
+  interface TaroStatic {
+    /** 保存文件到本地。**注意：saveFile 会把临时文件移动，因此调用成功后传入的 tempFilePath 将不可用**
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.chooseImage({
+     *   success: function (res) {
+     *     var tempFilePaths = res.tempFilePaths
+     *     Taro.saveFile({
+     *       tempFilePath: tempFilePaths[0],
+     *       success: function (res) {
+     *         var savedFilePath = res.savedFilePath
+     *       }
+     *     })
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.saveFile.html
+     */
+    saveFile(option: saveFile.Option): Promise<saveFile.SuccessCallbackResult | saveFile.FailCallbackResult>
+
+    /** 删除该小程序下已保存的本地缓存文件
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.getSavedFileList({
+     *   success: function (res) {
+     *     if (res.fileList.length > 0){
+     *       Taro.removeSavedFile({
+     *         filePath: res.fileList[0].filePath,
+     *         complete: function (res) {
+     *           console.log(res)
+     *         }
+     *       })
+     *     }
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.removeSavedFile.html
+     */
+    removeSavedFile(option: removeSavedFile.Option): Promise<General.CallbackResult>
+
+    /** 新开页面打开文档，支持格式
+     * @supported weapp
+     * @example
+     ```tsx
+     * Taro.downloadFile({
+     *   url: 'http://example.com/somefile.pdf',
+     *   success: function (res) {
+     *     var filePath = res.tempFilePath
+     *     Taro.openDocument({
+     *       filePath: filePath,
+     *       success: function (res) {
+     *         console.log('打开文档成功')
+     *       }
+     *     })
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.openDocument.html
+     */
+    openDocument(option: openDocument.Option): Promise<General.CallbackResult>
+
+    /** 获取本地已保存的文件列表
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.getSavedFileList({
+     *   success: function (res) {
+     *     console.log(res.fileList)
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getSavedFileList.html
+     */
+    getSavedFileList(option?: getSavedFileList.Option): Promise<getSavedFileList.SuccessCallbackResult>
+
+    /** 获取本地文件的文件信息。此接口只能用于获取已保存到本地的文件，若需要获取临时文件信息，请使用 [Taro.getFileInfo](https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileInfo.html) 接口。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.getSavedFileInfo({
+     *   filePath: 'wxfile://somefile', //仅做示例用，非真正的文件路径
+     *   success: function (res) {
+     *     console.log(res.size)
+     *     console.log(res.createTime)
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getSavedFileInfo.html
+     */
+    getSavedFileInfo(option: getSavedFileInfo.Option): Promise<getSavedFileInfo.SuccessCallbackResult>
+
+    /**
+     * 获取该小程序下的 本地临时文件 或 本地缓存文件 信息
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.getFileInfo({
+     *     success: function (res) {
+     *         console.log(res.size)
+     *         console.log(res.digest)
+     *     }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileInfo.html
+     */
+    getFileInfo(option: getFileInfo.Option): Promise<getFileInfo.SuccessCallbackResult | getFileInfo.FailCallbackResult>
+
+    /** 获取全局唯一的文件管理器
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileSystemManager.html
+     */
+    getFileSystemManager(): FileSystemManager
   }
 }

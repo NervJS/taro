@@ -1,19 +1,6 @@
-declare namespace Taro {
-  /** 创建 [live-pusher](https://developers.weixin.qq.com/miniprogram/dev/component/live-pusher.html) 上下文 [LivePusherContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePusherContext.html) 对象。
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/wx.createLivePusherContext.html
-   */
-  function createLivePusherContext(): LivePusherContext
-  /** 创建 [live-player](https://developers.weixin.qq.com/miniprogram/dev/component/live-player.html) 上下文 [LivePlayerContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.html) 对象。
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/wx.createLivePlayerContext.html
-   */
-  function createLivePlayerContext(
-    /** [live-player](https://developers.weixin.qq.com/miniprogram/dev/component/live-player.html) 组件的 id */
-    id: string,
-    /** 在自定义组件下，当前组件实例的this，以操作组件内 [live-player](https://developers.weixin.qq.com/miniprogram/dev/component/live-player.html) 组件 */
-    component?: General.IAnyObject,
-  ): LivePlayerContext
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace LivePusherContext {
     interface PauseOption {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -339,5 +326,24 @@ declare namespace Taro {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.stop.html
      */
     stop(option?: LivePlayerContext.StopOption): void
+  }
+
+  interface TaroStatic {
+    /** 创建 [live-pusher](https://developers.weixin.qq.com/miniprogram/dev/component/live-pusher.html) 上下文 [LivePusherContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePusherContext.html) 对象。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/wx.createLivePusherContext.html
+     */
+    createLivePusherContext(): LivePusherContext
+
+    /** 创建 [live-player](https://developers.weixin.qq.com/miniprogram/dev/component/live-player.html) 上下文 [LivePlayerContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.html) 对象。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/wx.createLivePlayerContext.html
+     */
+    createLivePlayerContext(
+      /** [live-player](https://developers.weixin.qq.com/miniprogram/dev/component/live-player.html) 组件的 id */
+      id: string,
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 [live-player](https://developers.weixin.qq.com/miniprogram/dev/component/live-player.html) 组件 */
+      component?: General.IAnyObject,
+    ): LivePlayerContext
   }
 }

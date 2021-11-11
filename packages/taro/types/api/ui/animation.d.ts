@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace createAnimation {
     interface Option {
       /** 动画延迟时间，单位 ms */
@@ -26,21 +28,6 @@ declare namespace Taro {
       'step-end'
     }
   }
-
-  /** 创建一个动画实例 animation。调用实例的方法来描述动画。最后通过动画实例的 export 方法导出动画数据传递给组件的 animation 属性。
-   * @supported weapp, h5
-   * @example
-   * ```tsx
-   * var animation = Taro.createAnimation({
-   *   transformOrigin: "50% 50%",
-   *   duration: 1000,
-   *   timingFunction: "ease",
-   *   delay: 0
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/wx.createAnimation.html
-   */
-  function createAnimation(option: createAnimation.Option): Animation
 
   interface Animation {
     /** 导出动画队列。**export 方法每次调用后会清掉之前的动画操作。**
@@ -464,5 +451,22 @@ declare namespace Taro {
     endScrollOffset: number
     /** 起始和结束的滚动范围映射的时间长度，该时间可用于与关键帧动画里的时间 (duration) 相匹配，单位 ms */
     timeRange: number
+  }
+
+  interface TaroStatic {
+    /** 创建一个动画实例 animation。调用实例的方法来描述动画。最后通过动画实例的 export 方法导出动画数据传递给组件的 animation 属性。
+     * @supported weapp, h5
+     * @example
+     * ```tsx
+     * var animation = Taro.createAnimation({
+     *   transformOrigin: "50% 50%",
+     *   duration: 1000,
+     *   timingFunction: "ease",
+     *   delay: 0
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/wx.createAnimation.html
+     */
+    createAnimation(option: createAnimation.Option): Animation
   }
 }

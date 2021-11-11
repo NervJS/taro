@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace hideKeyboard {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -9,20 +11,6 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-
-  /** 在input、textarea等focus拉起键盘之后，手动调用此接口收起键盘
-   * @supported weapp, rn
-   * @example
-   * ```tsx
-   * Taro.hideKeyboard({
-   *   complete: res => {
-   *     console.log('hideKeyboard res', res)
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/keyboard/wx.hideKeyboard.html
-   */
-  function hideKeyboard(option?: hideKeyboard.Option): Promise<General.CallbackResult>
 
   namespace getSelectedTextRange {
     interface Option {
@@ -43,20 +31,6 @@ declare namespace Taro {
     }
   }
 
-  /** 在input、textarea等focus之后，获取输入框的光标位置。注意：只有在focus的时候调用此接口才有效。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.getSelectedTextRange({
-   *   complete: res => {
-   *     console.log('getSelectedTextRange res', res.start, res.end)
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/keyboard/wx.getSelectedTextRange.html
-   */
-  function getSelectedTextRange(option?: getSelectedTextRange.Option): Promise<getSelectedTextRange.SuccessCallbackResult>
-
   namespace onKeyboardHeightChange {
     type Callback = (
       result: CallbackResult,
@@ -67,25 +41,55 @@ declare namespace Taro {
     }
   }
 
-  /** 监听键盘高度变化
-   * @supported weapp, rn
-   * @example
-   * ```tsx
-   * Taro.onKeyboardHeightChange(res => {
-   *   console.log(res.height)
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/keyboard/wx.onKeyboardHeightChange.html
-   */
-  function onKeyboardHeightChange(callback: onKeyboardHeightChange.Callback): void
+  interface TaroStatic {
+    /** 在input、textarea等focus拉起键盘之后，手动调用此接口收起键盘
+     * @supported weapp, rn
+     * @example
+     * ```tsx
+     * Taro.hideKeyboard({
+     *   complete: res => {
+     *     console.log('hideKeyboard res', res)
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/keyboard/wx.hideKeyboard.html
+     */
+    hideKeyboard(option?: hideKeyboard.Option): Promise<General.CallbackResult>
 
-  /**
-   * 取消监听键盘高度变化事件。
-   * @supported weapp, rn
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/keyboard/wx.offKeyboardHeightChange.html
-   */
-  function offKeyboardHeightChange(
-    /** 键盘高度变化事件的回调函数 */
-    callback?: (...args: any[]) => any,
-  ): void
+    /** 在input、textarea等focus之后，获取输入框的光标位置。注意：只有在focus的时候调用此接口才有效。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.getSelectedTextRange({
+     *   complete: res => {
+     *     console.log('getSelectedTextRange res', res.start, res.end)
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/keyboard/wx.getSelectedTextRange.html
+     */
+    getSelectedTextRange(option?: getSelectedTextRange.Option): Promise<getSelectedTextRange.SuccessCallbackResult>
+
+    /** 监听键盘高度变化
+     * @supported weapp, rn
+     * @example
+     * ```tsx
+     * Taro.onKeyboardHeightChange(res => {
+     *   console.log(res.height)
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/keyboard/wx.onKeyboardHeightChange.html
+     */
+    onKeyboardHeightChange(callback: onKeyboardHeightChange.Callback): void
+
+    /**
+     * 取消监听键盘高度变化事件。
+     * @supported weapp, rn
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/keyboard/wx.offKeyboardHeightChange.html
+     */
+    offKeyboardHeightChange(
+      /** 键盘高度变化事件的回调函数 */
+      callback?: (...args: any[]) => any,
+    ): void
+  }
 }

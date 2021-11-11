@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace stopVoice {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -9,32 +11,6 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-  /** 结束播放语音。
-   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createInnerAudioContext.html) 接口**
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.startRecord({
-   *   success: function (res) {
-   *     const filePath = res.tempFilePath
-   *     Taro.playVoice({ filePath })
-   *
-   *     setTimeout(Taro.stopVoice, 5000)
-   *   }
-   * })
-   * ```
-   * @example
-   * ```tsx
-   * Taro.startRecord(params).then(res => {
-   *   const filePath = res.tempFilePath
-   *   Taro.playVoice({ filePath })
-   *
-   *   setTimeout(Taro.stopVoice, 5000)
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.stopVoice.html
-   */
-  function stopVoice(option?: stopVoice.Option): void
 
   namespace setInnerAudioOption {
     interface Option {
@@ -51,12 +27,6 @@ declare namespace Taro {
     }
   }
 
-  /** 设置 [InnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/InnerAudioContext.html) 的播放选项。设置之后对当前小程序全局生效。
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.setInnerAudioOption.html
-   */
-  function setInnerAudioOption(option: setInnerAudioOption.Option): Promise<General.CallbackResult>
-
   namespace playVoice {
     interface Option {
       /** 需要播放的语音文件的文件路径 */
@@ -71,23 +41,6 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-  /** 开始播放语音。同时只允许一个语音文件正在播放，如果前一个语音文件还没播放完，将中断前一个语音播放。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.startRecord({
-   *   success: function (res) {
-   *     const tempFilePath = res.tempFilePath
-   *     Taro.playVoice({
-   *       filePath: tempFilePath,
-   *       complete: function () { }
-   *     })
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.playVoice.html
-   */
-  function playVoice(option: playVoice.Option): Promise<General.CallbackResult>
 
   namespace pauseVoice {
     interface Option {
@@ -99,27 +52,6 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-  /** 暂停正在播放的语音。再次调用 [Taro.playVoice](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.playVoice.html) 播放同一个文件时，会从暂停处开始播放。如果想从头开始播放，需要先调用 [Taro.stopVoice](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.stopVoice.html)。
-   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createInnerAudioContext.html) 接口**
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.startRecord({
-   *   success: function (res) {
-   *     var tempFilePath = res.tempFilePath
-   *       Taro.playVoice({
-   *       filePath: tempFilePath
-   *     })
-   *     setTimeout(function() {
-   *         //暂停播放
-   *       Taro.pauseVoice()
-   *     }, 5000)
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.pauseVoice.html
-   */
-  function pauseVoice(option?: pauseVoice.Option): void
 
   namespace getAvailableAudioSources {
     interface Option {
@@ -154,46 +86,6 @@ declare namespace Taro {
       'voice_recognition'
     }
   }
-  /** 获取当前支持的音频输入源
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.getAvailableAudioSources.html
-   */
-  function getAvailableAudioSources(option?: getAvailableAudioSources.Option): Promise<getAvailableAudioSources.SuccessCallbackResult>
-
-  /** 创建内部 audio 上下文 InnerAudioContext 对象。
-   * @supported weapp, h5
-   * @example
-   * ```tsx
-   * const innerAudioContext = Taro.createInnerAudioContext()
-   * innerAudioContext.autoplay = true
-   * innerAudioContext.src = 'http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46'
-   * innerAudioContext.onPlay(() => {
-   *   console.log('开始播放')
-   * })
-   * innerAudioContext.onError((res) => {
-   *   console.log(res.errMsg)
-   *   console.log(res.errCode)
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createInnerAudioContext.html
-   */
-  function createInnerAudioContext(): InnerAudioContext
-
-  /** 创建 audio 上下文 AudioContext 对象。
-   * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createInnerAudioContext.html) 接口**
-   * @supported weapp
-   * @example
-   * ```tsx
-   * const audioCtx = Taro.createAudioContext('myAudio')
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createAudioContext.html
-   */
-  function createAudioContext(
-    /** [audio](https://developers.weixin.qq.com/miniprogram/dev/component/audio.html) 组件的 id */
-    id: string,
-    /** 在自定义组件下，当前组件实例的this，以操作组件内 [audio](https://developers.weixin.qq.com/miniprogram/dev/component/audio.html) 组件 */
-    component?: General.IAnyObject,
-  ): AudioContext
 
   /** `AudioContext` 实例，可通过 `Taro.createAudioContext` 获取。
    * `AudioContext` 通过 `id` 跟一个 `audio` 组件绑定，操作对应的 audio 组件。
@@ -375,5 +267,121 @@ declare namespace Taro {
       /** 未知错误 */
       '-1'
     }
+  }
+
+  interface TaroStatic {
+    /** 结束播放语音。
+     * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createInnerAudioContext.html) 接口**
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.startRecord({
+     *   success: function (res) {
+     *     const filePath = res.tempFilePath
+     *     Taro.playVoice({ filePath })
+     *
+     *     setTimeout(Taro.stopVoice, 5000)
+     *   }
+     * })
+     * ```
+     * @example
+     * ```tsx
+     * Taro.startRecord(params).then(res => {
+     *   const filePath = res.tempFilePath
+     *   Taro.playVoice({ filePath })
+     *
+     *   setTimeout(Taro.stopVoice, 5000)
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.stopVoice.html
+     */
+    stopVoice(option?: stopVoice.Option): void
+
+    /** 设置 [InnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/InnerAudioContext.html) 的播放选项。设置之后对当前小程序全局生效。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.setInnerAudioOption.html
+     */
+    setInnerAudioOption(option: setInnerAudioOption.Option): Promise<General.CallbackResult>
+
+    /** 开始播放语音。同时只允许一个语音文件正在播放，如果前一个语音文件还没播放完，将中断前一个语音播放。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.startRecord({
+     *   success: function (res) {
+     *     const tempFilePath = res.tempFilePath
+     *     Taro.playVoice({
+     *       filePath: tempFilePath,
+     *       complete: function () { }
+     *     })
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.playVoice.html
+     */
+    playVoice(option: playVoice.Option): Promise<General.CallbackResult>
+
+    /** 暂停正在播放的语音。再次调用 [Taro.playVoice](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.playVoice.html) 播放同一个文件时，会从暂停处开始播放。如果想从头开始播放，需要先调用 [Taro.stopVoice](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.stopVoice.html)。
+     * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createInnerAudioContext.html) 接口**
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.startRecord({
+     *   success: function (res) {
+     *     var tempFilePath = res.tempFilePath
+     *       Taro.playVoice({
+     *       filePath: tempFilePath
+     *     })
+     *     setTimeout(function() {
+     *         //暂停播放
+     *       Taro.pauseVoice()
+     *     }, 5000)
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.pauseVoice.html
+     */
+    pauseVoice(option?: pauseVoice.Option): void
+
+    /** 获取当前支持的音频输入源
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.getAvailableAudioSources.html
+     */
+    getAvailableAudioSources(option?: getAvailableAudioSources.Option): Promise<getAvailableAudioSources.SuccessCallbackResult>
+
+    /** 创建内部 audio 上下文 InnerAudioContext 对象。
+     * @supported weapp, h5
+     * @example
+     * ```tsx
+     * const innerAudioContext = Taro.createInnerAudioContext()
+     * innerAudioContext.autoplay = true
+     * innerAudioContext.src = 'http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46'
+     * innerAudioContext.onPlay(() => {
+     *   console.log('开始播放')
+     * })
+     * innerAudioContext.onError((res) => {
+     *   console.log(res.errMsg)
+     *   console.log(res.errCode)
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createInnerAudioContext.html
+     */
+    createInnerAudioContext(): InnerAudioContext
+
+    /** 创建 audio 上下文 AudioContext 对象。
+     * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createInnerAudioContext.html) 接口**
+     * @supported weapp
+     * @example
+     * ```tsx
+     * const audioCtx = Taro.createAudioContext('myAudio')
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createAudioContext.html
+     */
+    createAudioContext(
+      /** [audio](https://developers.weixin.qq.com/miniprogram/dev/component/audio.html) 组件的 id */
+      id: string,
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 [audio](https://developers.weixin.qq.com/miniprogram/dev/component/audio.html) 组件 */
+      component?: General.IAnyObject,
+    ): AudioContext
   }
 }

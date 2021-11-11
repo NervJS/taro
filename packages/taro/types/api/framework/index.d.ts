@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   /** 注册小程序中的一个页面。接受一个 `Object` 类型参数，其指定页面的初始数据、生命周期回调、事件处理函数等。 */
   interface Page {
     /**
@@ -8,24 +10,6 @@ declare namespace Taro {
     /** @ignore */
     [k: string]: any
   }
-  /** 获取当前页面栈。数组中第一个元素为首页，最后一个元素为当前页面。
-   * __注意：__
-   * - __不要尝试修改页面栈，会导致路由以及页面状态错误。__
-   * - 不要在 `App.onLaunch` 的时候调用 `getCurrentPages()`，此时 `page` 还没有生成。
-   * @supported weapp, h5
-   * @example
-   * ```tsx
-   * Taro.getCurrentPages().length
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/reference/api/getCurrentPages.html
-   */
-  function getCurrentPages(): Page[]
-
-  /** 获取到小程序全局唯一的 App 实例。
-   * @supported weapp, alipay, h5, rn, jd, qq, swan, tt, quickapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/reference/api/getApp.html
-   */
-  function getApp<T = General.IAnyObject>(opts?: getApp.Option): getApp.Instance<T>
 
   namespace getApp {
     interface Option {
@@ -41,5 +25,26 @@ declare namespace Taro {
   interface App extends General.IAnyObject {
     /** @ignore */
     [key: string]: any
+  }
+
+  interface TaroStatic {
+    /** 获取当前页面栈。数组中第一个元素为首页，最后一个元素为当前页面。
+     * __注意：__
+     * - __不要尝试修改页面栈，会导致路由以及页面状态错误。__
+     * - 不要在 `App.onLaunch` 的时候调用 `getCurrentPages()`，此时 `page` 还没有生成。
+     * @supported weapp, h5
+     * @example
+     * ```tsx
+     * Taro.getCurrentPages().length
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/reference/api/getCurrentPages.html
+     */
+    getCurrentPages(): Page[]
+
+    /** 获取到小程序全局唯一的 App 实例。
+     * @supported weapp, alipay, h5, rn, jd, qq, swan, tt, quickapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/reference/api/getApp.html
+     */
+    getApp<T = General.IAnyObject>(opts?: getApp.Option): getApp.Instance<T>
   }
 }

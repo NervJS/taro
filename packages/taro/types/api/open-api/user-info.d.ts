@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace getUserInfo {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -50,57 +52,6 @@ declare namespace Taro {
     }
   }
 
-  /** 获取用户信息。
-   *
-   * **接口调整说明**
-   * 在用户未授权过的情况下调用此接口，将不再出现授权弹窗，会直接进入 fail 回调（详见[《公告》](https://developers.weixin.qq.com/community/develop/doc/0000a26e1aca6012e896a517556c01))。在用户已授权的情况下调用此接口，可成功获取用户信息。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * // 必须是在用户已经授权的情况下调用
-   * Taro.getUserInfo({
-   *   success: function(res) {
-   *     var userInfo = res.userInfo
-   *     var nickName = userInfo.nickName
-   *     var avatarUrl = userInfo.avatarUrl
-   *     var gender = userInfo.gender //性别 0：未知、1：男、2：女
-   *     var province = userInfo.province
-   *     var city = userInfo.city
-   *     var country = userInfo.country
-   *   }
-   * })
-   * ```
-   *
-   * 敏感数据有两种获取方式，一是使用 [加密数据解密算法]((open-ability/signature#加密数据解密算法)) 。
-   * 获取得到的开放数据为以下 json 结构：
-   *
-   * ```json
-   * {
-   *   "openId": "OPENID",
-   *   "nickName": "NICKNAME",
-   *   "gender": GENDER,
-   *   "city": "CITY",
-   *   "province": "PROVINCE",
-   *   "country": "COUNTRY",
-   *   "avatarUrl": "AVATARURL",
-   *   "unionId": "UNIONID",
-   *   "watermark": {
-   *     "appid":"APPID",
-   *     "timestamp": TIMESTAMP
-   *   }
-   * }
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/user-info/wx.getUserInfo.html
-   */
-  function getUserInfo(option?: getUserInfo.Option): Promise<getUserInfo.SuccessCallbackResult>
-
-  /**
-   * 获取用户信息。每次请求都会弹出授权窗口，用户同意后返回 `userInfo`。
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/user-info/wx.getUserProfile.html
-   */
-  function getUserProfile(option: getUserProfile.Option): Promise<getUserProfile.SuccessCallbackResult>
-
-
   /** 用户信息
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/user-info/UserInfo.html
    */
@@ -133,5 +84,57 @@ declare namespace Taro {
       1: '男性'
       2: '女性'
     }
+  }
+
+  interface TaroStatic {
+    /** 获取用户信息。
+     *
+     * **接口调整说明**
+     * 在用户未授权过的情况下调用此接口，将不再出现授权弹窗，会直接进入 fail 回调（详见[《公告》](https://developers.weixin.qq.com/community/develop/doc/0000a26e1aca6012e896a517556c01))。在用户已授权的情况下调用此接口，可成功获取用户信息。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * // 必须是在用户已经授权的情况下调用
+     * Taro.getUserInfo({
+     *   success: function(res) {
+     *     var userInfo = res.userInfo
+     *     var nickName = userInfo.nickName
+     *     var avatarUrl = userInfo.avatarUrl
+     *     var gender = userInfo.gender //性别 0：未知、1：男、2：女
+     *     var province = userInfo.province
+     *     var city = userInfo.city
+     *     var country = userInfo.country
+     *   }
+     * })
+     * ```
+     *
+     * 敏感数据有两种获取方式，一是使用 [加密数据解密算法]((open-ability/signature#加密数据解密算法)) 。
+     * 获取得到的开放数据为以下 json 结构：
+     *
+     * ```json
+     * {
+     *   "openId": "OPENID",
+     *   "nickName": "NICKNAME",
+     *   "gender": GENDER,
+     *   "city": "CITY",
+     *   "province": "PROVINCE",
+     *   "country": "COUNTRY",
+     *   "avatarUrl": "AVATARURL",
+     *   "unionId": "UNIONID",
+     *   "watermark": {
+     *     "appid":"APPID",
+     *     "timestamp": TIMESTAMP
+     *   }
+     * }
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/user-info/wx.getUserInfo.html
+     */
+    getUserInfo(option?: getUserInfo.Option): Promise<getUserInfo.SuccessCallbackResult>
+
+    /**
+     * 获取用户信息。每次请求都会弹出授权窗口，用户同意后返回 `userInfo`。
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/user-info/wx.getUserProfile.html
+     */
+    getUserProfile(option: getUserProfile.Option): Promise<getUserProfile.SuccessCallbackResult>
   }
 }

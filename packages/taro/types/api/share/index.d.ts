@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace updateShareMenu {
     interface Option {
       /** 动态消息的 activityId。通过 [updatableMessage.createActivityId](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/updatable-message/updatableMessage.createActivityId.html) 接口获取 */
@@ -31,19 +33,6 @@ declare namespace Taro {
     }
   }
 
-  /** 更新转发属性
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.updateShareMenu({
-   *   withShareTicket: true,
-   *   success () { }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.updateShareMenu.html
-   */
-  function updateShareMenu(option: updateShareMenu.Option): Promise<General.CallbackResult>
-
   namespace showShareMenu {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -62,18 +51,6 @@ declare namespace Taro {
     }
   }
 
-  /** 显示当前页面的转发按钮
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.showShareMenu({
-   *   withShareTicket: true
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.showShareMenu.html
-   */
-  function showShareMenu(option: showShareMenu.Option): Promise<General.CallbackResult>
-
   namespace hideShareMenu {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -84,16 +61,6 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-
-  /** 隐藏转发按钮
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.hideShareMenu()
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.hideShareMenu.html
-   */
-  function hideShareMenu(option?: hideShareMenu.Option): Promise<General.CallbackResult>
 
   namespace getShareInfo {
     interface Option {
@@ -121,20 +88,57 @@ declare namespace Taro {
     }
   }
 
-  /** 获取转发详细信息
-   *
-   * **Tips**
-   * - 如需要展示群名称，可以使用[开放数据组件](https://developers.weixin.qq.com/miniprogram/dev/component/open-ability/open-data.html)
-   * @supported weapp
-   * @example
-   * 敏感数据有两种获取方式，一是使用 [加密数据解密算法]((open-ability/signature#加密数据解密算法)) 。
-   * 获取得到的开放数据为以下 json 结构（其中 openGId 为当前群的唯一标识）：
-   * ```json
-   * {
-   *  "openGId": "OPENGID"
-   * }
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.getShareInfo.html
-   */
-  function getShareInfo(option: getShareInfo.Option): Promise<getShareInfo.SuccessCallbackResult>
+  interface TaroStatic {
+    /** 更新转发属性
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.updateShareMenu({
+     *   withShareTicket: true,
+     *   success () { }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.updateShareMenu.html
+     */
+    updateShareMenu(option: updateShareMenu.Option): Promise<General.CallbackResult>
+
+    /** 显示当前页面的转发按钮
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.showShareMenu({
+     *   withShareTicket: true
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.showShareMenu.html
+     */
+    showShareMenu(option: showShareMenu.Option): Promise<General.CallbackResult>
+
+    /** 隐藏转发按钮
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.hideShareMenu()
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.hideShareMenu.html
+     */
+    hideShareMenu(option?: hideShareMenu.Option): Promise<General.CallbackResult>
+
+    /** 获取转发详细信息
+     *
+     * **Tips**
+     * - 如需要展示群名称，可以使用[开放数据组件](https://developers.weixin.qq.com/miniprogram/dev/component/open-ability/open-data.html)
+     * @supported weapp
+     * @example
+     * 敏感数据有两种获取方式，一是使用 [加密数据解密算法]((open-ability/signature#加密数据解密算法)) 。
+     * 获取得到的开放数据为以下 json 结构（其中 openGId 为当前群的唯一标识）：
+     * ```json
+     * {
+     *  "openGId": "OPENGID"
+     * }
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.getShareInfo.html
+     */
+    getShareInfo(option: getShareInfo.Option): Promise<getShareInfo.SuccessCallbackResult>
+  }
 }

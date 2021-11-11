@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace stopHCE {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -9,20 +11,6 @@ declare namespace Taro {
       success?: (res: General.NFCError) => void
     }
   }
-  /**
-   * 关闭 NFC 模块。仅在安卓系统下有效。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.stopHCE({
-   *   success: function (res) {
-   *     console.log(res.errMsg)
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.stopHCE.html
-   */
-  function stopHCE(option?: stopHCE.Option): Promise<General.NFCError>
 
   namespace startHCE {
     interface Option {
@@ -34,23 +22,8 @@ declare namespace Taro {
       fail?: (res: General.NFCError) => void
       /** 接口调用成功的回调函数 */
       success?: (res: General.NFCError) => void
+    }
   }
-  }
-  /**
-   * 初始化 NFC 模块。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.startHCE({
-   *   aid_list: ['F222222222']
-   *   success: function (res) {
-   *     console.log(res.errMsg)
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.startHCE.html
-   */
-  function startHCE(option: startHCE.Option): Promise<General.NFCError>
 
   namespace sendHCEMessage {
     interface Option {
@@ -64,27 +37,6 @@ declare namespace Taro {
       success?: (res: General.NFCError) => void
     }
   }
-  /**
-   * 发送 NFC 消息。仅在安卓系统下有效。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * const buffer = new ArrayBuffer(1)
-   * const dataView = new DataView(buffer)
-   * dataView.setUint8(0, 0)
-   *       Taro.startHCE({
-   *   success: function (res) {
-   *     Taro.onHCEMessage(function (res) {
-   *       if (res.messageType === 1) {
-   *         Taro.sendHCEMessage({data: buffer})
-   *       }
-   *     })
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.sendHCEMessage.html
-   */
-  function sendHCEMessage(option: sendHCEMessage.Option): Promise<General.NFCError>
 
   namespace onHCEMessage {
     /** 接收 NFC 设备消息事件的回调函数 */
@@ -107,15 +59,6 @@ declare namespace Taro {
       2
     }
   }
-  /**
-   * 监听接收 NFC 设备消息事件，仅能注册一个监听
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.onHCEMessage.html
-   */
-  function onHCEMessage(
-    /** 接收 NFC 设备消息事件的回调函数 */
-    callback: onHCEMessage.Callback,
-  ): void
 
   namespace getHCEState {
     interface Option {
@@ -125,29 +68,95 @@ declare namespace Taro {
       fail?: (res: General.NFCError) => void
       /** 接口调用成功的回调函数 */
       success?: (res: General.NFCError) => void
+    }
   }
-  }
-  /**
-   * 判断当前设备是否支持 HCE 能力。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.getHCEState({
-   *   success: function (res) {
-   *     console.log(res.errCode)
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.getHCEState.html
-   */
-  function getHCEState(option?: getHCEState.Option): Promise<General.NFCError>
 
-  /** 接收 NFC 设备消息事件，取消事件监听。
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.offHCEMessage.html
-   */
-  function offHCEMessage(
-    /** 接收 NFC 设备消息事件的回调函数 */
-    callback: (...args: any[]) => any,
-  ): void
+  interface TaroStatic {
+    /**
+     * 关闭 NFC 模块。仅在安卓系统下有效。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.stopHCE({
+     *   success: function (res) {
+     *     console.log(res.errMsg)
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.stopHCE.html
+     */
+    stopHCE(option?: stopHCE.Option): Promise<General.NFCError>
+
+    /**
+     * 初始化 NFC 模块。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.startHCE({
+     *   aid_list: ['F222222222']
+     *   success: function (res) {
+     *     console.log(res.errMsg)
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.startHCE.html
+     */
+    startHCE(option: startHCE.Option): Promise<General.NFCError>
+
+    /**
+     * 发送 NFC 消息。仅在安卓系统下有效。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * const buffer = new ArrayBuffer(1)
+     * const dataView = new DataView(buffer)
+     * dataView.setUint8(0, 0)
+     *       Taro.startHCE({
+     *   success: function (res) {
+     *     Taro.onHCEMessage(function (res) {
+     *       if (res.messageType === 1) {
+     *         Taro.sendHCEMessage({data: buffer})
+     *       }
+     *     })
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.sendHCEMessage.html
+     */
+    sendHCEMessage(option: sendHCEMessage.Option): Promise<General.NFCError>
+
+    /**
+     * 监听接收 NFC 设备消息事件，仅能注册一个监听
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.onHCEMessage.html
+     */
+    onHCEMessage(
+      /** 接收 NFC 设备消息事件的回调函数 */
+      callback: onHCEMessage.Callback,
+    ): void
+
+    /**
+     * 判断当前设备是否支持 HCE 能力。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.getHCEState({
+     *   success: function (res) {
+     *     console.log(res.errCode)
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.getHCEState.html
+     */
+    getHCEState(option?: getHCEState.Option): Promise<General.NFCError>
+
+    /** 接收 NFC 设备消息事件，取消事件监听。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.offHCEMessage.html
+     */
+    offHCEMessage(
+      /** 接收 NFC 设备消息事件的回调函数 */
+      callback: (...args: any[]) => any,
+    ): void
+  }
 }

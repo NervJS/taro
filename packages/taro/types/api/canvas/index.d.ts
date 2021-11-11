@@ -1,51 +1,6 @@
-declare namespace Taro {
-  /** 创建离屏 canvas 实例
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.createOffscreenCanvas.html
-   */
-  function createOffscreenCanvas(): OffscreenCanvas
+import Taro from '../../index'
 
-  /** 创建 canvas 的绘图上下文 [CanvasContext](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.html) 对象
-   *
-   * **Tip**: 需要指定 canvasId，该绘图上下文只作用于对应的 `<canvas/>`
-   * @supported weapp, h5
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.createCanvasContext.html
-   */
-  function createCanvasContext(
-    /** 要获取上下文的 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件 canvas-id 属性 */
-    canvasId: string,
-    /** 在自定义组件下，当前组件实例的this，表示在这个自定义组件下查找拥有 canvas-id 的 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) ，如果省略则不在任何自定义组件内查找 */
-    component?: General.IAnyObject,
-  ): CanvasContext
-
-  /** 把当前画布指定区域的内容导出生成指定大小的图片。在 `draw()` 回调里调用该方法才能保证图片导出成功。
-   *
-   * **Bug & Tip：**
-   *
-   * 1.  `tip`: 在 `draw` 回调里调用该方法才能保证图片导出成功。
-   * @example
-   * ```tsx
-   * Taro.canvasToTempFilePath({
-   *   x: 100,
-   *   y: 200,
-   *   width: 50,
-   *   height: 50,
-   *   destWidth: 100,
-   *   destHeight: 100,
-   *   canvasId: 'myCanvas',
-   *   success: function (res) {
-   *     console.log(res.tempFilePath)
-   *   }
-   * })
-   * ```
-   * @supported weapp, h5
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasToTempFilePath.html
-   */
-  function canvasToTempFilePath(
-    option: canvasToTempFilePath.Option,
-    /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件 */
-    component?: General.IAnyObject,
-  ): Promise<canvasToTempFilePath.SuccessCallbackResult>
+declare module '../../index' {
   namespace canvasToTempFilePath {
     interface Option {
       /** 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件实例 （canvas type="2d" 时使用该属性）。 */
@@ -118,28 +73,6 @@ declare namespace Taro {
       }
     }
   }
-
-  /** 将像素数据绘制到画布。在自定义组件下，第二个参数传入自定义组件实例 this，以操作组件内 <canvas> 组件
-   * @supported weapp, h5
-   * @example
-   * ```tsx
-   * const data = new Uint8ClampedArray([255, 0, 0, 1])
-   * Taro.canvasPutImageData({
-   *   canvasId: 'myCanvas',
-   *   x: 0,
-   *   y: 0,
-   *   width: 1,
-   *   data: data,
-   *   success: function (res) {}
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasPutImageData.html
-   */
-  function canvasPutImageData(
-    option: canvasPutImageData.Option,
-    /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件 */
-    component?: General.IAnyObject,
-  ): Promise<General.CallbackResult>
   namespace canvasPutImageData {
     interface Option {
       /** 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件的 canvas-id 属性。 */
@@ -162,32 +95,6 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-
-  /** 获取 canvas 区域隐含的像素数据。
-   * @supported weapp, h5
-   * @example
-   * ```tsx
-   * Taro.canvasGetImageData({
-   *   canvasId: 'myCanvas',
-   *   x: 0,
-   *   y: 0,
-   *   width: 100,
-   *   height: 100,
-   *   success: function (res) {
-   *     console.log(res.width) // 100
-   *     console.log(res.height) // 100
-   *     console.log(res.data instanceof Uint8ClampedArray) // true
-   *     console.log(res.data.length) // 100 * 100 * 4
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasGetImageData.html
-   */
-  function canvasGetImageData(
-    option: canvasGetImageData.Option,
-    /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件 */
-    component?: General.IAnyObject,
-  ): Promise<canvasGetImageData.SuccessCallbackResult>
   namespace canvasGetImageData {
     interface Option {
       /** 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件的 `canvas-id` 属性。 */
@@ -1779,4 +1686,102 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/RenderingContext.html
    */
   interface RenderingContext {}
+
+  interface TaroStatic {
+    /** 创建离屏 canvas 实例
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.createOffscreenCanvas.html
+     */
+    createOffscreenCanvas(): OffscreenCanvas
+
+    /** 创建 canvas 的绘图上下文 [CanvasContext](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.html) 对象
+     *
+     * **Tip**: 需要指定 canvasId，该绘图上下文只作用于对应的 `<canvas/>`
+     * @supported weapp, h5
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.createCanvasContext.html
+     */
+    createCanvasContext(
+      /** 要获取上下文的 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件 canvas-id 属性 */
+      canvasId: string,
+      /** 在自定义组件下，当前组件实例的this，表示在这个自定义组件下查找拥有 canvas-id 的 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) ，如果省略则不在任何自定义组件内查找 */
+      component?: General.IAnyObject,
+    ): CanvasContext
+
+    /** 把当前画布指定区域的内容导出生成指定大小的图片。在 `draw()` 回调里调用该方法才能保证图片导出成功。
+     *
+     * **Bug & Tip：**
+     *
+     * 1.  `tip`: 在 `draw` 回调里调用该方法才能保证图片导出成功。
+     * @example
+     * ```tsx
+     * Taro.canvasToTempFilePath({
+     *   x: 100,
+     *   y: 200,
+     *   width: 50,
+     *   height: 50,
+     *   destWidth: 100,
+     *   destHeight: 100,
+     *   canvasId: 'myCanvas',
+     *   success: function (res) {
+     *     console.log(res.tempFilePath)
+     *   }
+     * })
+     * ```
+     * @supported weapp, h5
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasToTempFilePath.html
+     */
+    canvasToTempFilePath(
+      option: canvasToTempFilePath.Option,
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件 */
+      component?: General.IAnyObject,
+    ): Promise<canvasToTempFilePath.SuccessCallbackResult>
+
+    /** 将像素数据绘制到画布。在自定义组件下，第二个参数传入自定义组件实例 this，以操作组件内 <canvas> 组件
+     * @supported weapp, h5
+     * @example
+     * ```tsx
+     * const data = new Uint8ClampedArray([255, 0, 0, 1])
+     * Taro.canvasPutImageData({
+     *   canvasId: 'myCanvas',
+     *   x: 0,
+     *   y: 0,
+     *   width: 1,
+     *   data: data,
+     *   success: function (res) {}
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasPutImageData.html
+     */
+    canvasPutImageData(
+      option: canvasPutImageData.Option,
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件 */
+      component?: General.IAnyObject,
+    ): Promise<General.CallbackResult>
+
+    /** 获取 canvas 区域隐含的像素数据。
+     * @supported weapp, h5
+     * @example
+     * ```tsx
+     * Taro.canvasGetImageData({
+     *   canvasId: 'myCanvas',
+     *   x: 0,
+     *   y: 0,
+     *   width: 100,
+     *   height: 100,
+     *   success: function (res) {
+     *     console.log(res.width) // 100
+     *     console.log(res.height) // 100
+     *     console.log(res.data instanceof Uint8ClampedArray) // true
+     *     console.log(res.data.length) // 100 * 100 * 4
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasGetImageData.html
+     */
+    canvasGetImageData(
+      option: canvasGetImageData.Option,
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件 */
+      component?: General.IAnyObject,
+    ): Promise<canvasGetImageData.SuccessCallbackResult>
+  }
 }

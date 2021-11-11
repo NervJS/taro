@@ -1,15 +1,7 @@
-declare namespace Taro {
-  /** 创建 camera 上下文 CameraContext 对象。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * const cameraContext = Taro.createCameraContext()
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/wx.createCameraContext.html
-   */
-  function createCameraContext(): CameraContext
+import Taro from '../../index'
 
-  /** 
+declare module '../../index' {
+  /**
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.html
    */
   interface CameraContext {
@@ -156,5 +148,17 @@ declare namespace Taro {
       /** 接口调用成功的回调函数 */
       success?: (res: General.CallbackResult) => void
     }
+  }
+
+  interface TaroStatic {
+    /** 创建 camera 上下文 CameraContext 对象。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * const cameraContext = Taro.createCameraContext()
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/wx.createCameraContext.html
+     */
+    createCameraContext(): CameraContext
   }
 }

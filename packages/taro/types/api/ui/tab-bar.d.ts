@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace showTabBarRedDot {
     interface Option {
       /** tabBar 的哪一项，从左边算起 */
@@ -12,12 +14,6 @@ declare namespace Taro {
     }
   }
 
-  /** 显示 tabBar 某一项的右上角的红点
-   * @supported weapp, h5
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.showTabBarRedDot.html
-   */
-  function showTabBarRedDot(option: showTabBarRedDot.Option): Promise<General.CallbackResult>
-
   namespace showTabBar {
     interface Option {
       /** 是否需要动画效果 */
@@ -30,12 +26,6 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-
-  /** 显示 tabBar
-   * @supported weapp, h5
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.showTabBar.html
-   */
-  function showTabBar(option?: showTabBar.Option): Promise<General.CallbackResult>
 
   namespace setTabBarStyle {
     interface Option {
@@ -56,21 +46,6 @@ declare namespace Taro {
     }
   }
 
-  /** 动态设置 tabBar 的整体样式
-   * @supported weapp, h5
-   * @example
-   * ```tsx
-   * Taro.setTabBarStyle({
-   *   color: '#FF0000',
-   *   selectedColor: '#00FF00',
-   *   backgroundColor: '#0000FF',
-   *   borderStyle: 'white'
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.setTabBarStyle.html
-   */
-  function setTabBarStyle(option?: setTabBarStyle.Option): Promise<General.CallbackResult>
-
   namespace setTabBarItem {
     interface Option {
       /** tabBar 的哪一项，从左边算起 */
@@ -90,21 +65,6 @@ declare namespace Taro {
     }
   }
 
-  /** 动态设置 tabBar 某一项的内容，`2.7.0` 起图片支持临时文件和网络文件。
-   * @supported weapp, h5, rn
-   * @example
-   * ```tsx
-   * Taro.setTabBarItem({
-   *   index: 0,
-   *   text: 'text',
-   *   iconPath: '/path/to/iconPath',
-   *   selectedIconPath: '/path/to/selectedIconPath'
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.setTabBarItem.html
-   */
-  function setTabBarItem(option: setTabBarItem.Option): Promise<General.CallbackResult>
-
   namespace setTabBarBadge {
     interface Option {
       /** tabBar 的哪一项，从左边算起 */
@@ -120,19 +80,6 @@ declare namespace Taro {
     }
   }
 
-  /** 为 tabBar 某一项的右上角添加文本
-   * @supported weapp, h5
-   * @example
-   * ```tsx
-   * Taro.setTabBarBadge({
-   *   index: 0,
-   *   text: '1'
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.setTabBarBadge.html
-   */
-  function setTabBarBadge(option: setTabBarBadge.Option): Promise<General.CallbackResult>
-
   namespace removeTabBarBadge {
     interface Option {
       /** tabBar 的哪一项，从左边算起 */
@@ -145,12 +92,6 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-
-  /** 移除 tabBar 某一项右上角的文本
-   * @supported weapp, h5
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.removeTabBarBadge.html
-   */
-  function removeTabBarBadge(option: removeTabBarBadge.Option): Promise<General.CallbackResult>
 
   namespace hideTabBarRedDot {
     interface Option {
@@ -165,12 +106,6 @@ declare namespace Taro {
     }
   }
 
-  /** 隐藏 tabBar 某一项的右上角的红点
-   * @supported weapp, h5
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.hideTabBarRedDot.html
-   */
-  function hideTabBarRedDot(option: hideTabBarRedDot.Option): Promise<General.CallbackResult>
-
   namespace hideTabBar {
     interface Option {
       /** 是否需要动画效果 */
@@ -184,9 +119,78 @@ declare namespace Taro {
     }
   }
 
-  /** 隐藏 tabBar
-   * @supported weapp, h5
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.hideTabBar.html
-   */
-  function hideTabBar(option?: hideTabBar.Option): Promise<General.CallbackResult>
+  interface TaroStatic {
+    /** 显示 tabBar 某一项的右上角的红点
+     * @supported weapp, h5
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.showTabBarRedDot.html
+     */
+    showTabBarRedDot(option: showTabBarRedDot.Option): Promise<General.CallbackResult>
+
+    /** 显示 tabBar
+     * @supported weapp, h5
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.showTabBar.html
+     */
+    showTabBar(option?: showTabBar.Option): Promise<General.CallbackResult>
+
+    /** 动态设置 tabBar 的整体样式
+     * @supported weapp, h5
+     * @example
+     * ```tsx
+     * Taro.setTabBarStyle({
+     *   color: '#FF0000',
+     *   selectedColor: '#00FF00',
+     *   backgroundColor: '#0000FF',
+     *   borderStyle: 'white'
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.setTabBarStyle.html
+     */
+    setTabBarStyle(option?: setTabBarStyle.Option): Promise<General.CallbackResult>
+
+    /** 动态设置 tabBar 某一项的内容，`2.7.0` 起图片支持临时文件和网络文件。
+     * @supported weapp, h5, rn
+     * @example
+     * ```tsx
+     * Taro.setTabBarItem({
+     *   index: 0,
+     *   text: 'text',
+     *   iconPath: '/path/to/iconPath',
+     *   selectedIconPath: '/path/to/selectedIconPath'
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.setTabBarItem.html
+     */
+    setTabBarItem(option: setTabBarItem.Option): Promise<General.CallbackResult>
+
+    /** 为 tabBar 某一项的右上角添加文本
+     * @supported weapp, h5
+     * @example
+     * ```tsx
+     * Taro.setTabBarBadge({
+     *   index: 0,
+     *   text: '1'
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.setTabBarBadge.html
+     */
+    setTabBarBadge(option: setTabBarBadge.Option): Promise<General.CallbackResult>
+
+    /** 移除 tabBar 某一项右上角的文本
+     * @supported weapp, h5
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.removeTabBarBadge.html
+     */
+    removeTabBarBadge(option: removeTabBarBadge.Option): Promise<General.CallbackResult>
+
+    /** 隐藏 tabBar 某一项的右上角的红点
+     * @supported weapp, h5
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.hideTabBarRedDot.html
+     */
+    hideTabBarRedDot(option: hideTabBarRedDot.Option): Promise<General.CallbackResult>
+
+    /** 隐藏 tabBar
+     * @supported weapp, h5
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.hideTabBar.html
+     */
+    hideTabBar(option?: hideTabBar.Option): Promise<General.CallbackResult>
+  }
 }

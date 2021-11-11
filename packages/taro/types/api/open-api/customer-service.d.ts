@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace openCustomerServiceChat {
     interface ExtInfo {
       url: string
@@ -25,17 +27,19 @@ declare namespace Taro {
     }
   }
 
-  /** 打开微信客服。了解更多信息，可以参考微信客服介绍：https://work.weixin.qq.com/kf/。
-   * @supported weapp 基础库 2.19.0 开始支持，低版本需做兼容处理。
-   * @example
-   * ```tsx
-   * Taro.openCustomerServiceChat({
-   *   extInfo: {url: ''},
-   *   corpId: '',
-   *   success: function (res) { }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/service-chat/wx.openCustomerServiceChat.html
-   */
-  function openCustomerServiceChat(option?: openCustomerServiceChat.Option): Promise<General.CallbackResult>
+  interface TaroStatic {
+    /** 打开微信客服。了解更多信息，可以参考微信客服介绍：https://work.weixin.qq.com/kf/。
+     * @supported weapp 基础库 2.19.0 开始支持，低版本需做兼容处理。
+     * @example
+     * ```tsx
+     * Taro.openCustomerServiceChat({
+     *   extInfo: {url: ''},
+     *   corpId: '',
+     *   success: function (res) { }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/service-chat/wx.openCustomerServiceChat.html
+     */
+    openCustomerServiceChat(option?: openCustomerServiceChat.Option): Promise<General.CallbackResult>
+  }
 }
