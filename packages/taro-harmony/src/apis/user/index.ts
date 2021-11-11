@@ -14,24 +14,22 @@ const hmsJSAccount = require('@hmscore/hms-jsb-account')
  * 帐号授权登录
  * @param options
  */
-function login (options: IAsyncParams) {
+const login = (options) => {
   const { res } = validateOptions('login', options)
-  const { success, fail, complete } = options
-
-  const signInOption = new hmsJSAccount.HuaweiIdAuthParamsHelper().setScope(hmsJSAccount.PROFILE).setAuthorizationCode().build()
-  hmsJSAccount.HuaweiIdAuthManager.getAuthApi().getSignInIntent(signInOption).then((result) => {
-    if (result) {
-      res.data = { code: result.serverAuthCode }
-      typeof success === 'function' && success(res)
-    } else {
-      res.errorMsg = 'signIn result data is null'
-      typeof fail === 'function' && fail(res)
-    }
-    typeof complete === 'function' && complete(res)
-  }).catch((error) => {
-    res.data = { errMsg: error.errMsg }
-    typeof fail === 'function' && fail(res)
-    typeof complete === 'function' && complete(res)
+  return new Promise((resolve, reject) => {
+    const signInOption = new hmsJSAccount.HuaweiIdAuthParamsHelper().setScope(hmsJSAccount.PROFILE).setAuthorizationCode().build()
+    hmsJSAccount.HuaweiIdAuthManager.getAuthApi().getSignInIntent(signInOption).then((result) => {
+      if (result) {
+        res.data = { code: result.serverAuthCode }
+        callAsyncSuccess(resolve, res, options)
+      } else {
+        res.errorMsg = 'signIn result data is null'
+        callAsyncFail(reject, res, options)
+      }
+    }).catch((error) => {
+      res.data = { errMsg: error.errMsg }
+      callAsyncFail(reject, res, options)
+    })
   })
 }
 
@@ -49,7 +47,7 @@ function getUserInfo (options: IAsyncParams) {
     res.data = { userInfo: generateUserInfo(result) }
     typeof success === 'function' && success(res)
   } else {
-    res.errorMsg = 'signIn result data is null'
+    res.errorMsg = 'getUserInfo result data is null'
     typeof fail === 'function' && fail(res)
   }
   typeof complete === 'function' && complete(res)
@@ -66,7 +64,7 @@ const getUserProfile = (options) => {
         res.data = { userInfo: generateUserInfo(result) }
         callAsyncSuccess(resolve, res, options)
       } else {
-        res.errorMsg = 'signIn result data is null'
+        res.errorMsg = 'getUserProfile result data is null'
         callAsyncFail(reject, res, options)
       }
     }).catch((error) => {
