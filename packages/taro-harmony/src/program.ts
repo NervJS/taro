@@ -190,6 +190,7 @@ export default class Harmony extends TaroPlatformBase {
           '@system.brightness': 'commonjs @system.brightness',
           '@ohos.telephony.call': 'commonjs @ohos.telephony.call',
           '@ohos.pasteboard': 'commonjs @ohos.pasteboard'
+          '@system.prompt': 'commonjs @system.prompt'
         }
       })
     })

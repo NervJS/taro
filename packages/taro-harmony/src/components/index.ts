@@ -57,6 +57,17 @@ export const components = {
     texton: singleQuote('On'),
     textoff: singleQuote('Off')
   },
+  Textarea: {
+    headericon: '',
+    showcounter: 'false',
+    menuoptions: '[]',
+    softkeyboardenabled: 'true',
+    bindtranslate: '',
+    bindshare: '',
+    bindsearch: '',
+    bindoptionselect: '',
+    bindselectchange: ''
+  },
   Progress: {
     'active-color': singleQuote('#09BB07'),
     'background-color': singleQuote('#EBEBEB'),
@@ -67,7 +78,7 @@ export const components = {
   },
   Slider: {
     showsteps: 'false',
-    showtips: 'false',
+    showtips: 'false'
   },
   Input: {
     'placeholder-color': singleQuote('#99000000')
@@ -85,4 +96,3 @@ export const components = {
     'group-id': ''
   }
 }
-
