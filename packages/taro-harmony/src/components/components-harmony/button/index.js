@@ -77,9 +77,6 @@ export default createOption({
     }
   },
   onTouchStart () {
-    if (this.disabled) {
-      return
-    }
     this.touch = true
     if (this.hoverClass && !this.disabled) {
       setTimeout(() => {
@@ -90,9 +87,6 @@ export default createOption({
     }
   },
   onTouchEnd () {
-    if (this.disabled) {
-      return
-    }
     this.touch = false
     if (this.hoverClass && !this.disabled) {
       setTimeout(() => {
