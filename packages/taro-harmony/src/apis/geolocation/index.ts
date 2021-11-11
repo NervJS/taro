@@ -49,7 +49,7 @@ export function getLocation (options: IGetWXGeolocationParams) {
     if (!err) {
       success && success(location)
     } else {
-      fail && fail(location)
+      fail && fail(err)
     }
     complete && complete(location)
   })
