@@ -197,10 +197,6 @@ export default class Harmony extends TaroPlatformBase {
       '@hmscore/hms-jsb-account': '^1.0.300'
     }
     const packageJsonFile = path.resolve(dest, '../../../../../package.json')
-    if (!packageJsonFile) {
-      console.warn("host package.json not exit, HMS service won't work")
-      return
-    }
     fs.readFile(packageJsonFile, function (err, data) {
       if (err) {
         return console.error(err)
