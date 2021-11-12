@@ -148,7 +148,7 @@ export class Tabbar implements ComponentInterface {
 
   switchTab = (index: number) => {
     this.selectedIndex = index
-    Taro.navigateTo({
+    Taro.switchTab({
       url: this.list[index].pagePath
     })
   }
@@ -180,9 +180,7 @@ export class Tabbar implements ComponentInterface {
 
     if (toLocation && toLocation.path) {
       const tmpPath = addLeadingSlash(toLocation.path)
-      currentPage = tmpPath === '/'
-        ? this.homePage
-        : tmpPath
+      currentPage = stripBasename(tmpPath === '/' ? this.homePage : tmpPath, this.conf.basename || '/')
     } else {
       currentPage = this.getCurrentUrl()
     }

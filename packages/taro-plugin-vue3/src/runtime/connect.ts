@@ -155,6 +155,29 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
         if (process.env.TARO_ENV === 'h5') {
           appInstance = app.mount('#app')
         }
+
+        // 把 App Class 上挂载的额外属性同步到全局 app 对象中
+        // eslint-disable-next-line dot-notation
+        if (app['taroGlobalData']) {
+          // eslint-disable-next-line dot-notation
+          const globalData = app['taroGlobalData']
+          const keys = Object.keys(globalData)
+          const descriptors = Object.getOwnPropertyDescriptors(globalData)
+          keys.forEach(key => {
+            Object.defineProperty(this, key, {
+              configurable: true,
+              enumerable: true,
+              get () {
+                return globalData[key]
+              },
+              set (value) {
+                globalData[key] = value
+              }
+            })
+          })
+          Object.defineProperties(this, descriptors)
+        }
+
         const onLaunch = appInstance?.$options?.onLaunch
         isFunction(onLaunch) && onLaunch.call(appInstance, options)
       }
