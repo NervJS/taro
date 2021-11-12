@@ -78,7 +78,7 @@ describe('Slider', () => {
     const wrapper = await mount(<Slider min={min} max={200} value={value} />, scratch)
     const { node } = wrapper
 
-    value = 0
+    value = 100
 
     assert(node.value === max)
 
