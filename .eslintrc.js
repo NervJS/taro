@@ -53,7 +53,8 @@ module.exports = {
     'getApp': 'readonly',
     'requirePlugin': 'readonly',
     'jd': 'readonly',
-    'LOCATION_APIKEY': 'readonly'
+    'LOCATION_APIKEY': 'readonly',
+    'ks': 'readonly'
   },
   'parserOptions': {
     'ecmaFeatures': {
