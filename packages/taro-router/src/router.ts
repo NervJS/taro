@@ -108,7 +108,7 @@ const topPageUnload = {
       page.onUnload()
       this.timer = null
       this.page = null
-    }, 300)
+    }, animateTime())
   },
   timer: null,
   page: null
