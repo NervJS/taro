@@ -3,42 +3,10 @@ import { PageInstance, requestAnimationFrame } from '@tarojs/runtime'
 
 import { bindPageScroll } from '../scroll'
 import { qs } from './qs'
-import { stacks } from './stack'
+import stacks from './stack'
 import { Route } from './'
 
-export function hidePage (page: PageInstance | null) {
-  if (page != null) {
-    page.onHide!()
-    const pageEl = document.getElementById(page.path!)
-    if (pageEl) {
-      pageEl.style.display = 'none'
-    }
-  }
-}
-
-export function showPage (page: PageInstance | null, pageConfig: Route = {}, stacksIndex = 0) {
-  if (page != null) {
-    page.onShow!()
-    let pageEl = document.getElementById(page.path!)
-    if (pageEl) {
-      pageEl.style.display = 'block'
-    } else {
-      page.onLoad(qs(stacksIndex))
-      pageEl = document.getElementById(page.path!)
-      pageOnReady(pageEl, page, false)
-    }
-    bindPageScroll(page, pageConfig)
-  }
-}
-
-export function unloadPage (page: PageInstance | null) {
-  if (page != null) {
-    stacks.pop()
-    page.onUnload()
-  }
-}
-
-export function pageOnReady (pageEl: Element | null, page: PageInstance, onLoad = true) {
+export function pageOnReady (page: PageInstance, pageEl: Element | null, onLoad = true) {
   if (pageEl && !pageEl?.['__isReady']) {
     const el = pageEl.firstElementChild
     el?.['componentOnReady']?.().then(() => {
@@ -51,19 +19,57 @@ export function pageOnReady (pageEl: Element | null, page: PageInstance, onLoad 
   }
 }
 
-export function loadPage (page: PageInstance | null, pageConfig: Route = {}, stacksIndex = 0) {
+export function loadPage (page: PageInstance, pageConfig: Route = {}, stacksIndex = 0) {
+  if (!page) return
+
+  let pageEl = document.getElementById(page.path!)
+  if (pageEl) {
+    pageEl.style.display = 'block'
+  } else {
+    page.onLoad(qs(stacksIndex), () => {
+      pageEl = document.getElementById(page.path!)
+      pageOnReady(page, pageEl)
+    })
+  }
+  stacks.push(page)
+  page.onShow!()
+  bindPageScroll(page, pageConfig)
+}
+
+export function unloadPage (page?: PageInstance | null, delta = 1) {
+  if (!page) return
+
+  stacks.delta = --delta
   if (page !== null) {
-    let pageEl = document.getElementById(page.path!)
-    if (pageEl) {
-      pageEl.style.display = 'block'
-    } else {
-      page.onLoad(qs(stacksIndex), function () {
-        pageEl = document.getElementById(page.path!)
-        pageOnReady(pageEl, page)
-      })
-    }
-    stacks.push(page)
-    page.onShow!()
-    bindPageScroll(page, pageConfig)
+    stacks.pop()
+    page.onUnload()
+  }
+  if (delta >= 1) {
+    return unloadPage(stacks.last, delta)
+  }
+}
+
+export function showPage (page?: PageInstance | null, pageConfig: Route = {}, stacksIndex = 0) {
+  if (!page) return
+
+  page.onShow!()
+  let pageEl = document.getElementById(page.path!)
+  if (pageEl) {
+    pageEl.style.display = 'block'
+  } else {
+    page.onLoad(qs(stacksIndex))
+    pageEl = document.getElementById(page.path!)
+    pageOnReady(page, pageEl, false)
+  }
+  bindPageScroll(page, pageConfig)
+}
+
+export function hidePage (page?: PageInstance | null) {
+  if (!page) return
+
+  page.onHide!()
+  const pageEl = document.getElementById(page.path!)
+  if (pageEl) {
+    pageEl.style.display = 'none'
   }
 }
