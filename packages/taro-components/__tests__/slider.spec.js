@@ -71,18 +71,20 @@ describe('Slider', () => {
     assert(node.disabled === true)
   })
 
-  it('should be between min~max', async () => {
-    const min = 50
+  it('should be max', async () => {
     const max = 200
-    let value = 300
-    const wrapper = await mount(<Slider min={min} max={200} value={value} />, scratch)
+    const current = 300
+    const wrapper = await mount(<Slider max={max} value={current} />, scratch)
     const { node } = wrapper
 
-    value = 100
-
     assert(node.value === max)
+  })
 
-    await wrapper.setProps({ value })
+  it('should be min', async () => {
+    const min = 50
+    const current = 0
+    const wrapper = await mount(<Slider min={min} value={current} />, scratch)
+    const { node } = wrapper
 
     assert(node.value === min)
   })
