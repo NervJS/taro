@@ -1,7 +1,7 @@
 describe('vue', () => {
   process.env.FRAMEWORK = 'vue'
+  const vue2Plugin = require('@tarojs/plugin-framework-vue2')
   const runtime = require('../../dist/runtime.esm')
-  const vue2Plugin = require('@tarojs/plugin-framework-vue2/dist/runtime')
   global.document = runtime.document
   global.window = runtime.window
   global.navigator = runtime.navigator

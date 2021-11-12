@@ -30,7 +30,6 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
-    "@tarojs/taro": "3.3.10",
-    "@tarojs/plugin-framework-vue2": "3.3.10"
+    "@tarojs/taro": "3.3.10"
   }
 }
