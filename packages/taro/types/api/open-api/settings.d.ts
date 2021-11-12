@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace openSetting {
     interface Option {
       /**
@@ -7,76 +9,38 @@ declare namespace Taro {
        */
       withSubscriptions?: boolean
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
 
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 用户授权结果 */
       authSetting: AuthSetting
       /** 调用结果 */
       errMsg: string
     }
   }
-
-  /** 调起客户端小程序设置界面，返回用户设置的操作结果。**设置界面只会出现小程序已经向用户请求过的[权限](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html)**。
-   *
-   * 注意：[2.3.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) 版本开始，用户发生点击行为后，才可以跳转打开设置页，管理授权信息。[详情](https://developers.weixin.qq.com/community/develop/doc/000cea2305cc5047af5733de751008)
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.openSetting({
-   *   success: function (res) {
-   *     console.log(res.authSetting)
-   *     // res.authSetting = {
-   *     //   "scope.userInfo": true,
-   *     //   "scope.userLocation": true
-   *     // }
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/setting/wx.openSetting.html
-   */
-  function openSetting(option?: openSetting.Option): Promise<openSetting.SuccessCallbackResult>
 
   namespace getSetting {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
 
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 用户授权结果 */
       authSetting: AuthSetting
       /** 调用结果 */
       errMsg: string
     }
   }
-
-  /** 获取用户的当前设置。**返回值中只会出现小程序已经向用户请求过的[权限](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html)**。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.getSetting({
-   *   success: function (res) {
-   *     console.log(res.authSetting)
-   *     // res.authSetting = {
-   *     //   "scope.userInfo": true,
-   *     //   "scope.userLocation": true
-   *     // }
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/setting/wx.getSetting.html
-   */
-  function getSetting(option?: getSetting.Option): Promise<getSetting.SuccessCallbackResult>
 
   /** 用户授权设置信息，详情参考[权限](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html)
    * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html
@@ -100,5 +64,45 @@ declare namespace Taro {
     'scope.werun'?: boolean
     /** 是否授权保存到相册 [wx.saveImageToPhotosAlbum](https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.saveImageToPhotosAlbum.html), [wx.saveVideoToPhotosAlbum](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.saveVideoToPhotosAlbum.html) */
     'scope.writePhotosAlbum'?: boolean
+  }
+
+  interface TaroStatic {
+    /** 调起客户端小程序设置界面，返回用户设置的操作结果。**设置界面只会出现小程序已经向用户请求过的[权限](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html)**。
+     *
+     * 注意：[2.3.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) 版本开始，用户发生点击行为后，才可以跳转打开设置页，管理授权信息。[详情](https://developers.weixin.qq.com/community/develop/doc/000cea2305cc5047af5733de751008)
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.openSetting({
+     *   success: function (res) {
+     *     console.log(res.authSetting)
+     *     // res.authSetting = {
+     *     //   "scope.userInfo": true,
+     *     //   "scope.userLocation": true
+     *     // }
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/setting/wx.openSetting.html
+     */
+    openSetting(option?: openSetting.Option): Promise<openSetting.SuccessCallbackResult>
+
+    /** 获取用户的当前设置。**返回值中只会出现小程序已经向用户请求过的[权限](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html)**。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.getSetting({
+     *   success: function (res) {
+     *     console.log(res.authSetting)
+     *     // res.authSetting = {
+     *     //   "scope.userInfo": true,
+     *     //   "scope.userLocation": true
+     *     // }
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/setting/wx.getSetting.html
+     */
+    getSetting(option?: getSetting.Option): Promise<getSetting.SuccessCallbackResult>
   }
 }

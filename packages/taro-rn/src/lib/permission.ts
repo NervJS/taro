@@ -57,7 +57,7 @@ const handleAppStateChange = async (nextAppState, resolve, reject, opts) => {
   // AppState.currentState = nextAppState;
 };
 
-export async function authorize(opts: Taro.authorize.Option): Promise<Taro.General.CallbackResult> {
+export async function authorize(opts: Taro.authorize.Option): Promise<TaroGeneral.CallbackResult> {
   const { scope, success, fail, complete } = opts
   const res: any = {}
 
