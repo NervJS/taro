@@ -1,13 +1,13 @@
 /* eslint-disable dot-notation */
 import UniversalRouter, { Routes } from 'universal-router'
-import { Listener as LocationListener, State as LocationState, Action as LocationAction } from 'history'
+import { Listener as LocationListener, Action as LocationAction } from 'history'
 import { createPageConfig, Current, eventCenter, container, SERVICE_IDENTIFIER, stringify, requestAnimationFrame } from '@tarojs/runtime'
 import { qs } from './qs'
-import { history, parsePath } from './history'
+import { history, prependBasename } from './history'
 import { stacks } from './stack'
 import { init, routerConfig } from './init'
 import { bindPageScroll } from './scroll'
-import { setRoutesAlias, addLeadingSlash, historyBackDelta, setHistoryBackDelta, throttle } from './utils'
+import { setRoutesAlias, addLeadingSlash, historyBackDelta, setHistoryBackDelta, throttle, isTabBar, stripBasename } from './utils'
 
 import type { AppConfig, PageConfig } from '@tarojs/taro'
 import type { PageInstance, AppInstance, IHooks } from '@tarojs/runtime'
@@ -117,7 +117,7 @@ export function createRouter (
   const router = new UniversalRouter(routes, { baseUrl: basename || '' })
   app.onLaunch!()
 
-  const render: LocationListener<LocationState> = throttle(async ({ location, action }) => {
+  const render: LocationListener = throttle(async ({ location, action }) => {
     routerConfig.router.pathname = location.pathname
     let element
     try {
@@ -174,29 +174,45 @@ export function createRouter (
       hidePage(Current.page)
       shouldLoad = true
     } else if (action === 'REPLACE') {
-      unloadPage(Current.page)
+      if (isTabBar(config)) {
+        hidePage(Current.page)
+
+        const pathname = stripBasename(config.router.pathname, basename)
+        const prevIndex = stacks.findIndex((r) => {
+          return r.path?.replace(/\?.*/g, '') === pathname
+        })
+        if (prevIndex > -1) {
+          // tabbar 页且之前出现过，直接复用
+          const prev = stacks[prevIndex]
+          return showPage(prev, pageConfig, prevIndex)
+        }
+      } else {
+        unloadPage(Current.page)
+      }
       shouldLoad = true
     }
 
     if (shouldLoad) {
       const el = element.default ?? element
-      const config = { ...pageConfig }
-      delete config['path']
-      delete config['load']
+      const loadConfig = { ...pageConfig }
+      delete loadConfig['path']
+      delete loadConfig['load']
 
-      const pathname = basename ? location.pathname.replace(basename, '') : location.pathname
+      const pathname = stripBasename(config.router.pathname, basename)
+      const routerIndex = stacks.length
+
       const page = createPageConfig(
         enablePullDownRefresh ? runtimeHooks.createPullDownComponent?.(el, location.pathname, framework, routerConfig.PullDownRefresh) : el,
-        pathname + stringify(qs(stacks.length)),
+        pathname + stringify(qs(routerIndex)),
         {},
-        config
+        loadConfig
       )
-      loadPage(page, pageConfig, stacks.length)
+      loadPage(page, pageConfig, routerIndex)
     }
   }, 500)
 
   if (history.location.pathname === '/') {
-    history.replace(parsePath(routes[0].path as string + history.location.search))
+    history.replace(prependBasename(routes[0].path as string + history.location.search))
   }
 
   render({ location: history.location, action: LocationAction.Push })

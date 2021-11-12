@@ -18,7 +18,7 @@ declare namespace Taro {
    *   success: function (res) {
    *     const filePath = res.tempFilePath
    *     Taro.playVoice({ filePath })
-   * 
+   *
    *     setTimeout(Taro.stopVoice, 5000)
    *   }
    * })
@@ -28,7 +28,7 @@ declare namespace Taro {
    * Taro.startRecord(params).then(res => {
    *   const filePath = res.tempFilePath
    *   Taro.playVoice({ filePath })
-   * 
+   *
    *   setTimeout(Taro.stopVoice, 5000)
    * })
    * ```
@@ -299,6 +299,10 @@ declare namespace Taro {
      * @default 1
      */
     volume: number
+    /** 播放速度。范围 0.5-2.0。
+     * @default 1
+     */
+    playbackRate: number
     /** 播放 */
     play(): void
     /** 暂停 */

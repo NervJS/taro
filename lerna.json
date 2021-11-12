@@ -1,5 +1,5 @@
 {
-  "version": "3.3.9",
+  "version": "3.3.12",
   "npmClient": "yarn",
   "command": {
     "create": {
