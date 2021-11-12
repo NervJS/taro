@@ -95,9 +95,12 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
   let unmounting = false
   let prepareMountList: (() => void)[] = []
-
+  let loadResolver: (...args: unknown[]) => void
+  let hasLoaded: Promise<void>
   const config: PageInstance = {
     onLoad (this: MpInstance, options, cb?: Func) {
+      hasLoaded = new Promise(resolve => { loadResolver = resolve })
+
       perf.start(PAGE_INIT)
 
       Current.page = this as any
@@ -126,6 +129,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
           ensure(pageElement !== null, '没有找到页面实例。')
           safeExecute(this.$taroPath, 'onLoad', this.$taroParams)
+          loadResolver()
           if (!isBrowser) {
             pageElement.ctx = this
             pageElement.performUpdate(true, cb)
@@ -163,22 +167,24 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       })
     },
     onShow () {
-      Current.page = this as any
-      this.config = pageConfig || {}
-      const router = isBrowser ? this.$taroPath : this.route || this.__route__
-      Current.router = {
-        params: this.$taroParams,
-        path: addLeadingSlash(router),
-        onReady: getOnReadyEventKey(id),
-        onShow: getOnShowEventKey(id),
-        onHide: getOnHideEventKey(id)
-      }
+      hasLoaded.then(() => {
+        Current.page = this as any
+        this.config = pageConfig || {}
+        const router = isBrowser ? this.$taroPath : this.route || this.__route__
+        Current.router = {
+          params: this.$taroParams,
+          path: addLeadingSlash(router),
+          onReady: getOnReadyEventKey(id),
+          onShow: getOnShowEventKey(id),
+          onHide: getOnHideEventKey(id)
+        }
 
-      raf(() => {
-        eventCenter.trigger(getOnShowEventKey(id))
+        raf(() => {
+          eventCenter.trigger(getOnShowEventKey(id))
+        })
+
+        safeExecute(this.$taroPath, 'onShow')
       })
-
-      safeExecute(this.$taroPath, 'onShow')
     },
     onHide () {
       Current.page = null
