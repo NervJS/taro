@@ -4,7 +4,7 @@ declare module './index' {
   /**
    * 微信小程序全局 Window 配置和页面配置的公共项目
    */
-  interface CommonPageConfig {
+  interface CommonConfig {
     /**
      * 导航栏背景颜色，HexColor
      * default: #000000
@@ -57,7 +57,7 @@ declare module './index' {
     onReachBottomDistance?: number
   }
 
-  interface PageConfig extends CommonPageConfig {
+  interface PageConfig extends CommonConfig {
     /**
      * 设置为 true 则页面整体不能上下滚动；
      * 只在页面配置中有效，无法在 app.json 中设置该项
@@ -87,7 +87,7 @@ declare module './index' {
     enableShareTimeline?: boolean
   }
 
-  interface WindowConfig extends CommonPageConfig {
+  interface WindowConfig extends CommonConfig {
     /**
      * 屏幕旋转设置
      * 支持 auto / portrait / landscape
@@ -108,7 +108,7 @@ declare module './index' {
     allowsBounceVertical?: 'YES' | 'NO'
   }
 
-  interface TarBarList {
+  interface TabBarItem {
     /**
      * 页面路径，必须在 pages 中先定义
      */
@@ -157,7 +157,7 @@ declare module './index' {
      */
     custom?: boolean
 
-    list: TarBarList[]
+    list: TabBarItem[]
   }
 
   interface NetworkTimeout {
@@ -343,10 +343,10 @@ declare module './index' {
   }
 
   interface TaroStatic {
-    CommonPageConfig: CommonPageConfig
+    CommonConfig: CommonConfig
     PageConfig: PageConfig
     WindowConfig: WindowConfig
-    TarBarList: TarBarList
+    TarBarList: TabBarItem
     TabBar: TabBar
     NetworkTimeout: NetworkTimeout
     SubPackage: SubPackage
