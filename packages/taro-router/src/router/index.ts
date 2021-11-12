@@ -1,16 +1,20 @@
 /* eslint-disable dot-notation */
-import UniversalRouter, { Routes } from 'universal-router'
-import { Listener as LocationListener, Action as LocationAction } from 'history'
-import { createPageConfig, Current, eventCenter, container, SERVICE_IDENTIFIER, stringify, requestAnimationFrame } from '@tarojs/runtime'
-import { qs } from './qs'
-import { history, prependBasename } from './history'
-import { stacks } from './stack'
-import { init, routerConfig } from './init'
-import { bindPageScroll } from './scroll'
-import { setRoutesAlias, addLeadingSlash, historyBackDelta, setHistoryBackDelta, throttle, isTabBar, stripBasename } from './utils'
-
+import {
+  AppInstance,
+  container, createPageConfig, Current,
+  eventCenter, IHooks,
+  SERVICE_IDENTIFIER, stringify
+} from '@tarojs/runtime'
 import type { AppConfig, PageConfig } from '@tarojs/taro'
-import type { PageInstance, AppInstance, IHooks } from '@tarojs/runtime'
+import { Listener as LocationListener, Action as LocationAction } from 'history'
+import UniversalRouter, { Routes } from 'universal-router'
+
+import { history, prependBasename, stripBasename } from '../history'
+import { init, routerConfig } from './init'
+import { unloadPage, showPage, hidePage, loadPage } from './page'
+import { qs } from './qs'
+import { stacks } from './stack'
+import { setRoutesAlias, addLeadingSlash, historyBackDelta, setHistoryBackDelta, isTabBar } from '../utils'
 
 export interface Route extends PageConfig {
   path?: string
@@ -27,69 +31,6 @@ export interface RouterConfig extends AppConfig {
     forcePath?: string
   },
   PullDownRefresh?: any
-}
-
-function hidePage (page: PageInstance | null) {
-  if (page != null) {
-    page.onHide!()
-    const pageEl = document.getElementById(page.path!)
-    if (pageEl) {
-      pageEl.style.display = 'none'
-    }
-  }
-}
-
-function showPage (page: PageInstance | null, pageConfig: Route | undefined, stacksIndex = 0) {
-  if (page != null) {
-    page.onShow!()
-    let pageEl = document.getElementById(page.path!)
-    if (pageEl) {
-      pageEl.style.display = 'block'
-    } else {
-      page.onLoad(qs(stacksIndex))
-      pageEl = document.getElementById(page.path!)
-      pageOnReady(pageEl, page, false)
-    }
-    bindPageScroll(page, pageConfig || {})
-  }
-}
-
-function unloadPage (page: PageInstance | null) {
-  if (page != null) {
-    stacks.pop()
-    page.onUnload()
-  }
-}
-
-function pageOnReady (pageEl: Element | null, page: PageInstance, onLoad = true) {
-  if (pageEl && !pageEl?.['__isReady']) {
-    const el = pageEl.firstElementChild
-    // eslint-disable-next-line no-unused-expressions
-    el?.['componentOnReady']?.().then(() => {
-      requestAnimationFrame(() => {
-        page.onReady!()
-        pageEl!['__isReady'] = true
-      })
-    })
-    onLoad && (pageEl['__page'] = page)
-  }
-}
-
-function loadPage (page: PageInstance | null, pageConfig: Route | undefined, stacksIndex = 0) {
-  if (page !== null) {
-    let pageEl = document.getElementById(page.path!)
-    if (pageEl) {
-      pageEl.style.display = 'block'
-    } else {
-      page.onLoad(qs(stacksIndex), function () {
-        pageEl = document.getElementById(page.path!)
-        pageOnReady(pageEl, page)
-      })
-    }
-    stacks.push(page)
-    page.onShow!()
-    bindPageScroll(page, pageConfig || {})
-  }
 }
 
 export function createRouter (
@@ -117,7 +58,7 @@ export function createRouter (
   const router = new UniversalRouter(routes, { baseUrl: basename || '' })
   app.onLaunch!()
 
-  const render: LocationListener = throttle(async ({ location, action }) => {
+  const render: LocationListener = async ({ location, action }) => {
     routerConfig.router.pathname = location.pathname
     let element
     try {
@@ -207,9 +148,9 @@ export function createRouter (
         {},
         loadConfig
       )
-      loadPage(page, pageConfig, routerIndex)
+      return loadPage(page, pageConfig, routerIndex)
     }
-  }, 500)
+  }
 
   if (history.location.pathname === '/') {
     history.replace(prependBasename(routes[0].path as string + history.location.search))

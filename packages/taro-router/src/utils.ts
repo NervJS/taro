@@ -1,3 +1,4 @@
+import { stripBasename } from './history'
 import { RouterConfig } from './router'
 export let routesAlias = {}
 
@@ -31,8 +32,6 @@ export const throttle = (fn: Function, threshold: number) => {
     }
   }
 }
-
-export const stripBasename = (path: string, basename: string): string => path.startsWith(basename) ? path.replace(basename, '') : path
 
 export const isTabBar = (config: RouterConfig): boolean => {
   const { customRoutes = {}, basename = '', pathname } = config.router
