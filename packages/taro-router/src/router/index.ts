@@ -11,10 +11,19 @@ import UniversalRouter, { Routes } from 'universal-router'
 
 import { history, prependBasename, stripBasename } from '../history'
 import { init, routerConfig } from './init'
-import { unloadPage, showPage, hidePage, loadPage } from './page'
+import { hidePage, loadPage, showPage, unloadPage } from './page'
 import { qs } from './qs'
-import { stacks } from './stack'
-import { setRoutesAlias, addLeadingSlash, historyBackDelta, setHistoryBackDelta, isTabBar } from '../utils'
+import stacks from './stack'
+import { addLeadingSlash, isTabBar, setRoutesAlias } from '../utils'
+
+/**
+ * TODO
+ * - [ ] api 调用顺序执行
+ * - [ ] 页面显示同步执行
+ * - [ ] 页面生命周期控制
+ * - [ ] 页面异常控制 （多页共存、漏页）
+ * - [ ] TabBar 相关 API 修复
+ */
 
 export interface Route extends PageConfig {
   path?: string
@@ -93,21 +102,11 @@ export function createRouter (
     let shouldLoad = false
 
     if (action === 'POP') {
-      unloadPage(Current.page)
-      let delta = historyBackDelta
-      while (delta-- > 1) {
-        unloadPage(stacks.slice(-1)[0])
-      }
-      // 最终必须重置为 1
-      setHistoryBackDelta(1)
-      const prevIndex = stacks.reduceRight((p, s, i) => {
-        if (p !== 0) return p
-        else if (s.path === location.pathname + stringify(qs(i))) return i
-        else return 0
-      }, 0)
-      const prev = stacks[prevIndex]
-      if (prev) {
-        showPage(prev, pageConfig, prevIndex)
+      // NOTE: 浏览器事件退后多次时，该事件只会被触发一次
+      const prevIndex = stacks.getPrevIndex(location.pathname)
+      unloadPage(Current.page, stacks.delta)
+      if (prevIndex > -1) {
+        showPage(stacks.getItem(prevIndex), pageConfig, prevIndex)
       } else {
         shouldLoad = true
       }
@@ -119,13 +118,10 @@ export function createRouter (
         hidePage(Current.page)
 
         const pathname = stripBasename(config.router.pathname, basename)
-        const prevIndex = stacks.findIndex((r) => {
-          return r.path?.replace(/\?.*/g, '') === pathname
-        })
+        const prevIndex = stacks.getPrevIndex(pathname)
         if (prevIndex > -1) {
-          // tabbar 页且之前出现过，直接复用
-          const prev = stacks[prevIndex]
-          return showPage(prev, pageConfig, prevIndex)
+          // NOTE: tabbar 页且之前出现过，直接复用
+          return showPage(stacks.getItem(prevIndex), pageConfig, prevIndex)
         }
       } else {
         unloadPage(Current.page)
