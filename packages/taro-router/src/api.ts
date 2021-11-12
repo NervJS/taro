@@ -1,5 +1,5 @@
 import { parsePath } from 'history'
-import { stacks } from './stack'
+import { stacks } from './router/stack'
 import { history, prependBasename } from './history'
 import { routesAlias, addLeadingSlash, setHistoryBackDelta } from './utils'
 
