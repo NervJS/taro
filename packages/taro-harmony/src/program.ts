@@ -172,6 +172,8 @@ export default class Harmony extends TaroPlatformBase {
         const dest = path.join(compsDestDir, name)
         fs.copy(src, dest)
       })
+
+      this.modifyHostPackageDep(dest)
     })
   }
 
@@ -184,6 +186,41 @@ export default class Harmony extends TaroPlatformBase {
           '@system.prompt': 'commonjs @system.prompt',
           '@ohos.data.storage': 'commonjs @ohos.data.storage',
           '@hmscore/hms-jsb-account': 'commonjs @hmscore/hms-jsb-account'
+        }
+      })
+    })
+  }
+
+  modifyHostPackageDep (dest) {
+    const hmsDeps = {
+      '@hmscore/hms-js-base': '^6.1.0-300',
+      '@hmscore/hms-jsb-account': '^1.0.300'
+    }
+    const packageJsonFile = path.resolve(dest, '../../../../../package.json')
+    if (!packageJsonFile) {
+      console.warn("host package.json not exit, HMS service won't work")
+      return
+    }
+    fs.readFile(packageJsonFile, function (err, data) {
+      if (err) {
+        return console.error(err)
+      }
+      let packageJson = data.toString()
+      packageJson = JSON.parse(packageJson)
+      // @ts-ignore
+      if (!packageJson.dependencies) {
+        // @ts-ignore
+        packageJson.dependencies = hmsDeps
+      } else {
+        for (const hmsDep in hmsDeps) {
+          // @ts-ignore
+          packageJson.dependencies[hmsDep] = hmsDeps[hmsDep]
+        }
+      }
+      packageJson = JSON.stringify(packageJson)
+      fs.writeFile(packageJsonFile, packageJson, function (err) {
+        if (err) {
+          console.error(err)
         }
       })
     })
