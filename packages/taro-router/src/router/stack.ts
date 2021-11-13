@@ -13,10 +13,6 @@ class Stacks {
     }
   }
 
-  get delta () {
-    return this.backDelta >= 1 ? this.backDelta : 1
-  }
-
   get length () {
     return this.stacks.length
   }
@@ -33,12 +29,17 @@ class Stacks {
     return this.stacks[index]
   }
 
-  getPrevIndex (pathname: string) {
+  getDelta (pathname: string) {
     if (this.backDelta >= 1) {
-      const prevIndex = this.length - 1 - this.backDelta
-      if (prevIndex >= 0) return prevIndex
+      return this.backDelta
     }
-    return this.stacks.findIndex(r => r.path?.replace(/\?.*/g, '') === pathname)
+    // NOTE: 此处为了修复浏览器后退多级页面，在大量重复路由状况下可能出现判断错误的情况 （增强判断能力只能考虑在 query 中新增参数来判断，暂时搁置）
+    const prevIndex = this.stacks.findIndex(r => r.path?.replace(/\?.*/g, '') === pathname)
+    return this.length - 1 - prevIndex
+  }
+
+  getPrevIndex (pathname: string) {
+    return this.length - 1 - this.getDelta(pathname)
   }
 
   pop () {

@@ -6,7 +6,8 @@ import { qs } from './qs'
 import stacks from './stack'
 import { Route } from './'
 
-export function pageOnReady (page: PageInstance, pageEl: Element | null, onLoad = true) {
+export function pageOnReady (page: PageInstance, onLoad = true) {
+  const pageEl = document.getElementById(page.path!)
   if (pageEl && !pageEl?.['__isReady']) {
     const el = pageEl.firstElementChild
     el?.['componentOnReady']?.().then(() => {
@@ -22,14 +23,11 @@ export function pageOnReady (page: PageInstance, pageEl: Element | null, onLoad 
 export function loadPage (page: PageInstance, pageConfig: Route = {}, stacksIndex = 0) {
   if (!page) return
 
-  let pageEl = document.getElementById(page.path!)
+  const pageEl = document.getElementById(page.path!)
   if (pageEl) {
     pageEl.style.display = 'block'
   } else {
-    page.onLoad(qs(stacksIndex), () => {
-      pageEl = document.getElementById(page.path!)
-      pageOnReady(page, pageEl)
-    })
+    page.onLoad(qs(stacksIndex), () => pageOnReady(page, true))
   }
   stacks.push(page)
   page.onShow!()
@@ -40,26 +38,20 @@ export function unloadPage (page?: PageInstance | null, delta = 1) {
   if (!page) return
 
   stacks.delta = --delta
-  if (page !== null) {
-    stacks.pop()
-    page.onUnload()
-  }
-  if (delta >= 1) {
-    return unloadPage(stacks.last, delta)
-  }
+  stacks.pop()
+  page.onUnload()
+  if (delta >= 1) unloadPage(stacks.last, delta)
 }
 
 export function showPage (page?: PageInstance | null, pageConfig: Route = {}, stacksIndex = 0) {
   if (!page) return
 
   page.onShow!()
-  let pageEl = document.getElementById(page.path!)
+  const pageEl = document.getElementById(page.path!)
   if (pageEl) {
     pageEl.style.display = 'block'
   } else {
-    page.onLoad(qs(stacksIndex))
-    pageEl = document.getElementById(page.path!)
-    pageOnReady(page, pageEl, false)
+    page.onLoad(qs(stacksIndex), () => pageOnReady(page, false))
   }
   bindPageScroll(page, pageConfig)
 }
@@ -67,9 +59,12 @@ export function showPage (page?: PageInstance | null, pageConfig: Route = {}, st
 export function hidePage (page?: PageInstance | null) {
   if (!page) return
 
-  page.onHide!()
+  // NOTE: 修复多页并发问题，此处可能因为路由跳转过快，执行时页面可能还没有创建成功
   const pageEl = document.getElementById(page.path!)
   if (pageEl) {
     pageEl.style.display = 'none'
+    page.onHide!()
+  } else {
+    setTimeout(() => hidePage(page), 0)
   }
 }
