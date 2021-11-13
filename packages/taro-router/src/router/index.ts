@@ -9,7 +9,7 @@ import type { AppConfig, PageConfig } from '@tarojs/taro'
 import { Listener as LocationListener, Action as LocationAction } from 'history'
 import UniversalRouter, { Routes } from 'universal-router'
 
-import { history, prependBasename, stripBasename } from '../history'
+import { history, prependBasename } from '../history'
 import { init, routerConfig } from './init'
 import { hidePage, loadPage, showPage, unloadPage } from './page'
 import { qs } from './qs'
@@ -19,9 +19,6 @@ import { addLeadingSlash, isTabBar, setRoutesAlias } from '../utils'
 /**
  * TODO
  * - [ ] api 调用顺序执行
- * - [ ] 页面显示同步执行
- * - [ ] 页面生命周期控制
- * - [ ] 页面异常控制 （多页共存、漏页）
  * - [ ] TabBar 相关 API 修复
  */
 
@@ -99,32 +96,34 @@ export function createRouter (
       enablePullDownRefresh = pageConfig.enablePullDownRefresh!
     }
 
+    const currentPage = Current.page
+    const pathname = location.pathname
     let shouldLoad = false
 
     if (action === 'POP') {
       // NOTE: 浏览器事件退后多次时，该事件只会被触发一次
-      const prevIndex = stacks.getPrevIndex(location.pathname)
-      unloadPage(Current.page, stacks.delta)
+      const prevIndex = stacks.getPrevIndex(pathname)
+      const delta = stacks.getDelta(pathname)
+      unloadPage(currentPage, delta)
       if (prevIndex > -1) {
         showPage(stacks.getItem(prevIndex), pageConfig, prevIndex)
       } else {
         shouldLoad = true
       }
     } else if (action === 'PUSH') {
-      hidePage(Current.page)
+      hidePage(currentPage)
       shouldLoad = true
     } else if (action === 'REPLACE') {
       if (isTabBar(config)) {
-        hidePage(Current.page)
+        hidePage(currentPage)
 
-        const pathname = stripBasename(config.router.pathname, basename)
         const prevIndex = stacks.getPrevIndex(pathname)
         if (prevIndex > -1) {
           // NOTE: tabbar 页且之前出现过，直接复用
           return showPage(stacks.getItem(prevIndex), pageConfig, prevIndex)
         }
       } else {
-        unloadPage(Current.page)
+        unloadPage(currentPage)
       }
       shouldLoad = true
     }
@@ -132,19 +131,17 @@ export function createRouter (
     if (shouldLoad) {
       const el = element.default ?? element
       const loadConfig = { ...pageConfig }
+      const stacksIndex = stacks.length
       delete loadConfig['path']
       delete loadConfig['load']
 
-      const pathname = stripBasename(config.router.pathname, basename)
-      const routerIndex = stacks.length
-
       const page = createPageConfig(
         enablePullDownRefresh ? runtimeHooks.createPullDownComponent?.(el, location.pathname, framework, routerConfig.PullDownRefresh) : el,
-        pathname + stringify(qs(routerIndex)),
+        pathname + stringify(qs(stacksIndex)),
         {},
         loadConfig
       )
-      return loadPage(page, pageConfig, routerIndex)
+      return loadPage(page, pageConfig, stacksIndex)
     }
   }
 
