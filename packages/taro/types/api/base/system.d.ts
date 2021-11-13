@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace getSystemInfoSync {
     /**
      * 注意：**H5** 端不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
@@ -44,7 +46,7 @@ declare namespace Taro {
       /** 客户端平台 */
       platform: string
       /** 在竖屏正方向下的安全区域 */
-      safeArea: General.SafeAreaResult
+      safeArea: TaroGeneral.SafeAreaResult
       /** 屏幕高度，单位px */
       screenHeight: number
       /** 屏幕宽度，单位px */
@@ -54,7 +56,7 @@ declare namespace Taro {
       /** 操作系统及版本 */
       system: string
       /** 系统当前主题，取值为light或dark，全局配置"darkmode":true时才能获取，否则为 undefined （不支持小游戏） */
-      theme?: 'light' | 'dark' 
+      theme?: 'light' | 'dark'
       /** 微信版本号 */
       version: string
       /** Wi-Fi 的系统开关 */
@@ -67,28 +69,6 @@ declare namespace Taro {
       environment?: string
     }
   }
-
-  /**
-   * 获取系统信息同步接口。
-   * @supported weapp, h5, rn
-   * @example
-   * ```tsx
-   * try {
-   *   const res = Taro.getSystemInfoSync()
-   *   console.log(res.model)
-   *   console.log(res.pixelRatio)
-   *   console.log(res.windowWidth)
-   *   console.log(res.windowHeight)
-   *   console.log(res.language)
-   *   console.log(res.version)
-   *   console.log(res.platform)
-   * } catch (e) {
-   *   // Do something when catch error
-   * }
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/system/system-info/wx.getSystemInfoSync.html
-   */
-  function getSystemInfoSync(): getSystemInfoSync.Result
 
   namespace getSystemInfo {
     interface Option {
@@ -103,7 +83,7 @@ declare namespace Taro {
      * 注意：**H5** 端不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
      * 小程序可以在微信和企业微信中调用此接口，但是在企业微信中调用此接口时，会额外返回一个 environment 字段（微信中不返回），如此字段值为 wxwork，则表示当前小程序运行在企业微信环境中。
      */
-    interface Result extends General.CallbackResult {
+    interface Result extends TaroGeneral.CallbackResult {
       /** 客户端基础库版本 */
       SDKVersion: string
       /** 允许微信使用相册的开关（仅 iOS 有效） */
@@ -141,7 +121,7 @@ declare namespace Taro {
       /** 客户端平台 */
       platform: string
       /** 在竖屏正方向下的安全区域 */
-      safeArea: General.SafeAreaResult
+      safeArea: TaroGeneral.SafeAreaResult
       /** 屏幕高度，单位px */
       screenHeight: number
       /** 屏幕宽度，单位px */
@@ -162,33 +142,58 @@ declare namespace Taro {
       environment?: string
       /** 调用结果 */
       errMsg: string
+    }
   }
+
+  interface TaroStatic {
+    /**
+     * 获取系统信息同步接口。
+     * @supported weapp, h5, rn
+     * @example
+     * ```tsx
+     * try {
+     *   const res = Taro.getSystemInfoSync()
+     *   console.log(res.model)
+     *   console.log(res.pixelRatio)
+     *   console.log(res.windowWidth)
+     *   console.log(res.windowHeight)
+     *   console.log(res.language)
+     *   console.log(res.version)
+     *   console.log(res.platform)
+     * } catch (e) {
+     *   // Do something when catch error
+     * }
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/system/system-info/wx.getSystemInfoSync.html
+     */
+    getSystemInfoSync(): getSystemInfoSync.Result
+
+    /**
+     * 获取系统信息，支持 `Promise` 化使用。
+     * @supported weapp, h5, rn
+     * @example
+     * ```tsx
+     * Taro.getSystemInfo({
+     *   success: res => console.log(res)
+     * })
+     * .then(res => console.log(res))
+     * ```
+     * @example
+     * ```tsx
+     * Taro.getSystemInfo({
+     *   success: function (res) {
+     *     console.log(res.model)
+     *     console.log(res.pixelRatio)
+     *     console.log(res.windowWidth)
+     *     console.log(res.windowHeight)
+     *     console.log(res.language)
+     *     console.log(res.version)
+     *     console.log(res.platform)
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/system/system-info/wx.getSystemInfo.html
+     */
+    getSystemInfo(res?: getSystemInfo.Option): Promise<getSystemInfo.Result>
   }
-  /**
-   * 获取系统信息，支持 `Promise` 化使用。
-   * @supported weapp, h5, rn
-   * @example
-   * ```tsx
-   * Taro.getSystemInfo({
-   *   success: res => console.log(res)
-   * })
-   * .then(res => console.log(res))
-   * ```
-   * @example
-   * ```tsx
-   * Taro.getSystemInfo({
-   *   success: function (res) {
-   *     console.log(res.model)
-   *     console.log(res.pixelRatio)
-   *     console.log(res.windowWidth)
-   *     console.log(res.windowHeight)
-   *     console.log(res.language)
-   *     console.log(res.version)
-   *     console.log(res.platform)
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/system/system-info/wx.getSystemInfo.html
-   */
-  function getSystemInfo(res?: getSystemInfo.Option): Promise<getSystemInfo.Result>
 }
