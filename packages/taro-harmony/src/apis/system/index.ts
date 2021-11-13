@@ -1,5 +1,5 @@
 import { isNumber, isString, isUndefined, isNull} from '@tarojs/shared'
-import { unsupport } from '../utils'
+import { unsupport,callAsyncSuccess,callAsyncFail } from '../utils'
 import { IAsyncParams } from '../utils/types'
 const network = require('@system.network')
 const deviceInfo = require('@ohos.deviceInfo')
@@ -9,6 +9,20 @@ const i18n = require('@ohos.i18n')
 const brightness = require('@system.brightness')
 const call = require('@ohos.telephony.call')
 const pasteboard = require('@ohos.pasteboard')
+
+
+type GetNetworkType = typeof Taro.getNetworkType;
+type OnNetworkStatusChange = typeof Taro.onNetworkStatusChange;
+type GetSystemInfo = typeof Taro.getSystemInfo;
+type GetSystemInfoSync = typeof Taro.getSystemInfoSync;
+type GetScreenBrightness = typeof Taro.getScreenBrightness;
+type SetScreenBrightness = typeof Taro.setScreenBrightness;
+//unsupported temporarily
+//type OnMemoryWarning = typeof Taro.onMemoryWarning;
+type MakePhoneCall = typeof Taro.makePhoneCall;
+type SetClipboardData = typeof Taro.setClipboardData;
+type GetClipboardData = typeof Taro.getClipboardData;
+
 interface IOptionsShape extends IAsyncParams {
   success?: (any) => any;
   fail?: (any) => any;
@@ -19,9 +33,7 @@ interface IOptionsShape extends IAsyncParams {
 }
 
 /*Obtains the network type*/
-function getNetworkType (options:IOptionsShape = {}) {
-  
-  const { success, fail, complete } = options
+const getNetworkType: GetNetworkType = function(options: IOptionsShape = {}) {
   let res: any = {}
   return new Promise((resolve, reject) => {
     network.getType({
@@ -31,118 +43,94 @@ function getNetworkType (options:IOptionsShape = {}) {
           networkType: data.type,
           metered: data.metered
         }
-        success && (typeof success == 'function') && success(res)
-        resolve(res)
+        callAsyncSuccess(resolve, res, options)
       },
       fail: function(data, code) {
         res = {
           errMsg: `getNetworkType:fail ${data?data:''}`,
           code: code
         }
-        fail && (typeof fail == 'function') && fail(res)
-        reject(res)
-      },
-      complete: function(data) {
-        complete && (typeof complete == 'function')  && complete(data);
+        callAsyncFail(reject, res, options)
       }
     });
   })
 }
-function onNetworkStatusChange (options:IOptionsShape = {}){
-  
-  const { success, fail, complete } = options
-  let res: any = {}
-  return new Promise((resolve,reject)=>{
-    network.subscribe({
-      success: function(data) {
-        res = {
-          isConnected: data.metered,
-          networkType: data.type
-        }
-        if(data.type=='none') res.isConnected = false;
-        
-        success && (typeof success == 'function') && success(res)
-        complete && (typeof complete == 'function')  && complete(data);
-        resolve(res)
-        console.log('network type change type:' + data.type);
-      },
-      fail: function(data, code) {
-        res = {
-          errMsg: `onNetworkStatusChange:fail ${data?data:''}`,
-          code: code
-        }
-        fail && (typeof fail == 'function') && fail(res)
-        complete && (typeof complete == 'function')  && complete(data);
-        reject(res)
-        console.log('fail to subscribe network, code:' + code + ', data:' + data);
-      },
-    });
-  })
-}
-/* 同步版本 */
-function getSystemInfo (options:IOptionsShape = {}){
 
-  const { success, fail, complete } = options
+const onNetworkStatusChange: OnNetworkStatusChange = function(cb) {
+    
+  let res: any = {}
+  network.subscribe({
+    success: function(data) {
+      res = {
+        isConnected: data.metered,
+        networkType: data.type
+      }
+      if(data.type=='none') res.isConnected = false;
+      cb?.(res)
+    },
+    fail: function(data, code) {
+      res = {
+        errMsg: `onNetworkStatusChange:fail ${data?data:''}`,
+        code: code
+      }
+      cb?.(res)
+    },
+  });
+}
+/* 异步版本 */
+const getSystemInfo: GetSystemInfo = function(options: IOptionsShape = {}){
   let res = {};
   return new Promise((resolve, reject) => {
       try {
-        res = {
-          brand: deviceInfo && deviceInfo.brand,//设备品牌
-          model: deviceInfo && deviceInfo.deviceType,//设备型号
-          pixelRatio: 'unsupport',//设备像素比	
-          screenWidth: display && display.width,//屏幕宽度，单位px
-          screenHeight: display && display.height,//屏幕高度，单位px
-          windowWidth: device && device.windowWidth,//可使用窗口宽度，单位px
-          windowHeight: device && device.windowHeight,//可使用窗口高度，单位px
-          statusBarHeight: 'unsupport',//状态栏的高度，单位px
-          language: i18n && i18n.getSystemLanguage && i18n.getSystemLanguage(),
-          version: deviceInfo && deviceInfo.displayVersion,//版本号
-          system: deviceInfo && deviceInfo.osFullName,//操作系统及版本
-          platform: 'android',//客户端平台
-          fontSizeSetting: 'unsupport',//用户字体大小（单位px）
-          SDKVersion: deviceInfo && deviceInfo.sdkApiVersion,//客户端基础库版本
-          benchmarkLevel: 'unsupport',//设备性能等级
-          albumAuthorized: 'unsupport',//允许微信使用相册的开关（仅 iOS 有效）
-          cameraAuthorized: 'unsupport',//允许微信使用摄像头的开关
-          locationAuthorized: 'unsupport',//定位的开关
-          microphoneAuthorized: 'unsupport',//麦克风的开关
-          notificationAuthorized: 'unsupport',//通知的开关
-          notificationAlertAuthorized: 'unsupport',//通知带有提醒的开关（仅 iOS 有效）
-          notificationBadgeAuthorized: 'unsupport',//通知带有标记的开关（仅 iOS 有效）
-          notificationSoundAuthorized: 'unsupport',//通知带有声音的开关（仅 iOS 有效）
-          phoneCalendarAuthorized: 'unsupport',//使用日历的开关
-          bluetoothEnabled: 'unsupport',//蓝牙的系统开关
-          locationEnabled: 'unsupport',//地理位置的系统开关
-          wifiEnabled: 'unsupport',//Wi-Fi 的系统开关
-          safeArea: 'unsupport',//在竖屏正方向下的安全区域
-          locationReducedAccuracy: 'unsupport',//模糊定位精准定位
-          theme: 'unsupport',//系统当前主题，取值为light或dark
-          host: 'unsupport',//当前小程序运行的宿主环境	
-          enableDebug: 'unsupport',//是否已打开调试
-          deviceOrientation:`${display && display.rotation==0?'portrait':(display && display.rotation==90?'landscape':'')}`//设备方向
-        }
-        success && (typeof success == 'function') && success(res)
-        resolve(res)
+        res = getSystemInfoSync()
+        callAsyncSuccess(resolve, res, options)
       } catch (error) {
         res = {
           errMsg: `getSystemInfo:fail ${error && error.toString && error.toString()}`,
           error: error
         }
-        fail && (typeof fail == 'function') && fail(res)
-        reject(res)
+        callAsyncFail(reject, res, options)
       }
-      complete && complete(res);
   });
-
 }
 /* 同步版本 */
-function getSystemInfoSync (options:IOptionsShape = {}){
-  getSystemInfo(options);
+const getSystemInfoSync: GetSystemInfoSync = function(){
+  const res: any = {};
+  res.SDKVersion = deviceInfo && deviceInfo.sdkApiVersion;//客户端基础库版本 string
+  res.albumAuthorized = false; //允许使用相册的开关（仅 iOS 有效） boolean
+  res.benchmarkLevel = null; //设备性能等级 number
+  res.bluetoothEnabled = null; //蓝牙的系统开关 boolean
+  res.brand= deviceInfo && deviceInfo.brand;//设备品牌 string
+  res.cameraAuthorized= null;//允许使用摄像头的开关 boolean
+  res.enableDebug = null;//是否已打开调试 boolean
+  res.fontSizeSetting = null;//用户字体大小（单位px） number
+  res.language = i18n && i18n.getSystemLanguage && i18n.getSystemLanguage();//string
+  res.locationAuthorized = null;//定位的开关 boolean
+  res.locationEnabled = null;//地理位置的系统开关 boolean
+  res.microphoneAuthorized = null;//麦克风的开关 boolean
+  res.model = deviceInfo && deviceInfo.deviceType;//设备型号 string
+  res.notificationAuthorized= null;//通知的开关 boolean
+  res.notificationAlertAuthorized= false;//通知带有提醒的开关（仅 iOS 有效） boolean
+  res.notificationBadgeAuthorized= false;//通知带有标记的开关（仅 iOS 有效） boolean
+  res.notificationSoundAuthorized= false;//通知带有声音的开关（仅 iOS 有效）boolean
+  res.phoneCalendarAuthorized= null;//使用日历的开关 boolean
+  res.wifiEnabled= false;//Wi-Fi 的系统开关 boolean
+  res.pixelRatio= null;//设备像素比	number
+  res.platform = 'android';//客户端平台 string
+  res.safeArea = null;//在竖屏正方向下的安全区域 General.SafeAreaResult
+  res.screenHeight= display && display.height;//屏幕高度，单位px number
+  res.screenWidth= display && display.width;//屏幕宽度，单位px number
+  res.statusBarHeight= null;//状态栏的高度，单位px number
+  res.system= deviceInfo && deviceInfo.osFullName;//操作系统及版本 string
+  res.theme= null;//系统当前主题，取值为light或dark 'light' | 'dark' 
+  res.windowWidth= device && device.windowWidth;//可使用窗口宽度，单位px number
+  res.windowHeight= device && device.windowHeight;//可使用窗口高度，单位px number
+  res.version= deviceInfo && deviceInfo.displayVersion;//版本号 string
+  
+  return res
 }
 /* 获得屏幕亮度 */
-function getScreenBrightness (options:IOptionsShape = {}){
-  
-  const { success, fail, complete } = options
+const getScreenBrightness: GetScreenBrightness= function(options: IOptionsShape = {}){
   let res = {};
   return new Promise((resolve,reject)=>{
     brightness.getValue({
@@ -151,135 +139,124 @@ function getScreenBrightness (options:IOptionsShape = {}){
           errMsg: 'getScreenBrightness:ok',
           value: data.value,
         }
-        success && (typeof success == 'function') && success(res);
-        resolve(res);
+        callAsyncSuccess(resolve, res, options)
       },
       fail: function(data, code) {
         res = {
           errMsg: `getScreenBrightness:fail ${data?data:''}`,
           code: code
         }
-        fail && (typeof fail == 'function') && fail(res);
-        reject(res);
-      },
-      complete: function(data) {
-        complete && (typeof complete == 'function')  && complete(data);
+        callAsyncFail(reject, res, options)
       }
     });
   })
 
 }
 /* 设置屏幕亮度 */
-function setScreenBrightness (options:IOptionsShape = {}){
-  const { value, success, fail, complete } = options
+const setScreenBrightness: SetScreenBrightness = function (options: IOptionsShape = {}){
+  const { value } = options
   let res = {};
-  if(!isNumber(value))return;
   return new Promise((resolve,reject)=>{
-    brightness.getValue({
-      value: value,
-      success: function(){
-        res = {
-          errMsg: 'setScreenBrightness:ok'
-        }
-        success && (typeof success == 'function') && success(res)
-        resolve(res)
-      },
-      fail: function(data, code) {
-        res = {
-          errMsg: `setScreenBrightness:fail ${data?data:''}`,
-          code: code
-        }
-        fail && (typeof fail == 'function') && fail(res)
-        reject(res)
-      },
-      complete: function(data) {
-        complete && (typeof complete == 'function')  && complete(data);
+    if(!isNumber(value)){
+      res = {
+        errMsg: 'the parameter:value invalid'
       }
-    });
+      callAsyncFail(reject, res, options)
+    }else{
+      brightness.getValue({
+        value: value,
+        success: function(){
+          res = {
+            errMsg: 'setScreenBrightness:ok'
+          }
+          callAsyncSuccess(resolve, res, options)
+        },
+        fail: function(data, code) {
+          res = {
+            errMsg: `setScreenBrightness:fail ${data?data:''}`,
+            code: code
+          }
+          callAsyncFail(reject, res, options)
+        }
+      });
+    }
+
+   
   });
 }
 
-function onMemoryWarning (options:IOptionsShape = {}){
-  const { success, fail, complete } = options
-  let res = {
-    errMsg: 'onMemoryWarning:fail',
-    message: 'Not supported yet'
-  }
-  success && (typeof success == 'function')  && success(res);
-  fail && (typeof fail == 'function')  && fail(res);
-  complete && (typeof complete == 'function')  && complete(res);
+const onMemoryWarning = function(cb){
   unsupport('onMemoryWarning')
+  cb?.({errMsg:`暂不支持 Taro.onMemoryWarning`})
 }
 
-function offMemoryWarning (options:IOptionsShape = {}){
-  const { success, fail, complete } = options
-  let res = {
-    errMsg: 'offMemoryWarning:fail',
-    message: 'Not supported yet'
-  }
-  success && (typeof success == 'function')  && success(res);
-  fail && (typeof fail == 'function')  && fail(res);
-  complete && (typeof complete == 'function')  && complete(res);
+function offMemoryWarning (cb){
   unsupport('offMemoryWarning')
+  cb?.({errMsg:`暂不支持 Taro.offMemoryWarning`})
 }
 
-function makePhoneCall (options:IOptionsShape = {}){
+const makePhoneCall: MakePhoneCall = function(options: IOptionsShape = {}){
   
-  const { phoneNumber, success, fail, complete } = options;
-  if(!isString(phoneNumber) || isUndefined(phoneNumber) || isNull(phoneNumber))return;
+  const { phoneNumber } = options;
   return new Promise((resolve,reject)=>{
     let res = {};
-    call.makeCall(phoneNumber, err => {
-      if(err){
-          console.error('Failed to makePhoneCall. Cause: ' + JSON.stringify(err));
-          res = {
-            errMsg: `makePhoneCall:fail ${JSON.stringify(err)}`,
-            error: err
-          }
-          fail && (typeof fail == 'function') && fail(res)
-          complete && (typeof complete == 'function') && complete({})
-          reject(err);
-          return;
+    if(!isString(phoneNumber) || isUndefined(phoneNumber) || isNull(phoneNumber)){
+      res = {
+        errMsg: 'the parameter:phoneNumber invalid'
       }
-      success && (typeof success == 'function') && success(err)
-      complete && (typeof complete == 'function') && complete({})
-      resolve(err)
-      console.log(`makePhoneCall callback: err->${JSON.stringify(err)}`);
-    });
+      callAsyncFail(reject, res, options)
+    }else{
+      call.makeCall(phoneNumber, err => {
+        if(err){
+            console.error('Failed to makePhoneCall. Cause: ' + JSON.stringify(err));
+            res = {
+              errMsg: 'makePhoneCall:fail,err: '+object2String(err)
+            }
+            callAsyncFail(reject, res, options)
+            
+        }else{
+          callAsyncSuccess(resolve, res, options)
+        }
+      });
+    }
   });
 }
-function setClipboardData (options:IOptionsShape = {}){
-  const { data, success, fail, complete } = options;
+
+const setClipboardData: SetClipboardData = function(options:IOptionsShape = {}){
+  const { data } = options;
   let res = {};
-  if(!isString(data) || isUndefined(data) || isNull(data))return;
+  
   return new Promise((resolve,reject)=>{
     var systemPasteboard = pasteboard.getSystemPasteboard();
     var pasteData = pasteboard.createPlainTextData(data);
-    systemPasteboard.setPasteData(pasteData, (error, data) => { // callback形式调用异步接口  
-        if (error) {
-            console.error('Failed to set PasteData. Cause: ' + JSON.stringify(error));
+
+    if(!isString(data) || isUndefined(data) || isNull(data)){
+      res = {
+        errMsg: `the parameter:data invalid`
+      }
+      callAsyncFail(reject, res, options)
+    }else{
+      systemPasteboard.setPasteData(pasteData, (error, data) => { // callback形式调用异步接口  
+          if (error) {
+              console.error('Failed to set PasteData. Cause: ' + JSON.stringify(error));
+              res = {
+                errMsg: 'setClipboardData:fail,error: ' + object2String(error),
+                error: error
+              }
+              callAsyncFail(reject, res, options)
+          }else{
             res = {
-              errMsg: `setClipboardData:fail ${ JSON.stringify(error) }`,
-              error: error
+              errMsg: 'setClipboardData:ok',
+              data: data
             }
-            fail && (typeof fail == 'function') && fail(res)
-            complete && (typeof complete == 'function') && complete({})
-            reject(res)
-            return;
-        }
-        res = {
-          errMsg: 'setClipboardData:ok',
-          data: data
-        }
-        success && (typeof success == 'function') && success(res)
-        complete && (typeof complete == 'function') && complete({})
-        resolve(res)
-        console.info('PasteData set successfully. ' + data);
-    });
+            callAsyncSuccess(resolve, res, options)
+          }
+      });
+    }
   })
 }
-function getClipboardData (options:IOptionsShape = {}){
-  const { success, fail, complete } = options;
+
+const getClipboardData:GetClipboardData = function(options:IOptionsShape = {}){
   return new Promise((resolve,reject)=>{
     let res = {};
     var systemPasteboard = pasteboard.getSystemPasteboard();
@@ -287,23 +264,26 @@ function getClipboardData (options:IOptionsShape = {}){
         if (error) {
             console.error('Failed to obtain PasteData. Cause: ' + JSON.stringify(error));
             res = {
-              errMsg: `getClipboardData:fail ${JSON.stringify(error)}`,
+              errMsg: 'getClipboardData:fail,error: '+object2String(error),
               error: error
             }
-            fail && (typeof fail == 'function') && fail(res)
-            complete && (typeof complete == 'function') && complete({})
-            reject(res)
-            return;
+            callAsyncFail(reject, res, options)
+        }else{
+          let text = pasteData.getPrimaryText();
+          res = {
+            data: text
+          }
+          callAsyncSuccess(resolve, res, options)
         }
-        var text = pasteData.getPrimaryText();
-        res = {
-          data: text
-        }
-        success && (typeof success == 'function') && success(res)
-        complete && (typeof complete == 'function') && complete({})
-        resolve(res);
     });
   })
+}
+function object2String(obj){
+  var str='';
+  for(var item in obj){
+    str= str + item+':'+obj[item]+' \n'
+  }
+  return str;
 }
 export {
     getNetworkType,
