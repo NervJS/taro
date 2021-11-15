@@ -9,12 +9,15 @@ const renderPropsMap = new Map<string, string>()
 const RENDER_PROPS_EVENTS = '$$renderPropsEvents'
 
 export function injectRenderPropsListener (attrPath: NodePath<t.JSXAttribute>, attrName: string, attrExpr: t.ArrowFunctionExpression, componentName: string) {
-  const randomLetters = createRandomLetters(5)
-  const renderClosureFuncName = attrName + randomLetters
+  let renderClosureFuncName = renderPropsMap.get(componentName + '_' + attrName);
+  if (!renderClosureFuncName) {
+    const randomLetters = createRandomLetters(5);
+    renderClosureFuncName = attrName + randomLetters;
+    renderPropsMap.set(componentName + '_' + attrName, renderClosureFuncName);
+  }
   const jsxDecl = buildConstVariableDeclaration(renderClosureFuncName, attrExpr)
   const block = buildBlockElement([], true)
   const renderPropsArgs = t.memberExpression(t.thisExpression(), t.identifier(renderClosureFuncName))
-  renderPropsMap.set(componentName + '_' + attrName, renderClosureFuncName)
   block.children = [
     t.jSXExpressionContainer(t.callExpression(t.identifier(renderClosureFuncName), [renderPropsArgs]))
   ]
