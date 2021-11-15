@@ -127,9 +127,9 @@ export class Tabbar implements ComponentInterface {
 
   getOriginUrl = (url: string) => {
     const customRoute = this.customRoutes.filter(([, customUrl]) => {
-      const patha = splitUrl(customUrl).path
-      const pathb = splitUrl(url).path
-      return patha === pathb
+      const pathA = splitUrl(customUrl).path
+      const pathB = splitUrl(url).path
+      return pathA === pathB
     })
     return customRoute.length ? customRoute[0][0] : url
   }
@@ -189,22 +189,24 @@ export class Tabbar implements ComponentInterface {
   }
 
   setTabBarBadgeHandler = ({ index, text, errorHandler }: RouterHandler) => {
-    const list = this.list
+    const list = [...this.list]
     if (index in list) {
-      this.list[index].showRedDot = false
-      this.list[index].badgeText = text
+      list[index].showRedDot = false
+      list[index].badgeText = text
     } else {
       errorHandler({
         errMsg: 'setTabBarBadge:fail tabbar item not found'
       })
     }
+
+    this.list = list
   }
 
   removeTabBarBadgeHandler = ({ index, successHandler, errorHandler }: RouterHandler) => {
-    const list = this.list
+    const list = [...this.list]
     if (index in list) {
-      this.list[index].badgeText = null
-      this.list[index].badgeText = null
+      list[index].badgeText = null
+      list[index].badgeText = null
       successHandler({
         errMsg: 'removeTabBarBadge:ok'
       })
@@ -213,10 +215,12 @@ export class Tabbar implements ComponentInterface {
         errMsg: 'removeTabBarBadge:fail tabbar item not found'
       })
     }
+
+    this.list = list
   }
 
   showTabBarRedDotHandler = ({ index, successHandler, errorHandler }: RouterHandler) => {
-    const list = this.list
+    const list = [...this.list]
     if (index in list) {
       list[index].badgeText = null
       list[index].showRedDot = true
@@ -228,10 +232,12 @@ export class Tabbar implements ComponentInterface {
         errMsg: 'showTabBarRedDot:fail tabbar item not found'
       })
     }
+
+    this.list = list
   }
 
   hideTabBarRedDotHandler = ({ index, successHandler, errorHandler }: RouterHandler) => {
-    const list = this.list
+    const list = [...this.list]
     if (index in list) {
       list[index].showRedDot = false
       successHandler({
@@ -242,6 +248,8 @@ export class Tabbar implements ComponentInterface {
         errMsg: 'hideTabBarRedDot:fail tabbar item not found'
       })
     }
+
+    this.list = list
   }
 
   showTabBarHandler = ({ successHandler }) => {
