@@ -1,0 +1,7 @@
+<div 
+  id="{{id}}"
+  class="navigate"
+  onclick="onClick"
+>
+  <slot></slot>
+</div>

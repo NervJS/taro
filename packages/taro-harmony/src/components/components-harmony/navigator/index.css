@@ -1,0 +1,7 @@
+.navigate {
+  overflow: hidden;
+}
+
+.navigate:hover {
+  background-color: #CCCCCC;
+}
