@@ -1,3 +1,4 @@
+// index.js
 import { Component } from 'react'
 import { View, Text } from '@tarojs/components'
 import {
@@ -151,5 +152,17 @@ export default class Index extends Component {
         </view>
       </View>
     )
+  }
+}
+
+
+// index.scss
+.container {
+  display: flex;
+  flex-direction: column;
+
+  .button-list {
+    display: flex;
+    flex-direction: column;
   }
 }
