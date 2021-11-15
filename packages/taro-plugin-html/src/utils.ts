@@ -62,6 +62,8 @@ export function ensureHtmlClass (tagName: string, className = ''): string {
   const htmlClass = `h5-${tagName}`
   if (classList.indexOf(htmlClass) === -1) {
     classList.push(htmlClass)
+    // taro-plugin-html 缩写，用来调整css优先级 #
+    classList.push('tph')
   }
   return classList.join(' ')
 }
