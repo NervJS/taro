@@ -4,9 +4,9 @@ import { shouldBeObject, getParameterError, isValidColor, successHandler, errorH
 let tabConf
 let App
 
-export function initTabBarApis (_App = {}) {
-  tabConf = _App.state.__tabs
-  App = _App
+export function initTabBarApis (config = {}) {
+  tabConf = config.tabBar
+  App = config
 }
 
 /**
