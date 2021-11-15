@@ -73,6 +73,14 @@ export class Tabbar implements ComponentInterface {
 
   @State() list: TabbarList[]
 
+  @State() borderStyle: Conf['borderStyle']
+
+  @State() backgroundColor: Conf['backgroundColor']
+
+  @State() color: Conf['color']
+
+  @State() selectedColor: Conf['selectedColor']
+
   @State() selectedIndex = -1
 
   @State() status: 0 | 1 | 2 = STATUS_SHOW
@@ -106,6 +114,7 @@ export class Tabbar implements ComponentInterface {
     })
 
     this.list = list
+    this.borderStyle = this.conf.borderStyle
   }
 
   getCurrentUrl () {
@@ -137,9 +146,9 @@ export class Tabbar implements ComponentInterface {
   getSelectedIndex = (url: string) => {
     let foundIndex = -1
     this.list.forEach(({ pagePath }, idx) => {
-      const patha = splitUrl(url).path
-      const pathb = splitUrl(pagePath).path
-      if (patha === pathb) {
+      const pathA = splitUrl(url).path
+      const pathB = splitUrl(pagePath).path
+      if (pathA === pathB) {
         foundIndex = idx
       }
     })
@@ -188,11 +197,14 @@ export class Tabbar implements ComponentInterface {
     this.selectedIndex = this.getSelectedIndex(this.getOriginUrl(currentPage))
   }
 
-  setTabBarBadgeHandler = ({ index, text, errorHandler }: RouterHandler) => {
+  setTabBarBadgeHandler = ({ index, text, successHandler, errorHandler }: RouterHandler) => {
     const list = [...this.list]
     if (index in list) {
       list[index].showRedDot = false
       list[index].badgeText = text
+      successHandler({
+        errMsg: 'setTabBarBadge:ok'
+      })
     } else {
       errorHandler({
         errMsg: 'setTabBarBadge:fail tabbar item not found'
@@ -266,6 +278,34 @@ export class Tabbar implements ComponentInterface {
     })
   }
 
+  setTabBarStyleHandler = ({ color, selectedColor, backgroundColor, borderStyle, successHandler }) => {
+    if (backgroundColor) this.backgroundColor = backgroundColor
+    if (borderStyle) this.borderStyle = borderStyle
+    if (color) this.color = color
+    if (selectedColor) this.selectedColor = selectedColor
+    successHandler({
+      errMsg: 'setTabBarStyle:ok'
+    })
+  }
+
+  setTabBarItemHandler = ({ index, iconPath, selectedIconPath, text, successHandler, errorHandler }) => {
+    const list = [...this.list]
+    if (index in list) {
+      if (iconPath) list[index].iconPath = iconPath
+      if (selectedIconPath) list[index].selectedIconPath = selectedIconPath
+      if (text) list[index].text = text
+      successHandler({
+        errMsg: 'setTabBarItem:ok'
+      })
+    } else {
+      errorHandler({
+        errMsg: 'setTabBarItem:fail tabbar item not found'
+      })
+    }
+
+    this.list = list
+  }
+
   bindEvent () {
     Taro.eventCenter.on('__taroRouterChange', this.routerChangeHandler)
     Taro.eventCenter.on('__taroSwitchTab', this.switchTabHandler)
@@ -275,6 +315,8 @@ export class Tabbar implements ComponentInterface {
     Taro.eventCenter.on('__taroHideTabBarRedDotHandler', this.hideTabBarRedDotHandler)
     Taro.eventCenter.on('__taroShowTabBar', this.showTabBarHandler)
     Taro.eventCenter.on('__taroHideTabBar', this.hideTabBarHandler)
+    Taro.eventCenter.on('__taroSetTabBarStyle', this.setTabBarStyleHandler)
+    Taro.eventCenter.on('__taroSetTabBarItem', this.setTabBarItemHandler)
   }
 
   removeEvent () {
@@ -286,6 +328,8 @@ export class Tabbar implements ComponentInterface {
     Taro.eventCenter.off('__taroHideTabBarRedDotHandler', this.hideTabBarRedDotHandler)
     Taro.eventCenter.off('__taroShowTabBar', this.showTabBarHandler)
     Taro.eventCenter.off('__taroHideTabBar', this.hideTabBarHandler)
+    Taro.eventCenter.off('__taroSetTabBarStyle', this.setTabBarStyleHandler)
+    Taro.eventCenter.off('__taroSetTabBarItem', this.setTabBarItemHandler)
   }
 
   componentDidLoad () {
@@ -299,10 +343,10 @@ export class Tabbar implements ComponentInterface {
   }
 
   render () {
-    const { conf, tabbarPos = 'bottom' } = this
+    const { tabbarPos = 'bottom' } = this
     const status = this.status
     const containerCls = classNames('weui-tabbar', {
-      [`taro-tabbar__border-${conf.borderStyle || 'black'}`]: true
+      [`taro-tabbar__border-${this.borderStyle || 'black'}`]: true
     })
     const shouldHideTabBar = this.selectedIndex === -1 || status === STATUS_HIDE
     const shouldSlideout = status === STATUS_SLIDEOUT
@@ -318,7 +362,7 @@ export class Tabbar implements ComponentInterface {
         <div
           class={containerCls}
           style={{
-            backgroundColor: conf.backgroundColor || ''
+            backgroundColor: this.backgroundColor || ''
           }}
         >
           {this.list.map((item, index) => {
@@ -326,12 +370,13 @@ export class Tabbar implements ComponentInterface {
             let textColor
             let iconPath
             if (isSelected) {
-              textColor = conf.selectedColor
+              textColor = this.selectedColor
               iconPath = item.selectedIconPath
             } else {
-              textColor = conf.color || ''
+              textColor = this.color || ''
               iconPath = item.iconPath
             }
+            console.log('TabbarItem', item)
             return (
               <TabbarItem
                 index={index}

@@ -2,11 +2,9 @@ import Taro from '@tarojs/api'
 import { shouldBeObject, getParameterError, isValidColor, successHandler, errorHandler } from '../utils'
 
 let tabConf
-let App
 
 export function initTabBarApis (config = {}) {
   tabConf = config.tabBar
-  App = config
 }
 
 /**
@@ -64,8 +62,6 @@ export function setTabBarBadge (options = {}) {
     successHandler: successHandler(success, complete),
     errorHandler: errorHandler(fail, complete)
   })
-
-  return successHandler(success, complete)(res)
 }
 
 /**
@@ -109,8 +105,6 @@ export function removeTabBarBadge (options = {}) {
     successHandler: successHandler(success, complete),
     errorHandler: errorHandler(fail, complete)
   })
-
-  return successHandler(success, complete)(res)
 }
 
 /**
@@ -154,8 +148,6 @@ export function showTabBarRedDot (options = {}) {
     successHandler: successHandler(success, complete),
     errorHandler: errorHandler(fail, complete)
   })
-
-  return successHandler(success, complete)(res)
 }
 
 /**
@@ -199,8 +191,6 @@ export function hideTabBarRedDot (options = {}) {
     successHandler: successHandler(success, complete),
     errorHandler: errorHandler(fail, complete)
   })
-
-  return successHandler(success, complete)(res)
 }
 
 /**
@@ -245,8 +235,6 @@ export function showTabBar (options = {}) {
     successHandler: successHandler(success, complete),
     errorHandler: errorHandler(success, complete)
   })
-
-  return successHandler(success, complete)(res)
 }
 
 /**
@@ -291,8 +279,6 @@ export function hideTabBar (options = {}) {
     successHandler: successHandler(success, complete),
     errorHandler: errorHandler(success, complete)
   })
-
-  return successHandler(success, complete)(res)
 }
 
 /**
@@ -353,10 +339,14 @@ export function setTabBarStyle (options = {}) {
   if (backgroundColor) obj.backgroundColor = backgroundColor
   if (borderStyle) obj.borderStyle = borderStyle
 
-  const temp = Object.assign({}, tabConf, obj)
-  App.setState && App.setState({ __tabs: temp })
-
-  return successHandler(success, complete)(res)
+  Taro.eventCenter.trigger('__taroSetTabBarStyle', {
+    color,
+    selectedColor,
+    backgroundColor,
+    borderStyle,
+    successHandler: successHandler(success, complete),
+    errorHandler: errorHandler(success, complete)
+  })
 }
 
 /**
@@ -401,24 +391,12 @@ export function setTabBarItem (options = {}) {
     return errorHandler(fail, complete)(res)
   }
 
-  if (
-    !tabConf ||
-    !tabConf.list ||
-    !tabConf.list[index]
-  ) {
-    res.errMsg = 'setTabBarItem:fail tabbar item not found'
-    return errorHandler(fail, complete)(res)
-  }
-
-  const obj = {}
-  if (text) obj.text = text
-  if (iconPath) obj.iconPath = iconPath
-  if (selectedIconPath) obj.selectedIconPath = selectedIconPath
-
-  const temp = Object.assign({}, tabConf)
-  temp.list[index] = Object.assign({}, temp.list[index], obj)
-
-  App.setState && App.setState({ __tabs: temp })
-
-  return successHandler(success, complete)(res)
+  Taro.eventCenter.trigger('__taroSetTabBarItem', {
+    index,
+    text,
+    iconPath,
+    selectedIconPath,
+    successHandler: successHandler(success, complete),
+    errorHandler: errorHandler(success, complete)
+  })
 }
