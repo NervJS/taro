@@ -1,4 +1,4 @@
-import { Component, ComponentLifecycle, eventCenter, nextTick } from '@tarojs/taro'
+import { ComponentLifecycle, eventCenter, nextTick } from '@tarojs/taro'
 import { getCurrentInstance } from '@tarojs/runtime'
 import { lifecycles, lifecycleMap, TaroLifeCycles, uniquePageLifecycle, appOptions } from './lifecycle'
 import { bind, isEqual, safeGet, safeSet, report, unsupport, flattenBehaviors } from './utils'
@@ -14,7 +14,7 @@ interface ObserverProperties {
 }
 
 interface ComponentClass<P = Record<string, any>, S = Record<string, any>> extends ComponentLifecycle<P, S> {
-  new (props: P): Component<P, S>
+  new (props: P)
   externalClasses: Record<string, unknown>
   defaultProps?: Partial<P>
   _observeProps?: ObserverProperties[]
@@ -33,7 +33,7 @@ interface WxOptions {
   behaviors?: any[]
 }
 
-function defineGetter (component: Component, key: string, getter: string) {
+function defineGetter (component, key: string, getter: string) {
   Object.defineProperty(component, key, {
     enumerable: true,
     configurable: true,
