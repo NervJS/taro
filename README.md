@@ -1,6 +1,6 @@
 <div align="center">
   <h1>Taro</h1>
-  <p>开放式跨端跨框架解决方案，轻松构建可以运行在小程序/Web/APP 上运行的应用</p>
+  <p>开放式跨端跨框架解决方案，轻松构建可以运行在 小程序/Web/APP 上的应用</p>
   <a href="http://makeapullrequest.com">
     <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" alt="PRs Welcome">
   </a>
