@@ -2,6 +2,30 @@ import router from '@system.router'
 import { createOption } from '../utils'
 
 export default createOption({
+  props: {
+    id: {
+      default: ''
+    },
+    cls: {
+      default: ''
+    },
+    openType: {
+      default: 'navigate'
+    },
+    url: {
+      default: ''
+    },
+    hoverStartTime: {
+      default: 50
+    },
+    hoverStayTime: {
+      default: 600
+    },
+    hoverClass: {
+      default: 'navigator-hover'
+    }
+  },
+
   data () {
     return {
       targetObj: {
@@ -10,24 +34,17 @@ export default createOption({
         switchTab: 'push',
         reLaunch: 'replace',
         navigateBack: 'back'
-      }
+      },
+      hover: false,
+      touch: false
     }
   },
-  props: [
-    'id',
-    'target',
-    'url',
-    'openType',
-    'delta',
-    'appId',
-    'path',
-    'extraData',
-    'version',
-    'hoverClass',
-    'hoverStopPropagation',
-    'hoverStartTime',
-    'hoverStayTime'
-  ],
+
+  computed: {
+    clsHover () {
+      return this.hover ? this.hoverClass : ''
+    }
+  },
 
   onClick () {
     const { openType = 'navigate', url = '' } = this
@@ -83,5 +100,27 @@ export default createOption({
       }
     }
     return ret
+  },
+
+  onTouchStart () {
+    this.touch = true
+    if (this.hoverClass) {
+      setTimeout(() => {
+        if (this.touch) {
+          this.hover = true
+        }
+      }, this.hoverStartTime)
+    }
+  },
+
+  onTouchEnd () {
+    this.touch = false
+    if (this.hoverClass) {
+      setTimeout(() => {
+        if (!this.touch) {
+          this.hover = false
+        }
+      }, this.hoverStayTime)
+    }
   }
 })

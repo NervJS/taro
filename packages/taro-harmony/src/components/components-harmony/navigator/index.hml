@@ -1,7 +1,9 @@
 <div 
   id="{{id}}"
-  class="navigate"
-  onclick="onClick"
+  class="{{cls}} {{clsHover}}"
+  @click="onClick"
+  @touchstart="onTouchStart"
+  @touchend="onTouchEnd"
 >
   <slot></slot>
 </div>
