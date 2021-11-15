@@ -4,11 +4,11 @@ declare namespace Taro {
 			/** 跳转链接 */
 			url: string
 			/** 接口调用结束的回调函数（调用成功、失败都会执行） */
-			complete?: (res: Taro.General.CallbackResult) => void
+			complete?: (res: TaroGeneral.CallbackResult) => void
 			/** 接口调用失败的回调函数 */
-			fail?: (res: Taro.General.CallbackResult) => void
+			fail?: (res: TaroGeneral.CallbackResult) => void
 			/** 接口调用成功的回调函数 */
-			success?: (res: Taro.General.CallbackResult) => void
+			success?: (res: TaroGeneral.CallbackResult) => void
 		}
 	}
 	/**
