@@ -51,17 +51,6 @@ export default class CLI {
             plugin = args.plugin
             platform = 'plugin'
           }
-          kernel.optsPlugins = [
-            '@tarojs/plugin-framework-react',
-            '@tarojs/plugin-framework-vue2',
-            '@tarojs/plugin-framework-vue3',
-            '@tarojs/plugin-platform-weapp',
-            '@tarojs/plugin-platform-alipay',
-            '@tarojs/plugin-platform-swan',
-            '@tarojs/plugin-platform-tt',
-            '@tarojs/plugin-platform-qq',
-            '@tarojs/plugin-platform-jd'
-          ]
           customCommand('build', kernel, {
             _: args._,
             platform,
