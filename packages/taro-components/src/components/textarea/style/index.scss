@@ -3,6 +3,11 @@ taro-textarea-core {
   width: 300px;
   height: 150px;
 }
+
+taro-textarea-core .auto-height {
+  height: auto;
+}
+
 .taro-textarea {
   &:focus {
     outline: none;
@@ -14,4 +19,5 @@ taro-textarea-core {
   border: 0;
   display: block;
   position: relative;
+  line-height: 12px;
 }
