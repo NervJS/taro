@@ -17,15 +17,21 @@ module.exports = {
           'react-entry',
           'react-page',
           'hooks',
-          'react-devtools'
+          'react-devtools',
+          'preact'
         ],
       },
       {
         label: 'Vue',
         type: 'category',
-        items: ['vue-overall', 'vue-entry', 'vue-page', 'vue3', 'vue-devtools'],
+        items: [
+          'vue-overall',
+          'vue-entry',
+          'vue-page',
+          'vue3',
+          'vue-devtools'
+        ],
       },
-      'nerv',
       'router',
       'static-reference',
       'h5',
