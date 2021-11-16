@@ -40,7 +40,7 @@ declare module '../../index' {
       callback: onMemoryWarning.Callback,
     ): void
 
-    /** 取消监听网络状态变化事件，参数为空，则取消所有的事件监听。
+    /** 取消监听内存不足告警事件。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/memory/wx.offMemoryWarning.html
      */
