@@ -45,12 +45,17 @@ function setPlugin (ctx: IPluginContext, framework: Frameworks, chain) {
 
   if (
     process.env.NODE_ENV !== 'production' &&
-    framework === 'react' &&
     config.h5?.devServer?.hot !== false
   ) {
     // 默认开启 fast-refresh
-    chain
-      .plugin('fastRefreshPlugin')
-      .use(require('@pmmmwh/react-refresh-webpack-plugin'))
+    if (framework === 'react') {
+      chain
+        .plugin('fastRefreshPlugin')
+        .use(require('@pmmmwh/react-refresh-webpack-plugin'))
+    } else if (framework === 'preact') {
+      chain
+        .plugin('fastRefreshPlugin')
+        .use(require('@prefresh/webpack'))
+    }
   }
 }

@@ -34,6 +34,7 @@
     "@babel/preset-typescript": "^7.14.5",
     "@babel/runtime": "^7.14.5",
     "@babel/runtime-corejs3": "^7.14.5",
+    "@prefresh/babel-plugin": "^0.4.1",
     "@tarojs/helper": "3.3.14",
     "@tarojs/taro-h5": "3.3.14",
     "@vue/babel-plugin-jsx": "^1.0.6",
