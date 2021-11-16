@@ -55,7 +55,7 @@ const initPxTransform = getInitPxTransform(taro)
 
 const requirePlugin = permanentlyNotSupport('requirePlugin')
 const getApp = function () {
-  return taro._$app
+  return getCurrentInstance().app
 }
 
 const pxTransform = function (size) {

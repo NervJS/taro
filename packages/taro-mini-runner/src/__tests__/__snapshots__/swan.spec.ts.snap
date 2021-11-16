@@ -1006,6 +1006,11 @@ require(\\"./taro\\");
             },
             OpenData: {
                 type: \\"\\"
+            },
+            Login: {
+                \\"button-class\\": \\"\\",
+                bindGetPhoneNumber: \\"\\",
+                bindLoadError: \\"\\"
             }
         };
         var hostConfig = {

@@ -27,7 +27,9 @@ export interface PageInstance extends PageLifeCycle {
   config: PageConfig
   route: string
   options: Record<string, any>
-  getOpenerEventChannel?(): Record<string, any>
+  getOpenerEventChannel?(): Record<string, any>,
+  __safeExecute?(lifecycle: keyof Instance, ...args: unknown[]): void,
+  __isReactComponent: boolean,
 }
 
 export interface AppInstance extends Show {

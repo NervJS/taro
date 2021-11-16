@@ -19,6 +19,16 @@ interface MapProps extends StandardProps {
    * @alipay 取值范围为5-18
    */
   scale?: number
+  /** 最小缩放级别3-20
+   * @default 3
+   * @supported weapp
+   */
+  minScale?: number
+  /** 最大缩放级别3-20
+   * @default 20
+   * @supported weapp
+   */
+  maxScale?: number
 
   /** 标记点
    * @supported weapp, swan, alipay
@@ -302,7 +312,7 @@ declare namespace MapProps {
   }
 
   /** marker 上的自定义气泡 customCallout
-   * 
+   *
    * `customCallout` 存在时将忽略 `callout` 与 `title` 属性。自定义气泡采用采用 `cover-view` 定制，灵活度更高。
    */
   interface customCallout {

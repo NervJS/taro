@@ -111,9 +111,12 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       onHide: getOnHideEventKey(id)
     }
   }
-
+  let loadResolver: (...args: unknown[]) => void
+  let hasLoaded: Promise<void>
   const config: PageInstance = {
     [ONLOAD] (this: MpInstance, options, cb?: Func) {
+      hasLoaded = new Promise(resolve => { loadResolver = resolve })
+
       perf.start(PAGE_INIT)
 
       Current.page = this as any
@@ -136,6 +139,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
           ensure(pageElement !== null, '没有找到页面实例。')
           safeExecute($taroPath, ON_LOAD, this.$taroParams)
+          loadResolver()
           if (process.env.TARO_ENV !== 'h5') {
             pageElement.ctx = this
             pageElement.performUpdate(true, cb)
@@ -173,13 +177,15 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       this.onReady.called = true
     },
     [ONSHOW] () {
-      // 设置 Current 的 page 和 router
-      Current.page = this as any
-      setCurrentRouter(this)
-      // 触发生命周期
-      safeExecute(this.$taroPath, ON_SHOW)
-      // 通过事件触发子组件的生命周期
-      raf(() => eventCenter.trigger(getOnShowEventKey(id)))
+      hasLoaded.then(() => {
+        // 设置 Current 的 page 和 router
+        Current.page = this as any
+        setCurrentRouter(this)
+        // 触发生命周期
+        safeExecute(this.$taroPath, ON_SHOW)
+        // 通过事件触发子组件的生命周期
+        raf(() => eventCenter.trigger(getOnShowEventKey(id)))
+      })
     },
     [ONHIDE] () {
       // 设置 Current 的 page 和 router

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/mini-runner",
-  "version": "3.3.10",
+  "version": "3.3.13",
   "description": "Mini app runner for taro",
   "main": "index.js",
   "scripts": {
@@ -36,18 +36,18 @@
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
     "@babel/core": "^7.14.5",
-    "@tarojs/helper": "3.3.10",
-    "@tarojs/plugin-platform-alipay": "3.3.10",
-    "@tarojs/plugin-platform-jd": "3.3.10",
-    "@tarojs/plugin-platform-qq": "3.3.10",
-    "@tarojs/plugin-platform-swan": "3.3.10",
-    "@tarojs/plugin-platform-tt": "3.3.10",
-    "@tarojs/plugin-platform-weapp": "3.3.10",
-    "@tarojs/runner-utils": "3.3.10",
-    "@tarojs/runtime": "3.3.10",
-    "@tarojs/shared": "3.3.10",
-    "@tarojs/taro": "3.3.10",
-    "@tarojs/taro-loader": "3.3.10",
+    "@tarojs/helper": "3.3.13",
+    "@tarojs/plugin-platform-alipay": "3.3.13",
+    "@tarojs/plugin-platform-jd": "3.3.13",
+    "@tarojs/plugin-platform-qq": "3.3.13",
+    "@tarojs/plugin-platform-swan": "3.3.13",
+    "@tarojs/plugin-platform-tt": "3.3.13",
+    "@tarojs/plugin-platform-weapp": "3.3.13",
+    "@tarojs/runner-utils": "3.3.13",
+    "@tarojs/runtime": "3.3.13",
+    "@tarojs/shared": "3.3.13",
+    "@tarojs/taro": "3.3.13",
+    "@tarojs/taro-loader": "3.3.13",
     "babel-loader": "8.2.1",
     "copy-webpack-plugin": "5.1.2",
     "css-loader": "3.4.2",
@@ -67,10 +67,10 @@
     "mkdirp": "^1.0.4",
     "ora": "4.0.3",
     "postcss": "8.3.5",
-    "postcss-html-transform": "3.3.10",
+    "postcss-html-transform": "3.3.13",
     "postcss-import": "12.0.1",
     "postcss-loader": "4.3.0",
-    "postcss-pxtransform": "3.3.10",
+    "postcss-pxtransform": "3.3.13",
     "postcss-url": "8.0.0",
     "regenerator-runtime": "0.11",
     "resolve": "^1.6.0",
@@ -89,8 +89,8 @@
     "webpack-format-messages": "^2.0.5"
   },
   "devDependencies": {
-    "@tarojs/components": "3.3.10",
-    "@tarojs/react": "3.3.10",
-    "babel-preset-taro": "3.3.10"
+    "@tarojs/components": "3.3.13",
+    "@tarojs/react": "3.3.13",
+    "babel-preset-taro": "3.3.13"
   }
 }
