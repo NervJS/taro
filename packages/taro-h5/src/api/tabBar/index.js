@@ -1,5 +1,5 @@
 import Taro from '@tarojs/api'
-import { shouleBeObject, getParameterError, isValidColor, successHandler, errorHandler } from '../utils'
+import { shouldBeObject, getParameterError, isValidColor, successHandler, errorHandler } from '../utils'
 
 let tabConf
 let App
@@ -20,7 +20,7 @@ export function initTabBarApis (_App = {}) {
  */
 export function setTabBarBadge (options = {}) {
   // options must be an Object
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `setTabBarBadge${isObject.msg}` }
     console.error(res.errMsg)
@@ -78,7 +78,7 @@ export function setTabBarBadge (options = {}) {
  */
 export function removeTabBarBadge (options = {}) {
   // options must be an Object
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `removeTabBarBadge${isObject.msg}` }
     console.error(res.errMsg)
@@ -123,7 +123,7 @@ export function removeTabBarBadge (options = {}) {
  */
 export function showTabBarRedDot (options = {}) {
   // options must be an Object
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `showTabBarRedDot${isObject.msg}` }
     console.error(res.errMsg)
@@ -168,7 +168,7 @@ export function showTabBarRedDot (options = {}) {
  */
 export function hideTabBarRedDot (options = {}) {
   // options must be an Object
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `hideTabBarRedDot${isObject.msg}` }
     console.error(res.errMsg)
@@ -213,7 +213,7 @@ export function hideTabBarRedDot (options = {}) {
  */
 export function showTabBar (options = {}) {
   // options must be an Object
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `showTabBar${isObject.msg}` }
     console.error(res.errMsg)
@@ -259,7 +259,7 @@ export function showTabBar (options = {}) {
  */
 export function hideTabBar (options = {}) {
   // options must be an Object
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `hideTabBar${isObject.msg}` }
     console.error(res.errMsg)
@@ -308,7 +308,7 @@ export function hideTabBar (options = {}) {
  */
 export function setTabBarStyle (options = {}) {
   // options must be an Object
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `setTabBarStyle${isObject.msg}` }
     console.error(res.errMsg)
@@ -372,7 +372,7 @@ export function setTabBarStyle (options = {}) {
  */
 export function setTabBarItem (options = {}) {
   // options must be an Object
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `setTabBarItem${isObject.msg}` }
     console.error(res.errMsg)

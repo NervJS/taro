@@ -53,7 +53,7 @@ interface CommonConfig {
   onReachBottomDistance?: number
 }
 
-interface TarbarList {
+interface TabBarItem {
   /**
    * 页面路径，必须在 pages 中先定义
    */
@@ -102,7 +102,7 @@ interface TabBar {
    */
   custom?: boolean
 
-  list: TarbarList[]
+  list: TabBarItem[]
 }
 
 interface SubPackage {
