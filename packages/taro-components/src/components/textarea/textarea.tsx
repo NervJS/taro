@@ -154,7 +154,7 @@ export class Textarea implements ComponentInterface {
       disabled,
       maxlength,
       autoFocus,
-      // autoHeight,
+      autoHeight,
       name,
       nativeProps,
       hanldeInput,
@@ -163,6 +163,14 @@ export class Textarea implements ComponentInterface {
       handleChange
     } = this
 
+    const otherProps: {
+      [props: string]: any
+    } = {}
+
+    if (autoHeight) {
+      otherProps.rows = this.line
+    }
+
     return (
       <textarea
         ref={input => {
@@ -170,7 +178,7 @@ export class Textarea implements ComponentInterface {
             this.textareaRef = input
           }
         }}
-        class="taro-textarea auto-height"
+        class={`taro-textarea ${autoHeight ? 'auto-height' : ''}`}
         value={fixControlledValue(value)}
         placeholder={placeholder}
         name={name}
@@ -182,6 +190,7 @@ export class Textarea implements ComponentInterface {
         onBlur={handleBlur}
         onChange={handleChange}
         {...nativeProps}
+        {...otherProps}
       />
     )
   }

@@ -1,7 +1,6 @@
 taro-textarea-core {
   display: block;
   width: 300px;
-  height: 150px;
 }
 
 taro-textarea-core .auto-height {
@@ -15,7 +14,7 @@ taro-textarea-core .auto-height {
   -webkit-appearance: none;
   cursor: auto;
   width: 100%;
-  height: 100%;
+  height: 150px;
   border: 0;
   display: block;
   position: relative;
