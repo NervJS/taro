@@ -18,6 +18,7 @@ import saveAssets from '@react-native-community/cli/build/commands/bundle/saveAs
 import * as outputBundle from 'metro/src/shared/output/bundle'
 
 function concatOutputFileName (config: any): string {
+  // 优先级：--bundle-output > config.output > config.outputRoot
   let output = path.join(config.outputRoot, 'index.bundle')
   if (config.output) {
     const outputType = typeof config.output
@@ -32,16 +33,25 @@ function concatOutputFileName (config: any): string {
       console.error(`invalid value for 'rn.output' configuration: ${JSON.stringify(config.output)}`)
     }
   }
+  if (config.bundleOutput) {
+    output = config.bundleOutput
+  }
   const res = path.isAbsolute(output) ? output : path.join('.', output)
   fse.ensureDirSync(path.dirname(res))
   return res
 }
 
 function concatOutputAssetsDest (config: any): string | undefined {
+  // 优先级：--assets-dest > config.output > config.outputRoot
+  let assetDest
   if (!config?.deviceType || !config?.output) {
-    return config.outputRoot
+    assetDest = config.outputRoot
+  } else {
+    assetDest = config.deviceType === 'ios' ? config.output.iosAssetsDest : config.output.androidAssetsDest
   }
-  const assetDest = config.deviceType === 'ios' ? config.output.iosAssetsDest : config.output.androidAssetsDest
+  if (config.assetsDest) {
+    assetDest = config.assetsDest
+  }
   if (!assetDest) return undefined
   const res = path.isAbsolute(assetDest) ? assetDest : path.join('.', assetDest)
   fse.ensureDirSync(path.dirname(res))
@@ -49,23 +59,18 @@ function concatOutputAssetsDest (config: any): string | undefined {
 }
 
 function getOutputSourceMapOption (config: any): Record<string, any> {
-  if (!config?.deviceType || !config?.output) {
+  if (!config?.deviceType) {
     return {}
   }
-  if (config.deviceType === 'ios') {
-    config.output.iosSourcemapOutput && fse.ensureDirSync(path.dirname(config.output.iosSourcemapOutput))
-    return {
-      sourceMapUrl: config.output.iosSourceMapUrl,
-      sourcemapOutput: config.output.iosSourcemapOutput,
-      sourcemapSourcesRoot: config.output.iosSourcemapSourcesRoot
-    }
-  } else {
-    config.output.androidSourcemapOutput && fse.ensureDirSync(path.dirname(config.output.androidSourcemapOutput))
-    return {
-      sourceMapUrl: config.output.androidSourceMapUrl,
-      sourcemapOutput: config.output.androidSourcemapOutput,
-      sourcemapSourcesRoot: config.output.androidSourcemapSourcesRoot
-    }
+  const isIos = config.deviceType === 'ios'
+  const sourceMapUrl = config.sourceMapUrl || (isIos ? config?.output?.iosSourceMapUrl : config?.output?.androidSourceMapUrl)
+  const sourcemapOutput = config.sourcemapOutput || (isIos ? config?.output?.iosSourcemapOutput : config?.output?.androidSourcemapOutput)
+  const sourcemapSourcesRoot = config.sourcemapSourcesRoot || (isIos ? config?.output?.iosSourcemapSourcesRoot : config?.output?.androidSourcemapSourcesRoot)
+  sourcemapOutput && fse.ensureDirSync(path.dirname(sourcemapOutput))
+  return {
+    sourceMapUrl,
+    sourcemapOutput,
+    sourcemapSourcesRoot
   }
 }
 
@@ -107,6 +112,9 @@ export default async function build (appPath: string, config: any): Promise<any>
   }
   if (config.resetCache) {
     metroConfig.resetCache = config.resetCache
+  }
+  if (config.publicPath) {
+    metroConfig.transformer.publicPath = config.publicPath
   }
   metroConfig.reporter = new TerminalReporter(entry, sourceRoot, metroConfig.cacheStores[0])
 

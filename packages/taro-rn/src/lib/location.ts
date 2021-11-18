@@ -23,7 +23,7 @@ export function offLocationChange(callback: Taro.onLocationChange.Callback): voi
  * @param opts 
  * @returns 
  */
-export function startLocationUpdate(opts: Taro.startLocationUpdate.Option): Promise<Taro.General.CallbackResult> {
+export function startLocationUpdate(opts: Taro.startLocationUpdate.Option): Promise<TaroGeneral.CallbackResult> {
   const { success, fail, complete } = opts
   const res = { errMsg: 'startLocationUpdate:ok' }
   try {
@@ -66,7 +66,7 @@ export function startLocationUpdate(opts: Taro.startLocationUpdate.Option): Prom
  * @param opts 
  * @returns 
  */
-export function stopLocationUpdate(opts: Taro.stopLocationUpdate.Option): Promise<Taro.General.CallbackResult> {
+export function stopLocationUpdate(opts: Taro.stopLocationUpdate.Option): Promise<TaroGeneral.CallbackResult> {
   const { success, fail, complete } = opts
   const res = { errMsg: 'stopLocationUpdate:ok' }
   try {

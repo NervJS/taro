@@ -57,7 +57,7 @@ export default (ctx: IPluginContext) => {
     useConfigName: 'rn',
     async fn ({ config }) {
       const { appPath, nodeModulesPath } = ctx.paths
-      const { deviceType = 'android', port, resetCache, qr } = ctx.runOpts.options
+      const { deviceType = 'android', port, resetCache, publicPath, bundleOutput, sourcemapOutput, sourceMapUrl, sourcemapSourcesRoot, assetsDest, qr } = ctx.runOpts.options
       const { npm } = ctx.helper
       printDevelopmentTip('rn')
 
@@ -69,6 +69,12 @@ export default (ctx: IPluginContext) => {
         port,
         qr,
         resetCache,
+        publicPath,
+        bundleOutput,
+        sourcemapOutput,
+        sourceMapUrl,
+        sourcemapSourcesRoot,
+        assetsDest,
         buildAdapter: config.platform,
         globalObject: 'global' // TODO: 是否可以去掉？
       }

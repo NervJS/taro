@@ -1,20 +1,6 @@
-declare namespace Taro {
-  /**
-   * 创建 [map](https://developers.weixin.qq.com/miniprogram/dev/component/map.html) 上下文 [MapContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.html) 对象。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * const mapCtx = Taro.createMapContext('myMap')
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/wx.createMapContext.html
-   */
-  function createMapContext(
-    /** Map 组件的 id */
-    mapId: string,
-    /** 在自定义组件下，当前组件实例的this，以操作组件内 Map 组件 */
-    component?: General.IAnyObject,
-  ): MapContext
+import Taro from '../../index'
 
+declare module '../../index' {
   /** `MapContext` 实例，可通过 Taro.createMapContext 获取。
    * `MapContext` 通过 id 跟一个 map 组件绑定，操作对应的 map 组件。
    */
@@ -48,24 +34,24 @@ declare namespace Taro {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.includePoints.html
      */
-    includePoints(option: MapContext.IncludePointsOption): Promise<General.CallbackResult>
+    includePoints(option: MapContext.IncludePointsOption): Promise<TaroGeneral.CallbackResult>
     /** 将地图中心移置当前定位点，此时需设置地图组件 show-location 为true。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.moveToLocation.html
      */
-    moveToLocation(option: MapContext.MoveToLocationOption): Promise<General.CallbackResult>
+    moveToLocation(option: MapContext.MoveToLocationOption): Promise<TaroGeneral.CallbackResult>
     /** 平移marker，带动画
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.translateMarker.html
      */
-    translateMarker(option: MapContext.TranslateMarkerOption): Promise<General.CallbackResult>
+    translateMarker(option: MapContext.TranslateMarkerOption): Promise<TaroGeneral.CallbackResult>
   }
   namespace MapContext {
     interface GetCenterLocationOption {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: GetCenterLocationSuccessCallback
     }
@@ -73,7 +59,7 @@ declare namespace Taro {
     type GetCenterLocationSuccessCallback = (
       result: GetCenterLocationSuccessCallbackResult,
     ) => void
-    interface GetCenterLocationSuccessCallbackResult extends General.CallbackResult {
+    interface GetCenterLocationSuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 纬度 */
       latitude: number
       /** 经度 */
@@ -83,9 +69,9 @@ declare namespace Taro {
     }
     interface GetRegionOption {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: GetRegionSuccessCallback
     }
@@ -93,7 +79,7 @@ declare namespace Taro {
     type GetRegionSuccessCallback = (
       result: GetRegionSuccessCallbackResult,
     ) => void
-    interface GetRegionSuccessCallbackResult extends General.CallbackResult {
+    interface GetRegionSuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 东北角经纬度 */
       northeast: MapPostion
       /** 西南角经纬度 */
@@ -103,9 +89,9 @@ declare namespace Taro {
     }
     interface GetRotateOption {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: GetRotateSuccessCallback
     }
@@ -113,7 +99,7 @@ declare namespace Taro {
     type GetRotateSuccessCallback = (
       result: GetRotateSuccessCallbackResult,
     ) => void
-    interface GetRotateSuccessCallbackResult extends General.CallbackResult {
+    interface GetRotateSuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 旋转角 */
       rotate: number
       /** 调用结果 */
@@ -121,9 +107,9 @@ declare namespace Taro {
     }
     interface GetScaleOption {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: GetScaleSuccessCallback
     }
@@ -131,7 +117,7 @@ declare namespace Taro {
     type GetScaleSuccessCallback = (
       result: GetScaleSuccessCallbackResult,
     ) => void
-    interface GetScaleSuccessCallbackResult extends General.CallbackResult {
+    interface GetScaleSuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 缩放值 */
       scale: number
       /** 调用结果 */
@@ -139,15 +125,15 @@ declare namespace Taro {
     }
     interface GetSkewOption {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: GetSkewSuccessCallback
     }
     /** 接口调用成功的回调函数 */
     type GetSkewSuccessCallback = (result: GetSkewSuccessCallbackResult) => void
-    interface GetSkewSuccessCallbackResult extends General.CallbackResult {
+    interface GetSkewSuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 倾斜角 */
       skew: number
       /** 调用结果 */
@@ -157,13 +143,13 @@ declare namespace Taro {
       /** 要显示在可视区域内的坐标点列表 */
       points: MapPostion[]
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 坐标点形成的矩形边缘到地图边缘的距离，单位像素。格式为[上,右,下,左]，安卓上只能识别数组第一项，上下左右的padding一致。开发者工具暂不支持padding参数。 */
       padding?: number[]
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
     /** 要显示在可视区域内的坐标点列表 */
     interface MapPostion {
@@ -174,15 +160,15 @@ declare namespace Taro {
     }
     interface MoveToLocationOption {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 纬度 */
       latitude?: number
       /** 经度 */
       longitude?: number
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
     interface TranslateMarkerOption {
       /** 移动过程中是否自动旋转 marker */
@@ -196,13 +182,13 @@ declare namespace Taro {
       /** 动画结束回调函数 */
       animationEnd?: (...args: any[]) => any
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 动画持续时长，平移与旋转分别计算 */
       duration?: number
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }    /** 指定 marker 移动到的目标点 */
     interface DestinationOption {
       /** 纬度 */
@@ -210,5 +196,23 @@ declare namespace Taro {
       /** 经度 */
       longitude: number
     }
+  }
+
+  interface TaroStatic {
+    /**
+     * 创建 [map](https://developers.weixin.qq.com/miniprogram/dev/component/map.html) 上下文 [MapContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.html) 对象。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * const mapCtx = Taro.createMapContext('myMap')
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/wx.createMapContext.html
+     */
+    createMapContext(
+      /** Map 组件的 id */
+      mapId: string,
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 Map 组件 */
+      component?: TaroGeneral.IAnyObject,
+    ): MapContext
   }
 }
