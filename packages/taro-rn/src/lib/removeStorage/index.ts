@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-export function removeStorage(option: Taro.removeStorage.Option): Promise<Taro.General.CallbackResult> {
+export function removeStorage(option: Taro.removeStorage.Option): Promise<TaroGeneral.CallbackResult> {
   const { key, success, fail, complete } = option
   const res = { errMsg: 'removeStorage:ok' }
 

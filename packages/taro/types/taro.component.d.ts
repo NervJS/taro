@@ -1,9 +1,9 @@
 /// <reference types="react" />
 /// <reference types="vue" />
-/// <reference path="taro.lifecycle.d.ts" />
-/// <reference path="taro.config.d.ts" />
 
-declare namespace Taro {
+import Taro, { ComponentOptions, Config, RouterInfo } from './index'
+
+declare module './index' {
   // Components
   interface ComponentLifecycle<P, S, SS = any> extends NewLifecycle<P, S, SS> {
     componentWillMount?(): void
@@ -60,53 +60,6 @@ declare namespace Taro {
     $scope?: any
   }
 
-  class Component<P, S> {
-    constructor(props?: Readonly<P>)
-    /**
-     * @deprecated
-     * @see https://reactjs.org/docs/legacy-context.html
-     */
-    constructor(props?: P, context?: any)
-
-    config?: Config
-
-    options?: ComponentOptions
-
-    $componentType: 'PAGE' | 'COMPONENT'
-
-    $router: RouterInfo
-
-    $preloadData: any
-
-    /**
-     * 使用 `this.$preload` 函数进行页面跳转传参
-     * @example this.$preload('key', 'val');
-     * @example this.$preload({
-                  x: 1,
-                  y: 2
-                });
-     * @see https://nervjs.github.io/taro/docs/best-practice.html
-     */
-    $preload(key: string, value: any): void
-    $preload(key: object): void
-
-    setState<K extends keyof S>(
-      state: ((prevState: Readonly<S>, props: P) => Pick<S, K> | S) | (Pick<S, K> | S),
-      callback?: () => any
-    ): void
-
-    forceUpdate(callBack?: () => any): void
-
-    render(): React.ReactNode
-
-    readonly props: Readonly<P> & Readonly<{ children?: React.ReactNode }>
-    state: Readonly<S>
-    context: any
-    refs: {
-      [key: string]: any
-    }
-  }
-
   type PropsWithChildren<P> = P & { children?: React.ReactNode }
 
   interface FunctionComponent<P = {}> {
@@ -125,13 +78,6 @@ declare namespace Taro {
   }
 
   type SFC = StatelessFunctionComponent
-
-  class PureComponent<P = {}, S = {}> extends Component<P, S> {}
-
-  function memo<P = {}>(
-    FunctionComponent: FunctionComponent<P>,
-    compare?: (oldProps: P, newProps: P) => Boolean
-  ): FunctionComponent<P>
 
   interface Show {
     componentDidShow?(options?: unknown): void
@@ -207,5 +153,12 @@ declare namespace Taro {
      * 最低基础库版本：[`2.9.0`](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      **/
     clearAnimation?(selector: string, options: ClearAnimationOptions, callback: () => void): void
+  }
+
+  interface TaroStatic {
+    memo<P = {}>(
+      FunctionComponent: FunctionComponent<P>,
+      compare?: (oldProps: P, newProps: P) => Boolean
+    ): FunctionComponent<P>
   }
 }

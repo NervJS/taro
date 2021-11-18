@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace onWindowResize {
     /** 窗口尺寸变化事件的回调函数 */
     type Callback = (result: CallbackResult) => void
@@ -14,25 +16,29 @@ declare namespace Taro {
       windowWidth: number
     }
   }
-  /** 监听窗口尺寸变化事件
-   * @supported weapp, h5
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/window/wx.onWindowResize.html
-   */
-  function onWindowResize(
-    /** 窗口尺寸变化事件的回调函数 */
-    callback: onWindowResize.Callback,
-  ): void
 
   namespace offWindowResize {
     /** 窗口尺寸变化事件的回调函数 */
-    type Callback = (res: General.CallbackResult) => void
+    type Callback = (res: TaroGeneral.CallbackResult) => void
   }
-  /** 取消监听窗口尺寸变化事件
-   * @supported weapp, h5
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/window/wx.offWindowResize.html
-   */
-  function offWindowResize(
-    /** 窗口尺寸变化事件的回调函数 */
-    callback: offWindowResize.Callback,
-  ): void
+
+  interface TaroStatic {
+    /** 监听窗口尺寸变化事件
+     * @supported weapp, h5
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/window/wx.onWindowResize.html
+     */
+    onWindowResize(
+      /** 窗口尺寸变化事件的回调函数 */
+      callback: onWindowResize.Callback,
+    ): void
+
+    /** 取消监听窗口尺寸变化事件
+     * @supported weapp, h5
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/window/wx.offWindowResize.html
+     */
+    offWindowResize(
+      /** 窗口尺寸变化事件的回调函数 */
+      callback: offWindowResize.Callback,
+    ): void
+  }
 }

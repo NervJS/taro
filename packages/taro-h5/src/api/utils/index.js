@@ -1,7 +1,7 @@
 /* eslint-disable prefer-promise-reject-errors */
 import { Current, container, SERVICE_IDENTIFIER } from '@tarojs/runtime'
 
-function shouleBeObject (target) {
+function shouldBeObject (target) {
   if (target && typeof target === 'object') return { res: true }
   return {
     res: false,
@@ -229,7 +229,7 @@ const getTimingFunc = (easeFunc, frameCnt) => {
 }
 
 export {
-  shouleBeObject,
+  shouldBeObject,
   getParameterError,
   inlineStyle,
   setTransform,

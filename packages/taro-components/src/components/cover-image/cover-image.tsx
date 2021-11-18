@@ -3,7 +3,7 @@ import { Component, Prop, Event, h, ComponentInterface, EventEmitter } from '@st
 
 @Component({
   tag: 'taro-cover-image-core',
-  styleUrl: './style/cover-image.scss'
+  styleUrl: './style/index.scss'
 })
 export class CoverImage implements ComponentInterface {
   @Prop() src: string
