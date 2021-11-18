@@ -91,7 +91,6 @@ export class Textarea implements ComponentInterface {
     const line = this.getNumberOfLines()
     if (line !== this.line) {
       this.line = line
-      console.log(line, this.onLineChange)
       this.onLineChange.emit({
         height: this.textareaRef.clientHeight,
         lineCount: this.line
