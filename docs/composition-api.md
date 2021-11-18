@@ -2,6 +2,10 @@
 title: Vue3 Composition APIs
 ---
 
+:::info
+Taro v3.4.0+ 开始支持
+:::
+
 Vue3 提供了 [Composition API（组合式 API）](https://v3.vuejs.org/guide/composition-api-introduction.html#why-composition-api) 特性，和传统的 Options API 不同，Composition API 提供了全新的编码方式 ，可以让我们更好地去组织和复用代码逻辑。
 
 本文将会介绍 Taro 提供的一些**自定义 Composition APIs**。而关于 Composition API 的相关用法和内置 API 等信息，请参阅 Vue 文档：
