@@ -129,7 +129,12 @@ useResize(res => {
 
 监听用户点击页面内转发按钮（Button 组件 openType='share'）或右上角菜单“转发”按钮的行为，并自定义转发内容。等同于 `onShareAppMessage` 页面生命周期钩子。
 
-```jsx title="示例代码"
+**使用时，必须为页面配置 `enableShareAppMessage: true`。（修改配置文件后请重新编译项目）**
+
+```html title="page.vue"
+<script setup>
+import { useShareAppMessage } from '@tarojs/taro'
+
 useShareAppMessage(res => {
   if (res.from === 'button') {
     // 来自页面内转发按钮
@@ -140,6 +145,13 @@ useShareAppMessage(res => {
     path: '/page/user?id=123'
   }
 })
+</script>
+```
+
+```js title="page.config.js" {2}
+export default {
+  enableShareAppMessage: true
+}
 ```
 
 ### useTabItemTap
@@ -160,10 +172,22 @@ useTabItemTap(item => {
 
 > 只有微信小程序支持，基础库 2.11.3 开始支持，本接口为 Beta 版本，暂只在 Android 平台支持
 
-```jsx title="示例代码"
+**使用时，必须为页面配置 `enableShareTimeline: true`。（修改配置文件后请重新编译项目）**
+
+```html title="page.vue"
+<script setup>
+import { useShareTimeline } from '@tarojs/taro'
+
 useShareTimeline(() => {
   console.log('onShareTimeline')
 })
+</script>
+```
+
+```js title="page.config.js" {2}
+export default {
+  enableShareTimeline: true
+}
 ```
 
 ### useAddToFavorites

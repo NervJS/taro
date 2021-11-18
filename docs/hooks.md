@@ -117,7 +117,7 @@ useResize(res => {
 
 监听用户点击页面内转发按钮（Button 组件 openType='share'）或右上角菜单“转发”按钮的行为，并自定义转发内容。等同于 `onShareAppMessage` 页面生命周期钩子。
 
-**【Breaking】Taro 3.0.3 开始，使用此 Hook 时必须为页面配置 `enableShareAppMessage: true`**
+**【Breaking】Taro 3.0.3 开始，使用此 Hook 时必须为页面配置 `enableShareAppMessage: true`。（修改配置文件后请重新编译项目）**
 
 ```jsx title="示例代码"
 // page.js
@@ -177,7 +177,7 @@ useAddToFavorites(res => {
 > Taro 3.0.3 开始支持
 > 只有微信小程序支持，基础库 2.11.3 开始支持，本接口为 Beta 版本，暂只在 Android 平台支持
 
-**使用时，必须为页面配置 `enableShareTimeline: true`**
+**使用时，必须为页面配置 `enableShareTimeline: true`。（修改配置文件后请重新编译项目）**
 
 ```jsx title="示例代码"
 // page.js
