@@ -29,6 +29,7 @@ module.exports = {
           'vue-entry',
           'vue-page',
           'vue3',
+          'composition-api',
           'vue-devtools'
         ],
       },

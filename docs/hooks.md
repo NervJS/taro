@@ -192,6 +192,36 @@ export default {
 }
 ```
 
+### useTitleClick
+
+> 只有支付宝小程序支持。等同于 `onTitleClick` 页面生命周期钩子。
+
+点击标题触发。
+
+```jsx title="示例代码"
+useTitleClick(() => console.log('onTitleClick'))
+```
+
+### useOptionMenuClick
+
+> 只有支付宝小程序支持。等同于 `onOptionMenuClick` 页面生命周期钩子。
+
+点击导航栏额外图标触发。
+
+```jsx title="示例代码"
+useOptionMenuClick(() => console.log('onOptionMenuClick'))
+```
+
+### usePullIntercept
+
+> 只有支付宝小程序支持。等同于 `onPullIntercept` 页面生命周期钩子。
+
+下拉截断时触发。
+
+```jsx title="示例代码"
+usePullIntercept(() => console.log('onPullIntercept'))
+```
+
 ## React Hooks
 
 ### useState
