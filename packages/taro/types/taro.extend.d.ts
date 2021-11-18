@@ -87,6 +87,10 @@ declare module './index' {
     rnNavigationRef?: React.RefObject<any>
   }
 
+  interface SetGlobalDataPlugin {
+    install (app: any, data: any): void
+  }
+
   interface TaroStatic {
     // eventCenter
     eventCenter: TaroEvents
@@ -115,5 +119,20 @@ declare module './index' {
     Current: Current
 
     getCurrentInstance(): Current
+
+    /**
+     * @desc Vue3 插件，用于设置 `getApp()` 中的全局变量
+     * @example
+     * ```js
+     * // 使用插件
+     * const App = createApp(...)
+     * App.use(setGlobalDataPlugin, {
+     *   xxx: 999
+     * })
+     * // 获取全局变量
+     * Taro.getApp().xxx
+     * ```
+     */
+    setGlobalDataPlugin: SetGlobalDataPlugin
   }
 }

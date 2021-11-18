@@ -21,6 +21,17 @@ export default (ctx: IPluginContext) => {
 
     if (isBuildH5) {
       setStyleLoader(ctx, chain)
+
+      chain.merge({
+        module: {
+          rule: {
+            'process-import-taro': {
+              test: /taro-h5[\\/]src[\\/]index/,
+              loader: require.resolve('./api-loader')
+            }
+          }
+        }
+      })
     } else {
       chain
         .plugin('definePlugin')
@@ -35,8 +46,9 @@ export default (ctx: IPluginContext) => {
 }
 
 function customVueChain (chain, webpack, data) {
+  // 避免 npm link 时，taro composition apis 使用的 vue 和项目使用的 vue 实例不一致。
   chain.resolve.alias
-    .set('vue', '@vue/runtime-dom')
+    .set('vue', require.resolve('vue'))
 
   chain
     .plugin('defined')

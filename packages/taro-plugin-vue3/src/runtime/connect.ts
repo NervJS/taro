@@ -87,18 +87,36 @@ function createVue3Page (h: typeof createElement, id: string) {
       component.mixins = [inject]
     }
 
+    const ProviderComponent = {
+      provide: { id },
+      render () {
+        return this.$slots.default()
+      }
+    }
+    const RootElement = process.env.TARO_ENV === 'h5' ? 'div' : 'root'
+    const PageComponent = Object.assign({}, component)
+
     return h(
-      process.env.TARO_ENV === 'h5' ? 'div' : 'root',
+      ProviderComponent,
       {
-        key: id,
-        id,
-        class: process.env.TARO_ENV === 'h5' ? 'taro_page' : ''
+        key: id
       },
-      [
-        h(Object.assign({}, component), {
-          tid: id
-        })
-      ]
+      {
+        default () {
+          return [
+            h(
+              RootElement,
+              {
+                id,
+                class: process.env.TARO_ENV === 'h5' ? 'taro_page' : ''
+              },
+              [
+                h(PageComponent, { tid: id })
+              ]
+            )
+          ]
+        }
+      }
     )
   }
 }

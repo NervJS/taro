@@ -31,8 +31,12 @@
     "@tarojs/helper": "3.3.14",
     "webpack": "4.46.0"
   },
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
   "devDependencies": {
     "@tarojs/service": "3.3.14",
-    "@tarojs/taro": "3.3.14"
+    "@tarojs/taro": "3.3.14",
+    "vue": "^3.0.0"
   }
 }
