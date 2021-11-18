@@ -46,7 +46,7 @@ export class Textarea implements ComponentInterface {
   onChange: EventEmitter
 
   @Event({
-    eventName: 'lineChange'
+    eventName: 'linechange' // 必须全小写
   })
   onLineChange: EventEmitter
 
@@ -92,8 +92,8 @@ export class Textarea implements ComponentInterface {
     if (line !== this.line) {
       this.line = line
       console.log(line, this.onLineChange)
-      // 父级没有触发，得看看 TODO
       this.onLineChange.emit({
+        height: this.textareaRef.clientHeight,
         lineCount: this.line
       })
     }
