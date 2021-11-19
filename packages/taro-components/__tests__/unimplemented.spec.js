@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {
-  CoverImage,
   CoverView,
   MovableArea,
   MovableView,
@@ -83,10 +82,6 @@ describe('unimplemented', () => {
 
   it('CoverView', async () => {
     await testComponent(CoverView)
-  })
-
-  it('CoverImage', async () => {
-    await testComponent(CoverImage)
   })
 
   it('MovableArea', async () => {
