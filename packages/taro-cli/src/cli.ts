@@ -77,6 +77,7 @@ export default class CLI {
           init(kernel, {
             appPath: this.appPath,
             projectName,
+            description: args.description,
             typescript: args.typescript,
             templateSource: args['template-source'],
             clone: !!args.clone,
