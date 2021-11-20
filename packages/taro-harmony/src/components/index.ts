@@ -104,12 +104,17 @@ export const components = {
     lunarswitch: 'false'
   },
   PickerView: {
-    mode: singleQuote('selector'),
+    mode: '',
     range: '',
     selected: '',
     hours: '',
+    indicatorprefix: '',
+    indicatorsuffix: '',
+    containsecond: 'false',
     vibrate: 'true',
     lunar: 'false',
-    lunarswitch: 'false'
+    lunarswitch: 'false',
+    bindcolumnchange: '',
+    cn: ''
   }
 }
