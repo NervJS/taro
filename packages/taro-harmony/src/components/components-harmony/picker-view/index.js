@@ -32,10 +32,10 @@ export default createOption({
     const hasRangeProp = Boolean(this.range)
     const hasModeProp = Boolean(this.mode)
     let range = isArray(this.range) ? this.range : []
-    let type = hasModeProp ? MODE_TYPE_MAP[this.mode] || 'text' : null // PickerView可以不传mode
+    let type = hasModeProp ? MODE_TYPE_MAP[this.mode] || 'text' : null
     const children = (this.cn || []).filter(child => child.nn === 'picker-view-column')
 
-    // 优先读取传入的range属性，否则解析子节点
+    // 优先读取range属性，若无则解析子节点
     if (!hasRangeProp && ['text', 'multi-text', null].includes(type)) {
       range = recursiveGetCandidates(children)
     }
@@ -123,11 +123,19 @@ function isMultiRange (range = []) {
   return range.length > 0 && range.every(r => Array.isArray(r))
 }
 
+/**
+ * 对<PickerViewColumn>组件的子节点递归收集候选词
+ */
 function recursiveGetCandidates (children = []) {
   if (children.length === 0) return []
   return children.map(child => getCandidatesDFS(child.cn || []))
 }
-
+/**
+ * 以深度遍历方式收集候选词，最多遍历4层，优先查找左子树，直到读取到“#text”节点为止
+ * eg：
+ * <View>item1</View> => item1
+ * <View><Text>item1</Text><Text>item1</Text></View> => item1
+ */
 function getCandidatesDFS (children = []) {
   if (children.length === 0) return []
 

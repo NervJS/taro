@@ -24,7 +24,7 @@ export class Template extends RecursiveTemplate {
     'camera',
     'video',
     'web-view',
-    'picker',
+    'picker'
   ]
 
   constructor () {
