@@ -212,7 +212,7 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
   const apis = new Set(
     !config.isOnlyPromisify
       ? Object.keys(global).filter(api => preserved.indexOf(api) === -1)
-      : new Set(patchNeedPromiseApis)
+      : patchNeedPromiseApis
   )
 
   if (config.modifyApis) {
