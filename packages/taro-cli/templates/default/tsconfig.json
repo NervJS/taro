@@ -24,10 +24,10 @@
       "node_modules/@types"
     ]
   },
+  "include": ["./src", "global.d.ts"],
   "exclude": [
     "node_modules",
-    "dist",
-    "global.d.ts"
+    "dist"
   ],
   "compileOnSave": false
 }
