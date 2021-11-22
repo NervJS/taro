@@ -41,6 +41,8 @@ declare module '../../index' {
       '3g'
       /** 4g 网络 */
       '4g'
+      /** 5g 网络 */
+      '5g'
       /** Android 下不常见的网络类型 */
       'unknown'
       /** 无网络 */
