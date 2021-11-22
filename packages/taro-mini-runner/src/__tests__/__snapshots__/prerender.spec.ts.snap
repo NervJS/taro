@@ -679,7 +679,7 @@ require(\\"./taro\\");
         var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
         var apis = new Set(!config.isOnlyPromisify ? Object.keys(global).filter((function(api) {
             return preserved.indexOf(api) === -1;
-        })) : new Set(patchNeedPromiseApis));
+        })) : patchNeedPromiseApis);
         if (config.modifyApis) {
             config.modifyApis(apis);
         }
@@ -3898,8 +3898,6 @@ module.exports = {
     function _possibleConstructorReturn(self, call) {
         if (call && (_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
-        } else if (call !== void 0) {
-            throw new TypeError(\\"Derived constructors may only return object or undefined\\");
         }
         return Object(_assertThisInitialized_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(self);
     }
@@ -4708,7 +4706,7 @@ require(\\"./taro\\");
             var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
             var apis = new Set(!config.isOnlyPromisify ? Object.keys(global).filter((function(api) {
                 return preserved.indexOf(api) === -1;
-            })) : new Set(patchNeedPromiseApis));
+            })) : patchNeedPromiseApis);
             if (config.modifyApis) {
                 config.modifyApis(apis);
             }
@@ -7656,8 +7654,6 @@ module.exports = {
     function _possibleConstructorReturn(self, call) {
         if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
-        } else if (call !== void 0) {
-            throw new TypeError(\\"Derived constructors may only return object or undefined\\");
         }
         return Object(assertThisInitialized[\\"a\\"])(self);
     }
@@ -8546,7 +8542,7 @@ require(\\"./taro\\");
             var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
             var apis = new Set(!config.isOnlyPromisify ? Object.keys(global).filter((function(api) {
                 return preserved.indexOf(api) === -1;
-            })) : new Set(patchNeedPromiseApis));
+            })) : patchNeedPromiseApis);
             if (config.modifyApis) {
                 config.modifyApis(apis);
             }
@@ -11494,8 +11490,6 @@ module.exports = {
     function _possibleConstructorReturn(self, call) {
         if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
-        } else if (call !== void 0) {
-            throw new TypeError(\\"Derived constructors may only return object or undefined\\");
         }
         return Object(assertThisInitialized[\\"a\\"])(self);
     }
