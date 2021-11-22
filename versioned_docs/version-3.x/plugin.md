@@ -139,7 +139,7 @@ export default (ctx) => {
 }
 ```
 
-将这个插件配置到中项目之后，就可以通过 `taro upload --remote xxx.xxx.xxx.xxx` 命令将编译后代码上传到目标服务器。
+将这个插件配置到项目中之后，就可以通过 `taro upload --remote xxx.xxx.xxx.xxx` 命令将编译后代码上传到目标服务器。
 
 #### 编译过程扩展
 
