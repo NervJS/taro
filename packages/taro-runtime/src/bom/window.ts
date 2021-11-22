@@ -3,7 +3,7 @@ import { document } from './document'
 import { isBrowser, win } from '../env'
 import { raf, caf } from './raf'
 import { getComputedStyle } from './getComputedStyle'
-import { DATE, SET_TIMEOUT } from '../constants'
+import { DATE } from '../constants'
 
 export const window = isBrowser ? win : {
   navigator,
@@ -35,7 +35,10 @@ if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
   if (!(DATE in window)) {
     (window as any).Date = Date
   }
-  if (!(SET_TIMEOUT in window)) {
-    (window as any).setTimeout = setTimeout
+  (window as any).setTimeout = function (cb, delay) {
+    setTimeout(cb, delay)
+  }
+  ;(window as any).clearTimeout = function (seed) {
+    clearTimeout(seed)
   }
 }
