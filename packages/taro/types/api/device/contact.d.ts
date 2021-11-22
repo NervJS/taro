@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace addPhoneContact {
     interface Option {
       /** 名字 */
@@ -14,11 +16,11 @@ declare namespace Taro {
       /** 联系地址街道 */
       addressStreet?: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 电子邮件 */
       email?: string
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 住宅地址城市 */
       homeAddressCity?: string
       /** 住宅地址国家 */
@@ -50,7 +52,7 @@ declare namespace Taro {
       /** 备注 */
       remark?: string
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
       /** 职位 */
       title?: string
       /** 网站 */
@@ -74,9 +76,11 @@ declare namespace Taro {
     }
   }
 
-  /** 添加手机通讯录联系人。用户可以选择将该表单以「新增联系人」或「添加到已有联系人」的方式，写入手机系统通讯录。
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/contact/wx.addPhoneContact.html
-   */
-  function addPhoneContact(option: addPhoneContact.Option): Promise<General.CallbackResult>
+  interface TaroStatic {
+    /** 添加手机通讯录联系人。用户可以选择将该表单以「新增联系人」或「添加到已有联系人」的方式，写入手机系统通讯录。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/contact/wx.addPhoneContact.html
+     */
+    addPhoneContact(option: addPhoneContact.Option): Promise<TaroGeneral.CallbackResult>
+  }
 }

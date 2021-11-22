@@ -11,7 +11,7 @@ async function getStorageCurrentSize() {
   return Number((size / 1024).toFixed(2))
 }
 
-export async function getStorageInfo(option: Taro.getStorageInfo.Option = {}): Promise<Taro.General.CallbackResult> {
+export async function getStorageInfo(option: Taro.getStorageInfo.Option = {}): Promise<TaroGeneral.CallbackResult> {
   const { success, fail, complete } = option
   const res = { errMsg: 'getStorageInfo:ok' }
 

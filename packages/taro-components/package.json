@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "3.3.12",
+  "version": "3.3.14",
   "description": "",
   "main:h5": "src/index.js",
   "main": "dist/index.js",
@@ -37,8 +37,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@stencil/core": "2.4.0",
-    "@tarojs/taro": "3.3.12",
+    "@stencil/core": "2.9.0",
+    "@tarojs/taro": "3.3.14",
     "better-scroll": "^1.14.1",
     "classnames": "^2.2.5",
     "intersection-observer": "^0.7.0",
@@ -49,7 +49,7 @@
   },
   "devDependencies": {
     "@stencil/sass": "1.4.1",
-    "@types/react-native": "0.65.1",
+    "@types/react-native": "0.66.5",
     "jquery": "^3.4.1",
     "karmatic": "^2.1.0",
     "simulant": "^0.2.2",
