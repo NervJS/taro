@@ -27,6 +27,19 @@ function processNavigateUrl (option: Option) {
     }
   })
 
+  // 处理相对路径
+  if (pathPieces?.pathname?.includes('./')) {
+    const parts = history.location.pathname.split('/')
+    parts.pop()
+    pathPieces.pathname.split('/').forEach((item) => {
+      if (item === '.') {
+        return
+      }
+      item === '..' ? parts.pop() : parts.push(item)
+    })
+    pathPieces.pathname = parts.join('/')
+  }
+
   // 处理 basename
   pathPieces.pathname = prependBasename(pathPieces.pathname)
 
