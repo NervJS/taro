@@ -35,9 +35,9 @@ title: Taro 仓库概览
 | `@tarojs/plugin-platform-tt` | 字节跳动小程序插件 |
 | `@tarojs/plugin-platform-qq` | qq 小程序插件 |
 | `@tarojs/plugin-platform-jd` | 京东小程序插件 |
-| `@taojs/plugin-html` | 支持使用 HTML 标签的插件 |
+| `@tarojs/plugin-html` | 支持使用 HTML 标签的插件 |
 | `postcss-html-transform` | PostCSS 插件，用于处理 HTML 标签的类名 |
-| `@taojs/plugin-react-devtools` | 支持使用 React DevTools 的插件 |
+| `@tarojs/plugin-react-devtools` | 支持使用 React DevTools 的插件 |
 | `@tarojs/extend` | 类似 jQuery 的库 |
 
 ### H5

@@ -35,9 +35,9 @@ The following list describes which NPM packages Taro consists of and what each p
 | `@tarojs/plugin-platform-tt` | ByteDance mini program plugin|
 | `@tarojs/plugin-platform-qq` | QQ mini program  plugin |
 | `@tarojs/plugin-platform-jd` | Jingdong mini program  plugin |
-| `@taojs/plugin-html` | Support for plugins that use HTML tags |
+| `@tarojs/plugin-html` | Support for plugins that use HTML tags |
 | `postcss-html-transform` | PostCSS plugin, class name for handling HTML tags |
-| `@taojs/plugin-react-devtools` | Support for plugins using React DevTools |
+| `@tarojs/plugin-react-devtools` | Support for plugins using React DevTools |
 | `@tarojs/extend` | jQuery-like libraries |
 
 ### H5
