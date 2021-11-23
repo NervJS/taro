@@ -34,15 +34,18 @@ describe('Textarea', () => {
     assert(textarea.value === '')
     assert(textarea.getAttribute('placeholder') === null)
     assert(textarea.getAttribute('maxlength') === '140')
+    assert(textarea.getAttribute('rows') === null)
 
     const value = 'taro'
     const placeholder = 'type sth...'
     const maxlength = 10
+    const autoHeight = true
 
     await wrapper.setProps({
       value,
       placeholder,
-      maxlength
+      maxlength,
+      autoHeight
     })
 
     assert(node.value === value)
@@ -50,12 +53,14 @@ describe('Textarea', () => {
     assert(textarea.getAttribute('placeholder') === placeholder)
     assert(textarea.getAttribute('maxlength') === String(maxlength))
     assert(onFocus.callCount === 1)
+    assert(textarea.getAttribute('rows') === '1')
   })
 
   it('events', async () => {
     const onInput = sinon.spy()
     const onFocus = sinon.spy()
     const onBlur = sinon.spy()
+    const onLineChange = sinon.spy()
     let value = 'taro'
 
     const app = (
@@ -64,6 +69,7 @@ describe('Textarea', () => {
         onInput={e => onInput(e.detail.value)}
         onFocus={e => onFocus(e.detail.value)}
         onBlur={e => onBlur(e.detail.value)}
+        onLineChange={e => onLineChange(e.detail.value)}
       />
     )
 
@@ -83,5 +89,13 @@ describe('Textarea', () => {
 
     textarea.blur()
     assert(onBlur.calledOnceWith(value) === true)
+
+    value = 'tarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotarotaro'
+    textarea.value = value
+    simulant.fire(textarea, 'input', {
+      data: 'a',
+      inputType: 'insertText'
+    })
+    assert(onLineChange.callCount === 1)
   })
 })

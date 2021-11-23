@@ -1,7 +1,11 @@
 import { listeners } from './mixins/listeners'
 import { refs } from './mixins/refs'
 export default function createFormsComponent (name, event, modelValue = 'value', classNames = []) {
-  const props = {}
+  const props = {
+    nativeProps: {
+      type: Object
+    }
+  }
   if (name === 'taro-input') {
     props.focus = Boolean
   }
@@ -38,6 +42,9 @@ export default function createFormsComponent (name, event, modelValue = 'value',
 
       return createElement(`${name}-core`, {
         class: ['hydrated', ...classNames],
+        domProps: {
+          nativeProps: this.nativeProps
+        },
         attrs,
         on
       }, self.$slots.default)

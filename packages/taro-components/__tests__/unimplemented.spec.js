@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {
-  CoverView,
   MovableArea,
   MovableView,
   PickerView,
@@ -78,10 +77,6 @@ describe('unimplemented', () => {
 
   afterAll(() => {
     console.error.restore()
-  })
-
-  it('CoverView', async () => {
-    await testComponent(CoverView)
   })
 
   it('MovableArea', async () => {
