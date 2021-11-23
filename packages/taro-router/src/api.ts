@@ -1,7 +1,7 @@
 import { parsePath } from 'history'
-import { stacks } from './stack'
+import stacks from './router/stack'
 import { history, prependBasename } from './history'
-import { routesAlias, addLeadingSlash, setHistoryBackDelta } from './utils'
+import { routesAlias, addLeadingSlash } from './utils'
 
 interface Base {
   success?: (...args: any[]) => void
@@ -26,6 +26,19 @@ function processNavigateUrl (option: Option) {
       pathPieces.pathname = routesAlias[key]
     }
   })
+
+  // 处理相对路径
+  if (pathPieces?.pathname?.includes('./')) {
+    const parts = history.location.pathname.split('/')
+    parts.pop()
+    pathPieces.pathname.split('/').forEach((item) => {
+      if (item === '.') {
+        return
+      }
+      item === '..' ? parts.pop() : parts.push(item)
+    })
+    pathPieces.pathname = parts.join('/')
+  }
 
   // 处理 basename
   pathPieces.pathname = prependBasename(pathPieces.pathname)
@@ -56,7 +69,7 @@ async function navigate (option: Option | NavigateBackOption, method: 'navigateT
           history.replace(pathPieces, state)
         }
       } else if (method === 'navigateBack') {
-        setHistoryBackDelta(option.delta)
+        stacks.delta = option.delta
         history.go(-option.delta)
       }
     } catch (error) {
@@ -93,5 +106,5 @@ export function reLaunch (option: Option) {
 }
 
 export function getCurrentPages () {
-  return stacks
+  return stacks.get()
 }

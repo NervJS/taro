@@ -1,51 +1,6 @@
 import Taro, { Component } from './index'
 
-// Events
-export class TaroEvents {
-  /**
-   * 监听一个事件，接受参数
-   */
-  on(eventName: string, listener: (...args: any[]) => void): this
-
-  /**
-   * 添加一个事件监听，并在事件触发完成之后移除Callbacks链
-   */
-  once(eventName: string, listener: (...args: any[]) => void): this
-
-  /**
-   * 取消监听一个事件
-   */
-  off(eventName: string, listener?: (...args: any[]) => void): this
-
-  /**
-   * 取消监听的所有事件
-   */
-  off(): this
-
-  /**
-   * 触发一个事件，传参
-   */
-  trigger(eventName: string, ...args: any[]): boolean
-}
-
-// ENV_TYPE
-
-export enum TARO_ENV_TYPE {
-  WEAPP = 'WEAPP',
-  WEB = 'WEB',
-  RN = 'RN',
-  SWAN = 'SWAN',
-  ALIPAY = 'ALIPAY',
-  TT = 'TT',
-  QQ = 'QQ',
-  JD = 'JD'
-}
-
 declare module './index' {
-  type Events = TaroEvents
-
-  type ENV_TYPE = TARO_ENV_TYPE
-
   type MessageType = 'info' | 'success' | 'error' | 'warning'
 
   interface AtMessageOptions {
@@ -93,9 +48,9 @@ declare module './index' {
 
   interface TaroStatic {
     // eventCenter
-    eventCenter: TaroEvents
+    eventCenter: TaroGeneral.Events
 
-    getEnv(): ENV_TYPE
+    getEnv(): TaroGeneral.ENV_TYPE
 
     render(component: Component | JSX.Element, element: Element | null): any
 

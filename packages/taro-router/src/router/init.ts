@@ -1,6 +1,6 @@
-import { initTabbar } from './tabbar'
-import { setHistoryMode } from './history'
-import { RouterConfig } from './router'
+import { initTabbar } from '../tabbar'
+import { setHistoryMode } from '../history'
+import { RouterConfig } from '.'
 
 export const routerConfig: RouterConfig = Object.create(null)
 

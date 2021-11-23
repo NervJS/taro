@@ -41,10 +41,29 @@ declare module '../../index' {
       '3g'
       /** 4g 网络 */
       '4g'
+      /** 5g 网络 */
+      '5g'
       /** Android 下不常见的网络类型 */
       'unknown'
       /** 无网络 */
       'none'
+    }
+  }
+
+  namespace getLocalIPAddress {
+    interface Option {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (result: SuccessCallbackResult) => void
+    }
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+      /** 本机局域网IP地址 */
+      localip: string
+      /** 调用结果 */
+      errMsg: string
     }
   }
 
@@ -89,5 +108,18 @@ declare module '../../index' {
       /** 取消监听网络状态变化事件，参数为空，则取消所有的事件监听 */
       callback?: (...args: any[]) => any,
     ): void
+
+    /** 获取局域网IP地址。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.getLocalIPAddress()
+     *   .then(res => {
+     *     const localip = res.localip
+     *   })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.getLocalIPAddress.html
+     */
+    getLocalIPAddress(option?: getLocalIPAddress.Option): Promise<getLocalIPAddress.SuccessCallbackResult>
   }
 }

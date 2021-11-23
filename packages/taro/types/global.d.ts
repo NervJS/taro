@@ -347,4 +347,44 @@ declare namespace TaroGeneral {
       extraData: IAnyObject
     }
   }
+
+  // Events
+  class Events {
+    /**
+     * 监听一个事件，接受参数
+     */
+    on(eventName: string, listener: (...args: any[]) => void): this
+
+    /**
+     * 添加一个事件监听，并在事件触发完成之后移除Callbacks链
+     */
+    once(eventName: string, listener: (...args: any[]) => void): this
+
+    /**
+     * 取消监听一个事件
+     */
+    off(eventName: string, listener?: (...args: any[]) => void): this
+
+    /**
+     * 取消监听的所有事件
+     */
+    off(): this
+
+    /**
+     * 触发一个事件，传参
+     */
+    trigger(eventName: string, ...args: any[]): boolean
+  }
+
+  // ENV_TYPE
+  enum ENV_TYPE {
+    WEAPP = 'WEAPP',
+    WEB = 'WEB',
+    RN = 'RN',
+    SWAN = 'SWAN',
+    ALIPAY = 'ALIPAY',
+    TT = 'TT',
+    QQ = 'QQ',
+    JD = 'JD'
+  }
 }

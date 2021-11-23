@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-rn",
-  "version": "3.3.14",
+  "version": "3.3.15",
   "description": "多端解决方案基础组件（RN）",
   "main": "./dist/index.js",
   "scripts": {
@@ -27,8 +27,8 @@
   "license": "MIT",
   "dependencies": {
     "@ant-design/react-native": "^4.2.0",
-    "@react-native-community/slider": "4.0.0-rc.3",
-    "@react-native-picker/picker": "^1.16.4",
+    "@react-native-community/slider": "~4.1.12",
+    "@react-native-picker/picker": "~2.2.1",
     "@unimodules/core": "^7.1.2",
     "@unimodules/react-native-adapter": "^6.3.9",
     "expo-asset": "^8.3.3",
@@ -37,13 +37,13 @@
     "expo-camera": "~11.2.2",
     "prop-types": "^15.6.2",
     "react-native-maps": "^0.25.0",
-    "react-native-pager-view": "^5.4.0",
-    "react-native-webview": "^11.6.4",
+    "react-native-pager-view": "~5.4.9",
+    "react-native-webview": "~11.14.3",
     "unimodules-permissions-interface": "~5.3.0"
   },
   "devDependencies": {
-    "@tarojs/components": "3.3.14",
-    "@types/react-native": "0.65.1",
+    "@tarojs/components": "3.3.15",
+    "@types/react-native": "0.66.5",
     "@types/sinon": "^9.0.8",
     "cpy-cli": "^3.1.1",
     "expo-constants": "~9.2.0",
@@ -56,13 +56,13 @@
     "sinon": "^9.2.1"
   },
   "peerDependencies": {
-    "@react-native-community/slider": "4.0.0-rc.3",
-    "@react-native-picker/picker": "^1.16.4",
+    "@react-native-community/slider": "~4.1.12",
+    "@react-native-picker/picker": "~2.2.1",
     "expo-av": "~9.2.3",
     "expo-barcode-scanner": "~10.2.2",
     "expo-camera": "~11.2.2",
-    "react-native-pager-view": "^5.4.0",
-    "react-native-webview": "^11.6.4"
+    "react-native-pager-view": "~5.4.9",
+    "react-native-webview": "~11.14.3"
   },
   "resolutions": {
     "@types/react": "17.0.11",

@@ -22,10 +22,10 @@
     "allowJs": true,
     "resolveJsonModule": true,
     "typeRoots": [
-      "node_modules/@types",
-      "global.d.ts"
+      "node_modules/@types"
     ]
   },
+  "include": ["./src", "global.d.ts"],
   "exclude": [
     "node_modules",
     "dist"
