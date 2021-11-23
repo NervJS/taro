@@ -11,7 +11,7 @@ title: React Native 端开发流程
 
 ## 简介
 
-Taro 移动端的开发基于 Facebook 的开源项目 [React Native](https://github.com/facebook/react-native)，`Taro3.x` 将不再锁定 React Native 版本，用户可在项目中自行安装 >=0.60 版本的 React Native，对于 0.59 版本将在后续调研后决定是否兼容。
+Taro 移动端的开发基于 Facebook 的开源项目 [React Native](https://github.com/facebook/react-native)，`Taro3.x` 将不再锁定 React Native 版本，用户可在项目中自行安装 >=0.60 版本的 React Native。后续 React Native 我们将以最新版为主做兼容，及时跟进社区发展。
 
 整体设计图如下：
 
