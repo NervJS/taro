@@ -9,7 +9,7 @@ title: React Native Development Process
 
 ## Introduction
 
-Taro mobile development based on Facebook's open source project [React Native](https://github.com/facebook/react-native)，`Taro3.x` will no longer lock the React Native version, users can install >=0.60 version of React Native in their projects, and the 0.59 version will be investigated later for compatibility.
+Taro mobile development based on Facebook's open source project [React Native](https://github.com/facebook/react-native)，`Taro3.x` will no longer lock the React Native version, users can install >=0.60 version of React Native in their projects. In the future, React Native will be compatible with the latest version, and we will keep up with the community.
 
 The overall design diagram is as follows:
 
