@@ -111,7 +111,14 @@ export class Hooks implements IHooks {
   public modifyMpEventImpls?: ModifyMpEvent[]
 
   public modifyMpEvent (e: MpEvent) {
-    this.modifyMpEventImpls?.forEach(fn => fn(e))
+    this.modifyMpEventImpls?.forEach(fn => {
+      try {
+        // 有些小程序的事件对象的某些属性只读
+        fn(e)
+      } catch (error) {
+        console.warn('[Taro modifyMpEvent hook Error]: ', error)
+      }
+    })
   }
 
   @multiInject(SID_MODIFY_TARO_EVENT) @optional()

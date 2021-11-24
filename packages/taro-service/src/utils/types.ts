@@ -25,6 +25,8 @@ export interface IPaths {
 
 export type Func = (...args: any[]) => any
 
+export type IPluginsObject = Record<string, Record<any, any> | null>
+
 export interface IPlugin {
   id: string
   path: string

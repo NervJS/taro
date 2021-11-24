@@ -187,7 +187,6 @@ class _Video extends Component<Props, any> {
         enumerable: true,
         value: { errMsg: e },
       })
-      // @ts-ignore
       this.props.onError(error)
     }
   };
@@ -251,12 +250,10 @@ class _Video extends Component<Props, any> {
   };
 
   requestFullScreen = (): void => {
-    // @ts-ignore
     this.videoRef.presentFullscreenPlayer()
   };
 
   exitFullScreen = (): void => {
-    // @ts-ignore
     this.videoRef.dismissFullscreenPlayer()
   };
 
@@ -265,9 +262,7 @@ class _Video extends Component<Props, any> {
       const { id } = this.props
       return (ref: any) => {
         if (!ref) return
-        // @ts-ignore
         this[refName] = ref
-        // @ts-ignore
         id && (global._taroVideoMap[id] = ref)
       }
     }

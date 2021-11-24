@@ -3,6 +3,7 @@ import { Kernel } from '@tarojs/service'
 export default function init (kernel: Kernel, {
   appPath,
   projectName,
+  description,
   typescript,
   templateSource,
   clone,
@@ -12,6 +13,7 @@ export default function init (kernel: Kernel, {
 }: {
   appPath: string,
   projectName?: string,
+  description?: string
   typescript?: boolean,
   templateSource?: string,
   clone?: boolean,
@@ -24,6 +26,7 @@ export default function init (kernel: Kernel, {
     opts: {
       appPath,
       projectName,
+      description,
       typescript,
       templateSource,
       clone,

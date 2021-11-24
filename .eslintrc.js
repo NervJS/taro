@@ -53,6 +53,7 @@ module.exports = {
     'getApp': 'readonly',
     'requirePlugin': 'readonly',
     'jd': 'readonly',
+    'ks': 'readonly',
     'LOCATION_APIKEY': 'readonly'
   },
   'parserOptions': {

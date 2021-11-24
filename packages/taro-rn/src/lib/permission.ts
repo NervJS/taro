@@ -1,4 +1,4 @@
-import { Linking, AppState } from 'react-native';
+import { Linking, AppState, NativeEventSubscription } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import { errorHandler, successHandler } from '../utils';
 
@@ -16,6 +16,7 @@ const scopeMap = {
 }
 
 let stateListener // 缓存监听函数
+let appStateSubscription: NativeEventSubscription | undefined
 
 const getAuthSetting = async () => {
   const keyArr = Object.keys(scopeMap)
@@ -42,8 +43,8 @@ const handleAppStateChange = async (nextAppState, resolve, reject, opts) => {
       res.errMsg = 'openSetting:ok'
       success?.(res)
       complete?.(res)
-
-      AppState.removeEventListener('change', stateListener as any);
+  
+      appStateSubscription?.remove()
       resolve(res)
     } catch (error) {
       res.errMsg = 'openSetting:fail'
@@ -56,7 +57,7 @@ const handleAppStateChange = async (nextAppState, resolve, reject, opts) => {
   // AppState.currentState = nextAppState;
 };
 
-export async function authorize(opts: Taro.authorize.Option): Promise<Taro.General.CallbackResult> {
+export async function authorize(opts: Taro.authorize.Option): Promise<TaroGeneral.CallbackResult> {
   const { scope, success, fail, complete } = opts
   const res: any = {}
 
@@ -92,7 +93,7 @@ export async function getSetting(opts: Taro.getSetting.Option = {}): Promise<Tar
 export function openSetting(opts: Taro.openSetting.Option = {}): Promise<Taro.openSetting.SuccessCallbackResult> {
   return new Promise((resolve, reject) => {
     stateListener = (next) => handleAppStateChange(next, resolve, reject, opts)
-    AppState.addEventListener('change', stateListener)
+    appStateSubscription = AppState.addEventListener('change', stateListener)
     Linking.openSettings()
   })
 }

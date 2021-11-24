@@ -3,6 +3,9 @@ import * as webpack from 'webpack'
 import * as merge from 'webpack-merge'
 import { createFsFromVolume, Volume, IFs } from 'memfs'
 import * as joinPath from 'memory-fs/lib/join'
+import ReactLikePlugin from '@tarojs/plugin-framework-react'
+import Vue2Plugin from '@tarojs/plugin-framework-vue2'
+import Vue3Plugin from '@tarojs/plugin-framework-vue3'
 
 import baseConfig from './config'
 import prodConf from '../../config/prod.conf'
@@ -58,7 +61,7 @@ function readDir (fs: IFs, dir: string) {
 export function getOutput (stats, config: Partial<BuildConfig>) {
   const fs: IFs = stats.compilation.compiler.outputFileSystem
 
-  const files = readDir(fs, config.outputRoot)
+  const files = readDir(fs, config.outputRoot as string)
   const output = files.reduce((content, file) => {
     return `${content}
 /** filePath: ${file} **/
@@ -71,9 +74,22 @@ ${fs.readFileSync(file)}
 export async function compile (app: string, customConfig: Partial<BuildConfig> = {
   framework: 'react'
 }) {
+  process.env.TARO_ENV = 'h5'
+
   const appPath = path.resolve(__dirname, '../fixtures', app)
 
   process.chdir(appPath)
+
+  const customChain = customConfig.webpackChain
+
+  customConfig.webpackChain = (chain, _webpack) => {
+    const webpack = jest.requireActual('webpack')
+    frameworkPatch(chain, webpack, customConfig)
+
+    if (typeof customChain === 'function') {
+      customChain(chain, webpack)
+    }
+  }
 
   const config: BuildConfig = merge(baseConfig, {
     entry: {
@@ -98,12 +114,17 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
   const newConfig: BuildConfig = await makeConfig(config)
   const webpackChain = prodConf(appPath, newConfig)
 
+  await customizeChain(webpackChain, () => {}, newConfig.webpackChain)
+
   webpackChain.merge({
     resolve: {
       alias: {
         '@tarojs/runtime': path.resolve(__dirname, '../mocks/taro-runtime'),
         '@tarojs/shared': path.resolve(__dirname, '../mocks/taro-shared'),
         '@tarojs/taro-h5': path.resolve(__dirname, '../mocks/taro-h5'),
+        '@tarojs/plugin-framework-react/dist/runtime': path.resolve(__dirname, '../mocks/taro-framework'),
+        '@tarojs/plugin-framework-vue2/dist/runtime': path.resolve(__dirname, '../mocks/taro-framework'),
+        '@tarojs/plugin-framework-vue3/dist/runtime': path.resolve(__dirname, '../mocks/taro-framework'),
         '@tarojs/components$': path.resolve(__dirname, '../mocks/taro-components'),
         '@tarojs/components/dist-h5/vue': path.resolve(__dirname, '../mocks/taro-components'),
         '@tarojs/components/dist-h5/vue3': path.resolve(__dirname, '../mocks/taro-components'),
@@ -117,10 +138,33 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
     }
   })
 
-  customizeChain(webpackChain, null, newConfig.webpackChain)
-
   const webpackConfig: webpack.Configuration = webpackChain.toConfig()
 
   const stats = await run(webpackConfig)
   return { stats, config: newConfig }
+}
+
+/**
+ * 处理不同框架的自定义逻辑
+ * @param chain webpack-chain
+ */
+function frameworkPatch (chain, webpack, config) {
+  const mockCtx = {
+    initialConfig: {
+      framework: config.framework || 'react'
+    },
+    modifyWebpackChain: cb => cb({ chain, webpack, data: {} })
+  }
+
+  let frameworkPlugin: any = ReactLikePlugin
+  switch (config.framework) {
+    case 'vue':
+      frameworkPlugin = Vue2Plugin
+      break
+    case 'vue3':
+      frameworkPlugin = Vue3Plugin
+      break
+  }
+
+  frameworkPlugin(mockCtx)
 }

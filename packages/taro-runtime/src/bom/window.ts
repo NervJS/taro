@@ -4,7 +4,7 @@ import { document } from './document'
 import { win } from '../env'
 import { raf, caf } from './raf'
 import { getComputedStyle } from './getComputedStyle'
-import { DATE, SET_TIMEOUT } from '../constants'
+import { DATE } from '../constants'
 
 export const window: any = process.env.TARO_ENV === 'h5' ? win : {
   navigator,
@@ -32,8 +32,11 @@ if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
   if (!(DATE in window)) {
     window.Date = Date
   }
-  if (!(SET_TIMEOUT in window)) {
-    window.setTimeout = setTimeout
+  window.setTimeout = function (cb, delay) {
+    setTimeout(cb, delay)
+  }
+  window.clearTimeout = function (seed) {
+    clearTimeout(seed)
   }
 
   document.defaultView = window

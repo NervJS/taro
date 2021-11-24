@@ -12,6 +12,7 @@ export class Checkbox implements ComponentInterface {
   @Prop() color: string
   @Prop({ mutable: true }) id: string
   @Prop() checked = false
+  @Prop() disabled = false
   @Prop() nativeProps = {}
 
   @State() isWillLoadCalled = false
@@ -45,7 +46,7 @@ export class Checkbox implements ComponentInterface {
   }
 
   render () {
-    const { checked, name, color, value, nativeProps } = this
+    const { checked, name, color, value, disabled, nativeProps } = this
 
     return (
       <Host
@@ -63,6 +64,7 @@ export class Checkbox implements ComponentInterface {
           class='taro-checkbox_checked'
           style={{ color }}
           checked={checked}
+          disabled={disabled}
           onChange={this.handleChange}
           {...nativeProps}
         />

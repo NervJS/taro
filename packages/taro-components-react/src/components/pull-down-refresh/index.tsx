@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import Taro from '@tarojs/taro-h5'
+import Taro from '@tarojs/taro'
 
 import './style/index.css'
 
@@ -276,7 +276,7 @@ class PullDownRefresh extends React.Component<IProps, IState> {
   }
 
   render () {
-    const props: Optional<IProps> & {
+    const props: Partial<IProps> & {
       children?: React.ReactNode
     } = { ...this.props }
     delete props.damping

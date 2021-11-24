@@ -2,12 +2,12 @@ import * as path from 'path'
 
 import { merge } from 'lodash'
 import * as resolve from 'resolve'
-import { getModuleDefaultExport } from '@tarojs/helper'
+import { getModuleDefaultExport, chalk } from '@tarojs/helper'
 
 import { PluginItem } from '@tarojs/taro/types/compile'
 
 import { PluginType } from './constants'
-import { IPlugin } from './types'
+import { IPluginsObject, IPlugin } from './types'
 
 export const isNpmPkg: (name: string) => boolean = name => !(/^(\.|\/)/.test(name))
 
@@ -16,9 +16,9 @@ export function getPluginPath (pluginPath: string) {
   throw new Error('plugin 和 preset 配置必须为绝对路径或者包名')
 }
 
-export function convertPluginsToObject (items: PluginItem[]) {
+export function convertPluginsToObject (items: PluginItem[]): () => IPluginsObject {
   return () => {
-    const obj = {}
+    const obj: IPluginsObject = {}
     if (Array.isArray(items)) {
       items.forEach(item => {
         if (typeof item === 'string') {
@@ -45,10 +45,21 @@ export function mergePlugins (dist: PluginItem[], src: PluginItem[]) {
 // getModuleDefaultExport
 export function resolvePresetsOrPlugins (root: string, args, type: PluginType): IPlugin[] {
   return Object.keys(args).map(item => {
-    const fPath = resolve.sync(item, {
-      basedir: root,
-      extensions: ['.js', '.ts']
-    })
+    let fPath
+    try {
+      fPath = resolve.sync(item, {
+        basedir: root,
+        extensions: ['.js', '.ts']
+      })
+    } catch (err) {
+      if (args[item]?.backup) {
+        // 如果项目中没有，可以使用 CLI 中的插件
+        fPath = args[item].backup
+      } else {
+        console.log(chalk.red(`找不到依赖 "${item}"，请先在项目中安装`))
+        process.exit(1)
+      }
+    }
     return {
       id: fPath,
       path: fPath,

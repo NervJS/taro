@@ -7,18 +7,21 @@ import { AppConfig, SubPackage } from '@tarojs/taro'
 import { resolveMainFilePath, readConfig, promoteRelativePath, normalizePath } from '@tarojs/helper'
 import { isString, isFunction, isArray } from '@tarojs/shared'
 
+import { IFileType } from '../utils/types'
+
 const PLUGIN_NAME = 'MiniSplitChunkPlugin'
 const SUB_COMMON_DIR = 'sub-common'
 const SUB_VENDORS_NAME = 'sub-vendors'
 
-enum FileExtsMap {
-  JS = '.js',
-  JS_MAP = '.js.map',
-  STYLE = '.wxss'
+const FileExtsMap = {
+  JS: '.js',
+  JS_MAP: '.js.map',
+  STYLE: '.wxss'
 }
 
 interface MiniSplitChunksPluginOption {
   exclude?: (string | ExcludeFunctionItem)[]
+  fileType: IFileType
 }
 
 interface ExcludeFunctionItem {
@@ -43,6 +46,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   subPackages: SubPackage[]
   subRoots: string[]
   subRootRegExps: RegExp[]
+  fileType: IFileType
 
   constructor (options: MiniSplitChunksPluginOption) {
     super()
@@ -52,6 +56,14 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
     this.subPackagesVendors = new Map()
     this.distPath = ''
     this.exclude = options.exclude || []
+    this.fileType = options.fileType || {
+      style: '.wxss',
+      config: '.json',
+      script: '.js',
+      templ: '.wxml',
+      xs: '.wxs'
+    }
+    FileExtsMap.STYLE = this.fileType.style
   }
 
   apply (compiler: any) {

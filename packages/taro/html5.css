@@ -109,27 +109,27 @@
   margin-inline-end: 0;
   font-weight: bold;
 }
-:-webkit-any(.h5-article, .h5-aside, .h5-nav, .h5-section) .h5-h1 {
+:-webkit-any(.h5-article) .h5-h1 {
   font-size: 1.5em;
   margin-block-start: 0.83em;
   margin-block-end: 0.83em;
 }
-:-webkit-any(.h5-article, .h5-aside, .h5-nav, .h5-section) :-webkit-any(.h5-article, .h5-aside, .h5-nav, .h5-section) .h5-h1 {
+:-webkit-any(.h5-article) :-webkit-any(.h5-article) .h5-h1 {
   font-size: 1.17em;
   margin-block-start: 1em;
   margin-block-end: 1em;
 }
-:-webkit-any(.h5-article, .h5-aside, .h5-nav, .h5-section) :-webkit-any(.h5-article, .h5-aside, .h5-nav, .h5-section) :-webkit-any(.h5-article, .h5-aside, .h5-nav, .h5-section) .h5-h1 {
+:-webkit-any(.h5-article) :-webkit-any(.h5-article) :-webkit-any(.h5-article) .h5-h1 {
   font-size: 1em;
   margin-block-start: 1.33em;
   margin-block-end: 1.33em;
 }
-:-webkit-any(.h5-article, .h5-aside, .h5-nav, .h5-section) :-webkit-any(.h5-article, .h5-aside, .h5-nav, .h5-section) :-webkit-any(.h5-article, .h5-aside, .h5-nav, .h5-section) :-webkit-any(.h5-article, .h5-aside, .h5-nav, .h5-section) .h5-h1 {
+:-webkit-any(.h5-article) :-webkit-any(.h5-article) :-webkit-any(.h5-article) :-webkit-any(.h5-article) .h5-h1 {
   font-size: 0.83em;
   margin-block-start: 1.67em;
   margin-block-end: 1.67em;
 }
-:-webkit-any(.h5-article, .h5-aside, .h5-nav, .h5-section) :-webkit-any(.h5-article, .h5-aside, .h5-nav, .h5-section) :-webkit-any(.h5-article, .h5-aside, .h5-nav, .h5-section) :-webkit-any(.h5-article, .h5-aside, .h5-nav, .h5-section) :-webkit-any(.h5-article, .h5-aside, .h5-nav, .h5-section) .h5-h1 {
+:-webkit-any(.h5-article) :-webkit-any(.h5-article) :-webkit-any(.h5-article) :-webkit-any(.h5-article) :-webkit-any(.h5-article) .h5-h1 {
   font-size: 0.67em;
   margin-block-start: 2.33em;
   margin-block-end: 2.33em;
