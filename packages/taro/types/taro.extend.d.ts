@@ -1,4 +1,3 @@
-import { IDeviceRatio } from './compile'
 import Taro, { Component } from './index'
 
 declare module './index' {
@@ -70,7 +69,7 @@ declare module './index' {
     atMessage(options: AtMessageOptions): void
 
     pxTransform(size: number, designWidth?: number): string
-    initPxTransform(config: { designWidth: number; deviceRatio: IDeviceRatio }): void
+    initPxTransform(config: { designWidth: number; deviceRatio: TaroGeneral.TDeviceRatio }): void
 
     addInterceptor(interceptor: interceptor): any
 
