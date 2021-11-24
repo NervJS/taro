@@ -11,6 +11,7 @@ export default class ConditionalFileStore<T> {
   }
 
   isEntryCache (cacheItem): boolean {
+    if (!cacheItem) return false
     const { dependencies } = cacheItem
     if (!dependencies || !dependencies.length) {
       return false
@@ -24,20 +25,20 @@ export default class ConditionalFileStore<T> {
     return false
   }
 
-  get (key: Buffer): T | null {
-    const result = this._fileStore.get(key)
+  async get (key: Buffer): Promise<T | null> {
+    const result = await this._fileStore.get(key)
     if (result && this.ignoreEntryFileCache && this.isEntryCache(result)) {
       return null
     }
     return result
   }
 
-  set (key: Buffer, value: any): void {
+  async set (key: Buffer, value: any): Promise<void> {
     // fix: 样式文件不写缓存
     if (value?.output?.[0]?.data?.functionMap?.names?.indexOf('ignoreStyleFileCache') > -1) {
       return
     }
-    this._fileStore.set(key, value)
+    return await this._fileStore.set(key, value)
   }
 
   clear (): void {
