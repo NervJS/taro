@@ -10,7 +10,7 @@ export default (ctx: IPluginContext) => {
 
   ctx.modifyWebpackChain(({ chain, webpack, data }) => {
     // 通用
-    setAlias(chain)
+    // setAlias(chain)
     setDefinePlugin(chain, webpack)
 
     if (process.env.TARO_ENV === 'h5') {
@@ -23,11 +23,11 @@ export default (ctx: IPluginContext) => {
   })
 }
 
-function setAlias (chain) {
-  // 避免 npm link 时，taro composition apis 使用的 vue 和项目使用的 vue 实例不一致。
-  chain.resolve.alias
-    .set('vue', require.resolve('vue'))
-}
+// function setAlias (chain) {
+//   // 避免 npm link 时，taro composition apis 使用的 vue 和项目使用的 vue 实例不一致。
+//   chain.resolve.alias
+//     .set('vue', require.resolve('vue'))
+// }
 
 function setDefinePlugin (chain, webpack) {
   chain
