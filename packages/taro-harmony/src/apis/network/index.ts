@@ -4,7 +4,7 @@ import { uploadFile } from './uploadFile'
 import { downloadFile } from './downloadFile'
 
 export {
-  // connectSocket
+  // connectSocket,
   // request,
   uploadFile,
   downloadFile

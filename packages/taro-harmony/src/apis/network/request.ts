@@ -5,13 +5,14 @@
 import { General } from '@tarojs/taro'
 import { validateParams } from './validate'
 const http = require('@ohos.net.http')
-console.warn(http)
+console.warn(111, JSON.stringify(http))
 
-const httpRequest = http.createHttp()
+const httpRequestOhos = http.createHttp()
 const RequestTask: General.IAnyObject = {}
+console.warn(222, http)
 
 const METHOD: string [] = ['OPTIONS', 'GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'TRACE', 'CONNECT']
-console.warn(httpRequest)
+console.warn(httpRequestOhos)
 // wx 和 鸿蒙接口的参数不一致
 interface IHttpOptionsWX {
   data: string | General.IAnyObject
@@ -59,7 +60,7 @@ function request (params: IRequestParams) {
     options.connectTimeout = timeout
   }
 
-  // httpRequest.request(url, options, (err: any, res: IHttpOptionsOHOS) => {
+  // httpRequestOhos.request(url, options, (err: any, res: IHttpOptionsOHOS) => {
   //   if (!err) {
   //     const wxParams: IHttpOptionsWX = {
   //       data: res.result,
@@ -75,7 +76,7 @@ function request (params: IRequestParams) {
   // })
 
   // if (success || fail || complete) {
-  // httpRequest.request(url, options, (err: any, res: IHttpOptionsOHOS) => {
+  // httpRequestOhos.request(url, options, (err: any, res: IHttpOptionsOHOS) => {
   //   if (!err) {
   //     const wxParams: IHttpOptionsWX = {
   //       data: res.result,
@@ -90,7 +91,7 @@ function request (params: IRequestParams) {
   //   }
   // })
   // } else {
-  //   const promise = httpRequest.request(url, options)
+  //   const promise = httpRequestOhos.request(url, options)
   //   promise.then((value) => {
   //     const pres: IHttpOptionsWX = {
   //       data: value.result,
@@ -106,17 +107,17 @@ function request (params: IRequestParams) {
 }
 // 以下方法需要先获取 RequestTask 对象
 // RequestTask.destroy = function destroy () {
-//   httpRequest.destroy
+//   httpRequestOhos.destroy
 // }
 
 // RequestTask.onHeadersReceived = function onHeadersReceived (callback: (options: General.IAnyObject) => void) {
-//   httpRequest.on('headerReceive', (err: any, res: IHttpOptionsOHOS) => {
+//   httpRequestOhos.on('headerReceive', (err: any, res: IHttpOptionsOHOS) => {
 //     callback(!err ? res : err)
 //   })
 // }
 
 // RequestTask.offHeadersReceived = function offHeadersReceived (callback: (options: General.IAnyObject) => void) {
-//   httpRequest.off('headerReceive', (err: any, res: IHttpOptionsOHOS) => {
+//   httpRequestOhos.off('headerReceive', (err: any, res: IHttpOptionsOHOS) => {
 //     callback(!err ? res : err)
 //   })
 // }

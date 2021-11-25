@@ -21,12 +21,18 @@ import { General } from '@tarojs/taro/types'
 import { validateParams, shouleBeObject } from './validate'
 
 const webSocket = require('@ohos.net.webSocket')
-console.warn(shouleBeObject)
-console.warn(webSocket)
+console.warn('111webSocket', shouleBeObject)
+console.warn('222webSocket', webSocket)
+try {
+  const ws = webSocket.createWebSocket()
+  console.warn(333, ws)
+} catch (err) {
+  console.warn('1383283trycatchwebSocket', JSON.stringify(err))
+}
 
-const ws = webSocket.createWebSocket()
+// const ws = webSocket.createWebSocket()
 const SocketTaskWX: General.IAnyObject = {}
-console.warn(ws)
+// console.warn(333, ws)
 
 interface IOptions extends IAsyncParams {
   header?: General.IAnyObject

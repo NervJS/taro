@@ -10,6 +10,9 @@ import { validateParams } from './validate'
 
 const request = require('@ohos.request')
 
+let downloadTask: General.IAnyObject = {}
+const DownloadTaskWX: General.IAnyObject = {}
+
 // ohos 不支持 wx 支持的 timeout
 // wx 不支持 ohos 支持的 enableMetered，enableRoaming，description，networkType，title
 // ohos 不支持 wx.downloadFile 参数中的 success 回调的参数
@@ -80,16 +83,7 @@ interface IWXDownloadSuccessProfile {
   protocol?: string
 }
 
-interface IProgressUpdateParams {
-  progress: number
-  totalBytesSent: number
-  totalBytesExpectedToSend: number
-}
-
 function downloadFile (params: IDownloadConfigWX) {
-  let downloadTask: General.IAnyObject = {}
-  const DownloadTaskWX: General.IAnyObject = {}
-
   console.warn('ddoowwnnllooaadd url: ' + params.url)
   const requiredParamsValue: Array<any> = params.url === undefined ? [] : [params.url]
   const requiredParamsName: Array<string> = params.url === undefined ? [] : ['url']
@@ -106,51 +100,6 @@ function downloadFile (params: IDownloadConfigWX) {
   }
   if (header) ohosParams.header = header
   if (filePath) ohosParams.filePath = filePath
-
-  DownloadTaskWX.abort = function abort () {
-    // console.warn('ddoowwnnllooaadd abort begin：' + downloadTask.remove)
-    downloadTask.remove((err: any, data: any) => {
-      if (err) {
-        console.error('Failed to remove the download task. Cause:' + err + '|||' + JSON.stringify(downloadTask))
-        return
-      }
-      console.warn('Download task removed.' + data + '|||' + JSON.stringify(downloadTask))
-    })
-  }
-  DownloadTaskWX.onProgressUpdate = function onProgressUpdate (callback: (params: IProgressUpdateParams) => void) {
-    // console.warn('ddoowwnnllooaadd ON onProgressUpdate progress begin：' + downloadTask.on)
-    downloadTask.on('progress', (receivedSize: number, totalSize: number) => {
-      // console.warn('ddoowwnnllooaadd ON onProgressUpdate totalSize:' + totalSize + '，  receivedSize:' + receivedSize)
-      const totalBytesSent: number = receivedSize * 1024
-      const totalBytesExpectedToSend: number = totalSize * 1024
-      // TODO: 应该保留几位小数？
-      const progress: number = +(receivedSize / totalSize).toFixed(6)
-      const progressParams: IProgressUpdateParams = {
-        totalBytesSent,
-        totalBytesExpectedToSend,
-        progress
-      }
-      callback(progressParams)
-    })
-  }
-  DownloadTaskWX.offProgressUpdate = function offProgressUpdate (callback: any) {
-    // console.warn('ddoowwnnllooaadd OFF offProgressUpdate progress begin：' + downloadTask.on)
-    downloadTask.off('progress', (receivedSize: number, totalSize: number) => {
-      // console.warn('ddoowwnnllooaadd OFF offProgressUpdate totalSize:' + totalSize + '，  receivedSize:' + receivedSize)
-      const totalBytesSent: number = receivedSize * 1024
-      const totalBytesExpectedToSend: number = totalSize * 1024
-      // TODO: 应该保留几位小数？
-      const progress: number = +(receivedSize / totalSize).toFixed(6)
-      const progressParams: IProgressUpdateParams = {
-        totalBytesSent,
-        totalBytesExpectedToSend,
-        progress
-      }
-      callback(progressParams)
-    })
-  }
-
-  // console.warn('ddoowwnnllooaadd requestDownload TARO 0 DownloadTaskWX' + JSON.stringify(DownloadTaskWX) + DownloadTaskWX.offProgressUpdate)
   // console.warn('ddoowwnnllooaadd requestDownload TARO 1 ohosParams' + JSON.stringify(ohosParams))
   return request.download(ohosParams, (err: any, dataDownload:any) => {
     // console.warn('ddoowwnnllooaadd requestDownload TARO 2 download|||' + JSON.stringify(err) + '|||' + JSON.stringify(dataDownload))
@@ -160,6 +109,13 @@ function downloadFile (params: IDownloadConfigWX) {
       throw new Error(err)
     }
     downloadTask = dataDownload
+    // downloadTask.on('progress', (receivedSize, totalSize) => {
+    //   if (receivedSize) {
+    //     console.error('ddoowwnnllooaadd Progress listening is failed. Cause err:' + receivedSize + '。data:' + totalSize)
+    //     // return
+    //   }
+    //   // console.warn('ddoowwnnllooaadd DownloadTask totalSize:' + totalSize + '  receivedSize:' + receivedSize + ', downloadTask：' + JSON.stringify(downloadTask))
+    // })
     downloadTask.on('complete', () => {
       // console.warn('ddoowwnnllooaadd requestDownload TARO 3 complete' + '|||' + JSON.stringify(downloadTask))
       const wxdata: IWXDownloadSuccess = {
@@ -181,8 +137,57 @@ function downloadFile (params: IDownloadConfigWX) {
         throw new Error(errFail)
       }
     })
-    // console.warn('ddoowwnnllooaadd requestDownload TARO return DownloadTaskWX' + JSON.stringify(DownloadTaskWX) + DownloadTaskWX.offProgressUpdate)
     return DownloadTaskWX
+  })
+}
+
+DownloadTaskWX.abort = function abort () {
+  // console.warn('ddoowwnnllooaadd abort begin：' + downloadTask.remove)
+  downloadTask.remove((err: any, data: any) => {
+    if (err) {
+      console.error('Failed to remove the download task. Cause:' + err + '|||' + JSON.stringify(downloadTask))
+      return
+    }
+    console.warn('Download task removed.' + data + '|||' + JSON.stringify(downloadTask))
+  })
+}
+
+interface IProgressUpdateParams {
+  progress: number
+  totalBytesSent: number
+  totalBytesExpectedToSend: number
+}
+DownloadTaskWX.onProgressUpdate = function onProgressUpdate (callback: (params: IProgressUpdateParams) => void) {
+  // console.warn('ddoowwnnllooaadd ON onProgressUpdate progress begin：' + downloadTask.on)
+  downloadTask.on('progress', (receivedSize: number, totalSize: number) => {
+    // console.warn('ddoowwnnllooaadd ON onProgressUpdate totalSize:' + totalSize + '，  receivedSize:' + receivedSize)
+    const totalBytesSent: number = receivedSize * 1024
+    const totalBytesExpectedToSend: number = totalSize * 1024
+    // TODO: 应该保留几位小数？
+    const progress: number = +(receivedSize / totalSize).toFixed(6)
+    const progressParams: IProgressUpdateParams = {
+      totalBytesSent,
+      totalBytesExpectedToSend,
+      progress
+    }
+    callback(progressParams)
+  })
+}
+
+DownloadTaskWX.offProgressUpdate = function offProgressUpdate (callback: any) {
+  // console.warn('ddoowwnnllooaadd OFF offProgressUpdate progress begin：' + downloadTask.on)
+  downloadTask.off('progress', (receivedSize: number, totalSize: number) => {
+    // console.warn('ddoowwnnllooaadd OFF offProgressUpdate totalSize:' + totalSize + '，  receivedSize:' + receivedSize)
+    const totalBytesSent: number = receivedSize * 1024
+    const totalBytesExpectedToSend: number = totalSize * 1024
+    // TODO: 应该保留几位小数？
+    const progress: number = +(receivedSize / totalSize).toFixed(6)
+    const progressParams: IProgressUpdateParams = {
+      totalBytesSent,
+      totalBytesExpectedToSend,
+      progress
+    }
+    callback(progressParams)
   })
 }
 

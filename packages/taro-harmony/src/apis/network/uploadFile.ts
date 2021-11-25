@@ -49,88 +49,8 @@ interface IUploadFileParamsOHOS {
   data?: Array<IRequestDataOHOS>
 }
 
-// wx 只支持 HTTP POST 请求，OHOS 支持 POST 和 PUT 请求
-// OHOS 不支持 wx 的 timeout，但是支持 file 文件列表上传，wx 是单文件上传
-function uploadFile (params: IUploadFileParamsWX) {
-  const requiredParamsValue: Array<any> = params.url === undefined ? [] : [params.url]
-  const requiredParamsName: Array<string> = params.url === undefined ? [] : ['url']
-  const requiredParamsType: Array<string> = params.url === undefined ? [] : ['string']
-  if (params.filePath !== undefined) {
-    requiredParamsValue.push(params.filePath)
-    requiredParamsName.push('filePath')
-    requiredParamsType.push('string')
-  }
-  if (params.name !== undefined) {
-    requiredParamsValue.push(params.name)
-    requiredParamsName.push('name')
-    requiredParamsType.push('string')
-  }
-  const { res, isPassed } = validateParams('connectSockets', params, requiredParamsValue, requiredParamsType, requiredParamsName)
-  if (!isPassed) {
-    return Promise.reject(res)
-  }
-
-  const { url, filePath, name, header, formData, timeout, success, fail, complete } = params
-
-  const file: IOHOSFileType = {
-    url: filePath,
-    name
-  }
-  const files: Array<IOHOSFileType> = [file]
-  const ohosParams: IUploadFileParamsOHOS = {
-    url: url,
-    files,
-    method: 'POST'
-  }
-  if (formData) {
-    const rData: Array<IRequestDataOHOS> = []
-    Object.keys(formData).forEach((key: string) => {
-      const rDataEle: IRequestDataOHOS = {
-        name: key,
-        value: formData[key]
-      }
-      rData.push(rDataEle)
-    })
-    ohosParams.data = rData
-  }
-  if (header) ohosParams.header = header
-
-  const timer = setTimeout(() => {
-    const err: {errMsg: string} = {
-      errMsg: 'uploadFile request timeout, please try again later.'
-    }
-    if (success || fail || complete) {
-      fail && fail(err)
-      complete && complete(err)
-      return err
-    } else {
-      return Promise.reject(err)
-    }
-  }, timeout)
-
-  if (success || fail || complete) {
-    request.upload(ohosParams, (err: any, res: any) => {
-      clearTimeout(timer)
-      if (err) {
-        fail && fail(err)
-        complete && complete(err)
-        return
-      }
-      uploadTask = res
-      success && success(res)
-      complete && complete(res)
-      return UploadTaskWX
-    })
-  } else {
-    request.upload(ohosParams).then((res: any) => {
-      clearTimeout(timer)
-      uploadTask = res
-    })
-    return Promise.resolve(UploadTaskWX)
-  }
-}
-
-UploadTaskWX.abort = function abort () {
+// UploadTaskWX.abort = function abort () {
+function abort () {
   uploadTask.remove((err: any, result: any) => {
     if (err) {
       console.error('Failed to remove the upload task. Cause: ' + JSON.stringify(err))
@@ -189,6 +109,105 @@ UploadTaskWX.offProgressUpdate = function offProgressUpdate (callback: any) {
     }
     callback(progressParams)
   })
+}
+
+// wx 只支持 HTTP POST 请求，OHOS 支持 POST 和 PUT 请求
+// OHOS 不支持 wx 的 timeout，但是支持 file 文件列表上传，wx 是单文件上传
+function uploadFile (params: IUploadFileParamsWX) {
+  const requiredParamsValue: Array<any> = params.url === undefined ? [] : [params.url]
+  const requiredParamsName: Array<string> = params.url === undefined ? [] : ['url']
+  const requiredParamsType: Array<string> = params.url === undefined ? [] : ['string']
+  if (params.filePath !== undefined) {
+    requiredParamsValue.push(params.filePath)
+    requiredParamsName.push('filePath')
+    requiredParamsType.push('string')
+  }
+  if (params.name !== undefined) {
+    requiredParamsValue.push(params.name)
+    requiredParamsName.push('name')
+    requiredParamsType.push('string')
+  }
+  const { res, isPassed } = validateParams('connectSockets', params, requiredParamsValue, requiredParamsType, requiredParamsName)
+  if (!isPassed) {
+    return Promise.reject(res)
+  }
+  console.warn('uuppllooaadd requestUpload Taro -1:' + JSON.stringify(params) + '。')
+
+  const { url, filePath, name, header, formData, timeout, success, fail, complete } = params
+
+  const file: IOHOSFileType = {
+    url: filePath,
+    name
+  }
+  const files: Array<IOHOSFileType> = [file]
+  const ohosParams: IUploadFileParamsOHOS = {
+    url,
+    files,
+    method: 'POST'
+  }
+  console.warn('uuppllooaadd requestUpload Taro -2:' + JSON.stringify(ohosParams) + '。')
+
+  if (formData) {
+    const rData: Array<IRequestDataOHOS> = []
+    Object.keys(formData).forEach((key: string) => {
+      const rDataEle: IRequestDataOHOS = {
+        name: key,
+        value: formData[key]
+      }
+      rData.push(rDataEle)
+    })
+    ohosParams.data = rData
+  }
+  if (header) ohosParams.header = header
+  console.warn('uuppllooaadd requestUpload Taro -3:' + JSON.stringify(ohosParams) + '。')
+
+  let timer
+  console.warn('uuppllooaadd requestUpload Taro 0:' + timeout + '。')
+  if (timeout !== undefined) {
+    timer = setTimeout(() => {
+      const err: {errMsg: string} = {
+        errMsg: 'uploadFile request timeout, please try again later.'
+      }
+      console.warn('uuppllooaadd requestUpload Taro 1:' + timeout + '。')
+      if (success || fail || complete) {
+        fail && fail(err)
+        complete && complete(err)
+        return err
+      } else {
+        return Promise.reject(err)
+      }
+    }, timeout)
+  }
+  console.warn('uuppllooaadd requestUpload Taro 2:' + fail + '。')
+  // if (success || fail || complete) {
+  console.warn('uuppllooaadd requestUpload Taro 3。')
+  request.upload(ohosParams, (err: any, res: any) => {
+    console.warn('uuppllooaadd requestUpload Taro 4' + timer + '。', err)
+    if (timer) {
+      clearTimeout(timer)
+    }
+    console.warn('uuppllooaadd requestUpload Taro 5' + err + '。', res)
+    if (err) {
+      fail && fail(err)
+      complete && complete(err)
+      return
+    }
+    uploadTask = res
+    success && success(res)
+    complete && complete(res)
+    UploadTaskWX
+    return UploadTaskWX
+  })
+  UploadTaskWX.abort = abort
+  console.warn('uuppllooaadd requestUpload Taro 6' + JSON.stringify(UploadTaskWX) + '。')
+  return UploadTaskWX
+  // } else {
+  //   request.upload(ohosParams).then((res: any) => {
+  //     clearTimeout(timer)
+  //     uploadTask = res
+  //   })
+  //   return Promise.resolve(UploadTaskWX)
+  // }
 }
 
 export {
