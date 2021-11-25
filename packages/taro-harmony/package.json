@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-harmony",
-  "version": "3.3.9",
+  "version": "3.4.0-beta.0",
   "description": "OpenHarmony & 鸿蒙系统插件",
   "author": "drchan",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-harmony#readme",
@@ -27,14 +27,14 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/components": "3.3.9",
-    "@tarojs/helper": "3.3.9",
-    "@tarojs/service": "3.3.9",
-    "@tarojs/shared": "3.3.9",
-    "@tarojs/taro": "3.3.9",
+    "@tarojs/components": "3.4.0-beta.0",
+    "@tarojs/helper": "3.4.0-beta.0",
+    "@tarojs/service": "3.4.0-beta.0",
+    "@tarojs/shared": "3.4.0-beta.0",
+    "@tarojs/taro": "3.4.0-beta.0",
     "webpack-sources": "2.3.0"
   },
   "devDependencies": {
-    "@tarojs/runtime": "3.3.9"
+    "@tarojs/runtime": "3.4.0-beta.0"
   }
 }
