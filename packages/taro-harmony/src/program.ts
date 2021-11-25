@@ -191,34 +191,32 @@ export default class Harmony extends TaroPlatformBase {
     })
   }
 
-  modifyHostPackageDep (dest) {
+  async modifyHostPackageDep (dest) {
     const hmsDeps = {
       '@hmscore/hms-js-base': '^6.1.0-300',
       '@hmscore/hms-jsb-account': '^1.0.300'
     }
     const packageJsonFile = path.resolve(dest, '../../../../../package.json')
-    fs.readFile(packageJsonFile, function (err, data) {
-      if (err) {
-        return console.error(err)
-      }
-      let packageJson = data.toString()
-      packageJson = JSON.parse(packageJson)
+
+    const isExists = await fs.pathExists(packageJsonFile)
+    if (!isExists) return
+
+    const data = await fs.readFile(packageJsonFile)
+    let packageJson = data.toString()
+
+    packageJson = JSON.parse(packageJson)
+    // @ts-ignore
+    if (!packageJson.dependencies) {
       // @ts-ignore
-      if (!packageJson.dependencies) {
+      packageJson.dependencies = hmsDeps
+    } else {
+      for (const hmsDep in hmsDeps) {
         // @ts-ignore
-        packageJson.dependencies = hmsDeps
-      } else {
-        for (const hmsDep in hmsDeps) {
-          // @ts-ignore
-          packageJson.dependencies[hmsDep] = hmsDeps[hmsDep]
-        }
+        packageJson.dependencies[hmsDep] = hmsDeps[hmsDep]
       }
-      packageJson = JSON.stringify(packageJson)
-      fs.writeFile(packageJsonFile, packageJson, function (err) {
-        if (err) {
-          console.error(err)
-        }
-      })
-    })
+    }
+    packageJson = JSON.stringify(packageJson)
+
+    await fs.writeFile(packageJsonFile, packageJson)
   }
 }
