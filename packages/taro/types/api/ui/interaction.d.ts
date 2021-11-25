@@ -121,6 +121,8 @@ declare module '../../index' {
 
   namespace enableAlertBeforeUnload {
     interface Option {
+      /** 询问对话框内容 */
+      message: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
@@ -257,7 +259,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.enableAlertBeforeUnload.html
      */
-    enableAlertBeforeUnload(option?: enableAlertBeforeUnload.Option): void
+    enableAlertBeforeUnload(option: enableAlertBeforeUnload.Option): void
 
     /** 关闭小程序页面返回询问对话框
      * @supported weapp
