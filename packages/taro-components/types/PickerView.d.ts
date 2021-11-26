@@ -4,12 +4,12 @@ import { StandardProps, CommonEventFunction } from './common'
 interface PickerViewProps extends StandardProps {
 
   /** 数组中的数字依次表示 picker-view 内的 picker-view-column 选择的第几项（下标从 0 开始），数字大于 picker-view-column 可选项长度时，选择最后一项。
-   * @supported weapp, swan, alipay, tt
+   * @supported weapp, swan, alipay, tt, rn
    */
   value?: number[]
 
   /** 设置选择器中间选中框的样式
-   * @supported weapp, swan, alipay, tt
+   * @supported weapp, swan, alipay, tt, rn
    */
   indicatorStyle?: string
 
@@ -29,7 +29,7 @@ interface PickerViewProps extends StandardProps {
   maskClass?: string
 
   /** 当滚动选择，value 改变时触发 change 事件，event.detail = {value: value}；value为数组，表示 picker-view 内的 picker-view-column 当前选择的是第几项（下标从 0 开始）
-   * @supported weapp, swan, alipay, tt
+   * @supported weapp, swan, alipay, tt, rn
    */
   onChange?: CommonEventFunction<PickerViewProps.onChangeEventDetail>
 
@@ -57,7 +57,7 @@ declare namespace PickerViewProps {
  * @example
  * ```tsx
  * export default class Picks extends Component {
- * 
+ *
  *   constructor () {
  *     super(...arguments)
  *     const date = new Date()
@@ -83,7 +83,7 @@ declare namespace PickerViewProps {
  *       value: [9999, 1, 1]
  *     }
  *   }
- * 
+ *
  *   onChange = e => {
  *     const val = e.detail.value
  *     this.setState({
@@ -93,7 +93,7 @@ declare namespace PickerViewProps {
  *       value: val
  *     })
  *   }
- * 
+ *
  *   render() {
  *     return (
  *       <View>
@@ -125,7 +125,7 @@ declare namespace PickerViewProps {
  *     )
  *   }
  * }
- * 
+ *
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/picker-view.html
  */

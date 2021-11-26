@@ -25,7 +25,7 @@ export function getParameterError ({
   name?: string,
   param?: string,
   correct: string,
-  wrong: string
+  wrong: any
 }): string {
   const parameter = param ? `parameter.${param}` : 'parameter'
   const errorType = upperCaseFirstLetter(wrong === null ? 'Null' : typeof wrong)
@@ -149,11 +149,11 @@ export function validateGeolocationOptions (funcName, options: any): {
 export function callAsyncSuccess (resolve, res, options?: IAsyncParams) {
   options?.success?.(res)
   options?.complete?.(res)
-  resolve(res)
+  resolve && resolve(res)
 }
 
 export function callAsyncFail (reject, res, options?: IAsyncParams) {
   options?.fail?.(res)
   options?.complete?.(res)
-  reject(res)
+  reject && reject(res)
 }

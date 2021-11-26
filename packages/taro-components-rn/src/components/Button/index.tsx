@@ -103,6 +103,11 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
     isHover: false
   }
 
+  componentWillUnmount():void {
+    clearTimeout(this.pressOutTimer)
+    clearTimeout(this.pressInTimer)
+  }
+
   onPress = (): void => {
     const { disabled, onClick = noop } = this.props
     !disabled && onClick()

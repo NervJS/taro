@@ -1,5 +1,5 @@
 import CameraRoll from '@react-native-community/cameraroll'
-import { Permissions } from 'react-native-unimodules'
+import * as Permissions from 'expo-permissions'
 import * as ImagePicker from 'expo-image-picker'
 import { askAsyncPermissions } from '../utils/premissions'
 import { successHandler, errorHandler } from '../utils'
@@ -9,7 +9,7 @@ export const MEDIA_TYPE = {
   IMAGES: 'Images'
 }
 
-export async function saveMedia(opts: Taro.saveImageToPhotosAlbum.Option|Taro.saveVideoToPhotosAlbum.Option, type:string, API:string):Promise<Taro.General.CallbackResult> {
+export async function saveMedia(opts: Taro.saveImageToPhotosAlbum.Option | Taro.saveVideoToPhotosAlbum.Option, type:string, API:string):Promise<TaroGeneral.CallbackResult> {
   const { filePath, success, fail, complete } = opts
   const status = await askAsyncPermissions(Permissions.CAMERA_ROLL)
   if (status !== 'granted') {
@@ -29,7 +29,7 @@ export async function saveMedia(opts: Taro.saveImageToPhotosAlbum.Option|Taro.sa
   }
 }
 
-export async function chooseMedia(opts: Taro.chooseImage.Option|Taro.chooseVideo.Option, mediaTypes: string): Promise<Taro.General.CallbackResult> {
+export async function chooseMedia(opts: Taro.chooseImage.Option | Taro.chooseVideo.Option, mediaTypes: string): Promise<TaroGeneral.CallbackResult> {
   if (!opts || typeof opts !== 'object') {
     opts = {}
   }

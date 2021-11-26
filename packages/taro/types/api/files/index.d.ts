@@ -1,10 +1,12 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace saveFile {
     interface Option {
       /** 临时存储文件路径 */
       tempFilePath: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: FailCallbackResult) => void
       /** 要存储的文件路径 */
@@ -12,7 +14,7 @@ declare namespace Taro {
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
-    interface FailCallbackResult extends General.CallbackResult {
+    interface FailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
@@ -22,45 +24,26 @@ declare namespace Taro {
        * - 'fail the maximum size of the file storage limit is exceeded': 存储空间不足; */
       errMsg: string
     }
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 存储后的文件路径 */
       savedFilePath: string
       /** 调用结果 */
       errMsg: string
     }
   }
-  /** 保存文件到本地。**注意：saveFile 会把临时文件移动，因此调用成功后传入的 tempFilePath 将不可用**
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.chooseImage({
-   *   success: function (res) {
-   *     var tempFilePaths = res.tempFilePaths
-   *     Taro.saveFile({
-   *       tempFilePath: tempFilePaths[0],
-   *       success: function (res) {
-   *         var savedFilePath = res.savedFilePath
-   *       }
-   *     })
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.saveFile.html
-   */
-  function saveFile(option: saveFile.Option): Promise<saveFile.SuccessCallbackResult | saveFile.FailCallbackResult>
 
   namespace removeSavedFile {
     interface Option {
       /** 需要删除的文件路径 */
       filePath: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
-    interface RemoveSavedFileFailCallbackResult extends General.CallbackResult {
+    interface RemoveSavedFileFailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
@@ -68,26 +51,6 @@ declare namespace Taro {
       errMsg: string
     }
   }
-  /** 删除该小程序下已保存的本地缓存文件
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.getSavedFileList({
-   *   success: function (res) {
-   *     if (res.fileList.length > 0){
-   *       Taro.removeSavedFile({
-   *         filePath: res.fileList[0].filePath,
-   *         complete: function (res) {
-   *           console.log(res)
-   *         }
-   *       })
-   *     }
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.removeSavedFile.html
-   */
-  function removeSavedFile(option: removeSavedFile.Option): Promise<General.CallbackResult>
 
   namespace openDocument {
     interface Option {
@@ -96,13 +59,13 @@ declare namespace Taro {
       /** 是否显示右上角菜单 */
       showMenu?: boolean
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 文件类型，指定文件类型打开文件 */
       fileType?: keyof fileType
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
     /** 文件类型 */
     interface fileType {
@@ -122,37 +85,17 @@ declare namespace Taro {
       pdf
     }
   }
-  /** 新开页面打开文档，支持格式
-   * @supported weapp
-   * @example
-   ```tsx
-   * Taro.downloadFile({
-   *   url: 'http://example.com/somefile.pdf',
-   *   success: function (res) {
-   *     var filePath = res.tempFilePath
-   *     Taro.openDocument({
-   *       filePath: filePath,
-   *       success: function (res) {
-   *         console.log('打开文档成功')
-   *       }
-   *     })
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.openDocument.html
-   */
-  function openDocument(option: openDocument.Option): Promise<General.CallbackResult>
 
   namespace getSavedFileList {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 文件数组 */
       fileList: FileItem[]
       /** 调用结果 */
@@ -168,32 +111,19 @@ declare namespace Taro {
       size: number
     }
   }
-  /** 获取本地已保存的文件列表
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.getSavedFileList({
-   *   success: function (res) {
-   *     console.log(res.fileList)
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getSavedFileList.html
-   */
-  function getSavedFileList(option?: getSavedFileList.Option): Promise<getSavedFileList.SuccessCallbackResult>
 
   namespace getSavedFileInfo {
     interface Option {
       /** 文件路径 */
       filePath: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 文件保存时的时间戳，从1970/01/01 08:00:00 到该时刻的秒数 */
       createTime: number
       /** 文件大小，单位 B */
@@ -202,21 +132,6 @@ declare namespace Taro {
       errMsg: string
     }
   }
-  /** 获取本地文件的文件信息。此接口只能用于获取已保存到本地的文件，若需要获取临时文件信息，请使用 [Taro.getFileInfo](https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileInfo.html) 接口。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.getSavedFileInfo({
-   *   filePath: 'wxfile://somefile', //仅做示例用，非真正的文件路径
-   *   success: function (res) {
-   *     console.log(res.size)
-   *     console.log(res.createTime)
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getSavedFileInfo.html
-   */
-  function getSavedFileInfo(option: getSavedFileInfo.Option): Promise<getSavedFileInfo.SuccessCallbackResult>
 
   namespace getFileInfo {
     interface Option {
@@ -228,20 +143,20 @@ declare namespace Taro {
        */
       digestAlgorithm?: 'md5' | 'sha1'
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: FailCallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
-    interface FailCallbackResult extends General.CallbackResult {
+    interface FailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
        * - 'fail file not exist': 指定的 filePath 找不到文件; */
       errMsg: string
     }
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 文件大小，以字节为单位 */
       size: number
       /** 按照传入的 digestAlgorithm 计算得出的的文件摘要 */
@@ -250,27 +165,6 @@ declare namespace Taro {
       errMsg: string
     }
   }
-  /**
-   * 获取该小程序下的 本地临时文件 或 本地缓存文件 信息
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.getFileInfo({
-   *     success: function (res) {
-   *         console.log(res.size)
-   *         console.log(res.digest)
-   *     }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileInfo.html
-   */
-  function getFileInfo(option: getFileInfo.Option): Promise<getFileInfo.SuccessCallbackResult | getFileInfo.FailCallbackResult>
-
-  /** 获取全局唯一的文件管理器
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileSystemManager.html
-   */
-  function getFileSystemManager(): FileSystemManager
 
   /** 文件管理器 */
   interface FileSystemManager {
@@ -451,7 +345,7 @@ declare namespace Taro {
       path: string,
       /** 是否递归获取目录下的每个文件的 Stats 信息 */
       recursive?: boolean,
-    ): Stats | General.IAnyObject
+    ): Stats | TaroGeneral.IAnyObject
     /** FileSystemManager.saveFile 的同步版本
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.saveFileSync.html
@@ -469,12 +363,12 @@ declare namespace Taro {
     readFileSync(
       /** 要读取的文件的路径 */
       filePath: string,
+      /** 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 */
+      encoding?: keyof FileSystemManager.encoding,
       /**从文件指定位置开始读，如果不指定，则从文件头开始读。读取的范围应该是左闭右开区间 [position, position+length)。有效范围：[0, fileLength - 1]。单位：byte */
       position?: number,
       /**指定文件的长度，如果不指定，则读到文件末尾。有效范围：[1, fileLength]。单位：byte */
       length?: number,
-      /** 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 */
-      encoding?: keyof FileSystemManager.encoding,
     ): string | ArrayBuffer
     /** 获取文件的状态信息
      * @supported weapp
@@ -598,14 +492,14 @@ declare namespace Taro {
       /** 要判断是否存在的文件/目录路径 */
       path: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: AccessFailCallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
 
-    interface AccessFailCallbackResult extends General.CallbackResult {
+    interface AccessFailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
@@ -619,16 +513,16 @@ declare namespace Taro {
       /** 要追加内容的文件路径 */
       filePath: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 指定写入文件的字符编码 */
       encoding?: keyof FileSystemManager.encoding
       /** 接口调用失败的回调函数 */
       fail?: (result: AppendFileFailCallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
 
-    interface AppendFileFailCallbackResult extends General.CallbackResult {
+    interface AppendFileFailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
@@ -645,14 +539,14 @@ declare namespace Taro {
       /** 源文件路径，只可以是普通文件 */
       srcPath: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: CopyFileFailCallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
 
-    interface CopyFileFailCallbackResult extends General.CallbackResult {
+    interface CopyFileFailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
@@ -666,21 +560,21 @@ declare namespace Taro {
       /** 要读取的文件路径 */
       filePath: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: GetFileInfoFailCallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: GetFileInfoSuccessCallbackResult) => void
     }
 
-    interface GetFileInfoFailCallbackResult extends General.CallbackResult {
+    interface GetFileInfoFailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
        * - 'fail file not exist': 指定的 filePath 找不到文件; */
       errMsg: string
     }
-    interface GetFileInfoSuccessCallbackResult extends General.CallbackResult {
+    interface GetFileInfoSuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 文件大小，以字节为单位 */
       size: number
       /** 调用结果 */
@@ -689,14 +583,14 @@ declare namespace Taro {
 
     interface getSavedFileListOption {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: GetSavedFileListSuccessCallbackResult) => void
     }
 
-    interface GetSavedFileListSuccessCallbackResult extends General.CallbackResult {
+    interface GetSavedFileListSuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 文件数组 */
       fileList: GetSavedFileListSuccessCallbackResultFileItem[]
       /** 调用结果 */
@@ -716,16 +610,16 @@ declare namespace Taro {
       /** 创建的目录路径 */
       dirPath: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: MkdirFailCallbackResult) => void
       /** 是否在递归创建该目录的上级目录后再创建该目录。如果对应的上级目录已经存在，则不创建该上级目录。如 dirPath 为 a/b/c/d 且 recursive 为 true，将创建 a 目录，再在 a 目录下创建 b 目录，以此类推直至创建 a/b/c 目录下的 d 目录。 */
       recursive?: boolean
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
 
-    interface MkdirFailCallbackResult extends General.CallbackResult {
+    interface MkdirFailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
@@ -743,7 +637,7 @@ declare namespace Taro {
       /**指定文件的长度，如果不指定，则读到文件末尾。有效范围：[1, fileLength]。单位：byte */
       length?: number
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 */
       encoding?: keyof FileSystemManager.encoding
       /** 接口调用失败的回调函数 */
@@ -751,13 +645,13 @@ declare namespace Taro {
       /** 接口调用成功的回调函数 */
       success?: (res: ReadFileSuccessCallbackResult) => void
     }
-    interface ReadFileSuccessCallbackResult extends General.CallbackResult {
+    interface ReadFileSuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 文件内容 */
       data: string | ArrayBuffer
       /** 调用结果 */
       errMsg: string
     }
-    interface ReadFileFailCallbackResult extends General.CallbackResult {
+    interface ReadFileFailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
@@ -770,14 +664,14 @@ declare namespace Taro {
       /** 要读取的目录路径 */
       dirPath: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: ReaddirFailCallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: ReaddirSuccessCallbackResult) => void
     }
 
-    interface ReaddirFailCallbackResult extends General.CallbackResult {
+    interface ReaddirFailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
@@ -786,7 +680,7 @@ declare namespace Taro {
        * - 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有读权限; */
       errMsg: string
     }
-    interface ReaddirSuccessCallbackResult extends General.CallbackResult {
+    interface ReaddirSuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 指定目录下的文件名数组。 */
       files: string[]
       /** 调用结果 */
@@ -797,13 +691,13 @@ declare namespace Taro {
       /** 需要删除的文件路径 */
       filePath: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: RemoveSavedFileFailCallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
-    interface RemoveSavedFileFailCallbackResult extends General.CallbackResult {
+    interface RemoveSavedFileFailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
@@ -817,13 +711,13 @@ declare namespace Taro {
       /** 源文件路径，可以是普通文件或目录 */
       oldPath: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: RenameFailCallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
-    interface RenameFailCallbackResult extends General.CallbackResult {
+    interface RenameFailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
@@ -836,15 +730,15 @@ declare namespace Taro {
       /** 要删除的目录路径 */
       dirPath: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: RmdirFailCallbackResult) => void
       /** 是否递归删除目录。如果为 true，则删除该目录和该目录下的所有子目录以及文件。 */
       recursive?: boolean
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
-    interface RmdirFailCallbackResult extends General.CallbackResult {
+    interface RmdirFailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
@@ -858,7 +752,7 @@ declare namespace Taro {
       /** 临时存储文件路径 */
       tempFilePath: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: SaveFileFailCallbackResult) => void
       /** 要存储的文件路径 */
@@ -867,7 +761,7 @@ declare namespace Taro {
       success?: (result: SaveFileSuccessCallbackResult) => void
     }
 
-    interface SaveFileFailCallbackResult extends General.CallbackResult {
+    interface SaveFileFailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
@@ -877,7 +771,7 @@ declare namespace Taro {
        * - 'fail the maximum size of the file storage limit is exceeded': 存储空间不足; */
       errMsg: string
     }
-    interface SaveFileSuccessCallbackResult extends General.CallbackResult {
+    interface SaveFileSuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 存储后的文件路径 */
       savedFilePath: string
       /** 调用结果 */
@@ -888,7 +782,7 @@ declare namespace Taro {
       /** 文件/目录路径 */
       path: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: StatFailCallbackResult) => void
       /** 是否递归获取目录下的每个文件的 Stats 信息 */
@@ -896,7 +790,7 @@ declare namespace Taro {
       /** 接口调用成功的回调函数 */
       success?: (result: StatSuccessCallbackResult) => void
     }
-    interface StatFailCallbackResult extends General.CallbackResult {
+    interface StatFailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
@@ -904,11 +798,11 @@ declare namespace Taro {
        * - 'fail no such file or directory ${path}': 文件不存在; */
       errMsg: string
     }
-    interface StatSuccessCallbackResult extends General.CallbackResult {
+    interface StatSuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** [Stats](https://developers.weixin.qq.com/miniprogram/dev/api/file/Stats.html)|Object
        *
        * 当 recursive 为 false 时，res.stats 是一个 Stats 对象。当 recursive 为 true 且 path 是一个目录的路径时，res.stats 是一个 Object，key 以 path 为根路径的相对路径，value 是该路径对应的 Stats 对象。 */
-      stats: Stats | General.IAnyObject
+      stats: Stats | TaroGeneral.IAnyObject
       /** 调用结果 */
       errMsg: string
     }
@@ -917,13 +811,13 @@ declare namespace Taro {
       /** 要删除的文件路径 */
       filePath: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: UnlinkFailCallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
-    interface UnlinkFailCallbackResult extends General.CallbackResult {
+    interface UnlinkFailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
@@ -939,14 +833,14 @@ declare namespace Taro {
       /** 源文件路径，只可以是 zip 压缩文件 */
       zipFilePath: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: UnzipFailCallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
 
-    interface UnzipFailCallbackResult extends General.CallbackResult {
+    interface UnzipFailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
@@ -961,15 +855,15 @@ declare namespace Taro {
       /** 要写入的文件路径 */
       filePath: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 指定写入文件的字符编码 */
       encoding?: keyof FileSystemManager.encoding
       /** 接口调用失败的回调函数 */
       fail?: (result: WriteFileFailCallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
-    interface WriteFileFailCallbackResult extends General.CallbackResult {
+    interface WriteFileFailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
@@ -982,14 +876,14 @@ declare namespace Taro {
       /** 文件描述符。fd 通过 FileSystemManager.open 或 FileSystemManager.openSync 接口获得 */
       fd: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: FstatFailCallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (res: FstatSuccessCallbackResult) => void
     }
 
-    interface FstatFailCallbackResult extends General.CallbackResult {
+    interface FstatFailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
@@ -997,7 +891,7 @@ declare namespace Taro {
        * - 'fail permission denied':	指定的 fd 路径没有读权限; */
       errMsg: string
     }
-    interface FstatSuccessCallbackResult extends General.CallbackResult {
+    interface FstatSuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** Stats 对象，包含了文件的状态信息 */
       stats: Stats
       /** 调用结果 */
@@ -1011,13 +905,13 @@ declare namespace Taro {
       /** 需要被关闭的文件描述符。fd 通过 FileSystemManager.open 或 FileSystemManager.openSync 接口获得 */
       fd: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: CloseFailCallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
-    interface CloseFailCallbackResult extends General.CallbackResult {
+    interface CloseFailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
@@ -1034,13 +928,13 @@ declare namespace Taro {
       /** 截断位置，默认0。如果 length 小于文件长度（单位：字节），则只有前面 length 个字节会保留在文件中，其余内容会被删除；如果 length 大于文件长度，则会对其进行扩展，并且扩展部分将填充空字节（'\0'） */
       length: number
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: FtruncateFailCallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
-    interface FtruncateFailCallbackResult extends General.CallbackResult {
+    interface FtruncateFailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
@@ -1063,20 +957,20 @@ declare namespace Taro {
       /** 文件系统标志，默认值: 'r' */
       flag?: keyof FileSystemManager.flag
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: OpenFailCallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (res: OpenSuccessCallbackResult) => void
     }
-    interface OpenFailCallbackResult extends General.CallbackResult {
+    interface OpenFailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
        * - 'fail no such file or directory "${filePath}"':	上级目录不存在 */
       errMsg: string
     }
-    interface OpenSuccessCallbackResult extends General.CallbackResult {
+    interface OpenSuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 文件描述符 */
       fd: string
       /** 调用结果 */
@@ -1100,26 +994,26 @@ declare namespace Taro {
       /** 文件读取的起始位置，如不传或传 null，则会从当前文件指针的位置读取。如果 position 是正整数，则文件指针位置会保持不变并从 position 读取文件。 */
       position?: number
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: ReadFailCallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (res: ReadSuccessCallbackResult) => void
     }
-    interface ReadFailCallbackResult extends General.CallbackResult {
+    interface ReadFailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
-       * - 'bad file descriptor':	无效的文件描述符	
-        - 'fail permission denied':	指定的 fd 路径没有读权限	
-        - 'fail the value of "offset" is out of range':	传入的 offset 不合法	
-        - 'fail the value of "length" is out of range':	传入的 length 不合法	
-        - 'fail sdcard not mounted':	android sdcard 挂载失败	
-        - 'bad file descriptor':	无效的文件描述符 
+       * - 'bad file descriptor':	无效的文件描述符
+        - 'fail permission denied':	指定的 fd 路径没有读权限
+        - 'fail the value of "offset" is out of range':	传入的 offset 不合法
+        - 'fail the value of "length" is out of range':	传入的 length 不合法
+        - 'fail sdcard not mounted':	android sdcard 挂载失败
+        - 'bad file descriptor':	无效的文件描述符
        *  */
       errMsg: string
     }
-    interface ReadSuccessCallbackResult extends General.CallbackResult {
+    interface ReadSuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 实际读取的字节数 */
       bytesRead: string
       /** 被写入的缓存区的对象，即接口入参的 arrayBuffer */
@@ -1145,21 +1039,21 @@ declare namespace Taro {
       /** 截断位置，默认0。如果 length 小于文件长度（字节），则只有前面 length 个字节会保留在文件中，其余内容会被删除；如果 length 大于文件长度，则会对其进行扩展，并且扩展部分将填充空字节（'\0'） */
       length?: number
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: TruncateFailCallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
-    interface TruncateFailCallbackResult extends General.CallbackResult {
+    interface TruncateFailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
-       * - 'fail no such file or directory, open ${filePath}':	指定的 filePath 所在目录不存在	
+       * - 'fail no such file or directory, open ${filePath}':	指定的 filePath 所在目录不存在
         - 'fail illegal operation on a directory, open "${filePath}"':	指定的 filePath 是一个已经存在的目录
-        - 'fail permission denied, open ${dirPath}':	指定的 filePath 路径没有写权限	
-        - 'fail the maximum size of the file storage limit is exceeded':	存储空间不足	
-        - 'fail sdcard not mounted':	android sdcard 挂载失败	
+        - 'fail permission denied, open ${dirPath}':	指定的 filePath 路径没有写权限
+        - 'fail the maximum size of the file storage limit is exceeded':	存储空间不足
+        - 'fail sdcard not mounted':	android sdcard 挂载失败
        *  */
       errMsg: string
     }
@@ -1183,13 +1077,13 @@ declare namespace Taro {
       /** 指定文件开头的偏移量，即数据要被写入的位置。当 position 不传或者传入非 Number 类型的值时，数据会被写入当前指针所在位置。 */
       position?: number
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (result: WriteFailCallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (res: WriteSuccessCallbackResult) => void
     }
-    interface WriteFailCallbackResult extends General.CallbackResult {
+    interface WriteFailCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息
        *
        * 可选值：
@@ -1199,7 +1093,7 @@ declare namespace Taro {
        *  */
       errMsg: string
     }
-    interface WriteSuccessCallbackResult extends General.CallbackResult {
+    interface WriteSuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 实际被写入到文件中的字节数（注意，被写入的字节数不一定与被写入的字符串字符数相同） */
       bytesWritten: number
       /** 调用结果 */
@@ -1241,5 +1135,121 @@ declare namespace Taro {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/Stats.isFile.html
      */
     isFile(): boolean
+  }
+
+  interface TaroStatic {
+    /** 保存文件到本地。**注意：saveFile 会把临时文件移动，因此调用成功后传入的 tempFilePath 将不可用**
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.chooseImage({
+     *   success: function (res) {
+     *     var tempFilePaths = res.tempFilePaths
+     *     Taro.saveFile({
+     *       tempFilePath: tempFilePaths[0],
+     *       success: function (res) {
+     *         var savedFilePath = res.savedFilePath
+     *       }
+     *     })
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.saveFile.html
+     */
+    saveFile(option: saveFile.Option): Promise<saveFile.SuccessCallbackResult | saveFile.FailCallbackResult>
+
+    /** 删除该小程序下已保存的本地缓存文件
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.getSavedFileList({
+     *   success: function (res) {
+     *     if (res.fileList.length > 0){
+     *       Taro.removeSavedFile({
+     *         filePath: res.fileList[0].filePath,
+     *         complete: function (res) {
+     *           console.log(res)
+     *         }
+     *       })
+     *     }
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.removeSavedFile.html
+     */
+    removeSavedFile(option: removeSavedFile.Option): Promise<TaroGeneral.CallbackResult>
+
+    /** 新开页面打开文档，支持格式
+     * @supported weapp
+     * @example
+     ```tsx
+     * Taro.downloadFile({
+     *   url: 'http://example.com/somefile.pdf',
+     *   success: function (res) {
+     *     var filePath = res.tempFilePath
+     *     Taro.openDocument({
+     *       filePath: filePath,
+     *       success: function (res) {
+     *         console.log('打开文档成功')
+     *       }
+     *     })
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.openDocument.html
+     */
+    openDocument(option: openDocument.Option): Promise<TaroGeneral.CallbackResult>
+
+    /** 获取本地已保存的文件列表
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.getSavedFileList({
+     *   success: function (res) {
+     *     console.log(res.fileList)
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getSavedFileList.html
+     */
+    getSavedFileList(option?: getSavedFileList.Option): Promise<getSavedFileList.SuccessCallbackResult>
+
+    /** 获取本地文件的文件信息。此接口只能用于获取已保存到本地的文件，若需要获取临时文件信息，请使用 [Taro.getFileInfo](https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileInfo.html) 接口。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.getSavedFileInfo({
+     *   filePath: 'wxfile://somefile', //仅做示例用，非真正的文件路径
+     *   success: function (res) {
+     *     console.log(res.size)
+     *     console.log(res.createTime)
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getSavedFileInfo.html
+     */
+    getSavedFileInfo(option: getSavedFileInfo.Option): Promise<getSavedFileInfo.SuccessCallbackResult>
+
+    /**
+     * 获取该小程序下的 本地临时文件 或 本地缓存文件 信息
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.getFileInfo({
+     *     success: function (res) {
+     *         console.log(res.size)
+     *         console.log(res.digest)
+     *     }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileInfo.html
+     */
+    getFileInfo(option: getFileInfo.Option): Promise<getFileInfo.SuccessCallbackResult | getFileInfo.FailCallbackResult>
+
+    /** 获取全局唯一的文件管理器
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileSystemManager.html
+     */
+    getFileSystemManager(): FileSystemManager
   }
 }
