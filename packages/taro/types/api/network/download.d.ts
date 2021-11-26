@@ -1,21 +1,23 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace downloadFile {
     interface Option {
       /** 下载资源的 url */
       url: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 指定文件下载后存储的路径 */
       filePath?: string
       /** HTTP 请求的 Header，Header 中不能设置 Referer */
-      header?: General.IAnyObject
+      header?: TaroGeneral.IAnyObject
       /** 接口调用成功的回调函数 */
       success?: (result: FileSuccessCallbackResult) => void
     }
 
-    interface FileSuccessCallbackResult extends General.CallbackResult {
+    interface FileSuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 用户文件路径。传入 filePath 时会返回，跟传入的 filePath 一致 */
       filePath: string
       /** 开发者服务器返回的 HTTP 状态码 */
@@ -27,36 +29,14 @@ declare namespace Taro {
     }
   }
 
-  /** 下载文件资源到本地。客户端直接发起一个 HTTPS GET 请求，返回文件的本地临时路径，单次下载允许的最大文件为 50MB。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)。
-   *
-   * 注意：请在服务端响应的 header 中指定合理的 `Content-Type` 字段，以保证客户端正确处理文件类型。
-   * @supported weapp, h5, alipay, swan
-   * @example
-   * ```tsx
-   * Taro.downloadFile({
-   *   url: 'https://example.com/audio/123', //仅为示例，并非真实的资源
-   *   success: function (res) {
-   *     // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
-   *     if (res.statusCode === 200) {
-   *       Taro.playVoice({
-   *         filePath: res.tempFilePath
-   *       })
-   *     }
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/wx.downloadFile.html
-   */
-  function downloadFile(option: downloadFile.Option): DownloadTask
-
   namespace DownloadTask {
     /** HTTP Response Header 事件的回调函数 */
     type OffHeadersReceivedCallback = (
-      res: General.CallbackResult,
+      res: TaroGeneral.CallbackResult,
     ) => void
     /** 下载进度变化事件的回调函数 */
     type OffProgressUpdateCallback = (
-        res: General.CallbackResult,
+        res: TaroGeneral.CallbackResult,
     ) => void
     /** HTTP Response Header 事件的回调函数 */
     type OnHeadersReceivedCallback = (
@@ -68,7 +48,7 @@ declare namespace Taro {
     ) => void
     interface OnHeadersReceivedCallbackResult {
       /** 开发者服务器返回的 HTTP Response Header */
-      header: General.IAnyObject
+      header: TaroGeneral.IAnyObject
     }
     interface OnProgressUpdateCallbackResult {
       /** 下载进度百分比 */
@@ -118,5 +98,29 @@ declare namespace Taro {
       /** 下载进度变化事件的回调函数 */
       callback: DownloadTask.OnProgressUpdateCallback,
     ): void
+  }
+
+  interface TaroStatic {
+    /** 下载文件资源到本地。客户端直接发起一个 HTTPS GET 请求，返回文件的本地临时路径，单次下载允许的最大文件为 50MB。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)。
+     *
+     * 注意：请在服务端响应的 header 中指定合理的 `Content-Type` 字段，以保证客户端正确处理文件类型。
+     * @supported weapp, h5, alipay, swan
+     * @example
+     * ```tsx
+     * Taro.downloadFile({
+     *   url: 'https://example.com/audio/123', //仅为示例，并非真实的资源
+     *   success: function (res) {
+     *     // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
+     *     if (res.statusCode === 200) {
+     *       Taro.playVoice({
+     *         filePath: res.tempFilePath
+     *       })
+     *     }
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/wx.downloadFile.html
+     */
+    downloadFile(option: downloadFile.Option): DownloadTask
   }
 }

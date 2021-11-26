@@ -37,7 +37,7 @@ export const directionFactory = ({
 export const anyOrderFactory = (properties, delim = SPACE) => tokenStream => {
   const propertyNames = Object.keys(properties)
   const values = propertyNames.reduce((accum, propertyName) => {
-    accum[propertyName] === undefined; // eslint-disable-line
+    typeof accum[propertyName] === 'undefined'; // eslint-disable-line
     return accum
   }, {})
 
@@ -47,7 +47,7 @@ export const anyOrderFactory = (properties, delim = SPACE) => tokenStream => {
 
     const matchedPropertyName = propertyNames.find(
       propertyName =>
-        values[propertyName] === undefined &&
+        typeof values[propertyName] === 'undefined' &&
         properties[propertyName].tokens.some(token =>
           tokenStream.matches(token)
         )
@@ -65,7 +65,9 @@ export const anyOrderFactory = (properties, delim = SPACE) => tokenStream => {
   tokenStream.expectEmpty()
 
   propertyNames.forEach(propertyName => {
-    if (values[propertyName] === undefined) { values[propertyName] = properties[propertyName].default }
+    if (typeof values[propertyName] === 'undefined') {
+      values[propertyName] = properties[propertyName].default
+    }
   })
 
   return { $merge: values }
@@ -100,23 +102,41 @@ export const parseShadow = tokenStream => {
     if (didParseFirst) tokenStream.expect(SPACE)
 
     if (
-      offsetX === undefined &&
+      typeof offsetX === 'undefined' &&
       tokenStream.matches(LENGTH, UNSUPPORTED_LENGTH_UNIT)
     ) {
       offsetX = tokenStream.lastValue
-      tokenStream.expect(SPACE)
-      offsetY = tokenStream.expect(LENGTH, UNSUPPORTED_LENGTH_UNIT)
+      if (
+        tokenStream.matches(SPACE) &&
+        tokenStream.matches(LENGTH, UNSUPPORTED_LENGTH_UNIT)
+      ) {
+        offsetY = tokenStream.lastValue
+      } else {
+        offsetY = offsetX
+        tokenStream.rewind()
+      }
 
       tokenStream.saveRewindPoint()
       if (
         tokenStream.matches(SPACE) &&
         tokenStream.matches(LENGTH, UNSUPPORTED_LENGTH_UNIT)
       ) {
+        // blur-radius
         radius = tokenStream.lastValue
       } else {
         tokenStream.rewind()
       }
-    } else if (color === undefined && tokenStream.matches(COLOR)) {
+      tokenStream.saveRewindPoint()
+      if (
+        tokenStream.matches(SPACE) &&
+        tokenStream.matches(LENGTH, UNSUPPORTED_LENGTH_UNIT)
+      ) {
+        // spread-radius
+        // 兼容web写法，防止报错
+      } else {
+        tokenStream.rewind()
+      }
+    } else if (typeof color === 'undefined' && tokenStream.matches(COLOR)) {
       color = tokenStream.lastValue
     } else {
       tokenStream.throw()
@@ -125,11 +145,11 @@ export const parseShadow = tokenStream => {
     didParseFirst = true
   }
 
-  if (offsetX === undefined) tokenStream.throw()
+  if (typeof offsetX === 'undefined') tokenStream.throw()
 
   return {
     offset: { width: offsetX, height: offsetY },
-    radius: radius !== undefined ? radius : 0,
-    color: color !== undefined ? color : 'black'
+    radius: typeof radius !== 'undefined' ? radius : 0,
+    color: typeof color !== 'undefined' ? color : 'black'
   }
 }

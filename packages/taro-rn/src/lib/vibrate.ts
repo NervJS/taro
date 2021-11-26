@@ -1,7 +1,7 @@
 import { Vibration } from 'react-native'
 import { errorHandler, successHandler } from '../utils'
 
-function vibrate (DURATION, API, OPTS): Promise<Taro.General.CallbackResult> {
+function vibrate (DURATION, API, OPTS): Promise<TaroGeneral.CallbackResult> {
   const res = { errMsg: `${API}:ok` }
     const { success, fail, complete } = OPTS
     try {
@@ -13,11 +13,11 @@ function vibrate (DURATION, API, OPTS): Promise<Taro.General.CallbackResult> {
     }
 }
 
-function vibrateShort (opts: Taro.vibrateShort.Option = {}): Promise<Taro.General.CallbackResult> {
+function vibrateShort (opts: Taro.vibrateShort.Option = {}): Promise<TaroGeneral.CallbackResult> {
   return vibrate(15, 'vibrateShort', opts)
 }
 
-function vibrateLong (opts: Taro.vibrateLong.Option = {}): Promise<Taro.General.CallbackResult> {
+function vibrateLong (opts: Taro.vibrateLong.Option = {}): Promise<TaroGeneral.CallbackResult> {
   return vibrate(400, 'vibrateLong', opts)
 }
 

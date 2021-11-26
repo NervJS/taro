@@ -150,6 +150,8 @@ declare namespace SwiperProps {
     current: number
     /** 导致变更的原因 */
     source: keyof SwiperProps.TChangeSource
+    /** SwiperItem的itemId参数值 */
+    currentItemId?: string 
   }
 
   interface onTransitionEventDetail {

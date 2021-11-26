@@ -22,6 +22,8 @@ export const components = {
     subkey: _empty,
     rotate: _zero,
     skew: _zero,
+    'max-scale': '20',
+    'min-scale': '3',
     'enable-3D': _false,
     'show-compass': _false,
     'show-scale': _false,

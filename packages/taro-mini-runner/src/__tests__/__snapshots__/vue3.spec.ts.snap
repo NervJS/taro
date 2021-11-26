@@ -694,7 +694,7 @@ require(\\"./taro\\");
             var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
             var apis = new Set(!config.isOnlyPromisify ? Object.keys(global).filter((function(api) {
                 return preserved.indexOf(api) === -1;
-            })) : new Set(patchNeedPromiseApis));
+            })) : patchNeedPromiseApis);
             if (config.modifyApis) {
                 config.modifyApis(apis);
             }
@@ -813,7 +813,7 @@ require(\\"./taro\\");
             taro.cleanInterceptors = link.cleanInterceptors.bind(link);
             taro.miniGlobal = taro.options.miniGlobal = global;
         }
-        var runtime_needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\" ]);
+        var runtime_needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: runtime_needPromiseApis,
@@ -845,6 +845,8 @@ require(\\"./taro\\");
                 subkey: _empty,
                 rotate: _zero,
                 skew: _zero,
+                \\"max-scale\\": \\"20\\",
+                \\"min-scale\\": \\"3\\",
                 \\"enable-3D\\": _false,
                 \\"show-compass\\": _false,
                 \\"show-scale\\": _false,
@@ -1189,6 +1191,74 @@ require(\\"./taro\\");
         function _slicedToArray(arr, i) {
             return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
         }
+        var vue = __webpack_require__(1);
+        function createHook(lifecycle) {
+            return function(fn) {
+                var id = Object(vue[\\"inject\\"])(\\"id\\");
+                var fnRef = Object(vue[\\"ref\\"])(fn);
+                Object(vue[\\"onMounted\\"])((function() {
+                    var inst = Object(taro_runtime[\\"getPageInstance\\"])(id);
+                    if (inst === undefined) {
+                        inst = Object.create({
+                            $options: {}
+                        });
+                        Object(taro_runtime[\\"injectPageInstance\\"])(inst, id);
+                    }
+                    inst = inst.$options;
+                    var callback = function callback() {
+                        return fnRef.value.apply(fnRef, arguments);
+                    };
+                    var currentCallback = inst[lifecycle];
+                    if (isUndefined(currentCallback)) {
+                        inst[lifecycle] = callback;
+                    } else if (isFunction(currentCallback)) {
+                        inst[lifecycle] = [ inst[lifecycle], callback ];
+                    } else if (isArray(currentCallback)) {
+                        inst[lifecycle] = [].concat(_toConsumableArray(currentCallback), [ callback ]);
+                    }
+                }));
+            };
+        }
+        var useDidShow = createHook(\\"onShow\\");
+        var useDidHide = createHook(\\"onHide\\");
+        var useReady = createHook(\\"onReady\\");
+        var usePullDownRefresh = createHook(\\"onPullDownRefresh\\");
+        var useReachBottom = createHook(\\"onReachBottom\\");
+        var usePageScroll = createHook(\\"onPageScroll\\");
+        var useResize = createHook(\\"onResize\\");
+        var useShareAppMessage = createHook(\\"onShareAppMessage\\");
+        var useTabItemTap = createHook(\\"onTabItemTap\\");
+        var useTitleClick = createHook(\\"onTitleClick\\");
+        var useOptionMenuClick = createHook(\\"onOptionMenuClick\\");
+        var usePullIntercept = createHook(\\"onPullIntercept\\");
+        var useShareTimeline = createHook(\\"onShareTimeline\\");
+        var useAddToFavorites = createHook(\\"onAddToFavorites\\");
+        var runtime_useRouter = function useRouter() {
+            return taro_runtime[\\"Current\\"].router;
+        };
+        var taroHooks = Object.freeze({
+            __proto__: null,
+            useDidShow: useDidShow,
+            useDidHide: useDidHide,
+            useReady: useReady,
+            usePullDownRefresh: usePullDownRefresh,
+            useReachBottom: useReachBottom,
+            usePageScroll: usePageScroll,
+            useResize: useResize,
+            useShareAppMessage: useShareAppMessage,
+            useTabItemTap: useTabItemTap,
+            useTitleClick: useTitleClick,
+            useOptionMenuClick: useOptionMenuClick,
+            usePullIntercept: usePullIntercept,
+            useShareTimeline: useShareTimeline,
+            useAddToFavorites: useAddToFavorites,
+            useRouter: runtime_useRouter
+        });
+        var setGlobalDataPlugin = {
+            install: function install(app, data) {
+                app.taroGlobalData = data;
+            }
+        };
         function setDefaultDescriptor(obj) {
             obj.writable = true;
             obj.enumerable = true;
@@ -1219,9 +1289,6 @@ require(\\"./taro\\");
                     },
                     created: function created() {
                         Object(taro_runtime[\\"injectPageInstance\\"])(this, id);
-                        this.$nextTick((function() {
-                            Object(taro_runtime[\\"safeExecute\\"])(id, \\"onShow\\");
-                        }));
                     }
                 };
                 if (isArray(component.mixins)) {
@@ -1235,13 +1302,28 @@ require(\\"./taro\\");
                 } else {
                     component.mixins = [ inject ];
                 }
-                return h(false ? undefined : \\"root\\", {
-                    key: id,
-                    id: id,
-                    class: false ? undefined : \\"\\"
-                }, [ h(Object.assign({}, component), {
-                    tid: id
-                }) ]);
+                var ProviderComponent = {
+                    provide: {
+                        id: id
+                    },
+                    render: function render() {
+                        return this.$slots.default();
+                    }
+                };
+                var RootElement = false ? undefined : \\"root\\";
+                var PageComponent = Object.assign({}, component);
+                return h(ProviderComponent, {
+                    key: id
+                }, {
+                    default: function _default() {
+                        return [ h(RootElement, {
+                            id: id,
+                            class: false ? undefined : \\"\\"
+                        }, [ h(PageComponent, {
+                            tid: id
+                        }) ]) ];
+                    }
+                });
             };
         }
         function createVue3App(app, h, config) {
@@ -1281,9 +1363,28 @@ require(\\"./taro\\");
                 })
             }, _defineProperty(_Object$create, ONLAUNCH, setDefaultDescriptor({
                 value: function value(options) {
+                    var _this = this;
                     var _a;
                     setRouterParams(options);
                     if (false) {}
+                    if (app[\\"taroGlobalData\\"]) {
+                        var globalData = app[\\"taroGlobalData\\"];
+                        var keys = Object.keys(globalData);
+                        var descriptors = Object.getOwnPropertyDescriptors(globalData);
+                        keys.forEach((function(key) {
+                            Object.defineProperty(_this, key, {
+                                configurable: true,
+                                enumerable: true,
+                                get: function get() {
+                                    return globalData[key];
+                                },
+                                set: function set(value) {
+                                    globalData[key] = value;
+                                }
+                            });
+                        }));
+                        Object.defineProperties(this, descriptors);
+                    }
                     var onLaunch = (_a = appInstance === null || appInstance === void 0 ? void 0 : appInstance.$options) === null || _a === void 0 ? void 0 : _a.onLaunch;
                     isFunction(onLaunch) && onLaunch.call(appInstance, options);
                 }
@@ -1304,8 +1405,15 @@ require(\\"./taro\\");
             taro_runtime[\\"Current\\"].app = appConfig;
             return appConfig;
         }
+        var runtime_hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
+        runtime_hooks.initNativeApiImpls || (runtime_hooks.initNativeApiImpls = []);
+        runtime_hooks.initNativeApiImpls.push((function(taro) {
+            for (var hook in taroHooks) {
+                taro[hook] = taroHooks[hook];
+            }
+            taro.setGlobalDataPlugin = setGlobalDataPlugin;
+        }));
         var mocks_taro = \\"taro\\";
-        var vue = __webpack_require__(1);
         var src_app = __webpack_require__(4);
         var app_App = Object(vue[\\"createApp\\"])({
             onShow: function onShow(options) {}
@@ -1321,7 +1429,7 @@ require(\\"./taro\\");
             }
         };
         taro_runtime[\\"window\\"].__taroAppConfig = app_config;
-        var inst = App(createVue3App(lib_src_app, vue[\\"h\\"], app_config));
+        var app_inst = App(createVue3App(lib_src_app, vue[\\"h\\"], app_config));
         undefined({
             designWidth: 750,
             deviceRatio: {

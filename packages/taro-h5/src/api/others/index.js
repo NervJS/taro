@@ -1,5 +1,5 @@
 import { fromByteArray, toByteArray } from 'base64-js'
-import { shouleBeObject, getParameterError } from '../utils'
+import { shouldBeObject, getParameterError } from '../utils'
 
 export function arrayBufferToBase64 (arrayBuffer) {
   return fromByteArray(arrayBuffer)
@@ -11,7 +11,7 @@ export function base64ToArrayBuffer (base64) {
 
 export function makePhoneCall (options) {
   // options must be an Object
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `makePhoneCall${isObject.msg}` }
     console.error(res.errMsg)
