@@ -133,8 +133,8 @@ function recursiveGetCandidates (children = []) {
 /**
  * 以深度遍历方式收集候选词，最多遍历4层，优先查找左子树，直到读取到“#text”节点为止
  * eg：
- * <View>item1</View> => item1
- * <View><Text>item1</Text><Text>item1</Text></View> => item1
+ * <View>A</View> => A
+ * <View><Text>A</Text><Text>B</Text></View> => A
  */
 function getCandidatesDFS (children = []) {
   if (children.length === 0) return []

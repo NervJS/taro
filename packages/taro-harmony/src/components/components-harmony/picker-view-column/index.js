@@ -1,5 +1,3 @@
-import { createOption } from '../utils'
-
-export default createOption({
+export default {
   props: ['id']
-})
+}
