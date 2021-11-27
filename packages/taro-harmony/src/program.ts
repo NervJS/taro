@@ -180,14 +180,14 @@ export default class Harmony extends TaroPlatformBase {
   modifyWebpackConfig () {
     this.ctx.modifyWebpackChain(({ chain }) => {
       chain.merge({
-        externals: {
-          '@system.app': 'commonjs @system.app',
-          '@system.router': 'commonjs @system.router',
-          '@system.prompt': 'commonjs @system.prompt',
-          '@ohos.data.storage': 'commonjs @ohos.data.storage',
-          '@ohos.geolocation': 'commonjs @ohos.geolocation',
-          '@hmscore/hms-jsb-account': 'commonjs @hmscore/hms-jsb-account'
-        }
+        externals: [
+          function (_context, request, callback) {
+            if (isHarmonyRequest(request)) {
+              return callback(null, 'commonjs ' + request)
+            }
+            callback()
+          }
+        ]
       })
     })
   }
@@ -220,4 +220,18 @@ export default class Harmony extends TaroPlatformBase {
 
     await fs.writeFile(packageJsonFile, packageJson)
   }
+}
+
+/**
+ * 引用的依赖是否 Harmony 全局注入的依赖，如果是则 Webpack 不需要处理，直接 external 掉
+ * @param request 引用的依赖
+ */
+function isHarmonyRequest (request: string): boolean {
+  const systemReg = /^@system\./
+  const ohosReg = /^@ohos\./
+  const hmscoreReg = /^@hmscore\//
+  if (systemReg.test(request) || ohosReg.test(request) || hmscoreReg.test(request)) {
+    return true
+  }
+  return false
 }
