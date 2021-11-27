@@ -9,8 +9,6 @@ import { General } from '@tarojs/taro'
 import { validateParams } from './validate'
 
 const request = require('@ohos.request')
-let uploadTask: General.IAnyObject = {}
-const UploadTaskWX: General.IAnyObject = {}
 
 interface ISuccessParams {
   data: string
@@ -49,71 +47,74 @@ interface IUploadFileParamsOHOS {
   data?: Array<IRequestDataOHOS>
 }
 
-// UploadTaskWX.abort = function abort () {
-function abort () {
-  uploadTask.remove((err: any, result: any) => {
-    if (err) {
-      console.error('Failed to remove the upload task. Cause: ' + JSON.stringify(err))
-      return
-    }
-    if (result) {
-      console.error('Upload task removed successfully.')
-    } else {
-      console.error('Failed to remove the upload task.')
-    }
-  })
-}
-
-UploadTaskWX.onHeadersReceived = function onHeadersReceived (callback: (params: General.IAnyObject) => void) {
-  uploadTask.on('headerReceive', (headers: General.IAnyObject) => {
-    callback(headers)
-  })
-}
-
-UploadTaskWX.offHeadersReceived = function offHeadersReceived (callback: (params: any) => void) {
-  uploadTask.off('headerReceive', (headers: General.IAnyObject) => {
-    callback(headers)
-  })
-}
-
 interface IProgressUpdateParams {
   progress: number
   totalBytesSent: number
   totalBytesExpectedToSend: number
 }
-UploadTaskWX.onProgressUpdate = function onProgressUpdate (callback: (params: IProgressUpdateParams) => void) {
-  uploadTask.on('progress', (uploadSize: number, totalSize: number) => {
-    const totalBytesSent: number = uploadSize * 1024
-    const totalBytesExpectedToSend: number = totalSize * 1024
-    // TODO: 应该保留几位小数？
-    const progress: number = +(uploadSize / totalSize).toFixed(6)
-    const progressParams: IProgressUpdateParams = {
-      totalBytesSent,
-      totalBytesExpectedToSend,
-      progress
-    }
-    callback(progressParams)
-  })
-}
-
-UploadTaskWX.offProgressUpdate = function offProgressUpdate (callback: any) {
-  uploadTask.off('progress', (uploadSize: number, totalSize: number) => {
-    const totalBytesSent: number = uploadSize * 1024
-    const totalBytesExpectedToSend: number = totalSize * 1024
-    // TODO: 应该保留几位小数？
-    const progress: number = +(uploadSize / totalSize).toFixed(6)
-    const progressParams: IProgressUpdateParams = {
-      totalBytesSent,
-      totalBytesExpectedToSend,
-      progress
-    }
-    callback(progressParams)
-  })
-}
 
 // wx 只支持 HTTP POST 请求，OHOS 支持 POST 和 PUT 请求
 // OHOS 不支持 wx 的 timeout，但是支持 file 文件列表上传，wx 是单文件上传
 function uploadFile (params: IUploadFileParamsWX) {
+  let uploadTask: General.IAnyObject = {}
+  const UploadTaskWX: General.IAnyObject = {}
+
+  UploadTaskWX.abort = function abort () {
+    uploadTask.remove((err: any, result: any) => {
+      if (err) {
+        console.error('Failed to remove the upload task. Cause: ' + JSON.stringify(err))
+        return
+      }
+      if (result) {
+        console.error('Upload task removed successfully.')
+      } else {
+        console.error('Failed to remove the upload task.')
+      }
+    })
+  }
+
+  UploadTaskWX.onHeadersReceived = function onHeadersReceived (callback: (params: General.IAnyObject) => void) {
+    uploadTask.on('headerReceive', (headers: General.IAnyObject) => {
+      callback(headers)
+    })
+  }
+
+  UploadTaskWX.offHeadersReceived = function offHeadersReceived (callback: (params: any) => void) {
+    uploadTask.off('headerReceive', (headers: General.IAnyObject) => {
+      callback(headers)
+    })
+  }
+
+  UploadTaskWX.onProgressUpdate = function onProgressUpdate (callback: (params: IProgressUpdateParams) => void) {
+    uploadTask.on('progress', (uploadSize: number, totalSize: number) => {
+      const totalBytesSent: number = uploadSize * 1024
+      const totalBytesExpectedToSend: number = totalSize * 1024
+      // TODO: 应该保留几位小数？
+      const progress: number = +(uploadSize / totalSize).toFixed(6)
+      const progressParams: IProgressUpdateParams = {
+        totalBytesSent,
+        totalBytesExpectedToSend,
+        progress
+      }
+      callback(progressParams)
+    })
+  }
+
+  UploadTaskWX.offProgressUpdate = function offProgressUpdate (callback: any) {
+    uploadTask.off('progress', (uploadSize: number, totalSize: number) => {
+      const totalBytesSent: number = uploadSize * 1024
+      const totalBytesExpectedToSend: number = totalSize * 1024
+      // TODO: 应该保留几位小数？
+      const progress: number = +(uploadSize / totalSize).toFixed(6)
+      const progressParams: IProgressUpdateParams = {
+        totalBytesSent,
+        totalBytesExpectedToSend,
+        progress
+      }
+      callback(progressParams)
+    })
+  }
+
   const requiredParamsValue: Array<any> = params.url === undefined ? [] : [params.url]
   const requiredParamsName: Array<string> = params.url === undefined ? [] : ['url']
   const requiredParamsType: Array<string> = params.url === undefined ? [] : ['string']
@@ -198,7 +199,6 @@ function uploadFile (params: IUploadFileParamsWX) {
     UploadTaskWX
     return UploadTaskWX
   })
-  UploadTaskWX.abort = abort
   console.warn('uuppllooaadd requestUpload Taro 6' + JSON.stringify(UploadTaskWX) + '。')
   return UploadTaskWX
   // } else {
