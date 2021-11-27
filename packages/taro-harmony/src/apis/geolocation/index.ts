@@ -20,8 +20,6 @@ const geolocation = require('@ohos.geolocation')
 type GetLocation = typeof Taro.getLocation
 type OnLocationChange = typeof Taro.onLocationChange
 type OffLocationChange = typeof Taro.offLocationChange
-// type StartLocationUpdate = typeof Taro.startLocationUpdate
-// type StopLocationUpdate = typeof Taro.stopLocationUpdate
 
 interface IGetOHOSGeolocationParams {
   type?: string,
@@ -42,7 +40,7 @@ interface LocationRequest {
   maxAccuracy?: number
 }
 
-interface LocationSuccessOHOS {
+interface LocationSuccessDataOHOS {
   latitude: number
   longitude: number
   altitude: number
@@ -55,7 +53,12 @@ interface LocationSuccessOHOS {
   additionSize: number
 }
 
-function formatLocation (location: LocationSuccessOHOS) {
+interface LocationSuccessOHOS {
+  code: number
+  data: LocationSuccessDataOHOS
+}
+
+function formatLocation (location: LocationSuccessDataOHOS) {
   const locationWX = {
     latitude: location.latitude,
     longitude: location.longitude,
@@ -68,7 +71,7 @@ function formatLocation (location: LocationSuccessOHOS) {
   return locationWX
 }
 
-export const getLocation: GetLocation = function (options) {
+export const getLocation: GetLocation = function (options = {}) {
   const { res, isPassed } = validateOptions('getLocation', options)
   if (!isPassed) {
     return Promise.reject(res)
@@ -76,7 +79,6 @@ export const getLocation: GetLocation = function (options) {
 
   return new Promise((resolve, reject) => {
     /**
-     * TODO:
      * ohos 有 priority, scenario, maxAccuracy, timeoutMs
      * wx 有 type, altitude, isHighAccuracy, highAccuracyExpireTime
      * 二者参数不一致
@@ -89,10 +91,10 @@ export const getLocation: GetLocation = function (options) {
       highAccuracyExpireTime
     }
     return geolocation.getCurrentLocation(params).then((location: LocationSuccessOHOS) => {
-      if (!location) {
+      if (location.code !== 0) {
         callAsyncFail(reject, location, options)
       } else {
-        const locationWX = formatLocation(location)
+        const locationWX = formatLocation(location.data)
         callAsyncSuccess(resolve, locationWX, options)
       }
     }).catch(error => {
@@ -113,11 +115,10 @@ export const onLocationChange: OnLocationChange = function (callback) {
       }
       return reject(res)
     }
-
     const requestInfo: LocationRequest = {}
-    return geolocation.on('locationChange', requestInfo, (location: LocationSuccessOHOS) => {
+    return geolocation.on('locationChange', requestInfo, (location: LocationSuccessDataOHOS) => {
       if (!location) {
-        const err = { errMsg: 'get geolocation err' }
+        const err = { errMsg: 'onLocationChange err' }
         return reject(err)
       }
 
@@ -143,7 +144,7 @@ export const offLocationChange: OffLocationChange = function (callback) {
 
     return geolocation.off('locationChange', (location: LocationSuccessOHOS) => {
       const status = {
-        errMsg: location ? 'location change is off' : 'get geolocation err'
+        errMsg: location ? 'offLocationChange is off' : 'offLocationChange err'
       }
       if (!location) {
         return reject(status)
@@ -154,55 +155,3 @@ export const offLocationChange: OffLocationChange = function (callback) {
     })
   })
 }
-
-// export const startLocationUpdate: StartLocationUpdate = function (options) {
-//   const { res, isPassed } = validateGeolocationOptions('startLocationUpdate', options)
-//   if (!isPassed) {
-//     return Promise.reject(res)
-//   }
-
-//   const { success, fail, complete } = options
-//   return geolocation.on('locationServiceState', (err: any, state: boolean) => {
-//     if (success || fail || complete) {
-//       if (!err) {
-//         success && success(state)
-//         complete && complete(state)
-//       } else {
-//         fail && fail(err)
-//         complete && complete(err)
-//       }
-//     } else {
-//       if (!err) {
-//         return Promise.resolve(state)
-//       } else {
-//         return Promise.reject(err)
-//       }
-//     }
-//   })
-// }
-
-// export const stopLocationUpdate: StopLocationUpdate = function (options) {
-//   const { res, isPassed } = validateGeolocationOptions('stopLocationUpdate', options)
-//   if (!isPassed) {
-//     return Promise.reject(res)
-//   }
-
-//   const { success, fail, complete } = options
-//   return geolocation.off('locationServiceState', (err: any, state: boolean) => {
-//     if (success || fail || complete) {
-//       if (!err) {
-//         success && success(state)
-//         complete && complete(state)
-//       } else {
-//         fail && fail(err)
-//         complete && complete(err)
-//       }
-//     } else {
-//       if (!err) {
-//         return Promise.resolve(state)
-//       } else {
-//         return Promise.reject(err)
-//       }
-//     }
-//   })
-// }
