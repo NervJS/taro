@@ -1,6 +1,6 @@
 <div 
   id="{{id}}"
-  class="{{cls}} {{clsHover}}"
+  class="{{clsHover}}"
   @click="onClick"
   @touchstart="onTouchStart"
   @touchend="onTouchEnd"
