@@ -41,9 +41,9 @@ const runtimeConfig = {
 
 // loader 入口
 const loaderConfig = {
-  input: path.join(cwd, 'src/loader.ts'),
+  input: path.join(cwd, 'src/api-loader.ts'),
   output: {
-    file: path.join(cwd, 'dist/loader.js'),
+    file: path.join(cwd, 'dist/api-loader.js'),
     format: 'cjs',
     sourcemap: true
   },

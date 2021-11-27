@@ -1,3 +1,4 @@
+import Taro from '@tarojs/taro'
 import { DeviceMotion } from 'expo-sensors'
 import { createCallbackManager, successHandler, errorHandler } from '../utils'
 
@@ -29,7 +30,7 @@ function offDeviceMotionChange(fnc: Taro.onDeviceMotionChange.Callback): void {
  * @param object
  * @param {string} [object.interval='normal'] - 监听设备方向的变化回调函数的执行频率
  */
-function startDeviceMotionListening (object: Taro.startDeviceMotionListening.Option = {}): Promise<Taro.General.CallbackResult> {
+function startDeviceMotionListening (object: Taro.startDeviceMotionListening.Option = {}): Promise<TaroGeneral.CallbackResult> {
   const { interval = 'normal', success, fail, complete } = object
   const res = { errMsg: 'startDeviceMotionListening:ok' }
   try {
@@ -55,7 +56,7 @@ function startDeviceMotionListening (object: Taro.startDeviceMotionListening.Opt
  * 停止监听设备方向的变化
  * @param object
  */
-function stopDeviceMotionListening (object: Taro.stopDeviceMotionListening.Option = {}): Promise<Taro.General.CallbackResult> {
+function stopDeviceMotionListening (object: Taro.stopDeviceMotionListening.Option = {}): Promise<TaroGeneral.CallbackResult> {
   const { success, fail, complete } = object
   const res = { errMsg: 'stopDeviceMotionListening:ok' }
   try {

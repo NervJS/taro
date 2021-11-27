@@ -3,7 +3,6 @@ import {
   container,
   SERVICE_IDENTIFIER,
   Current,
-  safeExecute,
   injectPageInstance
 } from '@tarojs/runtime'
 import { setDefaultDescriptor, setRouterParams } from './utils'
@@ -71,10 +70,6 @@ function createVue3Page (h: typeof createElement, id: string) {
       },
       created () {
         injectPageInstance(this, id)
-        // vue3 组件 created 时机比小程序页面 onShow 慢，因此在 created 后再手动触发一次 onShow。
-        this.$nextTick(() => {
-          safeExecute(id, 'onShow')
-        })
       }
     }
 
@@ -92,18 +87,36 @@ function createVue3Page (h: typeof createElement, id: string) {
       component.mixins = [inject]
     }
 
+    const ProviderComponent = {
+      provide: { id },
+      render () {
+        return this.$slots.default()
+      }
+    }
+    const RootElement = process.env.TARO_ENV === 'h5' ? 'div' : 'root'
+    const PageComponent = Object.assign({}, component)
+
     return h(
-      process.env.TARO_ENV === 'h5' ? 'div' : 'root',
+      ProviderComponent,
       {
-        key: id,
-        id,
-        class: process.env.TARO_ENV === 'h5' ? 'taro_page' : ''
+        key: id
       },
-      [
-        h(Object.assign({}, component), {
-          tid: id
-        })
-      ]
+      {
+        default () {
+          return [
+            h(
+              RootElement,
+              {
+                id,
+                class: process.env.TARO_ENV === 'h5' ? 'taro_page' : ''
+              },
+              [
+                h(PageComponent, { tid: id })
+              ]
+            )
+          ]
+        }
+      }
     )
   }
 }
@@ -155,6 +168,29 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
         if (process.env.TARO_ENV === 'h5') {
           appInstance = app.mount('#app')
         }
+
+        // 把 App Class 上挂载的额外属性同步到全局 app 对象中
+        // eslint-disable-next-line dot-notation
+        if (app['taroGlobalData']) {
+          // eslint-disable-next-line dot-notation
+          const globalData = app['taroGlobalData']
+          const keys = Object.keys(globalData)
+          const descriptors = Object.getOwnPropertyDescriptors(globalData)
+          keys.forEach(key => {
+            Object.defineProperty(this, key, {
+              configurable: true,
+              enumerable: true,
+              get () {
+                return globalData[key]
+              },
+              set (value) {
+                globalData[key] = value
+              }
+            })
+          })
+          Object.defineProperties(this, descriptors)
+        }
+
         const onLaunch = appInstance?.$options?.onLaunch
         isFunction(onLaunch) && onLaunch.call(appInstance, options)
       }

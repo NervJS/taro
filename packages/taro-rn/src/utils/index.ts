@@ -1,4 +1,4 @@
-interface ShouleBeObjectResult {
+interface ShouldBeObjectResult {
   res: boolean;
   msg?: string;
 }
@@ -18,7 +18,7 @@ export function getParameterError ({ correct, wrong }: GetParameterErrorOption):
   return `fail parameter error: ${parameter} should be ${correct} instead of ${errorType}`
 }
 
-export function shouleBeObject (target: unknown): ShouleBeObjectResult {
+export function shouldBeObject (target: unknown): ShouldBeObjectResult {
   if (target && typeof target === 'object') return { res: true }
   return {
     res: false,
@@ -29,16 +29,16 @@ export function shouleBeObject (target: unknown): ShouleBeObjectResult {
   }
 }
 
-export function successHandler (success?: (res: Taro.General.CallbackResult) => void, complete?: (res: Taro.General.CallbackResult) => void) {
-  return function (res: Taro.General.CallbackResult): Promise<any> {
+export function successHandler (success?: (res: TaroGeneral.CallbackResult) => void, complete?: (res: TaroGeneral.CallbackResult) => void) {
+  return function (res: TaroGeneral.CallbackResult): Promise<any> {
     success && success(res)
     complete && complete(res)
     return Promise.resolve(res)
   }
 }
 
-export function errorHandler (fail?: (res: Taro.General.CallbackResult) => void, complete?: (res: Taro.General.CallbackResult) => void) {
-  return function (res: Taro.General.CallbackResult): Promise<any> {
+export function errorHandler (fail?: (res: TaroGeneral.CallbackResult) => void, complete?: (res: TaroGeneral.CallbackResult) => void) {
+  return function (res: TaroGeneral.CallbackResult): Promise<any> {
     fail && fail(res)
     complete && complete(res)
     return Promise.reject(res)
