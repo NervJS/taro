@@ -53,6 +53,43 @@ export function shouleBeObject (name: string, target: any): {
   }
 }
 
+// export function validateOptions (funcName, options: any): {
+//   isPassed: boolean
+//   res: any
+// } {
+//   // options must be an Object
+//   const isObject = shouleBeObject(funcName, options)
+//   if (!isObject.res) {
+//     const res = { errMsg: isObject.msg }
+//     console.error(res.errMsg)
+//     return {
+//       isPassed: false,
+//       res
+//     }
+//   }
+//   const { key, fail, complete } = options
+//   const res: any = { errMsg: `${funcName}:ok` }
+//   if (key && typeof key !== 'string') {
+//     res.errMsg = getParameterError({
+//       name: funcName,
+//       param: 'key',
+//       correct: 'String',
+//       wrong: key
+//     })
+//     console.error(res.errMsg)
+//     typeof fail === 'function' && fail(res)
+//     typeof complete === 'function' && complete(res)
+//     return {
+//       isPassed: false,
+//       res
+//     }
+//   }
+//   return {
+//     isPassed: true,
+//     res
+//   }
+// }
+
 export function validateOptions (funcName, options: any): {
   isPassed: boolean
   res: any
@@ -67,45 +104,12 @@ export function validateOptions (funcName, options: any): {
       res
     }
   }
-  const { key, fail, complete } = options
-  const res: any = { errMsg: `${funcName}:ok` }
-  if (key && typeof key !== 'string') {
-    res.errMsg = getParameterError({
-      name: funcName,
-      param: 'key',
-      correct: 'String',
-      wrong: key
-    })
-    console.error(res.errMsg)
-    typeof fail === 'function' && fail(res)
-    typeof complete === 'function' && complete(res)
-    return {
-      isPassed: false,
-      res
-    }
-  }
-  return {
-    isPassed: true,
-    res
-  }
-}
-
-export function validateGeolocationOptions (funcName, options: any): {
-  isPassed: boolean
-  res: any
-} {
-  // options must be an Object
-  const isObject = shouleBeObject(funcName, options)
-  if (!isObject.res) {
-    const res = { errMsg: isObject.msg }
-    console.error(res.errMsg)
-    return {
-      isPassed: false,
-      res
-    }
-  }
-  const { type, altitude, isHighAccuracy, highAccuracyExpireTime, fail, complete } = options
+  const { key, type, altitude, isHighAccuracy, highAccuracyExpireTime, fail, complete } = options
   const params = [{
+    value: key,
+    param: 'key',
+    correct: 'String'
+  }, {
     value: type,
     param: 'type',
     correct: 'String'
