@@ -378,7 +378,7 @@ export default class PagePicker extends Component {
     </tr>
     <tr>
       <td>onColumnChange</td>
-      <td><code>BaseEventOrigFunction&lt;onColumnChangeEvnetDetail&gt;</code></td>
+      <td><code>BaseEventOrigFunction&lt;onColumnChangeEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
       <td>列改变时触发</td>
