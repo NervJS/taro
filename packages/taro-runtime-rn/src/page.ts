@@ -140,10 +140,11 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       constructor (props: any) {
         super(props)
         const refreshStyle = globalAny?.__taroRefreshStyle ?? {}
+        const backgroundTextStyle = pageConfig.backgroundTextStyle || globalAny.__taroAppConfig?.appConfig?.window?.backgroundTextStyle || 'dark'
         this.state = {
           refreshing: false, // 刷新指示器
           appState: AppState.currentState,
-          textColor: refreshStyle.textColor || '#ffffff',
+          textColor: refreshStyle.textColor || (backgroundTextStyle === 'dark' ? '#000000' : '#ffffff'),
           backgroundColor: refreshStyle.backgroundColor || '#ffffff'
         }
         this.screenRef = React.createRef<Instance>()
