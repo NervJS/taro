@@ -1,8 +1,8 @@
-import { shouleBeObject, getParameterError } from '../utils'
+import { shouldBeObject, getParameterError } from '../utils'
 
 function setStorage (options) {
   // options must be an Object
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `setStorage${isObject.msg}` }
     console.error(res.errMsg)
@@ -56,7 +56,7 @@ function setStorageSync (key, data = '') {
 
 function getStorage (options) {
   // options must be an Object
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `getStorage${isObject.msg}` }
     console.error(res.errMsg)
@@ -149,7 +149,7 @@ function getStorageInfoSync () {
 
 function removeStorage (options) {
   // options must be an Object
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `removeStorage${isObject.msg}` }
     console.error(res.errMsg)

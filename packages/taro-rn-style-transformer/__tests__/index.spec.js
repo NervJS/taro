@@ -181,6 +181,17 @@ describe('style transform', () => {
 }`))
   })
 
+  it('.less tranform node_modules file import', async () => {
+    const css = await run(`
+      @import 'less/test/browser/css/global-vars/simple.css';
+    `, './__tests__/styles/a.less')
+    expect(css).toEqual(getWrapedCSS(`{
+  "test": {
+    "color": "red"
+  }
+}`))
+  })
+
   it('.less import source omit extension', async () => {
     const css = await run(`
       @import './b';

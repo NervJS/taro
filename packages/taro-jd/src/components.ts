@@ -10,5 +10,8 @@ export const components = {
   },
   Button: {
     bindGetPhoneNumber: ''
+  },
+  Map: {
+    bindRegionChange: ''
   }
 }

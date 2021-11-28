@@ -1,6 +1,6 @@
 import * as path from 'path'
 import { TaroPlatformBase } from '@tarojs/service'
-import { META_TYPE, fs } from '@tarojs/helper'
+import { META_TYPE, fs, chalk } from '@tarojs/helper'
 import { ConcatSource } from 'webpack-sources'
 import { Template } from './template'
 import { components } from './components'
@@ -149,7 +149,13 @@ export default class Harmony extends TaroPlatformBase {
       miniPlugin.pages.forEach(page => {
         delete assets[`${page.name}${configExt}`]
       })
-      delete assets[`app${configExt}`]
+
+      const appConfig = `app${configExt}`
+      // 修改 harmony Hap 的配置文件 config.json，主要是注入路由配置
+      const route = JSON.parse(assets[appConfig].source()).pages
+      modifyHarmonyRoute(route, config.harmony)
+      // 不需要生成 app.json
+      delete assets[appConfig]
 
       // 不需要生成 custom-wrapper
       delete assets[`custom-wrapper${scriptExt}`]
@@ -180,53 +186,82 @@ export default class Harmony extends TaroPlatformBase {
   modifyWebpackConfig () {
     this.ctx.modifyWebpackChain(({ chain }) => {
       chain.merge({
-        externals: {
-          '@system.app': 'commonjs @system.app',
-          '@system.router': 'commonjs @system.router',
-          '@ohos.data.storage': 'commonjs @ohos.data.storage',
-          '@system.network': 'commonjs @system.network',
-          '@ohos.deviceInfo': 'commonjs @ohos.deviceInfo',
-          '@system.device': 'commonjs @system.device',
-          '@ohos.display': 'commonjs @ohos.display',
-          '@ohos.i18n': 'commonjs @ohos.i18n',
-          '@system.brightness': 'commonjs @system.brightness',
-          '@ohos.telephony.call': 'commonjs @ohos.telephony.call',
-          '@ohos.pasteboard': 'commonjs @ohos.pasteboard',
-          '@system.prompt': 'commonjs @system.prompt',
-          '@hmscore/hms-jsb-account': 'commonjs @hmscore/hms-jsb-account'
-        }
+        externals: [
+          function (_context, request, callback) {
+            if (isHarmonyRequest(request)) {
+              return callback(null, 'commonjs ' + request)
+            }
+            callback()
+          }
+        ]
       })
     })
   }
 
-  modifyHostPackageDep (dest) {
+  async modifyHostPackageDep (dest) {
     const hmsDeps = {
       '@hmscore/hms-js-base': '^6.1.0-300',
       '@hmscore/hms-jsb-account': '^1.0.300'
     }
     const packageJsonFile = path.resolve(dest, '../../../../../package.json')
-    fs.readFile(packageJsonFile, function (err, data) {
-      if (err) {
-        return console.error(err)
-      }
-      let packageJson = data.toString()
-      packageJson = JSON.parse(packageJson)
+
+    const isExists = await fs.pathExists(packageJsonFile)
+    if (!isExists) return
+
+    const data = await fs.readFile(packageJsonFile)
+    let packageJson = data.toString()
+
+    packageJson = JSON.parse(packageJson)
+    // @ts-ignore
+    if (!packageJson.dependencies) {
       // @ts-ignore
-      if (!packageJson.dependencies) {
+      packageJson.dependencies = hmsDeps
+    } else {
+      for (const hmsDep in hmsDeps) {
         // @ts-ignore
-        packageJson.dependencies = hmsDeps
-      } else {
-        for (const hmsDep in hmsDeps) {
-          // @ts-ignore
-          packageJson.dependencies[hmsDep] = hmsDeps[hmsDep]
-        }
+        packageJson.dependencies[hmsDep] = hmsDeps[hmsDep]
       }
-      packageJson = JSON.stringify(packageJson)
-      fs.writeFile(packageJsonFile, packageJson, function (err) {
-        if (err) {
-          console.error(err)
-        }
-      })
-    })
+    }
+    packageJson = JSON.stringify(packageJson)
+
+    await fs.writeFile(packageJsonFile, packageJson)
   }
+}
+
+/**
+ * 引用的依赖是否 Harmony 全局注入的依赖，如果是则 Webpack 不需要处理，直接 external 掉
+ * @param request 引用的依赖
+ */
+function isHarmonyRequest (request: string): boolean {
+  const systemReg = /^@system\./
+  const ohosReg = /^@ohos\./
+  const hmscoreReg = /^@hmscore\//
+  if (systemReg.test(request) || ohosReg.test(request) || hmscoreReg.test(request)) {
+    return true
+  }
+  return false
+}
+
+function modifyHarmonyRoute (route, { projectPath, hapName, jsFAName }) {
+  const hapConfigPath = path.join(projectPath, hapName, 'src/main/config.json')
+  fs.readJson(hapConfigPath)
+    .then(config => {
+      config.module.js ||= []
+      const jsFAs = config.module.js
+      const target = jsFAs.find(item => item.name === jsFAName)
+      if (target) {
+        if (JSON.stringify(target.pages) === JSON.stringify(route)) return
+        target.pages = route
+      } else {
+        jsFAs.push({
+          pages: route,
+          name: jsFAName
+        })
+      }
+      return fs.writeJson(hapConfigPath, config, { spaces: 2 })
+    })
+    .catch(err => {
+      // eslint-disable-next-line no-console
+      console.log(chalk.red('设置鸿蒙 Hap 配置失败：', err))
+    })
 }

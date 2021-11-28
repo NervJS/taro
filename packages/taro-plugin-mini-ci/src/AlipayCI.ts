@@ -13,7 +13,7 @@ export default class AlipayCI extends BaseCI {
     const { appPath } = this.ctx.paths
     const { fs } = this.ctx.helper
     const { toolId, privateKeyPath: _privateKeyPath, proxy } = this.pluginOpts.alipay
-    const privateKeyPath = path.join(appPath, _privateKeyPath)
+    const privateKeyPath = path.isAbsolute(_privateKeyPath) ? _privateKeyPath : path.join(appPath, _privateKeyPath)
     if (!fs.pathExistsSync(privateKeyPath)) {
       throw new Error(`"alipay.privateKeyPath"选项配置的路径不存在,本次上传终止:${privateKeyPath}`)
     }

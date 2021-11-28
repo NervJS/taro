@@ -1,7 +1,7 @@
 import * as React from 'react'
 import AntDatePicker from '@ant-design/react-native/lib/date-picker'
 import { noop } from '../../utils'
-import { TimeProps } from './PropsType'
+import { TimeProps, TimeState } from './PropsType'
 import { TouchableWithoutFeedback } from 'react-native'
 
 function formatTimeStr(time = ''): Date {
@@ -13,7 +13,7 @@ function formatTimeStr(time = ''): Date {
   return now
 }
 
-export default class TimeSelector extends React.Component<TimeProps, any> {
+export default class TimeSelector extends React.Component<TimeProps, TimeState> {
   static defaultProps = {
     value: new Date(),
     start: '00:00',
@@ -22,7 +22,7 @@ export default class TimeSelector extends React.Component<TimeProps, any> {
 
   state: any = {
     pValue: null,
-    value: 0
+    value: new Date()
   }
 
   dismissByOk = false
@@ -52,9 +52,10 @@ export default class TimeSelector extends React.Component<TimeProps, any> {
     onChange({ detail: { value: `${hh}:${mm}` } })
   }
 
-  onValueChange = (vals: number[]): void => {
+  onValueChange = (vals: string[]): void => {
     const now = new Date()
-    now.setHours(vals[0], vals[1])
+    now.setHours(+vals[0], +vals[1])
+    console.log('11', this.state)
     this.setState({ value: now })
   }
 

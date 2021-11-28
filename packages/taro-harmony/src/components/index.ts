@@ -102,5 +102,19 @@ export const components = {
     vibrate: 'true',
     lunar: 'false',
     lunarswitch: 'false'
+  },
+  PickerView: {
+    mode: '',
+    range: '',
+    selected: '',
+    hours: '',
+    indicatorprefix: '',
+    indicatorsuffix: '',
+    containsecond: 'false',
+    vibrate: 'true',
+    lunar: 'false',
+    lunarswitch: 'false',
+    bindcolumnchange: '',
+    cn: ''
   }
 }
