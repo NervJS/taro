@@ -36,6 +36,7 @@
     "lodash": "^4.17.20",
     "metro": "^0.66.2",
     "metro-react-native-babel-transformer": "^0.66.2",
-    "metro-resolver": "^0.66.2"
+    "metro-resolver": "^0.66.2",
+    "react-native-svg-transformer": "^0.14.3"
   }
 }

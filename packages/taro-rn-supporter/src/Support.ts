@@ -1,5 +1,6 @@
 import { getProjectConfig } from './utils'
 import { handleFile, handleTaroFile, getReactNativeVersion, searchReactNativeModule } from './taroResolver'
+import { assetExts } from './defaults'
 interface Options{
   fromRunner: boolean // taro rn-runner内部调用
 }
@@ -34,7 +35,8 @@ export class Supporter {
   getResolver () {
     const handleEntryFile = this.fromRunner ? handleTaroFile : handleFile
     const resolver: any = {
-      sourceExts: ['ts', 'tsx', 'js', 'jsx', 'scss', 'sass', 'less', 'css', 'pcss', 'json', 'styl', 'cjs'],
+      assetExts: assetExts.filter(ext => ext !== 'svg'),
+      sourceExts: ['ts', 'tsx', 'js', 'jsx', 'scss', 'sass', 'less', 'css', 'pcss', 'json', 'styl', 'cjs', 'svg', 'svgx'],
       resolveRequest: handleEntryFile,
       resolverMainFields: ['react-native', 'browser', 'main']
     }

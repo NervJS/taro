@@ -25,6 +25,10 @@ const transform = ({ src, filename, options, plugins }) => {
       configOpt: { config: config }
     },
     {
+      test: /\.(svg|svgx)/,
+      transformer: 'react-native-svg-transformer'
+    },
+    {
       // TODO:处理引用的外部资源文件
       test: /\.(png|jpg|jpeg|bmp)/,
       transformer: ''
