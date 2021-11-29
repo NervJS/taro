@@ -15,16 +15,17 @@
     "sourceMap": true,
     "baseUrl": ".",
     "rootDir": ".",
-    "jsx": "react-jsx",<% if (framework === 'nerv') {%>
+    "jsx": "react-jsx",<% if (framework === 'preact') {%>
+    "skipLibCheck": true,<%}%><% if (framework === 'nerv') {%>
     "jsx": "react",
     "jsxFactory": "Nerv.createElement",<%}%>
     "allowJs": true,
     "resolveJsonModule": true,
     "typeRoots": [
-      "node_modules/@types",
-      "global.d.ts"
+      "node_modules/@types"
     ]
   },
+  "include": ["./src", "global.d.ts"],
   "exclude": [
     "node_modules",
     "dist"

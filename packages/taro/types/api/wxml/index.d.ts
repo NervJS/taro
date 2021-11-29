@@ -1,35 +1,6 @@
-declare namespace Taro {
-  /** 返回一个 SelectorQuery 对象实例。在自定义组件或包含自定义组件的页面中，应使用 `this.createSelectorQuery()` 来代替。
-   * @supported weapp, h5
-   * @example
-   * ```tsx
-   * const query = Taro.createSelectorQuery()
-   * query.select('#the-id').boundingClientRect()
-   * query.selectViewport().scrollOffset()
-   * query.exec(function(res){
-   *   res[0].top       // #the-id节点的上边界坐标
-   *   res[1].scrollTop // 显示区域的竖直滚动位置
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/wx.createSelectorQuery.html
-   */
-  function createSelectorQuery(): SelectorQuery
+import Taro from '../../index'
 
-  /** 创建并返回一个 IntersectionObserver 对象实例。在自定义组件或包含自定义组件的页面中，应使用 `this.createIntersectionObserver([options])` 来代替。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * const observer = Taro.createIntersectionObserver(this, { thresholds: [0], observeAll: true })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/wx.createSelectorQuery.html
-   */
-  function createIntersectionObserver(
-    /** 自定义组件实例 */
-    component: General.IAnyObject,
-    /** 选项 */
-    options?: createIntersectionObserver.Option,
-  ): IntersectionObserver
-
+declare module '../../index' {
   namespace createIntersectionObserver {
     /** 选项 */
     interface Option {
@@ -71,7 +42,7 @@ declare namespace Taro {
     /** 指定页面显示区域作为参照区域之一
      * @example
      * 下面的示例代码中，如果目标节点（用选择器 .target-class 指定）进入显示区域以下 100px 时，就会触发回调函数。
-     * 
+     *
      * ```tsx
      * Taro.createIntersectionObserver().relativeToViewport({bottom: 100}).observe('.target-class', (res) => {
      *   res.intersectionRatio // 相交区域占目标节点的布局区域的比例
@@ -269,7 +240,7 @@ declare namespace Taro {
      */
     in(
         /** 自定义组件实例 */
-        component: General.IAnyObject,
+        component: TaroGeneral.IAnyObject,
     ): SelectorQuery
   }
 
@@ -404,7 +375,7 @@ declare namespace Taro {
       /** 节点的下边界坐标 */
       bottom: number
       /** 节点的 dataset */
-      dataset: General.IAnyObject
+      dataset: TaroGeneral.IAnyObject
       /** 节点的高度 */
       height: number
       /** 节点的 ID */
@@ -422,7 +393,7 @@ declare namespace Taro {
     type ContextCallback = (result: ContextCallbackResult) => void
     interface ContextCallbackResult {
       /** 节点对应的 Context 对象 */
-      context: General.IAnyObject
+      context: TaroGeneral.IAnyObject
     }
 
     interface Fields {
@@ -450,20 +421,20 @@ declare namespace Taro {
     /** 回调函数 */
     type FieldsCallback = (
       /** 节点的相关信息 */
-      res: General.IAnyObject,
+      res: TaroGeneral.IAnyObject,
     ) => void
     /** 回调函数，在执行 `SelectorQuery.exec` 方法后，返回节点信息。 */
     type NodeCallback = (result: NodeCallbackResult) => void
     /** 回调函数 */
     interface NodeCallbackResult {
       /** 节点对应的 Node 实例 */
-      node: General.IAnyObject
+      node: TaroGeneral.IAnyObject
     }
     /** 回调函数，在执行 `SelectorQuery.exec` 方法后，节点信息会在 `callback` 中返回。 */
     type ScrollOffsetCallback = (result: ScrollOffsetCallbackResult) => void
     interface ScrollOffsetCallbackResult {
       /** 节点的 dataset */
-      dataset: General.IAnyObject
+      dataset: TaroGeneral.IAnyObject
       /** 节点的 ID */
       id: string
       /** 节点的水平滚动位置 */
@@ -471,5 +442,38 @@ declare namespace Taro {
       /** 节点的竖直滚动位置 */
       scrollTop: number
     }
+  }
+
+  interface TaroStatic {
+    /** 返回一个 SelectorQuery 对象实例。在自定义组件或包含自定义组件的页面中，应使用 `this.createSelectorQuery()` 来代替。
+     * @supported weapp, h5
+     * @example
+     * ```tsx
+     * const query = Taro.createSelectorQuery()
+     * query.select('#the-id').boundingClientRect()
+     * query.selectViewport().scrollOffset()
+     * query.exec(function(res){
+     *   res[0].top       // #the-id节点的上边界坐标
+     *   res[1].scrollTop // 显示区域的竖直滚动位置
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/wx.createSelectorQuery.html
+     */
+    createSelectorQuery(): SelectorQuery
+
+    /** 创建并返回一个 IntersectionObserver 对象实例。在自定义组件或包含自定义组件的页面中，应使用 `this.createIntersectionObserver([options])` 来代替。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * const observer = Taro.createIntersectionObserver(this, { thresholds: [0], observeAll: true })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/wx.createSelectorQuery.html
+     */
+    createIntersectionObserver(
+      /** 自定义组件实例 */
+      component: TaroGeneral.IAnyObject,
+      /** 选项 */
+      options?: createIntersectionObserver.Option,
+    ): IntersectionObserver
   }
 }

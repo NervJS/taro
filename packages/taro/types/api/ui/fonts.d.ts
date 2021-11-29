@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace loadFontFace {
     interface Option {
       /** 是否全局生效
@@ -52,24 +54,27 @@ declare namespace Taro {
       status: string
     }
   }
-  /** 动态加载网络字体。文件地址需为下载类型。iOS 仅支持 https 格式文件地址。
-   *
-   * 注意：
-   * 1. 字体文件返回的 contet-type 参考 [font](https://www.iana.org/assignments/media-types/media-types.xhtml#font)，格式不正确时会解析失败。
-   * 2. 字体链接必须是https（ios不支持http)
-   * 3. 字体链接必须是同源下的，或开启了cors支持，小程序的域名是`servicewechat.com`
-   * 4. canvas等原生组件不支持使用接口添加的字体
-   * 5. 工具里提示 Faild to load font可以忽略
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.loadFontFace({
-   *   family: 'Bitstream Vera Serif Bold',
-   *   source: 'url("https://sungd.github.io/Pacifico.ttf")',
-   *   success: console.log
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/font/wx.loadFontFace.html
-   */
-  function loadFontFace(option: loadFontFace.Option): void
+
+  interface TaroStatic {
+    /** 动态加载网络字体。文件地址需为下载类型。iOS 仅支持 https 格式文件地址。
+     *
+     * 注意：
+     * 1. 字体文件返回的 contet-type 参考 [font](https://www.iana.org/assignments/media-types/media-types.xhtml#font)，格式不正确时会解析失败。
+     * 2. 字体链接必须是https（ios不支持http)
+     * 3. 字体链接必须是同源下的，或开启了cors支持，小程序的域名是`servicewechat.com`
+     * 4. canvas等原生组件不支持使用接口添加的字体
+     * 5. 工具里提示 Faild to load font可以忽略
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.loadFontFace({
+     *   family: 'Bitstream Vera Serif Bold',
+     *   source: 'url("https://sungd.github.io/Pacifico.ttf")',
+     *   success: console.log
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/font/wx.loadFontFace.html
+     */
+    loadFontFace(option: loadFontFace.Option): void
+  }
 }
