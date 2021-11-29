@@ -1,17 +1,7 @@
 {
-  "files.autoSave": "off",
   "eslint.validate": [
     "javascript",
     "javascriptreact",
-    "vue-html",
-    {
-      "language": "html",
-      "autoFix": true
-    },
-    {
-      "language": "vue",
-      "autoFix": true
-    },
     {
       "language": "typescript",
       "autoFix": true
@@ -21,10 +11,6 @@
       "autoFix": true
     }
   ],
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  },
-  "eslint.run": "onSave",
   "search.exclude": {
     "**/.git": true,
     "**/node_modules": true,

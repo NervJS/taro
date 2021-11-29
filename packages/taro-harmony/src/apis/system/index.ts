@@ -1,7 +1,7 @@
-import type Taro from '@tarojs/taro'
 import { isNumber, isString, isUndefined, isNull } from '@tarojs/shared'
 import { unsupport, callAsyncSuccess, callAsyncFail } from '../utils'
-import { IAsyncParams } from '../utils/types'
+
+import type Taro from '@tarojs/taro'
 
 // 网络状态，从API Version 7 开始，该接口不再维护，推荐使用新接口'@ohos.telephony.observer'
 // 但是新接口 @ohos.telephony.observer 没有network.getType。而且网络状态枚举值不清楚
@@ -36,14 +36,8 @@ type MakePhoneCall = typeof Taro.makePhoneCall;
 type SetClipboardData = typeof Taro.setClipboardData;
 type GetClipboardData = typeof Taro.getClipboardData;
 
-interface IOptionsShape extends IAsyncParams {
-  success?: (any) => any;
-  fail?: (any) => any;
-  complete?: (any) => any;
-}
-
 /*  Obtains the network type  */
-const getNetworkType: GetNetworkType = function (options: IOptionsShape = {}) {
+const getNetworkType: GetNetworkType = function (options) {
   let res: any = {}
   return new Promise((resolve, reject) => {
     network.getType({
@@ -67,31 +61,28 @@ const getNetworkType: GetNetworkType = function (options: IOptionsShape = {}) {
 }
 
 const onNetworkStatusChange: OnNetworkStatusChange = function (cb) {
-  let res: any = {}
   network.subscribe({
     success: function (data) {
       // metered返回值，boolean类型，表示是否按照流量计费
       // type返回值，string类型，表示网络类型，可能的值为2g，3g，4g，5g，wifi，none
-      res.networkType = data.type
-      if (data.type === 'none') {
-        res.isConnected = false
-      } else {
-        res.isConnected = true
+      const res = {
+        networkType: data.type,
+        isConnected: data.type !== 'none'
       }
       cb?.(res)
     },
     fail: function (data, code) {
-      res = {
-        errMsg: `onNetworkStatusChange:fail ${data || ''}`,
-        code: code
-      }
+      const res: any = {}
+      res.errMsg = `onNetworkStatusChange:fail ${data || ''}`
+      res.code = code
       cb?.(res)
     }
   })
 }
 
-const offNetworkStatusChange: OffNetworkStatusChange = function () {
+const offNetworkStatusChange: OffNetworkStatusChange = function (callback) {
   network.unsubscribe()
+  callback?.()
 }
 
 /* 同步版本 */
@@ -130,7 +121,7 @@ const getSystemInfoSync: GetSystemInfoSync = function () {
   return res
 }
 /* 异步版本 */
-const getSystemInfo: GetSystemInfo = function (options: IOptionsShape = {}) {
+const getSystemInfo: GetSystemInfo = function (options) {
   let res = {}
   return new Promise((resolve, reject) => {
     try {
@@ -147,7 +138,7 @@ const getSystemInfo: GetSystemInfo = function (options: IOptionsShape = {}) {
 }
 
 /* 获得屏幕亮度 */
-const getScreenBrightness: GetScreenBrightness = function (options: IOptionsShape = {}) {
+const getScreenBrightness: GetScreenBrightness = function (options) {
   let res = {}
   return new Promise((resolve, reject) => {
     brightness.getValue({
@@ -268,7 +259,7 @@ const setClipboardData: SetClipboardData = function (options) {
   })
 }
 
-const getClipboardData:GetClipboardData = function (options:IOptionsShape = {}) {
+const getClipboardData:GetClipboardData = function (options) {
   return new Promise((resolve, reject) => {
     let res = {}
     const systemPasteboard = pasteboard.getSystemPasteboard()
