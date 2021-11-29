@@ -29,22 +29,6 @@ export function unsupport (str: string) {
   }
 }
 
-// export function getParameterError ({
-//   name = '',
-//   param,
-//   correct,
-//   wrong
-// }: {
-//   name?: string,
-//   param?: string,
-//   correct: string,
-//   wrong: any
-// }): string {
-//   const parameter = param ? `parameter.${param}` : 'parameter'
-//   const errorType = upperCaseFirstLetter(wrong === null ? 'Null' : typeof wrong)
-//   return `${name}:fail parameter error: ${parameter} should be ${correct} instead of ${errorType}`
-// }
-
 export function upperCaseFirstLetter (string: string): string {
   if (typeof string !== 'string') return string
   string = string.replace(/^./, match => match.toUpperCase())
