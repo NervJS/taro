@@ -13,7 +13,7 @@
 // ❌ wx.chooseLocation 地图相关
 // ❌ wx.stopLocationUpdate
 // ❌ wx.startLocationUpdate
-import type Taro from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 import { validateOptions, getParameterError, callAsyncSuccess, callAsyncFail } from '../utils'
 const geolocation = require('@ohos.geolocation')
 
@@ -72,7 +72,14 @@ function formatLocation (location: LocationSuccessDataOHOS) {
 }
 
 export const getLocation: GetLocation = function (options = {}) {
-  const { res, isPassed } = validateOptions('getLocation', options)
+  const { type, altitude, isHighAccuracy, highAccuracyExpireTime } = options
+  const voOtions = {
+    funcName: 'getLocation',
+    options,
+    rParamNames: ['type', 'altitude', 'isHighAccuracy', 'highAccuracyExpireTime'],
+    rTypes: ['string', 'boolean', 'boolean', 'number']
+  }
+  const { res, isPassed } = validateOptions(voOtions)
   if (!isPassed) {
     return Promise.reject(res)
   }
@@ -83,7 +90,6 @@ export const getLocation: GetLocation = function (options = {}) {
      * wx 有 type, altitude, isHighAccuracy, highAccuracyExpireTime
      * 二者参数不一致
      */
-    const { type, altitude, isHighAccuracy, highAccuracyExpireTime } = options
     const params: IGetOHOSGeolocationParams = {
       type,
       altitude,
@@ -108,9 +114,10 @@ export const onLocationChange: OnLocationChange = function (callback) {
     if (typeof callback !== 'function') {
       const res = {
         errMsg: getParameterError({
-          name: 'onLocationChange',
-          correct: 'Function',
-          wrong: callback
+          funcName: 'onLocationChange',
+          pName: 'callback',
+          pType: 'Function',
+          pWrongType: typeof callback
         })
       }
       return reject(res)
@@ -134,9 +141,10 @@ export const offLocationChange: OffLocationChange = function (callback) {
     if (typeof callback !== 'function') {
       const res = {
         errMsg: getParameterError({
-          name: 'offLocationChange',
-          correct: 'Function',
-          wrong: callback
+          funcName: 'offLocationChange',
+          pName: 'callback',
+          pType: 'Function',
+          pWrongType: typeof callback
         })
       }
       return reject(res)

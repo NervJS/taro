@@ -1,7 +1,20 @@
 import { IAsyncParams } from './types'
-
+interface IVRPRes {
+  isPassVRP: boolean
+  pName: string
+  pType: string
+  pWrongType: string
+}
 interface Current {
   taro: Record<string, any>
+}
+interface IVROptions {
+  options: any
+  rTypes: Array<string>
+  rParamNames: Array<string>
+}
+interface IVOOptions extends IVROptions {
+  funcName: string
 }
 
 export const current: Current = {
@@ -16,21 +29,21 @@ export function unsupport (str: string) {
   }
 }
 
-export function getParameterError ({
-  name = '',
-  param,
-  correct,
-  wrong
-}: {
-  name?: string,
-  param?: string,
-  correct: string,
-  wrong: any
-}): string {
-  const parameter = param ? `parameter.${param}` : 'parameter'
-  const errorType = upperCaseFirstLetter(wrong === null ? 'Null' : typeof wrong)
-  return `${name}:fail parameter error: ${parameter} should be ${correct} instead of ${errorType}`
-}
+// export function getParameterError ({
+//   name = '',
+//   param,
+//   correct,
+//   wrong
+// }: {
+//   name?: string,
+//   param?: string,
+//   correct: string,
+//   wrong: any
+// }): string {
+//   const parameter = param ? `parameter.${param}` : 'parameter'
+//   const errorType = upperCaseFirstLetter(wrong === null ? 'Null' : typeof wrong)
+//   return `${name}:fail parameter error: ${parameter} should be ${correct} instead of ${errorType}`
+// }
 
 export function upperCaseFirstLetter (string: string): string {
   if (typeof string !== 'string') return string
@@ -38,7 +51,70 @@ export function upperCaseFirstLetter (string: string): string {
   return string
 }
 
-export function shouleBeObject (name: string, target: any): {
+export function callAsyncSuccess (resolve, res, options?: IAsyncParams) {
+  options?.success?.(res)
+  options?.complete?.(res)
+  resolve(res)
+}
+
+export function callAsyncFail (reject, res, options?: IAsyncParams) {
+  options?.fail?.(res)
+  options?.complete?.(res)
+  reject(res)
+}
+
+export function getParameterError ({
+  funcName = '',
+  pName,
+  pType,
+  pWrongType
+}: {
+  funcName?: string,
+  pName?: string,
+  pType: string,
+  pWrongType: string
+}): string {
+  let msg = ''
+  if (pName && pType && pWrongType) {
+    const parameter = pName ? `parameter.${pName}` : 'parameter'
+    const errorType = upperCaseFirstLetter(pWrongType === null ? 'Null' : pWrongType)
+    msg = `${funcName}:fail parameter error: ${parameter} should be ${upperCaseFirstLetter(pType)} instead of ${errorType}`
+  } else {
+    msg = `${funcName}:fail parameter error: the name, expecting type and wrong type must be provided.`
+  }
+
+  return msg
+}
+
+function validateRequiredParam (vrOptions: IVROptions): IVRPRes {
+  const { options, rParamNames, rTypes } = vrOptions
+  const m: number = rTypes.length
+  const n: number = rParamNames.length
+  const resVRP: IVRPRes = {
+    isPassVRP: true,
+    pName: '',
+    pType: '',
+    pWrongType: ''
+  }
+  if (m !== n) {
+    resVRP.isPassVRP = false
+    return resVRP
+  }
+  for (let i = 0; i < m; i++) {
+    const tempType: string = typeof options[rParamNames[i]]
+    // options[rParamNames[i]] 值存在，再去判断类型是否正确
+    if (options[rParamNames[i]] && tempType !== rTypes[i]) {
+      resVRP.isPassVRP = false
+      resVRP.pName = rParamNames[i]
+      resVRP.pType = rTypes[i]
+      resVRP.pWrongType = tempType
+      return resVRP
+    }
+  }
+  return resVRP
+}
+
+export function shouleBeObject (funcName: string, target: any, pName?: string): {
   res: boolean,
   msg?: string
 } {
@@ -46,55 +122,17 @@ export function shouleBeObject (name: string, target: any): {
   return {
     res: false,
     msg: getParameterError({
-      name,
-      correct: 'Object',
-      wrong: target
+      funcName,
+      pName,
+      pType: 'Object',
+      pWrongType: typeof target
     })
   }
 }
 
-// export function validateOptions (funcName, options: any): {
-//   isPassed: boolean
-//   res: any
-// } {
-//   // options must be an Object
-//   const isObject = shouleBeObject(funcName, options)
-//   if (!isObject.res) {
-//     const res = { errMsg: isObject.msg }
-//     console.error(res.errMsg)
-//     return {
-//       isPassed: false,
-//       res
-//     }
-//   }
-//   const { key, fail, complete } = options
-//   const res: any = { errMsg: `${funcName}:ok` }
-//   if (key && typeof key !== 'string') {
-//     res.errMsg = getParameterError({
-//       name: funcName,
-//       param: 'key',
-//       correct: 'String',
-//       wrong: key
-//     })
-//     console.error(res.errMsg)
-//     typeof fail === 'function' && fail(res)
-//     typeof complete === 'function' && complete(res)
-//     return {
-//       isPassed: false,
-//       res
-//     }
-//   }
-//   return {
-//     isPassed: true,
-//     res
-//   }
-// }
-
-export function validateOptions (funcName, options: any): {
-  isPassed: boolean
-  res: any
-} {
-  // options must be an Object
+export function validateOptions (voOptions: IVOOptions) {
+  const { funcName, options, rParamNames, rTypes } = voOptions
+  // 判断参数是否为 Object
   const isObject = shouleBeObject(funcName, options)
   if (!isObject.res) {
     const res = { errMsg: isObject.msg }
@@ -104,38 +142,26 @@ export function validateOptions (funcName, options: any): {
       res
     }
   }
-  const { key, type, altitude, isHighAccuracy, highAccuracyExpireTime, fail, complete } = options
-  const params = [{
-    value: key,
-    param: 'key',
-    correct: 'String'
-  }, {
-    value: type,
-    param: 'type',
-    correct: 'String'
-  }, {
-    value: altitude,
-    param: 'altitude',
-    correct: 'Boolean'
-  }, {
-    value: isHighAccuracy,
-    param: 'isHighAccuracy',
-    correct: 'Boolean'
-  }, {
-    value: highAccuracyExpireTime,
-    param: 'highAccuracyExpireTime',
-    correct: 'number'
-  }]
+
   const res: any = { errMsg: `${funcName}:ok` }
-  for (let i = 0; i < params.length; i++) {
-    if (params[i].value && typeof params[i].value !== params[i].correct) {
+
+  // 判断 api 个性参数类型是否正确
+  if (rTypes && rParamNames && rTypes.length > 0 && rParamNames.length > 0) {
+    const vrOptions: IVROptions = {
+      options,
+      rTypes,
+      rParamNames
+    }
+    const resVRP: IVRPRes = validateRequiredParam(vrOptions)
+    const { pName, pType, pWrongType, isPassVRP } = resVRP
+    if (!isPassVRP) {
+      const { fail, complete } = options
       res.errMsg = getParameterError({
-        name: funcName,
-        param: params[i].param,
-        correct: params[i].correct,
-        wrong: params[i].value
+        funcName: funcName,
+        pName: pName,
+        pType: pType,
+        pWrongType: pWrongType
       })
-      console.error(res.errMsg)
       typeof fail === 'function' && fail(res)
       typeof complete === 'function' && complete(res)
       return {
@@ -148,16 +174,4 @@ export function validateOptions (funcName, options: any): {
     isPassed: true,
     res
   }
-}
-
-export function callAsyncSuccess (resolve, res, options?: IAsyncParams) {
-  options?.success?.(res)
-  options?.complete?.(res)
-  resolve && resolve(res)
-}
-
-export function callAsyncFail (reject, res, options?: IAsyncParams) {
-  options?.fail?.(res)
-  options?.complete?.(res)
-  reject && reject(res)
 }
