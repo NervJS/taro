@@ -16,6 +16,7 @@
 
 import * as React from 'react'
 import { Image, StyleSheet, ImageSourcePropType, LayoutChangeEvent, ImageResolvedAssetSource } from 'react-native'
+import { SvgCssUri } from 'react-native-svg'
 import { noop, omit } from '../../utils'
 import ClickableSimplified from '../ClickableSimplified'
 import { ImageProps, ImageState, ResizeModeMap, ResizeMode } from './PropsType'
@@ -134,6 +135,17 @@ export class _Image extends React.Component<ImageProps, ImageState> {
     const { style, src, mode = 'scaleToFill' } = this.props
 
     const flattenStyle = StyleSheet.flatten(style) || {}
+
+    // remote svg image support
+    const remoteSvgReg = /(https?:\/\/.*\.(?:svg|svgx))/i
+    if (typeof src === 'string' && remoteSvgReg.test(src)) {
+      return (
+        <SvgCssUri uri={src}
+          width={flattenStyle.width || 300}
+          height={flattenStyle.height || 225}
+        />
+      )
+    }
 
     // The parameter passed to require mpxTransformust be a string literal
     const source: ImageSourcePropType = typeof src === 'string' ? { uri: src } : src
