@@ -189,7 +189,7 @@ ${elements}
       <container i="{{$item}}"></container>
     </block>
   </div>
-  <tabbar if="{{isShowTaroTabBar}}" data="{{taroTabBar}}" selected="{{selected}}"></tabbar>
+  <tabbar if="{{isShowTaroTabBar}}" tabbar-data="{{taroTabBar}}" selected="{{selected}}"></tabbar>
 </div>
 `
 

@@ -1,6 +1,6 @@
 import * as path from 'path'
 import { TaroPlatformBase } from '@tarojs/service'
-import { META_TYPE, fs } from '@tarojs/helper'
+import { META_TYPE, fs, chalk } from '@tarojs/helper'
 import { ConcatSource } from 'webpack-sources'
 import { Template } from './template'
 import { components } from './components'
@@ -149,7 +149,13 @@ export default class Harmony extends TaroPlatformBase {
       miniPlugin.pages.forEach(page => {
         delete assets[`${page.name}${configExt}`]
       })
-      delete assets[`app${configExt}`]
+
+      const appConfig = `app${configExt}`
+      // 修改 harmony Hap 的配置文件 config.json，主要是注入路由配置
+      const route = JSON.parse(assets[appConfig].source()).pages
+      modifyHarmonyRoute(route, config.harmony)
+      // 不需要生成 app.json
+      delete assets[appConfig]
 
       // 不需要生成 custom-wrapper
       delete assets[`custom-wrapper${scriptExt}`]
@@ -234,4 +240,28 @@ function isHarmonyRequest (request: string): boolean {
     return true
   }
   return false
+}
+
+function modifyHarmonyRoute (route, { projectPath, hapName, jsFAName }) {
+  const hapConfigPath = path.join(projectPath, hapName, 'src/main/config.json')
+  fs.readJson(hapConfigPath)
+    .then(config => {
+      config.module.js ||= []
+      const jsFAs = config.module.js
+      const target = jsFAs.find(item => item.name === jsFAName)
+      if (target) {
+        if (JSON.stringify(target.pages) === JSON.stringify(route)) return
+        target.pages = route
+      } else {
+        jsFAs.push({
+          pages: route,
+          name: jsFAName
+        })
+      }
+      return fs.writeJson(hapConfigPath, config, { spaces: 2 })
+    })
+    .catch(err => {
+      // eslint-disable-next-line no-console
+      console.log(chalk.red('设置鸿蒙 Hap 配置失败：', err))
+    })
 }
