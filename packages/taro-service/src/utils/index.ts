@@ -9,10 +9,8 @@ import { PluginItem } from '@tarojs/taro/types/compile'
 import { PluginType } from './constants'
 import { IPluginsObject, IPlugin } from './types'
 
-export const isNpmPkg: (name: string) => boolean = name => !(/^(\.|\/)/.test(name))
-
 export function getPluginPath (pluginPath: string) {
-  if (isNpmPkg(pluginPath) || path.isAbsolute(pluginPath)) return pluginPath
+  if (path.isAbsolute(pluginPath)) return pluginPath
   throw new Error('plugin 和 preset 配置必须为绝对路径或者包名')
 }
 

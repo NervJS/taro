@@ -35,7 +35,6 @@ declare interface helper {
     default: createDebug.Debug;
   };
   normalizePath(path: string): string;
-  isNpmPkg(name: string): boolean;
   isQuickAppPkg(name: string): boolean;
   isAliasPath(name: string, pathAlias?: object): boolean;
   replaceAliasPath(filePath: string, name: string, pathAlias?: object): string;

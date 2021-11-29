@@ -29,13 +29,6 @@ export function normalizePath (path: string) {
 
 export const isNodeModule = (filename: string) => NODE_MODULES_REG.test(filename)
 
-export function isNpmPkg (name: string): boolean {
-  if (/^(\.|\/)/.test(name)) {
-    return false
-  }
-  return true
-}
-
 export function isQuickAppPkg (name: string): boolean {
   return /^@(system|service)\.[a-zA-Z]{1,}/.test(name)
 }

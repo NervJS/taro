@@ -1,7 +1,6 @@
 import { processTypeEnum } from './constants';
 export declare function normalizePath(path: string): string;
 export declare const isNodeModule: (filename: string) => boolean;
-export declare function isNpmPkg(name: string): boolean;
 export declare function isQuickAppPkg(name: string): boolean;
 export declare function isAliasPath(name: string, pathAlias?: object): boolean;
 export declare function replaceAliasPath(filePath: string, name: string, pathAlias?: object): string;

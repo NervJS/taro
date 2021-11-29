@@ -6,7 +6,7 @@ import * as htmlTransform from 'postcss-html-transform'
 import { sync as resolveSync } from 'resolve'
 import * as url from 'postcss-url'
 import { IPostcssOption } from '@tarojs/taro/types/compile'
-import { isNpmPkg, recursiveMerge } from '@tarojs/helper'
+import { recursiveMerge } from '@tarojs/helper'
 
 const defaultAutoprefixerOption = {
   enable: true,
@@ -72,7 +72,7 @@ export const getPostcssPlugins = function (appPath: string, {
     if (optionsWithDefaults.indexOf(pluginName) > -1) return
     if (!pluginOption || !pluginOption.enable) return
 
-    if (!isNpmPkg(pluginName)) { // local plugin
+    if (!path.isAbsolute(pluginName)) { // local plugin
       pluginName = path.join(appPath, pluginName)
     }
 
