@@ -149,5 +149,10 @@ export const components = {
   },
   OpenData: {
     type: ''
+  },
+  Login: {
+    'button-class': '',
+    bindGetPhoneNumber: '',
+    bindLoadError: ''
   }
 }

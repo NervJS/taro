@@ -172,22 +172,66 @@ export default class Harmony extends TaroPlatformBase {
         const dest = path.join(compsDestDir, name)
         fs.copy(src, dest)
       })
+
+      this.modifyHostPackageDep(dest)
     })
   }
 
   modifyWebpackConfig () {
     this.ctx.modifyWebpackChain(({ chain }) => {
       chain.merge({
-        externals: {
-          '@system.app': 'commonjs @system.app',
-          '@system.router': 'commonjs @system.router',
-          '@ohos.data.storage': 'commonjs @ohos.data.storage',
-          '@ohos.net.http': 'commonjs @ohos.net.http',
-          '@ohos.request': 'commonjs @ohos.request',
-          '@ohos.net.webSocket': 'commonjs @ohos.net.webSocket',
-          '@system.prompt': 'commonjs @system.prompt'
-        }
+        externals: [
+          function (_context, request, callback) {
+            if (isHarmonyRequest(request)) {
+              return callback(null, 'commonjs ' + request)
+            }
+            callback()
+          }
+        ]
       })
     })
   }
+
+  async modifyHostPackageDep (dest) {
+    const hmsDeps = {
+      '@hmscore/hms-js-base': '^6.1.0-300',
+      '@hmscore/hms-jsb-account': '^1.0.300'
+    }
+    const packageJsonFile = path.resolve(dest, '../../../../../package.json')
+
+    const isExists = await fs.pathExists(packageJsonFile)
+    if (!isExists) return
+
+    const data = await fs.readFile(packageJsonFile)
+    let packageJson = data.toString()
+
+    packageJson = JSON.parse(packageJson)
+    // @ts-ignore
+    if (!packageJson.dependencies) {
+      // @ts-ignore
+      packageJson.dependencies = hmsDeps
+    } else {
+      for (const hmsDep in hmsDeps) {
+        // @ts-ignore
+        packageJson.dependencies[hmsDep] = hmsDeps[hmsDep]
+      }
+    }
+    packageJson = JSON.stringify(packageJson)
+
+    await fs.writeFile(packageJsonFile, packageJson)
+  }
+}
+
+/**
+ * 引用的依赖是否 Harmony 全局注入的依赖，如果是则 Webpack 不需要处理，直接 external 掉
+ * @param request 引用的依赖
+ */
+function isHarmonyRequest (request: string): boolean {
+  const systemReg = /^@system\./
+  const ohosReg = /^@ohos\./
+  const hmscoreReg = /^@hmscore\//
+  if (systemReg.test(request) || ohosReg.test(request) || hmscoreReg.test(request)) {
+    return true
+  }
+  return false
 }

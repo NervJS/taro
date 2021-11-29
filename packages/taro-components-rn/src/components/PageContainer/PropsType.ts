@@ -1,6 +1,6 @@
 import { StyleProp, ViewStyle } from 'react-native'
 
-export interface PageContainerProps { 
+export interface PageContainerProps {
     show?: boolean,
     duration?: number,
     zIndex?: number,

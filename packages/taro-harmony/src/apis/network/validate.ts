@@ -1,5 +1,4 @@
 import { upperCaseFirstLetter } from '../utils'
-import { General } from '@tarojs/taro/types'
 
 export function shouleBeObject (funcName: string, target: any, pName?: string): {
   res: boolean,
@@ -72,7 +71,7 @@ function validateRequiredParam (rParams: Array<any>, rTypes: Array<string>, rPar
   return resVRP
 }
 
-function validateParams (funcName: string, params: General.IAnyObject, rParams?: Array<any>, rTypes?: Array<string>, rParamNames?: Array<string>) {
+function validateOptions (funcName: string, params: any, rParams?: Array<any>, rTypes?: Array<string>, rParamNames?: Array<string>) {
   // 判断参数是否为 Object
   const isObject = shouleBeObject(funcName, params)
   if (!isObject.res) {
@@ -84,7 +83,7 @@ function validateParams (funcName: string, params: General.IAnyObject, rParams?:
     }
   }
 
-  const res:General.IAnyObject = { errMsg: `${funcName}:ok` }
+  const res = { errMsg: `${funcName}:ok` }
 
   // 判断 api 个性参数类型是否正确
   if (rParams && rTypes && rParamNames) {
@@ -113,5 +112,5 @@ function validateParams (funcName: string, params: General.IAnyObject, rParams?:
 }
 
 export {
-  validateParams
+  validateOptions
 }

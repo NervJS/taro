@@ -685,7 +685,7 @@ require(\\"./taro\\");
         var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
         var apis = new Set(!config.isOnlyPromisify ? Object.keys(global).filter((function(api) {
             return preserved.indexOf(api) === -1;
-        })) : new Set(patchNeedPromiseApis));
+        })) : patchNeedPromiseApis);
         if (config.modifyApis) {
             config.modifyApis(apis);
         }
@@ -1506,7 +1506,7 @@ require(\\"./taro\\");
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     var _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
-    var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\" ]);
+    var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\" ]);
     function initNativeApi(taro) {
         Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(taro, wx, {
             needPromiseApis: needPromiseApis,
@@ -1538,6 +1538,8 @@ require(\\"./taro\\");
             subkey: _empty,
             rotate: _zero,
             skew: _zero,
+            \\"max-scale\\": \\"20\\",
+            \\"min-scale\\": \\"3\\",
             \\"enable-3D\\": _false,
             \\"show-compass\\": _false,
             \\"show-scale\\": _false,
@@ -5014,7 +5016,7 @@ require(\\"./taro\\");
         var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
         var apis = new Set(!config.isOnlyPromisify ? Object.keys(global).filter((function(api) {
             return preserved.indexOf(api) === -1;
-        })) : new Set(patchNeedPromiseApis));
+        })) : patchNeedPromiseApis);
         if (config.modifyApis) {
             config.modifyApis(apis);
         }
@@ -5835,7 +5837,7 @@ require(\\"./taro\\");
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     var _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
-    var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\" ]);
+    var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\" ]);
     function initNativeApi(taro) {
         Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(taro, wx, {
             needPromiseApis: needPromiseApis,
@@ -5867,6 +5869,8 @@ require(\\"./taro\\");
             subkey: _empty,
             rotate: _zero,
             skew: _zero,
+            \\"max-scale\\": \\"20\\",
+            \\"min-scale\\": \\"3\\",
             \\"enable-3D\\": _false,
             \\"show-compass\\": _false,
             \\"show-scale\\": _false,
@@ -9343,7 +9347,7 @@ require(\\"./taro\\");
         var preserved = [ \\"getEnv\\", \\"interceptors\\", \\"Current\\", \\"getCurrentInstance\\", \\"options\\", \\"nextTick\\", \\"eventCenter\\", \\"Events\\", \\"preload\\", \\"webpackJsonp\\" ];
         var apis = new Set(!config.isOnlyPromisify ? Object.keys(global).filter((function(api) {
             return preserved.indexOf(api) === -1;
-        })) : new Set(patchNeedPromiseApis));
+        })) : patchNeedPromiseApis);
         if (config.modifyApis) {
             config.modifyApis(apis);
         }
@@ -10164,7 +10168,7 @@ require(\\"./taro\\");
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     var _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
-    var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\" ]);
+    var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\" ]);
     function initNativeApi(taro) {
         Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(taro, wx, {
             needPromiseApis: needPromiseApis,
@@ -10196,6 +10200,8 @@ require(\\"./taro\\");
             subkey: _empty,
             rotate: _zero,
             skew: _zero,
+            \\"max-scale\\": \\"20\\",
+            \\"min-scale\\": \\"3\\",
             \\"enable-3D\\": _false,
             \\"show-compass\\": _false,
             \\"show-scale\\": _false,
