@@ -4,9 +4,9 @@
  * 1. 华为账号场景介绍文档 @see https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/harmonyos-js-login-0000001151310900
  * 2. 华为账号API参考 @see https://developer.huawei.com/consumer/cn/doc/development/HMSCore-References/harmonyos-js-overview-0000001063532145
  */
-
+import { isFunction } from '@tarojs/shared'
 import { IAsyncParams } from '../utils/types'
-import { unsupport, validateOptions, callAsyncSuccess, callAsyncFail } from '../utils'
+import { unsupport, callAsyncSuccess, callAsyncFail } from '../utils'
 
 const hmsJSAccount = require('@hmscore/hms-jsb-account')
 
@@ -15,21 +15,23 @@ const hmsJSAccount = require('@hmscore/hms-jsb-account')
  * @param options
  */
 const login = (options) => {
-  const { res } = validateOptions('login', options)
   return new Promise((resolve, reject) => {
+    const res: Record<string, any> = {}
     const signInOption = new hmsJSAccount.HuaweiIdAuthParamsHelper().setScope(hmsJSAccount.PROFILE).setAuthorizationCode().build()
-    hmsJSAccount.HuaweiIdAuthManager.getAuthApi().getSignInIntent(signInOption).then((result) => {
-      if (result) {
-        res.data = { code: result.serverAuthCode }
-        callAsyncSuccess(resolve, res, options)
-      } else {
-        res.errorMsg = 'signIn result data is null'
+    hmsJSAccount.HuaweiIdAuthManager.getAuthApi().getSignInIntent(signInOption)
+      .then(result => {
+        if (result) {
+          res.data = { code: result.serverAuthCode }
+          callAsyncSuccess(resolve, res, options)
+        } else {
+          res.errorMsg = 'signIn result data is null'
+          callAsyncFail(reject, res, options)
+        }
+      })
+      .catch(error => {
+        res.data = { errMsg: error.errMsg }
         callAsyncFail(reject, res, options)
-      }
-    }).catch((error) => {
-      res.data = { errMsg: error.errMsg }
-      callAsyncFail(reject, res, options)
-    })
+      })
   })
 }
 
@@ -38,38 +40,40 @@ const login = (options) => {
  * @param options
  */
 function getUserInfo (options: IAsyncParams) {
-  const { res } = validateOptions('getUserInfo', options)
   const { success, fail, complete } = options
+  const res: Record<string, any> = {}
 
   const result = hmsJSAccount.HuaweiIdAuthManager.getAuthResultWithScopes([hmsJSAccount.PROFILE])
 
   if (result) {
     res.data = { userInfo: generateUserInfo(result) }
-    typeof success === 'function' && success(res)
+    isFunction(success) && success(res)
   } else {
     res.errorMsg = 'getUserInfo result data is null'
-    typeof fail === 'function' && fail(res)
+    isFunction(fail) && fail(res)
   }
-  typeof complete === 'function' && complete(res)
+  isFunction(complete) && complete(res)
 }
 
 /**
  * 获取用户信息
  */
 const getUserProfile = (options) => {
-  const { res } = validateOptions('getUserProfile', options)
   return new Promise((resolve, reject) => {
-    hmsJSAccount.HuaweiIdAuthManager.addAuthScopes([hmsJSAccount.PROFILE]).then((result) => {
-      if (result) {
-        res.data = { userInfo: generateUserInfo(result) }
-        callAsyncSuccess(resolve, res, options)
-      } else {
-        res.errorMsg = 'getUserProfile result data is null'
-        callAsyncFail(reject, res, options)
-      }
-    }).catch((error) => {
-      callAsyncFail(reject, error, options)
-    })
+    const res: Record<string, any> = {}
+    hmsJSAccount.HuaweiIdAuthManager.addAuthScopes([hmsJSAccount.PROFILE])
+      .then(result => {
+        if (result) {
+          res.data = { userInfo: generateUserInfo(result) }
+          callAsyncSuccess(resolve, res, options)
+        } else {
+          res.errorMsg = 'getUserProfile result data is null'
+          callAsyncFail(reject, res, options)
+        }
+      })
+      .catch(error => {
+        callAsyncFail(reject, error, options)
+      })
   })
 }
 
