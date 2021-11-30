@@ -28,3 +28,5 @@ Taro 是如何兼容 Vue3 的，可参阅 [Taro RFC](https://github.com/NervJS/t
 [《使用 Vue3 开发小程序》](https://taro-club.jd.com/topic/2267/%E4%BD%BF%E7%94%A8-vue3-%E5%BC%80%E5%8F%91%E5%B0%8F%E7%A8%8B%E5%BA%8F) by lillian。
 
 [ NutUI 开发示例 ](https://github.com/jdf2e/nutui-demo/tree/master/taro) by jdf2e。
+
+[ taro-plugin-pinia - Taro & Vue3 使用 Pinia 进行状态管理的插件 ](https://taro-ext.jd.com/plugin/view/61a58b5dc142e18d4eb2aa53) by keyding。
