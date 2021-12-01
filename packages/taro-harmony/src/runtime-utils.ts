@@ -1,4 +1,4 @@
-import { internalComponents } from '@tarojs/shared'
+import { internalComponents, isArray } from '@tarojs/shared'
 import { initNativeApi } from './apis'
 
 declare const getApp: any
@@ -104,6 +104,13 @@ export const hostConfig = {
 
       // 调用 onPullDownRefresh
       originOnPullDownRefresh.call(this)
+    },
+    config.onDestroy = function () {
+      // 页面销毁时 执行路由堆栈 出栈
+      const app = getApp()
+      if (isArray(app.pageStack)) {
+        app.pageStack.pop()
+      }
     }
   }
 }

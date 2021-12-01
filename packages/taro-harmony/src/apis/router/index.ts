@@ -1,9 +1,17 @@
 import { queryToJson } from '@tarojs/shared'
-import { unsupport } from '../utils'
+import type Taro from '@tarojs/taro'
+import { callAsyncSuccess } from '../utils'
+import { IAsyncParams } from '../utils/types'
 
 const router = require('@system.router')
 
-function getRouterFunc (method) {
+declare const getApp: any
+
+type ReLaunch = typeof Taro.reLaunch
+type SwitchTab = typeof Taro.switchTab
+type NavigateTo = typeof Taro.navigateTo
+
+const getRouterFunc = (method): NavigateTo => {
   const methodName = method === 'navigateTo' ? 'push' : 'replace'
 
   return function (options) {
@@ -15,7 +23,8 @@ function getRouterFunc (method) {
         uri: uri.replace(/^\//, ''),
         params
       })
-      resolve(null)
+      const res = { errMsg: `${method}:ok` }
+      callAsyncSuccess(resolve, res, options)
     })
   }
 }
@@ -23,19 +32,61 @@ function getRouterFunc (method) {
 const navigateTo = getRouterFunc('navigateTo')
 const redirectTo = getRouterFunc('redirectTo')
 
-function navigateBack () {
+interface INavigateBackParams extends IAsyncParams {
+  url?: string
+}
+function navigateBack(options: INavigateBackParams): Promise<TaroGeneral.CallbackResult> {
   return new Promise(resolve => {
-    router.back()
-    resolve(null)
+    if (!options?.url) {
+      router.back()
+    } else {
+      let [uri] = options.url.split('?')
+      uri = uri.replace(/^\//, '')
+      router.back({ uri })
+    }
+
+    const res = { errMsg: 'navigateBack:ok' }
+    callAsyncSuccess(resolve, res, options)
   })
 }
 
-function switchTab () {
-  process.env.NODE_ENV !== 'production' && unsupport('switchTab')
+const switchTab: SwitchTab = (options) => {
+  return new Promise(resolve => {
+    const app = getApp()
+    const pages = app.pageStack
+    let [uri] = options.url.split('?')
+    uri = uri.replace(/^\//, '')
+
+    for (let i = 0; i < pages.length; i++) {
+      const item = pages[i]
+      if (item === uri) {
+        return router.back({
+          uri: item
+        })
+      }
+    }
+    navigateTo({ url: options.url })
+
+    const res = { errMsg: 'switchTab:ok' }
+    callAsyncSuccess(resolve, res, options)
+  })
 }
 
-function reLaunch () {
-  process.env.NODE_ENV !== 'production' && unsupport('reLaunch')
+const reLaunch: ReLaunch = (options) => {
+  return new Promise(resolve => {
+    redirectTo({ url: options.url })
+    router.clear()
+    const res = { errMsg: 'reLaunch:ok' }
+    callAsyncSuccess(resolve, res, options)
+  })
+}
+
+const getLength = () => {
+  return router.getLength()
+}
+
+const getState = () => {
+  return router.getState()
 }
 
 export {
@@ -43,5 +94,8 @@ export {
   redirectTo,
   navigateBack,
   switchTab,
-  reLaunch
+  reLaunch,
+  getLength,
+  getState
 }
+
