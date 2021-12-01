@@ -32,4 +32,5 @@ export interface ImageProps {
   mode?:keyof _ImageProps.mode;
   onError?: (event: EventError) => void;
   onLoad?: (event: EventLoad) => void;
+  svg?: boolean;
 }
