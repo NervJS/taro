@@ -9,6 +9,7 @@ const config = {
   },
   sourceRoot: 'src',
   outputRoot: 'dist',
+  // (for harmony) plugins: ['@tarojs/plugin-platform-harmony'],
   plugins: [],
   defineConstants: {
   },
@@ -40,7 +41,21 @@ const config = {
           generateScopedName: '[name]__[local]___[hash:base64:5]'
         }
       }
-    }
+    },
+    // (for harmony)如果使用开发者工具的预览器（previewer）进行预览的话，需要使用 development 版本的 react-reconciler。
+    // 因为 previewer 对长串的压缩文本解析有问题。（真机/远程真机没有此问题）
+    debugReact: true,
+    // 如果需要真机断点调试，需要关闭 sourcemap 的生成
+    enableSourceMap: false
+  },
+  // harmony 相关配置
+  harmony: {
+    // 【必填】鸿蒙应用的绝对路径
+    projectPath: 'Harmony Application Path',
+    // 【可选】HAP 的名称，默认为 'entry'
+    hapName: 'entry',
+    // 【可选】JS FA 的名称，默认为 'default'
+    jsFAName: 'default'
   },
   h5: {
     publicPath: '/',
