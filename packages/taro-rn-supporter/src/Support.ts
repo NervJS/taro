@@ -1,4 +1,4 @@
-import { getProjectConfig } from './utils'
+import { getProjectConfig, getRNConfig } from './utils'
 import { handleFile, handleTaroFile, getReactNativeVersion, searchReactNativeModule } from './taroResolver'
 import { assetExts } from './defaults'
 interface Options{
@@ -33,12 +33,16 @@ export class Supporter {
   }
 
   getResolver () {
+    const rnConfig = getRNConfig()
     const handleEntryFile = this.fromRunner ? handleTaroFile : handleFile
     const resolver: any = {
-      assetExts: assetExts.filter(ext => ext !== 'svg'),
-      sourceExts: ['ts', 'tsx', 'js', 'jsx', 'scss', 'sass', 'less', 'css', 'pcss', 'json', 'styl', 'cjs', 'svg', 'svgx'],
+      sourceExts: ['ts', 'tsx', 'js', 'jsx', 'scss', 'sass', 'less', 'css', 'pcss', 'json', 'styl', 'cjs', 'svgx'],
       resolveRequest: handleEntryFile,
       resolverMainFields: ['react-native', 'browser', 'main']
+    }
+    if (rnConfig.enableSvgTransform) {
+      resolver.assetExts = assetExts.filter(ext => ext !== 'svg')
+      resolver.sourceExts.push('svg')
     }
     // 兼容0.60
     const rnVersion = getReactNativeVersion()

@@ -25,7 +25,7 @@ const transform = ({ src, filename, options, plugins }) => {
       configOpt: { config: config }
     },
     {
-      test: /\.(svg|svgx)/,
+      test: /\.(svg|svgx)/, // .svg 文件仅在 enableSvgTransform 为 true 才会生效
       transformer: 'react-native-svg-transformer'
     },
     {
