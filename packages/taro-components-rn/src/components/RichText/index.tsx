@@ -5,15 +5,20 @@
 import * as React from 'react'
 import { View } from 'react-native'
 import {
-  WebView
+  WebView,
+  WebViewMessageEvent
 } from 'react-native-webview'
 import * as ReactDOMServer from 'react-dom/server.browser'
 import { omit, parseStyles } from '../../utils'
-import { RichTextProps, Node } from './PropsType'
+import { RichTextProps, RichTextState, Node } from './PropsType'
 
-class _RichText extends React.Component<RichTextProps> {
+class _RichText extends React.Component<RichTextProps, RichTextState> {
   static defaultProps = {
     nodes: ''
+  }
+
+  state: RichTextState = {
+    webViewHeight: 0
   }
 
   renderChildrens = (arr: Array<any> = []): JSX.Element[] | undefined => {
@@ -47,6 +52,12 @@ class _RichText extends React.Component<RichTextProps> {
     )
   }
 
+  onWebViewMessage = (event: WebViewMessageEvent):void => {
+    this.setState({
+      webViewHeight: Number(event.nativeEvent.data)
+    })
+  }
+
   render (): JSX.Element {
     const {
       style,
@@ -60,16 +71,20 @@ class _RichText extends React.Component<RichTextProps> {
       }).join(',')
 
     return (
-      <View style={style}>
+      <View style={Object.assign({
+        height: this.state.webViewHeight,
+        width: '100%',
+      }, style)}>
         <WebView
-          source={{ html }}
+          source={{ html: '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>' + html }}
           scalesPageToFit={false}
+          onMessage={this.onWebViewMessage}
           injectedJavaScript={`
             document.documentElement.style.padding = 0;
             document.documentElement.style.margin = 0;
             document.body.style.padding = 0;
             document.body.style.margin = 0;
-            true;
+            window.ReactNativeWebView.postMessage(document.body.scrollHeight);
           `}
           style={{
             backgroundColor: 'transparent'
