@@ -16,6 +16,7 @@
 
 import * as React from 'react'
 import { Image, StyleSheet, ImageSourcePropType, LayoutChangeEvent, ImageResolvedAssetSource } from 'react-native'
+// @ts-ignore
 import { SvgCssUri, WithLocalSvg } from 'react-native-svg'
 import { noop, omit } from '../../utils'
 import ClickableSimplified from '../ClickableSimplified'
