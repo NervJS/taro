@@ -2,7 +2,8 @@ import { singleQuote } from '@tarojs/shared'
 
 export const components = {
   Checkbox: {
-    'group-id': ''
+    'group-id': '',
+    cn: ''
   },
   Span: {},
   Tabs: {

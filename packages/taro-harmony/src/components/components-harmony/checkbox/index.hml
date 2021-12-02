@@ -1,7 +1,10 @@
-<input
-  id="{{id}}"
-  type="checkbox"
-  checked="{{checked}}"
-  disabled="{{disabled}}"
-  @change="onChange"
-></input>
+<div>
+  <input
+    id="{{id}}"
+    type="checkbox"
+    checked="{{checked}}"
+    disabled="{{disabled}}"
+    @change="onChange"
+  ></input>
+  <text if="{{textValue !== ''}}">{{textValue}}</text>
+</div>
