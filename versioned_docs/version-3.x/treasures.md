@@ -392,6 +392,20 @@ Taro 页面/组件创建工具，全部使用函数式组件 + Typescript + Hook
 
 ---
 
+### taro-plugin-pinia 支持使用 `Pinia` 进行状态管理
+
+`Taro & vue3` 支持使用 `Pinia` 进行状态管理的插件
+
+@keyding 出品。【[物料详情](https://taro-ext.jd.com/plugin/view/61a58b5dc142e18d4eb2aa53)】【[Github](https://github.com/keyding/taro-plugin-pinia)】
+
+<img src="https://img10.360buyimg.com/img/jfs/t1/211360/8/10989/54059/61a58addE90daf2a4/9b4fe1f143c7cc5d.png.webp" width="400px" />
+
+|  | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| 支持度 | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | |
+
+---
+
 ## 组件
 
 ---
