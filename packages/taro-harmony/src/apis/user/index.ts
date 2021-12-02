@@ -15,7 +15,13 @@ const hmsJSAccount = require('@hmscore/hms-jsb-account')
  * @param options
  */
 const login = (options) => {
-  const { res } = validateOptions('login', options)
+  const voOtions = {
+    funcName: 'login',
+    options,
+    rParamNames: [],
+    rTypes: []
+  }
+  const { res } = validateOptions(voOtions)
   return new Promise((resolve, reject) => {
     const signInOption = new hmsJSAccount.HuaweiIdAuthParamsHelper().setScope(hmsJSAccount.PROFILE).setAuthorizationCode().build()
     hmsJSAccount.HuaweiIdAuthManager.getAuthApi().getSignInIntent(signInOption).then((result) => {
@@ -38,7 +44,13 @@ const login = (options) => {
  * @param options
  */
 function getUserInfo (options: IAsyncParams) {
-  const { res } = validateOptions('getUserInfo', options)
+  const voOtions = {
+    funcName: 'getUserInfo',
+    options,
+    rParamNames: [],
+    rTypes: []
+  }
+  const { res } = validateOptions(voOtions)
   const { success, fail, complete } = options
 
   const result = hmsJSAccount.HuaweiIdAuthManager.getAuthResultWithScopes([hmsJSAccount.PROFILE])
@@ -57,7 +69,13 @@ function getUserInfo (options: IAsyncParams) {
  * 获取用户信息
  */
 const getUserProfile = (options) => {
-  const { res } = validateOptions('getUserProfile', options)
+  const voOtions = {
+    funcName: 'getUserProfile',
+    options,
+    rParamNames: [],
+    rTypes: []
+  }
+  const { res } = validateOptions(voOtions)
   return new Promise((resolve, reject) => {
     hmsJSAccount.HuaweiIdAuthManager.addAuthScopes([hmsJSAccount.PROFILE]).then((result) => {
       if (result) {

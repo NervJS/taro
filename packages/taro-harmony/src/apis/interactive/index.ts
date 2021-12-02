@@ -22,25 +22,28 @@ export function showToast (options) {
 
   if (!isString(title)) {
     return console.error(getParameterError({
-      name: 'showToast',
-      correct: 'String',
-      wrong: 'title'
+      funcName: 'showToast',
+      pName: 'title',
+      pType: 'String',
+      pWrongType: typeof title
     }))
   }
 
   if (!isNumber(duration)) {
     return console.error(getParameterError({
-      name: 'showToast',
-      correct: 'Number',
-      wrong: 'duration'
+      funcName: 'showToast',
+      pName: 'duration',
+      pType: 'Number',
+      pWrongType: typeof duration
     }))
   }
 
   if (!isString(bottom)) {
     return console.error(getParameterError({
-      name: 'showToast',
-      correct: 'String',
-      wrong: 'bottom'
+      funcName: 'showToast',
+      pName: 'bottom',
+      pType: 'String',
+      pWrongType: typeof bottom
     }))
   }
 
@@ -150,17 +153,19 @@ export function showActionSheet (options) {
 
   if (!isString(title)) {
     return console.error(getParameterError({
-      name: 'showActionSheet',
-      correct: 'String',
-      wrong: 'title'
+      funcName: 'showActionSheet',
+      pName: 'title',
+      pType: 'String',
+      pWrongType: typeof title
     }))
   }
 
   if (!isArray(itemList)) {
     return console.error(getParameterError({
-      name: 'showActionSheet',
-      correct: 'Array',
-      wrong: 'itemList'
+      funcName: 'showActionSheet',
+      pName: 'itemList',
+      pType: 'Array',
+      pWrongType: typeof itemList
     }))
   }
 

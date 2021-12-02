@@ -25,9 +25,10 @@ function getItem (key: string): { result: boolean, data?: number | string | bool
 export function getStorageSync (key: string) {
   if (typeof key !== 'string') {
     return console.error(getParameterError({
-      name: 'getStorage',
-      correct: 'String',
-      wrong: key
+      funcName: 'getStorage',
+      pName: 'key',
+      pType: 'String',
+      pWrongType: typeof key
     }))
   }
   const res = getItem(key)
@@ -40,7 +41,13 @@ interface IGetStorageParams extends IAsyncParams {
 }
 
 export function getStorage (options: IGetStorageParams) {
-  const { res, isPassed } = validateOptions('getStorage', options)
+  const voOtions = {
+    funcName: 'getStorage',
+    options,
+    rParamNames: ['key'],
+    rTypes: ['string']
+  }
+  const { res, isPassed } = validateOptions(voOtions)
   if (!isPassed) {
     return Promise.reject(res)
   }
@@ -63,9 +70,10 @@ export function getStorage (options: IGetStorageParams) {
 export function setStorageSync (key: string, data: number | string | boolean) {
   if (typeof key !== 'string') {
     console.error(getParameterError({
-      name: 'setStorageSync',
-      correct: 'String',
-      wrong: key
+      funcName: 'setStorageSync',
+      pName: 'key',
+      pType: 'String',
+      pWrongType: typeof key
     }))
     return
   }
@@ -79,7 +87,13 @@ interface ISetStorageParams extends IAsyncParams {
   data: number | string | boolean
 }
 export function setStorage (options: ISetStorageParams) {
-  const { res, isPassed } = validateOptions('setStorage', options)
+  const voOtions = {
+    funcName: 'setStorage',
+    options,
+    rParamNames: ['key'],
+    rTypes: ['string']
+  }
+  const { res, isPassed } = validateOptions(voOtions)
   if (!isPassed) {
     return Promise.reject(res)
   }
@@ -95,9 +109,10 @@ export function setStorage (options: ISetStorageParams) {
 export function removeStorageSync (key: string) {
   if (typeof key !== 'string') {
     console.error(getParameterError({
-      name: 'removeStorageSync',
-      correct: 'String',
-      wrong: key
+      funcName: 'removeStorageSync',
+      pName: 'key',
+      pType: 'String',
+      pWrongType: typeof key
     }))
     return
   }
@@ -108,7 +123,13 @@ interface IRemoveStorageParams extends IAsyncParams {
   key: string
 }
 export function removeStorage (options: IRemoveStorageParams) {
-  const { res, isPassed } = validateOptions('removeStorage', options)
+  const voOtions = {
+    funcName: 'removeStorage',
+    options,
+    rParamNames: ['key'],
+    rTypes: ['string']
+  }
+  const { res, isPassed } = validateOptions(voOtions)
   if (!isPassed) {
     return Promise.reject(res)
   }
@@ -126,7 +147,13 @@ export function clearStorageSync () {
 }
 
 export function clearStorage (options: IAsyncParams) {
-  const { res, isPassed } = validateOptions('setStorage', options)
+  const voOtions = {
+    funcName: 'clearStorage',
+    options,
+    rParamNames: [],
+    rTypes: []
+  }
+  const { res, isPassed } = validateOptions(voOtions)
   if (!isPassed) {
     return Promise.reject(res)
   }

@@ -5,12 +5,11 @@
 // ❌ DownloadTask.onHeadersReceived 此接口 ohos 不支持
 // ✅ DownloadTask.onProgressUpdate
 
-import { DownloadTask } from '@tarojs/taro'
-import { validateOptions } from './validate'
-import { callAsyncFail, callAsyncSuccess } from '../utils'
+import Taro, { DownloadTask } from '@tarojs/taro'
+import { validateOptions, callAsyncFail, callAsyncSuccess, callbackInPromise } from '../utils'
 const request = require('@ohos.request')
 
-// type DownloadFile = typeof Taro.downloadFile
+type DownloadFile = typeof Taro.downloadFile
 
 interface IDownloadConfigOHOS {
   url: string
@@ -24,61 +23,21 @@ interface IDownloadConfigOHOS {
 }
 
 // TODO: 增加函数类型
-const downloadFile = function (options) {
-  return new Promise((resolve, reject) => {
+const downloadFile: DownloadFile = function (options) {
+  let downloadTask: TaroGeneral.IAnyObject = {}
+
+  const downloadTaskWX: any = new Promise((resolve, reject) => {
     const { url, header, filePath } = options
-    const requiredParamsValue: Array<any> = [url]
-    const requiredParamsName: Array<string> = ['url']
-    const requiredParamsType: Array<string> = ['string']
-    const { res, isPassed } = validateOptions('downloadFile', options, requiredParamsValue, requiredParamsType, requiredParamsName)
+    const voOtions = {
+      funcName: 'downloadFile',
+      options,
+      rParamNames: ['url'],
+      rTypes: ['string']
+    }
+    const { res, isPassed } = validateOptions(voOtions)
     if (!isPassed) {
       callAsyncFail(reject, res, options)
       return
-    }
-
-    let downloadTask: TaroGeneral.IAnyObject = {}
-    const DownloadTaskWX: DownloadTask = {
-      abort: function () {
-        // console.warn('ddoowwnnllooaadd abort begin：' + downloadTask.remove)
-        downloadTask.remove((err: any, data: any) => {
-          if (err) {
-            console.error('Failed to remove the download task. Cause:' + err + '|||' + JSON.stringify(downloadTask))
-            return
-          }
-          console.warn('Download task removed.' + data + '|||' + JSON.stringify(downloadTask))
-        })
-      },
-      offProgressUpdate: function offProgressUpdate (callback: DownloadTask.OffProgressUpdateCallback) {
-        // console.warn('ddoowwnnllooaadd OFF offProgressUpdate progress begin：' + downloadTask.on)
-        downloadTask.off('progress', (err, _data) => {
-          const res: TaroGeneral.CallbackResult = {
-            errMsg: err ? 'Cancel progress listening is failed. Cause:' + err : 'Cancel progress listening is done.'
-          }
-          callback(res)
-        })
-      },
-      onProgressUpdate: function (callback: DownloadTask.OnProgressUpdateCallback) {
-        // console.warn('ddoowwnnllooaadd ON onProgressUpdate progress begin：' + downloadTask.on)
-        downloadTask.on('progress', (receivedSize: number, totalSize: number) => {
-          // console.warn('ddoowwnnllooaadd ON onProgressUpdate totalSize:' + totalSize + '，  receivedSize:' + receivedSize)
-          const totalBytesWritten: number = receivedSize * 1024
-          const totalBytesExpectedToWrite: number = totalSize * 1024
-          // TODO: 应该保留几位小数？
-          const progress: number = +(receivedSize / totalSize).toFixed(6)
-          const progressParams: DownloadTask.OnProgressUpdateCallbackResult = {
-            totalBytesWritten,
-            totalBytesExpectedToWrite,
-            progress
-          }
-          callback(progressParams)
-        })
-      },
-      onHeadersReceived: function (_callback: DownloadTask.OnHeadersReceivedCallback): void {
-        throw new Error('Function progress does not exist.')
-      },
-      offHeadersReceived: function (_callback: DownloadTask.OffHeadersReceivedCallback): void {
-        throw new Error('Function progress does not exist.')
-      }
     }
 
     console.warn('ddoowwnnllooaadd url: ' + options.url)
@@ -89,31 +48,103 @@ const downloadFile = function (options) {
     if (header) ohosParams.header = header
     if (filePath) ohosParams.filePath = filePath
 
-    return request.download(ohosParams, (err: any, dataDownload:any) => {
-      // console.warn('ddoowwnnllooaadd requestDownload TARO 2 download|||' + JSON.stringify(err) + '|||' + JSON.stringify(dataDownload))
-      if (err) {
-        callAsyncFail(reject, err, options)
-      }
+    request.download(ohosParams).then((dataDownload:any) => {
+      console.warn('ddoowwnnllooaadd requestDownload TARO 1 download')
       downloadTask = dataDownload
-      downloadTask.on('complete', (data) => {
-        // console.warn('ddoowwnnllooaadd requestDownload TARO 3 complete' + '|||' + JSON.stringify(downloadTask))
-        const res = {
-          errMsg: 'ddoowwnnllooaadd Download task completed',
-          data: data
-        }
-        callAsyncSuccess(resolve, res, options)
+      let downloadData
+      console.warn('ddoowwnnllooaadd requestDownload TARO 2 download')
+
+      downloadTask.query().then(dataQuery => {
+        console.warn('ddoowwnnllooaadd requestDownload TARO 3 query')
+        downloadData = dataQuery
+        downloadTask.on('complete', () => {
+          console.warn('ddoowwnnllooaadd requestDownload TARO 4 complete')
+          callAsyncSuccess(resolve, downloadData, options)
+        })
+        downloadTask.on('fail', (err) => {
+          console.warn('ddoowwnnllooaadd requestDownload TARO 5 fail |||' + JSON.stringify(err))
+          const res = {
+            errMsg: 'ddoowwnnllooaadd' + err
+          }
+          callAsyncFail(reject, res, options)
+        })
+      }).catch((err) => {
+        callAsyncFail(reject, err, options)
+        console.warn('ddoowwnnllooaadd Failed to query the download task. Cause:' + err)
       })
-      downloadTask.on('fail', (err) => {
-        // console.warn('ddoowwnnllooaadd requestDownload TARO 4 fail |||' + JSON.stringify(errFail) + '|||' + JSON.stringify(downloadTask))
-        const res = {
-          errMsg: 'ddoowwnnllooaadd' + err
-        }
-        callAsyncSuccess(resolve, res, options)
-      })
-      resolve(DownloadTaskWX)
-      return DownloadTaskWX
+    }).catch((err) => {
+      callAsyncFail(reject, err, options)
     })
   })
+  downloadTaskWX.abort = function () {
+    console.warn('ddoowwnnllooaadd abort begin：')
+    callbackInPromise((resolve, reject) => {
+      downloadTask.remove((err: any, data: any) => {
+        if (err) {
+          reject(err)
+          console.error('ddoowwnnllooaadd Failed to remove the download task. Cause:' + err + '|||' + downloadTask)
+          return
+        }
+        console.warn('ddoowwnnllooaadd Download task removed.' + data)
+        resolve(data)
+      })
+    })
+  }
+  downloadTaskWX.offProgressUpdate = function offProgressUpdate (callback: DownloadTask.OffProgressUpdateCallback) {
+    console.warn('ddoowwnnllooaadd OFF offProgressUpdate progress begin：')
+    callbackInPromise((resolve, reject) => {
+      downloadTask.off('progress', (err, _data) => {
+        const res: TaroGeneral.CallbackResult = {
+          errMsg: err ? 'Cancel progress listening is failed. Cause:' + err : 'Cancel progress listening is done.'
+        }
+        callback(res)
+        err ? reject(res) : resolve(res)
+      })
+    })
+  }
+  downloadTaskWX.onProgressUpdate = function (callback: DownloadTask.OnProgressUpdateCallback) {
+    console.warn('ddoowwnnllooaadd ON onProgressUpdate progress begin：')
+    // return new Promise((resolve, reject) => {
+    //   setTimeout(() => {
+    //     try {
+    //       downloadTask.on('progress', (receivedSize: number, totalSize: number) => {
+    //         console.warn('ddoowwnnllooaadd ON onProgressUpdate totalSize:' + totalSize + '，  receivedSize:' + receivedSize)
+    //         const totalBytesWritten: number = receivedSize * 1024
+    //         const totalBytesExpectedToWrite: number = totalSize * 1024
+    //         // TODO: 应该保留几位小数？
+    //         const progress: number = +(receivedSize / totalSize).toFixed(6)
+    //         const progressParams: DownloadTask.OnProgressUpdateCallbackResult = {
+    //           totalBytesWritten,
+    //           totalBytesExpectedToWrite,
+    //           progress
+    //         }
+    //         resolve(progressParams)
+    //         callback(progressParams)
+    //       })
+    //     } catch (error) {
+    //       console.error('ddoowwnnllooaadd callbackInPromise ERROR:' + error)
+    //       reject(error)
+    //     }
+    //   }, 500)
+    // })
+    callbackInPromise((resolve, _reject) => {
+      downloadTask.on('progress', (receivedSize: number, totalSize: number) => {
+        console.warn('ddoowwnnllooaadd ON onProgressUpdate totalSize:' + totalSize + '，  receivedSize:' + receivedSize)
+        const totalBytesWritten: number = receivedSize * 1024
+        const totalBytesExpectedToWrite: number = totalSize * 1024
+        // TODO: 应该保留几位小数？
+        const progress: number = +(receivedSize / totalSize).toFixed(6)
+        const progressParams: DownloadTask.OnProgressUpdateCallbackResult = {
+          totalBytesWritten,
+          totalBytesExpectedToWrite,
+          progress
+        }
+        resolve(progressParams)
+        callback(progressParams)
+      })
+    })
+  }
+  return downloadTaskWX
 }
 
 export {
