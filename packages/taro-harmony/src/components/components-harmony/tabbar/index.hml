@@ -1,6 +1,6 @@
 <toolbar style="border-color: {{borderStyle}};background-color: {{backgroundColor}};">
   <block
-    for="{{data.list}}"
+    for="{{tabbarData.list}}"
     tid="pagePath"
   >
     <!--
