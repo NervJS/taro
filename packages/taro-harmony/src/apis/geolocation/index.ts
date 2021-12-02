@@ -14,7 +14,7 @@
 // ❌ wx.stopLocationUpdate
 // ❌ wx.startLocationUpdate
 import Taro from '@tarojs/taro'
-import { validateOptions, getParameterError, callAsyncSuccess, callAsyncFail } from '../utils'
+import { validateParams, callAsyncSuccess, callAsyncFail } from '../utils'
 const geolocation = require('@ohos.geolocation')
 
 type GetLocation = typeof Taro.getLocation
@@ -70,26 +70,29 @@ function formatLocation (location: LocationSuccessDataOHOS) {
   }
   return locationWX
 }
+// TODO：增加参数校验
+// const getLocationSchema = {
+//   type: 'String',
+//   altitude: 'Boolean',
+//   ishighAccuracy: 'Boolean',
+//   highAccuracyExpireTime: 'number'
+// }
 
 export const getLocation: GetLocation = function (options = {}) {
-  const { type, altitude, isHighAccuracy, highAccuracyExpireTime } = options
-  const voOtions = {
-    funcName: 'getLocation',
-    options,
-    rParamNames: ['type', 'altitude', 'isHighAccuracy', 'highAccuracyExpireTime'],
-    rTypes: ['string', 'boolean', 'boolean', 'number']
-  }
-  const { res, isPassed } = validateOptions(voOtions)
-  if (!isPassed) {
-    return Promise.reject(res)
-  }
-
   return new Promise((resolve, reject) => {
     /**
      * ohos 有 priority, scenario, maxAccuracy, timeoutMs
      * wx 有 type, altitude, isHighAccuracy, highAccuracyExpireTime
      * 二者参数不一致
      */
+    const { type, altitude, isHighAccuracy, highAccuracyExpireTime } = options
+    // try {
+    //   validateParams('getLocation', options, getLocationSchema)
+    // } catch (error) {
+    //   const res = { errMsg: error.message }
+    //   return callAsyncFail(reject, res, options)
+    // }
+
     const params: IGetOHOSGeolocationParams = {
       type,
       altitude,
@@ -110,56 +113,22 @@ export const getLocation: GetLocation = function (options = {}) {
 }
 
 export const onLocationChange: OnLocationChange = function (callback) {
-  return new Promise((resolve, reject) => {
-    if (typeof callback !== 'function') {
-      const res = {
-        errMsg: getParameterError({
-          funcName: 'onLocationChange',
-          pName: 'callback',
-          pType: 'Function',
-          pWrongType: typeof callback
-        })
-      }
-      return reject(res)
-    }
-    const requestInfo: LocationRequest = {}
-    return geolocation.on('locationChange', requestInfo, (location: LocationSuccessDataOHOS) => {
-      if (!location) {
-        const err = { errMsg: 'onLocationChange err' }
-        return reject(err)
-      }
-
+  validateParams('onLocationChange', [callback], ['Function'])
+  const requestInfo: LocationRequest = {}
+  geolocation.on('locationChange', requestInfo, (location: LocationSuccessDataOHOS) => {
+    if (location) {
       const locationWX = formatLocation(location)
       callback(locationWX)
-      return resolve(locationWX)
-    })
+    }
   })
 }
 
 export const offLocationChange: OffLocationChange = function (callback) {
-  return new Promise((resolve, reject) => {
-    if (typeof callback !== 'function') {
-      const res = {
-        errMsg: getParameterError({
-          funcName: 'offLocationChange',
-          pName: 'callback',
-          pType: 'Function',
-          pWrongType: typeof callback
-        })
-      }
-      return reject(res)
+  validateParams('offLocationChange', [callback], ['Function'])
+  geolocation.off('locationChange', (location: LocationSuccessOHOS) => {
+    const status = {
+      errMsg: location ? 'offLocationChange is off' : 'offLocationChange err'
     }
-
-    return geolocation.off('locationChange', (location: LocationSuccessOHOS) => {
-      const status = {
-        errMsg: location ? 'offLocationChange is off' : 'offLocationChange err'
-      }
-      if (!location) {
-        return reject(status)
-      }
-
-      callback(status)
-      return resolve(status)
-    })
+    callback(status)
   })
 }
