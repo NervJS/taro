@@ -49,7 +49,6 @@ export default createOption({
   },
 
   getRouterFunc (method, url) {
-    // switchTab目前实现不了
     const methodName = this.targetObj[method]
     const [uri, queryString = ''] = url.split('?')
     const params = queryToJson(queryString)
@@ -59,7 +58,19 @@ export default createOption({
     const paramsObj = queryString ? { params } : {}
 
     if (method === 'reLaunch') {
-      router.clear()
+      return router.clear()
+    } else if (method === 'switchTab') {
+      const app = getApp()
+      const pages = app.pageStack
+
+      for (let i = 0; i < pages.length; i++) {
+        const item = pages[i]
+        if (item === uriObj.uri) {
+          return router.back({
+            uri: item
+          })
+        }
+      }
     }
 
     router[methodName]({
