@@ -15,9 +15,10 @@ declare module '../../index' {
        *
        * 可选值：
        * - 'success': 显示成功图标，此时 title 文本最多显示 7 个汉字长度;
+       * - 'error': 显示失败图标，此时 title 文本最多显示 7 个汉字长度;
        * - 'loading': 显示加载图标，此时 title 文本最多显示 7 个汉字长度;
        * - 'none': 不显示图标，此时 title 文本最多可显示两行 */
-      icon?: 'success' | 'loading' | 'none'
+      icon?: 'success' | 'error' | 'loading' | 'none'
       /** 自定义图标的本地路径，image 的优先级高于 icon */
       image?: string
       /** 是否显示透明蒙层，防止触摸穿透 */
