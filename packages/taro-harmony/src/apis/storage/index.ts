@@ -1,5 +1,18 @@
-import { getParameterError, validateOptions } from '../utils'
-import { IAsyncParams } from '../utils/types'
+import { validateParams, callAsyncSuccess, callAsyncFail } from '../utils'
+
+import type { IAsyncParams } from '../utils/types'
+
+interface IGetStorageParams extends IAsyncParams {
+  key: string
+}
+interface ISetStorageParams extends IAsyncParams {
+  key: string
+  data: number | string | boolean
+}
+
+interface IRemoveStorageParams extends IAsyncParams {
+  key: string
+}
 
 const dataStorage = require('@ohos.data.storage')
 const app = require('@system.app')
@@ -22,124 +35,83 @@ function getItem (key: string): { result: boolean, data?: number | string | bool
   }
 }
 
+const storageSchema = {
+  key: 'String'
+}
+
 export function getStorageSync (key: string) {
-  if (typeof key !== 'string') {
-    return console.error(getParameterError({
-      funcName: 'getStorage',
-      pName: 'key',
-      pType: 'String',
-      pWrongType: typeof key
-    }))
-  }
+  validateParams('getStorageSync', [key], ['string'])
+
   const res = getItem(key)
   if (res.result) return res.data
   return ''
 }
 
-interface IGetStorageParams extends IAsyncParams {
-  key: string
-}
-
 export function getStorage (options: IGetStorageParams) {
-  const voOtions = {
-    funcName: 'getStorage',
-    options,
-    rParamNames: ['key'],
-    rTypes: ['string']
-  }
-  const { res, isPassed } = validateOptions(voOtions)
-  if (!isPassed) {
-    return Promise.reject(res)
-  }
-  const { key, success, fail, complete } = options
-  const { result, data } = getItem(key)
-  if (result) {
-    res.data = data
-  } else {
-    res.errMsg = 'getStorage:fail data not found'
-    typeof fail === 'function' && fail(res)
-    typeof complete === 'function' && complete(res)
-    return Promise.reject(res)
-  }
-  typeof success === 'function' && success(res)
-  typeof complete === 'function' && complete(res)
+  return new Promise((resolve, reject) => {
+    try {
+      validateParams('getStorage', options, storageSchema)
+    } catch (error) {
+      const res = { errMsg: error.message }
+      return callAsyncFail(reject, res, options)
+    }
 
-  return Promise.resolve(res)
+    const { result, data } = getItem(options.key)
+    const res: Record<string, any> = { errMsg: 'getStorage:ok' }
+    if (result) {
+      res.data = data
+      callAsyncSuccess(resolve, res, options)
+    } else {
+      res.errMsg = 'getStorage:fail data not found'
+      callAsyncFail(reject, res, options)
+    }
+  })
 }
 
 export function setStorageSync (key: string, data: number | string | boolean) {
-  if (typeof key !== 'string') {
-    console.error(getParameterError({
-      funcName: 'setStorageSync',
-      pName: 'key',
-      pType: 'String',
-      pWrongType: typeof key
-    }))
-    return
-  }
+  validateParams('setStorageSync', [key], ['string'])
   const obj = { data }
   storage.putSync(key, JSON.stringify(obj))
   storage.flushSync()
 }
 
-interface ISetStorageParams extends IAsyncParams {
-  key: string
-  data: number | string | boolean
-}
 export function setStorage (options: ISetStorageParams) {
-  const voOtions = {
-    funcName: 'setStorage',
-    options,
-    rParamNames: ['key'],
-    rTypes: ['string']
-  }
-  const { res, isPassed } = validateOptions(voOtions)
-  if (!isPassed) {
-    return Promise.reject(res)
-  }
-  const { key, data, success, complete } = options
-  setStorageSync(key, data)
+  return new Promise((resolve, reject) => {
+    try {
+      validateParams('setStorage', options, storageSchema)
+    } catch (error) {
+      const res = { errMsg: error.message }
+      return callAsyncFail(reject, res, options)
+    }
 
-  typeof success === 'function' && success(res)
-  typeof complete === 'function' && complete(res)
+    const { key, data } = options
+    const res = { errMsg: 'setStorage:ok' }
 
-  return Promise.resolve(res)
+    setStorageSync(key, data)
+
+    callAsyncSuccess(resolve, res, options)
+  })
 }
 
 export function removeStorageSync (key: string) {
-  if (typeof key !== 'string') {
-    console.error(getParameterError({
-      funcName: 'removeStorageSync',
-      pName: 'key',
-      pType: 'String',
-      pWrongType: typeof key
-    }))
-    return
-  }
+  validateParams('removeStorageSync', [key], ['string'])
   storage.deleteSync(key)
 }
 
-interface IRemoveStorageParams extends IAsyncParams {
-  key: string
-}
 export function removeStorage (options: IRemoveStorageParams) {
-  const voOtions = {
-    funcName: 'removeStorage',
-    options,
-    rParamNames: ['key'],
-    rTypes: ['string']
-  }
-  const { res, isPassed } = validateOptions(voOtions)
-  if (!isPassed) {
-    return Promise.reject(res)
-  }
-  const { key, success, complete } = options
+  return new Promise((resolve, reject) => {
+    try {
+      validateParams('removeStorage', options, storageSchema)
+    } catch (error) {
+      const res = { errMsg: error.message }
+      return callAsyncFail(reject, res, options)
+    }
 
-  removeStorageSync(key)
-  success && success(res)
-  complete && complete(res)
+    removeStorageSync(options.key)
 
-  return Promise.resolve(res)
+    const res = { errMsg: 'removeStorage:ok' }
+    callAsyncSuccess(resolve, res, options)
+  })
 }
 
 export function clearStorageSync () {
@@ -147,15 +119,10 @@ export function clearStorageSync () {
 }
 
 export function clearStorage (options: IAsyncParams) {
-  const voOtions = {
-    funcName: 'clearStorage',
-    options,
-    rParamNames: [],
-    rTypes: []
-  }
-  const { res, isPassed } = validateOptions(voOtions)
-  if (!isPassed) {
-    return Promise.reject(res)
-  }
-  clearStorageSync()
+  return new Promise(resolve => {
+    clearStorageSync()
+
+    const res = { errMsg: 'clearStorage:ok' }
+    callAsyncSuccess(resolve, res, options)
+  })
 }

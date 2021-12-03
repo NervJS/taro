@@ -17,11 +17,29 @@
 // ✅ SocketTask.onOpen
 // ✅ SocketTask.send
 import Taro from '@tarojs/taro'
-import { validateOptions, callAsyncFail, callAsyncSuccess, getParameterError } from '../utils'
+import { validateParams, callAsyncFail, callAsyncSuccess } from '../utils'
+import { IAsyncParams } from '../utils/types'
 
 type ConnectSocket = typeof Taro.connectSocket
 
 const webSocket = require('@ohos.net.webSocket')
+
+interface ISendSocketOptions extends IAsyncParams {
+  data: string
+}
+
+const connectSocketSchema = {
+  url: 'String'
+}
+
+// const closetSocketSchema = {
+//   code: 'Number',
+//   reason: 'String'
+// }
+
+const sendSocketSchema = {
+  data: 'String'
+}
 
 const connectSocket: ConnectSocket = function (options) {
   let ws
@@ -29,16 +47,12 @@ const connectSocket: ConnectSocket = function (options) {
     ws = webSocket.createWebSocket()
 
     const { url, header } = options
-    const voOtions = {
-      funcName: 'connectSocket',
-      options,
-      rParamNames: ['url'],
-      rTypes: ['string']
-    }
-    const { res, isPassed } = validateOptions(voOtions)
-    if (!isPassed) {
-      callAsyncFail(reject, res, options)
-      return
+
+    try {
+      validateParams('uploadFile', options, connectSocketSchema)
+    } catch (error) {
+      const res = { errMsg: error.message }
+      return callAsyncFail(reject, res, options)
     }
 
     const result = {
@@ -54,17 +68,14 @@ const connectSocket: ConnectSocket = function (options) {
 
   SocketTaskWX.close = function (closeOptions) {
     return new Promise((resolve, reject) => {
-      const voOtions = {
-        funcName: 'close',
-        options,
-        rParamNames: ['code', 'reason'],
-        rTypes: ['number', 'string']
-      }
-      const { res, isPassed } = validateOptions(voOtions)
-      if (!isPassed) {
-        callAsyncFail(reject, res, closeOptions)
-        return
-      }
+      // TODO: 检验非必须参数
+      // try {
+      //   validateParams('close', options, closeSocketSchema)
+      // } catch (error) {
+      //   const res = { errMsg: error.message }
+      //   return callAsyncFail(reject, res, options)
+      // }
+
       ws.close(closeOptions).then(value => {
         callAsyncSuccess(resolve, value, closeOptions)
       }, error => {
@@ -73,95 +84,40 @@ const connectSocket: ConnectSocket = function (options) {
     })
   }
   SocketTaskWX.onClose = function (onCloseCallback) {
-    return new Promise((resolve, reject) => {
-      if (typeof onCloseCallback !== 'function') {
-        const res = {
-          errMsg: getParameterError({
-            funcName: 'onClose',
-            pName: 'onCloseCallback',
-            pType: 'Function',
-            pWrongType: typeof onCloseCallback
-          })
-        }
-        return reject(res)
-      }
-      ws.on('close', (err, value) => {
-        onCloseCallback(value)
-        return err ? reject(err) : resolve(value)
-      })
+    validateParams('onClose', [onCloseCallback], ['Function'])
+    ws.on('close', (err, value) => {
+      onCloseCallback(!err ? value : err)
     })
   }
   SocketTaskWX.onError = function (onErrorCallback) {
-    return new Promise((resolve, reject) => {
-      if (typeof onErrorCallback !== 'function') {
-        const res = {
-          errMsg: getParameterError({
-            funcName: 'onError',
-            pName: 'onErrorCallback',
-            pType: 'Function',
-            pWrongType: typeof onErrorCallback
-          })
-        }
-        return reject(res)
-      }
-      ws.on('error', (err) => {
-        onErrorCallback(err)
-        return resolve(err)
-      })
+    validateParams('onError', [onErrorCallback], ['Function'])
+    ws.on('error', (err) => {
+      onErrorCallback(err)
     })
   }
   SocketTaskWX.onMessage = function (onMessageCallback?: any) {
-    return new Promise((resolve, reject) => {
-      if (typeof onMessageCallback !== 'function') {
-        const res = {
-          errMsg: getParameterError({
-            funcName: 'onMessage',
-            pName: 'onMessageCallback',
-            pType: 'Function',
-            pWrongType: typeof onMessageCallback
-          })
-        }
-        return reject(res)
-      }
-      ws.on('close', (err, value) => {
-        onMessageCallback(value)
-        return err ? reject(err) : resolve(value)
-      })
+    validateParams('onMessage', [onMessageCallback], ['Function'])
+    ws.on('onMessage', (err, value) => {
+      onMessageCallback(!err ? value : err)
     })
   }
   SocketTaskWX.onOpen = function (onOpenCallback) {
-    return new Promise((resolve, reject) => {
-      if (typeof onOpenCallback !== 'function') {
-        const res = {
-          errMsg: getParameterError({
-            funcName: 'onOpen',
-            pName: 'onOpenCallback',
-            pType: 'Function',
-            pWrongType: typeof onOpenCallback
-          })
-        }
-        return reject(res)
-      }
-      ws.on('open', (err, value) => {
-        onOpenCallback(value)
-        return err ? reject(err) : resolve(value)
-      })
+    validateParams('onOpen', [onOpenCallback], ['Function'])
+    ws.on('open', (err, value) => {
+      // TODO: 返回参数格式化
+      onOpenCallback(!err ? value : err)
     })
   }
-  SocketTaskWX.send = function (sendOptions) {
+  SocketTaskWX.send = function (sendOptions: ISendSocketOptions) {
     return new Promise((resolve, reject) => {
       const { data } = sendOptions
-      const voOtions = {
-        funcName: 'send',
-        options,
-        rParamNames: ['data'],
-        rTypes: ['string']
+      try {
+        validateParams('send', sendOptions, sendSocketSchema)
+      } catch (error) {
+        const res = { errMsg: error.message }
+        return callAsyncFail(reject, res, options)
       }
-      const { res, isPassed } = validateOptions(voOtions)
-      if (!isPassed) {
-        callAsyncFail(reject, res, sendOptions)
-        return
-      }
+
       ws.send(data).then(value => {
         callAsyncSuccess(resolve, value, sendOptions)
       }, error => {

@@ -4,7 +4,7 @@
 // ✅ RequestTask.onHeadersReceived
 
 import Taro from '@tarojs/taro'
-import { validateOptions, callAsyncSuccess, callAsyncFail } from '../utils'
+import { validateParams, callAsyncSuccess, callAsyncFail } from '../utils'
 const http = require('@ohos.net.http')
 
 type Request = typeof Taro.request
@@ -15,6 +15,7 @@ interface IRequestResultOHOS {
   responseCode: number
   header
 }
+
 interface IRequestParamsOHOS {
   method?: string,
   header?: TaroGeneral.IAnyObject,
@@ -22,6 +23,11 @@ interface IRequestParamsOHOS {
   readTimeout?: number,
   connectTimeout?: number
 }
+
+const requestSchema = {
+  url: 'String'
+}
+
 // TODO: 增加函数类型
 const request: Request = function (options) {
   let httpRequestOhos
@@ -36,16 +42,12 @@ const request: Request = function (options) {
 
   const requestTask: any = new Promise((resolve, reject) => {
     const { url, method, header, timeout } = options
-    const voOtions = {
-      funcName: 'connectSocket',
-      options,
-      rParamNames: ['url'],
-      rTypes: ['string']
-    }
-    const { res, isPassed } = validateOptions(voOtions)
-    if (!isPassed) {
-      callAsyncFail(reject, res, options)
-      return
+
+    try {
+      validateParams('send', options, requestSchema)
+    } catch (error) {
+      const res = { errMsg: error.message }
+      return callAsyncFail(reject, res, options)
     }
 
     if (method) {
@@ -81,20 +83,16 @@ const request: Request = function (options) {
   }
 
   requestTask.onHeadersReceived = function (callback) {
-    return new Promise((resolve, reject) => {
-      httpRequestOhos.on('headerReceive', (err, res) => {
-        callback(!err ? res : err)
-        !err ? resolve(res) : reject(err)
-      })
+    validateParams('onHeadersReceived', [callback], ['Function'])
+    httpRequestOhos.on('headerReceive', (err, res) => {
+      callback(!err ? res : err)
     })
   }
 
   requestTask.offHeadersReceived = function (callback) {
-    return new Promise((resolve, reject) => {
-      httpRequestOhos.off('headerReceive', (err, res) => {
-        callback(!err ? res : err)
-        !err ? resolve(res) : reject(err)
-      })
+    validateParams('offHeadersReceived', [callback], ['Function'])
+    httpRequestOhos.off('headerReceive', (err, res) => {
+      callback(!err ? res : err)
     })
   }
 

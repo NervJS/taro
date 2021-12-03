@@ -2,7 +2,7 @@
   <div
     if="{{showInfo && type == 'horizontal'}}"
     class="progress-horizontal-showInfo"
-    style="height: 100px;"
+    style="min-height: {{fontSize}}px;"
   >
     <progress
       style="color: {{progressColor}};background-color:{{progressBgColor}};stroke-width:{{strokeWidth}}"

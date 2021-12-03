@@ -3,23 +3,23 @@ import { covertHex3ToHex6 } from '../utils'
 
 export default {
   props: {
-    data: {
+    tabbarData: {
       default: {}
     },
     selected: Number
   },
   computed: {
     borderStyle () {
-      return this.data.borderStyle || 'black'
+      return this.tabbarData.borderStyle || 'black'
     },
     color () {
-      return covertHex3ToHex6(this.data.color)
+      return covertHex3ToHex6(this.tabbarData.color)
     },
     selectedColor () {
-      return covertHex3ToHex6(this.data.selectedColor)
+      return covertHex3ToHex6(this.tabbarData.selectedColor)
     },
     backgroundColor () {
-      return covertHex3ToHex6(this.data.backgroundColor)
+      return covertHex3ToHex6(this.tabbarData.backgroundColor)
     }
   },
   jump (pagePath) {

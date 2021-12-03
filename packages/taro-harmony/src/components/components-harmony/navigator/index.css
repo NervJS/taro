@@ -1,0 +1,8 @@
+.navigate {
+  overflow: hidden;
+  transition: all linear 0.2s;
+}
+
+.navigator-hover {
+  background-color: #dedede;
+}

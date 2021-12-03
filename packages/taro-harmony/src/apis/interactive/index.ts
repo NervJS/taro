@@ -1,7 +1,4 @@
-import { isString, isNumber, isArray } from '@tarojs/shared'
-import {
-  getParameterError, unsupport, callAsyncSuccess, callAsyncFail
-} from '../utils'
+import { validateParams, unsupport, callAsyncSuccess, callAsyncFail } from '../utils'
 
 const prompt = require('@system.prompt')
 
@@ -9,52 +6,34 @@ const resCallback = (res) => {
   return { errMsg: `${res}:ok` }
 }
 
+const showToastSchema = {
+  title: 'String',
+  duration: 'Number',
+  bottom: 'String'
+}
+
 export function showToast (options) {
-  const _default = {
-    title: '',
-    duration: 1500,
-    bottom: '100px'
-  }
+  return new Promise((resolve, reject) => {
+    const _default = {
+      title: '',
+      duration: 1500,
+      bottom: '100px'
+    }
 
-  options = { ..._default, ...options }
+    options = { ..._default, ...options }
 
-  const { title, duration, bottom } = options
+    try {
+      validateParams<any>('showToast', options, showToastSchema)
+    } catch (error) {
+      const res = { errMsg: error.message }
+      return callAsyncFail(reject, res, options)
+    }
 
-  if (!isString(title)) {
-    return console.error(getParameterError({
-      funcName: 'showToast',
-      pName: 'title',
-      pType: 'String',
-      pWrongType: typeof title
-    }))
-  }
-
-  if (!isNumber(duration)) {
-    return console.error(getParameterError({
-      funcName: 'showToast',
-      pName: 'duration',
-      pType: 'Number',
-      pWrongType: typeof duration
-    }))
-  }
-
-  if (!isString(bottom)) {
-    return console.error(getParameterError({
-      funcName: 'showToast',
-      pName: 'bottom',
-      pType: 'String',
-      pWrongType: typeof bottom
-    }))
-  }
-
-  const toastOptions = {
-    message: title,
-    duration,
-    bottom
-  }
-
-  return new Promise(resolve => {
-    prompt.showToast(toastOptions)
+    prompt.showToast({
+      message: options.title,
+      duration: options.duration,
+      bottom: options.bottom
+    })
     callAsyncSuccess(resolve, resCallback('showToast'), options)
   })
 }
@@ -140,43 +119,37 @@ export function showModal (options) {
   })
 }
 
+const showActionSheetSchema = {
+  title: 'String',
+  itemList: 'Array'
+}
+
 export function showActionSheet (options) {
-  const _default = {
-    title: '',
-    itemList: [],
-    itemColor: '#000000'
-  }
-
-  options = { ..._default, ...options }
-
-  const { title, itemList, itemColor } = options
-
-  if (!isString(title)) {
-    return console.error(getParameterError({
-      funcName: 'showActionSheet',
-      pName: 'title',
-      pType: 'String',
-      pWrongType: typeof title
-    }))
-  }
-
-  if (!isArray(itemList)) {
-    return console.error(getParameterError({
-      funcName: 'showActionSheet',
-      pName: 'itemList',
-      pType: 'Array',
-      pWrongType: typeof itemList
-    }))
-  }
-
-  const buttons = itemList.map(res => {
-    return {
-      text: res,
-      color: itemColor
-    }
-  })
-
   return new Promise((resolve, reject) => {
+    const _default = {
+      title: '',
+      itemList: [],
+      itemColor: '#000000'
+    }
+
+    options = { ..._default, ...options }
+
+    try {
+      validateParams<any>('showActionSheet', options, showActionSheetSchema)
+    } catch (error) {
+      const res = { errMsg: error.message }
+      return callAsyncFail(reject, res, options)
+    }
+
+    const { title, itemList, itemColor } = options
+
+    const buttons = itemList.map(res => {
+      return {
+        text: res,
+        color: itemColor
+      }
+    })
+
     const actionSheetOptions = {
       title,
       buttons,
