@@ -17,7 +17,8 @@ export namespace SpecialMaps {
 
 function genAttrMapFnFromDir (dir: Record<string, string | [string, Record<string, any>]>): SpecialMaps.MapAttrFn {
   const fn: SpecialMaps.MapAttrFn = function (key, value) {
-    if (key.toLowerCase() in dir) {
+    key = key.toLowerCase();
+    if (key in dir) {
       const res = dir[key]
       if (isString(res)) {
         key = res
