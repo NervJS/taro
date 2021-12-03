@@ -1,7 +1,7 @@
 /// <reference types="react" />
 /// <reference types="vue" />
 
-import Taro, { ComponentOptions, Config, RouterInfo } from './index'
+import Taro, { Config } from './index'
 
 declare module './index' {
   // Components
