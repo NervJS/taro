@@ -21,6 +21,8 @@ class _RichText extends React.Component<RichTextProps, RichTextState> {
     webViewHeight: 0
   }
 
+  private webview = React.createRef<WebView>()
+
   renderChildrens = (arr: Array<any> = []): JSX.Element[] | undefined => {
     if (arr.length === 0) return
     return arr.map((list) => {
@@ -76,6 +78,7 @@ class _RichText extends React.Component<RichTextProps, RichTextState> {
         width: '100%',
       }, style)}>
         <WebView
+          ref={this.webview}
           source={{ html: '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>' + html }}
           scalesPageToFit={false}
           onMessage={this.onWebViewMessage}
@@ -85,7 +88,9 @@ class _RichText extends React.Component<RichTextProps, RichTextState> {
             document.body.style.padding = 0;
             document.body.style.margin = 0;
             window.ReactNativeWebView.postMessage(document.body.scrollHeight);
+            true;
           `}
+          onLoadEnd={() => this.webview.current?.injectJavaScript('window.ReactNativeWebView.postMessage(document.body.scrollHeight);')} // android
           style={{
             backgroundColor: 'transparent'
           }}
