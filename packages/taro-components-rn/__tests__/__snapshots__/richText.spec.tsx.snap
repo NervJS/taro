@@ -1,7 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`RichText RichText render 1`] = `
-<View>
+<View
+  style={
+    Object {
+      "height": 0,
+      "width": "100%",
+    }
+  }
+>
   <View
     style={
       Array [
@@ -20,14 +27,16 @@ exports[`RichText RichText render 1`] = `
             document.documentElement.style.margin = 0;
             document.body.style.padding = 0;
             document.body.style.margin = 0;
+            window.ReactNativeWebView.postMessage(document.body.scrollHeight);
             true;
           "
       injectedJavaScriptBeforeContentLoadedForMainFrameOnly={true}
       injectedJavaScriptForMainFrameOnly={true}
       javaScriptEnabled={true}
-      messagingEnabled={false}
+      messagingEnabled={true}
       onContentProcessDidTerminate={[Function]}
       onHttpError={[Function]}
+      onLoadEnd={[Function]}
       onLoadingError={[Function]}
       onLoadingFinish={[Function]}
       onLoadingProgress={[Function]}
@@ -37,7 +46,7 @@ exports[`RichText RichText render 1`] = `
       scalesPageToFit={false}
       source={
         Object {
-          "html": "<div class=\\"div_class\\" style=\\"line-height:60px;color:white;font-size:60px\\"><span>Hello World!</span></div>",
+          "html": "<meta name=\\"viewport\\" content=\\"width=device-width, initial-scale=1, maximum-scale=1\\"/><div class=\\"div_class\\" style=\\"line-height:60px;color:white;font-size:60px\\"><span>Hello World!</span></div>",
         }
       }
       style={
