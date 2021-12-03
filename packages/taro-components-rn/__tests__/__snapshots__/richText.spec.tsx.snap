@@ -28,6 +28,7 @@ exports[`RichText RichText render 1`] = `
             document.body.style.padding = 0;
             document.body.style.margin = 0;
             window.ReactNativeWebView.postMessage(document.body.scrollHeight);
+            true;
           "
       injectedJavaScriptBeforeContentLoadedForMainFrameOnly={true}
       injectedJavaScriptForMainFrameOnly={true}
@@ -35,6 +36,7 @@ exports[`RichText RichText render 1`] = `
       messagingEnabled={true}
       onContentProcessDidTerminate={[Function]}
       onHttpError={[Function]}
+      onLoadEnd={[Function]}
       onLoadingError={[Function]}
       onLoadingFinish={[Function]}
       onLoadingProgress={[Function]}
