@@ -1,12 +1,13 @@
 div {
   display: flex;
   justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 button {
-  border-radius: 5px;
-  height: 46px;
-  font-size: 18px;
+  height: 98px;
+  font-size: 36px;
 }
 
 .type-default {
@@ -96,9 +97,9 @@ button {
 }
 
 .size-mini {
-  width: 100px;
-  height: 36px;
-  font-size: 13px;
+  width: 200px;
+  height: 72px;
+  font-size: 26px;
 }
 
 .button-hover {
