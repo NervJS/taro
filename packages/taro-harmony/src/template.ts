@@ -18,14 +18,22 @@ export class Template extends RecursiveTemplate {
 
   usedNativeComps: string[] = []
 
+  patchVoidElements: string[] = [
+    'button',
+    'image',
+    'camera',
+    'video',
+    'web-view',
+    'picker',
+    'checkbox'
+  ]
+
   constructor () {
     super()
-    this.voidElements.add('button')
-    this.voidElements.add('image')
-    this.voidElements.add('static-image')
-    this.voidElements.add('camera')
-    this.voidElements.add('input')
-    this.voidElements.add('video')
+
+    this.patchVoidElements.forEach(item => {
+      this.voidElements.add(item)
+    })
 
     this.nativeComps = fs.readdirSync(path.resolve(__dirname, './components-harmony'))
   }
@@ -42,8 +50,23 @@ export class Template extends RecursiveTemplate {
     return `<element name="container" src="./index.hml"></element>
 ${elements}
 
-<block for="{{i in root.cn}}">
+<block>
 `
+  }
+
+  createMiniComponents (components): any {
+    components.Button.cn = ''
+    components.Button.bindtap = ''
+    components.Button.type = "'default'"
+
+    const result = super.createMiniComponents(components)
+
+    delete result['pure-view']
+    delete result['static-view']
+    delete result['static-text']
+    delete result['static-image']
+
+    return result
   }
 
   buildTemplate = (componentConfig) => {
@@ -77,9 +100,7 @@ ${elements}
     switch (comp.nodeName) {
       case 'slot':
       case 'slot-view':
-      case 'catch-view':
-      case 'static-view':
-      case 'pure-view':
+      case 'cover-view':
       case 'view':
       case 'swiper-item':
         nodeName = 'div'
@@ -98,15 +119,16 @@ ${elements}
   }
 
   generateComponentTemplateSrc (comp, nodeName?): string {
-    const children = this.voidElements.has(comp.nodeName) ? '' : '<container root="{{i}}"></container>'
+    const children = this.voidElements.has(comp.nodeName)
+      ? ''
+      : `<block for="{{i.cn}}">
+      <container i="{{$item}}"></container>
+    </block>`
     if (!nodeName) {
       nodeName = comp.nodeName
     }
     if (this.nativeComps.includes(nodeName)) {
       nodeName = `taro-${nodeName}`
-      // 鸿蒙自定义组件不能传 class 属性
-      comp.attributes.cls = comp.attributes.class
-      delete comp.attributes.class
     }
 
     const res = `
@@ -157,11 +179,18 @@ ${elements}
 <element name="tabbar" src="${tabbarTempPath}"></element>
 
 <div class="container">
-  <navbar title="{{taroNavBar.title}}" background="{{taroNavBar.background}}" text-style="{{taroNavBar.textStyle}}" st="{{taroNavBar.style}}"></navbar>
+  <navbar if="{{taroNavBar}}" title="{{taroNavBar.title}}" background="{{taroNavBar.background}}" text-style="{{taroNavBar.textStyle}}" st="{{taroNavBar.style}}"></navbar>
   <div class="body" style="padding-top: 44px;padding-bottom: {{isShowTaroTabBar ? '56px' : '0'}}">
-    <container root="{{root}}"></container>
+    <refresh if="{{enablePullDownRefresh}}" type="pulldown" refreshing="{{isRefreshing}}" onrefresh="onPullDownRefresh">
+      <block for="{{root.cn}}">
+        <container i="{{$item}}"></container>
+      </block>
+    </refresh>
+    <block else for="{{root.cn}}">
+      <container i="{{$item}}"></container>
+    </block>
   </div>
-  <tabbar if="{{isShowTaroTabBar}}" data="{{taroTabBar}}" selected="{{selected}}"></tabbar>
+  <tabbar if="{{isShowTaroTabBar}}" tabbar-data="{{taroTabBar}}" selected="{{selected}}"></tabbar>
 </div>
 `
 

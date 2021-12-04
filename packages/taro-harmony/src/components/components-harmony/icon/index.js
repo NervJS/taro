@@ -7,7 +7,6 @@ export default {
     },
     type: String,
     id: String,
-    cls: String,
     color: String
   },
   computed: {

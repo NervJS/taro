@@ -21,6 +21,7 @@ module.exports = {
     ENABLE_SIZE_APIS: true,
     ENABLE_TEMPLATE_CONTENT: true,
     ENABLE_CLONE_NODE: true,
+    ENABLE_CONTAINS: true,
     'ts-jest': {
       diagnostics: false,
       tsConfig: {

@@ -1,0 +1,9 @@
+<div 
+  id="{{id}}"
+  class="{{clsHover}}"
+  @click="onClick"
+  @touchstart="onTouchStart"
+  @touchend="onTouchEnd"
+>
+  <slot></slot>
+</div>

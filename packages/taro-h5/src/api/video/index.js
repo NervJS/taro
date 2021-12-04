@@ -1,4 +1,4 @@
-import { shouleBeObject, getParameterError, findDOM } from '../utils'
+import { shouldBeObject, getParameterError, findDOM } from '../utils'
 
 /**
  * @typedef {Object} ChooseVideoParam
@@ -18,7 +18,7 @@ import { shouleBeObject, getParameterError, findDOM } from '../utils'
 export function chooseVideo (options) {
   // options must be an Object
 
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `chooseVideo${isObject.msg}` }
     console.error(res.errMsg)

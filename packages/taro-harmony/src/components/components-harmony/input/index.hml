@@ -1,7 +1,6 @@
 <div>
   <input
     id="{{ id }}"
-    class="{{ cls }}"
     value="{{ value }}"
     type="{{ realType }}"
     placeholder="{{ placeholder }}"

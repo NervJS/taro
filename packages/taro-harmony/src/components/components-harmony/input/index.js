@@ -10,7 +10,6 @@ export default createOption({
   props: {
     id: String,
     value: String,
-    cls: String,
     type: String,
     password: Boolean,
     placeholder: String,

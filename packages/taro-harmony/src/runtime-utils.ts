@@ -1,4 +1,4 @@
-import { internalComponents } from '@tarojs/shared'
+import { internalComponents, isArray } from '@tarojs/shared'
 import { initNativeApi } from './apis'
 
 declare const getApp: any
@@ -32,12 +32,13 @@ export const hostConfig = {
       'onStartContinuation',
       'onSaveData',
       'onRestoreData',
-      'onCompleteContinuation'
+      'onCompleteContinuation',
+      'onPullDownRefresh'
     ]
     return config
   },
   modifyPageObject (config) {
-    const origin = config.onInit
+    const originOnInit = config.onInit
     config.onInit = function () {
       // 对接小程序规范的 setData 到 harmony 规范的 $set
       this.setData = function (normalUpdate: Record<string, any>, cb) {
@@ -56,7 +57,7 @@ export const hostConfig = {
       })
 
       // 调用 onInit
-      origin.call(this, options)
+      originOnInit.call(this, options)
 
       // 手动记录路由堆栈
       const app = getApp()
@@ -78,6 +79,10 @@ export const hostConfig = {
         style: window.navigationStyle || 'default'
       })
 
+      // 初始化下拉刷新组件
+      this.$set('enablePullDownRefresh', Boolean(window.enablePullDownRefresh))
+      this.$set('isRefreshing', false)
+
       // 根据 app.config 初始化 tabbar
       if (appConfig.tabBar) {
         const list = appConfig.tabBar.list
@@ -91,6 +96,38 @@ export const hostConfig = {
           }
         }
       }
+    }
+
+    const originOnPullDownRefresh = config.onPullDownRefresh
+    config.onPullDownRefresh = function (e) {
+      this.$set('isRefreshing', e.refreshing)
+
+      // 调用 onPullDownRefresh
+      originOnPullDownRefresh.call(this)
+    }
+
+    const originOnDestroy = config.onDestroy
+    config.onDestroy = function () {
+      // 页面销毁时 执行路由堆栈 出栈
+      const app = getApp()
+      if (isArray(app.pageStack)) {
+        // 不能用 pop，因为 onInit 会比 onDestroy 先触发，考虑一种情况：
+        // current stack: [A, B], action: redirectTo C
+        // [C onInit], push C, stack: [A, B, C]
+        // [B onDestroy], pop C, stack: [A, B]
+        // 可见 pop 会导致路由栈错误，上述例子中正确的路由栈应该是 [A, C]，而不是 [A, B]
+        const pagePath = this.$taroPath.split('?')[0]
+        const stack: string[] = app.pageStack
+        const len = stack.length
+        let targetIdx = -1
+        for (let i = 0; i < len; i++) {
+          if (stack[i] === pagePath) targetIdx = i
+        }
+        targetIdx >= 0 && stack.splice(targetIdx, 1)
+      }
+
+      // 调用 OnDestroy
+      originOnDestroy.call(this)
     }
   }
 }

@@ -1,13 +1,11 @@
-import React from 'react'
+import { PickerViewProps as _PickerViewProps } from '@tarojs/components/types/PickerView'
+import { PickerViewProps as __PickerViewProps } from '@ant-design/react-native/lib/picker-view/PickerView'
+import { PickerData } from '@ant-design/react-native/lib/picker/PropsType'
 
-export type OnChangeEvent<T, E> = { detail: { value: T } & E }
-export interface PickerViewProps<T, E = Record<string, unknown>> {
-  children?: React.ReactNode;
-  mode?: 'selector' | 'multiSelector' | 'time' | 'date' | 'region';
-  value?: number[];
-  onChange?: (event: OnChangeEvent<T, E>) => void;
-  onCancel?: () => void;
-  disabled?: boolean;
-  itemStyle?: Record<string, unknown>;
-  indicatorStyle?: Record<string, unknown>;
+export interface PickerViewProps extends _PickerViewProps, __PickerViewProps {
+  data: PickerData[] | PickerData[][]
+  style: any;
+  indicatorStyle?: any;
+  onChange?: () => void;
+  value: any[]
 }

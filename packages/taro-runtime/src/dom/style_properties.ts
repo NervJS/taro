@@ -45,7 +45,8 @@ const styleProperties = [
   'whiteSpace',
   'widows',
   'width',
-  'zIndex'
+  'zIndex',
+  'pointerEvents'
 
   /** 非常用 style */
   // 'azimuth',

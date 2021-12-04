@@ -2,7 +2,8 @@ import { singleQuote } from '@tarojs/shared'
 
 export const components = {
   Checkbox: {
-    'group-id': ''
+    'group-id': '',
+    cn: ''
   },
   Span: {},
   Tabs: {
@@ -55,7 +56,30 @@ export const components = {
   Switch: {
     showtext: 'false',
     texton: singleQuote('On'),
-    textoff: singleQuote('Off'),
+    textoff: singleQuote('Off')
+  },
+  Textarea: {
+    headericon: '',
+    showcounter: 'false',
+    menuoptions: '[]',
+    softkeyboardenabled: 'true',
+    bindtranslate: '',
+    bindshare: '',
+    bindsearch: '',
+    bindoptionselect: '',
+    bindselectchange: ''
+  },
+  Progress: {
+    'active-color': singleQuote('#09BB07'),
+    'background-color': singleQuote('#EBEBEB'),
+    type: singleQuote('horizontal'),
+    'font-size': singleQuote('25px'),
+    secondarypercent: '0',
+    clockwise: 'true'
+  },
+  Slider: {
+    showsteps: 'false',
+    showtips: 'false'
   },
   Slider: {
     showsteps: 'false',
@@ -69,6 +93,34 @@ export const components = {
     bindloadedmetadata: '',
     bindprogress: '',
     bindtap: ''
+  },
+  Image: {
+    alt: ''
+  },
+  Radio: {
+    'group-id': ''
+  },
+  Picker: {
+    selected: '',
+    hours: '',
+    containsecond: 'false',
+    vibrate: 'true',
+    lunar: 'false',
+    lunarswitch: 'false'
+  },
+  PickerView: {
+    mode: '',
+    range: '',
+    selected: '',
+    hours: '',
+    indicatorprefix: '',
+    indicatorsuffix: '',
+    containsecond: 'false',
+    vibrate: 'true',
+    lunar: 'false',
+    lunarswitch: 'false',
+    bindcolumnchange: '',
+    cn: ''
   }
 }
 

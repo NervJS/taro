@@ -7,7 +7,6 @@ const NUM_VERTICAL = 0
 export default createOption({
   props: [
     'id',
-    'cls',
     'src',
     'controls',
     'autoplay',

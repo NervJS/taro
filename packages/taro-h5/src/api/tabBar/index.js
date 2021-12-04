@@ -1,12 +1,10 @@
 import Taro from '@tarojs/api'
-import { shouleBeObject, getParameterError, isValidColor, successHandler, errorHandler } from '../utils'
+import { shouldBeObject, getParameterError, isValidColor, successHandler, errorHandler } from '../utils'
 
 let tabConf
-let App
 
-export function initTabBarApis (_App = {}) {
-  tabConf = _App.state.__tabs
-  App = _App
+export function initTabBarApis (config = {}) {
+  tabConf = config.tabBar
 }
 
 /**
@@ -20,7 +18,7 @@ export function initTabBarApis (_App = {}) {
  */
 export function setTabBarBadge (options = {}) {
   // options must be an Object
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `setTabBarBadge${isObject.msg}` }
     console.error(res.errMsg)
@@ -64,8 +62,6 @@ export function setTabBarBadge (options = {}) {
     successHandler: successHandler(success, complete),
     errorHandler: errorHandler(fail, complete)
   })
-
-  return successHandler(success, complete)(res)
 }
 
 /**
@@ -78,7 +74,7 @@ export function setTabBarBadge (options = {}) {
  */
 export function removeTabBarBadge (options = {}) {
   // options must be an Object
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `removeTabBarBadge${isObject.msg}` }
     console.error(res.errMsg)
@@ -109,8 +105,6 @@ export function removeTabBarBadge (options = {}) {
     successHandler: successHandler(success, complete),
     errorHandler: errorHandler(fail, complete)
   })
-
-  return successHandler(success, complete)(res)
 }
 
 /**
@@ -123,7 +117,7 @@ export function removeTabBarBadge (options = {}) {
  */
 export function showTabBarRedDot (options = {}) {
   // options must be an Object
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `showTabBarRedDot${isObject.msg}` }
     console.error(res.errMsg)
@@ -154,8 +148,6 @@ export function showTabBarRedDot (options = {}) {
     successHandler: successHandler(success, complete),
     errorHandler: errorHandler(fail, complete)
   })
-
-  return successHandler(success, complete)(res)
 }
 
 /**
@@ -168,7 +160,7 @@ export function showTabBarRedDot (options = {}) {
  */
 export function hideTabBarRedDot (options = {}) {
   // options must be an Object
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `hideTabBarRedDot${isObject.msg}` }
     console.error(res.errMsg)
@@ -199,8 +191,6 @@ export function hideTabBarRedDot (options = {}) {
     successHandler: successHandler(success, complete),
     errorHandler: errorHandler(fail, complete)
   })
-
-  return successHandler(success, complete)(res)
 }
 
 /**
@@ -213,7 +203,7 @@ export function hideTabBarRedDot (options = {}) {
  */
 export function showTabBar (options = {}) {
   // options must be an Object
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `showTabBar${isObject.msg}` }
     console.error(res.errMsg)
@@ -245,8 +235,6 @@ export function showTabBar (options = {}) {
     successHandler: successHandler(success, complete),
     errorHandler: errorHandler(success, complete)
   })
-
-  return successHandler(success, complete)(res)
 }
 
 /**
@@ -259,7 +247,7 @@ export function showTabBar (options = {}) {
  */
 export function hideTabBar (options = {}) {
   // options must be an Object
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `hideTabBar${isObject.msg}` }
     console.error(res.errMsg)
@@ -291,8 +279,6 @@ export function hideTabBar (options = {}) {
     successHandler: successHandler(success, complete),
     errorHandler: errorHandler(success, complete)
   })
-
-  return successHandler(success, complete)(res)
 }
 
 /**
@@ -308,7 +294,7 @@ export function hideTabBar (options = {}) {
  */
 export function setTabBarStyle (options = {}) {
   // options must be an Object
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `setTabBarStyle${isObject.msg}` }
     console.error(res.errMsg)
@@ -353,10 +339,14 @@ export function setTabBarStyle (options = {}) {
   if (backgroundColor) obj.backgroundColor = backgroundColor
   if (borderStyle) obj.borderStyle = borderStyle
 
-  const temp = Object.assign({}, tabConf, obj)
-  App.setState && App.setState({ __tabs: temp })
-
-  return successHandler(success, complete)(res)
+  Taro.eventCenter.trigger('__taroSetTabBarStyle', {
+    color,
+    selectedColor,
+    backgroundColor,
+    borderStyle,
+    successHandler: successHandler(success, complete),
+    errorHandler: errorHandler(success, complete)
+  })
 }
 
 /**
@@ -372,7 +362,7 @@ export function setTabBarStyle (options = {}) {
  */
 export function setTabBarItem (options = {}) {
   // options must be an Object
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `setTabBarItem${isObject.msg}` }
     console.error(res.errMsg)
@@ -401,24 +391,12 @@ export function setTabBarItem (options = {}) {
     return errorHandler(fail, complete)(res)
   }
 
-  if (
-    !tabConf ||
-    !tabConf.list ||
-    !tabConf.list[index]
-  ) {
-    res.errMsg = 'setTabBarItem:fail tabbar item not found'
-    return errorHandler(fail, complete)(res)
-  }
-
-  const obj = {}
-  if (text) obj.text = text
-  if (iconPath) obj.iconPath = iconPath
-  if (selectedIconPath) obj.selectedIconPath = selectedIconPath
-
-  const temp = Object.assign({}, tabConf)
-  temp.list[index] = Object.assign({}, temp.list[index], obj)
-
-  App.setState && App.setState({ __tabs: temp })
-
-  return successHandler(success, complete)(res)
+  Taro.eventCenter.trigger('__taroSetTabBarItem', {
+    index,
+    text,
+    iconPath,
+    selectedIconPath,
+    successHandler: successHandler(success, complete),
+    errorHandler: errorHandler(success, complete)
+  })
 }

@@ -23,6 +23,7 @@ export default {
   },
   goBack () {
     if (!this._data.isShowReturn) return
+
     router.back()
   }
 }
