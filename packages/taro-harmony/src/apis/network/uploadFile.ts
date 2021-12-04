@@ -1,3 +1,5 @@
+// HarmonyOS 文档链接：https://developer.harmonyos.com/cn/docs/documentation/doc-references/js-apis-request-0000001123753962#section455311474372
+// WX 文档链接：https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/wx.uploadFile.html
 // ✅ wx.uploadFile
 // ✅ UploadTask.abort
 // ✅ UploadTask.offHeadersReceived

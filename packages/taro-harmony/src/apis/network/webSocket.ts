@@ -104,7 +104,7 @@ const connectSocket: ConnectSocket = function (options) {
   SocketTaskWX.onOpen = function (onOpenCallback) {
     validateParams('onOpen', [onOpenCallback], ['Function'])
     ws.on('open', (err, value) => {
-      // TODO: 返回参数格式化
+      // 返回不一样，wx:{header, profile}, ohos:{err, value:{status, message}}
       onOpenCallback(!err ? value : err)
     })
   }

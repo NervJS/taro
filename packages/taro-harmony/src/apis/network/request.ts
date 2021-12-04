@@ -1,3 +1,5 @@
+// HarmonyOS 文档链接：https://developer.harmonyos.com/cn/docs/documentation/doc-references/js-apis-net-http-0000001168304341
+// WX 文档链接：https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html
 // ✅ wx.request
 // ✅ RequestTask.abort
 // ✅ RequestTask.offHeadersReceived
@@ -28,19 +30,17 @@ const requestSchema = {
   url: 'String'
 }
 
-// TODO: 增加函数类型
 const request: Request = function (options) {
   let httpRequestOhos
-  try {
-    console.error('ddoowwnnllooaadd rreeqquueesstt ERROR 1: ' + http)
-    httpRequestOhos = http.createHttp()
-  } catch (error) {
-    console.error('ddoowwnnllooaadd rreeqquueesstt ERROR 2: ' + error)
-  }
-  // const httpRequestOhos = http.createHttp()
-  console.warn('rreeqquueesstt TARO 1: ' + httpRequestOhos)
 
   const requestTask: any = new Promise((resolve, reject) => {
+    try {
+      httpRequestOhos = http.createHttp()
+    } catch (error) {
+      const res = { errMsg: error }
+      return callAsyncFail(reject, res, options)
+    }
+
     const { url, method, header, timeout } = options
 
     try {
@@ -63,7 +63,6 @@ const request: Request = function (options) {
       readTimeout: timeout,
       connectTimeout: timeout
     }
-    console.warn('rreeqquueesstt TARO requestParamsOHOS 2: ' + JSON.stringify(requestParamsOHOS) + resolve)
 
     httpRequestOhos.request(url, requestParamsOHOS).then((data: IRequestResultOHOS) => {
       const reswx = {

@@ -1,3 +1,5 @@
+// HarmonyOS 文档链接：https://developer.harmonyos.com/cn/docs/documentation/doc-references/js-apis-request-0000001123753962#section455311474372
+// WX 文档链接：https://developers.weixin.qq.com/miniprogram/dev/api/network/download/wx.downloadFile.html
 // ✅ wx.downloadFile
 // ✅ DownloadTask.abort
 // ❌ DownloadTask.offHeadersReceived 此接口 ohos 不支持
@@ -26,7 +28,6 @@ const downloadFileSchema = {
   url: 'String'
 }
 
-// TODO: 增加函数类型
 const downloadFile: DownloadFile = function (options) {
   let downloadTask: TaroGeneral.IAnyObject = {}
 
@@ -51,15 +52,16 @@ const downloadFile: DownloadFile = function (options) {
     request.download(ohosParams).then((dataDownload:any) => {
       console.warn('ddoowwnnllooaadd requestDownload TARO 1 download')
       downloadTask = dataDownload
-      let downloadData
+      let downloadFileData
       console.warn('ddoowwnnllooaadd requestDownload TARO 2 download')
 
       downloadTask.query().then(dataQuery => {
         console.warn('ddoowwnnllooaadd requestDownload TARO 3 query')
-        downloadData = dataQuery
+        downloadFileData = dataQuery
         downloadTask.on('complete', () => {
           console.warn('ddoowwnnllooaadd requestDownload TARO 4 complete')
-          callAsyncSuccess(resolve, downloadData, options)
+          downloadFileData.status = downloadFileData.statusCode
+          callAsyncSuccess(resolve, downloadFileData, options)
         })
         downloadTask.on('fail', (err) => {
           console.warn('ddoowwnnllooaadd requestDownload TARO 5 fail |||' + JSON.stringify(err))
