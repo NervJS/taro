@@ -3,7 +3,18 @@ import StyleTransform, { getWrapedCSS } from '../src/transforms'
 // 初始化
 const styleTransform = new StyleTransform()
 
-async function run (src, filename = './__tests__/styles/a.css', options, debug) {
+async function run (src, filename = './__tests__/styles/a.css', debug) {
+  let options
+
+  if (typeof src === 'object') {
+    ({
+      src,
+      filename = './__tests__/styles/a.css',
+      options,
+      debug
+    } = src || {})
+  }
+
   const css = await styleTransform.transform(src, filename, options)
   if (debug) {
     // eslint-disable-next-line
@@ -48,9 +59,7 @@ describe('style transform', () => {
   })
 
   it('.css import source omit extension', async () => {
-    const css = await run(`
-      @import './b';
-    `, './__tests__/styles/a.css')
+    const css = await run("@import './b';", './__tests__/styles/a.css')
     expect(css).toEqual(getWrapedCSS(`{
   "brn": {
     "color": "red"
@@ -121,9 +130,7 @@ describe('style transform', () => {
   })
 
   it('.sass import source omit extension', async () => {
-    const css = await run(`
-      @import './b';
-    `, './__tests__/styles/a.scss')
+    const css = await run("@import './b';", './__tests__/styles/a.scss')
     expect(css).toEqual(getWrapedCSS(`{
   "b": {
     "color": "red"
@@ -182,9 +189,7 @@ describe('style transform', () => {
   })
 
   it('.less tranform node_modules file import', async () => {
-    const css = await run(`
-      @import 'less/test/browser/css/global-vars/simple.css';
-    `, './__tests__/styles/a.less')
+    const css = await run("@import 'less/test/browser/css/global-vars/simple.css';", './__tests__/styles/a.less')
     expect(css).toEqual(getWrapedCSS(`{
   "test": {
     "color": "red"
@@ -193,9 +198,7 @@ describe('style transform', () => {
   })
 
   it('.less import source omit extension', async () => {
-    const css = await run(`
-      @import './b';
-    `, './__tests__/styles/a.less')
+    const css = await run("@import './b';", './__tests__/styles/a.less')
     expect(css).toEqual(getWrapedCSS(`{
   "b": {
     "color": "red"
