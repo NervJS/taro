@@ -76,7 +76,6 @@ const request: Request = function (options) {
     })
   })
 
-  // 以下方法需要先获取 RequestTask 对象
   requestTask.abort = function () {
     httpRequestOhos.destroy()
   }

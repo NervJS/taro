@@ -1,13 +1,6 @@
 // OpenHarmony 不支持全局操作 WebSocket
 // HarmonyOS 文档链接：https://developer.harmonyos.com/cn/docs/documentation/doc-references/js-apis-net-websocket-0000001168304641
 // WX 文档链接：https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.sendSocketMessage.html
-// ❌ wx.sendSocketMessage
-// ❌ wx.onSocketOpen
-// ❌ wx.onSocketMessage
-// ❌ wx.onSocketError
-// ❌ wx.onSocketClose
-// ❌ wx.closeSocket
-
 // ✅ wx.connectSocket
 // ✅ SocketTask
 // ✅ SocketTask.close
@@ -16,6 +9,14 @@
 // ✅ SocketTask.onMessage
 // ✅ SocketTask.onOpen
 // ✅ SocketTask.send
+
+// ❌ wx.sendSocketMessage
+// ❌ wx.onSocketOpen
+// ❌ wx.onSocketMessage
+// ❌ wx.onSocketError
+// ❌ wx.onSocketClose
+// ❌ wx.closeSocket
+
 import Taro from '@tarojs/taro'
 import { validateParams, callAsyncFail, callAsyncSuccess } from '../utils'
 import { IAsyncParams } from '../utils/types'
@@ -104,7 +105,8 @@ const connectSocket: ConnectSocket = function (options) {
   SocketTaskWX.onOpen = function (onOpenCallback) {
     validateParams('onOpen', [onOpenCallback], ['Function'])
     ws.on('open', (err, value) => {
-      // 返回不一样，wx:{header, profile}, ohos:{err, value:{status, message}}
+      // TODO：返回数据字段完全不一样，无法兼容，暂不处理
+      // wx:{header, profile}, ohos:{err, value:{status, message}}
       onOpenCallback(!err ? value : err)
     })
   }

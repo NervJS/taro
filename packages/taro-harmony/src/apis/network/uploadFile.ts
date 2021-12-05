@@ -2,12 +2,12 @@
 // WX 文档链接：https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/wx.uploadFile.html
 // ✅ wx.uploadFile
 // ✅ UploadTask.abort
-// ✅ UploadTask.offHeadersReceived
+// ✅ UploadTask.offHeadersReceived (BETA)7+
 // ✅ UploadTask.offProgressUpdate
-// ✅ UploadTask.onHeadersReceived
+// ✅ UploadTask.onHeadersReceived(BETA)7+
 // ✅ UploadTask.onProgressUpdate
 
-import Taro from '@tarojs/taro'
+import Taro, { UploadTask } from '@tarojs/taro'
 import { isUndefined } from '@tarojs/shared'
 import { validateParams, callAsyncSuccess, callAsyncFail } from '../utils'
 const request = require('@ohos.request')
@@ -34,12 +34,6 @@ interface IUploadFileParamsOHOS {
   data?: Array<IRequestDataOHOS>
 }
 
-interface IProgressUpdateParams {
-  progress: number
-  totalBytesSent: number
-  totalBytesExpectedToSend: number
-}
-
 const uploadSchema = {
   url: 'String'
   // filePath: 'String',
@@ -48,7 +42,6 @@ const uploadSchema = {
 
 // wx 只支持 HTTP POST 请求，OHOS 支持 POST 和 PUT 请求
 // OHOS 不支持 wx 的 timeout，但是支持 file 文件列表上传，wx 是单文件上传
-// TODO: 增加函数类型
 const uploadFile: UploadFile = function (options) {
   let uploadTask: TaroGeneral.IAnyObject = {}
 
@@ -63,8 +56,6 @@ const uploadFile: UploadFile = function (options) {
       return callAsyncFail(reject, res, options)
     }
 
-    // console.warn('uuppllooaadd requestUpload Taro 1:' + JSON.stringify(options))
-
     const file: IOHOSFileType = {
       url: filePath,
       name
@@ -77,8 +68,6 @@ const uploadFile: UploadFile = function (options) {
       header
     }
 
-    // console.warn('uuppllooaadd requestUpload Taro 2:' + JSON.stringify(ohosParams))
-
     if (formData) {
       const rData: Array<IRequestDataOHOS> = []
       Object.keys(formData).forEach((key: string) => {
@@ -90,21 +79,16 @@ const uploadFile: UploadFile = function (options) {
       })
       ohosParams.data = rData
     }
-    console.warn('uuppllooaadd requestUpload Taro 3:' + JSON.stringify(ohosParams))
-    console.warn('uuppllooaadd requestUpload Taro 4:' + timeout)
     if (!isUndefined(timeout)) {
       timer = setTimeout(() => {
         const err: {errMsg: string} = {
           errMsg: 'uploadFile request timeout, please try again later.'
         }
-        console.warn('uuppllooaadd requestUpload Taro setTimeout err.')
         callAsyncFail(reject, err, options)
       }, timeout)
     }
 
-    console.warn('uuppllooaadd requestUpload Taro 5')
     request.upload(ohosParams).then((dataUpload) => {
-      console.warn('uuppllooaadd requestUpload Taro 6' + timer)
       if (timer) {
         clearTimeout(timer)
       }
@@ -114,22 +98,16 @@ const uploadFile: UploadFile = function (options) {
       if (timer) {
         clearTimeout(timer)
       }
-      console.error('uuppllooaadd Failed to request the upload. Cause: ' + JSON.stringify(err))
       callAsyncFail(reject, err, options)
     })
   })
 
   UploadTaskWX.abort = function () {
     uploadTask.remove((err: any, result: any) => {
-      if (err) {
-        console.error('Failed to remove the upload task. Cause: ' + JSON.stringify(err))
-        return
+      if (err || result) {
+        return err || result
       }
-      if (result) {
-        console.error('Upload task removed successfully.')
-      } else {
-        console.error('Failed to remove the upload task.')
-      }
+      return result
     })
   }
   UploadTaskWX.onHeadersReceived = function (callback: (params) => void) {
@@ -140,19 +118,19 @@ const uploadFile: UploadFile = function (options) {
   }
   UploadTaskWX.offHeadersReceived = function (callback: (params) => void) {
     validateParams('offHeadersReceived', [callback], ['Function'])
-
     uploadTask.off('headerReceive', (headers: TaroGeneral.IAnyObject) => {
       callback(headers)
     })
   }
-  UploadTaskWX.onProgressUpdate = function (callback: (params) => void) {
+  // wx 单位是 Bytes，ohos 单位是 KBytes
+  UploadTaskWX.onProgressUpdate = function (callback: UploadTask.OnProgressUpdateCallback) {
     validateParams('onProgressUpdate', [callback], ['Function'])
     uploadTask.on('progress', (uploadSize: number, totalSize: number) => {
       const totalBytesSent: number = uploadSize * 1024
       const totalBytesExpectedToSend: number = totalSize * 1024
-      // TODO: 应该保留几位小数？
+      // TODO: 进度应该保留几位小数？暂时保留6位
       const progress: number = +(uploadSize / totalSize).toFixed(6)
-      const progressParams: IProgressUpdateParams = {
+      const progressParams: UploadTask.OnProgressUpdateCallbackResult = {
         totalBytesSent,
         totalBytesExpectedToSend,
         progress
@@ -160,19 +138,18 @@ const uploadFile: UploadFile = function (options) {
       callback(progressParams)
     })
   }
-  UploadTaskWX.offProgressUpdate = function (callback) {
+  UploadTaskWX.offProgressUpdate = function (callback: UploadTask.OffProgressUpdateCallback) {
     validateParams('offProgressUpdate', [callback], ['Function'])
-
     uploadTask.off('progress', (uploadSize: number, totalSize: number) => {
       const totalBytesSent: number = uploadSize * 1024
       const totalBytesExpectedToSend: number = totalSize * 1024
-      // TODO: 应该保留几位小数？
+      // TODO: 进度应该保留几位小数？暂时保留6位
       const progress: number = +(uploadSize / totalSize).toFixed(6)
       const progressParams = {
         totalBytesSent,
         totalBytesExpectedToSend,
         progress,
-        errMsg: '0'
+        errMsg: 'Cancel progress listening is done.'
       }
       callback(progressParams)
     })

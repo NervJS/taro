@@ -1,11 +1,11 @@
 // HarmonyOS 文档链接：https://developer.harmonyos.com/cn/docs/documentation/doc-references/js-apis-request-0000001123753962#section455311474372
 // WX 文档链接：https://developers.weixin.qq.com/miniprogram/dev/api/network/download/wx.downloadFile.html
-// ✅ wx.downloadFile
+// ✅ wx.downloadFile (BETA)7+,因为使用了 query 和 on('complete')
 // ✅ DownloadTask.abort
-// ❌ DownloadTask.offHeadersReceived 此接口 ohos 不支持
 // ✅ DownloadTask.offProgressUpdate
-// ❌ DownloadTask.onHeadersReceived 此接口 ohos 不支持
 // ✅ DownloadTask.onProgressUpdate
+// ❌ DownloadTask.onHeadersReceived 此接口 ohos 不支持
+// ❌ DownloadTask.offHeadersReceived 此接口 ohos 不支持
 
 import Taro, { DownloadTask } from '@tarojs/taro'
 import { validateParams, callAsyncFail, callAsyncSuccess } from '../utils'
@@ -41,8 +41,6 @@ const downloadFile: DownloadFile = function (options) {
       return callAsyncFail(reject, res, options)
     }
 
-    console.warn('ddoowwnnllooaadd url: ' + options.url)
-
     const ohosParams: IDownloadConfigOHOS = {
       url
     }
@@ -50,62 +48,59 @@ const downloadFile: DownloadFile = function (options) {
     if (filePath) ohosParams.filePath = filePath
 
     request.download(ohosParams).then((dataDownload:any) => {
-      console.warn('ddoowwnnllooaadd requestDownload TARO 1 download')
       downloadTask = dataDownload
-      let downloadFileData
-      console.warn('ddoowwnnllooaadd requestDownload TARO 2 download')
 
+      // TODO: 建议鸿蒙优化 complete 回调接口。
+      // ohos 的 complete 回调不返回任何下载信息，需要调用 query 查询后，在 complete 和 fail 中调用回调返回
       downloadTask.query().then(dataQuery => {
-        console.warn('ddoowwnnllooaadd requestDownload TARO 3 query')
-        downloadFileData = dataQuery
         downloadTask.on('complete', () => {
-          console.warn('ddoowwnnllooaadd requestDownload TARO 4 complete')
-          downloadFileData.status = downloadFileData.statusCode
-          callAsyncSuccess(resolve, downloadFileData, options)
+          dataQuery.status = dataQuery.statusCode
+          callAsyncSuccess(resolve, dataQuery, options)
         })
         downloadTask.on('fail', (err) => {
-          console.warn('ddoowwnnllooaadd requestDownload TARO 5 fail |||' + JSON.stringify(err))
           const res = {
-            errMsg: 'ddoowwnnllooaadd' + err
+            errMsg: err
           }
           callAsyncFail(reject, res, options)
         })
       }).catch((err) => {
         callAsyncFail(reject, err, options)
-        console.warn('ddoowwnnllooaadd Failed to query the download task. Cause:' + err)
       })
     }).catch((err) => {
       callAsyncFail(reject, err, options)
     })
   })
   downloadTaskWX.abort = function () {
-    console.warn('ddoowwnnllooaadd abort begin：')
     downloadTask.remove((err: any, data: any) => {
       if (err) {
-        console.error('ddoowwnnllooaadd Failed to remove the download task. Cause:' + err + '|||' + downloadTask)
-        return
+        return err
       }
-      console.warn('ddoowwnnllooaadd Download task removed.' + data)
+      return data
     })
   }
   downloadTaskWX.offProgressUpdate = function offProgressUpdate (callback: DownloadTask.OffProgressUpdateCallback) {
-    console.warn('ddoowwnnllooaadd OFF offProgressUpdate progress begin：')
     validateParams('offProgressUpdate', [callback], ['Function'])
-    downloadTask.off('progress', (err, _data) => {
-      const res: TaroGeneral.CallbackResult = {
-        errMsg: err ? 'Cancel progress listening is failed. Cause:' + err : 'Cancel progress listening is done.'
-      }
-      err ? callback(err) : callback(res)
-    })
-  }
-  downloadTaskWX.onProgressUpdate = function (callback: DownloadTask.OnProgressUpdateCallback) {
-    console.warn('ddoowwnnllooaadd ON onProgressUpdate progress begin：')
-    validateParams('onProgressUpdate', [callback], ['Function'])
-    downloadTask.on('progress', (receivedSize: number, totalSize: number) => {
-      console.warn('ddoowwnnllooaadd ON onProgressUpdate totalSize:' + totalSize + '，  receivedSize:' + receivedSize)
+    downloadTask.off('progress', (receivedSize: number, totalSize: number) => {
       const totalBytesWritten: number = receivedSize * 1024
       const totalBytesExpectedToWrite: number = totalSize * 1024
-      // TODO: 应该保留几位小数？
+      // TODO: 进度应该保留几位小数？暂时保留6位
+      const progress: number = +(receivedSize / totalSize).toFixed(6)
+      const progressParams = {
+        totalBytesWritten,
+        totalBytesExpectedToWrite,
+        progress,
+        errMsg: 'Cancel progress listening is done.'
+      }
+      callback(progressParams)
+    })
+  }
+  // wx 单位是 Bytes，ohos 单位是 KBytes
+  downloadTaskWX.onProgressUpdate = function (callback: DownloadTask.OnProgressUpdateCallback) {
+    validateParams('onProgressUpdate', [callback], ['Function'])
+    downloadTask.on('progress', (receivedSize: number, totalSize: number) => {
+      const totalBytesWritten: number = receivedSize * 1024
+      const totalBytesExpectedToWrite: number = totalSize * 1024
+      // TODO: 进度应该保留几位小数？暂时保留6位
       const progress: number = +(receivedSize / totalSize).toFixed(6)
       const progressParams: DownloadTask.OnProgressUpdateCallbackResult = {
         totalBytesWritten,
