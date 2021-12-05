@@ -1,4 +1,4 @@
-import { internalComponents } from '@tarojs/shared'
+import { internalComponents, isArray } from '@tarojs/shared'
 import { initNativeApi } from './apis'
 
 declare const getApp: any
@@ -104,6 +104,30 @@ export const hostConfig = {
 
       // 调用 onPullDownRefresh
       originOnPullDownRefresh.call(this)
+    }
+
+    const originOnDestroy = config.onDestroy
+    config.onDestroy = function () {
+      // 页面销毁时 执行路由堆栈 出栈
+      const app = getApp()
+      if (isArray(app.pageStack)) {
+        // 不能用 pop，因为 onInit 会比 onDestroy 先触发，考虑一种情况：
+        // current stack: [A, B], action: redirectTo C
+        // [C onInit], push C, stack: [A, B, C]
+        // [B onDestroy], pop C, stack: [A, B]
+        // 可见 pop 会导致路由栈错误，上述例子中正确的路由栈应该是 [A, C]，而不是 [A, B]
+        const pagePath = this.$taroPath.split('?')[0]
+        const stack: string[] = app.pageStack
+        const len = stack.length
+        let targetIdx = -1
+        for (let i = 0; i < len; i++) {
+          if (stack[i] === pagePath) targetIdx = i
+        }
+        targetIdx >= 0 && stack.splice(targetIdx, 1)
+      }
+
+      // 调用 OnDestroy
+      originOnDestroy.call(this)
     }
   }
 }
