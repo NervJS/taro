@@ -30,7 +30,6 @@ export default {
     for (let i = 0; i < pages.length; i++) {
       const item = pages[i]
       if (item === pagePath) {
-        app.pageStack = pages.slice(0, i + 1)
         return router.back({
           uri: item
         })
