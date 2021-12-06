@@ -128,7 +128,7 @@ export function createRouter (
       shouldLoad = true
     }
 
-    if (shouldLoad) {
+    if (shouldLoad || stacks.length < 1) {
       const el = element.default ?? element
       const loadConfig = { ...pageConfig }
       const stacksIndex = stacks.length
