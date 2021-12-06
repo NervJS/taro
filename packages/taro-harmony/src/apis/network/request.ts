@@ -77,7 +77,7 @@ const request: Request = function (options) {
       const reswx = {
         data: dataType === 'json' && isString(requestData.result) ? JSON.parse(requestData.result) : requestData.result,
         statusCode: requestData.responseCode,
-        header: requestData.header
+        header: JSON.parse(requestData.header)
       }
       callAsyncSuccess(resolve, reswx, options)
     }).catch(error => {
