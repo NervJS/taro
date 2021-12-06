@@ -44,10 +44,10 @@ export default createOption({
     }
   },
   onChange (e) {
+    this.currentValue = e.value
     if (e.isEnd === 'true') {
       this.$trigger('change', { progress: e.progress, isEnd: e.isEnd, value: e.value })
     }
-    // this.$trigger('changing', { progress: e.progress, isEnd: e.isEnd, value: e.value })
-    this.currentValue = e.value
+    this.$trigger('changing', { progress: e.progress, isEnd: e.isEnd, value: e.value })
   }
 })
