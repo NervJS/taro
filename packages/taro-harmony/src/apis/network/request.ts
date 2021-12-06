@@ -6,6 +6,7 @@
 // ✅ RequestTask.onHeadersReceived
 
 import Taro from '@tarojs/taro'
+import { isString, isUndefined } from '@tarojs/shared'
 import { validateParams, callAsyncSuccess, callAsyncFail } from '../utils'
 const http = require('@ohos.net.http')
 
@@ -21,7 +22,7 @@ interface IRequestResultOHOS {
 interface IRequestParamsOHOS {
   method?: string,
   header?: TaroGeneral.IAnyObject,
-  extraData?: TaroGeneral.IAnyObject
+  extraData?: TaroGeneral.IAnyObject | string
   readTimeout?: number,
   connectTimeout?: number
 }
@@ -41,7 +42,7 @@ const request: Request = function (options) {
       return callAsyncFail(reject, res, options)
     }
 
-    const { url, method, header, timeout } = options
+    const { url, method, header = { 'content-type': 'application/json' }, timeout, dataType, data } = options
 
     try {
       validateParams('send', options, requestSchema)
@@ -50,6 +51,13 @@ const request: Request = function (options) {
       return callAsyncFail(reject, res, options)
     }
 
+    // 检查 Header 是否有 Referer
+    if (isUndefined(header.Referer)) {
+      const error = { errMsg: 'request fail parameter error: the header doesn‘t support Referer property' }
+      callAsyncFail(reject, error, options)
+    }
+
+    // 检查 method 是否正确
     if (method) {
       if (!METHOD.includes(method)) {
         const error = { errMsg: `request fail parameter error: the method value should be one of the ${METHOD.join(',')}` }
@@ -60,15 +68,16 @@ const request: Request = function (options) {
     const requestParamsOHOS: IRequestParamsOHOS = {
       method,
       header,
+      extraData: data,
       readTimeout: timeout,
       connectTimeout: timeout
     }
 
-    httpRequestOhos.request(url, requestParamsOHOS).then((data: IRequestResultOHOS) => {
+    httpRequestOhos.request(url, requestParamsOHOS).then((requestData: IRequestResultOHOS) => {
       const reswx = {
-        data: data.result,
-        statusCode: data.responseCode,
-        header: data.header
+        data: dataType === 'json' && isString(requestData.result) ? JSON.parse(requestData.result) : requestData.result,
+        statusCode: requestData.responseCode,
+        header: requestData.header
       }
       callAsyncSuccess(resolve, reswx, options)
     }).catch(error => {
