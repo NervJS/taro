@@ -387,4 +387,6 @@ declare namespace TaroGeneral {
     QQ = 'QQ',
     JD = 'JD'
   }
+
+  type TDeviceRatio = Record<string, number>
 }
