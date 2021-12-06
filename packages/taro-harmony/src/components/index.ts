@@ -81,6 +81,10 @@ export const components = {
     showsteps: 'false',
     showtips: 'false'
   },
+  Slider: {
+    showsteps: 'false',
+    showtips: 'false',
+  },
   Input: {
     'placeholder-color': singleQuote('#99000000')
   },
@@ -119,3 +123,4 @@ export const components = {
     cn: ''
   }
 }
+

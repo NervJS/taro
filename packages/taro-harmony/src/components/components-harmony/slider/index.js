@@ -25,6 +25,17 @@ export default createOption({
     },
     sliderBlockColor () {
       return covertHex3ToHex6(this.blockColor)
+    },
+    valueWidth () {
+      if (!this.showValue) {
+        return '0px'
+      }
+      let baseWidth = 50
+      const maxLen = Math.max(this.min.toString()?.length, this.max.toString()?.length, this.step.toString()?.length)
+      if (maxLen > 3) {
+        baseWidth = baseWidth + (maxLen - 3) * 15
+      }
+      return baseWidth + 'px'
     }
   },
   data () {
