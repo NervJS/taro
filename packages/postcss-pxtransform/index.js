@@ -2,6 +2,7 @@
 
 const postcss = require('postcss')
 const pxRegex = require('./lib/pixel-unit-regex')
+const PXRegex = require('./lib/pixel-upper-unit-regex')
 const filterPropList = require('./lib/filter-prop-list')
 
 const defaults = {
@@ -43,11 +44,6 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
   options = Object.assign(DEFAULT_WEAPP_OPTIONS, options || {})
 
   switch (options.platform) {
-    case 'weapp': {
-      options.rootValue = 1 / options.deviceRatio[options.designWidth]
-      targetUnit = 'rpx'
-      break
-    }
     case 'h5': {
       options.rootValue = baseFontSize * options.designWidth / 640
       targetUnit = 'rem'
@@ -57,6 +53,21 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
       options.rootValue = options.deviceRatio[options.designWidth] * 2
       targetUnit = 'px'
       break
+    }
+    case 'quickapp': {
+      options.rootValue = 1
+      targetUnit = 'px'
+      break
+    }
+    case 'harmony': {
+      options.rootValue = 1 / options.deviceRatio[options.designWidth]
+      targetUnit = 'px'
+      break
+    }
+    default: {
+      // mini-program
+      options.rootValue = 1 / options.deviceRatio[options.designWidth]
+      targetUnit = 'rpx'
     }
   }
 
@@ -95,6 +106,27 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
           }
         }
       })
+    }
+
+    // PX -> vp in harmony
+    if (options.platform === 'harmony') {
+      css.walkDecls(function (decl) {
+        if (decl.value.indexOf('PX') === -1) return
+        const value = decl.value.replace(PXRegex, function (m, _$1, $2) {
+          return m.replace($2, 'vp')
+        })
+        decl.value = value
+      })
+
+      if (opts.mediaQuery) {
+        css.walkAtRules('media', function (rule) {
+          if (rule.params.indexOf('PX') === -1) return
+          const value = rule.params.replace(PXRegex, function (m, _$1, $2) {
+            return m.replace($2, 'vp')
+          })
+          rule.params = value
+        })
+      }
     }
 
     /*  #ifdef  %PLATFORM%  */
