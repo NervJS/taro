@@ -2,6 +2,7 @@
   <input
     id="{{ id }}"
     value="{{ value }}"
+    name="{{ name }}"
     type="{{ realType }}"
     placeholder="{{ placeholder }}"
     style="placeholder-color: {{placeholderColor}};"

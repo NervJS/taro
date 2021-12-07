@@ -1,5 +1,18 @@
 <div>
+  <input 
+    type='submit'
+    if="{{formType === 'submit'}}"
+    @touchstart="onTouchStart"
+    @touchend="onTouchEnd"
+  >{{value}}</input>
+  <input 
+    type='reset'
+    elif="{{formType === 'reset'}}"
+    @touchstart="onTouchStart"
+    @touchend="onTouchEnd"
+  >{{value}}</input>
   <button
+    else
     id="{{id}}"
     class="{{cls}} {{clsType}} {{clsSize}} {{clsPlain}} {{clsDisable}} {{clsDisableType}} {{clsLoading}} {{clsHover}}"
     type="{{harmonyType}}"
