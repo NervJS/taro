@@ -115,7 +115,12 @@ function processEvent (eventHandlerName, obj) {
 
   obj[eventHandlerName] = function (event) {
     if (event) {
-      event.preventDefault = function () {}
+      event.preventDefault = function () {
+        Object.defineProperty(event, 'defaultPrevented', {
+          value: true,
+          writable: false
+        })
+      }
       event.stopPropagation = function () {}
       event.currentTarget = event.currentTarget || event.target || {}
       if (event.target) {

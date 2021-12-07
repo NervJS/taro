@@ -114,7 +114,12 @@ function processEvent (eventHandlerName, obj) {
       }
       if (!event.preventDefault) {
         Object.defineProperty(event, 'preventDefault', {
-          value: () => {}
+          value: () => {
+            Object.defineProperty(event, 'defaultPrevented', {
+              value: true,
+              writable: false
+            })
+          }
         })
       }
     }
