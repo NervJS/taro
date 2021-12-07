@@ -1,5 +1,4 @@
 import { IAsyncParams } from './types'
-
 export * from './validate'
 
 interface Current {
