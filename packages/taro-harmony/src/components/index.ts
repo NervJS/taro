@@ -2,7 +2,8 @@ import { singleQuote } from '@tarojs/shared'
 
 export const components = {
   Checkbox: {
-    'group-id': ''
+    'group-id': '',
+    cn: ''
   },
   Span: {},
   Tabs: {
@@ -94,5 +95,27 @@ export const components = {
   },
   Radio: {
     'group-id': ''
+  },
+  Picker: {
+    selected: '',
+    hours: '',
+    containsecond: 'false',
+    vibrate: 'true',
+    lunar: 'false',
+    lunarswitch: 'false'
+  },
+  PickerView: {
+    mode: '',
+    range: '',
+    selected: '',
+    hours: '',
+    indicatorprefix: '',
+    indicatorsuffix: '',
+    containsecond: 'false',
+    vibrate: 'true',
+    lunar: 'false',
+    lunarswitch: 'false',
+    bindcolumnchange: '',
+    cn: ''
   }
 }

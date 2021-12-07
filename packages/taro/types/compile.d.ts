@@ -209,10 +209,6 @@ declare enum LogLevel {
   DEBUG = 'debug'
 }
 
-export interface IDeviceRatio {
-  [key: string]: number
-}
-
 export type SystemConfig = {
   /**
    * 打印日志等级，分为 off,error,warn,info,log,debug
@@ -361,7 +357,7 @@ export interface IProjectBaseConfig {
   date?: string,
   designWidth?: number,
   watcher?: any[],
-  deviceRatio?: IDeviceRatio,
+  deviceRatio?: TaroGeneral.TDeviceRatio,
   sourceRoot?: string,
   outputRoot?: string,
   env?: IOption,

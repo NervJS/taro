@@ -23,7 +23,9 @@ export class Template extends RecursiveTemplate {
     'image',
     'camera',
     'video',
-    'web-view'
+    'web-view',
+    'picker',
+    'checkbox'
   ]
 
   constructor () {
@@ -53,6 +55,10 @@ ${elements}
   }
 
   createMiniComponents (components): any {
+    components.Button.cn = ''
+    components.Button.bindtap = ''
+    components.Button.type = "'default'"
+
     const result = super.createMiniComponents(components)
 
     delete result['pure-view']
@@ -184,7 +190,7 @@ ${elements}
       <container i="{{$item}}"></container>
     </block>
   </div>
-  <tabbar if="{{isShowTaroTabBar}}" data="{{taroTabBar}}" selected="{{selected}}"></tabbar>
+  <tabbar if="{{isShowTaroTabBar}}" tabbar-data="{{taroTabBar}}" selected="{{selected}}"></tabbar>
 </div>
 `
 

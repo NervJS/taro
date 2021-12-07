@@ -24,9 +24,6 @@ export default {
   goBack () {
     if (!this._data.isShowReturn) return
 
-    const app = getApp()
-    const pages = app.pageStack
-    app.pageStack = pages.slice(0, pages.length - 1)
     router.back()
   }
 }

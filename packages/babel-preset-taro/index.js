@@ -9,7 +9,7 @@ module.exports = (_, options = {}) => {
   const presets = []
   const plugins = []
   const overrides = []
-  const isReact = options.framework === 'react'
+  const isReact = options.framework === 'react' || options.framework === 'preact'
   const isNerv = options.framework === 'nerv'
   const isVue = options.framework === 'vue'
   const isVue3 = options.framework === 'vue3'
@@ -27,7 +27,14 @@ module.exports = (_, options = {}) => {
       runtime: options.reactJsxRuntime || 'automatic'
     }])
     if (process.env.TARO_ENV === 'h5' && process.env.NODE_ENV !== 'production' && options.hot !== false) {
-      plugins.push([require('react-refresh/babel')])
+      if (options.framework === 'react') {
+        plugins.push([require('react-refresh/babel')])
+      } else if (options.framework === 'preact') {
+        overrides.push({
+          include: /\.[jt]sx$/,
+          plugins: [require('@prefresh/babel-plugin')]
+        })
+      }
     }
   }
 

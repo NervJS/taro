@@ -28,4 +28,12 @@ export class TaroText extends TaroNode {
   public get nodeValue (): string {
     return this._value
   }
+
+  public set data (text: string) {
+    this.textContent = text
+  }
+
+  public get data (): string {
+    return this._value
+  }
 }

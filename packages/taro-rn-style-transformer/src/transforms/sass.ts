@@ -1,8 +1,30 @@
 import fs from 'fs'
 import path from 'path'
-import sass, { Options } from 'sass'
+import { Options } from 'sass'
 import { insertAfter, insertBefore, resolveStyle, getAdditionalData } from '../utils'
 import { TransformOptions, RenderResult, RenderAdditionalResult } from '../types'
+
+/**
+ * 用过用户手动安装了 node-sass，启用node-sass，默认使用 sass
+ */
+function getSassImplementation () {
+  let sassImplPkg = 'node-sass'
+
+  try {
+    require.resolve('node-sass')
+  } catch (error) {
+    try {
+      require.resolve('sass')
+      sassImplPkg = 'sass'
+    } catch (ignoreError) {
+      sassImplPkg = 'sass'
+    }
+  }
+
+  return require(sassImplPkg)
+}
+
+const sassImplementation = getSassImplementation()
 
 // https://github.com/sass/node-sass#options
 export interface Config {
@@ -29,7 +51,7 @@ function makeURL (resource: string, rootDir: string) {
 function makeImportStatement (filePath: string, resource: string, rootDir: string) {
   const url = makeURL(resource, rootDir)
   const relativePath = path.relative(filePath, url).replace(/\\/g, '/') // fix window path error
-  return `@import '${relativePath}'`
+  return `@import './${relativePath}'`
 }
 
 function getGlobalResource (filename: string, config: SassGlobalConfig) {
@@ -99,7 +121,7 @@ function renderToCSS (src, filename, options, transformOptions) {
   const opts = { ...options, ...defaultOpts, data: src }
 
   return new Promise((resolve, reject) => {
-    sass.render(opts, (err, result) => {
+    sassImplementation.render(opts, (err, result) => {
       if (err) {
         reject(err)
       } else {
