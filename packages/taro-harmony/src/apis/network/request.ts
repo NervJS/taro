@@ -42,13 +42,19 @@ const request: Request = function (options) {
       return callAsyncFail(reject, res, options)
     }
 
-    const { url, method, header = { 'content-type': 'application/json' }, timeout, dataType, data } = options
+    const { url, method, header = {}, timeout, dataType, data } = options
 
     try {
       validateParams('send', options, requestSchema)
     } catch (error) {
       const res = { errMsg: error.message }
       return callAsyncFail(reject, res, options)
+    }
+
+    const keyOfContentType = Object.keys(header).find(item => item.toLowerCase() === 'content-type')
+
+    if (!keyOfContentType) {
+      header['Content-Type'] = 'application/json'
     }
 
     // 检查 Header 是否有 Referer

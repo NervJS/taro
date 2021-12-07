@@ -1,3 +1,5 @@
+import { IAsyncParams } from './types'
+
 export * from './validate'
 
 interface Current {
@@ -16,13 +18,13 @@ export function unsupport (str: string) {
   }
 }
 
-export function callAsyncSuccess (resolve, res, options) {
+export function callAsyncSuccess (resolve, res, options?: IAsyncParams) {
   options?.success?.(res)
   options?.complete?.(res)
   resolve(res)
 }
 
-export function callAsyncFail (reject, res, options) {
+export function callAsyncFail (reject, res, options?: IAsyncParams) {
   options?.fail?.(res)
   options?.complete?.(res)
   reject(res)
