@@ -3,16 +3,16 @@
   top: 0px;
   left: 0;
   right: 0;
-  height: 44px;
+  height: 44vp;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 44px;
+  grid-template-rows: 44vp;
   align-items: center;
 }
 .navbar__route {
-  margin-right: 40px;
-  width: 60px;
+  margin-right: 40vp;
+  width: 60vp;
   height: 100%;
-  background-size: 22px;
+  background-size: 44px;
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -22,36 +22,35 @@
 .navbar__title {
   flex: 1;
   text-align: center;
-  font-size: 20px;
+  font-size: 14vp;
   font-weight: bold;
 }
 .navbar__options {
   display: flex;
   align-items: center;
-  margin: 5px;
-  width: 90px;
-  height: 34px;
+  margin: 8vp;
+  width: 84vp;
   border: 1px solid #e8e8ed;
-  border-radius: 17px;
+  border-radius: 17vp;
 }
 .navbar__options--more {
   flex: 1;
   height: 100%;
   background-image: url('http://storage.360buyimg.com/cjj-pub-images/icon-mp-more.png');
-  background-size: 18px;
+  background-size: 36px;
   background-repeat: no-repeat;
   background-position: center;
 }
 .navbar__options--divider {
   width: 1px;
-  height: 20px;
+  height: 16vp;
   background-color: #e8e8ed;
 }
 .navbar__options--close {
   flex: 1;
   height: 100%;
   background-image: url('http://storage.360buyimg.com/cjj-pub-images/icon-mp-close.png');
-  background-size: 18px;
+  background-size: 36px;
   background-repeat: no-repeat;
   background-position: center;
 }
