@@ -1,13 +1,19 @@
 <div>
-  <input 
+  <input
     type='submit'
     if="{{formType === 'submit'}}"
+    id="{{id}}"
+    class="{{cls}} {{clsType}} {{clsSize}} {{clsPlain}} {{clsDisable}} {{clsDisableType}} {{clsLoading}} {{clsHover}}"
+    disabled="{{disabled}}"
     @touchstart="onTouchStart"
     @touchend="onTouchEnd"
   >{{value}}</input>
-  <input 
+  <input
     type='reset'
     elif="{{formType === 'reset'}}"
+    id="{{id}}"
+    class="{{cls}} {{clsType}} {{clsSize}} {{clsPlain}} {{clsDisable}} {{clsDisableType}} {{clsLoading}} {{clsHover}}"
+    disabled="{{disabled}}"
     @touchstart="onTouchStart"
     @touchend="onTouchEnd"
   >{{value}}</input>
