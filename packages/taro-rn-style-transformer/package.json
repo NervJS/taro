@@ -31,7 +31,7 @@
     "postcss-pxtransform": "3.4.0-beta.0",
     "postcss-reporter": "^6.0.1",
     "prop-types": "^15.7.2",
-    "sass": "^1.34.1",
+    "sass": "1.35.2",
     "stylelint": "^13.8.0",
     "stylelint-config-taro-rn": "3.4.0-beta.0",
     "stylelint-taro-rn": "3.4.0-beta.0",

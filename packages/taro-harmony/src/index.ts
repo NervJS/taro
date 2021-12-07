@@ -14,9 +14,13 @@ interface HarmonyConfig {
   jsFAName?: string
 }
 
+const HARMONY = 'harmony'
+
 export default (ctx: IPluginContext) => {
   // 合并 harmony 编译配置到 opts
   ctx.modifyRunnerOpts(({ opts }) => {
+    if (opts.platform !== HARMONY) return
+
     const harmonyConfig = ctx.ctx.initialConfig.harmony
     assertHarmonyConfig(ctx, harmonyConfig)
 
@@ -27,12 +31,14 @@ export default (ctx: IPluginContext) => {
       hapName,
       jsFAName
     }
+    ctx.paths.outputPath = opts.outputRoot
   })
 
   ctx.registerPlatform({
-    name: 'harmony',
+    name: HARMONY,
     useConfigName: 'mini',
     async fn ({ config }) {
+      config.needClearOutput = false
       const program = new Harmony(ctx, config)
       await program.start()
     }
