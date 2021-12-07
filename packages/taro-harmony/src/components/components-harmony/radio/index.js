@@ -1,6 +1,7 @@
 export default {
   props: [
     'id',
+    'name',
     'groupId',
     'value',
     'checked',

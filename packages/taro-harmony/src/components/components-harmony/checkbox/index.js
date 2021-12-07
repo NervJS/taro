@@ -2,6 +2,7 @@ export default {
   props: [
     'id',
     'value',
+    'name',
     'disabled',
     'checked',
     'groupId',
