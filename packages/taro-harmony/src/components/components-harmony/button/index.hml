@@ -1,5 +1,6 @@
 <div>
   <button
+    if="{{formType === null}}"
     id="{{id}}"
     class="{{cls}} {{clsType}} {{clsSize}} {{clsPlain}} {{clsDisable}} {{clsDisableType}} {{clsLoading}} {{clsHover}}"
     type="{{harmonyType}}"
@@ -9,4 +10,16 @@
     @touchstart="onTouchStart"
     @touchend="onTouchEnd"
   >{{value}}</button>
+  <input 
+    type='submit'
+    if="{{formType === 'submit'}}"
+    @touchstart="onTouchStart"
+    @touchend="onTouchEnd"
+  >{{value}}</input>
+  <input 
+    type='reset'
+    if="{{formType === 'reset'}}"
+    @touchstart="onTouchStart"
+    @touchend="onTouchEnd"
+  >{{value}}</input>
 </div>

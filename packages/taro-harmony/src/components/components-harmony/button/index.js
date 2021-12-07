@@ -35,6 +35,9 @@ export default createOption({
     hoverClass: {
       default: 'button-hover'
     },
+    formType: {
+      default: null
+    },
     cn: {
       default: []
     }
