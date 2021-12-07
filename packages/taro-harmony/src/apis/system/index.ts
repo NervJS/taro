@@ -1,5 +1,6 @@
 import { isNumber, isString, isUndefined, isNull } from '@tarojs/shared'
 import { unsupport, callAsyncSuccess, callAsyncFail } from '../utils'
+import { GetAPIsOptionsSuccessType } from '../utils/types'
 
 import type Taro from '@tarojs/taro'
 
@@ -147,7 +148,7 @@ const getScreenBrightness: GetScreenBrightness = function (options) {
           errMsg: 'getScreenBrightness:ok',
           value: data.value
         }
-        callAsyncSuccess(resolve, res, options)
+        callAsyncSuccess<GetAPIsOptionsSuccessType<GetScreenBrightness>>(resolve, res, options)
       },
       fail: function (data, code) {
         res = {

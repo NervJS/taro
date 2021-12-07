@@ -1,4 +1,4 @@
-import { IAsyncParams } from './types'
+import { IAsyncParams, FunctionType } from './types'
 export * from './validate'
 
 interface Current {
@@ -17,13 +17,13 @@ export function unsupport (str: string) {
   }
 }
 
-export function callAsyncSuccess (resolve, res, options?: IAsyncParams) {
+export function callAsyncSuccess<T extends FunctionType> (resolve, res, options?: IAsyncParams<T>) {
   options?.success?.(res)
   options?.complete?.(res)
   resolve(res)
 }
 
-export function callAsyncFail (reject, res, options?: IAsyncParams) {
+export function callAsyncFail<T extends FunctionType> (reject, res, options?: IAsyncParams<T>) {
   options?.fail?.(res)
   options?.complete?.(res)
   reject(res)
