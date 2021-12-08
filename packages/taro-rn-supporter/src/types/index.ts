@@ -53,7 +53,8 @@ export interface RNConfig extends Config{
   stylus?: Record<string, any>,
   transformer?: any,
   babelPlugin?: any,
-  resolve?: ResolveOption
+  resolve?: ResolveOption,
+  enableSvgTransform?: boolean,
 }
 
 export interface ResolveOption {
