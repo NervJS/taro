@@ -2,7 +2,7 @@
   id="{{ id }}"
   value="{{ value }}"
   type="radio"
-  name="{{ groupId }}"
+  name="{{ nameValue }}"
   disabled="{{disabled}}"
   checked="{{ checked }}"
   @change="onChange"

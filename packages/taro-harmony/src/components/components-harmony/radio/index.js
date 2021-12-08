@@ -1,11 +1,22 @@
 export default {
   props: [
     'id',
+    'name',
     'groupId',
     'value',
     'checked',
     'disabled'
   ],
+
+  computed: {
+    nameValue () {
+      let name = this.name
+      if (this.groupId) {
+        name = this.groupId
+      }
+      return name
+    }
+  },
 
   onChange (e) {
     if (e.checked) {
