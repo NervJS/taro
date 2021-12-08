@@ -16,6 +16,8 @@
 
 import * as React from 'react'
 import { Image, StyleSheet, ImageSourcePropType, LayoutChangeEvent, ImageResolvedAssetSource } from 'react-native'
+// @ts-ignore
+import { SvgCssUri, WithLocalSvg } from 'react-native-svg'
 import { noop, omit } from '../../utils'
 import ClickableSimplified from '../ClickableSimplified'
 import { ImageProps, ImageState, ResizeModeMap, ResizeMode } from './PropsType'
@@ -131,9 +133,35 @@ export class _Image extends React.Component<ImageProps, ImageState> {
   }
 
   render(): JSX.Element {
-    const { style, src, mode = 'scaleToFill' } = this.props
+    const { style, src, mode = 'scaleToFill', svg = false } = this.props
 
     const flattenStyle = StyleSheet.flatten(style) || {}
+
+    const defaultWidth = flattenStyle.width || 300
+    const defaultHeight = flattenStyle.height || 225
+
+    // remote svg image support, svg 图片暂不支持 mode
+    const remoteSvgReg = /(https?:\/\/.*\.(?:svg|svgx))/i
+    if (typeof src === 'string' && remoteSvgReg.test(src)) {
+      return (
+        <SvgCssUri
+          uri={src}
+          width={defaultWidth}
+          height={defaultHeight}
+        />
+      )
+    }
+
+    // local svg image support, svg 图片暂不支持 mode
+    if (svg) {
+      return (
+        <WithLocalSvg
+          asset={src}
+          width={defaultWidth}
+          height={defaultHeight}
+        />
+      )
+    }
 
     // The parameter passed to require mpxTransformust be a string literal
     const source: ImageSourcePropType = typeof src === 'string' ? { uri: src } : src
@@ -151,7 +179,7 @@ export class _Image extends React.Component<ImageProps, ImageState> {
           return 300 * this.state.ratio
         }
       } else {
-        return flattenStyle.height || 225
+        return defaultHeight
       }
     })()
     const restImageProps = omit(this.props, ['source', 'src', 'resizeMode', 'onLoad', 'onError', 'onLayout', 'style'])
