@@ -33,7 +33,7 @@ Taro v3.5+ 开始支持
 
 （1）创建新项目，选择需要开发的设备，然后选择 Empty Featrue Ability(JS)，按照引导操作后一个新的项目就被创建出来了。
 
-（2）关注目录 `entry/src/main/js/default` 下面的文件，熟悉文件结构。`pages` 目录下为页面入口，每个页面包含 .hml .css .js 文件。 `entry/src/main/config.json` 文件来设置一些全局的配置信息，[详情](https://developer.harmonyos.com/cn/docs/documentation/doc-guides/basic-config-file-elements-0000000000034463)
+（2）关注目录 `entry/src/main/js/default` 下面的文件，熟悉文件结构。`pages` 目录下为页面入口，每个页面包含 .hml .css .js 文件。 `entry/src/main/config.json` 文件来设置一些全局的配置信息，[查看详情](https://developer.harmonyos.com/cn/docs/documentation/doc-guides/basic-config-file-elements-0000000000034463)
 
 ### 3. 预览 & 调试
 
@@ -47,14 +47,14 @@ c. [使用远程真机](https://developer.harmonyos.com/cn/docs/documentation/do
 
 c. [使用本地真机](https://developer.harmonyos.com/cn/docs/documentation/doc-guides/run_phone_tablat-0000001064774652)   用户真机与电脑相连，打开开发者模式，即可在真机看到效果
 
-![Untitled](https://img13.360buyimg.com/imagetools/jfs/t1/172857/29/21648/2058072/61b02582Eabe79722/80378acc6479d312.png)
+![示例图](https://img13.360buyimg.com/imagetools/jfs/t1/172857/29/21648/2058072/61b02582Eabe79722/80378acc6479d312.png)
 
 (2) DevEco Studio 支持模拟器或真机进行调试
 
 在编译器中打开 Run -> Edit Configurations 设置调试代码为 JS, 检查 config.json 中配置的属性，设置 Hap 包安装方式之后启动调试
 
 
-![Untitled](https://img11.360buyimg.com/imagetools/jfs/t1/158561/21/21509/1769838/61b05362Ed0878669/35ee0cb64465d229.jpg)
+![示例图](https://img11.360buyimg.com/imagetools/jfs/t1/158561/21/21509/1769838/61b05362Ed0878669/35ee0cb64465d229.jpg)
 
 
 ### 相关阅读
