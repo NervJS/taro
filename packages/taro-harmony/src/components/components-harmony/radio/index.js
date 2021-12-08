@@ -8,6 +8,16 @@ export default {
     'disabled'
   ],
 
+  computed: {
+    nameValue () {
+      let name = this.name
+      if (this.groupId) {
+        name = this.groupId
+      }
+      return name
+    }
+  },
+
   onChange (e) {
     if (e.checked) {
       const radioGroup = this.findRadioGroup()
