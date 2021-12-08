@@ -115,6 +115,9 @@ export class Tabbar implements ComponentInterface {
 
     this.list = list
     this.borderStyle = this.conf.borderStyle
+    this.backgroundColor = this.conf.backgroundColor
+    this.color = this.conf.color
+    this.selectedColor = this.conf.selectedColor
   }
 
   getCurrentUrl () {
@@ -370,13 +373,12 @@ export class Tabbar implements ComponentInterface {
             let textColor
             let iconPath
             if (isSelected) {
-              textColor = this.selectedColor
+              textColor = this.selectedColor || ''
               iconPath = item.selectedIconPath
             } else {
               textColor = this.color || ''
               iconPath = item.iconPath
             }
-            console.log('TabbarItem', item)
             return (
               <TabbarItem
                 index={index}

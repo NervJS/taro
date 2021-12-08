@@ -10,7 +10,7 @@ export function pageOnReady (page: PageInstance, onLoad = true) {
   const pageEl = document.getElementById(page.path!)
   if (pageEl && !pageEl?.['__isReady']) {
     const el = pageEl.firstElementChild
-    el?.['componentOnReady']?.().then(() => {
+    el?.['componentOnReady']?.()?.then(() => {
       requestAnimationFrame(() => {
         page.onReady!()
         pageEl!['__isReady'] = true
