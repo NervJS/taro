@@ -180,7 +180,7 @@ ${elements}
 
 <div class="container">
   <navbar if="{{taroNavBar}}" title="{{taroNavBar.title}}" background="{{taroNavBar.background}}" text-style="{{taroNavBar.textStyle}}" st="{{taroNavBar.style}}"></navbar>
-  <div class="body" style="padding-top: 44px;padding-bottom: {{isShowTaroTabBar ? '56px' : '0'}}">
+  <div class="body" style="padding-top: 44vp;padding-bottom: {{isShowTaroTabBar ? '56vp' : '0'}}">
     <refresh if="{{enablePullDownRefresh}}" type="pulldown" refreshing="{{isRefreshing}}" onrefresh="onPullDownRefresh">
       <block for="{{root.cn}}">
         <container i="{{$item}}"></container>

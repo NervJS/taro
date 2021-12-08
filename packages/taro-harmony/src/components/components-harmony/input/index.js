@@ -11,6 +11,7 @@ export default createOption({
     id: String,
     value: String,
     type: String,
+    name: String,
     password: Boolean,
     placeholder: String,
     placeholderColor: '#99000000',

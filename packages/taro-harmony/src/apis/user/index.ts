@@ -5,7 +5,6 @@
  * 2. 华为账号API参考 @see https://developer.huawei.com/consumer/cn/doc/development/HMSCore-References/harmonyos-js-overview-0000001063532145
  */
 import { isFunction } from '@tarojs/shared'
-import { IAsyncParams } from '../utils/types'
 import { unsupport, callAsyncSuccess, callAsyncFail } from '../utils'
 
 const hmsJSAccount = require('@hmscore/hms-jsb-account')
@@ -39,7 +38,7 @@ const login = (options) => {
  * 通过Scope数组获取已登录的对应帐号信息(依赖login行为)
  * @param options
  */
-function getUserInfo (options: IAsyncParams) {
+function getUserInfo (options) {
   const { success, fail, complete } = options
   const res: Record<string, any> = {}
 
