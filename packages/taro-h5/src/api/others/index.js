@@ -1,5 +1,5 @@
 import { fromByteArray, toByteArray } from 'base64-js'
-import { shouldBeObject, getParameterError } from '../utils'
+import { shouldBeObject, getParameterError } from '../utils/odd'
 
 export function arrayBufferToBase64 (arrayBuffer) {
   return fromByteArray(arrayBuffer)

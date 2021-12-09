@@ -1,4 +1,4 @@
-import { getTimingFunc, easeInOut } from '../utils/index'
+import { getTimingFunc, easeInOut } from '../utils/odd'
 
 /**
  * @typedef {object} PageScrollToParam pageScrollTo参数

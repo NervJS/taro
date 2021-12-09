@@ -1,7 +1,7 @@
 import Taro from '@tarojs/api'
 import 'whatwg-fetch'
 import jsonpRetry from 'jsonp-retry'
-import { serializeParams } from '../utils'
+import { serializeParams } from '../utils/odd'
 const { Link } = Taro
 
 function generateRequestUrlWithParams (url, params) {

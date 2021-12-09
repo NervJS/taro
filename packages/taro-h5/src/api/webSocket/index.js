@@ -1,5 +1,5 @@
 import SocketTask from './socketTask'
-import { shouldBeObject, getParameterError } from '../utils'
+import { shouldBeObject, getParameterError } from '../utils/odd'
 
 let socketTasks = []
 let socketsCounter = 1

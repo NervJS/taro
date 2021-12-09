@@ -1,4 +1,4 @@
-import { inlineStyle, setTransform } from '../utils'
+import { inlineStyle, setTransform } from '../utils/odd'
 
 const noop = function () {}
 export default class ActionSheet {
