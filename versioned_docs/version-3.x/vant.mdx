@@ -12,7 +12,7 @@ Taro3 支持使用 [Vant Weapp](https://youzan.github.io/vant-weapp/#/intro) 组
 >
 > 但是，如果你想使用 Vant Weapp 又想拥有多端转换的能力，强烈推荐 Vant Weapp 社区衍生库 **[@antmjs/vantui](https://github.com/AntmJS/vantui)**， 它是基于 Vant Weapp 开发的多端组件库，同时支持 Taro 和 React。拥有 Taro 多端转换的能力，同时和 Vant Weapp 的 UI 和 API 高度保持一致。
 
-## 如何使用
+## 使用方法
 
 ### 配置忽略 vant 的样式尺寸转换
 
@@ -20,8 +20,7 @@ Taro3 支持使用 [Vant Weapp](https://youzan.github.io/vant-weapp/#/intro) 组
 
 配置方法：
 
-```js
-// config/index.js
+```js title="config/index.js"
 const config = {
   // ...
   mini: {
@@ -41,8 +40,7 @@ const config = {
 
 vant 组件中包含一些小程序原生文件的依赖，目前 Taro 没有对这些依赖进行分析。因此需要配置 `copy` 把这些依赖移动到 `dist` 目录中，例如需要 copy `wxs` 和样式文件，部分配置如下
 
-```js
-// config/index.js
+```js title="config/index.js"
 const config = {
   // ...
   copy: {
@@ -244,3 +242,10 @@ export default {
 
 </TabItem>
 </Tabs>
+
+## 常见问题
+
+### Vue3
+
+- [`readonly` 属性不生效](https://github.com/NervJS/taro/issues/10337#issuecomment-989641124)
+- [传递函数类型的属性失败](https://github.com/NervJS/taro/issues/10337#issuecomment-989834523)
