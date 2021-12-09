@@ -1,13 +1,14 @@
-import { createCallbackManager } from '../utils'
+import Taro from '@tarojs/api'
+import { CallbackManager } from '../utils/handler'
 import { NETWORK_TIMEOUT, setHeader, XHR_STATS } from './utils'
 
-const createDownloadTask = ({ url, header, success, error }) => {
+const createDownloadTask = ({ url, header, success, error }): Taro.DownloadTask => {
   let timeout
   const apiName = 'downloadFile'
   const xhr = new XMLHttpRequest()
   const callbackManager = {
-    headersReceived: createCallbackManager(),
-    progressUpdate: createCallbackManager()
+    headersReceived: new CallbackManager(),
+    progressUpdate: new CallbackManager()
   }
 
   xhr.open('GET', url, true)
@@ -47,7 +48,7 @@ const createDownloadTask = ({ url, header, success, error }) => {
     })
   }
 
-  xhr.onerror = e => {
+  xhr.onerror = (e: ProgressEvent<EventTarget> & { message?: string }) => {
     error({
       errMsg: `${apiName}:fail ${e.message}`
     })
@@ -111,41 +112,31 @@ const createDownloadTask = ({ url, header, success, error }) => {
 /**
  * 下载文件资源到本地。客户端直接发起一个 HTTPS GET 请求，返回文件的本地临时路径。使用前请注意阅读相关说明。
  * 注意：请在服务端响应的 header 中指定合理的 Content-Type 字段，以保证客户端正确处理文件类型。
- * @todo 未挂载 task.offHeadersReceived
- * @todo 未挂载 task.offProgressUpdate
- * @param {Object} object 参数
- * @param {string} object.url 下载资源的 url
- * @param {Object} [object.header] HTTP 请求的 Header，Header 中不能设置 Referer
- * @param {string} [object.filePath] *指定文件下载后存储的路径
- * @param {function} [object.success] 接口调用成功的回调函数
- * @param {function} [object.fail] 接口调用失败的回调函数
- * @param {function} [object.complete] 接口调用结束的回调函数（调用成功、失败都会执行）
- * @returns {DownloadTask}
  */
-const downloadFile = ({ url, header, success, fail, complete }) => {
+const downloadFile: typeof Taro.downloadFile = ({ url, header, success, fail, complete }) => {
   let task
-  const promise = new Promise((resolve, reject) => {
+  const result: Partial<ReturnType<typeof Taro.downloadFile>> = new Promise((resolve, reject) => {
     task = createDownloadTask({
       url,
       header,
       success: res => {
         success && success(res)
-        complete && complete()
+        complete && complete(res)
         resolve(res)
       },
       error: res => {
         fail && fail(res)
-        complete && complete()
+        complete && complete(res)
         reject(res)
       }
     })
   })
 
-  promise.headersReceive = task.onHeadersReceived
-  promise.progress = task.onProgressUpdate
-  promise.abort = task.abort
+  result.headersReceive = task.onHeadersReceived
+  result.progress = task.onProgressUpdate
+  result.abort = task.abort
 
-  return promise
+  return result as ReturnType<typeof Taro.downloadFile>
 }
 
 export default downloadFile

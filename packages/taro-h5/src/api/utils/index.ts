@@ -1,5 +1,5 @@
 /* eslint-disable prefer-promise-reject-errors */
-import { Current, container, SERVICE_IDENTIFIER } from '@tarojs/runtime'
+import { Current, container, SERVICE_IDENTIFIER, IHooks } from '@tarojs/runtime'
 
 function shouldBeObject (target) {
   if (target && typeof target === 'object') return { res: true }
@@ -13,7 +13,7 @@ function shouldBeObject (target) {
 }
 
 export function findDOM (inst) {
-  const runtimeHooks = container.get(SERVICE_IDENTIFIER.Hooks)
+  const runtimeHooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
 
   if (inst) {
     const find = runtimeHooks.getDOMNode
@@ -37,7 +37,13 @@ export function findDOM (inst) {
   return el
 }
 
-function getParameterError ({ name = '', para, correct, wrong }) {
+interface IParameterErrorParam {
+  name?: string
+  para?: string
+  correct?: string
+  wrong?: string
+}
+function getParameterError ({ name = '', para, correct, wrong }: IParameterErrorParam) {
   const parameter = para ? `parameter.${para}` : 'parameter'
   const errorType = upperCaseFirstLetter(wrong === null ? 'Null' : typeof wrong)
   if (name) {
@@ -127,7 +133,7 @@ const isValidColor = (color) => {
   return VALID_COLOR_REG.test(color)
 }
 
-function processOpenApi (apiName, defaultOptions, formatResult = res => res, formatParams = options => options) {
+function processOpenApi (apiName: string, defaultOptions?: Record<string, unknown>, formatResult = res => res, formatParams = options => options) {
   // @ts-ignore
   if (!window.wx) {
     return weixinCorpSupport(apiName)

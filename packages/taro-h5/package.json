@@ -2,7 +2,7 @@
   "name": "@tarojs/taro-h5",
   "version": "3.3.16",
   "description": "Taro h5 framework",
-  "main:h5": "src/index.js",
+  "main:h5": "dist/index.js",
   "main": "dist/index.cjs.js",
   "typings": "types/index.d.ts",
   "files": [

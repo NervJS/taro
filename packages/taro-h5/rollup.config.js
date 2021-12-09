@@ -1,6 +1,7 @@
 import { mergeWith } from 'lodash'
 import { join } from 'path'
 import resolve from 'rollup-plugin-node-resolve'
+import typescript from 'rollup-plugin-typescript2'
 import common from 'rollup-plugin-commonjs'
 import alias from 'rollup-plugin-alias'
 import postcss from 'rollup-plugin-postcss'
@@ -40,20 +41,29 @@ const baseConfig = {
         }]
       ]
     }),
-    common()
+    common(),
+    typescript({
+      useTsconfigDeclarationDir: true
+    })
   ]
 }
 
 const variesConfig = [{
-  input: 'src/api/index.js',
+  input: 'src/api/index.ts',
   output: {
     file: 'dist/taroApis.js'
   },
   plugins: exportNameOnly()
 }, {
-  input: 'src/index.cjs.js',
+  input: 'src/index.ts',
   output: {
     file: 'dist/index.cjs.js'
+  }
+}, {
+  input: 'src/index.ts',
+  output: {
+    format: 'es',
+    file: 'dist/index.js'
   }
 }]
 
