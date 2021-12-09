@@ -20,6 +20,12 @@ interface ImageProps extends StandardProps {
 	 */
 	webp?: boolean
 
+  /** 默认不解析 svg 格式，svg 图片只支持 aspectFit
+   * @default false
+   * @supported rn
+	 */
+   svg?: boolean
+
   /** 图片懒加载。只针对 page 与 scroll-view 下的 image 有效
    * @default false
    * @supported weapp, swan, alipay, tt
