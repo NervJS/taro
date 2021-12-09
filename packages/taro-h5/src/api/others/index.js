@@ -1,13 +1,4 @@
-import { fromByteArray, toByteArray } from 'base64-js'
 import { shouldBeObject, getParameterError } from '../utils/odd'
-
-export function arrayBufferToBase64 (arrayBuffer) {
-  return fromByteArray(arrayBuffer)
-}
-
-export function base64ToArrayBuffer (base64) {
-  return toByteArray(base64)
-}
 
 export function makePhoneCall (options) {
   // options must be an Object
