@@ -9,7 +9,7 @@ import type { AppConfig, PageConfig } from '@tarojs/taro'
 import { Listener as LocationListener, Action as LocationAction } from 'history'
 import UniversalRouter, { Routes } from 'universal-router'
 
-import { history, prependBasename } from '../history'
+import { history, prependBasename, stripBasename } from '../history'
 import { init, routerConfig } from './init'
 import { hidePage, loadPage, showPage, unloadPage } from './page'
 import { qs } from './qs'
@@ -81,7 +81,8 @@ export function createRouter (
     if (!element) return
     const pageConfig = config.routes.find(r => {
       const path = addLeadingSlash(r.path)
-      return path === location.pathname || alias[path] === location.pathname
+      const urlPath = stripBasename(location.pathname, routerConfig.router.basename)
+      return path === urlPath || alias[path] === urlPath
     })
     let enablePullDownRefresh = false
 
