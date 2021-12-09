@@ -29,7 +29,6 @@ export const onWifiConnected = temporarilyNotSupport('onWifiConnected')
 // export const clearStorageSync = temporarilyNotSupport('clearStorageSync')
 // export const getSystemInfoSync = temporarilyNotSupport('getSystemInfoSync')
 export const getExtConfigSync = temporarilyNotSupport('getExtConfigSync')
-export const getLogManager = temporarilyNotSupport('getLogManager')
 export const onMemoryWarning = temporarilyNotSupport('onMemoryWarning')
 export const reportAnalytics = temporarilyNotSupport('reportAnalytics')
 export const navigateToSmartGameProgram = temporarilyNotSupport('navigateToSmartGameProgram')
@@ -57,7 +56,6 @@ export const createLivePusherContext = temporarilyNotSupport('createLivePusherCo
 export const createMapContext = temporarilyNotSupport('createMapContext')
 
 // 设备
-export const canIUse = temporarilyNotSupport('canIUse')
 // export const startAccelerometer = temporarilyNotSupport('startAccelerometer')
 // export const stopAccelerometer = temporarilyNotSupport('stopAccelerometer')
 // export const startCompass = temporarilyNotSupport('startCompass')
@@ -246,8 +244,6 @@ export const checkIsSupportSoterAuthentication = temporarilyNotSupport('checkIsS
 export const startSoterAuthentication = temporarilyNotSupport('startSoterAuthentication')
 export const checkIsSoterEnrolledInDevice = temporarilyNotSupport('checkIsSoterEnrolledInDevice')
 export const exitMiniProgram = temporarilyNotSupport('exitMiniProgram')
-
-export const setEnableDebug = temporarilyNotSupport('setEnableDebug')
 
 // 百度小程序专有 API
 // 百度小程序 AI 相关
