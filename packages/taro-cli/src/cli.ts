@@ -75,6 +75,7 @@ export default class CLI {
             sourcemapSourcesRoot,
             assetsDest,
             qr: !!args.qr,
+            preview: !!args.preview,
             blended: Boolean(args.blended),
             h: args.h
           })
