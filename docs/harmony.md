@@ -119,7 +119,7 @@ c. [使用本地真机](https://developer.harmonyos.com/cn/docs/documentation/do
 
 #### CLI
 
-安装 `v3.5.0-canary` 版本的 Taro CLI：
+安装 `v3.5.0-canary.0` 版本的 Taro CLI：
 
 ```bash
 npm i -g @tarojs/cli@canary
