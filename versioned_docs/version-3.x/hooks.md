@@ -2,7 +2,7 @@
 title: Hooks
 ---
 
-`Hooks` 是一套全新的 API，可以让你在不编写类，不编写 class 的情况下使用 state 的状态管理，生命周期等功能。
+`Hooks` 是一套全新的 API，可以让你在不编写类，不编写 Class 的情况下使用 `state` 的状态管理，生命周期等功能。
 
 关于 `Hooks` 的概述、动机和规则，我们强烈建议你阅读 React 的官方文档。和其它大部分 React 特性不同，Hooks 没有 RFC 介绍，相反，所有说明都在文档中：
 
@@ -117,7 +117,7 @@ useResize(res => {
 
 监听用户点击页面内转发按钮（Button 组件 openType='share'）或右上角菜单“转发”按钮的行为，并自定义转发内容。等同于 `onShareAppMessage` 页面生命周期钩子。
 
-**【Breaking】Taro 3.0.3 开始，使用此 Hook 时必须为页面配置 `enableShareAppMessage: true`**
+**【Breaking】Taro 3.0.3 开始，使用此 Hook 时必须为页面配置 `enableShareAppMessage: true`。（修改配置文件后请重新编译项目）**
 
 ```jsx title="示例代码"
 // page.js
@@ -177,7 +177,7 @@ useAddToFavorites(res => {
 > Taro 3.0.3 开始支持
 > 只有微信小程序支持，基础库 2.11.3 开始支持，本接口为 Beta 版本，暂只在 Android 平台支持
 
-**使用时，必须为页面配置 `enableShareTimeline: true`**
+**使用时，必须为页面配置 `enableShareTimeline: true`。（修改配置文件后请重新编译项目）**
 
 ```jsx title="示例代码"
 // page.js
@@ -190,6 +190,36 @@ function Index () {
 export default {
   enableShareTimeline: true
 }
+```
+
+### useTitleClick
+
+> 只有支付宝小程序支持。等同于 `onTitleClick` 页面生命周期钩子。
+
+点击标题触发。
+
+```jsx title="示例代码"
+useTitleClick(() => console.log('onTitleClick'))
+```
+
+### useOptionMenuClick
+
+> 只有支付宝小程序支持。等同于 `onOptionMenuClick` 页面生命周期钩子。
+
+点击导航栏额外图标触发。
+
+```jsx title="示例代码"
+useOptionMenuClick(() => console.log('onOptionMenuClick'))
+```
+
+### usePullIntercept
+
+> 只有支付宝小程序支持。等同于 `onPullIntercept` 页面生命周期钩子。
+
+下拉截断时触发。
+
+```jsx title="示例代码"
+usePullIntercept(() => console.log('onPullIntercept'))
 ```
 
 ## React Hooks

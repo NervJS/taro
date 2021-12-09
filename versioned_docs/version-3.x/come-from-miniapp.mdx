@@ -14,26 +14,54 @@ import { VueIcon, ReactIcon } from './guides/index'
 
 而有时候一些从原生小程序转换过来的项目，会把全局变量挂载到 `app` 上，然后使用 `getApp()` 获取它们。改造为 **React Redux**、**Vuex** 等状态管理方式成本比较大。
 
-因此可以使用入口对象的 `taroGlobalData` 属性对这种写法进行兼容：
+对于这种模式，Taro 提供了一些兼容的手段：
+
+### React
+
+可以使用入口组件的 `taroGlobalData` 属性兼容这种写法：
 
 ```jsx title="app.js"
 class App extends Component {
+  // 设置全局变量 "x"
   taroGlobalData = {
     x: 1
   }
-  render () {
-    return this.props.children
-  }
+
+  // ...
 }
 ```
 
 ```jsx title="index.js"
 function Index () {
+  // 获取并使用全局变量 "x"
   const app = Taro.getApp()
   console.log(app.x)
 
-  return (...)
+  // ...
 }
+```
+
+### Vue3
+
+可以使用 Taro 提供的 Vue 插件 `setGlobalDataPlugin` 兼容这种写法：
+
+```jsx title="app.js"
+// 使用插件，设置全局变量 "x"
+import { createApp } from 'vue'
+import { setGlobalDataPlugin } from '@tarojs/taro'
+
+const App = createApp(...)
+App.use(setGlobalDataPlugin, {
+  x: 1
+})
+```
+
+```html title="index.vue"
+<script>
+// 获取并使用全局变量 "x"
+const app = Taro.getApp()
+console.log(app.x)
+</script>
 ```
 
 ## API 的 scope

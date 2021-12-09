@@ -469,7 +469,7 @@ $ NODE_ENV=production taro build --type iot --watch # Mac
 Taro v3.1+ 开始支持
 :::
 
-使用 Taro 插件能支持编译飞书小程序，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-lark)。
+使用 Taro 插件能支持编译[飞书小程序](https://open.feishu.cn/document/uYjL24iN/uMjNzUjLzYzM14yM2MTN?from=taro)，插件文档请看 [Github](https://github.com/NervJS/taro-plugin-platform-lark)。
 
 #### 安装插件
 

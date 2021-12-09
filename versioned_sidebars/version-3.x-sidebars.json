@@ -52,6 +52,10 @@
           "id": "version-3.x/folder"
         },
         {
+          "type": "doc",
+          "id": "version-3.x/cli"
+        },
+        {
           "collapsed": true,
           "label": "配置",
           "type": "category",
@@ -106,6 +110,10 @@
             {
               "type": "doc",
               "id": "version-3.x/react-devtools"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/preact"
             }
           ]
         },
@@ -132,13 +140,13 @@
             },
             {
               "type": "doc",
+              "id": "version-3.x/composition-api"
+            },
+            {
+              "type": "doc",
               "id": "version-3.x/vue-devtools"
             }
           ]
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/nerv"
         },
         {
           "type": "doc",
@@ -147,10 +155,6 @@
         {
           "type": "doc",
           "id": "version-3.x/static-reference"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/h5"
         },
         {
           "collapsed": true,
@@ -164,6 +168,17 @@
             {
               "type": "doc",
               "id": "version-3.x/envs-debug"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "小程序",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/come-from-miniapp"
             },
             {
               "type": "doc",
@@ -174,6 +189,10 @@
               "id": "version-3.x/miniprogram-plugin"
             }
           ]
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/h5"
         },
         {
           "collapsed": true,
@@ -192,15 +211,7 @@
         },
         {
           "type": "doc",
-          "id": "version-3.x/cli"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/use-h5"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/come-from-miniapp"
+          "id": "version-3.x/harmony"
         }
       ]
     },
@@ -219,11 +230,15 @@
         },
         {
           "type": "doc",
-          "id": "version-3.x/plugin"
+          "id": "version-3.x/use-h5"
         },
         {
           "type": "doc",
           "id": "version-3.x/jquery-like"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/plugin"
         },
         {
           "collapsed": true,
