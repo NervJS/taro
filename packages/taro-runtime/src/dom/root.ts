@@ -3,7 +3,7 @@ import { isFunction, Shortcuts } from '@tarojs/shared'
 import get from 'lodash-es/get'
 import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { TaroElement } from './element'
-import { incrementId } from '../utils'
+import { incrementId, customWrapperCache } from '../utils'
 import { perf } from '../perf'
 import { options } from '../options'
 import {
@@ -110,19 +110,42 @@ export class TaroRootElement extends TaroElement {
           for (const p in data) {
             const dataPathArr = p.split('.')
             let hasCustomWrapper = false
-            for (let i = dataPathArr.length; i > 0; i--) {
-              const allPath = dataPathArr.slice(0, i).join('.')
-              const getData = get(ctx.__data__ || ctx.data, allPath)
+            let customWrapper: Record<string, any> | null = null
+            let curCtx: Record<string, any> = ctx
+            let curData = curCtx.__data__ || curCtx.data
+            let splitedPath = ''
+            let dataPathStartIdx = 0
+            for (let i = 1; i < dataPathArr.length; i++) {
+              const allPath = dataPathArr.slice(dataPathStartIdx, i).join('.')
+              const getData = get(curData, allPath)
               if (getData && getData.nn && getData.nn === CUSTOM_WRAPPER) {
+                hasCustomWrapper = true
                 const customWrapperId = getData.uid
-                const customWrapper = ctx.selectComponent(`#${customWrapperId}`)
-                const splitedPath = dataPathArr.slice(i).join('.')
-                if (customWrapper) {
-                  hasCustomWrapper = true
-                  customWrapperMap.set(customWrapper, { ...(customWrapperMap.get(customWrapper) || {}), [`i.${splitedPath}`]: data[p] })
+                const cachedComponnet = customWrapperCache.get(customWrapperId)
+                const selectedComponent = cachedComponnet || curCtx.selectComponent(`#${customWrapperId}`)
+                if (!cachedComponnet && selectedComponent) {
+                  customWrapperCache.set(customWrapperId, selectedComponent)
                 }
-                break
+                if (!selectedComponent) {
+                  if (process.env.NODE_ENV !== 'production' && options.debug) {
+                    // eslint-disable-next-line no-console
+                    console.warn(`CustomWrapper(${customWrapperId}) not found, will not setData for it`)
+                  }
+                  customWrapper = null
+                  break
+                }
+                customWrapper = selectedComponent
+                splitedPath = dataPathArr.slice(i).join('.')
+                curCtx = customWrapper!
+                curData = get(curCtx, 'data.i')
+                dataPathStartIdx = i
               }
+            }
+            if (customWrapper) {
+              customWrapperMap.set(customWrapper, {
+                ...(customWrapperMap.get(customWrapper) || {}),
+                [`i.${splitedPath}`]: data[p]
+              })
             }
             if (!hasCustomWrapper) {
               normalUpdate[p] = data[p]
@@ -134,14 +157,15 @@ export class TaroRootElement extends TaroElement {
             })
           }
         }
-        const updateArrLen = customWrapperUpdate.length
-        if (updateArrLen) {
+        const customWrapperUpdateArrLen = customWrapperUpdate.length
+        const normalUpdateArrLen = Object.keys(normalUpdate).length
+        if (customWrapperUpdateArrLen || normalUpdateArrLen) {
           const eventId = `${this._path}_update_${eventIncrementId()}`
           const eventCenter = this.eventCenter
           let executeTime = 0
           eventCenter.once(eventId, () => {
             executeTime++
-            if (executeTime === updateArrLen + 1) {
+            if (executeTime === customWrapperUpdateArrLen + 1) {
               perf.stop(SET_DATA)
               if (!this.pendingFlush) {
                 this.flushUpdateCallback()
@@ -160,7 +184,7 @@ export class TaroRootElement extends TaroElement {
               eventCenter.trigger(eventId)
             })
           })
-          if (Object.keys(normalUpdate).length) {
+          if (normalUpdateArrLen) {
             if (process.env.NODE_ENV !== 'production' && options.debug) {
               // eslint-disable-next-line no-console
               console.log('setData:', normalUpdate)

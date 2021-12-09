@@ -66,3 +66,28 @@ export function shortcutAttr (key: string): string {
       return key
   }
 }
+
+export const customWrapperCache = (function () {
+  const _customWrapperRefIdCache = new Map<string, { current: string }>()
+  const _customWrapperCache = new WeakMap<{ current: string }, Record<any, any>>()
+
+  const get = (id: string) => {
+    const refId = _customWrapperRefIdCache.get(id)
+    if (!refId) return null
+    return _customWrapperCache.get(refId)
+  }
+
+  const set = (id: string, customWrapper: Record<any, any>) => {
+    const cachedRefId = _customWrapperRefIdCache.get(id)
+    const refId = cachedRefId || Object.create({ current: id })
+    if (!cachedRefId && refId) {
+      _customWrapperRefIdCache.set(id, refId)
+    }
+    return _customWrapperCache.set(refId, customWrapper)
+  }
+
+  return {
+    set,
+    get
+  }
+})()
