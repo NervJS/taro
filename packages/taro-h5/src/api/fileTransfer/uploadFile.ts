@@ -1,4 +1,5 @@
-import { createCallbackManager } from '../utils'
+import Taro from '@tarojs/api'
+import { CallbackManager } from '../utils/handler'
 import {
   convertObjectUrlToBlob,
   NETWORK_TIMEOUT,
@@ -13,8 +14,8 @@ const createUploadTask = ({ url, filePath, formData, name, header, timeout, file
   const xhr = new XMLHttpRequest()
   const form = new FormData()
   const callbackManager = {
-    headersReceived: createCallbackManager(),
-    progressUpdate: createCallbackManager()
+    headersReceived: new CallbackManager(),
+    progressUpdate: new CallbackManager()
   }
 
   xhr.open('POST', url)
@@ -57,7 +58,7 @@ const createUploadTask = ({ url, filePath, formData, name, header, timeout, file
     })
   }
 
-  xhr.onerror = e => {
+  xhr.onerror = (e: ProgressEvent<EventTarget> & { message?: string }) => {
     clearTimeout(timeoutInter)
     error({
       errMsg: `${apiName}:fail ${e.message}`
@@ -88,8 +89,11 @@ const createUploadTask = ({ url, filePath, formData, name, header, timeout, file
   }
 
   convertObjectUrlToBlob(filePath)
-    .then(fileObj => {
-      form.append(name, fileObj, fileName || fileObj.name || `file-${Date.now()}`)
+    .then((fileObj: string | (Blob & { name?: string })) => {
+      if (!fileName) {
+        fileName = typeof fileObj !== 'string' && fileObj.name
+      }
+      form.append(name, fileObj, fileName || `file-${Date.now()}`)
       send()
     })
     .catch(e => {
@@ -131,22 +135,10 @@ const createUploadTask = ({ url, filePath, formData, name, header, timeout, file
 
 /**
  * 将本地资源上传到服务器。客户端发起一个 HTTPS POST 请求，其中 content-type 为 multipart/form-data。使用前请注意阅读相关说明。
- * @param {Object} object 参数
- * @param {string} object.url 开发者服务器地址
- * @param {string} object.filePath 要上传文件资源的路径
- * @param {string} object.name 文件对应的 key，开发者在服务端可以通过这个 key 获取文件的二进制内容
- * @param {Object} [object.header] HTTP 请求 Header，Header 中不能设置 Referer
- * @param {Object} [object.formData] HTTP 请求中其他额外的 form data
- * @param {number} [object.timeout] 超时时间，单位为毫秒
- * @param {string} [object.fileName] 上传的文件名
- * @param {function} [object.success] 接口调用成功的回调函数
- * @param {function} [object.fail] 接口调用失败的回调函数
- * @param {function} [object.complete] 接口调用结束的回调函数（调用成功、失败都会执行）
- * @returns {UploadTask}
  */
-const uploadFile = ({ url, filePath, name, header, formData, timeout, fileName, success, fail, complete }) => {
+const uploadFile: typeof Taro.uploadFile = ({ url, filePath, name, header, formData, timeout, fileName, success, fail, complete }) => {
   let task
-  const promise = new Promise((resolve, reject) => {
+  const result: Partial<ReturnType<typeof Taro.uploadFile>> = new Promise((resolve, reject) => {
     task = createUploadTask({
       url,
       header,
@@ -157,22 +149,22 @@ const uploadFile = ({ url, filePath, name, header, formData, timeout, fileName, 
       fileName,
       success: res => {
         success && success(res)
-        complete && complete()
+        complete && complete(res)
         resolve(res)
       },
       error: res => {
         fail && fail(res)
-        complete && complete()
+        complete && complete(res)
         reject(res)
       }
     })
   })
 
-  promise.headersReceive = task.onHeadersReceived
-  promise.progress = task.onProgressUpdate
-  promise.abort = task.abort
+  result.headersReceive = task.onHeadersReceived
+  result.progress = task.onProgressUpdate
+  result.abort = task.abort
 
-  return promise
+  return result as ReturnType<typeof Taro.uploadFile>
 }
 
 export default uploadFile

@@ -41,9 +41,10 @@ const {
   useAddToFavorites,
   useReady,
   useRouter
-} = Taro
+} = Taro as any
 
-const taro = {
+const taro: typeof Taro = {
+  // @ts-ignore
   Behavior,
   getEnv,
   ENV_TYPE,
@@ -57,13 +58,13 @@ const taro = {
   Events,
   preload,
   history,
-  navigateBack,
-  navigateTo,
+  navigateBack: navigateBack as unknown as typeof Taro.navigateBack,
+  navigateTo: navigateTo as unknown as typeof Taro.navigateTo,
   createRouter,
-  reLaunch,
-  redirectTo,
-  getCurrentPages,
-  switchTab,
+  reLaunch: reLaunch as unknown as typeof Taro.reLaunch,
+  redirectTo: redirectTo as unknown as typeof Taro.redirectTo,
+  getCurrentPages: getCurrentPages as unknown as typeof Taro.getCurrentPages,
+  switchTab: switchTab as unknown as typeof Taro.switchTab,
   useDidShow,
   useDidHide,
   usePullDownRefresh,
@@ -84,11 +85,12 @@ const taro = {
 const initPxTransform = getInitPxTransform(taro)
 
 const requirePlugin = permanentlyNotSupport('requirePlugin')
-const getApp = function () {
-  return getCurrentInstance().app
+const getApp: typeof Taro.getApp = function <T = TaroGeneral.IAnyObject> () {
+  return getCurrentInstance().app as unknown as Taro.getApp.Instance<T>
 }
 
 const pxTransform = function (size) {
+  // @ts-ignore
   const { designWidth } = taro.config
   return Math.ceil((((parseInt(size, 10) / 40) * 640) / designWidth) * 10000) / 10000 + 'rem'
 }
@@ -101,6 +103,7 @@ taro.requirePlugin = requirePlugin
 taro.getApp = getApp
 taro.pxTransform = pxTransform
 taro.initPxTransform = initPxTransform
+// @ts-ignore
 taro.canIUseWebp = canIUseWebp
 
 export default taro

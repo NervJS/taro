@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro'
+import Taro from '@tarojs/api'
 
 namespace Router {
   export interface Location {
