@@ -1,4 +1,4 @@
-import { shouldBeObject, getParameterError } from '../utils'
+import { shouldBeObject, getParameterError } from '../utils/odd'
 
 export function setNavigationBarTitle (options) {
   // options must be an Object

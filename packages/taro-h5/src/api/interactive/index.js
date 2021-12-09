@@ -1,5 +1,5 @@
 import Taro from '@tarojs/api'
-import { errorHandler, getParameterError } from '../utils'
+import { errorHandler, getParameterError } from '../utils/odd'
 import Toast from './toast'
 import Modal from './modal'
 import ActionSheet from './actionSheet'

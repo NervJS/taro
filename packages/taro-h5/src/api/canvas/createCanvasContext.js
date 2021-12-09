@@ -1,4 +1,4 @@
-import { findDOM } from '../utils/index'
+import { findDOM } from '../utils/odd'
 
 /**
  * 创建 canvas 的绘图上下文 CanvasContext 对象

@@ -1,4 +1,4 @@
-import { findDOM } from '../utils'
+import { findDOM } from '../utils/odd'
 
 /**
  * WXML节点信息API

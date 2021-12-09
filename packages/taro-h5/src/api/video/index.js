@@ -1,4 +1,4 @@
-import { shouldBeObject, getParameterError, findDOM } from '../utils'
+import { shouldBeObject, getParameterError, findDOM } from '../utils/odd'
 
 /**
  * @typedef {Object} ChooseVideoParam

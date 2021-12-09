@@ -1,4 +1,4 @@
-import { inlineStyle } from '../utils'
+import { inlineStyle } from '../utils/odd'
 
 const noop = function () {}
 

@@ -1,4 +1,4 @@
-import { shouldBeObject, getParameterError } from '../utils'
+import { shouldBeObject, getParameterError } from '../utils/odd'
 
 /**
  * 从本地相册选择图片或使用相机拍照。

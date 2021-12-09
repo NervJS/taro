@@ -1,4 +1,4 @@
-import { findDOM } from '../utils/index'
+import { findDOM } from '../utils/odd'
 
 /**
  * @typedef {Object} Param
