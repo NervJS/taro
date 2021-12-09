@@ -4,6 +4,7 @@ module.exports = {
     快速开始: ['GETTING-STARTED', 'composition'],
     基础教程: [
       'folder',
+      'cli',
       {
         label: '配置',
         type: 'category',
@@ -35,26 +36,30 @@ module.exports = {
       },
       'router',
       'static-reference',
-      'h5',
       {
         label: '多端开发',
         type: 'category',
-        items: ['envs', 'envs-debug', 'wxcloudbase', 'miniprogram-plugin'],
+        items: ['envs', 'envs-debug'],
       },
+      {
+        label: '小程序',
+        type: 'category',
+        items: ['come-from-miniapp', 'wxcloudbase', 'miniprogram-plugin']
+      },
+      'h5',
       {
         label: 'React Native',
         type: 'category',
         items: ['react-native', 'react-native-remind'],
       },
-      'cli',
-      'use-h5',
-      'come-from-miniapp'
+      'harmony'
     ],
     进阶指南: [
       'config-detail',
       'html',
-      'plugin',
+      'use-h5',
       'jquery-like',
+      'plugin',
       {
         label: '性能优化',
         type: 'category',
