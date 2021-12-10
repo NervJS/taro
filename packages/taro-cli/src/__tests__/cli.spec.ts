@@ -59,7 +59,6 @@ describe('inspect', () => {
         port: 8080,
         deviceType: undefined,
         resetCache: false,
-        preview: false,
         qr: false
       })
 

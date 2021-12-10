@@ -223,7 +223,7 @@ export default async function build (appPath: string, config: any): Promise<any>
       })
       const assetsDest = concatOutputAssetsDest(config)
       return await saveAssets(outputAssets, options.platform, assetsDest).then(() => {
-        if (config.preview) {
+        if (config.qr) {
           preview({
             out: options.out,
             assetsDest,

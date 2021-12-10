@@ -20,7 +20,6 @@ export default (ctx: IPluginContext) => {
       '--sourcemap-sources-root': '[rn] Path to make sourcemaps sources entries relative to',
       '--assets-dest': '[rn] Directory name where to store assets referenced in the bundle',
       '--qr': '[rn] Print qrcode of React-Native bundle server',
-      '--preview': '[rn] Print qrcode of React-Native bundle location for preview',
       '--blended': 'Blended Taro project in an original MiniApp project',
       '--plugin [typeName]': 'Build Taro plugin project, weapp'
     },
