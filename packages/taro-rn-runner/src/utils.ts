@@ -19,3 +19,7 @@ export function getOpenHost () {
   }
   return result
 }
+
+export const PLAYGROUNDREPO = 'https://github.com/wuba/taro-playground'
+
+export const PLAYGROUNDINFO = `use [Taro Playground App](${PLAYGROUNDREPO}) to scan`

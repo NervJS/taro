@@ -1,7 +1,7 @@
 import * as Metro from 'metro'
 import getMetroConfig from './config'
 import { getRNConfigEntry } from './config/config-holder'
-import { getOpenHost } from './utils'
+import { getOpenHost, PLAYGROUNDINFO } from './utils'
 import preview from './config/preview'
 
 import { PLATFORMS } from '@tarojs/helper'
@@ -171,6 +171,7 @@ export default async function build (appPath: string, config: any): Promise<any>
         const host = getOpenHost()
         if (host) {
           const url = `taro://${host}:${metroConfig.server.port}`
+          console.log(PLAYGROUNDINFO)
           console.log(`print qrcode of '${url}':`)
           generate(url, { small: true })
         } else {

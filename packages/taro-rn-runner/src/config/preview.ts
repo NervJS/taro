@@ -2,9 +2,9 @@ import * as mime from 'mime-types'
 import { createServer } from 'http'
 import { readFile } from 'fs'
 import { generate } from 'qrcode-terminal'
-import { getOpenHost } from '../utils'
+import { getOpenHost, PLAYGROUNDINFO } from '../utils'
 import { URL } from 'url'
-import path from 'path'
+import { join, extname } from 'path'
 
 interface PreviewOption {
   out: string
@@ -12,7 +12,59 @@ interface PreviewOption {
   assetsDest?: string
 }
 
-export default (opt: PreviewOption) => {
+const drawableFileTypes = new Set<string>([
+  'gif',
+  'jpeg',
+  'jpg',
+  'png',
+  'webp',
+  'xml'
+])
+
+function getAndroidAssetSuffix (scale: number): string {
+  switch (scale) {
+    case 0.75:
+      return 'ldpi'
+    case 1:
+      return 'mdpi'
+    case 1.5:
+      return 'hdpi'
+    case 2:
+      return 'xhdpi'
+    case 3:
+      return 'xxhdpi'
+    case 4:
+      return 'xxxhdpi'
+    default:
+      return ''
+  }
+}
+
+function getAndroidResourceFolderName (pathname:string): string {
+  const ext = extname(pathname).replace(/^./, '').toLowerCase()
+  if (!drawableFileTypes.has(ext)) {
+    return 'raw'
+  }
+  const suffix = getAndroidAssetSuffix(1) // TODO: auto scale
+  const androidFolder = `drawable-${suffix}`
+  return androidFolder
+}
+
+function getAndroidResourceIdentifier (pathname:string): string {
+  if (pathname[0] === '/') {
+    pathname = pathname.substr(1)
+  }
+  const ext = extname(pathname).toLowerCase()
+  const extReg = new RegExp(ext + '$')
+  return pathname
+    .replace(extReg, '')
+    .toLowerCase()
+    .replace(/\//g, '_')
+    .replace(/([^a-z0-9_])/g, '')
+    .replace(/^assets_/, '') + ext
+}
+
+export default (opt: PreviewOption):void => {
   const port = process.env.PORT || 8079
   const host = `http://${getOpenHost()}:${port}`
 
@@ -21,9 +73,9 @@ export default (opt: PreviewOption) => {
 
     console.log(`${request.method} ${request.url}`)
 
-    if (url.searchParams.get('platform') !== opt.platform) {
-      response.writeHead(400)
-      response.end('400', 'utf-8')
+    if (url.pathname === '/inspector/device') {
+      response.writeHead(404)
+      response.end('404', 'utf-8')
       return
     }
 
@@ -33,9 +85,9 @@ export default (opt: PreviewOption) => {
     if (url.pathname === '/index.js') {
       filePath = opt.out
     } else if (opt.platform === 'ios') {
-      filePath = path.join(opt.assetsDest || '', url.pathname)
+      filePath = join(opt.assetsDest || '', url.pathname)
     } else if (opt.platform === 'android') {
-      filePath = path.join(opt.assetsDest || '', 'drawable-mdpi', url.pathname.replace(new RegExp(path.sep, 'g'), '_'))
+      filePath = join(opt.assetsDest || '', getAndroidResourceFolderName(url.pathname), getAndroidResourceIdentifier(url.pathname))
     }
 
     readFile(filePath, function (error, content) {
@@ -55,6 +107,7 @@ export default (opt: PreviewOption) => {
   }).listen(port)
 
   const url = `${host}/index.js`
-  console.log(`print qrcode of '${url}':`)
+  console.log(PLAYGROUNDINFO)
+  console.log(`print qrcode of ${opt.platform} bundle '${url}':`)
   generate(url, { small: true })
 }
