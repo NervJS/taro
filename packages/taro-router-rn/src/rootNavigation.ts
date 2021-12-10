@@ -119,7 +119,7 @@ export function isTabPage (path = ''): boolean {
   const tabPages = getTabBarPages()
   let pageName = ''
   if (path) {
-    pageName = camelCase(path.startsWith('/') ? path : `/${path}`)
+    pageName = camelCase((path.startsWith('/') ? path : `/${path}`).split('?')[0])
   } else {
     const route: Record<string, any> = navigationRef.current?.getCurrentRoute() || {}
     pageName = route?.name || ''
