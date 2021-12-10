@@ -4,7 +4,7 @@ const { jsWithTs: tsjPreset } = require('ts-jest/presets')
 
 export const config: Config = {
   namespace: 'taro-components',
-  globalStyle: './node_modules/weui/dist/style/weui.min.css',
+  globalStyle: './src/global.css',
   plugins: [
     sass()
   ],
