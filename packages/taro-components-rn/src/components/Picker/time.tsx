@@ -29,7 +29,7 @@ export default class TimeSelector extends React.Component<TimeProps, TimeState> 
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   static getDerivedStateFromProps(nextProps: TimeProps, lastState: any) {
-    if (nextProps.value !== lastState.pValue) {
+    if (nextProps.value && nextProps.value !== lastState.pValue) {
       const now = new Date()
       if (!nextProps.value || typeof nextProps.value !== 'string') {
         return {
