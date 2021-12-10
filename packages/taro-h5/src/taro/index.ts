@@ -2,13 +2,8 @@ import Taro from '@tarojs/api'
 
 import {
   history,
-  navigateBack,
-  navigateTo,
   createRouter,
-  reLaunch,
-  redirectTo,
-  getCurrentPages,
-  switchTab
+  getCurrentPages
 } from '@tarojs/router'
 import { permanentlyNotSupport } from '../api/utils'
 
@@ -20,9 +15,7 @@ const {
   interceptors,
   getInitPxTransform,
   Current,
-  getCurrentInstance,
   options,
-  nextTick,
   eventCenter,
   Events,
   preload,
@@ -51,20 +44,13 @@ const taro: typeof Taro = {
   Link,
   interceptors,
   Current,
-  getCurrentInstance,
   options,
-  nextTick,
   eventCenter,
   Events,
   preload,
   history,
-  navigateBack: navigateBack as unknown as typeof Taro.navigateBack,
-  navigateTo: navigateTo as unknown as typeof Taro.navigateTo,
   createRouter,
-  reLaunch: reLaunch as unknown as typeof Taro.reLaunch,
-  redirectTo: redirectTo as unknown as typeof Taro.redirectTo,
   getCurrentPages: getCurrentPages as unknown as typeof Taro.getCurrentPages,
-  switchTab: switchTab as unknown as typeof Taro.switchTab,
   useDidShow,
   useDidHide,
   usePullDownRefresh,
@@ -85,9 +71,6 @@ const taro: typeof Taro = {
 const initPxTransform = getInitPxTransform(taro)
 
 const requirePlugin = permanentlyNotSupport('requirePlugin')
-const getApp: typeof Taro.getApp = function <T = TaroGeneral.IAnyObject> () {
-  return getCurrentInstance().app as unknown as Taro.getApp.Instance<T>
-}
 
 const pxTransform = function (size) {
   // @ts-ignore
@@ -100,7 +83,6 @@ const canIUseWebp = function () {
 }
 
 taro.requirePlugin = requirePlugin
-taro.getApp = getApp
 taro.pxTransform = pxTransform
 taro.initPxTransform = initPxTransform
 // @ts-ignore
@@ -116,24 +98,16 @@ export {
   interceptors,
   initPxTransform,
   Current,
-  getCurrentInstance,
   options,
-  nextTick,
   eventCenter,
   Events,
   preload,
   requirePlugin,
-  getApp,
   pxTransform,
   canIUseWebp,
   history,
-  navigateBack,
-  navigateTo,
   createRouter,
-  reLaunch,
-  redirectTo,
   getCurrentPages,
-  switchTab,
   useDidShow,
   useDidHide,
   usePullDownRefresh,

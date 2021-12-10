@@ -4,6 +4,26 @@ import { shouldBeObject, getParameterError } from '../../utils/odd'
 let socketTasks = []
 let socketsCounter = 1
 
+function sendSocketMessage () {
+  console.warn('Deprecated.Please use socketTask.send instead.')
+}
+
+function onSocketOpen () {
+  console.warn('Deprecated.Please use socketTask.onOpen instead.')
+}
+
+function onSocketMessage () {
+  console.warn('Deprecated.Please use socketTask.onMessage instead.')
+}
+
+function onSocketError () {
+  console.warn('Deprecated.Please use socketTask.onError instead.')
+}
+
+function onSocketClose () {
+  console.warn('Deprecated.Please use socketTask.onClose instead.')
+}
+
 function connectSocket (options) {
   const name = 'connectSocket'
 
@@ -68,36 +88,16 @@ function connectSocket (options) {
   })
 }
 
-function onSocketOpen () {
-  console.warn('Deprecated.Please use socketTask.onOpen instead.')
-}
-
-function onSocketError () {
-  console.warn('Deprecated.Please use socketTask.onError instead.')
-}
-
-function sendSocketMessage () {
-  console.warn('Deprecated.Please use socketTask.send instead.')
-}
-
-function onSocketMessage () {
-  console.warn('Deprecated.Please use socketTask.onMessage instead.')
-}
-
 function closeSocket () {
   console.warn('Deprecated.Please use socketTask.close instead.')
 }
 
-function onSocketClose () {
-  console.warn('Deprecated.Please use socketTask.onClose instead.')
-}
-
 export {
-  connectSocket,
-  onSocketOpen,
-  onSocketError,
   sendSocketMessage,
+  onSocketOpen,
   onSocketMessage,
-  closeSocket,
-  onSocketClose
+  onSocketError,
+  onSocketClose,
+  connectSocket,
+  closeSocket
 }
