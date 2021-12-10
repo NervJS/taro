@@ -1,8 +1,10 @@
 import Taro from '@tarojs/api'
-import { errorHandler, getParameterError } from '../../utils/odd'
+import { errorHandler, getParameterError, temporarilyNotSupport } from '../../utils/odd'
 import Toast from './toast'
 import Modal from './modal'
 import ActionSheet from './actionSheet'
+
+// 交互
 
 let status = 'default'
 
@@ -280,4 +282,7 @@ Taro.eventCenter.on('__taroRouterChange', () => {
   hideModal()
 })
 
-export { showToast, hideToast, showLoading, hideLoading, showModal, showActionSheet }
+const enableAlertBeforeUnload = temporarilyNotSupport('enableAlertBeforeUnload')
+const disableAlertBeforeUnload = temporarilyNotSupport('disableAlertBeforeUnload')
+
+export { showToast, showModal, showLoading, showActionSheet, hideToast, hideLoading, enableAlertBeforeUnload, disableAlertBeforeUnload }

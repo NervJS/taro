@@ -1,7 +1,8 @@
 import Taro from '@tarojs/api'
-import { shouldBeObject, getParameterError } from '../utils'
+import { shouldBeObject, getParameterError, temporarilyNotSupport } from '../utils'
 import { MethodHandler } from '../utils/handler'
 
+// 数据缓存
 const setStorageSync: typeof Taro.setStorageSync = (key, data = '') => {
   if (typeof key !== 'string') {
     console.error(getParameterError({
@@ -173,15 +174,20 @@ const clearStorageSync: typeof Taro.clearStorageSync = () => {
   clearStorage()
 }
 
+const revokeBufferURL = temporarilyNotSupport('revokeBufferURL')
+
 export {
-  setStorage,
   setStorageSync,
-  getStorage,
-  getStorageSync,
-  getStorageInfo,
-  getStorageInfoSync,
-  removeStorage,
+  setStorage,
+  revokeBufferURL,
   removeStorageSync,
-  clearStorage,
-  clearStorageSync
+  removeStorage,
+  getStorageSync,
+  getStorageInfoSync,
+  getStorageInfo,
+  getStorage,
+  clearStorageSync,
+  clearStorage
 }
+
+export * from './background-fetch'

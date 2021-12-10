@@ -1,4 +1,4 @@
-import { findDOM } from '../utils/odd'
+import { findDOM, temporarilyNotSupport } from '../utils/odd'
 
 /**
  * WXML节点信息API
@@ -191,3 +191,5 @@ class NodesRef {
 export function createSelectorQuery () {
   return new Query()
 }
+
+export const createIntersectionObserver = temporarilyNotSupport('createIntersectionObserver')
