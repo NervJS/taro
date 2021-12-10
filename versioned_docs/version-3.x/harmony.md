@@ -173,7 +173,7 @@ config = {
 执行下面命令，Taro 可将打包结果生成到配置的鸿蒙主项目路径中。
 
 ```bash
-$ taro build —type harmony —watch
+$ taro build —-type harmony —-watch
 ```
 
 ### 6. 预览 & 调试
