@@ -16,6 +16,7 @@ export function createReactNativeApp (component: React.ComponentClass, config: R
   const routerConfig: RouterConfig = {
     tabBar: config.appConfig.tabBar,
     pages: config.pageList,
+    entryPagePath: config.appConfig.entryPagePath,
     window: config.appConfig.window,
     linkPrefix: config.appConfig.linkPrefix || [],
     rnConfig: config.appConfig.rn || {}
