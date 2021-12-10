@@ -27,9 +27,9 @@ interface CoverImageProps extends StandardProps {
  *   render () {
  *     return (
  *       <Video id='myVideo' src='src'>
- *         <CoverView class='controls'>
- *           <CoverView class='play' onClick='play'>
- *             <CoverImage class='img' src='src' />
+ *         <CoverView className='controls'>
+ *           <CoverView className='play' onClick={() => { TODO }}>
+ *             <CoverImage className='img' src='src' />
  *           </CoverView>
  *         </CoverView>
  *       </Video>
