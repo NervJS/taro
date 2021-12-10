@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-rn",
-  "version": "3.3.15",
+  "version": "3.3.16",
   "description": "多端解决方案基础组件（RN）",
   "main": "./dist/index.js",
   "scripts": {
@@ -38,11 +38,12 @@
     "prop-types": "^15.6.2",
     "react-native-maps": "^0.25.0",
     "react-native-pager-view": "~5.4.9",
+    "react-native-svg": "~12.1.1",
     "react-native-webview": "~11.14.3",
     "unimodules-permissions-interface": "~5.3.0"
   },
   "devDependencies": {
-    "@tarojs/components": "3.3.15",
+    "@tarojs/components": "3.3.16",
     "@types/react-native": "0.66.5",
     "@types/sinon": "^9.0.8",
     "cpy-cli": "^3.1.1",
@@ -63,6 +64,7 @@
     "expo-barcode-scanner": "~10.2.2",
     "expo-camera": "~11.2.2",
     "react-native-pager-view": "~5.4.9",
+    "react-native-svg": "~12.1.1",
     "react-native-webview": "~11.14.3"
   },
   "resolutions": {
