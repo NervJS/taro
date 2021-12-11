@@ -11,6 +11,8 @@ const swanSpecialAttrs = {
 
 interface TemplateOptions {
   flattenViewLevel?: number
+  flattenCoverLevel?: number
+  flattenTextLevel?: number
 }
 
 export class Template extends RecursiveTemplate {
@@ -29,8 +31,8 @@ export class Template extends RecursiveTemplate {
   }
 
   flattenViewLevel: number
-
   flattenCoverLevel: number
+  flattenTextLevel: number
 
   legacyMiniComponents: {
     [key: string]: Record<string, string>
@@ -39,7 +41,8 @@ export class Template extends RecursiveTemplate {
   constructor (options?: TemplateOptions) {
     super()
     this.flattenViewLevel = options?.flattenViewLevel ?? 8
-    this.flattenCoverLevel = options?.flattenViewLevel ?? 3
+    this.flattenCoverLevel = options?.flattenCoverLevel ?? 3
+    this.flattenTextLevel = options?.flattenTextLevel ?? 3
   }
 
   createMiniComponents (components): any {
@@ -139,6 +142,23 @@ export class Template extends RecursiveTemplate {
     return template
   }
 
+  buildFlattenText = (level = this.flattenTextLevel): string => {
+    if (level === 0) {
+      return `<block>{{i.${Shortcuts.Childnodes}[index].${Shortcuts.Text}}}</block>`
+    }
+
+    const child = this.buildFlattenText(level - 1)
+
+    const template =
+`<block s-if="item.nn === '#text'">{{item.v}}</block>
+<text s-else id="{{item.uid}}" ${this.buildFlattenNodeAttributes('text')}>
+  <block s-for="{{item.cn}}" s-key="uid">
+    ${indent(child, 4)}
+  </block>
+</text>`
+    return template
+  }
+
   modifyLoopBody = (child: string, nodeName: string): string => {
     switch (nodeName) {
       case 'view':
@@ -164,7 +184,7 @@ export class Template extends RecursiveTemplate {
 
       case 'text':
       case 'static-text':
-        return `<block>{{i.${Shortcuts.Childnodes}[index].${Shortcuts.Text}}}</block>`
+        return this.buildFlattenText()
 
       case 'picker-view':
         return `<picker-view-column id="{{item.uid}}" ${this.buildFlattenNodeAttributes('picker-view-column')}>
