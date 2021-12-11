@@ -8,71 +8,18 @@
 import ViewPager from 'react-native-pager-view'
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { CarouselProps, PaginationProps } from './PropsType'
+import { CarouselProps } from './PropsType'
+import defaultPagination from './pagination'
 
 const styles = StyleSheet.create({
   wrapperStyle: {
     overflow: 'hidden',
-  },
-  pagination: {
-    position: 'absolute',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  paginationX: {
-    bottom: 10,
-    left: 0,
-    right: 0,
-  },
-  paginationY: {
-    right: 10,
-    top: 0,
-    bottom: 0,
-  },
-  pointStyle: {
-    width: 8,
-    height: 8,
-    borderRadius: 8,
-    backgroundColor: '#999',
-  },
-  pointActiveStyle: {
-    backgroundColor: '#333',
-  },
-  spaceStyle: {
-    marginHorizontal: 2.5,
-    marginVertical: 3,
   },
 })
 
 export interface CarouselState {
   selectedIndex: number;
   isScrolling: boolean;
-}
-
-const defaultPagination = (props: PaginationProps): any => {
-  const { styles, current, vertical, count, dotStyle, dotActiveStyle } = props
-  const positionStyle = vertical ? 'paginationY' : 'paginationX'
-  const flexDirection = vertical ? 'column' : 'row'
-  const arr: any = []
-  for (let i = 0; i < count; i++) {
-    arr.push(
-      <View
-        key={`dot-${i}`}
-        style={[
-          styles.pointStyle,
-          styles.spaceStyle,
-          dotStyle,
-          i === current && styles.pointActiveStyle,
-          i === current && dotActiveStyle,
-        ]}
-      />,
-    )
-  }
-  return (
-    <View style={[styles.pagination, styles[positionStyle]]}>
-      <View style={{ flexDirection }}>{arr}</View>
-    </View>
-  )
 }
 
 class Carousel extends React.Component<CarouselProps, CarouselState> {
@@ -129,10 +76,6 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     }
   }
 
-  /**
-   * go to index
-   * @param index
-   */
   public goTo(index: number): void {
     this.setState({ selectedIndex: index })
     this.viewPager.current && this.viewPager.current.setPage(index)
