@@ -2,7 +2,7 @@
  * 注意：Carousel 组件由组件 @ant-design/react-native/lib/carousel 私有化并修改而成
  * https://github.com/ant-design/ant-design-mobile-rn/tree/master/components/carousel
  *
- * 依赖 @react-native-community/viewpager 实现，因此使用时需在壳工程中引入该组件
+ * 依赖 react-native-pager-view 实现
  *
  */
 import ViewPager from 'react-native-pager-view'
@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
   pagination: {
     position: 'absolute',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   paginationX: {
     bottom: 10,
