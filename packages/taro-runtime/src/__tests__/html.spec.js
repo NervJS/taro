@@ -119,7 +119,7 @@ describe('html with <style>', () => {
   it('attributes selector with space', () => {
     const html = `
       <style>
-        [name = "title"]   {
+        [    name = "title"]   {
           color: red;
         }
         [name = "body"][content = 'hello-world'] {
@@ -131,7 +131,7 @@ describe('html with <style>', () => {
         <div name="body" content="hello-world"></div>
       </div>
     `
-    const res = parser(html)
+    const res = parser(html, document)
     const el0 = res[0].children[0]
     const el1 = res[0].children[1]
     expect(el0.style.cssText).toBe('color: red;')
