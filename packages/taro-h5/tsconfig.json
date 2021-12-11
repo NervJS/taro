@@ -8,13 +8,13 @@
     "baseUrl": ".",
     "noImplicitAny": false,
     "noUnusedLocals": true,
-    "removeComments": false,
+    "removeComments": true,
     "strictNullChecks": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "declaration": false,
-    "types": ["./types"]
+    "types": ["jest", "./types"]
   },
   "include": [
     "./src",

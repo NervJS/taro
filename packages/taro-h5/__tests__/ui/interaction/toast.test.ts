@@ -1,5 +1,4 @@
-/* eslint-disable */
-import * as Taro from '../src/api'
+import * as Taro from '../../../src/api'
 import 'jest-dom/extend-expect'
 
 describe('toast', () => {
@@ -93,7 +92,7 @@ describe('toast', () => {
     })
 
     const toast = document.body.lastChild
-    const icon = toast.lastChild.firstChild
+    const icon: any = toast.lastChild.firstChild
 
     expect(icon).not.toBeVisible()
 

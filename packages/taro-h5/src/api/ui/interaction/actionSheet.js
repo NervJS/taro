@@ -114,8 +114,8 @@ export default class ActionSheet {
     const cb = () => {
       this.hide()
       const res = { errMsg: 'showActionSheet:fail cancel' }
-      config.fail(res)
-      config.complete(res)
+      this.lastConfig.fail && this.lastConfig.fail(res)
+      this.lastConfig.complete && this.lastConfig.complete(res)
       this.rejectHandler(res)
     }
     mask.onclick = cb

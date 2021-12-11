@@ -1,6 +1,5 @@
-/* eslint-disable */
-import * as Taro from '../src/api'
-import mockConsole from 'jest-mock-console'
+import * as Taro from '../../src/api'
+const mockConsole = require('jest-mock-console')
 
 describe('storage', () => {
   beforeEach(() => {
@@ -228,7 +227,7 @@ describe('storage', () => {
 
       const res = Taro.getStorageSync(1)
 
-      const expectErrMsg = 'getStorage:fail parameter error: parameter should be String instead of Number'
+      const expectErrMsg = 'getStorageSync:fail parameter error: parameter should be String instead of Number'
       expect(console.error).toHaveBeenCalledWith(expectErrMsg)
       expect(res).toBe(undefined)
     })
@@ -282,7 +281,7 @@ describe('storage', () => {
 
     test('should return a empty string', () => {
       const key = 'test'
-      const data = Symbol()
+      const data = Symbol('data')
       Taro.setStorageSync(key, data)
       expect(Taro.getStorageSync(key)).toBe('')
     })
@@ -310,8 +309,8 @@ describe('storage', () => {
         .then(res => {
           const { keys, limitSize, currentSize, errMsg } = res
           expect(keys).toEqual(['foo', 'bar'])
-          expect(limitSize).toBeNull()
-          expect(currentSize).toBeNull()
+          expect(limitSize).toBeNaN()
+          expect(currentSize).toBeNaN()
           expect(errMsg).toMatch('getStorageInfo:ok')
           expect(success.mock.calls.length).toBe(1)
           expect(success.mock.calls[0][0]).toEqual(res)
@@ -329,8 +328,8 @@ describe('storage', () => {
       const res = Taro.getStorageInfoSync()
       const { keys, limitSize, currentSize } = res
       expect(keys).toEqual(['foo', 'bar'])
-      expect(limitSize).toBeNull()
-      expect(currentSize).toBeNull()
+      expect(limitSize).toBeNaN()
+      expect(currentSize).toBeNaN()
     })
   })
 

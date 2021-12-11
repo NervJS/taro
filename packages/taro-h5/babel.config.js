@@ -1,8 +1,6 @@
 module.exports = {
   presets: [
-    [
-      '@babel/preset-env'
-    ]
+    ['@babel/preset-env']
   ],
   plugins: [
     '@babel/plugin-proposal-class-properties',
@@ -10,5 +8,10 @@ module.exports = {
     ['@babel/plugin-transform-react-jsx', {
       pragma: 'Nerv.createElement'
     }]
-  ]
+  ],
+  env: {
+    test: {
+      plugins: ['@babel/plugin-transform-runtime']
+    }
+  }
 }

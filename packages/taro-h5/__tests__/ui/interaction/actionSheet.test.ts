@@ -1,5 +1,4 @@
-/* eslint-disable */
-import * as Taro from '../src/api'
+import * as Taro from '../../../src/api'
 import 'jest-dom/extend-expect'
 
 describe('actionSheet', () => {
@@ -16,11 +15,11 @@ describe('actionSheet', () => {
       complete
     })
       .catch(err => {
-        const excpectErrObj = { errMsg: 'showActionSheet:fail parameter error: parameter.itemList should be Array instead of String' }
+        const expectErrObj = { errMsg: 'showActionSheet:fail parameter error: parameter.itemList should be Array instead of String' }
         expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(excpectErrObj)
-        expect(complete).toHaveBeenCalledWith(excpectErrObj)
-        expect(err).toEqual(excpectErrObj)
+        expect(fail).toHaveBeenCalledWith(expectErrObj)
+        expect(complete).toHaveBeenCalledWith(expectErrObj)
+        expect(err).toEqual(expectErrObj)
       })
   })
 
@@ -37,11 +36,11 @@ describe('actionSheet', () => {
       complete
     })
       .catch(err => {
-        const excpectErrObj = { errMsg: 'showActionSheet:fail parameter error: parameter.itemList should have at least 1 item' }
+        const expectErrObj = { errMsg: 'showActionSheet:fail parameter error: parameter.itemList should have at least 1 item' }
         expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(excpectErrObj)
-        expect(complete).toHaveBeenCalledWith(excpectErrObj)
-        expect(err).toEqual(excpectErrObj)
+        expect(fail).toHaveBeenCalledWith(expectErrObj)
+        expect(complete).toHaveBeenCalledWith(expectErrObj)
+        expect(err).toEqual(expectErrObj)
       })
   })
 
@@ -58,11 +57,11 @@ describe('actionSheet', () => {
       complete
     })
       .catch(err => {
-        const excpectErrObj = { errMsg: 'showActionSheet:fail parameter error: parameter.itemList should not be large than 6' }
+        const expectErrObj = { errMsg: 'showActionSheet:fail parameter error: parameter.itemList should not be large than 6' }
         expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(excpectErrObj)
-        expect(complete).toHaveBeenCalledWith(excpectErrObj)
-        expect(err).toEqual(excpectErrObj)
+        expect(fail).toHaveBeenCalledWith(expectErrObj)
+        expect(complete).toHaveBeenCalledWith(expectErrObj)
+        expect(err).toEqual(expectErrObj)
       })
   })
 
@@ -79,11 +78,11 @@ describe('actionSheet', () => {
       complete
     })
       .catch(err => {
-        const excpectErrObj = { errMsg: 'showActionSheet:fail parameter error: parameter.itemList[1] should be String instead of Number' }
+        const expectErrObj = { errMsg: 'showActionSheet:fail parameter error: parameter.itemList[1] should be String instead of Number' }
         expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(excpectErrObj)
-        expect(complete).toHaveBeenCalledWith(excpectErrObj)
-        expect(err).toEqual(excpectErrObj)
+        expect(fail).toHaveBeenCalledWith(expectErrObj)
+        expect(complete).toHaveBeenCalledWith(expectErrObj)
+        expect(err).toEqual(expectErrObj)
       })
   })
 
@@ -101,11 +100,11 @@ describe('actionSheet', () => {
       complete
     })
       .catch(err => {
-        const excpectErrObj = { errMsg: 'showActionSheet:fail parameter error: parameter.itemColor should be String instead of Number' }
+        const expectErrObj = { errMsg: 'showActionSheet:fail parameter error: parameter.itemColor should be String instead of Number' }
         expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(excpectErrObj)
-        expect(complete).toHaveBeenCalledWith(excpectErrObj)
-        expect(err).toEqual(excpectErrObj)
+        expect(fail).toHaveBeenCalledWith(expectErrObj)
+        expect(complete).toHaveBeenCalledWith(expectErrObj)
+        expect(err).toEqual(expectErrObj)
       })
   })
 
@@ -131,12 +130,11 @@ describe('actionSheet', () => {
         done()
       })
 
-    const actionSheet = document.body.lastChild
+    const actionSheet: any = document.body.lastChild
     expect(actionSheet.childNodes.length).toBe(2)
 
     const mask = actionSheet.firstChild
     const list = actionSheet.lastChild.firstChild
-    const cancel = actionSheet.lastChild.lastChild
 
     expect(list.childNodes.length).toBe(3)
     expect(list.childNodes[0]).toHaveTextContent(itemA)
@@ -167,7 +165,7 @@ describe('actionSheet', () => {
       expect(res).toEqual(expectObj)
     })
 
-    const actionSheet = document.body.lastChild
+    const actionSheet: any = document.body.lastChild
     const cancel = actionSheet.lastChild.lastChild
 
     cancel.click()
@@ -194,7 +192,7 @@ describe('actionSheet', () => {
       expect(res).toEqual(expectObj)
     })
 
-    const actionSheet = document.body.lastChild
+    const actionSheet: any = document.body.lastChild
     const mask = actionSheet.firstChild
 
     mask.click()
@@ -210,7 +208,7 @@ describe('actionSheet', () => {
       itemColor: 'red'
     })
 
-    const actionSheet = document.body.lastChild
+    const actionSheet: any = document.body.lastChild
     const list = actionSheet.lastChild.firstChild
 
     expect(list).toHaveStyle('color: red')
@@ -224,7 +222,7 @@ describe('actionSheet', () => {
       itemList: [itemA, itemB, itemC]
     })
 
-    const actionSheet = document.body.lastChild
+    const actionSheet: any = document.body.lastChild
     const list = actionSheet.lastChild.firstChild
 
     expect(list.childNodes.length).toBe(3)
@@ -243,7 +241,7 @@ describe('actionSheet', () => {
       itemList: [itemA, itemB, itemC, itemD, itemE]
     })
 
-    const actionSheet = document.body.lastChild
+    const actionSheet: any = document.body.lastChild
     const list = actionSheet.lastChild.firstChild
 
     expect(list.childNodes.length).toBe(5)
@@ -261,7 +259,7 @@ describe('actionSheet', () => {
       itemList: [itemA, itemB]
     })
 
-    const actionSheet = document.body.lastChild
+    const actionSheet: any = document.body.lastChild
     const list = actionSheet.lastChild.firstChild
 
     expect(list.childNodes.length).toBe(2)

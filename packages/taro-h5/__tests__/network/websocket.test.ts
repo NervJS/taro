@@ -1,7 +1,6 @@
-/* eslint-disable */
-import { Websocket, Server } from 'mock-socket'
-import mockConsole from 'jest-mock-console'
-import * as Taro from '../src/api'
+import { Server } from 'mock-socket'
+import * as Taro from '../../src/api'
+const mockConsole = require('jest-mock-console')
 
 describe('websocket', () => {
   test('options should be object', () => {
@@ -77,13 +76,13 @@ describe('websocket', () => {
     return Promise.all([
       Taro.connectSocket({ url: 'wss://localhost:8080', success })
         .then(task => {
-          expect(success.mock.calls[0][0]).toEqual({ socketTaskId: 1, errMsg: 'connectSocket:ok'})
+          expect(success.mock.calls[0][0]).toEqual({ socketTaskId: 1, errMsg: 'connectSocket:ok' })
           task.close()
         }),
       Taro.connectSocket({ url: 'wss://localhost:8090', success })
         .then(task => {
           task.close()
-          expect(success.mock.calls[1][0]).toEqual({ socketTaskId: 2, errMsg: 'connectSocket:ok'})
+          expect(success.mock.calls[1][0]).toEqual({ socketTaskId: 2, errMsg: 'connectSocket:ok' })
         }),
       Taro.connectSocket({
         url: 'wss://localhost:9090',
@@ -92,7 +91,7 @@ describe('websocket', () => {
         complete
       })
         .catch(err => {
-          const expectErrMsg = `同时最多发起 2 个 socket 请求，更多请参考文档。`
+          const expectErrMsg = '同时最多发起 2 个 socket 请求，更多请参考文档。'
           expect(success.mock.calls.length).toBe(2)
           expect(fail.mock.calls.length).toBe(1)
           expect(fail.mock.calls[0][0]).toEqual({ errMsg: expectErrMsg })
@@ -105,7 +104,7 @@ describe('websocket', () => {
   })
 
   test('should work basically', done => {
-    const mockServer = new Server('wss://localhost:8080')
+    const mockServer: any = new Server('wss://localhost:8080')
     const connected = jest.fn()
     const success = jest.fn()
     const complete = jest.fn()
@@ -183,7 +182,7 @@ describe('websocket', () => {
     })
       .then(task => {
         task.onOpen(() => {})
-        task.onMessage(res => {})
+        task.onMessage(() => {})
         task.onClose(() => {})
         task.onError(() => {})
         const { listeners } = task.ws

@@ -31,7 +31,7 @@ function connectSocket (options) {
     // options must be an Object
     const isObject = shouldBeObject(options)
     if (!isObject.res) {
-      const res = { errMsg: `${name}${isObject.msg}` }
+      const res = { errMsg: `${name}:fail ${isObject.msg}` }
       console.error(res.errMsg)
       return reject(res)
     }
