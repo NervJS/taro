@@ -1,7 +1,8 @@
-/* eslint-disable */
-import * as Taro from '../src/api'
+import * as Taro from '../../src/api'
+const fetch = require('jest-fetch-mock')
 
-global.fetch = require('jest-fetch-mock')
+// @ts-ignore
+global.fetch = fetch
 
 describe('request', () => {
   beforeEach(() => {
@@ -21,7 +22,7 @@ describe('request', () => {
       data: {
         x: 123,
         y: 'abc',
-        z: [1,2,3]
+        z: [1, 2, 3]
       },
       success,
       fail,
@@ -63,7 +64,7 @@ describe('request', () => {
         arg: 123
       },
       header: {
-        'A': 'CCC'
+        A: 'CCC'
       },
       mode: 'cors',
       cache: 'no-cache',
@@ -75,7 +76,7 @@ describe('request', () => {
           method: 'POST',
           body: JSON.stringify({ arg: 123 }),
           headers: {
-            'A': 'CCC',
+            A: 'CCC',
             'Content-Type': 'application/json'
           },
           mode: 'cors',

@@ -1,6 +1,5 @@
-/* eslint-disable */
-import * as Taro from '../src/api'
-import mockConsole from 'jest-mock-console'
+import * as Taro from '../../src/api'
+const mockConsole = require('jest-mock-console')
 
 describe('navigation', () => {
   describe('setNavigationBarTitle', () => {

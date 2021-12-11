@@ -1,5 +1,4 @@
-/* eslint-disable */
-import * as Taro from '../src/api'
+import * as Taro from '../../../src/api'
 import 'jest-dom/extend-expect'
 
 describe('loading', () => {
@@ -44,7 +43,7 @@ describe('loading', () => {
     expect(toast).not.toBeVisible()
 
     const mask = toast.firstChild
-    const icon = toast.lastChild.firstChild
+    const icon: any = toast.lastChild.firstChild
     const title = toast.lastChild.lastChild
     expect(icon.style.animation).toMatch('taroLoading 1s steps(12, end) infinite')
     expect(title).toHaveTextContent(titleContent)

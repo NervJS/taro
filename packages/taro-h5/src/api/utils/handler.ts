@@ -20,7 +20,7 @@ export class MethodHandler<T = Partial<TaroGeneral.CallbackResult>> {
     this.__complete = complete
   }
 
-  success<U = Record<string, unknown>> (res: Partial<T> & Partial<TaroGeneral.CallbackResult> = {}, resolve = Promise.resolve): Promise<T & U & TaroGeneral.CallbackResult> {
+  success<U = Record<string, unknown>> (res: Partial<T> & Partial<TaroGeneral.CallbackResult> = {}, resolve = Promise.resolve.bind(Promise)): Promise<T & U & TaroGeneral.CallbackResult> {
     if (!res.errMsg) {
       res.errMsg = `${this.methodName}:ok`
     }
@@ -29,7 +29,7 @@ export class MethodHandler<T = Partial<TaroGeneral.CallbackResult>> {
     return resolve(res as Required<T & U & TaroGeneral.CallbackResult>)
   }
 
-  fail<U = Record<string, unknown>> (res: Partial<T> & Partial<TaroGeneral.CallbackResult> = {}, reject = Promise.reject): Promise<T & U & TaroGeneral.CallbackResult> {
+  fail<U = Record<string, unknown>> (res: Partial<T> & Partial<TaroGeneral.CallbackResult> = {}, reject = Promise.reject.bind(Promise)): Promise<T & U & TaroGeneral.CallbackResult> {
     if (!res.errMsg) {
       res.errMsg = `${this.methodName}:fail`
     } else {

@@ -1,5 +1,4 @@
-/* eslint-disable */
-import * as Taro from '../src/api'
+import * as Taro from '../../../src/api'
 import 'jest-dom/extend-expect'
 
 describe('modal', () => {
@@ -197,7 +196,7 @@ describe('modal', () => {
         done()
       })
 
-    const modal = document.body.lastChild
+    const modal: any = document.body.lastChild
     const mask = modal.firstChild
     expect(modal.childNodes.length).toBe(2)
     expect(modal).not.toBeVisible()
@@ -211,7 +210,7 @@ describe('modal', () => {
     expect(foot.childNodes.length).toBe(2)
 
     const cancel = foot.firstChild
-    const confirm = foot.lastChild
+    const confirm: any = foot.lastChild
     expect(cancel).toHaveTextContent(cancelText)
     expect(cancel).toHaveStyle('color: rgb(0, 0, 0)')
     expect(confirm).toHaveTextContent(confirmText)
@@ -246,7 +245,7 @@ describe('modal', () => {
 
     const modal = document.body.lastChild
     const foot = modal.lastChild.lastChild
-    const cancel = foot.firstChild
+    const cancel: any = foot.firstChild
 
     setTimeout(() => {
       cancel.click()
@@ -299,7 +298,7 @@ describe('modal', () => {
   test('should show another style when options.title is empty', done => {
     Taro.showModal({})
 
-    const modal = document.body.lastChild
+    const modal: any = document.body.lastChild
     const title = modal.lastChild.firstChild
     const content = modal.lastChild.children[1]
 

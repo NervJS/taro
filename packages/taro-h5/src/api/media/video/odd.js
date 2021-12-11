@@ -9,7 +9,7 @@ export function chooseVideo (options) {
 
   const isObject = shouldBeObject(options)
   if (!isObject.res) {
-    const res = { errMsg: `chooseVideo${isObject.msg}` }
+    const res = { errMsg: `chooseVideo:fail ${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
   }

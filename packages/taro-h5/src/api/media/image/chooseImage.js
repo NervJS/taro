@@ -15,7 +15,7 @@ const chooseImage = function (options) {
   // options must be an Object
   const isObject = shouldBeObject(options)
   if (!isObject.res) {
-    const res = { errMsg: `chooseImage${isObject.msg}` }
+    const res = { errMsg: `chooseImage:fail ${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
   }

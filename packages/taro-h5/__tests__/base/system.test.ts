@@ -1,5 +1,4 @@
-/* eslint-disable */
-import * as Taro from '../src/api'
+import * as Taro from '../../src/api'
 
 describe('systemInfo', () => {
   test('should getSystemInfoSync return system information', () => {

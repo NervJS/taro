@@ -1,8 +1,8 @@
-/* eslint-disable */
-import * as Taro from '../src/api'
+import * as Taro from '../../src/api'
 
 describe('selectorQuery', () => {
   beforeAll(() => {
+    // @ts-ignore
     Element.prototype.getBoundingClientRect = jest.fn(() => {
       return {
         left: 50,
@@ -101,7 +101,7 @@ describe('selectorQuery', () => {
 
   test('should get scrollOffset', done => {
     document.body.innerHTML = '<div class="box" >box1</div>'
-    const box = document.querySelector('.box')
+    const box: any = document.querySelector('.box')
     const scrollLeft = 188
     const scrollTop = 233
     box.scrollLeft = scrollLeft
@@ -127,7 +127,7 @@ describe('selectorQuery', () => {
       scrollOffset: true,
       properties: ['scroll-x', 'threshold'],
       computedStyle: ['display']
-    },rect => {
+    }, rect => {
       expect(rect).toEqual({
         left: 50,
         right: 150,

@@ -4,7 +4,7 @@ export function setNavigationBarTitle (options) {
   // options must be an Object
   const isObject = shouldBeObject(options)
   if (!isObject.res) {
-    const res = { errMsg: `setNavigationBarTitle${isObject.msg}` }
+    const res = { errMsg: `setNavigationBarTitle:fail ${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
   }
