@@ -84,7 +84,7 @@ export default class StyleTagParser {
       .trim()
       .replace(/ *([>~+]) */g, ' $1')
       .replace(/ +/g, ' ')
-      .replace(/\[([^\[\]=\s]+)\s*=\s*([^\[\]=\s]+)\]/g, '[$1=$2]')
+      .replace(/\[\s*([^[\]=\s]+)\s*=\s*([^[\]=\s]+)\s*\]/g, '[$1=$2]')
       .split(' ')
     const selectors = list.map(item => {
       const firstChar = item.charAt(0)
