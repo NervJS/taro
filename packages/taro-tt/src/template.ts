@@ -1,4 +1,4 @@
-import { RecursiveTemplate } from '@tarojs/shared'
+import { RecursiveTemplate } from '@tarojs/shared/dist/template'
 
 export class Template extends RecursiveTemplate {
   supportXS = false
@@ -11,5 +11,14 @@ export class Template extends RecursiveTemplate {
     forIndex: 'tt:for-index',
     key: 'tt:key',
     type: 'tt'
+  }
+
+  replacePropName (name: string, value: string) {
+    if (value === 'eh') {
+      const nameLowerCase = name.toLowerCase()
+      if (nameLowerCase === 'bindlongtap') return 'bindlongpress'
+      return nameLowerCase
+    }
+    return name
   }
 }

@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - next
+      - feat/use-h5
   pull_request:
     branches:
       - next
@@ -16,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [12.x, 13.x, 14.x]
+        node-version: [14.x, 16.x, 17.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -56,3 +57,4 @@ jobs:
       run: yarn test
       env:
         CI: true
+        NODE_OPTIONS: ${{ fromJSON('["", "--openssl-legacy-provider"]')[matrix.node-version == '17.x'] }} # support webpack4 on nodejs 17

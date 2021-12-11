@@ -1,17 +1,17 @@
-let TaroRootElement
 let Style
 
 describe('style', () => {
   const runtime = require('../../dist/runtime.esm')
   Style = runtime.Style
-  TaroRootElement = runtime.TaroRootElement
+  const document = runtime.document
 
   afterAll(() => {
     process.env.FRAMEWORK = ''
   })
 
   it('works', () => {
-    const style = new Style(new TaroRootElement())
+    const root = document.createElement('root')
+    const style = new Style(root)
     style.color = 'red'
     expect(style._usedStyleProp.size).toBe(1)
     expect(style.getPropertyValue('color')).toBe('red')

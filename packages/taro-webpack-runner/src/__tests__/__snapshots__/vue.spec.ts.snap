@@ -221,7 +221,7 @@ exports[`vue should build vue app 2`] = `
         } else {
             style.removeAttribute(\\"media\\");
         }
-        if (sourceMap && btoa) {
+        if (sourceMap && typeof btoa !== \\"undefined\\") {
             css += \\"\\\\n/*# sourceMappingURL=data:application/json;base64,\\".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), \\" */\\");
         }
         if (style.styleSheet) {
@@ -382,8 +382,7 @@ exports[`vue should build vue app 2`] = `
     options.insert = \\"head\\";
     options.singleton = false;
     var update = api(content, options);
-    var exported = content.locals ? content.locals : {};
-    module.exports = exported;
+    module.exports = content.locals || {};
 }, function(module, exports, __webpack_require__) {
     var api = __webpack_require__(0);
     var content = __webpack_require__(14);
@@ -395,8 +394,7 @@ exports[`vue should build vue app 2`] = `
     options.insert = \\"head\\";
     options.singleton = false;
     var update = api(content, options);
-    var exported = content.locals ? content.locals : {};
-    module.exports = exported;
+    module.exports = content.locals || {};
 }, function(module, exports) {
     function _typeof(obj) {
         \\"@babel/helpers - typeof\\";
@@ -428,8 +426,7 @@ exports[`vue should build vue app 2`] = `
     options.insert = \\"head\\";
     options.singleton = false;
     var update = api(content, options);
-    var exported = content.locals ? content.locals : {};
-    module.exports = exported;
+    module.exports = content.locals || {};
 }, function(module, exports, __webpack_require__) {
     var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(1);
     exports = ___CSS_LOADER_API_IMPORT___(false);
@@ -459,8 +456,7 @@ exports[`vue should build vue app 2`] = `
     };
     options.singleton = false;
     var update = api(content, options);
-    var exported = content.locals ? content.locals : {};
-    module.exports = exported;
+    module.exports = content.locals || {};
 }, function(module, exports, __webpack_require__) {
     var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(1);
     exports = ___CSS_LOADER_API_IMPORT___(false);
@@ -468,8 +464,8 @@ exports[`vue should build vue app 2`] = `
     module.exports = exports;
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
-    var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-    var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+    var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+    var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
 }, function(module, exports, __webpack_require__) {
     var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(1);
     exports = ___CSS_LOADER_API_IMPORT___(false);
@@ -477,8 +473,8 @@ exports[`vue should build vue app 2`] = `
     module.exports = exports;
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
-    var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
-    var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__);
+    var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+    var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__);
 }, function(module, exports, __webpack_require__) {
     var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(1);
     exports = ___CSS_LOADER_API_IMPORT___(false);
@@ -536,6 +532,7 @@ exports[`vue should build vue app 2`] = `
     }
     var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
+    function initPxTransform() {}
     var h5 = taro_h5;
     var vue = \\"vue-mock\\";
     var app = __webpack_require__(7);
@@ -594,7 +591,7 @@ exports[`vue should build vue app 2`] = `
     }, __webpack_require__(15).default || {}) ];
     var inst = createVueApp(src_app, vue, config);
     createRouter(inst, config, vue);
-    undefined({
+    initPxTransform({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {
             \\"640\\": 1.17,

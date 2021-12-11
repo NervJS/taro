@@ -1,8 +1,14 @@
 // import { Scaner } from '../src/html/scaner'
 // import { parser } from '../src/html/oparser'
-import { parser } from '../dom/html/parser'
-import { Scaner } from '../dom/html/scaner'
+import '../dom-external/inner-html/html'
+import { parser } from '../dom-external/inner-html/parser'
+import { Scaner } from '../dom-external/inner-html/scaner'
 import { isElement } from '../utils'
+import { options } from '../options'
+
+const runtime = require('../../dist/runtime.esm')
+
+const document = runtime.document
 
 // 测试还没写完，先跳过
 describe.skip('html', () => {
@@ -30,7 +36,7 @@ describe('html with <style>', () => {
         <span></span>
       </div>
     `
-    const res = parser(html)
+    const res = parser(html, document)
     const el0 = res[0].children[0]
     const el1 = res[0].children[0]
     expect(el0.style.cssText).toBe('color: red;font-size: 10;')
@@ -43,6 +49,8 @@ describe('html with <style>', () => {
         #foo {
           color: red;
           font-size: 10;
+          transition: color ease-in 300ms;
+          border: 1px solid red;
         }
       </style>
       <div class="parent">
@@ -50,9 +58,9 @@ describe('html with <style>', () => {
         <div id="foo"></div>
       </div>
     `
-    const res = parser(html)
+    const res = parser(html, document)
     const el = res[0].children[1]
-    expect(el.style.cssText).toBe('color: red;font-size: 10;')
+    expect(el.style.cssText).toBe('color: red;font-size: 10;transition: color ease-in 300ms;border: 1px solid red;')
   })
 
   it('class selector', () => {
@@ -77,7 +85,7 @@ describe('html with <style>', () => {
         <div class="item child-2"></div>
       </div>
     `
-    const res = parser(html)
+    const res = parser(html, document)
     const el0 = res[0]
     const el1 = res[0].children[0]
     const el2 = res[0].children[1]
@@ -101,7 +109,7 @@ describe('html with <style>', () => {
         <div name="body" content="hello-world"></div>
       </div>
     `
-    const res = parser(html)
+    const res = parser(html, document)
     const el0 = res[0].children[0]
     const el1 = res[0].children[1]
     expect(el0.style.cssText).toBe('color: red;')
@@ -139,7 +147,7 @@ describe('html with <style>', () => {
       </style>
       <div id="foo" class="wrapper title fixed" name="top" size="large"></div>
     `
-    const res = parser(html)
+    const res = parser(html, document)
     const el0 = res[0]
     expect(el0.style.cssText).toBe('background: red;')
   })
@@ -157,7 +165,7 @@ describe('html with <style>', () => {
         <div id="foo"></div>
       </div>
     `
-    const res = parser(html)
+    const res = parser(html, document)
     const el0 = res[0].children[0]
     const el1 = res[0].children[2]
     expect(el0.style.cssText).toBe('color: red;')
@@ -192,7 +200,7 @@ describe('html with <style>', () => {
         <div class="li"></div>
       </div>
     `
-    const res = parser(html).filter(isElement)
+    const res = parser(html, document).filter(isElement)
     const el0 = res[0].children[0]
     const el1 = res[0].children[1]
     const el2 = res[0].children[1].children[0]
@@ -235,7 +243,7 @@ describe('html with <style>', () => {
         </div>
       </div>
     `
-    const res = parser(html).filter(isElement)
+    const res = parser(html, document).filter(isElement)
     const el1 = res[0].children[0]
     const el2 = res[0].children[1].children[0]
     const el3 = res[0].children[1].children[0].children[0].children[0]
@@ -267,7 +275,7 @@ describe('html with <style>', () => {
         <div class='li third'></div>
       </div>
     `
-    const res = parser(html).filter(isElement)
+    const res = parser(html, document).filter(isElement)
     const el1 = res[0].children[0]
     const el2 = res[0].children[1]
     const el3 = res[0].children[1].children[0]
@@ -299,7 +307,7 @@ describe('html with <style>', () => {
         </div>
       </div>
     `
-    const res = parser(html).filter(isElement)
+    const res = parser(html, document).filter(isElement)
     const el1 = res[0].children[0]
     const el2 = res[0].children[1]
     const el3 = res[0].children[2]
@@ -322,7 +330,7 @@ describe('html with <style>', () => {
         <span>测试换行xxxx</span>
       </div>
     `
-    const res = parser(html)
+    const res = parser(html, document)
     const el0 = res[0].children[0]
     const el1 = res[0].children[1]
     expect(el0.style.cssText).toBe('color: red;font-size: 10;')
@@ -340,8 +348,45 @@ describe('html with tag should be skipped', () => {
   })
   it('html should be rendered successfully', () => {
     const s = '<script type="text/javascript"> </script><div>hello world</div>'
-    const res = parser(s)
-    expect(res[0].props.class).toBe('script')
+    const res = parser(s, document)
+    expect(res[0].props.class).toBe('h5-script')
     expect(res[1].childNodes[0]._value).toBe('hello world')
+  })
+})
+
+describe('sort style', () => {
+  it('cssText should be sort', () => {
+    const html = `
+      <style>
+        #id {
+          color: blue;
+        }
+        .class {
+          font-size: 12px;
+        }
+        div {
+          color: red;
+          font-size: 14px;
+        }
+      </style>
+      <div id="id" class="class"></div>
+    `
+    const res = parser(html, document)
+    const node = res[0]
+
+    expect(node.style.cssText).toBe('color: blue;font-size: 12px;')
+  })
+
+  describe('html with transformText', () => {
+    it('transformText function works', () => {
+      options.html.transformText = taroText => {
+        taroText._value = 'c'
+        return taroText
+      }
+      const html = '<span>a</span>'
+      const res = parser(html, document)
+      const node = res[0]
+      expect(node.childNodes[0]._value).toBe('c')
+    })
   })
 })

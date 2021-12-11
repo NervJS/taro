@@ -1,5 +1,15 @@
 import Taro from '@tarojs/api'
-import { history, navigateBack, navigateTo, createRouter, reLaunch, redirectTo, getCurrentPages, switchTab } from '@tarojs/router'
+
+import {
+  history,
+  navigateBack,
+  navigateTo,
+  createRouter,
+  reLaunch,
+  redirectTo,
+  getCurrentPages,
+  switchTab
+} from '@tarojs/router'
 import { permanentlyNotSupport } from '../api/utils'
 
 const {
@@ -15,7 +25,7 @@ const {
   nextTick,
   eventCenter,
   Events,
-  getPreload,
+  preload,
   useDidShow,
   useDidHide,
   usePullDownRefresh,
@@ -45,7 +55,7 @@ const taro = {
   nextTick,
   eventCenter,
   Events,
-  getPreload,
+  preload,
   history,
   navigateBack,
   navigateTo,
@@ -75,7 +85,7 @@ const initPxTransform = getInitPxTransform(taro)
 
 const requirePlugin = permanentlyNotSupport('requirePlugin')
 const getApp = function () {
-  return taro._$app
+  return getCurrentInstance().app
 }
 
 const pxTransform = function (size) {
@@ -108,7 +118,7 @@ export {
   nextTick,
   eventCenter,
   Events,
-  getPreload,
+  preload,
   requirePlugin,
   getApp,
   pxTransform,

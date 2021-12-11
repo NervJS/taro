@@ -9,7 +9,7 @@ function setStyle (this: Style, newVal: string, styleKey: string) {
     this._usedStyleProp.add(styleKey)
   }
 
-  warn(
+  process.env.NODE_ENV !== 'production' && warn(
     isString(newVal) && newVal.length > PROPERTY_THRESHOLD,
     `Style 属性 ${styleKey} 的值数据量过大，可能会影响渲染性能，考虑使用 CSS 类或其它方案替代。`
   )

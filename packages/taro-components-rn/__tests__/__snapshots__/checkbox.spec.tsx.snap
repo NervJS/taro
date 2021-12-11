@@ -19,6 +19,9 @@ exports[`<Checkbox /> <Checkbox /> default 1`] = `
   style={
     Array [
       Object {
+        "backgroundColor": "transparent",
+      },
+      Object {
         "alignItems": "center",
         "flexDirection": "row",
       },
@@ -74,5 +77,14 @@ exports[`<Checkbox /> <Checkbox /> default 1`] = `
       />
     </View>
   </View>
+  <View
+    hoverStartTime={20}
+    hoverStayTime={70}
+    style={
+      Object {
+        "flexGrow": 0,
+      }
+    }
+  />
 </View>
 `;

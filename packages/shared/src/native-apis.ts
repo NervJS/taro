@@ -11,84 +11,11 @@ interface IProcessApisIOptions {
   needPromiseApis?: Set<string>
   handleSyncApis?: (key: string, global: IObject, args: any[]) => any
   transformMeta?: (key: string, options: IObject) => { key: string, options: IObject },
+  modifyApis?: (apis: Set<string>) => void
   modifyAsyncResult?: (key: string, res) => void
   isOnlyPromisify?: boolean
   [propName: string]: any
 }
-
-const noPromiseApis = new Set<string>([
-  'clearStorageSync',
-  'getBatteryInfoSync',
-  'getExtConfigSync',
-  'getFileSystemManager',
-  'getLaunchOptionsSync',
-  'getStorageInfoSync',
-  'getStorageSync',
-  'getSystemInfoSync',
-  'offAccelerometerChange',
-  'offAppHide',
-  'offAppShow',
-  'offAudioInterruptionBegin',
-  'offAudioInterruptionEnd',
-  'offBLECharacteristicValueChange',
-  'offBLEConnectionStateChange',
-  'offBluetoothAdapterStateChange',
-  'offBluetoothDeviceFound',
-  'offCompassChange',
-  'offError',
-  'offGetWifiList',
-  'offGyroscopeChange',
-  'offMemoryWarning',
-  'offNetworkStatusChange',
-  'offPageNotFound',
-  'offUnhandledRejection',
-  'offUserCaptureScreen',
-  'onAccelerometerChange',
-  'onAppHide',
-  'onAppShow',
-  'onAudioInterruptionBegin',
-  'onAudioInterruptionEnd',
-  'onBLECharacteristicValueChange',
-  'onBLEConnectionStateChange',
-  'onBeaconServiceChange',
-  'onBeaconUpdate',
-  'onBluetoothAdapterStateChange',
-  'onBluetoothDeviceFound',
-  'onCompassChange',
-  'onDeviceMotionChange',
-  'onError',
-  'onGetWifiList',
-  'onGyroscopeChange',
-  'onMemoryWarning',
-  'onNetworkStatusChange',
-  'onPageNotFound',
-  'onSocketClose',
-  'onSocketError',
-  'onSocketMessage',
-  'onSocketOpen',
-  'onUnhandledRejection',
-  'onUserCaptureScreen',
-  'removeStorageSync',
-  'reportAnalytics',
-  'setStorageSync',
-  'arrayBufferToBase64',
-  'base64ToArrayBuffer',
-  'canIUse',
-  'createAnimation',
-  'createCameraContext',
-  'createCanvasContext',
-  'createInnerAudioContext',
-  'createIntersectionObserver',
-  'createInterstitialAd',
-  'createLivePlayerContext',
-  'createMapContext',
-  'createSelectorQuery',
-  'createVideoContext',
-  'getBackgroundAudioManager',
-  'getMenuButtonBoundingClientRect',
-  'getRecorderManager',
-  'getUpdateManager'
-])
 
 const needPromiseApis = new Set<string>([
   'addPhoneContact',
@@ -110,6 +37,7 @@ const needPromiseApis = new Set<string>([
   'connectSocket',
   'createBLEConnection',
   'downloadFile',
+  'exitMiniProgram',
   'getAvailableAudioSources',
   'getBLEDeviceCharacteristics',
   'getBLEDeviceServices',
@@ -266,11 +194,30 @@ function getNormalRequest (global) {
 }
 
 function processApis (taro, global, config: IProcessApisIOptions = {}) {
-  const patchNoPromiseApis = config.noPromiseApis || []
   const patchNeedPromiseApis = config.needPromiseApis || []
-  const _noPromiseApis = new Set<string>([...patchNoPromiseApis, ...noPromiseApis])
   const _needPromiseApis = new Set<string>([...patchNeedPromiseApis, ...needPromiseApis])
-  const apis = [..._noPromiseApis, ..._needPromiseApis]
+  const preserved = [
+    'getEnv',
+    'interceptors',
+    'Current',
+    'getCurrentInstance',
+    'options',
+    'nextTick',
+    'eventCenter',
+    'Events',
+    'preload',
+    'webpackJsonp'
+  ]
+
+  const apis = new Set(
+    !config.isOnlyPromisify
+      ? Object.keys(global).filter(api => preserved.indexOf(api) === -1)
+      : patchNeedPromiseApis
+  )
+
+  if (config.modifyApis) {
+    config.modifyApis(apis)
+  }
 
   apis.forEach(key => {
     if (_needPromiseApis.has(key)) {
@@ -310,7 +257,7 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
             options.success?.(res)
             if (key === 'connectSocket') {
               resolve(
-                Promise.resolve().then(() => Object.assign(task, res))
+                Promise.resolve().then(() => task ? Object.assign(task, res) : res)
               )
             } else {
               resolve(res)
@@ -345,17 +292,28 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
         return p
       }
     } else {
+      let platformKey = key
+
+      // 改变 key 或 option 字段，如需要把支付宝标准的字段对齐微信标准的字段
+      if (config.transformMeta) {
+        platformKey = config.transformMeta(key, {}).key
+      }
+
       // API 不存在
-      if (!global.hasOwnProperty(key)) {
+      if (!global.hasOwnProperty(platformKey)) {
         taro[key] = unsupport(key)
         return
       }
-      taro[key] = (...args) => {
-        if (config.handleSyncApis) {
-          return config.handleSyncApis(key, global, args)
-        } else {
-          return global[key].apply(global, args)
+      if (typeof global[key] === 'function') {
+        taro[key] = (...args) => {
+          if (config.handleSyncApis) {
+            return config.handleSyncApis(key, global, args)
+          } else {
+            return global[platformKey].apply(global, args)
+          }
         }
+      } else {
+        taro[key] = global[platformKey]
       }
     }
   })
@@ -389,7 +347,7 @@ function equipCommonApis (taro, global, apis: Record<string, any> = {}) {
   taro.request = link.request.bind(link)
   taro.addInterceptor = link.addInterceptor.bind(link)
   taro.cleanInterceptors = link.cleanInterceptors.bind(link)
-  taro.miniGlobal = global
+  taro.miniGlobal = taro.options.miniGlobal = global
 }
 
 export {

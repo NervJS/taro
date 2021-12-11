@@ -8,6 +8,12 @@ interface TextProps extends StandardProps {
    */
   selectable?: boolean
 
+  /** 文本是否可选，该属性会使文本节点显示为 inline-block
+   * @default false
+   * @supported weapp
+   */
+  userSelect?: boolean
+
   /** 显示连续空格
    * @supported weapp, swan, tt
    */
@@ -42,7 +48,7 @@ declare namespace TextProps {
  *     contents: [],
  *     contentsLen: 0
  *   }
- * 
+ *
  *   add = () => {
  *     this.setState(prev => {
  *       const cot = prev.contents.slice()
@@ -53,7 +59,7 @@ declare namespace TextProps {
  *       }
  *     })
  *   }
- * 
+ *
  *   remove = () => {
  *     this.setState(prev => {
  *       const cot = prev.contents.slice()
@@ -64,7 +70,7 @@ declare namespace TextProps {
  *       }
  *     })
  *   }
- * 
+ *
  *   render () {
  *     return (
  *       <View className='container'>

@@ -1,4 +1,4 @@
-interface ShouleBeObjectResult {
+interface ShouldBeObjectResult {
   res: boolean;
   msg?: string;
 }
@@ -18,7 +18,7 @@ export function getParameterError ({ correct, wrong }: GetParameterErrorOption):
   return `fail parameter error: ${parameter} should be ${correct} instead of ${errorType}`
 }
 
-export function shouleBeObject (target: unknown): ShouleBeObjectResult {
+export function shouldBeObject (target: unknown): ShouldBeObjectResult {
   if (target && typeof target === 'object') return { res: true }
   return {
     res: false,
@@ -29,16 +29,16 @@ export function shouleBeObject (target: unknown): ShouleBeObjectResult {
   }
 }
 
-export function successHandler (success?: (res: Taro.General.CallbackResult) => void, complete?: (res: Taro.General.CallbackResult) => void) {
-  return function (res: Taro.General.CallbackResult): Promise<any> {
+export function successHandler (success?: (res: TaroGeneral.CallbackResult) => void, complete?: (res: TaroGeneral.CallbackResult) => void) {
+  return function (res: TaroGeneral.CallbackResult): Promise<any> {
     success && success(res)
     complete && complete(res)
     return Promise.resolve(res)
   }
 }
 
-export function errorHandler (fail?: (res: Taro.General.CallbackResult) => void, complete?: (res: Taro.General.CallbackResult) => void) {
-  return function (res: Taro.General.CallbackResult): Promise<any> {
+export function errorHandler (fail?: (res: TaroGeneral.CallbackResult) => void, complete?: (res: TaroGeneral.CallbackResult) => void) {
+  return function (res: TaroGeneral.CallbackResult): Promise<any> {
     fail && fail(res)
     complete && complete(res)
     return Promise.reject(res)
@@ -85,59 +85,4 @@ export function isUrl (string: string): boolean {
   return false
 }
 
-interface CallbackManager {
-  add: (opt: any) => void;
-  remove: (opt: any) => void;
-  count: () => number;
-  trigger: (...args: any[]) => void;
-}
-
-export function createCallbackManager(): CallbackManager {
-  let callbacks: any[] = []
-
-  /**
-   * 添加回调
-   * @param {{ callback: function, ctx: any } | function} opt
-   */
-  const add = (opt) => {
-    callbacks.push(opt)
-  }
-
-  /**
-   * 移除回调
-   * @param {{ callback: function, ctx: any } | function} opt
-   */
-  const remove = (opt) => {
-    callbacks = callbacks.filter(callback => {
-      return callback !== opt
-    })
-  }
-
-  /**
-   * 获取回调函数数量
-   * @return {number}
-   */
-  const count = () => callbacks.length
-
-  /**
-   * 触发回调
-   * @param  {...any} args 回调的调用参数
-   */
-  const trigger = (...args) => {
-    callbacks.forEach(opt => {
-      if (typeof opt === 'function') {
-        opt(...args)
-      } else {
-        const { callback, ctx } = opt
-        callback.call(ctx, ...args)
-      }
-    })
-  }
-
-  return {
-    add,
-    remove,
-    count,
-    trigger
-  }
-}
+export * from './callbackManager'

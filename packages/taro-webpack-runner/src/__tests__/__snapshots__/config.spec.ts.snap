@@ -256,8 +256,7 @@ exports[`config should build from origin and pipe to output 2`] = `
     };
     options.singleton = false;
     var update = api(content, options);
-    var exported = content.locals ? content.locals : {};
-    module.exports = exported;
+    module.exports = content.locals || {};
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
     var isOldIE = function isOldIE() {
@@ -388,7 +387,7 @@ exports[`config should build from origin and pipe to output 2`] = `
         } else {
             style.removeAttribute(\\"media\\");
         }
-        if (sourceMap && btoa) {
+        if (sourceMap && typeof btoa !== \\"undefined\\") {
             css += \\"\\\\n/*# sourceMappingURL=data:application/json;base64,\\".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), \\" */\\");
         }
         if (style.styleSheet) {
@@ -622,6 +621,7 @@ exports[`config should build from origin and pipe to output 2`] = `
     }
     var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
+    function initPxTransform() {}
     var h5 = taro_h5;
     var classCallCheck = __webpack_require__(3);
     var createClass = __webpack_require__(4);
@@ -705,7 +705,7 @@ exports[`config should build from origin and pipe to output 2`] = `
     }, __webpack_require__(15).default || {}) ];
     var inst = createReactApp(origin_app, nerv, nerv, config);
     createRouter(inst, config, nerv);
-    undefined({
+    initPxTransform({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {
             \\"640\\": 1.17,
@@ -977,8 +977,7 @@ I m irrelevant.
     };
     options.singleton = false;
     var update = api(content, options);
-    var exported = content.locals ? content.locals : {};
-    module.exports = exported;
+    module.exports = content.locals || {};
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
     var isOldIE = function isOldIE() {
@@ -1109,7 +1108,7 @@ I m irrelevant.
         } else {
             style.removeAttribute(\\"media\\");
         }
-        if (sourceMap && btoa) {
+        if (sourceMap && typeof btoa !== \\"undefined\\") {
             css += \\"\\\\n/*# sourceMappingURL=data:application/json;base64,\\".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), \\" */\\");
         }
         if (style.styleSheet) {
@@ -1343,6 +1342,7 @@ I m irrelevant.
     }
     var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
+    function initPxTransform() {}
     var h5 = taro_h5;
     var classCallCheck = __webpack_require__(3);
     var createClass = __webpack_require__(4);
@@ -1426,7 +1426,7 @@ I m irrelevant.
     }, __webpack_require__(15).default || {}) ];
     var inst = createReactApp(origin_app, nerv, nerv, config);
     createRouter(inst, config, nerv);
-    undefined({
+    initPxTransform({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {
             \\"640\\": 1.17,
@@ -1698,8 +1698,7 @@ exports[`config should resolved alias 2`] = `
     };
     options.singleton = false;
     var update = api(content, options);
-    var exported = content.locals ? content.locals : {};
-    module.exports = exported;
+    module.exports = content.locals || {};
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
     var isOldIE = function isOldIE() {
@@ -1830,7 +1829,7 @@ exports[`config should resolved alias 2`] = `
         } else {
             style.removeAttribute(\\"media\\");
         }
-        if (sourceMap && btoa) {
+        if (sourceMap && typeof btoa !== \\"undefined\\") {
             css += \\"\\\\n/*# sourceMappingURL=data:application/json;base64,\\".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), \\" */\\");
         }
         if (style.styleSheet) {
@@ -2064,6 +2063,7 @@ exports[`config should resolved alias 2`] = `
     }
     var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
+    function initPxTransform() {}
     var h5 = taro_h5;
     var classCallCheck = __webpack_require__(3);
     var createClass = __webpack_require__(4);
@@ -2147,7 +2147,7 @@ exports[`config should resolved alias 2`] = `
     }, __webpack_require__(15).default || {}) ];
     var inst = createReactApp(origin_app, nerv, nerv, config);
     createRouter(inst, config, nerv);
-    undefined({
+    initPxTransform({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {
             \\"640\\": 1.17,

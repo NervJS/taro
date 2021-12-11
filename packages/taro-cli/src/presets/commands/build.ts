@@ -7,15 +7,21 @@ export default (ctx: IPluginContext) => {
   ctx.registerCommand({
     name: 'build',
     optionsMap: {
-      '--type [typeName]': 'Build type, weapp/swan/alipay/tt/qq/jd/h5',
+      '--type [typeName]': 'Build type, weapp/swan/alipay/tt/qq/jd/h5/rn',
       '--watch': 'Watch mode',
       '--env [env]': 'Value for process.env.NODE_ENV',
       '-p, --port [port]': 'Specified port',
-      '--platform': 'Specific React-Native build target: android / ios, android is default value',
-      '--reset-cache': 'Clear transform cache just for React-Native',
+      '--platform': '[rn] Specific React-Native build target: android / ios, android is default value',
+      '--reset-cache': '[rn] Clear transform cache',
+      '--public-path': '[rn] Assets public path',
+      '--bundle-output': '[rn] File name where to store the resulting bundle',
+      '--sourcemap-output': '[rn] File name where to store the sourcemap file for resulting bundle',
+      '--sourcemap-use-absolute-path': '[rn]  Report SourceMapURL using its full path',
+      '--sourcemap-sources-root': '[rn] Path to make sourcemaps sources entries relative to',
+      '--assets-dest': '[rn] Directory name where to store assets referenced in the bundle',
+      '--qr': '[rn] Print qrcode of React-Native bundle server',
       '--blended': 'Blended Taro project in an original MiniApp project',
       '--plugin [typeName]': 'Build Taro plugin project, weapp'
-      // '--port [port]': 'Specified port',
     },
     synopsisList: [
       'taro build --type weapp',
@@ -111,11 +117,29 @@ export default (ctx: IPluginContext) => {
                 }
               })
             },
+            async modifyComponentConfig (componentConfig, config) {
+              await ctx.applyPlugins({
+                name: hooks.MODIFY_COMPONENT_CONFIG,
+                opts: {
+                  componentConfig,
+                  config
+                }
+              })
+            },
             async onCompilerMake (compilation) {
               await ctx.applyPlugins({
                 name: hooks.ON_COMPILER_MAKE,
                 opts: {
                   compilation
+                }
+              })
+            },
+            async onParseCreateElement (nodeName, componentConfig) {
+              await ctx.applyPlugins({
+                name: hooks.ON_PARSE_CREATE_ELEMENT,
+                opts: {
+                  nodeName,
+                  componentConfig
                 }
               })
             },
@@ -132,6 +156,7 @@ export default (ctx: IPluginContext) => {
           }
         }
       })
+      await ctx.applyPlugins(hooks.ON_BUILD_COMPLETE)
     }
   })
 }
@@ -141,9 +166,13 @@ function registerBuildHooks (ctx) {
     hooks.MODIFY_WEBPACK_CHAIN,
     hooks.MODIFY_BUILD_ASSETS,
     hooks.MODIFY_MINI_CONFIGS,
+    hooks.MODIFY_COMPONENT_CONFIG,
     hooks.ON_COMPILER_MAKE,
+    hooks.ON_PARSE_CREATE_ELEMENT,
     hooks.ON_BUILD_START,
-    hooks.ON_BUILD_FINISH
+    hooks.ON_BUILD_FINISH,
+    hooks.ON_BUILD_COMPLETE,
+    hooks.MODIFY_RUNNER_OPTS
   ].forEach(methodName => {
     ctx.registerMethod(methodName)
   })

@@ -32,17 +32,17 @@ import {
 import styles from './styles'
 import { ProgressProps, ProgressState } from './PropsType'
 
-class _Progress extends React.Component<ProgressProps, ProgressState> {
+export default class _Progress extends React.Component<ProgressProps, ProgressState> {
   static defaultProps = {
     percent: 0,
     strokeWidth: 6,
     activeColor: '#09BB07',
     backgroundColor: '#EBEBEB',
     activeMode: 'backwards',
+    borderRadius: 0,
   }
 
-  static getDerivedStateFromProps (props: ProgressProps, state: ProgressState): ProgressState| null {
-    // eslint-disable-next-line multiline-ternary
+  static getDerivedStateFromProps(props: ProgressProps, state: ProgressState): ProgressState | null {
     return props.percent !== state.percent ? {
       percent: props.percent,
       prevPercent: state.percent,
@@ -90,25 +90,26 @@ class _Progress extends React.Component<ProgressProps, ProgressState> {
     Animated.sequence(sequence).start()
   }
 
-  componentDidMount (): void {
+  componentDidMount(): void {
     this.animate()
   }
 
-  getSnapshotBeforeUpdate (prevProps: ProgressProps, prevState: ProgressState): boolean {
+  getSnapshotBeforeUpdate(prevProps: ProgressProps, prevState: ProgressState): boolean {
     return prevState.percent !== this.state.percent
   }
 
-  componentDidUpdate (prevProps: ProgressProps, prevState: ProgressState, snapshot: boolean): void {
+  componentDidUpdate(prevProps: ProgressProps, prevState: ProgressState, snapshot: boolean): void {
     if (snapshot) {
       this.animate()
     }
   }
 
-  render (): JSX.Element {
+  render(): JSX.Element {
     const {
       style,
       percent,
       showInfo,
+      borderRadius,
       strokeWidth,
       activeColor,
       backgroundColor,
@@ -133,7 +134,9 @@ class _Progress extends React.Component<ProgressProps, ProgressState> {
             styles.barThumb, {
               width,
               height: '100%',
-              backgroundColor: activeColor
+              backgroundColor: activeColor,
+              borderBottomRightRadius: Number(borderRadius),
+              borderTopRightRadius: Number(borderRadius),
             }
           ]} />
         </View>
@@ -142,5 +145,3 @@ class _Progress extends React.Component<ProgressProps, ProgressState> {
     )
   }
 }
-
-export default _Progress

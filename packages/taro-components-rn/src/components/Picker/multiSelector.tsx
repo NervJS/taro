@@ -72,6 +72,8 @@ export default class MultiSelector extends React.Component<MultiSelectorProps, M
     value: []
   }
 
+  dismissByOk = false;
+
   static getDerivedStateFromProps(nextProps: MultiSelectorProps, lastState: MultiSelectorState): MultiSelectorState | null {
     let ret: any = null
 
@@ -86,6 +88,7 @@ export default class MultiSelector extends React.Component<MultiSelectorProps, M
     }
 
     if (!shallowDiffValue(nextProps.value, lastState.pValue)) {
+      // 初始化的时候和点击确认时候，会走到里面
       ret = ret || {}
       ret.pValue = nextProps.value
       let tmp = (ret && ret.range) || lastState.range
@@ -121,9 +124,16 @@ export default class MultiSelector extends React.Component<MultiSelectorProps, M
     this.setState({ value })
   }
 
-  onDismiss = (): void => {
-    const { onCancel = noop } = this.props
-    onCancel()
+  onOk = (): void => {
+    this.dismissByOk = true
+  }
+
+  onVisibleChange = (visible: boolean): void => {
+    if (!visible && !this.dismissByOk) {
+      const { onCancel = noop } = this.props
+      onCancel()
+    }
+    this.dismissByOk = false
   }
 
   render(): JSX.Element {
@@ -137,7 +147,8 @@ export default class MultiSelector extends React.Component<MultiSelectorProps, M
         cols={cols}
         onChange={this.onChange}
         onPickerChange={this.onPickerChange}
-        onDismiss={this.onDismiss}
+        onOk={this.onOk}
+        onVisibleChange={this.onVisibleChange}
         disabled={disabled}
       >
         <TouchableWithoutFeedback>{children}</TouchableWithoutFeedback>

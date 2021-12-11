@@ -1,17 +1,17 @@
-/* eslint-disable import/no-duplicates */
-import type { ComponentOptions, VueConstructor, VNode } from 'vue'
-import type VueCtor from 'vue'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { AppConfig } from '@tarojs/taro'
-import type { AppInstance, VueAppInstance, VueInstance } from './instance'
+import { isFunction, noop, ensure, isBoolean } from '@tarojs/shared'
+import container from '../container'
+import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { injectPageInstance } from './common'
 import { Current } from '../current'
 import { document } from '../bom/document'
-import { isFunction, noop, ensure, capitalize, toCamelCase, internalComponents, hasOwn } from '@tarojs/shared'
 import { isBrowser } from '../env'
-import { options } from '../options'
-import { isBooleanStringLiteral } from '@tarojs/shared'
-import { Reconciler } from '../reconciler'
+
+/* eslint-disable import/no-duplicates */
+import type VueCtor from 'vue'
+import type { ComponentOptions, VueConstructor, VNode } from 'vue'
+import type { AppConfig } from '@tarojs/taro'
+import type { AppInstance, VueAppInstance, VueInstance } from './instance'
+import type { IHooks } from '../interface'
 
 export type V = typeof VueCtor
 
@@ -50,27 +50,26 @@ export function connectVuePage (Vue: VueConstructor, id: string) {
 }
 
 function setReconciler () {
-  const hostConfig: Partial<Reconciler<VueInstance>> = {
-    getLifecyle (instance, lifecycle) {
-      return instance.$options[lifecycle]
-    },
-    removeAttribute (dom, qualifiedName) {
-      const compName = capitalize(toCamelCase(dom.tagName.toLowerCase()))
-      if (
-        compName in internalComponents &&
-        hasOwn(internalComponents[compName], qualifiedName) &&
-        isBooleanStringLiteral(internalComponents[compName][qualifiedName])
-      ) {
-        // avoid attribute being removed because set false value in vue
-        dom.setAttribute(qualifiedName, false)
-      } else {
-        delete dom.props[qualifiedName]
-      }
+  const hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
+
+  const onRemoveAttribute = function (dom, qualifiedName) {
+    // 处理原因: https://github.com/NervJS/taro/pull/5990
+    const props = dom.props
+    if (!props.hasOwnProperty(qualifiedName) || isBoolean(props[qualifiedName])) {
+      dom.setAttribute(qualifiedName, false)
+      return true
     }
   }
 
-  if (isBrowser) {
-    hostConfig.createPullDownComponent = (el, path, vue: VueConstructor) => {
+  const getLifecycle = function (instance, lifecycle) {
+    return instance.$options[lifecycle]
+  }
+
+  hooks.onRemoveAttribute = onRemoveAttribute
+  hooks.getLifecycle = getLifecycle
+
+  if (process.env.TARO_ENV === 'h5') {
+    hooks.createPullDownComponent = (el, path, vue: VueConstructor) => {
       const injectedPage = vue.extend({
         props: {
           tid: String
@@ -85,19 +84,23 @@ function setReconciler () {
       const options: ComponentOptions<Vue> = {
         name: 'PullToRefresh',
         render (h) {
-          return h('taro-pull-to-refresh', { class: ['hydrated'] }, [h(injectedPage, this.$slots.default)])
+          return h(
+            'taro-pull-to-refresh',
+            {
+              class: ['hydrated']
+            },
+            [h(injectedPage, this.$slots.default)]
+          )
         }
       }
 
       return options
     }
 
-    hostConfig.findDOMNode = (el) => {
+    hooks.getDOMNode = (el) => {
       return el.$el as any
     }
   }
-
-  options.reconciler(hostConfig)
 }
 
 let Vue

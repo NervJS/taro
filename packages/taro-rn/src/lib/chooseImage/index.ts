@@ -1,6 +1,6 @@
 import SYImagePicker from 'react-native-syan-image-picker'
 
-import { shouleBeObject } from '../../utils'
+import { shouldBeObject } from '../../utils'
 import { showActionSheet } from '../showActionSheet'
 
 const res = { errMsg: 'chooseImage:ok' }
@@ -49,11 +49,14 @@ function openCamera(options: Taro.chooseImage.Option): Promise<Taro.chooseImage.
   })
 }
 
+// NOTE: 调用此函数会改变图片的像素尺寸
 function openPicker(options: Taro.chooseImage.Option): Promise<Taro.chooseImage.SuccessCallbackResult> {
-  const { count: imageCount, success, complete, fail } = options
+  const { count: imageCount, sizeType = [],success, complete, fail } = options
   return new Promise((resolve, reject) => {
+    // NOTE：react-native-syan-image-picker 暂不支持 Android 端压缩
     SYImagePicker.showImagePicker({
       imageCount,
+      quality: sizeType[0] === 'compressed' ? 70 : 90,
     }, (err, photos: any) => {
       if (err) {
         const res = {
@@ -128,7 +131,7 @@ function showImagePicker(options: Taro.chooseImage.Option):Promise<Taro.chooseIm
  */
 export function chooseImage(options: Taro.chooseImage.Option): Promise<Taro.chooseImage.SuccessCallbackResult> {
   // options must be an Object
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `chooseImage${isObject.msg}` }
     console.error(res.errMsg)

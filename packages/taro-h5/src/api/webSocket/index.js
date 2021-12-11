@@ -1,5 +1,5 @@
 import SocketTask from './socketTask'
-import { shouleBeObject, getParameterError } from '../utils'
+import { shouldBeObject, getParameterError } from '../utils'
 
 let socketTasks = []
 let socketsCounter = 1
@@ -9,7 +9,7 @@ function connectSocket (options) {
 
   return new Promise((resolve, reject) => {
     // options must be an Object
-    const isObject = shouleBeObject(options)
+    const isObject = shouldBeObject(options)
     if (!isObject.res) {
       const res = { errMsg: `${name}${isObject.msg}` }
       console.error(res.errMsg)

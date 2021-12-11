@@ -256,8 +256,7 @@ exports[`sass should build app with sass 2`] = `
     };
     options.singleton = false;
     var update = api(content, options);
-    var exported = content.locals ? content.locals : {};
-    module.exports = exported;
+    module.exports = content.locals || {};
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
     var isOldIE = function isOldIE() {
@@ -388,7 +387,7 @@ exports[`sass should build app with sass 2`] = `
         } else {
             style.removeAttribute(\\"media\\");
         }
-        if (sourceMap && btoa) {
+        if (sourceMap && typeof btoa !== \\"undefined\\") {
             css += \\"\\\\n/*# sourceMappingURL=data:application/json;base64,\\".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), \\" */\\");
         }
         if (style.styleSheet) {
@@ -610,6 +609,7 @@ exports[`sass should build app with sass 2`] = `
     }
     var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
+    function initPxTransform() {}
     var h5 = taro_h5;
     var classCallCheck = __webpack_require__(3);
     var createClass = __webpack_require__(4);
@@ -680,7 +680,7 @@ exports[`sass should build app with sass 2`] = `
     }, __webpack_require__(14).default || {}) ];
     var inst = createReactApp(app, nerv, nerv, config);
     createRouter(inst, config, nerv);
-    undefined({
+    initPxTransform({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {
             \\"640\\": 1.17,
@@ -949,8 +949,7 @@ exports[`sass should build app with scss 2`] = `
     };
     options.singleton = false;
     var update = api(content, options);
-    var exported = content.locals ? content.locals : {};
-    module.exports = exported;
+    module.exports = content.locals || {};
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
     var isOldIE = function isOldIE() {
@@ -1081,7 +1080,7 @@ exports[`sass should build app with scss 2`] = `
         } else {
             style.removeAttribute(\\"media\\");
         }
-        if (sourceMap && btoa) {
+        if (sourceMap && typeof btoa !== \\"undefined\\") {
             css += \\"\\\\n/*# sourceMappingURL=data:application/json;base64,\\".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), \\" */\\");
         }
         if (style.styleSheet) {
@@ -1315,6 +1314,7 @@ exports[`sass should build app with scss 2`] = `
     }
     var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
+    function initPxTransform() {}
     var h5 = taro_h5;
     var classCallCheck = __webpack_require__(3);
     var createClass = __webpack_require__(4);
@@ -1397,7 +1397,7 @@ exports[`sass should build app with scss 2`] = `
     }, __webpack_require__(15).default || {}) ];
     var inst = createReactApp(src_app, react, react[\\"default\\"], config);
     createRouter(inst, config, react);
-    undefined({
+    initPxTransform({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {
             \\"640\\": 1.17,
@@ -1666,8 +1666,7 @@ exports[`sass should set global sass content with data 2`] = `
     };
     options.singleton = false;
     var update = api(content, options);
-    var exported = content.locals ? content.locals : {};
-    module.exports = exported;
+    module.exports = content.locals || {};
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
     var isOldIE = function isOldIE() {
@@ -1798,7 +1797,7 @@ exports[`sass should set global sass content with data 2`] = `
         } else {
             style.removeAttribute(\\"media\\");
         }
-        if (sourceMap && btoa) {
+        if (sourceMap && typeof btoa !== \\"undefined\\") {
             css += \\"\\\\n/*# sourceMappingURL=data:application/json;base64,\\".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), \\" */\\");
         }
         if (style.styleSheet) {
@@ -2032,6 +2031,7 @@ exports[`sass should set global sass content with data 2`] = `
     }
     var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
+    function initPxTransform() {}
     var h5 = taro_h5;
     var classCallCheck = __webpack_require__(3);
     var createClass = __webpack_require__(4);
@@ -2114,7 +2114,7 @@ exports[`sass should set global sass content with data 2`] = `
     }, __webpack_require__(15).default || {}) ];
     var inst = createReactApp(src_app, react, react[\\"default\\"], config);
     createRouter(inst, config, react);
-    undefined({
+    initPxTransform({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {
             \\"640\\": 1.17,
@@ -2383,8 +2383,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
     };
     options.singleton = false;
     var update = api(content, options);
-    var exported = content.locals ? content.locals : {};
-    module.exports = exported;
+    module.exports = content.locals || {};
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
     var isOldIE = function isOldIE() {
@@ -2515,7 +2514,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
         } else {
             style.removeAttribute(\\"media\\");
         }
-        if (sourceMap && btoa) {
+        if (sourceMap && typeof btoa !== \\"undefined\\") {
             css += \\"\\\\n/*# sourceMappingURL=data:application/json;base64,\\".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), \\" */\\");
         }
         if (style.styleSheet) {
@@ -2749,6 +2748,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
     }
     var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
+    function initPxTransform() {}
     var h5 = taro_h5;
     var classCallCheck = __webpack_require__(3);
     var createClass = __webpack_require__(4);
@@ -2831,7 +2831,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
     }, __webpack_require__(15).default || {}) ];
     var inst = createReactApp(src_app, react, react[\\"default\\"], config);
     createRouter(inst, config, react);
-    undefined({
+    initPxTransform({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {
             \\"640\\": 1.17,
@@ -3100,8 +3100,7 @@ exports[`sass should set global sass content with source 2`] = `
     };
     options.singleton = false;
     var update = api(content, options);
-    var exported = content.locals ? content.locals : {};
-    module.exports = exported;
+    module.exports = content.locals || {};
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
     var isOldIE = function isOldIE() {
@@ -3232,7 +3231,7 @@ exports[`sass should set global sass content with source 2`] = `
         } else {
             style.removeAttribute(\\"media\\");
         }
-        if (sourceMap && btoa) {
+        if (sourceMap && typeof btoa !== \\"undefined\\") {
             css += \\"\\\\n/*# sourceMappingURL=data:application/json;base64,\\".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), \\" */\\");
         }
         if (style.styleSheet) {
@@ -3466,6 +3465,7 @@ exports[`sass should set global sass content with source 2`] = `
     }
     var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
+    function initPxTransform() {}
     var h5 = taro_h5;
     var classCallCheck = __webpack_require__(3);
     var createClass = __webpack_require__(4);
@@ -3548,7 +3548,7 @@ exports[`sass should set global sass content with source 2`] = `
     }, __webpack_require__(15).default || {}) ];
     var inst = createReactApp(src_app, react, react[\\"default\\"], config);
     createRouter(inst, config, react);
-    undefined({
+    initPxTransform({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {
             \\"640\\": 1.17,

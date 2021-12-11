@@ -190,7 +190,8 @@ class _Input extends React.Component<InputProps, InputState> {
       selectionEnd,
       _multiline,
       _autoHeight,
-      autoFocus
+      autoFocus,
+      focus,
     } = this.props
 
     const keyboardType: KeyboardTypeOptions = keyboardTypeMap[type] as KeyboardTypeOptions
@@ -215,7 +216,6 @@ class _Input extends React.Component<InputProps, InputState> {
           'placeholder',
           'disabled',
           'maxlength',
-          'focus',
           'confirmType',
           'confirmHold',
           'cursor',
@@ -239,7 +239,7 @@ class _Input extends React.Component<InputProps, InputState> {
         // returnKeyLabel={confirmType}
         returnKeyType={confirmType}
         blurOnSubmit={!_multiline && !confirmHold}
-        autoFocus={!!autoFocus}
+        autoFocus={!!autoFocus || !!focus}
         selection={selection}
         onChangeText={this.onChangeText}
         value={this.state.returnValue}

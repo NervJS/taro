@@ -26,8 +26,13 @@ const string2Object = str => {
       arr[1] = arr[1]?.replace(/px/g, 'PX')
       return arr
     })
-  const cssObject = transformCSS(entries)
-  return cssObject
+  // css 转换报错时，使用原来的值
+  try {
+    const cssObject = transformCSS(entries)
+    return cssObject
+  } catch {
+    return str
+  }
 }
 
 const object2Expression = (template, cssObject) => {
@@ -130,20 +135,74 @@ export default function (babel: {
     })
   }
 
-  function isCSSModuleExpression (value, cssModuleStylesheets) {
-    if (t.isJSXExpressionContainer(value)) {
-      if (t.isMemberExpression(value.expression) && t.isIdentifier(value.expression.object)) {
-        // className 表达式包括了 css module 引用时处理成 style 属性
-        if (cssModuleStylesheets.includes(value.expression.object.name)) {
-          return true
+  function isCSSMemberOrBindings (expression, cssModuleStylesheets, astPath) {
+    if (t.isIdentifier(expression)) {
+      if (cssModuleStylesheets.includes(expression.name)) {
+        return true
+      } else {
+        const binding = astPath.scope.getBinding(expression.name)
+        if (binding) {
+          const { node } = binding.path
+          if (isCSSMemberOrBindings(node.init, cssModuleStylesheets, astPath)) {
+            return true
+          }
+        }
+      }
+    }
+
+    // assign 属性引用
+    if (t.isMemberExpression(expression) && t.isIdentifier(expression.object)) {
+      if (cssModuleStylesheets.includes(expression.object.name)) {
+        return true
+      } else {
+        const binding = astPath.scope.getBinding(expression.object.name)
+        if (binding) {
+          const { node } = binding.path
+          if (isCSSMemberOrBindings(node.init, cssModuleStylesheets, astPath)) {
+            return true
+          }
+        }
+      }
+    }
+
+    // Conditional_Operator 条件（三元）运算符
+    if (t.isConditionalExpression(expression)) {
+      const { consequent, alternate } = expression
+      if (
+        isCSSMemberOrBindings(consequent, cssModuleStylesheets, astPath) ||
+        isCSSMemberOrBindings(alternate, cssModuleStylesheets, astPath)
+      ) {
+        return true
+      }
+    }
+
+    // spread 解构
+    if (t.isObjectExpression(expression)) {
+      for (const prop of expression.properties) {
+        if (t.isSpreadElement(prop)) {
+          if (isCSSMemberOrBindings(prop.argument, cssModuleStylesheets, astPath)) {
+            return true
+          }
         }
       }
     }
   }
 
-  function getArrayExpression (value, cssModuleStylesheets) {
+  function isJSXCSSModuleExpression (value, cssModuleStylesheets, astPath) {
+    if (t.isJSXExpressionContainer(value)) {
+      // 1. memberExpression a. 导入. b. 赋值. like `className="{style.red}"` or `const a = style; className="{a.red}"`
+      // 2. spread like `className="{{ ...style.red }}"`
+      // 3. memberExpression and spread. like `const a = { ...style }; className="{a.red}"
+
+      if (isCSSMemberOrBindings(value.expression, cssModuleStylesheets, astPath)) {
+        return true
+      }
+    }
+  }
+
+  function getArrayExpression (value, cssModuleStylesheets, astPath) {
     // css module 时 className 处理成 style 属性，所以直接取值跟 style 合并
-    if (isCSSModuleExpression(value, cssModuleStylesheets)) {
+    if (isJSXCSSModuleExpression(value, cssModuleStylesheets, astPath)) {
       return [value.expression]
     }
 
@@ -166,6 +225,19 @@ export default function (babel: {
     return str === '' ? [] : getMap(str)
   }
 
+  function getMatchRule (enableMultipleClassName: boolean) {
+    if (enableMultipleClassName) {
+      return {
+        styleMatchRule: /[sS]tyle$/,
+        classNameMathRule: /[cC]lassName$/
+      }
+    }
+
+    return {
+      styleMatchRule: /^style$/,
+      classNameMathRule: /^className$/
+    }
+  }
   let existStyleImport = false
 
   return {
@@ -219,86 +291,94 @@ export default function (babel: {
           existStyleImport = false
         }
       },
-      JSXOpeningElement ({ node }, state: PluginPass) {
-        const { file } = state
+      JSXOpeningElement (astPath, state: PluginPass) {
+        const { node } = astPath
+        const { file, opts } = state
+        const { enableMultipleClassName } = opts
+        const { styleMatchRule, classNameMathRule } = getMatchRule(enableMultipleClassName)
         const cssModuleStylesheets = file.get('cssModuleStylesheets') || []
 
-        // Check if has "style"
-        let hasStyleAttribute = false
-        let styleAttribute
-        let hasClassName = false
-        let classNameAttribute
-
+        const styleNameMapping: any = {}
+        const DEFAULT_STYLE_KEY = 'style'
         const attributes = node.attributes
         for (let i = 0; i < attributes.length; i++) {
           const attribute = attributes[i]
-          if (t.isJSXAttribute(attribute)) {
-            const name = attribute.name
-            if (name) {
-              if (!hasStyleAttribute) {
-                hasStyleAttribute = name.name === 'style'
-                styleAttribute = hasStyleAttribute && attributes[i]
-              }
+          if (!t.isJSXAttribute(attribute)) continue
+          const name = attribute.name
+          if (!name || typeof name.name !== 'string') continue
+          const attrNameString = name.name
 
-              if (!hasClassName) {
-                hasClassName = name.name === 'className'
-                classNameAttribute = hasClassName && attributes[i]
-              }
-            }
+          if (attrNameString.match(styleMatchRule)) {
+            const prefix = attrNameString.replace(styleMatchRule, '') || DEFAULT_STYLE_KEY
+            styleNameMapping[prefix] = Object.assign(styleNameMapping[prefix] || {}, {
+              hasStyleAttribute: true,
+              styleAttribute: attribute
+            })
+          }
+
+          // 以className结尾的时候
+          if (attrNameString.match(classNameMathRule)) {
+            const prefix = attrNameString.replace(classNameMathRule, '') || DEFAULT_STYLE_KEY
+            styleNameMapping[prefix] = Object.assign(styleNameMapping[prefix] || {}, {
+              hasClassName: true,
+              classNameAttribute: attribute
+            })
           }
         }
+        for (const key in styleNameMapping) {
+          const { hasClassName, classNameAttribute, hasStyleAttribute, styleAttribute } = styleNameMapping[key]
+          if (hasClassName && existStyleImport) {
+            // Remove origin className
+            attributes.splice(attributes.indexOf(classNameAttribute), 1)
 
-        if (hasClassName && existStyleImport) {
-          // Remove origin className
-          attributes.splice(attributes.indexOf(classNameAttribute), 1)
+            if (
+              classNameAttribute.value &&
+              classNameAttribute.value.type === 'JSXExpressionContainer' &&
+              typeof classNameAttribute.value.expression.value !== 'string' && // not like className={'container'}
+              !isJSXCSSModuleExpression(classNameAttribute.value, cssModuleStylesheets, astPath) // 不含有 css module 变量的表达式
+            ) {
+              file.set('injectGetStyle', true)
+            }
 
-          if (
-            classNameAttribute.value &&
-            classNameAttribute.value.type === 'JSXExpressionContainer' &&
-            typeof classNameAttribute.value.expression.value !== 'string' && // not like className={'container'}
-            !isCSSModuleExpression(classNameAttribute.value, cssModuleStylesheets) // 不含有 css module 变量的表达式
-          ) {
-            file.set('injectGetStyle', true)
-          }
+            const arrayExpression = getArrayExpression(classNameAttribute.value, cssModuleStylesheets, astPath)
 
-          const arrayExpression = getArrayExpression(classNameAttribute.value, cssModuleStylesheets)
+            if (arrayExpression.length === 0) {
+              return
+            }
 
-          if (arrayExpression.length === 0) {
-            return
-          }
+            if (hasStyleAttribute && styleAttribute.value) {
+              let expression
+              // 支持 行内 style 转成oject：style="width:100;height:100;" => style={{width:'100',height:'100'}}
+              if (t.isStringLiteral(styleAttribute.value)) {
+                const cssObject = string2Object(styleAttribute.value.value)
+                expression = object2Expression(template, cssObject)
+              } else {
+                expression = styleAttribute.value.expression
+              }
+              const expressionType = expression.type
 
-          if (hasStyleAttribute && styleAttribute.value) {
-            let expression
-            // 支持 行内 style 转成oject：style="width:100;height:100;" => style={{width:'100',height:'100'}}
+              // style={[styles.a, styles.b]} ArrayExpression
+              if (expressionType === 'ArrayExpression') {
+                expression.elements = arrayExpression.concat(expression.elements)
+                // style={styles.a} MemberExpression
+                // style={{ height: 100 }} ObjectExpression
+                // style={{ ...custom }} ObjectExpression
+                // style={custom} Identifier
+                // style={getStyle()} CallExpression
+                // style={this.props.useCustom ? custom : null} ConditionalExpression
+                // style={custom || other} LogicalExpression
+              } else {
+                styleAttribute.value = t.jSXExpressionContainer(t.arrayExpression(arrayExpression.concat(expression)))
+              }
+            } else {
+              const expression = arrayExpression.length === 1 ? arrayExpression[0] : t.arrayExpression(arrayExpression)
+              attributes.push(t.jSXAttribute(t.jSXIdentifier(key === DEFAULT_STYLE_KEY ? key : (key + 'Style')), t.jSXExpressionContainer(expression)))
+            }
+          } else if (hasStyleAttribute) {
             if (t.isStringLiteral(styleAttribute.value)) {
               const cssObject = string2Object(styleAttribute.value.value)
-              expression = object2Expression(template, cssObject)
-            } else {
-              expression = styleAttribute.value.expression
+              styleAttribute.value = t.jSXExpressionContainer(object2Expression(template, cssObject))
             }
-            const expressionType = expression.type
-
-            // style={[styles.a, styles.b]} ArrayExpression
-            if (expressionType === 'ArrayExpression') {
-              expression.elements = arrayExpression.concat(expression.elements)
-              // style={styles.a} MemberExpression
-              // style={{ height: 100 }} ObjectExpression
-              // style={{ ...custom }} ObjectExpression
-              // style={custom} Identifier
-              // style={getStyle()} CallExpression
-              // style={this.props.useCustom ? custom : null} ConditionalExpression
-              // style={custom || other} LogicalExpression
-            } else {
-              styleAttribute.value = t.jSXExpressionContainer(t.arrayExpression(arrayExpression.concat(expression)))
-            }
-          } else {
-            const expression = arrayExpression.length === 1 ? arrayExpression[0] : t.arrayExpression(arrayExpression)
-            attributes.push(t.jSXAttribute(t.jSXIdentifier('style'), t.jSXExpressionContainer(expression)))
-          }
-        } else if (hasStyleAttribute) {
-          if (t.isStringLiteral(styleAttribute.value)) {
-            const cssObject = string2Object(styleAttribute.value.value)
-            styleAttribute.value = t.jSXExpressionContainer(object2Expression(template, cssObject))
           }
         }
       }
@@ -315,7 +395,7 @@ function importDeclaration (astPath, state, t) {
   const ext = path.extname(sourceValue)
   const styleSheetIdentifiers = file.get('styleSheetIdentifiers') || []
   const cssModuleStylesheets = file.get('cssModuleStylesheets') || []
-  const isCSSModule = state.opts?.isCSSModule
+  const enableCSSModule = state.opts?.enableCSSModule
 
   // 是样式文件但不是 css module
   if (isStyle(sourceValue)) {
@@ -326,7 +406,7 @@ function importDeclaration (astPath, state, t) {
       styleSheetName = specifiers[0].local.name
     }
 
-    if (isModuleSource(sourceValue) && isCSSModule) {
+    if (isModuleSource(sourceValue) && enableCSSModule) {
       if (styleSheetName) {
         cssModuleStylesheets.push(styleSheetName)
       }

@@ -18,7 +18,7 @@ export default class Swan extends TaroPlatformBase {
     xs: '.sjs'
   }
 
-  template = new Template()
+  template: Template
 
   /**
    * 1. setupTransaction - init
@@ -38,6 +38,10 @@ export default class Swan extends TaroPlatformBase {
         this.generateProjectConfig(PROJECT_JSON, PROJECT_JSON)
       }
     })
+
+    this.template = new Template({
+      flattenViewLevel: config.flattenViewLevel
+    })
   }
 
   /**
@@ -45,5 +49,8 @@ export default class Swan extends TaroPlatformBase {
    */
   modifyComponents () {
     this.template.mergeComponents(this.ctx, components)
+    delete this.template.internalComponents.Input.cursor
+    delete this.template.internalComponents.Input['selection-start']
+    delete this.template.internalComponents.Input['selection-end']
   }
 }

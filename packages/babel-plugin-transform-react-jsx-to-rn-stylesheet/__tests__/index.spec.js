@@ -1,6 +1,6 @@
 import { transform } from '@babel/core'
 import syntaxJSX from 'babel-plugin-syntax-jsx'
-import jSXStylePlugin from '../dist/index'
+import jSXStylePlugin from '../src/index'
 
 const mergeStylesFunctionTemplate = `function _mergeStyles() {
   var newTarget = {};
@@ -60,8 +60,9 @@ const getStyleFunctionTemplete = `function _getStyle(classNameExpression) {
 
 describe('jsx style plugin', () => {
   function getTransfromCode (source, debug = false, options = {}) {
+    const { enableCSSModule, enableMultipleClassName = false } = options
     const code = transform(source, {
-      plugins: [[jSXStylePlugin, { isCSSModule: options.isCSSModule }], syntaxJSX],
+      plugins: [[jSXStylePlugin, { enableCSSModule, enableMultipleClassName }], syntaxJSX],
       configFile: false
     }).code
     if (debug) {
@@ -464,7 +465,7 @@ class App extends Component {
   render() {
     return <div className="header" style={styleSheet.red} />;
   }
-}`, false, { isCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
+}`, false, { enableCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
 import appScssStyleSheet from "./app.scss";
 import styleSheet from './app.module.scss';
 var _styleSheet = appScssStyleSheet;
@@ -488,7 +489,7 @@ class App extends Component {
       <div className="red" />
     </div>;
   }
-}`, false, { isCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
+}`, false, { enableCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
 import styleSheet from './app.module.scss';
 var _styleSheet = {};
 
@@ -498,6 +499,82 @@ class App extends Component {
       <div style={styleSheet.header} />
       <div style={_styleSheet["red"]} />
     </div>;
+  }\n
+}`)
+  })
+
+  it('Processing module style assignment When css module enable', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import './app.scss';
+import styleSheet from './app.module.scss';
+
+class App extends Component {
+  render() {
+    const a = styleSheet.red
+    return <div className={a} />;
+  }
+}`, false, { enableCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
+import appScssStyleSheet from "./app.scss";
+import styleSheet from './app.module.scss';
+var _styleSheet = appScssStyleSheet;
+
+class App extends Component {
+  render() {
+    const a = styleSheet.red;
+    return <div style={a} />;
+  }\n
+}`)
+  })
+
+  it('Processing module style spread and assign When css module enable', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import './app.scss';
+import styleSheet from './app.module.scss';
+
+class App extends Component {
+  render() {
+    const a = { ...styleSheet.red };
+    const b = a;
+    return <div className={{ ...b }} />;
+  }
+}`, false, { enableCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
+import appScssStyleSheet from "./app.scss";
+import styleSheet from './app.module.scss';
+var _styleSheet = appScssStyleSheet;
+
+class App extends Component {
+  render() {
+    const a = { ...styleSheet.red
+    };
+    const b = a;
+    return <div style={{ ...b
+    }} />;
+  }\n
+}`)
+  })
+
+  it('Processing module style conditional expression When css module enable', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import './app.scss';
+import styleSheet from './app.module.scss';
+
+class App extends Component {
+  render() {
+    const a = 1 ? styleSheet.red : styleSheet.blue;
+    return <div className={a} />;
+  }
+}`, false, { enableCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
+import appScssStyleSheet from "./app.scss";
+import styleSheet from './app.module.scss';
+var _styleSheet = appScssStyleSheet;
+
+class App extends Component {
+  render() {
+    const a = 1 ? styleSheet.red : styleSheet.blue;
+    return <div style={a} />;
   }\n
 }`)
   })
@@ -524,6 +601,94 @@ class App extends Component {
   render() {
     return <div style={[_styleSheet["header"], styleSheet.red]} />;
   }\n
+}`)
+  })
+
+  it('disableMultipleClassName and transform multiple className to multiple style', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import './app.css';
+
+class App extends Component {
+  render() {
+    return <div className="container" headerClassName="header" />;
+  }
+}`, false, { enableMultipleClassName: false })).toBe(`import { createElement, Component } from 'rax';
+import appCssStyleSheet from "./app.css";
+var _styleSheet = appCssStyleSheet;
+
+class App extends Component {
+  render() {
+    return <div headerClassName="header" style={_styleSheet["container"]} />;
+  }
+
+}`)
+  })
+
+  it('enableMultipleClassName and transform multiple className to multiple style', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import './app.css';
+
+class App extends Component {
+  render() {
+    return <div className="container" headerClassName="header" />;
+  }
+}`, false, { enableMultipleClassName: true })).toBe(`import { createElement, Component } from 'rax';
+import appCssStyleSheet from "./app.css";
+var _styleSheet = appCssStyleSheet;
+
+class App extends Component {
+  render() {
+    return <div style={_styleSheet["container"]} headerStyle={_styleSheet["header"]} />;
+  }
+
+}`)
+  })
+
+  it('enableMultipleClassName and transform multiple className to multiple style as array', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import './app.css';
+
+class App extends Component {
+  render() {
+    return <div className="container" headerClassName="header" style={{ color: "red" }} headerStyle={{ color: "green" }} />;
+  }
+}`, false, { enableMultipleClassName: true })).toBe(`import { createElement, Component } from 'rax';
+import appCssStyleSheet from "./app.css";
+var _styleSheet = appCssStyleSheet;
+
+class App extends Component {
+  render() {
+    return <div style={[_styleSheet["container"], {
+      color: "red"
+    }]} headerStyle={[_styleSheet["header"], {
+      color: "green"
+    }]} />;
+  }
+
+}`)
+  })
+
+  it('enableMultipleClassName and transform error css value', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import './app.css';
+
+class App extends Component {
+  render() {
+    return <StatusBar barStyle="dark-content" />;
+  }
+}`, false, { enableMultipleClassName: true })).toBe(`import { createElement, Component } from 'rax';
+import appCssStyleSheet from "./app.css";
+var _styleSheet = appCssStyleSheet;
+
+class App extends Component {
+  render() {
+    return <StatusBar barStyle={"dark-content"} />;
+  }
+
 }`)
   })
 })

@@ -23,7 +23,7 @@ import {
 } from './components'
 import { Shortcuts } from './shortcuts'
 import { isBooleanStringLiteral, isNumber, isFunction } from './is'
-import { toCamelCase, toKebabCase, toDashed, hasOwn } from './utils'
+import { toCamelCase, toKebabCase, toDashed, hasOwn, indent, capitalize } from './utils'
 
 interface Component {
   nodeName: string;
@@ -216,6 +216,8 @@ export class BaseTemplate {
           value = `:${value}`
         }
         return str + `bind${value}="eh" `
+      } else if (attr === 'class') {
+        return str + `class="{{i.${Shortcuts.Class}}}" `
       }
 
       return str + `${attr}="{{i.${toCamelCase(attr)}}}" `
@@ -248,7 +250,7 @@ export class BaseTemplate {
       ? ''
       : `
     <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="uid">
-      ${child}
+      ${indent(child, 6)}
     </block>
   `
 
@@ -449,10 +451,7 @@ export class BaseTemplate {
   b: function (a, b) {
     return a === undefined ? b : a
   },
-  c: function(i, prefix) {
-    var s = i.focus !== undefined ? 'focus' : 'blur'
-    return prefix + i.${Shortcuts.NodeName} + '_' + s
-  },
+  c: ${this.buildXSTepFocus(Shortcuts.NodeName)},
   d: function (i, v) {
     return i === undefined ? v : i
   },
@@ -473,13 +472,20 @@ export class BaseTemplate {
   }`
   }
 
+  protected buildXSTepFocus (nn: string) {
+    return `function(i, prefix) {
+    var s = i.focus !== undefined ? 'focus' : 'blur'
+    return prefix + i.${nn} + '_' + s
+  }`
+  }
+
   protected buildXSTmpExtra () {
     return ''
   }
 }
 
 export class RecursiveTemplate extends BaseTemplate {
-  isSupportRecursive = true
+  public isSupportRecursive = true
 
   public buildTemplate = (componentConfig: ComponentConfig) => {
     let template = this.buildBaseTemplate()
@@ -622,4 +628,10 @@ export class UnRecursiveTemplate extends BaseTemplate {
     return l
   }`
   }
+}
+
+export {
+  internalComponents,
+  toCamelCase,
+  capitalize
 }

@@ -1,4 +1,5 @@
-import { RecursiveTemplate, capitalize, toCamelCase } from '@tarojs/shared'
+import { capitalize, toCamelCase } from '@tarojs/shared'
+import { RecursiveTemplate } from '@tarojs/shared/dist/template'
 
 export class Template extends RecursiveTemplate {
   exportExpr = 'export default'

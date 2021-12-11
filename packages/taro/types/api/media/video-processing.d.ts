@@ -1,10 +1,6 @@
-declare namespace Taro {
-  /** 创建音视频处理容器，最终可将容器中的轨道合成一个视频
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video-processing/wx.createMediaContainer.html
-   */
-  function createMediaContainer(): MediaContainer
+import Taro from '../../index'
 
+declare module '../../index' {
   /** 创建音视频处理容器，最终可将容器中的轨道合成一个视频
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video-processing/MediaContainer.html
    */
@@ -72,5 +68,13 @@ declare namespace Taro {
       /** 视频轨道 */
       video
     }
+  }
+
+  interface TaroStatic {
+    /** 创建音视频处理容器，最终可将容器中的轨道合成一个视频
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video-processing/wx.createMediaContainer.html
+     */
+    createMediaContainer(): MediaContainer
   }
 }

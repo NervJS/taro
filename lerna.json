@@ -1,5 +1,15 @@
 {
-  "lerna": "3.20.1",
+  "version": "3.3.16",
+  "npmClient": "yarn",
+  "command": {
+    "create": {
+      "homepage": "https://github.com/nervjs/taro",
+      "license": "MIT"
+    },
+    "publish": {
+      "message": "chore(release): publish %s"
+    }
+  },
   "packages": [
     "packages/babel-plugin-transform-react-jsx-to-rn-stylesheet",
     "packages/babel-plugin-transform-taroapi",
@@ -9,6 +19,7 @@
     "packages/eslint-plugin-taro",
     "packages/postcss-plugin-constparse",
     "packages/postcss-pxtransform",
+    "packages/postcss-html-transform",
     "packages/shared",
     "packages/taro",
     "packages/taro-api",
@@ -43,17 +54,10 @@
     "packages/taro-swan",
     "packages/taro-tt",
     "packages/taro-qq",
-    "packages/taro-jd"
-  ],
-  "command": {
-    "publish": {
-      "message": "chore(release): publish %s"
-    },
-    "create": {
-      "homepage": "https://github.com/nervjs/taro",
-      "license": "MIT"
-    }
-  },
-  "version": "3.2.15",
-  "npmClient": "yarn"
+    "packages/taro-jd",
+    "packages/taro-plugin-html",
+    "packages/taro-plugin-react-devtools",
+    "packages/taro-plugin-vue-devtools",
+    "packages/taro-plugin-mini-ci"
+  ]
 }

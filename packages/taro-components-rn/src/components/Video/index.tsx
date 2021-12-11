@@ -183,7 +183,7 @@ class _Video extends Component<Props, any> {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   onError = (e: string): void => {
     if (this.props.onError) {
-      const error = Object.defineProperty({}, 'detail', {
+      const error: any = Object.defineProperty({}, 'detail', {
         enumerable: true,
         value: { errMsg: e },
       })
@@ -250,12 +250,10 @@ class _Video extends Component<Props, any> {
   };
 
   requestFullScreen = (): void => {
-    // @ts-ignore
     this.videoRef.presentFullscreenPlayer()
   };
 
   exitFullScreen = (): void => {
-    // @ts-ignore
     this.videoRef.dismissFullscreenPlayer()
   };
 
@@ -264,9 +262,7 @@ class _Video extends Component<Props, any> {
       const { id } = this.props
       return (ref: any) => {
         if (!ref) return
-        // @ts-ignore
         this[refName] = ref
-        // @ts-ignore
         id && (global._taroVideoMap[id] = ref)
       }
     }

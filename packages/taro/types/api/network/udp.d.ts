@@ -1,10 +1,6 @@
-declare namespace Taro {
-  /** 创建一个 UDP Socket 实例。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)。
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/wx.createUDPSocket.html
-   */
-  function createUDPSocket(): UDPSocket
+import Taro from '../../index'
 
+declare module '../../index' {
   /** 一个 UDP Socket 实例，默认使用 IPv4 协议。
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.html
    */
@@ -36,7 +32,7 @@ declare namespace Taro {
      */
     offListening(
       /** 开始监听数据包消息的事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 取消监听收到消息的事件
      * @supported weapp
@@ -44,7 +40,7 @@ declare namespace Taro {
      */
     offMessage(
       /** 收到消息的事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听关闭事件
      * @supported weapp
@@ -68,7 +64,7 @@ declare namespace Taro {
      */
     onListening(
       /** 开始监听数据包消息的事件的回调函数 */
-      callback: (res: General.CallbackResult) => void,
+      callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听收到消息的事件
      * @supported weapp
@@ -95,11 +91,11 @@ declare namespace Taro {
 
   namespace UDPSocket {
     /** 关闭事件的回调函数 */
-    type OffCloseCallback = (res: General.CallbackResult) => void
+    type OffCloseCallback = (res: TaroGeneral.CallbackResult) => void
     /** 错误事件的回调函数 */
-    type OffErrorCallback = (res: General.CallbackResult) => void
+    type OffErrorCallback = (res: TaroGeneral.CallbackResult) => void
     /** 关闭事件的回调函数 */
-    type OnCloseCallback = (res: General.CallbackResult) => void
+    type OnCloseCallback = (res: TaroGeneral.CallbackResult) => void
     /** 错误事件的回调函数 */
     type OnErrorCallback = (
         result: OnErrorCallbackResult,
@@ -108,7 +104,7 @@ declare namespace Taro {
     type OnMessageCallback = (
         result: OnMessageCallbackResult,
     ) => void
-    interface OnErrorCallbackResult extends General.CallbackResult {
+    interface OnErrorCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误信息 */
       errMsg: string
     }
@@ -133,11 +129,19 @@ declare namespace Taro {
       /** 需要发送的内容 */
       data: string | ArrayBuffer
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
+  }
+
+  interface TaroStatic {
+    /** 创建一个 UDP Socket 实例。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/wx.createUDPSocket.html
+     */
+    createUDPSocket(): UDPSocket
   }
 }

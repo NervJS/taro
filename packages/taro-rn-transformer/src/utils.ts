@@ -68,6 +68,43 @@ export function isPageFile (file: string, sourceDir: string) {
   return pagesList.includes(filePath) && !(filename.endsWith('.config'))
 }
 
+function isJSXSource (file: string, code: string) {
+  let result = false
+  if (/.(j|t)sx$/.test(file)) { // jsx,tsx 组件
+    result = true
+  } else if (file.endsWith('.ts')) { // ts 脚本
+    result = false
+  } else {
+    // .js
+    const ast: any = parser.parse(code, {
+      sourceType: 'module',
+      plugins: [
+        'jsx',
+        'classProperties',
+        'decorators-legacy'
+      ]
+    })
+    traverse(ast, {
+      JSXElement () {
+        result = true
+      }
+    })
+  }
+  return result
+}
+
+export function isSourceComponent (file: string, code: string, sourceDir: string) {
+  if ((/node_modules/.test(file)) || file.indexOf(sourceDir) === -1) return false
+  return isJSXSource(file, code)
+}
+
+export function isNPMComponent (file: string, code: string, rn: any) {
+  if (!rn?.resolve?.include?.find(npm => file.includes(nodePath.join('node_modules', npm)))) {
+    return false
+  }
+  return isJSXSource(file, code)
+}
+
 export function getFileContent (fileName: string) {
   let code = ''
   if (!fs.existsSync(fileName)) return code

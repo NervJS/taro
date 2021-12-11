@@ -1,4 +1,4 @@
-import { shouleBeObject, getParameterError } from '../utils'
+import { shouldBeObject, getParameterError } from '../utils'
 
 /**
  * 从本地相册选择图片或使用相机拍照。
@@ -13,7 +13,7 @@ import { shouleBeObject, getParameterError } from '../utils'
  */
 const chooseImage = function (options) {
   // options must be an Object
-  const isObject = shouleBeObject(options)
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `chooseImage${isObject.msg}` }
     console.error(res.errMsg)

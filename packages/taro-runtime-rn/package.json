@@ -1,6 +1,6 @@
 {
     "name": "@tarojs/runtime-rn",
-    "version": "3.2.15",
+    "version": "3.3.16",
     "description": "taro-runtime-rn",
     "main": "dist/index.js",
     "types": "./src/index.ts",
@@ -27,16 +27,14 @@
     "bugs": {
         "url": "https://github.com/NervJS/taro/issues"
     },
-    "peerDependencies": {
-    },
     "dependencies": {
-        "@tarojs/components-rn": "3.2.15",
-        "@tarojs/router-rn": "3.2.15"
+        "@tarojs/components-rn": "3.3.16",
+        "@tarojs/router-rn": "3.3.16"
     },
     "resolutions": {
         "@types/react": "17.0.11"
     },
     "devDependencies": {
-        "@types/react-native": "0.64.10"
+        "@types/react-native": "0.66.5"
     }
 }

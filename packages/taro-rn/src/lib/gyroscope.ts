@@ -1,8 +1,9 @@
 import { Gyroscope } from 'expo-sensors'
+import { createCallbackManager, errorHandler, successHandler } from '../utils'
 
-const gyroCase: any = {
-    callbacks: [],
-}
+const _cbManager = createCallbackManager()
+let _listener: any
+
 const intervalMap: any = {
     game: 20,
     ui: 60,
@@ -14,50 +15,41 @@ const intervalMap: any = {
  * @param opts 
  * @param {string} [opts.interval='normal'] 监听陀螺仪数据回调函数的执行频率
  */
-function startGyroscope(opts: Taro.startGyroscope.Option = {}): Promise<Taro.General.CallbackResult> {
+function startGyroscope(opts: Taro.startGyroscope.Option = {}): Promise<TaroGeneral.CallbackResult> {
     const { interval = 'normal', success, fail, complete } = opts
-    gyroCase.interval = interval
     const res = { errMsg: 'startGyroscope:ok' }
     try {
         // 适配微信小程序行为：重复 start 失败
-        if (gyroCase.listener) {
+        if (_listener) {
+            console.error('startGyroscope:fail')
             throw new Error('startGyroscope:fail')
         }
-        gyroCase.listener = Gyroscope.addListener(e => {
-            gyroCase.callbacks.forEach((cb: Taro.onGyroscopeChange.Callback) => {
-                cb?.(e)
-            });
+        _listener = Gyroscope.addListener(e => {
+            _cbManager.trigger(e)
         })
-        success?.(res)
-        complete?.(res)
+        Gyroscope.setUpdateInterval(intervalMap[interval])
+        
+        return successHandler(success, complete)(res)
     } catch (error) {
         res.errMsg = 'startGyroscope:fail'
-        fail?.(res)
-        complete?.(res)
-        return Promise.reject(res)
+        return errorHandler(fail, complete)(res)
     }
-    Gyroscope.setUpdateInterval(intervalMap[interval])
-    return Promise.resolve(res)
 }
 
 /**
  * 停止监听陀螺仪数据
  * @param opts 
  */
-function stopGyroscope(opts: Taro.stopGyroscope.Option = {}): Promise<Taro.General.CallbackResult> {
+function stopGyroscope(opts: Taro.stopGyroscope.Option = {}): Promise<TaroGeneral.CallbackResult> {
     const { success, fail, complete } = opts
     const res = { errMsg: 'stopGyroscope:ok' }
     try {
-        gyroCase.listener.remove()
-        gyroCase.listener = null
-        success?.(res)
-        complete?.(res)
-        return Promise.resolve(res)
+        _listener && _listener.remove()
+        _listener = null
+        return successHandler(success, complete)(res)
     } catch (error) {
         res.errMsg = 'stopGyroscope:fail'
-        fail?.(res)
-        complete?.(res)
-        return Promise.reject(res)
+        return errorHandler(fail, complete)(res)
     }
 }
 
@@ -66,7 +58,7 @@ function stopGyroscope(opts: Taro.stopGyroscope.Option = {}): Promise<Taro.Gener
  * @param opts 
  */
 function onGyroscopeChange(fnc: Taro.onGyroscopeChange.Callback): void {
-    gyroCase.callbacks.push(fnc)
+    _cbManager.add(fnc)
 }
 
 /**
@@ -75,11 +67,9 @@ function onGyroscopeChange(fnc: Taro.onGyroscopeChange.Callback): void {
  */
 function offGyroscopeChange(fnc?: Taro.onGyroscopeChange.Callback) {
     if (fnc && typeof fnc === 'function') {
-        gyroCase.callbacks = gyroCase.callbacks.filter((cb: Taro.onGyroscopeChange.Callback) => {
-            return cb !== fnc
-        })
+        _cbManager.remove(fnc)
     } else if (fnc === undefined) {
-        gyroCase.callbacks = []
+        _cbManager.clear()
     } else {
         console.warn('offGyroscopeChange failed')
     }

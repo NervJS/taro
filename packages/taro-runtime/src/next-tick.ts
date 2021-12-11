@@ -3,7 +3,8 @@ import { getPath } from './dsl/common'
 import { TaroRootElement } from './dom/root'
 import { document } from './bom/document'
 import { isBrowser } from './env'
-import type { Func } from './utils/types'
+
+import type { Func } from './interface'
 
 function removeLeadingSlash (path?: string) {
   if (path == null) {
@@ -24,7 +25,7 @@ export const nextTick = (cb: Func, ctx?: Record<string, any>) => {
     let pageElement: TaroRootElement | null = null
     const path = getPath(removeLeadingSlash(router.path), router.params)
     pageElement = document.getElementById<TaroRootElement>(path)
-    if (pageElement !== null) {
+    if (pageElement?.pendingUpdate) {
       if (isBrowser) {
         // eslint-disable-next-line dot-notation
         pageElement.firstChild?.['componentOnReady']?.().then(() => {

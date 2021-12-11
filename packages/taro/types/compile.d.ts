@@ -107,6 +107,11 @@ export interface ICompileOption {
   include?: string[]
 }
 
+interface Runtime {
+  enableInnerHTML: boolean
+  enableSizeAPIs: boolean
+}
+
 export interface IMiniAppConfig {
   appOutput?: boolean,
   enableSourceMap?: boolean,
@@ -141,6 +146,7 @@ export interface IMiniAppConfig {
     exclude?: any[],
     include?: any[]
   }
+  runtime?: Runtime
 }
 
 export type TogglableOptions<T = IOption> = {
@@ -201,10 +207,6 @@ declare enum LogLevel {
   INFO = 'info',
   LOG = 'log',
   DEBUG = 'debug'
-}
-
-export interface IDeviceRatio {
-  [key: string]: number
 }
 
 export type SystemConfig = {
@@ -355,7 +357,7 @@ export interface IProjectBaseConfig {
   date?: string,
   designWidth?: number,
   watcher?: any[],
-  deviceRatio?: IDeviceRatio,
+  deviceRatio?: TaroGeneral.TDeviceRatio,
   sourceRoot?: string,
   outputRoot?: string,
   env?: IOption,
