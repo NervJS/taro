@@ -68,10 +68,10 @@ declare module '../../index' {
       totalBytesSent: number
     }
 
-    type UploadTaskPromise = Promise<DownloadTask> & {
-      headersReceive: DownloadTask['onHeadersReceived'],
-      progress: DownloadTask['onProgressUpdate'],
-      abort: DownloadTask['abort']
+    type UploadTaskPromise = Promise<UploadTask> & {
+      headersReceive: UploadTask['onHeadersReceived'],
+      progress: UploadTask['onProgressUpdate'],
+      abort: UploadTask['abort']
     }
   }
 

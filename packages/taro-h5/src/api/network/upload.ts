@@ -1,4 +1,5 @@
 import Taro from '@tarojs/api'
+import { temporarilyNotSupport } from '../utils'
 import { CallbackManager } from '../utils/handler'
 import {
   convertObjectUrlToBlob,
@@ -7,7 +8,7 @@ import {
   XHR_STATS
 } from './utils'
 
-const createUploadTask = ({ url, filePath, formData, name, header, timeout, fileName, success, error }) => {
+const createUploadTask = ({ url, filePath, formData, name, header, timeout, fileName, success, error }): Taro.UploadTask => {
   let timeoutInter
   let formKey
   const apiName = 'uploadFile'
@@ -124,12 +125,17 @@ const createUploadTask = ({ url, filePath, formData, name, header, timeout, file
    */
   const offProgressUpdate = callbackManager.progressUpdate.remove
 
+  const headersReceived = temporarilyNotSupport('UploadTask.headersReceived')
+  const progress = temporarilyNotSupport('UploadTask.progress')
+
   return {
     abort,
     onHeadersReceived,
     offHeadersReceived,
     onProgressUpdate,
-    offProgressUpdate
+    offProgressUpdate,
+    headersReceived,
+    progress
   }
 }
 
@@ -137,8 +143,8 @@ const createUploadTask = ({ url, filePath, formData, name, header, timeout, file
  * 将本地资源上传到服务器。客户端发起一个 HTTPS POST 请求，其中 content-type 为 multipart/form-data。使用前请注意阅读相关说明。
  */
 const uploadFile: typeof Taro.uploadFile = ({ url, filePath, name, header, formData, timeout, fileName, success, fail, complete }) => {
-  let task
-  const result: Partial<ReturnType<typeof Taro.uploadFile>> = new Promise((resolve, reject) => {
+  let task: Taro.UploadTask
+  const result: ReturnType<typeof Taro.uploadFile> = new Promise((resolve, reject) => {
     task = createUploadTask({
       url,
       header,
@@ -158,13 +164,13 @@ const uploadFile: typeof Taro.uploadFile = ({ url, filePath, name, header, formD
         reject(res)
       }
     })
-  })
 
-  result.headersReceive = task.onHeadersReceived
-  result.progress = task.onProgressUpdate
-  result.abort = task.abort
+    result.headersReceive = task.onHeadersReceived
+    result.progress = task.onProgressUpdate
+    result.abort = task.abort
+  }) as any
 
-  return result as ReturnType<typeof Taro.uploadFile>
+  return result
 }
 
 export default uploadFile
