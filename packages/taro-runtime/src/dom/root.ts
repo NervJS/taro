@@ -106,10 +106,11 @@ export class TaroRootElement extends TaroElement {
         const customWrapperUpdate: { ctx: any, data: Record<string, any> }[] = []
         const customWrapperMap: Map<Record<any, any>, Record<string, any>> = new Map()
         const normalUpdate = {}
+        let hasCustomWrapper = false
         if (!initRender) {
           for (const p in data) {
             const dataPathArr = p.split('.')
-            let hasCustomWrapper = false
+            let shouldNormalUpdate = true
             let customWrapper: Record<string, any> | null = null
             let curCtx: Record<string, any> = ctx
             let curData = curCtx.__data__ || curCtx.data
@@ -120,17 +121,12 @@ export class TaroRootElement extends TaroElement {
               const getData = get(curData, allPath)
               if (getData && getData.nn && getData.nn === CUSTOM_WRAPPER) {
                 hasCustomWrapper = true
+                shouldNormalUpdate = false
                 const customWrapperId = getData.uid
-                const cachedComponnet = customWrapperCache.get(customWrapperId)
-                const selectedComponent = cachedComponnet || curCtx.selectComponent(`#${customWrapperId}`)
-                if (!cachedComponnet && selectedComponent) {
-                  customWrapperCache.set(customWrapperId, selectedComponent)
-                }
+                const selectedComponent = customWrapperCache.get(customWrapperId) || curCtx.selectComponent(`#${customWrapperId}`)
                 if (!selectedComponent) {
-                  if (process.env.NODE_ENV !== 'production' && options.debug) {
-                    // eslint-disable-next-line no-console
-                    console.warn(`CustomWrapper(${customWrapperId}) not found, will not setData for it`)
-                  }
+                  // eslint-disable-next-line no-console
+                  console.warn(`CustomWrapper(${customWrapperId}) not found, will not setData for it. data:`, getData)
                   customWrapper = null
                   break
                 }
@@ -147,7 +143,7 @@ export class TaroRootElement extends TaroElement {
                 [`i.${splitedPath}`]: data[p]
               })
             }
-            if (!hasCustomWrapper) {
+            if (shouldNormalUpdate) {
               normalUpdate[p] = data[p]
             }
           }
@@ -157,9 +153,8 @@ export class TaroRootElement extends TaroElement {
             })
           }
         }
-        const customWrapperUpdateArrLen = customWrapperUpdate.length
-        const normalUpdateArrLen = Object.keys(normalUpdate).length
-        if (customWrapperUpdateArrLen || normalUpdateArrLen) {
+        if (hasCustomWrapper) {
+          const customWrapperUpdateArrLen = customWrapperUpdate.length
           const eventId = `${this._path}_update_${eventIncrementId()}`
           const eventCenter = this.eventCenter
           let executeTime = 0
@@ -184,7 +179,7 @@ export class TaroRootElement extends TaroElement {
               eventCenter.trigger(eventId)
             })
           })
-          if (normalUpdateArrLen) {
+          if (Object.keys(normalUpdate).length) {
             if (process.env.NODE_ENV !== 'production' && options.debug) {
               // eslint-disable-next-line no-console
               console.log('setData:', normalUpdate)
