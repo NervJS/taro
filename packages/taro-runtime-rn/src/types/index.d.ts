@@ -162,7 +162,8 @@ export interface AppConfig {
   designWidth: number,
   deviceRatio: Record<number, number>,
   linkPrefix: string[],
-  rn?: any
+  rn?: any,
+  entryPagePath?: string,
 }
 
 export interface RNAppConfig {
