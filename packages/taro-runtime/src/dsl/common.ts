@@ -98,7 +98,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   let loadResolver: (...args: unknown[]) => void
   let hasLoaded: Promise<void>
   const config: PageInstance = {
-    onLoad (this: MpInstance, options, cb?: Func) {
+    onLoad (this: MpInstance, options = {}, cb?: Func) {
       hasLoaded = new Promise(resolve => { loadResolver = resolve })
 
       perf.start(PAGE_INIT)
