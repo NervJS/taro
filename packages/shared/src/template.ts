@@ -329,7 +329,7 @@ export class BaseTemplate {
 
   protected buildPlainTextTemplate (level: number): string {
     return `
-<template name="tmpl_${level}_#text" data="{{${this.dataKeymap('i:i')}}}">
+<template name="tmpl_${level}_#text">
   <block>{{i.${Shortcuts.Text}}}</block>
 </template>
 `
