@@ -136,7 +136,7 @@ export function getCurrentRoute () {
       if (item.name === 'tabNav') {
         const index = item.state?.index ?? 0
         const tabRoutes: Record<string, any>[] = item.state?.routes ?? []
-        tabRoutes && tabRoutes[index] && routeKeys.push(tabRoutes[index].key)
+        tabRoutes?.[index] && routeKeys.push(tabRoutes[index].key)
       } else {
         routeKeys.push(item.key)
       }
