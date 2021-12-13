@@ -36,5 +36,8 @@ export const components = {
   },
   Textarea: {
     'disable-default-padding': 'false'
+  },
+  Canvas: {
+    type: ''
   }
 }
