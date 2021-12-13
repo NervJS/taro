@@ -9,3 +9,35 @@
 // ❌ wx.chooseMessageFile(Object object)
 // ❌ wx.chooseMessageFile(Object object)
 // ❌ wx.chooseImage(Object object)
+
+import Taro from '@tarojs/taro'
+import { callAsyncSuccess, callAsyncFail, validateParams } from '../utils'
+
+const image = require('@ohos.multimedia.image')
+
+type GetImageInfo = typeof Taro.getImageInfo
+
+const getImageInfoSchema = {
+  url: 'string'
+}
+const getImageInfo: GetImageInfo = function (options) {
+  return new Promise((resolve, reject) => {
+    try {
+      validateParams('getImageInfo', options, getImageInfoSchema)
+    } catch (error) {
+      const res = { errMsg: error.message }
+      return callAsyncFail(reject, res, options)
+    }
+    const { src } = options
+    const source = image.createImageSource(src)
+    source.getImageInfo().then((value) => {
+      callAsyncSuccess(resolve, value, options)
+    }).catch((error) => {
+      callAsyncFail(reject, error, options)
+    })
+  })
+}
+
+export {
+  getImageInfo
+}
