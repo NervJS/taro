@@ -64,7 +64,12 @@ function processEvent (eventHandlerName, obj) {
       // 将支付宝的 event 事件对象的字段，对齐微信小程序的
       event = processEventTarget(event)
     }
-    event.preventDefault = function () {}
+    event.preventDefault = function () {
+      Object.defineProperty(event, 'defaultPrevented', {
+        value: true,
+        writable: false
+      })
+    }
     event.stopPropagation = function () {}
     event.currentTarget = event.currentTarget || event.target || {}
     if (event.target) {
