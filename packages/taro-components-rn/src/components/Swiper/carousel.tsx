@@ -17,6 +17,8 @@ const styles = StyleSheet.create({
   },
 })
 
+const INFINITEBUFFER = 2
+
 export interface CarouselState {
   selectedIndex: number;
   isScrolling: boolean;
@@ -81,9 +83,27 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     this.viewPager.current && this.viewPager.current.setPage(index)
   }
 
+  public getIndex(index: number, count: number): number {
+    const { infinite } = this.props
+    if (!infinite) return index
+    if (index < INFINITEBUFFER) {
+      return count - INFINITEBUFFER + index
+    } else if (index > count + INFINITEBUFFER - 1) {
+      return index - count - INFINITEBUFFER
+    } else {
+      return index - INFINITEBUFFER
+    }
+  }
+
+  public getVirtualIndex(index: number): number {
+    const { infinite } = this.props
+    if (!infinite) return index
+    return index + INFINITEBUFFER
+  }
+
   render(): any {
     const { selectedIndex } = this.state
-    const { dots, children, vertical } = this.props
+    const { dots, children, vertical, infinite } = this.props
 
     if (!children) {
       return (
@@ -99,6 +119,13 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     if (count > 1) {
       const childrenArray = React.Children.toArray(children)
 
+      if (infinite) {
+        for (let index = 0; index < INFINITEBUFFER; index++) {
+          childrenArray.push(React.cloneElement(children[index], { ref: null }))
+          childrenArray.unshift(React.cloneElement(children[count - index - 1], { ref: null }))
+        }
+      }
+
       pages = childrenArray.map((page, i) => {
         return (
           // when vertical, use the height of the first child as the height of the Carousel
@@ -109,13 +136,26 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
       pages = <View>{children}</View>
     }
     const vpProps = {
-      initialPage: selectedIndex,
+      initialPage: this.getVirtualIndex(selectedIndex),
       showPageIndicator: false,
       onPageSelected: e => {
-        this.setState({ selectedIndex: e.nativeEvent.position })
+        const pos = e.nativeEvent.position
+        const prevIndex = this.getIndex(this.state.selectedIndex, count)
+        this.setState({ selectedIndex: pos })
         this.autoplay()
-        if (this.props.afterChange) {
-          this.props.afterChange(e.nativeEvent.position)
+        const actualIndex = this.getIndex(pos, count)
+        if (this.props.afterChange && prevIndex !== actualIndex) {
+          this.props.afterChange(actualIndex)
+        }
+      },
+      onPageScroll: (e) => {
+        const pos = e.nativeEvent.position
+        if (infinite) {
+          if (pos === count + INFINITEBUFFER) {
+            this.viewPager.current && this.viewPager.current.setPageWithoutAnimation(INFINITEBUFFER)
+          } else if (pos === INFINITEBUFFER - 2) {
+            this.viewPager.current && this.viewPager.current.setPageWithoutAnimation(count + INFINITEBUFFER - 1)
+          }
         }
       },
       onPageScrollStateChanged: e => {
@@ -160,7 +200,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
         >
           {pages}
         </ViewPager>
-        {dots && this.renderDots(selectedIndex)}
+        {dots && this.renderDots(this.getIndex(selectedIndex, count))}
       </View>
     )
   }
@@ -185,13 +225,16 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     clearTimeout(this.autoplayTimer)
 
     this.autoplayTimer = setTimeout(() => {
-      let newIndex = selectedIndex < count ? selectedIndex + 1 : 0
+      let newIndex = selectedIndex < this.getVirtualIndex(count) ? selectedIndex + 1 : 0
       if (selectedIndex === count - 1) {
         newIndex = 0
-        if (!infinite) {
+        if (!autoplay) {
           clearTimeout(this.autoplayTimer)
           return
         }
+      }
+      if (infinite) {
+        newIndex = this.getVirtualIndex(this.getIndex(newIndex, count))
       }
       this.goTo(newIndex)
     }, autoplayInterval)
