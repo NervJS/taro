@@ -1068,7 +1068,7 @@ require(\\"./taro\\");
   </canvas>
 </template>
 
-<template name=\\"tmpl_0_#text\\" data=\\"{{i:i}}\\">
+<template name=\\"tmpl_0_#text\\">
   <block>{{i.v}}</block>
 </template>
 
@@ -1220,7 +1220,7 @@ require(\\"./taro\\");
   </canvas>
 </template>
 
-<template name=\\"tmpl_1_#text\\" data=\\"{{i:i}}\\">
+<template name=\\"tmpl_1_#text\\">
   <block>{{i.v}}</block>
 </template>
 
@@ -1372,7 +1372,7 @@ require(\\"./taro\\");
   </canvas>
 </template>
 
-<template name=\\"tmpl_2_#text\\" data=\\"{{i:i}}\\">
+<template name=\\"tmpl_2_#text\\">
   <block>{{i.v}}</block>
 </template>
 
@@ -1524,7 +1524,7 @@ require(\\"./taro\\");
   </canvas>
 </template>
 
-<template name=\\"tmpl_3_#text\\" data=\\"{{i:i}}\\">
+<template name=\\"tmpl_3_#text\\">
   <block>{{i.v}}</block>
 </template>
 
@@ -1676,7 +1676,7 @@ require(\\"./taro\\");
   </canvas>
 </template>
 
-<template name=\\"tmpl_4_#text\\" data=\\"{{i:i}}\\">
+<template name=\\"tmpl_4_#text\\">
   <block>{{i.v}}</block>
 </template>
 
@@ -1828,7 +1828,7 @@ require(\\"./taro\\");
   </canvas>
 </template>
 
-<template name=\\"tmpl_5_#text\\" data=\\"{{i:i}}\\">
+<template name=\\"tmpl_5_#text\\">
   <block>{{i.v}}</block>
 </template>
 
@@ -1980,7 +1980,7 @@ require(\\"./taro\\");
   </canvas>
 </template>
 
-<template name=\\"tmpl_6_#text\\" data=\\"{{i:i}}\\">
+<template name=\\"tmpl_6_#text\\">
   <block>{{i.v}}</block>
 </template>
 
@@ -2132,7 +2132,7 @@ require(\\"./taro\\");
   </canvas>
 </template>
 
-<template name=\\"tmpl_7_#text\\" data=\\"{{i:i}}\\">
+<template name=\\"tmpl_7_#text\\">
   <block>{{i.v}}</block>
 </template>
 
@@ -2284,7 +2284,7 @@ require(\\"./taro\\");
   </canvas>
 </template>
 
-<template name=\\"tmpl_8_#text\\" data=\\"{{i:i}}\\">
+<template name=\\"tmpl_8_#text\\">
   <block>{{i.v}}</block>
 </template>
 
@@ -2436,7 +2436,7 @@ require(\\"./taro\\");
   </canvas>
 </template>
 
-<template name=\\"tmpl_9_#text\\" data=\\"{{i:i}}\\">
+<template name=\\"tmpl_9_#text\\">
   <block>{{i.v}}</block>
 </template>
 
@@ -2588,7 +2588,7 @@ require(\\"./taro\\");
   </canvas>
 </template>
 
-<template name=\\"tmpl_10_#text\\" data=\\"{{i:i}}\\">
+<template name=\\"tmpl_10_#text\\">
   <block>{{i.v}}</block>
 </template>
 
@@ -2740,7 +2740,7 @@ require(\\"./taro\\");
   </canvas>
 </template>
 
-<template name=\\"tmpl_11_#text\\" data=\\"{{i:i}}\\">
+<template name=\\"tmpl_11_#text\\">
   <block>{{i.v}}</block>
 </template>
 
@@ -2892,7 +2892,7 @@ require(\\"./taro\\");
   </canvas>
 </template>
 
-<template name=\\"tmpl_12_#text\\" data=\\"{{i:i}}\\">
+<template name=\\"tmpl_12_#text\\">
   <block>{{i.v}}</block>
 </template>
 
@@ -3044,7 +3044,7 @@ require(\\"./taro\\");
   </canvas>
 </template>
 
-<template name=\\"tmpl_13_#text\\" data=\\"{{i:i}}\\">
+<template name=\\"tmpl_13_#text\\">
   <block>{{i.v}}</block>
 </template>
 
@@ -3196,7 +3196,7 @@ require(\\"./taro\\");
   </canvas>
 </template>
 
-<template name=\\"tmpl_14_#text\\" data=\\"{{i:i}}\\">
+<template name=\\"tmpl_14_#text\\">
   <block>{{i.v}}</block>
 </template>
 
