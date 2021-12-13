@@ -2,9 +2,11 @@ import { mergeWith } from 'lodash'
 import { join } from 'path'
 import resolve from 'rollup-plugin-node-resolve'
 import typescript from 'rollup-plugin-typescript2'
-import common from 'rollup-plugin-commonjs'
+import commonjs from 'rollup-plugin-commonjs'
 import alias from 'rollup-plugin-alias'
+import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 import postcss from 'rollup-plugin-postcss'
+
 import exportNameOnly from './build/rollup-plugin-export-name-only'
 
 const babel = require('@rollup/plugin-babel').default
@@ -18,6 +20,7 @@ const baseConfig = {
     exports: 'auto'
   },
   plugins: [
+    peerDepsExternal(),
     alias({
       '@tarojs/taro': join(cwd, '../taro/src/index')
     }),
@@ -27,6 +30,7 @@ const baseConfig = {
     }),
     postcss(),
     babel({
+      babelHelpers: 'bundled',
       babelrc: false,
       presets: [
         ['@babel/preset-env', {
@@ -41,7 +45,7 @@ const baseConfig = {
         }]
       ]
     }),
-    common(),
+    commonjs(),
     typescript({
       useTsconfigDeclarationDir: true
     })
@@ -57,13 +61,13 @@ const variesConfig = [{
 }, {
   input: 'src/index.ts',
   output: {
-    file: 'dist/index.cjs.js'
+    format: 'esm',
+    file: 'dist/index.js'
   }
 }, {
   input: 'src/index.ts',
   output: {
-    format: 'es',
-    file: 'dist/index.js'
+    file: 'dist/index.cjs.js'
   }
 }]
 

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2017",
     "module": "ES2015",
-    "rootDir": "./",
+    "rootDir": "./src",
     "outDir": "dist",
     "sourceMap": true,
     "baseUrl": ".",
@@ -14,12 +14,9 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "declaration": false,
-    "types": ["jest", "./types"]
+    "types": ["jest", "./src/types"]
   },
-  "include": [
-    "./src",
-    "./types"
-  ],
+  "include": ["./src"],
   "exclude": [
     "**/*.test.ts",
     "**/*.spec.ts"
