@@ -1,4 +1,14 @@
+import Taro from '@tarojs/api'
+
 export default class SocketTask {
+  ws: WebSocket
+  CONNECTING: number
+  OPEN: number
+  CLOSING: number
+  CLOSED: number
+  closeDetail: { code: any; reason: any }
+  _destroyWhenClose?: () => void
+
   constructor (url, protocols) {
     if (protocols && protocols.length) {
       this.ws = new WebSocket(url, protocols)
@@ -15,10 +25,10 @@ export default class SocketTask {
     return this.ws.readyState
   }
 
-  send (obj = {}) {
-    if (typeof obj !== 'object' || !obj) obj = {}
+  send (opts: Partial<Taro.SocketTask.SendOption> = {}) {
+    if (typeof opts !== 'object' || !opts) opts = {}
 
-    const { data = '', success, fail, complete } = obj
+    const { data = '', success, fail, complete } = opts
 
     if (this.readyState !== 1) {
       const res = { errMsg: 'SocketTask.send:fail SocketTask.readState is not OPEN' }
@@ -36,15 +46,15 @@ export default class SocketTask {
     return Promise.resolve(res)
   }
 
-  close (obj = {}) {
-    if (typeof obj !== 'object' || !obj) obj = {}
+  close (opts: Partial<Taro.SocketTask.CloseOption> = {}) {
+    if (typeof opts !== 'object' || !opts) opts = {}
 
     const {
       code = 1000,
       reason = 'server complete,close',
       success,
       complete
-    } = obj
+    } = opts
 
     this.closeDetail = { code, reason }
     // 主动断开时需要重置链接数

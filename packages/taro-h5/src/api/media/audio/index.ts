@@ -13,24 +13,6 @@ class InnerAudioContext implements Taro.InnerAudioContext {
     this.errorStack = new CallbackManager()
     this.stopStack = new CallbackManager()
 
-    const simpleProperties = ['src', 'autoplay', 'loop', 'volume', 'duration', 'currentTime', 'buffered', 'paused', 'startTime']
-    simpleProperties.forEach(propertyName => {
-      const el = this.Instance
-      if (el) {
-        Object.defineProperty(this, propertyName, {
-          get: () => el[propertyName],
-          set (value) { el[propertyName] = value }
-        })
-      }
-    })
-
-    Object.defineProperty(this.Instance, 'startTime', {
-      value: 0
-    })
-    Object.defineProperty(this.Instance, 'obeyMuteSwitch', {
-      value: true
-    })
-
     Taro.eventCenter.on('__taroRouterChange', () => { this.stop() })
   }
 

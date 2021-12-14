@@ -1,10 +1,10 @@
 /* eslint-disable prefer-promise-reject-errors */
-import { Current, container, SERVICE_IDENTIFIER, IHooks } from '@tarojs/runtime'
+import { Current, container, SERVICE_IDENTIFIER, IHooks, TaroElement } from '@tarojs/runtime'
 
-function shouldBeObject (target) {
-  if (target && typeof target === 'object') return { res: true }
+function shouldBeObject (target: unknown) {
+  if (target && typeof target === 'object') return { flag: true }
   return {
-    res: false,
+    flag: false,
     msg: getParameterError({
       correct: 'Object',
       wrong: target
@@ -12,7 +12,7 @@ function shouldBeObject (target) {
   }
 }
 
-export function findDOM (inst) {
+export function findDOM (inst): TaroElement | HTMLElement | undefined {
   const runtimeHooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
 
   if (inst) {
@@ -41,7 +41,7 @@ interface IParameterErrorParam {
   name?: string
   para?: string
   correct?: string
-  wrong?: string
+  wrong?: unknown
 }
 function getParameterError ({ name = '', para, correct, wrong }: IParameterErrorParam) {
   const parameter = para ? `parameter.${para}` : 'parameter'
@@ -75,14 +75,6 @@ function setTransform (el, val) {
 
 function isFunction (obj) {
   return typeof obj === 'function'
-}
-
-function errorHandler (fail, complete) {
-  return function (res) {
-    isFunction(fail) && fail(res)
-    isFunction(complete) && complete(res)
-    return Promise.reject(res)
-  }
 }
 
 function serializeParams (params) {
@@ -181,7 +173,6 @@ export {
   getParameterError,
   inlineStyle,
   setTransform,
-  errorHandler,
   serializeParams,
   temporarilyNotSupport,
   weixinCorpSupport,

@@ -14,7 +14,7 @@ export function initTabBarApis (config: AppConfig = {}) {
 export const showTabBarRedDot: typeof Taro.showTabBarRedDot = (options) => {
   // options must be an Object
   const isObject = shouldBeObject(options)
-  if (!isObject.res) {
+  if (!isObject.flag) {
     const res = { errMsg: `showTabBarRedDot:fail ${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
@@ -53,7 +53,7 @@ export const showTabBarRedDot: typeof Taro.showTabBarRedDot = (options) => {
 export const showTabBar: typeof Taro.showTabBar = (options = {}) => {
   // options must be an Object
   const isObject = shouldBeObject(options)
-  if (!isObject.res) {
+  if (!isObject.flag) {
     const res = { errMsg: `showTabBar:fail ${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
@@ -87,7 +87,7 @@ export const showTabBar: typeof Taro.showTabBar = (options = {}) => {
 export const setTabBarStyle: typeof Taro.setTabBarStyle = (options = {}) => {
   // options must be an Object
   const isObject = shouldBeObject(options)
-  if (!isObject.res) {
+  if (!isObject.flag) {
     const res = { errMsg: `setTabBarStyle:fail ${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
@@ -139,7 +139,7 @@ export const setTabBarStyle: typeof Taro.setTabBarStyle = (options = {}) => {
 export const setTabBarItem: typeof Taro.setTabBarItem = (options) => {
   // options must be an Object
   const isObject = shouldBeObject(options)
-  if (!isObject.res) {
+  if (!isObject.flag) {
     const res = { errMsg: `setTabBarItem:fail ${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
@@ -184,7 +184,7 @@ export const setTabBarItem: typeof Taro.setTabBarItem = (options) => {
 export const setTabBarBadge: typeof Taro.setTabBarBadge = (options) => {
   // options must be an Object
   const isObject = shouldBeObject(options)
-  if (!isObject.res) {
+  if (!isObject.flag) {
     const res = { errMsg: `setTabBarBadge:fail ${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
@@ -229,7 +229,7 @@ export const setTabBarBadge: typeof Taro.setTabBarBadge = (options) => {
 export const removeTabBarBadge: typeof Taro.removeTabBarBadge = (options) => {
   // options must be an Object
   const isObject = shouldBeObject(options)
-  if (!isObject.res) {
+  if (!isObject.flag) {
     const res = { errMsg: `removeTabBarBadge:fail ${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
@@ -263,7 +263,7 @@ export const removeTabBarBadge: typeof Taro.removeTabBarBadge = (options) => {
 export const hideTabBarRedDot: typeof Taro.hideTabBarRedDot = (options) => {
   // options must be an Object
   const isObject = shouldBeObject(options)
-  if (!isObject.res) {
+  if (!isObject.flag) {
     const res = { errMsg: `hideTabBarRedDot:fail ${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
@@ -297,7 +297,7 @@ export const hideTabBarRedDot: typeof Taro.hideTabBarRedDot = (options) => {
 export const hideTabBar: typeof Taro.hideTabBar = (options = {}) => {
   // options must be an Object
   const isObject = shouldBeObject(options)
-  if (!isObject.res) {
+  if (!isObject.flag) {
     const res = { errMsg: `hideTabBar:fail ${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
