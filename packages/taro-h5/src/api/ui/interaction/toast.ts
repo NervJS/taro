@@ -1,6 +1,4 @@
-import { inlineStyle } from '../../utils/odd'
-
-const noop = function () {}
+import { inlineStyle } from '../../utils'
 
 export default class Toast {
   options = {
@@ -8,10 +6,7 @@ export default class Toast {
     icon: 'none',
     image: '',
     duration: 1500,
-    mask: false,
-    success: noop,
-    fail: noop,
-    complete: noop
+    mask: false
   }
 
   style = {
@@ -75,14 +70,24 @@ export default class Toast {
     }
   }
 
-  create (options = {}) {
+  el: HTMLDivElement
+  mask: HTMLDivElement
+  icon: HTMLParagraphElement
+  toast: HTMLDivElement
+  title: HTMLParagraphElement
+  type: any
+  hideOpacityTimer: any
+  hideDisplayTimer: any
+
+  create (options = {}, _type: 'loading' | 'toast' = 'toast') {
     // style
     const { maskStyle, toastStyle, successStyle, loadingStyle, imageStyle, textStyle } = this.style
 
     // configuration
     const config = {
       ...this.options,
-      ...options
+      ...options,
+      _type
     }
 
     // wrapper
@@ -141,16 +146,14 @@ export default class Toast {
     // disappear after duration
     config.duration >= 0 && this.hide(config.duration, this.type)
 
-    const errMsg = this.type === 'loading' ? 'showLoading:ok' : 'showToast:ok'
-    config.success && config.success({ errMsg })
-    config.complete && config.complete({ errMsg })
-    return Promise.resolve({ errMsg })
+    return ''
   }
 
-  show (options = {}) {
+  show (options = {}, _type: 'loading' | 'toast' = 'toast') {
     const config = {
       ...this.options,
-      ...options
+      ...options,
+      _type
     }
 
     if (this.hideOpacityTimer) clearTimeout(this.hideOpacityTimer)
@@ -198,10 +201,7 @@ export default class Toast {
     // disappear after duration
     config.duration >= 0 && this.hide(config.duration, this.type)
 
-    const errMsg = this.type === 'loading' ? 'showLoading:ok' : 'showToast:ok'
-    config.success && config.success({ errMsg })
-    config.complete && config.complete({ errMsg })
-    return Promise.resolve({ errMsg })
+    return ''
   }
 
   hide (duration = 0, type) {

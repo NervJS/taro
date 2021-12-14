@@ -4,7 +4,6 @@ import resolve from 'rollup-plugin-node-resolve'
 import typescript from 'rollup-plugin-typescript2'
 import commonjs from 'rollup-plugin-commonjs'
 import alias from 'rollup-plugin-alias'
-import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 import postcss from 'rollup-plugin-postcss'
 
 import exportNameOnly from './build/rollup-plugin-export-name-only'
@@ -13,14 +12,13 @@ const babel = require('@rollup/plugin-babel').default
 
 const cwd = __dirname
 const baseConfig = {
-  external: ['nervjs', '@tarojs/runtime', 'react-dom'],
+  external: ['@tarojs/runtime', '@tarojs/taro'],
   output: {
     format: 'cjs',
     sourcemap: false,
     exports: 'auto'
   },
   plugins: [
-    peerDepsExternal(),
     alias({
       '@tarojs/taro': join(cwd, '../taro/src/index')
     }),

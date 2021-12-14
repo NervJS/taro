@@ -1,7 +1,8 @@
 import SocketTask from './socketTask'
-import { shouldBeObject, getParameterError } from '../../utils/odd'
+import { shouldBeObject, getParameterError } from '../../utils'
+import { MethodHandler } from 'src/api/utils/handler'
 
-let socketTasks = []
+let socketTasks: SocketTask[] = []
 let socketsCounter = 1
 
 function sendSocketMessage () {
@@ -30,36 +31,32 @@ function connectSocket (options) {
   return new Promise((resolve, reject) => {
     // options must be an Object
     const isObject = shouldBeObject(options)
-    if (!isObject.res) {
+    if (!isObject.flag) {
       const res = { errMsg: `${name}:fail ${isObject.msg}` }
       console.error(res.errMsg)
       return reject(res)
     }
-
     const { url, protocols, success, fail, complete } = options
-    const res = { errMsg: 'connectSocket:ok' }
+    const handle = new MethodHandler<{
+      socketTaskId?: number
+    }>({ name, success, fail, complete })
 
     // options.url must be String
     if (typeof url !== 'string') {
-      res.errMsg = getParameterError({
-        name,
-        para: 'url',
-        correct: 'String',
-        wrong: url
-      })
-      console.error(res.errMsg)
-      typeof fail === 'function' && fail(res)
-      typeof complete === 'function' && complete(res)
-      return reject(res)
+      return handle.fail({
+        errMsg: getParameterError({
+          para: 'url',
+          correct: 'String',
+          wrong: url
+        })
+      }, reject)
     }
 
     // options.url must be invalid
     if (!url.startsWith('ws://') && !url.startsWith('wss://')) {
-      res.errMsg = `request:fail invalid url "${url}"`
-      console.error(res.errMsg)
-      typeof fail === 'function' && fail(res)
-      typeof complete === 'function' && complete(res)
-      return reject(res)
+      return handle.fail({
+        errMsg: `request:fail invalid url "${url}"`
+      }, reject)
     }
 
     // protocols must be array
@@ -67,11 +64,9 @@ function connectSocket (options) {
 
     // 2 connection at most
     if (socketTasks.length > 1) {
-      res.errMsg = '同时最多发起 2 个 socket 请求，更多请参考文档。'
-      console.error(res.errMsg)
-      typeof fail === 'function' && fail(res)
-      typeof complete === 'function' && complete(res)
-      return reject(res)
+      return handle.fail({
+        errMsg: '同时最多发起 2 个 socket 请求，更多请参考文档。'
+      }, reject)
     }
 
     const task = new SocketTask(url, _protocols)
@@ -80,11 +75,9 @@ function connectSocket (options) {
     }
     socketTasks.push(task)
 
-    res.socketTaskId = socketsCounter++
-    typeof success === 'function' && success(res)
-    typeof complete === 'function' && complete(res)
-
-    return resolve(task)
+    return handle.success({
+      socketTaskId: socketsCounter++
+    }, resolve)
   })
 }
 

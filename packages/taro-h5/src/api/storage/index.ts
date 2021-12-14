@@ -27,7 +27,7 @@ const setStorageSync: typeof Taro.setStorageSync = (key, data = '') => {
 const setStorage: typeof Taro.setStorage = (options) => {
   // options must be an Object
   const isObject = shouldBeObject(options)
-  if (!isObject.res) {
+  if (!isObject.flag) {
     const res = { errMsg: `setStorage:fail ${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
@@ -53,7 +53,7 @@ const setStorage: typeof Taro.setStorage = (options) => {
 const getStorage: typeof Taro.getStorage = <T>(options) => {
   // options must be an Object
   const isObject = shouldBeObject(options)
-  if (!isObject.res) {
+  if (!isObject.flag) {
     const res = { errMsg: `getStorage:fail ${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
@@ -142,7 +142,7 @@ const removeStorageSync: typeof Taro.removeStorageSync = (key: string) => {
 const removeStorage: typeof Taro.removeStorage = (options: Taro.removeStorage.Option) => {
   // options must be an Object
   const isObject = shouldBeObject(options)
-  if (!isObject.res) {
+  if (!isObject.flag) {
     const res = { errMsg: `removeStorage:fail ${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)

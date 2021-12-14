@@ -1,5 +1,6 @@
 import Taro from '@tarojs/api'
-import { errorHandler, getParameterError, temporarilyNotSupport } from '../../utils/odd'
+import { getParameterError, temporarilyNotSupport } from '../../utils'
+import { MethodHandler } from '../../utils/handler'
 import Toast from './toast'
 import Modal from './modal'
 import ActionSheet from './actionSheet'
@@ -23,26 +24,20 @@ const toast = new Toast()
 const modal = new Modal()
 const actionSheet = new ActionSheet()
 
-function showToast (options = {}) {
+const showToast: typeof Taro.showToast = (options = {
+  title: '',
+  icon: 'success',
+  image: '',
+  duration: 1500,
+  mask: false
+}) => {
   init(document)
-
-  const _default = {
-    title: '',
-    icon: 'success',
-    image: '',
-    duration: 1500,
-    mask: false
-  }
-  options = Object.assign({}, _default, options)
-  options._type = 'toast'
-
-  // verify options
-  const handler = errorHandler(options.fail, options.complete)
+  const { success, fail, complete } = options
+  const handle = new MethodHandler({ name: 'showToast', success, fail, complete })
 
   if (typeof options.title !== 'string') {
-    return handler({
+    return handle.fail({
       errMsg: getParameterError({
-        name: 'showToast',
         para: 'title',
         correct: 'String',
         wrong: options.title
@@ -51,9 +46,8 @@ function showToast (options = {}) {
   }
 
   if (typeof options.duration !== 'number') {
-    return handler({
+    return handle.fail({
       errMsg: getParameterError({
-        name: 'showToast',
         para: 'duration',
         correct: 'Number',
         wrong: options.duration
@@ -65,38 +59,41 @@ function showToast (options = {}) {
 
   options.mask = !!options.mask
 
-  if (!toast.el) return toast.create(options)
-  return toast.show(options)
-}
-
-function hideToast () {
-  if (!toast.el) return
-  toast.hide(0, 'toast')
-}
-
-function showLoading (options = {}) {
-  init(document)
-
-  const _default = {
-    title: '',
-    mask: false
+  let errMsg = ''
+  if (!toast.el) {
+    errMsg = toast.create(options, 'loading')
+  } else {
+    errMsg = toast.show(options, 'loading')
   }
+  return handle.success({ errMsg })
+}
+
+const hideToast: typeof Taro.hideToast = ({ success, fail, complete } = {}) => {
+  const handle = new MethodHandler({ name: 'hideToast', success, fail, complete })
+  if (!toast.el) return handle.success()
+  toast.hide(0, 'toast')
+  return handle.success()
+}
+
+const showLoading: typeof Taro.showLoading = (options = {
+  title: '',
+  mask: false
+}) => {
+  init(document)
+  const { success, fail, complete } = options
+  const handle = new MethodHandler({ name: 'showLoading', success, fail, complete })
+
   const config = {
     icon: 'loading',
     image: '',
     duration: -1
   }
 
-  options = Object.assign({}, _default, options, config)
-  options._type = 'loading'
-
-  // verify options
-  const handler = errorHandler(options.fail, options.complete)
+  options = Object.assign({}, options, config)
 
   if (typeof options.title !== 'string') {
-    return handler({
+    return handle.fail({
       errMsg: getParameterError({
-        name: 'showLoading',
         para: 'title',
         correct: 'String',
         wrong: options.title
@@ -106,36 +103,38 @@ function showLoading (options = {}) {
 
   options.mask = !!options.mask
 
-  if (!toast.el) return toast.create(options)
-  return toast.show(options)
-}
-
-function hideLoading () {
-  if (!toast.el) return
-  toast.hide(0, 'loading')
-}
-
-function showModal (options = {}) {
-  init(document)
-
-  const _default = {
-    title: '',
-    content: '',
-    showCancel: true,
-    cancelText: '取消',
-    cancelColor: '#000000',
-    confirmText: '确定',
-    confirmColor: '#3CC51F'
+  let errMsg = ''
+  if (!toast.el) {
+    errMsg = toast.create(options, 'loading')
+  } else {
+    errMsg = toast.show(options, 'loading')
   }
-  options = Object.assign({}, _default, options)
+  return handle.success({ errMsg })
+}
 
-  // verify options
-  const handler = errorHandler(options.fail, options.complete)
+const hideLoading: typeof Taro.hideLoading = ({ success, fail, complete } = {}) => {
+  const handle = new MethodHandler({ name: 'hideLoading', success, fail, complete })
+  if (!toast.el) return handle.success()
+  toast.hide(0, 'loading')
+  return handle.success()
+}
+
+const showModal: typeof Taro.showModal = async (options = {
+  title: '',
+  content: '',
+  showCancel: true,
+  cancelText: '取消',
+  cancelColor: '#000000',
+  confirmText: '确定',
+  confirmColor: '#3CC51F'
+}) => {
+  init(document)
+  const { success, fail, complete } = options
+  const handle = new MethodHandler({ name: 'showModal', success, fail, complete })
 
   if (typeof options.title !== 'string') {
-    return handler({
+    return handle.fail({
       errMsg: getParameterError({
-        name: 'showModal',
         para: 'title',
         correct: 'String',
         wrong: options.title
@@ -144,9 +143,8 @@ function showModal (options = {}) {
   }
 
   if (typeof options.content !== 'string') {
-    return handler({
+    return handle.fail({
       errMsg: getParameterError({
-        name: 'showModal',
         para: 'content',
         correct: 'String',
         wrong: options.content
@@ -155,9 +153,8 @@ function showModal (options = {}) {
   }
 
   if (typeof options.cancelText !== 'string') {
-    return handler({
+    return handle.fail({
       errMsg: getParameterError({
-        name: 'showModal',
         para: 'cancelText',
         correct: 'String',
         wrong: options.cancelText
@@ -166,13 +163,14 @@ function showModal (options = {}) {
   }
 
   if (options.cancelText.replace(/[\u0391-\uFFE5]/g, 'aa').length > 8) {
-    return handler({ errMsg: 'showModal:fail cancelText length should not larger then 4 Chinese characters' })
+    return handle.fail({
+      errMsg: 'showModal:fail cancelText length should not larger then 4 Chinese characters'
+    })
   }
 
   if (typeof options.confirmText !== 'string') {
-    return handler({
+    return handle.fail({
       errMsg: getParameterError({
-        name: 'showModal',
         para: 'confirmText',
         correct: 'String',
         wrong: options.confirmText
@@ -181,13 +179,14 @@ function showModal (options = {}) {
   }
 
   if (options.confirmText.replace(/[\u0391-\uFFE5]/g, 'aa').length > 8) {
-    return handler({ errMsg: 'showModal:fail confirmText length should not larger then 4 Chinese characters' })
+    return handle.fail({
+      errMsg: 'showModal:fail confirmText length should not larger then 4 Chinese characters'
+    })
   }
 
   if (typeof options.cancelColor !== 'string') {
-    return handler({
+    return handle.fail({
       errMsg: getParameterError({
-        name: 'showModal',
         para: 'cancelColor',
         correct: 'String',
         wrong: options.cancelColor
@@ -196,9 +195,8 @@ function showModal (options = {}) {
   }
 
   if (typeof options.confirmColor !== 'string') {
-    return handler({
+    return handle.fail({
       errMsg: getParameterError({
-        name: 'showModal',
         para: 'confirmColor',
         correct: 'String',
         wrong: options.confirmColor
@@ -208,8 +206,13 @@ function showModal (options = {}) {
 
   options.showCancel = !!options.showCancel
 
-  if (!modal.el) return modal.create(options)
-  return modal.show(options)
+  let errMsg = ''
+  if (!modal.el) {
+    errMsg = await modal.create(options)
+  } else {
+    errMsg = await modal.show(options)
+  }
+  return handle.success({ errMsg })
 }
 
 function hideModal () {
@@ -217,22 +220,18 @@ function hideModal () {
   modal.hide()
 }
 
-function showActionSheet (options = {}) {
+const showActionSheet: typeof Taro.showActionSheet = async (options = {
+  itemColor: '#000000',
+  itemList: []
+}) => {
   init(document)
-
-  const _default = {
-    itemColor: '#000000'
-  }
-  options = Object.assign({}, _default, options)
-
-  // verify options
-  const handler = errorHandler(options.fail, options.complete)
+  const { success, fail, complete } = options
+  const handle = new MethodHandler<Taro.showActionSheet.SuccessCallbackResult>({ name: 'showActionSheet', success, fail, complete })
 
   // list item String
   if (!Array.isArray(options.itemList)) {
-    return handler({
+    return handle.fail({
       errMsg: getParameterError({
-        name: 'showActionSheet',
         para: 'itemList',
         correct: 'Array',
         wrong: options.itemList
@@ -241,18 +240,17 @@ function showActionSheet (options = {}) {
   }
 
   if (options.itemList.length < 1) {
-    return handler({ errMsg: 'showActionSheet:fail parameter error: parameter.itemList should have at least 1 item' })
+    return handle.fail({ errMsg: 'showActionSheet:fail parameter error: parameter.itemList should have at least 1 item' })
   }
 
   if (options.itemList.length > 6) {
-    return handler({ errMsg: 'showActionSheet:fail parameter error: parameter.itemList should not be large than 6' })
+    return handle.fail({ errMsg: 'showActionSheet:fail parameter error: parameter.itemList should not be large than 6' })
   }
 
   for (let i = 0; i < options.itemList.length; i++) {
     if (typeof options.itemList[i] !== 'string') {
-      return handler({
+      return handle.fail({
         errMsg: getParameterError({
-          name: 'showActionSheet',
           para: `itemList[${i}]`,
           correct: 'String',
           wrong: options.itemList[i]
@@ -262,9 +260,8 @@ function showActionSheet (options = {}) {
   }
 
   if (typeof options.itemColor !== 'string') {
-    return handler({
+    return handle.fail({
       errMsg: getParameterError({
-        name: 'showActionSheet',
         para: 'itemColor',
         correct: 'String',
         wrong: options.itemColor
@@ -272,8 +269,18 @@ function showActionSheet (options = {}) {
     })
   }
 
-  if (!actionSheet.el) return actionSheet.create(options)
-  return actionSheet.show(options)
+  let result: number | string = ''
+  if (!actionSheet.el) {
+    result = await actionSheet.create(options)
+  } else {
+    result = await actionSheet.show(options)
+  }
+
+  if (typeof result === 'string') {
+    return handle.fail(({ errMsg: result }))
+  } else {
+    return handle.success(({ tapIndex: result }))
+  }
 }
 
 Taro.eventCenter.on('__taroRouterChange', () => {

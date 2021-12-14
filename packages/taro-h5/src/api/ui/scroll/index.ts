@@ -1,28 +1,23 @@
-import { getTimingFunc, easeInOut } from '../../utils/odd'
+import Taro from '@tarojs/api'
 
-/**
- * @typedef {object} PageScrollToParam pageScrollTo参数
- * @property {number} scrollTop 滚动到页面的目标位置，单位 px
- * @property {string} selector 选择器, css selector
- * @property {number} [duration=300] 滚动动画的时长，单位 ms
- * @property {function} [success] 接口调用成功的回调函数
- * @property {function} [fail] 接口调用失败的回调函数
- * @property {function} [complete] 接口调用结束的回调函数（调用成功、失败都会执行）
- */
+import { MethodHandler } from '../../utils/handler'
+import { getTimingFunc, easeInOut } from '../../utils'
 
 let scrollFunc
-let timer
+let timer: NodeJS.Timeout
 const FRAME_DURATION = 17
 
 /**
  * 将页面滚动到目标位置
- * @param {PageScrollToParam} object 参数
  */
-export const pageScrollTo = ({ scrollTop, selector, duration = 300, success, fail, complete }) => {
+export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '', duration = 300, success, fail, complete }) => {
+  const handle = new MethodHandler({ name: 'pageScrollTo', success, fail, complete })
   return new Promise((resolve, reject) => {
     try {
       if (scrollTop === undefined && !selector) {
-        throw Error('"scrollTop" 或 "selector" 需要其之一')
+        return handle.fail({
+          errMsg: 'scrollTop" 或 "selector" 需要其之一'
+        }, reject)
       }
 
       let el
@@ -58,11 +53,12 @@ export const pageScrollTo = ({ scrollTop, selector, duration = 300, success, fai
         console.warn('"scrollTop" 或 "selector" 建议只设一个值，全部设置会忽略selector')
       }
       const from = scrollFunc()
-      let to
+      let to: number
       if (typeof scrollTop === 'number') {
         to = scrollTop
       } else {
-        to = document.querySelector(selector).offsetTop
+        const el = document.querySelector(selector) as HTMLElement
+        to = el?.offsetTop || 0
       }
       const delta = to - from
 
@@ -78,22 +74,14 @@ export const pageScrollTo = ({ scrollTop, selector, duration = 300, success, fai
             scroll(frame + 1)
           }, FRAME_DURATION)
         } else {
-          const res = {
-            errMsg: 'pageScrollTo:ok'
-          }
-          success && success(res)
-          complete && complete()
-          resolve(res)
+          return handle.success({}, resolve)
         }
       }
       scroll()
     } catch (e) {
-      const res = {
-        errMsg: `pageScrollTo:fail ${e.message}`
-      }
-      fail && fail(res)
-      complete && complete()
-      reject(res)
+      return handle.fail({
+        errMsg: e.message
+      }, reject)
     }
   })
 }

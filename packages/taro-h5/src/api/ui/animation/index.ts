@@ -7,14 +7,14 @@ class StyleSheet {
     this.$style = document.createElement('style')
   }
 
-  $style = null
-  sheet = null
+  $style: HTMLStyleElement
+  sheet?: CSSStyleSheet | null
   appendStyleSheet = () => {
-    this.$style.setAttribute('type', 'text/css')
-    this.$style.setAttribute('data-type', 'Taro')
+    this.$style?.setAttribute('type', 'text/css')
+    this.$style?.setAttribute('data-type', 'Taro')
     document.getElementsByTagName('head')[0].appendChild(this.$style)
-    this.sheet = this.$style.sheet
-    if (!('insertRule' in this.sheet)) {
+    this.sheet = this.$style?.sheet
+    if (this.sheet && !('insertRule' in this.sheet)) {
       console.warn('当前浏览器不支持 stylesheet.insertRule 接口')
     }
   }
@@ -25,7 +25,7 @@ class StyleSheet {
       // $style 未插入到 DOM
       this.appendStyleSheet()
     }
-    this.sheet.insertRule(cssText, index)
+    this.sheet?.insertRule(cssText, index)
   }
 }
 
@@ -62,8 +62,19 @@ if ($detect.style['animation-name'] === 'standard') {
 
 let animId = 0
 
+interface IAnimationAttr {
+  duration: number
+  delay: number
+  timingFunction: string
+  transformOrigin: string
+}
+
 // Animation 类
 class Animation {
+  unit: string
+  id: number
+  DEFAULT: IAnimationAttr
+
   constructor (
     {
       duration = 400,
@@ -81,8 +92,8 @@ class Animation {
     // 动画 id
     this.id = ++animId
     // 监听事件
-    document.body.addEventListener(TRANSITION_END, e => {
-      const { target } = e
+    document.body.addEventListener(TRANSITION_END, (e: TransitionEvent) => {
+      const target = e.target as HTMLElement
       if (target.getAttribute(animAttr) === null) {
         animAttr = 'data-animation'
       }
@@ -91,7 +102,8 @@ class Animation {
       if (animData === null) return
       const [animName, animPath] = animData.split('__')
       if (animName === `taro-h5-poly-fill/${this.id}/create-animation`) {
-        const [animIndex, stepIndex = 0] = animPath.split('--')
+        const [animIndex, __stepIndex = 0] = animPath.split('--')
+        const stepIndex = Number(__stepIndex)
         // 动画总的关键帧
         const animStepsCount = this.animationMap[`${animName}__${animIndex}`]
         const animStepsMaxIndex = animStepsCount - 1
@@ -108,7 +120,7 @@ class Animation {
   }
 
   transformUnit (...args) {
-    const ret = []
+    const ret: string[] = []
     args.forEach(each => {
       ret.push(isNaN(each) ? each : `${each}${this.unit}`)
     })
@@ -121,11 +133,11 @@ class Animation {
   }
 
   // 属性组合
-  rules = []
+  rules: string[] = []
   // transform 对象
   transform = [`${TRANSFORM}:`]
   // 组合动画
-  steps = []
+  steps: string[] = []
   // 动画 map ----- 永久保留
   animationMap = {}
   // animationMap 的长度
@@ -284,7 +296,7 @@ class Animation {
   }
 
   // 关键帧载入
-  step (arg = {}) {
+  step (arg: Partial<IAnimationAttr> = {}) {
     const { DEFAULT } = this
     const {
       duration = DEFAULT.duration,

@@ -1,10 +1,13 @@
 import Taro from '@tarojs/api'
 import 'whatwg-fetch'
 import jsonpRetry from 'jsonp-retry'
-import { serializeParams } from '../../utils/odd'
+
+import { serializeParams } from '../../utils'
+
+// @ts-ignore
 const { Link } = Taro
 
-function generateRequestUrlWithParams (url, params) {
+function generateRequestUrlWithParams (url: string, params?: unknown) {
   params = typeof params === 'string' ? params : serializeParams(params)
   if (params) {
     url += (~url.indexOf('?') ? '&' : '?') + params
@@ -13,6 +16,7 @@ function generateRequestUrlWithParams (url, params) {
   return url
 }
 
+// FIXME 移除 any 标注
 function _request (options) {
   options = options || {}
   if (typeof options === 'string') {
@@ -22,8 +26,8 @@ function _request (options) {
   }
   const { success, complete, fail } = options
   let url = options.url
-  const params = {}
-  const res = {}
+  const params: any = {}
+  const res: any = {}
   if (options.jsonp) {
     Object.assign(params, options)
     params.params = options.data
@@ -122,6 +126,5 @@ function taroInterceptor (chain) {
 
 const link = new Link(taroInterceptor)
 
-/** @type {TaroH5.request} */
-export const request = link.request.bind(link)
+export const request: typeof Taro.request = link.request.bind(link)
 export const addInterceptor = link.addInterceptor.bind(link)

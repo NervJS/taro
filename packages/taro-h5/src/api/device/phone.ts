@@ -5,7 +5,7 @@ import { MethodHandler } from '../utils/handler'
 export const makePhoneCall: typeof Taro.makePhoneCall = (options) => {
   // options must be an Object
   const isObject = shouldBeObject(options)
-  if (!isObject.res) {
+  if (!isObject.flag) {
     const res = { errMsg: `makePhoneCall:fail ${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)

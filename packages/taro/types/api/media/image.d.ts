@@ -122,6 +122,8 @@ declare module '../../index' {
       sourceType?: Array<keyof sourceType>
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
+      /** 用来上传的input元素ID（仅h5端）@supported h5 */
+      imageId?: string
     }
     /** 图片的尺寸 */
     interface sizeType {
