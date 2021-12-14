@@ -189,14 +189,14 @@ export default {
     <tr>
       <td>scrollX</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>fasle</code></td>
+      <td style={{ textAlign: "center"}}><code>false</code></td>
       <td style={{ textAlign: "center"}}>否</td>
       <td>允许横向滚动</td>
     </tr>
     <tr>
       <td>scrollY</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>fasle</code></td>
+      <td style={{ textAlign: "center"}}><code>false</code></td>
       <td style={{ textAlign: "center"}}>否</td>
       <td>允许纵向滚动</td>
     </tr>
@@ -238,35 +238,35 @@ export default {
     <tr>
       <td>scrollWithAnimation</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>fasle</code></td>
+      <td style={{ textAlign: "center"}}><code>false</code></td>
       <td style={{ textAlign: "center"}}>否</td>
       <td>在设置滚动条位置时使用动画过渡</td>
     </tr>
     <tr>
       <td>enableBackToTop</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>fasle</code></td>
+      <td style={{ textAlign: "center"}}><code>false</code></td>
       <td style={{ textAlign: "center"}}>否</td>
       <td>iOS 点击顶部状态栏、安卓双击标题栏时，滚动条返回顶部，只支持竖向</td>
     </tr>
     <tr>
       <td>enableFlex</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>fasle</code></td>
+      <td style={{ textAlign: "center"}}><code>false</code></td>
       <td style={{ textAlign: "center"}}>否</td>
       <td>启用 flexbox 布局。开启后，当前节点声明了 <code>display: flex</code> 就会成为 flex container，并作用于其孩子节点。</td>
     </tr>
     <tr>
       <td>scrollAnchoring</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>fasle</code></td>
+      <td style={{ textAlign: "center"}}><code>false</code></td>
       <td style={{ textAlign: "center"}}>否</td>
       <td>开启 scroll anchoring 特性，即控制滚动位置不随内容变化而抖动，仅在 iOS 下生效，安卓下可参考 CSS <code>overflow-anchor</code> 属性。</td>
     </tr>
     <tr>
       <td>refresherEnabled</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>fasle</code></td>
+      <td style={{ textAlign: "center"}}><code>false</code></td>
       <td style={{ textAlign: "center"}}>否</td>
       <td>开启自定义下拉刷新</td>
     </tr>
@@ -294,7 +294,7 @@ export default {
     <tr>
       <td>refresherTriggered</td>
       <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>fasle</code></td>
+      <td style={{ textAlign: "center"}}><code>false</code></td>
       <td style={{ textAlign: "center"}}>否</td>
       <td>设置当前下拉刷新状态，true 表示下拉刷新已经被触发，false 表示下拉刷新未被触发</td>
     </tr>
