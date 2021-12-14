@@ -1,6 +1,6 @@
 import { Component, Prop, h, ComponentInterface, Host, Listen, Event, EventEmitter } from '@stencil/core'
+import { navigateTo, navigateBack, redirectTo, reLaunch, switchTab } from '@tarojs/taro'
 import classNames from 'classnames'
-const Taro = require('@tarojs/taro')
 
 /**
  * Navigator组件参数
@@ -54,27 +54,27 @@ export class Navigator implements ComponentInterface {
     let promise: Promise<any> = Promise.resolve()
     switch (openType) {
       case 'navigate':
-        promise = Taro.navigateTo({
+        promise = navigateTo({
           url: this.url
         })
         break
       case 'redirect':
-        promise = Taro.redirectTo({
+        promise = redirectTo({
           url: this.url
         })
         break
       case 'switchTab':
-        promise = Taro.switchTab({
+        promise = switchTab({
           url: this.url
         })
         break
       case 'reLaunch':
-        promise = Taro.reLaunch({
+        promise = reLaunch({
           url: this.url
         })
         break
       case 'navigateBack':
-        promise = Taro.navigateBack({
+        promise = navigateBack({
           delta: this.delta
         })
         break

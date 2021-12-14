@@ -8,6 +8,10 @@ export const config: Config = {
   plugins: [
     sass()
   ],
+  nodeResolve: {
+    // @ts-ignore
+    mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
+  },
   outputTargets: [
     {
       type: 'dist',

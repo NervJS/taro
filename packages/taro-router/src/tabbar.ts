@@ -1,7 +1,6 @@
-import { AppConfig } from '@tarojs/taro'
+// @ts-nocheck
+import { AppConfig, initTabBarApis } from '@tarojs/taro'
 import { history } from './history'
-
-const Taro = require('@tarojs/taro-h5')
 
 export function initTabbar (config: AppConfig) {
   if (config.tabBar == null) {
@@ -28,5 +27,5 @@ export function initTabbar (config: AppConfig) {
   const container = document.getElementById('container')
   // eslint-disable-next-line no-unused-expressions
   container?.appendChild(tabbar)
-  Taro.initTabBarApis(config)
+  initTabBarApis(config)
 }
