@@ -24,7 +24,7 @@ const baseConfig = {
     }),
     resolve({
       preferBuiltins: false,
-      mainFields: ['module', 'js-next', 'main']
+      mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }),
     postcss(),
     babel({
