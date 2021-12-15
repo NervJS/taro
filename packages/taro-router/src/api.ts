@@ -50,7 +50,7 @@ function processNavigateUrl (option: Option) {
   return pathPieces
 }
 
-async function navigate (option: Option | NavigateBackOption, method: 'navigateTo' | 'navigateBack' | 'redirectTo' | 'reLaunch') {
+async function navigate (option: Option | NavigateBackOption, method: 'navigateTo' | 'navigateBack' | 'switchTab' | 'redirectTo' | 'reLaunch') {
   return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
     const { success, complete, fail } = option
     const unListen = history.listen(() => {
@@ -67,7 +67,10 @@ async function navigate (option: Option | NavigateBackOption, method: 'navigateT
         const state = { timestamp: Date.now() }
         if (method === 'navigateTo') {
           history.push(pathPieces, state)
-        } else if (method === 'redirectTo') {
+        } else if (method === 'redirectTo' || method === 'switchTab') {
+          history.replace(pathPieces, state)
+        } else if (method === 'reLaunch') {
+          stacks.delta = stacks.length
           history.replace(pathPieces, state)
         } else if (method === 'reLaunch') {
           stacks.delta = stacks.length
@@ -90,7 +93,7 @@ export function navigateTo (option: Taro.navigateTo.Option): ReturnType<typeof T
   return navigate(option, 'navigateTo')
 }
 
-export function redirectTo (option: Taro.redirectTo.Option): ReturnType<typeof Taro.reLaunch> {
+export function redirectTo (option: Taro.redirectTo.Option): ReturnType<typeof Taro.redirectTo> {
   return navigate(option, 'redirectTo')
 }
 
@@ -102,7 +105,7 @@ export function navigateBack (options: Taro.navigateBack.Option = { delta: 1 }):
 }
 
 export function switchTab (option: Taro.switchTab.Option): ReturnType<typeof Taro.switchTab> {
-  return redirectTo(option)
+  return navigate(option, 'switchTab')
 }
 
 export function reLaunch (option: Taro.reLaunch.Option): ReturnType<typeof Taro.reLaunch> {
