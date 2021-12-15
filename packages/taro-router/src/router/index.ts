@@ -124,7 +124,9 @@ export function createRouter (
           return showPage(stacks.getItem(prevIndex), pageConfig, prevIndex)
         }
       } else {
-        unloadPage(currentPage)
+        const delta = stacks.getDelta(pathname)
+        // NOTE: 页面路由记录并不会清空，只是移除掉缓存的 stack 以及页面
+        unloadPage(currentPage, delta)
       }
       shouldLoad = true
     }
