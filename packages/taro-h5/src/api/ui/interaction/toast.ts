@@ -40,13 +40,18 @@ export default class Toast {
       background: 'rgba(17, 17, 17, 0.7)'
     },
     successStyle: {
-      margin: '0',
-      'vertical-align': 'middle',
-      'font-family': 'taro',
-      '-webkit-font-smoothing': 'antialiased',
-      color: '#FFFFFF',
-      'font-size': '55px',
-      'line-height': '1'
+      margin: '6px auto',
+      width: '38px',
+      height: '38px',
+      background: 'transparent url(data:image/svg+xml;base64,PHN2ZyB0PSIxNjM5NTQ4OTYzMjA0IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjQzNDgiIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48cGF0aCBkPSJNMjE5Ljk1MiA1MTIuNTc2bDIxMC40MzIgMjEwLjQzMi00NS4yNDggNDUuMjU2LTIxMC40MzItMjEwLjQzMnoiIHAtaWQ9IjQzNDkiIGZpbGw9IiNmZmZmZmYiPjwvcGF0aD48cGF0aCBkPSJNNzk5LjY3MiAyNjIuMjY0bDQ1LjI1NiA0NS4yNTYtNDYwLjQ2NCA0NjAuNDY0LTQ1LjI1Ni00NS4yNTZ6IiBwLWlkPSI0MzUwIiBmaWxsPSIjZmZmZmZmIj48L3BhdGg+PC9zdmc+) no-repeat',
+      'background-size': '100%'
+    },
+    errrorStyle: {
+      margin: '6px auto',
+      width: '38px',
+      height: '38px',
+      background: 'transparent url(data:image/svg+xml;base64,PHN2ZyB0PSIxNjM5NTUxMDU1MTgzIiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjE0MDc2IiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PHBhdGggZD0iTTUxMiA2NEMyNjQuNTggNjQgNjQgMjY0LjU4IDY0IDUxMnMyMDAuNTggNDQ4IDQ0OCA0NDggNDQ4LTIwMC41OCA0NDgtNDQ4Uzc1OS40MiA2NCA1MTIgNjR6IG0wIDc1MmEzNiAzNiAwIDEgMSAzNi0zNiAzNiAzNiAwIDAgMS0zNiAzNnogbTUxLjgzLTU1MS45NUw1NDggNjM2YTM2IDM2IDAgMCAxLTcyIDBsLTE1LjgzLTM3MS45NWMtMC4xLTEuMzMtMC4xNy0yLjY4LTAuMTctNC4wNWE1MiA1MiAwIDAgMSAxMDQgMGMwIDEuMzctMC4wNyAyLjcyLTAuMTcgNC4wNXoiIHAtaWQ9IjE0MDc3IiBmaWxsPSIjZmZmZmZmIj48L3BhdGg+PC9zdmc+) no-repeat',
+      'background-size': '100%'
     },
     loadingStyle: {
       margin: '6px auto',
@@ -81,7 +86,7 @@ export default class Toast {
 
   create (options = {}, _type: 'loading' | 'toast' = 'toast') {
     // style
-    const { maskStyle, toastStyle, successStyle, loadingStyle, imageStyle, textStyle } = this.style
+    const { maskStyle, toastStyle, successStyle, errrorStyle, loadingStyle, imageStyle, textStyle } = this.style
 
     // configuration
     const config = {
@@ -109,12 +114,11 @@ export default class Toast {
         'background-image': `url(${config.image})`
       }))
     } else {
-      const iconStyle = config.icon === 'loading' ? loadingStyle : successStyle
+      const iconStyle = config.icon === 'loading' ? loadingStyle : config.icon === 'error' ? errrorStyle : successStyle
       this.icon.setAttribute('style', inlineStyle({
         ...iconStyle,
         ...(config.icon === 'none' ? { display: 'none' } : {})
       }))
-      if (config.icon !== 'loading') this.icon.textContent = ''
     }
 
     // toast
@@ -166,21 +170,19 @@ export default class Toast {
     this.mask.style.display = config.mask ? 'block' : 'none'
 
     // image
-    const { toastStyle, successStyle, loadingStyle, imageStyle } = this.style
+    const { toastStyle, successStyle, errrorStyle, loadingStyle, imageStyle } = this.style
     if (config.image) {
       this.icon.setAttribute('style', inlineStyle({
         ...imageStyle,
         'background-image': `url(${config.image})`
       }))
-      this.icon.textContent = ''
     } else {
       if (!config.image && config.icon) {
-        const iconStyle = config.icon === 'loading' ? loadingStyle : successStyle
+        const iconStyle = config.icon === 'loading' ? loadingStyle : config.icon === 'error' ? errrorStyle : successStyle
         this.icon.setAttribute('style', inlineStyle({
           ...iconStyle,
           ...(config.icon === 'none' ? { display: 'none' } : {})
         }))
-        this.icon.textContent = config.icon === 'loading' ? '' : ''
       }
     }
 
