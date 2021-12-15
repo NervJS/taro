@@ -31,7 +31,7 @@ class Stacks {
 
   getLastIndex (pathname: string) {
     const list = [...this.stacks].reverse()
-    return list.findIndex(page => page.path?.replace(/\?.*/g, '') === pathname)
+    return list.findIndex((page, i) => i !== 0 && page.path?.replace(/\?.*/g, '') === pathname)
   }
 
   getDelta (pathname: string) {
