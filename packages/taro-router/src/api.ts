@@ -49,7 +49,7 @@ function processNavigateUrl (option: Option) {
   return pathPieces
 }
 
-async function navigate (option: Option | NavigateBackOption, method: 'navigateTo' | 'redirectTo' | 'navigateBack') {
+async function navigate (option: Option | NavigateBackOption, method: 'navigateTo' | 'navigateBack' | 'redirectTo' | 'reLaunch') {
   return new Promise<void>((resolve, reject) => {
     const { success, complete, fail } = option
     const unListen = history.listen(() => {
@@ -66,6 +66,9 @@ async function navigate (option: Option | NavigateBackOption, method: 'navigateT
         if (method === 'navigateTo') {
           history.push(pathPieces, state)
         } else if (method === 'redirectTo') {
+          history.replace(pathPieces, state)
+        } else if (method === 'reLaunch') {
+          stacks.delta = stacks.length
           history.replace(pathPieces, state)
         }
       } else if (method === 'navigateBack') {
@@ -96,13 +99,11 @@ export function navigateBack (options: NavigateBackOption = { delta: 1 }) {
 }
 
 export function switchTab (option: Option) {
-  // TODO: 清除掉所有的栈去目标页面
   return redirectTo(option)
 }
 
 export function reLaunch (option: Option) {
-  // TODO: 清除掉所有的栈去目标页面
-  return redirectTo(option)
+  return navigate(option, 'reLaunch')
 }
 
 export function getCurrentPages () {
