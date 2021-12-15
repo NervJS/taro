@@ -44,7 +44,7 @@ module.exports = {
       {
         label: '小程序',
         type: 'category',
-        items: ['come-from-miniapp', 'wxcloudbase', 'miniprogram-plugin']
+        items: ['come-from-miniapp', 'wxcloudbase', 'miniprogram-plugin', 'mini-troubleshooting']
       },
       'h5',
       {

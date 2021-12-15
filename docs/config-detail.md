@@ -582,6 +582,16 @@ module.exports = {
 
 指定 React 框架相关的代码是否使用开发环境（未压缩）代码，默认使用生产环境（压缩后）代码。
 
+### mini.hot
+
+> 自 v3.4.0 开始支持
+
+`boolean`
+
+默认值：`false`。
+
+是否注入兼容微信小程序热重载的代码。详情：[#10722](https://github.com/NervJS/taro/issues/10722#issuecomment-992247021)
+
 ### mini.minifyXML
 
 > 自 v3.0.8 开始支持
