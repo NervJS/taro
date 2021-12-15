@@ -27,6 +27,13 @@ if (typeof PRERENDER !== 'undefined') {
   global._prerender = inst
 }`
 
+  const hmr = !options.hot ? '' : `if (process.env.NODE_ENV !== 'production') {
+  const cache = __webpack_require__.c
+  Object.keys(cache).forEach(item => {
+    if (item.indexOf('${options.name}') !== -1) delete cache[item]
+  })
+}`
+
   if (typeof options.loaderMeta.modifyConfig === 'function') {
     options.loaderMeta.modifyConfig(config, source)
   }
@@ -38,6 +45,7 @@ ${config.enableShareTimeline ? 'component.enableShareTimeline = true' : ''}
 ${config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : ''}
 var inst = Page(createPageConfig(component, '${options.name}', {root:{cn:[]}}, config || {}))
 ${options.prerender ? prerender : ''}
+${hmr}
 `
 }
 

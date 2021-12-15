@@ -52,6 +52,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     framework = 'nerv',
     prerender,
     minifyXML = {},
+    hot = false,
 
     defineConstants = {},
     runtime = {},
@@ -165,7 +166,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     runtimePath,
     blended,
     isBuildNativeComp,
-    alias
+    alias,
+    hot
   }
   plugin.miniPlugin = !isBuildNativeComp ? getMiniPlugin(miniPluginOptions) : getBuildNativePlugin(miniPluginOptions)
 
