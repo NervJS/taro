@@ -72,6 +72,7 @@ describe('Button', () => {
     assert(node.loading === true)
     assert(node.size === 'mini')
     assert(node.disabled === false)
+    await delay(3000)
     const icon = node.getElementsByTagName('i')[0]
     assert(icon.className === 'weui-loading')
     assert(node.textContent === 'button')
