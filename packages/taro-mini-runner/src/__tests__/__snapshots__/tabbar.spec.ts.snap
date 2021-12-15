@@ -2145,7 +2145,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
   </image>
 </template>
 
-<template name=\\"tmpl_0_#text\\" data=\\"{{i:i}}\\">
+<template name=\\"tmpl_0_#text\\">
   <block>{{i.v}}</block>
 </template>
 
@@ -4368,7 +4368,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
   </image>
 </template>
 
-<template name=\\"tmpl_0_#text\\" data=\\"{{i:i}}\\">
+<template name=\\"tmpl_0_#text\\">
   <block>{{i.v}}</block>
 </template>
 

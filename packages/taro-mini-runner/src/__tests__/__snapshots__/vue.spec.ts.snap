@@ -1454,7 +1454,7 @@ require(\\"./taro\\");
   </image>
 </template>
 
-<template name=\\"tmpl_0_#text\\" data=\\"{{i:i}}\\">
+<template name=\\"tmpl_0_#text\\">
   <block>{{i.v}}</block>
 </template>
 

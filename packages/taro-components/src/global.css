@@ -1,0 +1,7 @@
+@import url(../../../node_modules/weui/dist/style/weui.min.css);
+
+.taro_page {
+  max-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}

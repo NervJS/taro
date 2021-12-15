@@ -1,5 +1,5 @@
 import { injectable } from 'inversify'
-import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase } from '@tarojs/shared'
+import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase, isFunction } from '@tarojs/shared'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
 import { eventSource } from './event-source'
@@ -167,7 +167,7 @@ export class TaroElement extends TaroNode {
 
     const payload = {
       path: `${this._path}.${toCamelCase(qualifiedName)}`,
-      value
+      value: isFunction(value) ? () => value : value
     }
 
     this.hooks.modifySetAttrPayload?.(this, qualifiedName, payload)
