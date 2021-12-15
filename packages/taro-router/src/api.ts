@@ -72,9 +72,6 @@ async function navigate (option: Option | NavigateBackOption, method: 'navigateT
         } else if (method === 'reLaunch') {
           stacks.delta = stacks.length
           history.replace(pathPieces, state)
-        } else if (method === 'reLaunch') {
-          stacks.delta = stacks.length
-          history.replace(pathPieces, state)
         }
       } else if (method === 'navigateBack') {
         stacks.delta = option.delta

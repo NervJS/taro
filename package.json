@@ -16,7 +16,7 @@
     "release:lerna": "lerna version --exact --no-git-tag-version --force-publish",
     "release:beta": "lerna publish --force-publish=* --exact --skip-temp-tag  --preid=beta --npm-tag=beta",
     "release": "npm-run-all build release:lerna && npm run changelog && node ./build/docs-version.js",
-    "test": "lerna run --scope @tarojs/cli --scope babel-preset-taro --scope @tarojs/components --scope @tarojs/taro-h5 --scope @tarojs/react --scope @tarojs/webpack-runner --scope @tarojs/mini-runner --scope @tarojs/runtime --scope @tarojs/taro-rn --scope @tarojs/components-rn test:ci",
+    "test": "lerna run --scope @tarojs/cli --scope babel-preset-taro --scope @tarojs/components --scope @tarojs/taro-h5 --scope @tarojs/react --scope @tarojs/webpack-runner --scope @tarojs/mini-runner --scope @tarojs/runtime --scope @tarojs/taro-rn --scope @tarojs/components-rn test:ci --parallel",
     "version": "npm-run-all version:lerna version:git version:changelog",
     "version:lerna": "lerna version ${npm_config_lerna_version} --exact --no-git-tag-version --force-publish --yes",
     "version:git": "git add . && git commit -m \"chore(release): publish ${npm_config_lerna_version}\"",
