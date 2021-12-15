@@ -54,6 +54,10 @@ declare module './index' {
   }
 
   interface TaroStatic {
+    Events: {
+      new (): TaroGeneral.Events
+    }
+
     // eventCenter
     eventCenter: TaroGeneral.Events
 
