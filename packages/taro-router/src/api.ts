@@ -22,11 +22,7 @@ function processNavigateUrl (option: Option) {
   const pathPieces = parsePath(option.url)
 
   // 处理自定义路由
-  Object.keys(routesAlias).forEach(key => {
-    if (addLeadingSlash(key) === addLeadingSlash(pathPieces.pathname)) {
-      pathPieces.pathname = routesAlias[key]
-    }
-  })
+  pathPieces.pathname = routesAlias.getAlias(addLeadingSlash(pathPieces.pathname))
 
   // 处理相对路径
   if (pathPieces?.pathname?.includes('./')) {

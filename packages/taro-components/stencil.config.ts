@@ -8,7 +8,13 @@ export const config: Config = {
   plugins: [
     sass()
   ],
+  rollupConfig: {
+    inputOptions: {
+      treeshake: true
+    }
+  },
   nodeResolve: {
+    preferBuiltins: false,
     // @ts-ignore
     mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
   },
