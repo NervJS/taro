@@ -1,5 +1,6 @@
 import { Config } from '@stencil/core'
 import { sass } from '@stencil/sass'
+
 const { jsWithTs: tsjPreset } = require('ts-jest/presets')
 
 export const config: Config = {
@@ -8,7 +9,13 @@ export const config: Config = {
   plugins: [
     sass()
   ],
+  rollupConfig: {
+    inputOptions: {
+      treeshake: true
+    }
+  },
   nodeResolve: {
+    preferBuiltins: false,
     // @ts-ignore
     mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
   },
@@ -43,6 +50,16 @@ export const config: Config = {
     },
     emulate: [{
       device: 'iPhone 8'
+    }]
+  },
+  rollupPlugins: {
+    after: [{
+      name: 'add-external',
+      options: opts => {
+        opts.external = ['@tarojs/taro']
+
+        return opts
+      }
     }]
   }
 }

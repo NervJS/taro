@@ -1,4 +1,5 @@
 import Taro from '@tarojs/api'
+
 import {
   history,
   createRouter

@@ -1,5 +1,5 @@
 import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitter, Watch, Element } from '@stencil/core'
-import { eventCenter } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 import classNames from 'classnames'
 
 function setTransform (nodeStyle, value) {
@@ -77,7 +77,7 @@ export class PullToRefresh implements ComponentInterface {
   componentDidLoad () {
     this.init()
     this._isMounted = true
-    eventCenter.on('__taroStartPullDownRefresh', ({ successHandler, errorHandler }) => {
+    Taro.eventCenter.on('__taroStartPullDownRefresh', ({ successHandler, errorHandler }) => {
       try {
         this.triggerPullDownRefresh(true)
         successHandler({
@@ -90,7 +90,7 @@ export class PullToRefresh implements ComponentInterface {
       }
     })
 
-    eventCenter.on('__taroStopPullDownRefresh', ({ successHandler, errorHandler }) => {
+    Taro.eventCenter.on('__taroStopPullDownRefresh', ({ successHandler, errorHandler }) => {
       try {
         this.triggerPullDownRefresh(false)
         successHandler({

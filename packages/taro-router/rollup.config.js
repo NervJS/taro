@@ -9,7 +9,7 @@ const cwd = __dirname
 const baseConfig = {
   input: path.join(cwd, 'src/index.ts'),
   external: d => {
-    return /^@tarojs\/runtime$/.test(d) || d.includes('@babel/runtime')
+    return /^@tarojs\/(runtime|taro)$/.test(d) || d.includes('@babel/runtime')
   },
   output: [
     {
@@ -21,7 +21,10 @@ const baseConfig = {
   ],
   plugins: [
     typescript(),
-    resolve(),
+    resolve({
+      preferBuiltins: false,
+      mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
+    }),
     commonjs(),
     babel({
       extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', 'ts', 'tsx'],
