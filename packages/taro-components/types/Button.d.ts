@@ -39,7 +39,7 @@ interface ButtonProps extends StandardProps {
   formType?: keyof ButtonProps.formType
 
   /** 微信开放能力
-   * @supported weapp
+   * @supported weapp, alipay, qq
    */
   openType?: ButtonProps.openType
 
