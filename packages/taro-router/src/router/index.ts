@@ -148,7 +148,7 @@ export function createRouter (
   }
 
   if (history.location.pathname === '/') {
-    history.replace(prependBasename((config.entryPagePath || routes[0].path) as string + history.location.search))
+    history.replace(prependBasename((config.entryPagePath || routes[0].path?.[0]) as string + history.location.search))
   }
 
   render({ location: history.location, action: LocationAction.Push })
