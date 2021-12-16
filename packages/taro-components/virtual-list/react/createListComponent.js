@@ -2,12 +2,11 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-void */
 /* eslint-disable no-return-assign */
+import Taro from '@tarojs/taro'
 import { getRTLOffsetType } from '../domHelpers'
 import { memoizeOne } from '../memoize'
 import { createElement, PureComponent } from 'react'
 import { cancelTimeout, requestTimeout } from '../timer'
-
-const Taro = require('@tarojs/taro')
 
 const IS_SCROLLING_DEBOUNCE_INTERVAL = 200
 
