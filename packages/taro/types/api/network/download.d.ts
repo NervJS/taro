@@ -58,6 +58,12 @@ declare module '../../index' {
       /** 已经下载的数据长度，单位 Bytes */
       totalBytesWritten: number
     }
+
+    type DownloadTaskPromise = Promise<DownloadTask> & {
+      headersReceive: DownloadTask['onHeadersReceived'],
+      progress: DownloadTask['onProgressUpdate'],
+      abort: DownloadTask['abort']
+    }
   }
 
   interface DownloadTask {
@@ -121,6 +127,6 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/wx.downloadFile.html
      */
-    downloadFile(option: downloadFile.Option): DownloadTask
+    downloadFile(option: downloadFile.Option): DownloadTask.DownloadTaskPromise
   }
 }

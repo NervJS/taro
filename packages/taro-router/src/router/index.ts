@@ -14,7 +14,7 @@ import { init, routerConfig } from './init'
 import { hidePage, loadPage, showPage, unloadPage } from './page'
 import { qs } from './qs'
 import stacks from './stack'
-import { addLeadingSlash, isTabBar, setRoutesAlias } from '../utils'
+import { addLeadingSlash, isTabBar, routesAlias } from '../utils'
 
 /**
  * TODO
@@ -32,7 +32,7 @@ export interface RouterConfig extends AppConfig {
   router: {
     mode: 'hash' | 'browser'
     basename: string,
-    customRoutes?: Record<string, string>,
+    customRoutes?: Record<string, string | string[]>,
     pathname: string,
     forcePath?: string
   },
@@ -47,15 +47,14 @@ export function createRouter (
   init(config)
 
   const routes: Routes = []
-  const alias = config.router.customRoutes ?? {}
   const runtimeHooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
 
-  setRoutesAlias(alias)
+  routesAlias.set(config.router.customRoutes)
   for (let i = 0; i < config.routes.length; i++) {
     const route = config.routes[i]
     const path = addLeadingSlash(route.path)
     routes.push({
-      path: alias[path] || path,
+      path: routesAlias.getAll(path),
       action: route.load
     })
   }
@@ -82,7 +81,7 @@ export function createRouter (
     const pageConfig = config.routes.find(r => {
       const path = addLeadingSlash(r.path)
       const urlPath = stripBasename(location.pathname, routerConfig.router.basename)
-      return path === urlPath || alias[path] === urlPath
+      return path === urlPath || routesAlias.getConfig(path)?.includes(urlPath)
     })
     let enablePullDownRefresh = false
 
@@ -149,7 +148,7 @@ export function createRouter (
   }
 
   if (history.location.pathname === '/') {
-    history.replace(prependBasename((config.entryPagePath || routes[0].path) as string + history.location.search))
+    history.replace(prependBasename((config.entryPagePath || routes[0].path?.[0]) as string + history.location.search))
   }
 
   render({ location: history.location, action: LocationAction.Push })

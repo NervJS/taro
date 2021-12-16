@@ -1374,7 +1374,7 @@ declare module '../../index' {
     /** 阴影的模糊级别 */
     shadowBlur: number
     /** 阴影的颜色 */
-    shadowColor: number
+    shadowColor: string
     /** 阴影相对于形状在水平方向的偏移 */
     shadowOffsetX: number
     /** 阴影相对于形状在竖直方向的偏移 */

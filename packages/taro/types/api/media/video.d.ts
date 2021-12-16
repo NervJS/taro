@@ -191,6 +191,6 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.chooseVideo.html
      */
-    chooseVideo(option: chooseVideo.Option): Promise<void>
+    chooseVideo(option: chooseVideo.Option): Promise<chooseVideo.SuccessCallbackResult>
   }
 }

@@ -94,7 +94,7 @@ declare module '../../index' {
     ): void
 
     /** 取消监听罗盘数据变化事件，参数为空，则取消所有的事件监听。
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/compass/wx.offCompassChange.html
      */
     offCompassChange(
