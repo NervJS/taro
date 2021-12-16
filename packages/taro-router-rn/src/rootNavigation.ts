@@ -60,7 +60,7 @@ export function navigate (option: NavigateOption | NavigateBackOption, method: N
       navigationRef.current?.dispatch(StackActions.push(routeParam.pageName, routeParam.params))
     } else if (method === 'redirectTo') {
       navigationRef.current?.dispatch(StackActions.replace(routeParam.pageName, routeParam.params))
-    } else if (method === 'switchTab') {
+    } else if (method === 'switchTab' || (method === 'reLaunch' && isTabPage(path))) {
       const states = navigationRef.current?.getRootState()
       if (states?.routes[0].name !== 'tabNav') {
         states && states?.routes.length > 1 && navigationRef.current?.dispatch(StackActions.popToTop())
@@ -72,15 +72,22 @@ export function navigate (option: NavigateOption | NavigateBackOption, method: N
     } else if (method === 'navigateBack') {
       const number = (option as NavigateBackOption).delta ? (option as NavigateBackOption).delta : 1
       const states = navigationRef.current?.getRootState()
-      const index = number && ((states && states.index < number) ? states?.index : number)
-      navigationRef.current?.dispatch(StackActions.pop(index))
+      if (states?.index === 0) {
+        errMsg = 'navigateBack:fail cannot navigate back at first page.'
+      } else {
+        const index = number && ((states && states.index < number) ? states?.index : number)
+        navigationRef.current?.dispatch(StackActions.pop(index))
+      }
     } else if (method === 'reLaunch') {
       if (isTabPage()) {
-        isTabPage(path)
-          ? navigationRef.current?.navigate(routeParam.pageName, routeParam.params)
-          : navigationRef.current?.dispatch(StackActions.push(routeParam.pageName, routeParam.params))
+        // tabbar to stack page
+        navigationRef.current?.dispatch(StackActions.replace(routeParam.pageName, routeParam.params))
       } else {
-        navigationRef.current?.dispatch(StackActions.popToTop())
+        // stack to stack page
+        const states = navigationRef.current?.getRootState()
+        if (states?.index !== 0) {
+          navigationRef.current?.dispatch(StackActions.popToTop())
+        }
         navigationRef.current?.dispatch(StackActions.replace(routeParam.pageName, routeParam.params))
       }
     }
@@ -112,7 +119,7 @@ export function isTabPage (path = ''): boolean {
   const tabPages = getTabBarPages()
   let pageName = ''
   if (path) {
-    pageName = camelCase(path.startsWith('/') ? path : `/${path}`)
+    pageName = camelCase((path.startsWith('/') ? path : `/${path}`).split('?')[0])
   } else {
     const route: Record<string, any> = navigationRef.current?.getCurrentRoute() || {}
     pageName = route?.name || ''
@@ -129,7 +136,7 @@ export function getCurrentRoute () {
       if (item.name === 'tabNav') {
         const index = item.state?.index ?? 0
         const tabRoutes: Record<string, any>[] = item.state?.routes ?? []
-        tabRoutes && routeKeys.push(tabRoutes[index].key)
+        tabRoutes?.[index] && routeKeys.push(tabRoutes[index].key)
       } else {
         routeKeys.push(item.key)
       }

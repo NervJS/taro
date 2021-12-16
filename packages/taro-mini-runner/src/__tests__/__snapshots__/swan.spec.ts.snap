@@ -1356,7 +1356,22 @@ require(\\"./taro\\");
 <template name=\\"tmpl_0_static-text\\">
   <text selectable=\\"{{ xs.b(i.selectable,false) }}\\" space=\\"{{ i.space }}\\" decode=\\"{{ xs.b(i.decode,false) }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\"  id=\\"{{i.uid}}\\">
     <block s-for=\\"{{i.cn}}\\" s-key=\\"uid\\">
-      <block>{{i.cn[index].v}}</block>
+      <block s-if=\\"item.nn === '#text'\\">{{item.v}}</block>
+      <text s-else id=\\"{{item.uid}}\\" selectable=\\"{{xs.b(item.selectable,false)}}\\" space=\\"{{item.space}}\\" decode=\\"{{xs.b(item.decode,false)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+        <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+          <block s-if=\\"item.nn === '#text'\\">{{item.v}}</block>
+          <text s-else id=\\"{{item.uid}}\\" selectable=\\"{{xs.b(item.selectable,false)}}\\" space=\\"{{item.space}}\\" decode=\\"{{xs.b(item.decode,false)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+            <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+              <block s-if=\\"item.nn === '#text'\\">{{item.v}}</block>
+              <text s-else id=\\"{{item.uid}}\\" selectable=\\"{{xs.b(item.selectable,false)}}\\" space=\\"{{item.space}}\\" decode=\\"{{xs.b(item.decode,false)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                  <block>{{i.cn[index].v}}</block>
+                </block>
+              </text>
+            </block>
+          </text>
+        </block>
+      </text>
     </block>
   </text>
 </template>
@@ -1364,7 +1379,22 @@ require(\\"./taro\\");
 <template name=\\"tmpl_0_text\\">
   <text selectable=\\"{{ xs.b(i.selectable,false) }}\\" space=\\"{{ i.space }}\\" decode=\\"{{ xs.b(i.decode,false) }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block s-for=\\"{{i.cn}}\\" s-key=\\"uid\\">
-      <block>{{i.cn[index].v}}</block>
+      <block s-if=\\"item.nn === '#text'\\">{{item.v}}</block>
+      <text s-else id=\\"{{item.uid}}\\" selectable=\\"{{xs.b(item.selectable,false)}}\\" space=\\"{{item.space}}\\" decode=\\"{{xs.b(item.decode,false)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+        <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+          <block s-if=\\"item.nn === '#text'\\">{{item.v}}</block>
+          <text s-else id=\\"{{item.uid}}\\" selectable=\\"{{xs.b(item.selectable,false)}}\\" space=\\"{{item.space}}\\" decode=\\"{{xs.b(item.decode,false)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+            <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+              <block s-if=\\"item.nn === '#text'\\">{{item.v}}</block>
+              <text s-else id=\\"{{item.uid}}\\" selectable=\\"{{xs.b(item.selectable,false)}}\\" space=\\"{{item.space}}\\" decode=\\"{{xs.b(item.decode,false)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                <block s-for=\\"{{item.cn}}\\" s-key=\\"uid\\">
+                  <block>{{i.cn[index].v}}</block>
+                </block>
+              </text>
+            </block>
+          </text>
+        </block>
+      </text>
     </block>
   </text>
 </template>
@@ -1540,7 +1570,7 @@ require(\\"./taro\\");
   </canvas>
 </template>
 
-<template name=\\"tmpl_0_#text\\" data=\\"{{{ i:i }}}\\">
+<template name=\\"tmpl_0_#text\\">
   <block>{{i.v}}</block>
 </template>
 

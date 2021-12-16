@@ -1,16 +1,18 @@
 import { mergeWith } from 'lodash'
 import { join } from 'path'
 import resolve from 'rollup-plugin-node-resolve'
-import common from 'rollup-plugin-commonjs'
+import typescript from 'rollup-plugin-typescript2'
+import commonjs from 'rollup-plugin-commonjs'
 import alias from 'rollup-plugin-alias'
 import postcss from 'rollup-plugin-postcss'
+
 import exportNameOnly from './build/rollup-plugin-export-name-only'
 
 const babel = require('@rollup/plugin-babel').default
 
 const cwd = __dirname
 const baseConfig = {
-  external: ['nervjs', '@tarojs/runtime', 'react-dom'],
+  external: ['@tarojs/runtime', '@tarojs/taro'],
   output: {
     format: 'cjs',
     sourcemap: false,
@@ -22,10 +24,11 @@ const baseConfig = {
     }),
     resolve({
       preferBuiltins: false,
-      mainFields: ['module', 'js-next', 'main']
+      mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }),
     postcss(),
     babel({
+      babelHelpers: 'bundled',
       babelrc: false,
       presets: [
         ['@babel/preset-env', {
@@ -40,18 +43,27 @@ const baseConfig = {
         }]
       ]
     }),
-    common()
+    commonjs(),
+    typescript({
+      useTsconfigDeclarationDir: true
+    })
   ]
 }
 
 const variesConfig = [{
-  input: 'src/api/index.js',
+  input: 'src/api/index.ts',
   output: {
     file: 'dist/taroApis.js'
   },
   plugins: exportNameOnly()
 }, {
-  input: 'src/index.cjs.js',
+  input: 'src/index.ts',
+  output: {
+    format: 'esm',
+    file: 'dist/index.js'
+  }
+}, {
+  input: 'src/index.ts',
   output: {
     file: 'dist/index.cjs.js'
   }

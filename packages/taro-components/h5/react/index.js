@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import reactifyWc from './utils/reactify-wc'
 import ReactInput from './components/input'
 
@@ -42,5 +43,5 @@ export const OfficialAccount = reactifyWc('taro-official-account-core')
 export const OpenData = reactifyWc('taro-open-data-core')
 export const WebView = reactifyWc('taro-web-view-core')
 export const NavigationBar = reactifyWc('taro-navigation-bar-core')
-export const Block = reactifyWc('taro-block-core')
+export const Block = Fragment
 export const CustomWrapper = reactifyWc('taro-custom-wrapper-core')

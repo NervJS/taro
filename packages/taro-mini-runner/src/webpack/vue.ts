@@ -58,7 +58,10 @@ export function customVueChain (chain) {
 
             return el
           }
-        }]
+        }],
+        mustUseProp: function () {
+          return false
+        }
       }
     })
 }

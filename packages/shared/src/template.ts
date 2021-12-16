@@ -76,6 +76,7 @@ export class BaseTemplate {
   protected modifyLoopBody?: (child: string, nodeName: string) => string
   protected modifyLoopContainer?: (children: string, nodeName: string) => string
   protected modifyTemplateResult?: (res: string, nodeName: string, level: number, children: string) => string
+  protected modifyThirdPartyLoopBody?: (child: string, nodeName: string) => string
 
   public Adapter = weixinAdapter
   /** 组件列表 */
@@ -328,7 +329,7 @@ export class BaseTemplate {
 
   protected buildPlainTextTemplate (level: number): string {
     return `
-<template name="tmpl_${level}_#text" data="{{${this.dataKeymap('i:i')}}}">
+<template name="tmpl_${level}_#text">
   <block>{{i.${Shortcuts.Text}}}</block>
 </template>
 `
@@ -354,9 +355,13 @@ export class BaseTemplate {
       } else {
         if (!isSupportRecursive && supportXS && nestElements.has(compName) && level + 1 > nestElements.get(compName)!) return
 
-        const child = supportXS
+        let child = supportXS
           ? `<template is="{{xs.e(${isSupportRecursive ? 0 : 'cid+1'})}}" data="{{${data}}}" />`
           : `<template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${data}}}" />`
+
+        if (isFunction(this.modifyThirdPartyLoopBody)) {
+          child = this.modifyThirdPartyLoopBody(child, compName)
+        }
 
         template += `
 <template name="tmpl_${level}_${compName}">

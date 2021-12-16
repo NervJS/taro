@@ -39,9 +39,9 @@ interface ButtonProps extends StandardProps {
   formType?: keyof ButtonProps.formType
 
   /** 微信开放能力
-   * @supported weapp
+   * @supported weapp, alipay, qq
    */
-  openType?: ButtonProps.openType | string
+  openType?: ButtonProps.openType
 
   /** 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果
    * @default button-hover
