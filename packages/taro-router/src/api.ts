@@ -1,3 +1,4 @@
+import Taro from '@tarojs/taro'
 import { parsePath } from 'history'
 import stacks from './router/stack'
 import { history, prependBasename } from './history'
@@ -49,13 +50,14 @@ function processNavigateUrl (option: Option) {
   return pathPieces
 }
 
-async function navigate (option: Option | NavigateBackOption, method: 'navigateTo' | 'navigateBack' | 'redirectTo' | 'reLaunch') {
-  return new Promise<void>((resolve, reject) => {
+async function navigate (option: Option | NavigateBackOption, method: 'navigateTo' | 'navigateBack' | 'switchTab' | 'redirectTo' | 'reLaunch') {
+  return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
     const { success, complete, fail } = option
     const unListen = history.listen(() => {
-      success?.()
-      complete?.()
-      resolve()
+      const res = { errMsg: `${method}: ok` }
+      success?.(res)
+      complete?.(res)
+      resolve(res)
       unListen()
     })
 
@@ -65,7 +67,7 @@ async function navigate (option: Option | NavigateBackOption, method: 'navigateT
         const state = { timestamp: Date.now() }
         if (method === 'navigateTo') {
           history.push(pathPieces, state)
-        } else if (method === 'redirectTo') {
+        } else if (method === 'redirectTo' || method === 'switchTab') {
           history.replace(pathPieces, state)
         } else if (method === 'reLaunch') {
           stacks.delta = stacks.length
@@ -76,36 +78,38 @@ async function navigate (option: Option | NavigateBackOption, method: 'navigateT
         history.go(-option.delta)
       }
     } catch (error) {
-      fail?.(error)
-      complete?.()
-      reject(error)
+      const res = { errMsg: `${method}: fail ${error.message || error}` }
+      fail?.(res)
+      complete?.(res)
+      reject(res)
     }
   })
 }
 
-export function navigateTo (option: Option) {
+export function navigateTo (option: Taro.navigateTo.Option): ReturnType<typeof Taro.navigateTo> {
   return navigate(option, 'navigateTo')
 }
 
-export function redirectTo (option: Option) {
+export function redirectTo (option: Taro.redirectTo.Option): ReturnType<typeof Taro.redirectTo> {
   return navigate(option, 'redirectTo')
 }
 
-export function navigateBack (options: NavigateBackOption = { delta: 1 }) {
+export function navigateBack (options: Taro.navigateBack.Option = { delta: 1 }): ReturnType<typeof Taro.navigateBack> {
   if (!options.delta || options.delta < 1) {
     options.delta = 1
   }
-  return navigate(options, 'navigateBack')
+  return navigate(options as NavigateBackOption, 'navigateBack')
 }
 
-export function switchTab (option: Option) {
-  return redirectTo(option)
+export function switchTab (option: Taro.switchTab.Option): ReturnType<typeof Taro.switchTab> {
+  return navigate(option, 'switchTab')
 }
 
-export function reLaunch (option: Option) {
+export function reLaunch (option: Taro.reLaunch.Option): ReturnType<typeof Taro.reLaunch> {
   return navigate(option, 'reLaunch')
 }
 
-export function getCurrentPages () {
-  return stacks.get()
+export function getCurrentPages (): Taro.Page[] {
+  const pages = stacks.get()
+  return pages.map(e => ({ ...e, route: e.path || '' }))
 }

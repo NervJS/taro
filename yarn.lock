@@ -6665,6 +6665,17 @@
     "@types/babel__template" "*"
     "@types/babel__traverse" "*"
 
+"@types/babel__core@^7.1.7":
+  version "7.1.17"
+  resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.1.17.tgz#f50ac9d20d64153b510578d84f9643f9a3afbe64"
+  integrity sha512-6zzkezS9QEIL8yCBvXWxPTJPNuMeECJVxSOhxNY/jfq9LxOTHivaYTqr37n9LknWWRTIkzqH2UilS5QFvfa90A==
+  dependencies:
+    "@babel/parser" "^7.1.0"
+    "@babel/types" "^7.0.0"
+    "@types/babel__generator" "*"
+    "@types/babel__template" "*"
+    "@types/babel__traverse" "*"
+
 "@types/babel__generator@*":
   version "7.6.3"
   resolved "https://registry.yarnpkg.com/@types/babel__generator/-/babel__generator-7.6.3.tgz#f456b4b2ce79137f768aa130d2423d2f0ccfaba5"
@@ -6894,7 +6905,7 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@26.x", "@types/jest@^26.0.14":
+"@types/jest@^26.0.14":
   version "26.0.24"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.24.tgz#943d11976b16739185913a1936e0de0c4a7d595a"
   integrity sha512-E/X5Vib8BWqZNRlDxj9vYXhsDwPYbPINqKF9BsnSoon4RQ0D9moEuLD8txgyypFLH7J4+Lho9Nr/c8H0Fi+17w==
@@ -7016,9 +7027,9 @@
   integrity sha512-5qOlnZscTn4xxM5MeGXAMOsIOIKIbh9e85zJWfBRVPlRMEVawzoPhINYbRGkBZCI8LxvBe7tJCdWiarA99OZfQ==
 
 "@types/prettier@^2.0.0":
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-2.3.2.tgz#fc8c2825e4ed2142473b4a81064e6e081463d1b3"
-  integrity sha512-eI5Yrz3Qv4KPUa/nSIAi0h+qX0XyewOliug5F2QAtuRg6Kjg6jfmxe1GIwoIRhZspD1A0RP8ANrPwvEXXtRFog==
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-2.4.2.tgz#4c62fae93eb479660c3bd93f9d24d561597a8281"
+  integrity sha512-ekoj4qOQYp7CvjX8ZDBgN86w3MqQhLE1hczEJbEIjgFEumDy+na/4AJAbLXfgEWFNB2pKadM5rPFtuSGMWK7xA==
 
 "@types/prop-types@*":
   version "15.7.4"
@@ -11104,9 +11115,9 @@ camelcase@^4.0.0, camelcase@^4.1.0:
   integrity sha1-1UVjW+HjPFQmScaRc+Xeas+uNN0=
 
 camelcase@^6.0.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-6.2.0.tgz#924af881c9d525ac9d87f40d964e5cea982a1809"
-  integrity sha512-c7wVvbw3f37nuobQNtgsgG9POC9qMbNuMQmTCqZv23b6MIz0fcYpBiOlv9gEN/hdLdnZTDQhg6e9Dq5M1vKvfg==
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-6.2.1.tgz#250fd350cfd555d0d2160b1d51510eaf8326e86e"
+  integrity sha512-tVI4q5jjFV5CavAU8DXfza/TJcZutVKo/5Foskmsqcm0MsL91moHvwiGNnqaa2o6PF/7yT5ikDRcVcl8Rj6LCA==
 
 camelize@^1.0.0:
   version "1.0.0"
@@ -21275,7 +21286,7 @@ lodash.keys@^3.0.0:
     lodash.isarguments "^3.0.0"
     lodash.isarray "^3.0.0"
 
-lodash.memoize@4.x, lodash.memoize@^4.1.2:
+lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
   integrity sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4=
@@ -29216,9 +29227,9 @@ stack-utils@^1.0.1:
     escape-string-regexp "^2.0.0"
 
 stack-utils@^2.0.2:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/stack-utils/-/stack-utils-2.0.3.tgz#cd5f030126ff116b78ccb3c027fe302713b61277"
-  integrity sha512-gL//fkxfWUsIlFL2Tl42Cl6+HFALEaB1FU76I/Fy+oZjRreP7OPMXFlGbxM7NQsI0ZpUfw76sHnv0WNYuTb7Iw==
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/stack-utils/-/stack-utils-2.0.5.tgz#d25265fca995154659dbbfba3b49254778d2fdd5"
+  integrity sha512-xrQcmYhOsn/1kX+Vraq+7j4oE2j/6BFscZ0etmYg81xuM8Gq0022Pxb8+IqgOFUIaxHs0KaSb7T1+OegiNrNFA==
   dependencies:
     escape-string-regexp "^2.0.0"
 
@@ -30662,18 +30673,17 @@ trough@^1.0.0:
   dependencies:
     glob "^7.1.2"
 
-ts-jest@26.4.0:
-  version "26.4.0"
-  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-26.4.0.tgz#903c7827f3d3bc33efc2f91be294b164400c32e3"
-  integrity sha512-ofBzoCqf6Nv/PoWb/ByV3VNKy2KJSikamOBxvR3E6eVdIw10GwAXoyvMWXXjZJK2s6S27ZE8fI+JBTnGaovl6Q==
+ts-jest@26.5.5:
+  version "26.5.5"
+  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-26.5.5.tgz#e40481b6ee4dd162626ba481a2be05fa57160ea5"
+  integrity sha512-7tP4m+silwt1NHqzNRAPjW1BswnAhopTdc2K3HEkRZjF0ZG2F/e/ypVH0xiZIMfItFtD3CX0XFbwPzp9fIEUVg==
   dependencies:
-    "@types/jest" "26.x"
     bs-logger "0.x"
     buffer-from "1.x"
     fast-json-stable-stringify "2.x"
     jest-util "^26.1.0"
     json5 "2.x"
-    lodash.memoize "4.x"
+    lodash "4.x"
     make-error "1.x"
     mkdirp "1.x"
     semver "7.x"

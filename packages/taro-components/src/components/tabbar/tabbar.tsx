@@ -1,11 +1,11 @@
 import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitter, Element } from '@stencil/core'
+// @ts-nocheck
+import { eventCenter, switchTab } from '@tarojs/taro'
 import classNames from 'classnames'
 import resolvePathname from 'resolve-pathname'
+
 import { splitUrl } from '../../utils'
 import { TabbarItem } from './tabbar-item'
-
-// IGNORE: 由于 @tarojs/taro 与 @tarojs/components 中存在循环依赖，暂时使用 commonjs 引用
-const Taro = require('@tarojs/taro')
 
 // const removeLeadingSlash = str => str.replace(/^\.?\//, '')
 // const removeTrailingSearch = str => str.replace(/\?[\s\S]*$/, '')
@@ -160,7 +160,7 @@ export class Tabbar implements ComponentInterface {
 
   switchTab = (index: number) => {
     this.selectedIndex = index
-    Taro.switchTab({
+    switchTab({
       url: this.list[index].pagePath
     })
   }
@@ -310,29 +310,29 @@ export class Tabbar implements ComponentInterface {
   }
 
   bindEvent () {
-    Taro.eventCenter.on('__taroRouterChange', this.routerChangeHandler)
-    Taro.eventCenter.on('__taroSwitchTab', this.switchTabHandler)
-    Taro.eventCenter.on('__taroSetTabBarBadge', this.setTabBarBadgeHandler)
-    Taro.eventCenter.on('__taroRemoveTabBarBadge', this.removeTabBarBadgeHandler)
-    Taro.eventCenter.on('__taroShowTabBarRedDotHandler', this.showTabBarRedDotHandler)
-    Taro.eventCenter.on('__taroHideTabBarRedDotHandler', this.hideTabBarRedDotHandler)
-    Taro.eventCenter.on('__taroShowTabBar', this.showTabBarHandler)
-    Taro.eventCenter.on('__taroHideTabBar', this.hideTabBarHandler)
-    Taro.eventCenter.on('__taroSetTabBarStyle', this.setTabBarStyleHandler)
-    Taro.eventCenter.on('__taroSetTabBarItem', this.setTabBarItemHandler)
+    eventCenter.on('__taroRouterChange', this.routerChangeHandler)
+    eventCenter.on('__taroSwitchTab', this.switchTabHandler)
+    eventCenter.on('__taroSetTabBarBadge', this.setTabBarBadgeHandler)
+    eventCenter.on('__taroRemoveTabBarBadge', this.removeTabBarBadgeHandler)
+    eventCenter.on('__taroShowTabBarRedDotHandler', this.showTabBarRedDotHandler)
+    eventCenter.on('__taroHideTabBarRedDotHandler', this.hideTabBarRedDotHandler)
+    eventCenter.on('__taroShowTabBar', this.showTabBarHandler)
+    eventCenter.on('__taroHideTabBar', this.hideTabBarHandler)
+    eventCenter.on('__taroSetTabBarStyle', this.setTabBarStyleHandler)
+    eventCenter.on('__taroSetTabBarItem', this.setTabBarItemHandler)
   }
 
   removeEvent () {
-    Taro.eventCenter.off('__taroRouterChange', this.routerChangeHandler)
-    Taro.eventCenter.off('__taroSwitchTab', this.switchTabHandler)
-    Taro.eventCenter.off('__taroSetTabBarBadge', this.setTabBarBadgeHandler)
-    Taro.eventCenter.off('__taroRemoveTabBarBadge', this.removeTabBarBadgeHandler)
-    Taro.eventCenter.off('__taroShowTabBarRedDotHandler', this.showTabBarRedDotHandler)
-    Taro.eventCenter.off('__taroHideTabBarRedDotHandler', this.hideTabBarRedDotHandler)
-    Taro.eventCenter.off('__taroShowTabBar', this.showTabBarHandler)
-    Taro.eventCenter.off('__taroHideTabBar', this.hideTabBarHandler)
-    Taro.eventCenter.off('__taroSetTabBarStyle', this.setTabBarStyleHandler)
-    Taro.eventCenter.off('__taroSetTabBarItem', this.setTabBarItemHandler)
+    eventCenter.off('__taroRouterChange', this.routerChangeHandler)
+    eventCenter.off('__taroSwitchTab', this.switchTabHandler)
+    eventCenter.off('__taroSetTabBarBadge', this.setTabBarBadgeHandler)
+    eventCenter.off('__taroRemoveTabBarBadge', this.removeTabBarBadgeHandler)
+    eventCenter.off('__taroShowTabBarRedDotHandler', this.showTabBarRedDotHandler)
+    eventCenter.off('__taroHideTabBarRedDotHandler', this.hideTabBarRedDotHandler)
+    eventCenter.off('__taroShowTabBar', this.showTabBarHandler)
+    eventCenter.off('__taroHideTabBar', this.hideTabBarHandler)
+    eventCenter.off('__taroSetTabBarStyle', this.setTabBarStyleHandler)
+    eventCenter.off('__taroSetTabBarItem', this.setTabBarItemHandler)
   }
 
   componentDidLoad () {

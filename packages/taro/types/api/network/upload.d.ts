@@ -67,6 +67,12 @@ declare module '../../index' {
       /** 已经上传的数据长度，单位 Bytes */
       totalBytesSent: number
     }
+
+    type UploadTaskPromise = Promise<UploadTask> & {
+      headersReceive: UploadTask['onHeadersReceived'],
+      progress: UploadTask['onProgressUpdate'],
+      abort: UploadTask['abort']
+    }
   }
 
   /** 一个可以监听上传进度变化事件，以及取消上传任务的对象
@@ -166,6 +172,6 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/wx.uploadFile.html
      */
-    uploadFile(option: uploadFile.Option): Promise<uploadFile.SuccessCallbackResult & UploadTask> & UploadTask
+    uploadFile(option: uploadFile.Option): UploadTask.UploadTaskPromise
   }
 }
