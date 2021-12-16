@@ -632,6 +632,28 @@
           "id": "version-3.x/components/open/others"
         }
       ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "导航栏",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.x/components/navigation-bar"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "页面属性配置节点",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.x/components/page-meta"
+        }
+      ]
     }
   ],
   "version-3.x/API": [

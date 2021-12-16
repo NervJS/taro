@@ -3,6 +3,11 @@ title: PageMeta
 sidebar_label: PageMeta
 ---
 
+:::info
+在 Taro 中使用此组件，需要配合 [tarojs-plugin-platform-miniprogram 插件](https://github.com/baranwang/tarojs-plugin-platform-miniprogram)。
+相关讨论：[#6092](https://github.com/NervJS/taro/issues/6092)
+:::
+
 页面属性配置节点，用于指定页面的一些属性、监听页面事件。只能是页面内的第一个节点。可以配合 navigation-bar 组件一同使用。
 通过这个节点可以获得类似于调用 Taro.setBackgroundTextStyle Taro.setBackgroundColor 等接口调用的效果。
 

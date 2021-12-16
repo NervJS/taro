@@ -179,6 +179,12 @@ module.exports = {
       "components/open/open-data",
       "components/open/web-view",
       "components/open/others"
+    ],
+    "导航栏": [
+      "components/navigation-bar"
+    ],
+    "页面属性配置节点": [
+      "components/page-meta"
     ]
   },
   "API": {
