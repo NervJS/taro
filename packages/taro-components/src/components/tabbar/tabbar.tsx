@@ -1,11 +1,10 @@
 import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitter, Element } from '@stencil/core'
+import Taro from '@tarojs/taro'
 import classNames from 'classnames'
 import resolvePathname from 'resolve-pathname'
 
 import { splitUrl } from '../../utils'
 import { TabbarItem } from './tabbar-item'
-
-const Taro = require('@tarojs/taro')
 
 // const removeLeadingSlash = str => str.replace(/^\.?\//, '')
 // const removeTrailingSearch = str => str.replace(/\?[\s\S]*$/, '')
