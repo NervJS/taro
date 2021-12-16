@@ -20,8 +20,7 @@ const styles = StyleSheet.create({
 const INFINITEBUFFER = 2
 
 export interface CarouselState {
-  selectedIndex: number;
-  isScrolling: boolean;
+  selectedIndex: number; // ViewPager 使用的 Index
 }
 
 class Carousel extends React.Component<CarouselProps, CarouselState> {
@@ -40,15 +39,14 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
   viewPager = React.createRef<ViewPager>();
 
   private autoplayTimer: number;
+  private isScrolling: boolean;
 
   constructor(props: CarouselProps) {
     super(props)
-    const { children, selectedIndex } = this.props
-    const count = this.getChildrenCount(children)
-    const index = count > 1 ? Math.min(selectedIndex as number, count - 1) : 0
+    const { selectedIndex } = this.props
+    this.isScrolling = false
     this.state = {
-      isScrolling: false,
-      selectedIndex: index,
+      selectedIndex: this.getVirtualIndex(selectedIndex as number),
     }
   }
 
@@ -71,15 +69,14 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(props: CarouselProps): void {
-    const { selectedIndex } = props
-    const index = selectedIndex as number
-    if (selectedIndex !== this.state.selectedIndex) {
+    const { selectedIndex, infinite } = props
+    const index = this.getVirtualIndex(selectedIndex as number, infinite)
+    if (index !== this.state.selectedIndex) {
       this.goTo(index)
     }
   }
 
   public goTo(index: number): void {
-    this.setState({ selectedIndex: index })
     this.viewPager.current && this.viewPager.current.setPage(index)
   }
 
@@ -95,9 +92,10 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     }
   }
 
-  public getVirtualIndex(index: number): number {
-    const { infinite } = this.props
-    if (!infinite) return index
+  // infinite 默认取 props，如为 next props 需传入
+  public getVirtualIndex(index: number, infinite?: boolean): number {
+    const infi = infinite ?? this.props.infinite
+    if (!infi) return index
     return index + INFINITEBUFFER
   }
 
@@ -136,13 +134,14 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
       pages = <View>{children}</View>
     }
     const vpProps = {
-      initialPage: this.getVirtualIndex(selectedIndex),
+      initialPage: selectedIndex,
       showPageIndicator: false,
       onPageSelected: e => {
         const pos = e.nativeEvent.position
         const prevIndex = this.getIndex(this.state.selectedIndex, count)
-        this.setState({ selectedIndex: pos })
-        this.autoplay()
+        this.setState({ selectedIndex: pos }, () => {
+          this.autoplay()
+        })
         const actualIndex = this.getIndex(pos, count)
         if (this.props.afterChange && prevIndex !== actualIndex) {
           this.props.afterChange(actualIndex)
@@ -153,8 +152,8 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
         if (infinite) {
           if (pos === count + INFINITEBUFFER) {
             this.viewPager.current && this.viewPager.current.setPageWithoutAnimation(INFINITEBUFFER)
-          } else if (pos === INFINITEBUFFER - 2) {
-            this.viewPager.current && this.viewPager.current.setPageWithoutAnimation(count + INFINITEBUFFER - 1)
+          } else if (pos === INFINITEBUFFER - 1) {
+            this.viewPager.current && this.viewPager.current.setPageWithoutAnimation(count + INFINITEBUFFER)
           }
         }
       },
@@ -162,24 +161,16 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
         switch (e.nativeEvent.pageScrollState) {
           case 'dragging':
             this.autoplay(true)
-            this.setState({ isScrolling: true })
+            this.isScrolling = true
             break
-
           case 'idle':
-            this.setState({
-              isScrolling: false,
-            }, () => {
-              this.autoplay()
-              this.setState({ isScrolling: false })
-            })
-            break
-
-          case 'settling':
-
             this.autoplay()
-            this.setState({ isScrolling: false })
+            this.isScrolling = false
             break
-
+          case 'settling':
+            this.autoplay()
+            this.isScrolling = false
+            break
           default:
             break
         }
@@ -216,9 +207,9 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
       return
     }
     const { children, autoplay, infinite, autoplayInterval } = this.props
-    const { isScrolling, selectedIndex } = this.state
+    const { selectedIndex } = this.state
     const count = this.getChildrenCount(children)
-    if (!Array.isArray(children) || !autoplay || isScrolling) {
+    if (!Array.isArray(children) || !autoplay || this.isScrolling) {
       return
     }
 
@@ -228,7 +219,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
       let newIndex = selectedIndex < this.getVirtualIndex(count) ? selectedIndex + 1 : 0
       if (selectedIndex === count - 1) {
         newIndex = 0
-        if (!autoplay) {
+        if (!infinite) {
           clearTimeout(this.autoplayTimer)
           return
         }
