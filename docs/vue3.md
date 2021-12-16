@@ -8,6 +8,33 @@ Taro 可以使用 Vue 3 进行开发，开发者可以使用 `taro init` 命令�
 
 开发者可以自行选择使用 options 式配置或 [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html) 组织逻辑，浏览 [Vue 3 文档](https://v3.vuejs.org/) 以了解更多的 Vue3 改动。
 
+## CompilerOptions
+
+:::info
+Taro v3.4+ 开始支持
+:::
+
+传递给 VueLoader 的编译配置，编译配置细节请参阅 [Vue 文档](https://v3.vuejs.org/api/application-config.html#compileroptions)。
+
+Taro 中可以通过修改 `@tarojs/plugin-frame-vue3` 的配置项去设置 CompilerOptions：
+
+```js title="config/index.js"
+const config = {
+  plugins: [
+    ['@tarojs/plugin-framework-vue3', {
+      mini: {
+        compilerOptions: {
+          isCustomElement: tag => tag.includes("ec-canvas"),
+          whitespace: 'preserve'
+          // ...
+        }
+      }
+    }]
+  ]
+  // ...
+}
+```
+
 ## 其它限制
 
 * 小程序中不支持 `<style scoped>`，建议使用 cssModules 代替。[#6662](https://github.com/NervJS/taro/issues/6662)
