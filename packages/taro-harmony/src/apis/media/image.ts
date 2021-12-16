@@ -15,9 +15,11 @@ import { isNull } from '@tarojs/shared'
 import { callAsyncSuccess, callAsyncFail, validateParams } from '../utils'
 
 const image = require('@ohos.multimedia.image')
+const mediaLibrary = require('@ohos.multimedia.mediaLibrary')
 
 type GetImageInfo = typeof Taro.getImageInfo
 type CompressImage = typeof Taro.compressImage
+type PreviewImage = typeof Taro.previewImage
 
 interface IPackingOptionOHOS {
   format: string
@@ -25,11 +27,18 @@ interface IPackingOptionOHOS {
 }
 
 const getImageInfoSchema = {
-  url: 'string'
+  url: 'String'
 }
 
 const compressImageSchema = {
-  url: 'string'
+  url: 'String'
+}
+
+const previewImageSchema = {
+  urls: 'Array'
+  // showMenu: 'Boolean',
+  // current: 'String',
+  // referrerPolicy: 'String'
 }
 const getImageInfo: GetImageInfo = function (options) {
   return new Promise((resolve, reject) => {
@@ -89,7 +98,28 @@ const compressImage: CompressImage = function (options) {
   })
 }
 
+const previewImage: PreviewImage = function (options) {
+  return new Promise((resolve, reject) => {
+    try {
+      validateParams('previewImage', options, previewImageSchema)
+    } catch (error) {
+      const res = { errMsg: error.message }
+      return callAsyncFail(reject, res, options)
+    }
+
+    const { urls } = options
+
+    mediaLibrary.getMediaLibrary().startImagePreview(urls).then(() => {
+      const previewImageRes = { errMsg: 'previewImage success.' }
+      callAsyncSuccess(resolve, previewImageRes, options)
+    }).catch((err) => {
+      callAsyncFail(reject, err, options)
+    })
+  })
+}
+
 export {
   getImageInfo,
-  compressImage
+  compressImage,
+  previewImage
 }
