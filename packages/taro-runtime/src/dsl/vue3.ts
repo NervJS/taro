@@ -153,7 +153,7 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
           ...options
         }
         if (isBrowser) {
-          appInstance = app.mount('#app')
+          appInstance = app.mount('#' + config.appId || 'app')
         }
 
         // 把 App Class 上挂载的额外属性同步到全局 app 对象中

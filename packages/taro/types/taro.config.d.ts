@@ -349,6 +349,12 @@ declare module './index' {
      */
     components?: string[]
     /**
+     * 渲染页面的容器 id
+     * @default "app"
+     * @since 3.3.18
+     */
+    appId?: string
+    /**
      * 是否开启h5端路由动画功能，默认关闭
      * @supported h5
      * @since 3.3.18
