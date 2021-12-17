@@ -21,6 +21,7 @@ const nodeId = incrementId()
 @injectable()
 export class TaroNode extends TaroEventTarget {
   public uid: string
+  public sid: string
   public nodeType: NodeType
   public nodeName: string
   public parentNode: TaroNode | null = null
@@ -32,8 +33,9 @@ export class TaroNode extends TaroEventTarget {
     super()
     const impl = getNodeImpl()
     impl.bind(this)
-    this.uid = `_n_${nodeId()}`
-    eventSource.set(this.uid, this)
+    this.uid = `_n_${nodeId()}` // dom 节点 id，开发者可修改
+    this.sid = this.uid // dom 节点全局唯一 id，不可被修改
+    eventSource.set(this.sid, this)
   }
 
   private hydrate = (node: TaroNode) => () => hydrate(node as TaroElement)
@@ -45,6 +47,7 @@ export class TaroNode extends TaroEventTarget {
     while (this.childNodes.length > 0) {
       const child = this.childNodes[0]
       child.parentNode = null
+      eventSource.delete(child.sid)
       eventSource.delete(child.uid)
       this.childNodes.shift()
     }
@@ -161,7 +164,10 @@ export class TaroNode extends TaroEventTarget {
 
     this.enqueueUpdate(payload)
 
-    if (!eventSource.has(newChild.uid)) {
+    // 修复列表顺序变化时，部分列表项点击事件失效的问题：https://github.com/NervJS/taro/pull/7968
+    // insertBefore 时会先调用新节点的 remove 方法，此时会把此节点从 eventSource 删除，从而导致事件因 getElementById 找不到对应节点而不触发。
+    if (!eventSource.has(newChild.sid)) {
+      eventSource.set(newChild.sid, newChild)
       eventSource.set(newChild.uid, newChild)
     }
 
@@ -193,6 +199,7 @@ export class TaroNode extends TaroEventTarget {
       })
     }
     child.parentNode = null
+    eventSource.delete(child.sid)
     eventSource.delete(child.uid)
     // @TODO: eventSource memory overflow
     // child._empty()

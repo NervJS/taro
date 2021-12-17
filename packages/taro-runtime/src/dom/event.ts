@@ -112,7 +112,10 @@ export function eventHandler (event: MpEvent) {
 
   event.currentTarget ||= event.target
 
-  const node = getDocument().getElementById(event.currentTarget.id)
+  const currentTarget = event.currentTarget
+  const id = currentTarget.dataset?.sid as string /** sid */ || currentTarget.id /** uid */ || ''
+
+  const node = getDocument().getElementById(id)
   if (node) {
     const dispatch = () => {
       const e = createEvent(event, node)
