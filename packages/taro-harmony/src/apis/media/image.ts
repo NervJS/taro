@@ -1,14 +1,13 @@
 // HarmonyOS 图片模块首批接口从API version 7开始支持。
 // HarmonyOS 文档链接：https://developer.harmonyos.com/cn/docs/documentation/doc-references/js-apis-image-0000001122977382
 // WX 文档链接：https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.saveImageToPhotosAlbum.html
-// ❌ wx.saveImageToPhotosAlbum(Object object)
-// ❌ wx.previewMedia(Object object)
-// ❌ wx.previewImage(Object object)
+// ✅ wx.saveImageToPhotosAlbum(Object object)
+// ✅ wx.previewImage(Object object)
 // ✅ wx.getImageInfo(Object object)
 // ✅ wx.compressImage(Object object)
-// ❌ wx.chooseMessageFile(Object object)
-// ❌ wx.chooseMessageFile(Object object)
-// ❌ wx.chooseImage(Object object)
+// ✅ wx.chooseImage(Object object)
+// ❌ wx.chooseMessageFile(Object object) HarmonyOS不支持
+// ❌ wx.previewMedia(Object object)
 
 import Taro from '@tarojs/taro'
 import { isNull } from '@tarojs/shared'
@@ -20,10 +19,23 @@ const mediaLibrary = require('@ohos.multimedia.mediaLibrary')
 type GetImageInfo = typeof Taro.getImageInfo
 type CompressImage = typeof Taro.compressImage
 type PreviewImage = typeof Taro.previewImage
+type ChooseImage = typeof Taro.chooseImage
+type SaveImageToPhotosAlbum = typeof Taro.saveImageToPhotosAlbum
 
 interface IPackingOptionOHOS {
   format: string
   quality: number
+}
+
+interface IChooseImageOptionOHOS {
+  type: string
+  count: number
+}
+
+interface ISaveImageToPhotosAlbumOptionsOHOS {
+  src: string
+  mimeType: string
+  relativePath?: string
 }
 
 const getImageInfoSchema = {
@@ -40,6 +52,15 @@ const previewImageSchema = {
   // current: 'String',
   // referrerPolicy: 'String'
 }
+
+const chooseImageSchema = {
+  count: 'Number'
+}
+
+const saveImageToPhotosAlbumSchema = {
+  filePath: 'String'
+}
+
 const getImageInfo: GetImageInfo = function (options) {
   return new Promise((resolve, reject) => {
     try {
@@ -87,6 +108,7 @@ const compressImage: CompressImage = function (options) {
     }
 
     const packingOptionsOHOS: IPackingOptionOHOS = {
+      // TODO：需要获取文件名后缀
       format: 'image/jpeg',
       quality: quality
     }
@@ -106,14 +128,55 @@ const previewImage: PreviewImage = function (options) {
       const res = { errMsg: error.message }
       return callAsyncFail(reject, res, options)
     }
-
     const { urls } = options
-
     mediaLibrary.getMediaLibrary().startImagePreview(urls).then(() => {
       const previewImageRes = { errMsg: 'previewImage success.' }
       callAsyncSuccess(resolve, previewImageRes, options)
-    }).catch((err) => {
-      callAsyncFail(reject, err, options)
+    }).catch((error) => {
+      callAsyncFail(reject, error, options)
+    })
+  })
+}
+
+const chooseImage: ChooseImage = function (options = { count: 9 }) {
+  return new Promise((resolve, reject) => {
+    try {
+      validateParams('chooseImage', options, chooseImageSchema)
+    } catch (error) {
+      const res = { errMsg: error.message }
+      return callAsyncFail(reject, res, options)
+    }
+    const { count = 9 } = options
+    const chooseImageOptionsOHOS: IChooseImageOptionOHOS = {
+      type: 'image',
+      count: count
+    }
+    mediaLibrary.getMediaLibrary().startMediaSelect(chooseImageOptionsOHOS).then((value) => {
+      callAsyncSuccess(resolve, { tempFilePaths: value })
+    }).catch((error) => {
+      callAsyncFail(reject, error, options)
+    })
+  })
+}
+
+const saveImageToPhotosAlbum: SaveImageToPhotosAlbum = function (options) {
+  return new Promise((resolve, reject) => {
+    try {
+      validateParams('saveImageToPhotosAlbum', options, saveImageToPhotosAlbumSchema)
+    } catch (error) {
+      const res = { errMsg: error.message }
+      return callAsyncFail(reject, res, options)
+    }
+    const { filePath } = options
+    const saveImageToPhotosAlbumOptions: ISaveImageToPhotosAlbumOptionsOHOS = {
+      src: filePath,
+      // TODO：需要获取文件名后缀
+      mimeType: 'image/jpeg'
+    }
+    mediaLibrary.getMediaLibrary().storeMediaAsset(saveImageToPhotosAlbumOptions).then((value) => {
+      callAsyncSuccess(resolve, value, options)
+    }).catch((error) => {
+      callAsyncFail(reject, error, options)
     })
   })
 }
@@ -121,5 +184,7 @@ const previewImage: PreviewImage = function (options) {
 export {
   getImageInfo,
   compressImage,
-  previewImage
+  previewImage,
+  chooseImage,
+  saveImageToPhotosAlbum
 }
