@@ -235,6 +235,19 @@ declare module './index' {
     }
   }
 
+  interface RouterAnimate {
+    /**
+     * 动画切换时间，单位毫秒
+     * @default 300
+     */
+    duration?: number
+    /**
+     * 动画切换时间，单位毫秒
+     * @default 50
+     */
+    delay?: number
+  }
+
   interface AppConfig {
     /**
      * 小程序默认启动首页，未指定 entryPagePath 时，数组的第一项代表小程序的初始页面（首页）。
@@ -335,6 +348,12 @@ declare module './index' {
      * 接受一个数组，每一项都是字符串，来指定编译为原生小程序组件的组件入口
      */
     components?: string[]
+    /**
+     * 是否开启h5端路由动画功能，默认关闭
+     * @supported h5
+     * @since 3.3.18
+     */
+    animation?: RouterAnimate | boolean
   }
 
   interface Config extends PageConfig, AppConfig {
@@ -358,6 +377,7 @@ declare module './index' {
     PreloadRule: PreloadRule
     Permission: Permission
     AppConfig: AppConfig
+    RouterAnimate: RouterAnimate
     Config: Config
   }
 }

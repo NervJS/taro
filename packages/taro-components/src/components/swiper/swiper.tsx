@@ -283,7 +283,7 @@ export class Swiper implements ComponentInterface {
         observerUpdate (_swiper: ISwiper, e) {
           const target = e.target
           const className = target && typeof target.className === 'string' ? target.className : ''
-          if (className.includes('taro_page') && target.style.display === 'block') {
+          if (className.includes('taro_page') && target.style.display !== 'none') {
             if (that.autoplay && target.contains(_swiper.$el[0])) {
               _swiper.slideTo(that.current)
             }
