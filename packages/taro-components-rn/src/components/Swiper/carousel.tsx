@@ -77,7 +77,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
   }
 
   public goTo(index: number): void {
-    this.viewPager.current && this.viewPager.current.setPage(index)
+    this.viewPager.current?.setPage(index)
   }
 
   public getIndex(index: number, count: number): number {
@@ -151,9 +151,9 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
         const pos = e.nativeEvent.position
         if (infinite) {
           if (pos === count + INFINITE_BUFFER) {
-            this.viewPager.current && this.viewPager.current.setPageWithoutAnimation(INFINITE_BUFFER)
+            this.viewPager.current?.setPageWithoutAnimation(INFINITE_BUFFER)
           } else if (pos === INFINITE_BUFFER - 1) {
-            this.viewPager.current && this.viewPager.current.setPageWithoutAnimation(count + INFINITE_BUFFER)
+            this.viewPager.current?.setPageWithoutAnimation(count + INFINITE_BUFFER)
           }
         }
       },
