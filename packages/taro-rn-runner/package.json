@@ -56,7 +56,7 @@
     "fs-extra": "^8.0.1",
     "loader-utils": "^1.2.3",
     "lodash": "^4.17.11",
-    "mini-css-extract-plugin": "^0.7.0",
+    "mini-css-extract-plugin": "^0.8.0",
     "ora": "^3.4.0",
     "postcss-loader": "^3.0.0",
     "postcss-pxtransform": "2.0.4",
