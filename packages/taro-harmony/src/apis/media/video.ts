@@ -27,10 +27,10 @@ import { callAsyncSuccess, callAsyncFail, validateParams } from '../utils'
 
 const mediaLibrary = require('@ohos.multimedia.mediaLibrary')
 
-type ChooseVedio = typeof Taro.chooseVideo
+type ChooseVideo = typeof Taro.chooseVideo
 type SaveVideoToPhotosAlbum = typeof Taro.saveVideoToPhotosAlbum
 
-interface IChooseVedioOptionOHOS {
+interface IChooseVideoOptionOHOS {
   type: string
   count: number
 }
@@ -46,19 +46,19 @@ const saveVideoToPhotosAlbumSchema = {
 }
 
 // TODO: 1.返回属性补全 2.只支持从相册选择，补充摄像头拍摄功能
-const chooseVedio: ChooseVedio = function (options = {}) {
+const chooseVideo: ChooseVideo = function (options = {}) {
   return new Promise((resolve, reject) => {
     try {
-      validateParams('chooseVedio', [options], ['Object'])
+      validateParams('chooseVeide', [options], ['Object'])
     } catch (error) {
       const res = { errMsg: error.message }
       return callAsyncFail(reject, res, options)
     }
-    const chooseVedioOptionsOHOS: IChooseVedioOptionOHOS = {
+    const chooseVideoOptionsOHOS: IChooseVideoOptionOHOS = {
       type: 'video',
       count: 1
     }
-    mediaLibrary.getMediaLibrary().startMediaSelect(chooseVedioOptionsOHOS).then((value) => {
+    mediaLibrary.getMediaLibrary().startMediaSelect(chooseVideoOptionsOHOS).then((value) => {
       callAsyncSuccess(resolve, { tempFilePaths: value })
     }).catch((error) => {
       callAsyncFail(reject, error, options)
@@ -89,6 +89,6 @@ const saveVideoToPhotosAlbum: SaveVideoToPhotosAlbum = function (options) {
 }
 
 export {
-  chooseVedio,
+  chooseVideo,
   saveVideoToPhotosAlbum
 }
