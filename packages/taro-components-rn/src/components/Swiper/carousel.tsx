@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const INFINITEBUFFER = 2
+const INFINITE_BUFFER = 2
 
 export interface CarouselState {
   selectedIndex: number; // ViewPager 使用的 Index
@@ -83,12 +83,12 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
   public getIndex(index: number, count: number): number {
     const { infinite } = this.props
     if (!infinite) return index
-    if (index < INFINITEBUFFER) {
-      return count - INFINITEBUFFER + index
-    } else if (index > count + INFINITEBUFFER - 1) {
-      return index - count - INFINITEBUFFER
+    if (index < INFINITE_BUFFER) {
+      return count - INFINITE_BUFFER + index
+    } else if (index > count + INFINITE_BUFFER - 1) {
+      return index - count - INFINITE_BUFFER
     } else {
-      return index - INFINITEBUFFER
+      return index - INFINITE_BUFFER
     }
   }
 
@@ -96,7 +96,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
   public getVirtualIndex(index: number, infinite?: boolean): number {
     const infi = infinite ?? this.props.infinite
     if (!infi) return index
-    return index + INFINITEBUFFER
+    return index + INFINITE_BUFFER
   }
 
   render(): any {
@@ -118,7 +118,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
       const childrenArray = React.Children.toArray(children)
 
       if (infinite) {
-        for (let index = 0; index < INFINITEBUFFER; index++) {
+        for (let index = 0; index < INFINITE_BUFFER; index++) {
           childrenArray.push(React.cloneElement(children[index], { ref: null }))
           childrenArray.unshift(React.cloneElement(children[count - index - 1], { ref: null }))
         }
@@ -150,10 +150,10 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
       onPageScroll: (e) => {
         const pos = e.nativeEvent.position
         if (infinite) {
-          if (pos === count + INFINITEBUFFER) {
-            this.viewPager.current && this.viewPager.current.setPageWithoutAnimation(INFINITEBUFFER)
-          } else if (pos === INFINITEBUFFER - 1) {
-            this.viewPager.current && this.viewPager.current.setPageWithoutAnimation(count + INFINITEBUFFER)
+          if (pos === count + INFINITE_BUFFER) {
+            this.viewPager.current && this.viewPager.current.setPageWithoutAnimation(INFINITE_BUFFER)
+          } else if (pos === INFINITE_BUFFER - 1) {
+            this.viewPager.current && this.viewPager.current.setPageWithoutAnimation(count + INFINITE_BUFFER)
           }
         }
       },
