@@ -38,6 +38,11 @@ interface ISaveImageToPhotosAlbumOptionsOHOS {
   relativePath?: string
 }
 
+interface IPreviewImagesOptionsOHOS {
+  images: Array<string>
+  index: number
+}
+
 const getImageInfoSchema = {
   url: 'String'
 }
@@ -128,8 +133,12 @@ const previewImage: PreviewImage = function (options) {
       const res = { errMsg: error.message }
       return callAsyncFail(reject, res, options)
     }
-    const { urls } = options
-    mediaLibrary.getMediaLibrary().startImagePreview(urls).then(() => {
+    const { urls, current } = options
+    const previewImageOptions: IPreviewImagesOptionsOHOS = {
+      images: urls,
+      index: current ? parseInt(current) : 0
+    }
+    mediaLibrary.getMediaLibrary().startImagePreview(previewImageOptions).then(() => {
       const previewImageRes = { errMsg: 'previewImage success.' }
       callAsyncSuccess(resolve, previewImageRes, options)
     }).catch((error) => {

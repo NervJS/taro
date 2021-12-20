@@ -1,32 +1,38 @@
+import Taro from '@tarojs/taro'
 import { callAsyncSuccess, callAsyncFail, validateParams } from '../utils'
 
 const mediaLibrary = require('@ohos.multimedia.mediaLibrary')
 
-interface ISaveMediaOptionsOHOS {
-  src: string
-  mimeType: string
-  relativePath?: string
+type PreviewMedia = typeof Taro.previewMedia
+
+interface IPreviewImagesOptionsOHOS {
+  images: Array<string>
+  index: number
 }
 
-const saveMediaSchema = {
-  filePath: 'String'
+const previewMediaSchema = {
+  sources: 'Atring'
 }
 
-const saveMedia = function (options: TaroGeneral.IAnyObject, mimeType: string) {
+// 扩展支持预览video
+const previewMedia: PreviewMedia = function (options) {
   return new Promise((resolve, reject) => {
     try {
-      validateParams('saveImageToPhotosAlbum', options, saveMediaSchema)
+      validateParams('previewMedia', options, previewMediaSchema)
     } catch (error) {
       const res = { errMsg: error.message }
       return callAsyncFail(reject, res, options)
     }
-    const { filePath } = options
-    const saveMediaOptions: ISaveMediaOptionsOHOS = {
-      src: filePath,
-      // TODO：需要获取文件名后缀
-      mimeType
+    const { sources, current } = options
+    const urls: Array<string> = []
+    for (const s of sources) {
+      urls.push(s.url)
     }
-    mediaLibrary.getMediaLibrary().storeMediaAsset(saveMediaOptions).then((value) => {
+    const previewImageOptions: IPreviewImagesOptionsOHOS = {
+      images: urls,
+      index: current || 0
+    }
+    mediaLibrary.getMediaLibrary().storeMediaAsset(previewImageOptions).then((value) => {
       callAsyncSuccess(resolve, value, options)
     }).catch((error) => {
       callAsyncFail(reject, error, options)
@@ -35,5 +41,5 @@ const saveMedia = function (options: TaroGeneral.IAnyObject, mimeType: string) {
 }
 
 export {
-  saveMedia
+  previewMedia
 }
