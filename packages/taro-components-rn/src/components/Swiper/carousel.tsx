@@ -7,7 +7,7 @@
  */
 import ViewPager from 'react-native-pager-view'
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Platform } from 'react-native'
 import { CarouselProps } from './PropsType'
 import defaultPagination from './pagination'
 
@@ -18,6 +18,11 @@ const styles = StyleSheet.create({
 })
 
 const INFINITE_BUFFER = 2
+
+const exchangePos = Platform.select({
+  ios: INFINITE_BUFFER - 1,
+  android: INFINITE_BUFFER - 2
+}) as number
 
 export interface CarouselState {
   selectedIndex: number; // ViewPager 使用的 Index
@@ -152,8 +157,8 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
         if (infinite) {
           if (pos === count + INFINITE_BUFFER) {
             this.viewPager.current?.setPageWithoutAnimation(INFINITE_BUFFER)
-          } else if (pos === INFINITE_BUFFER - 1) {
-            this.viewPager.current?.setPageWithoutAnimation(count + INFINITE_BUFFER)
+          } else if (pos === exchangePos) {
+            this.viewPager.current?.setPageWithoutAnimation(count + exchangePos + 1)
           }
         }
       },
