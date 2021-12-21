@@ -254,7 +254,7 @@ export class Prerender {
     return new Promise((resolve) => {
       const s = `
       if (typeof PRERENDER !== 'undefined') {
-        module.exports = global._prerender
+        module.exports = ${this.globalObject}._prerender
       }`
       fs.appendFile(path, s, 'utf8', () => {
         resolve()

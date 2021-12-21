@@ -14,9 +14,11 @@ export default function (this: webpack.loader.LoaderContext) {
   const componentPath = isNeedRawLoader
     ? `${raw}!${this.resourcePath}`
     : this.request.split('!').slice(thisLoaderIndex + 1).join('!')
+  const { globalObject } = this._compilation.outputOptions
+
   const prerender = `
 if (typeof PRERENDER !== 'undefined') {
-  global._prerender = inst
+  ${globalObject}._prerender = inst
 }`
   return `import { createComponentConfig } from '@tarojs/runtime'
 import component from ${stringify(componentPath)}

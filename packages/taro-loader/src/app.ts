@@ -12,10 +12,11 @@ export default function (this: webpack.loader.LoaderContext) {
   const pxTransformConfig = options.pxTransformConfig
   const loaders = this.loaders
   const thisLoaderIndex = loaders.findIndex(item => normalizePath(item.path).indexOf('@tarojs/taro-loader') >= 0)
+  const { globalObject } = this._compilation.outputOptions
 
   const prerender = `
 if (typeof PRERENDER !== 'undefined') {
-  global._prerender = inst
+  ${globalObject}._prerender = inst
 }`
 
   const runtimePath = Array.isArray(options.runtimePath) ? options.runtimePath : [options.runtimePath]
