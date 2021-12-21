@@ -162,6 +162,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
         instances.delete($taroPath)
         if (pageElement) {
           pageElement.ctx = null
+          pageElement = null
         }
         if (prepareMountList.length) {
           prepareMountList.forEach(fn => fn())

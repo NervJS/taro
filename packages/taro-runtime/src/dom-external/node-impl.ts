@@ -48,7 +48,7 @@ function bindInnerHTML (ctx, getDoc) {
     configurable: true,
     enumerable: true,
     set (html: string) {
-      setInnerHTML.call(ctx, ctx, html, getDoc)
+      setInnerHTML.call(this, this, html, getDoc)
     },
     get (): string {
       return ''

@@ -16,6 +16,12 @@ import type { TaroDocument } from './document'
 import type { TaroRootElement } from './root'
 import type { TaroElement } from './element'
 
+interface RemoveChildOptions {
+  cleanRef?: boolean
+  doUpdate?: boolean
+}
+
+const CHILDNODES = Shortcuts.Childnodes
 const nodeId = incrementId()
 
 @injectable()
@@ -47,10 +53,22 @@ export class TaroNode extends TaroEventTarget {
     while (this.childNodes.length > 0) {
       const child = this.childNodes[0]
       child.parentNode = null
-      eventSource.delete(child.sid)
-      eventSource.delete(child.uid)
+      eventSource.removeNode(child)
       this.childNodes.shift()
     }
+  }
+
+  private updateChildNodes (isClean?: boolean) {
+    const cleanChildNodes = () => []
+    const rerenderChildNodes = () => {
+      const childNodes = this.childNodes.filter(node => !isComment(node))
+      return childNodes.map(hydrate)
+    }
+
+    this.enqueueUpdate({
+      path: `${this._path}.${CHILDNODES}`,
+      value: isClean ? cleanChildNodes : rerenderChildNodes
+    })
   }
 
   protected get _root (): TaroRootElement | null {
@@ -74,7 +92,7 @@ export class TaroNode extends TaroEventTarget {
       const indexOfNode = list.indexOf(this)
       const index = this.hooks.getPathIndex(indexOfNode)
 
-      return `${parentNode._path}.${Shortcuts.Childnodes}.${index}`
+      return `${parentNode._path}.${CHILDNODES}.${index}`
     }
 
     return ''
@@ -114,16 +132,21 @@ export class TaroNode extends TaroEventTarget {
   public set textContent (text: string) {
     this._empty()
     if (text === '') {
-      this.enqueueUpdate({
-        path: `${this._path}.${Shortcuts.Childnodes}`,
-        value: () => []
-      })
+      this.updateChildNodes(true)
     } else {
       const document = this._getElement<TaroDocument>(ElementNames.Document)()
       this.appendChild(document.createTextNode(text))
     }
   }
 
+  /**
+   * @doc https://developer.mozilla.org/zh-CN/docs/Web/API/Node/insertBefore
+   * @scenario
+   * [A,B,C]
+   *   1. insert D before C, D has no parent
+   *   2. insert D before C, D has the same parent of C
+   *   3. insert D before C, D has the different parent of C
+   */
   public insertBefore<T extends TaroNode> (newChild: T, refChild?: TaroNode | null, isReplace?: boolean): T {
     if (newChild.nodeName === DOCUMENT_FRAGMENT) {
       newChild.childNodes.reduceRight((previousValue, currentValue) => {
@@ -133,81 +156,99 @@ export class TaroNode extends TaroEventTarget {
       return newChild
     }
 
-    newChild.remove()
-    newChild.parentNode = this
-    let payload: UpdatePayload
+    // Parent release newChild
+    //   - cleanRef: false (No need to clean eventSource, because newChild is about to be inserted)
+    //   - update: true (Need to update parent.childNodes, because parent.childNodes is reordered)
+    newChild.remove({ cleanRef: false })
 
+    // Data structure
+    newChild.parentNode = this
     if (refChild) {
+      // insertBefore & replaceChild
       const index = this.findIndex(refChild)
       this.childNodes.splice(index, 0, newChild)
-      if (isReplace) {
-        payload = {
-          path: newChild._path,
-          value: this.hydrate(newChild)
-        }
-      } else {
-        payload = {
-          path: `${this._path}.${Shortcuts.Childnodes}`,
-          value: () => {
-            const childNodes = this.childNodes.filter(node => !isComment(node))
-            return childNodes.map(hydrate)
-          }
-        }
-      }
     } else {
+      // appendChild
       this.childNodes.push(newChild)
-      payload = {
-        path: newChild._path,
-        value: this.hydrate(newChild)
-      }
     }
 
-    this.enqueueUpdate(payload)
-
-    // 修复列表顺序变化时，部分列表项点击事件失效的问题：https://github.com/NervJS/taro/pull/7968
-    // insertBefore 时会先调用新节点的 remove 方法，此时会把此节点从 eventSource 删除，从而导致事件因 getElementById 找不到对应节点而不触发。
-    if (!eventSource.has(newChild.sid)) {
-      eventSource.set(newChild.sid, newChild)
-      eventSource.set(newChild.uid, newChild)
+    // Serialization
+    if (!refChild || isReplace) {
+      // appendChild & replaceChild
+      this.enqueueUpdate({
+        path: newChild._path,
+        value: this.hydrate(newChild)
+      })
+    } else {
+      // insertBefore
+      this.updateChildNodes()
     }
 
     return newChild
   }
 
-  public appendChild (child: TaroNode) {
-    this.insertBefore(child)
+  /**
+   * @doc https://developer.mozilla.org/zh-CN/docs/Web/API/Node/appendChild
+   * @scenario
+   * [A,B,C]
+   *   1. append C, C has no parent
+   *   2. append C, C has the same parent of B
+   *   3. append C, C has the different parent of B
+   */
+  public appendChild (newChild: TaroNode) {
+    return this.insertBefore(newChild)
   }
 
+  /**
+   * @doc https://developer.mozilla.org/zh-CN/docs/Web/API/Node/replaceChild
+   * @scenario
+   * [A,B,C]
+   *   1. replace B with C, C has no parent
+   *   2. replace B with C, C has no parent, C has the same parent of B
+   *   3. replace B with C, C has no parent, C has the different parent of B
+   */
   public replaceChild (newChild: TaroNode, oldChild: TaroNode) {
-    if (oldChild.parentNode === this) {
-      this.insertBefore(newChild, oldChild, true)
-      oldChild.remove(true)
-      return oldChild
-    }
+    if (oldChild.parentNode !== this) return
+
+    // Insert the newChild
+    this.insertBefore(newChild, oldChild)
+
+    // Destroy the oldChild
+    //   - cleanRef: true (Need to clean eventSource, because the oldChild was detached from the DOM tree)
+    //   - update: false (No need to update parent.childNodes, because replace will not cause the parent.childNodes being reordered)
+    oldChild.remove({ doUpdate: false })
+
+    return oldChild
   }
 
-  public removeChild<T extends TaroNode> (child: T, isReplace?: boolean): T {
+  /**
+   * @doc https://developer.mozilla.org/zh-CN/docs/Web/API/Node/removeChild
+   * @scenario
+   * [A,B,C]
+   *   1. remove A or B
+   *   2. remove C
+   */
+  public removeChild<T extends TaroNode> (child: T, options: RemoveChildOptions = {}): T {
+    // Data Structure
     const index = this.findIndex(child)
     this.childNodes.splice(index, 1)
-    if (!isReplace) {
-      this.enqueueUpdate({
-        path: `${this._path}.${Shortcuts.Childnodes}`,
-        value: () => {
-          const childNodes = this.childNodes.filter(node => !isComment(node))
-          return childNodes.map(hydrate)
-        }
-      })
-    }
     child.parentNode = null
-    eventSource.delete(child.sid)
-    eventSource.delete(child.uid)
-    // @TODO: eventSource memory overflow
-    // child._empty()
+
+    // Set eventSource
+    if (options.cleanRef !== false) {
+      eventSource.removeNodeTree(child)
+    }
+
+    // Serialization
+    if (options.doUpdate !== false) {
+      this.updateChildNodes()
+    }
+
     return child
   }
 
-  public remove (isReplace?: boolean) {
-    this.parentNode?.removeChild(this, isReplace)
+  public remove (options?: RemoveChildOptions) {
+    this.parentNode?.removeChild(this, options)
   }
 
   public hasChildNodes () {
