@@ -2019,54 +2019,54 @@ require(\\"./taro\\");
 /** filePath: dist/base.axml **/
 <import-sjs name=\\"xs\\" from=\\"./utils.sjs\\" />
 <template name=\\"taro_tmpl\\">
-  <block a:for=\\"{{root.cn}}\\" a:key=\\"uid\\">
+  <block a:for=\\"{{root.cn}}\\" a:key=\\"sid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
   </block>
 </template>
 
 <template name=\\"tmpl_0_catch-view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" onTouchStart=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" animation=\\"{{i.animation}}\\" onAnimationStart=\\"eh\\" onAnimationIteration=\\"eh\\" onAnimationEnd=\\"eh\\" onTransitionEnd=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" catchTouchMove=\\"eh\\"  id=\\"{{i.uid}}\\">
-    <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" onTouchStart=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" animation=\\"{{i.animation}}\\" onAnimationStart=\\"eh\\" onAnimationIteration=\\"eh\\" onAnimationEnd=\\"eh\\" onTransitionEnd=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" catchTouchMove=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
 </template>
 
 <template name=\\"tmpl_0_static-view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
-    <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
 </template>
 
 <template name=\\"tmpl_0_pure-view\\">
-  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
-    <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
+  <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
 </template>
 
 <template name=\\"tmpl_0_view\\">
-  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" animation=\\"{{i.animation}}\\" onAnimationStart=\\"eh\\" onAnimationIteration=\\"eh\\" onAnimationEnd=\\"eh\\" onTransitionEnd=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid}}\\">
-    <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" animation=\\"{{i.animation}}\\" onAnimationStart=\\"eh\\" onAnimationIteration=\\"eh\\" onAnimationEnd=\\"eh\\" onTransitionEnd=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
 </template>
 
 <template name=\\"tmpl_0_static-text\\">
-  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
-    <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
     </block>
   </text>
 </template>
 
 <template name=\\"tmpl_0_text\\">
-  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\"  id=\\"{{i.uid}}\\">
-    <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
     </block>
   </text>
@@ -2077,16 +2077,16 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_input_focus\\">
-  <input value=\\"{{i.value}}\\" type=\\"{{xs.b(i.type,'')}}\\" password=\\"{{xs.b(i.password,false)}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" focus=\\"{{xs.b(i.focus,false)}}\\" confirm-type=\\"{{xs.b(i.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(i.confirmHold,false)}}\\" cursor=\\"{{xs.b(i.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" onInput=\\"eh\\" onFocus=\\"eh\\" onBlur=\\"eh\\" onConfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\"  id=\\"{{i.uid}}\\"></input>
+  <input value=\\"{{i.value}}\\" type=\\"{{xs.b(i.type,'')}}\\" password=\\"{{xs.b(i.password,false)}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" focus=\\"{{xs.b(i.focus,false)}}\\" confirm-type=\\"{{xs.b(i.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(i.confirmHold,false)}}\\" cursor=\\"{{xs.b(i.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" onInput=\\"eh\\" onFocus=\\"eh\\" onBlur=\\"eh\\" onConfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></input>
 </template>
 
 <template name=\\"tmpl_0_input_blur\\">
-  <input value=\\"{{i.value}}\\" type=\\"{{xs.b(i.type,'')}}\\" password=\\"{{xs.b(i.password,false)}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" confirm-type=\\"{{xs.b(i.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(i.confirmHold,false)}}\\" cursor=\\"{{xs.b(i.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" onInput=\\"eh\\" onFocus=\\"eh\\" onBlur=\\"eh\\" onConfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\"  id=\\"{{i.uid}}\\"></input>
+  <input value=\\"{{i.value}}\\" type=\\"{{xs.b(i.type,'')}}\\" password=\\"{{xs.b(i.password,false)}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" confirm-type=\\"{{xs.b(i.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(i.confirmHold,false)}}\\" cursor=\\"{{xs.b(i.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" onInput=\\"eh\\" onFocus=\\"eh\\" onBlur=\\"eh\\" onConfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></input>
 </template>
 
 <template name=\\"tmpl_0_cover-image\\">
-  <cover-image src=\\"{{i.src}}\\" onLoad=\\"eh\\" onError=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\"  id=\\"{{i.uid}}\\">
-    <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
+  <cover-image src=\\"{{i.src}}\\" onLoad=\\"eh\\" onError=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
     </block>
   </cover-image>
@@ -2097,34 +2097,34 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_textarea_focus\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'textarea-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" auto-focus=\\"{{xs.b(i.autoFocus,false)}}\\" focus=\\"{{xs.b(i.focus,false)}}\\" auto-height=\\"{{xs.b(i.autoHeight,false)}}\\" fixed=\\"{{xs.b(i.fixed,false)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" cursor=\\"{{xs.b(i.cursor,-1)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" onFocus=\\"eh\\" onBlur=\\"eh\\" onLineChange=\\"eh\\" onInput=\\"eh\\" onConfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\"  id=\\"{{i.uid}}\\"></textarea>
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'textarea-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" auto-focus=\\"{{xs.b(i.autoFocus,false)}}\\" focus=\\"{{xs.b(i.focus,false)}}\\" auto-height=\\"{{xs.b(i.autoHeight,false)}}\\" fixed=\\"{{xs.b(i.fixed,false)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" cursor=\\"{{xs.b(i.cursor,-1)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" onFocus=\\"eh\\" onBlur=\\"eh\\" onLineChange=\\"eh\\" onInput=\\"eh\\" onConfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></textarea>
 </template>
 
 <template name=\\"tmpl_0_textarea_blur\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'textarea-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" auto-focus=\\"{{xs.b(i.autoFocus,false)}}\\" auto-height=\\"{{xs.b(i.autoHeight,false)}}\\" fixed=\\"{{xs.b(i.fixed,false)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" cursor=\\"{{xs.b(i.cursor,-1)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" onFocus=\\"eh\\" onBlur=\\"eh\\" onLineChange=\\"eh\\" onInput=\\"eh\\" onConfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\"  id=\\"{{i.uid}}\\"></textarea>
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'textarea-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" auto-focus=\\"{{xs.b(i.autoFocus,false)}}\\" auto-height=\\"{{xs.b(i.autoHeight,false)}}\\" fixed=\\"{{xs.b(i.fixed,false)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" cursor=\\"{{xs.b(i.cursor,-1)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" onFocus=\\"eh\\" onBlur=\\"eh\\" onLineChange=\\"eh\\" onInput=\\"eh\\" onConfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></textarea>
 </template>
 
 <template name=\\"tmpl_0_cover-view\\">
-  <cover-view scroll-top=\\"{{xs.b(i.scrollTop,false)}}\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid}}\\">
-    <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
+  <cover-view scroll-top=\\"{{xs.b(i.scrollTop,false)}}\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
     </block>
   </cover-view>
 </template>
 
 <template name=\\"tmpl_0_scroll-view\\">
-  <scroll-view scroll-x=\\"{{xs.b(i.scrollX,false)}}\\" scroll-y=\\"{{xs.b(i.scrollY,false)}}\\" upper-threshold=\\"{{xs.b(i.upperThreshold,50)}}\\" lower-threshold=\\"{{xs.b(i.lowerThreshold,50)}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{xs.b(i.scrollWithAnimation,false)}}\\" enable-back-to-top=\\"{{xs.b(i.enableBackToTop,false)}}\\" onScrollToUpper=\\"eh\\" onScrollToLower=\\"eh\\" onScroll=\\"eh\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" animation=\\"{{i.animation}}\\" onAnimationStart=\\"eh\\" onAnimationIteration=\\"eh\\" onAnimationEnd=\\"eh\\" onTransitionEnd=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid}}\\">
-    <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
+  <scroll-view scroll-x=\\"{{xs.b(i.scrollX,false)}}\\" scroll-y=\\"{{xs.b(i.scrollY,false)}}\\" upper-threshold=\\"{{xs.b(i.upperThreshold,50)}}\\" lower-threshold=\\"{{xs.b(i.lowerThreshold,50)}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{xs.b(i.scrollWithAnimation,false)}}\\" enable-back-to-top=\\"{{xs.b(i.enableBackToTop,false)}}\\" onScrollToUpper=\\"eh\\" onScrollToLower=\\"eh\\" onScroll=\\"eh\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" animation=\\"{{i.animation}}\\" onAnimationStart=\\"eh\\" onAnimationIteration=\\"eh\\" onAnimationEnd=\\"eh\\" onTransitionEnd=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
 </template>
 
 <template name=\\"tmpl_0_swiper\\">
-  <swiper indicator-dots=\\"{{xs.b(i.indicatorDots,false)}}\\" indicator-color=\\"{{xs.b(i.indicatorColor,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(i.indicatorActiveColor,'#000000')}}\\" autoplay=\\"{{xs.b(i.autoplay,false)}}\\" current=\\"{{xs.b(i.current,0)}}\\" interval=\\"{{xs.b(i.interval,5000)}}\\" duration=\\"{{xs.b(i.duration,500)}}\\" circular=\\"{{xs.b(i.circular,false)}}\\" vertical=\\"{{xs.b(i.vertical,false)}}\\" previous-margin=\\"{{xs.b(i.previousMargin,'0px')}}\\" next-margin=\\"{{xs.b(i.nextMargin,'0px')}}\\" display-multiple-items=\\"{{xs.b(i.displayMultipleItems,1)}}\\" onChange=\\"eh\\" onTransition=\\"eh\\" onAnimationFinish=\\"eh\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid}}\\">
-    <block a:for=\\"{{xs.f(i.cn)}}\\" a:key=\\"uid\\">
-      <swiper-item class=\\"{{item.cl}}\\" style=\\"{{item.st}}\\" id=\\"{{item.uid}}\\">
-        <block a:for=\\"{{item.cn}}\\" a:key=\\"uid\\">
+  <swiper indicator-dots=\\"{{xs.b(i.indicatorDots,false)}}\\" indicator-color=\\"{{xs.b(i.indicatorColor,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(i.indicatorActiveColor,'#000000')}}\\" autoplay=\\"{{xs.b(i.autoplay,false)}}\\" current=\\"{{xs.b(i.current,0)}}\\" interval=\\"{{xs.b(i.interval,5000)}}\\" duration=\\"{{xs.b(i.duration,500)}}\\" circular=\\"{{xs.b(i.circular,false)}}\\" vertical=\\"{{xs.b(i.vertical,false)}}\\" previous-margin=\\"{{xs.b(i.previousMargin,'0px')}}\\" next-margin=\\"{{xs.b(i.nextMargin,'0px')}}\\" display-multiple-items=\\"{{xs.b(i.displayMultipleItems,1)}}\\" onChange=\\"eh\\" onTransition=\\"eh\\" onAnimationFinish=\\"eh\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block a:for=\\"{{xs.f(i.cn)}}\\" a:key=\\"sid\\">
+      <swiper-item class=\\"{{item.cl}}\\" style=\\"{{item.st}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\">
+        <block a:for=\\"{{item.cn}}\\" a:key=\\"sid\\">
           <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
         </block>
       </swiper-item>
@@ -2133,32 +2133,32 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_static-image\\">
-  <image src=\\"{{i.src}}\\" mode=\\"{{xs.b(i.mode,'scaleToFill')}}\\" lazy-load=\\"{{xs.b(i.lazyLoad,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid}}\\">
-    <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{xs.b(i.mode,'scaleToFill')}}\\" lazy-load=\\"{{xs.b(i.lazyLoad,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
     </block>
   </image>
 </template>
 
 <template name=\\"tmpl_0_image\\">
-  <image src=\\"{{i.src}}\\" mode=\\"{{xs.b(i.mode,'scaleToFill')}}\\" lazy-load=\\"{{xs.b(i.lazyLoad,false)}}\\" onError=\\"eh\\" onLoad=\\"eh\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid}}\\">
-    <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{xs.b(i.mode,'scaleToFill')}}\\" lazy-load=\\"{{xs.b(i.lazyLoad,false)}}\\" onError=\\"eh\\" onLoad=\\"eh\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
     </block>
   </image>
 </template>
 
 <template name=\\"tmpl_0_video\\">
-  <video src=\\"{{i.src}}\\" duration=\\"{{i.duration}}\\" controls=\\"{{xs.b(i.controls,true)}}\\" danmu-list=\\"{{i.danmuList}}\\" danmu-btn=\\"{{i.danmuBtn}}\\" enable-danmu=\\"{{i.enableDanmu}}\\" autoplay=\\"{{xs.b(i.autoplay,false)}}\\" loop=\\"{{xs.b(i.loop,false)}}\\" muted=\\"{{xs.b(i.muted,false)}}\\" initial-time=\\"{{xs.b(i.initialTime,0)}}\\" page-gesture=\\"{{xs.b(i.pageGesture,false)}}\\" direction=\\"{{i.direction}}\\" show-progress=\\"{{xs.b(i.showProgress,true)}}\\" show-fullscreen-btn=\\"{{xs.b(i.showFullscreenBtn,true)}}\\" show-play-btn=\\"{{xs.b(i.showPlayBtn,true)}}\\" show-center-play-btn=\\"{{xs.b(i.showCenterPlayBtn,true)}}\\" enable-progress-gesture=\\"{{xs.b(i.enableProgressGesture,true)}}\\" object-fit=\\"{{xs.b(i.objectFit,'contain')}}\\" poster=\\"{{i.poster}}\\" show-mute-btn=\\"{{xs.b(i.showMuteBtn,false)}}\\" onPlay=\\"eh\\" onPause=\\"eh\\" onEnded=\\"eh\\" onTimeUpdate=\\"eh\\" onFullScreenChange=\\"eh\\" onWaiting=\\"eh\\" onError=\\"eh\\" animation=\\"{{i.animation}}\\" onAnimationStart=\\"eh\\" onAnimationIteration=\\"eh\\" onAnimationEnd=\\"eh\\" onTransitionEnd=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\"  id=\\"{{i.uid}}\\">
-    <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
+  <video src=\\"{{i.src}}\\" duration=\\"{{i.duration}}\\" controls=\\"{{xs.b(i.controls,true)}}\\" danmu-list=\\"{{i.danmuList}}\\" danmu-btn=\\"{{i.danmuBtn}}\\" enable-danmu=\\"{{i.enableDanmu}}\\" autoplay=\\"{{xs.b(i.autoplay,false)}}\\" loop=\\"{{xs.b(i.loop,false)}}\\" muted=\\"{{xs.b(i.muted,false)}}\\" initial-time=\\"{{xs.b(i.initialTime,0)}}\\" page-gesture=\\"{{xs.b(i.pageGesture,false)}}\\" direction=\\"{{i.direction}}\\" show-progress=\\"{{xs.b(i.showProgress,true)}}\\" show-fullscreen-btn=\\"{{xs.b(i.showFullscreenBtn,true)}}\\" show-play-btn=\\"{{xs.b(i.showPlayBtn,true)}}\\" show-center-play-btn=\\"{{xs.b(i.showCenterPlayBtn,true)}}\\" enable-progress-gesture=\\"{{xs.b(i.enableProgressGesture,true)}}\\" object-fit=\\"{{xs.b(i.objectFit,'contain')}}\\" poster=\\"{{i.poster}}\\" show-mute-btn=\\"{{xs.b(i.showMuteBtn,false)}}\\" onPlay=\\"eh\\" onPause=\\"eh\\" onEnded=\\"eh\\" onTimeUpdate=\\"eh\\" onFullScreenChange=\\"eh\\" onWaiting=\\"eh\\" onError=\\"eh\\" animation=\\"{{i.animation}}\\" onAnimationStart=\\"eh\\" onAnimationIteration=\\"eh\\" onAnimationEnd=\\"eh\\" onTransitionEnd=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
     </block>
   </video>
 </template>
 
 <template name=\\"tmpl_0_canvas\\">
-  <canvas canvas-id=\\"{{i.canvasId}}\\" disable-scroll=\\"{{xs.b(i.disableScroll,false)}}\\" onError=\\"eh\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid}}\\">
-    <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
+  <canvas canvas-id=\\"{{i.canvasId}}\\" disable-scroll=\\"{{xs.b(i.disableScroll,false)}}\\" onError=\\"eh\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
     </block>
   </canvas>
@@ -2182,7 +2182,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.axml **/
 <import src=\\"./base.axml\\" />
-  <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
+  <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
   </block>
 
