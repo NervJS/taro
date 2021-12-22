@@ -6,7 +6,7 @@ import { findDOM } from '../utils'
  * 将像素数据绘制到画布。在自定义组件下，第二个参数传入自定义组件实例 this，以操作组件内 <canvas> 组件
  * @todo 暂未支持尺寸相关功能
  */
-const canvasPutImageData: typeof Taro.canvasPutImageData = ({ canvasId, data, x, y, success, fail, complete }, inst) => {
+export const canvasPutImageData: typeof Taro.canvasPutImageData = ({ canvasId, data, x, y, success, fail, complete }, inst) => {
   const handle = new MethodHandler({ name: 'canvasPutImageData', success, fail, complete })
   const el = findDOM(inst) as HTMLElement
   const canvas = el?.querySelector(`canvas[canvas-id="${canvasId}"]`) as HTMLCanvasElement
@@ -22,5 +22,3 @@ const canvasPutImageData: typeof Taro.canvasPutImageData = ({ canvasId, data, x,
     })
   }
 }
-
-export default canvasPutImageData
