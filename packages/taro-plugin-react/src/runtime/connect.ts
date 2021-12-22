@@ -162,23 +162,23 @@ export function connectReactPage (
  * 桥接小程序 App 构造器和 React 渲染流程
  * @param App 用户编写的入口组件
  * @param react 框架
- * @param reactdom 框架渲染器
+ * @param dom 框架渲染器
  * @param config 入口组件配置 app.config.js 的内容
  * @returns 传递给 App 构造器的对象 obj ：App(obj)
  */
 export function createReactApp (
   App: React.ComponentClass,
   react: typeof React,
-  reactdom,
+  dom,
   config: AppConfig
 ) {
   if (process.env.NODE_ENV !== 'production') {
-    ensure(!!reactdom, '构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'nerv\' ')
+    ensure(!!dom, '构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'nerv\' ')
   }
 
   R = react
   h = react.createElement
-  ReactDOM = reactdom
+  ReactDOM = dom
   const appInstanceRef = react.createRef<ReactAppInstance>()
   const isReactComponent = isClassComponent(R, App)
   let appWrapper: AppWrapper
@@ -232,8 +232,7 @@ export function createReactApp (
   }
 
   if (process.env.TARO_ENV !== 'h5') {
-    // eslint-disable-next-line react/no-render-return-value
-    appWrapper = ReactDOM.render(h(AppWrapper), document.getElementById('app'))
+    appWrapper = ReactDOM.render?.(h(AppWrapper), document.getElementById('app'))
   }
 
   const [ONLAUNCH, ONSHOW, ONHIDE] = hooks.getMiniLifecycleImpl().app
@@ -262,8 +261,7 @@ export function createReactApp (
 
         if (process.env.TARO_ENV === 'h5') {
           // 由于 H5 路由初始化的时候会清除 app 下的 dom 元素，所以需要在路由初始化后执行 render
-          // eslint-disable-next-line react/no-render-return-value
-          appWrapper = ReactDOM.render(h(AppWrapper), document.getElementById('app'))
+          appWrapper = ReactDOM.render?.(h(AppWrapper), document.getElementById(config?.appId || 'app'))
         }
 
         // 用户编写的入口组件实例
