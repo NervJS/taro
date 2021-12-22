@@ -1,6 +1,3 @@
-import { stripBasename } from './history'
-import { RouterConfig } from './router'
-
 export function addLeadingSlash (path?: string) {
   if (path == null) {
     return ''
@@ -23,22 +20,22 @@ class RoutesAlias {
     }
   }
 
-  getConfig = (url: string) => {
+  getConfig = (url = '') => {
     const customRoute = this.conf.filter((arr) => {
       return arr.includes(url)
     })
     return customRoute[0]
   }
 
-  getOrigin = (url: string) => {
+  getOrigin = (url = '') => {
     return this.getConfig(url)?.[0] || url
   }
 
-  getAlias = (url: string) => {
+  getAlias = (url = '') => {
     return this.getConfig(url)?.[1] || url
   }
 
-  getAll = (url: string) => {
+  getAll = (url = '') => {
     return this.conf.filter((arr) => {
       return arr.includes(url)
     }).reduce((p, a) => {
@@ -49,32 +46,3 @@ class RoutesAlias {
 }
 
 export const routesAlias = new RoutesAlias()
-
-// eslint-disable-next-line @typescript-eslint/ban-types
-export const throttle = (fn: Function, threshold: number) => {
-  let lastTime = 0
-  return function () {
-    const now = Date.now()
-    if (now - lastTime > threshold) {
-      fn.apply(this, arguments)
-      lastTime = now
-    }
-  }
-}
-
-export const isTabBar = (config: RouterConfig): boolean => {
-  const { customRoutes = {}, basename = '', pathname } = config.router
-  const routePath = stripBasename(pathname, basename)
-  const pagePath = Object.entries(customRoutes).find(
-    ([, target]) => {
-      if (typeof target === 'string') {
-        return target === routePath
-      } else if (target?.length > 0) {
-        return target.includes(routePath)
-      }
-      return false
-    }
-  )?.[0] || routePath
-
-  return !!pagePath && (config.tabBar?.list || []).some(t => t.pagePath === pagePath)
-}
