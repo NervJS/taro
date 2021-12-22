@@ -4,7 +4,7 @@ import { MethodHandler } from '../../utils/handler'
 import { getTimingFunc, easeInOut } from '../../utils'
 
 let scrollFunc
-let timer: NodeJS.Timeout
+let timer: number
 const FRAME_DURATION = 17
 
 /**

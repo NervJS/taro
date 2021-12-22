@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.root.json",
   "compilerOptions": {
+    "target": "es2018",
     "baseUrl": ".",
     "declaration": false,
     "module": "ESNext",
