@@ -32,11 +32,11 @@ export class TaroRootElement extends TaroElement {
 
   private eventCenter: Events
 
+  private data: Record<string, any> = {}
+
   public pendingUpdate = false
 
   public ctx: null | MpInstance = null
-
-  public data: Record<string, any> = {}
 
   public constructor (// eslint-disable-next-line @typescript-eslint/indent
     @inject(SERVICE_IDENTIFIER.TaroNodeImpl) nodeImpl: TaroNodeImpl,
