@@ -161,7 +161,8 @@ module.exports = (_, options = {}) => {
       packageName: '@tarojs/taro',
       apis
     }])
-  } else {
+  }
+  if (options['dynamic-import-node'] || process.env.TARO_ENV !== 'h5') {
     plugins.push([require('babel-plugin-dynamic-import-node')])
   }
 

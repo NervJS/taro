@@ -16,23 +16,29 @@ class InnerAudioContext implements Taro.InnerAudioContext {
     Taro.eventCenter.on('__taroRouterChange', () => { this.stop() })
   }
 
-  set autoplay (e) { Object.defineProperty(this.Instance, 'autoplay', { value: e }) }
+  set autoplay (e) { this.setProperty('autoplay', e) }
   get autoplay () { return this.Instance?.autoplay || false }
   get buffered () { return this.Instance?.buffered.length || 0 }
   get currentTime () { return this.Instance?.currentTime || 0 }
   get duration () { return this.Instance?.duration || 0 }
-  set loop (e) { Object.defineProperty(this.Instance, 'loop', { value: e }) }
+  set loop (e) { this.setProperty('loop', e) }
   get loop () { return this.Instance?.loop || false }
   get paused () { return this.Instance?.paused || true }
-  set src (e) { Object.defineProperty(this.Instance, 'src', { value: e }) }
+  set src (e) { this.setProperty('src', e) }
   get src () { return this.Instance?.src || '' }
-  set volume (e) { Object.defineProperty(this.Instance, 'volume', { value: e }) }
+  set volume (e) { this.setProperty('volume', e) }
   get volume () { return this.Instance?.volume || 0 }
-  set playbackRate (e) { Object.defineProperty(this.Instance, 'playbackRate', { value: e }) }
+  set playbackRate (e) { this.setProperty('playbackRate', e) }
   get playbackRate () { return this.Instance?.volume || 0 }
   get obeyMuteSwitch () { return true }
-  set startTime (e) { Object.defineProperty(this.Instance, 'startTime', { value: e }) }
+  set startTime (e) { this.setProperty('startTime', e) }
   get startTime () { return this.Instance?.volume || 0 }
+
+  private setProperty (key: string, value: unknown) {
+    if (this.Instance) {
+      this.Instance[key] = value
+    }
+  }
 
   play = () => this.Instance?.play()
 
