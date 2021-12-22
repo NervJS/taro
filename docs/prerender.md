@@ -191,3 +191,36 @@ class SomePage extends Component {
 ```
 
 这样的优化除了加快首屏渲染以及 `hydrate` 的速度，还可以降低 Prerender 的所增加的 wxml 体积。当你的优化做得足够彻底时，你会发现多数情况下并不需要 Prerender。
+
+## 常见问题
+
+### 使用了部分 Taro API 后预渲染报错
+
+> 相关 Issue：[#9311](https://github.com/NervJS/taro/issues/9311)
+
+Taro 预渲染时会使用 [vm2](https://github.com/patriksimek/vm2) 创建一个沙箱环境，并在沙箱中注入一些全局变量。
+
+这些注入的全局变量中，包括了小程序的全局对象（如 `wx`），它是使用 `miniprogram-simulate` 这个包模拟的。
+
+这样做会导致两个问题：
+
+1. `miniprogram-simulate` 中部分 API 使用了一些全局变量如 `wx`、`localStorage` 等，开发者使用这些 API 时会报错。
+2. `miniprogram-simulate` 只支持微信小程序部分 API。
+
+因此，开发者如果遇到了 `miniprogram-simulate` 包中全局变量报错的问题，可以舍弃 `miniprogram-simulate`，改为自行模拟，例如：
+
+```js
+// config/index.js
+const config = {
+  mini: {
+    prerender: {
+      // 使用 mock 参数自行模拟 wx.clearStorageSync
+      mock: {
+        wx: {
+          clearStorageSync: () => 'cjj'
+        }
+      }
+    }
+  }
+}
+```
