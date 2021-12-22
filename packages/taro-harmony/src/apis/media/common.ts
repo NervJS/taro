@@ -26,7 +26,9 @@ const previewMedia: PreviewMedia = function (options) {
     const { sources, current } = options
     const urls: Array<string> = []
     for (const s of sources) {
-      urls.push(s.url)
+      if (s.type === 'image') {
+        urls.push(s.url)
+      }
     }
     const previewImageOptions: IPreviewImagesOptionsOHOS = {
       images: urls,
