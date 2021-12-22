@@ -1,4 +1,4 @@
-import SocketTask from './socketTask'
+import { SocketTask } from './socketTask'
 import { shouldBeObject, getParameterError } from '../../utils'
 import { MethodHandler } from 'src/api/utils/handler'
 
