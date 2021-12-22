@@ -164,7 +164,7 @@ export default class PageHandler {
       this.isTabBar && pageEl.classList.add('taro_tabbar_page')
       this.addAnimation(pageEl, stacksIndex === 0)
     } else {
-      page.onLoad(this.getQuery(stacksIndex), () => {
+      page.onLoad?.(this.getQuery(stacksIndex), () => {
         pageEl = document.getElementById(page.path!)
         this.isTabBar && pageEl?.classList.add('taro_tabbar_page')
         this.addAnimation(pageEl, stacksIndex === 0)
@@ -184,7 +184,7 @@ export default class PageHandler {
     if (this.animation && top) {
       if (this.unloadTimer) {
         clearTimeout(this.unloadTimer)
-        this.lastUnloadPage?.onUnload()
+        this.lastUnloadPage?.onUnload?.()
         this.unloadTimer = null
       }
       this.lastUnloadPage = page
@@ -193,7 +193,7 @@ export default class PageHandler {
 
       this.unloadTimer = setTimeout(() => {
         this.unloadTimer = null
-        this.lastUnloadPage?.onUnload()
+        this.lastUnloadPage?.onUnload?.()
       }, this.animationDuration)
     } else {
     }
@@ -209,7 +209,7 @@ export default class PageHandler {
       setDisplay(pageEl)
       this.addAnimation(pageEl, stacksIndex === 0)
     } else {
-      page.onLoad(this.getQuery(stacksIndex), () => {
+      page.onLoad?.(this.getQuery(stacksIndex), () => {
         pageEl = document.getElementById(page.path!)
         this.addAnimation(pageEl, stacksIndex === 0)
         this.onReady(page, false)
