@@ -5,7 +5,7 @@ import { findDOM } from '../utils'
 /**
  * 获取 canvas 区域隐含的像素数据。
  */
-const canvasGetImageData: typeof Taro.canvasGetImageData = ({ canvasId, success, fail, complete, x, y, width, height }, inst) => {
+export const canvasGetImageData: typeof Taro.canvasGetImageData = ({ canvasId, success, fail, complete, x, y, width, height }, inst) => {
   const handle = new MethodHandler({ name: 'canvasGetImageData', success, fail, complete })
   const el = findDOM(inst) as HTMLElement
   const canvas = el?.querySelector(`canvas[canvas-id="${canvasId}"]`) as HTMLCanvasElement
@@ -25,5 +25,3 @@ const canvasGetImageData: typeof Taro.canvasGetImageData = ({ canvasId, success,
     })
   }
 }
-
-export default canvasGetImageData
