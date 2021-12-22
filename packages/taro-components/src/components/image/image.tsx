@@ -91,7 +91,7 @@ export class Image implements ComponentInterface {
       'taro-img__widthfix': mode === 'widthFix'
     })
     const imgCls = classNames(
-      `taro-img__mode-${mode.toLowerCase().replace(/\s/g, '')}`,
+      `taro-img__mode-${mode?.toLowerCase().replace(/\s/g, '')}`,
       {
         [`taro-img__mode-aspectfill--${aspectFillMode}`]: mode === 'aspectFill'
       }
