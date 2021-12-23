@@ -1,7 +1,7 @@
 /* eslint-disable prefer-promise-reject-errors */
 import { Current, container, SERVICE_IDENTIFIER, IHooks, TaroElement } from '@tarojs/runtime'
 
-function shouldBeObject (target: unknown) {
+export function shouldBeObject (target: unknown) {
   if (target && typeof target === 'object') return { flag: true }
   return {
     flag: false,
@@ -43,7 +43,7 @@ interface IParameterErrorParam {
   correct?: string
   wrong?: unknown
 }
-function getParameterError ({ name = '', para, correct, wrong }: IParameterErrorParam) {
+export function getParameterError ({ name = '', para, correct, wrong }: IParameterErrorParam) {
   const parameter = para ? `parameter.${para}` : 'parameter'
   const errorType = upperCaseFirstLetter(wrong === null ? 'Null' : typeof wrong)
   if (name) {
@@ -59,7 +59,7 @@ function upperCaseFirstLetter (string) {
   return string
 }
 
-function inlineStyle (style) {
+export function inlineStyle (style) {
   let res = ''
   for (const attr in style) res += `${attr}: ${style[attr]};`
   if (res.indexOf('display: flex;') >= 0) res += 'display: -webkit-box;display: -webkit-flex;'
@@ -68,16 +68,12 @@ function inlineStyle (style) {
   return res
 }
 
-function setTransform (el, val) {
+export function setTransform (el, val) {
   el.style.webkitTransform = val
   el.style.transform = val
 }
 
-function isFunction (obj) {
-  return typeof obj === 'function'
-}
-
-function serializeParams (params) {
+export function serializeParams (params) {
   if (!params) {
     return ''
   }
@@ -89,7 +85,7 @@ function serializeParams (params) {
     .join('&')
 }
 
-function temporarilyNotSupport (apiName) {
+export function temporarilyNotSupport (apiName) {
   return () => {
     const errMsg = `暂时不支持 API ${apiName}`
     console.error(errMsg)
@@ -99,7 +95,7 @@ function temporarilyNotSupport (apiName) {
   }
 }
 
-function weixinCorpSupport (apiName) {
+export function weixinCorpSupport (apiName) {
   return () => {
     const errMsg = `h5端仅在微信公众号中支持 API ${apiName}`
     console.error(errMsg)
@@ -109,7 +105,7 @@ function weixinCorpSupport (apiName) {
   }
 }
 
-function permanentlyNotSupport (apiName) {
+export function permanentlyNotSupport (apiName) {
   return () => {
     const errMsg = `不支持 API ${apiName}`
     console.error(errMsg)
@@ -119,13 +115,17 @@ function permanentlyNotSupport (apiName) {
   }
 }
 
+export function isFunction (obj) {
+  return typeof obj === 'function'
+}
+
 const VALID_COLOR_REG = /^#[0-9a-fA-F]{6}$/
 
-const isValidColor = (color) => {
+export const isValidColor = (color) => {
   return VALID_COLOR_REG.test(color)
 }
 
-function processOpenApi (apiName: string, defaultOptions?: Record<string, unknown>, formatResult = res => res, formatParams = options => options) {
+export function processOpenApi (apiName: string, defaultOptions?: Record<string, unknown>, formatResult = res => res, formatParams = options => options) {
   // @ts-ignore
   if (!window.wx) {
     return weixinCorpSupport(apiName)
@@ -154,11 +154,11 @@ function processOpenApi (apiName: string, defaultOptions?: Record<string, unknow
 
 /**
  * ease-in-out的函数
- * @param {number} t 0-1的数字
+ * @param t 0-1的数字
  */
-const easeInOut = t => t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1
+export const easeInOut = (t: number) => t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1
 
-const getTimingFunc = (easeFunc, frameCnt) => {
+export const getTimingFunc = (easeFunc, frameCnt) => {
   return x => {
     if (frameCnt <= 1) {
       return easeFunc(1)
@@ -166,20 +166,4 @@ const getTimingFunc = (easeFunc, frameCnt) => {
     const t = x / (frameCnt - 1)
     return easeFunc(t)
   }
-}
-
-export {
-  shouldBeObject,
-  getParameterError,
-  inlineStyle,
-  setTransform,
-  serializeParams,
-  temporarilyNotSupport,
-  weixinCorpSupport,
-  permanentlyNotSupport,
-  isValidColor,
-  isFunction,
-  processOpenApi,
-  easeInOut,
-  getTimingFunc
 }

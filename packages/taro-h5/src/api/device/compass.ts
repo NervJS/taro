@@ -7,7 +7,7 @@ let compassListener
 /**
  * 停止监听罗盘数据
  */
-const stopCompass: typeof Taro.stopCompass = ({ success, fail, complete } = {}) => {
+export const stopCompass: typeof Taro.stopCompass = ({ success, fail, complete } = {}) => {
   const handle = new MethodHandler({ name: 'stopCompass', success, fail, complete })
   try {
     window.removeEventListener('deviceorientation', compassListener, true)
@@ -34,7 +34,7 @@ const getDeviceOrientationListener = interval => {
 /**
  * 开始监听罗盘数据
  */
-const startCompass: typeof Taro.startCompass = ({ success, fail, complete } = {}) => {
+export const startCompass: typeof Taro.startCompass = ({ success, fail, complete } = {}) => {
   const handle = new MethodHandler({ name: 'startCompass', success, fail, complete })
   try {
     if (window.DeviceOrientationEvent) {
@@ -55,20 +55,13 @@ const startCompass: typeof Taro.startCompass = ({ success, fail, complete } = {}
 /**
  * 监听罗盘数据变化事件。频率：5 次/秒，接口调用后会自动开始监听，可使用 wx.stopCompass 停止监听。
  */
-const onCompassChange: typeof Taro.onCompassChange = callback => {
+export const onCompassChange: typeof Taro.onCompassChange = callback => {
   callbackManager.add(callback)
 }
 
 /**
  * 取消监听罗盘数据变化事件，参数为空，则取消所有的事件监听。
  */
-const offCompassChange: typeof Taro.offCompassChange = callback => {
+export const offCompassChange: typeof Taro.offCompassChange = callback => {
   callbackManager.remove(callback)
-}
-
-export {
-  stopCompass,
-  startCompass,
-  onCompassChange,
-  offCompassChange
 }
