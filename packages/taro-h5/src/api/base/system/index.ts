@@ -1,2 +1,2 @@
-export { getSystemInfo, getSystemInfoSync } from './info'
-export { getNetworkType, onNetworkStatusChange } from './network'
+export * from './info'
+export * from './network'
