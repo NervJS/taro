@@ -24,14 +24,15 @@ const toast = new Toast()
 const modal = new Modal()
 const actionSheet = new ActionSheet()
 
-const showToast: typeof Taro.showToast = (options = {
-  title: '',
-  icon: 'success',
-  image: '',
-  duration: 1500,
-  mask: false
-}) => {
+const showToast: typeof Taro.showToast = (options = { title: '' }) => {
   init(document)
+  options = Object.assign({
+    title: '',
+    icon: 'success',
+    image: '',
+    duration: 1500,
+    mask: false
+  }, options)
   const { success, fail, complete } = options
   const handle = new MethodHandler({ name: 'showToast', success, fail, complete })
 
@@ -75,11 +76,12 @@ const hideToast: typeof Taro.hideToast = ({ success, fail, complete } = {}) => {
   return handle.success()
 }
 
-const showLoading: typeof Taro.showLoading = (options = {
-  title: '',
-  mask: false
-}) => {
+const showLoading: typeof Taro.showLoading = (options = { title: '' }) => {
   init(document)
+  options = Object.assign({
+    title: '',
+    mask: false
+  }, options)
   const { success, fail, complete } = options
   const handle = new MethodHandler({ name: 'showLoading', success, fail, complete })
 
@@ -119,16 +121,17 @@ const hideLoading: typeof Taro.hideLoading = ({ success, fail, complete } = {}) 
   return handle.success()
 }
 
-const showModal: typeof Taro.showModal = async (options = {
-  title: '',
-  content: '',
-  showCancel: true,
-  cancelText: '取消',
-  cancelColor: '#000000',
-  confirmText: '确定',
-  confirmColor: '#3CC51F'
-}) => {
+const showModal: typeof Taro.showModal = async (options = {}) => {
   init(document)
+  options = Object.assign({
+    title: '',
+    content: '',
+    showCancel: true,
+    cancelText: '取消',
+    cancelColor: '#000000',
+    confirmText: '确定',
+    confirmColor: '#3CC51F'
+  }, options)
   const { success, fail, complete } = options
   const handle = new MethodHandler({ name: 'showModal', success, fail, complete })
 
@@ -220,11 +223,12 @@ function hideModal () {
   modal.hide()
 }
 
-const showActionSheet: typeof Taro.showActionSheet = async (options = {
-  itemColor: '#000000',
-  itemList: []
-}) => {
+const showActionSheet: typeof Taro.showActionSheet = async (options = { itemList: [] }) => {
   init(document)
+  options = Object.assign({
+    itemColor: '#000000',
+    itemList: []
+  }, options)
   const { success, fail, complete } = options
   const handle = new MethodHandler<Taro.showActionSheet.SuccessCallbackResult>({ name: 'showActionSheet', success, fail, complete })
 

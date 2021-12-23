@@ -167,9 +167,9 @@ function setReconciler () {
 
 const pageKeyId = incrementId()
 
-export function createReactApp (App: React.ComponentClass, react: typeof React, reactdom, config: AppConfig) {
+export function createReactApp (App: React.ComponentClass, react: typeof React, dom, config: AppConfig) {
   R = react
-  ReactDOM = reactdom
+  ReactDOM = dom
   ensure(!!ReactDOM, '构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'nerv\' ')
 
   const ref = R.createRef<ReactAppInstance>()
@@ -222,8 +222,7 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
 
   let wrapper: AppWrapper
   if (!isBrowser) {
-    // eslint-disable-next-line react/no-render-return-value
-    wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById('app'))
+    wrapper = ReactDOM.render?.(R.createElement(AppWrapper), document.getElementById('app'))
   }
 
   const app: AppInstance = Object.create({
@@ -257,8 +256,7 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
         }
         if (isBrowser) {
           // 由于 H5 路由初始化的时候会清除 app 下的 dom 元素，所以需要在路由初始化后执行 render
-          // eslint-disable-next-line react/no-render-return-value
-          wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById('app'))
+          wrapper = ReactDOM.render?.(R.createElement(AppWrapper), document.getElementById(config?.appId || 'app'))
         }
         const app = ref.current
 

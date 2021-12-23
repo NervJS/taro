@@ -6,7 +6,7 @@ import { shouldBeObject, getParameterError } from '../../utils'
 /**
  * 从本地相册选择图片或使用相机拍照。
  */
-const chooseImage: typeof Taro.chooseImage = function (options) {
+export const chooseImage: typeof Taro.chooseImage = function (options) {
   // options must be an Object
   const isObject = shouldBeObject(options)
   if (!isObject.flag) {
@@ -76,5 +76,3 @@ const chooseImage: typeof Taro.chooseImage = function (options) {
     }
   })
 }
-
-export default chooseImage
