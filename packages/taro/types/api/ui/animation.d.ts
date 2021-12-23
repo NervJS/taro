@@ -10,6 +10,11 @@ declare module '../../index' {
       /** 动画的效果 */
       timingFunction?: keyof timingFunction
       transformOrigin?: string
+      /**
+       * 单位
+       * @supported h5
+       */
+      unit?: string
     }
     interface timingFunction {
       /** 动画从头到尾的速度是相同的 */
@@ -31,14 +36,14 @@ declare module '../../index' {
 
   interface Animation {
     /** 导出动画队列。**export 方法每次调用后会清掉之前的动画操作。**
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.export.html
      */
     export(): {
       actions: TaroGeneral.IAnyObject[]
     }
     /** 设置背景色
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.backgroundColor.html
      */
     backgroundColor(
@@ -46,7 +51,7 @@ declare module '../../index' {
       value: string,
     ): Animation
     /** 设置 bottom 值
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.bottom.html
      */
     bottom(
@@ -54,7 +59,7 @@ declare module '../../index' {
       value: number | string,
     ): Animation
     /** 设置高度
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.height.html
      */
     height(
@@ -62,7 +67,7 @@ declare module '../../index' {
       value: number | string,
     ): Animation
     /** 设置 left 值
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.left.html
      */
     left(
@@ -70,17 +75,17 @@ declare module '../../index' {
       value: number | string,
     ): Animation
     /** 同 [transform-function matrix](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix)
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.matrix.html
      */
-    matrix(): Animation
+    matrix(a: number, b: number, c: number, d: number, tx: number, ty: number): Animation
     /** 同 [transform-function matrix3d](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix3d)
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.matrix3d.html
      */
-    matrix3d(): Animation
+    matrix3d(a1: number, b1: number, c1: number, d1: number, a2: number, b2: number, c2: number, d2: number, a3: number, b3: number, c3: number, d3: number, a4: number, b4: number, c4: number, d4: number): Animation
     /** 设置透明度
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.opacity.html
      */
     opacity(
@@ -88,7 +93,7 @@ declare module '../../index' {
       value: number,
     ): Animation
     /** 设置 right 值
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.right.html
      */
     right(
@@ -96,7 +101,7 @@ declare module '../../index' {
       value: number | string,
     ): Animation
     /** 从原点顺时针旋转一个角度
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotate.html
      */
     rotate(
@@ -104,21 +109,21 @@ declare module '../../index' {
       angle: number,
     ): Animation
     /** 从 固定 轴顺时针旋转一个角度
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotate3d.html
      */
     rotate3d(
       /** 旋转轴的 x 坐标 */
       x: number,
       /** 旋转轴的 y 坐标 */
-      y: number,
+      y?: number,
       /** 旋转轴的 z 坐标 */
-      z: number,
+      z?: number,
       /** 旋转的角度。范围 [-180, 180] */
-        angle: number,
+      angle?: number,
     ): Animation
     /** 从 X 轴顺时针旋转一个角度
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotateX.html
      */
     rotateX(
@@ -126,7 +131,7 @@ declare module '../../index' {
       angle: number,
     ): Animation
     /** 从 Y 轴顺时针旋转一个角度
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotateY.html
      */
     rotateY(
@@ -134,7 +139,7 @@ declare module '../../index' {
       angle: number,
     ): Animation
     /** 从 Z 轴顺时针旋转一个角度
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotateZ.html
      */
     rotateZ(
@@ -142,7 +147,7 @@ declare module '../../index' {
       angle: number,
     ): Animation
     /** 缩放
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scale.html
      */
     scale(
@@ -152,7 +157,7 @@ declare module '../../index' {
       sy?: number,
     ): Animation
     /** 缩放
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scale3d.html
      */
     scale3d(
@@ -164,7 +169,7 @@ declare module '../../index' {
       sz: number,
     ): Animation
     /** 缩放 X 轴
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scaleX.html
      */
     scaleX(
@@ -172,7 +177,7 @@ declare module '../../index' {
       scale: number,
     ): Animation
     /** 缩放 Y 轴
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scaleY.html
      */
     scaleY(
@@ -180,7 +185,7 @@ declare module '../../index' {
       scale: number,
     ): Animation
     /** 缩放 Z 轴
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scaleZ.html
      */
     scaleZ(
@@ -198,7 +203,7 @@ declare module '../../index' {
       ay: number,
     ): Animation
     /** 对 X 轴坐标进行倾斜
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.skewX.html
      */
     skewX(
@@ -214,12 +219,12 @@ declare module '../../index' {
       angle: number,
     ): Animation
     /** 表示一组动画完成。可以在一组动画中调用任意多个动画方法，一组动画中的所有动画会同时开始，一组动画完成后才会进行下一组动画。
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.step.html
      */
     step(option?: Animation.StepOption): Animation
     /** 设置 top 值
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.top.html
      */
     top(
@@ -227,7 +232,7 @@ declare module '../../index' {
       value: number | string,
     ): Animation
     /** 平移变换
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translate.html
      */
     translate(
@@ -237,7 +242,7 @@ declare module '../../index' {
       ty?: number,
     ): Animation
     /** 对 xyz 坐标进行平移变换
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translate3d.html
      */
     translate3d(
@@ -249,7 +254,7 @@ declare module '../../index' {
       tz?: number,
     ): Animation
     /** 对 X 轴平移
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translateX.html
      */
     translateX(
@@ -257,7 +262,7 @@ declare module '../../index' {
       translation: number,
     ): Animation
     /** 对 Y 轴平移
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translateY.html
      */
     translateY(
@@ -265,7 +270,7 @@ declare module '../../index' {
       translation: number,
     ): Animation
     /** 对 Z 轴平移
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translateZ.html
      */
     translateZ(
@@ -273,7 +278,7 @@ declare module '../../index' {
       translation: number,
     ): Animation
     /** 设置宽度
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.width.html
      */
     width(
