@@ -1,3 +1,5 @@
+import Taro from '@tarojs/api'
+
 /**
  * H5 下的 styleSheet 操作
  * @author leeenx
@@ -48,15 +50,15 @@ if ($detect.style['animation-name'] === 'standard') {
   TRANSFORM = 'transform'
 } else if ($detect.style['-webkit-animation-name'] === 'webkit') {
   // webkit 前缀
-  TRANSITION_END = 'webkitTransionEnd'
+  TRANSITION_END = 'webkitTransitionEnd'
   TRANSFORM = '-webkit-transform'
 } else if ($detect.style['-moz-animation-name'] === 'moz') {
-  // webkit 前缀
-  TRANSITION_END = 'mozTransionEnd'
+  // moz 前缀
+  TRANSITION_END = 'mozTransitionEnd'
   TRANSFORM = '-moz-transform'
 } else if ($detect.style['-ms-animation-name'] === 'ms') {
-  // webkit 前缀
-  TRANSITION_END = 'MSTransionEnd'
+  // ms 前缀
+  TRANSITION_END = 'msTransitionEnd'
   TRANSFORM = '-ms-transform'
 }
 
@@ -69,8 +71,7 @@ interface IAnimationAttr {
   transformOrigin: string
 }
 
-// Animation 类
-class Animation {
+class Animation implements Taro.Animation {
   unit: string
   id: number
   DEFAULT: IAnimationAttr
@@ -82,7 +83,7 @@ class Animation {
       timingFunction = 'linear',
       transformOrigin = '50% 50% 0',
       unit = 'px'
-    } = {}
+    }: Taro.createAnimation.Option = {}
   ) {
     // 默认值
     this.setDefault(duration, delay, timingFunction, transformOrigin)
@@ -108,7 +109,7 @@ class Animation {
         const animStepsCount = this.animationMap[`${animName}__${animIndex}`]
         const animStepsMaxIndex = animStepsCount - 1
         if (stepIndex < animStepsMaxIndex) {
-          // 播放下一个关键帧（因为 nevr 和 react 有差异所以 animation & data-animation 都需要写）
+          // 播放下一个关键帧（因为 nerv 和 react 有差异所以 animation & data-animation 都需要写）
           target.setAttribute(animAttr, `${animName}__${animIndex}--${stepIndex + 1}`)
           if (animAttr === 'animation') {
             // Nerv 环境，animation & data-animation 双重保险
@@ -142,23 +143,28 @@ class Animation {
   animationMap = {}
   // animationMap 的长度
   animationMapCount = 0
-  matrix (a, b, c, d, e, f) {
-    this.transform.push(`matrix(${a}, ${b}, ${c}, ${d}, ${e}, ${f})`)
+
+  matrix (a: number, b: number, c: number, d: number, tx: number, ty: number) {
+    this.transform.push(`matrix(${a}, ${b}, ${c}, ${d}, ${tx}, ${ty})`)
     return this
   }
 
-  matrix3d (a1, b1, c1, d1, a2, b2, c2, d2, a3, b3, c3, d3, a4, b4, c4, d4) {
+  matrix3d (a1: number, b1: number, c1: number, d1: number, a2: number, b2: number, c2: number, d2: number, a3: number, b3: number, c3: number, d3: number, a4: number, b4: number, c4: number, d4: number) {
     this.transform.push(`matrix3d(${a1}, ${b1}, ${c1}, ${d1}, ${a2}, ${b2}, ${c2}, ${d2}, ${a3}, ${b3}, ${c3}, ${d3}, ${a4}, ${b4}, ${c4}, ${d4})`)
     return this
   }
 
-  rotate (angle) {
+  rotate (angle: number) {
     this.transform.push(`rotate(${angle}deg)`)
     return this
   }
 
-  rotate3d (x, y, z, angle) {
-    this.transform.push(`rotate3d(${x}, ${y}, ${z}, ${angle}deg)`)
+  rotate3d (x: number, y?: number, z?: number, angle?: number) {
+    if (typeof y !== 'number') {
+      this.transform.push(`rotate3d(${x})`)
+    } else {
+      this.transform.push(`rotate3d(${x}, ${y || 0}, ${z || 0}, ${angle || 0}deg)`)
+    }
     return this
   }
 
@@ -318,7 +324,7 @@ class Animation {
     // 清空 rules 和 transform
     this.rules = []
     this.transform = [`${TRANSFORM}:`]
-    return this
+    return this as Taro.Animation
   }
 
   // 创建底层数据
@@ -341,13 +347,11 @@ class Animation {
 
   // 动画数据产出
   export () {
-    return this.createAnimationData()
+    return this.createAnimationData() as unknown as ReturnType<Taro.Animation['export']>
   }
 }
 
 // h5 的 createAnimation
-function createAnimation (...arg) {
-  return new Animation(...arg)
+export const createAnimation: typeof Taro.createAnimation = (option) => {
+  return new Animation(option)
 }
-
-export { createAnimation }
