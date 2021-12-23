@@ -7,6 +7,8 @@ import { hydrate } from '../hydrate'
 import { eventSource } from './event-source'
 import { ElementNames } from '../interface'
 import { getElementFactory, getNodeImpl } from '../container/store'
+import { MutationObserver } from '../dom-external/mutation-observer'
+import { MutationRecordType } from '../dom-external/mutation-observer/record'
 import {
   DOCUMENT_FRAGMENT
 } from '../constants'
@@ -50,11 +52,14 @@ export class TaroNode extends TaroEventTarget {
    * like jQuery's $.empty()
    */
   private _empty () {
-    while (this.childNodes.length > 0) {
-      const child = this.childNodes[0]
+    while (this.firstChild) {
+      // Data Structure
+      const child = this.firstChild
       child.parentNode = null
-      eventSource.removeNode(child)
       this.childNodes.shift()
+
+      // eventSource
+      eventSource.removeNodeTree(child)
     }
   }
 
@@ -130,12 +135,24 @@ export class TaroNode extends TaroEventTarget {
    * @TODO 等待完整 innerHTML 实现
    */
   public set textContent (text: string) {
+    const document = this._getElement<TaroDocument>(ElementNames.Document)()
+    const newText = document.createTextNode(text)
+
+    // @Todo: appendChild 会多触发一次
+    MutationObserver.record({
+      type: MutationRecordType.CHILD_LIST,
+      target: this,
+      removedNodes: this.childNodes.slice(),
+      addedNodes: text === '' ? [] : [newText]
+    })
+
     this._empty()
+
     if (text === '') {
       this.updateChildNodes(true)
     } else {
-      const document = this._getElement<TaroDocument>(ElementNames.Document)()
-      this.appendChild(document.createTextNode(text))
+      this.appendChild(newText)
+      this.updateChildNodes()
     }
   }
 
@@ -184,6 +201,19 @@ export class TaroNode extends TaroEventTarget {
       this.updateChildNodes()
     }
 
+    MutationObserver.record({
+      type: MutationRecordType.CHILD_LIST,
+      target: this,
+      addedNodes: [newChild],
+      removedNodes: isReplace
+        ? [refChild as TaroNode] /** replaceChild */
+        : [],
+      nextSibling: isReplace
+        ? (refChild as TaroNode).nextSibling /** replaceChild */
+        : refChild, /** insertBefore & appendChild */
+      previousSibling: newChild.previousSibling
+    })
+
     return newChild
   }
 
@@ -211,7 +241,7 @@ export class TaroNode extends TaroEventTarget {
     if (oldChild.parentNode !== this) return
 
     // Insert the newChild
-    this.insertBefore(newChild, oldChild)
+    this.insertBefore(newChild, oldChild, true)
 
     // Destroy the oldChild
     //   - cleanRef: true (Need to clean eventSource, because the oldChild was detached from the DOM tree)
@@ -229,18 +259,32 @@ export class TaroNode extends TaroEventTarget {
    *   2. remove C
    */
   public removeChild<T extends TaroNode> (child: T, options: RemoveChildOptions = {}): T {
+    const { cleanRef, doUpdate } = options
+
+    if (cleanRef !== false && doUpdate !== false) {
+      // appendChild/replaceChild/insertBefore 不应该触发
+      // @Todo: 但其实如果 newChild 的父节点是另一颗子树的节点，应该是要触发的
+      MutationObserver.record({
+        type: MutationRecordType.CHILD_LIST,
+        target: this,
+        removedNodes: [child],
+        nextSibling: child.nextSibling,
+        previousSibling: child.previousSibling
+      })
+    }
+
     // Data Structure
     const index = this.findIndex(child)
     this.childNodes.splice(index, 1)
     child.parentNode = null
 
     // Set eventSource
-    if (options.cleanRef !== false) {
+    if (cleanRef !== false) {
       eventSource.removeNodeTree(child)
     }
 
     // Serialization
-    if (options.doUpdate !== false) {
+    if (doUpdate !== false) {
       this.updateChildNodes()
     }
 

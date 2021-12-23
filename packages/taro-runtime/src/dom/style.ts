@@ -2,9 +2,12 @@ import { isUndefined, toCamelCase, toDashed, Shortcuts, warn, isString } from '@
 import { styleProperties } from './style_properties'
 import { TaroElement } from './element'
 import { PROPERTY_THRESHOLD } from '../constants'
+import { MutationObserver } from '../dom-external/mutation-observer'
+import { MutationRecordType } from '../dom-external/mutation-observer/record'
 
 function setStyle (this: Style, newVal: string, styleKey: string) {
   const old = this[styleKey]
+  const oldCssTxt = this.cssText
   if (newVal) {
     this._usedStyleProp.add(styleKey)
   }
@@ -19,6 +22,16 @@ function setStyle (this: Style, newVal: string, styleKey: string) {
     this._element.enqueueUpdate({
       path: `${this._element._path}.${Shortcuts.Style}`,
       value: this.cssText
+    })
+    // @Todo:
+    //   el.style.cssText = 'x: y;m: n'（Bug: 触发两次）
+    //   el.style.cssText = 'x: y'（正常）
+    //   el.style.x = y（正常）
+    MutationObserver.record({
+      type: MutationRecordType.ATTRIBUTES,
+      target: this._element,
+      attributeName: 'style',
+      oldValue: oldCssTxt
     })
   }
 }
@@ -72,7 +85,7 @@ export class Style {
   }
 
   public get cssText () {
-    let texts: string[] = []
+    const texts: string[] = []
     this._usedStyleProp.forEach(key => {
       const val = this[key]
       if (!val) return
