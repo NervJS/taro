@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, CommonEventFunction, TouchEventFunction, Omit } from './common'
+import { StandardProps, CommonEventFunction, TouchEventFunction } from './common'
 
 interface MovableViewProps extends Omit<StandardProps, 'animation'> {
   /** movable-view 的移动方向，属性值有`all`、`vertical`、`horizontal`、`none`

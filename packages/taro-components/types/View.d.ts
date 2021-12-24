@@ -17,7 +17,7 @@ interface ViewProps extends StandardProps {
   hoverStyle?: StyleProp<ViewStyle>
 
   /** 指定是否阻止本节点的祖先节点出现点击态
-   * @default fasle
+   * @default false
    * @supported weapp, swan, alipay, tt
    */
   hoverStopPropagation?: boolean
