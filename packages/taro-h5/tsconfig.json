@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES2018",
     "module": "ES2015",
     "rootDir": "./src",
     "outDir": "dist",
