@@ -107,6 +107,7 @@ function setDefinePlugin (chain) {
       args[0].ENABLE_ADJACENT_HTML = true
       args[0].ENABLE_CLONE_NODE = true
       args[0].ENABLE_TEMPLATE_CONTENT = true
+      args[0].ENABLE_MUTATION_OBSERVER = true
       return args
     })
 }

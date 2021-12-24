@@ -8,6 +8,8 @@ import { Style } from './style'
 import { treeToArray } from './tree'
 import { ClassList } from './class-list'
 import { getElementImpl } from '../container/store'
+import { MutationObserver } from '../dom-external/mutation-observer'
+import { MutationRecordType } from '../dom-external/mutation-observer/record'
 import {
   ID,
   CLASS,
@@ -141,6 +143,15 @@ export class TaroElement extends TaroNode {
 
     const isPureView = this.nodeName === VIEW && !isHasExtractProp(this) && !this.isAnyEventBinded()
 
+    if (qualifiedName !== STYLE) {
+      MutationObserver.record({
+        target: this,
+        type: MutationRecordType.ATTRIBUTES,
+        attributeName: qualifiedName,
+        oldValue: this.getAttribute(qualifiedName)
+      })
+    }
+
     switch (qualifiedName) {
       case STYLE:
         this.style.cssText = value as string
@@ -200,6 +211,13 @@ export class TaroElement extends TaroNode {
 
   public removeAttribute (qualifiedName: string) {
     const isStaticView = this.nodeName === VIEW && isHasExtractProp(this) && !this.isAnyEventBinded()
+
+    MutationObserver.record({
+      target: this,
+      type: MutationRecordType.ATTRIBUTES,
+      attributeName: qualifiedName,
+      oldValue: this.getAttribute(qualifiedName)
+    })
 
     if (qualifiedName === STYLE) {
       this.style.cssText = ''
