@@ -174,5 +174,5 @@
     "@types/react-reconciler": "0.26.1",
     "rollup-plugin-copy": "^3.4.0"
   },
-  "version": "3.3.16"
+  "version": "3.3.18"
 }
