@@ -57,6 +57,7 @@ export class Template extends RecursiveTemplate {
 
     // 兼容支付宝 2.0 构建
     delete result.slot
+    delete result['slot-view']
 
     return result
   }

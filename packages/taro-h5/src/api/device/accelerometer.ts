@@ -7,7 +7,7 @@ let devicemotionListener
 /**
  * 停止监听加速度数据。
  */
-const stopAccelerometer: typeof Taro.stopAccelerometer = ({ success, fail, complete } = {}) => {
+export const stopAccelerometer: typeof Taro.stopAccelerometer = ({ success, fail, complete } = {}) => {
   const res: Partial<TaroGeneral.CallbackResult> = {}
   const handle = new MethodHandler({ name: 'stopAccelerometer', success, fail, complete })
   try {
@@ -53,7 +53,7 @@ const getDevicemotionListener = interval => {
 /**
  * 开始监听加速度数据。
  */
-const startAccelerometer: typeof Taro.startAccelerometer = ({ interval = 'normal', success, fail, complete } = {}) => {
+export const startAccelerometer: typeof Taro.startAccelerometer = ({ interval = 'normal', success, fail, complete } = {}) => {
   const handle = new MethodHandler({ name: 'startAccelerometer', success, fail, complete })
   try {
     if (window.DeviceMotionEvent) {
@@ -75,15 +75,13 @@ const startAccelerometer: typeof Taro.startAccelerometer = ({ interval = 'normal
 /**
  * 监听加速度数据事件。频率根据 Taro.startAccelerometer() 的 interval 参数。可使用 Taro.stopAccelerometer() 停止监听。
  */
-const onAccelerometerChange: typeof Taro.onAccelerometerChange = callback => {
+export const onAccelerometerChange: typeof Taro.onAccelerometerChange = callback => {
   callbackManager.add(callback)
 }
 
 /**
  * 取消监听加速度数据事件，参数为空，则取消所有的事件监听
  */
-const offAccelerometerChange: typeof Taro.offAccelerometerChange = callback => {
+export const offAccelerometerChange: typeof Taro.offAccelerometerChange = callback => {
   callbackManager.remove(callback)
 }
-
-export { stopAccelerometer, startAccelerometer, onAccelerometerChange, offAccelerometerChange }
