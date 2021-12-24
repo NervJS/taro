@@ -6,7 +6,6 @@
 // ❌ wx.createVideoContext
 // ❌ wx.compressVideo
 // ✅ wx.chooseVideo
-// ❌ wx.chooseMedia
 // VideoContext
 //   ❌ VideoContext.exitBackgroundPlayback
 //   ❌ VideoContext.exitFullScreen

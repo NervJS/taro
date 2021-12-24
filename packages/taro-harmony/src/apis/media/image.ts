@@ -7,7 +7,6 @@
 // ✅ wx.compressImage(Object object)
 // ✅ wx.chooseImage(Object object)
 // ❌ wx.chooseMessageFile(Object object) HarmonyOS不支持
-// ❌ wx.previewMedia(Object object)
 
 import Taro from '@tarojs/taro'
 import { isNull } from '@tarojs/shared'
