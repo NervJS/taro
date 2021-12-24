@@ -25,7 +25,7 @@ const previewMediaSchema = {
   sources: 'Atring'
 }
 
-// 扩展支持预览video
+// TODO: 扩展支持预览video
 const previewMedia: PreviewMedia = function (options) {
   return new Promise((resolve, reject) => {
     try {
