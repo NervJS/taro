@@ -210,7 +210,7 @@ export class TaroNode extends TaroEventTarget {
         : [],
       nextSibling: isReplace
         ? (refChild as TaroNode).nextSibling /** replaceChild */
-        : refChild, /** insertBefore & appendChild */
+        : (refChild || null), /** insertBefore & appendChild */
       previousSibling: newChild.previousSibling
     })
 

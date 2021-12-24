@@ -32,8 +32,10 @@ describe('MutationObserver', () => {
         expect(mutations.length).toBe(1)
         expect(mutations).toEqual([{
           target: target,
-          type: 2,
-          previousSibling: undefined,
+          type: 'childList',
+          previousSibling: null,
+          nextSibling: null,
+          removedNodes: [],
           addedNodes: [child]
         }])
       })
@@ -53,8 +55,10 @@ describe('MutationObserver', () => {
         expect(mutations.length).toBe(1)
         expect(mutations).toEqual([{
           target: target,
-          type: 2,
+          type: 'childList',
           previousSibling: sibling,
+          nextSibling: null,
+          removedNodes: [],
           addedNodes: [child]
         }])
       })
@@ -67,15 +71,17 @@ describe('MutationObserver', () => {
       const child = document.createElement('view')
 
       target.appendChild(child)
-      observer.observe(target, { childList: true })
+      observer.observe(target, { childList: true, subtree: true })
       child.appendChild(div)
 
       return Promise.resolve().then(() => {
         expect(mutations.length).toBe(1)
         expect(mutations).toEqual([{
           target: child,
-          type: 2,
-          previousSibling: undefined,
+          type: 'childList',
+          previousSibling: null,
+          nextSibling: null,
+          removedNodes: [],
           addedNodes: [div]
         }])
       })
@@ -98,8 +104,9 @@ describe('MutationObserver', () => {
         expect(target.childNodes.length).toBe(1)
         expect(mutations).toEqual([{
           target: target,
-          type: 2,
-          nextSibling: undefined,
+          type: 'childList',
+          previousSibling: null,
+          nextSibling: null,
           addedNodes: [div],
           removedNodes: [view]
         }])
@@ -123,7 +130,8 @@ describe('MutationObserver', () => {
         expect(target.childNodes.length).toBe(2)
         expect(mutations).toEqual([{
           target: target,
-          type: 2,
+          type: 'childList',
+          previousSibling: null,
           nextSibling: last,
           addedNodes: [newNode],
           removedNodes: [first]
@@ -148,8 +156,9 @@ describe('MutationObserver', () => {
         expect(target.childNodes.length).toBe(2)
         expect(mutations).toEqual([{
           target: target,
-          type: 2,
-          nextSibling: undefined,
+          type: 'childList',
+          previousSibling: first,
+          nextSibling: null,
           addedNodes: [newNode],
           removedNodes: [last]
         }])
@@ -168,18 +177,14 @@ describe('MutationObserver', () => {
       target.replaceChild(first, last)
 
       return Promise.resolve().then(() => {
-        expect(mutations.length).toBe(2)
+        expect(mutations.length).toBe(1)
         expect(target.childNodes.length).toBe(1)
         expect(mutations).toEqual([
           {
             target: target,
-            type: 2,
-            removedNodes: [first]
-          },
-          {
-            target: target,
-            type: 2,
-            nextSibling: undefined,
+            type: 'childList',
+            previousSibling: null,
+            nextSibling: null,
             addedNodes: [first],
             removedNodes: [last]
           }
@@ -204,7 +209,9 @@ describe('MutationObserver', () => {
         expect(mutations).toEqual([
           {
             target: target,
-            type: 2,
+            type: 'childList',
+            previousSibling: null,
+            nextSibling: null,
             removedNodes: [first]
           }
         ])
@@ -227,7 +234,9 @@ describe('MutationObserver', () => {
         expect(mutations).toEqual([
           {
             target: target,
-            type: 2,
+            type: 'childList',
+            previousSibling: null,
+            nextSibling: last,
             removedNodes: [first]
           }
         ])
@@ -253,12 +262,16 @@ describe('MutationObserver', () => {
         expect(mutations).toEqual([
           {
             target: target,
-            type: 2,
+            type: 'childList',
+            previousSibling: first,
+            nextSibling: last,
             removedNodes: [second]
           },
           {
             target: target,
-            type: 2,
+            type: 'childList',
+            previousSibling: first,
+            nextSibling: null,
             removedNodes: [last]
           }
         ])
@@ -272,7 +285,7 @@ describe('MutationObserver', () => {
 
       target.appendChild(div)
       div.appendChild(view)
-      observer.observe(target, { childList: true })
+      observer.observe(target, { childList: true, subtree: true })
       div.removeChild(view)
 
       return Promise.resolve().then(() => {
@@ -281,7 +294,9 @@ describe('MutationObserver', () => {
         expect(mutations).toEqual([
           {
             target: div,
-            type: 2,
+            type: 'childList',
+            previousSibling: null,
+            nextSibling: null,
             removedNodes: [view]
           }
         ])
@@ -297,7 +312,7 @@ describe('MutationObserver', () => {
         const el = document.createElement('div')
 
         target.appendChild(el)
-        observer.observe(target)
+        observer.observe(target, { attributes: true, subtree: true })
         el.classList.add('bar')
 
         return Promise.resolve().then(() => {
@@ -305,10 +320,9 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'class',
-              value: 'bar',
-              oldValue: ''
+              oldValue: null
             }
           ])
         })
@@ -321,7 +335,7 @@ describe('MutationObserver', () => {
         el.classList.add('foo')
 
         target.appendChild(el)
-        observer.observe(target)
+        observer.observe(target, { attributes: true, subtree: true })
         el.classList.add('bar')
 
         return Promise.resolve().then(() => {
@@ -329,10 +343,9 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'class',
-              value: 'foo bar',
-              oldValue: 'foo'
+              oldValue: null
             }
           ])
         })
@@ -344,7 +357,7 @@ describe('MutationObserver', () => {
         const el = document.createElement('div')
 
         target.appendChild(el)
-        observer.observe(target)
+        observer.observe(target, { attributes: true, attributeOldValue: true, subtree: true })
         el.classList.add('foo')
         el.classList.add('bar')
 
@@ -353,16 +366,14 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'class',
-              value: 'foo',
               oldValue: ''
             },
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'class',
-              value: 'foo bar',
               oldValue: 'foo'
             }
           ])
@@ -376,7 +387,7 @@ describe('MutationObserver', () => {
         el.classList.add('foo')
 
         target.appendChild(el)
-        observer.observe(target)
+        observer.observe(target, { attributes: true, attributeOldValue: true, subtree: true })
         el.classList.add('bar')
         el.classList.add('baz')
 
@@ -385,16 +396,14 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'class',
-              value: 'foo bar',
               oldValue: 'foo'
             },
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'class',
-              value: 'foo bar baz',
               oldValue: 'foo bar'
             }
           ])
@@ -408,7 +417,7 @@ describe('MutationObserver', () => {
         el.classList.add('foo')
 
         target.appendChild(el)
-        observer.observe(target)
+        observer.observe(target, { attributes: true, subtree: true })
         el.classList.replace('foo', 'bar')
 
         return Promise.resolve().then(() => {
@@ -416,10 +425,9 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'class',
-              value: 'bar',
-              oldValue: 'foo'
+              oldValue: null
             }
           ])
         })
@@ -434,7 +442,7 @@ describe('MutationObserver', () => {
         el.classList.add('baz')
 
         target.appendChild(el)
-        observer.observe(target)
+        observer.observe(target, { attributes: true, attributeOldValue: true, subtree: true })
         el.classList.replace('foo', 'bar')
 
         return Promise.resolve().then(() => {
@@ -442,9 +450,8 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'class',
-              value: 'bar baz',
               oldValue: 'foo bar baz'
             }
           ])
@@ -458,7 +465,7 @@ describe('MutationObserver', () => {
         el.className = 'foo'
 
         target.appendChild(el)
-        observer.observe(target)
+        observer.observe(target, { attributes: true, attributeOldValue: true, subtree: true })
         el.classList.toggle('foo')
 
         return Promise.resolve().then(() => {
@@ -466,9 +473,8 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'class',
-              value: '',
               oldValue: 'foo'
             }
           ])
@@ -482,7 +488,7 @@ describe('MutationObserver', () => {
         el.className = 'foo'
 
         target.appendChild(el)
-        observer.observe(target)
+        observer.observe(target, { attributes: true, attributeOldValue: true, subtree: true })
         el.classList.toggle('bar')
 
         return Promise.resolve().then(() => {
@@ -490,9 +496,8 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'class',
-              value: 'foo bar',
               oldValue: 'foo'
             }
           ])
@@ -507,7 +512,7 @@ describe('MutationObserver', () => {
         const el = document.createElement('div')
 
         target.appendChild(el)
-        observer.observe(target)
+        observer.observe(target, { attributes: true, subtree: true })
         el.style.width = '10px'
 
         return Promise.resolve().then(() => {
@@ -515,10 +520,9 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'style',
-              value: 'width: 10px;',
-              oldValue: ''
+              oldValue: null
             }
           ])
         })
@@ -531,7 +535,7 @@ describe('MutationObserver', () => {
 
         el.style.width = '10px'
         target.appendChild(el)
-        observer.observe(target)
+        observer.observe(target, { attributes: true, attributeOldValue: true, subtree: true })
         el.style.height = '12px'
 
         return Promise.resolve().then(() => {
@@ -539,9 +543,8 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'style',
-              value: 'width: 10px; height: 12px;',
               oldValue: 'width: 10px;'
             }
           ])
@@ -554,7 +557,7 @@ describe('MutationObserver', () => {
         const el = document.createElement('div')
 
         target.appendChild(el)
-        observer.observe(target)
+        observer.observe(target, { attributes: true, subtree: true })
         el.style.setProperty('width', '12px')
 
         return Promise.resolve().then(() => {
@@ -562,10 +565,9 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'style',
-              value: 'width: 12px;',
-              oldValue: ''
+              oldValue: null
             }
           ])
         })
@@ -578,7 +580,7 @@ describe('MutationObserver', () => {
 
         target.appendChild(el)
         el.style.setProperty('width', '10px')
-        observer.observe(target)
+        observer.observe(target, { attributes: true, subtree: true })
         el.style.setProperty('height', '12px')
 
         return Promise.resolve().then(() => {
@@ -586,10 +588,9 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'style',
-              value: 'width: 10px; height: 12px;',
-              oldValue: 'width: 10px;'
+              oldValue: null
             }
           ])
         })
@@ -601,7 +602,7 @@ describe('MutationObserver', () => {
         const el = document.createElement('div')
 
         target.appendChild(el)
-        observer.observe(target)
+        observer.observe(target, { attributes: true, subtree: true })
         el.style.cssText = 'width: 10px'
 
         return Promise.resolve().then(() => {
@@ -609,10 +610,9 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'style',
-              value: 'width: 10px;',
-              oldValue: ''
+              oldValue: null
             }
           ])
         })
@@ -624,7 +624,7 @@ describe('MutationObserver', () => {
         const el = document.createElement('div')
 
         target.appendChild(el)
-        observer.observe(target)
+        observer.observe(target, { attributes: true, subtree: true })
         el.style.cssText = 'width: 10px; height: 12px'
 
         return Promise.resolve().then(() => {
@@ -632,17 +632,15 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'style',
-              value: 'width: 10px;',
-              oldValue: ''
+              oldValue: null
             },
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'style',
-              value: 'width: 10px; height: 12px;',
-              oldValue: 'width: 10px;'
+              oldValue: null
             }
           ])
         })
@@ -655,7 +653,7 @@ describe('MutationObserver', () => {
 
         target.appendChild(el)
         el.style.width = '10px'
-        observer.observe(target)
+        observer.observe(target, { attributes: true, subtree: true })
         el.style.width = ''
 
         return Promise.resolve().then(() => {
@@ -663,10 +661,9 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'style',
-              value: '',
-              oldValue: 'width: 10px;'
+              oldValue: null
             }
           ])
         })
@@ -679,7 +676,7 @@ describe('MutationObserver', () => {
 
         target.appendChild(el)
         el.style.setProperty('width', '10px')
-        observer.observe(target)
+        observer.observe(target, { attributes: true, subtree: true })
         el.style.setProperty('width', '')
 
         return Promise.resolve().then(() => {
@@ -687,10 +684,9 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'style',
-              value: '',
-              oldValue: 'width: 10px;'
+              oldValue: null
             }
           ])
         })
@@ -703,7 +699,7 @@ describe('MutationObserver', () => {
 
         target.appendChild(el)
         el.style.setProperty('width', '10px')
-        observer.observe(target)
+        observer.observe(target, { attributes: true, subtree: true })
         el.style.removeProperty('width')
 
         return Promise.resolve().then(() => {
@@ -711,10 +707,9 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'style',
-              value: '',
-              oldValue: 'width: 10px;'
+              oldValue: null
             }
           ])
         })
@@ -727,7 +722,7 @@ describe('MutationObserver', () => {
 
         target.appendChild(el)
         el.style.cssText = 'width: 10px'
-        observer.observe(target)
+        observer.observe(target, { attributes: true, subtree: true })
         el.style.cssText = ''
 
         return Promise.resolve().then(() => {
@@ -735,10 +730,9 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'style',
-              value: '',
-              oldValue: 'width: 10px;'
+              oldValue: null
             }
           ])
         })
@@ -751,7 +745,7 @@ describe('MutationObserver', () => {
 
         target.appendChild(el)
         el.style.width = '10px'
-        observer.observe(target)
+        observer.observe(target, { attributes: true, subtree: true })
         el.style.width = '12px'
 
         return Promise.resolve().then(() => {
@@ -759,10 +753,9 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'style',
-              value: 'width: 12px;',
-              oldValue: 'width: 10px;'
+              oldValue: null
             }
           ])
         })
@@ -776,7 +769,7 @@ describe('MutationObserver', () => {
         target.appendChild(el)
         el.style.width = '10px'
         el.style.height = '12px'
-        observer.observe(target)
+        observer.observe(target, { attributes: true, attributeOldValue: true, subtree: true })
         el.style.width = '14px'
 
         return Promise.resolve().then(() => {
@@ -784,9 +777,8 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'style',
-              value: 'width: 14px; height: 12px;',
               oldValue: 'width: 10px; height: 12px;'
             }
           ])
@@ -800,7 +792,7 @@ describe('MutationObserver', () => {
 
         target.appendChild(el)
         el.style.setProperty('width', '10px')
-        observer.observe(target)
+        observer.observe(target, { attributes: true, attributeOldValue: true, subtree: true })
         el.style.setProperty('width', '12px')
 
         return Promise.resolve().then(() => {
@@ -808,9 +800,8 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'style',
-              value: 'width: 12px;',
               oldValue: 'width: 10px;'
             }
           ])
@@ -826,7 +817,7 @@ describe('MutationObserver', () => {
 
         target.appendChild(el)
         el.style.cssText = 'width: 10px; height: 12px'
-        observer.observe(target)
+        observer.observe(target, { attributes: true, attributeOldValue: true, subtree: true })
         el.style.cssText = 'width: 12px; height: 14px'
 
         return Promise.resolve().then(() => {
@@ -834,30 +825,26 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'style',
-              value: 'height: 12px;',
               oldValue: 'width: 10px; height: 12px;'
             },
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'style',
-              value: '',
               oldValue: 'height: 12px;'
             },
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'style',
-              value: 'width: 12px;',
               oldValue: ''
             },
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'style',
-              value: 'width: 12px; height: 14px;',
               oldValue: 'width: 12px;'
             }
           ])
@@ -872,7 +859,7 @@ describe('MutationObserver', () => {
         const el = document.createElement('div')
 
         target.appendChild(el)
-        observer.observe(target)
+        observer.observe(target, { attributes: true, attributeOldValue: true, subtree: true })
         el.setAttribute('data-foo', 'bar')
 
         return Promise.resolve().then(() => {
@@ -880,9 +867,8 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'data-foo',
-              value: 'bar',
               oldValue: ''
             }
           ])
@@ -896,7 +882,7 @@ describe('MutationObserver', () => {
 
         el.setAttribute('data-foo', 'bar')
         target.appendChild(el)
-        observer.observe(target)
+        observer.observe(target, { attributes: true, attributeOldValue: true, subtree: true })
         el.setAttribute('data-foo', 'baz')
 
         return Promise.resolve().then(() => {
@@ -904,9 +890,8 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'data-foo',
-              value: 'baz',
               oldValue: 'bar'
             }
           ])
@@ -920,7 +905,7 @@ describe('MutationObserver', () => {
 
         el.setAttribute('data-foo', 'bar')
         target.appendChild(el)
-        observer.observe(target)
+        observer.observe(target, { attributes: true, attributeOldValue: true, subtree: true })
         el.removeAttribute('data-foo')
 
         return Promise.resolve().then(() => {
@@ -928,7 +913,7 @@ describe('MutationObserver', () => {
           expect(mutations).toEqual([
             {
               target: el,
-              type: 0,
+              type: 'attributes',
               attributeName: 'data-foo',
               oldValue: 'bar'
             }
@@ -945,7 +930,7 @@ describe('MutationObserver', () => {
       const el = document.createTextNode('original text')
 
       target.appendChild(el)
-      observer.observe(target)
+      observer.observe(target, { characterData: true, characterDataOldValue: true, subtree: true })
       el.textContent = 'new text'
 
       return Promise.resolve().then(() => {
@@ -953,8 +938,7 @@ describe('MutationObserver', () => {
         expect(mutations).toEqual([
           {
             target: el,
-            type: 1,
-            value: 'new text',
+            type: 'characterData',
             oldValue: 'original text'
           }
         ])
