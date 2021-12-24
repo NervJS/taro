@@ -66,7 +66,6 @@
     "babel-plugin-jest-hoist": "^26.6.2",
     "cpy-cli": "^3.1.1",
     "jest-expo": "^39.0.0",
-    "mock-socket": "^7.1.0",
     "react-native": "^0.66.0",
     "rimraf": "^3.0.0"
   },
