@@ -3,6 +3,8 @@ import * as path from 'path'
 import * as os from 'os'
 import { Transform } from 'stream'
 import * as child_process from 'child_process'
+import * as parser from '@babel/parser'
+import traverse from '@babel/traverse'
 
 import * as chalk from 'chalk'
 import * as findWorkspaceRoot from 'find-yarn-workspace-root'
@@ -491,13 +493,62 @@ export function removeHeadSlash (str: string) {
   return str.replace(/^(\/|\\)/, '')
 }
 
+function analyzeImport (filePath: string): string[] {
+  const code = fs.readFileSync(filePath).toString()
+  let importPaths: string[] = []
+  filePath = path.dirname(filePath)
+
+  const ast = parser.parse(code, {
+    sourceType: 'module',
+    plugins: [
+      'typescript',
+      'classProperties',
+      'objectRestSpread',
+      'optionalChaining'
+    ]
+  })
+
+  traverse(ast, {
+    ImportDeclaration ({ node }) {
+      const list: string[] = []
+      const source = node.source.value
+
+      if (path.extname(source)) {
+        const importPath = path.resolve(filePath, source)
+        list.push(importPath)
+      } else {
+        ['.js', '.ts', '.json'].forEach(ext => {
+          const importPath = path.resolve(filePath, source + ext)
+          list.push(importPath)
+        })
+      }
+
+      const dep = list.find(importPath => fs.existsSync(importPath))
+      if (!dep) return
+
+      importPaths.push(dep)
+      importPaths = importPaths.concat(analyzeImport(dep))
+    }
+  })
+  return importPaths
+}
+
 export function readConfig (configPath: string) {
   let result: any = {}
   if (fs.existsSync(configPath)) {
+    const importPaths = analyzeImport(configPath)
+
     createBabelRegister({
-      only: [configPath]
+      only: [
+        configPath,
+        filepath => importPaths.includes(filepath)
+      ]
     })
-    delete require.cache[configPath]
+
+    importPaths.concat([configPath]).forEach(item => {
+      delete require.cache[item]
+    })
+
     result = getModuleDefaultExport(require(configPath))
   }
   return result
