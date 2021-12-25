@@ -1,9 +1,9 @@
 import Taro from '@tarojs/api'
+import { Current } from '@tarojs/runtime'
 
 import { MethodHandler } from '../../utils/handler'
 import { getTimingFunc, easeInOut } from '../../utils'
 
-let scrollFunc
 let timer: NodeJS.Timeout
 const FRAME_DURATION = 17
 
@@ -11,6 +11,7 @@ const FRAME_DURATION = 17
  * 将页面滚动到目标位置
  */
 export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '', duration = 300, success, fail, complete }) => {
+  let scrollFunc
   const handle = new MethodHandler({ name: 'pageScrollTo', success, fail, complete })
   return new Promise((resolve, reject) => {
     try {
@@ -20,17 +21,14 @@ export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '
         }, reject)
       }
 
-      let el
-      if (document.querySelector('.taro-tabbar__tabbar') === null) {
-        // 没设置tabbar
-        el = window
-      } else {
-        // 有设置tabbar
-        el = document.querySelector('.taro-tabbar__panel') || window
-      }
+      const id = Current.page?.path
+      const el: HTMLDivElement | null = (id
+        ? document.getElementById(id)
+        : document.querySelector('.taro_page') ||
+      document.querySelector('.taro_router')) as HTMLDivElement
 
       if (!scrollFunc) {
-        if (el === window) {
+        if (!el) {
           scrollFunc = pos => {
             if (pos === undefined) {
               return window.pageYOffset
