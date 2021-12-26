@@ -42,9 +42,8 @@ jest.mock('@tarojs/helper', () => {
             if (matches && matches.length === 1) {
               const header = 'function definePageConfig(config){ return config };\r\n'
               const code = header + matches[0]
-              const res = babel.transformSync(code, { filename: '' })
               // eslint-disable-next-line no-eval
-              return eval(res!.code as string)
+              return eval(code as string)
             }
           }
         }
