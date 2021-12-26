@@ -67,6 +67,7 @@ const saveImageToPhotosAlbumSchema = {
 
 const getImageInfo: GetImageInfo = function (options) {
   return new Promise((resolve, reject) => {
+    console.warn('iimmaaggee TARO 1 options:' + JSON.stringify(options))
     try {
       validateParams('getImageInfo', options, getImageInfoSchema)
     } catch (error) {
@@ -75,16 +76,21 @@ const getImageInfo: GetImageInfo = function (options) {
     }
     const { src } = options
     const source = image.createImageSource(src)
+    console.warn('iimmaaggee TARO 2 image:' + image)
+    console.warn('iimmaaggee TARO 3 source:' + source)
     if (isNull(source)) {
+      console.warn('iimmaaggee TARO 4 source is null')
       const createImageSourceError = { errMsg: 'getImageInfo fail: createImageSource has failed.' }
       callAsyncFail(reject, createImageSourceError, options)
       return
     }
     source.getImageInfo().then((value) => {
+      console.warn('iimmaaggee TARO 4 value:' + JSON.stringify(value))
       callAsyncSuccess(resolve, value, options)
     }).catch((error) => {
       callAsyncFail(reject, error, options)
     })
+    console.warn('iimmaaggee TARO 5 end')
   })
 }
 
@@ -126,6 +132,7 @@ const compressImage: CompressImage = function (options) {
 
 const previewImage: PreviewImage = function (options) {
   return new Promise((resolve, reject) => {
+    console.warn('iimmaaggee TARO 1 options:' + JSON.stringify(options))
     try {
       validateParams('previewImage', options, previewImageSchema)
     } catch (error) {
@@ -137,12 +144,14 @@ const previewImage: PreviewImage = function (options) {
       images: urls,
       index: current ? parseInt(current) : 0
     }
-    mediaLibrary.getMediaLibrary().startImagePreview(previewImageOptions).then(() => {
+    console.warn('iimmaaggee TARO 2 previewImageOptions:' + JSON.stringify(previewImageOptions))
+    mediaLibrary.getMediaLibrary().startImagePreview(previewImageOptions.images, previewImageOptions.index).then(() => {
       const previewImageRes = { errMsg: 'previewImage success.' }
       callAsyncSuccess(resolve, previewImageRes, options)
     }).catch((error) => {
       callAsyncFail(reject, error, options)
     })
+    console.warn('iimmaaggee TARO 3 end')
   })
 }
 
