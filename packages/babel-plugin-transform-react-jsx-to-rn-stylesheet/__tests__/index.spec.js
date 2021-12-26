@@ -45,16 +45,8 @@ const getClassNameFunctionTemplate = `function _getClassName() {
 const getStyleFunctionTemplete = `function _getStyle(classNameExpression) {
   var className = _getClassName(classNameExpression);\n
   var classNameArr = className.split(/\\s+/);
-  var style = [];
-
-  if (classNameArr.length === 1) {
-    style.push(_styleSheet[classNameArr[0].trim()]);
-  } else {
-    classNameArr.forEach(function (cls) {
-      style.push(_styleSheet[cls.trim()]);
-    });
-  }
-
+  var style = {};
+  classNameArr.reduce((sty, cls) => Object.assign(sty, _styleSheet[cls.trim()]), style);
   return style;
 }`
 
