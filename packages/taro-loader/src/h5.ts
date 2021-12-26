@@ -2,6 +2,7 @@ import * as webpack from 'webpack'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import { AppConfig } from '@tarojs/taro'
 import { join, dirname } from 'path'
+import { readConfig } from '@tarojs/helper'
 
 function genResource (path: string, pages: Map<string, string>, loaderContext: webpack.loader.LoaderContext) {
   const stringify = (s: string): string => stringifyRequest(loaderContext, s)
@@ -11,7 +12,7 @@ function genResource (path: string, pages: Map<string, string>, loaderContext: w
       load: function() {
           return import(${stringify(join(loaderContext.context, path))})
       }
-  }, require(${stringify(pages.get(path)!)}).default || {}),
+  }, ${JSON.stringify(readConfig(pages.get(path)!))}),
 `
 }
 

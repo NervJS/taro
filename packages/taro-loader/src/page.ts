@@ -55,7 +55,8 @@ export function getPageConfig (configs: Record<string, PageConfig>, resourcePath
   const configPath = removeExt(resourcePath) + '.config'
   for (const name in configs) {
     const config = configs[name]
-    if (removeExt(configs[name].path) === configPath) {
+    const currentPath = config.path.endsWith('.config') ? config.path : removeExt(config.path)
+    if (currentPath === configPath) {
       return config.content
     }
   }
