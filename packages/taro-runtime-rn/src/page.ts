@@ -99,7 +99,7 @@ Dimensions.addEventListener('change', ({ window }) => {
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function createPageConfig (Page: any, pageConfig: PageConfig): any {
   const h = React.createElement
-  const pagePath = pageConfig.pagePath || ''
+  const pagePath = pageConfig.pagePath.replace(/^\//, '') || ''
 
   const pageId = camelCase(pagePath) ?? `taro_page_${compId}`
 
@@ -273,7 +273,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
         Current.router = {
           params: params,
-          path: pagePath
+          path: pagePath.startsWith('/') ? pagePath : `/${pagePath}`
         }
         Current.page = inst
       }
