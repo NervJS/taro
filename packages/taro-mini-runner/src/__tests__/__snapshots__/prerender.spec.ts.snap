@@ -1293,12 +1293,13 @@ require(\\"./taro\\");
                 }(R.Component);
             };
         }
-        function createReactApp(App, react, reactdom, config) {
+        function createReactApp(App, react, dom, config) {
             var _Object$create;
+            var _a;
             if (false) {}
             R$1 = react;
             h$1 = react.createElement;
-            ReactDOM$1 = reactdom;
+            ReactDOM$1 = dom;
             var appInstanceRef = react.createRef();
             var isReactComponent = isClassComponent(R$1, App);
             var appWrapper;
@@ -1361,7 +1362,7 @@ require(\\"./taro\\");
                 return AppWrapper;
             }(R$1.Component);
             if (true) {
-                appWrapper = ReactDOM$1.render(h$1(AppWrapper), taro_runtime[\\"document\\"].getElementById(\\"app\\"));
+                appWrapper = (_a = ReactDOM$1.render) === null || _a === void 0 ? void 0 : _a.call(ReactDOM$1, h$1(AppWrapper), taro_runtime[\\"document\\"].getElementById(\\"app\\"));
             }
             var _hooks$1$getMiniLifec = _slicedToArray(hooks$1.getMiniLifecycleImpl().app, 3), ONLAUNCH = _hooks$1$getMiniLifec[0], ONSHOW = _hooks$1$getMiniLifec[1], ONHIDE = _hooks$1$getMiniLifec[2];
             var appObj = Object.create({
@@ -1382,7 +1383,7 @@ require(\\"./taro\\");
             }, Object(defineProperty[\\"a\\"])(_Object$create, ONLAUNCH, setDefaultDescriptor({
                 value: function value(options) {
                     var _this3 = this;
-                    var _a;
+                    var _a, _b;
                     setRouterParams(options);
                     if (false) {}
                     var app = getAppInstance();
@@ -1406,7 +1407,7 @@ require(\\"./taro\\");
                             }));
                             Object.defineProperties(this, descriptors);
                         }
-                        (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, options);
+                        (_b = app.onLaunch) === null || _b === void 0 ? void 0 : _b.call(app, options);
                     }
                 }
             })), Object(defineProperty[\\"a\\"])(_Object$create, ONSHOW, setDefaultDescriptor({
@@ -1709,7 +1710,7 @@ require(\\"./taro\\");
             }
             return componentObj;
         }
-        var _a, _b;
+        var runtime_a, _b;
         var hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
         hooks.initNativeApiImpls || (hooks.initNativeApiImpls = []);
         hooks.initNativeApiImpls.push((function(taro) {
@@ -3903,7 +3904,7 @@ require(\\"./taro\\");
   <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 </block>
 <block wx:else>
-<view ><view class=\\"taro-region-picker taro-region-picker-gray\\" ><picker mode=\\"multiSelector\\" range='[[\\"北京市\\",\\"天津市\\",\\"上海市\\",\\"重庆市\\",\\"河北省\\",\\"山西省\\",\\"内蒙古\\",\\"辽宁省\\",\\"吉林省\\",\\"黑龙江省\\",\\"江苏省\\",\\"浙江省\\",\\"安徽省\\",\\"福建省\\",\\"江西省\\",\\"山东省\\",\\"河南省\\",\\"湖北省\\",\\"湖南省\\",\\"广东省\\",\\"广西\\",\\"海南省\\",\\"四川省\\",\\"贵州省\\",\\"云南省\\",\\"西藏\\",\\"陕西省\\",\\"甘肃省\\",\\"青海省\\",\\"宁夏\\",\\"新疆\\",\\"香港\\",\\"澳门\\",\\"台湾省\\"],[\\"北京市\\"],[\\"东城区\\",\\"西城区\\",\\"崇文区\\",\\"宣武区\\",\\"朝阳区\\",\\"丰台区\\",\\"石景山区\\",\\"海淀区\\",\\"门头沟区\\",\\"房山区\\",\\"通州区\\",\\"顺义区\\",\\"昌平区\\",\\"大兴区\\",\\"怀柔区\\",\\"平谷区\\",\\"密云县\\",\\"延庆县\\",\\"延庆镇\\"]]' value='[0,0,0]' ><view style=\\"width: 100%;height: 44px;\\" ><text >请选择省市区</text></view></picker></view></view>
+<view id=\\"_n_15\\" ><view class=\\"taro-region-picker taro-region-picker-gray\\" id=\\"_n_10\\" ><picker id=\\"_n_9\\" mode=\\"multiSelector\\" range='[[\\"北京市\\",\\"天津市\\",\\"上海市\\",\\"重庆市\\",\\"河北省\\",\\"山西省\\",\\"内蒙古\\",\\"辽宁省\\",\\"吉林省\\",\\"黑龙江省\\",\\"江苏省\\",\\"浙江省\\",\\"安徽省\\",\\"福建省\\",\\"江西省\\",\\"山东省\\",\\"河南省\\",\\"湖北省\\",\\"湖南省\\",\\"广东省\\",\\"广西\\",\\"海南省\\",\\"四川省\\",\\"贵州省\\",\\"云南省\\",\\"西藏\\",\\"陕西省\\",\\"甘肃省\\",\\"青海省\\",\\"宁夏\\",\\"新疆\\",\\"香港\\",\\"澳门\\",\\"台湾省\\"],[\\"北京市\\"],[\\"东城区\\",\\"西城区\\",\\"崇文区\\",\\"宣武区\\",\\"朝阳区\\",\\"丰台区\\",\\"石景山区\\",\\"海淀区\\",\\"门头沟区\\",\\"房山区\\",\\"通州区\\",\\"顺义区\\",\\"昌平区\\",\\"大兴区\\",\\"怀柔区\\",\\"平谷区\\",\\"密云县\\",\\"延庆县\\",\\"延庆镇\\"]]' value='[0,0,0]' ><view style=\\"width: 100%;height: 44px;\\" id=\\"_n_8\\" ><text id=\\"_n_7\\" >请选择省市区</text></view></picker></view></view>
 </block>
 
 /** filePath: dist/others/normal/index.js **/
@@ -4016,7 +4017,7 @@ require(\\"./taro\\");
   <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 </block>
 <block wx:else>
-<view class=\\"index\\" ><text >Hello world!</text></view>
+<view class=\\"index\\" id=\\"_n_19\\" ><text id=\\"_n_18\\" >Hello world!</text></view>
 </block>
 
 /** filePath: dist/pages/index/index.wxss **/
@@ -5527,12 +5528,13 @@ require(\\"./taro\\");
                 }(R.Component);
             };
         }
-        function createReactApp(App, react, reactdom, config) {
+        function createReactApp(App, react, dom, config) {
             var _Object$create;
+            var _a;
             if (false) {}
             R$1 = react;
             h$1 = react.createElement;
-            ReactDOM$1 = reactdom;
+            ReactDOM$1 = dom;
             var appInstanceRef = react.createRef();
             var isReactComponent = isClassComponent(R$1, App);
             var appWrapper;
@@ -5595,7 +5597,7 @@ require(\\"./taro\\");
                 return AppWrapper;
             }(R$1.Component);
             if (true) {
-                appWrapper = ReactDOM$1.render(h$1(AppWrapper), taro_runtime[\\"document\\"].getElementById(\\"app\\"));
+                appWrapper = (_a = ReactDOM$1.render) === null || _a === void 0 ? void 0 : _a.call(ReactDOM$1, h$1(AppWrapper), taro_runtime[\\"document\\"].getElementById(\\"app\\"));
             }
             var _hooks$1$getMiniLifec = _slicedToArray(hooks$1.getMiniLifecycleImpl().app, 3), ONLAUNCH = _hooks$1$getMiniLifec[0], ONSHOW = _hooks$1$getMiniLifec[1], ONHIDE = _hooks$1$getMiniLifec[2];
             var appObj = Object.create({
@@ -5616,7 +5618,7 @@ require(\\"./taro\\");
             }, Object(defineProperty[\\"a\\"])(_Object$create, ONLAUNCH, setDefaultDescriptor({
                 value: function value(options) {
                     var _this3 = this;
-                    var _a;
+                    var _a, _b;
                     setRouterParams(options);
                     if (false) {}
                     var app = getAppInstance();
@@ -5640,7 +5642,7 @@ require(\\"./taro\\");
                             }));
                             Object.defineProperties(this, descriptors);
                         }
-                        (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, options);
+                        (_b = app.onLaunch) === null || _b === void 0 ? void 0 : _b.call(app, options);
                     }
                 }
             })), Object(defineProperty[\\"a\\"])(_Object$create, ONSHOW, setDefaultDescriptor({
@@ -5943,7 +5945,7 @@ require(\\"./taro\\");
             }
             return componentObj;
         }
-        var _a, _b;
+        var runtime_a, _b;
         var hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
         hooks.initNativeApiImpls || (hooks.initNativeApiImpls = []);
         hooks.initNativeApiImpls.push((function(taro) {
@@ -8137,7 +8139,7 @@ require(\\"./taro\\");
   <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 </block>
 <block wx:else>
-<video src=\\"https://github.com/taro\\" ></video>
+<video id=\\"_n_15\\" src=\\"https://github.com/taro\\" ></video>
 </block>
 
 /** filePath: dist/others/normal/index.js **/
@@ -8250,7 +8252,7 @@ require(\\"./taro\\");
   <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 </block>
 <block wx:else>
-<view class=\\"index\\" ><text >Hello world!</text></view>
+<view class=\\"index\\" id=\\"_n_19\\" ><text id=\\"_n_18\\" >Hello world!</text></view>
 </block>
 
 /** filePath: dist/pages/index/index.wxss **/
@@ -9761,12 +9763,13 @@ require(\\"./taro\\");
                 }(R.Component);
             };
         }
-        function createReactApp(App, react, reactdom, config) {
+        function createReactApp(App, react, dom, config) {
             var _Object$create;
+            var _a;
             if (false) {}
             R$1 = react;
             h$1 = react.createElement;
-            ReactDOM$1 = reactdom;
+            ReactDOM$1 = dom;
             var appInstanceRef = react.createRef();
             var isReactComponent = isClassComponent(R$1, App);
             var appWrapper;
@@ -9829,7 +9832,7 @@ require(\\"./taro\\");
                 return AppWrapper;
             }(R$1.Component);
             if (true) {
-                appWrapper = ReactDOM$1.render(h$1(AppWrapper), taro_runtime[\\"document\\"].getElementById(\\"app\\"));
+                appWrapper = (_a = ReactDOM$1.render) === null || _a === void 0 ? void 0 : _a.call(ReactDOM$1, h$1(AppWrapper), taro_runtime[\\"document\\"].getElementById(\\"app\\"));
             }
             var _hooks$1$getMiniLifec = _slicedToArray(hooks$1.getMiniLifecycleImpl().app, 3), ONLAUNCH = _hooks$1$getMiniLifec[0], ONSHOW = _hooks$1$getMiniLifec[1], ONHIDE = _hooks$1$getMiniLifec[2];
             var appObj = Object.create({
@@ -9850,7 +9853,7 @@ require(\\"./taro\\");
             }, Object(defineProperty[\\"a\\"])(_Object$create, ONLAUNCH, setDefaultDescriptor({
                 value: function value(options) {
                     var _this3 = this;
-                    var _a;
+                    var _a, _b;
                     setRouterParams(options);
                     if (false) {}
                     var app = getAppInstance();
@@ -9874,7 +9877,7 @@ require(\\"./taro\\");
                             }));
                             Object.defineProperties(this, descriptors);
                         }
-                        (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, options);
+                        (_b = app.onLaunch) === null || _b === void 0 ? void 0 : _b.call(app, options);
                     }
                 }
             })), Object(defineProperty[\\"a\\"])(_Object$create, ONSHOW, setDefaultDescriptor({
@@ -10177,7 +10180,7 @@ require(\\"./taro\\");
             }
             return componentObj;
         }
-        var _a, _b;
+        var runtime_a, _b;
         var hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
         hooks.initNativeApiImpls || (hooks.initNativeApiImpls = []);
         hooks.initNativeApiImpls.push((function(taro) {
@@ -12484,7 +12487,7 @@ require(\\"./taro\\");
   <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 </block>
 <block wx:else>
-<view class=\\"index\\" ><text >Hello world!</text></view>
+<view class=\\"index\\" id=\\"_n_19\\" ><text id=\\"_n_18\\" >Hello world!</text></view>
 </block>
 
 /** filePath: dist/pages/index/index.wxss **/

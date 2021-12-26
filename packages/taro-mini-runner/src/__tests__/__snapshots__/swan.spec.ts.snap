@@ -1192,12 +1192,13 @@ require(\\"./taro\\");
                 }(R.Component);
             };
         }
-        function createReactApp(App, react, reactdom, config) {
+        function createReactApp(App, react, dom, config) {
             var _Object$create;
+            var _a;
             if (false) {}
             R$1 = react;
             h$1 = react.createElement;
-            ReactDOM$1 = reactdom;
+            ReactDOM$1 = dom;
             var appInstanceRef = react.createRef();
             var isReactComponent = isClassComponent(R$1, App);
             var appWrapper;
@@ -1260,7 +1261,7 @@ require(\\"./taro\\");
                 return AppWrapper;
             }(R$1.Component);
             if (true) {
-                appWrapper = ReactDOM$1.render(h$1(AppWrapper), taro_runtime[\\"document\\"].getElementById(\\"app\\"));
+                appWrapper = (_a = ReactDOM$1.render) === null || _a === void 0 ? void 0 : _a.call(ReactDOM$1, h$1(AppWrapper), taro_runtime[\\"document\\"].getElementById(\\"app\\"));
             }
             var _hooks$1$getMiniLifec = _slicedToArray(hooks$1.getMiniLifecycleImpl().app, 3), ONLAUNCH = _hooks$1$getMiniLifec[0], ONSHOW = _hooks$1$getMiniLifec[1], ONHIDE = _hooks$1$getMiniLifec[2];
             var appObj = Object.create({
@@ -1281,7 +1282,7 @@ require(\\"./taro\\");
             }, _defineProperty(_Object$create, ONLAUNCH, setDefaultDescriptor({
                 value: function value(options) {
                     var _this3 = this;
-                    var _a;
+                    var _a, _b;
                     setRouterParams(options);
                     if (false) {}
                     var app = getAppInstance();
@@ -1305,7 +1306,7 @@ require(\\"./taro\\");
                             }));
                             Object.defineProperties(this, descriptors);
                         }
-                        (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, options);
+                        (_b = app.onLaunch) === null || _b === void 0 ? void 0 : _b.call(app, options);
                     }
                 }
             })), _defineProperty(_Object$create, ONSHOW, setDefaultDescriptor({
@@ -1608,7 +1609,7 @@ require(\\"./taro\\");
             }
             return componentObj;
         }
-        var _a, _b;
+        var runtime_a, _b;
         var hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
         hooks.initNativeApiImpls || (hooks.initNativeApiImpls = []);
         hooks.initNativeApiImpls.push((function(taro) {

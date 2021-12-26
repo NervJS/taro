@@ -5,9 +5,9 @@ exports[`vue should build vue app 1`] = `3`;
 exports[`vue should build vue app 2`] = `
 "
 /** filePath: dist/chunk/1.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 1 ], [ , , , , , , , , , , function(module, exports, __webpack_require__) {
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 1 ], [ , , , , , , , , , function(module, exports, __webpack_require__) {
     var api = __webpack_require__(1);
-    var content = __webpack_require__(13);
+    var content = __webpack_require__(12);
     content = content.__esModule ? content.default : content;
     if (typeof content === \\"string\\") {
         content = [ [ module.i, content, \\"\\" ] ];
@@ -19,7 +19,7 @@ exports[`vue should build vue app 2`] = `
     module.exports = content.locals || {};
 }, function(module, exports, __webpack_require__) {
     var api = __webpack_require__(1);
-    var content = __webpack_require__(15);
+    var content = __webpack_require__(14);
     content = content.__esModule ? content.default : content;
     if (typeof content === \\"string\\") {
         content = [ [ module.i, content, \\"\\" ] ];
@@ -31,7 +31,7 @@ exports[`vue should build vue app 2`] = `
     module.exports = content.locals || {};
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
-    var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+    var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
     var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
 }, function(module, exports, __webpack_require__) {
     var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(2);
@@ -40,7 +40,7 @@ exports[`vue should build vue app 2`] = `
     module.exports = exports;
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
-    var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
+    var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
     var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__);
 }, function(module, exports, __webpack_require__) {
     var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(2);
@@ -68,8 +68,8 @@ exports[`vue should build vue app 2`] = `
         }
     };
     var pages_indexvue_type_script_lang_js_ = indexvue_type_script_lang_js_;
-    var indexvue_type_style_index_0_lang_scss_ = __webpack_require__(12);
-    var indexvue_type_style_index_1_lang_sass_ = __webpack_require__(14);
+    var indexvue_type_style_index_0_lang_scss_ = __webpack_require__(11);
+    var indexvue_type_style_index_1_lang_sass_ = __webpack_require__(13);
     function normalizeComponent(scriptExports, render, staticRenderFns, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
         var options = typeof scriptExports === \\"function\\" ? scriptExports.options : scriptExports;
         if (render) {
@@ -583,7 +583,7 @@ exports[`vue should build vue app 2`] = `
         return \\"/*# \\".concat(data, \\" */\\");
     }
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(9);
+    module.exports = __webpack_require__(8);
 }, function(module, exports, __webpack_require__) {
     var api = __webpack_require__(1);
     var content = __webpack_require__(5);
@@ -631,12 +631,6 @@ exports[`vue should build vue app 2`] = `
     exports = ___CSS_LOADER_API_IMPORT___(false);
     exports.push([ module.i, \\"\\", \\"\\" ]);
     module.exports = exports;
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.r(__webpack_exports__);
-    __webpack_exports__[\\"default\\"] = {
-        \\"navigationBarTitleText\\": \\"首页\\"
-    };
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
@@ -697,9 +691,11 @@ exports[`vue should build vue app 2`] = `
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
         \\"load\\": function load() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 16));
+            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 15));
         }
-    }, __webpack_require__(8).default || {}) ];
+    }, {
+        \\"navigationBarTitleText\\": \\"首页\\"
+    }) ];
     var inst = taro_framework_createVueApp(src_app, vue, config);
     h5.createRouter(inst, config, vue);
     h5.initPxTransform({

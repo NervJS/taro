@@ -6,8 +6,8 @@ exports[`subpackages should process subpackages 2`] = `
 "
 /** filePath: dist/chunk/1.js **/
 (window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    \\"18\\": function(module, exports, __webpack_require__) {},
-    \\"20\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"16\\": function(module, exports, __webpack_require__) {},
+    \\"18\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, \\"default\\", (function() {
@@ -19,7 +19,7 @@ exports[`subpackages should process subpackages 2`] = `
         var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
         var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1);
-        var _index_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(18);
+        var _index_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(16);
         var _index_css__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_6__);
         var Detail = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(Detail, _Component);
@@ -55,8 +55,8 @@ exports[`subpackages should process subpackages 2`] = `
 
 /** filePath: dist/chunk/2.js **/
 (window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 2 ], {
-    \\"17\\": function(module, exports, __webpack_require__) {},
-    \\"19\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"15\\": function(module, exports, __webpack_require__) {},
+    \\"17\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, \\"default\\", (function() {
@@ -69,7 +69,7 @@ exports[`subpackages should process subpackages 2`] = `
         var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1);
         var _tarojs_taro__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(2);
-        var _index_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(17);
+        var _index_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(15);
         var _index_css__WEBPACK_IMPORTED_MODULE_7___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_7__);
         var Index = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(Index, _Component);
@@ -97,7 +97,7 @@ exports[`subpackages should process subpackages 2`] = `
                         \\"className\\": \\"index\\"
                     }, react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"Text\\"], {
                         \\"onClick\\": function onClick() {
-                            _tarojs_taro__WEBPACK_IMPORTED_MODULE_6__[\\"a\\"].navigateTo({
+                            Object(_tarojs_taro__WEBPACK_IMPORTED_MODULE_6__[\\"navigateTo\\"])({
                                 \\"url\\": \\"/packageA/detail/index\\"
                             });
                         }
@@ -480,7 +480,7 @@ exports[`subpackages should process subpackages 2`] = `
     module.exports = _typeof;
     module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(16);
+    module.exports = __webpack_require__(14);
 }, function(module, exports, __webpack_require__) {}, function(module, exports, __webpack_require__) {
     var api = __webpack_require__(11);
     var content = __webpack_require__(12);
@@ -778,18 +778,6 @@ exports[`subpackages should process subpackages 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    __webpack_exports__[\\"default\\"] = {
-        \\"navigationBarTitleText\\": \\"首页\\"
-    };
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.r(__webpack_exports__);
-    __webpack_exports__[\\"default\\"] = {
-        \\"navigationBarTitleText\\": \\"详情页\\"
-    };
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.r(__webpack_exports__);
     var h5 = __webpack_require__(2);
     var classCallCheck = __webpack_require__(3);
     var createClass = __webpack_require__(4);
@@ -872,14 +860,18 @@ exports[`subpackages should process subpackages 2`] = `
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
         \\"load\\": function load() {
-            return __webpack_require__.e(2).then(__webpack_require__.bind(null, 19));
+            return __webpack_require__.e(2).then(__webpack_require__.bind(null, 17));
         }
-    }, __webpack_require__(14).default || {}), Object.assign({
+    }, {
+        \\"navigationBarTitleText\\": \\"首页\\"
+    }), Object.assign({
         \\"path\\": \\"packageA/detail/index\\",
         \\"load\\": function load() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 20));
+            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 18));
         }
-    }, __webpack_require__(15).default || {}) ];
+    }, {
+        \\"navigationBarTitleText\\": \\"详情页\\"
+    }) ];
     var inst = taro_framework_createReactApp(src_app, react, react[\\"default\\"], config);
     h5[\\"a\\"].createRouter(inst, config, react);
     h5[\\"a\\"].initPxTransform({

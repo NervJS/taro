@@ -1179,11 +1179,12 @@ require(\\"./taro\\");
                 };
             };
         }
-        function createReactApp(App, react, reactdom, config) {
+        function createReactApp(App, react, dom, config) {
+            var _a;
             if (false) {}
             R$1 = react;
             h$1 = react.createElement;
-            ReactDOM$1 = reactdom;
+            ReactDOM$1 = dom;
             const appInstanceRef = react.createRef();
             const isReactComponent = isClassComponent(R$1, App);
             let appWrapper;
@@ -1229,7 +1230,7 @@ require(\\"./taro\\");
                 }
             }
             if (true) {
-                appWrapper = ReactDOM$1.render(h$1(AppWrapper), taro_runtime[\\"document\\"].getElementById(\\"app\\"));
+                appWrapper = (_a = ReactDOM$1.render) === null || _a === void 0 ? void 0 : _a.call(ReactDOM$1, h$1(AppWrapper), taro_runtime[\\"document\\"].getElementById(\\"app\\"));
             }
             const [ONLAUNCH, ONSHOW, ONHIDE] = hooks$1.getMiniLifecycleImpl().app;
             const appObj = Object.create({
@@ -1249,7 +1250,7 @@ require(\\"./taro\\");
                 }),
                 [ONLAUNCH]: setDefaultDescriptor({
                     value(options) {
-                        var _a;
+                        var _a, _b;
                         setRouterParams(options);
                         if (false) {}
                         const app = getAppInstance();
@@ -1273,7 +1274,7 @@ require(\\"./taro\\");
                                 });
                                 Object.defineProperties(this, descriptors);
                             }
-                            (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, options);
+                            (_b = app.onLaunch) === null || _b === void 0 ? void 0 : _b.call(app, options);
                         }
                     }
                 }),
@@ -1529,7 +1530,7 @@ require(\\"./taro\\");
             }
             return componentObj;
         }
-        var _a, _b;
+        var runtime_a, _b;
         const hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
         hooks.initNativeApiImpls || (hooks.initNativeApiImpls = []);
         hooks.initNativeApiImpls.push((function(taro) {
