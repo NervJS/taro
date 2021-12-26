@@ -166,6 +166,8 @@ module.exports = (_, options = {}) => {
     plugins.push([require('babel-plugin-dynamic-import-node')])
   }
 
+  plugins.push(require('./remove-define-config'))
+
   return {
     sourceType: 'unambiguous',
     overrides: [{
