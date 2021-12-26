@@ -97,19 +97,11 @@ function ${GET_CLS_NAME_FUNC_NAME}() {
 }
 `
 const getStyleFunction = `
-function ${GET_STYLE_FUNC_NAME}(classNameExpression) { 
+function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
   var className = ${GET_CLS_NAME_FUNC_NAME}(classNameExpression);
   var classNameArr = className.split(/\\s+/);
-
-  var style = [];
-  if (classNameArr.length === 1) {
-    style.push(${STYLE_SHEET_NAME}[classNameArr[0].trim()]);
-  } else {
-      classNameArr.forEach(function(cls) {
-      style.push(${STYLE_SHEET_NAME}[cls.trim()]);
-    });
-  }
-
+  var style = {};
+  classNameArr.reduce((sty, cls) => Object.assign(sty, ${STYLE_SHEET_NAME}[cls.trim()]), style);
   return style;
 }
 `
