@@ -4,11 +4,31 @@ title: 全局配置
 
 根目录下的 `app.config.js` 文件用来对小程序进行全局配置，配置项遵循**微信小程序规范**，并且对所有平台进行统一。
 
-注意：
+**注意：**
 
-1. `app.config.js` 里 require 或 import 引用的 js 文件目前**没有经过 Babel 编译语法**。
+1. **Taro v3.4** 之前，`app.config.js` 里引用的 JS 文件**没有经过 Babel 编译**。(**Taro v3.4** 开始支持）
 2. 多端差异化逻辑可以使用 `process.env.TARO_ENV` 变量作条件判断来实现。
 3. `app.config.js` 不支持多端文件的形式，如 `app.weapp.js` 这样是不起作用的。
+
+## defineAppConfig 宏函数
+
+:::info
+Taro v3.4+ 支持
+:::
+
+开发者可以使用**编译时宏函数** `defineAppConfig` 包裹配置对象，以获得**类型提示**和**自动补全**，如：
+
+```ts title="app.config.ts"
+export default defineAppConfig({
+  pages: ['pages/index/index'],
+  window: {
+    backgroundTextStyle: 'light',
+    navigationBarBackgroundColor: '#fff',
+    navigationBarTitleText: 'WeChat',
+    navigationBarTextStyle: 'black'
+  }
+})
+```
 
 ## 通用配置项
 

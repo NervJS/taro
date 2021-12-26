@@ -2,17 +2,81 @@
 title: 页面配置
 ---
 
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import { VueIcon, ReactIcon } from './guides/index'
+
 每一个小程序页面都可以使用 `.config.js` 文件来对本页面的窗口表现进行配置。页面中配置项在当前页面会覆盖全局配置 `app.config.json` 的 `window` 中相同的配置项。
 
 文件需要 `export` 一个默认对象，配置项遵循**微信小程序规范**，并且对所有平台进行统一。
 
-注意：
+**注意：**
 
-1. `page.config.js` 里 require 或 import 引用的 js 文件目前**没有经过 Babel 编译语法**。
-2. 多端差异化逻辑可以使用 `process.env.TARO_ENV` 变量作条件判断来实现。
-3. `page.config.js` 不支持多端文件的形式，如 `index.weapp.js` 这样是不起作用的。
+1. **Taro v3.4** 之前，`page.config.js` 里引用的 JS 文件**没有经过 Babel 编译**。(**Taro v3.4** 开始支持）
+2. **Taro v3.4** 支持在页面 JS 中使用 `definePageConfig` 宏函数定义页面配置，代替 `page.config.js` 文件。
+3. 多端差异化逻辑可以使用 `process.env.TARO_ENV` 变量作条件判断来实现。
+4. `page.config.js` 不支持多端文件的形式，如 `index.weapp.js` 这样是不起作用的。
 
-### 配置项列表
+## definePageConfig 宏函数
+
+:::info
+Taro v3.4+ 支持
+:::
+
+开发者可以使用**编译时宏函数** `definePageConfig` 包裹配置对象，以获得**类型提示**和**自动补全**。
+
+### 在页面配置文件中使用
+
+```ts title="page.config.ts"
+export default definePageConfig({
+  navigationBarTitleText: '首页'
+})
+```
+
+### 在页面 JS 文件中使用
+
+支持在页面 JS 中使用 `definePageConfig` 定义页面配置，而不需要提供 `page.config.js` 文件。
+
+但是需要注意的是，使用 `definePageConfig` 定义的页面配置对象**不能使用变量**。
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label:  <ReactIcon />, value: 'React'},
+    {label: <VueIcon />, value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
+```tsx title="page.ts"
+definePageConfig({
+  navigationBarTitleText: '首页'
+})
+
+export default function Index () {}
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html title="page.vue"
+<template>
+  <view className='index' />
+</template>
+
+<script>
+definePageConfig({
+  navigationBarTitleText: '首页'
+})
+
+export default {}
+</script>
+```
+
+</TabItem>
+</Tabs>
+
+## 配置项列表
 
 | 属性 | 类型 | 默认值 | 描述 |
 | - | - | - | - |
@@ -33,7 +97,7 @@ title: 页面配置
 
 其中，`usingComponents` 一般不需要配置，只有在需要与引用原生小程序组件的时候才需要配置。
 
-各端支持程度如下
+### 各端支持程度
 
 | 属性 | 微信小程序 | 百度小程序 | 字节跳动小程序 | 支付宝小程序 | H5 | RN |
 | - | - | - | - | - | - | - |
