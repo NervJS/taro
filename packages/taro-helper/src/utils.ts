@@ -19,7 +19,8 @@ import {
   NODE_MODULES_REG,
   PLATFORMS,
   CSS_IMPORT_REG,
-  CSS_EXT
+  CSS_EXT,
+  REG_SCRIPTS
 } from './constants'
 import createBabelRegister from './babelRegister'
 
@@ -628,7 +629,7 @@ function readSFCPageConfig (configPath: string) {
 export function readConfig (configPath: string) {
   let result: any = {}
   if (fs.existsSync(configPath)) {
-    const importPaths = analyzeImport(configPath)
+    const importPaths = REG_SCRIPTS.test(configPath) ? analyzeImport(configPath) : []
 
     createBabelRegister({
       only: [
