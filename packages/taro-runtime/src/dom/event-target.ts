@@ -14,7 +14,17 @@ export class TaroEventTarget {
   }
 
   public addEventListener (type: string, handler: EventHandler, options?: boolean | AddEventListenerOptions) {
+    // 某些框架，如 PReact 有委托的机制，handler 始终是同一个函数
+    // 这会导致多层停止冒泡失败：view -> view(handler.stop = false) -> view(handler.stop = true)
+    // 这样解决：view -> view(handlerA.stop = false) -> view(handlerB.stop = false)
+    // 因此每次绑定事件都新建一个函数，如果带来了性能问题，可以把这段逻辑抽取到 PReact 插件中。
+    const oldHandler = handler
+    handler = function () {
+      oldHandler.apply(this, arguments) // this 指向 Element
+    }
+
     this.hooks.onAddEvent?.(type, handler, options, this)
+
     if (type === 'regionchange') {
       // map 组件的 regionchange 事件非常特殊，详情：https://github.com/NervJS/taro/issues/5766
       this.addEventListener('begin', handler, options)
