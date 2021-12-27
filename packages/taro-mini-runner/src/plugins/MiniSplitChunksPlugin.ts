@@ -389,19 +389,10 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
    * 判断module有没被主包引用
    */
   hasMainChunk (chunkNames: string[]): boolean {
-    let hasMainChunk = false
-
     /**
      * 遍历chunk，如果其中有一个chunk，无法匹配分包root，则视为非分包的chunk
      */
-    chunkNames.forEach((chunkName: string) => {
-      const isMatch: RegExp | undefined = this.subRootRegExps.find(subRootRegExp => subRootRegExp.test(chunkName))
-
-      if (!isMatch) {
-        hasMainChunk = true
-      }
-    })
-    return hasMainChunk
+    return !!chunkNames.find((chunkName) => !(this.subRootRegExps.find(subRootRegExp => subRootRegExp.test(chunkName))))
   }
 
   /**
