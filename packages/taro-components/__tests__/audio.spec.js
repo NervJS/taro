@@ -1,7 +1,9 @@
 import React from 'react'
+import * as assert from 'assert'
+
 import { Audio } from '../h5/react'
 import { mount } from './test-tools'
-import * as assert from 'assert'
+import { delay } from './utils'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const h = React.createElement
 
@@ -50,6 +52,7 @@ describe('Audio', () => {
 
     const wrapper = await mount(<App />, scratch)
     const audio = wrapper.node.firstElementChild
+    await delay(3000)
 
     assert(audio instanceof HTMLAudioElement)
     assert(audio.src === src)
