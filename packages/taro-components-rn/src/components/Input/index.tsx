@@ -252,7 +252,6 @@ class _Input extends React.Component<InputProps, InputState> {
         underlineColorAndroid="rgba(0,0,0,0)"
         style={[{
           padding: 0,
-          height: 22.4,
         }, style, _multiline && _autoHeight && { height: Math.max(35, this.state.height) }]}
       />
     )
