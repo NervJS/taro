@@ -251,8 +251,8 @@ class _Input extends React.Component<InputProps, InputState> {
         onContentSizeChange={this.onContentSizeChange}
         underlineColorAndroid="rgba(0,0,0,0)"
         style={[{
-          paddingBottom: 0,
-          paddingTop: 0
+          padding: 0,
+          height: 22.4,
         }, style, _multiline && _autoHeight && { height: Math.max(35, this.state.height) }]}
       />
     )
