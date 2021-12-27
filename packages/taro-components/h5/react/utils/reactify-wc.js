@@ -3,6 +3,7 @@
  * modified event naming
  **/
 import React, { createRef, createElement } from 'react'
+import isUnitlessNumber from './isUnitlessNumber'
 
 // eslint-disable-next-line
 const h = React.createElement
@@ -31,9 +32,16 @@ function getClassName (wc, prevProps, props) {
 }
 
 function updateStyle (dom, key, val) {
-  if (/^--/.test(key)) {
+  const isCustomProperty = /^--/.test(key)
+  const isUnitlessVal = !isCustomProperty && typeof value === 'number' &&
+  val !== 0 &&
+  !(isUnitlessNumber.hasOwnProperty(key) && isUnitlessNumber[key])
+
+  if (isCustomProperty) {
     // css variable
     dom.style.setProperty(key, val)
+  } else if (isUnitlessVal) {
+    dom.style[key] = val + 'px'
   } else {
     dom.style[key] = val
   }
