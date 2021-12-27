@@ -164,11 +164,11 @@ export const uploadFile: typeof Taro.uploadFile = ({ url, filePath, name, header
         reject(res)
       }
     })
-
-    result.headersReceive = task.onHeadersReceived
-    result.progress = task.onProgressUpdate
-    result.abort = task.abort
   }) as any
+  
+  result.headersReceive = task.onHeadersReceived
+  result.progress = task.onProgressUpdate
+  result.abort = task.abort
 
   return result
 }
