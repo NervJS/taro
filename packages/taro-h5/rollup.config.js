@@ -12,7 +12,9 @@ const babel = require('@rollup/plugin-babel').default
 
 const cwd = __dirname
 const baseConfig = {
-  external: ['@tarojs/runtime', '@tarojs/taro'],
+  external: d => {
+    return /^@tarojs\/(runtime|taro)$/.test(d) || d.includes('@babel/runtime')
+  },
   output: {
     format: 'cjs',
     sourcemap: false,
