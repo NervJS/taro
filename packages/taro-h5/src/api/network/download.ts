@@ -114,7 +114,7 @@ const createDownloadTask = ({ url, header, success, error }): Taro.DownloadTask 
  * 注意：请在服务端响应的 header 中指定合理的 Content-Type 字段，以保证客户端正确处理文件类型。
  */
 export const downloadFile: typeof Taro.downloadFile = ({ url, header, success, fail, complete }) => {
-  let task: Taro.DownloadTask
+  let task!: Taro.DownloadTask
   const result: ReturnType<typeof Taro.downloadFile> = new Promise((resolve, reject) => {
     task = createDownloadTask({
       url,
@@ -130,11 +130,11 @@ export const downloadFile: typeof Taro.downloadFile = ({ url, header, success, f
         reject(res)
       }
     })
-
-    result.headersReceive = task.onHeadersReceived
-    result.progress = task.onProgressUpdate
-    result.abort = task.abort
   }) as any
+
+  result.headersReceive = task.onHeadersReceived
+  result.progress = task.onProgressUpdate
+  result.abort = task.abort
 
   return result
 }
