@@ -417,7 +417,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
         }
       })
     })
-    return [...chunkSubRoots].length > 1
+    return chunkSubRoots.size > 1
   }
 
   /**
