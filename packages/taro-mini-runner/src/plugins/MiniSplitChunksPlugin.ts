@@ -103,9 +103,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
         }
 
         subChunks.forEach((subChunk: webpack.compilation.Chunk) => {
-          const modules = Array.from(subChunk.modulesIterable)
-
-          modules.map((module: any) => {
+          subChunk.modulesIterable.map((module: any) => {
             if (this.isExternalModule(module)) {
               return
             }
