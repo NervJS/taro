@@ -119,11 +119,11 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
             }
 
             const chunks: webpack.compilation.Chunk[] = Array.from(module.chunksIterable)
-
+            const chunkNames: string[] = chunks.map(chunk => chunk.name)
             /**
              * 找出没有被主包引用，且被多个分包引用的module，并记录在subCommonDeps中
              */
-            if (!this.hasMainChunk(chunks) && this.isSubsDep(chunks)) {
+            if (!this.hasMainChunk(chunkNames) && this.isSubsDep(chunkNames)) {
               let depPath = ''
               let depName = ''
 
@@ -143,7 +143,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
               }
 
               if (!this.subCommonDeps.has(depName)) {
-                const subCommonDepChunks = new Set(chunks.map(chunk => chunk.name))
+                const subCommonDepChunks = new Set(chunkNames)
 
                 this.subCommonDeps.set(depName, {
                   identifier: module._identifier,
@@ -390,8 +390,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   /**
    * 判断module有没被主包引用
    */
-  hasMainChunk (chunks: webpack.compilation.Chunk[]): boolean {
-    const chunkNames: string[] = chunks.map(chunk => chunk.name)
+  hasMainChunk (chunkNames: string[]): boolean {
     let hasMainChunk = false
 
     /**
@@ -410,8 +409,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   /**
    * 判断该module有没被多个分包引用
    */
-  isSubsDep (chunks: webpack.compilation.Chunk[]): boolean {
-    const chunkNames: string[] = chunks.map(chunk => chunk.name)
+  isSubsDep (chunkNames: string[]): boolean {
     const chunkSubRoots: Set<string> = new Set()
 
     chunkNames.forEach((chunkName: string) => {
