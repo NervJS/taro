@@ -250,7 +250,9 @@ class _Input extends React.Component<InputProps, InputState> {
         multiline={!!_multiline}
         onContentSizeChange={this.onContentSizeChange}
         underlineColorAndroid="rgba(0,0,0,0)"
-        style={[style, _multiline && _autoHeight && { height: Math.max(35, this.state.height) }]}
+        style={[{
+          padding: 0,
+        }, style, _multiline && _autoHeight && { height: Math.max(35, this.state.height) }]}
       />
     )
   }
