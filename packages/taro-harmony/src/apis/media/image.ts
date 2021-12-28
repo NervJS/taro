@@ -3,8 +3,8 @@
 // WX 文档链接：https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.saveImageToPhotosAlbum.html
 // ✅ wx.saveImageToPhotosAlbum(Object object)
 // ✅ wx.previewImage(Object object)
-// ✅ wx.getImageInfo(Object object)
-// ✅ wx.compressImage(Object object)
+// ✅ wx.getImageInfo(Object object) API7以上支持
+// ✅ wx.compressImage(Object object) API7以上支持
 // ✅ wx.chooseImage(Object object)
 // ❌ wx.chooseMessageFile(Object object) HarmonyOS不支持
 
