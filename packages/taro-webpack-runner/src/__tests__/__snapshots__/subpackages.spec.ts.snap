@@ -221,10 +221,8 @@ exports[`subpackages should process subpackages 2`] = `
     __webpack_require__.d(__webpack_exports__, \\"c\\", (function() {
         return initPxTransform;
     }));
-    var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
     function initPxTransform() {}
-    var h5 = __webpack_exports__[\\"b\\"] = taro_h5;
 }, function(module, exports) {
     function _typeof(obj) {
         \\"@babel/helpers - typeof\\";
@@ -580,7 +578,7 @@ exports[`subpackages should process subpackages 2`] = `
                     \\"className\\": \\"index\\"
                 }, react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"Text\\"], {
                     \\"onClick\\": function onClick() {
-                        _tarojs_taro__WEBPACK_IMPORTED_MODULE_6__[\\"b\\"].navigateTo({
+                        _tarojs_taro__WEBPACK_IMPORTED_MODULE_6__[\\"default\\"].navigateTo({
                             \\"url\\": \\"/packageA/detail/index\\"
                         });
                     }
@@ -688,7 +686,7 @@ exports[`subpackages should process subpackages 2`] = `
         }
         return newObj;
     }
-    var h5 = __webpack_require__(6);
+    var taro_h5 = __webpack_require__(6);
     var classCallCheck = __webpack_require__(2);
     var createClass = __webpack_require__(3);
     var inherits = __webpack_require__(5);
@@ -780,8 +778,8 @@ exports[`subpackages should process subpackages 2`] = `
         }
     }, __webpack_require__(19).default || {}) ];
     var inst = createReactApp(src_app, react, react[\\"default\\"], config);
-    Object(h5[\\"a\\"])(inst, config, react);
-    Object(h5[\\"c\\"])({
+    Object(taro_h5[\\"a\\"])(inst, config, react);
+    Object(taro_h5[\\"c\\"])({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {
             \\"640\\": 1.17,

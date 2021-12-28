@@ -635,10 +635,8 @@ exports[`css modules should use css modules with global mode 2`] = `
         }
         return newObj;
     }
-    var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
     function initPxTransform() {}
-    var h5 = taro_h5;
     var classCallCheck = __webpack_require__(3);
     var createClass = __webpack_require__(4);
     var inherits = __webpack_require__(6);
@@ -1363,10 +1361,8 @@ exports[`css modules should use css modules with module mode 2`] = `
         }
         return newObj;
     }
-    var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
     function initPxTransform() {}
-    var h5 = taro_h5;
     var classCallCheck = __webpack_require__(3);
     var createClass = __webpack_require__(4);
     var inherits = __webpack_require__(6);
