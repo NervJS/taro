@@ -45,13 +45,15 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
 
   private autoplayTimer: number;
   private isScrolling: boolean;
+  private count: number;
 
   constructor(props: CarouselProps) {
     super(props)
-    const { selectedIndex } = this.props
+    const { selectedIndex, children } = this.props
+    this.count = this.getChildrenCount(children)
     this.isScrolling = false
     this.state = {
-      selectedIndex: this.getVirtualIndex(selectedIndex as number),
+      selectedIndex: this.getVirtualIndex(Math.min(selectedIndex as number, this.count - 1)),
     }
   }
 
@@ -74,9 +76,10 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(props: CarouselProps): void {
-    const { selectedIndex, infinite } = props
+    const { selectedIndex, infinite, children } = props
+    this.count = this.getChildrenCount(children)
     if (selectedIndex === this.props.selectedIndex && infinite === this.props.infinite) return
-    const index = this.getVirtualIndex(selectedIndex as number, infinite)
+    const index = this.getVirtualIndex(Math.min(selectedIndex as number, this.count - 1), infinite)
     if (index !== this.state.selectedIndex) {
       this.goTo(index)
     }
@@ -100,6 +103,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
 
   // infinite 默认取 props，如为 next props 需传入
   public getVirtualIndex(index: number, infinite?: boolean): number {
+    if (this.count < 2) return index
     const infi = infinite ?? this.props.infinite
     if (!infi) return index
     return index + INFINITE_BUFFER
@@ -117,7 +121,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
       )
     }
 
-    const count = this.getChildrenCount(children)
+    const count = this.count
     let pages: React.ReactFragment
 
     if (count > 1) {
@@ -143,6 +147,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
       initialPage: selectedIndex,
       showPageIndicator: false,
       onPageSelected: e => {
+        if (count < 2) return
         const pos = e.nativeEvent.position
         const prevIndex = this.getIndex(this.state.selectedIndex, count)
         this.setState({ selectedIndex: pos }, () => {
@@ -154,6 +159,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
         }
       },
       onPageScroll: (e) => {
+        if (count < 2) return
         const pos = e.nativeEvent.position
         if (infinite) {
           if (pos === count + INFINITE_BUFFER) {
@@ -164,6 +170,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
         }
       },
       onPageScrollStateChanged: e => {
+        if (count < 2) return
         switch (e.nativeEvent.pageScrollState) {
           case 'dragging':
             this.autoplay(true)
@@ -214,12 +221,13 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     }
     const { children, autoplay, infinite, autoplayInterval } = this.props
     const { selectedIndex } = this.state
-    const count = this.getChildrenCount(children)
+    const count = this.count
     if (!Array.isArray(children) || !autoplay || this.isScrolling) {
       return
     }
 
     clearTimeout(this.autoplayTimer)
+    if (count < 2) return
 
     this.autoplayTimer = setTimeout(() => {
       let newIndex = selectedIndex < this.getVirtualIndex(count) ? selectedIndex + 1 : 0
@@ -239,7 +247,6 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
 
   private renderDots = (index: number) => {
     const {
-      children,
       vertical,
       pagination,
       dotStyle,
@@ -248,7 +255,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     if (!pagination) {
       return null
     }
-    const count = this.getChildrenCount(children)
+    const count = this.count
     return pagination({
       styles,
       vertical,
