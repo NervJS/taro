@@ -20,6 +20,7 @@ const baseConfig = {
     sourcemap: false,
     exports: 'auto'
   },
+  treeshake: false,
   plugins: [
     alias({
       '@tarojs/taro': join(cwd, '../taro/src/index')
@@ -28,22 +29,11 @@ const baseConfig = {
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }),
-    postcss(),
+    postcss({
+      inject: { insertAt: 'top' }
+    }),
     babel({
-      babelHelpers: 'bundled',
-      babelrc: false,
-      presets: [
-        ['@babel/preset-env', {
-          modules: false
-        }]
-      ],
-      plugins: [
-        '@babel/plugin-proposal-class-properties',
-        '@babel/plugin-proposal-object-rest-spread',
-        ['@babel/plugin-transform-react-jsx', {
-          pragma: 'Nerv.createElement'
-        }]
-      ]
+      babelHelpers: 'bundled'
     }),
     commonjs(),
     typescript({
