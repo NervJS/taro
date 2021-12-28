@@ -1607,3 +1607,16 @@ module.exports = {
   }
 }
 ```
+
+### rn.enableSvgTransform
+`boolean`
+
+将 `svg` 文件转换为组件引入。默认值 `false`，不开启。详情：[#10793](https://github.com/NervJS/taro/pull/10793)
+
+```js
+module.exports = {
+  rn: {
+    enableSvgTransform: false
+  }
+}
+```
