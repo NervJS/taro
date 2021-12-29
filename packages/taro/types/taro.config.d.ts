@@ -309,7 +309,7 @@ declare module './index' {
      * 声明分包预下载的规则。
      * preloadRule 中，key 是页面路径，value 是进入此页面的预下载配置
      * 注意: 分包预下载目前只支持通过配置方式使用，暂不支持通过调用API完成。
-     *      vConsole 里有preloadSubpackages开头的日志信息，可以用来验证预下载的情况。
+     *      vConsole 里有 preloadSubpackages 开头的日志信息，可以用来验证预下载的情况。
      * @since 2.3.0
      */
     preloadRule?: PreloadRule
@@ -335,12 +335,12 @@ declare module './index' {
      */
     style?: 'v2'
     /**
-     * 配置 darkmode 为 true，即表示当前小程序已适配 DarkMode
+     * 配置 darkMode 为 true，即表示当前小程序已适配 DarkMode
      * @since 2.11.0
      */
     darkmode?: boolean
     /**
-     * 指定 darkmode 变量配置文件 theme.json 路径
+     * 指定 darkMode 变量配置文件 theme.json 路径
      * @since 2.11.0
      */
     themeLocation?: string
@@ -355,7 +355,7 @@ declare module './index' {
      */
     appId?: string
     /**
-     * 是否开启h5端路由动画功能，默认关闭
+     * 是否开启 h5 端路由动画功能，默认开启
      * @supported h5
      * @since 3.3.18
      */
