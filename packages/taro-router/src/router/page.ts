@@ -147,7 +147,7 @@ export default class PageHandler {
       const el = pageEl.firstElementChild
       el?.['componentOnReady']?.()?.then(() => {
         requestAnimationFrame(() => {
-          page.onReady!()
+          page.onReady?.()
           pageEl!['__isReady'] = true
         })
       })
@@ -172,7 +172,7 @@ export default class PageHandler {
       })
     }
     stacks.push(page)
-    page.onShow!()
+    page.onShow?.()
     bindPageScroll(page, pageConfig)
   }
 
@@ -196,6 +196,9 @@ export default class PageHandler {
         this.lastUnloadPage?.onUnload()
       }, this.animationDuration)
     } else {
+      const pageEl = document.getElementById(page.path!)
+      pageEl?.classList.remove('taro_page_show')
+      page?.onUnload()
     }
     if (delta >= 1) this.unload(stacks.last, delta)
   }
@@ -203,7 +206,7 @@ export default class PageHandler {
   show (page?: PageInstance | null, pageConfig: Route = {}, stacksIndex = 0) {
     if (!page) return
 
-    page.onShow!()
+    page.onShow?.()
     let pageEl = document.getElementById(page.path!)
     if (pageEl) {
       setDisplay(pageEl)
@@ -234,7 +237,7 @@ export default class PageHandler {
         this.hideTimer = null
         setDisplay(this.lastHidePage, 'none')
       }, this.animationDelay)
-      page.onHide!()
+      page.onHide?.()
     } else {
       setTimeout(() => this.hide(page), 0)
     }
