@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro'
+import Taro from '@tarojs/api'
 
 import { MethodHandler } from '../../utils/handler'
 import { getParameterError, shouldBeObject, temporarilyNotSupport } from '../../utils'
