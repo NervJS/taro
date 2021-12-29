@@ -634,10 +634,8 @@ exports[`vue should build vue app 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
     function initPxTransform() {}
-    var h5 = taro_h5;
     var vue = \\"vue-mock\\";
     var app = __webpack_require__(4);
     var App = new vue({
@@ -697,8 +695,8 @@ exports[`vue should build vue app 2`] = `
         \\"navigationBarTitleText\\": \\"首页\\"
     }) ];
     var inst = taro_framework_createVueApp(src_app, vue, config);
-    h5.createRouter(inst, config, vue);
-    h5.initPxTransform({
+    undefined.createRouter(inst, config, vue);
+    undefined.initPxTransform({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {
             \\"640\\": 1.17,

@@ -712,10 +712,8 @@ exports[`react should build react app 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
     function initPxTransform() {}
-    var h5 = taro_h5;
     var classCallCheck = __webpack_require__(2);
     var createClass = __webpack_require__(3);
     var inherits = __webpack_require__(5);
@@ -799,8 +797,8 @@ exports[`react should build react app 2`] = `
         \\"navigationBarTitleText\\": \\"首页\\"
     }) ];
     var inst = taro_framework_createReactApp(src_app, react, react[\\"default\\"], config);
-    h5.createRouter(inst, config, react);
-    h5.initPxTransform({
+    undefined.createRouter(inst, config, react);
+    undefined.initPxTransform({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {
             \\"640\\": 1.17,

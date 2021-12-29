@@ -581,10 +581,8 @@ exports[`vue3 should build vue3 app 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
     function initPxTransform() {}
-    var h5 = taro_h5;
     var vue = __webpack_require__(0);
     var app = __webpack_require__(4);
     var App = Object(vue[\\"createApp\\"])({
@@ -644,8 +642,8 @@ exports[`vue3 should build vue3 app 2`] = `
     }) ];
     initVue3Components(src_app);
     var inst = taro_framework_createVue3App(src_app, vue[\\"h\\"], config);
-    h5.createRouter(inst, config, vue[\\"h\\"]);
-    h5.initPxTransform({
+    undefined.createRouter(inst, config, vue[\\"h\\"]);
+    undefined.initPxTransform({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {
             \\"640\\": 1.17,

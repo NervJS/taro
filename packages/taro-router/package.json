@@ -27,6 +27,7 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
+    "@tarojs/taro": "3.4.0-beta.2",
     "@tarojs/runtime": "3.4.0-beta.2",
     "history": "^5.1.0",
     "query-string": "^6.13.8",

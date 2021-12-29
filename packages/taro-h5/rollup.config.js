@@ -12,13 +12,14 @@ import exportNameOnly from './build/rollup-plugin-export-name-only'
 const cwd = __dirname
 const baseConfig = {
   external: d => {
-    return /^@tarojs\/(runtime|taro)$/.test(d) || d.includes('@babel/runtime')
+    return /^@tarojs\/(api|router|runtime|taro)$/.test(d) || d.includes('@babel/runtime')
   },
   output: {
     format: 'cjs',
     sourcemap: false,
     exports: 'auto'
   },
+  treeshake: false,
   plugins: [
     alias({
       entries: {
@@ -29,8 +30,12 @@ const baseConfig = {
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }),
-    postcss(),
-    babel(),
+    postcss({
+      inject: { insertAt: 'top' }
+    }),
+    babel({
+      babelHelpers: 'bundled'
+    }),
     commonjs(),
     typescript({
       useTsconfigDeclarationDir: true
@@ -44,12 +49,6 @@ const variesConfig = [{
     file: 'dist/taroApis.js'
   },
   plugins: exportNameOnly()
-}, {
-  input: 'src/index.ts',
-  output: {
-    format: 'esm',
-    file: 'dist/index.js'
-  }
 }, {
   input: 'src/index.ts',
   output: {

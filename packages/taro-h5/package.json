@@ -10,15 +10,12 @@
     "src",
     "index.js"
   ],
-  "sideEffects": [
-    "*.scss",
-    "*.css",
-    "./src/taro/index.js"
-  ],
+  "sideEffects": false,
   "scripts": {
     "test": "jest",
     "test:dev": "jest --watch",
     "test:coverage": "jest --coverage",
+    "prebuild": "tsc && copy src/**/*.css dist",
     "build": "rollup -c",
     "dev": "rollup -cw"
   },

@@ -352,10 +352,8 @@ exports[`subpackages should process subpackages 2`] = `
     function initVue3Components() {}
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
-    var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
     function initPxTransform() {}
-    var h5 = __webpack_exports__[\\"a\\"] = taro_h5;
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -778,7 +776,7 @@ exports[`subpackages should process subpackages 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    var h5 = __webpack_require__(2);
+    var taro_h5 = __webpack_require__(2);
     var classCallCheck = __webpack_require__(3);
     var createClass = __webpack_require__(4);
     var inherits = __webpack_require__(6);
@@ -873,8 +871,8 @@ exports[`subpackages should process subpackages 2`] = `
         \\"navigationBarTitleText\\": \\"详情页\\"
     }) ];
     var inst = taro_framework_createReactApp(src_app, react, react[\\"default\\"], config);
-    h5[\\"a\\"].createRouter(inst, config, react);
-    h5[\\"a\\"].initPxTransform({
+    taro_h5[\\"default\\"].createRouter(inst, config, react);
+    taro_h5[\\"default\\"].initPxTransform({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {
             \\"640\\": 1.17,
