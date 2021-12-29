@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-h5",
-  "version": "3.3.18",
+  "version": "3.3.19",
   "description": "Taro h5 framework",
   "main:h5": "dist/index.js",
   "main": "dist/index.cjs.js",
@@ -10,15 +10,12 @@
     "src",
     "index.js"
   ],
-  "sideEffects": [
-    "*.scss",
-    "*.css",
-    "./src/taro/index.js"
-  ],
+  "sideEffects": false,
   "scripts": {
     "test": "jest",
     "test:dev": "jest --watch",
     "test:coverage": "jest --coverage",
+    "prebuild": "tsc && copy src/**/*.css dist",
     "build": "rollup -c",
     "dev": "rollup -cw"
   },
@@ -32,10 +29,10 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/api": "3.3.18",
-    "@tarojs/router": "3.3.18",
-    "@tarojs/runtime": "3.3.18",
-    "@tarojs/taro": "3.3.18",
+    "@tarojs/api": "3.3.19",
+    "@tarojs/router": "3.3.19",
+    "@tarojs/runtime": "3.3.19",
+    "@tarojs/taro": "3.3.19",
     "base64-js": "^1.3.0",
     "jsonp-retry": "^1.0.3",
     "mobile-detect": "^1.4.2",

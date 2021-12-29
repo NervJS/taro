@@ -13,7 +13,7 @@ const babel = require('@rollup/plugin-babel').default
 const cwd = __dirname
 const baseConfig = {
   external: d => {
-    return /^@tarojs\/(runtime|taro)$/.test(d) || d.includes('@babel/runtime')
+    return /^@tarojs\/(api|router|runtime|taro)$/.test(d) || d.includes('@babel/runtime')
   },
   output: {
     format: 'cjs',
@@ -48,12 +48,6 @@ const variesConfig = [{
     file: 'dist/taroApis.js'
   },
   plugins: exportNameOnly()
-}, {
-  input: 'src/index.ts',
-  output: {
-    format: 'esm',
-    file: 'dist/index.js'
-  }
 }, {
   input: 'src/index.ts',
   output: {
