@@ -127,6 +127,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
   setReconciler()
 
   const componentObj = {
+    options: componentConfig,
     properties: {
       props: {
         type: null,
