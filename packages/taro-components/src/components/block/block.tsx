@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, Host, ComponentInterface } from '@stencil/core'
+import { Component, h, Fragment, ComponentInterface } from '@stencil/core'
 
 @Component({
   tag: 'taro-block-core'
@@ -7,7 +7,7 @@ import { Component, h, Host, ComponentInterface } from '@stencil/core'
 export class Block implements ComponentInterface {
   render () {
     return (
-      <Host />
+      <Fragment />
     )
   }
 }
