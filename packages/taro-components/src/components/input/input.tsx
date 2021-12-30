@@ -105,7 +105,7 @@ export class Input implements ComponentInterface {
       configurable: true
     })
 
-    this.autoFocus && this.inputRef?.focus()
+    this.autoFocus && setTimeout(() => this.inputRef?.focus(), 0)
   }
 
   disconnectedCallback () {
