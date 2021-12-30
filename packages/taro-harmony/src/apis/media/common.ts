@@ -67,7 +67,7 @@ const chooseMedia: ChooseMedia = function (options) {
       const res = { errMsg: error.message }
       return callAsyncFail(reject, res, options)
     }
-    const { count = 9, mediaType = ['image', 'video'] } = options
+    const { count = 9, mediaType = ['image'] } = options
     // HarmonyOS不支持image和video同时选择
     // TODO: 不支持视频拍摄，无现成组件，后续需要封装
     const mediaSelectOptions: IChooseMediaOptionsOHOS = {

@@ -44,7 +44,8 @@ const saveVideoToPhotosAlbumSchema = {
   filePath: 'String'
 }
 
-// TODO: 1.返回属性补全 2.只支持从相册选择，补充摄像头拍摄功能
+// TODO: 1.返回属性补全
+// TODO: 2.只支持从相册选择，补充摄像头拍摄功能，需要HarmonyOS提供选择组件
 const chooseVideo: ChooseVideo = function (options = {}) {
   return new Promise((resolve, reject) => {
     try {
@@ -76,8 +77,8 @@ const saveVideoToPhotosAlbum: SaveVideoToPhotosAlbum = function (options) {
     const { filePath } = options
     const saveVideoToPhotosAlbumOptions: ISaveVideoToPhotosAlbumOptionsOHOS = {
       src: filePath,
-      // TODO：需要获取文件名后缀
-      mimeType: 'video'
+      // TODO：需要获取文件名后缀，'video/mp4'、'video/3gpp'等
+      mimeType: 'video/mp4'
     }
     mediaLibrary.getMediaLibrary().storeMediaAsset(saveVideoToPhotosAlbumOptions).then((value) => {
       callAsyncSuccess(resolve, value, options)

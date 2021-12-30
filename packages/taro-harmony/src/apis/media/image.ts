@@ -75,6 +75,7 @@ const getImageInfo: GetImageInfo = function (options) {
       return callAsyncFail(reject, res, options)
     }
     const { src } = options
+    // FIX: 调试发现在版本api7中 source 为 undefined, 需鸿蒙侧确认
     const source = image.createImageSource(src)
     console.warn('iimmaaggee TARO 2 image:' + image)
     console.warn('iimmaaggee TARO 3 source:' + source)
@@ -155,7 +156,7 @@ const previewImage: PreviewImage = function (options) {
   })
 }
 
-const chooseImage: ChooseImage = function (options = { count: 9 }) {
+const chooseImage: ChooseImage = function (options) {
   return new Promise((resolve, reject) => {
     try {
       validateParams('chooseImage', options, chooseImageSchema)
@@ -187,9 +188,10 @@ const saveImageToPhotosAlbum: SaveImageToPhotosAlbum = function (options) {
     const { filePath } = options
     const saveImageToPhotosAlbumOptions: ISaveImageToPhotosAlbumOptionsOHOS = {
       src: filePath,
-      // TODO：需要获取文件名后缀
+      // TODO：需要获取文件名后缀，'image/gif'、'image/jpeg'、'image/png'等
       mimeType: 'image/jpeg'
     }
+    console.warn('iimmaaggee TARO 1 saveImageToPhotosAlbumOptions:' + JSON.stringify(saveImageToPhotosAlbumOptions))
     mediaLibrary.getMediaLibrary().storeMediaAsset(saveImageToPhotosAlbumOptions).then((value) => {
       callAsyncSuccess(resolve, value, options)
     }).catch((error) => {
