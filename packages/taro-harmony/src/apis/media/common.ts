@@ -27,9 +27,7 @@ const previewMediaSchema = {
 
 // TODO: 扩展支持预览video
 const previewMedia: PreviewMedia = function (options) {
-  console.warn('iimmaaggee TARO 0')
   return new Promise((resolve, reject) => {
-    console.warn('iimmaaggee TARO 1')
     try {
       validateParams('previewMedia', options, previewMediaSchema)
     } catch (error) {
@@ -47,20 +45,16 @@ const previewMedia: PreviewMedia = function (options) {
       images: urls,
       index: current || 0
     }
-    console.warn('iimmaaggee TARO 2 previewImageOptions:' + JSON.stringify(previewImageOptions))
     mediaLibrary.getMediaLibrary().startImagePreview(previewImageOptions.images, previewImageOptions.index).then((value) => {
       callAsyncSuccess(resolve, value, options)
     }).catch((error) => {
       callAsyncFail(reject, error, options)
     })
-    console.warn('iimmaaggee TARO 3')
   })
 }
 
 const chooseMedia: ChooseMedia = function (options) {
-  console.warn('iimmaaggee TARO 0')
   return new Promise((resolve, reject) => {
-    console.warn('iimmaaggee TARO 1')
     try {
       validateParams('chooseMedia', [options], ['Object'])
     } catch (error) {
@@ -74,13 +68,11 @@ const chooseMedia: ChooseMedia = function (options) {
       count,
       type: mediaType[0]
     }
-    console.warn('iimmaaggee TARO 2 mediaSelectOptions:' + JSON.stringify(mediaSelectOptions))
     mediaLibrary.getMediaLibrary().startMediaSelect(mediaSelectOptions).then((value) => {
       callAsyncSuccess(resolve, value, options)
     }).catch((error) => {
       callAsyncFail(reject, error, options)
     })
-    console.warn('iimmaaggee TARO 3')
   })
 }
 
