@@ -17,7 +17,7 @@
     "test:coverage": "jest --coverage",
     "prebuild": "tsc && copy src/**/*.css dist",
     "build": "rollup -c",
-    "dev": "rollup -cw"
+    "dev": "tsc -w"
   },
   "repository": {
     "type": "git",
