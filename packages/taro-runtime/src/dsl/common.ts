@@ -69,11 +69,8 @@ export function stringify (obj?: Record<string, unknown>) {
 }
 
 export function getPath (id: string, options?: Record<string, unknown>): string {
-  let path = id
-  if (!isBrowser) {
-    path = id + stringify(options)
-  }
-  return path
+  const idx = id.indexOf('?')
+  return `${idx > -1 ? id.substring(0, idx) : id}${stringify(isBrowser ? { stamp: options?.stamp || '' } : options)}`
 }
 
 export function getOnReadyEventKey (path: string) {

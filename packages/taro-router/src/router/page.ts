@@ -100,15 +100,13 @@ export default class PageHandler {
     return search.substr(1)
   }
 
-  getQuery (stamp = 0) {
-    const search = this.search
+  getQuery (stamp = 0, search = '') {
+    search = search ? `${search}&${this.search}` : this.search
     const query = search
       ? queryString.parse(search)
       : {}
 
-    if (stamp) {
-      query.stamp = stamp.toString()
-    }
+    query.stamp = stamp.toString()
     return query
   }
 
