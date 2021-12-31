@@ -66,11 +66,8 @@ export function stringify (obj?: Record<string, unknown>) {
 }
 
 export function getPath (id: string, options?: Record<string, unknown>): string {
-  let path = id
-  if (process.env.TARO_ENV !== 'h5') {
-    path = id + stringify(options)
-  }
-  return path
+  const idx = id.indexOf('?')
+  return `${idx > -1 ? id.substring(0, idx) : id}${stringify(process.env.TARO_ENV === 'h5' ? { stamp: options?.stamp || '' } : options)}`
 }
 
 export function getOnReadyEventKey (path: string) {
