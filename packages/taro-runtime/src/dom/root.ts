@@ -123,7 +123,7 @@ export class TaroRootElement extends TaroElement {
           if (found) {
             // 此项数据使用 CustomWrapper 去更新
             const { wrapper, index } = found
-            const customWrapperId = `#${wrapper.uid}`
+            const customWrapperId = `#${wrapper.sid}`
             const customWrapper = ctx.selectComponent(customWrapperId)
             if (customWrapper) {
               const splitedPath = dataPathArr.slice(index + 1).join('.')
