@@ -14,48 +14,75 @@ declare module '../../index' {
     }
   }
 
-  namespace chooseVideo {
+  namespace openVideoEditor {
     interface Option {
-      /** 默认拉起的是前置或者后置摄像头。部分 Android 手机下由于系统 ROM 不支持无法生效 */
-      camera?: keyof camera
-      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: TaroGeneral.CallbackResult) => void
-      /** 是否压缩所选择的视频文件 */
-      compressed?: boolean
-      /** 接口调用失败的回调函数 */
-      fail?: (res: TaroGeneral.CallbackResult) => void
-      /** 拍摄视频最长拍摄时间，单位秒 */
-      maxDuration?: number
-      /** 视频选择的来源 */
-      sourceType?: Array<keyof sourceType>
+      /** 视频源的路径，只支持本地路径 */
+      filePath: string
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
     }
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
-      /** 选定视频的时间长度 */
+      /** 剪辑后生成的视频文件的时长，单位毫秒（ms） */
       duration: number
-      /** 返回选定视频的高度 */
-      height: number
-      /** 选定视频的数据量大小 */
+      /** 剪辑后生成的视频文件大小，单位字节数（byte） */
       size: number
-      /** 选定视频的临时文件路径 */
+      /** 编辑后生成的视频文件的临时路径 */
       tempFilePath: string
-      /** 返回选定视频的宽度 */
+      /** 编辑后生成的缩略图文件的临时路径 */
+      tempThumbPath: string
+    }
+  }
+
+  namespace getVideoInfo {
+    interface Option {
+      /** 视频文件路径，可以是临时文件路径也可以是永久文件路径 */
+      src: string
+      /** 接口调用成功的回调函数 */
+      success?: (result: SuccessCallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+    }
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+      /** 画面方向 */
+      orientation: keyof orientation
+      /** 视频格式 */
+      type: string
+      /** 视频长度 */
+      duration: number
+      /** 视频大小，单位 kB */
+      size: number
+      /** 视频的长，单位 px */
+      height: number
+      /** 视频的宽，单位 px */
       width: number
-      /** 调用结果 */
-      errMsg: string
+      /** 视频帧率 */
+      fps: number
+      /** 视频码率，单位 kbps */
+      bitrate: number
     }
-    interface camera {
-      /** 默认拉起后置摄像头 */
-      back
-      /** 默认拉起前置摄像头 */
-      front
-    }
-    interface sourceType {
-      /** 从相册选择视频 */
-      album
-      /** 使用相机拍摄视频 */
-      camera
+    interface orientation {
+      /** 默认 */
+      up
+      /** 180 度旋转 */
+      down
+      /** 逆时针旋转 90 度 */
+      left
+      /** 顺时针旋转 90 度 */
+      right
+      /** 同 up，但水平翻转 */
+      'up-mirrored'
+      /** 同 down，但水平翻转 */
+      'down-mirrored'
+      /** 同 left，但垂直翻转 */
+      'left-mirrored'
+      /** 同 right，但垂直翻转 */
+      'right-mirrored'
     }
   }
 
@@ -140,10 +167,18 @@ declare module '../../index' {
     }
   }
 
-  namespace openVideoEditor {
+  namespace compressVideo {
     interface Option {
-      /** 视频源的路径，只支持本地路径 */
-      filePath: string
+      /** 视频文件路径，可以是临时文件路径也可以是永久文件路径 */
+      src: string
+      /** 压缩质量 */
+      quality: keyof quality
+      /** 码率，单位 kbps */
+      bitrate: number
+      /** 帧率 */
+      fps: number
+      /** 相对于原视频的分辨率比例，取值范围(0, 1] */
+      resolution: number
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
       /** 接口调用失败的回调函数 */
@@ -152,14 +187,124 @@ declare module '../../index' {
       complete?: (res: TaroGeneral.CallbackResult) => void
     }
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
-      /** 剪辑后生成的视频文件的时长，单位毫秒（ms） */
-      duration: number
-      /** 剪辑后生成的视频文件大小，单位字节数（byte） */
-      size: number
-      /** 编辑后生成的视频文件的临时路径 */
+      /** 压缩后的临时文件地址 */
       tempFilePath: string
-      /** 编辑后生成的缩略图文件的临时路径 */
-      tempThumbPath: string
+      /** 压缩后的大小，单位 kB */
+      size: number
+    }
+    interface quality {
+      /** 低 */
+      low
+      /** 中 */
+      medium
+      /** 高 */
+      high
+    }
+  }
+
+  namespace chooseVideo {
+    interface Option {
+      /** 默认拉起的是前置或者后置摄像头。部分 Android 手机下由于系统 ROM 不支持无法生效 */
+      camera?: keyof camera
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 是否压缩所选择的视频文件 */
+      compressed?: boolean
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 拍摄视频最长拍摄时间，单位秒 */
+      maxDuration?: number
+      /** 视频选择的来源 */
+      sourceType?: Array<keyof sourceType>
+      /** 接口调用成功的回调函数 */
+      success?: (result: SuccessCallbackResult) => void
+    }
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+      /** 选定视频的时间长度 */
+      duration: number
+      /** 返回选定视频的高度 */
+      height: number
+      /** 选定视频的数据量大小 */
+      size: number
+      /** 选定视频的临时文件路径 */
+      tempFilePath: string
+      /** 返回选定视频的宽度 */
+      width: number
+      /** 调用结果 */
+      errMsg: string
+    }
+    interface camera {
+      /** 默认拉起后置摄像头 */
+      back
+      /** 默认拉起前置摄像头 */
+      front
+    }
+    interface sourceType {
+      /** 从相册选择视频 */
+      album
+      /** 使用相机拍摄视频 */
+      camera
+    }
+  }
+
+
+  namespace chooseMedia {
+    interface Option {
+      /** 最多可以选择的文件个数 */
+      count?: number
+      /** 文件类型 */
+      mediaType?: Array<keyof mediaType>
+      /** 图片和视频选择的来源 */
+      sourceType?: Array<keyof sourceType>
+      /** 拍摄视频最长拍摄时间，单位秒。时间范围为 3s 至 30s 之间 */
+      maxDuration?: number
+      /** 仅对 mediaType 为 image 时有效，是否压缩所选文件 */
+      sizeType?: Array<'original' | 'compressed'>
+      /** 仅在 sourceType 为 camera 时生效，使用前置或后置摄像头 */
+      camera?: string
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (result: SuccessCallbackResult) => void
+    }
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+      /** 本地临时文件列表 */
+      tempFiles: ChooseMedia[]
+      /** 文件类型，有效值有 image 、video */
+      type: string
+    }
+    /** 本地临时文件列表 */
+    interface ChooseMedia {
+      /** 本地临时文件路径 (本地路径) */
+      tempFilePath: string
+      /** 本地临时文件大小，单位 B */
+      size: number
+      /** 视频的时间长度 */
+      duration: number
+      /** 视频的高度 */
+      height: number
+      /** 视频的宽度 */
+      width: number
+      /** 视频缩略图临时文件路径 */
+      thumbTempFilePath: string
+    }
+    interface mediaType {
+      /** 只能拍摄视频或从相册选择视频 */
+      video
+      /** 只能拍摄图片或从相册选择图片 */
+      image
+    }
+    interface sourceType {
+      /** 从相册选择 */
+      album
+      /** 使用相机拍摄 */
+      camera
+    }
+    interface camera {
+      /** 使用后置摄像头 */
+      back
+      /** 使用前置摄像头 */
+      front
     }
   }
 
@@ -184,6 +329,46 @@ declare module '../../index' {
      */
     saveVideoToPhotosAlbum(option: saveVideoToPhotosAlbum.Option): Promise<TaroGeneral.CallbackResult>
 
+    /** 打开视频编辑器
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.openVideoEditor({
+     *  filePath: ''
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.openVideoEditor.html
+     */
+    openVideoEditor(option: openVideoEditor.Option): Promise<openVideoEditor.SuccessCallbackResult>
+
+    /** 获取视频详细信息
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.downloadFile({
+     *   url: 'https://mock.taro.org/mock_video.mp4',
+     *   success(res) {
+     *     Taro.getVideoInfo({
+     *       src: res.tempFilePath,
+     *       success (res) {
+     *         console.log('获取文件地址成功')
+     *         console.log(res)
+     *       },
+     *       fail (res) {
+     *         console.log('获取文件地址失败')
+     *         console.log(res)
+     *       },
+     *       complete (res) {
+     *         console.log('获取文件地址')
+     *       }
+     *     })
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.getVideoInfo.html
+     */
+    getVideoInfo(option: getVideoInfo.Option): Promise<getVideoInfo.SuccessCallbackResult>
+
     /** 创建 video 上下文 VideoContext 对象。
      * @supported weapp, h5
      * @example
@@ -198,6 +383,37 @@ declare module '../../index' {
       /** 在自定义组件下，当前组件实例的this，以操作组件内 video 组件 */
       component?: TaroGeneral.IAnyObject,
     ): VideoContext
+
+    /** 压缩视频接口。
+     * 开发者可指定压缩质量 `quality` 进行压缩。当需要更精细的控制时，可指定 `bitrate`、`fps`、和 `resolution`，当 `quality` 传入时，这三个参数将被忽略。原视频的相关信息可通过 [getVideoInfo](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.getVideoInfo.html) 获取。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.chooseVideo({
+     *   sourceType: ['album', 'camera'],
+     *   maxDuration: 60,
+     *   camera: 'back',
+     *   compressed: false,
+     *   success (res) {
+     *     Taro.compressVideo({
+     *       src: res.tempFilePath,
+     *       quality: quality,
+     *       bitrate: 1032,
+     *       fps: 24,
+     *       resolution:0.5,
+     *       success (res) {
+     *         console.log("压缩成功")
+     *       },
+     *       fail (err) {
+     *         console.log("压缩失败")
+     *       }
+     *     })
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.compressVideo.html
+     */
+     compressVideo(option: compressVideo.Option): Promise<compressVideo.SuccessCallbackResult>
 
     /** 拍摄视频或从手机相册中选视频。
      * @supported weapp, rn
@@ -215,17 +431,25 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.chooseVideo.html
      */
     chooseVideo(option: chooseVideo.Option): Promise<chooseVideo.SuccessCallbackResult>
-    
-    /** 打开视频编辑器
-     * @supported weapp
+
+    /** 拍摄或从手机相册中选择图片或视频。
+     * @supported weapp, rn
      * @example
      * ```tsx
-     * Taro.openVideoEditor({
-     *  filePath: ''
+     * Taro.chooseMedia({
+     *   count: 9,
+     *   mediaType: ['image','video'],
+     *   sourceType: ['album', 'camera'],
+     *   maxDuration: 30,
+     *   camera: 'back',
+     *   success: (res) => {
+     *     console.log(res.tempFiles)
+     *     console.log(res.type)
+     *   }
      * })
      * ```
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.openVideoEditor.html
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.chooseMedia.html
      */
-    openVideoEditor(option: openVideoEditor.Option): Promise<openVideoEditor.SuccessCallbackResult>
+    chooseMedia(option: chooseMedia.Option): Promise<chooseMedia.SuccessCallbackResult>
   }
 }
