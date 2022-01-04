@@ -16,7 +16,11 @@ export class NodesRef implements Taro.NodesRef {
 
   context = temporarilyNotSupport('NodesRef.context') as unknown as Taro.NodesRef['context']
 
-  node = temporarilyNotSupport('NodesRef.node') as unknown as Taro.NodesRef['node']
+  node (cb) {
+    const { _selector, _component, _single, _selectorQuery } = this
+    _selectorQuery._push(_selector, _component, _single, { nodeCanvasType: !0, node: !0 }, cb)
+    return _selectorQuery
+  }
 
   boundingClientRect (cb) {
     const { _selector, _component, _single, _selectorQuery } = this
