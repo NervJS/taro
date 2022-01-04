@@ -140,6 +140,29 @@ declare module '../../index' {
     }
   }
 
+  namespace openVideoEditor {
+    interface Option {
+      /** 视频源的路径，只支持本地路径 */
+      filePath: string
+      /** 接口调用成功的回调函数 */
+      success?: (result: SuccessCallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+    }
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+      /** 剪辑后生成的视频文件的时长，单位毫秒（ms） */
+      duration: number
+      /** 剪辑后生成的视频文件大小，单位字节数（byte） */
+      size: number
+      /** 编辑后生成的视频文件的临时路径 */
+      tempFilePath: string
+      /** 编辑后生成的缩略图文件的临时路径 */
+      tempThumbPath: string
+    }
+  }
+
   interface TaroStatic {
     /**
      * 保存视频到系统相册。支持mp4视频格式。需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.writePhotosAlbum
@@ -192,5 +215,17 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.chooseVideo.html
      */
     chooseVideo(option: chooseVideo.Option): Promise<chooseVideo.SuccessCallbackResult>
+    
+    /** 打开视频编辑器
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.openVideoEditor({
+     *  filePath: ''
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.openVideoEditor.html
+     */
+    openVideoEditor(option: openVideoEditor.Option): Promise<openVideoEditor.SuccessCallbackResult>
   }
 }
