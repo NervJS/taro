@@ -106,6 +106,9 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
       // this.$taroPath 是页面唯一标识，不可变，因此页面参数 options 也不可变
       this.$taroPath = getPath(id, options)
+      if (isBrowser) {
+        config.path = this.$taroPath
+      }
       // this.$taroParams 作为暴露给开发者的页面参数对象，可以被随意修改
       if (this.$taroParams == null) {
         this.$taroParams = Object.assign({}, options)
@@ -249,10 +252,6 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
   if (!isUndefined(data)) {
     config.data = data
-  }
-
-  if (isBrowser) {
-    config.path = id
   }
 
   return config
