@@ -100,14 +100,14 @@ export default class PageHandler {
     return search.substr(1)
   }
 
-  getQuery (stamp = 0, search = '') {
+  getQuery (stamp = 0, search = '', options: Record<string, unknown> = {}) {
     search = search ? `${search}&${this.search}` : this.search
     const query = search
       ? queryString.parse(search)
       : {}
 
     query.stamp = stamp.toString()
-    return query
+    return { ...query, ...options }
   }
 
   mount () {
@@ -156,21 +156,23 @@ export default class PageHandler {
   load (page: PageInstance, pageConfig: Route = {}, stacksIndex = 0) {
     if (!page) return
 
+    // NOTE: 页面栈推入太晚可能导致 getCurrentPages 无法获取到当前页面实例
+    stacks.push(page)
+    const param = this.getQuery(stacks.length, '', page.options)
     let pageEl = document.getElementById(page.path!)
     if (pageEl) {
       setDisplay(pageEl)
       this.isTabBar && pageEl.classList.add('taro_tabbar_page')
       this.addAnimation(pageEl, stacksIndex === 0)
     } else {
-      page.onLoad?.(this.getQuery(stacksIndex), () => {
+      page.onLoad?.(param, () => {
         pageEl = document.getElementById(page.path!)
         this.isTabBar && pageEl?.classList.add('taro_tabbar_page')
         this.addAnimation(pageEl, stacksIndex === 0)
         this.onReady(page, true)
       })
     }
-    stacks.push(page)
-    page.onShow?.()
+    page.onShow?.(param)
     bindPageScroll(page, pageConfig)
   }
 
@@ -204,13 +206,14 @@ export default class PageHandler {
   show (page?: PageInstance | null, pageConfig: Route = {}, stacksIndex = 0) {
     if (!page) return
 
-    page.onShow?.()
+    const param = this.getQuery(stacks.length, '', page.options)
+    page.onShow?.(param)
     let pageEl = document.getElementById(page.path!)
     if (pageEl) {
       setDisplay(pageEl)
       this.addAnimation(pageEl, stacksIndex === 0)
     } else {
-      page.onLoad?.(this.getQuery(stacksIndex), () => {
+      page.onLoad?.(param, () => {
         pageEl = document.getElementById(page.path!)
         this.addAnimation(pageEl, stacksIndex === 0)
         this.onReady(page, false)

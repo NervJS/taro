@@ -154,8 +154,8 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       Current.app!.unmount!(this.compId)
     },
     pageLifetimes: {
-      show () {
-        safeExecute(this.compId, 'onShow')
+      show (options) {
+        safeExecute(this.compId, 'onShow', options)
       },
       hide () {
         safeExecute(this.compId, 'onHide')

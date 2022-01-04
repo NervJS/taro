@@ -174,25 +174,25 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       raf(() => eventCenter.trigger(getOnReadyEventKey(id)))
       this.onReady.called = true
     },
-    [ONSHOW] () {
+    [ONSHOW] (options = {}) {
       hasLoaded.then(() => {
         // 设置 Current 的 page 和 router
         Current.page = this as any
         setCurrentRouter(this)
         // 触发生命周期
-        safeExecute(this.$taroPath, ON_SHOW)
+        safeExecute(this.$taroPath, ON_SHOW, options)
         // 通过事件触发子组件的生命周期
         raf(() => eventCenter.trigger(getOnShowEventKey(id)))
       })
     },
-    [ONHIDE] () {
+    [ONHIDE] (options = {}) {
       // 设置 Current 的 page 和 router
       if (Current.page === this) {
         Current.page = null
         Current.router = null
       }
       // 触发生命周期
-      safeExecute(this.$taroPath, ON_HIDE)
+      safeExecute(this.$taroPath, ON_HIDE, options)
       // 通过事件触发子组件的生命周期
       eventCenter.trigger(getOnHideEventKey(id))
     }

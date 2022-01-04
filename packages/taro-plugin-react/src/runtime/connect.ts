@@ -305,7 +305,7 @@ export function createReactApp (
         // class component, componentDidShow
         app?.componentDidShow?.(options)
         // functional component, useDidShow
-        triggerAppHook('onShow')
+        triggerAppHook('onShow', options)
       }
     }),
 
@@ -318,7 +318,7 @@ export function createReactApp (
         // class component, componentDidHide
         app?.componentDidHide?.(options)
         // functional component, useDidHide
-        triggerAppHook('onHide')
+        triggerAppHook('onHide', options)
       }
     }),
 
@@ -330,13 +330,13 @@ export function createReactApp (
     })
   })
 
-  function triggerAppHook (lifecycle) {
+  function triggerAppHook (lifecycle, ...option) {
     const instance = getPageInstance(HOOKS_APP_ID)
     if (instance) {
       const app = getAppInstance()
       const func = hooks.getLifecycle(instance, lifecycle)
       if (Array.isArray(func)) {
-        func.forEach(cb => cb.apply(app))
+        func.forEach(cb => cb.apply(app, option))
       }
     }
   }
