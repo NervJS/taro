@@ -38,12 +38,7 @@ let TRANSITION_END = 'transitionend'
 let TRANSFORM = 'transform'
 
 const $detect = document.createElement('div')
-$detect.style.cssText = `
-  -webkit-animation-name: webkit;
-  -moz-animation-name: moz;
-  -ms-animation-name: ms;
-  animation-name: standard;
-`
+$detect.style.cssText = '-webkit-animation-name:webkit;-moz-animation-name:moz;-ms-animation-name:ms;animation-name:standard;'
 if ($detect.style['animation-name'] === 'standard') {
   // 支持标准写法
   TRANSITION_END = 'transitionend'
