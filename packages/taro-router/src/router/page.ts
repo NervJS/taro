@@ -156,6 +156,8 @@ export default class PageHandler {
   load (page: PageInstance, pageConfig: Route = {}, stacksIndex = 0) {
     if (!page) return
 
+    // NOTE: 页面栈推入太晚可能导致 getCurrentPages 无法获取到当前页面实例
+    stacks.push(page)
     let pageEl = document.getElementById(page.path!)
     if (pageEl) {
       setDisplay(pageEl)
@@ -169,7 +171,6 @@ export default class PageHandler {
         this.onReady(page, true)
       })
     }
-    stacks.push(page)
     page.onShow?.()
     bindPageScroll(page, pageConfig)
   }
