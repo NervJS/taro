@@ -89,7 +89,7 @@ export default class PageHandler {
 
   get search () {
     let search = '?'
-    if (this.routerMode) {
+    if (this.routerMode === 'hash') {
       const idx = location.hash.indexOf('?')
       if (idx > -1) {
         search = location.hash.slice(idx)
