@@ -39,19 +39,19 @@ export default class PageHandler {
   get PullDownRefresh () { return this.config.PullDownRefresh }
   get animation () { return this.config?.animation ?? this.defaultAnimation }
   get animationDelay () {
-    return typeof this.animation === 'object'
+    return (typeof this.animation === 'object'
       ? this.animation.delay
       : this.animation
         ? this.defaultAnimation?.delay
-        : 0
+        : 0) || 0
   }
 
   get animationDuration () {
-    return typeof this.animation === 'object'
+    return (typeof this.animation === 'object'
       ? this.animation.duration
       : this.animation
         ? this.defaultAnimation?.duration
-        : 0
+        : 0) || 0
   }
 
   set pathname (p) { this.router.pathname = p }
@@ -235,7 +235,7 @@ export default class PageHandler {
       this.hideTimer = setTimeout(() => {
         this.hideTimer = null
         setDisplay(this.lastHidePage, 'none')
-      }, this.animationDelay)
+      }, this.animationDuration + this.animationDelay)
       page.onHide?.()
     } else {
       setTimeout(() => this.hide(page), 0)
