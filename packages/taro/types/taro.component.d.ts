@@ -12,7 +12,7 @@ declare module './index' {
     shouldComponentUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): boolean
     componentWillUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): void
     componentWillUnmount?(): void
-    componentDidShow?(): void
+    componentDidShow?(options?: Record<string, unknown>): void
     componentDidHide?(): void
     componentDidCatchError?(err: string): void
     componentDidNotFound?(obj: PageNotFoundObject): void
@@ -80,10 +80,10 @@ declare module './index' {
   type SFC = StatelessFunctionComponent
 
   interface Show {
-    componentDidShow?(options?: unknown): void
-    componentDidHide?(options?: unknown): void
-    onShow?(options?: unknown): void
-    onHide?(options?: unknown): void
+    componentDidShow?(options?: Record<string, unknown>): void
+    componentDidHide?(): void
+    onShow?(options?: Record<string, unknown>): void
+    onHide?(): void
   }
 
   interface AppInstance extends Show {
