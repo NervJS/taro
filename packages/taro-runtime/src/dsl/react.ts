@@ -302,7 +302,7 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
         }
 
         // app useDidShow
-        triggerAppHook('onShow')
+        triggerAppHook('onShow', options)
       }
     },
 
@@ -316,7 +316,7 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
         }
 
         // app useDidHide
-        triggerAppHook('onHide')
+        triggerAppHook('onHide', options)
       }
     },
 
@@ -332,13 +332,13 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
     }
   })
 
-  function triggerAppHook (lifecycle) {
+  function triggerAppHook (lifecycle, option) {
     const instance = getPageInstance(HOOKS_APP_ID)
     if (instance) {
       const app = ref.current
       const func = hooks.getLifecycle(instance, lifecycle)
       if (Array.isArray(func)) {
-        func.forEach(cb => cb.apply(app))
+        func.forEach(cb => cb.apply(app, option))
       }
     }
   }
@@ -478,11 +478,11 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       Current.app!.unmount!(this.compId)
     },
     pageLifetimes: {
-      show () {
-        safeExecute(this.compId, 'onShow')
+      show (options) {
+        safeExecute(this.compId, 'onShow', options)
       },
-      hide () {
-        safeExecute(this.compId, 'onHide')
+      hide (options) {
+        safeExecute(this.compId, 'onHide', options)
       }
     },
     methods: {
