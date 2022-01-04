@@ -16,33 +16,60 @@ type TSelectorQueryQueueCallback = (res: ISelectorQueryQueue) => void
 function filter (fields, dom?: HTMLElement, selector?: string) {
   if (!dom) return null
 
-  const { id, dataset, rect, size, scrollOffset, properties = [], computedStyle = [] } = fields
-  const { left, right, top, bottom, width, height } = dom.getBoundingClientRect()
   const isViewport = selector === '.taro_page'
+  const { id, dataset, rect, size, scrollOffset, properties = [], computedStyle = [], nodeCanvasType, node } = fields
   const res: any = {}
 
+  if (nodeCanvasType && node) {
+    const type = (dom as any).type! || ''
+    const canvas = dom.getElementsByTagName('canvas')[0]
+    const context = canvas?.getContext(type)
+    res.nodeCanvasType = type
+    if (type && context) {
+      const { left, top, width, height } = canvas.getBoundingClientRect()
+      res.node = {
+        context,
+        id: dom.id,
+        _canvasId: canvas.attributes?.['canvas-id']?.value,
+        _canvasRef: canvas,
+        _height: height,
+        _left: left,
+        _nodeCanvasId: undefined,
+        _nodeId: undefined,
+        _top: top,
+        _webviewId: undefined,
+        _width: width
+      }
+    } else {
+      res.node = null
+    }
+    return res
+  }
   if (id) res.id = dom.id
   if (dataset) res.dataset = Object.assign({}, dom.dataset)
-  if (rect) {
-    if (!isViewport) {
-      res.left = left
-      res.right = right
-      res.top = top
-      res.bottom = bottom
-    } else {
-      res.left = 0
-      res.right = 0
-      res.top = 0
-      res.bottom = 0
+  if (rect || size) {
+    const { left, right, top, bottom, width, height } = dom.getBoundingClientRect()
+    if (rect) {
+      if (!isViewport) {
+        res.left = left
+        res.right = right
+        res.top = top
+        res.bottom = bottom
+      } else {
+        res.left = 0
+        res.right = 0
+        res.top = 0
+        res.bottom = 0
+      }
     }
-  }
-  if (size) {
-    if (!isViewport) {
-      res.width = width
-      res.height = height
-    } else {
-      res.width = dom.clientWidth
-      res.height = dom.clientHeight
+    if (size) {
+      if (!isViewport) {
+        res.width = width
+        res.height = height
+      } else {
+        res.width = dom.clientWidth
+        res.height = dom.clientHeight
+      }
     }
   }
   if (scrollOffset) {
