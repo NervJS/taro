@@ -18,7 +18,7 @@ function filter (fields, dom?: HTMLElement, selector?: string) {
 
   const { id, dataset, rect, size, scrollOffset, properties = [], computedStyle = [] } = fields
   const { left, right, top, bottom, width, height } = dom.getBoundingClientRect()
-  const isViewport = selector === 'html'
+  const isViewport = selector === '.taro_page'
   const res: any = {}
 
   if (id) res.id = dom.id
@@ -147,7 +147,7 @@ export class SelectorQuery implements Taro.SelectorQuery {
   }
 
   selectViewport () {
-    return new NodesRef('html', this, true)
+    return new NodesRef('.taro_page', this, true)
   }
 
   exec (cb) {
