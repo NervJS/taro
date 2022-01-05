@@ -186,7 +186,7 @@ export default {
 
 ### networkTimeout
 
-支持情况：<img src="https://storage.jd.com/cjj-pub-images/icon_%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F.png" width="25px" style={{verticalAlign: 'middle' }} /> <img src="https://storage.jd.com/cjj-pub-images/icon_%E7%99%BE%E5%BA%A6%E8%BD%BB%E5%BA%94%E7%94%A8.png" width="25px" style={{verticalAlign: 'middle' }} /> <img src="https://storage.jd.com/cjj-pub-images/icon_%E5%AD%97%E8%8A%82.png" width="25px" style={{verticalAlign: 'middle' }} />  <img src="https://storage.jd.com/cjj-pub-images/icon_QQ%E5%B0%8F%E7%A8%8B%E5%BA%8F.png" width="25px" style={{verticalAlign: 'middle' }} />
+支持情况：<img src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img src={require('@site/static/img/platform/tt.png').default} className="icon_platform" width="25px"/> <img src={require('@site/static/img/platform/qq.png').default} className="icon_platform" width="25px"/>
 
 各类网络请求的超时时间，单位均为毫秒。
 
@@ -199,13 +199,13 @@ export default {
 
 ### debug
 
-支持情况：<img src="https://storage.jd.com/cjj-pub-images/icon_%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F.png" width="25px" style={{verticalAlign: 'middle' }} />  <img src="https://storage.jd.com/cjj-pub-images/icon_%E4%BA%AC%E4%B8%9C%E5%B0%8F%E7%A8%8B%E5%BA%8F.png" width="25px" style={{verticalAlign: 'middle' }} />  <img src="https://storage.jd.com/cjj-pub-images/icon_QQ%E5%B0%8F%E7%A8%8B%E5%BA%8F.png" width="25px" style={{verticalAlign: 'middle' }} /> 
+支持情况：<img src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img src={require('@site/static/img/platform/jd.png').default} className="icon_platform" width="25px"/> <img src={require('@site/static/img/platform/qq.png').default} className="icon_platform" width="25px"/>
 
 可以在开发者工具中开启 `debug` 模式，在开发者工具的控制台面板，调试信息以 `info` 的形式给出，其信息有 `Page` 的注册，页面路由，数据更新，事件触发等。可以帮助开发者快速定位一些常见的问题。
 
 ### permission
 
-支持情况： <img src="https://storage.jd.com/cjj-pub-images/icon_%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F.png" width="25px" style={{verticalAlign: 'middle' }} /> <img src="https://storage.jd.com/cjj-pub-images/icon_%E7%99%BE%E5%BA%A6%E8%BD%BB%E5%BA%94%E7%94%A8.png" width="25px" style={{verticalAlign: 'middle' }} /> <img src="https://storage.jd.com/cjj-pub-images/icon_%E5%AD%97%E8%8A%82.png" width="25px" style={{verticalAlign: 'middle' }} />  <img src="https://storage.jd.com/cjj-pub-images/icon_QQ%E5%B0%8F%E7%A8%8B%E5%BA%8F.png" width="25px" style={{verticalAlign: 'middle' }} /> 
+支持情况： <img src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img src={require('@site/static/img/platform/tt.png').default} className="icon_platform" width="25px"/> <img src={require('@site/static/img/platform/qq.png').default} className="icon_platform" width="25px"/>
 
 小程序[接口权限](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html)相关设置。字段类型为 `Object`，结构为：
 
@@ -239,7 +239,7 @@ export default {
 
 ### requiredBackgroundModes
 
-支持情况：<img src="https://storage.jd.com/cjj-pub-images/icon_%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F.png" width="25px" style={{verticalAlign: 'middle' }} /> <img src="https://storage.jd.com/cjj-pub-images/icon_%E7%99%BE%E5%BA%A6%E8%BD%BB%E5%BA%94%E7%94%A8.png" width="25px" style={{verticalAlign: 'middle' }} /> <img src="https://storage.jd.com/cjj-pub-images/icon_QQ%E5%B0%8F%E7%A8%8B%E5%BA%8F.png" width="25px" style={{verticalAlign: 'middle' }} />
+支持情况：<img src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img src={require('@site/static/img/platform/qq.png').default} className="icon_platform" width="25px"/>
 
 申明需要后台运行的能力，类型为数组。目前支持以下项目：
 
@@ -259,7 +259,7 @@ export default {
 
 ### preloadRule
 
-支持情况：<img src="https://storage.jd.com/cjj-pub-images/icon_%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F.png" width="25px" style={{verticalAlign: 'middle' }} /> <img src="https://storage.jd.com/cjj-pub-images/icon_%E7%99%BE%E5%BA%A6%E8%BD%BB%E5%BA%94%E7%94%A8.png" width="25px" style={{verticalAlign: 'middle' }} /> <img src="https://storage.jd.com/cjj-pub-images/icon_%E5%AD%97%E8%8A%82.png" width="25px" style={{verticalAlign: 'middle' }} />
+支持情况：<img src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img src={require('@site/static/img/platform/tt.png').default} className="icon_platform" width="25px"/>
 
 声明分包预下载的规则。
 
@@ -269,7 +269,7 @@ export default {
 
 ### entryPagePath
 
-支持情况：<img src="https://storage.jd.com/cjj-pub-images/icon_%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F.png" width="25px" style={{verticalAlign: 'middle' }} />  <img src="https://storage.jd.com/cjj-pub-images/icon_%E5%AD%97%E8%8A%82.png" width="25px" style={{verticalAlign: 'middle' }} />
+支持情况：<img src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img src={require('@site/static/img/platform/tt.png').default} className="icon_platform" width="25px"/> <img src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/>
 
 指定小程序的默认启动路径（首页），常见情景是从微信聊天列表页下拉启动、小程序列表启动等。如果不填，将默认为 `pages` 列表的第一项。不支持带页面路径参数。
 
@@ -284,7 +284,7 @@ export default {
 
 ### workers
 
-支持情况：<img src="https://storage.jd.com/cjj-pub-images/icon_%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F.png" width="25px" style={{verticalAlign: 'middle' }} /> <img src="https://storage.jd.com/cjj-pub-images/icon_QQ%E5%B0%8F%E7%A8%8B%E5%BA%8F.png" width="25px" style={{verticalAlign: 'middle' }} />
+支持情况：<img src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img src={require('@site/static/img/platform/qq.png').default} className="icon_platform" width="25px"/>
 
 使用 Worker 处理多线程任务时，设置 Worker 代码放置的目录。
 
@@ -293,13 +293,14 @@ export default {
 
 ### navigateToMiniProgramAppIdList
 
-支持情况：<img src="https://storage.jd.com/cjj-pub-images/icon_%E5%AD%97%E8%8A%82.png" width="25px" style={{verticalAlign: 'middle' }} />  <img src="https://storage.jd.com/cjj-pub-images/icon_QQ%E5%B0%8F%E7%A8%8B%E5%BA%8F.png" width="25px" style={{verticalAlign: 'middle' }} />
+支持情况：<img src={require('@site/static/img/platform/tt.png').default} className="icon_platform" width="25px"/> <img src={require('@site/static/img/platform/qq.png').default} className="icon_platform" width="25px"/>
 
 当小程序需要使用 [Taro.navigateToMiniProgram](https://developers.weixin.qq.com/miniprogram/dev/api/wx.navigateToMiniProgram.html) 接口跳转到其他小程序时，需要先在配置文件中声明需要跳转的小程序 appId 列表，最多允许填写 10 个
 
+
 ## 微信小程序特有属性
 
-只在微信小程序中支持的属性。<img src="https://storage.jd.com/cjj-pub-images/icon_%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F.png" width="25px" style={{verticalAlign: 'middle' }} />
+只在微信小程序中支持的属性。<img src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/>
 
 | 属性 | 类型 | 描述 |
 | :--- | :--- | :--- |
@@ -448,7 +449,7 @@ export default {
 
 ## 百度小程序特有属性
 
-只在百度小程序中支持的属性。<img src="https://storage.jd.com/cjj-pub-images/icon_%E7%99%BE%E5%BA%A6%E8%BD%BB%E5%BA%94%E7%94%A8.png" width="25px" style={{verticalAlign: 'middle' }} />
+只在百度小程序中支持的属性。<img src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/>
 
 | 属性 | 类型 | 描述 |
 | :--- | :--- | :--- |
@@ -512,7 +513,7 @@ export default {
 
 ## QQ 小程序特有属性
 
-只在 QQ 小程序中支持的属性。<img src="https://storage.jd.com/cjj-pub-images/icon_QQ%E5%B0%8F%E7%A8%8B%E5%BA%8F.png" width="25px" style={{verticalAlign: 'middle' }} />
+只在 QQ 小程序中支持的属性。<img src={require('@site/static/img/platform/qq.png').default} className="icon_platform" width="25px"/>
 
 | 属性 | 类型 | 描述 |
 | :--- | :--- | :--- |
@@ -524,7 +525,7 @@ export default {
 
 ## 京东小程序特有属性
 
-只在京东小程序中支持的属性。<img src="https://storage.jd.com/cjj-pub-images/icon_%E4%BA%AC%E4%B8%9C%E5%B0%8F%E7%A8%8B%E5%BA%8F.png" width="25px" style={{verticalAlign: 'middle' }} />
+只在京东小程序中支持的属性。<img src={require('@site/static/img/platform/jd.png').default} className="icon_platform" width="25px"/>
 
 | 属性 | 类型 | 描述 |
 | :--- | :--- | :--- |
@@ -605,3 +606,60 @@ export default {
 ```
 
 `quickMenu` 里面的菜单，只有配置布尔值 `false` 的情况下，才能隐藏，并且如果有 API 可控制某些菜单隐藏，则 API 的优先级大于这里的配置，该配置是全局配置，仅支持在 `app.json` 中配置。
+
+## H5 端支持的属性
+
+| 属性 | 类型 | 必填 | 默认值 | 描述 | 最低版本 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| [entryPagePath](#entrypagepath) | String |否 |   | 默认启动首页 | 3.3.17 |
+| [appId](#appId) | String | 否 | "app" | 渲染页面的容器 id | 3.3.18 |
+| [animation](#animation) | [`RouterAnimate`](#RouterAnimate)、`boolean` | 否 | `{ "duration": 300, "delay": 50 }` | 是否开启 h5 端路由动画功能，默认开启 | 3.3.18 |
+
+### appId
+
+H5 渲染页面的容器 id，如果修改 Html 文件中的容器 Id，需要同步添加该配置避免编译错误。
+
+#### 代码示例
+
+```html title="index.html"
+···
+<body>
+  <div id="app"></div>
+</body>
+···
+```
+
+```js title="app.config.js"
+export default {
+  "appId": "app"
+}
+```
+
+### animation
+
+指定 H5 端动画配置，可以通过覆盖 CSS 样式调整动画。
+
+#### RouterAnimate
+
+```ts
+interface RouterAnimate {
+  /**
+   * 动画切换时间，单位毫秒
+   * @default 300
+   */
+  duration?: number
+  /**
+   * 动画切换时间，单位毫秒
+   * @default 50
+   */
+  delay?: number
+}
+```
+
+#### 代码示例
+
+```js title="app.config.js"
+export default {
+  "animation": false
+}
+```
