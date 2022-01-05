@@ -451,6 +451,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
   setReconciler()
 
   const config = {
+    options: componentConfig,
     properties: {
       props: {
         type: null,
