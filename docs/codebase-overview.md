@@ -17,7 +17,7 @@ title: Taro 仓库概览
 | `@tarojs/runner-utils` | 工具库，主要供小程序、H5 的编译工具使用 |
 | `@tarojs/shared` |  工具库，主要供运行时使用 |
 | `@tarojs/taro` | 暴露各端所需要的 Taro 对象 |
-| `@tarojs/api` | 和各端无关的 Taro API |
+| `@tarojs/api` | 和各端相关的 Taro API |
 | `babel-preset-taro` | Babel preset |
 | `eslint-config-taro` | ESLint 规则 |
 | `postcss-pxtransform` | PostCSS 插件，转换 `px` 为各端的自适应尺寸单位 |
