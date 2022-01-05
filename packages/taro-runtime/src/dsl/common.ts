@@ -1,6 +1,5 @@
 /* eslint-disable dot-notation */
 import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray, isString } from '@tarojs/shared'
-import get from 'lodash-es/get'
 import container from '../container'
 import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { eventHandler } from '../dom/event'
@@ -307,13 +306,13 @@ export function createRecursiveComponentConfig (componentName?: string) {
   const isCustomWrapper = componentName === 'custom-wrapper'
   const lifeCycles = isCustomWrapper ? {
     attached () {
-      const componentId = get(this.data, 'i.uid')
+      const componentId = this.data.i?.uid
       if (isString(componentId)) {
         customWrapperCache.set(componentId, this)
       }
     },
     detached () {
-      const componentId = get(this.data, 'i.uid')
+      const componentId = this.data.i?.uid
       if (isString(componentId) && customWrapperCache.has(componentId)) {
         customWrapperCache.delete(componentId)
       }

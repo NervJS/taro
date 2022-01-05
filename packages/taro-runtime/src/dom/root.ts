@@ -1,7 +1,6 @@
 import { inject, injectable } from 'inversify'
 import { isFunction, Shortcuts } from '@tarojs/shared'
 import get from 'lodash-es/get'
-import set from 'lodash-es/set'
 import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { TaroElement } from './element'
 import { customWrapperCache, incrementId } from '../utils'
@@ -31,8 +30,6 @@ export class TaroRootElement extends TaroElement {
   private updateCallbacks: Func[]= []
 
   private eventCenter: Events
-
-  private data: Record<string, any> = {}
 
   public pendingUpdate = false
 
@@ -114,9 +111,9 @@ export class TaroRootElement extends TaroElement {
             const dataPathArr = p.split('.')
             let hasCustomWrapper = false
             for (let i = dataPathArr.length; i > 0; i--) {
-              const allPath = dataPathArr.slice(0, i).join('.')
-              const getData = get(this.data, allPath)
-              if (getData && getData.nn && getData.nn === CUSTOM_WRAPPER) {
+              const allPath = dataPathArr.slice(1, i).join('.').replace(/cn/g, 'childNodes')
+              const getData = get(this, allPath)
+              if (getData && getData.nodeName && getData.nodeName === CUSTOM_WRAPPER) {
                 const customWrapperId = getData.uid
                 const customWrapper = customWrapperCache.get(customWrapperId)
                 const splitedPath = dataPathArr.slice(i).join('.')
@@ -137,9 +134,6 @@ export class TaroRootElement extends TaroElement {
             })
           }
         }
-        Object.keys(data).forEach(key => {
-          set(this.data, key, data[key])
-        })
         const updateArrLen = customWrapperUpdate.length
         if (updateArrLen) {
           const eventId = `${this._path}_update_${eventIncrementId()}`
