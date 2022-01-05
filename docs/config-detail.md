@@ -1138,7 +1138,7 @@ module.exports = {
 
 #### h5.router.customRoutes
 
-`object`
+`Record<string, string | string[]>`
 
 配置自定义路由。
 
@@ -1151,7 +1151,9 @@ module.exports = {
     // ...
     router: {
       customRoutes: {
-        '/pages/index/index': '/index'
+        // "页面路径": "自定义路由"
+        '/pages/index/index': '/index',
+        '/pages/detail/index': ['/detail'] // 可以通过数组为页面配置多个自定义路由
       }
     }
   }
@@ -1163,6 +1165,7 @@ module.exports = {
 * `https://{{domain}}/#/index`（**hash** 模式）
 * `https://{{domain}}/myapp/index`（**browser** 模式）
 
+> 版本 3.3.18+ 开始支持传入数组配置自定义路由
 
 ### h5.enableSourceMap
 
