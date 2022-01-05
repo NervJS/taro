@@ -111,7 +111,7 @@ export class TaroRootElement extends TaroElement {
             const dataPathArr = p.split('.')
             let hasCustomWrapper = false
             for (let i = dataPathArr.length; i > 0; i--) {
-              const allPath = dataPathArr.slice(1, i).join('.').replace(/cn/g, 'childNodes')
+              const allPath = dataPathArr.slice(1, i).join('.').replace(/\bcn\b/g, 'childNodes')
               const getData = get(this, allPath)
               if (getData && getData.nodeName && getData.nodeName === CUSTOM_WRAPPER) {
                 const customWrapperId = getData.uid

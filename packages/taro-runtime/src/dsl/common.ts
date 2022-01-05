@@ -304,20 +304,23 @@ export function createComponentConfig (component: React.ComponentClass, componen
 
 export function createRecursiveComponentConfig (componentName?: string) {
   const isCustomWrapper = componentName === 'custom-wrapper'
-  const lifeCycles = isCustomWrapper ? {
-    attached () {
-      const componentId = this.data.i?.uid
-      if (isString(componentId)) {
-        customWrapperCache.set(componentId, this)
-      }
-    },
-    detached () {
-      const componentId = this.data.i?.uid
-      if (isString(componentId) && customWrapperCache.has(componentId)) {
-        customWrapperCache.delete(componentId)
+  const lifeCycles = isCustomWrapper
+    ? {
+      attached () {
+        const componentId = this.data.i?.uid
+        if (isString(componentId)) {
+          customWrapperCache.set(componentId, this)
+          console.log('customWrapperCache: ', customWrapperCache)
+        }
+      },
+      detached () {
+        const componentId = this.data.i?.uid
+        if (isString(componentId)) {
+          customWrapperCache.delete(componentId)
+        }
       }
     }
-  } : EMPTY_OBJ
+    : EMPTY_OBJ
 
   return {
     properties: {
