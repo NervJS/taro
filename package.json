@@ -28,9 +28,13 @@
     "clear-all": "rimraf node_modules && lerna clean -y"
   },
   "lint-staged": {
-    "*.{js,jsx}": [
+    "*.{js,jsx,ts,tsx}": [
       "eslint --fix",
       "git add"
+    ],
+    "*.{json}": [
+      "prettier --write",
+      "git add -f"
     ]
   },
   "husky": {
