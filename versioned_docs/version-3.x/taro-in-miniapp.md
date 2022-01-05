@@ -2,7 +2,9 @@
 title: 原生项目使用 Taro
 ---
 
-`3.0.25` 后开始支持在原生项目中部分使用 Taro 进行开发。
+:::info
+Taro v3.0.25 开始支持
+:::
 
 #### 示例项目：
 
@@ -278,7 +280,9 @@ config = {
 
 ## 把 Taro 组件编译为原生自定义组件
 
-> v3.1.2+，暂时只支持 React
+:::info
+Taro v3.1.2 开始支持，且暂时只支持 React
+:::
 
 Taro 支持把组件编译为**原生小程序自定义组件**，供原生项目使用。
 
@@ -336,5 +340,20 @@ function Picker ({ mode, value, onInitial }) {
   return (
     // ...
   )
+}
+```
+
+### 组件配置
+
+:::info
+Taro v3.3.20 开始支持
+:::
+
+微信小程序的自定义组件支持配置 [styleIsolation](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/wxml-wxss.html#%E7%BB%84%E4%BB%B6%E6%A0%B7%E5%BC%8F%E9%9A%94%E7%A6%BB)、[virtualHost](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/wxml-wxss.html#%E8%99%9A%E6%8B%9F%E5%8C%96%E7%BB%84%E4%BB%B6%E8%8A%82%E7%82%B9) 等特性。在 Taro 中可以通过修改组件的配置文件进行设置：
+
+```js title="index.config.js"
+export default {
+  styleIsolation: 'isolated',
+  virtualHost: true
 }
 ```
