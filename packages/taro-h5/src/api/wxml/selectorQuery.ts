@@ -17,18 +17,18 @@ function filter (fields, dom?: HTMLElement, selector?: string) {
   if (!dom) return null
 
   const isViewport = selector === '.taro_page'
-  const { id, dataset, rect, size, scrollOffset, properties = [], computedStyle = [], nodeCanvasType, node } = fields
+  const { id, dataset, rect, size, scrollOffset, properties = [], computedStyle = [], nodeCanvasType, node, context } = fields
   const res: any = {}
 
   if (nodeCanvasType && node) {
     const type = (dom as any).type! || ''
     const canvas = dom.getElementsByTagName('canvas')[0]
-    const context = canvas?.getContext(type)
+    const canvasContext = canvas?.getContext(type)
     res.nodeCanvasType = type
-    if (type && context) {
+    if (type && canvasContext) {
       const { left, top, width, height } = canvas.getBoundingClientRect()
       res.node = {
-        context,
+        canvasContext,
         id: dom.id,
         _canvasId: canvas.attributes?.['canvas-id']?.value,
         _canvasRef: canvas,
@@ -44,6 +44,26 @@ function filter (fields, dom?: HTMLElement, selector?: string) {
       res.node = null
     }
     return res
+  }
+  if (context) {
+    const tagName = dom.tagName
+    if (/^taro-video-core/i.test(tagName)) {
+      console.error('暂时不支持通过 NodesRef.context 获取 VideoContext')
+      return { context }
+    } else if (/^taro-canvas-core/i.test(tagName)) {
+      console.error('暂时不支持通过 NodesRef.context 获取 CanvasContext')
+      return
+    } else if (/^taro-live-player-core/i.test(tagName)) {
+      console.error('暂时不支持通过 NodesRef.context 获取 LivePlayerContext')
+      return
+    } else if (/^taro-editor-core/i.test(tagName)) {
+      console.error('暂时不支持通过 NodesRef.context 获取 EditorContext')
+      return
+    } else if (/^taro-map-core/i.test(tagName)) {
+      console.error('暂时不支持通过 NodesRef.context 获取 MapContext')
+      return
+    }
+    return
   }
   if (id) res.id = dom.id
   if (dataset) res.dataset = Object.assign({}, dom.dataset)
