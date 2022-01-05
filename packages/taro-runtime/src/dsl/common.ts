@@ -310,7 +310,6 @@ export function createRecursiveComponentConfig (componentName?: string) {
         const componentId = this.data.i?.uid
         if (isString(componentId)) {
           customWrapperCache.set(componentId, this)
-          console.log('customWrapperCache: ', customWrapperCache)
         }
       },
       detached () {
