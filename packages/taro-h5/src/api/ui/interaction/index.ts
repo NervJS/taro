@@ -209,13 +209,15 @@ const showModal: typeof Taro.showModal = async (options = {}) => {
 
   options.showCancel = !!options.showCancel
 
-  let errMsg = ''
+  let result = ''
   if (!modal.el) {
-    errMsg = await modal.create(options)
+    result = await modal.create(options)
   } else {
-    errMsg = await modal.show(options)
+    result = await modal.show(options)
   }
-  return handle.success({ errMsg })
+  const res = { cancel: !1, confirm: !1 }
+  res[result] = !0
+  return handle.success(res)
 }
 
 function hideModal () {
