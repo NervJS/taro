@@ -115,7 +115,7 @@ Taro.createSelectorQuery().select('.the-video-class').context(function (res) {
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| NodesRef.context | ✔️ |  |  |
+| NodesRef.context | ✔️ | ✔️ |  |
 
 ### fields
 
@@ -222,7 +222,7 @@ Taro.createSelectorQuery().select('.canvas').node(function(res){
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| NodesRef.node | ✔️ |  |  |
+| NodesRef.node | ✔️ | ✔️ |  |
 
 ### scrollOffset
 
@@ -595,7 +595,7 @@ Taro.createSelectorQuery().selectViewport().scrollOffset(function(res){
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
 | NodesRef.boundingClientRect | ✔️ | ✔️ |  |
-| NodesRef.context | ✔️ |  |  |
+| NodesRef.context | ✔️ | ✔️ |  |
 | NodesRef.fields | ✔️ | ✔️ |  |
-| NodesRef.node | ✔️ |  |  |
+| NodesRef.node | ✔️ | ✔️ |  |
 | NodesRef.scrollOffset | ✔️ | ✔️ |  |
