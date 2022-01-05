@@ -139,7 +139,7 @@ const needPromiseApis = new Set<string>([
   'writeBLECharacteristicValue'
 ])
 
-function getCanIUseWebp(taro) {
+function getCanIUseWebp (taro) {
   return function () {
     if (typeof taro.getSystemInfoSync !== 'function') {
       console.error('不支持 API canIUseWebp')
@@ -154,8 +154,8 @@ function getCanIUseWebp(taro) {
   }
 }
 
-function getNormalRequest(global) {
-  return function request(options) {
+function getNormalRequest (global) {
+  return function request (options) {
     options = options || {}
     if (typeof options === 'string') {
       options = {
@@ -193,7 +193,7 @@ function getNormalRequest(global) {
   }
 }
 
-function processApis(taro, global, config: IProcessApisIOptions = {}) {
+function processApis (taro, global, config: IProcessApisIOptions = {}) {
   const patchNeedPromiseApis = config.needPromiseApis || []
   const _needPromiseApis = new Set<string>([...patchNeedPromiseApis, ...needPromiseApis])
   const preserved = [
@@ -237,7 +237,7 @@ function processApis(taro, global, config: IProcessApisIOptions = {}) {
         if (config.transformMeta) {
           const transformResult = config.transformMeta(key, options)
           key = transformResult.key
-            ; (options as Record<string, any>) = transformResult.options
+          ; (options as Record<string, any>) = transformResult.options
           // 新 key 可能不存在
           if (!global.hasOwnProperty(key)) {
             return unsupport(key)()
@@ -326,7 +326,7 @@ function processApis(taro, global, config: IProcessApisIOptions = {}) {
  * @param taro Taro 对象
  * @param global 小程序全局对象，如微信的 wx，支付宝的 my
  */
-function equipCommonApis(taro, global, apis: Record<string, any> = {}) {
+function equipCommonApis (taro, global, apis: Record<string, any> = {}) {
   taro.canIUseWebp = getCanIUseWebp(taro)
   taro.getCurrentPages = getCurrentPages || unsupport('getCurrentPages')
   taro.getApp = getApp || unsupport('getApp')
@@ -340,7 +340,7 @@ function equipCommonApis(taro, global, apis: Record<string, any> = {}) {
 
   // request & interceptors
   const request = apis.request ? apis.request : getNormalRequest(global)
-  function taroInterceptor(chain) {
+  function taroInterceptor (chain) {
     return request(chain.requestParams)
   }
   const link = new taro.Link(taroInterceptor)
