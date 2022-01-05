@@ -1,6 +1,6 @@
 ---
-title: matchMedia
-sidebar_label: matchMedia
+title: MatchMedia
+sidebar_label: MatchMedia
 ---
 
 
@@ -66,7 +66,7 @@ class App extends Components {
 </TabItem>
 </Tabs>
 
-## matchMediaProps
+## MatchMediaProps
 
 <table>
   <thead>
@@ -127,12 +127,12 @@ class App extends Components {
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| matchMediaProps.minWidth | ✔️ |  |  |
-| matchMediaProps.maxWidth | ✔️ |  |  |
-| matchMediaProps.width | ✔️ |  |  |
-| matchMediaProps.minHeight | ✔️ |  |  |
-| matchMediaProps.maxHeight | ✔️ |  |  |
-| matchMediaProps.Height | ✔️ |  |  |
-| matchMediaProps.orientation | ✔️ |  |  |
+| MatchMediaProps.minWidth | ✔️ |  |  |
+| MatchMediaProps.maxWidth | ✔️ |  |  |
+| MatchMediaProps.width | ✔️ |  |  |
+| MatchMediaProps.minHeight | ✔️ |  |  |
+| MatchMediaProps.maxHeight | ✔️ |  |  |
+| MatchMediaProps.Height | ✔️ |  |  |
+| MatchMediaProps.orientation | ✔️ |  |  |
 
 
