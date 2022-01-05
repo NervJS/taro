@@ -61,7 +61,6 @@ const needPromiseApis = new Set<string>([
   'getStorageInfo',
   'getSystemInfo',
   'getUserInfo',
-  'getUserProfile',
   'getWifiList',
   'hideHomeButton',
   'hideShareMenu',

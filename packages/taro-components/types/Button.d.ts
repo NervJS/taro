@@ -250,10 +250,6 @@ declare namespace ButtonProps {
       openSetting
       /** 打开“意见反馈”页面，用户可提交反馈内容并上传日志，开发者可以登录小程序管理后台后进入左侧菜单“客服反馈”页面获取到反馈内容 */
       feedback
-      /** 获取用户信息
-       * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/user-info/wx.getUserProfile.html
-       */
-      getUserProfile
     }
     /** 支付宝小程序专属的 open-type 合法值
      * @see https://opendocs.alipay.com/mini/component/button
