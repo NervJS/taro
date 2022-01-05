@@ -28,13 +28,13 @@ function createLocationChooser (handler, key = LOCATION_APIKEY) {
   }
 
   function back () {
-    handler({ errMsg: 'cancel' })
     hide()
+    handler({ errMsg: 'cancel' })
   }
 
   function submit () {
-    handler()
     hide()
+    handler()
   }
 
   function remove () {
