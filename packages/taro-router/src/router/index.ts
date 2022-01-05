@@ -9,18 +9,10 @@ import type { AppConfig, PageConfig } from '@tarojs/taro'
 import { Listener as LocationListener, Action as LocationAction } from 'history'
 import UniversalRouter, { Routes } from 'universal-router'
 
-import { history, prependBasename, stripBasename } from '../history'
-import { init, routerConfig } from './init'
-import { hidePage, loadPage, showPage, unloadPage } from './page'
-import { qs } from './qs'
+import { history, prependBasename } from '../history'
+import PageHandler from './page'
 import stacks from './stack'
-import { addLeadingSlash, isTabBar, routesAlias } from '../utils'
-
-/**
- * TODO
- * - [ ] api 调用顺序执行
- * - [ ] TabBar 相关 API 修复
- */
+import { addLeadingSlash, routesAlias } from '../utils'
 
 export interface Route extends PageConfig {
   path?: string
@@ -31,63 +23,55 @@ export interface RouterConfig extends AppConfig {
   routes: Route[],
   router: {
     mode: 'hash' | 'browser'
-    basename: string,
-    customRoutes?: Record<string, string | string[]>,
-    pathname: string,
+    basename: string
+    customRoutes?: Record<string, string | string[]>
+    pathname: string
     forcePath?: string
-  },
+  }
+  // 下拉刷新组件
   PullDownRefresh?: any
 }
 
 export function createRouter (
   app: AppInstance,
   config: RouterConfig,
-  framework
+  framework?: string
 ) {
-  init(config)
+  const handler = new PageHandler(config)
 
-  const routes: Routes = []
   const runtimeHooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
 
-  routesAlias.set(config.router.customRoutes)
-  for (let i = 0; i < config.routes.length; i++) {
-    const route = config.routes[i]
-    const path = addLeadingSlash(route.path)
-    routes.push({
-      path: routesAlias.getAll(path),
-      action: route.load
-    })
-  }
-
-  const basename = config.router.basename
+  routesAlias.set(handler.router.customRoutes)
+  const basename = handler.router.basename
+  const routes: Routes = handler.routes.map(route => ({
+    path: routesAlias.getAll(addLeadingSlash(route.path)),
+    action: route.load
+  }))
+  const entryPagePath: string = config.entryPagePath || routes[0].path?.[0]
   const router = new UniversalRouter(routes, { baseUrl: basename || '' })
-  app.onLaunch!()
+  app.onLaunch?.()
 
   const render: LocationListener = async ({ location, action }) => {
-    routerConfig.router.pathname = location.pathname
+    handler.pathname = location.pathname
     let element
     try {
-      element = await router.resolve(config.router.forcePath || location.pathname)
+      element = await router.resolve(handler.router.forcePath || handler.pathname)
     } catch (error) {
       if (error.status === 404) {
         app.onPageNotFound?.({
-          path: location.pathname
+          path: handler.pathname
         })
       } else {
         throw new Error(error)
       }
     }
     if (!element) return
-    const pageConfig = config.routes.find(r => {
-      const path = addLeadingSlash(r.path)
-      const urlPath = stripBasename(location.pathname, routerConfig.router.basename)
-      return path === urlPath || routesAlias.getConfig(path)?.includes(urlPath)
-    })
+    const pageConfig = handler.pageConfig
     let enablePullDownRefresh = false
 
     eventCenter.trigger('__taroRouterChange', {
       toLocation: {
-        path: location.pathname
+        path: handler.pathname
       }
     })
 
@@ -97,35 +81,34 @@ export function createRouter (
     }
 
     const currentPage = Current.page
-    const pathname = location.pathname
+    const pathname = handler.pathname
     let shouldLoad = false
 
     if (action === 'POP') {
       // NOTE: 浏览器事件退后多次时，该事件只会被触发一次
       const prevIndex = stacks.getPrevIndex(pathname)
       const delta = stacks.getDelta(pathname)
-      unloadPage(currentPage, delta)
+      handler.unload(currentPage, delta, prevIndex > -1)
       if (prevIndex > -1) {
-        showPage(stacks.getItem(prevIndex), pageConfig, prevIndex)
+        handler.show(stacks.getItem(prevIndex), pageConfig, prevIndex)
       } else {
         shouldLoad = true
       }
-    } else if (action === 'PUSH') {
-      hidePage(currentPage)
-      shouldLoad = true
-    } else if (action === 'REPLACE') {
-      if (isTabBar(config)) {
-        hidePage(currentPage)
-
-        const prevIndex = stacks.getPrevIndex(pathname)
+    } else {
+      if (handler.isTabBar) {
+        if (handler.isSamePage(currentPage)) return
+        const prevIndex = stacks.getPrevIndex(pathname, 0)
+        handler.hide(currentPage)
         if (prevIndex > -1) {
           // NOTE: tabbar 页且之前出现过，直接复用
-          return showPage(stacks.getItem(prevIndex), pageConfig, prevIndex)
+          return handler.show(stacks.getItem(prevIndex), pageConfig, prevIndex)
         }
-      } else {
+      } else if (action === 'REPLACE') {
         const delta = stacks.getDelta(pathname)
         // NOTE: 页面路由记录并不会清空，只是移除掉缓存的 stack 以及页面
-        unloadPage(currentPage, delta)
+        handler.unload(currentPage, delta)
+      } else if (action === 'PUSH') {
+        handler.hide(currentPage)
       }
       shouldLoad = true
     }
@@ -138,22 +121,22 @@ export function createRouter (
       delete loadConfig['load']
 
       const page = createPageConfig(
-        enablePullDownRefresh ? runtimeHooks.createPullDownComponent?.(el, location.pathname, framework, routerConfig.PullDownRefresh) : el,
-        pathname + stringify(qs(stacksIndex)),
+        enablePullDownRefresh ? runtimeHooks.createPullDownComponent?.(el, location.pathname, framework, handler.PullDownRefresh) : el,
+        pathname + stringify(handler.getQuery(stacksIndex)),
         {},
         loadConfig
       )
-      return loadPage(page, pageConfig, stacksIndex)
+      return handler.load(page, pageConfig, stacksIndex)
     }
   }
 
   if (history.location.pathname === '/') {
-    history.replace(prependBasename((config.entryPagePath || routes[0].path?.[0]) as string + history.location.search))
+    history.replace(prependBasename(entryPagePath + history.location.search))
   }
 
   render({ location: history.location, action: LocationAction.Push })
 
-  app.onShow!(qs(stacks.length))
+  app.onShow?.(handler.getQuery(stacks.length))
 
   return history.listen(render)
 }

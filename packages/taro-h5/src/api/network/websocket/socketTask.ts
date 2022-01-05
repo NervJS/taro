@@ -1,6 +1,6 @@
 import Taro from '@tarojs/api'
 
-export default class SocketTask {
+export class SocketTask {
   ws: WebSocket
   CONNECTING: number
   OPEN: number

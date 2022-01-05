@@ -16,4 +16,4 @@ export const getLocation = processOpenApi('getLocation')
 
 export const choosePoi = temporarilyNotSupport('choosePoi')
 
-export { chooseLocation } from './chooseLocation'
+export * from './chooseLocation'

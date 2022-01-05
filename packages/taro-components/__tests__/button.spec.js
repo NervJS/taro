@@ -1,9 +1,10 @@
-import * as React from 'react'
-import { Button } from '../h5/react'
-import { waitForChange, delay } from './utils'
 import * as assert from 'assert'
+import * as React from 'react'
 import * as sinon from 'sinon'
+
+import { Button } from '../h5/react'
 import { mount } from './test-tools'
+import { waitForChange, delay } from './utils'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const h = React.createElement

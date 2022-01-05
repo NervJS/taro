@@ -16,23 +16,29 @@ class InnerAudioContext implements Taro.InnerAudioContext {
     Taro.eventCenter.on('__taroRouterChange', () => { this.stop() })
   }
 
-  set autoplay (e) { Object.defineProperty(this.Instance, 'autoplay', { value: e }) }
+  set autoplay (e) { this.setProperty('autoplay', e) }
   get autoplay () { return this.Instance?.autoplay || false }
   get buffered () { return this.Instance?.buffered.length || 0 }
   get currentTime () { return this.Instance?.currentTime || 0 }
   get duration () { return this.Instance?.duration || 0 }
-  set loop (e) { Object.defineProperty(this.Instance, 'loop', { value: e }) }
+  set loop (e) { this.setProperty('loop', e) }
   get loop () { return this.Instance?.loop || false }
   get paused () { return this.Instance?.paused || true }
-  set src (e) { Object.defineProperty(this.Instance, 'src', { value: e }) }
+  set src (e) { this.setProperty('src', e) }
   get src () { return this.Instance?.src || '' }
-  set volume (e) { Object.defineProperty(this.Instance, 'volume', { value: e }) }
+  set volume (e) { this.setProperty('volume', e) }
   get volume () { return this.Instance?.volume || 0 }
-  set playbackRate (e) { Object.defineProperty(this.Instance, 'playbackRate', { value: e }) }
+  set playbackRate (e) { this.setProperty('playbackRate', e) }
   get playbackRate () { return this.Instance?.volume || 0 }
   get obeyMuteSwitch () { return true }
-  set startTime (e) { Object.defineProperty(this.Instance, 'startTime', { value: e }) }
+  set startTime (e) { this.setProperty('startTime', e) }
   get startTime () { return this.Instance?.volume || 0 }
+
+  private setProperty (key: string, value: unknown) {
+    if (this.Instance) {
+      this.Instance[key] = value
+    }
+  }
 
   play = () => this.Instance?.play()
 
@@ -61,26 +67,26 @@ class InnerAudioContext implements Taro.InnerAudioContext {
     }
   }
 
-  onCanplay = (callback = () => {}) => this.Instance?.addEventListener('oncanplay', callback)
-  onPlay = (callback = () => {}) => this.Instance?.addEventListener('onplay', callback)
-  onPause = (callback = () => {}) => this.Instance?.addEventListener('onpause', callback)
+  onCanplay = (callback = () => {}) => this.Instance?.addEventListener('canplay', callback)
+  onPlay = (callback = () => {}) => this.Instance?.addEventListener('play', callback)
+  onPause = (callback = () => {}) => this.Instance?.addEventListener('pause', callback)
   onStop = (callback = () => {}) => this.stopStack.add(callback)
-  onEnded = (callback = () => {}) => this.Instance?.addEventListener('onended', callback)
-  onTimeUpdate = (callback = () => {}) => this.Instance?.addEventListener('ontimeUpdate', callback)
+  onEnded = (callback = () => {}) => this.Instance?.addEventListener('ended', callback)
+  onTimeUpdate = (callback = () => {}) => this.Instance?.addEventListener('timeupdate', callback)
   onError = (callback?: ((res: Taro.InnerAudioContext.onErrorDetail) => void)) => this.errorStack.add(callback)
-  onWaiting = (callback = () => {}) => this.Instance?.addEventListener('onwaiting', callback)
-  onSeeking = (callback = () => {}) => this.Instance?.addEventListener('onseeking', callback)
-  onSeeked = (callback = () => {}) => this.Instance?.addEventListener('onseeked', callback)
-  offCanplay = (callback = () => {}) => this.Instance?.removeEventListener('offcanplay', callback)
-  offPlay = (callback = () => {}) => this.Instance?.removeEventListener('offplay', callback)
-  offPause = (callback = () => {}) => this.Instance?.removeEventListener('offpause', callback)
+  onWaiting = (callback = () => {}) => this.Instance?.addEventListener('waiting', callback)
+  onSeeking = (callback = () => {}) => this.Instance?.addEventListener('seeking', callback)
+  onSeeked = (callback = () => {}) => this.Instance?.addEventListener('seeked', callback)
+  offCanplay = (callback = () => {}) => this.Instance?.removeEventListener('canplay', callback)
+  offPlay = (callback = () => {}) => this.Instance?.removeEventListener('play', callback)
+  offPause = (callback = () => {}) => this.Instance?.removeEventListener('pause', callback)
   offStop = (callback = () => {}) => this.stopStack.remove(callback)
-  offEnded = (callback = () => {}) => this.Instance?.removeEventListener('offended', callback)
-  offTimeUpdate = (callback = () => {}) => this.Instance?.removeEventListener('offtimeUpdate', callback)
+  offEnded = (callback = () => {}) => this.Instance?.removeEventListener('ended', callback)
+  offTimeUpdate = (callback = () => {}) => this.Instance?.removeEventListener('timeupdate', callback)
   offError = (callback = () => {}) => this.errorStack.remove(callback)
-  offWaiting = (callback = () => {}) => this.Instance?.removeEventListener('offwaiting', callback)
-  offSeeking = (callback = () => {}) => this.Instance?.removeEventListener('offseeking', callback)
-  offSeeked = (callback = () => {}) => this.Instance?.removeEventListener('offseeked', callback)
+  offWaiting = (callback = () => {}) => this.Instance?.removeEventListener('waiting', callback)
+  offSeeking = (callback = () => {}) => this.Instance?.removeEventListener('seeking', callback)
+  offSeeked = (callback = () => {}) => this.Instance?.removeEventListener('seeked', callback)
 }
 
 export const stopVoice = temporarilyNotSupport('stopVoice')

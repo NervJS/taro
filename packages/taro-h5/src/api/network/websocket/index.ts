@@ -1,31 +1,31 @@
-import SocketTask from './socketTask'
+import { SocketTask } from './socketTask'
 import { shouldBeObject, getParameterError } from '../../utils'
-import { MethodHandler } from 'src/api/utils/handler'
+import { MethodHandler } from '../../utils/handler'
 
 let socketTasks: SocketTask[] = []
 let socketsCounter = 1
 
-function sendSocketMessage () {
+export function sendSocketMessage () {
   console.warn('Deprecated.Please use socketTask.send instead.')
 }
 
-function onSocketOpen () {
+export function onSocketOpen () {
   console.warn('Deprecated.Please use socketTask.onOpen instead.')
 }
 
-function onSocketMessage () {
+export function onSocketMessage () {
   console.warn('Deprecated.Please use socketTask.onMessage instead.')
 }
 
-function onSocketError () {
+export function onSocketError () {
   console.warn('Deprecated.Please use socketTask.onError instead.')
 }
 
-function onSocketClose () {
+export function onSocketClose () {
   console.warn('Deprecated.Please use socketTask.onClose instead.')
 }
 
-function connectSocket (options) {
+export function connectSocket (options) {
   const name = 'connectSocket'
 
   return new Promise((resolve, reject) => {
@@ -75,22 +75,14 @@ function connectSocket (options) {
     }
     socketTasks.push(task)
 
-    return handle.success({
+    handle.success({
       socketTaskId: socketsCounter++
-    }, resolve)
+    })
+
+    return resolve(task)
   })
 }
 
-function closeSocket () {
+export function closeSocket () {
   console.warn('Deprecated.Please use socketTask.close instead.')
-}
-
-export {
-  sendSocketMessage,
-  onSocketOpen,
-  onSocketMessage,
-  onSocketError,
-  onSocketClose,
-  connectSocket,
-  closeSocket
 }

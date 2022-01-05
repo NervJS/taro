@@ -113,8 +113,8 @@ const createDownloadTask = ({ url, header, success, error }): Taro.DownloadTask 
  * 下载文件资源到本地。客户端直接发起一个 HTTPS GET 请求，返回文件的本地临时路径。使用前请注意阅读相关说明。
  * 注意：请在服务端响应的 header 中指定合理的 Content-Type 字段，以保证客户端正确处理文件类型。
  */
-const downloadFile: typeof Taro.downloadFile = ({ url, header, success, fail, complete }) => {
-  let task: Taro.DownloadTask
+export const downloadFile: typeof Taro.downloadFile = ({ url, header, success, fail, complete }) => {
+  let task!: Taro.DownloadTask
   const result: ReturnType<typeof Taro.downloadFile> = new Promise((resolve, reject) => {
     task = createDownloadTask({
       url,
@@ -130,13 +130,11 @@ const downloadFile: typeof Taro.downloadFile = ({ url, header, success, fail, co
         reject(res)
       }
     })
-
-    result.headersReceive = task.onHeadersReceived
-    result.progress = task.onProgressUpdate
-    result.abort = task.abort
   }) as any
+
+  result.headersReceive = task.onHeadersReceived
+  result.progress = task.onProgressUpdate
+  result.abort = task.abort
 
   return result
 }
-
-export default downloadFile

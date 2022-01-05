@@ -530,10 +530,8 @@ exports[`vue should build vue app 2`] = `
         }
         return newObj;
     }
-    var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
     function initPxTransform() {}
-    var h5 = taro_h5;
     var vue = \\"vue-mock\\";
     var app = __webpack_require__(7);
     var App = new vue({

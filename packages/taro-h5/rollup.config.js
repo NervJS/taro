@@ -12,12 +12,15 @@ const babel = require('@rollup/plugin-babel').default
 
 const cwd = __dirname
 const baseConfig = {
-  external: ['@tarojs/runtime', '@tarojs/taro'],
+  external: d => {
+    return /^@tarojs\/(api|router|runtime|taro)$/.test(d) || d.includes('@babel/runtime')
+  },
   output: {
     format: 'cjs',
     sourcemap: false,
     exports: 'auto'
   },
+  treeshake: false,
   plugins: [
     alias({
       '@tarojs/taro': join(cwd, '../taro/src/index')
@@ -26,22 +29,11 @@ const baseConfig = {
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }),
-    postcss(),
+    postcss({
+      inject: { insertAt: 'top' }
+    }),
     babel({
-      babelHelpers: 'bundled',
-      babelrc: false,
-      presets: [
-        ['@babel/preset-env', {
-          modules: false
-        }]
-      ],
-      plugins: [
-        '@babel/plugin-proposal-class-properties',
-        '@babel/plugin-proposal-object-rest-spread',
-        ['@babel/plugin-transform-react-jsx', {
-          pragma: 'Nerv.createElement'
-        }]
-      ]
+      babelHelpers: 'bundled'
     }),
     commonjs(),
     typescript({
@@ -56,12 +48,6 @@ const variesConfig = [{
     file: 'dist/taroApis.js'
   },
   plugins: exportNameOnly()
-}, {
-  input: 'src/index.ts',
-  output: {
-    format: 'esm',
-    file: 'dist/index.js'
-  }
 }, {
   input: 'src/index.ts',
   output: {

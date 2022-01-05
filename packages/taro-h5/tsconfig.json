@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "ES2018",
     "module": "ES2015",
     "rootDir": "./src",
     "outDir": "dist",
-    "sourceMap": true,
+    "sourceMap": false,
     "baseUrl": ".",
     "noImplicitAny": false,
     "noUnusedLocals": true,
@@ -14,6 +14,7 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "declaration": false,
+    "skipLibCheck": true,
     "types": ["jest", "./src/types"]
   },
   "include": ["./src"],
