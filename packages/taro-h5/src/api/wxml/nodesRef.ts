@@ -1,4 +1,3 @@
-import { temporarilyNotSupport } from '../utils'
 import { SelectorQuery } from './selectorQuery'
 
 export class NodesRef implements Taro.NodesRef {
@@ -14,7 +13,11 @@ export class NodesRef implements Taro.NodesRef {
     this._single = single
   }
 
-  context = temporarilyNotSupport('NodesRef.context') as unknown as Taro.NodesRef['context']
+  context (cb) {
+    const { _selector, _component, _single, _selectorQuery } = this
+    _selectorQuery._push(_selector, _component, _single, { context: !0 }, cb)
+    return _selectorQuery
+  }
 
   node (cb) {
     const { _selector, _component, _single, _selectorQuery } = this
