@@ -3,7 +3,7 @@ import { isFunction, Shortcuts } from '@tarojs/shared'
 import get from 'lodash-es/get'
 import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { TaroElement } from './element'
-import { incrementId } from '../utils'
+import { customWrapperCache, incrementId } from '../utils'
 import { perf } from '../perf'
 import { options } from '../options'
 import {
@@ -111,17 +111,17 @@ export class TaroRootElement extends TaroElement {
             const dataPathArr = p.split('.')
             let hasCustomWrapper = false
             for (let i = dataPathArr.length; i > 0; i--) {
-              const allPath = dataPathArr.slice(0, i).join('.')
-              const getData = get(ctx.__data__ || ctx.data, allPath)
-              if (getData && getData.nn && getData.nn === CUSTOM_WRAPPER) {
+              const allPath = dataPathArr.slice(1, i).join('.').replace(/\bcn\b/g, 'childNodes')
+              const getData = get(this, allPath)
+              if (getData && getData.nodeName && getData.nodeName === CUSTOM_WRAPPER) {
                 const customWrapperId = getData.uid
-                const customWrapper = ctx.selectComponent(`#${customWrapperId}`)
+                const customWrapper = customWrapperCache.get(customWrapperId)
                 const splitedPath = dataPathArr.slice(i).join('.')
                 if (customWrapper) {
                   hasCustomWrapper = true
                   customWrapperMap.set(customWrapper, { ...(customWrapperMap.get(customWrapper) || {}), [`i.${splitedPath}`]: data[p] })
+                  break
                 }
-                break
               }
             }
             if (!hasCustomWrapper) {
