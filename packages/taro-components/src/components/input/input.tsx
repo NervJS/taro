@@ -56,7 +56,6 @@ export class Input implements ComponentInterface {
     if (!oldValue && newValue) {
       this.inputRef?.focus()
     }
-    console.log('oldValue && newValue', oldValue && newValue)
   }
 
   @Event({
