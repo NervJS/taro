@@ -38,7 +38,7 @@ export class Input implements ComponentInterface {
   @Prop() autoFocus = false
   @Prop() confirmType = 'done'
   @Prop() name: string
-  @Prop() nativeProps = {}
+  @Prop() nativeProps: Record<any, unknown> = {}
 
   @State() _value: string
 
@@ -56,6 +56,7 @@ export class Input implements ComponentInterface {
     if (!oldValue && newValue) {
       this.inputRef?.focus()
     }
+    console.log('oldValue && newValue', oldValue && newValue)
   }
 
   @Event({
@@ -104,8 +105,6 @@ export class Input implements ComponentInterface {
       },
       configurable: true
     })
-
-    this.autoFocus && setTimeout(() => this.inputRef?.focus(), 0)
   }
 
   disconnectedCallback () {
@@ -208,7 +207,8 @@ export class Input implements ComponentInterface {
       maxlength,
       confirmType,
       name,
-      nativeProps
+      nativeProps,
+      autoFocus
     } = this
 
     return (
@@ -220,6 +220,7 @@ export class Input implements ComponentInterface {
         value={fixControlledValue(_value)}
         type={getTrueType(type, confirmType, password)}
         placeholder={placeholder}
+        autoFocus={autoFocus}
         disabled={disabled}
         maxlength={maxlength}
         name={name}
