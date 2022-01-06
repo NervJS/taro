@@ -1,11 +1,11 @@
 /* eslint-disable dot-notation */
-import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray } from '@tarojs/shared'
+import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray, isString } from '@tarojs/shared'
 import container from '../container'
 import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { eventHandler } from '../dom/event'
 import { Current } from '../current'
 import { document } from '../bom/document'
-import { incrementId } from '../utils'
+import { incrementId, customWrapperCache } from '../utils'
 import { perf } from '../perf'
 import { PAGE_INIT } from '../constants'
 import { isBrowser } from '../env'
@@ -299,6 +299,24 @@ export function createComponentConfig (component: React.ComponentClass, componen
 }
 
 export function createRecursiveComponentConfig (componentName?: string) {
+  const isCustomWrapper = componentName === 'custom-wrapper'
+  const lifeCycles = isCustomWrapper
+    ? {
+      attached () {
+        const componentId = this.data.i?.uid
+        if (isString(componentId)) {
+          customWrapperCache.set(componentId, this)
+        }
+      },
+      detached () {
+        const componentId = this.data.i?.uid
+        if (isString(componentId)) {
+          customWrapperCache.delete(componentId)
+        }
+      }
+    }
+    : EMPTY_OBJ
+
   return {
     properties: {
       i: {
@@ -314,10 +332,11 @@ export function createRecursiveComponentConfig (componentName?: string) {
     },
     options: {
       addGlobalClass: true,
-      virtualHost: componentName !== 'custom-wrapper'
+      virtualHost: !isCustomWrapper
     },
     methods: {
       eh: eventHandler
-    }
+    },
+    ...lifeCycles
   }
 }
