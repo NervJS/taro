@@ -106,7 +106,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
         }
 
         subChunks.forEach((subChunk: webpack.compilation.Chunk) => {
-          subChunk.modulesIterable.map((module: any) => {
+          subChunk.modulesIterable.forEach((module: any) => {
             if (this.isExternalModule(module)) {
               return
             }
@@ -366,7 +366,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   }
 
   isSubChunk (chunk: webpack.compilation.Chunk): boolean {
-    const isSubChunk = this.subRootRegExps.find(subRootRegExp => cacheMap.test(subRootRegExp,(chunk.name)))
+    const isSubChunk = this.subRootRegExps.find(subRootRegExp => cacheMap.test(subRootRegExp, (chunk.name)))
 
     return !!isSubChunk
   }
