@@ -9,6 +9,7 @@ export function loadAnimateStyle (ms = 300) {
   top: 0;
   width: 100%;
   height: 100%;
+  background-color: #fff;
   transform: translate3d(100%, 0, 0);
   transition: transform ${ms}ms;
 }
