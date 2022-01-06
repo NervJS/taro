@@ -66,3 +66,5 @@ export function shortcutAttr (key: string): string {
       return key
   }
 }
+
+export const customWrapperCache = new Map<string, Record<string, any>>()

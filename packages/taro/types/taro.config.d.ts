@@ -355,7 +355,7 @@ declare module './index' {
      */
     appId?: string
     /**
-     * 是否开启h5端路由动画功能，默认关闭
+     * 是否开启 h5 端路由动画功能，默认开启
      * @supported h5
      * @since 3.3.18
      */
