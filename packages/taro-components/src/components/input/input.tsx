@@ -202,12 +202,12 @@ export class Input implements ComponentInterface {
       type,
       password,
       placeholder,
+      autoFocus,
       disabled,
       maxlength,
       confirmType,
       name,
       nativeProps,
-      autoFocus
     } = this
 
     return (
