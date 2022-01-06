@@ -49,7 +49,8 @@ export function createRouter (
   }))
   const entryPagePath: string = config.entryPagePath || routes[0].path?.[0]
   const router = new UniversalRouter(routes, { baseUrl: basename || '' })
-  app.onLaunch?.()
+  const launchParam = handler.getQuery(stacks.length)
+  app.onLaunch?.(launchParam)
 
   const render: LocationListener = async ({ location, action }) => {
     handler.pathname = location.pathname
@@ -136,7 +137,7 @@ export function createRouter (
 
   render({ location: history.location, action: LocationAction.Push })
 
-  app.onShow?.(handler.getQuery(stacks.length))
+  app.onShow?.(launchParam)
 
   return history.listen(render)
 }
