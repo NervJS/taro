@@ -164,16 +164,18 @@ export default class PageHandler {
       setDisplay(pageEl)
       this.isTabBar && pageEl.classList.add('taro_tabbar_page')
       this.addAnimation(pageEl, stacksIndex === 0)
+      page.onShow?.()
+      bindPageScroll(page, pageConfig)
     } else {
       page.onLoad?.(param, () => {
         pageEl = document.getElementById(page.path!)
         this.isTabBar && pageEl?.classList.add('taro_tabbar_page')
         this.addAnimation(pageEl, stacksIndex === 0)
         this.onReady(page, true)
+        page.onShow?.()
+        bindPageScroll(page, pageConfig)
       })
     }
-    page.onShow?.(param)
-    bindPageScroll(page, pageConfig)
   }
 
   unload (page?: PageInstance | null, delta = 1, top = false) {
@@ -207,19 +209,21 @@ export default class PageHandler {
     if (!page) return
 
     const param = this.getQuery(stacks.length, '', page.options)
-    page.onShow?.(param)
     let pageEl = document.getElementById(page.path!)
     if (pageEl) {
       setDisplay(pageEl)
       this.addAnimation(pageEl, stacksIndex === 0)
+      page.onShow?.()
+      bindPageScroll(page, pageConfig)
     } else {
       page.onLoad?.(param, () => {
         pageEl = document.getElementById(page.path!)
         this.addAnimation(pageEl, stacksIndex === 0)
         this.onReady(page, false)
+        page.onShow?.()
+        bindPageScroll(page, pageConfig)
       })
     }
-    bindPageScroll(page, pageConfig)
   }
 
   hide (page?: PageInstance | null) {
