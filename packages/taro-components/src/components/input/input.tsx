@@ -207,7 +207,7 @@ export class Input implements ComponentInterface {
       maxlength,
       confirmType,
       name,
-      nativeProps,
+      nativeProps
     } = this
 
     return (
