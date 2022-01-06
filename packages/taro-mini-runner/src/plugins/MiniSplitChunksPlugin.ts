@@ -8,7 +8,6 @@ import { resolveMainFilePath, readConfig, promoteRelativePath, normalizePath } f
 import { isString, isFunction, isArray } from '@tarojs/shared'
 
 import { IFileType } from '../utils/types'
-import { CacheMap } from '../utils/cacheMap'
 
 const PLUGIN_NAME = 'MiniSplitChunkPlugin'
 const SUB_COMMON_DIR = 'sub-common'
@@ -19,8 +18,6 @@ const FileExtsMap = {
   JS_MAP: '.js.map',
   STYLE: '.wxss'
 }
-
-const cacheMap = new CacheMap()
 
 interface MiniSplitChunksPluginOption {
   exclude?: (string | ExcludeFunctionItem)[]
@@ -366,7 +363,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   }
 
   isSubChunk (chunk: webpack.compilation.Chunk): boolean {
-    const isSubChunk = this.subRootRegExps.find(subRootRegExp => cacheMap.test(subRootRegExp, (chunk.name)))
+    const isSubChunk = this.subRootRegExps.find(subRootRegExp => subRootRegExp.test(chunk.name))
 
     return !!isSubChunk
   }
