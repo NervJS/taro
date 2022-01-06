@@ -310,15 +310,15 @@ export function createReactApp (
     }),
 
     [ONHIDE]: setDefaultDescriptor({
-      value (options: unknown) {
+      value () {
         /**
          * trigger lifecycle
          */
         const app = getAppInstance()
         // class component, componentDidHide
-        app?.componentDidHide?.(options)
+        app?.componentDidHide?.()
         // functional component, useDidHide
-        triggerAppHook('onHide', options)
+        triggerAppHook('onHide')
       }
     }),
 

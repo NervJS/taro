@@ -5,7 +5,7 @@ declare module './index' {
     /**
      * 页面展示时的回调。
      */
-    useDidShow(callback: (options?: Record<string, unknown>) => any): void
+    useDidShow(callback: () => any): void
 
     /**
      * 页面隐藏时的回调。

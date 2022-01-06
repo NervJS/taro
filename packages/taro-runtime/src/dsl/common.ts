@@ -185,14 +185,14 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
         raf(() => eventCenter.trigger(getOnShowEventKey(id)))
       })
     },
-    [ONHIDE] (options = {}) {
+    [ONHIDE] () {
       // 设置 Current 的 page 和 router
       if (Current.page === this) {
         Current.page = null
         Current.router = null
       }
       // 触发生命周期
-      safeExecute(this.$taroPath, ON_HIDE, options)
+      safeExecute(this.$taroPath, ON_HIDE)
       // 通过事件触发子组件的生命周期
       eventCenter.trigger(getOnHideEventKey(id))
     }
