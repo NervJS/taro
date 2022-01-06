@@ -1,11 +1,11 @@
 /* eslint-disable dot-notation */
-import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray } from '@tarojs/shared'
+import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray, isString } from '@tarojs/shared'
 import container from '../container'
 import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { eventHandler } from '../dom/event'
 import { Current } from '../current'
 import { document } from '../bom/document'
-import { incrementId } from '../utils'
+import { incrementId, customWrapperCache } from '../utils'
 import { perf } from '../perf'
 import { PAGE_INIT } from '../constants'
 import { isBrowser } from '../env'
@@ -69,11 +69,8 @@ export function stringify (obj?: Record<string, unknown>) {
 }
 
 export function getPath (id: string, options?: Record<string, unknown>): string {
-  let path = id
-  if (!isBrowser) {
-    path = id + stringify(options)
-  }
-  return path
+  const idx = id.indexOf('?')
+  return `${idx > -1 ? id.substring(0, idx) : id}${stringify(isBrowser ? { stamp: options?.stamp || '' } : options)}`
 }
 
 export function getOnReadyEventKey (path: string) {
@@ -303,6 +300,24 @@ export function createComponentConfig (component: React.ComponentClass, componen
 }
 
 export function createRecursiveComponentConfig (componentName?: string) {
+  const isCustomWrapper = componentName === 'custom-wrapper'
+  const lifeCycles = isCustomWrapper
+    ? {
+      attached () {
+        const componentId = this.data.i?.uid
+        if (isString(componentId)) {
+          customWrapperCache.set(componentId, this)
+        }
+      },
+      detached () {
+        const componentId = this.data.i?.uid
+        if (isString(componentId)) {
+          customWrapperCache.delete(componentId)
+        }
+      }
+    }
+    : EMPTY_OBJ
+
   return {
     properties: {
       i: {
@@ -318,10 +333,11 @@ export function createRecursiveComponentConfig (componentName?: string) {
     },
     options: {
       addGlobalClass: true,
-      virtualHost: componentName !== 'custom-wrapper'
+      virtualHost: !isCustomWrapper
     },
     methods: {
       eh: eventHandler
-    }
+    },
+    ...lifeCycles
   }
 }
