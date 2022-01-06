@@ -20,8 +20,8 @@ function setDisplay (el?: HTMLElement | null, type = '') {
 export default class PageHandler {
   protected config: RouterConfig
   protected readonly defaultAnimation: RouterAnimate = { duration: 300, delay: 50 }
-  protected hideTimer: number | null
-  protected unloadTimer: number | null
+  protected unloadTimer: NodeJS.Timeout | null
+  protected hideTimer: NodeJS.Timeout | null
   protected lastHidePage: HTMLElement | null
   protected lastUnloadPage: PageInstance | null
 
@@ -39,19 +39,19 @@ export default class PageHandler {
   get PullDownRefresh () { return this.config.PullDownRefresh }
   get animation () { return this.config?.animation ?? this.defaultAnimation }
   get animationDelay () {
-    return typeof this.animation === 'object'
+    return (typeof this.animation === 'object'
       ? this.animation.delay
       : this.animation
         ? this.defaultAnimation?.delay
-        : 0
+        : 0) || 0
   }
 
   get animationDuration () {
-    return typeof this.animation === 'object'
+    return (typeof this.animation === 'object'
       ? this.animation.duration
       : this.animation
         ? this.defaultAnimation?.duration
-        : 0
+        : 0) || 0
   }
 
   set pathname (p) { this.router.pathname = p }
@@ -89,7 +89,7 @@ export default class PageHandler {
 
   get search () {
     let search = '?'
-    if (this.routerMode) {
+    if (this.routerMode === 'hash') {
       const idx = location.hash.indexOf('?')
       if (idx > -1) {
         search = location.hash.slice(idx)
@@ -241,7 +241,7 @@ export default class PageHandler {
       this.hideTimer = setTimeout(() => {
         this.hideTimer = null
         setDisplay(this.lastHidePage, 'none')
-      }, this.animationDelay)
+      }, this.animationDuration + this.animationDelay)
       page.onHide?.()
     } else {
       setTimeout(() => this.hide(page), 0)
