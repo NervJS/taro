@@ -38,7 +38,7 @@ export class Input implements ComponentInterface {
   @Prop() autoFocus = false
   @Prop() confirmType = 'done'
   @Prop() name: string
-  @Prop() nativeProps: Record<any, unknown> = {}
+  @Prop() nativeProps = {}
 
   @State() _value: string
 
