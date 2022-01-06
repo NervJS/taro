@@ -104,8 +104,6 @@ export class Input implements ComponentInterface {
       },
       configurable: true
     })
-
-    this.autoFocus && this.inputRef?.focus()
   }
 
   disconnectedCallback () {
@@ -204,6 +202,7 @@ export class Input implements ComponentInterface {
       type,
       password,
       placeholder,
+      autoFocus,
       disabled,
       maxlength,
       confirmType,
@@ -220,6 +219,7 @@ export class Input implements ComponentInterface {
         value={fixControlledValue(_value)}
         type={getTrueType(type, confirmType, password)}
         placeholder={placeholder}
+        autoFocus={autoFocus}
         disabled={disabled}
         maxlength={maxlength}
         name={name}
