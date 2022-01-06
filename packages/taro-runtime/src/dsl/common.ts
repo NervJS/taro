@@ -163,7 +163,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
         }
       })
     },
-    onShow (options = {}) {
+    onShow () {
       hasLoaded.then(() => {
         Current.page = this as any
         this.config = pageConfig || {}
@@ -180,13 +180,13 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
           eventCenter.trigger(getOnShowEventKey(id))
         })
 
-        safeExecute(this.$taroPath, 'onShow', options)
+        safeExecute(this.$taroPath, 'onShow')
       })
     },
-    onHide (options = {}) {
+    onHide () {
       Current.page = null
       Current.router = null
-      safeExecute(this.$taroPath, 'onHide', options)
+      safeExecute(this.$taroPath, 'onHide')
       eventCenter.trigger(getOnHideEventKey(id))
     },
     onPullDownRefresh () {

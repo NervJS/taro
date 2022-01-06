@@ -309,14 +309,14 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
     onHide: {
       enumerable: true,
       writable: true,
-      value (options: unknown) {
+      value () {
         const app = ref.current
         if (app != null && isFunction(app.componentDidHide)) {
-          app.componentDidHide(options)
+          app.componentDidHide()
         }
 
         // app useDidHide
-        triggerAppHook('onHide', options)
+        triggerAppHook('onHide')
       }
     },
 
@@ -332,7 +332,7 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
     }
   })
 
-  function triggerAppHook (lifecycle, option) {
+  function triggerAppHook (lifecycle, ...option) {
     const instance = getPageInstance(HOOKS_APP_ID)
     if (instance) {
       const app = ref.current
@@ -482,8 +482,8 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       show (options) {
         safeExecute(this.compId, 'onShow', options)
       },
-      hide (options) {
-        safeExecute(this.compId, 'onHide', options)
+      hide () {
+        safeExecute(this.compId, 'onHide')
       }
     },
     methods: {

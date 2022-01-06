@@ -12,7 +12,7 @@ declare module './index' {
     shouldComponentUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): boolean
     componentWillUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): void
     componentWillUnmount?(): void
-    componentDidShow?(options?: Record<string, unknown>): void
+    componentDidShow?(): void
     componentDidHide?(): void
     componentDidCatchError?(err: string): void
     componentDidNotFound?(obj: PageNotFoundObject): void
@@ -80,14 +80,16 @@ declare module './index' {
   type SFC = StatelessFunctionComponent
 
   interface Show {
-    componentDidShow?(options?: Record<string, unknown>): void
+    componentDidShow?(): void
     componentDidHide?(): void
-    onShow?(options?: Record<string, unknown>): void
+    onShow?(): void
     onHide?(): void
   }
 
   interface AppInstance extends Show {
     mount(component: React.ComponentClass | Vue.ComponentOptions<Vue>, id: string, cb: () => void): void
+    componentDidShow?(options?: Record<string, unknown>): void
+    onShow?(options?: Record<string, unknown>): void
     unmount(id: string, cb: () => void): void
   }
 
