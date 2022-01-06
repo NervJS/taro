@@ -1,4 +1,5 @@
 import Taro from '@tarojs/api'
+import { CanvasContext } from '../canvas/CanvasContext'
 import { findDOM } from '../utils'
 import { NodesRef } from './nodesRef'
 
@@ -16,33 +17,79 @@ type TSelectorQueryQueueCallback = (res: ISelectorQueryQueue) => void
 function filter (fields, dom?: HTMLElement, selector?: string) {
   if (!dom) return null
 
-  const { id, dataset, rect, size, scrollOffset, properties = [], computedStyle = [] } = fields
-  const { left, right, top, bottom, width, height } = dom.getBoundingClientRect()
-  const isViewport = selector === 'html'
+  const isViewport = selector === '.taro_page'
+  const { id, dataset, rect, size, scrollOffset, properties = [], computedStyle = [], nodeCanvasType, node, context } = fields
   const res: any = {}
 
+  if (nodeCanvasType && node) {
+    const type = (dom as any).type! || ''
+    const canvas = dom.getElementsByTagName('canvas')[0]
+    const canvasContext = canvas?.getContext(type)
+    res.nodeCanvasType = type
+    if (type && canvasContext) {
+      const { left, top, width, height } = canvas.getBoundingClientRect()
+      res.node = {
+        canvasContext,
+        id: dom.id,
+        _canvasId: canvas.attributes?.['canvas-id']?.value,
+        _canvasRef: canvas,
+        _height: height,
+        _left: left,
+        _nodeCanvasId: undefined,
+        _nodeId: undefined,
+        _top: top,
+        _webviewId: undefined,
+        _width: width
+      }
+    } else {
+      res.node = null
+    }
+    return res
+  }
+  if (context) {
+    const tagName = dom.tagName
+    if (/^taro-video-core/i.test(tagName)) {
+      // TODO HTMLVideoElement to VideoContext
+      return { context: dom as unknown as Taro.VideoContext }
+    } else if (/^taro-canvas-core/i.test(tagName)) {
+      const type = (dom as any).type! || '2d'
+      const canvas = dom?.querySelector('canvas') as HTMLCanvasElement
+      const ctx = canvas?.getContext(type) as CanvasRenderingContext2D
+      return { context: new CanvasContext(canvas, ctx) }
+    } else if (/^taro-live-player-core/i.test(tagName)) {
+      console.error('暂时不支持通过 NodesRef.context 获取 LivePlayerContext')
+    } else if (/^taro-editor-core/i.test(tagName)) {
+      console.error('暂时不支持通过 NodesRef.context 获取 EditorContext')
+    } else if (/^taro-map-core/i.test(tagName)) {
+      console.error('暂时不支持通过 NodesRef.context 获取 MapContext')
+    }
+    return
+  }
   if (id) res.id = dom.id
   if (dataset) res.dataset = Object.assign({}, dom.dataset)
-  if (rect) {
-    if (!isViewport) {
-      res.left = left
-      res.right = right
-      res.top = top
-      res.bottom = bottom
-    } else {
-      res.left = 0
-      res.right = 0
-      res.top = 0
-      res.bottom = 0
+  if (rect || size) {
+    const { left, right, top, bottom, width, height } = dom.getBoundingClientRect()
+    if (rect) {
+      if (!isViewport) {
+        res.left = left
+        res.right = right
+        res.top = top
+        res.bottom = bottom
+      } else {
+        res.left = 0
+        res.right = 0
+        res.top = 0
+        res.bottom = 0
+      }
     }
-  }
-  if (size) {
-    if (!isViewport) {
-      res.width = width
-      res.height = height
-    } else {
-      res.width = dom.clientWidth
-      res.height = dom.clientHeight
+    if (size) {
+      if (!isViewport) {
+        res.width = width
+        res.height = height
+      } else {
+        res.width = dom.clientWidth
+        res.height = dom.clientHeight
+      }
     }
   }
   if (scrollOffset) {
@@ -147,7 +194,7 @@ export class SelectorQuery implements Taro.SelectorQuery {
   }
 
   selectViewport () {
-    return new NodesRef('html', this, true)
+    return new NodesRef('.taro_page', this, true)
   }
 
   exec (cb) {
