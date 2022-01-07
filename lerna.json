@@ -1,6 +1,7 @@
 {
   "version": "3.3.20",
   "npmClient": "yarn",
+  "npmClientArgs": ["--ignore-engines"],
   "command": {
     "create": {
       "homepage": "https://github.com/nervjs/taro",
