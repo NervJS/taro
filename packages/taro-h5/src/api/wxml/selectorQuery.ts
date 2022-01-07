@@ -22,27 +22,25 @@ function filter (fields, dom?: HTMLElement, selector?: string) {
   const res: any = {}
 
   if (nodeCanvasType && node) {
-    const type = (dom as any).type! || ''
-    const canvas = dom.getElementsByTagName('canvas')[0]
-    const canvasContext = canvas?.getContext(type)
-    res.nodeCanvasType = type
-    if (type && canvasContext) {
-      const { left, top, width, height } = canvas.getBoundingClientRect()
-      res.node = {
-        canvasContext,
-        id: dom.id,
-        _canvasId: canvas.attributes?.['canvas-id']?.value,
-        _canvasRef: canvas,
-        _height: height,
-        _left: left,
-        _nodeCanvasId: undefined,
-        _nodeId: undefined,
-        _top: top,
-        _webviewId: undefined,
-        _width: width
+    const tagName = dom.tagName
+    res.node = {
+      id: dom.id,
+      $taroElement: dom
+    }
+    if (/^taro-canvas-core/i.test(tagName)) {
+      const type = (dom as any).type! || ''
+      res.nodeCanvasType = type
+      const canvas = dom.getElementsByTagName('canvas')[0]
+      if (/^(2d|webgl)/i.test(type) && canvas) {
+        res.node = canvas
+      } else {
+        res.node = null
       }
     } else {
-      res.node = null
+      // TODO https://developers.weixin.qq.com/miniprogram/dev/component/scroll-view.html
+      // if (/^taro-scroll-view-core/i.test(tagName))
+      res.nodeCanvasType = ''
+      res.node = dom
     }
     return res
   }
