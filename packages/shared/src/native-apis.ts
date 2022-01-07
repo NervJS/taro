@@ -246,7 +246,7 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
         if (config.transformMeta) {
           const transformResult = config.transformMeta(key, options)
           key = transformResult.key
-          ;(options as Record<string, any>) = transformResult.options
+          ; (options as Record<string, any>) = transformResult.options
           // 新 key 可能不存在
           if (!global.hasOwnProperty(key)) {
             return unsupport(key)()
