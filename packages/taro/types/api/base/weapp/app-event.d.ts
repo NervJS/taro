@@ -130,7 +130,7 @@ declare module '../../../index' {
      */
     onAppHide(
       /** 小程序切后台事件的回调函数 */
-      callback: (res: TaroGeneral.CallbackResult) => void,
+      callback: (res: onAppShow.CallbackResult) => void,
     ): void
 
     /** 取消监听小程序要打开的页面不存在事件
@@ -139,7 +139,7 @@ declare module '../../../index' {
      */
     offPageNotFound(
       /** 小程序要打开的页面不存在事件的回调函数 */
-      callback: (res: TaroGeneral.CallbackResult) => void,
+      callback: (res: onPageNotFound.Callback) => void,
     ): void
 
     /** 取消监听音频播放错误事件
@@ -149,7 +149,7 @@ declare module '../../../index' {
 
     offError(
       /** 音频播放错误事件的回调函数 */
-      callback: (res: TaroGeneral.CallbackResult) => void,
+      callback: (res: onError.Callback) => void,
     ): void
 
     /** 取消监听音频中断结束事件
