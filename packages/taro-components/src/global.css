@@ -8,10 +8,6 @@
   overflow: hidden;
 }
 
-.taro-tabbar__container .taro_router {
-  min-height: calc(100vh - 50px);
-}
-
 .taro_page {
   width: 100%;
   height: 100%;
@@ -20,6 +16,10 @@
   overflow-y: scroll;
 }
 
-.taro-tabbar__container .taro_page {
+.taro-tabbar__container .taro-tabbar__panel {
+  overflow: hidden;
+}
+
+.taro-tabbar__container .taro_page.taro_tabbar_page {
   max-height: calc(100vh - 50px);
 }
