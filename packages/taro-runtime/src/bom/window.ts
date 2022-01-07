@@ -35,10 +35,10 @@ if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
   if (!(DATE in window)) {
     (window as any).Date = Date
   }
-  (window as any).setTimeout = function (...args) {
-    return setTimeout(...args)
-  }
-  ;(window as any).clearTimeout = function (seed) {
-    return clearTimeout(seed)
+  ;(window as any).setTimeout = function (handler: string | Function, timeout?: number, ...args: any[]) {
+    return setTimeout(handler, timeout, args);
+  };
+  ;(window as any).clearTimeout = function (handle?: number) {
+    return clearTimeout(handle)
   }
 }
