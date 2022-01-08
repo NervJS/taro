@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "declaration": false,
-    "module": "ESNext",
+    "module": "es6",
     "outDir": "dist",
     "rootDir": "./src",
     "skipLibCheck": true,
