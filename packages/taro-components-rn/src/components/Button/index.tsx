@@ -44,8 +44,8 @@ import styles from './styles'
 import { extracteTextStyle, noop } from '../../utils'
 import { ButtonProps, ButtonState } from './PropsType'
 
-const Loading = (props: { type: ButtonProps['type'] }) => {
-  const { type = 'primary' } = props
+const Loading = (props: { type: ButtonProps['type'], hasSibling: boolean }) => {
+  const { type = 'primary', hasSibling } = props
   const rotate = React.useRef(new Animated.Value(0)).current
 
   React.useEffect(() => {
@@ -70,8 +70,16 @@ const Loading = (props: { type: ButtonProps['type'] }) => {
     outputRange: ['0deg', '360deg']
   })
 
+  const loadingStyle = {
+    ...styles.loading,
+    transform: [{ rotate: rotateDeg }]
+  }
+  if (hasSibling) {
+    loadingStyle.marginRight = 0
+  }
+
   return (
-    <Animated.View style={[styles.loading, { transform: [{ rotate: rotateDeg }] }]}>
+    <Animated.View style={loadingStyle}>
       <Image
         source={
           type === 'warn' ? require('../../assets/loading-warn.png') : require('../../assets/loading.png')
@@ -203,7 +211,7 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
             this.state.isHover && hoverStyle
           ]}
         >
-          {loading && <Loading type={type} />}
+          {loading && <Loading hasSibling={!!React.Children.count(children)} type={type} />}
           {
             Array.isArray(children) ? (
               children.map((c: never, i: number) => (
