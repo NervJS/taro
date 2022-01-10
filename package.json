@@ -20,7 +20,7 @@
   "scripts": {
     "lint": "eslint packages/  --ext .js --ext .ts --ext .tsx",
     "build": "lerna run build",
-    "test": "lerna run --scope @tarojs/cli --scope babel-preset-taro --scope @tarojs/components --scope @tarojs/taro-h5 --scope @tarojs/react --scope @tarojs/webpack-runner --scope @tarojs/mini-runner --scope @tarojs/runtime --scope @tarojs/taro-rn --scope @tarojs/components-rn test:ci --parallel",
+    "test": "lerna run --scope @tarojs/cli --scope babel-preset-taro --scope @tarojs/components --scope @tarojs/taro-h5 --scope @tarojs/react --scope @tarojs/webpack-runner --scope @tarojs/mini-runner --scope @tarojs/runtime --scope @tarojs/taro-rn --scope @tarojs/components-rn test:ci",
     "version": "npm-run-all version:lerna version:git version:changelog",
     "version:lerna": "lerna version ${npm_config_lerna_version} --exact --no-git-tag-version --force-publish --yes",
     "version:git": "git add . && git commit -m \"chore(release): publish ${npm_config_lerna_version}\"",
