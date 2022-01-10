@@ -1284,14 +1284,14 @@ require(\\"./taro\\");
                         setRouterParams(options);
                         const app = getAppInstance();
                         (_a = app === null || app === void 0 ? void 0 : app.componentDidShow) === null || _a === void 0 ? void 0 : _a.call(app, options);
-                        triggerAppHook(\\"onShow\\");
+                        triggerAppHook(\\"onShow\\", options);
                     }
                 }),
                 [ONHIDE]: setDefaultDescriptor({
-                    value(options) {
+                    value() {
                         var _a;
                         const app = getAppInstance();
-                        (_a = app === null || app === void 0 ? void 0 : app.componentDidHide) === null || _a === void 0 ? void 0 : _a.call(app, options);
+                        (_a = app === null || app === void 0 ? void 0 : app.componentDidHide) === null || _a === void 0 ? void 0 : _a.call(app);
                         triggerAppHook(\\"onHide\\");
                     }
                 }),
@@ -1303,13 +1303,13 @@ require(\\"./taro\\");
                     }
                 })
             });
-            function triggerAppHook(lifecycle) {
+            function triggerAppHook(lifecycle, ...option) {
                 const instance = Object(taro_runtime[\\"getPageInstance\\"])(HOOKS_APP_ID);
                 if (instance) {
                     const app = getAppInstance();
                     const func = hooks$1.getLifecycle(instance, lifecycle);
                     if (Array.isArray(func)) {
-                        func.forEach(cb => cb.apply(app));
+                        func.forEach(cb => cb.apply(app, option));
                     }
                 }
             }
@@ -1462,6 +1462,7 @@ require(\\"./taro\\");
             runtime_ReactDOM = reactdom;
             setReconciler();
             const componentObj = {
+                options: componentConfig,
                 properties: {
                     props: {
                         type: null,
@@ -1489,8 +1490,8 @@ require(\\"./taro\\");
                     taro_runtime[\\"Current\\"].app.unmount(this.compId);
                 },
                 pageLifetimes: {
-                    show() {
-                        Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onShow\\");
+                    show(options) {
+                        Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onShow\\", options);
                     },
                     hide() {
                         Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onHide\\");
@@ -1530,7 +1531,7 @@ require(\\"./taro\\");
             }
             return componentObj;
         }
-        var runtime_a, _b;
+        var runtime_a;
         const hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
         hooks.initNativeApiImpls || (hooks.initNativeApiImpls = []);
         hooks.initNativeApiImpls.push((function(taro) {

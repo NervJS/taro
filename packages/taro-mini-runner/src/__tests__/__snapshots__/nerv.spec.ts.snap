@@ -1428,13 +1428,13 @@ require(\\"./taro\\");
                     setRouterParams(options);
                     var app = getAppInstance();
                     (_a = app === null || app === void 0 ? void 0 : app.componentDidShow) === null || _a === void 0 ? void 0 : _a.call(app, options);
-                    triggerAppHook(\\"onShow\\");
+                    triggerAppHook(\\"onShow\\", options);
                 }
             })), _defineProperty(_Object$create, ONHIDE, setDefaultDescriptor({
-                value: function value(options) {
+                value: function value() {
                     var _a;
                     var app = getAppInstance();
-                    (_a = app === null || app === void 0 ? void 0 : app.componentDidHide) === null || _a === void 0 ? void 0 : _a.call(app, options);
+                    (_a = app === null || app === void 0 ? void 0 : app.componentDidHide) === null || _a === void 0 ? void 0 : _a.call(app);
                     triggerAppHook(\\"onHide\\");
                 }
             })), _defineProperty(_Object$create, \\"onPageNotFound\\", setDefaultDescriptor({
@@ -1445,13 +1445,16 @@ require(\\"./taro\\");
                 }
             })), _Object$create));
             function triggerAppHook(lifecycle) {
+                for (var _len = arguments.length, option = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+                    option[_key - 1] = arguments[_key];
+                }
                 var instance = Object(taro_runtime[\\"getPageInstance\\"])(HOOKS_APP_ID);
                 if (instance) {
                     var app = getAppInstance();
                     var func = hooks$1.getLifecycle(instance, lifecycle);
                     if (Array.isArray(func)) {
                         func.forEach((function(cb) {
-                            return cb.apply(app);
+                            return cb.apply(app, option);
                         }));
                     }
                 }
@@ -1651,6 +1654,7 @@ require(\\"./taro\\");
             runtime_ReactDOM = reactdom;
             setReconciler();
             var componentObj = {
+                options: componentConfig,
                 properties: {
                     props: {
                         type: null,
@@ -1681,8 +1685,8 @@ require(\\"./taro\\");
                     taro_runtime[\\"Current\\"].app.unmount(this.compId);
                 },
                 pageLifetimes: {
-                    show: function show() {
-                        Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onShow\\");
+                    show: function show(options) {
+                        Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onShow\\", options);
                     },
                     hide: function hide() {
                         Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onHide\\");
@@ -1722,7 +1726,7 @@ require(\\"./taro\\");
             }
             return componentObj;
         }
-        var runtime_a, _b;
+        var runtime_a;
         var hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
         hooks.initNativeApiImpls || (hooks.initNativeApiImpls = []);
         hooks.initNativeApiImpls.push((function(taro) {
@@ -1730,7 +1734,9 @@ require(\\"./taro\\");
                 taro[hook] = taroHooks$1[hook];
             }
         }));
-        if (false) {}
+        if (false) {
+            var oldVNodeHook, runtime_options;
+        }
         var mocks_taro = \\"taro\\";
         var nerv = __webpack_require__(3);
         var src_app = __webpack_require__(10);
