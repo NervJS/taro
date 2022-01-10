@@ -3,7 +3,7 @@ import { RouterAnimate } from '@tarojs/taro'
 import { PageInstance, requestAnimationFrame } from '@tarojs/runtime'
 import queryString from 'query-string'
 
-import { bindPageScroll } from '../scroll'
+import { bindPageEvents } from '../events'
 import stacks from './stack'
 import { Route, RouterConfig } from './'
 import { setHistoryMode, stripBasename } from '../history'
@@ -165,7 +165,7 @@ export default class PageHandler {
       this.isTabBar && pageEl.classList.add('taro_tabbar_page')
       this.addAnimation(pageEl, stacksIndex === 0)
       page.onShow?.()
-      bindPageScroll(page, pageConfig)
+      bindPageEvents(page, pageConfig)
     } else {
       page.onLoad?.(param, () => {
         pageEl = document.getElementById(page.path!)
@@ -173,7 +173,7 @@ export default class PageHandler {
         this.addAnimation(pageEl, stacksIndex === 0)
         this.onReady(page, true)
         page.onShow?.()
-        bindPageScroll(page, pageConfig)
+        bindPageEvents(page, pageConfig)
       })
     }
   }
@@ -214,14 +214,14 @@ export default class PageHandler {
       setDisplay(pageEl)
       this.addAnimation(pageEl, stacksIndex === 0)
       page.onShow?.()
-      bindPageScroll(page, pageConfig)
+      bindPageEvents(page, pageConfig)
     } else {
       page.onLoad?.(param, () => {
         pageEl = document.getElementById(page.path!)
         this.addAnimation(pageEl, stacksIndex === 0)
         this.onReady(page, false)
         page.onShow?.()
-        bindPageScroll(page, pageConfig)
+        bindPageEvents(page, pageConfig)
       })
     }
   }

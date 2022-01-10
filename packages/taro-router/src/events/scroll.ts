@@ -33,16 +33,6 @@ export function bindPageScroll (page: PageInstance, config: Partial<PageConfig>)
   pageDOM.addEventListener('scroll', pageScrollFn, false)
 }
 
-window.addEventListener('DOMSubtreeModified', (e) => {
-  const target = e.target as HTMLDivElement
-  const className = target?.className
-  if (className && /taro_page/.test(className)) {
-    pageDOM.removeEventListener('scroll', pageScrollFn)
-    pageDOM = getScrollContainer()
-    pageDOM.addEventListener('scroll', pageScrollFn, false)
-  }
-}, false)
-
 function getScrollContainer (): Element | Window {
   const id = Current.page?.path
   const el: HTMLDivElement | null = (id
