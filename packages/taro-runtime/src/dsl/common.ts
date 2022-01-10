@@ -1,11 +1,11 @@
 /* eslint-disable dot-notation */
-import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray } from '@tarojs/shared'
+import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray, isString } from '@tarojs/shared'
 import container from '../container'
 import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { eventHandler } from '../dom/event'
 import { Current } from '../current'
 import { document } from '../bom/document'
-import { incrementId } from '../utils'
+import { incrementId, customWrapperCache } from '../utils'
 import { perf } from '../perf'
 import { PAGE_INIT } from '../constants'
 import { isBrowser } from '../env'
@@ -69,11 +69,8 @@ export function stringify (obj?: Record<string, unknown>) {
 }
 
 export function getPath (id: string, options?: Record<string, unknown>): string {
-  let path = id
-  if (!isBrowser) {
-    path = id + stringify(options)
-  }
-  return path
+  const idx = id.indexOf('?')
+  return `${idx > -1 ? id.substring(0, idx) : id}${stringify(isBrowser ? { stamp: options?.stamp || '' } : options)}`
 }
 
 export function getOnReadyEventKey (path: string) {
@@ -95,9 +92,12 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
   let unmounting = false
   let prepareMountList: (() => void)[] = []
-
+  let loadResolver: (...args: unknown[]) => void
+  let hasLoaded: Promise<void>
   const config: PageInstance = {
-    onLoad (this: MpInstance, options, cb?: Func) {
+    onLoad (this: MpInstance, options = {}, cb?: Func) {
+      hasLoaded = new Promise(resolve => { loadResolver = resolve })
+
       perf.start(PAGE_INIT)
 
       Current.page = this as any
@@ -106,6 +106,9 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
       // this.$taroPath 是页面唯一标识，不可变，因此页面参数 options 也不可变
       this.$taroPath = getPath(id, options)
+      if (isBrowser) {
+        config.path = this.$taroPath
+      }
       // this.$taroParams 作为暴露给开发者的页面参数对象，可以被随意修改
       if (this.$taroParams == null) {
         this.$taroParams = Object.assign({}, options)
@@ -126,9 +129,12 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
           ensure(pageElement !== null, '没有找到页面实例。')
           safeExecute(this.$taroPath, 'onLoad', this.$taroParams)
+          loadResolver()
           if (!isBrowser) {
             pageElement.ctx = this
             pageElement.performUpdate(true, cb)
+          } else {
+            isFunction(cb) && cb()
           }
         })
       }
@@ -161,22 +167,24 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       })
     },
     onShow () {
-      Current.page = this as any
-      this.config = pageConfig || {}
-      const router = isBrowser ? this.$taroPath : this.route || this.__route__
-      Current.router = {
-        params: this.$taroParams,
-        path: addLeadingSlash(router),
-        onReady: getOnReadyEventKey(id),
-        onShow: getOnShowEventKey(id),
-        onHide: getOnHideEventKey(id)
-      }
+      hasLoaded.then(() => {
+        Current.page = this as any
+        this.config = pageConfig || {}
+        const router = isBrowser ? this.$taroPath : this.route || this.__route__
+        Current.router = {
+          params: this.$taroParams,
+          path: addLeadingSlash(router),
+          onReady: getOnReadyEventKey(id),
+          onShow: getOnShowEventKey(id),
+          onHide: getOnHideEventKey(id)
+        }
 
-      raf(() => {
-        eventCenter.trigger(getOnShowEventKey(id))
+        raf(() => {
+          eventCenter.trigger(getOnShowEventKey(id))
+        })
+
+        safeExecute(this.$taroPath, 'onShow')
       })
-
-      safeExecute(this.$taroPath, 'onShow')
     },
     onHide () {
       Current.page = null
@@ -246,10 +254,6 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     config.data = data
   }
 
-  if (isBrowser) {
-    config.path = id
-  }
-
   return config
 }
 
@@ -295,6 +299,24 @@ export function createComponentConfig (component: React.ComponentClass, componen
 }
 
 export function createRecursiveComponentConfig (componentName?: string) {
+  const isCustomWrapper = componentName === 'custom-wrapper'
+  const lifeCycles = isCustomWrapper
+    ? {
+      attached () {
+        const componentId = this.data.i?.uid
+        if (isString(componentId)) {
+          customWrapperCache.set(componentId, this)
+        }
+      },
+      detached () {
+        const componentId = this.data.i?.uid
+        if (isString(componentId)) {
+          customWrapperCache.delete(componentId)
+        }
+      }
+    }
+    : EMPTY_OBJ
+
   return {
     properties: {
       i: {
@@ -310,10 +332,11 @@ export function createRecursiveComponentConfig (componentName?: string) {
     },
     options: {
       addGlobalClass: true,
-      virtualHost: componentName !== 'custom-wrapper'
+      virtualHost: !isCustomWrapper
     },
     methods: {
       eh: eventHandler
-    }
+    },
+    ...lifeCycles
   }
 }

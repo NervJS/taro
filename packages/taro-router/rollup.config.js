@@ -1,14 +1,13 @@
 const { join } = require('path')
-const buble = require('rollup-plugin-buble')
+const babel = require('@rollup/plugin-babel').default
 const resolve = require('rollup-plugin-node-resolve')
 const commonjs = require('rollup-plugin-commonjs')
-// const alias = require('rollup-plugin-alias')
 const typescript = require('rollup-plugin-typescript2')
 const cwd = __dirname
 
 const baseConfig = {
   input: join(cwd, 'src/index.ts'),
-  external: ['@tarojs/runtime'],
+  external: ['@tarojs/runtime', '@tarojs/taro'],
   output: [
     {
       file: join(cwd, 'dist/index.js'),
@@ -18,22 +17,15 @@ const baseConfig = {
     }
   ],
   plugins: [
-    // alias({
-    //   entries: [
-    //     {
-    //       find: '@tarojs/shared',
-    //       replacement: join(cwd, '../shared/dist/shared.esm')
-    //     }
-    //   ]
-    // }),
-    resolve(),
-    commonjs(),
     typescript(),
-    buble({
-      transforms: {
-        asyncAwait: false,
-        forOf: false
-      }
+    resolve({
+      preferBuiltins: false,
+      mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
+    }),
+    commonjs(),
+    babel({
+      extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', 'ts', 'tsx'],
+      babelHelpers: 'runtime'
     })
   ]
 }
@@ -42,8 +34,7 @@ const esmConfig = Object.assign({}, baseConfig, {
     sourcemap: true,
     format: 'es',
     file: join(cwd, 'dist/router.esm.js')
-  }),
-  plugins: baseConfig.plugins.slice(0, baseConfig.plugins.length - 1)
+  })
 })
 
 function rollup () {

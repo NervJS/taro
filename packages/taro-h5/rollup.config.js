@@ -1,57 +1,55 @@
 import { mergeWith } from 'lodash'
 import { join } from 'path'
 import resolve from 'rollup-plugin-node-resolve'
-import common from 'rollup-plugin-commonjs'
+import typescript from 'rollup-plugin-typescript2'
+import commonjs from 'rollup-plugin-commonjs'
 import alias from 'rollup-plugin-alias'
 import postcss from 'rollup-plugin-postcss'
+
 import exportNameOnly from './build/rollup-plugin-export-name-only'
 
 const babel = require('@rollup/plugin-babel').default
 
 const cwd = __dirname
 const baseConfig = {
-  external: ['nervjs', '@tarojs/runtime', 'react-dom'],
+  external: d => {
+    return /^@tarojs\/(api|router|runtime|taro)$/.test(d) || d.includes('@babel/runtime')
+  },
   output: {
     format: 'cjs',
     sourcemap: false,
     exports: 'auto'
   },
+  treeshake: false,
   plugins: [
     alias({
       '@tarojs/taro': join(cwd, '../taro/src/index')
     }),
     resolve({
       preferBuiltins: false,
-      mainFields: ['module', 'js-next', 'main']
+      mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }),
-    postcss(),
+    postcss({
+      inject: { insertAt: 'top' }
+    }),
     babel({
-      babelrc: false,
-      presets: [
-        ['@babel/preset-env', {
-          modules: false
-        }]
-      ],
-      plugins: [
-        '@babel/plugin-proposal-class-properties',
-        '@babel/plugin-proposal-object-rest-spread',
-        ['@babel/plugin-transform-react-jsx', {
-          pragma: 'Nerv.createElement'
-        }]
-      ]
+      babelHelpers: 'bundled'
     }),
-    common()
+    commonjs(),
+    typescript({
+      useTsconfigDeclarationDir: true
+    })
   ]
 }
 
 const variesConfig = [{
-  input: 'src/api/index.js',
+  input: 'src/api/index.ts',
   output: {
     file: 'dist/taroApis.js'
   },
   plugins: exportNameOnly()
 }, {
-  input: 'src/index.cjs.js',
+  input: 'src/index.ts',
   output: {
     file: 'dist/index.cjs.js'
   }

@@ -167,9 +167,9 @@ function setReconciler () {
 
 const pageKeyId = incrementId()
 
-export function createReactApp (App: React.ComponentClass, react: typeof React, reactdom, config: AppConfig) {
+export function createReactApp (App: React.ComponentClass, react: typeof React, dom, config: AppConfig) {
   R = react
-  ReactDOM = reactdom
+  ReactDOM = dom
   ensure(!!ReactDOM, '构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'nerv\' ')
 
   const ref = R.createRef<ReactAppInstance>()
@@ -222,8 +222,7 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
 
   let wrapper: AppWrapper
   if (!isBrowser) {
-    // eslint-disable-next-line react/no-render-return-value
-    wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById('app'))
+    wrapper = ReactDOM.render?.(R.createElement(AppWrapper), document.getElementById('app'))
   }
 
   const app: AppInstance = Object.create({
@@ -257,8 +256,7 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
         }
         if (isBrowser) {
           // 由于 H5 路由初始化的时候会清除 app 下的 dom 元素，所以需要在路由初始化后执行 render
-          // eslint-disable-next-line react/no-render-return-value
-          wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById('app'))
+          wrapper = ReactDOM.render?.(R.createElement(AppWrapper), document.getElementById(config?.appId || 'app'))
         }
         const app = ref.current
 
@@ -304,17 +302,17 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
         }
 
         // app useDidShow
-        triggerAppHook('onShow')
+        triggerAppHook('onShow', options)
       }
     },
 
     onHide: {
       enumerable: true,
       writable: true,
-      value (options: unknown) {
+      value () {
         const app = ref.current
         if (app != null && isFunction(app.componentDidHide)) {
-          app.componentDidHide(options)
+          app.componentDidHide()
         }
 
         // app useDidHide
@@ -334,13 +332,13 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
     }
   })
 
-  function triggerAppHook (lifecycle) {
+  function triggerAppHook (lifecycle, ...option) {
     const instance = getPageInstance(HOOKS_APP_ID)
     if (instance) {
       const app = ref.current
       const func = hooks.getLifecycle(instance, lifecycle)
       if (Array.isArray(func)) {
-        func.forEach(cb => cb.apply(app))
+        func.forEach(cb => cb.apply(app, option))
       }
     }
   }
@@ -450,7 +448,10 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
   R = react
   ReactDOM = reactdom
 
+  setReconciler()
+
   const config = {
+    options: componentConfig,
     properties: {
       props: {
         type: null,
@@ -478,8 +479,8 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       Current.app!.unmount!(this.compId)
     },
     pageLifetimes: {
-      show () {
-        safeExecute(this.compId, 'onShow')
+      show (options) {
+        safeExecute(this.compId, 'onShow', options)
       },
       hide () {
         safeExecute(this.compId, 'onHide')

@@ -25,6 +25,10 @@ const transform = ({ src, filename, options, plugins }) => {
       configOpt: { config: config }
     },
     {
+      test: /\.(svg|svgx)/, // .svg 文件仅在 enableSvgTransform 为 true 才会生效
+      transformer: 'react-native-svg-transformer'
+    },
+    {
       // TODO:处理引用的外部资源文件
       test: /\.(png|jpg|jpeg|bmp)/,
       transformer: ''
@@ -38,7 +42,8 @@ const transform = ({ src, filename, options, plugins }) => {
         designWidth: rnConfig.designWidth ? rnConfig.designWidth : config.designWidth,
         deviceRatio: rnConfig.designWidth ? rnConfig.deviceRatio : config.deviceRatio,
         nextTransformer: babelTransform,
-        isEntryFile: filename_ => ModuleResolution.ModuleResolver.EMPTY_MODULE.includes(filename_)
+        isEntryFile: filename_ => ModuleResolution.ModuleResolver.EMPTY_MODULE.includes(filename_),
+        rn: rnConfig
       }
     }
   ]

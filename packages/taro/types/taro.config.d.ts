@@ -1,8 +1,10 @@
-declare namespace Taro {
+import Taro from './index'
+
+declare module './index' {
   /**
    * 微信小程序全局 Window 配置和页面配置的公共项目
    */
-  interface CommonPageConfig {
+  interface CommonConfig {
     /**
      * 导航栏背景颜色，HexColor
      * default: #000000
@@ -55,7 +57,7 @@ declare namespace Taro {
     onReachBottomDistance?: number
   }
 
-  interface PageConfig extends CommonPageConfig {
+  interface PageConfig extends CommonConfig {
     /**
      * 设置为 true 则页面整体不能上下滚动；
      * 只在页面配置中有效，无法在 app.json 中设置该项
@@ -85,7 +87,7 @@ declare namespace Taro {
     enableShareTimeline?: boolean
   }
 
-  interface WindowConfig extends CommonPageConfig {
+  interface WindowConfig extends CommonConfig {
     /**
      * 屏幕旋转设置
      * 支持 auto / portrait / landscape
@@ -106,7 +108,7 @@ declare namespace Taro {
     allowsBounceVertical?: 'YES' | 'NO'
   }
 
-  interface TarbarList {
+  interface TabBarItem {
     /**
      * 页面路径，必须在 pages 中先定义
      */
@@ -155,7 +157,7 @@ declare namespace Taro {
      */
     custom?: boolean
 
-    list: TarbarList[]
+    list: TabBarItem[]
   }
 
   interface NetworkTimeout {
@@ -233,7 +235,24 @@ declare namespace Taro {
     }
   }
 
+  interface RouterAnimate {
+    /**
+     * 动画切换时间，单位毫秒
+     * @default 300
+     */
+    duration?: number
+    /**
+     * 动画切换时间，单位毫秒
+     * @default 50
+     */
+    delay?: number
+  }
+
   interface AppConfig {
+    /**
+     * 小程序默认启动首页，未指定 entryPagePath 时，数组的第一项代表小程序的初始页面（首页）。
+     */
+    entryPagePath?: string
     /**
      * 接受一个数组，每一项都是字符串，来指定小程序由哪些页面组成，数组的第一项代表小程序的初始页面
      */
@@ -329,6 +348,18 @@ declare namespace Taro {
      * 接受一个数组，每一项都是字符串，来指定编译为原生小程序组件的组件入口
      */
     components?: string[]
+    /**
+     * 渲染页面的容器 id
+     * @default "app"
+     * @since 3.3.18
+     */
+    appId?: string
+    /**
+     * 是否开启 h5 端路由动画功能，默认开启
+     * @supported h5
+     * @since 3.3.18
+     */
+    animation?: RouterAnimate | boolean
   }
 
   interface Config extends PageConfig, AppConfig {
@@ -339,4 +370,21 @@ declare namespace Taro {
     cloud?: boolean
     pageOrientation?: 'auto' | 'portrait' | 'landscape'
   }
+
+  interface TaroStatic {
+    CommonConfig: CommonConfig
+    PageConfig: PageConfig
+    WindowConfig: WindowConfig
+    TarBarList: TabBarItem
+    TabBar: TabBar
+    NetworkTimeout: NetworkTimeout
+    SubPackage: SubPackage
+    Plugins: Plugins
+    PreloadRule: PreloadRule
+    Permission: Permission
+    AppConfig: AppConfig
+    RouterAnimate: RouterAnimate
+    Config: Config
+  }
 }
+

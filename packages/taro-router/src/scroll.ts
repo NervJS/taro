@@ -1,4 +1,4 @@
-import type { PageInstance } from '@tarojs/runtime'
+import { Current, PageInstance } from '@tarojs/runtime'
 import { PageConfig } from '@tarojs/taro'
 
 let pageScrollFn
@@ -34,9 +34,9 @@ export function bindPageScroll (page: PageInstance, config: Partial<PageConfig>)
 }
 
 window.addEventListener('DOMSubtreeModified', (e) => {
-  // @ts-ignore
-  const className = e.target?.className
-  if (className && /taro-tabbar__/.test(className)) {
+  const target = e.target as HTMLDivElement
+  const className = target?.className
+  if (className && /taro_page/.test(className)) {
     pageDOM.removeEventListener('scroll', pageScrollFn)
     pageDOM = getScrollContainer()
     pageDOM.addEventListener('scroll', pageScrollFn, false)
@@ -44,13 +44,12 @@ window.addEventListener('DOMSubtreeModified', (e) => {
 }, false)
 
 function getScrollContainer (): Element | Window {
-  if (document.querySelector('.taro-tabbar__tabbar') === null) {
-    // 没设置tabbar
-    return window
-  } else {
-    // 有设置tabbar
-    return document.querySelector('.taro-tabbar__panel') || window
-  }
+  const id = Current.page?.path
+  const el: HTMLDivElement | null = (id
+    ? document.getElementById(id)
+    : document.querySelector('.taro_page') ||
+  document.querySelector('.taro_router')) as HTMLDivElement
+  return el || window
 }
 
 function getOffset () {

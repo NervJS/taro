@@ -10,7 +10,8 @@ export interface TransformType {
     appName?: string,
     isEntryFile: (filename: string) => boolean,
     designWidth?: number,
-    deviceRatio?: Record<number, number>
+    deviceRatio?: Record<number, number>,
+    rn?: Record<string, any>,
   }
 }
 

@@ -17,9 +17,9 @@ export namespace SpecialMaps {
 
 function genAttrMapFnFromDir (dir: Record<string, string | [string, Record<string, any>]>): SpecialMaps.MapAttrFn {
   const fn: SpecialMaps.MapAttrFn = function (key, value) {
-    key = key.toLowerCase()
-    if (key in dir) {
-      const res = dir[key]
+    const lowerKey = key.toLowerCase()
+    if (lowerKey in dir) {
+      const res = dir[lowerKey]
       if (isString(res)) {
         key = res
       } else {
@@ -66,15 +66,15 @@ export const specialElements = new Map<string, string | SpecialMaps>([
     },
     mapNameCondition: ['type'],
     mapAttr (key, value, props) {
-      key = key.toLowerCase()
-      if (key === 'autofocus') {
+      const htmlKey = key.toLowerCase()
+      if (htmlKey === 'autofocus') {
         key = 'focus'
-      } else if (key === 'readonly') {
+      } else if (htmlKey === 'readonly') {
         if (props.disabled === true) {
           value = true
         }
         key = 'disabled'
-      } else if (key === 'type') {
+      } else if (htmlKey === 'type') {
         if (value === 'password') {
           key = 'password'
           value = true

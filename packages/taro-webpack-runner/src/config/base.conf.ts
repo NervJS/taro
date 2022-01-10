@@ -7,10 +7,13 @@ import { BuildConfig } from '../util/types'
 
 export default (appPath: string, config: Partial<BuildConfig>) => {
   const chain = new Chain()
-  let alias = {}
+  let alias: Record<string, string> = {
+    '@tarojs/taro': '@tarojs/taro-h5'
+  }
 
   if (config.framework === 'nerv') {
     alias = {
+      ...alias,
       react$: 'nervjs',
       'react-dom$': 'nervjs'
     }

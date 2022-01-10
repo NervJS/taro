@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify'
-import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase } from '@tarojs/shared'
+import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase, isFunction } from '@tarojs/shared'
 import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
@@ -125,8 +125,15 @@ export class TaroElement extends TaroNode {
     return this.attributes.length > 0
   }
 
-  public focus () {
-    this.setAttribute(FOCUS, true)
+  public get focus () {
+    return function () {
+      this.setAttribute(FOCUS, true)
+    }
+  }
+
+  // 兼容 Vue3，详情请见：https://github.com/NervJS/taro/issues/10579
+  public set focus (value) {
+    this.setAttribute(FOCUS, value)
   }
 
   public blur () {
@@ -167,7 +174,7 @@ export class TaroElement extends TaroNode {
 
     const payload = {
       path: `${this._path}.${toCamelCase(qualifiedName)}`,
-      value
+      value: isFunction(value) ? () => value : value
     }
 
     this.hooks.modifySetAttrPayload?.(this, qualifiedName, payload)

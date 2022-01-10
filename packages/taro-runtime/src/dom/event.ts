@@ -17,9 +17,14 @@ import {
 import type { TaroElement } from './element'
 import type { InstanceNamedFactory, EventOptions, MpEvent, TaroDocumentInstance, IHooks } from '../interface'
 
-const hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
-const getElement = container.get<InstanceNamedFactory>(SERVICE_IDENTIFIER.TaroElementFactory)
-const document = getElement(ElementNames.Document)() as TaroDocumentInstance
+let hooks
+let getElement
+let document
+if (process.env.TARO_ENV !== 'h5') {
+  hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
+  getElement = container.get<InstanceNamedFactory>(SERVICE_IDENTIFIER.TaroElementFactory)
+  document = getElement(ElementNames.Document)() as TaroDocumentInstance
+}
 
 // Taro 事件对象。以 Web 标准的事件对象为基础，加入小程序事件对象中携带的部分信息，并模拟实现事件冒泡。
 export class TaroEvent {

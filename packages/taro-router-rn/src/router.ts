@@ -77,10 +77,11 @@ export interface RouterConfig {
   rnConfig?: RNConfig,
   initParams?:Record<string, any>, // 原生启动传递的参数
   initPath?: string, // 原生启动时传入的参数路径
+  entryPagePath?: string, // 默认启动路径
 }
 
 export function createRouter (config: RouterConfig): React.ReactNode {
-  if (config.tabBar) {
+  if (config?.tabBar?.list?.length) {
     return createTabNavigate(config)
   } else {
     return createStackNavigate(config)
@@ -171,14 +172,19 @@ function getTabItem (config: RouterConfig, tabName: string) {
   return tabItem
 }
 
+let initRoute
+
 function getInitRouteName (config: RouterConfig) {
-  let initRoute = ''
+  if (initRoute) return initRoute
   const initPath = config.initPath || ''
   const rn = config.rnConfig || {}
   if (initPath) {
     initRoute = handleUrl(initPath).pageName
   } else if (rn?.initialRouteName) {
     initRoute = camelCase(rn.initialRouteName)
+  } else if (config.entryPagePath) {
+    const entryPagePath = config.entryPagePath.startsWith('/') ? config.entryPagePath : `/${config.entryPagePath}`
+    initRoute = config.pages.find(p => p.pagePath === entryPagePath)?.name
   } else {
     initRoute = config.pages[0].name
   }

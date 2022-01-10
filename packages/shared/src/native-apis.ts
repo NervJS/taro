@@ -37,6 +37,7 @@ const needPromiseApis = new Set<string>([
   'connectSocket',
   'createBLEConnection',
   'downloadFile',
+  'exitMiniProgram',
   'getAvailableAudioSources',
   'getBLEDeviceCharacteristics',
   'getBLEDeviceServices',
@@ -208,7 +209,11 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
     'webpackJsonp'
   ]
 
-  const apis = new Set(Object.keys(global).filter(api => preserved.indexOf(api) === -1))
+  const apis = new Set(
+    !config.isOnlyPromisify
+      ? Object.keys(global).filter(api => preserved.indexOf(api) === -1)
+      : patchNeedPromiseApis
+  )
 
   if (config.modifyApis) {
     config.modifyApis(apis)
@@ -232,7 +237,7 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
         if (config.transformMeta) {
           const transformResult = config.transformMeta(key, options)
           key = transformResult.key
-          ;(options as Record<string, any>) = transformResult.options
+          ; (options as Record<string, any>) = transformResult.options
           // 新 key 可能不存在
           if (!global.hasOwnProperty(key)) {
             return unsupport(key)()

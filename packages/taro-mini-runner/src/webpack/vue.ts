@@ -1,5 +1,5 @@
 import { REG_VUE, chalk } from '@tarojs/helper'
-import { toCamelCase, internalComponents, capitalize } from '@tarojs/shared'
+import { toCamelCase, internalComponents, capitalize } from '@tarojs/shared/dist/template'
 import { componentConfig } from '../template/component'
 
 const CUSTOM_WRAPPER = 'custom-wrapper'
@@ -58,7 +58,10 @@ export function customVueChain (chain) {
 
             return el
           }
-        }]
+        }],
+        mustUseProp: function () {
+          return false
+        }
       }
     })
 }

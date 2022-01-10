@@ -1,9 +1,3 @@
-export let routesAlias = {}
-
-export function setRoutesAlias (alias) {
-  routesAlias = alias
-}
-
 export function addLeadingSlash (path?: string) {
   if (path == null) {
     return ''
@@ -11,22 +5,44 @@ export function addLeadingSlash (path?: string) {
   return path.charAt(0) === '/' ? path : '/' + path
 }
 
-// 解决navigateBack调用delta>1时,路由栈异常问题
-// 比如:A->B->C,navigateBack({delta: 2}),此时路由栈中还存在B页面
-// 原因:主要是由于一次性退出多层级页面时,此action只会执行一次,此处进行手动处理
-export let historyBackDelta = 1
-export function setHistoryBackDelta (delta: number) {
-  historyBackDelta = delta
-}
+class RoutesAlias {
+  conf: Array<string[]> = []
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export const throttle = (fn: Function, threshold: number) => {
-  let lastTime = 0
-  return function () {
-    const now = Date.now()
-    if (now - lastTime > threshold) {
-      fn.apply(this, arguments)
-      lastTime = now
+  set (customRoutes: Record<string, string | string[]> = {}) {
+    for (let key in customRoutes) {
+      const path = customRoutes[key]
+      key = addLeadingSlash(key)
+      if (typeof path === 'string') {
+        this.conf.push([key, addLeadingSlash(path)])
+      } else if (path?.length > 0) {
+        this.conf.push(...path.map(p => [key, addLeadingSlash(p)]))
+      }
     }
   }
+
+  getConfig = (url = '') => {
+    const customRoute = this.conf.filter((arr) => {
+      return arr.includes(url)
+    })
+    return customRoute[0]
+  }
+
+  getOrigin = (url = '') => {
+    return this.getConfig(url)?.[0] || url
+  }
+
+  getAlias = (url = '') => {
+    return this.getConfig(url)?.[1] || url
+  }
+
+  getAll = (url = '') => {
+    return this.conf.filter((arr) => {
+      return arr.includes(url)
+    }).reduce((p, a) => {
+      p.push(a[1])
+      return p
+    }, [url])
+  }
 }
+
+export const routesAlias = new RoutesAlias()

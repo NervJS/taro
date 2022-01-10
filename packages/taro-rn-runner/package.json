@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-runner",
-  "version": "3.3.2",
+  "version": "3.3.20",
   "description": "ReactNative build tool for taro",
   "main": "index.js",
   "repository": {
@@ -32,18 +32,19 @@
   "dependencies": {
     "@react-native-community/cli": "^5.0.1",
     "@react-native-community/cli-server-api": "^5.0.1",
-    "@tarojs/helper": "3.3.2",
-    "@tarojs/rn-style-transformer": "3.3.2",
-    "@tarojs/rn-supporter": "3.3.2",
-    "@tarojs/rn-transformer": "3.3.2",
+    "@tarojs/helper": "3.3.20",
+    "@tarojs/rn-style-transformer": "3.3.20",
+    "@tarojs/rn-supporter": "3.3.20",
+    "@tarojs/rn-transformer": "3.3.20",
     "fs-extra": "^9.0.1",
     "lodash": "^4.17.4",
-    "metro": "^0.64.0",
-    "metro-cache": "^0.64.0",
-    "metro-config": "^0.64.0",
-    "metro-core": "^0.64.0",
-    "metro-react-native-babel-transformer": "^0.64.0",
-    "metro-resolver": "^0.64.0",
+    "metro": "^0.66.2",
+    "metro-cache": "^0.66.2",
+    "metro-config": "^0.66.2",
+    "metro-core": "^0.66.2",
+    "metro-react-native-babel-transformer": "^0.66.2",
+    "metro-resolver": "^0.66.2",
+    "mime-types": "^2.1.27",
     "qrcode-terminal": "^0.12.0"
   }
 }

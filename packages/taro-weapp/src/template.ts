@@ -17,7 +17,7 @@ export class Template extends UnRecursiveTemplate {
     type: 'weapp'
   }
 
-  constructor (pluginOptions: IOptions) {
+  constructor (pluginOptions?: IOptions) {
     super()
     this.pluginOptions = pluginOptions || {}
   }

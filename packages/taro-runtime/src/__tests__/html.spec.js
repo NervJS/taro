@@ -4,6 +4,7 @@ import '../dom-external/inner-html/html'
 import { parser } from '../dom-external/inner-html/parser'
 import { Scaner } from '../dom-external/inner-html/scaner'
 import { isElement } from '../utils'
+import { options } from '../options'
 
 const runtime = require('../../dist/runtime.esm')
 
@@ -100,6 +101,28 @@ describe('html with <style>', () => {
           color: red;
         }
         [name="body"][content='hello-world'] {
+          font-size: 10;
+        }
+      </style>
+      <div>
+        <div name="title"></div>
+        <div name="body" content="hello-world"></div>
+      </div>
+    `
+    const res = parser(html, document)
+    const el0 = res[0].children[0]
+    const el1 = res[0].children[1]
+    expect(el0.style.cssText).toBe('color: red;')
+    expect(el1.style.cssText).toBe('font-size: 10;')
+  })
+
+  it('attributes selector with space', () => {
+    const html = `
+      <style>
+        [    name = "title"]   {
+          color: red;
+        }
+        [name = "body"][content = 'hello-world'] {
           font-size: 10;
         }
       </style>
@@ -352,5 +375,18 @@ describe('sort style', () => {
     const node = res[0]
 
     expect(node.style.cssText).toBe('color: blue;font-size: 12px;')
+  })
+
+  describe('html with transformText', () => {
+    it('transformText function works', () => {
+      options.html.transformText = taroText => {
+        taroText._value = 'c'
+        return taroText
+      }
+      const html = '<span>a</span>'
+      const res = parser(html, document)
+      const node = res[0]
+      expect(node.childNodes[0]._value).toBe('c')
+    })
   })
 })

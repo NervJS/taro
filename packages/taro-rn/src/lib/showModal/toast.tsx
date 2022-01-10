@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { View, Text, Image, StyleSheet, ActivityIndicator } from 'react-native'
 import RootSiblings from 'react-native-root-siblings'
 import successPng from './success.png'
-import { errorHandler, shouleBeObject, successHandler } from '../../utils'
+import { errorHandler, shouldBeObject, successHandler } from '../../utils'
 
 const styles = StyleSheet.create({
   toastView: {
@@ -107,8 +107,8 @@ WXLoading.propTypes = {
   mask: PropTypes.bool
 }
 
-function showToast (options: Taro.showToast.Option): Promise<Taro.General.CallbackResult> {
-  const isObject = shouleBeObject(options)
+function showToast (options: Taro.showToast.Option): Promise<TaroGeneral.CallbackResult> {
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `showToast${isObject.msg}` }
     console.error(res.errMsg)
@@ -174,8 +174,8 @@ function showToast (options: Taro.showToast.Option): Promise<Taro.General.Callba
   }
 }
 
-function showLoading (options: Taro.showLoading.Option): Promise<Taro.General.CallbackResult> {
-  const isObject = shouleBeObject(options)
+function showLoading (options: Taro.showLoading.Option): Promise<TaroGeneral.CallbackResult> {
+  const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `showLoading${isObject.msg}` }
     console.error(res.errMsg)
@@ -202,12 +202,12 @@ function hideToast (opts: Taro.hideToast.Option = {}): void {
     (global as any).wxToastRootSiblings && (global as any).wxToastRootSiblings.destroy();
     (global as any).wxToastRootSiblings = undefined
     const res = { errMsg: 'showToast:ok' }
-    success && success(res)
-    complete && complete(res)
+    success?.(res)
+    complete?.(res)
   } catch (e) {
     const res = { errMsg: e }
-    fail && fail(res)
-    complete && complete(res)
+    fail?.(res)
+    complete?.(res)
   }
 }
 
@@ -218,12 +218,12 @@ function hideLoading (opts: Taro.hideLoading.Option = {}): void {
     (global as any).wxToastRootSiblings && (global as any).wxToastRootSiblings.destroy();
     (global as any).wxToastRootSiblings = undefined
     const res = { errMsg: 'showLoading:ok' }
-    success && success(res)
-    complete && complete(res)
+    success?.(res)
+    complete?.(res)
   } catch (e) {
     const res = { errMsg: e }
-    fail && fail(res)
-    complete && complete(res)
+    fail?.(res)
+    complete?.(res)
   }
 }
 

@@ -13,5 +13,8 @@ export const needPromiseApis = new Set([
   'setEnable1v1Chat',
   'setWindowSize',
   'sendBizRedPacket',
-  'startFacialRecognitionVerify'
+  'startFacialRecognitionVerify',
+  'openCustomerServiceChat',
+  'getLocalIPAddress',
+  'getUserProfile'
 ])

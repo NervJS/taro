@@ -41,10 +41,57 @@ import {
   GestureResponderEvent
 } from 'react-native'
 import styles from './styles'
-import { noop } from '../../utils'
+import { extracteTextStyle, noop } from '../../utils'
 import { ButtonProps, ButtonState } from './PropsType'
 
+const Loading = (props: { type: ButtonProps['type'], hasSibling: boolean }) => {
+  const { type = 'primary', hasSibling } = props
+  const rotate = React.useRef(new Animated.Value(0)).current
+
+  React.useEffect(() => {
+    const animation = Animated.loop(
+      Animated.timing(rotate, {
+        toValue: 1,
+        duration: 1000,
+        easing: Easing.linear,
+        useNativeDriver: true,
+        isInteraction: false,
+      })
+    )
+    animation.start()
+
+    return () => {
+      animation.stop()
+    }
+  }, [])
+
+  const rotateDeg: Animated.AnimatedInterpolation = rotate.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg']
+  })
+
+  const loadingStyle = {
+    ...styles.loading,
+    transform: [{ rotate: rotateDeg }]
+  }
+  if (hasSibling) {
+    loadingStyle.marginRight = 0
+  }
+
+  return (
+    <Animated.View style={loadingStyle}>
+      <Image
+        source={
+          type === 'warn' ? require('../../assets/loading-warn.png') : require('../../assets/loading.png')
+        }
+        style={styles.loadingImg}
+      />
+    </Animated.View>
+  )
+}
+
 class _Button extends React.Component<ButtonProps, ButtonState> {
+  static displayName = '_Button'
   static defaultProps = {
     size: 'default',
     type: 'default',
@@ -61,28 +108,12 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
   pressOutTimer: number
 
   state: ButtonState = {
-    valve: new Animated.Value(0),
     isHover: false
   }
 
-  animate = (): void => {
-    if (!this.props.loading) return
-
-    Animated.sequence([
-      Animated.timing(this.state.valve, {
-        toValue: 1,
-        easing: Easing.linear,
-        duration: 1000,
-        useNativeDriver: true
-      }),
-      Animated.timing(this.state.valve, {
-        toValue: 0,
-        duration: 0,
-        useNativeDriver: true
-      })
-    ]).start(() => {
-      this.animate()
-    })
+  componentWillUnmount():void {
+    clearTimeout(this.pressOutTimer)
+    clearTimeout(this.pressInTimer)
   }
 
   onPress = (): void => {
@@ -129,16 +160,6 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
     node && node.props.onPress && node.props.onPress(evt)
   }
 
-  componentDidMount(): void {
-    this.animate()
-  }
-
-  componentDidUpdate(prevProps: ButtonProps): void {
-    if (!prevProps.loading && this.props.loading) {
-      this.animate()
-    }
-  }
-
   render(): JSX.Element {
     const {
       style,
@@ -169,11 +190,7 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
       : isDefaultType
         ? `rgba(0,0,0,${disabled ? 0.3 : 1})`
         : `rgba(255,255,255,${disabled ? 0.6 : 1})`
-
-    const rotateDeg: Animated.AnimatedInterpolation = this.state.valve.interpolate({
-      inputRange: [0, 1],
-      outputRange: ['0deg', '360deg']
-    })
+    const textHoverStyle = this.state.isHover ? extracteTextStyle(hoverStyle) : {}
 
     return (
       <TouchableWithoutFeedback
@@ -194,25 +211,16 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
             this.state.isHover && hoverStyle
           ]}
         >
-          {loading && (
-            <Animated.View style={[styles.loading, { transform: [{ rotate: rotateDeg }] }]}>
-              <Image
-                source={
-                  type === 'warn' ? require('../../assets/loading-warn.png') : require('../../assets/loading.png')
-                }
-                style={styles.loadingImg}
-              />
-            </Animated.View>
-          )}
+          {loading && <Loading hasSibling={!!React.Children.count(children)} type={type} />}
           {
             Array.isArray(children) ? (
               children.map((c: never, i: number) => (
-                <Text key={i} style={[styles.btnText, !isDefaultSize && styles.btnTextMini, { color: textColor }]}>
+                <Text key={i} style={[styles.btnText, !isDefaultSize && styles.btnTextMini, { color: textColor }, textHoverStyle]}>
                   {c}
                 </Text>
               ))
             ) : (['string', 'number'].indexOf(typeof children) > -1) ? (
-              <Text style={[styles.btnText, !isDefaultSize && styles.btnTextMini, { color: textColor }]}>{children}</Text>
+              <Text style={[styles.btnText, !isDefaultSize && styles.btnTextMini, { color: textColor }, textHoverStyle]}>{children}</Text>
             ) : (
               children
             )}

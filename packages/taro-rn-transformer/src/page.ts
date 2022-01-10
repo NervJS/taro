@@ -6,7 +6,8 @@ export default function generatePage ({ sourceCode, filename, projectRoot, sourc
   const extName = path.basename(filename).split('.')[0]
   const fileDir = path.dirname(filename)
   let result = sourceCode
-  if (!(fileDir === sourceDir && extName === 'app')) { // 非入口文件
+  // 入口文件不加入全局样式 commonStyle
+  if (!(fileDir === sourceDir && extName === 'app')) {
     const commonStyle = globalAny?.__taroCommonStyle || []
     if (commonStyle && commonStyle.length > 0) {
       const code: string[] = []

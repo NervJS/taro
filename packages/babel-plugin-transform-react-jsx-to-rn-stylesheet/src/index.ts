@@ -97,19 +97,11 @@ function ${GET_CLS_NAME_FUNC_NAME}() {
 }
 `
 const getStyleFunction = `
-function ${GET_STYLE_FUNC_NAME}(classNameExpression) { 
+function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
   var className = ${GET_CLS_NAME_FUNC_NAME}(classNameExpression);
   var classNameArr = className.split(/\\s+/);
-
-  var style = [];
-  if (classNameArr.length === 1) {
-    style.push(${STYLE_SHEET_NAME}[classNameArr[0].trim()]);
-  } else {
-      classNameArr.forEach(function(cls) {
-      style.push(${STYLE_SHEET_NAME}[cls.trim()]);
-    });
-  }
-
+  var style = {};
+  classNameArr.reduce((sty, cls) => Object.assign(sty, ${STYLE_SHEET_NAME}[cls.trim()]), style);
   return style;
 }
 `
@@ -150,6 +142,7 @@ export default function (babel: {
       }
     }
 
+    // assign 属性引用
     if (t.isMemberExpression(expression) && t.isIdentifier(expression.object)) {
       if (cssModuleStylesheets.includes(expression.object.name)) {
         return true
@@ -164,7 +157,18 @@ export default function (babel: {
       }
     }
 
-    // 解构
+    // Conditional_Operator 条件（三元）运算符
+    if (t.isConditionalExpression(expression)) {
+      const { consequent, alternate } = expression
+      if (
+        isCSSMemberOrBindings(consequent, cssModuleStylesheets, astPath) ||
+        isCSSMemberOrBindings(alternate, cssModuleStylesheets, astPath)
+      ) {
+        return true
+      }
+    }
+
+    // spread 解构
     if (t.isObjectExpression(expression)) {
       for (const prop of expression.properties) {
         if (t.isSpreadElement(prop)) {
@@ -179,8 +183,8 @@ export default function (babel: {
   function isJSXCSSModuleExpression (value, cssModuleStylesheets, astPath) {
     if (t.isJSXExpressionContainer(value)) {
       // 1. memberExpression a. 导入. b. 赋值. like `className="{style.red}"` or `const a = style; className="{a.red}"`
-      // 2. 解构 like `className="{{ ...style.red }}"`
-      // 3. memberExpression 和 解构. like `const a = { ...style }; className="{a.red}"
+      // 2. spread like `className="{{ ...style.red }}"`
+      // 3. memberExpression and spread. like `const a = { ...style }; className="{a.red}"
 
       if (isCSSMemberOrBindings(value.expression, cssModuleStylesheets, astPath)) {
         return true
@@ -383,7 +387,7 @@ function importDeclaration (astPath, state, t) {
   const ext = path.extname(sourceValue)
   const styleSheetIdentifiers = file.get('styleSheetIdentifiers') || []
   const cssModuleStylesheets = file.get('cssModuleStylesheets') || []
-  const isCSSModule = state.opts?.isCSSModule
+  const enableCSSModule = state.opts?.enableCSSModule
 
   // 是样式文件但不是 css module
   if (isStyle(sourceValue)) {
@@ -394,7 +398,7 @@ function importDeclaration (astPath, state, t) {
       styleSheetName = specifiers[0].local.name
     }
 
-    if (isModuleSource(sourceValue) && isCSSModule) {
+    if (isModuleSource(sourceValue) && enableCSSModule) {
       if (styleSheetName) {
         cssModuleStylesheets.push(styleSheetName)
       }

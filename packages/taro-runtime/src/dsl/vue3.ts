@@ -2,7 +2,7 @@ import { isFunction, isArray, ensure } from '@tarojs/shared'
 import container from '../container'
 import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { Current } from '../current'
-import { injectPageInstance, safeExecute } from './common'
+import { injectPageInstance } from './common'
 import { isBrowser } from '../env'
 
 import type {
@@ -25,10 +25,6 @@ function createVue3Page (h: typeof createElement, id: string) {
       },
       created () {
         injectPageInstance(this, id)
-        // vue3 组件 created 时机比小程序页面 onShow 慢，因此在 created 后再手动触发一次 onShow。
-        this.$nextTick(() => {
-          safeExecute(id, 'onShow')
-        })
       }
     }
 
@@ -157,8 +153,31 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
           ...options
         }
         if (isBrowser) {
-          appInstance = app.mount('#app')
+          appInstance = app.mount(`#${config.appId || 'app'}`)
         }
+
+        // 把 App Class 上挂载的额外属性同步到全局 app 对象中
+        // eslint-disable-next-line dot-notation
+        if (app['taroGlobalData']) {
+          // eslint-disable-next-line dot-notation
+          const globalData = app['taroGlobalData']
+          const keys = Object.keys(globalData)
+          const descriptors = Object.getOwnPropertyDescriptors(globalData)
+          keys.forEach(key => {
+            Object.defineProperty(this, key, {
+              configurable: true,
+              enumerable: true,
+              get () {
+                return globalData[key]
+              },
+              set (value) {
+                globalData[key] = value
+              }
+            })
+          })
+          Object.defineProperties(this, descriptors)
+        }
+
         const onLaunch = appInstance?.$options?.onLaunch
         isFunction(onLaunch) && onLaunch.call(appInstance, options)
       }
