@@ -32,11 +32,11 @@ if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
   if (!(DATE in window)) {
     window.Date = Date
   }
-  window.setTimeout = function (cb, delay) {
-    setTimeout(cb, delay)
+  window.setTimeout = function (...args: Parameters<typeof setTimeout>) {
+    return setTimeout(...args)
   }
-  window.clearTimeout = function (seed) {
-    clearTimeout(seed)
+  window.clearTimeout = function (...args: Parameters<typeof clearTimeout>) {
+    return clearTimeout(...args)
   }
 
   document.defaultView = window
