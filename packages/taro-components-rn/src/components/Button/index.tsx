@@ -74,7 +74,7 @@ const Loading = (props: { type: ButtonProps['type'], hasSibling: boolean }) => {
     ...styles.loading,
     transform: [{ rotate: rotateDeg }]
   }
-  if (hasSibling) {
+  if (!hasSibling) {
     loadingStyle.marginRight = 0
   }
 
