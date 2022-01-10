@@ -8,8 +8,8 @@ export function bindPageResize (page: PageInstance) {
   pageResizeFn = function () {
     page.onResize && page.onResize({
       size: {
-        height: window.innerHeight,
-        width: window.innerWidth
+        windowHeight: window.innerHeight,
+        windowWidth: window.innerWidth
       }
     })
   }
