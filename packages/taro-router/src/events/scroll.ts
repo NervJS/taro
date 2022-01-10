@@ -1,12 +1,12 @@
-import { Current, PageInstance } from '@tarojs/runtime'
+import { PageInstance } from '@tarojs/runtime'
 import { PageConfig } from '@tarojs/taro'
 
 let pageScrollFn
 let pageDOM: Element | Window = window
 
-export function bindPageScroll (page: PageInstance, config: Partial<PageConfig>) {
-  pageDOM.removeEventListener('scroll', pageScrollFn)
-  pageDOM = getScrollContainer()
+export function bindPageScroll (page: PageInstance, pageEl: HTMLElement, config: Partial<PageConfig>) {
+  pageEl.removeEventListener('scroll', pageScrollFn)
+  pageDOM = pageEl
 
   const distance = config.onReachBottomDistance || 50
   let isReachBottom = false
@@ -31,15 +31,6 @@ export function bindPageScroll (page: PageInstance, config: Partial<PageConfig>)
   }
 
   pageDOM.addEventListener('scroll', pageScrollFn, false)
-}
-
-function getScrollContainer (): Element | Window {
-  const id = Current.page?.path
-  const el: HTMLDivElement | null = (id
-    ? document.getElementById(id)
-    : document.querySelector('.taro_page') ||
-  document.querySelector('.taro_router')) as HTMLDivElement
-  return el || window
 }
 
 function getOffset () {
