@@ -55,6 +55,13 @@ declare module './index' {
     scrollTop: number
   }
 
+  interface PageResizeObject {
+    size: {
+      windowWidth: number
+      windowHeight: number
+    }
+  }
+
   interface ShareAppMessageObject {
     /**
      * 转发事件来源
