@@ -53,7 +53,7 @@ describe('tabbar', () => {
         return this.props.children
       }
     }
-    config.routes = config.pages?.map(path => ({ path, load: () => null }));
+    config.routes = config.pages?.map(path => ({ path, load: () => null }))
     const inst = createReactApp(App, React, ReactDOM, config)
     createRouter(inst, config, 'React')
   })
