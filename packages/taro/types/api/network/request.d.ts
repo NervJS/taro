@@ -231,6 +231,21 @@ declare module '../../index' {
     }
   }
 
+  type interceptor = (chain: Chain) => any
+
+  interface Chain {
+    index: number
+    requestParams: RequestParams
+    interceptors: interceptor[]
+    proceed(requestParams: RequestParams): any
+  }
+
+  interface interceptors {
+    logInterceptor(chain: Chain): Promise<any>
+
+    timeoutInterceptor(chain: Chain): Promise<any>
+  }
+
   interface TaroStatic {
     /** 发起 HTTPS 网络请求。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)。
      *
@@ -298,6 +313,8 @@ declare module '../../index' {
      * ```
      * @since 1.2.16
      */
-    addInterceptor (callback: Function): void
+    addInterceptor(interceptor: interceptor): any
+
+    interceptors: interceptors
   }
 }
