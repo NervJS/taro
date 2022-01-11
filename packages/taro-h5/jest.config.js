@@ -6,9 +6,8 @@ module.exports = {
   testURL: 'http://localhost/',
   collectCoverage: false,
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
-  testMatch: ['**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)'],
   transformIgnorePatterns: ['<rootDir>/node_modules/'],
-  setupFiles: ['jest-localstorage-mock'],
+  setupFiles: ['jest-localstorage-mock', '<rootDir>/__mocks__/setEnv.ts'],
   setupFilesAfterEnv: [
     'jest-mock-console/dist/setupTestFramework.js'
   ],
@@ -17,6 +16,11 @@ module.exports = {
     '^.+\\.tsx?$': 'ts-jest',
     ...tsjPreset.transform
   },
+  testMatch: ['**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)'],
+  testPathIgnorePatterns: [
+    'node_modules',
+    'utils'
+  ],
   globals: {
     window: true,
     ENABLE_INNER_HTML: true,
@@ -25,20 +29,23 @@ module.exports = {
     ENABLE_TEMPLATE_CONTENT: true,
     ENABLE_MUTATION_OBSERVER: true,
     ENABLE_CLONE_NODE: true,
+    ENABLE_CONTAINS: true,
     'ts-jest': {
       diagnostics: false,
       tsconfig: {
-        allowJs: true,
-        target: 'ES6',
         jsx: 'react',
-        jsxFactory: 'React.createElement'
+        allowJs: true,
+        rootDir: '.'
       }
     }
   },
   moduleNameMapper: {
-    react: 'nervjs',
-    'react-dom': 'nervjs',
+    '@tarojs/taro': '@tarojs/taro-h5',
     '@tarojs/taro-h5': '<rootDir>/src/index.ts',
+    // '@tarojs/runtime': '<rootDir>/__mocks__/taro-runtime',
+    '@tarojs/plugin-framework-react/dist/runtime': '<rootDir>/__mocks__/taro-framework',
+    '@tarojs/plugin-framework-vue2/dist/runtime': '<rootDir>/__mocks__/taro-framework',
+    '@tarojs/plugin-framework-vue3/dist/runtime': '<rootDir>/__mocks__/taro-framework',
     '(\\.(css|less|sass|scss))|weui': '<rootDir>/__mocks__/styleMock.js',
     '\\.(gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js'
   }
