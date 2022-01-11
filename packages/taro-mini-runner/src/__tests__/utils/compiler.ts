@@ -41,6 +41,7 @@ export function getOutput (stats, config: Partial<IBuildConfig> & { fs?: any }) 
 ${file === 'dist/runtime.js' ? '' : fs.readFileSync(file)}
 `
   }, '')
+  fs.rmdirSync(config.outputRoot || '', { recursive: true })
   return output
 }
 
@@ -63,6 +64,8 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
           '@tarojs/components$': path.resolve(__dirname, '../mocks/taro-components'),
           '@tarojs/react': path.resolve(__dirname, '../mocks/taro-react'),
           '@tarojs/taro': path.resolve(__dirname, '../mocks/taro'),
+          '@tarojs/shared': path.resolve(__dirname, '../mocks/taro'),
+          'regenerator-runtime': path.resolve(__dirname, '../mocks/deps'),
           react$: path.resolve(__dirname, '../mocks/react'),
           vue: path.resolve(__dirname, '../mocks/vue'),
           nervjs: path.resolve(__dirname, '../mocks/nerv')
