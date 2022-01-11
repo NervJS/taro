@@ -1,4 +1,4 @@
-import * as Taro from '../../src/api'
+import * as Taro from '@tarojs/taro-h5'
 
 describe('systemInfo', () => {
   test('should getSystemInfoSync return system information', () => {
@@ -24,6 +24,7 @@ describe('systemInfo', () => {
     const complete = jest.fn()
 
     expect.assertions(3)
+    const info = Taro.getSystemInfoSync()
     return Taro.getSystemInfo({
       success,
       complete
@@ -31,7 +32,10 @@ describe('systemInfo', () => {
       .then(res => {
         expect(success.mock.calls.length).toBe(1)
         expect(complete.mock.calls.length).toBe(1)
-        expect(res).toEqual(Taro.getSystemInfoSync())
+        expect(res).toEqual({
+          ...info,
+          errMsg: 'getSystemInfo:ok'
+        })
       })
   })
 })

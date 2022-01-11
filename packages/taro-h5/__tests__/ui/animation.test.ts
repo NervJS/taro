@@ -1,8 +1,9 @@
-import { createAnimation } from '../../src/api'
+import * as Taro from '@tarojs/taro-h5'
 
 describe('createAnimation', () => {
   it('test unit', () => {
-    const ani = createAnimation()
+    // @ts-ignore
+    const ani: any = Taro.createAnimation()
     const { rules, transform } = ani
     ani.left(10)
     expect(rules[0]).toEqual('left: 10px')

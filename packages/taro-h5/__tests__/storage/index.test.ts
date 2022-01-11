@@ -1,4 +1,4 @@
-import * as Taro from '../../src/api'
+import * as Taro from '@tarojs/taro-h5'
 const mockConsole = require('jest-mock-console')
 
 describe('storage', () => {
@@ -262,6 +262,7 @@ describe('storage', () => {
 
     test('should return a string when stored data is undefined', () => {
       const key = 'test'
+      // @ts-ignore
       Taro.setStorageSync(key)
       expect(Taro.getStorageSync(key)).toBe('')
     })
@@ -306,7 +307,7 @@ describe('storage', () => {
 
       expect.assertions(8)
       return Taro.getStorageInfo({ success, complete })
-        .then(res => {
+        .then((res: any) => {
           const { keys, limitSize, currentSize, errMsg } = res
           expect(keys).toEqual(['foo', 'bar'])
           expect(limitSize).toBeNaN()
@@ -339,12 +340,14 @@ describe('storage', () => {
 
       expect.assertions(4)
       return Promise.all([
+        // @ts-ignore
         Taro.removeStorage()
           .catch(err => {
             const expectErrMsg = 'removeStorage:fail parameter error: parameter should be Object instead of Undefined'
             expect(console.error).toHaveBeenNthCalledWith(1, expectErrMsg)
             expect(err.errMsg).toMatch(expectErrMsg)
           }),
+        // @ts-ignore
         Taro.removeStorage(null)
           .catch(err => {
             const expectErrMsg = 'removeStorage:fail parameter error: parameter should be Object instead of Null'
@@ -409,6 +412,7 @@ describe('storage', () => {
     test('key should be a string', () => {
       mockConsole()
 
+      // @ts-ignore
       Taro.removeStorageSync()
 
       const expectErrMsg = 'removeStorage:fail parameter error: parameter should be String instead of Undefined'

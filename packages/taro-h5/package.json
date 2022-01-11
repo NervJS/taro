@@ -13,10 +13,11 @@
   "sideEffects": false,
   "scripts": {
     "test": "jest",
+    "test:ci": "jest -i --coverage false",
     "test:dev": "jest --watch",
     "test:coverage": "jest --coverage",
     "copy:assets": "copy src/**/*.css dist",
-    "build": "tsc & npm run copy:assets & rollup -c",
+    "build": "tsc & rollup & npm run copy:assets",
     "dev": "tsc -w & npm run copy:assets"
   },
   "repository": {

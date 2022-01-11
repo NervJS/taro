@@ -1,72 +1,22 @@
-import { createReactApp } from '@tarojs/runtime'
-import { createRouter } from '@tarojs/router'
-import React from 'react'
-import ReactDOM from 'react-dom'
-import {
-  hideTabBar,
-  hideTabBarRedDot,
-  removeTabBarBadge,
-  setTabBarBadge,
-  setTabBarItem,
-  setTabBarStyle,
-  showTabBar,
-  showTabBarRedDot
-} from '../../src/api'
-import Taro from '../../src/taro'
-
-const appConfig: any = {
-  pages: [
-    'pages/index/index',
-    'pages/about/index'
-  ],
-  window: {
-    backgroundTextStyle: 'light',
-    navigationBarBackgroundColor: '#fff',
-    navigationBarTitleText: 'WeChat',
-    navigationBarTextStyle: 'black'
-  },
-  tabBar: {
-    color: '#333',
-    selectedColor: '#409EFF',
-    backgroundColor: '#fff',
-    borderStyle: 'black',
-    list: [{
-      pagePath: '/pages/index/index', text: '首页'
-    }, {
-      pagePath: '/pages/about/about', text: '关于我们'
-    }],
-    mode: 'hash',
-    basename: '/test/app',
-    customRoutes: {
-      '/pages/about/index': '/about'
-    }
-  },
-  router: { mode: 'hash' }
-}
+import * as Taro from '@tarojs/taro-h5'
+import { buildApp } from '../utils'
 
 describe('tabbar', () => {
   beforeEach(() => {
     jest.resetAllMocks()
-    const config: any = { ...appConfig }
-    class App extends React.Component {
-      render () {
-        return this.props.children
-      }
-    }
-    config.routes = [
-      config.pages?.map(path => ({ path, load: () => null }))
-    ]
-    const inst = createReactApp(App, React, ReactDOM, config)
-    createRouter(inst, config, 'React')
+    buildApp()
   })
+
   it('should be able to set/removeTabBarBadge', done => {
+    // @ts-ignore
     Taro.eventCenter.once('__taroSetTabBarBadge', res => res.successHandler({
       errMsg: 'setTabBarBadge:ok'
-    }), null)
+    }))
+    // @ts-ignore
     Taro.eventCenter.once('__taroRemoveTabBarBadge', res => res.successHandler({
       errMsg: 'removeTabBarBadge:ok'
-    }), null)
-    setTabBarBadge({
+    }))
+    Taro.setTabBarBadge({
       index: 0,
       text: 'text'
     }).then(res => {
@@ -75,7 +25,7 @@ describe('tabbar', () => {
       // expect(badges).toBeTruthy()
       // expect(badges.innerHTML).toBe('text')
 
-      removeTabBarBadge({
+      Taro.removeTabBarBadge({
         index: 0
       }).then(res => {
         expect(res.errMsg).toBe('removeTabBarBadge:ok')
@@ -85,21 +35,24 @@ describe('tabbar', () => {
       })
     })
   })
+
   it('should be able to show/hideTabBarRedDot', done => {
+    // @ts-ignore
     Taro.eventCenter.once('__taroShowTabBarRedDotHandler', res => res.successHandler({
       errMsg: 'showTabBarRedDot:ok'
-    }), null)
+    }))
+    // @ts-ignore
     Taro.eventCenter.once('__taroHideTabBarRedDotHandler', res => res.successHandler({
       errMsg: 'hideTabBarRedDot:ok'
-    }), null)
-    showTabBarRedDot({
+    }))
+    Taro.showTabBarRedDot({
       index: 0
     }).then(res => {
       expect(res.errMsg).toBe('showTabBarRedDot:ok')
       // let badges = div.querySelector('.weui-badge_dot')
       // expect(badges).toBeTruthy()
 
-      hideTabBarRedDot({
+      Taro.hideTabBarRedDot({
         index: 0
       }).then(res => {
         expect(res.errMsg).toBe('hideTabBarRedDot:ok')
@@ -109,19 +62,22 @@ describe('tabbar', () => {
       })
     })
   })
+
   it('should be able to show/hideTabBar', done => {
+    // @ts-ignore
     Taro.eventCenter.once('__taroHideTabBar', res => res.successHandler({
       errMsg: 'hideTabBar:ok'
-    }), null)
+    }))
+    // @ts-ignore
     Taro.eventCenter.once('__taroShowTabBar', res => res.successHandler({
       errMsg: 'showTabBar:ok'
-    }), null)
-    hideTabBar().then(res => {
+    }))
+    Taro.hideTabBar().then(res => {
       expect(res.errMsg).toBe('hideTabBar:ok')
       // let badges = div.querySelector('.taro-tabbar__tabbar-hide')
       // expect(badges).toBeTruthy()
 
-      showTabBar().then(res => {
+      Taro.showTabBar().then(res => {
         expect(res.errMsg).toBe('showTabBar:ok')
         // badges = div.querySelector('.taro-tabbar__tabbar-hide')
         // expect(badges).toBeFalsy()
@@ -129,11 +85,13 @@ describe('tabbar', () => {
       })
     })
   })
+
   it('should be able to setTabBarStyle', done => {
+    // @ts-ignore
     Taro.eventCenter.once('__taroSetTabBarStyle', res => res.successHandler({
       errMsg: 'setTabBarStyle:ok'
-    }), null)
-    setTabBarStyle({
+    }))
+    Taro.setTabBarStyle({
       backgroundColor: '#bbbbbb',
       borderStyle: 'black',
       color: '#cccccc'
@@ -142,11 +100,13 @@ describe('tabbar', () => {
       done()
     })
   })
+
   it('should be able to setTabBarItem', done => {
+    // @ts-ignore
     Taro.eventCenter.once('__taroSetTabBarItem', res => res.successHandler({
       errMsg: 'setTabBarItem:ok'
-    }), null)
-    setTabBarItem({
+    }))
+    Taro.setTabBarItem({
       index: 0,
       iconPath: 'iconPath',
       selectedIconPath: 'selectedIconPath',
@@ -156,12 +116,13 @@ describe('tabbar', () => {
       done()
     })
   })
-  // it('should be able to switchTab', done => {
-  //   switchTab({
-  //     url: '/pages/about/about'
-  //   }).then((res: any) => {
-  //     expect(res.errMsg).toBe('switchTab:ok')
-  //     done()
-  //   })
-  // })
+
+  it('should be able to switchTab', done => {
+    Taro.switchTab({
+      url: '/pages/about/about'
+    }).then((res: any) => {
+      expect(res.errMsg).toBe('switchTab:ok')
+      done()
+    })
+  })
 })
