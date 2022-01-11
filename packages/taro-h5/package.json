@@ -17,7 +17,7 @@
     "test:dev": "jest --watch",
     "test:coverage": "jest --coverage",
     "copy:assets": "copy src/**/*.css dist",
-    "build": "tsc & rollup & npm run copy:assets",
+    "build": "tsc & rollup -c & npm run copy:assets",
     "dev": "tsc -w & npm run copy:assets"
   },
   "repository": {
