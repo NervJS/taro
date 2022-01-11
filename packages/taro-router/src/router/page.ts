@@ -191,6 +191,7 @@ export default class PageHandler {
       }
       this.lastUnloadPage = page
       const pageEl = document.getElementById(page.path!)
+      pageEl?.classList.remove('taro_page_stationed')
       pageEl?.classList.remove('taro_page_show')
 
       this.unloadTimer = setTimeout(() => {
@@ -199,6 +200,7 @@ export default class PageHandler {
       }, this.animationDuration)
     } else {
       const pageEl = document.getElementById(page.path!)
+      pageEl?.classList.remove('taro_page_stationed')
       pageEl?.classList.remove('taro_page_show')
       page?.onUnload?.()
     }
@@ -254,9 +256,13 @@ export default class PageHandler {
     if (this.animation && !first) {
       setTimeout(() => {
         pageEl.classList.add('taro_page_show')
+        setTimeout(() => {
+          pageEl.classList.add('taro_page_stationed')
+        }, this.animationDuration)
       }, this.animationDelay)
     } else {
       pageEl.classList.add('taro_page_show')
+      pageEl.classList.add('taro_page_stationed')
     }
   }
 }
