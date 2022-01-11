@@ -16,7 +16,7 @@ export function setNavigationBarTitle (options) {
   }
 
   const { title, success, fail, complete } = options
-  const handle = new MethodHandler({ name: 'makePhoneCall', success, fail, complete })
+  const handle = new MethodHandler({ name: 'setNavigationBarTitle', success, fail, complete })
 
   if (!title || typeof title !== 'string') {
     return handle.fail({
