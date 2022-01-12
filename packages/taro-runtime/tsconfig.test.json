@@ -1,8 +1,7 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.root.json",
   "compilerOptions": {
     "jsx": "react",
-    "allowJs": true,
-    "target": "ES6"
+    "allowJs": true
   }
 }

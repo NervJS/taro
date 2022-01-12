@@ -1,6 +1,6 @@
 import * as webpack from 'webpack'
 import { META_TYPE } from '@tarojs/helper'
-
+import { componentConfig } from './template/component'
 import { IBuildConfig, Func } from './utils/types'
 import { printBuildError, bindProdLogger, bindDevLogger } from './utils/logHelper'
 import buildConf from './webpack/build.conf'
@@ -10,7 +10,9 @@ import { makeConfig } from './webpack/chain'
 
 const customizeChain = async (chain, modifyWebpackChainFunc: Func, customizeFunc?: Func) => {
   if (modifyWebpackChainFunc instanceof Function) {
-    await modifyWebpackChainFunc(chain, webpack)
+    await modifyWebpackChainFunc(chain, webpack, {
+      componentConfig
+    })
   }
   if (customizeFunc instanceof Function) {
     customizeFunc(chain, webpack, META_TYPE)

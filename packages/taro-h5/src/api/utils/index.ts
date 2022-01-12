@@ -12,7 +12,7 @@ export function shouldBeObject (target: unknown) {
   }
 }
 
-export function findDOM (inst): TaroElement | HTMLElement | undefined {
+export function findDOM (inst?): TaroElement | HTMLElement | undefined {
   const runtimeHooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
 
   if (inst) {

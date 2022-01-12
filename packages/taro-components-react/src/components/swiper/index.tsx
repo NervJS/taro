@@ -314,7 +314,7 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
 export { Swiper, SwiperItem }
 
 function debounce (fn, delay: number) {
-  let timer: NodeJS.Timeout
+  let timer: number
 
   return function (...arrs) {
     clearTimeout(timer)

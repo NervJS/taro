@@ -15,7 +15,8 @@
     "sourceMap": true,
     "baseUrl": ".",
     "rootDir": ".",
-    "jsx": "react-jsx",<% if (framework === 'nerv') {%>
+    "jsx": "react-jsx",<% if (framework === 'preact') {%>
+    "skipLibCheck": true,<%}%><% if (framework === 'nerv') {%>
     "jsx": "react",
     "jsxFactory": "Nerv.createElement",<%}%>
     "allowJs": true,

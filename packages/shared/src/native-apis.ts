@@ -1,3 +1,4 @@
+import { isString, isFunction } from './is'
 import { unsupport, setUniqueKeyToRoute } from './utils'
 
 declare const getCurrentPages: () => any
@@ -141,11 +142,17 @@ const needPromiseApis = new Set<string>([
 
 function getCanIUseWebp (taro) {
   return function () {
-    if (typeof taro.getSystemInfoSync !== 'function') {
-      console.error('不支持 API canIUseWebp')
+    const res = taro.getSystemInfoSync?.()
+
+    if (!res) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.error('不支持 API canIUseWebp')
+      }
       return false
     }
-    const { platform } = taro.getSystemInfoSync()
+
+    const { platform } = res
+
     const platformLower = platform.toLowerCase()
     if (platformLower === 'android' || platformLower === 'devtools') {
       return true
@@ -156,12 +163,14 @@ function getCanIUseWebp (taro) {
 
 function getNormalRequest (global) {
   return function request (options) {
-    options = options || {}
-    if (typeof options === 'string') {
-      options = {
-        url: options
-      }
-    }
+    options = options
+      ? (
+        isString(options)
+          ? { url: options }
+          : options
+      )
+      : {}
+
     const originSuccess = options.success
     const originFail = options.fail
     const originComplete = options.complete
@@ -304,7 +313,7 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
         taro[key] = unsupport(key)
         return
       }
-      if (typeof global[key] === 'function') {
+      if (isFunction(global[key])) {
         taro[key] = (...args) => {
           if (config.handleSyncApis) {
             return config.handleSyncApis(key, global, args)
@@ -339,7 +348,7 @@ function equipCommonApis (taro, global, apis: Record<string, any> = {}) {
   }
 
   // request & interceptors
-  const request = apis.request ? apis.request : getNormalRequest(global)
+  const request = apis.request || getNormalRequest(global)
   function taroInterceptor (chain) {
     return request(chain.requestParams)
   }

@@ -17,8 +17,6 @@ import {
   focusComponents,
   voidElements,
   nestElements,
-  styles,
-  events,
   singleQuote
 } from './components'
 import { Shortcuts } from './shortcuts'
@@ -54,6 +52,15 @@ export interface IAdapter {
 }
 
 export type Attributes = Record<string, string>
+
+export const styles = {
+  style: `i.${Shortcuts.Style}`,
+  class: `i.${Shortcuts.Class}`
+}
+
+export const events = {
+  bindtap: 'eh'
+}
 
 const weixinAdapter: IAdapter = {
   if: 'wx:if',
@@ -191,7 +198,7 @@ export class BaseTemplate {
 
     return `${this.buildXsTemplate()}
 <template name="taro_tmpl">
-  <block ${Adapter.for}="{{root.cn}}" ${Adapter.key}="uid">
+  <block ${Adapter.for}="{{root.cn}}" ${Adapter.key}="sid">
     <template is="tmpl_0_${Shortcuts.Container}" data="{{${data}}}" />
   </block>
 </template>
@@ -250,7 +257,7 @@ export class BaseTemplate {
     let children = this.voidElements.has(comp.nodeName)
       ? ''
       : `
-    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="uid">
+    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="sid">
       ${indent(child, 6)}
     </block>
   `
@@ -277,11 +284,11 @@ export class BaseTemplate {
 </template>
 
 <template name="tmpl_${level}_${comp.nodeName}_focus">
-  <${comp.nodeName} ${this.buildAttribute(comp.attributes, comp.nodeName)} id="{{i.uid}}">${children}</${comp.nodeName}>
+  <${comp.nodeName} ${this.buildAttribute(comp.attributes, comp.nodeName)} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">${children}</${comp.nodeName}>
 </template>
 
 <template name="tmpl_${level}_${comp.nodeName}_blur">
-  <${comp.nodeName} ${this.buildAttribute(attrs, comp.nodeName)} id="{{i.uid}}">${children}</${comp.nodeName}>
+  <${comp.nodeName} ${this.buildAttribute(attrs, comp.nodeName)} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">${children}</${comp.nodeName}>
 </template>
 `
     if (isFunction(this.modifyTemplateResult)) {
@@ -316,7 +323,7 @@ export class BaseTemplate {
 
     let res = `
 <template name="tmpl_${level}_${comp.nodeName}">
-  <${nodeName} ${this.buildAttribute(comp.attributes, comp.nodeName)} id="{{i.uid}}">${children}</${nodeName}>
+  <${nodeName} ${this.buildAttribute(comp.attributes, comp.nodeName)} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">${children}</${nodeName}>
 </template>
 `
 
@@ -348,7 +355,7 @@ export class BaseTemplate {
       if (compName === 'custom-wrapper') {
         template += `
 <template name="tmpl_${level}_${compName}">
-  <${compName} i="{{i}}" l="{{l}}" id="{{i.uid}}">
+  <${compName} i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
   </${compName}>
 </template>
   `
@@ -365,8 +372,8 @@ export class BaseTemplate {
 
         template += `
 <template name="tmpl_${level}_${compName}">
-  <${compName} ${this.buildThirdPartyAttr(attrs)} id="{{i.uid}}">
-    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="uid">
+  <${compName} ${this.buildThirdPartyAttr(attrs)} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="sid">
       ${child}
     </block>
   </${compName}>
@@ -445,7 +452,7 @@ export class BaseTemplate {
       ? `${this.dataKeymap('i:item,l:\'\'')}`
       : this.dataKeymap('i:item')
     return `<import src="./base${ext}" />
-  <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="uid">
+  <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="sid">
     <template is="tmpl_0_container" data="{{${data}}}" />
   </block>`
   }
@@ -638,5 +645,6 @@ export class UnRecursiveTemplate extends BaseTemplate {
 export {
   internalComponents,
   toCamelCase,
-  capitalize
+  capitalize,
+  Shortcuts
 }

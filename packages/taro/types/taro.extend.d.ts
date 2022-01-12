@@ -13,21 +13,6 @@ declare module './index' {
     [propName: string]: any
   }
 
-  type interceptor = (chain: Chain) => any
-
-  interface Chain {
-    index: number
-    requestParams: RequestParams
-    interceptors: interceptor[]
-    proceed(requestParams: RequestParams): any
-  }
-
-  interface interceptors {
-    logInterceptor(chain: Chain): Promise<any>
-
-    timeoutInterceptor(chain: Chain): Promise<any>
-  }
-
   interface Current {
     app: AppInstance | null
     router: RouterInfo | null
@@ -40,6 +25,10 @@ declare module './index' {
      * RN 私有对象navigationRef，用于使用底层接口控制路由
      */
     rnNavigationRef?: React.RefObject<any>
+  }
+
+  interface SetGlobalDataPlugin {
+    install (app: any, data: any): void
   }
 
   interface TARO_ENV_TYPE {
@@ -75,8 +64,6 @@ declare module './index' {
     pxTransform(size: number, designWidth?: number): string
     initPxTransform(config: { designWidth: number; deviceRatio: TaroGeneral.TDeviceRatio }): void
 
-    addInterceptor(interceptor: interceptor): any
-
     /**
      * 小程序引用插件 JS 接口
      */
@@ -87,5 +74,20 @@ declare module './index' {
     Current: Current
 
     getCurrentInstance(): Current
+
+    /**
+     * @desc Vue3 插件，用于设置 `getApp()` 中的全局变量
+     * @example
+     * ```js
+     * // 使用插件
+     * const App = createApp(...)
+     * App.use(setGlobalDataPlugin, {
+     *   xxx: 999
+     * })
+     * // 获取全局变量
+     * Taro.getApp().xxx
+     * ```
+     */
+    setGlobalDataPlugin: SetGlobalDataPlugin
   }
 }

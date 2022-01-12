@@ -1,7 +1,6 @@
 'use strict'
 
 const postcss = require('postcss')
-const objectAssign = require('object-assign')
 const pxRegex = require('./lib/pixel-unit-regex')
 const filterPropList = require('./lib/filter-prop-list')
 
@@ -68,7 +67,7 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
 
   convertLegacyOptions(options)
 
-  const opts = objectAssign({}, defaults, options)
+  const opts = Object.assign({}, defaults, options)
   const onePxTransform = typeof options.onePxTransform === 'undefined' ? true : options.onePxTransform
   const pxReplace = createPxReplace(opts.rootValue, opts.unitPrecision,
     opts.minPixelValue, onePxTransform)

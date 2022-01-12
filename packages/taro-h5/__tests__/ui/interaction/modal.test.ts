@@ -1,4 +1,4 @@
-import * as Taro from '../../../src/api'
+import * as Taro from '@tarojs/taro-h5'
 import 'jest-dom/extend-expect'
 
 describe('modal', () => {
@@ -9,17 +9,18 @@ describe('modal', () => {
 
     expect.assertions(4)
     Taro.showModal({
+      // @ts-ignore
       title: null,
       success,
       fail,
       complete
     })
       .catch(err => {
-        const excpectErrObj = { errMsg: 'showModal:fail parameter error: parameter.title should be String instead of Null' }
+        const expectErrObj = { errMsg: 'showModal:fail parameter error: parameter.title should be String instead of Null' }
         expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(excpectErrObj)
-        expect(complete).toHaveBeenCalledWith(excpectErrObj)
-        expect(err).toEqual(excpectErrObj)
+        expect(fail).toHaveBeenCalledWith(expectErrObj)
+        expect(complete).toHaveBeenCalledWith(expectErrObj)
+        expect(err).toEqual(expectErrObj)
       })
   })
 
@@ -36,11 +37,11 @@ describe('modal', () => {
       complete
     })
       .catch(err => {
-        const excpectErrObj = { errMsg: 'showModal:fail parameter error: parameter.content should be String instead of Undefined' }
+        const expectErrObj = { errMsg: 'showModal:fail parameter error: parameter.content should be String instead of Undefined' }
         expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(excpectErrObj)
-        expect(complete).toHaveBeenCalledWith(excpectErrObj)
-        expect(err).toEqual(excpectErrObj)
+        expect(fail).toHaveBeenCalledWith(expectErrObj)
+        expect(complete).toHaveBeenCalledWith(expectErrObj)
+        expect(err).toEqual(expectErrObj)
       })
   })
 
@@ -51,17 +52,18 @@ describe('modal', () => {
 
     expect.assertions(4)
     Taro.showModal({
+      // @ts-ignore
       cancelText: 1,
       success,
       fail,
       complete
     })
       .catch(err => {
-        const excpectErrObj = { errMsg: 'showModal:fail parameter error: parameter.cancelText should be String instead of Number' }
+        const expectErrObj = { errMsg: 'showModal:fail parameter error: parameter.cancelText should be String instead of Number' }
         expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(excpectErrObj)
-        expect(complete).toHaveBeenCalledWith(excpectErrObj)
-        expect(err).toEqual(excpectErrObj)
+        expect(fail).toHaveBeenCalledWith(expectErrObj)
+        expect(complete).toHaveBeenCalledWith(expectErrObj)
+        expect(err).toEqual(expectErrObj)
       })
   })
 
@@ -78,11 +80,11 @@ describe('modal', () => {
       complete
     })
       .catch(err => {
-        const excpectErrObj = { errMsg: 'showModal:fail cancelText length should not larger then 4 Chinese characters' }
+        const expectErrObj = { errMsg: 'showModal:fail cancelText length should not larger then 4 Chinese characters' }
         expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(excpectErrObj)
-        expect(complete).toHaveBeenCalledWith(excpectErrObj)
-        expect(err).toEqual(excpectErrObj)
+        expect(fail).toHaveBeenCalledWith(expectErrObj)
+        expect(complete).toHaveBeenCalledWith(expectErrObj)
+        expect(err).toEqual(expectErrObj)
       })
   })
 
@@ -93,17 +95,18 @@ describe('modal', () => {
 
     expect.assertions(4)
     Taro.showModal({
+      // @ts-ignore
       confirmText: 1,
       success,
       fail,
       complete
     })
       .catch(err => {
-        const excpectErrObj = { errMsg: 'showModal:fail parameter error: parameter.confirmText should be String instead of Number' }
+        const expectErrObj = { errMsg: 'showModal:fail parameter error: parameter.confirmText should be String instead of Number' }
         expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(excpectErrObj)
-        expect(complete).toHaveBeenCalledWith(excpectErrObj)
-        expect(err).toEqual(excpectErrObj)
+        expect(fail).toHaveBeenCalledWith(expectErrObj)
+        expect(complete).toHaveBeenCalledWith(expectErrObj)
+        expect(err).toEqual(expectErrObj)
       })
   })
 
@@ -120,11 +123,11 @@ describe('modal', () => {
       complete
     })
       .catch(err => {
-        const excpectErrObj = { errMsg: 'showModal:fail confirmText length should not larger then 4 Chinese characters' }
+        const expectErrObj = { errMsg: 'showModal:fail confirmText length should not larger then 4 Chinese characters' }
         expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(excpectErrObj)
-        expect(complete).toHaveBeenCalledWith(excpectErrObj)
-        expect(err).toEqual(excpectErrObj)
+        expect(fail).toHaveBeenCalledWith(expectErrObj)
+        expect(complete).toHaveBeenCalledWith(expectErrObj)
+        expect(err).toEqual(expectErrObj)
       })
   })
 
@@ -141,11 +144,11 @@ describe('modal', () => {
       complete
     })
       .catch(err => {
-        const excpectErrObj = { errMsg: 'showModal:fail parameter error: parameter.cancelColor should be String instead of Number' }
+        const expectErrObj = { errMsg: 'showModal:fail parameter error: parameter.cancelColor should be String instead of Number' }
         expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(excpectErrObj)
-        expect(complete).toHaveBeenCalledWith(excpectErrObj)
-        expect(err).toEqual(excpectErrObj)
+        expect(fail).toHaveBeenCalledWith(expectErrObj)
+        expect(complete).toHaveBeenCalledWith(expectErrObj)
+        expect(err).toEqual(expectErrObj)
       })
   })
 
@@ -156,17 +159,18 @@ describe('modal', () => {
 
     expect.assertions(4)
     Taro.showModal({
+      // @ts-ignore
       confirmColor: 1,
       success,
       fail,
       complete
     })
       .catch(err => {
-        const excpectErrObj = { errMsg: 'showModal:fail parameter error: parameter.confirmColor should be String instead of Number' }
+        const expectErrObj = { errMsg: 'showModal:fail parameter error: parameter.confirmColor should be String instead of Number' }
         expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(excpectErrObj)
-        expect(complete).toHaveBeenCalledWith(excpectErrObj)
-        expect(err).toEqual(excpectErrObj)
+        expect(fail).toHaveBeenCalledWith(expectErrObj)
+        expect(complete).toHaveBeenCalledWith(expectErrObj)
+        expect(err).toEqual(expectErrObj)
       })
   })
 
@@ -243,9 +247,9 @@ describe('modal', () => {
         done()
       })
 
-    const modal = document.body.lastChild
+    const modal: any = document.body.lastChild
     const foot = modal.lastChild.lastChild
-    const cancel: any = foot.firstChild
+    const cancel = foot.firstChild
 
     setTimeout(() => {
       cancel.click()
@@ -265,7 +269,7 @@ describe('modal', () => {
       confirmColor
     })
 
-    const modal = document.body.lastChild
+    const modal: any = document.body.lastChild
     const foot = modal.lastChild.lastChild
     const cancel = foot.firstChild
     const confirm = foot.lastChild
@@ -281,7 +285,7 @@ describe('modal', () => {
       showCancel: false
     })
 
-    const modal = document.body.lastChild
+    const modal: any = document.body.lastChild
     const foot = modal.lastChild.lastChild
     expect(foot.childNodes.length).toBe(2)
 

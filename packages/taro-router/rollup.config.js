@@ -1,16 +1,19 @@
-const { join } = require('path')
-const babel = require('@rollup/plugin-babel').default
-const resolve = require('rollup-plugin-node-resolve')
-const commonjs = require('rollup-plugin-commonjs')
-const typescript = require('rollup-plugin-typescript2')
+import babel from '@rollup/plugin-babel'
+import commonjs from '@rollup/plugin-commonjs'
+import typescript from 'rollup-plugin-typescript2'
+import resolve from '@rollup/plugin-node-resolve'
+import * as path from 'path'
+
 const cwd = __dirname
 
 const baseConfig = {
-  input: join(cwd, 'src/index.ts'),
-  external: ['@tarojs/runtime', '@tarojs/taro'],
+  input: path.join(cwd, 'src/index.ts'),
+  external: d => {
+    return /^@tarojs\/(runtime|taro)$/.test(d) || d.includes('@babel/runtime')
+  },
   output: [
     {
-      file: join(cwd, 'dist/index.js'),
+      file: path.join(cwd, 'dist/index.js'),
       format: 'cjs',
       sourcemap: true,
       exports: 'named'
@@ -33,7 +36,7 @@ const esmConfig = Object.assign({}, baseConfig, {
   output: Object.assign({}, baseConfig.output, {
     sourcemap: true,
     format: 'es',
-    file: join(cwd, 'dist/router.esm.js')
+    file: path.join(cwd, 'dist/router.esm.js')
   })
 })
 

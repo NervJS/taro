@@ -12,6 +12,7 @@
     "strictNullChecks": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
+    "skipLibCheck": true,
     "moduleResolution": "node"
   },
   "include": [

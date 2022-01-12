@@ -5,18 +5,10 @@ import { MultiPlatformPlugin } from '@tarojs/runner-utils'
 import { getRootPath } from '../util'
 import { BuildConfig } from '../util/types'
 
-export default (appPath: string, config: Partial<BuildConfig>) => {
+export default (appPath: string, _config: Partial<BuildConfig>) => {
   const chain = new Chain()
-  let alias: Record<string, string> = {
+  const alias: Record<string, string> = {
     '@tarojs/taro': '@tarojs/taro-h5'
-  }
-
-  if (config.framework === 'nerv') {
-    alias = {
-      ...alias,
-      react$: 'nervjs',
-      'react-dom$': 'nervjs'
-    }
   }
 
   chain.merge({

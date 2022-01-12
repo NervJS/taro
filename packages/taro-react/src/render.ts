@@ -19,9 +19,9 @@ class Root {
   }
 
   public render (children: ReactNode, cb: Callback) {
-    this.renderer.updateContainer(children, this.internalRoot, null, cb)
-
-    return this.renderer.getPublicRootInstance(this.internalRoot)
+    const { renderer, internalRoot } = this
+    renderer.updateContainer(children, internalRoot, null, cb)
+    return renderer.getPublicRootInstance(internalRoot)
   }
 
   public unmount (cb: Callback) {

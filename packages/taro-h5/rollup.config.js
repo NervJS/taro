@@ -1,16 +1,12 @@
 import { mergeWith } from 'lodash'
-import { join } from 'path'
-import resolve from 'rollup-plugin-node-resolve'
+import babel from '@rollup/plugin-babel'
+import commonjs from '@rollup/plugin-commonjs'
+import resolve from '@rollup/plugin-node-resolve'
 import typescript from 'rollup-plugin-typescript2'
-import commonjs from 'rollup-plugin-commonjs'
-import alias from 'rollup-plugin-alias'
 import postcss from 'rollup-plugin-postcss'
 
 import exportNameOnly from './build/rollup-plugin-export-name-only'
 
-const babel = require('@rollup/plugin-babel').default
-
-const cwd = __dirname
 const baseConfig = {
   external: d => {
     return /^@tarojs\/(api|router|runtime|taro)$/.test(d) || d.includes('@babel/runtime')
@@ -22,9 +18,6 @@ const baseConfig = {
   },
   treeshake: false,
   plugins: [
-    alias({
-      '@tarojs/taro': join(cwd, '../taro/src/index')
-    }),
     resolve({
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']

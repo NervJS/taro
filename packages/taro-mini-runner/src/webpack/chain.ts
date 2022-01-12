@@ -520,33 +520,21 @@ export function getDevtool (enableSourceMap, sourceMapType = 'cheap-module-sourc
 }
 
 export function getRuntimeConstants (runtime) {
-  const constants = {
-    ENABLE_INNER_HTML: true,
-    ENABLE_ADJACENT_HTML: true,
-    ENABLE_TEMPLATE_CONTENT: true,
-    ENABLE_CLONE_NODE: true,
-    ENABLE_SIZE_APIS: false
-  }
+  const constants: Record<string, boolean> = {}
 
-  if (runtime.enableInnerHTML !== undefined) {
-    constants.ENABLE_INNER_HTML = runtime.enableInnerHTML
-  }
+  constants.ENABLE_INNER_HTML = runtime.enableInnerHTML ?? true
 
-  if (runtime.enableAdjacentHTML !== undefined) {
-    constants.ENABLE_ADJACENT_HTML = runtime.enableAdjacentHTML
-  }
+  constants.ENABLE_ADJACENT_HTML = runtime.enableAdjacentHTML ?? false
 
-  if (runtime.enableSizeAPIs !== undefined) {
-    constants.ENABLE_SIZE_APIS = runtime.enableSizeAPIs
-  }
+  constants.ENABLE_SIZE_APIS = runtime.enableSizeAPIs ?? false
 
-  if (runtime.enableTemplateContent !== undefined) {
-    constants.ENABLE_TEMPLATE_CONTENT = runtime.enableTemplateContent
-  }
+  constants.ENABLE_TEMPLATE_CONTENT = runtime.enableTemplateContent ?? false
 
-  if (runtime.enableCloneNode !== undefined) {
-    constants.ENABLE_CLONE_NODE = runtime.enableCloneNode
-  }
+  constants.ENABLE_CLONE_NODE = runtime.enableCloneNode ?? false
+
+  constants.ENABLE_CONTAINS = runtime.enableContains ?? false
+
+  constants.ENABLE_MUTATION_OBSERVER = runtime.enableMutationObserver ?? false
 
   return constants
 }
