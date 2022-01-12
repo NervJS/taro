@@ -31,6 +31,13 @@ const siteConfigGithub = {
       src: 'https://storage.jd.com/taro-docs/taro-doc-hotjar.js',
       async: true
     },
+    // initialize依赖于ling-distribute-sdk-h5
+    {
+      src: 'http://storage.360buyimg.com/quark-platform/sdk/ling-distribute-sdk-h5.0.4.1.js',
+    },
+    {
+      src: 'http://storage.360buyimg.com/quark-platform/sdk/taro_doc_initialize.js',
+    },
   ],
   i18n: {
     defaultLocale: 'zh-cn',
@@ -245,7 +252,14 @@ const siteConfigTaroZone = {
     {
       src: 'https://storage.jd.com/taro-docs/taro-doc-hotjar.js',
       async: true
-    }
+    },
+    // initialize依赖于ling-distribute-sdk-h5
+    {
+      src: 'http://storage.360buyimg.com/quark-platform/sdk/ling-distribute-sdk-h5.0.4.1.js',
+    },
+    {
+      src: 'http://storage.360buyimg.com/quark-platform/sdk/taro_doc_initialize.js',
+    },
   ],
   themeConfig: {
     hideableSidebar: true,
