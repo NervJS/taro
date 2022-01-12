@@ -161,5 +161,6 @@
     "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.8.2",
     "webpack-merge": "^4.2.2"
-  }
+  },
+  "version": "3.4.0"
 }
