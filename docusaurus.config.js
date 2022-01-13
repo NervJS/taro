@@ -33,10 +33,10 @@ const siteConfigGithub = {
     },
     // initialize依赖于ling-distribute-sdk-h5
     {
-      src: 'http://storage.360buyimg.com/quark-platform/sdk/ling-distribute-sdk-h5.0.4.1.js',
+      src: 'https://storage.360buyimg.com/quark-platform/sdk/ling-distribute-sdk-h5.0.4.1.js',
     },
     {
-      src: 'http://storage.360buyimg.com/quark-platform/sdk/taro_doc_initialize.js',
+      src: 'https://storage.360buyimg.com/quark-platform/sdk/taro_doc_initialize.js',
     },
   ],
   i18n: {
@@ -255,10 +255,10 @@ const siteConfigTaroZone = {
     },
     // initialize依赖于ling-distribute-sdk-h5
     {
-      src: 'http://storage.360buyimg.com/quark-platform/sdk/ling-distribute-sdk-h5.0.4.1.js',
+      src: 'https://storage.360buyimg.com/quark-platform/sdk/ling-distribute-sdk-h5.0.4.1.js',
     },
     {
-      src: 'http://storage.360buyimg.com/quark-platform/sdk/taro_doc_initialize.js',
+      src: 'https://storage.360buyimg.com/quark-platform/sdk/taro_doc_initialize.js',
     },
   ],
   themeConfig: {
