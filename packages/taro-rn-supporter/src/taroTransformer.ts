@@ -2,11 +2,16 @@ import { transform as babelTransform, getCacheKey } from 'metro-react-native-bab
 import { merge } from 'lodash'
 import * as ModuleResolution from 'metro/src/node-haste/DependencyGraph/ModuleResolution'
 import { getProjectConfig, getRNConfig } from './utils'
+import { injectDefineConfigHeader } from '@tarojs/helper'
 
 const _babelTransform = ({ src, filename, options, plugins }) => {
   // 获取rn配置中的moodifyBabelConfig
   // 与参数plugins合并，然后传给babelTransform
-  return babelTransform({ src, filename, options, plugins })
+  const _plugins = plugins || []
+  if (options.isConfigFile) {
+    _plugins.push(injectDefineConfigHeader)
+  }
+  return babelTransform({ src, filename, options, plugins: _plugins })
 }
 
 const getTransformer = (pkgName) => {
@@ -41,9 +46,10 @@ const transform = ({ src, filename, options, plugins }) => {
         appName: rnConfig.appName,
         designWidth: rnConfig.designWidth ? rnConfig.designWidth : config.designWidth,
         deviceRatio: rnConfig.designWidth ? rnConfig.deviceRatio : config.deviceRatio,
-        nextTransformer: babelTransform,
+        nextTransformer: _babelTransform,
         isEntryFile: filename_ => ModuleResolution.ModuleResolver.EMPTY_MODULE.includes(filename_),
-        rn: rnConfig
+        rn: rnConfig,
+        isConfigFile: /\.config\.(t|j)sx?$/.test(filename)
       }
     }
   ]

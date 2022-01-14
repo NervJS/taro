@@ -155,13 +155,16 @@ module.exports = (_, options = {}) => {
     [require('babel-plugin-global-define'), defineConstants]
   )
 
-  // 添加一个默认 plugin, 与小程序/h5保持一致. todo: 3.1后采用拓展的方式
+  // 添加一个默认 plugin, 与小程序/h5保持一致.
   plugins.push(
     [require('@babel/plugin-proposal-decorators'), {
       decoratorsBeforeExport,
       legacy: decoratorsLegacy !== false
     }]
   )
+
+  plugins.push(require('../remove-define-config'))
+
   return {
     presets,
     plugins

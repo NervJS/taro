@@ -626,6 +626,25 @@ function readSFCPageConfig (configPath: string) {
   return result
 }
 
+export function readPageConfig (configPath: string) {
+  let result: any = {}
+  const extNames = ['.js', '.jsx', '.ts', '.tsx', '.vue']
+
+  // check source file extension
+  extNames.some(ext => {
+    const tempPath = configPath.replace('.config', ext)
+    if (fs.existsSync(tempPath)) {
+      try {
+        result = readSFCPageConfig(tempPath)
+      } catch (error) {
+        result = {}
+      }
+      return true
+    }
+  })
+  return result
+}
+
 export function readConfig (configPath: string) {
   let result: any = {}
   if (fs.existsSync(configPath)) {
@@ -644,20 +663,7 @@ export function readConfig (configPath: string) {
 
     result = getModuleDefaultExport(require(configPath))
   } else {
-    const extNames = ['.js', '.jsx', '.ts', '.tsx', '.vue']
-
-    // check source file extension
-    extNames.some(ext => {
-      const tempPath = configPath.replace('.config', ext)
-      if (fs.existsSync(tempPath)) {
-        try {
-          result = readSFCPageConfig(tempPath)
-        } catch (error) {
-          result = {}
-        }
-        return true
-      }
-    })
+    result = readPageConfig(configPath)
   }
   return result
 }

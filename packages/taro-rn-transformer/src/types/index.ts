@@ -12,6 +12,7 @@ export interface TransformType {
     designWidth?: number,
     deviceRatio?: Record<number, number>,
     rn?: Record<string, any>,
+    isConfigPage?: boolean,
   }
 }
 

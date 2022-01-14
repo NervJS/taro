@@ -43,3 +43,4 @@ export declare function addPlatforms(platform: string): void;
 export declare const getModuleDefaultExport: (exports: any) => any;
 export declare const removeHeadSlash: (str: string) => string;
 export declare const readConfig: (configPath: string) => any;
+export declare const readPageConfig: (configPath: string) => any;
