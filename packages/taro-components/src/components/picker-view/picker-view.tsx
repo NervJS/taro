@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, Host, Element, Prop, Event, EventEmitter, Listen } from '@stencil/core'
-
+import classNames from 'classnames'
 @Component({
   tag: 'taro-picker-view-core',
   styleUrl: './style/index.scss'
@@ -45,10 +45,26 @@ export class PickerView {
         selectindex = `${this.value[index]}`
       }
       let indicatorHeight: number = this.indicator?.clientHeight || 0
-      let paddingtop = (this.el.clientHeight - indicatorHeight) / 2.0
+      let paddingtop = (this.getPickerViewHeight() - indicatorHeight) / 2.0
       element.setAttribute('initselectindex', `${selectindex}`)
       element.setAttribute('paddingtop', `${paddingtop}`)
     })
+  }
+
+
+  /// 获取控件的高度
+  getPickerViewHeight(): number {
+    return this.el.getBoundingClientRect().height;
+  }
+
+  convertStyleToObject(style: string | undefined): { [key: string]: string | undefined; } | undefined {
+    if (style) {
+      let regex = /([\w-]*)\s*:\s*([^;]*)/g;
+      let match;
+      let properties: { [key: string]: string | undefined; } = {};
+      while (match = regex.exec(style)) properties[`${match[1]}`] = match[2].trim();
+      return properties
+    }
   }
 
   /// 过滤非PickerViewColumn组件
@@ -59,14 +75,25 @@ export class PickerView {
         this.el.removeChild(item)
       }
     })
+
   }
   render() {
+    /// 指示标样式
+    const indicatorParams = {
+      [`_picker-view-mask-indicator`]: true,
+    }
+    if (!!this.indicatorClass && this.indicatorClass !== '') {
+      indicatorParams[`${this.indicatorClass}`] = true
+    }
+    const indicatorCls = classNames(indicatorParams)
+    const indicatorStyle = this.convertStyleToObject(this.indicatorStyle);
+
     return (
       <Host class="_picker-view-container">
         <slot />
         <div class='_picker-view-mask-container'>
           <div class='_picker-view-mask-top' />
-          <div class='_picker-view-mask-indicator' ref={indicator => this.indicator = indicator} />
+          <div class={indicatorCls} style={indicatorStyle} ref={indicator => this.indicator = indicator} />
           <div class='_picker-view-mask-bottom' />
         </div>
       </Host>
