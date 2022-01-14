@@ -1,0 +1,14 @@
+._picker-view-column-container {
+  display: flex;
+  flex: 1;
+	text-align: center;
+	overflow: hidden;
+  position: relative;
+  flex-direction: column;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+._picker-view-column-container::-webkit-scrollbar {
+  display: none;
+}

@@ -1,0 +1,29 @@
+
+._picker-view-container {
+  display: flex;
+}
+
+._picker-view-mask-container {
+  position: absolute;
+	left: 0;
+  right: 0;
+  top: 0;
+	bottom: 0;
+  display: flex;
+  flex-direction: column;;
+  pointer-events: none;
+}
+._picker-view-mask-indicator {
+  display: flex;
+  height: 50px;
+  border-top: 1PX solid #ddd;
+  border-bottom: 1PX solid #ddd;
+}
+._picker-view-mask-top{
+  flex: 1;
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.6));
+}
+._picker-view-mask-bottom{
+  flex: 1;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.6));
+}
