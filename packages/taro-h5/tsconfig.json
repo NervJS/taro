@@ -1,26 +1,15 @@
 {
+  "extends": "../../tsconfig.root.json",
   "compilerOptions": {
-    "target": "ES2018",
-    "module": "ES2015",
-    "rootDir": "./src",
-    "outDir": "dist",
-    "sourceMap": false,
     "baseUrl": ".",
-    "noImplicitAny": false,
-    "noUnusedLocals": true,
-    "removeComments": true,
-    "strictNullChecks": true,
-    "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true,
-    "moduleResolution": "node",
     "declaration": false,
+    "module": "es6",
+    "outDir": "dist",
+    "rootDir": "./src",
     "skipLibCheck": true,
+    "sourceMap": false,
+    "target": "es2018",
     "types": ["jest", "./src/types"]
   },
-  "include": ["./src"],
-  "exclude": [
-    "**/*.test.ts",
-    "**/*.spec.ts"
-  ],
-  "compileOnSave": false
+  "include": ["./src"]
 }

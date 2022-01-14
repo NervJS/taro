@@ -21,7 +21,7 @@ declare module './index' {
     onPageScroll?(obj: PageScrollObject): void
     onShareAppMessage?(obj: ShareAppMessageObject): ShareAppMessageReturn
     onTabItemTap?(obj: TabItemTapObject): void
-    onResize?(obj: any): void
+    onResize?(obj: PageResizeObject): void
   }
 
   interface ComponentOptions {

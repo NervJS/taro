@@ -59,7 +59,7 @@ export class Textarea implements ComponentInterface {
     this.autoFocus && this.textareaRef.focus()
   }
 
-  hanldeInput = (e: TaroEvent<HTMLInputElement>) => {
+  handleInput = (e: TaroEvent<HTMLInputElement>) => {
     e.stopPropagation()
     this.handleLineChange()
     this.onInput.emit({
@@ -156,7 +156,7 @@ export class Textarea implements ComponentInterface {
       autoHeight,
       name,
       nativeProps,
-      hanldeInput,
+      handleInput,
       handleFocus,
       handleBlur,
       handleChange
@@ -184,7 +184,7 @@ export class Textarea implements ComponentInterface {
         disabled={disabled}
         maxlength={maxlength}
         autofocus={autoFocus}
-        onInput={hanldeInput}
+        onInput={handleInput}
         onFocus={handleFocus}
         onBlur={handleBlur}
         onChange={handleChange}

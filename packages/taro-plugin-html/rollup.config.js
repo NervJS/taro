@@ -1,5 +1,6 @@
-const { join } = require('path')
-const typescript = require('rollup-plugin-typescript2')
+import typescript from 'rollup-plugin-typescript2'
+import * as path from 'path'
+
 const cwd = __dirname
 
 const base = {
@@ -9,9 +10,9 @@ const base = {
 
 // 供 CLI 编译时使用的 Taro 插件入口
 const comileConfig = {
-  input: join(cwd, 'src/index.ts'),
+  input: path.join(cwd, 'src/index.ts'),
   output: {
-    file: join(cwd, 'dist/index.js'),
+    file: path.join(cwd, 'dist/index.js'),
     format: 'cjs',
     sourcemap: true,
     exports: 'named'
@@ -21,9 +22,9 @@ const comileConfig = {
 
 // 运行时入口
 const runtimeConfig = {
-  input: join(cwd, 'src/runtime.ts'),
+  input: path.join(cwd, 'src/runtime.ts'),
   output: {
-    file: join(cwd, 'dist/runtime.js'),
+    file: path.join(cwd, 'dist/runtime.js'),
     format: 'es',
     sourcemap: true
   },

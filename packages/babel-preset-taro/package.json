@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-taro",
-  "version": "3.3.20",
+  "version": "3.4.0",
   "description": "> TODO: description",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/babel-preset-taro#readme",
@@ -8,6 +8,7 @@
   "main": "index.js",
   "files": [
     "rn/",
+    "remove-define-config.js",
     "index.js"
   ],
   "repository": {
@@ -25,30 +26,29 @@
     "@babel/core": "*"
   },
   "dependencies": {
-    "@babel/plugin-proposal-class-properties": "7.10.4",
-    "@babel/plugin-proposal-decorators": "7.10.5",
-    "@babel/plugin-syntax-jsx": "^7.10.4",
-    "@babel/plugin-transform-runtime": "7.11.0",
-    "@babel/preset-env": "^7.11.0",
-    "@babel/preset-react": "7.12.13",
-    "@babel/preset-typescript": "7.12.17",
-    "@babel/runtime": "^7.11.2",
-    "@babel/runtime-corejs3": "^7.14.8",
-    "@tarojs/helper": "3.3.20",
-    "@tarojs/taro-h5": "3.3.20",
+    "@babel/plugin-proposal-class-properties": "^7.14.5",
+    "@babel/plugin-proposal-decorators": "^7.14.5",
+    "@babel/plugin-syntax-jsx": "^7.14.5",
+    "@babel/plugin-transform-runtime": "^7.14.5",
+    "@babel/preset-env": "^7.14.5",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.14.5",
+    "@babel/runtime": "^7.14.5",
+    "@babel/runtime-corejs3": "^7.14.5",
+    "@prefresh/babel-plugin": "^0.4.1",
+    "@tarojs/helper": "3.4.0",
+    "@tarojs/taro-h5": "3.4.0",
+    "@tarojs/taro-rn": "3.4.0",
     "@vue/babel-plugin-jsx": "^1.0.6",
     "@vue/babel-preset-jsx": "^1.2.4",
-    "babel-plugin-dynamic-import-node": "^2.3.3",
-    "babel-plugin-global-define": "^1.0.3",
-    "babel-plugin-jsx-attributes-array-to-object": "^0.3.0",
-    "babel-plugin-transform-imports-api": "^1.0.0",
-    "babel-plugin-transform-react-jsx-to-rn-stylesheet": "3.3.20",
-    "babel-plugin-transform-taroapi": "3.3.20",
+    "babel-plugin-dynamic-import-node": "2.3.3",
+    "babel-plugin-global-define": "1.0.3",
+    "babel-plugin-jsx-attributes-array-to-object": "0.3.0",
+    "babel-plugin-transform-imports-api": "1.0.0",
+    "babel-plugin-transform-react-jsx-to-rn-stylesheet": "3.4.0",
+    "babel-plugin-transform-taroapi": "3.4.0",
     "core-js": "^3.6.5",
     "metro-react-native-babel-preset": "^0.66.2",
     "react-refresh": "0.9.0"
-  },
-  "devDependencies": {
-    "@tarojs/taro-rn": "3.3.20"
   }
 }

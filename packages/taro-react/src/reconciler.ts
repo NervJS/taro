@@ -2,7 +2,7 @@
 import Reconciler, { HostConfig } from 'react-reconciler'
 import * as scheduler from 'scheduler'
 import { TaroElement, TaroText, document } from '@tarojs/runtime'
-import { noop, EMPTY_ARR } from '@tarojs/shared'
+import { noop, EMPTY_ARR, isUndefined, isBoolean } from '@tarojs/shared'
 import { Props, updateProps } from './props'
 
 const {
@@ -104,7 +104,7 @@ const hostConfig: HostConfig<
   unhideInstance (instance, props) {
     const styleProp = props.style
     let display = styleProp?.hasOwnProperty('display') ? styleProp.display : null
-    display = display == null || typeof display === 'boolean' || display === '' ? '' : ('' + display).trim()
+    display = display == null || isBoolean(display) || display === '' ? '' : ('' + display).trim()
     // eslint-disable-next-line dot-notation
     instance.style['display'] = display
   },
@@ -115,7 +115,7 @@ const hostConfig: HostConfig<
     }
   },
 
-  queueMicrotask: typeof Promise !== 'undefined'
+  queueMicrotask: !isUndefined(Promise)
   ? callback =>
       Promise.resolve(null)
         .then(callback)

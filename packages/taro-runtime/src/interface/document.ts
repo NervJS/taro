@@ -12,4 +12,5 @@ export interface TaroDocumentInstance extends TaroDocument {
   head: TaroElement
   body: TaroElement
   createEvent: typeof createEvent
+  defaultView: any
 }

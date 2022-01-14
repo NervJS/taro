@@ -5,6 +5,26 @@ import type { EventsType } from '../emitter/emitter'
 import type { TaroEvent } from '../dom/event'
 import type { TaroEventTarget } from '../dom/event-target'
 
+export interface MiniLifecycle {
+  app: [
+    string, /** onLaunch */
+    string, /** onShow */
+    string /** onHide */
+  ]
+  page: [
+    string, /** onLoad */
+    string, /** onUnload */
+    string, /** onReady */
+    string, /** onShow */
+    string, /** onHide */
+    string[] /** others */
+  ]
+}
+
+export interface GetMiniLifecycle {
+  (defaultConfig: MiniLifecycle): MiniLifecycle
+}
+
 export interface GetLifecycle<Instance = any> {
   (instance: Instance, lifecyle: keyof PageInstance): Func | Array<Func> | undefined
 }
@@ -34,6 +54,10 @@ export interface ModifyMpEvent {
 }
 
 export interface ModifyTaroEvent {
+  (event: TaroEvent, element: TaroElement): void
+}
+
+export interface ModifyDispatchEvent {
   (event: TaroEvent, element: TaroElement): void
 }
 
@@ -74,11 +98,19 @@ export interface OnAddEvent<T extends TaroEventTarget = TaroEventTarget> {
   (type: string, handler: EventHandler, options: any, node: T): void
 }
 
-export interface patchElement {
+export interface PatchElement {
   (node: TaroElement): void
 }
 
+export interface ModifyPageObject {
+  (config: Record<any, any>): void
+}
+
 export interface IHooks {
+  /** 小程序端 App、Page 构造对象的生命周期方法名称 */
+  getMiniLifecycle: GetMiniLifecycle
+  getMiniLifecycleImpl: () => MiniLifecycle
+
   /** 解决 React 生命周期名称的兼容问题 */
   getLifecycle: GetLifecycle
 
@@ -99,19 +131,32 @@ export interface IHooks {
    * @multi-inject
    * 用于修改小程序原生事件对象
    **/
+  modifyMpEventImpls?: ModifyMpEvent[]
   modifyMpEvent: ModifyMpEvent
 
   /**
    * @multi-inject
    * 用于修改 Taro DOM 事件对象
    **/
+  modifyTaroEventImpls?: ModifyTaroEvent[]
   modifyTaroEvent: ModifyTaroEvent
+
+  /**
+   * @multi-inject
+   * 用于修改触发回调前的 Taro DOM 事件对象
+   * 比 modifyTaroEvent 稍晚，为了可以在 el.__handlers[event.type] 取得回调函数后再修改事件对象
+   **/
+  modifyDispatchEventImpls?: ModifyDispatchEvent[]
+  modifyDispatchEvent: ModifyDispatchEvent
 
   /** 用于把 React 同一事件回调中的所有 setState 合并到同一个更新处理中 */
   batchedEventUpdates?: BatchedEventUpdates
 
   /** 用于处理 React 中的小程序生命周期 hooks */
   mergePageInstance?: MergePageInstance
+
+  /** 用于修改传递给小程序 Page 构造器的对象 */
+  modifyPageObject?: ModifyPageObject
 
   /** H5 下拉刷新 wrapper */
   createPullDownComponent?: CreatePullDownComponent
@@ -123,6 +168,7 @@ export interface IHooks {
    * @multi-inject
    * 挂载属性或 API 到 Taro 对象上
    **/
+  initNativeApiImpls?: InitNativeApi[]
   initNativeApi?: InitNativeApi
 
   /**
@@ -153,5 +199,6 @@ export interface IHooks {
    * @todo: mutiInject
    * 给 TaroElement 实例注入属性或方法
    **/
-  patchElement?: patchElement
+  patchElementImpls?: PatchElement[]
+  patchElement?: PatchElement
 }

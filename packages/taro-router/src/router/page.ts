@@ -3,7 +3,7 @@ import { RouterAnimate } from '@tarojs/taro'
 import { PageInstance, requestAnimationFrame } from '@tarojs/runtime'
 import queryString from 'query-string'
 
-import { bindPageScroll } from '../scroll'
+import { bindPageEvents } from '../events'
 import stacks from './stack'
 import { Route, RouterConfig } from './'
 import { setHistoryMode, stripBasename } from '../history'
@@ -20,8 +20,8 @@ function setDisplay (el?: HTMLElement | null, type = '') {
 export default class PageHandler {
   protected config: RouterConfig
   protected readonly defaultAnimation: RouterAnimate = { duration: 300, delay: 50 }
-  protected unloadTimer: NodeJS.Timeout | null
-  protected hideTimer: NodeJS.Timeout | null
+  protected unloadTimer: number | null
+  protected hideTimer: number | null
   protected lastHidePage: HTMLElement | null
   protected lastUnloadPage: PageInstance | null
 
@@ -165,15 +165,15 @@ export default class PageHandler {
       this.isTabBar && pageEl.classList.add('taro_tabbar_page')
       this.addAnimation(pageEl, stacksIndex === 0)
       page.onShow?.()
-      bindPageScroll(page, pageConfig)
+      bindPageEvents(page, pageEl, pageConfig)
     } else {
-      page.onLoad(param, () => {
+      page.onLoad?.(param, () => {
         pageEl = document.getElementById(page.path!)
         this.isTabBar && pageEl?.classList.add('taro_tabbar_page')
         this.addAnimation(pageEl, stacksIndex === 0)
         this.onReady(page, true)
         page.onShow?.()
-        bindPageScroll(page, pageConfig)
+        bindPageEvents(page, pageEl, pageConfig)
       })
     }
   }
@@ -186,21 +186,23 @@ export default class PageHandler {
     if (this.animation && top) {
       if (this.unloadTimer) {
         clearTimeout(this.unloadTimer)
-        this.lastUnloadPage?.onUnload()
+        this.lastUnloadPage?.onUnload?.()
         this.unloadTimer = null
       }
       this.lastUnloadPage = page
       const pageEl = document.getElementById(page.path!)
+      pageEl?.classList.remove('taro_page_stationed')
       pageEl?.classList.remove('taro_page_show')
 
       this.unloadTimer = setTimeout(() => {
         this.unloadTimer = null
-        this.lastUnloadPage?.onUnload()
+        this.lastUnloadPage?.onUnload?.()
       }, this.animationDuration)
     } else {
       const pageEl = document.getElementById(page.path!)
+      pageEl?.classList.remove('taro_page_stationed')
       pageEl?.classList.remove('taro_page_show')
-      page?.onUnload()
+      page?.onUnload?.()
     }
     if (delta >= 1) this.unload(stacks.last, delta)
   }
@@ -214,14 +216,14 @@ export default class PageHandler {
       setDisplay(pageEl)
       this.addAnimation(pageEl, stacksIndex === 0)
       page.onShow?.()
-      bindPageScroll(page, pageConfig)
+      bindPageEvents(page, pageEl, pageConfig)
     } else {
-      page.onLoad(param, () => {
+      page.onLoad?.(param, () => {
         pageEl = document.getElementById(page.path!)
         this.addAnimation(pageEl, stacksIndex === 0)
         this.onReady(page, false)
         page.onShow?.()
-        bindPageScroll(page, pageConfig)
+        bindPageEvents(page, pageEl, pageConfig)
       })
     }
   }
@@ -254,9 +256,13 @@ export default class PageHandler {
     if (this.animation && !first) {
       setTimeout(() => {
         pageEl.classList.add('taro_page_show')
+        setTimeout(() => {
+          pageEl.classList.add('taro_page_stationed')
+        }, this.animationDuration)
       }, this.animationDelay)
     } else {
       pageEl.classList.add('taro_page_show')
+      pageEl.classList.add('taro_page_stationed')
     }
   }
 }

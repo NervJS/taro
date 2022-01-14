@@ -9,11 +9,6 @@ export const config: Config = {
   plugins: [
     sass()
   ],
-  rollupConfig: {
-    inputOptions: {
-      treeshake: true
-    }
-  },
   nodeResolve: {
     preferBuiltins: false,
     // @ts-ignore
@@ -51,6 +46,11 @@ export const config: Config = {
     emulate: [{
       device: 'iPhone 8'
     }]
+  },
+  rollupConfig: {
+    inputOptions: {
+      treeshake: true
+    }
   },
   rollupPlugins: {
     after: [{

@@ -62,9 +62,9 @@ const showToast: typeof Taro.showToast = (options = { title: '' }) => {
 
   let errMsg = ''
   if (!toast.el) {
-    errMsg = toast.create(options, 'loading')
+    errMsg = toast.create(options, 'toast')
   } else {
-    errMsg = toast.show(options, 'loading')
+    errMsg = toast.show(options, 'toast')
   }
   return handle.success({ errMsg })
 }
@@ -167,7 +167,7 @@ const showModal: typeof Taro.showModal = async (options = {}) => {
 
   if (options.cancelText.replace(/[\u0391-\uFFE5]/g, 'aa').length > 8) {
     return handle.fail({
-      errMsg: 'showModal:fail cancelText length should not larger then 4 Chinese characters'
+      errMsg: 'cancelText length should not larger then 4 Chinese characters'
     })
   }
 
@@ -183,7 +183,7 @@ const showModal: typeof Taro.showModal = async (options = {}) => {
 
   if (options.confirmText.replace(/[\u0391-\uFFE5]/g, 'aa').length > 8) {
     return handle.fail({
-      errMsg: 'showModal:fail confirmText length should not larger then 4 Chinese characters'
+      errMsg: 'confirmText length should not larger then 4 Chinese characters'
     })
   }
 
@@ -209,13 +209,15 @@ const showModal: typeof Taro.showModal = async (options = {}) => {
 
   options.showCancel = !!options.showCancel
 
-  let errMsg = ''
+  let result = ''
   if (!modal.el) {
-    errMsg = await modal.create(options)
+    result = await modal.create(options)
   } else {
-    errMsg = await modal.show(options)
+    result = await modal.show(options)
   }
-  return handle.success({ errMsg })
+  const res = { cancel: !1, confirm: !1 }
+  res[result] = !0
+  return handle.success(res)
 }
 
 function hideModal () {
@@ -244,11 +246,11 @@ const showActionSheet: typeof Taro.showActionSheet = async (options = { itemList
   }
 
   if (options.itemList.length < 1) {
-    return handle.fail({ errMsg: 'showActionSheet:fail parameter error: parameter.itemList should have at least 1 item' })
+    return handle.fail({ errMsg: 'parameter error: parameter.itemList should have at least 1 item' })
   }
 
   if (options.itemList.length > 6) {
-    return handle.fail({ errMsg: 'showActionSheet:fail parameter error: parameter.itemList should not be large than 6' })
+    return handle.fail({ errMsg: 'parameter error: parameter.itemList should not be large than 6' })
   }
 
   for (let i = 0; i < options.itemList.length; i++) {

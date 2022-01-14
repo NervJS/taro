@@ -1,7 +1,6 @@
 import * as webpack from 'webpack'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import * as path from 'path'
-import { frameworkMeta } from './utils'
 
 interface PageConfig {
   content: any
@@ -18,8 +17,9 @@ export default function (this: webpack.loader.LoaderContext) {
     importFrameworkStatement,
     mockAppStatement,
     frameworkArgs,
-    creator
-  } = frameworkMeta[options.framework]
+    creator,
+    creatorLocation
+  } = options.loaderMeta
   const appConfig = options.appConfig
   const frameworkArgsArray = frameworkArgs.split(',')
   frameworkArgsArray.splice(frameworkArgsArray.length - 1, 1, 'appConfig')
@@ -33,12 +33,15 @@ export default function (this: webpack.loader.LoaderContext) {
   const setReconciler = runtimePath.reduce((res, item) => {
     return res + `import '${item}'\n`
   }, '')
+  const { globalObject } = this._compilation.outputOptions
+
   const prerender = `
 if (typeof PRERENDER !== 'undefined') {
-  global._prerender = inst
+  ${globalObject}._prerender = inst
 }`
   return `${setReconciler}
-import { createPageConfig, ${creator}, window } from '@tarojs/runtime'
+import { createPageConfig, window } from '@tarojs/runtime'
+import { ${creator} } from '${creatorLocation}'
 import component from ${stringify(componentPath)}
 ${importFrameworkStatement}
 var config = ${configString};

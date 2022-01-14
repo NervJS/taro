@@ -109,6 +109,7 @@ export default class Index extends Component {
   state = {
     msg: 'Hello World！ '
   }
+  
   componentWillUnmount () { }
 
   componentDidShow () { }

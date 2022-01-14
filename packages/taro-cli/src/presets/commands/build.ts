@@ -88,13 +88,14 @@ export default (ctx: IPluginContext) => {
             mode: isProduction ? 'production' : 'development',
             blended,
             isBuildNativeComp,
-            async modifyWebpackChain (chain, webpack) {
+            async modifyWebpackChain (chain, webpack, data) {
               await ctx.applyPlugins({
                 name: hooks.MODIFY_WEBPACK_CHAIN,
                 initialVal: chain,
                 opts: {
                   chain,
-                  webpack
+                  webpack,
+                  data
                 }
               })
             },

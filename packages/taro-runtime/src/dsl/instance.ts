@@ -55,8 +55,8 @@ export interface PageLifeCycle extends Show {
   onShareTimeline?(): void
   onAddToFavorites?(): void
   eh?(event: MpEvent): void
-  onLoad(options: Record<string, unknown>, cb?: Func): void
-  onUnload(): void
+  onLoad?(options: Record<string, unknown>, cb?: Func): void
+  onUnload?(): void
 }
 
 export interface PageInstance extends PageLifeCycle {

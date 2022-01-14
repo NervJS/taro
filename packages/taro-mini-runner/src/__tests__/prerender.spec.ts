@@ -34,11 +34,10 @@ describe('prerender', () => {
   })
 
   beforeEach(() => {
-    jest.isolateModules(() => {
-      const compiler = require('./utils/compiler')
-      compile = compiler.compile
-      getOutput = compiler.getOutput
-    })
+    jest.resetModules()
+    const compiler = require('./utils/compiler')
+    compile = compiler.compile
+    getOutput = compiler.getOutput
   })
 
   test('should prerender selected pages', async () => {

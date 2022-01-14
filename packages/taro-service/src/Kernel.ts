@@ -1,6 +1,6 @@
 import * as path from 'path'
 import { EventEmitter } from 'events'
-
+import { merge } from 'lodash'
 import { AsyncSeriesWaterfallHook } from 'tapable'
 import { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
 import {
@@ -14,6 +14,7 @@ import * as joi from '@hapi/joi'
 
 import {
   IPreset,
+  IPluginsObject,
   IPlugin,
   IPaths,
   IHook,
@@ -44,7 +45,7 @@ export default class Kernel extends EventEmitter {
   optsPlugins: PluginItem[] | void
   plugins: Map<string, IPlugin>
   paths: IPaths
-  extraPlugins: IPlugin[]
+  extraPlugins: IPluginsObject
   config: Config
   initialConfig: IProjectConfig
   hooks: Map<string, IHook[]>
@@ -114,7 +115,7 @@ export default class Kernel extends EventEmitter {
       only: [...Object.keys(allConfigPresets), ...Object.keys(allConfigPlugins)]
     })
     this.plugins = new Map()
-    this.extraPlugins = []
+    this.extraPlugins = {}
     this.resolvePresets(allConfigPresets)
     this.resolvePlugins(allConfigPlugins)
   }
@@ -127,12 +128,13 @@ export default class Kernel extends EventEmitter {
   }
 
   resolvePlugins (plugins) {
+    plugins = merge(this.extraPlugins, plugins)
     const allPlugins = resolvePresetsOrPlugins(this.appPath, plugins, PluginType.Plugin)
-    const _plugins = [...this.extraPlugins, ...allPlugins]
-    while (_plugins.length) {
-      this.initPlugin(_plugins.shift()!)
+
+    while (allPlugins.length) {
+      this.initPlugin(allPlugins.shift()!)
     }
-    this.extraPlugins = []
+    this.extraPlugins = {}
   }
 
   initPreset (preset: IPreset) {
@@ -148,7 +150,7 @@ export default class Kernel extends EventEmitter {
       }
     }
     if (Array.isArray(plugins)) {
-      this.extraPlugins.push(...resolvePresetsOrPlugins(this.appPath, convertPluginsToObject(plugins)(), PluginType.Plugin))
+      this.extraPlugins = merge(this.extraPlugins, convertPluginsToObject(plugins)())
     }
   }
 

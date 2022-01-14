@@ -50,7 +50,7 @@ async function navigate (option: Option | NavigateBackOption, method: 'navigateT
   return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
     const { success, complete, fail } = option
     const unListen = history.listen(() => {
-      const res = { errMsg: `${method}: ok` }
+      const res = { errMsg: `${method}:ok` }
       success?.(res)
       complete?.(res)
       resolve(res)
@@ -74,7 +74,7 @@ async function navigate (option: Option | NavigateBackOption, method: 'navigateT
         history.go(-option.delta)
       }
     } catch (error) {
-      const res = { errMsg: `${method}: fail ${error.message || error}` }
+      const res = { errMsg: `${method}:fail ${error.message || error}` }
       fail?.(res)
       complete?.(res)
       reject(res)
