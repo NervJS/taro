@@ -7,13 +7,17 @@ import { BuildConfig } from '../util/types'
 
 export default (appPath: string, _config: Partial<BuildConfig>) => {
   const chain = new Chain()
+  const alias: Record<string, string> = {
+    '@tarojs/taro': '@tarojs/taro-h5'
+  }
 
   chain.merge({
     resolve: {
       extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx', '.vue'],
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main'],
       symlinks: true,
-      modules: [path.join(appPath, 'node_modules'), 'node_modules']
+      modules: [path.join(appPath, 'node_modules'), 'node_modules'],
+      alias
     },
     resolveLoader: {
       modules: [path.join(getRootPath(), 'node_modules'), 'node_modules']

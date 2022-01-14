@@ -99,7 +99,7 @@ Dimensions.addEventListener('change', ({ window }) => {
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function createPageConfig (Page: any, pageConfig: PageConfig): any {
   const h = React.createElement
-  const pagePath = pageConfig.pagePath || ''
+  const pagePath = pageConfig.pagePath.replace(/^\//, '') || ''
 
   const pageId = camelCase(pagePath) ?? `taro_page_${compId}`
 
@@ -140,10 +140,11 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       constructor (props: any) {
         super(props)
         const refreshStyle = globalAny?.__taroRefreshStyle ?? {}
+        const backgroundTextStyle = pageConfig.backgroundTextStyle || globalAny.__taroAppConfig?.appConfig?.window?.backgroundTextStyle || 'dark'
         this.state = {
           refreshing: false, // 刷新指示器
           appState: AppState.currentState,
-          textColor: refreshStyle.textColor || '#ffffff',
+          textColor: refreshStyle.textColor || (backgroundTextStyle === 'dark' ? '#000000' : '#ffffff'),
           backgroundColor: refreshStyle.backgroundColor || '#ffffff'
         }
         this.screenRef = React.createRef<Instance>()
@@ -272,7 +273,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
         Current.router = {
           params: params,
-          path: pagePath
+          path: pagePath.startsWith('/') ? pagePath : `/${pagePath}`
         }
         Current.page = inst
       }

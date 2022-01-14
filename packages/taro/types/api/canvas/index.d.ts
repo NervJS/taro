@@ -1374,7 +1374,7 @@ declare module '../../index' {
     /** 阴影的模糊级别 */
     shadowBlur: number
     /** 阴影的颜色 */
-    shadowColor: number
+    shadowColor: string
     /** 阴影相对于形状在水平方向的偏移 */
     shadowOffsetX: number
     /** 阴影相对于形状在竖直方向的偏移 */
@@ -1698,6 +1698,27 @@ declare module '../../index' {
      *
      * **Tip**: 需要指定 canvasId，该绘图上下文只作用于对应的 `<canvas/>`
      * @supported weapp, h5
+     * @example
+     * ```tsx
+     * const context = Taro.createCanvasContext('canvas')
+     *
+     * context.setStrokeStyle("#00ff00")
+     * context.setLineWidth(5)
+     * context.rect(0, 0, 200, 200)
+     * context.stroke()
+     * context.setStrokeStyle("#ff0000")
+     * context.setLineWidth(2)
+     * context.moveTo(160, 100)
+     * context.arc(100, 100, 60, 0, 2 * Math.PI, true)
+     * context.moveTo(140, 100)
+     * context.arc(100, 100, 40, 0, Math.PI, false)
+     * context.moveTo(85, 80)
+     * context.arc(80, 80, 5, 0, 2 * Math.PI, true)
+     * context.moveTo(125, 80)
+     * context.arc(120, 80, 5, 0, 2 * Math.PI, true)
+     * context.stroke()
+     * context.draw()
+     * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.createCanvasContext.html
      */
     createCanvasContext(

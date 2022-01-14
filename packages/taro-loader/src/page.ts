@@ -22,9 +22,18 @@ export default function (this: webpack.loader.LoaderContext, source: string) {
   const componentPath = isNeedRawLoader
     ? `${raw}!${this.resourcePath}`
     : this.request.split('!').slice(thisLoaderIndex + 1).join('!')
+  const { globalObject } = this._compilation.outputOptions
+
   const prerender = `
 if (typeof PRERENDER !== 'undefined') {
-  global._prerender = inst
+  ${globalObject}._prerender = inst
+}`
+
+  const hmr = !options.hot ? '' : `if (process.env.NODE_ENV !== 'production') {
+  const cache = __webpack_require__.c
+  Object.keys(cache).forEach(item => {
+    if (item.indexOf('${options.name}') !== -1) delete cache[item]
+  })
 }`
 
   if (typeof options.loaderMeta.modifyConfig === 'function') {
@@ -38,6 +47,7 @@ ${config.enableShareTimeline ? 'component.enableShareTimeline = true' : ''}
 ${config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : ''}
 var inst = Page(createPageConfig(component, '${options.name}', {root:{cn:[]}}, config || {}))
 ${options.prerender ? prerender : ''}
+${hmr}
 `
 }
 
@@ -45,7 +55,8 @@ export function getPageConfig (configs: Record<string, PageConfig>, resourcePath
   const configPath = removeExt(resourcePath) + '.config'
   for (const name in configs) {
     const config = configs[name]
-    if (removeExt(configs[name].path) === configPath) {
+    const currentPath = config.path.endsWith('.config') ? config.path : removeExt(config.path)
+    if (currentPath === configPath) {
       return config.content
     }
   }

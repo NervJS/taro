@@ -47,7 +47,8 @@ interface MiniData {
   [Shortcuts.Class]?: string
   [Shortcuts.Style]?: string
   [Shortcuts.Text]?: string
-  uid: string
+  sid: string
+  uid?: string
 }
 
 interface PageConfig {
@@ -200,10 +201,18 @@ export class Prerender {
   }
 
   private renderToXML = (data: MiniData) => {
-    const nodeName = data[Shortcuts.NodeName]
+    let nodeName = data[Shortcuts.NodeName]
 
     if (nodeName === '#text') {
       return data[Shortcuts.Text]
+    }
+
+    if (nodeName === 'static-view' || nodeName === 'pure-view') {
+      nodeName = 'view'
+    } else if (nodeName === 'static-text') {
+      nodeName = 'text'
+    } else if (nodeName === 'static-image') {
+      nodeName = 'image'
     }
 
     // eslint-disable-next-line dot-notation
@@ -213,14 +222,15 @@ export class Prerender {
 
     const style = data[Shortcuts.Style]
     const klass = data[Shortcuts.Class]
+    const id = data.uid || data.sid
     const children = data[Shortcuts.Childnodes] ?? []
 
     const attrs = omitBy(data, (_, key) => {
-      const internal = [Shortcuts.NodeName, Shortcuts.Childnodes, Shortcuts.Class, Shortcuts.Style, Shortcuts.Text, 'uid']
+      const internal = [Shortcuts.NodeName, Shortcuts.Childnodes, Shortcuts.Class, Shortcuts.Style, Shortcuts.Text, 'uid', 'sid']
       return internal.includes(key) || key.startsWith('data-')
     })
 
-    return `<${nodeName}${style ? ` style="${style}"` : ''}${klass ? ` class="${klass}"` : ''} ${this.buildAttributes(attrs as Attributes)}>${children.map(this.renderToXML).join('')}</${nodeName}>`
+    return `<${nodeName}${style ? ` style="${style}"` : ''}${klass ? ` class="${klass}"` : ''}${id ? ` id="${id}"` : ''} ${this.buildAttributes(attrs as Attributes)}>${children.map(this.renderToXML).join('')}</${nodeName}>`
   }
 
   private async writeXML (config: PageConfig): Promise<void> {
@@ -254,7 +264,7 @@ export class Prerender {
     return new Promise((resolve) => {
       const s = `
       if (typeof PRERENDER !== 'undefined') {
-        module.exports = global._prerender
+        module.exports = ${this.globalObject}._prerender
       }`
       fs.appendFile(path, s, 'utf8', () => {
         resolve()

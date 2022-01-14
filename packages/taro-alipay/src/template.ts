@@ -52,10 +52,20 @@ export class Template extends RecursiveTemplate {
     }, '')
   }
 
+  createMiniComponents (components): any {
+    const result = super.createMiniComponents(components)
+
+    // 兼容支付宝 2.0 构建
+    delete result.slot
+    delete result['slot-view']
+
+    return result
+  }
+
   modifyLoopBody = (child: string, nodeName: string) => {
     if (nodeName === 'picker-view') {
       return `<picker-view-column>
-        <view a:for="{{item.cn}}" a:key="uid">
+        <view a:for="{{item.cn}}" a:key="sid">
           ${child}
         </view>
       </picker-view-column>`
@@ -71,9 +81,9 @@ export class Template extends RecursiveTemplate {
     }
     if (nodeName === 'swiper') {
       return `
-    <block a:for="{{xs.f(i.cn)}}" a:key="uid">
-      <swiper-item class="{{item.cl}}" style="{{item.st}}" id="{{item.uid}}">
-        <block a:for="{{item.cn}}" a:key="uid">
+    <block a:for="{{xs.f(i.cn)}}" a:key="sid">
+      <swiper-item class="{{item.cl}}" style="{{item.st}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}">
+        <block a:for="{{item.cn}}" a:key="sid">
           <template is="{{xs.e(0)}}" data="{{i:item}}" />
         </block>
       </swiper-item>
@@ -86,6 +96,16 @@ export class Template extends RecursiveTemplate {
   modifyTemplateResult = (res: string, nodeName: string) => {
     if (nodeName === 'picker-view-column' || nodeName === 'swiper-item') return ''
     return res
+  }
+
+  modifyThirdPartyLoopBody = () => {
+    // 兼容支付宝 2.0 构建
+    return `<view a:if="{{item.nn==='slot'}}" slot="{{item.name}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}">
+        <block a:for="{{item.cn}}" a:key="sid">
+          <template is="{{xs.e(0)}}" data="{{i:item}}" />
+        </block>
+      </view>
+      <template a:else is="{{xs.e(0)}}" data="{{i:item}}" />`
   }
 
   buildXSTmpExtra () {

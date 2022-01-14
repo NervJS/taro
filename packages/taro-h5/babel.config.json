@@ -9,5 +9,10 @@
   ],
   "plugins": [
     "@babel/plugin-transform-react-jsx"
-  ]
+  ],
+  "env": {
+    "test": {
+      "plugins": ["@babel/plugin-transform-runtime"]
+    }
+  }
 }

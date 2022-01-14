@@ -1,7 +1,7 @@
 /// <reference types="react" />
 /// <reference types="vue" />
 
-import Taro, { ComponentOptions, Config, RouterInfo } from './index'
+import Taro, { Config } from './index'
 
 declare module './index' {
   // Components
@@ -21,7 +21,7 @@ declare module './index' {
     onPageScroll?(obj: PageScrollObject): void
     onShareAppMessage?(obj: ShareAppMessageObject): ShareAppMessageReturn
     onTabItemTap?(obj: TabItemTapObject): void
-    onResize?(obj: any): void
+    onResize?(obj: PageResizeObject): void
   }
 
   interface ComponentOptions {
@@ -80,14 +80,16 @@ declare module './index' {
   type SFC = StatelessFunctionComponent
 
   interface Show {
-    componentDidShow?(options?: unknown): void
-    componentDidHide?(options?: unknown): void
-    onShow?(options?: unknown): void
-    onHide?(options?: unknown): void
+    componentDidShow?(): void
+    componentDidHide?(): void
+    onShow?(): void
+    onHide?(): void
   }
 
   interface AppInstance extends Show {
     mount(component: React.ComponentClass | Vue.ComponentOptions<Vue>, id: string, cb: () => void): void
+    componentDidShow?(options?: Record<string, unknown>): void
+    onShow?(options?: Record<string, unknown>): void
     unmount(id: string, cb: () => void): void
   }
 

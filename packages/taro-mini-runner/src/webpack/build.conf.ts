@@ -52,6 +52,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     framework = 'nerv',
     prerender,
     minifyXML = {},
+    hot = false,
 
     defineConstants = {},
     runtime = {},
@@ -165,7 +166,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     runtimePath,
     blended,
     isBuildNativeComp,
-    alias
+    alias,
+    hot
   }
   plugin.miniPlugin = !isBuildNativeComp ? getMiniPlugin(miniPluginOptions) : getBuildNativePlugin(miniPluginOptions)
 
@@ -181,7 +183,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     requestAnimationFrame: ['@tarojs/runtime', 'requestAnimationFrame'],
     cancelAnimationFrame: ['@tarojs/runtime', 'cancelAnimationFrame'],
     Element: ['@tarojs/runtime', 'TaroElement'],
-    SVGElement: ['@tarojs/runtime', 'SVGElement']
+    SVGElement: ['@tarojs/runtime', 'SVGElement'],
+    MutationObserver: ['@tarojs/runtime', 'MutationObserver']
   })
 
   const isCssoEnabled = !((csso && csso.enable === false))

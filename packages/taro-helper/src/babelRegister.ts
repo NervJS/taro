@@ -1,5 +1,46 @@
 import * as path from 'path'
 
+import type { PluginItem, NodePath } from '@babel/core'
+
+/**
+ * Inject `defineAppConfig` and `definePageConfig`
+ * require header at the top of a config file,
+ * without the need to specifically require them
+ * if they are used
+*/
+function injectDefineConfigHeader (babel: any): PluginItem {
+  const appConfig = 'const { defineAppConfig } = require("@tarojs/helper")'
+  const pageConfig = 'const { definePageConfig } = require("@tarojs/helper")'
+
+  const prependHeader = (nodePath: NodePath<any>, header: string) => {
+    const parsedHeader = babel.parse(header, { filename: '' }).program.body[0]
+    nodePath.node.body.unshift(parsedHeader)
+  }
+
+  const enterHandler = (nodePath: NodePath<any>) => {
+    const { scope, node } = nodePath
+
+    scope.traverse(node, {
+      CallExpression (p) {
+        const callee = p.node.callee
+        // @ts-ignore
+        switch (callee.name) {
+          case 'defineAppConfig':
+            return prependHeader(nodePath, appConfig)
+          case 'definePageConfig':
+            return prependHeader(nodePath, pageConfig)
+        }
+      }
+    })
+  }
+
+  return {
+    visitor: {
+      Program: { enter: enterHandler }
+    }
+  }
+}
+
 export default function createBabelRegister ({ only }) {
   require('@babel/register')({
     only: Array.from(new Set([...only])),
@@ -8,6 +49,7 @@ export default function createBabelRegister ({ only }) {
       require.resolve('@babel/preset-typescript')
     ],
     plugins: [
+      injectDefineConfigHeader,
       [require.resolve('@babel/plugin-proposal-decorators'), {
         legacy: true
       }],

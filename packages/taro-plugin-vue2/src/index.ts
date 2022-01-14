@@ -110,7 +110,10 @@ function customVueChain (chain, data) {
 
             return el
           }
-        }]
+        }],
+        mustUseProp: function () {
+          return false
+        }
       }
     }
   }

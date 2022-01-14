@@ -11,12 +11,12 @@ interface AdProps extends StandardProps {
    * @supported weapp
    */
   adIntervals?: number
-  
+
   /** 广告类型，默认为展示`banner`，可通过设置该属性为`video`展示视频广告, `grid`为格子广告
    * @supported weapp
    */
   adType?: 'banner' | 'video' | 'grid'
-  
+
   /** 广告主题样式设置
    * @supported weapp
    */
@@ -42,9 +42,9 @@ declare namespace AdProps {
   interface onErrorEventDetail {
     errCode: keyof AdErrCode
   }
-  /** 
+  /**
    * 广告错误码
-   * 
+   *
    * 错误码是通过onError获取到的错误信息。调试期间，可以通过异常返回来捕获信息。
    * 在小程序发布上线之后，如果遇到异常问题，可以在[“运维中心“](https://mp.weixin.qq.com/)里面搜寻错误日志，还可以针对异常返回加上适当的监控信息。
    */
@@ -116,8 +116,8 @@ declare namespace AdProps {
  *   render () {
  *     return (
  *       <Ad
- *         unit-id=''
- *         ad-intervals={60}
+ *         unitId=''
+ *         adIntervals={60}
  *         onLoad={() => console.log('ad onLoad')}
  *         onError={() => console.log('ad onError')}
  *         onClose={() => console.log('ad onClose')}

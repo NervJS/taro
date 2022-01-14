@@ -22,9 +22,11 @@ export default function (this: webpack.loader.LoaderContext) {
   const setReconciler = runtimePath.reduce((res, item) => {
     return res + `import '${item}'\n`
   }, '')
+  const { globalObject } = this._compilation.outputOptions
+
   const prerender = `
 if (typeof PRERENDER !== 'undefined') {
-  global._prerender = inst
+  ${globalObject}._prerender = inst
 }`
 
   return `${setReconciler}

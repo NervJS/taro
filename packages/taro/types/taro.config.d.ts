@@ -235,7 +235,24 @@ declare module './index' {
     }
   }
 
+  interface RouterAnimate {
+    /**
+     * 动画切换时间，单位毫秒
+     * @default 300
+     */
+    duration?: number
+    /**
+     * 动画切换时间，单位毫秒
+     * @default 50
+     */
+    delay?: number
+  }
+
   interface AppConfig {
+    /**
+     * 小程序默认启动首页，未指定 entryPagePath 时，数组的第一项代表小程序的初始页面（首页）。
+     */
+    entryPagePath?: string
     /**
      * 接受一个数组，每一项都是字符串，来指定小程序由哪些页面组成，数组的第一项代表小程序的初始页面
      */
@@ -292,7 +309,7 @@ declare module './index' {
      * 声明分包预下载的规则。
      * preloadRule 中，key 是页面路径，value 是进入此页面的预下载配置
      * 注意: 分包预下载目前只支持通过配置方式使用，暂不支持通过调用API完成。
-     *      vConsole 里有preloadSubpackages开头的日志信息，可以用来验证预下载的情况。
+     *      vConsole 里有 preloadSubpackages 开头的日志信息，可以用来验证预下载的情况。
      * @since 2.3.0
      */
     preloadRule?: PreloadRule
@@ -318,12 +335,12 @@ declare module './index' {
      */
     style?: 'v2'
     /**
-     * 配置 darkmode 为 true，即表示当前小程序已适配 DarkMode
+     * 配置 darkMode 为 true，即表示当前小程序已适配 DarkMode
      * @since 2.11.0
      */
     darkmode?: boolean
     /**
-     * 指定 darkmode 变量配置文件 theme.json 路径
+     * 指定 darkMode 变量配置文件 theme.json 路径
      * @since 2.11.0
      */
     themeLocation?: string
@@ -331,6 +348,18 @@ declare module './index' {
      * 接受一个数组，每一项都是字符串，来指定编译为原生小程序组件的组件入口
      */
     components?: string[]
+    /**
+     * 渲染页面的容器 id
+     * @default "app"
+     * @since 3.3.18
+     */
+    appId?: string
+    /**
+     * 是否开启 h5 端路由动画功能，默认开启
+     * @supported h5
+     * @since 3.3.18
+     */
+    animation?: RouterAnimate | boolean
   }
 
   interface Config extends PageConfig, AppConfig {
@@ -354,6 +383,7 @@ declare module './index' {
     PreloadRule: PreloadRule
     Permission: Permission
     AppConfig: AppConfig
+    RouterAnimate: RouterAnimate
     Config: Config
   }
 }

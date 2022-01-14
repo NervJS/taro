@@ -4,7 +4,19 @@ import { modifyH5WebpackChain } from './webpack.h5'
 
 import type { IPluginContext } from '@tarojs/service'
 
-export default (ctx: IPluginContext) => {
+export interface IConfig {
+  mini?: {
+    compilerOptions: {
+      isCustomElement: (tag: string) => boolean
+      whitespace: 'condense' | 'preserve'
+      delimiters: string[]
+      comments: boolean
+      nodeTransforms: ((...args: any) => void)[]
+    }
+  }
+}
+
+export default (ctx: IPluginContext, config: IConfig = {}) => {
   const { framework } = ctx.initialConfig
   if (framework !== 'vue3') return
 
@@ -18,7 +30,7 @@ export default (ctx: IPluginContext) => {
       modifyH5WebpackChain(ctx, chain)
     } else {
       // 小程序
-      modifyMiniWebpackChain(ctx, chain, data)
+      modifyMiniWebpackChain(ctx, chain, data, config.mini)
     }
   })
 }

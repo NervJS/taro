@@ -1,10 +1,10 @@
 /* eslint-disable dot-notation */
-import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray } from '@tarojs/shared'
+import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray, isString } from '@tarojs/shared'
 import { getHooks } from '../container/store'
 import { eventHandler } from '../dom/event'
 import { Current } from '../current'
 import { document } from '../bom/document'
-import { incrementId } from '../utils'
+import { incrementId, customWrapperCache } from '../utils'
 import { perf } from '../perf'
 import { eventCenter } from '../emitter/emitter'
 import { raf } from '../bom/raf'
@@ -66,11 +66,8 @@ export function stringify (obj?: Record<string, unknown>) {
 }
 
 export function getPath (id: string, options?: Record<string, unknown>): string {
-  let path = id
-  if (process.env.TARO_ENV !== 'h5') {
-    path = id + stringify(options)
-  }
-  return path
+  const idx = id.indexOf('?')
+  return `${idx > -1 ? id.substring(0, idx) : id}${stringify(process.env.TARO_ENV === 'h5' ? { stamp: options?.stamp || '' } : options)}`
 }
 
 export function getOnReadyEventKey (path: string) {
@@ -114,7 +111,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   let loadResolver: (...args: unknown[]) => void
   let hasLoaded: Promise<void>
   const config: PageInstance = {
-    [ONLOAD] (this: MpInstance, options, cb?: Func) {
+    [ONLOAD] (this: MpInstance, options: Record<string, unknown> = {}, cb?: Func) {
       hasLoaded = new Promise(resolve => { loadResolver = resolve })
 
       perf.start(PAGE_INIT)
@@ -126,6 +123,9 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       // this.$taroPath 是页面唯一标识，不可变，因此页面参数 options 也不可变
       this.$taroPath = getPath(id, options)
       const $taroPath = this.$taroPath
+      if (process.env.TARO_ENV === 'h5') {
+        config.path = this.$taroPath
+      }
       // this.$taroParams 作为暴露给开发者的页面参数对象，可以被随意修改
       if (this.$taroParams == null) {
         this.$taroParams = Object.assign({}, options)
@@ -162,6 +162,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
         instances.delete($taroPath)
         if (pageElement) {
           pageElement.ctx = null
+          pageElement = null
         }
         if (prepareMountList.length) {
           prepareMountList.forEach(fn => fn())
@@ -176,13 +177,13 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       raf(() => eventCenter.trigger(getOnReadyEventKey(id)))
       this.onReady.called = true
     },
-    [ONSHOW] () {
+    [ONSHOW] (options = {}) {
       hasLoaded.then(() => {
         // 设置 Current 的 page 和 router
         Current.page = this as any
         setCurrentRouter(this)
         // 触发生命周期
-        safeExecute(this.$taroPath, ON_SHOW)
+        safeExecute(this.$taroPath, ON_SHOW, options)
         // 通过事件触发子组件的生命周期
         raf(() => eventCenter.trigger(getOnShowEventKey(id)))
       })
@@ -236,10 +237,6 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     config.data = data
   }
 
-  if (process.env.TARO_ENV === 'h5') {
-    config.path = id
-  }
-
   hooks.modifyPageObject?.(config)
 
   return config
@@ -289,6 +286,24 @@ export function createComponentConfig (component: React.ComponentClass, componen
 }
 
 export function createRecursiveComponentConfig (componentName?: string) {
+  const isCustomWrapper = componentName === CUSTOM_WRAPPER
+  const lifeCycles = isCustomWrapper
+    ? {
+      attached () {
+        const componentId = this.data.i?.sid
+        if (isString(componentId)) {
+          customWrapperCache.set(componentId, this)
+        }
+      },
+      detached () {
+        const componentId = this.data.i?.sid
+        if (isString(componentId)) {
+          customWrapperCache.delete(componentId)
+        }
+      }
+    }
+    : EMPTY_OBJ
+
   return {
     properties: {
       i: {
@@ -304,10 +319,11 @@ export function createRecursiveComponentConfig (componentName?: string) {
     },
     options: {
       addGlobalClass: true,
-      virtualHost: componentName !== CUSTOM_WRAPPER
+      virtualHost: !isCustomWrapper
     },
     methods: {
       eh: eventHandler
-    }
+    },
+    ...lifeCycles
   }
 }

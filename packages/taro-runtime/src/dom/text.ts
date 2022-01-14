@@ -2,6 +2,8 @@ import { injectable } from 'inversify'
 import { Shortcuts } from '@tarojs/shared'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
+import { MutationObserver } from '../dom-external/mutation-observer'
+import { MutationRecordType } from '../dom-external/mutation-observer/record'
 
 @injectable()
 export class TaroText extends TaroNode {
@@ -10,6 +12,11 @@ export class TaroText extends TaroNode {
   public nodeName = '#text'
 
   public set textContent (text: string) {
+    MutationObserver.record({
+      target: this,
+      type: MutationRecordType.CHARACTER_DATA,
+      oldValue: this._value
+    })
     this._value = text
     this.enqueueUpdate({
       path: `${this._path}.${Shortcuts.Text}`,

@@ -20,13 +20,13 @@ export default class DateSelector extends React.Component<DateProps, DateState> 
 
   state: any = {
     pValue: null,
-    value: 0,
+    value: new Date(),
   }
 
   dismissByOk = false
 
   static getDerivedStateFromProps(nextProps: DateProps, lastState: DateState): DateState | null {
-    if (nextProps.value !== lastState.pValue) {
+    if (nextProps.value && nextProps.value !== lastState.pValue) {
       const now = new Date()
       if (!nextProps.value || typeof nextProps.value !== 'string') {
         return {

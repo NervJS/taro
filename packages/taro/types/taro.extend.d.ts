@@ -13,21 +13,6 @@ declare module './index' {
     [propName: string]: any
   }
 
-  type interceptor = (chain: Chain) => any
-
-  interface Chain {
-    index: number
-    requestParams: RequestParams
-    interceptors: interceptor[]
-    proceed(requestParams: RequestParams): any
-  }
-
-  interface interceptors {
-    logInterceptor(chain: Chain): Promise<any>
-
-    timeoutInterceptor(chain: Chain): Promise<any>
-  }
-
   interface Current {
     app: AppInstance | null
     router: RouterInfo | null
@@ -46,9 +31,26 @@ declare module './index' {
     install (app: any, data: any): void
   }
 
+  interface TARO_ENV_TYPE {
+    [TaroGeneral.ENV_TYPE.WEAPP]: TaroGeneral.ENV_TYPE.WEAPP
+    [TaroGeneral.ENV_TYPE.WEB]: TaroGeneral.ENV_TYPE.WEB
+    [TaroGeneral.ENV_TYPE.RN]: TaroGeneral.ENV_TYPE.RN
+    [TaroGeneral.ENV_TYPE.SWAN]: TaroGeneral.ENV_TYPE.SWAN
+    [TaroGeneral.ENV_TYPE.ALIPAY]: TaroGeneral.ENV_TYPE.ALIPAY
+    [TaroGeneral.ENV_TYPE.TT]: TaroGeneral.ENV_TYPE.TT
+    [TaroGeneral.ENV_TYPE.QQ]: TaroGeneral.ENV_TYPE.QQ
+    [TaroGeneral.ENV_TYPE.JD]: TaroGeneral.ENV_TYPE.JD
+  }
+
   interface TaroStatic {
+    Events: {
+      new (): TaroGeneral.Events
+    }
+
     // eventCenter
     eventCenter: TaroGeneral.Events
+
+    ENV_TYPE: TARO_ENV_TYPE
 
     getEnv(): TaroGeneral.ENV_TYPE
 
@@ -60,9 +62,7 @@ declare module './index' {
     atMessage(options: AtMessageOptions): void
 
     pxTransform(size: number, designWidth?: number): string
-    initPxTransform(config: { designWidth: number; deviceRatio: object }): void
-
-    addInterceptor(interceptor: interceptor): any
+    initPxTransform(config: { designWidth: number; deviceRatio: TaroGeneral.TDeviceRatio }): void
 
     /**
      * 小程序引用插件 JS 接口

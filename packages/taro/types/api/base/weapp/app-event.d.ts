@@ -69,7 +69,7 @@ declare module '../../../index' {
      * - 开发者可以在回调中进行页面重定向，但必须在回调中**同步**处理，异步处理（例如 `setTimeout` 异步执行）无效。
      * - 若开发者没有调用 [Taro.onPageNotFound](https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onPageNotFound.html) 绑定监听，也没有声明 `App.onPageNotFound`，当跳转页面不存在时，将推入微信客户端原生的页面不存在提示页面。
      * - 如果回调中又重定向到另一个不存在的页面，将推入微信客户端原生的页面不存在提示页面，并且不再第二次回调。
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onPageNotFound.html
      */
     onPageNotFound(callback: onPageNotFound.Callback): void
@@ -130,7 +130,7 @@ declare module '../../../index' {
      */
     onAppHide(
       /** 小程序切后台事件的回调函数 */
-      callback: (res: TaroGeneral.CallbackResult) => void,
+      callback: (res: onAppShow.CallbackResult) => void,
     ): void
 
     /** 取消监听小程序要打开的页面不存在事件
@@ -139,7 +139,7 @@ declare module '../../../index' {
      */
     offPageNotFound(
       /** 小程序要打开的页面不存在事件的回调函数 */
-      callback: (res: TaroGeneral.CallbackResult) => void,
+      callback: (res: onPageNotFound.Callback) => void,
     ): void
 
     /** 取消监听音频播放错误事件
@@ -149,7 +149,7 @@ declare module '../../../index' {
 
     offError(
       /** 音频播放错误事件的回调函数 */
-      callback: (res: TaroGeneral.CallbackResult) => void,
+      callback: (res: onError.Callback) => void,
     ): void
 
     /** 取消监听音频中断结束事件
