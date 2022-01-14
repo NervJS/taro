@@ -77,17 +77,22 @@ function parseDefineConst (config) {
 function getDefineConstants () {
   const config = getProjectConfig()
   const rnconfig = getRNConfig()
+  const env = getEnv()
   if (rnconfig.defineConstants) {
     parseDefineConst(rnconfig)
-    rnconfig.defineConstants = Object.assign(rnconfig.defineConstants, getEnv())
-    return rnconfig.defineConstants
+    return {
+      ...rnconfig.defineConstants,
+      ...env
+    }
   }
   if (config.defineConstants) {
     parseDefineConst(config)
-    config.defineConstants = Object.assign(config.defineConstants, getEnv())
-    return config.defineConstants
+    return {
+      ...config.defineConstants,
+      ...env
+    }
   }
-  return getEnv()
+  return env
 }
 
 function getCSSModule () {
@@ -112,7 +117,6 @@ module.exports = (_, options = {}) => {
   const nativeLibs = require('@tarojs/taro-rn/libList.js')
   const nativeInterfaces = nativeApis.concat(nativeLibs)
 
-  getEnv()
   const defineConstants = getDefineConstants()
   const presets = []
   const plugins = []
