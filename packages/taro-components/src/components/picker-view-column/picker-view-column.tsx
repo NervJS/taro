@@ -7,16 +7,25 @@ import { Component, h, Host, Listen, Element, Event, EventEmitter, Prop } from '
 })
 export class PickerViewColumn {
 
+  // 当前ref
   @Element() el: HTMLElement
 
+  // 标记属于pickver第几列
   @Prop() tag: string
 
+  // 初始化的选中位置
   @Prop() initselectindex: string
 
+  // 选中后的结果回调
   @Event({ eventName: 'col-select' }) onChange: EventEmitter
 
+  @Event({ eventName: 'col-pick-start' }) colPickStart: EventEmitter
+  @Event({ eventName: 'col-pick-end' }) colPickEnd: EventEmitter
+
+  // 是否正在拖动
   private isMove: boolean = false
 
+  // 滑动距离上下留白区域-通过父视图和indicator计算而来
   @Prop() paddingtop: string
 
   @Listen('mousedown')
@@ -32,11 +41,22 @@ export class PickerViewColumn {
     this.handleMoveEnd()
   }
 
+  @Listen('touchstart')
+  onTouchStart() {
+    this.colPickStart.emit()
+  }
+
   @Listen('touchend')
   onTouchEnd() {
     this.handleMoveEnd()
   }
 
+  @Listen('touchcancel')
+  onTouchCancel() {
+    this.handleMoveEnd()
+  }
+
+  // 滚动结束自动回到合适的位置
   handleMoveEnd() {
     const childList = this.el.querySelectorAll('taro-view-core')
     let element = this.el
@@ -53,6 +73,7 @@ export class PickerViewColumn {
       }
       sum += itemHeight
     }
+
     element.scrollTo({
       top: sum,
       behavior: 'smooth'
@@ -61,9 +82,11 @@ export class PickerViewColumn {
       curIndex: this.tag,
       selectedIndex: selectedIndex
     })
+    this.colPickEnd.emit()
   }
-  /// 过滤非PickerViewColumn组件
-  componentDidRender() {
+
+  /// 过滤非taro-view-core组件 - 目前pick-column-view内需要用View包一层
+  componentWillLoad() {
     if (!!this.initselectindex) {
       const childList = this.el.querySelectorAll('taro-view-core')
       let element = this.el
@@ -84,7 +107,9 @@ export class PickerViewColumn {
   render() {
     const { paddingtop } = this;
     return (
-      <Host class="_picker-view-column-container" style={{ 'paddingTop': `${paddingtop}px` }} />
+      <Host class="_picker-view-column-container" style={{ 'paddingTop': `${paddingtop}px`, 'paddingBottom': `${paddingtop}px` }}>
+
+      </Host>
     )
   }
 }
