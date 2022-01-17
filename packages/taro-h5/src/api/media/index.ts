@@ -1,7 +1,6 @@
 export * from './audio'
 export * from './background-audio'
 export * from './camera'
-export * from './editor'
 export * from './image'
 export * from './live'
 export * from './map'
