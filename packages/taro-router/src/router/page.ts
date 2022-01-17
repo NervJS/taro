@@ -1,6 +1,6 @@
 /* eslint-disable dot-notation */
 import { PageConfig, RouterAnimate } from '@tarojs/taro'
-import { PageInstance, requestAnimationFrame } from '@tarojs/runtime'
+import { Current, PageInstance, requestAnimationFrame } from '@tarojs/runtime'
 import queryString from 'query-string'
 
 import stacks from './stack'
@@ -8,7 +8,7 @@ import { Route, RouterConfig } from './'
 import { setHistoryMode, stripBasename } from '../history'
 import { loadAnimateStyle } from '../animation'
 import { initTabbar } from '../tabbar'
-import { addLeadingSlash, getPageContainer, routesAlias } from '../utils'
+import { addLeadingSlash, routesAlias } from '../utils'
 import { bindPageResize } from 'src/events/resize'
 import { bindPageScroll } from 'src/events/scroll'
 
@@ -141,7 +141,7 @@ export default class PageHandler {
   }
 
   onReady (page: PageInstance, onLoad = true) {
-    const pageEl = document.getElementById(page.path!)
+    const pageEl = this.getPageContainer(page)
     if (pageEl && !pageEl?.['__isReady']) {
       const el = pageEl.firstElementChild
       el?.['componentOnReady']?.()?.then(() => {
@@ -160,7 +160,7 @@ export default class PageHandler {
     // NOTE: 页面栈推入太晚可能导致 getCurrentPages 无法获取到当前页面实例
     stacks.push(page)
     const param = this.getQuery(stacks.length, '', page.options)
-    let pageEl = document.getElementById(page.path!)
+    let pageEl = this.getPageContainer(page)
     if (pageEl) {
       setDisplay(pageEl)
       this.isTabBar && pageEl.classList.add('taro_tabbar_page')
@@ -169,7 +169,7 @@ export default class PageHandler {
       this.bindPageEvents(page, pageEl, pageConfig)
     } else {
       page.onLoad?.(param, () => {
-        pageEl = document.getElementById(page.path!)
+        pageEl = this.getPageContainer(page)
         this.isTabBar && pageEl?.classList.add('taro_tabbar_page')
         this.addAnimation(pageEl, stacksIndex === 0)
         this.onReady(page, true)
@@ -191,7 +191,7 @@ export default class PageHandler {
         this.unloadTimer = null
       }
       this.lastUnloadPage = page
-      const pageEl = document.getElementById(page.path!)
+      const pageEl = this.getPageContainer(page)
       pageEl?.classList.remove('taro_page_stationed')
       pageEl?.classList.remove('taro_page_show')
 
@@ -200,7 +200,7 @@ export default class PageHandler {
         this.lastUnloadPage?.onUnload?.()
       }, this.animationDuration)
     } else {
-      const pageEl = document.getElementById(page.path!)
+      const pageEl = this.getPageContainer(page)
       pageEl?.classList.remove('taro_page_stationed')
       pageEl?.classList.remove('taro_page_show')
       page?.onUnload?.()
@@ -212,7 +212,7 @@ export default class PageHandler {
     if (!page) return
 
     const param = this.getQuery(stacks.length, '', page.options)
-    let pageEl = document.getElementById(page.path!)
+    let pageEl = this.getPageContainer(page)
     if (pageEl) {
       setDisplay(pageEl)
       this.addAnimation(pageEl, stacksIndex === 0)
@@ -220,7 +220,7 @@ export default class PageHandler {
       this.bindPageEvents(page, pageEl, pageConfig)
     } else {
       page.onLoad?.(param, () => {
-        pageEl = document.getElementById(page.path!)
+        pageEl = this.getPageContainer(page)
         this.addAnimation(pageEl, stacksIndex === 0)
         this.onReady(page, false)
         page.onShow?.()
@@ -233,7 +233,7 @@ export default class PageHandler {
     if (!page) return
 
     // NOTE: 修复多页并发问题，此处可能因为路由跳转过快，执行时页面可能还没有创建成功
-    const pageEl = document.getElementById(page.path!)
+    const pageEl = this.getPageContainer(page)
     if (pageEl) {
       if (this.hideTimer) {
         clearTimeout(this.hideTimer)
@@ -267,9 +267,22 @@ export default class PageHandler {
     }
   }
 
+  getPageContainer (page?: PageInstance | null): HTMLElement | null {
+    const path = page ? page?.path : Current.page?.path
+    const id = path?.replace(/([^a-z0-9\u00a0-\uffff_-])/ig, '\\$1')
+    if (page) {
+      return document.querySelector(`.taro_page#${id}`)
+    }
+    const el: HTMLDivElement | null = (id
+      ? document.querySelector(`.taro_page#${id}`)
+      : document.querySelector('.taro_page') ||
+    document.querySelector('.taro_router')) as HTMLDivElement
+    return el || window
+  }
+
   bindPageEvents (page: PageInstance, pageEl?: HTMLElement | null, config: Partial<PageConfig> = {}) {
     if (!pageEl) {
-      pageEl = getPageContainer()
+      pageEl = this.getPageContainer() as HTMLElement
     }
     const distance = config.onReachBottomDistance || this.config.window?.onReachBottomDistance || 50
     bindPageScroll(page, pageEl, distance)

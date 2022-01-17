@@ -1,5 +1,3 @@
-import { Current } from '@tarojs/runtime'
-
 export function addLeadingSlash (path?: string) {
   if (path == null) {
     return ''
@@ -48,12 +46,3 @@ class RoutesAlias {
 }
 
 export const routesAlias = new RoutesAlias()
-
-export function getPageContainer (): HTMLElement {
-  const id = Current.page?.path
-  const el: HTMLDivElement | null = (id
-    ? document.getElementById(id)
-    : document.querySelector('.taro_page') ||
-  document.querySelector('.taro_router')) as HTMLDivElement
-  return el || window
-}
