@@ -153,22 +153,16 @@ declare module '../../index' {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/InnerAudioContext.html
    */
   interface InnerAudioContext {
+    /** 音频资源的地址，用于直接播放。 */
+    src: string
+    /** 开始播放的位置（单位：s）
+     * @default 0
+     */
+    startTime: number
     /** 是否自动开始播放
      * @default false
      */
     autoplay: boolean
-    /** 音频缓冲的时间点，仅保证当前播放时间点到此时间点内容已缓冲
-     * @readonly
-     */
-    buffered: number
-    /** 当前音频的播放位置（单位 s）。只有在当前有合法的 src 时返回，时间保留小数点后 6 位
-     * @readonly
-     */
-    currentTime: number
-    /** 当前音频的长度（单位 s）。只有在当前有合法的 src 时返回
-     * @readonly
-     */
-    duration: number
     /** 是否循环播放
      * @default false
      */
@@ -177,16 +171,6 @@ declare module '../../index' {
      * @default true
      */
     obeyMuteSwitch: boolean
-    /** 当前是是否暂停或停止状态
-     * @readonly
-     */
-    paused: boolean
-    /** 音频资源的地址，用于直接播放。 */
-    src: string
-    /** 开始播放的位置（单位：s）
-     * @default 0
-     */
-    startTime: number
     /** 音量。范围 0~1。
      * @default 1
      */
@@ -195,6 +179,24 @@ declare module '../../index' {
      * @default 1
      */
     playbackRate: number
+    /** 当前音频的长度（单位 s）。只有在当前有合法的 src 时返回
+     * @readonly
+     */
+    duration: number
+    /** 当前音频的播放位置（单位 s）。只有在当前有合法的 src 时返回，时间保留小数点后 6 位
+     * @readonly
+     */
+    currentTime: number
+    /** 当前是是否暂停或停止状态
+     * @readonly
+     */
+    paused: boolean
+    /** 音频缓冲的时间点，仅保证当前播放时间点到此时间点内容已缓冲
+     * @readonly
+     */
+    buffered: number
+    /** origin: 发送完整的referrer; no-referrer: 不发送 */
+    referrerPolicy?: 'origin' | 'referrer' | string
     /** 播放 */
     play(): void
     /** 暂停 */
