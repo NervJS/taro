@@ -1,15 +1,16 @@
 /* eslint-disable dot-notation */
-import { RouterAnimate } from '@tarojs/taro'
+import { PageConfig, RouterAnimate } from '@tarojs/taro'
 import { PageInstance, requestAnimationFrame } from '@tarojs/runtime'
 import queryString from 'query-string'
 
-import { bindPageEvents } from '../events'
 import stacks from './stack'
 import { Route, RouterConfig } from './'
 import { setHistoryMode, stripBasename } from '../history'
 import { loadAnimateStyle } from '../animation'
 import { initTabbar } from '../tabbar'
-import { addLeadingSlash, routesAlias } from '../utils'
+import { addLeadingSlash, getPageContainer, routesAlias } from '../utils'
+import { bindPageResize } from 'src/events/resize'
+import { bindPageScroll } from 'src/events/scroll'
 
 function setDisplay (el?: HTMLElement | null, type = '') {
   if (el) {
@@ -165,7 +166,7 @@ export default class PageHandler {
       this.isTabBar && pageEl.classList.add('taro_tabbar_page')
       this.addAnimation(pageEl, stacksIndex === 0)
       page.onShow?.()
-      bindPageEvents(page, pageEl, pageConfig)
+      this.bindPageEvents(page, pageEl, pageConfig)
     } else {
       page.onLoad?.(param, () => {
         pageEl = document.getElementById(page.path!)
@@ -173,7 +174,7 @@ export default class PageHandler {
         this.addAnimation(pageEl, stacksIndex === 0)
         this.onReady(page, true)
         page.onShow?.()
-        bindPageEvents(page, pageEl, pageConfig)
+        this.bindPageEvents(page, pageEl, pageConfig)
       })
     }
   }
@@ -216,14 +217,14 @@ export default class PageHandler {
       setDisplay(pageEl)
       this.addAnimation(pageEl, stacksIndex === 0)
       page.onShow?.()
-      bindPageEvents(page, pageEl, pageConfig)
+      this.bindPageEvents(page, pageEl, pageConfig)
     } else {
       page.onLoad?.(param, () => {
         pageEl = document.getElementById(page.path!)
         this.addAnimation(pageEl, stacksIndex === 0)
         this.onReady(page, false)
         page.onShow?.()
-        bindPageEvents(page, pageEl, pageConfig)
+        this.bindPageEvents(page, pageEl, pageConfig)
       })
     }
   }
@@ -264,5 +265,14 @@ export default class PageHandler {
       pageEl.classList.add('taro_page_show')
       pageEl.classList.add('taro_page_stationed')
     }
+  }
+
+  bindPageEvents (page: PageInstance, pageEl?: HTMLElement | null, config: Partial<PageConfig> = {}) {
+    if (!pageEl) {
+      pageEl = getPageContainer()
+    }
+    const distance = config.onReachBottomDistance || this.config.window?.onReachBottomDistance || 50
+    bindPageScroll(page, pageEl, distance)
+    bindPageResize(page)
   }
 }
