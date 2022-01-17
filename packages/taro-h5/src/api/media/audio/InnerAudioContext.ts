@@ -39,7 +39,7 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
   get obeyMuteSwitch () { return true }
   set startTime (e) { this.__startTime = e }
   get startTime () { return this.__startTime || 0 }
-  set referrerPolicy (e) { this.setProperty('referrerpolicy', e) }
+  set referrerPolicy (e) { this.Instance?.setAttribute('referrerpolicy', e) }
   get referrerPolicy () { return this.Instance?.getAttribute('referrerpolicy') || 'origin' }
 
   private setProperty (key: string, value: unknown) {
