@@ -8,6 +8,7 @@ export class cloud implements Taro.cloud {
 
   CloudID = temporarilyNotSupport('cloud.CloudID')
 
+  // @ts-ignore
   callFunction = temporarilyNotSupport('cloud.callFunction')
 
   // @ts-ignore
@@ -16,12 +17,15 @@ export class cloud implements Taro.cloud {
   // @ts-ignore
   downloadFile = temporarilyNotSupport('cloud.downloadFile')
 
+  // @ts-ignore
   getTempFileURL = temporarilyNotSupport('cloud.getTempFileURL')
 
+  // @ts-ignore
   deleteFile = temporarilyNotSupport('cloud.deleteFile')
 
   // @ts-ignore
   database = temporarilyNotSupport('cloud.database')
 
+  // @ts-ignore
   callContainer = temporarilyNotSupport('cloud.callContainer')
 }
