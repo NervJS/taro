@@ -1,5 +1,5 @@
 import { temporarilyNotSupport } from '../../utils'
-import { BackgroundAudioManager } from './backgroundAudioManager'
+import { BackgroundAudioManager } from './BackgroundAudioManager'
 
 // 背景音频
 export const stopBackgroundAudio = temporarilyNotSupport('stopBackgroundAudio')
