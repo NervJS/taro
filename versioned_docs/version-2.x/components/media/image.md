@@ -119,7 +119,7 @@ export default class PageView extends Component {
 | ImageProps.src | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | ImageProps.mode | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️(部分支持 scaleToFill, aspectFit, aspectFill, widthFix) |
 | ImageProps.webp | ✔️ |  |  |  |  |  |
-| ImageProps.lazyLoad | ✔️ | ✔️ | ✔️ | ✔️ |  |  |
+| ImageProps.lazyLoad | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
 | ImageProps.showMenuByLongpress | ✔️ |  |  |  |  |  |
 | ImageProps.onError | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | ImageProps.onLoad | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
