@@ -195,8 +195,8 @@ declare module '../../index' {
      * @readonly
      */
     buffered: number
-    /** origin: 发送完整的referrer; no-referrer: 不发送 */
-    referrerPolicy?: 'origin' | 'referrer' | string
+    /** origin: 发送完整的 referrer; no-referrer: 不发送 */
+    referrerPolicy?: 'origin' | 'no-referrer' | string
     /** 播放 */
     play(): void
     /** 暂停 */
