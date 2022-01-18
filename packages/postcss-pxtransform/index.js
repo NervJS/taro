@@ -49,7 +49,7 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
       break
     }
     case 'rn': {
-      options.rootValue = options.deviceRatio[options.designWidth] * 2
+      options.rootValue = 1 / options.deviceRatio[options.designWidth]
       targetUnit = 'px'
       break
     }
