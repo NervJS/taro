@@ -81,6 +81,10 @@ module.exports = {
 }
 ```
 
+:::caution 请注意
+该方法不适用 `pxTransform` 方法，如果需要使用请先调用自行调用 `initPxTransform` 初始化配置 (Taro 升级到 webpack5 之后会提供替代解决防范)。
+:::
+
 ### Jest
 
 使用 Jest 测试也是类似，需要添加配置如下
@@ -107,6 +111,99 @@ module.exports = {
     // '@tarojs/plugin-framework-vue2/dist/runtime': '<rootDir>/__mocks__/taro-framework',
     // '@tarojs/plugin-framework-vue3/dist/runtime': '<rootDir>/__mocks__/taro-framework',
   }
+}
+```
+
+:::caution 请注意
+该方法不适用路由跳转和部分生命周期测试。
+:::
+
+#### TabBar
+
+如果项目需要测试 TabBar 相关的逻辑，需要将应用完成初始化，参看方法如下：
+
+```js title="__tests__/tab-bar.test.js"
+import * as Taro from '@tarojs/taro-h5'
+import { buildApp } from './utils'
+
+describe('tabbar', () => {
+  beforeEach(() => {
+    jest.resetAllMocks()
+    buildApp()
+  })
+
+  it('should be able to set/removeTabBarBadge', done => {
+    Taro.eventCenter.once('__taroSetTabBarBadge', res => res.successHandler({
+      errMsg: 'setTabBarBadge:ok'
+    }))
+    Taro.eventCenter.once('__taroRemoveTabBarBadge', res => res.successHandler({
+      errMsg: 'removeTabBarBadge:ok'
+    }))
+    Taro.setTabBarBadge({
+      index: 0,
+      text: 'text'
+    }).then(res => {
+      expect(res.errMsg).toBe('setTabBarBadge:ok')
+
+      Taro.removeTabBarBadge({
+        index: 0
+      }).then(res => {
+        expect(res.errMsg).toBe('removeTabBarBadge:ok')
+        done()
+      })
+    })
+  })
+})
+```
+
+```js title="__tests__/utils.js"
+import { createReactApp } from '@tarojs/plugin-framework-react/dist/runtime'
+import { createRouter } from '@tarojs/router'
+import React, { Component } from 'react'
+import ReactDOM from 'react-test-renderer'
+
+const appConfig: any = {
+  pages: [
+    'pages/index/index',
+    'pages/about/index'
+  ],
+  window: {
+    backgroundTextStyle: 'light',
+    navigationBarBackgroundColor: '#fff',
+    navigationBarTitleText: 'WeChat',
+    navigationBarTextStyle: 'black'
+  },
+  tabBar: {
+    color: '#333',
+    selectedColor: '#409EFF',
+    backgroundColor: '#fff',
+    borderStyle: 'black',
+    list: [{
+      pagePath: '/pages/index/index', text: '首页'
+    }, {
+      pagePath: '/pages/about/about', text: '关于'
+    }],
+    mode: 'hash',
+    basename: '/test/app',
+    customRoutes: {
+      '/pages/about/index': '/about'
+    }
+  },
+  router: { mode: 'hash' }
+}
+
+export function buildApp () {
+  const config: any = { ...appConfig }
+  class App extends Component {
+    render () {
+      return this.props.children
+    }
+  }
+  config.routes = [
+    config.pages?.map(path => ({ path, load: () => null }))
+  ]
+  const inst = createReactApp(App, React, ReactDOM, config)
+  createRouter(inst, config, 'React')
 }
 ```
 
