@@ -34,7 +34,7 @@ function processNavigateUrl (option: Option) {
       }
       item === '..' ? parts.pop() : parts.push(item)
     })
-    pathPieces.pathname = parts.join('/')
+    pathPieces.pathname = parts.filter(e => !!e).join('/')
   }
 
   // 处理 basename
