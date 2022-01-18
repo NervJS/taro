@@ -12,7 +12,7 @@ interface InputProps extends StandardProps, FormItemProps {
    * @supported weapp, h5, rn
    * @rn 部分支持
    */
-  type?: 'text' | 'number' | 'idcard' | 'digit'
+  type?: 'text' | 'number' | 'idcard' | 'digit' | 'safe-password' | 'nickname'
 
   /** 是否是密码类型
    * @supported weapp, h5, rn
@@ -111,6 +111,42 @@ interface InputProps extends StandardProps, FormItemProps {
    * @supported weapp
    */
   alwaysEmbed?: boolean
+
+  /**
+   * 安全键盘加密公钥的路径，只支持包内路径
+   * @supported weapp
+   */
+  safePasswordCertPath?: string
+
+  /**
+   * 安全键盘输入密码长度
+   * @supported weapp
+   */
+  safePasswordLength?: number
+
+  /**
+   * 安全键盘加密时间戳
+   * @supported weapp
+   */
+   safePasswordTimeStamp?: number
+
+  /**
+   * 安全键盘加密盐值
+   * @supported weapp
+   */
+   safePasswordNonce?: string
+
+  /**
+   * 安全键盘计算hash盐值，若指定custom-hash 则无效
+   * @supported weapp
+   */
+   safePasswordSalt?: string
+
+  /**
+   * 安全键盘计算hash的算法表达式，如 `md5(sha1('foo' + sha256(sm3(password + 'bar'))))`
+   * @supported weapp
+   */
+   safePasswordCustomHash?: string
 
   /**
    * 当 type 为 number, digit, idcard 数字键盘是否随机排列
