@@ -39,7 +39,6 @@ Taro-H5 实际并没有在 Taro 对象上挂载所有的 API，这是为了避�
 以 `StoryBook: 6.4.13` 为例，在 Taro 中使用需要在 StoryBook 安装完成之后，更新以下配置：
 
 ```js title=".storybook/main.js"
-// 6.4.13
 const path = require('path')
 
 module.exports = {
@@ -80,5 +79,40 @@ module.exports = {
   })
   // ...
 }
+```
 
-``
+### Jest
+
+使用 Jest 测试也是类似，需要添加配置如下
+
+```js title="jest"
+module.exports = {
+  // ...
+  globals: {
+    // ...
+    window: true,
+    ENABLE_INNER_HTML: true,
+    ENABLE_ADJACENT_HTML: true,
+    ENABLE_SIZE_APIS: true,
+    ENABLE_TEMPLATE_CONTENT: true,
+    ENABLE_CLONE_NODE: true,
+    ENABLE_CONTAINS: true,
+    ENABLE_MUTATION_OBSERVER: true,
+  },
+  moduleNameMapper: {
+    // ...
+    '@tarojs/taro': '@tarojs/taro-h5',
+    // '@tarojs/components': '@tarojs/components/dist-h5/react',
+    // '@tarojs/plugin-framework-react/dist/runtime': '<rootDir>/__mocks__/taro-framework',
+    // '@tarojs/plugin-framework-vue2/dist/runtime': '<rootDir>/__mocks__/taro-framework',
+    // '@tarojs/plugin-framework-vue3/dist/runtime': '<rootDir>/__mocks__/taro-framework',
+  }
+}
+```
+
+```js title="__mocks__/taro-framework.js"
+const App = {}
+export function createReactApp () { return { ...App } }
+export function createVueApp () { return { ...App } }
+export function createVue3App () { return { ...App } }
+```
