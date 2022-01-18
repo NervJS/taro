@@ -47,6 +47,7 @@ module.exports = {
   babel: options => ({
     ...options,
     plugins: [
+      ...options.plugins,
       [require('babel-plugin-transform-taroapi').default, {
         apis: require(require.resolve('@tarojs/taro-h5/dist/taroApis', { basedir: path.resolve(__dirname, '..') })),
         packageName: '@tarojs/taro'
@@ -63,6 +64,19 @@ module.exports = {
         '@tarojs/taro': '@tarojs/taro-h5'
       },
     },
+    plugins: [
+      ...config.plugins,
+      new webpack.DefinePlugin({
+        'process.env.TARO_ENV': JSON.stringify('h5'),
+        ENABLE_INNER_HTML: JSON.stringify(false),
+        ENABLE_ADJACENT_HTML: JSON.stringify(false),
+        ENABLE_SIZE_APIS: JSON.stringify(false),
+        ENABLE_TEMPLATE_CONTENT: JSON.stringify(false),
+        ENABLE_CLONE_NODE: JSON.stringify(false),
+        ENABLE_CONTAINS: JSON.stringify(false),
+        ENABLE_MUTATION_OBSERVER: JSON.stringify(false),
+      }),
+    ]
   })
   // ...
 }
