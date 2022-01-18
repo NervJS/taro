@@ -97,7 +97,8 @@ module.exports = {
           'platform-plugin-template',
           'platform-plugin-reconciler'
         ]
-      }
+      },
+      'external-libraries'
     ],
     社区生态: [
       'treasures',
