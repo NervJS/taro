@@ -23,7 +23,7 @@ sidebar_label: Image
 | mode    | ✔ | ✔ | 部分支持 scaleToFill, aspectFit, aspectFill, widthFix | ✔ | ✔ | ✔ |
 | onError | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
 | onLoad  | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| lazyLoad| ✔ |  | x | ✔ | ✔ | ✔ |
+| lazyLoad| ✔ | ✔ | x | ✔ | ✔ | ✔ |
 
 > 注意
 
