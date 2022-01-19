@@ -12,6 +12,7 @@ export function loadAnimateStyle (ms = 300) {
   background-color: #fff;
   transform: translate(100%, 0);
   transition: transform ${ms}ms;
+  z-index: 0;
 }
 
 .taro_router .taro_page.taro_tabbar_page,
