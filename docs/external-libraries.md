@@ -39,6 +39,7 @@ Taro-H5 实际并没有在 Taro 对象上挂载所有的 API，这是为了避�
 以 `StoryBook: 6.4.13` 为例，在 Taro 中使用需要在 StoryBook 安装完成之后，更新以下配置：
 
 ```js title=".storybook/main.js"
+const webpack = require('webpack');
 const path = require('path')
 
 module.exports = {
