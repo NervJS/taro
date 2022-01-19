@@ -20,7 +20,6 @@ module.exports = {
   resolve: {
     mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main'],
     alias: {
-      ...config.resolve.alias,
       '@tarojs/taro': '@tarojs/taro-h5'
     },
   },
