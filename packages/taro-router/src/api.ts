@@ -21,11 +21,8 @@ interface NavigateBackOption extends Base {
 function processNavigateUrl (option: Option) {
   const pathPieces = parsePath(option.url)
 
-  // 处理自定义路由
-  pathPieces.pathname = routesAlias.getAlias(addLeadingSlash(pathPieces.pathname))
-
   // 处理相对路径
-  if (pathPieces?.pathname?.includes('./')) {
+  if (pathPieces.pathname?.includes('./')) {
     const parts = history.location.pathname.split('/')
     parts.pop()
     pathPieces.pathname.split('/').forEach((item) => {
@@ -36,6 +33,9 @@ function processNavigateUrl (option: Option) {
     })
     pathPieces.pathname = parts.join('/')
   }
+
+  // 处理自定义路由
+  pathPieces.pathname = routesAlias.getAlias(addLeadingSlash(pathPieces.pathname))
 
   // 处理 basename
   pathPieces.pathname = prependBasename(pathPieces.pathname)
