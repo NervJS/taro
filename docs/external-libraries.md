@@ -213,3 +213,7 @@ export function createReactApp () { return { ...App } }
 export function createVueApp () { return { ...App } }
 export function createVue3App () { return { ...App } }
 ```
+
+#### Hooks
+
+一些诸如 `useDidShow`、`useDidHide` 等等依赖于生命周期的 Hooks 并不会通过 Taro-H5 提供，使用它们需要提供 Mock 方法并挂在到 taro 对象上（可以参考 `@tarojs/plugin-framework-react/dist/api-loader` 中的方法注入），测试时如果需要触发钩子，则可以通过 `Taro.eventCenter` 来模拟。
