@@ -82,7 +82,7 @@ module.exports = {
 ```
 
 :::caution 请注意
-该方法不适用 `pxTransform` 方法，如果需要使用请先调用自行调用 `initPxTransform` 初始化配置 (Taro 升级到 webpack5 之后会提供替代解决防范)。
+该方法不适用 `pxTransform` 方法，如果需要使用请先调用自行调用 `initPxTransform` 初始化配置 (目前 Taro 使用 webpack4 构建项目，无法在 StoryBook 中直接引用 `@tarojs/webpack-runner` 提供的方法引入所有配置，等升级到 webpack5 之后会提供替代解决方案)。
 :::
 
 ### Jest
