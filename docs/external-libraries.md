@@ -116,6 +116,17 @@ export const decorators = [
 //...
 ```
 
+:::解决storybook中渲染结果与设计稿大小不一致的问题（以designWidth: 750px为例)
+:::
+
+```html title=".storybook/preview-body.html"
+<style>
+  html {
+    font-size: 23.4375px;
+  }
+</style>
+```
+
 ### Jest
 
 使用 Jest 测试也是类似，需要添加配置如下
