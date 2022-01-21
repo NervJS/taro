@@ -43,7 +43,7 @@ The initialization template provided by `taro init` will use the latest version 
 | 0.62.x | compatible, but not fully tested, please provide issue | [0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2), change react-native version to 0.62.0 |
 | 0.63.x | >= 3.2.0, but after version 3.2.13, you need to add the configuration manually, refer to [PR](https://github.com/NervJS/taro/pull/9540) | [0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2) |
 | 0.64.x | >= 3.2.0 | [0.64.0](https://github.com/NervJS/taro-native-shell/tree/0.64.0) |
-| 0.65.x | Not recommended | - |
+| 0.65.x | >= 3.3.10 | - |
 | 0.66.x | >= 3.3.10 | [0.66.0](https://github.com/NervJS/taro-native-shell/tree/0.66.0) |
 
 ## Initialization by template
