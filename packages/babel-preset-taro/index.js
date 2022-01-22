@@ -28,7 +28,7 @@ module.exports = (_, options = {}) => {
     }])
     if (process.env.TARO_ENV === 'h5' && process.env.NODE_ENV !== 'production' && options.hot !== false) {
       if (options.framework === 'react') {
-        plugins.push([require('react-refresh/babel')])
+        plugins.push([require('react-refresh/babel'), { skipEnvCheck: true }])
       } else if (options.framework === 'preact') {
         overrides.push({
           include: /\.[jt]sx$/,

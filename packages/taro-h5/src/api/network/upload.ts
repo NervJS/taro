@@ -8,7 +8,7 @@ import {
   XHR_STATS
 } from './utils'
 
-const createUploadTask = ({ url, filePath, formData, name, header, timeout, fileName, success, error }): Taro.UploadTask => {
+const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout, fileName, success, error }): Taro.UploadTask => {
   let timeoutInter
   let formKey
   const apiName = 'uploadFile'
