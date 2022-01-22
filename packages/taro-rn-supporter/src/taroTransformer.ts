@@ -4,13 +4,11 @@ import * as ModuleResolution from 'metro/src/node-haste/DependencyGraph/ModuleRe
 import { getProjectConfig, getRNConfig } from './utils'
 import { injectDefineConfigHeader } from '@tarojs/helper'
 
-const _babelTransform = ({ src, filename, options, plugins }) => {
+const configBabelTransform = ({ src, filename, options, plugins }) => {
   // 获取rn配置中的moodifyBabelConfig
   // 与参数plugins合并，然后传给babelTransform
   const _plugins = plugins || []
-  if (options.isConfigFile) {
-    _plugins.push(injectDefineConfigHeader)
-  }
+  _plugins.push(injectDefineConfigHeader)
   return babelTransform({ src, filename, options, plugins: _plugins })
 }
 
@@ -46,10 +44,9 @@ const transform = ({ src, filename, options, plugins }) => {
         appName: rnConfig.appName,
         designWidth: rnConfig.designWidth ? rnConfig.designWidth : config.designWidth,
         deviceRatio: rnConfig.designWidth ? rnConfig.deviceRatio : config.deviceRatio,
-        nextTransformer: _babelTransform,
+        nextTransformer: /\.config\.(t|j)sx?$/.test(filename) ? configBabelTransform : babelTransform,
         isEntryFile: filename_ => ModuleResolution.ModuleResolver.EMPTY_MODULE.includes(filename_),
-        rn: rnConfig,
-        isConfigFile: /\.config\.(t|j)sx?$/.test(filename)
+        rn: rnConfig
       }
     }
   ]
@@ -60,7 +57,7 @@ const transform = ({ src, filename, options, plugins }) => {
       return getTransformer(rules[i].transformer).transform({ src, filename, options: mixOptions })
     }
   }
-  return _babelTransform({ src, filename, options, plugins })
+  return babelTransform({ src, filename, options, plugins })
 }
 
 export {
