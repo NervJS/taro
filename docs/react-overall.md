@@ -271,7 +271,7 @@ export default class Test extends React.Component {
 
 因为 development 版本的 React 体积较大，为了减少小程序体积，方便开发时真机预览。Taro 在构建小程序时默认使用 production 版本的 React 相关依赖。
 
-但是 production 版本的 React 出错时不会展示报错堆栈的信息。因此当你遇到类似这种报错时：【Error: Minified React error #152】。可以修改编译配置中的 [mini.debugReact](http://localhost:3000/taro/docs/next/config-detail#minidebugreact) 选项，然后重新开启编译。这样 Taro 会使用 development 版本的 React，从而输出报错堆栈。
+但是 production 版本的 React 出错时不会展示报错堆栈的信息。因此当你遇到类似这种报错时：【Error: Minified React error #152】。可以修改编译配置中的 [mini.debugReact](./config-detail#minidebugreact) 选项，然后重新开启编译。这样 Taro 会使用 development 版本的 React，从而输出报错堆栈。
 
 #### Error: Minified React error #152 报错
 
