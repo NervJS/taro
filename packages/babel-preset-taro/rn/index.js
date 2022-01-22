@@ -60,14 +60,16 @@ function getEnv () {
 }
 
 function parseDefineConst (config) {
+  const result = {}
   Object.keys(config.defineConstants).forEach((key) => {
     try {
-      config.defineConstants[key] = JSON.parse(config.defineConstants[key])
+      result[key] = JSON.parse(config.defineConstants[key])
     } catch (e) {
-      console.error('defineConstants环境配置有误')
-      config.defineConstants[key] = ''
+      console.error('defineConstants error: ', e)
+      result[key] = ''
     }
   })
+  return result
 }
 
 /**
@@ -79,16 +81,14 @@ function getDefineConstants () {
   const rnconfig = getRNConfig()
   const env = getEnv()
   if (rnconfig.defineConstants) {
-    parseDefineConst(rnconfig)
     return {
-      ...rnconfig.defineConstants,
+      ...parseDefineConst(rnconfig),
       ...env
     }
   }
   if (config.defineConstants) {
-    parseDefineConst(config)
     return {
-      ...config.defineConstants,
+      ...parseDefineConst(config),
       ...env
     }
   }
