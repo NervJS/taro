@@ -218,7 +218,7 @@ export class CanvasContext implements Taro.CanvasContext {
   translate (...args) { return this.enqueueActions(this.ctx.translate, ...args) }
 
   measureText (text: string): TextMetrics {
-    return this.measureText(text)
+    return this.ctx.measureText(text)
   }
 
   createCircularGradient (x: number, y: number, r: number): CanvasGradient {
