@@ -15,15 +15,21 @@ ComponentType<WebViewProps>
 
 ## 示例代码
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
 
 <Tabs
   defaultValue="React"
   values={[
-    {label: 'React', value: 'React'},
-    {label: 'Vue', value: 'Vue'}
-  ]}>
+  {
+    "label": "React",
+    "value": "React"
+  },
+  {
+    "label": "Vue",
+    "value": "Vue"
+  }
+]}>
 <TabItem value="React">
 
 ```tsx
@@ -38,7 +44,6 @@ class App extends Component {
 }
 ```
 </TabItem>
-
 <TabItem value="Vue">
 
 ```html
@@ -46,48 +51,17 @@ class App extends Component {
   <web-view src='https://mp.weixin.qq.com/' @message="handleMessage" />
 </template>
 ```
-  
 </TabItem>
 </Tabs>
 
 ## WebViewProps
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>src</td>
-      <td><code>string</code></td>
-      <td>是</td>
-      <td>webview 指向网页的链接。可打开关联的公众号的文章，其它网页需登录小程序管理后台配置业务域名。</td>
-    </tr>
-    <tr>
-      <td>onMessage</td>
-      <td><code>BaseEventOrigFunction&lt;onMessageEventDetail&gt;</code></td>
-      <td>否</td>
-      <td>网页向小程序 postMessage 时，会在特定时机（小程序后退、组件销毁、分享）触发并收到消息。e.detail = {`{ data }`}</td>
-    </tr>
-    <tr>
-      <td>onLoad</td>
-      <td><code>BaseEventOrigFunction&lt;onLoadEventDetail&gt;</code></td>
-      <td>否</td>
-      <td>网页加载成功时候触发此事件。e.detail = {`{ src }`}</td>
-    </tr>
-    <tr>
-      <td>onError</td>
-      <td><code>BaseEventOrigFunction&lt;onErrorEventDetail&gt;</code></td>
-      <td>否</td>
-      <td>网页加载失败的时候触发此事件。e.detail = {`{ src }`}</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| src | `string` | 是 | webview 指向网页的链接。可打开关联的公众号的文章，其它网页需登录小程序管理后台配置业务域名。 |
+| onMessage | `CommonEventFunction<onMessageEventDetail>` | 否 | 网页向小程序 postMessage 时，会在特定时机（小程序后退、组件销毁、分享）触发并收到消息。e.detail = { data } |
+| onLoad | `CommonEventFunction<onLoadEventDetail>` | 否 | 网页加载成功时候触发此事件。e.detail = { src } |
+| onError | `CommonEventFunction<onErrorEventDetail>` | 否 | 网页加载失败的时候触发此事件。e.detail = { src } |
 
 ### API 支持度
 
@@ -100,60 +74,21 @@ class App extends Component {
 
 ### onMessageEventDetail
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>data</td>
-      <td><code>any[]</code></td>
-      <td>消息数据，是多次 postMessage 的参数组成的数组</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| data | `any[]` | 消息数据，是多次 postMessage 的参数组成的数组 |
 
 ### onLoadEventDetail
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>src</td>
-      <td><code>string</code></td>
-      <td>网页链接</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| src | `string` | 网页链接 |
 
 ### onErrorEventDetail
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>src</td>
-      <td><code>string</code></td>
-      <td>网页链接</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| src | `string` | 网页链接 |
 
 ## API 支持度
 

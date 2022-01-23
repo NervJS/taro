@@ -209,7 +209,7 @@ declare namespace LivePlayerProps {
  * 需要先通过类目审核，再在小程序管理后台，“设置”-“接口设置”中自助开通该组件权限。
  * @classification media
  * @supported weapp
- * @example
+ * @example_react
  * ```tsx
  * class App extends Components {
  *   render () {
@@ -218,6 +218,12 @@ declare namespace LivePlayerProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <live-player src="url" mode="live" :autoplay="true"  />
+ * </template>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/live-player.html
  */

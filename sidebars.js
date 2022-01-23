@@ -124,7 +124,10 @@ module.exports = {
   },
   "components": {
     "关于组件库": [
-      "components-desc"
+      "components-desc",
+      "components/custom-wrapper",
+      "components/page-meta",
+      "components/slot",
     ],
     "视图容器": [
       "components/viewContainer/view",
@@ -135,7 +138,9 @@ module.exports = {
       "components/viewContainer/movable-view",
       "components/viewContainer/cover-view",
       "components/viewContainer/cover-image",
-      "components/viewContainer/match-media"
+      "components/viewContainer/match-media",
+      "components/viewContainer/share-element",
+      "components/viewContainer/page-container"
     ],
     "基础内容": [
       "components/base/icon",
@@ -155,7 +160,8 @@ module.exports = {
       "components/forms/radio",
       "components/forms/slider",
       "components/forms/switch",
-      "components/forms/textarea"
+      "components/forms/textarea",
+      "components/forms/keyboard-accessory"
     ],
     "导航": [
       "components/navig/navigator"
@@ -166,7 +172,8 @@ module.exports = {
       "components/media/live-player",
       "components/media/live-pusher",
       "components/media/video",
-      "components/media/camera"
+      "components/media/camera",
+      "components/media/voip-room"
     ],
     "地图": [
       "components/maps/map"
@@ -176,6 +183,7 @@ module.exports = {
     ],
     "开放能力": [
       "components/open/ad",
+      "components/open/ad-custom",
       "components/open/official-account",
       "components/open/open-data",
       "components/open/web-view",
@@ -183,9 +191,6 @@ module.exports = {
     ],
     "导航栏": [
       "components/navigation-bar"
-    ],
-    "页面属性配置节点": [
-      "components/page-meta"
     ]
   },
   "API": {

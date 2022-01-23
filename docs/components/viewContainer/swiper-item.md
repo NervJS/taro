@@ -4,6 +4,7 @@ sidebar_label: SwiperItem
 ---
 
 仅可放置在 swiper 组件中，宽高自动设置为100%
+> 不要为 `SwiperItem` 设置 **style** 属性，可以通过 class 设置样式。[7147](https://github.com/NervJS/taro/issues/7147)
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/swiper-item.html)
 
@@ -15,15 +16,21 @@ ComponentType<SwiperItemProps>
 
 ## 示例代码
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
 
 <Tabs
   defaultValue="React"
   values={[
-    {label: 'React', value: 'React'},
-    {label: 'Vue', value: 'Vue'}
-  ]}>
+  {
+    "label": "React",
+    "value": "React"
+  },
+  {
+    "label": "Vue",
+    "value": "Vue"
+  }
+]}>
 <TabItem value="React">
 
 ```tsx
@@ -52,9 +59,7 @@ class App extends Component {
   }
 }
 ```
-
 </TabItem>
-
 <TabItem value="Vue">
 
 ```html
@@ -80,43 +85,23 @@ class App extends Component {
   </swiper>
 </template>
 ```
-  
 </TabItem>
 </Tabs>
 
 ## SwiperItemProps
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>itemId</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>该 swiper-item 的标识符</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| itemId | `string` | 否 | 该 swiper-item 的标识符 |
 
 ### API 支持度
+
 | API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | SwiperItemProps.itemId | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
+## API 支持度
 
-<!-- ## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| SwiperItem | ✔️ |  |  | -->
-
-## 注意
-
-* 不要为 `SwiperItem` 设置 **style** 属性，可以通过 class 设置样式。[7147](https://github.com/NervJS/taro/issues/7147)
+| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| SwiperItem | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |

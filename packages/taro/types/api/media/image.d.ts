@@ -270,7 +270,7 @@ declare module '../../index' {
     previewImage(option: previewImage.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 预览图片和视频。
-     * @supported weapp 基础库 2.12.0 开始支持，低版本需做兼容处理。
+     * @supported weapp
      * @example
      * ```tsx
      * Taro.previewMedia({

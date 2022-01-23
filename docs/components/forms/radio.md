@@ -15,16 +15,21 @@ ComponentType<RadioProps>
 
 ## 示例代码
 
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
 
 <Tabs
   defaultValue="React"
   values={[
-    {label: 'React', value: 'React'},
-    {label: 'Vue', value: 'Vue'}
-  ]}>
+  {
+    "label": "React",
+    "value": "React"
+  },
+  {
+    "label": "Vue",
+    "value": "Vue"
+  }
+]}>
 <TabItem value="React">
 
 ```tsx
@@ -94,7 +99,6 @@ export default class PageRadio extends Component {
 }
 ```
 </TabItem>
-
 <TabItem value="Vue">
 
 ```html
@@ -167,59 +171,18 @@ export default {
 }
 </script>
 ```
-  
 </TabItem>
 </Tabs>
 
 ## RadioProps
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>value</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td><code>&lt;Radio/&gt;</code> 标识。当该<code>&lt;Radio/&gt;</code> 选中时，<code>&lt;RadioGroup/&gt;</code>的 change 事件会携带<code>&lt;Radio/&gt;</code>的 value</td>
-    </tr>
-    <tr>
-      <td>checked</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当前是否选中</td>
-    </tr>
-    <tr>
-      <td>disabled</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否禁用</td>
-    </tr>
-    <tr>
-      <td>color</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}><code>&quot;#09BB07&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>Radio 的颜色，同 css 的 color</td>
-    </tr>
-  </tbody>
-</table>
-
-> H5 属性
-
-| 属性名 | 类型 | 默认值 | 说明 |
-| :- | :- | :- | :- |
-| nativeProps      | Object | `{}` | H5 独有，用于透传 `WebComponents` 上的属性到内部 H5 标签上 |
+| 参数 | 类型 | 默认值 | 必填 | 说明 |
+| --- | --- | :---: | :---: | --- |
+| value | `string` |  | 否 | `<Radio/>` 标识。当该`<Radio/>` 选中时，`<RadioGroup/>`的 change 事件会携带`<Radio/>`的 value |
+| checked | `boolean` | `false` | 否 | 当前是否选中 |
+| disabled | `boolean` | `false` | 否 | 是否禁用 |
+| color | `string` | `"#09BB07"` | 否 | Radio 的颜色，同 css 的 color |
+| nativeProps | `Record<string, unknown>` |  | 否 | 用于透传 `WebComponents` 上的属性到内部 H5 标签上 |
 
 ### API 支持度
 
@@ -229,6 +192,7 @@ export default {
 | RadioProps.checked | ✔️ | ✔️ | ✔️ |
 | RadioProps.disabled | ✔️ | ✔️ | ✔️ |
 | RadioProps.color | ✔️ |  | ✔️ |
+| RadioProps.nativeProps |  | ✔️ |  |
 
 ## API 支持度
 

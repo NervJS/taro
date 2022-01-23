@@ -17,15 +17,21 @@ ComponentType<LivePlayerProps>
 
 ## 示例代码
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
 
 <Tabs
   defaultValue="React"
   values={[
-    {label: 'React', value: 'React'},
-    {label: 'Vue', value: 'Vue'}
-  ]}>
+  {
+    "label": "React",
+    "value": "React"
+  },
+  {
+    "label": "Vue",
+    "value": "Vue"
+  }
+]}>
 <TabItem value="React">
 
 ```tsx
@@ -38,7 +44,6 @@ class App extends Components {
 }
 ```
 </TabItem>
-
 <TabItem value="Vue">
 
 ```html
@@ -46,138 +51,32 @@ class App extends Components {
   <live-player src="url" mode="live" :autoplay="true"  />
 </template>
 ```
-  
 </TabItem>
 </Tabs>
 
-
 ## LivePlayerProps
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>src</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>音视频地址。目前仅支持 flv, rtmp 格式</td>
-    </tr>
-    <tr>
-      <td>mode</td>
-      <td><code>&quot;live&quot; | &quot;RTC&quot;</code></td>
-      <td style={{ textAlign: "center"}}><code>&quot;live&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>模式</td>
-    </tr>
-    <tr>
-      <td>autoplay</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>自动播放</td>
-    </tr>
-    <tr>
-      <td>muted</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否静音</td>
-    </tr>
-    <tr>
-      <td>orientation</td>
-      <td><code>&quot;vertical&quot; | &quot;horizontal&quot;</code></td>
-      <td style={{ textAlign: "center"}}><code>&quot;vertical&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>画面方向</td>
-    </tr>
-    <tr>
-      <td>objectFit</td>
-      <td><code>&quot;contain&quot; | &quot;fillCrop&quot;</code></td>
-      <td style={{ textAlign: "center"}}><code>&quot;contain&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>填充模式</td>
-    </tr>
-    <tr>
-      <td>backgroundMute</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>进入后台时是否静音（已废弃，默认退台静音）<br /><strong>不推荐使用</strong></td>
-    </tr>
-    <tr>
-      <td>minCache</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}><code>1</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>进最小缓冲区，单位s</td>
-    </tr>
-    <tr>
-      <td>maxCache</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}><code>3</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>进最大缓冲区，单位s</td>
-    </tr>
-    <tr>
-      <td>soundMode</td>
-      <td><code>&quot;speaker&quot; | &quot;ear&quot;</code></td>
-      <td style={{ textAlign: "center"}}><code>&quot;speaker&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>声音输出方式</td>
-    </tr>
-    <tr>
-      <td>autoPauseIfNavigate</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当跳转到本小程序的其他页面时，是否自动暂停本页面的实时音视频播放</td>
-    </tr>
-    <tr>
-      <td>autoPauseIfOpenNavigate</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当跳转到其它微信原生页面时，是否自动暂停本页面的实时音视频播放</td>
-    </tr>
-    <tr>
-      <td>onStateChange</td>
-      <td><code>BaseEventOrigFunction&lt;onStateChangeEventDetail&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>播放状态变化事件，detail = {`{code}`}</td>
-    </tr>
-    <tr>
-      <td>onFullScreenChange</td>
-      <td><code>BaseEventOrigFunction&lt;onFullScreenChangeEventDetail&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>全屏变化事件，detail = {`{direction, fullScreen}`}</td>
-    </tr>
-    <tr>
-      <td>onNetstatus</td>
-      <td><code>BaseEventOrigFunction&lt;onNetStatusEventDetail&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>网络状态通知，detail = {`{info}`}</td>
-    </tr>
-    <tr>
-      <td>onAudioVolumenotify</td>
-      <td><code>BaseEventOrigFunction&lt;{}&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>播放音量大小通知，detail = {`{}`}</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 默认值 | 必填 | 说明 |
+| --- | --- | :---: | :---: | --- |
+| src | `string` |  | 否 | 音视频地址。目前仅支持 flv, rtmp 格式 |
+| mode | `keyof mode` | `"live"` | 否 | 模式 |
+| autoplay | `boolean` | `false` | 否 | 自动播放 |
+| muted | `boolean` | `false` | 否 | 是否静音 |
+| orientation | `keyof orientation` | `"vertical"` | 否 | 画面方向 |
+| objectFit | `keyof objectFit` | `"contain"` | 否 | 填充模式 |
+| backgroundMute | `boolean` | `false` | 否 | 进入后台时是否静音（已废弃，默认退台静音）<br />**不推荐使用** |
+| minCache | `number` | `1` | 否 | 进最小缓冲区，单位s |
+| maxCache | `number` | `3` | 否 | 进最小缓冲区，单位s |
+| soundMode | `keyof soundMode` | `"speaker"` | 否 | 声音输出方式 |
+| autoPauseIfNavigate | `boolean` | `true` | 否 | 当跳转到本小程序的其他页面时，是否自动暂停本页面的实时音视频播放 |
+| autoPauseIfOpenNavigate | `boolean` | `true` | 否 | 当跳转到其它微信原生页面时，是否自动暂停本页面的实时音视频播放 |
+| pictureInPictureMode | "" or "push" or "pop" or ("push" or "pop")[] |  | 否 | 设置小窗模式： push, pop，空字符串或通过数组形式设置多种模式（如： ["push", "pop"]） |
+| onStateChange | `CommonEventFunction<onStateChangeEventDetail>` |  | 否 | 播放状态变化事件，detail = {code} |
+| onFullScreenChange | `CommonEventFunction<onFullScreenChangeEventDetail>` |  | 否 | 全屏变化事件，detail = {direction, fullScreen} |
+| onNetStatus | `CommonEventFunction<onNetStatusEventDetail>` |  | 否 | 网络状态通知，detail = {info} |
+| onAudioVolumeNotify | `CommonEventFunction<{}>` |  | 否 | 播放音量大小通知，detail = {} |
+| onEnterPictureInPicture | `CommonEventFunction<any>` |  | 否 | 播放器进入小窗 |
+| onLeavePictureInPicture | `CommonEventFunction<any>` |  | 否 | 播放器退出小窗 |
 
 ### API 支持度
 
@@ -195,269 +94,98 @@ class App extends Components {
 | LivePlayerProps.soundMode | ✔️ |  |  |
 | LivePlayerProps.autoPauseIfNavigate | ✔️ |  |  |
 | LivePlayerProps.autoPauseIfOpenNavigate | ✔️ |  |  |
+| LivePlayerProps.pictureInPictureMode | ✔️ |  |  |
 | LivePlayerProps.onStateChange | ✔️ |  |  |
 | LivePlayerProps.onFullScreenChange | ✔️ |  |  |
-| LivePlayerProps.onNetstatus | ✔️ |  |  |
-| LivePlayerProps.onAudioVolumenotify | ✔️ |  |  |
+| LivePlayerProps.onNetStatus | ✔️ |  |  |
+| LivePlayerProps.onAudioVolumeNotify | ✔️ |  |  |
+| LivePlayerProps.onEnterPictureInPicture | ✔️ |  |  |
+| LivePlayerProps.onLeavePictureInPicture | ✔️ |  |  |
 
 ### mode
 
 mode 的合法值
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>live</td>
-      <td>直播</td>
-    </tr>
-    <tr>
-      <td>RTC</td>
-      <td>实时通话，该模式时延更低</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 说明 |
+| --- | --- |
+| live | 直播 |
+| RTC | 实时通话，该模式时延更低 |
 
 ### orientation
 
 orientation 的合法值
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>vertical</td>
-      <td>竖直</td>
-    </tr>
-    <tr>
-      <td>horizontal</td>
-      <td>水平</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 说明 |
+| --- | --- |
+| vertical | 竖直 |
+| horizontal | 水平 |
 
 ### objectFit
 
 objectFit 的合法值
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>contain</td>
-      <td>图像长边填满屏幕，短边区域会被填充⿊⾊</td>
-    </tr>
-    <tr>
-      <td>fillCrop</td>
-      <td>图像铺满屏幕，超出显示区域的部分将被截掉</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 说明 |
+| --- | --- |
+| contain | 图像长边填满屏幕，短边区域会被填充⿊⾊ |
+| fillCrop | 图像铺满屏幕，超出显示区域的部分将被截掉 |
 
 ### soundMode
 
 soundMode 的合法值
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>speaker</td>
-      <td>扬声器</td>
-    </tr>
-    <tr>
-      <td>ear</td>
-      <td>听筒</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 说明 |
+| --- | --- |
+| speaker | 扬声器 |
+| ear | 听筒 |
 
 ### onStateChangeEventDetail
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>code</td>
-      <td><code>number</code></td>
-      <td>状态码</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| code | `number` | 状态码 |
 
 ### onFullScreenChangeEventDetail
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>direction</td>
-      <td><code>number</code></td>
-      <td>方向</td>
-    </tr>
-    <tr>
-      <td>fullScreen</td>
-      <td><code>number | boolean</code></td>
-      <td>全屏</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| direction | `number` | 方向 |
+| fullScreen | number or boolean | 全屏 |
 
 ### onNetStatusEventDetail
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>info</td>
-      <td><code>netStatus</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| info | `netStatus` |
 
 ### status
 
 状态码
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>2001</td>
-      <td>已经连接服务器</td>
-    </tr>
-    <tr>
-      <td>2002</td>
-      <td>已经连接 RTMP 服务器,开始拉流</td>
-    </tr>
-    <tr>
-      <td>2003</td>
-      <td>网络接收到首个视频数据包(IDR)</td>
-    </tr>
-    <tr>
-      <td>2004</td>
-      <td>视频播放开始</td>
-    </tr>
-    <tr>
-      <td>2005</td>
-      <td>视频播放进度</td>
-    </tr>
-    <tr>
-      <td>2006</td>
-      <td>视频播放结束</td>
-    </tr>
-    <tr>
-      <td>2007</td>
-      <td>视频播放Loading</td>
-    </tr>
-    <tr>
-      <td>2008</td>
-      <td>解码器启动</td>
-    </tr>
-    <tr>
-      <td>2009</td>
-      <td>视频分辨率改变</td>
-    </tr>
-    <tr>
-      <td>-2301</td>
-      <td>网络断连，且经多次重连抢救无效，更多重试请自行重启播放</td>
-    </tr>
-    <tr>
-      <td>-2302</td>
-      <td>获取加速拉流地址失败</td>
-    </tr>
-    <tr>
-      <td>2101</td>
-      <td>当前视频帧解码失败</td>
-    </tr>
-    <tr>
-      <td>2102</td>
-      <td>当前音频帧解码失败</td>
-    </tr>
-    <tr>
-      <td>2103</td>
-      <td>网络断连, 已启动自动重连</td>
-    </tr>
-    <tr>
-      <td>2104</td>
-      <td>网络来包不稳：可能是下行带宽不足，或由于主播端出流不均匀</td>
-    </tr>
-    <tr>
-      <td>2105</td>
-      <td>当前视频播放出现卡顿</td>
-    </tr>
-    <tr>
-      <td>2106</td>
-      <td>硬解启动失败，采用软解</td>
-    </tr>
-    <tr>
-      <td>2107</td>
-      <td>当前视频帧不连续，可能丢帧</td>
-    </tr>
-    <tr>
-      <td>2108</td>
-      <td>当前流硬解第一个I帧失败，SDK自动切软解</td>
-    </tr>
-    <tr>
-      <td>3001</td>
-      <td>RTMP -DNS解析失败</td>
-    </tr>
-    <tr>
-      <td>3002</td>
-      <td>RTMP服务器连接失败</td>
-    </tr>
-    <tr>
-      <td>3003</td>
-      <td>RTMP服务器握手失败</td>
-    </tr>
-    <tr>
-      <td>3005</td>
-      <td>RTMP 读/写失败</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 说明 |
+| --- | --- |
+| 2001 | 已经连接服务器 |
+| 2002 | 已经连接 RTMP 服务器,开始拉流 |
+| 2003 | 网络接收到首个视频数据包(IDR) |
+| 2004 | 视频播放开始 |
+| 2005 | 视频播放进度 |
+| 2006 | 视频播放结束 |
+| 2007 | 视频播放Loading |
+| 2008 | 解码器启动 |
+| 2009 | 视频分辨率改变 |
+| -2301 | 网络断连，且经多次重连抢救无效，更多重试请自行重启播放 |
+| -2302 | 获取加速拉流地址失败 |
+| 2101 | 当前视频帧解码失败 |
+| 2102 | 当前音频帧解码失败 |
+| 2103 | 网络断连, 已启动自动重连 |
+| 2104 | 网络来包不稳：可能是下行带宽不足，或由于主播端出流不均匀 |
+| 2105 | 当前视频播放出现卡顿 |
+| 2106 | 硬解启动失败，采用软解 |
+| 2107 | 当前视频帧不连续，可能丢帧 |
+| 2108 | 当前流硬解第一个I帧失败，SDK自动切软解 |
+| 3001 | RTMP -DNS解析失败 |
+| 3002 | RTMP服务器连接失败 |
+| 3003 | RTMP服务器握手失败 |
+| 3005 | RTMP 读/写失败 |
 
 ## API 支持度
 

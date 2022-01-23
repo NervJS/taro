@@ -91,10 +91,15 @@ interface PageContainerProps extends StandardProps {
 }
 
 declare namespace PageContainerProps {
+  /** 弹出位置 */
   interface position {
+    /** 上方弹出 */
     top
+    /** 下方弹出 */
     bottom
+    /** 左边弹出 */
     left
+    /** 右边弹出 */
     right
   }
 }

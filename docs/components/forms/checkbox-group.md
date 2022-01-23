@@ -77,30 +77,10 @@ export default class PageCheckbox extends Component {
 
 ## CheckboxGroupProps
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>name</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>表单组件中加上 name 来作为 key</td>
-    </tr>
-    <tr>
-      <td>onChange</td>
-      <td><code>BaseEventOrigFunction&lt;{`{ value: string[]; }`}&gt;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td><code>&lt;CheckboxGroup/&gt;</code> 中选中项发生改变是触发 change 事件<br /><br />event.detail = {`{ value: [选中的checkbox的 value 的数组] }`}</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| name | `string` | 否 | 表单组件中加上 name 来作为 key |
+| onChange | `CommonEventFunction<{ value: string[]; }>` | 否 | `<CheckboxGroup/>` 中选中项发生改变是触发 change 事件<br /><br />event.detail = { value: [选中的checkbox的 value 的数组] } |
 
 ### API 支持度
 

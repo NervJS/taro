@@ -17,15 +17,21 @@ ComponentType<LabelProps>
 
 ## 示例代码
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
 
 <Tabs
   defaultValue="React"
   values={[
-    {label: 'React', value: 'React'},
-    {label: 'Vue', value: 'Vue'}
-  ]}>
+  {
+    "label": "React",
+    "value": "React"
+  },
+  {
+    "label": "Vue",
+    "value": "Vue"
+  }
+]}>
 <TabItem value="React">
 
 ```tsx
@@ -35,10 +41,10 @@ class App extends Components {
     return (
       <RadioGroup>
         <Label className='example-body__label' for='1' key='1'>
-          <Radio id='1' value='USA'>USA</Radio>
+          <Radio value='USA'>USA</Radio>
         </Label>
         <Label className='example-body__label' for='2' key='2'>
-          <Radio id='2' value='CHN' checked>
+          <Radio value='CHN' checked>
           CHN
           </Radio>
         </Label>
@@ -48,7 +54,6 @@ class App extends Components {
 }
 ```
 </TabItem>
-
 <TabItem value="Vue">
 
 ```html
@@ -65,31 +70,14 @@ class App extends Components {
   </radio-group>
 </template>
 ```
-  
 </TabItem>
 </Tabs>
 
-
 ## LabelProps
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>for</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>绑定控件的 id，RN中不支持</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| for | `string` | 否 | 绑定控件的 id |
 
 ## API 支持度
 

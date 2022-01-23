@@ -19,15 +19,21 @@ ComponentType<ScrollViewProps>
 
 ## 示例代码
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
 
 <Tabs
   defaultValue="React"
   values={[
-    {label: 'React', value: 'React'},
-    {label: 'Vue', value: 'Vue'}
-  ]}>
+  {
+    "label": "React",
+    "value": "React"
+  },
+  {
+    "label": "Vue",
+    "value": "Vue"
+  }
+]}>
 <TabItem value="React">
 
 ```tsx
@@ -84,9 +90,7 @@ export default class PageView extends Component {
   }
 }
 ```
-
 </TabItem>
-
 <TabItem value="Vue">
 
 ```html
@@ -169,186 +173,44 @@ export default {
 .demo-text-3 { background: #666; }
 </style>
 ```
-
 </TabItem>
 </Tabs>
 
 ## ScrollViewProps
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>scrollX</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>允许横向滚动</td>
-    </tr>
-    <tr>
-      <td>scrollY</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>允许纵向滚动</td>
-    </tr>
-    <tr>
-      <td>upperThreshold</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}><code>50</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>距顶部/左边多远时（单位px），触发 scrolltoupper 事件</td>
-    </tr>
-    <tr>
-      <td>lowerThreshold</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}><code>50</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>距底部/右边多远时（单位px），触发 scrolltolower 事件</td>
-    </tr>
-    <tr>
-      <td>scrollTop</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置竖向滚动条位置</td>
-    </tr>
-    <tr>
-      <td>scrollLeft</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置横向滚动条位置</td>
-    </tr>
-    <tr>
-      <td>scrollIntoView</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>值应为某子元素id（id不能以数字开头）。设置哪个方向可滚动，则在哪个方向滚动到该元素</td>
-    </tr>
-    <tr>
-      <td>scrollWithAnimation</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>在设置滚动条位置时使用动画过渡</td>
-    </tr>
-    <tr>
-      <td>enableBackToTop</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>iOS 点击顶部状态栏、安卓双击标题栏时，滚动条返回顶部，只支持竖向</td>
-    </tr>
-    <tr>
-      <td>enableFlex</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>启用 flexbox 布局。开启后，当前节点声明了 <code>display: flex</code> 就会成为 flex container，并作用于其孩子节点。</td>
-    </tr>
-    <tr>
-      <td>scrollAnchoring</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>开启 scroll anchoring 特性，即控制滚动位置不随内容变化而抖动，仅在 iOS 下生效，安卓下可参考 CSS <code>overflow-anchor</code> 属性。</td>
-    </tr>
-    <tr>
-      <td>refresherEnabled</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>开启自定义下拉刷新</td>
-    </tr>
-    <tr>
-      <td>refresherThreshold</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}><code>45</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置自定义下拉刷新阈值</td>
-    </tr>
-    <tr>
-      <td>refresherDefaultStyle</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}><code>'black'</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置自定义下拉刷新默认样式，支持设置 <code>black | white | none</code>， none 表示不使用默认样式</td>
-    </tr>
-    <tr>
-      <td>refresherBackground</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}><code>'#FFF'</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置自定义下拉刷新区域背景颜色</td>
-    </tr>
-    <tr>
-      <td>refresherTriggered</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置当前下拉刷新状态，true 表示下拉刷新已经被触发，false 表示下拉刷新未被触发</td>
-    </tr>
-    <tr>
-      <td>onScrollToUpper</td>
-      <td><code>(event: BaseEventOrigFunction&lt;any&gt;) =&gt; any</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>滚动到顶部/左边，会触发 scrolltoupper 事件</td>
-    </tr>
-    <tr>
-      <td>onScrollToLower</td>
-      <td><code>(event: BaseEventOrigFunction&lt;any&gt;) =&gt; any</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>滚动到底部/右边，会触发 scrolltolower 事件</td>
-    </tr>
-    <tr>
-      <td>onScroll</td>
-      <td><code>(event: BaseEventOrigFunction&lt;onScrollDetail&gt;) =&gt; any</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>滚动时触发<br /><code>event.detail = {`{ scrollLeft, scrollTop, scrollHeight, scrollWidth, deltaX, deltaY}`}</code></td>
-    </tr>
-    <tr>
-      <td>onRefresherPulling</td>
-      <td><code>(event: BaseEventOrigFunction&lt;any&gt;) =&gt; any</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>自定义下拉刷新控件被下拉</td>
-    </tr>
-    <tr>
-      <td>onRefresherRefresh</td>
-      <td><code>(event: BaseEventOrigFunction&lt;any&gt;) =&gt; any</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>自定义下拉刷新被触发</td>
-    </tr>
-    <tr>
-      <td>onRefresherRestore</td>
-      <td><code>(event: BaseEventOrigFunction&lt;any&gt;) =&gt; any</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>自定义下拉刷新被复位</td>
-    </tr>
-    <tr>
-      <td>onRefresherAbort</td>
-      <td><code>(event: BaseEventOrigFunction&lt;any&gt;) =&gt; any</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>自定义下拉刷新被中止</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 默认值 | 必填 | 说明 |
+| --- | --- | :---: | :---: | --- |
+| scrollX | `boolean` | `false` | 否 | 允许横向滚动 |
+| scrollY | `boolean` | `false` | 否 | 允许纵向滚动 |
+| upperThreshold | `number` | `50` | 否 | 距顶部/左边多远时（单位px），触发 scrolltoupper 事件 |
+| lowerThreshold | `number` | `50` | 否 | 距底部/右边多远时（单位px），触发 scrolltolower 事件 |
+| scrollTop | `number` |  | 否 | 设置竖向滚动条位置 |
+| scrollLeft | `number` |  | 否 | 设置横向滚动条位置 |
+| scrollIntoView | `string` |  | 否 | 值应为某子元素id（id不能以数字开头）。设置哪个方向可滚动，则在哪个方向滚动到该元素 |
+| scrollWithAnimation | `boolean` | `false` | 否 | 在设置滚动条位置时使用动画过渡 |
+| enableBackToTop | `boolean` | `false` | 否 | iOS 点击顶部状态栏、安卓双击标题栏时，滚动条返回顶部，只支持竖向 |
+| enableFlex | `boolean` | `false` | 否 | 启用 flexbox 布局。开启后，当前节点声明了 `display: flex` 就会成为 flex container，并作用于其孩子节点。 |
+| scrollAnchoring | `boolean` | `false` | 否 | 开启 scroll anchoring 特性，即控制滚动位置不随内容变化而抖动，仅在 iOS 下生效，安卓下可参考 CSS `overflow-anchor` 属性。 |
+| refresherEnabled | `boolean` | `false` | 否 | 开启自定义下拉刷新 |
+| refresherThreshold | `number` | `45` | 否 | 设置自定义下拉刷新阈值 |
+| refresherDefaultStyle | `string` | `'black'` | 否 | 设置自定义下拉刷新默认样式，支持设置 `black or white or none`， none 表示不使用默认样式 |
+| refresherBackground | `string` | `'#FFF'` | 否 | 设置自定义下拉刷新区域背景颜色 |
+| refresherTriggered | `boolean` | `false` | 否 | 设置当前下拉刷新状态，true 表示下拉刷新已经被触发，false 表示下拉刷新未被触发 |
+| enhanced | `boolean` | `false` | 否 | 启用 scroll-view 增强特性 |
+| bounces | `boolean` | `true` | 否 | iOS 下 scroll-view 边界弹性控制 (同时开启 enhanced 属性后生效) |
+| showScrollbar | `boolean` | `true` | 否 | 滚动条显隐控制 (同时开启 enhanced 属性后生效) |
+| pagingEnabled | `boolean` | `false` | 否 | 分页滑动效果 (同时开启 enhanced 属性后生效) |
+| fastDeceleration | `boolean` | `false` | 否 | boolean	false	滑动减速速率控制 (同时开启 enhanced 属性后生效) |
+| onScrollToUpper | `CommonEventFunction<any>` |  | 否 | 滚动到顶部/左边，会触发 scrolltoupper 事件 |
+| onScrollToLower | `CommonEventFunction<any>` |  | 否 | 滚动到底部/右边，会触发 scrolltolower 事件 |
+| onScroll | `BaseEventOrigFunction<onScrollDetail>` |  | 否 | 滚动时触发<br />`event.detail = {scrollLeft, scrollTop, scrollHeight, scrollWidth, deltaX, deltaY}` |
+| onRefresherPulling | `CommonEventFunction<any>` |  | 否 | 自定义下拉刷新控件被下拉 |
+| onRefresherRefresh | `CommonEventFunction<any>` |  | 否 | 自定义下拉刷新被触发 |
+| onRefresherRestore | `CommonEventFunction<any>` |  | 否 | 自定义下拉刷新被复位 |
+| onRefresherAbort | `CommonEventFunction<any>` |  | 否 | 自定义下拉刷新被中止 |
+| onDragStart | `CommonEventFunction<any>` |  | 否 | 滑动开始事件 (同时开启 enhanced 属性后生效) |
+| onDragging | `CommonEventFunction<any>` |  | 否 | 滑动事件 (同时开启 enhanced 属性后生效) |
+| onDragEnd | `CommonEventFunction<any>` |  | 否 | 滑动结束事件 (同时开启 enhanced 属性后生效) |
 
 ### API 支持度
 
@@ -370,6 +232,11 @@ export default {
 | ScrollViewProps.refresherDefaultStyle | ✔️ |  |  |  |  |  |
 | ScrollViewProps.refresherBackground | ✔️ |  |  |  |  |  |
 | ScrollViewProps.refresherTriggered | ✔️ |  |  |  |  |  |
+| ScrollViewProps.enhanced | ✔️ |  |  |  |  |  |
+| ScrollViewProps.bounces | ✔️ |  |  |  |  |  |
+| ScrollViewProps.showScrollbar | ✔️ |  |  |  |  |  |
+| ScrollViewProps.pagingEnabled | ✔️ |  |  |  |  |  |
+| ScrollViewProps.fastDeceleration | ✔️ |  |  |  |  |  |
 | ScrollViewProps.onScrollToUpper | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | ScrollViewProps.onScrollToLower | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | ScrollViewProps.onScroll | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
@@ -377,47 +244,17 @@ export default {
 | ScrollViewProps.onRefresherRefresh | ✔️ |  |  |  |  |  |
 | ScrollViewProps.onRefresherRestore | ✔️ |  |  |  |  |  |
 | ScrollViewProps.onRefresherAbort | ✔️ |  |  |  |  |  |
+| ScrollViewProps.onDragStart | ✔️ |  |  |  |  |  |
+| ScrollViewProps.onDragging | ✔️ |  |  |  |  |  |
+| ScrollViewProps.onDragEnd | ✔️ |  |  |  |  |  |
 
 ### onScrollDetail
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>scrollLeft</td>
-      <td><code>number</code></td>
-      <td>横向滚动条位置</td>
-    </tr>
-    <tr>
-      <td>scrollTop</td>
-      <td><code>number</code></td>
-      <td>竖向滚动条位置</td>
-    </tr>
-    <tr>
-      <td>scrollHeight</td>
-      <td><code>number</code></td>
-      <td>滚动条高度</td>
-    </tr>
-    <tr>
-      <td>scrollWidth</td>
-      <td><code>number</code></td>
-      <td>滚动条宽度</td>
-    </tr>
-    <tr>
-      <td>deltaX</td>
-      <td><code>number</code></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>deltaY</td>
-      <td><code>number</code></td>
-      <td></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| scrollLeft | `number` | 横向滚动条位置 |
+| scrollTop | `number` | 竖向滚动条位置 |
+| scrollHeight | `number` | 滚动条高度 |
+| scrollWidth | `number` | 滚动条宽度 |
+| deltaX | `number` |  |
+| deltaY | `number` |  |

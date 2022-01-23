@@ -217,19 +217,45 @@ export const get = {
   },
   example: (tags: ts.JSDocTagInfo[], level: number = 2) => {
     const array: string[] = []
-    let exampleIdx = tags.findIndex(tag => tag.name === 'example')
+    const tabs: string[] = []
+    let hasTabs = false
+    let defaultTab = ''
+    let exampleIdx = tags.findIndex(tag => tag.name?.startsWith('example'))
     let exampleNum = 0
-    do {
-      const example = tags[exampleIdx]?.text?.map(e => e.text).join('') || ''
-      if (example) {
-        exampleNum === 0 && array.push(`${'#'.repeat(level)} 示例代码\n`)
-        exampleNum++
-        if ((exampleIdx = tags.findIndex((tag, i) => exampleIdx < i && tag.name === 'example')) > -1 || exampleNum > 1) {
+    while (exampleIdx > -1 && exampleNum < tags.length) {
+      const tag = tags[exampleIdx]
+      if (!tag || exampleIdx < 0) break
+      const name = tag?.name?.replace(/example_([a-z])/, (__, $1) => $1.toUpperCase())
+      if (!hasTabs && tag?.name !== 'example') {
+        hasTabs = true
+        defaultTab = name
+      }
+      const example = tag?.text?.map(e => e.text.replace(/`@/g, '@')).join('') || ''
+      exampleNum++
+      exampleIdx = tags.findIndex((tag, i) => exampleIdx < i && tag.name?.startsWith('example'))
+      if (hasTabs) {
+        tabs.push(name)
+        array.push(`<TabItem value="${name}">\n`)
+        array.push(example)
+        array.push('</TabItem>')
+      } else {
+        if (exampleIdx > -1 || exampleNum > 1) {
           array.push(`${'#'.repeat(level + 1)} 示例 ${exampleNum}\n`)
         }
-        array.push((example).split('\\`@').join('@'), '')
+        array.push(example + '\n')
       }
-    } while (exampleIdx > -1)
+    }
+    if (hasTabs) {
+      array.unshift(`import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+<Tabs
+  defaultValue="${defaultTab}"
+  values={${JSON.stringify(tabs.map(e => ({ label: e, value: e })), undefined, 2)}}>`)
+      array.push('</Tabs>\n')
+    }
+
+    if (array.length > 0) array.unshift(`${'#'.repeat(level)} 示例代码\n`)
 
     return array.length > 0 ? splicing(array) : undefined
   },

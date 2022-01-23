@@ -41,7 +41,7 @@ declare namespace TextProps {
 /** 文本
  * @classification base
  * @supported weapp, swan, alipay, tt, h5, rn
- * @example
+ * @example_react
  * ```tsx
  * export default class PageView extends Component {
  *   state = {
@@ -83,6 +83,43 @@ declare namespace TextProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ``` html
+ * <template>
+ *   <view class="container">
+ *     <view v-for="(item, index) in contents">
+ *       <text>{{item.text}} line {{index + 1}}</text>
+ *     </view>
+ *     <button class="btn-max-w button_style" :plain="true" type="default" `@tap="add">add line</button>
+ *     <button class="btn-max-w button_style" :plain="true" type="default" :disabled="contentsLen ? false : true" `@tap="remove">remove line</button>
+ * </template>
+ * 
+ * <script>
+ * export default {
+ *   data() {
+ *     return {
+ *       contents: [],
+ *       contentsLen: 0
+ *     }
+ *   },
+ *   methods: {
+ *     add () {
+ *       const cot = this.contents.slice()
+ *       cot.push({ text: 'hello world' })
+ *       this.contents = cot
+ *       this.contentsLen = cot.length
+ *     },
+ * 
+ *     remove () {
+ *       const cot = this.contents.slice()
+ *       cot.pop()
+ *       this.contents = cot
+ *       this.contentsLen = cot.length
+ *     }
+ *   }
+ * }
+ * </script>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/text.html
  */

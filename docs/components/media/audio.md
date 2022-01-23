@@ -15,17 +15,22 @@ ComponentType<AudioProps>
 
 ## 示例代码
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
 
 <Tabs
   defaultValue="React"
   values={[
-    {label: 'React', value: 'React'},
-    {label: 'Vue', value: 'Vue'}
-  ]}>
+  {
+    "label": "React",
+    "value": "React"
+  },
+  {
+    "label": "Vue",
+    "value": "Vue"
+  }
+]}>
 <TabItem value="React">
-
 
 ```tsx
 export default class PageView extends Component {
@@ -50,9 +55,7 @@ export default class PageView extends Component {
   }
 }
 ```
-
 </TabItem>
-
 <TabItem value="Vue">
 
 ```html
@@ -69,122 +72,27 @@ export default class PageView extends Component {
   </view>
 </template>
 ```
-  
 </TabItem>
 </Tabs>
 
 ## AudioProps
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>id</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>audio 组件的唯一标识符</td>
-    </tr>
-    <tr>
-      <td>src</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要播放音频的资源地址</td>
-    </tr>
-    <tr>
-      <td>loop</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>是否循环播放</td>
-    </tr>
-    <tr>
-      <td>muted</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否静音播放<br /><strong>不推荐使用</strong></td>
-    </tr>
-    <tr>
-      <td>controls</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>是否显示默认控件</td>
-    </tr>
-    <tr>
-      <td>poster</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>默认控件上的音频封面的图片资源地址，如果 controls 属性值为 false 则设置 poster 无效</td>
-    </tr>
-    <tr>
-      <td>name</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}><code>&quot;未知音频&quot;</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>默认控件上的音频名字，如果 controls 属性值为 false 则设置 name 无效</td>
-    </tr>
-    <tr>
-      <td>author</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}><code>&quot;未知作者&quot;</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>默认控件上的作者名字，如果 controls 属性值为 false 则设置 author 无效</td>
-    </tr>
-    <tr>
-      <td>onError</td>
-      <td><code>BaseEventOrigFunction&lt;onErrorEventDetail&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当发生错误时触发 error 事件，detail = {`{errMsg: MediaError.code}`}</td>
-    </tr>
-    <tr>
-      <td>onPlay</td>
-      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当开始/继续播放时触发play事件</td>
-    </tr>
-    <tr>
-      <td>onPause</td>
-      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当暂停播放时触发 pause 事件</td>
-    </tr>
-    <tr>
-      <td>onTimeUpdate</td>
-      <td><code>BaseEventOrigFunction&lt;onTimeUpdateEventDetail&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当播放进度改变时触发 timeupdate 事件，detail = {`{currentTime, duration}`}</td>
-    </tr>
-    <tr>
-      <td>onEnded</td>
-      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当播放到末尾时触发 ended 事件</td>
-    </tr>
-  </tbody>
-</table>
-
-> H5 属性
-
-| 属性名 | 类型 | 默认值 | 说明 |
-| :- | :- | :- | :- |
-| nativeProps      | Object | `{}` | H5 独有，用于透传 `WebComponents` 上的属性到内部 H5 标签上 |
+| 参数 | 类型 | 默认值 | 必填 | 说明 |
+| --- | --- | :---: | :---: | --- |
+| id | `string` |  | 否 | audio 组件的唯一标识符 |
+| src | `string` |  | 否 | 要播放音频的资源地址 |
+| loop | `boolean` | `false` | 否 | 是否循环播放 |
+| muted | `boolean` | `false` | 否 | 是否静音播放<br />**不推荐使用** |
+| controls | `boolean` | `false` | 否 | 是否显示默认控件 |
+| poster | `string` |  | 否 | 默认控件上的音频封面的图片资源地址，如果 controls 属性值为 false 则设置 poster 无效 |
+| name | `string` | `"未知音频"` | 否 | 默认控件上的音频名字，如果 controls 属性值为 false 则设置 name 无效 |
+| author | `string` | `"未知作者"` | 否 | 默认控件上的作者名字，如果 controls 属性值为 false 则设置 author 无效 |
+| onError | `CommonEventFunction<onErrorEventDetail>` |  | 否 | 当发生错误时触发 error 事件，detail = {errMsg: MediaError.code} |
+| onPlay | `CommonEventFunction<any>` |  | 否 | 当开始/继续播放时触发play事件 |
+| onPause | `CommonEventFunction<any>` |  | 否 | 当暂停播放时触发 pause 事件 |
+| onTimeUpdate | `CommonEventFunction<onTimeUpdateEventDetail>` |  | 否 | 当播放进度改变时触发 timeupdate 事件，detail = {currentTime, duration} |
+| onEnded | `CommonEventFunction<any>` |  | 否 | 当播放到末尾时触发 ended 事件 |
+| nativeProps | `Record<string, unknown>` |  | 否 | 用于透传 `WebComponents` 上的属性到内部 H5 标签上 |
 
 ### API 支持度
 
@@ -203,78 +111,31 @@ export default class PageView extends Component {
 | AudioProps.onPause | ✔️ | ✔️ | ✔️ |  |
 | AudioProps.onTimeUpdate | ✔️ | ✔️ | ✔️ |  |
 | AudioProps.onEnded | ✔️ | ✔️ | ✔️ |  |
+| AudioProps.nativeProps |  |  | ✔️ |  |
 
 ### onErrorEventDetail
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>errMsg</td>
-      <td><code>1 | 2 | 3 | 4</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| errMsg | `keyof code` |
 
 ### onTimeUpdateEventDetail
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>currentTime</td>
-      <td><code>number</code></td>
-      <td>当前时间</td>
-    </tr>
-    <tr>
-      <td>duration</td>
-      <td><code>number</code></td>
-      <td>持续时间</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| currentTime | `number` | 当前时间 |
+| duration | `number` | 持续时间 |
 
 ### MediaError
 
 #### code
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>获取资源被用户禁止</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>网络错误</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>解码错误</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>不合适资源</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 说明 |
+| --- | --- |
+| 1 | 获取资源被用户禁止 |
+| 2 | 网络错误 |
+| 3 | 解码错误 |
+| 4 | 不合适资源 |
 
 ## API 支持度
 

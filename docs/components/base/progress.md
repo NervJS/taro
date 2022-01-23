@@ -15,16 +15,21 @@ ComponentType<ProgressProps>
 
 ## 示例代码
 
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
 
 <Tabs
   defaultValue="React"
   values={[
-    {label: 'React', value: 'React'},
-    {label: 'Vue', value: 'Vue'}
-  ]}>
+  {
+    "label": "React",
+    "value": "React"
+  },
+  {
+    "label": "Vue",
+    "value": "Vue"
+  }
+]}>
 <TabItem value="React">
 
 ```tsx
@@ -45,9 +50,7 @@ export default class PageView extends Component {
   }
 }
 ```
-
 </TabItem>
-
 <TabItem value="Vue">
 
 ```html
@@ -60,109 +63,25 @@ export default class PageView extends Component {
   </view>
 </template>
 ```
-  
 </TabItem>
 </Tabs>
 
 ## ProgressProps
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>percent</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>百分比 0~100</td>
-    </tr>
-    <tr>
-      <td>showInfo</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>在进度条右侧显示百分比</td>
-    </tr>
-    <tr>
-      <td>borderRadius</td>
-      <td><code>string | number</code></td>
-      <td style={{ textAlign: "center"}}><code>0</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>圆角大小</td>
-    </tr>
-    <tr>
-      <td>fontSize</td>
-      <td><code>string | number</code></td>
-      <td style={{ textAlign: "center"}}><code>16</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>右侧百分比字体大小</td>
-    </tr>
-    <tr>
-      <td>strokeWidth</td>
-      <td><code>string | number</code></td>
-      <td style={{ textAlign: "center"}}><code>6</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>进度条线的宽度</td>
-    </tr>
-    <tr>
-      <td>color</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}><code>&quot;#09BB07&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>进度条颜色 (请使用 activeColor)</td>
-    </tr>
-    <tr>
-      <td>activeColor</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}><code>&quot;#09BB07&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>已选择的进度条的颜色</td>
-    </tr>
-    <tr>
-      <td>backgroundColor</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}><code>&quot;#EBEBEB&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>未选择的进度条的颜色</td>
-    </tr>
-    <tr>
-      <td>active</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>进度条从左往右的动画</td>
-    </tr>
-    <tr>
-      <td>activeMode</td>
-      <td><code>&quot;backwards&quot; | &quot;forwards&quot;</code></td>
-      <td style={{ textAlign: "center"}}><code>backwards</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>backwards: 动画从头播<br /><br />forwards: 动画从上次结束点接着播</td>
-    </tr>
-    <tr>
-      <td>duration</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}><code>30</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>进度增加 1% 所需毫秒数</td>
-    </tr>
-    <tr>
-      <td>onActiveEnd</td>
-      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>动画完成事件</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 默认值 | 必填 | 说明 |
+| --- | --- | :---: | :---: | --- |
+| percent | `number` |  | 否 | 百分比 0~100 |
+| showInfo | `boolean` | `false` | 否 | 在进度条右侧显示百分比 |
+| borderRadius | string or number | `0` | 否 | 圆角大小 |
+| fontSize | string or number | `16` | 否 | 右侧百分比字体大小 |
+| strokeWidth | string or number | `6` | 否 | 进度条线的宽度 |
+| color | `string` | `"#09BB07"` | 否 | 进度条颜色 (请使用 activeColor) |
+| activeColor | `string` | `"#09BB07"` | 否 | 已选择的进度条的颜色 |
+| backgroundColor | `string` | `"#EBEBEB"` | 否 | 未选择的进度条的颜色 |
+| active | `boolean` | `false` | 否 | 进度条从左往右的动画 |
+| activeMode | "backwards" or "forwards" | `backwards` | 否 | backwards: 动画从头播<br /><br />forwards: 动画从上次结束点接着播 |
+| duration | `number` | `30` | 否 | 进度增加 1% 所需毫秒数 |
+| onActiveEnd | `CommonEventFunction<any>` |  | 否 | 动画完成事件 |
 
 ### API 支持度
 

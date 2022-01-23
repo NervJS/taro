@@ -17,15 +17,21 @@ ComponentType<ImageProps>
 
 ## 示例代码
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
 
 <Tabs
   defaultValue="React"
   values={[
-    {label: 'React', value: 'React'},
-    {label: 'Vue', value: 'Vue'}
-  ]}>
+  {
+    "label": "React",
+    "value": "React"
+  },
+  {
+    "label": "Vue",
+    "value": "Vue"
+  }
+]}>
 <TabItem value="React">
 
 ```tsx
@@ -51,7 +57,6 @@ export default class PageView extends Component {
 }
 ```
 </TabItem>
-
 <TabItem value="Vue">
 
 ```html
@@ -68,89 +73,23 @@ export default class PageView extends Component {
   </view>
 </template>
 ```
-  
 </TabItem>
 </Tabs>
 
-
-
 ## ImageProps
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>src</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>图片资源地址</td>
-    </tr>
-    <tr>
-      <td>mode</td>
-      <td><code>&quot;scaleToFill&quot; | &quot;aspectFit&quot; | &quot;aspectFill&quot; | &quot;widthFix&quot; | &quot;heightFix&quot; | &quot;top&quot; | &quot;bottom&quot; | &quot;center&quot; | &quot;left&quot; | &quot;right&quot; | &quot;top left&quot; | &quot;top right&quot; | &quot;bottom left&quot; | &quot;bottom right&quot;</code></td>
-      <td style={{ textAlign: "center"}}><code>&quot;scaleToFill&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>图片裁剪、缩放的模式</td>
-    </tr>
-    <tr>
-      <td>webp</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>默认不解析 webP 格式，只支持网络资源</td>
-    </tr>
-    <tr>
-      <td>lazyLoad</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>图片懒加载。只针对 page 与 scroll-view 下的 image 有效</td>
-    </tr>
-    <tr>
-      <td>showMenuByLongpress</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>开启长按图片显示识别小程序码菜单</td>
-    </tr>
-    <tr>
-      <td>onError</td>
-      <td><code>BaseEventOrigFunction&lt;onErrorEventDetail&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当错误发生时，发布到 AppService 的事件名，事件对象</td>
-    </tr>
-    <tr>
-      <td>onLoad</td>
-      <td><code>BaseEventOrigFunction&lt;onLoadEventDetail&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当图片载入完毕时，发布到 AppService 的事件名，事件对象</td>
-    </tr>
-    <tr>
-      <td>imgProps</td>
-      <td><code>ImgHTMLAttributes&lt;HTMLImageElement&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>为 img 标签额外增加的属性</td>
-    </tr>
-  </tbody>
-</table>
-
-> H5 属性
-
-| 属性名 | 类型 | 默认值 | 说明 |
-| :- | :- | :- | :- |
-| nativeProps      | Object | `{}` | H5 独有，用于透传 `WebComponents` 上的属性到内部 H5 标签上 |
+| 参数 | 类型 | 默认值 | 必填 | 说明 |
+| --- | --- | :---: | :---: | --- |
+| src | `string` |  | 是 | 图片资源地址 |
+| mode | `keyof mode` | `"scaleToFill"` | 否 | 图片裁剪、缩放的模式 |
+| webp | `boolean` | `false` | 否 | 默认不解析 webP 格式，只支持网络资源 |
+| svg | `boolean` | `false` | 否 | 默认不解析 svg 格式，svg 图片只支持 aspectFit |
+| lazyLoad | `boolean` | `false` | 否 | 图片懒加载。只针对 page 与 scroll-view 下的 image 有效 |
+| showMenuByLongpress | `boolean` | `false` | 否 | 开启长按图片显示识别小程序码菜单 |
+| onError | `CommonEventFunction<onErrorEventDetail>` |  | 否 | 当错误发生时，发布到 AppService 的事件名，事件对象 |
+| onLoad | `CommonEventFunction<onLoadEventDetail>` |  | 否 | 当图片载入完毕时，发布到 AppService 的事件名，事件对象 |
+| imgProps | `ImgHTMLAttributes<HTMLImageElement>` |  | 否 | 为 img 标签额外增加的属性 |
+| nativeProps | `Record<string, unknown>` |  | 否 | 用于透传 `WebComponents` 上的属性到内部 H5 标签上 |
 
 ### API 支持度
 
@@ -159,125 +98,47 @@ export default class PageView extends Component {
 | ImageProps.src | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | ImageProps.mode | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️(部分支持 scaleToFill, aspectFit, aspectFill, widthFix) |
 | ImageProps.webp | ✔️ |  |  |  |  |  |
+| ImageProps.svg |  |  |  |  |  | ✔️ |
 | ImageProps.lazyLoad | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
 | ImageProps.showMenuByLongpress | ✔️ |  |  |  |  |  |
 | ImageProps.onError | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | ImageProps.onLoad | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | ImageProps.imgProps |  |  |  |  | ✔️ |  |
+| ImageProps.nativeProps |  |  |  |  | ✔️ |  |
 
 ### mode
 
 mode 的合法值
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>scaleToFill</td>
-      <td>缩放模式，不保持纵横比缩放图片，使图片的宽高完全拉伸至填满 image 元素</td>
-    </tr>
-    <tr>
-      <td>aspectFit</td>
-      <td>缩放模式，保持纵横比缩放图片，使图片的长边能完全显示出来。也就是说，可以完整地将图片显示出来。</td>
-    </tr>
-    <tr>
-      <td>aspectFill</td>
-      <td>缩放模式，保持纵横比缩放图片，只保证图片的短边能完全显示出来。也就是说，图片通常只在水平或垂直方向是完整的，另一个方向将会发生截取。</td>
-    </tr>
-    <tr>
-      <td>widthFix</td>
-      <td>缩放模式，宽度不变，高度自动变化，保持原图宽高比不变</td>
-    </tr>
-    <tr>
-      <td>heightFix</td>
-      <td>缩放模式，高度不变，宽度自动变化，保持原图宽高比不变</td>
-    </tr>
-    <tr>
-      <td>top</td>
-      <td>裁剪模式，不缩放图片，只显示图片的顶部区域</td>
-    </tr>
-    <tr>
-      <td>bottom</td>
-      <td>裁剪模式，不缩放图片，只显示图片的底部区域</td>
-    </tr>
-    <tr>
-      <td>center</td>
-      <td>裁剪模式，不缩放图片，只显示图片的中间区域</td>
-    </tr>
-    <tr>
-      <td>left</td>
-      <td>裁剪模式，不缩放图片，只显示图片的左边区域</td>
-    </tr>
-    <tr>
-      <td>right</td>
-      <td>裁剪模式，不缩放图片，只显示图片的右边区域</td>
-    </tr>
-    <tr>
-      <td>top left</td>
-      <td>裁剪模式，不缩放图片，只显示图片的左上边区域</td>
-    </tr>
-    <tr>
-      <td>top right</td>
-      <td>裁剪模式，不缩放图片，只显示图片的右上边区域</td>
-    </tr>
-    <tr>
-      <td>bottom left</td>
-      <td>裁剪模式，不缩放图片，只显示图片的左下边区域</td>
-    </tr>
-    <tr>
-      <td>bottom right</td>
-      <td>裁剪模式，不缩放图片，只显示图片的右下边区域</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 说明 |
+| --- | --- |
+| scaleToFill | 缩放模式，不保持纵横比缩放图片，使图片的宽高完全拉伸至填满 image 元素 |
+| aspectFit | 缩放模式，保持纵横比缩放图片，使图片的长边能完全显示出来。也就是说，可以完整地将图片显示出来。 |
+| aspectFill | 缩放模式，保持纵横比缩放图片，只保证图片的短边能完全显示出来。也就是说，图片通常只在水平或垂直方向是完整的，另一个方向将会发生截取。 |
+| widthFix | 缩放模式，宽度不变，高度自动变化，保持原图宽高比不变 |
+| heightFix | 缩放模式，高度不变，宽度自动变化，保持原图宽高比不变 |
+| top | 裁剪模式，不缩放图片，只显示图片的顶部区域 |
+| bottom | 裁剪模式，不缩放图片，只显示图片的底部区域 |
+| center | 裁剪模式，不缩放图片，只显示图片的中间区域 |
+| left | 裁剪模式，不缩放图片，只显示图片的左边区域 |
+| right | 裁剪模式，不缩放图片，只显示图片的右边区域 |
+| top left | 裁剪模式，不缩放图片，只显示图片的左上边区域 |
+| top right | 裁剪模式，不缩放图片，只显示图片的右上边区域 |
+| bottom left | 裁剪模式，不缩放图片，只显示图片的左下边区域 |
+| bottom right | 裁剪模式，不缩放图片，只显示图片的右下边区域 |
 
 ### onErrorEventDetail
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>错误信息</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息 |
 
 ### onLoadEventDetail
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>height</td>
-      <td><code>string | number</code></td>
-      <td>图片高度</td>
-    </tr>
-    <tr>
-      <td>width</td>
-      <td><code>string | number</code></td>
-      <td>图片宽度</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| height | string or number | 图片高度 |
+| width | string or number | 图片宽度 |
 
 ## API 支持度
 
