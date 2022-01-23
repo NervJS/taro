@@ -494,14 +494,6 @@ export function removeHeadSlash (str: string) {
   return str.replace(/^(\/|\\)/, '')
 }
 
-export function defineAppConfig (config: any) {
-  return config
-}
-
-export function definePageConfig (config: any) {
-  return config
-}
-
 function analyzeImport (filePath: string): string[] {
   const code = fs.readFileSync(filePath).toString()
   let importPaths: string[] = []
