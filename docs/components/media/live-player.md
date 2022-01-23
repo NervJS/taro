@@ -7,6 +7,8 @@ sidebar_label: LivePlayer
 
 需要先通过类目审核，再在小程序管理后台，“设置”-“接口设置”中自助开通该组件权限。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/live-player.html)
 
 ## 类型
@@ -186,9 +188,3 @@ soundMode 的合法值
 | 3002 | RTMP服务器连接失败 |
 | 3003 | RTMP服务器握手失败 |
 | 3005 | RTMP 读/写失败 |
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| LivePlayer | ✔️ |  |  |

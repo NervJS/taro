@@ -5,6 +5,8 @@ sidebar_label: FunctionalPageNavigator
 
 仅在插件中有效，用于跳转到插件功能页
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/functional-page-navigator.html)
 
 ## 类型
@@ -54,9 +56,3 @@ name 的合法值
 | loginAndGetUserInfo | [用户信息功能页](https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/functional-pages/user-info.html) |
 | requestPayment | [支付功能页](https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/functional-pages/request-payment.html) |
 | chooseAddress | [收货地址功能页](https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/functional-pages/choose-address.html) |
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FunctionalPageNavigator | ✔️ |  |  |

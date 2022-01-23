@@ -293,7 +293,26 @@ import TabItem from '@theme/TabItem'
 
     return rows && rows.filter(e => !!e).length > 0 ? splicing([
       `${'#'.repeat(level)} API 支持度\n`, titles, splits, ...rows, ''
-    ]) : undefined // splicing(['## API 支持度', '', '> 该 api 暂不支持', ''])
+    ]) : undefined
+  },
+  apiPic: (tags: ts.JSDocTagInfo[]) => {
+    const hasSupportedList = [true, undefined, undefined, undefined, undefined, undefined, true, true, undefined]
+    const supported = tags.find(tag => tag.name === 'supported')?.text?.map(e => e.text).join('')
+    const apis = supported?.split(',').map(e => e.trim().toLowerCase()) || []
+    if (apis.length < 1) return
+
+    for (let i = 0; i < envMap.length; i++) {
+      if (hasSupportedList[i]) continue
+      const apiDesc = tags.find(e => e.name === envMap[i].name)?.text?.map(e => e.text).join('') || ''
+      const hasSupported = !!(apiDesc || apis.find(e => e === envMap[i].name))
+      if (!hasSupportedList[i] && hasSupported) hasSupportedList[i] = true
+    }
+    return `支持情况：${splicing(envMap.map((env, i) => {
+      if (!hasSupportedList[i]) return undefined
+      const apiDesc = tags.find(e => e.name === env.name)?.text?.map(e => e.text).join('') || ''
+      const support = apis.find(e => e === env.name) || apiDesc
+      return `<img title="${env.label}" src={${env.icon}} className="icon_platform${support ? '' : ' icon_platform--not-support'}" width="25px"/>`
+    }), ' ')}\n`
   },
   see: (data?: ts.JSDocTagInfo) => data ? splicing([`> [参考文档](${data.text?.map(e => e.text).join('') || ''})`, '']) : undefined
 }

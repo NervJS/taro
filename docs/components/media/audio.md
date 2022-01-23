@@ -5,6 +5,8 @@ sidebar_label: Audio
 
 音频。1.6.0版本开始，该组件不再维护。建议使用能力更强的 Taro.createInnerAudioContext 接口
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="百度小程序" src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/audio.html)
 
 ## 类型
@@ -136,9 +138,3 @@ export default class PageView extends Component {
 | 2 | 网络错误 |
 | 3 | 解码错误 |
 | 4 | 不合适资源 |
-
-## API 支持度
-
-| API | 微信小程序 | 百度小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: | :---: |
-| Audio | ✔️ | ✔️ | ✔️ |  |

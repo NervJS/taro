@@ -2,7 +2,7 @@ import * as path from 'path'
 import * as ts from 'typescript'
 import { get, isntTaroMethod, TaroMethod } from '.'
 import { DocEntry } from '../parser'
-import { childrenMerge, isFunction, isNotAPI, isShowAPI, splicing } from '../parser/utils'
+import { childrenMerge, isFunction, splicing } from '../parser/utils'
 import writeFile from '../write'
 
 export async function writeDoc (routePath: string, doc: DocEntry[]) {
@@ -12,16 +12,6 @@ export async function writeDoc (routePath: string, doc: DocEntry[]) {
   const Component = merge.find(e => e.name === _p.name) || {}
   const ComponentTags = Component.jsTags || []
     
-  const apis = { [`${_p.name}`]: ComponentTags }
-
-  for (const member of Component && (Component.members || [])) {
-    if (isShowAPI(member.flags)) {
-      if (member.name && member.jsTags) apis[`${_p.name}.${member.name}`] = member.jsTags || []
-    } else if (!isNotAPI(member.flags)) {
-      console.warn(`WARN: Symbol flags ${member.flags} for members is missing parse! Watch member name:${member.name}.`)
-    }
-  }
-
   const name = (_p.name && _p.name.split(/(?<!^)(?=[A-Z])/).join('-') || 'undefined').toLocaleLowerCase()
   const classification = ComponentTags.find(tag => tag.name === 'classification')?.text?.[0]?.text || ''
 
@@ -31,10 +21,9 @@ export async function writeDoc (routePath: string, doc: DocEntry[]) {
       get.header({ title: _p.name, sidebar_label: _p.name }),
       get.since(ComponentTags.find(tag => tag.name === 'since')),
       get.document(Component.documentation),
+      get.apiPic(ComponentTags),
       get.see(ComponentTags.find(tag => tag.name === 'see')),
       get.type(Component.type, 2),
-      get.members(Component.members, undefined, 2, name, isComp),
-      get.members(Component.exports || Component.parameters, '参数', 2, name, isComp),
       get.example(ComponentTags),
       ...merge.map(e => {
         const name = e.name || 'undefined'
@@ -62,7 +51,6 @@ export async function writeDoc (routePath: string, doc: DocEntry[]) {
 
         return splicing(md)
       }),
-      get.api(apis),
     ]),
   )
 }

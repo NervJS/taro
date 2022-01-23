@@ -5,6 +5,8 @@ sidebar_label: WebView
 
 web-view 组件是一个可以用来承载网页的容器，会自动铺满整个小程序页面。个人类型与海外类型的小程序暂不支持使用。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/web-view.html)
 
 ## 类型
@@ -89,9 +91,3 @@ class App extends Component {
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | src | `string` | 网页链接 |
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| WebView | ✔️ | ✔️ | ✔️ |

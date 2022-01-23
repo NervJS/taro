@@ -11,6 +11,8 @@ sidebar_label: PageMeta
 页面属性配置节点，用于指定页面的一些属性、监听页面事件。只能是页面内的第一个节点。可以配合 navigation-bar 组件一同使用。
 通过这个节点可以获得类似于调用 Taro.setBackgroundTextStyle Taro.setBackgroundColor 等接口调用的效果。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/page-meta.html)
 
 ## 类型
@@ -71,9 +73,3 @@ ComponentType<PageMetaProps>
 | 参数 | 类型 |
 | --- | --- |
 | scrollTop | `number` |
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| PageMeta | ✔️ |  |  |

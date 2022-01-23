@@ -5,6 +5,8 @@ sidebar_label: KeyboardAccessory
 
 设置 input / textarea 聚焦时键盘上方 cover-view / cover-image 工具栏视图
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/keyboard-accessory.html)
 
 ## 类型
@@ -42,9 +44,3 @@ class App extends Component {
 | animation | `{ actions: TaroGeneral.IAnyObject[]; }` | 否 | 动画属性 |
 | ref | `LegacyRef<T>` | 否 | 引用 |
 | dangerouslySetInnerHTML | `{ __html: string; }` | 否 | 渲染 HTML<br />[参考地址](https://taro-docs.jd.com/taro/docs/html) |
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| KeyboardAccessory | ✔️ |  |  |

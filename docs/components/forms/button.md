@@ -5,6 +5,8 @@ sidebar_label: Button
 
 按钮
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/button.html)
 
 ## 类型
@@ -345,9 +347,3 @@ lang 的合法值
 | --- | --- |
 | errMsg | `string` |
 | authSetting | `Record<string, boolean>` |
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Button | ✔️ | ✔️ | ✔️ |

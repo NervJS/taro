@@ -44,8 +44,8 @@ export async function childrenMerge (d: DocEntry[] = [], o: DocEntry[] = []) {
   })
 }
 
-export function splicing (arr: (string | undefined)[] = []) {
-  return arr.filter(e => typeof e === 'string').join('\n')
+export function splicing (arr: (string | undefined)[] = [], lf = '\n') {
+  return arr.filter(e => typeof e === 'string').join(lf)
 }
 
 export function parseLineFeed (s?: string, isCode = false) {

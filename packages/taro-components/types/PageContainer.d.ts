@@ -113,6 +113,7 @@ declare namespace PageContainerProps {
  *   1. tip: 当前页面最多只有 1 个容器，若已存在容器的情况下，无法增加新的容器
  *   2. tip: wx.navigateBack 无法在页面栈顶调用，此时没有上一级页面
  * @classification viewContainer
+ * @supported weapp
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/page-container.html
  */
 declare const PageContainer: ComponentType<PageContainerProps>

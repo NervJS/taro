@@ -12,6 +12,8 @@ Bug & Tip
  1. tip: 当前页面最多只有 1 个容器，若已存在容器的情况下，无法增加新的容器
  2. tip: wx.navigateBack 无法在页面栈顶调用，此时没有上一级页面
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/page-container.html)
 
 ## 类型
