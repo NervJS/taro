@@ -37,7 +37,7 @@ declare module '../../index' {
 
     /**
      * 将 Base64 字符串转成 ArrayBuffer 数据。
-     * @supported weapp, h5
+     * @supported weapp, h5, rn
      * @example
      * ```tsx
      * const base64 = 'CxYh'
@@ -52,7 +52,7 @@ declare module '../../index' {
 
     /**
      * 将 ArrayBuffer 数据转成 Base64 字符串。
-     * @supported weapp, h5
+     * @supported weapp, h5, rn
      * @example
      * ```tsx
      * const arrayBuffer = new Uint8Array([11, 22, 33])

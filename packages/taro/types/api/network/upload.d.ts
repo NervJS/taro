@@ -128,7 +128,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 将本地资源上传到服务器。客户端发起一个 HTTPS POST 请求，其中 `content-type` 为 `multipart/form-data`。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)。
-     * @supported weapp, swan, alipay, h5
+     * @supported weapp, swan, alipay, h5, rn
      * @example
      * ```tsx
      * Taro.chooseImage({
@@ -152,7 +152,7 @@ declare module '../../index' {
      * @example
      * ```tsx
      * const uploadTask = Taro.uploadFile({
-     *   url: 'http://example.weixin.qq.com/upload', //仅为示例，非真实的接口地址
+     *   url: 'https://example.weixin.qq.com/upload', //仅为示例，非真实的接口地址
      *   filePath: tempFilePaths[0],
      *   name: 'file',
      *   formData:{

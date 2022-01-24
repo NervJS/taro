@@ -1,18 +1,18 @@
 ---
-title: Taro.hideHomeButton(option)
-sidebar_label: hideHomeButton
+title: Taro.disableAlertBeforeUnload(option)
+sidebar_label: disableAlertBeforeUnload
 ---
 
-隐藏返回首页按钮。微信7.0.7版本起，当用户打开的小程序最底层页面是非首页时，默认展示“返回首页”按钮，开发者可在页面 onShow 中调用 hideHomeButton 进行隐藏。
+关闭小程序页面返回询问对话框
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.hideHomeButton.html)
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.disableAlertBeforeUnload.html)
 
 ## 类型
 
 ```tsx
-(option?: Option) => Promise<TaroGeneral.CallbackResult>
+(option?: Option) => void
 ```
 
 ## 参数

@@ -5,6 +5,8 @@ sidebar_label: getSystemInfo
 
 获取系统信息，支持 `Promise` 化使用。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/system-info/wx.getSystemInfo.html)
 
 ## 类型
@@ -17,192 +19,48 @@ sidebar_label: getSystemInfo
 
 ### Option
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: any) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(res: any) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(res: Result) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| complete | `(res: any) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: any) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: Result) => void` | 否 | 接口调用成功的回调函数 |
 
 ### Result
 
 注意：**H5** 端不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
+小程序可以在微信和企业微信中调用此接口，但是在企业微信中调用此接口时，会额外返回一个 environment 字段（微信中不返回），如此字段值为 wxwork，则表示当前小程序运行在企业微信环境中。
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>SDKVersion</td>
-      <td><code>string</code></td>
-      <td>客户端基础库版本</td>
-    </tr>
-    <tr>
-      <td>albumAuthorized</td>
-      <td><code>boolean</code></td>
-      <td>允许微信使用相册的开关（仅 iOS 有效）</td>
-    </tr>
-    <tr>
-      <td>benchmarkLevel</td>
-      <td><code>number</code></td>
-      <td>设备性能等级（仅Android小游戏）。取值为：-2 或 0（该设备无法运行小游戏），-1（性能未知），&gt;=1（设备性能值，该值越高，设备性能越好，目前最高不到50）</td>
-    </tr>
-    <tr>
-      <td>bluetoothEnabled</td>
-      <td><code>boolean</code></td>
-      <td>蓝牙的系统开关</td>
-    </tr>
-    <tr>
-      <td>brand</td>
-      <td><code>string</code></td>
-      <td>设备品牌</td>
-    </tr>
-    <tr>
-      <td>cameraAuthorized</td>
-      <td><code>boolean</code></td>
-      <td>允许微信使用摄像头的开关</td>
-    </tr>
-    <tr>
-      <td>fontSizeSetting</td>
-      <td><code>number</code></td>
-      <td>用户字体大小（单位px）。以微信客户端「我-设置-通用-字体大小」中的设置为准</td>
-    </tr>
-    <tr>
-      <td>language</td>
-      <td><code>string</code></td>
-      <td>微信设置的语言</td>
-    </tr>
-    <tr>
-      <td>locationAuthorized</td>
-      <td><code>boolean</code></td>
-      <td>允许微信使用定位的开关</td>
-    </tr>
-    <tr>
-      <td>locationEnabled</td>
-      <td><code>boolean</code></td>
-      <td>地理位置的系统开关</td>
-    </tr>
-    <tr>
-      <td>microphoneAuthorized</td>
-      <td><code>boolean</code></td>
-      <td>允许微信使用麦克风的开关</td>
-    </tr>
-    <tr>
-      <td>model</td>
-      <td><code>string</code></td>
-      <td>设备型号</td>
-    </tr>
-    <tr>
-      <td>notificationAlertAuthorized</td>
-      <td><code>boolean</code></td>
-      <td>允许微信通知带有提醒的开关（仅 iOS 有效）</td>
-    </tr>
-    <tr>
-      <td>notificationAuthorized</td>
-      <td><code>boolean</code></td>
-      <td>允许微信通知的开关</td>
-    </tr>
-    <tr>
-      <td>notificationBadgeAuthorized</td>
-      <td><code>boolean</code></td>
-      <td>允许微信通知带有标记的开关（仅 iOS 有效）</td>
-    </tr>
-    <tr>
-      <td>notificationSoundAuthorized</td>
-      <td><code>boolean</code></td>
-      <td>允许微信通知带有声音的开关（仅 iOS 有效）</td>
-    </tr>
-    <tr>
-      <td>pixelRatio</td>
-      <td><code>number</code></td>
-      <td>设备像素比</td>
-    </tr>
-    <tr>
-      <td>platform</td>
-      <td><code>string</code></td>
-      <td>客户端平台</td>
-    </tr>
-    <tr>
-      <td>safeArea</td>
-      <td><code>SafeAreaResult</code></td>
-      <td>在竖屏正方向下的安全区域</td>
-    </tr>
-    <tr>
-      <td>screenHeight</td>
-      <td><code>number</code></td>
-      <td>屏幕高度，单位px</td>
-    </tr>
-    <tr>
-      <td>screenWidth</td>
-      <td><code>number</code></td>
-      <td>屏幕宽度，单位px</td>
-    </tr>
-    <tr>
-      <td>statusBarHeight</td>
-      <td><code>number</code></td>
-      <td>状态栏的高度，单位px</td>
-    </tr>
-    <tr>
-      <td>system</td>
-      <td><code>string</code></td>
-      <td>操作系统及版本</td>
-    </tr>
-    <tr>
-      <td>version</td>
-      <td><code>string</code></td>
-      <td>微信版本号</td>
-    </tr>
-    <tr>
-      <td>wifiEnabled</td>
-      <td><code>boolean</code></td>
-      <td>Wi-Fi 的系统开关</td>
-    </tr>
-    <tr>
-      <td>windowHeight</td>
-      <td><code>number</code></td>
-      <td>可使用窗口高度，单位px</td>
-    </tr>
-    <tr>
-      <td>windowWidth</td>
-      <td><code>number</code></td>
-      <td>可使用窗口宽度，单位px</td>
-    </tr>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>调用结果</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| SDKVersion | `string` | 是 | 客户端基础库版本 |
+| albumAuthorized | `boolean` | 是 | 允许微信使用相册的开关（仅 iOS 有效） |
+| benchmarkLevel | `number` | 是 | 设备性能等级（仅Android小游戏）。取值为：-2 或 0（该设备无法运行小游戏），-1（性能未知），>=1（设备性能值，该值越高，设备性能越好，目前最高不到50） |
+| bluetoothEnabled | `boolean` | 是 | 蓝牙的系统开关 |
+| brand | `string` | 是 | 设备品牌 |
+| cameraAuthorized | `boolean` | 是 | 允许微信使用摄像头的开关 |
+| fontSizeSetting | `number` | 是 | 用户字体大小（单位px）。以微信客户端「我-设置-通用-字体大小」中的设置为准 |
+| language | `string` | 是 | 微信设置的语言 |
+| locationAuthorized | `boolean` | 是 | 允许微信使用定位的开关 |
+| locationEnabled | `boolean` | 是 | 地理位置的系统开关 |
+| microphoneAuthorized | `boolean` | 是 | 允许微信使用麦克风的开关 |
+| model | `string` | 是 | 设备型号 |
+| notificationAlertAuthorized | `boolean` | 是 | 允许微信通知带有提醒的开关（仅 iOS 有效） |
+| notificationAuthorized | `boolean` | 是 | 允许微信通知的开关 |
+| notificationBadgeAuthorized | `boolean` | 是 | 允许微信通知带有标记的开关（仅 iOS 有效） |
+| notificationSoundAuthorized | `boolean` | 是 | 允许微信通知带有声音的开关（仅 iOS 有效） |
+| pixelRatio | `number` | 是 | 设备像素比 |
+| platform | `string` | 是 | 客户端平台 |
+| safeArea | `TaroGeneral.SafeAreaResult` | 是 | 在竖屏正方向下的安全区域 |
+| screenHeight | `number` | 是 | 屏幕高度，单位px |
+| screenWidth | `number` | 是 | 屏幕宽度，单位px |
+| statusBarHeight | `number` | 是 | 状态栏的高度，单位px |
+| system | `string` | 是 | 操作系统及版本 |
+| version | `string` | 是 | 微信版本号 |
+| wifiEnabled | `boolean` | 是 | Wi-Fi 的系统开关 |
+| windowHeight | `number` | 是 | 可使用窗口高度，单位px |
+| windowWidth | `number` | 是 | 可使用窗口宽度，单位px |
+| environment | `string` | 否 | 小程序当前运行环境 |
+| errMsg | `string` | 是 | 调用结果 |
 
 ## 示例代码
 
@@ -230,9 +88,3 @@ Taro.getSystemInfo({
   }
 })
 ```
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Taro.getSystemInfo | ✔️ | ✔️ | ✔️ |

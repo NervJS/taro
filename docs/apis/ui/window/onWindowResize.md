@@ -5,6 +5,8 @@ sidebar_label: onWindowResize
 
 监听窗口尺寸变化事件
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/window/wx.onWindowResize.html)
 
 ## 类型
@@ -15,72 +17,15 @@ sidebar_label: onWindowResize
 
 ## 参数
 
-### Callback
-
-窗口尺寸变化事件的回调函数
-
-```tsx
-(result: CallbackResult) => void
-```
-
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>result</td>
-      <td><code>CallbackResult</code></td>
-    </tr>
-  </tbody>
-</table>
-
 ### CallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>size</td>
-      <td><code>Size</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| size | `Size` |
 
 ### Size
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>windowHeight</td>
-      <td><code>number</code></td>
-      <td>变化后的窗口高度，单位 px</td>
-    </tr>
-    <tr>
-      <td>windowWidth</td>
-      <td><code>number</code></td>
-      <td>变化后的窗口宽度，单位 px</td>
-    </tr>
-  </tbody>
-</table>
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Taro.onWindowResize | ✔️ | ✔️ | ✔️ |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| windowHeight | `number` | 变化后的窗口高度，单位 px |
+| windowWidth | `number` | 变化后的窗口宽度，单位 px |

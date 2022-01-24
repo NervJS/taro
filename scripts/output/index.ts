@@ -40,7 +40,7 @@ export const needLessDeclarationsName = [
   '__@unscopables', '__@iterator',
   ...Object.values(ts.InternalSymbolName)
 ]
-export const generalPath = path.resolve(__dirname, '../../packages/taro', 'types/api/index.d.ts')
+export const generalPath = path.resolve(__dirname, '../../packages/taro', 'types/api/global.d.ts')
 
 export const get = {
   header: (data: {

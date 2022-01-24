@@ -5,6 +5,8 @@ sidebar_label: arrayBufferToBase64
 
 将 ArrayBuffer 数据转成 Base64 字符串。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/wx.arrayBufferToBase64.html)
 
 ## 类型
@@ -15,22 +17,9 @@ sidebar_label: arrayBufferToBase64
 
 ## 参数
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>buffer</td>
-      <td><code>ArrayBuffer</code></td>
-      <td>要转换成 Base64 字符串的 ArrayBuffer 对象</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| buffer | `ArrayBuffer` | 要转换成 Base64 字符串的 ArrayBuffer 对象 |
 
 ## 示例代码
 
@@ -38,9 +27,3 @@ sidebar_label: arrayBufferToBase64
 const arrayBuffer = new Uint8Array([11, 22, 33])
 const base64 = Taro.arrayBufferToBase64(arrayBuffer)
 ```
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Taro.arrayBufferToBase64 | ✔️ | ✔️ | ✔️ |

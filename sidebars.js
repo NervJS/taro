@@ -288,7 +288,9 @@ module.exports = {
           "apis/ui/interaction/showLoading",
           "apis/ui/interaction/showActionSheet",
           "apis/ui/interaction/hideToast",
-          "apis/ui/interaction/hideLoading"
+          "apis/ui/interaction/hideLoading",
+          "apis/ui/interaction/enableAlertBeforeUnload",
+          "apis/ui/interaction/disableAlertBeforeUnload"
         ]
       },
       {
@@ -852,9 +854,12 @@ module.exports = {
         "label": "网络",
         "type": "category",
         "items": [
+          // "apis/device/network/onNetworkWeakChange",
           "apis/device/network/onNetworkStatusChange",
+          // "apis/device/network/offNetworkWeakChange",
           "apis/device/network/offNetworkStatusChange",
-          "apis/device/network/getNetworkType"
+          "apis/device/network/getNetworkType",
+          "apis/device/network/getLocalIPAddress"
         ]
       },
       {
@@ -954,6 +959,7 @@ module.exports = {
       "apis/wxml/createSelectorQuery",
       "apis/wxml/createIntersectionObserver",
       "apis/wxml/IntersectionObserver",
+      "apis/wxml/MediaQueryObserver",
       "apis/wxml/NodesRef",
       "apis/wxml/SelectorQuery"
     ],

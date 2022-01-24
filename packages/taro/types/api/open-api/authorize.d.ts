@@ -3,7 +3,7 @@ import Taro from '../../index'
 declare module '../../index' {
   namespace authorize {
     interface Option {
-      /** 需要获取权限的 scope，详见 [scope 列表]((authorize#scope-列表)) */
+      /** 需要获取权限的 scope，详见 [scope 列表](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html#scope-%E5%88%97%E8%A1%A8) */
       scope: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
