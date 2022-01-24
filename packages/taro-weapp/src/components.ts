@@ -67,6 +67,7 @@ export const components = {
     'header-text': _empty
   },
   PickerView: {
+    'immediate-change': _false,
     bindPickStart: _empty,
     bindPickEnd: _empty
   },

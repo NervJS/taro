@@ -47,6 +47,11 @@ interface CanvasProps extends StandardProps<any, CanvasTouchEvent> {
    * @supported weapp
    */
   onError?: CommonEventFunction<CanvasProps.onErrorEventDetail>
+
+  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
+   * @supported h5
+   */
+  nativeProps?: Record<string, unknown>
 }
 
 declare namespace CanvasProps {
@@ -60,15 +65,23 @@ declare namespace CanvasProps {
  * `<Canvas />` 组件的 RN 版本尚未实现。
  * @classification canvas
  * @supported weapp
- * @example
+ * @example_react
  * ```tsx
  * class App extends Components {
  *   render () {
+ *     // 如果是支付宝小程序，则要加上 id 属性，值和canvasId一致
  *     return (
  *       <Canvas style='width: 300px; height: 200px;' canvasId='canvas' />
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <!-- 如果是支付宝小程序，则要加上 id 属性，值和canvasId一致 -->
+ *   <canvas style="width: 300px; height: 200px;" canvas-id="canvas" />
+ * </template>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html
  */

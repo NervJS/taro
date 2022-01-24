@@ -63,7 +63,6 @@ interface InputProps extends StandardProps, FormItemProps {
    */
   focus?: boolean
 
-
   /** 设置键盘右下角按钮的文字
    * @default done
    * @supported weapp, rn
@@ -128,25 +127,24 @@ interface InputProps extends StandardProps, FormItemProps {
    * 安全键盘加密时间戳
    * @supported weapp
    */
-   safePasswordTimeStamp?: number
+  safePasswordTimeStamp?: number
 
   /**
    * 安全键盘加密盐值
    * @supported weapp
    */
-   safePasswordNonce?: string
-
+  safePasswordNonce?: string
   /**
    * 安全键盘计算hash盐值，若指定custom-hash 则无效
    * @supported weapp
    */
-   safePasswordSalt?: string
+  safePasswordSalt?: string
 
   /**
    * 安全键盘计算hash的算法表达式，如 `md5(sha1('foo' + sha256(sm3(password + 'bar'))))`
    * @supported weapp
    */
-   safePasswordCustomHash?: string
+  safePasswordCustomHash?: string
 
   /**
    * 当 type 为 number, digit, idcard 数字键盘是否随机排列
@@ -193,9 +191,15 @@ interface InputProps extends StandardProps, FormItemProps {
    * @supported weapp
    */
   onKeyboardHeightChange?: CommonEventFunction<InputProps.onKeyboardHeightChangeEventDetail>
+
+  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
+   * @supported h5
+   */
+  nativeProps?: Record<string, unknown>
 }
 
 declare namespace InputProps {
+  /** > 注意：React-Native 端 `inputEventDetail` 仅实现参数 `value`，若需实时获取光标位置则可通过 [`onSelectionChange`](https://reactnative.dev/docs/textinput#onselectionchange) 实现。 */
   interface inputEventDetail {
     /** 输入值 */
     value: string
@@ -226,7 +230,7 @@ declare namespace InputProps {
 /** 输入框。该组件是原生组件，使用时请注意相关限制
  * @classification forms
  * @supported weapp, h5, rn
- * @example
+ * @example_react
  * ```tsx
  * class App extends Component {
  *
@@ -240,7 +244,7 @@ declare namespace InputProps {
  *             <Text>数字输入的 input</Text>
  *             <Input type='number' placeholder='这是一个数字输入框'/>
  *             <Text>密码输入的 input</Text>
- *             <Input type='text' password placeholder='这是一个密码输入框'/>
+ *             <Input type='password' password placeholder='这是一个密码输入框'/>
  *             <Text>带小数点的 input</Text>
  *             <Input type='digit' placeholder='带小数点的数字键盘'/>
  *             <Text>身份证输入的 input</Text>
@@ -251,6 +255,27 @@ declare namespace InputProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <view class="example-body">
+ *     <text>可以自动聚焦的 input</text>
+ *     <input type="text" placeholder="将会获取焦点" :focus="true" />
+ *     <text>控制最大输入长度的 input</text>
+ *     <input type="text" placeholder="最大输入长度为 10" maxlength="10"/>
+ *     <text>数字输入的 input</text>
+ *     <input type="number" placeholder="这是一个数字输入框"/>
+ *     <text>密码输入的 input</text>
+ *     <input type="password" :password="true" placeholder="这是一个密码输入框"/>
+ *     <text>带小数点的 input</text>
+ *     <input type="digit" placeholder="带小数点的数字键盘"/>
+ *     <text>身份证输入的 input</text>
+ *     <input type="idcard" placeholder="身份证输入键盘"/>
+ *     <text>控制占位符颜色的 input</text>
+ *     <input type="text" placeholder="占位符字体是红色的" placeholder-style="color:red;"/>
+ *   </view>
+ * </template>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/input.html
  */
