@@ -4,37 +4,37 @@ import { StyleProp, ViewStyle } from 'react-native'
 
 interface ButtonProps extends StandardProps {
   /** 按钮的大小
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, alipay
    * @default default
    */
   size?: keyof ButtonProps.size
 
   /** 按钮的样式类型
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, alipay
    * @default default
    */
   type?: keyof ButtonProps.type
 
   /** 按钮是否镂空，背景色透明
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, alipay
    * @default false
    */
   plain?: boolean
 
   /** 是否禁用
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, alipay
    * @default false
    */
   disabled?: boolean
 
   /** 名称前是否带 loading 图标
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, alipay
    * @default false
    */
   loading?: boolean
 
   /** 用于 `<form/>` 组件，点击分别会触发 `<form/>` 组件的 submit/reset 事件
-   * @supported weapp
+   * @supported weapp, alipay
    */
   formType?: keyof ButtonProps.formType
 
@@ -45,7 +45,7 @@ interface ButtonProps extends StandardProps {
 
   /** 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果
    * @default button-hover
-   * @supported weapp, h5
+   * @supported weapp, alipay, h5
    * @rn 支持 hoverStyle 属性，但框架未支持 hoverClass
    */
   hoverClass?: string
@@ -58,19 +58,19 @@ interface ButtonProps extends StandardProps {
 
   /** 指定是否阻止本节点的祖先节点出现点击态
    * @default false
-   * @supported weapp
+   * @supported weapp, alipay
    */
   hoverStopPropagation?: boolean
 
   /** 按住后多久出现点击态，单位毫秒
    * @default 20
-   * @supported weapp, h5, rn
+   * @supported weapp, alipay, h5, rn
    */
   hoverStartTime?: number
 
   /** 手指松开后点击态保留时间，单位毫秒
    * @default 70
-   * @supported weapp, h5, rn
+   * @supported weapp, alipay, h5, rn
    */
   hoverStayTime?: number
 
@@ -374,7 +374,7 @@ declare namespace ButtonProps {
 /** 按钮
  * @classification forms
  * @supported weapp, h5, rn
- * @example
+ * @example_react
  * ```tsx
  * export default class PageButton extends Component {
  *   state = {
@@ -446,6 +446,79 @@ declare namespace ButtonProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <view class="container">
+ *     <button
+ *       v-for="item in btn"
+ *       :size="item.size ? item.size : ''"
+ *       :type="item.type ? item.type : ''"
+ *       :loading="item.loading ? item.loading : false"
+ *       :disabled="item.disabled ? item.disabled : false"
+ *     >
+ *       {{ item.text }}
+ *     </button>
+ *     <button class="btn-max-w" :plain="true" type="primary">按钮</button>
+ *     <button class="btn-max-w" :plain="true" type="primary" :disabled="true">不可点击的按钮</button>
+ *     <button class="btn-max-w" :plain="true">按钮</button>
+ *     <button class="btn-max-w" :plain="true" :disabled="true">按钮</button>
+ *     <button size="mini" type="primary">按钮</button>
+ *     <button size="mini" >按钮</button>
+ *     <button size="mini" type="warn">按钮</button>
+ *   </view>
+ * </template>
+ * 
+ * <script>
+ * export default {
+ *   data() {
+ *     return {
+ *       btn: [
+ *         {
+ *           text: '页面主操作 Normal',
+ *           size: 'default',
+ *           type: 'primary'
+ *         },
+ *         {
+ *           text: '页面主操作 Loading',
+ *           size: 'default',
+ *           type: 'primary',
+ *           loading: true,
+ *         },
+ *         {
+ *           text: '页面主操作 Disabled',
+ *           size: 'default',
+ *           type: 'primary',
+ *           disabled: true,
+ *         },
+ *         {
+ *           text: '页面次要操作 Normal',
+ *           size: 'default',
+ *           type: 'default'
+ *         },
+ *         {
+ *           text: '页面次要操作 Disabled',
+ *           size: 'default',
+ *           type: 'default',
+ *           disabled: true,
+ *         },
+ *         {
+ *           text: '警告类操作 Normal',
+ *           size: 'default',
+ *           type: 'warn'
+ *         },
+ *         {
+ *           text: '警告类操作 Disabled',
+ *           size: 'default',
+ *           type: 'warn',
+ *           disabled: true,
+ *         }
+ *       ]
+ *     }
+ *   }
+ * }
+ * </script>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/button.html
  */

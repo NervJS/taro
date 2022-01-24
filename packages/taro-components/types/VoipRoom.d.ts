@@ -1,23 +1,22 @@
 import { ComponentType } from 'react'
-import { StandardProps } from './common'
-import { StyleProp, ViewStyle } from 'react-native'
+import { CommonEventFunction, StandardProps } from './common'
 
 interface VoipRoomProps extends StandardProps {
   /** 进入房间用户的 openid
    * @default none
-   * @supported weapp, swan, alipay, tt, h5
+   * @supported weapp
    */
   openId?: string
 
   /** 对话窗口类型，自身传入 camera，其它用户传入 video
    * @default camera
-   * @supported weapp, swan, alipay, tt, h5
+   * @supported weapp
    */
   mode?: keyof VoipRoomProps.mode
 
   /** 仅在 mode 为 camera 时有效，前置或后置，值为front, back
    * @default front
-   * @supported weapp, swan, alipay, tt, h5
+   * @supported weapp
    */
   devicePosition?: keyof VoipRoomProps.devicePosition
 
@@ -27,7 +26,7 @@ interface VoipRoomProps extends StandardProps {
   onError?: CommonEventFunction
 }
 
-namespace VoipRoomProps {
+declare namespace VoipRoomProps {
   /** 对话窗口类型 */
   interface mode {
     camera

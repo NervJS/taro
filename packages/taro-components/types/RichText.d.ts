@@ -65,7 +65,7 @@ declare namespace RichTextProps {
 /** 富文本
  * @classification base
  * @supported weapp, swan, alipay, tt, h5, rn
- * @example
+ * @example_react
  * ```tsx
  * class App extends Components {
  *   state = {
@@ -87,6 +87,38 @@ declare namespace RichTextProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <view class="components-page">
+ *     <rich-text :nodes="nodes"></rich-text>
+ *   </view>
+ * </template>
+ * 
+ * <script>
+ * export default {
+ *   name: 'Index',
+ *   data() {
+ *     return {
+ *       nodes: [{
+ *         name: 'div',
+ *         attrs: {
+ *           class: 'div_class',
+ *           style: 'line-height: 60px; color: red;'
+ *         },
+ *         children: [{
+ *           type: 'text',
+ *           text: 'Hello World!'
+ *         }]
+ *       }]
+ *     }
+ *   },
+ *   onReady () {
+ *     console.log('onReady')
+ *   }
+ * }
+ * </script>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/rich-text.html
  */

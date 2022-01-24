@@ -72,6 +72,11 @@ interface AudioProps extends StandardProps {
    * @supported weapp, h5, swan
    */
   onEnded?: CommonEventFunction
+
+  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
+   * @supported h5
+   */
+  nativeProps?: Record<string, unknown>
 }
 
 declare namespace AudioProps {
@@ -102,7 +107,7 @@ declare namespace AudioProps {
  * @classification media
  * @deprecated
  * @supported weapp, h5, swan
- * @example
+ * @example_react
  * ```tsx
  * export default class PageView extends Component {
  *   constructor() {
@@ -113,7 +118,7 @@ declare namespace AudioProps {
  *     return (
  *       <View className='components-page'>
  *         <Audio
- *           src='http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E06DCBDC9AB7C49FD713D632D313AC4858BACB8DDD29067D3C601481D36E62053BF8DFEAF74C0A5CCFADD6471160CAF3E6A&fromtag=46'
+ *           src='https://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E06DCBDC9AB7C49FD713D632D313AC4858BACB8DDD29067D3C601481D36E62053BF8DFEAF74C0A5CCFADD6471160CAF3E6A&fromtag=46'
  *           controls={true}
  *           autoplay={false}
  *           loop={false}
@@ -125,6 +130,21 @@ declare namespace AudioProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <view class="components-page">
+ *     <audio
+ *       id="video"
+ *       src="https://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E06DCBDC9AB7C49FD713D632D313AC4858BACB8DDD29067D3C601481D36E62053BF8DFEAF74C0A5CCFADD6471160CAF3E6A&fromtag=46"
+ *       :controls="true"
+ *       :autoplay="false"
+ *       :loop="false"
+ *       :muted="true"
+ *     />
+ *   </view>
+ * </template>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/audio.html
  */

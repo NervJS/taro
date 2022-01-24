@@ -54,9 +54,7 @@ declare module '../../index' {
   }
 
   interface TaroStatic {
-    /**
-     * 退出当前小程序。必须有点击行为才能调用成功。
-     * 基础库 2.17.3 开始支持
+    /** 退出当前小程序。必须有点击行为才能调用成功。
      * @supported weapp
      * @example
      * ```tsx

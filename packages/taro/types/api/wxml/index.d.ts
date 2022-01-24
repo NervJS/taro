@@ -141,6 +141,40 @@ declare module '../../index' {
     }
   }
 
+  /** `MediaQueryObserver` 对象，用于监听页面 media query 状态的变化，如界面的长宽是不是在某个指定的范围内。 */
+  interface MediaQueryObserver {
+    /** 开始监听页面 media query 变化情况 */
+    observe(descriptor: MediaQueryObserver.descriptor, callback: MediaQueryObserver.observeCallback): void
+    /** 停止监听。回调函数将不再触发 */
+    disconnect(): void
+  }
+
+  namespace MediaQueryObserver {
+    /** media query 描述符 */
+    interface descriptor {
+      /** 页面最小宽度 (单位: px) */
+      minWidth: number
+      /** 页面最大宽度 (单位: px) */
+      maxWidth: number
+      /** 页面宽度 (单位: px) */
+      width: number
+      /** 页面最小高度 (单位: px) */
+      minHeight: number
+      /** 页面最大高度（px 为单位） */
+      maxHeight: number
+      /** 页面高度（px 为单位） */
+      height: number
+      /** 屏幕方向 */
+      orientation: 'landscape' | 'portrait'
+    }
+
+    /** 监听 media query 状态变化的回调函数 */
+    type observeCallback = (res: {
+      /** 页面的当前状态是否满足所指定的 media query */
+      matches: boolean
+    }) => void
+  }
+
   /** 查询节点信息的对象
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.html
    */
