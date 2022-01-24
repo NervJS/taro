@@ -4,7 +4,7 @@ import { Current } from '@tarojs/runtime'
 import { MethodHandler } from '../../utils/handler'
 import { getTimingFunc, easeInOut } from '../../utils'
 
-let timer: number
+let timer: NodeJS.Timer
 const FRAME_DURATION = 17
 
 /**

@@ -1258,18 +1258,21 @@ require(\\"./taro\\");
                 </block>
               </cover-view>
               <cover-image s-elif=\\"{{item.nn==='cover-image'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\"  src=\\"{{item.src}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
+              <block s-elif=\\"{{item.nn==='#text'}}\\">{{item.v}}</block>
               <block s-else>
                 <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
               </block>
             </block>
           </cover-view>
           <cover-image s-elif=\\"{{item.nn==='cover-image'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\"  src=\\"{{item.src}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
+          <block s-elif=\\"{{item.nn==='#text'}}\\">{{item.v}}</block>
           <block s-else>
             <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
           </block>
         </block>
       </cover-view>
       <cover-image s-elif=\\"{{item.nn==='cover-image'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\"  src=\\"{{item.src}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
+      <block s-elif=\\"{{item.nn==='#text'}}\\">{{item.v}}</block>
       <block s-else>
         <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
       </block>
@@ -1332,18 +1335,21 @@ require(\\"./taro\\");
                   </block>
                 </cover-view>
                 <cover-image s-elif=\\"{{item.nn==='cover-image'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\"  src=\\"{{item.src}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
+                <block s-elif=\\"{{item.nn==='#text'}}\\">{{item.v}}</block>
                 <block s-else>
                   <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
                 </block>
               </block>
             </cover-view>
             <cover-image s-elif=\\"{{item.nn==='cover-image'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\"  src=\\"{{item.src}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
+            <block s-elif=\\"{{item.nn==='#text'}}\\">{{item.v}}</block>
             <block s-else>
               <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
             </block>
           </block>
         </cover-view>
         <cover-image s-elif=\\"{{item.nn==='cover-image'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\"  src=\\"{{item.src}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
+        <block s-elif=\\"{{item.nn==='#text'}}\\">{{item.v}}</block>
         <block s-else>
           <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
         </block>
@@ -1365,18 +1371,21 @@ require(\\"./taro\\");
                 </block>
               </cover-view>
               <cover-image s-elif=\\"{{item.nn==='cover-image'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\"  src=\\"{{item.src}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
+              <block s-elif=\\"{{item.nn==='#text'}}\\">{{item.v}}</block>
               <block s-else>
                 <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
               </block>
             </block>
           </cover-view>
           <cover-image s-elif=\\"{{item.nn==='cover-image'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\"  src=\\"{{item.src}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
+          <block s-elif=\\"{{item.nn==='#text'}}\\">{{item.v}}</block>
           <block s-else>
             <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
           </block>
         </block>
       </cover-view>
       <cover-image s-elif=\\"{{item.nn==='cover-image'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\"  src=\\"{{item.src}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
+      <block s-elif=\\"{{item.nn==='#text'}}\\">{{item.v}}</block>
       <block s-else>
         <template is=\\"{{xs.e(0)}}\\" data=\\"{{{i:item}}}\\" />
       </block>
