@@ -110,7 +110,7 @@ declare namespace AdProps {
 /** Banner 广告
  * @classification open
  * @supported weapp
- * @example
+ * @example_react
  * ```tsx
  * class App extends Component {
  *   render () {
@@ -125,6 +125,18 @@ declare namespace AdProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <ad
+ *     unit-id=""
+ *     ad-intervals="60"
+ *     `@load="onLoad"
+ *     `@error="onError"
+ *     `@close="onClose"
+ *   />
+ * </template>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/ad.html
  */

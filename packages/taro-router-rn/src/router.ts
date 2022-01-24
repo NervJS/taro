@@ -253,6 +253,13 @@ function createTabStack (config: RouterConfig, parentProps: any) {
     tabList.push(tabNode)
   })
 
+  const borderColorMap = {
+    black: '#000000',
+    white: '#ffffff'
+  }
+  // 允许传入色值、black、white、默认 #000000
+  const borderTopColor = tabBar?.borderStyle ? (borderColorMap[tabBar?.borderStyle] || tabBar?.borderStyle) : '#000000'
+
   const userTabBarOptions = rnConfig?.tabBarOptions || {}
   // tabbarOptions
   const tabBarOptions = Object.assign({
@@ -261,10 +268,10 @@ function createTabStack (config: RouterConfig, parentProps: any) {
     inactiveTintColor: tabBar?.color || '#7A7E83',
     activeBackgroundColor: tabBar?.backgroundColor || '#ffffff',
     inactiveBackgroundColor: tabBar?.backgroundColor || '#ffffff',
-    style: tabBar?.borderStyle ? {
+    style: {
       backgroundColor: tabBar?.backgroundColor,
-      borderTopColor: (tabBar?.borderStyle === 'black' ? '#000000' : '#ffffff')
-    } : {}
+      borderTopColor
+    }
   }, userTabBarOptions)
 
   const tabNames = getTabNames(config)

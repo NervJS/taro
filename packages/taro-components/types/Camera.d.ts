@@ -115,7 +115,7 @@ declare namespace CameraProps {
 
 /** 系统相机
  * @classification media
- * @supported weapp
+ * @supported weapp, rn
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/camera.html
  */
 declare const Camera: ComponentType<CameraProps>

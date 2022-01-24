@@ -9,13 +9,17 @@ class StyleSheet {
     this.$style = document.createElement('style')
   }
 
-  $style: HTMLStyleElement
-  sheet?: CSSStyleSheet | null
+  $style?: HTMLStyleElement | null = null
+  sheet?: CSSStyleSheet | null = null
+
   appendStyleSheet = () => {
-    this.$style?.setAttribute('type', 'text/css')
-    this.$style?.setAttribute('data-type', 'Taro')
-    document.getElementsByTagName('head')[0].appendChild(this.$style)
-    this.sheet = this.$style?.sheet
+    if (this.$style) {
+      const head = document.getElementsByTagName('head')[0]
+      this.$style.setAttribute('type', 'text/css')
+      this.$style.setAttribute('data-type', 'Taro')
+      head.appendChild(this.$style)
+      this.sheet = this.$style.sheet
+    }
     if (this.sheet && !('insertRule' in this.sheet)) {
       console.warn('当前浏览器不支持 stylesheet.insertRule 接口')
     }
