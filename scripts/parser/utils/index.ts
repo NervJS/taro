@@ -89,6 +89,7 @@ export function isNotAPI (flags?: ts.SymbolFlags) {
 
 export function isFunction (flags?: ts.SymbolFlags) {
   return SymbolFlags.includes((flags || -1) - ts.SymbolFlags.Function)
+    || SymbolFlags.includes((flags || -1) - ts.SymbolFlags.Method)
 }
 
 export function isOptional (flags?: ts.SymbolFlags) {

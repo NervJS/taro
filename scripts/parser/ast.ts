@@ -55,6 +55,7 @@ export function generateDocumentation(
         || ts.isImportDeclaration(node) || ts.isImportEqualsDeclaration(node) || ts.isImportClause(node)
         || ts.isExportAssignment(node) || ts.isExportDeclaration(node)
         || ts.isExpressionStatement(node) || ts.isEmptyStatement(node)
+        || ts.isStringLiteral(node)
         || node.kind === ts.SyntaxKind.ExportKeyword) {
       return
     }
@@ -103,7 +104,7 @@ export function generateDocumentation(
         symbol && o.push(serializeType(symbol))
       })
     } else {
-      console.warn(`WARN: Statement kind ${node.kind} is missing parse!\n\n${node.getText()}`)
+      console.warn(`WARN: Statement kind ${node.kind} is missing parse!\n\n${node.getText()}\n\n`)
     }
   }
 

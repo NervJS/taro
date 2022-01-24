@@ -7,17 +7,20 @@ import writeFile from '../write'
 export async function writeApiDoc (routePath: string, doc: DocEntry[], withGeneral = false) {
   const _p = path.parse(routePath)
   const merge = await childrenMerge(doc, [])
-  const Taro = merge.find(e => e.name === 'Taro')
+  const TaroExports = merge?.[0]?.exports || []
+  const TaroStatic = TaroExports.find(e => e.name === 'TaroStatic')
+  const Taro = await childrenMerge(TaroStatic?.members, TaroExports)
 
   if (Taro) {
-    for (const e of Taro.exports || []) {
+    for (const e of Taro) {
       const name = e.name || 'undefined'
       const tags = e.jsTags || []
-      const params = e.parameters || []
+      const declarations = e.declarations || []
+      const params = declarations?.[0]?.parameters || e.parameters || []
       const members = e.members || []
       const md: (string | undefined)[] = []
   
-      if (name === 'General' && !withGeneral) continue
+      if (['TaroGeneral', 'TaroStatic'].includes(name) && !withGeneral) continue
       if (tags.find(tag => tag.name === 'ignore')) continue
   
       if (!isFunction(e.flags) && !TaroMethod.includes(e.flags || -1) && !isntTaroMethod.includes(e.flags || -1)) {
