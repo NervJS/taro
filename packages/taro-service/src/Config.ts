@@ -1,7 +1,7 @@
 import * as path from 'path'
 import * as fs from 'fs-extra'
 
-import { merge } from 'lodash'
+import * as merge from 'webpack-merge'
 import { IProjectConfig } from '@tarojs/taro/types/compile'
 import {
   SOURCE_DIR,
