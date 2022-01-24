@@ -8,9 +8,9 @@ import type { PluginItem, NodePath } from '@babel/core'
  * without the need to specifically require them
  * if they are used
 */
-function injectDefineConfigHeader (babel: any): PluginItem {
-  const appConfig = 'const { defineAppConfig } = require("@tarojs/helper")'
-  const pageConfig = 'const { definePageConfig } = require("@tarojs/helper")'
+export function injectDefineConfigHeader (babel: any): PluginItem {
+  const appConfig = 'function defineAppConfig(config) { return config }'
+  const pageConfig = 'function definePageConfig(config) { return config }'
 
   const prependHeader = (nodePath: NodePath<any>, header: string) => {
     const parsedHeader = babel.parse(header, { filename: '' }).program.body[0]
