@@ -90,7 +90,7 @@ class App extends Component {
 | 参数 | 类型 | 默认值 | 必填 | 说明 |
 | --- | --- | :---: | :---: | --- |
 | value | `string` |  | 否 | 输入框的初始内容 |
-| type | "number" or "text" or "idcard" or "digit" | `"text"` | 否 | input 的类型 |
+| type | "number" or "text" or "idcard" or "digit" or "safe-password" or "nickname" | `"text"` | 否 | input 的类型 |
 | password | `boolean` |  | 否 | 是否是密码类型 |
 | placeholder | `string` |  | 否 | 输入框为空时占位符 |
 | placeholderStyle | `string` |  | 否 | 指定 placeholder 的样式 |
@@ -108,6 +108,12 @@ class App extends Component {
 | adjustPosition | `boolean` | `false` | 否 | 键盘弹起时，是否自动上推页面 |
 | holdKeyboard | `boolean` | `false` | 否 | focus 时，点击页面的时候不收起键盘 |
 | alwaysEmbed | `boolean` | `false` | 否 | 强制 input 处于同层状态，默认 focus 时 input 会切到非同层状态 (仅在 iOS 下生效) |
+| safePasswordCertPath | `string` |  | 否 | 安全键盘加密公钥的路径，只支持包内路径 |
+| safePasswordLength | `number` |  | 否 | 安全键盘输入密码长度 |
+| safePasswordTimeStamp | `number` |  | 否 | 安全键盘加密时间戳 |
+| safePasswordNonce | `string` |  | 否 | 安全键盘加密盐值 |
+| safePasswordSalt | `string` |  | 否 | 安全键盘计算hash盐值，若指定custom-hash 则无效 |
+| safePasswordCustomHash | `string` |  | 否 | 安全键盘计算hash的算法表达式，如 `md5(sha1('foo' + sha256(sm3(password + 'bar'))))` |
 | randomNumber | `boolean` | `false` | 否 | 当 type 为 number, digit, idcard 数字键盘是否随机排列 |
 | controlled | `boolean` | `false` | 否 | 是否为受控组件 |
 | onInput | `CommonEventFunction<inputEventDetail>` |  | 否 | 当键盘输入时，触发input事件，event.detail = {value, cursor, keyCode}，处理函数可以直接 return 一个字符串，将替换输入框的内容。 |
@@ -140,6 +146,12 @@ class App extends Component {
 | InputProps.adjustPosition | ✔️ |  |  |  |
 | InputProps.holdKeyboard | ✔️ |  |  |  |
 | InputProps.alwaysEmbed | ✔️ |  |  |  |
+| InputProps.safePasswordCertPath | ✔️ |  |  |  |
+| InputProps.safePasswordLength | ✔️ |  |  |  |
+| InputProps.safePasswordTimeStamp | ✔️ |  |  |  |
+| InputProps.safePasswordNonce | ✔️ |  |  |  |
+| InputProps.safePasswordSalt | ✔️ |  |  |  |
+| InputProps.safePasswordCustomHash | ✔️ |  |  |  |
 | InputProps.randomNumber |  | ✔️ |  |  |
 | InputProps.controlled |  | ✔️ |  |  |
 | InputProps.onInput | ✔️ |  | ✔️ | ✔️ |

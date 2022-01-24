@@ -172,16 +172,17 @@ export default class Picks extends Component {
 
 ## PickerViewProps
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| value | `number[]` | 否 | 数组中的数字依次表示 picker-view 内的 picker-view-column 选择的第几项（下标从 0 开始），数字大于 picker-view-column 可选项长度时，选择最后一项。 |
-| indicatorStyle | `string` | 否 | 设置选择器中间选中框的样式 |
-| indicatorClass | `string` | 否 | 设置选择器中间选中框的类名 |
-| maskStyle | `string` | 否 | 设置蒙层的样式 |
-| maskClass | `string` | 否 | 设置蒙层的类名 |
-| onChange | `CommonEventFunction<onChangeEventDetail>` | 否 | 当滚动选择，value 改变时触发 change 事件，event.detail = {value: value}；value为数组，表示 picker-view 内的 picker-view-column 当前选择的是第几项（下标从 0 开始） |
-| onPickStart | `CommonEventFunction<any>` | 否 | 当滚动选择开始时候触发事件 |
-| onPickEnd | `CommonEventFunction<any>` | 否 | 当滚动选择结束时候触发事件 |
+| 参数 | 类型 | 默认值 | 必填 | 说明 |
+| --- | --- | :---: | :---: | --- |
+| value | `number[]` |  | 否 | 数组中的数字依次表示 picker-view 内的 picker-view-column 选择的第几项（下标从 0 开始），数字大于 picker-view-column 可选项长度时，选择最后一项。 |
+| indicatorStyle | `string` |  | 否 | 设置选择器中间选中框的样式 |
+| indicatorClass | `string` |  | 否 | 设置选择器中间选中框的类名 |
+| maskStyle | `string` |  | 否 | 设置蒙层的样式 |
+| maskClass | `string` |  | 否 | 设置蒙层的类名 |
+| immediateChange | `boolean` | `false` | 否 | 是否在手指松开时立即触发 change 事件。若不开启则会在滚动动画结束后触发 change 事件。 |
+| onChange | `CommonEventFunction<onChangeEventDetail>` |  | 否 | 当滚动选择，value 改变时触发 change 事件，event.detail = {value: value}；value为数组，表示 picker-view 内的 picker-view-column 当前选择的是第几项（下标从 0 开始） |
+| onPickStart | `CommonEventFunction<any>` |  | 否 | 当滚动选择开始时候触发事件 |
+| onPickEnd | `CommonEventFunction<any>` |  | 否 | 当滚动选择结束时候触发事件 |
 
 ### API 支持度
 
@@ -192,6 +193,7 @@ export default class Picks extends Component {
 | PickerViewProps.indicatorClass | ✔️ | ✔️ | ✔️ |  |  |  |
 | PickerViewProps.maskStyle | ✔️ | ✔️ | ✔️ | ✔️ |  |  |
 | PickerViewProps.maskClass | ✔️ | ✔️ | ✔️ |  |  |  |
+| PickerViewProps.immediateChange | ✔️ |  |  |  |  |  |
 | PickerViewProps.onChange | ✔️ | ✔️ | ✔️ | ✔️ |  | ✔️ |
 | PickerViewProps.onPickStart | ✔️ |  |  |  |  |  |
 | PickerViewProps.onPickEnd | ✔️ |  |  |  |  |  |

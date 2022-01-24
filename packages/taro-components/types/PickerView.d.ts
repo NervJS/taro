@@ -28,6 +28,12 @@ interface PickerViewProps extends StandardProps {
    */
   maskClass?: string
 
+  /** 是否在手指松开时立即触发 change 事件。若不开启则会在滚动动画结束后触发 change 事件。
+   * @supported weapp
+   * @default false
+   */
+  immediateChange?: boolean
+
   /** 当滚动选择，value 改变时触发 change 事件，event.detail = {value: value}；value为数组，表示 picker-view 内的 picker-view-column 当前选择的是第几项（下标从 0 开始）
    * @supported weapp, swan, alipay, tt, rn
    */
@@ -144,7 +150,7 @@ declare namespace PickerViewProps {
  *   </picker-view>
  * </view>
  * </template>
- * 
+ *
  * <script>
  *   export default {
  *     name: "Index",
@@ -172,7 +178,7 @@ declare namespace PickerViewProps {
  *         value: [3, 1, 1]
  *       }
  *     },
- * 
+ *
  *     methods: {
  *       onChange: function(e) {
  *         const val = e.detail.value
