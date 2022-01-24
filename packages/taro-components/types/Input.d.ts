@@ -181,7 +181,7 @@ interface InputProps extends StandardProps, FormItemProps {
    *
    * event.detail = {value: value}
    * @supported weapp, rn
-   * @h5 借用[Form 组件](form.html)的`onSubmit`事件来替代
+   * @h5 借用[Form 组件](./form)的`onSubmit`事件来替代
    */
   onConfirm?: CommonEventFunction<InputProps.inputValueEventDetail>
 
