@@ -77,8 +77,8 @@ class App extends Components {
 | onScale | `CommonEventFunction<onScaleEventDetail>` |  | 否 | 缩放过程中触发的事件 |
 | onHTouchMove | `TouchEventFunction` |  | 否 | 初次手指触摸后移动为横向的移动，如果 catch 此事件，则意味着 touchmove 事件也被 catch |
 | onVTouchMove | `TouchEventFunction` |  | 否 | 初次手指触摸后移动为纵向的移动，如果 catch 此事件，则意味着 touchmove 事件也被 catch |
-| onDragStart | `CommonEventFunction<any>` |  | 否 | 开始拖动时触发 |
-| onDragEnd | `CommonEventFunction<any>` |  | 否 | 拖动结束时触发 |
+| onDragStart | `CommonEventFunction` |  | 否 | 开始拖动时触发 |
+| onDragEnd | `CommonEventFunction` |  | 否 | 拖动结束时触发 |
 
 ### API 支持度
 

@@ -134,12 +134,12 @@ export default {
 | enableSatellite | `boolean` | `false` | 否 | 是否开启卫星图 |
 | enableTraffic | `boolean` | `false` | 否 | 是否开启实时路况 |
 | setting | MapProps or { [key: string]: any; } |  | 否 | 配置项<br /><br />提供 setting 对象统一设置地图配置。同时对于一些动画属性如 rotate 和 skew，通过 setData 分开设置时无法同时生效，需通过 settting 统一修改。 |
-| onTap | `CommonEventFunction<any>` |  | 否 | 点击地图时触发 |
+| onTap | `CommonEventFunction` |  | 否 | 点击地图时触发 |
 | onMarkerTap | `CommonEventFunction<onMarkerTapEventDetail>` |  | 否 | 点击标记点时触发，e.detail = {markerId} |
 | onLabelTap | `CommonEventFunction<onLabelTapEventDetail>` |  | 否 | 点击label时触发，e.detail = {markerId} |
 | onControlTap | `CommonEventFunction<onControlTapEventDetail>` |  | 否 | 点击控件时触发，e.detail = {controlId} |
 | onCalloutTap | `CommonEventFunction<onCalloutTapEventDetail>` |  | 否 | 点击标记点对应的气泡时触发，e.detail = {markerId} |
-| onUpdated | `CommonEventFunction<any>` |  | 否 | 在地图渲染更新完成时触发 |
+| onUpdated | `CommonEventFunction` |  | 否 | 在地图渲染更新完成时触发 |
 | onRegionChange | CommonEventFunction<onRegionEventDetail<"begin"> or onRegionEventDetail<"end">> |  | 否 | 视野发生变化时触发 |
 | onPoiTap | `CommonEventFunction<onPoiTapEventDetail>` |  | 否 | 点击地图poi点时触发，e.detail = {name, longitude, latitude} |
 | includePadding | { left: string or number; right: string or number; top: string or number; bottom: string or number; } |  | 否 | 视野在地图 padding 范围内展示 |

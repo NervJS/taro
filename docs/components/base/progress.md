@@ -83,7 +83,7 @@ export default class PageView extends Component {
 | active | `boolean` | `false` | 否 | 进度条从左往右的动画 |
 | activeMode | "backwards" or "forwards" | `backwards` | 否 | backwards: 动画从头播<br /><br />forwards: 动画从上次结束点接着播 |
 | duration | `number` | `30` | 否 | 进度增加 1% 所需毫秒数 |
-| onActiveEnd | `CommonEventFunction<any>` |  | 否 | 动画完成事件 |
+| onActiveEnd | `CommonEventFunction` |  | 否 | 动画完成事件 |
 
 ### API 支持度
 

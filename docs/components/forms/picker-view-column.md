@@ -13,5 +13,5 @@ sidebar_label: PickerViewColumn
 ## 类型
 
 ```tsx
-ComponentType<StandardProps<any, ITouchEvent>>
+ComponentType<StandardProps>
 ```

@@ -114,11 +114,11 @@ class App extends Components {
 | showImgSize | `boolean` | `false` | 否 | 点击图片时显示图片大小控件 |
 | showImgToolbar | `boolean` | `false` | 否 | 点击图片时显示工具栏控件 |
 | showImgResize | `boolean` | `false` | 否 | 点击图片时显示修改尺寸控件 |
-| onReady | `CommonEventFunction<any>` |  | 否 | 编辑器初始化完成时触发 |
+| onReady | `CommonEventFunction` |  | 否 | 编辑器初始化完成时触发 |
 | onFocus | `CommonEventFunction<editorEventDetail>` |  | 否 | 编辑器聚焦时触发<br />event.detail = { html, text, delta } |
 | onBlur | `CommonEventFunction<editorEventDetail>` |  | 否 | 编辑器失去焦点时触发<br />detail = { html, text, delta } |
 | onInput | `CommonEventFunction<editorEventDetail>` |  | 否 | 编辑器内容改变时触发<br />detail = { html, text, delta } |
-| onStatuschange | `CommonEventFunction<any>` |  | 否 | 通过 Context 方法改变编辑器内样式时触发，返回选区已设置的样式 |
+| onStatuschange | `CommonEventFunction` |  | 否 | 通过 Context 方法改变编辑器内样式时触发，返回选区已设置的样式 |
 
 ### API 支持度
 

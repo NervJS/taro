@@ -96,10 +96,10 @@ class App extends Components {
 | onStateChange | `CommonEventFunction<onStateChangeEventDetail>` |  | 否 | 状态变化事件，detail = {code} |
 | onNetstatus | `CommonEventFunction<onNetstatusEventDetail>` |  | 否 | 网络状态通知，detail = {info} |
 | onError | `CommonEventFunction<onErrorEventDetail>` |  | 否 | 渲染错误事件，detail = {errMsg, errCode} |
-| onBgmStart | `CommonEventFunction<any>` |  | 否 | 背景音开始播放时触发 |
+| onBgmStart | `CommonEventFunction` |  | 否 | 背景音开始播放时触发 |
 | onBgmProgress | `CommonEventFunction<onBgmProgressEventDetail>` |  | 否 | 背景音进度变化时触发，detail = {progress, duration} |
-| onBgmComplete | `CommonEventFunction<any>` |  | 否 | 背景音播放完成时触发 |
-| onAudioVolumeNotify | `CommonEventFunction<any>` |  | 否 | 返回麦克风采集的音量大小 |
+| onBgmComplete | `CommonEventFunction` |  | 否 | 背景音播放完成时触发 |
+| onAudioVolumeNotify | `CommonEventFunction` |  | 否 | 返回麦克风采集的音量大小 |
 
 ### API 支持度
 

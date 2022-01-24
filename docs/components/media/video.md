@@ -117,19 +117,19 @@ export default class PageView extends Component {
 | pictureInPictureMode | "" or "push" or "pop" or ("push" or "pop")[] |  | 否 | 设置小窗模式： push, pop，空字符串或通过数组形式设置多种模式（如： ["push", "pop"]） |
 | enableAutoRotation | `boolean` |  | 否 | 是否开启手机横屏时自动全屏，当系统设置开启自动旋转时生效 |
 | showScreenLockButton | `boolean` |  | 否 | 是否显示锁屏按钮，仅在全屏时显示，锁屏后控制栏的操作 |
-| onPlay | `CommonEventFunction<any>` |  | 否 | 当开始/继续播放时触发 play 事件 |
-| onPause | `CommonEventFunction<any>` |  | 否 | 当暂停播放时触发 pause 事件 |
-| onEnded | `CommonEventFunction<any>` |  | 否 | 当播放到末尾时触发 ended 事件 |
+| onPlay | `CommonEventFunction` |  | 否 | 当开始/继续播放时触发 play 事件 |
+| onPause | `CommonEventFunction` |  | 否 | 当暂停播放时触发 pause 事件 |
+| onEnded | `CommonEventFunction` |  | 否 | 当播放到末尾时触发 ended 事件 |
 | onTimeUpdate | `CommonEventFunction<onTimeUpdateEventDetail>` |  | 否 | 播放进度变化时触发, 触发频率 250ms 一次<br /><br />event.detail = {currentTime, duration} |
 | onFullscreenChange | `CommonEventFunction<onFullscreenChangeEventDetail>` |  | 否 | 当视频进入和退出全屏时触发<br /><br />event.detail = {fullScreen, direction}，direction取为 vertical 或 horizontal |
 | onWaiting | `CommonEventFunction<onWaitingEventDetail>` |  | 否 | 当视频进入和退出全屏时触发<br /><br />event.detail = {fullScreen, direction}，direction 取为 vertical 或 horizontal |
-| onError | `CommonEventFunction<any>` |  | 否 | 视频播放出错时触发 |
+| onError | `CommonEventFunction` |  | 否 | 视频播放出错时触发 |
 | onProgress | `CommonEventFunction<onProgressEventDetail>` |  | 否 | 加载进度变化时触发，只支持一段加载 |
-| onLoadedMetaData | `CommonEventFunction<any>` |  | 否 | 视频元数据加载完成时触发。event.detail = {width, height, duration} |
+| onLoadedMetaData | `CommonEventFunction` |  | 否 | 视频元数据加载完成时触发。event.detail = {width, height, duration} |
 | onControlsToggle | `CommonEventFunction<onControlsToggleEventDetail>` |  | 否 | 切换 controls 显示隐藏时触发。event.detail = {show} |
-| onEnterPictureInPicture | `CommonEventFunction<any>` |  | 否 | 播放器进入小窗 |
-| onLeavePictureInPicture | `CommonEventFunction<any>` |  | 否 | 播放器退出小窗 |
-| onSeekComplete | `CommonEventFunction<any>` |  | 否 | seek 完成时触发 |
+| onEnterPictureInPicture | `CommonEventFunction` |  | 否 | 播放器进入小窗 |
+| onLeavePictureInPicture | `CommonEventFunction` |  | 否 | 播放器退出小窗 |
+| onSeekComplete | `CommonEventFunction` |  | 否 | seek 完成时触发 |
 | nativeProps | `Record<string, unknown>` |  | 否 | 用于透传 `WebComponents` 上的属性到内部 H5 标签上 |
 
 ### API 支持度

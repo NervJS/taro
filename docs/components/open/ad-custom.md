@@ -39,8 +39,8 @@ class App extends Component {
 | --- | --- | :---: | --- |
 | unitId | `string` | 是 | 广告单元id，可在[小程序管理后台](https://mp.weixin.qq.com/)的流量主模块新建 |
 | adIntervals | `number` | 否 | 广告自动刷新的间隔时间，单位为秒，参数值必须大于等于30（该参数不传入时 Banner 广告不会自动刷新） |
-| onLoad | `CommonEventFunction<any>` | 否 | 广告加载成功的回调 |
-| onError | `CommonEventFunction<onErrorEventDetail>` | 否 | 当广告发生错误时，触发的事件，可以通过该事件获取错误码及原因，事件对象event.detail = {errCode: 1002} |
+| onLoad | `CommonEventFunction` | 否 | 广告加载成功的回调 |
+| onError | `CommonEventFunction<AdProps.onErrorEventDetail>` | 否 | 当广告发生错误时，触发的事件，可以通过该事件获取错误码及原因，事件对象event.detail = {errCode: 1002} |
 
 ### API 支持度
 

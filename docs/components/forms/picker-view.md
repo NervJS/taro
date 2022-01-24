@@ -181,8 +181,8 @@ export default class Picks extends Component {
 | maskClass | `string` |  | 否 | 设置蒙层的类名 |
 | immediateChange | `boolean` | `false` | 否 | 是否在手指松开时立即触发 change 事件。若不开启则会在滚动动画结束后触发 change 事件。 |
 | onChange | `CommonEventFunction<onChangeEventDetail>` |  | 否 | 当滚动选择，value 改变时触发 change 事件，event.detail = {value: value}；value为数组，表示 picker-view 内的 picker-view-column 当前选择的是第几项（下标从 0 开始） |
-| onPickStart | `CommonEventFunction<any>` |  | 否 | 当滚动选择开始时候触发事件 |
-| onPickEnd | `CommonEventFunction<any>` |  | 否 | 当滚动选择结束时候触发事件 |
+| onPickStart | `CommonEventFunction` |  | 否 | 当滚动选择开始时候触发事件 |
+| onPickEnd | `CommonEventFunction` |  | 否 | 当滚动选择结束时候触发事件 |
 
 ### API 支持度
 

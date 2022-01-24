@@ -77,8 +77,8 @@ class App extends Components {
 | onFullScreenChange | `CommonEventFunction<onFullScreenChangeEventDetail>` |  | 否 | 全屏变化事件，detail = {direction, fullScreen} |
 | onNetStatus | `CommonEventFunction<onNetStatusEventDetail>` |  | 否 | 网络状态通知，detail = {info} |
 | onAudioVolumeNotify | `CommonEventFunction<{}>` |  | 否 | 播放音量大小通知，detail = {} |
-| onEnterPictureInPicture | `CommonEventFunction<any>` |  | 否 | 播放器进入小窗 |
-| onLeavePictureInPicture | `CommonEventFunction<any>` |  | 否 | 播放器退出小窗 |
+| onEnterPictureInPicture | `CommonEventFunction` |  | 否 | 播放器进入小窗 |
+| onLeavePictureInPicture | `CommonEventFunction` |  | 否 | 播放器退出小窗 |
 
 ### API 支持度
 

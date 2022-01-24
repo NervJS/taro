@@ -101,7 +101,7 @@ export default {
 | reportSubmit | `boolean` | `false` | 否 | 是否返回 `formId` 用于发送模板消息。 |
 | reportSubmitTimeout | `number` | `0` | 否 | 等待一段时间（毫秒数）以确认 `formId` 是否生效。<br />如果未指定这个参数，`formId` 有很小的概率是无效的（如遇到网络失败的情况）。<br />指定这个参数将可以检测 `formId` 是否有效，<br />以这个参数的时间作为这项检测的超时时间。<br />如果失败，将返回 `requestFormId:fail` 开头的 `formId`。 |
 | onSubmit | `CommonEventFunction<onSubmitEventDetail>` |  | 否 | 携带 form 中的数据触发 submit 事件<br />event.detail = { value : {'name': 'value'} , formId: '' } |
-| onReset | `CommonEventFunction<any>` |  | 否 | 表单重置时会触发 reset 事件 |
+| onReset | `CommonEventFunction` |  | 否 | 表单重置时会触发 reset 事件 |
 
 ### API 支持度
 

@@ -63,7 +63,7 @@ class App extends Component {
 | lang | `keyof lang` | `"en"` | 否 | 当 type="user*" 时生效，以哪种语言展示 userInfo |
 | defaultText | `string` |  | 否 | 数据为空时的默认文案 |
 | defaultAvatar | `string` |  | 否 | 用户头像为空时的默认图片，支持相对路径和网络图片路径 |
-| onError | `CommonEventFunction<any>` |  | 否 | 群名称或用户信息为空时触发 |
+| onError | `CommonEventFunction` |  | 否 | 群名称或用户信息为空时触发 |
 
 ### API 支持度
 

@@ -74,9 +74,9 @@ class App extends Component {
 | adIntervals | `number` | 否 | 广告自动刷新的间隔时间，单位为秒，参数值必须大于等于30（该参数不传入时 Banner 广告不会自动刷新） |
 | adType | "banner" or "video" or "grid" | 否 | 广告类型，默认为展示`banner`，可通过设置该属性为`video`展示视频广告, `grid`为格子广告 |
 | adTheme | "white" or "black" | 否 | 广告主题样式设置 |
-| onLoad | `CommonEventFunction<any>` | 否 | 广告加载成功的回调 |
+| onLoad | `CommonEventFunction` | 否 | 广告加载成功的回调 |
 | onError | `CommonEventFunction<onErrorEventDetail>` | 否 | 当广告发生错误时，触发的事件，可以通过该事件获取错误码及原因，事件对象event.detail = {errCode: 1002} |
-| onClose | `CommonEventFunction<any>` | 否 | 广告关闭的回调 |
+| onClose | `CommonEventFunction` | 否 | 广告关闭的回调 |
 
 ### API 支持度
 

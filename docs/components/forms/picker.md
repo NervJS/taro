@@ -176,7 +176,7 @@ export default class PagePicker extends Component {
 | --- | --- | :---: | :---: | --- |
 | mode | `keyof Mode` | `"selector"` | 否 | 选择器类型，默认是普通选择器 |
 | disabled | `boolean` | `false` | 否 | 是否禁用 |
-| onCancel | `CommonEventFunction<any>` |  | 否 | 取消选择或点遮罩层收起 picker 时触发 |
+| onCancel | `CommonEventFunction` |  | 否 | 取消选择或点遮罩层收起 picker 时触发 |
 
 ### API 支持度
 

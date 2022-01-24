@@ -35,13 +35,13 @@ ComponentType<PageContainerProps>
 | closeOnSlideDown | `boolean` | `false` | 否 | 自定义遮罩层样式 |
 | overlayStyle | `boolean` |  | 否 | 是否在下滑一段距离后关闭 |
 | customStyle | `boolean` |  | 否 | 自定义弹出层样式 |
-| onBeforeEnter | `CommonEventFunction<any>` |  | 否 | 进入前触发 |
-| onEnter | `CommonEventFunction<any>` |  | 否 | 进入中触发 |
-| onAfterEnter | `CommonEventFunction<any>` |  | 否 | 进入后触发 |
-| onBeforeLeave | `CommonEventFunction<any>` |  | 否 | 离开前触发 |
-| onLeave | `CommonEventFunction<any>` |  | 否 | 离开中触发 |
-| onAfterLeave | `CommonEventFunction<any>` |  | 否 | 离开后触发 |
-| onClickOverlay | `CommonEventFunction<any>` |  | 否 | 点击遮罩层时触发 |
+| onBeforeEnter | `CommonEventFunction` |  | 否 | 进入前触发 |
+| onEnter | `CommonEventFunction` |  | 否 | 进入中触发 |
+| onAfterEnter | `CommonEventFunction` |  | 否 | 进入后触发 |
+| onBeforeLeave | `CommonEventFunction` |  | 否 | 离开前触发 |
+| onLeave | `CommonEventFunction` |  | 否 | 离开中触发 |
+| onAfterLeave | `CommonEventFunction` |  | 否 | 离开后触发 |
+| onClickOverlay | `CommonEventFunction` |  | 否 | 点击遮罩层时触发 |
 
 ### API 支持度
 

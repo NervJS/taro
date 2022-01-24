@@ -203,16 +203,16 @@ export default {
 | showScrollbar | `boolean` | `true` | 否 | 滚动条显隐控制 (同时开启 enhanced 属性后生效) |
 | pagingEnabled | `boolean` | `false` | 否 | 分页滑动效果 (同时开启 enhanced 属性后生效) |
 | fastDeceleration | `boolean` | `false` | 否 | boolean	false	滑动减速速率控制 (同时开启 enhanced 属性后生效) |
-| onScrollToUpper | `CommonEventFunction<any>` |  | 否 | 滚动到顶部/左边，会触发 scrolltoupper 事件 |
-| onScrollToLower | `CommonEventFunction<any>` |  | 否 | 滚动到底部/右边，会触发 scrolltolower 事件 |
+| onScrollToUpper | `CommonEventFunction` |  | 否 | 滚动到顶部/左边，会触发 scrolltoupper 事件 |
+| onScrollToLower | `CommonEventFunction` |  | 否 | 滚动到底部/右边，会触发 scrolltolower 事件 |
 | onScroll | `BaseEventOrigFunction<onScrollDetail>` |  | 否 | 滚动时触发<br />`event.detail = {scrollLeft, scrollTop, scrollHeight, scrollWidth, deltaX, deltaY}` |
-| onRefresherPulling | `CommonEventFunction<any>` |  | 否 | 自定义下拉刷新控件被下拉 |
-| onRefresherRefresh | `CommonEventFunction<any>` |  | 否 | 自定义下拉刷新被触发 |
-| onRefresherRestore | `CommonEventFunction<any>` |  | 否 | 自定义下拉刷新被复位 |
-| onRefresherAbort | `CommonEventFunction<any>` |  | 否 | 自定义下拉刷新被中止 |
-| onDragStart | `CommonEventFunction<any>` |  | 否 | 滑动开始事件 (同时开启 enhanced 属性后生效) |
-| onDragging | `CommonEventFunction<any>` |  | 否 | 滑动事件 (同时开启 enhanced 属性后生效) |
-| onDragEnd | `CommonEventFunction<any>` |  | 否 | 滑动结束事件 (同时开启 enhanced 属性后生效) |
+| onRefresherPulling | `CommonEventFunction` |  | 否 | 自定义下拉刷新控件被下拉 |
+| onRefresherRefresh | `CommonEventFunction` |  | 否 | 自定义下拉刷新被触发 |
+| onRefresherRestore | `CommonEventFunction` |  | 否 | 自定义下拉刷新被复位 |
+| onRefresherAbort | `CommonEventFunction` |  | 否 | 自定义下拉刷新被中止 |
+| onDragStart | `CommonEventFunction` |  | 否 | 滑动开始事件 (同时开启 enhanced 属性后生效) |
+| onDragging | `CommonEventFunction` |  | 否 | 滑动事件 (同时开启 enhanced 属性后生效) |
+| onDragEnd | `CommonEventFunction` |  | 否 | 滑动结束事件 (同时开启 enhanced 属性后生效) |
 
 ### API 支持度
 

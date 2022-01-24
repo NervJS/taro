@@ -22,9 +22,9 @@ ComponentType<FunctionalPageNavigatorProps>
 | version | `keyof version` | `"release"` | 否 | 跳转到的小程序版本，有效值 develop（开发版），trial（体验版），release（正式版）；线上版本必须设置为 release |
 | name | `keyof name` |  | 否 | 要跳转到的功能页 |
 | args | `object` |  | 否 | 功能页参数，参数格式与具体功能页相关 |
-| onSuccess | `CommonEventFunction<any>` |  | 否 | 功能页返回，且操作成功时触发， detail 格式与具体功能页相关 |
-| onFail | `CommonEventFunction<any>` |  | 否 | 功能页返回，且操作失败时触发， detail 格式与具体功能页相关 |
-| onCancel | `CommonEventFunction<any>` |  | 否 | 因用户操作从功能页返回时触发 |
+| onSuccess | `CommonEventFunction` |  | 否 | 功能页返回，且操作成功时触发， detail 格式与具体功能页相关 |
+| onFail | `CommonEventFunction` |  | 否 | 功能页返回，且操作失败时触发， detail 格式与具体功能页相关 |
+| onCancel | `CommonEventFunction` |  | 否 | 因用户操作从功能页返回时触发 |
 
 ### API 支持度
 

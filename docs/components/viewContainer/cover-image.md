@@ -101,8 +101,8 @@ class App extends Components {
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
 | src | `string` | 是 | 图标路径，支持临时路径、网络地址、云文件ID。暂不支持base64格式。 |
-| onLoad | `CommonEventFunction<any>` | 否 | 图片加载成功时触发 |
-| onError | `CommonEventFunction<any>` | 否 | 图片加载失败时触发 |
+| onLoad | `CommonEventFunction` | 否 | 图片加载成功时触发 |
+| onError | `CommonEventFunction` | 否 | 图片加载失败时触发 |
 
 ### API 支持度
 

@@ -69,7 +69,7 @@ class App extends Components {
 | onTouchMove | `CanvasTouchEventFunction` |  | 否 | 手指触摸后移动 |
 | onTouchEnd | `CanvasTouchEventFunction` |  | 否 | 手指触摸动作结束 |
 | onTouchCancel | `CanvasTouchEventFunction` |  | 否 | 手指触摸动作被打断，如来电提醒，弹窗 |
-| onLongTap | `CommonEventFunction<any>` |  | 否 | 手指长按 500ms 之后触发，触发了长按事件后进行移动不会触发屏幕的滚动 |
+| onLongTap | `CommonEventFunction` |  | 否 | 手指长按 500ms 之后触发，触发了长按事件后进行移动不会触发屏幕的滚动 |
 | onError | `CommonEventFunction<onErrorEventDetail>` |  | 否 | 当发生错误时触发 error 事件，detail = {errMsg: 'something wrong'} |
 | nativeProps | `Record<string, unknown>` |  | 否 | 用于透传 `WebComponents` 上的属性到内部 H5 标签上 |
 

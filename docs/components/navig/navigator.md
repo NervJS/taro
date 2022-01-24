@@ -31,9 +31,9 @@ ComponentType<NavigatorProps>
 | hoverStopPropagation | `boolean` | `false` | 否 | 指定是否阻止本节点的祖先节点出现点击态 |
 | hoverStartTime | `number` | `50` | 否 | 按住后多久出现点击态，单位毫秒 |
 | hoverStayTime | `number` | `600` | 否 | 手指松开后点击态保留时间，单位毫秒 |
-| onSuccess | `CommonEventFunction<any>` |  | 否 | 当 `target="miniProgram"` 时有效，跳转小程序成功 |
-| onFail | `CommonEventFunction<any>` |  | 否 | 当 `target="miniProgram"` 时有效，跳转小程序失败 |
-| onComplete | `CommonEventFunction<any>` |  | 否 | 当 `target="miniProgram"` 时有效，跳转小程序完成 |
+| onSuccess | `CommonEventFunction` |  | 否 | 当 `target="miniProgram"` 时有效，跳转小程序成功 |
+| onFail | `CommonEventFunction` |  | 否 | 当 `target="miniProgram"` 时有效，跳转小程序失败 |
+| onComplete | `CommonEventFunction` |  | 否 | 当 `target="miniProgram"` 时有效，跳转小程序完成 |
 
 ### API 支持度
 

@@ -25,10 +25,10 @@ ComponentType<CameraProps>
 | flash | `keyof flash` | `"auto"` | 否 | 闪光灯 |
 | frameSize | `keyof frameSize` | `"medium"` | 否 | 指定期望的相机帧数据尺寸 |
 | scanArea | `number[]` |  | 否 | 扫码识别区域，格式为[x, y, w, h]，<br />x,y是相对于camera显示区域的左上角，<br />w,h为区域宽度，单位px，仅在 mode="scanCode" 时生效 |
-| onStop | `CommonEventFunction<any>` |  | 否 | 摄像头在非正常终止时触发，<br />如退出后台等情况 |
-| onError | `CommonEventFunction<any>` |  | 否 | 用户不允许使用摄像头时触发 |
+| onStop | `CommonEventFunction` |  | 否 | 摄像头在非正常终止时触发，<br />如退出后台等情况 |
+| onError | `CommonEventFunction` |  | 否 | 用户不允许使用摄像头时触发 |
 | onInitDone | `CommonEventFunction<onInitDoneEventDetail>` |  | 否 | 相机初始化完成时触发 |
-| onScanCode | `CommonEventFunction<any>` |  | 否 | 在成功识别到一维码时触发，<br />仅在 mode="scanCode" 时生效 |
+| onScanCode | `CommonEventFunction` |  | 否 | 在成功识别到一维码时触发，<br />仅在 mode="scanCode" 时生效 |
 
 ### API 支持度
 
