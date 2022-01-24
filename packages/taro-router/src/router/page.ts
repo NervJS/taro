@@ -20,8 +20,8 @@ function setDisplay (el?: HTMLElement | null, type = '') {
 export default class PageHandler {
   protected config: RouterConfig
   protected readonly defaultAnimation: RouterAnimate = { duration: 300, delay: 50 }
-  protected unloadTimer: number | null
-  protected hideTimer: number | null
+  protected unloadTimer: NodeJS.Timeout | null
+  protected hideTimer: NodeJS.Timeout | null
   protected lastHidePage: HTMLElement | null
   protected lastUnloadPage: PageInstance | null
 
