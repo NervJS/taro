@@ -11,18 +11,24 @@ interface MovableAreaProps extends StandardProps {
 
 /** movable-view 的可移动区域
  * @classification viewContainer
- * @supported weapp
- * @example
+ * @supported weapp, rn
+ * @example_react
  * ```tsx
  * class App extends Components {
  *   render () {
  *     return (
  *       <MovableArea style='height: 200px; width: 200px; background: red;'>
- *         <MovableView style='height: 50px; width: 50px; background: blue;' direction='all'></MovableView>
+ *         <MovableView style='height: 50px; width: 50px; background: blue;' direction='all'>旅行的意义</MovableView>
  *       </MovableArea>
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ *   <movable-area style='height: 200px; width: 200px; background: red;'>
+ *     <movable-view style='height: 50px; width: 50px; background: blue;' direction='all'>在路上</movable-view>
+ *   </movable-area>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/movable-area.html
  */

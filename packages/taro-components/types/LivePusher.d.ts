@@ -324,7 +324,7 @@ declare namespace LivePusherProps {
  * 需要先通过类目审核，再在小程序管理后台，「开发」-「接口设置」中自助开通该组件权限。
  * @classification media
  * @supported weapp
- * @example
+ * @example_react
  * ```tsx
  * class App extends Components {
  *   render () {
@@ -333,6 +333,12 @@ declare namespace LivePusherProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <live-pusher url="url" mode="RTC" :autopush="true"  />
+ * </template>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/live-pusher.html
  */
