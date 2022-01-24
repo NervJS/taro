@@ -9,8 +9,8 @@ import { setHistoryMode, stripBasename } from '../history'
 import { loadAnimateStyle } from '../animation'
 import { initTabbar } from '../tabbar'
 import { addLeadingSlash, routesAlias } from '../utils'
-import { bindPageResize } from 'src/events/resize'
-import { bindPageScroll } from 'src/events/scroll'
+import { bindPageResize } from '../events/resize'
+import { bindPageScroll } from '../events/scroll'
 
 function setDisplay (el?: HTMLElement | null, type = '') {
   if (el) {
