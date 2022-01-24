@@ -66,7 +66,7 @@ declare namespace OpenDataProps {
 /** 用于展示微信开放的数据
  * @classification open
  * @supported weapp
- * @example
+ * @example_react
  * ```tsx
  * class App extends Component {
  *   render () {
@@ -75,6 +75,12 @@ declare namespace OpenDataProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <open-data type="userAvatarUrl" />
+ * </template>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/open-data.html
  */
