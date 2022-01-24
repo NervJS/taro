@@ -71,10 +71,9 @@ if (process.env.TARO_ENV === 'h5') {
           };
           // Load global or shim versions of Map, Set, and WeakMap
           var functionPrototype = Object.getPrototypeOf(Function);
-          var usePolyfill = isObject(process) && process.env && process.env["REFLECT_METADATA_USE_MAP_POLYFILL"] === "true";
           var _Map = Map;
           var _Set = Set;
-          var _WeakMap = !usePolyfill && isFunction(WeakMap) ? WeakMap : CreateWeakMapPolyfill();
+          var _WeakMap = isFunction(WeakMap) ? WeakMap : CreateWeakMapPolyfill();
           // [[Metadata]] internal slot
           // https://rbuckton.github.io/reflect-metadata/#ordinary-object-internal-methods-and-internal-slots
           var Metadata = new _WeakMap();
