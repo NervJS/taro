@@ -1,17 +1,12 @@
 ---
+slug: 2022-01-19-how-to-join-Taro.md
 title: 如何参与大型开源项目-Taro 共建
-subtitle: 本文讲述了参与大型开源项目-Taro 的流程，其中以为 Taro 解决 issue 的视角，介绍了从认领 issue、解决 issue、贡献代码的完整过程。
-cover: https://img12.360buyimg.com/ling/jfs/t1/96463/39/20942/268881/61ee05a4Eadf9afcb/cbcda37e2be5aae0.jpg
-category: Taro
-tags:
-  - Taro
-  - 开源项目
-author:
-  nick: jiaozi
-  github_name: jiaozitang
-date: 2022-01-24 10:00:00
+author: Jiaozi
+author_url: https://github.com/jiaozitang
+author_image_url: https://avatars.githubusercontent.com/u/18493352?v=4
+tags: [v3]
+description: '本文讲述了参与大型开源项目-Taro 的流程，其中以为 Taro 解决 issue 的视角，介绍了从认领 issue、解决 issue、贡献代码的完整过程。'
 ---
-
 
 ## 一、背景
 
