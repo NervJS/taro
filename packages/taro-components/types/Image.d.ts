@@ -28,7 +28,7 @@ interface ImageProps extends StandardProps {
 
   /** 图片懒加载。只针对 page 与 scroll-view 下的 image 有效
    * @default false
-   * @supported weapp, swan, alipay, tt
+   * @supported weapp, swan, alipay, tt, h5
    */
   lazyLoad?: boolean
 
@@ -53,6 +53,11 @@ interface ImageProps extends StandardProps {
    * @supported h5
    */
   imgProps?: ImgHTMLAttributes<HTMLImageElement>
+
+  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
+   * @supported h5
+   */
+  nativeProps?: Record<string, unknown>
 }
 
 declare namespace ImageProps {
@@ -104,7 +109,7 @@ declare namespace ImageProps {
  * **Note:** 为实现小程序的 `mode` 特性，在 H5 组件中使用一个 `div` 容器来对内部的 `img` 进行展示区域的裁剪，因此请勿使用元素选择器来重置 `img` 的样式！
  * @classification media
  * @supported weapp, h5, rn, swan, alipay, tt
- * @example
+ * @example_react
  * ```tsx
  * export default class PageView extends Component {
  *   constructor() {
@@ -126,6 +131,21 @@ declare namespace ImageProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <view class="components-page">
+ *     <image
+ *       style="width: 300px;height: 100px;background: #fff;"
+ *       src="nerv_logo.png"
+ *     />
+ *     <image
+ *       style="width: 300px;height: 100px;background: #fff;"
+ *       src="https://camo.githubusercontent.com/3e1b76e514b895760055987f164ce6c95935a3aa/687474703a2f2f73746f726167652e333630627579696d672e636f6d2f6d74642f686f6d652f6c6f676f2d3278313531333833373932363730372e706e67"
+ *     />
+ *   </view>
+ * </template>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/image.html
  */
