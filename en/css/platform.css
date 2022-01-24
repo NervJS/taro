@@ -3,3 +3,7 @@
   height: 25px;
   vertical-align: middle;
 }
+
+.icon_platform--not-support {
+  filter: grayscale(100%);
+}
