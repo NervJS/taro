@@ -135,6 +135,7 @@ export class Template extends RecursiveTemplate {
   </block>
 </cover-view>
 <cover-image s-elif="{{item.nn==='cover-image'}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}"  ${this.buildFlattenNodeAttributes('cover-image')}></cover-image>
+<block s-elif="{{item.nn==='#text'}}">{{item.v}}</block>
 <block s-else>
   <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
 </block>`
