@@ -256,6 +256,7 @@ declare module './index' {
      * ```
      * @since 1.7.3
      */
+    subPackages?: SubPackage[]
     subpackages?: SubPackage[]
     /** Worker 代码放置的目录
      * 使用 Worker 处理多线程任务时，设置 Worker 代码放置的目录
