@@ -41,12 +41,12 @@ export async function writeApiDoc (routePath: string, doc: DocEntry[], withGener
         get.header({ title: get.title(name, params, e.flags), sidebar_label: name }),
         get.since(tags.find(tag => tag.name === 'since')),
         get.document(e.documentation),
+        get.apiPic(tags),
         get.see(tags.find(tag => tag.name === 'see')),
         get.type(e.type, 2),
         get.members(e.members, undefined, 2, TaroMethod.includes(e.flags || -1) ? 'Taro' : name),
         get.members(e.exports || e.parameters, '参数', 2, TaroMethod.includes(e.flags || -1) ? 'Taro' : name),
         get.example(tags),
-        get.api(apis),
       )
   
       writeFile(

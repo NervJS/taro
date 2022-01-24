@@ -18,22 +18,9 @@ sidebar_label: createInterstitialAd
 
 ### Option
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>adUnitId</td>
-      <td><code>string</code></td>
-      <td>广告单元 id</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| adUnitId | `string` | 广告单元 id |
 
 ## API 支持度
 
