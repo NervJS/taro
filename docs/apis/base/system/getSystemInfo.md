@@ -17,6 +17,10 @@ sidebar_label: getSystemInfo
 
 ## 参数
 
+| 参数 | 类型 |
+| --- | --- |
+| res | `Option` |
+
 ### Option
 
 | 参数 | 类型 | 必填 | 说明 |

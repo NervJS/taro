@@ -70,12 +70,19 @@ export function generateDocumentation(
       const symbol = checker.getTypeAtLocation(node).getSymbol()
       symbol && o.push(serializeType(symbol, undefined, 'InterfaceDeclaration'))
     } else if (ts.isTypeAliasDeclaration(node)) {
-      const symbol = checker.getTypeAtLocation(node).getSymbol()
+      const type = checker.getTypeAtLocation(node)
+      const symbol = type.getSymbol()
       if (symbol) {
-        o.push(serializeType(symbol, ts.idText(node.name)))
+        const st = serializeType(symbol, ts.idText(node.name))
+        if (type.aliasSymbol) {
+          const st2 = serializeType(type.aliasSymbol, ts.idText(node.name))
+          if (!st.jsTags || st.jsTags.length < 1) st.jsTags = st2.jsTags
+          if (!st.documentation) st.documentation = st2.documentation
+        }
+        o.push(st)
       } else {
         // @ts-ignore
-        const sym = node.symbol, type = node.type && node.type.types.map(e => checker.typeToString(checker.getTypeFromTypeNode(e))).join(' | ')
+        const sym = node.symbol, type = node.type?.types?.map(e => checker.typeToString(checker.getTypeFromTypeNode(e))).join(' | ')
         o.push(
           serializeSymbol(sym, sym.getName(), type)
         )

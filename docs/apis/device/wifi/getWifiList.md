@@ -19,6 +19,10 @@ iOS 将跳转到系统的 Wi-Fi 界面，Android 不会跳转。 iOS 11.0 及 iO
 
 ## 参数
 
+| 参数 | 类型 |
+| --- | --- |
+| option | `Option` |
+
 ### Option
 
 | 参数 | 类型 | 必填 | 说明 |

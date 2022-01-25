@@ -17,6 +17,22 @@ sidebar_label: onGetWifiList
 
 ## 参数
 
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| callback | `Callback` | 获取到 Wi-Fi 列表数据事件的回调函数 |
+
+### Callback
+
+获取到 Wi-Fi 列表数据事件的回调函数
+
+```tsx
+(result: CallbackResult) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| result | `CallbackResult` |
+
 ### CallbackResult
 
 | 参数 | 类型 | 说明 |

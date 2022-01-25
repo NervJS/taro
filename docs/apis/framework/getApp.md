@@ -17,6 +17,10 @@ sidebar_label: getApp
 
 ## 参数
 
+| 参数 | 类型 |
+| --- | --- |
+| opts | `T` |
+
 ### Option
 
 | 参数 | 类型 | 必填 | 说明 |

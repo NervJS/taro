@@ -5,6 +5,8 @@ sidebar_label: onNetworkStatusChange
 
 监听网络状态变化。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.onNetworkStatusChange.html)
 
 ## 类型
@@ -15,6 +17,10 @@ sidebar_label: onNetworkStatusChange
 
 ## 参数
 
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| callback | `Callback` | 网络状态变化事件的回调函数 |
+
 ### Callback
 
 网络状态变化事件的回调函数
@@ -23,44 +29,16 @@ sidebar_label: onNetworkStatusChange
 (result: CallbackResult) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>result</td>
-      <td><code>CallbackResult</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| result | `CallbackResult` |
 
 ### CallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>isConnected</td>
-      <td><code>boolean</code></td>
-      <td>当前是否有网络连接</td>
-    </tr>
-    <tr>
-      <td>networkType</td>
-      <td><code>&quot;wifi&quot; | &quot;2g&quot; | &quot;3g&quot; | &quot;4g&quot; | &quot;unknown&quot; | &quot;none&quot;</code></td>
-      <td>网络类型</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| isConnected | `boolean` | 当前是否有网络连接 |
+| networkType | `keyof networkType` | 网络类型 |
 
 ## 示例代码
 
@@ -70,9 +48,3 @@ Taro.onNetworkStatusChange(function (res) {
   console.log(res.networkType)
 })
 ```
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Taro.onNetworkStatusChange | ✔️ | ✔️ | ✔️ |

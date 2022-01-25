@@ -21,6 +21,10 @@ sidebar_label: startLocalServiceDiscovery
 
 ## 参数
 
+| 参数 | 类型 |
+| --- | --- |
+| option | `Option` |
+
 ### Option
 
 | 参数 | 类型 | 必填 | 说明 |

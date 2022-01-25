@@ -17,6 +17,10 @@ sidebar_label: onAccelerometerChange
 
 ## 参数
 
+| 参数 | 类型 |
+| --- | --- |
+| callback | `Callback` |
+
 ### Callback
 
 ```tsx

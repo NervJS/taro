@@ -17,6 +17,10 @@ sidebar_label: onThemeChange
 
 ## 参数
 
+| 参数 | 类型 |
+| --- | --- |
+| callback | `onThemeChangeCallback` |
+
 ### ITheme
 
 | 参数 | 说明 |
@@ -31,6 +35,8 @@ sidebar_label: onThemeChange
 | theme | `keyof ITheme` | 系统当前的主题，取值为`light`或`dark` |
 
 ### onThemeChangeCallback
+
+系统主题改变事件的回调函数
 
 ```tsx
 (res: onThemeChangeResult) => void

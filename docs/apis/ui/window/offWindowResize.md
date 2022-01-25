@@ -17,7 +17,13 @@ sidebar_label: offWindowResize
 
 ## 参数
 
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| callback | `Callback` | 窗口尺寸变化事件的回调函数 |
+
 ### Callback
+
+窗口尺寸变化事件的回调函数
 
 ```tsx
 (res: TaroGeneral.CallbackResult) => void

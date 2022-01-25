@@ -23,7 +23,7 @@ export default function compile (p: string, n: string, dep: string[], callback?:
       callback && callback(route, docTree)
     }
   } catch (error) {
-    // console.log(error)
+    console.log(error)
   }
 }
 

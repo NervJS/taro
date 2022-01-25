@@ -315,6 +315,7 @@ declare module '../../index' {
     }
   }
 
+  /** @ignore */
   interface KeyFrame {
     /** 关键帧的偏移，范围[0-1] */
     offset?: number
@@ -379,6 +380,8 @@ declare module '../../index' {
     /** Z 方向位移，即 CSS transform translateZ */
     translateZ?: number | string
   }
+
+  /** @ignore */
   interface ClearAnimationOptions {
     /** 基点位置，即 CSS transform-origin */
     transformOrigin?: boolean
@@ -439,12 +442,16 @@ declare module '../../index' {
     /** Z 方向位移，即 CSS transform translateZ */
     translateZ?: boolean
   }
+
+  /** @ignore */
   interface ScrollTimelineKeyframe {
     composite?: 'replace' | 'add' | 'accumulate' | 'auto'
     easing?: string
     offset?: number | null
     [property: string]: string | number | null | undefined
   }
+
+  /** @ignore */
   interface ScrollTimelineOption {
     /** 指定滚动元素的选择器（只支持 scroll-view），该元素滚动时会驱动动画的进度 */
     scrollSource: string

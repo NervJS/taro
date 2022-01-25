@@ -23,6 +23,10 @@ sidebar_label: request
 
 ## 参数
 
+| 参数 | 类型 |
+| --- | --- |
+| option | `T` |
+
 ### Option
 
 | 参数 | 类型 | 默认值 | 必填 | 说明 |

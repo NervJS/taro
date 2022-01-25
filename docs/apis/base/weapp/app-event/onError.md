@@ -17,7 +17,13 @@ sidebar_label: onError
 
 ## 参数
 
+| 参数 | 类型 |
+| --- | --- |
+| callback | `Callback` |
+
 ### Callback
+
+小程序错误事件的回调函数
 
 ```tsx
 (error: string) => void

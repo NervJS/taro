@@ -19,6 +19,10 @@ sidebar_label: setClipboardData
 
 ## 参数
 
+| 参数 | 类型 |
+| --- | --- |
+| option | `Option` |
+
 ### Promised
 
 | 参数 | 类型 | 说明 |

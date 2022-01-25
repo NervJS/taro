@@ -17,6 +17,10 @@ sidebar_label: getStorage
 
 ## 参数
 
+| 参数 | 类型 |
+| --- | --- |
+| option | `T` |
+
 ### Option
 
 | 参数 | 类型 | 必填 | 说明 |

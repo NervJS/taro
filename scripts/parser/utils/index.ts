@@ -12,12 +12,14 @@ export async function childrenMerge (d: DocEntry[] = [], o: DocEntry[] = []) {
       if (e.hasOwnProperty(key) && e[key] && !['name', 'kind'].includes(key)) {
         if (key === 'flags') {
           if (!target.flags || !isFunction(e.flags)) target.flags = e.flags
-        } if (key === 'children') {
+        } else if (key === 'children') {
           target.children = await childrenMerge(e.children, target.children)
-        } if (key === 'exports') {
+        } else if (key === 'exports') {
           target.exports = await childrenMerge(e.exports, target.exports)
+        } else if (key === 'jsTags') {
+          target.jsTags = e.jsTags === target.jsTags ? e.jsTags : (e.jsTags || []).concat(target.jsTags || [])
         } else {
-          target[key] = e[key]
+          target[key] = e[key] || target[key]
         }
       }
     }

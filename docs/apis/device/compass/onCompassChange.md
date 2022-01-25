@@ -17,6 +17,22 @@ sidebar_label: onCompassChange
 
 ## 参数
 
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| callback | `Callback` | 罗盘数据变化事件的回调函数 |
+
+### Callback
+
+罗盘数据变化事件的回调函数
+
+```tsx
+(result: OnCompassChangeCallbackResult) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| result | `OnCompassChangeCallbackResult` |
+
 ### OnCompassChangeCallbackResult
 
 | 参数 | 类型 | 说明 |

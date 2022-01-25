@@ -22,6 +22,10 @@ sidebar_label: onPageNotFound
 
 ## 参数
 
+| 参数 | 类型 |
+| --- | --- |
+| callback | `Callback` |
+
 ### Result
 
 | 参数 | 类型 | 说明 |
@@ -31,6 +35,8 @@ sidebar_label: onPageNotFound
 | query | `TaroGeneral.IAnyObject` | 打开不存在页面的 query 参数 |
 
 ### Callback
+
+小程序要打开的页面不存在事件的回调函数
 
 ```tsx
 (res: Result) => void

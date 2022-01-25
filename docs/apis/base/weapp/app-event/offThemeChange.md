@@ -17,7 +17,13 @@ sidebar_label: offThemeChange
 
 ## 参数
 
+| 参数 | 类型 |
+| --- | --- |
+| callback | `offThemeChangeCallback` |
+
 ### offThemeChangeCallback
+
+系统主题改变事件的回调函数
 
 ```tsx
 (res: TaroGeneral.CallbackResult) => void

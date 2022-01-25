@@ -17,6 +17,11 @@ sidebar_label: createIntersectionObserver
 
 ## 参数
 
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| component | `TaroGeneral.IAnyObject` | 自定义组件实例 |
+| options | `Option` | 选项 |
+
 ### Option
 
 选项

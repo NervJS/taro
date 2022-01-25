@@ -231,8 +231,10 @@ declare module '../../index' {
     }
   }
 
+  /** @ignore */
   type interceptor = (chain: Chain) => any
 
+  /** @ignore */
   interface Chain {
     index: number
     requestParams: RequestParams
@@ -240,6 +242,7 @@ declare module '../../index' {
     proceed(requestParams: RequestParams): any
   }
 
+  /** @ignore */
   interface interceptors {
     logInterceptor(chain: Chain): Promise<any>
 

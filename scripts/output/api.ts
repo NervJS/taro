@@ -48,8 +48,8 @@ export async function writeApiDoc (routePath: string, doc: DocEntry[], withGener
         get.apiPic(tags),
         get.see(tags.find(tag => tag.name === 'see')),
         get.type(e.type, 2),
-        get.members(e.members || declarations?.[0]?.members, undefined, 2, TaroMethod.includes(e.flags || -1) ? 'Taro' : name),
-        get.members(e.exports || e.parameters || declarations?.[0]?.parameters, '参数', 2, TaroMethod.includes(e.flags || -1) ? 'Taro' : name),
+        get.members(members, undefined, 2, TaroMethod.includes(e.flags || -1) ? 'Taro' : name),
+        get.members(await childrenMerge(e.exports, params), '参数', 2, TaroMethod.includes(e.flags || -1) ? 'Taro' : name),
         get.example(tags),
         showApiList ? get.api(apis) : undefined,
       )

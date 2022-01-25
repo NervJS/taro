@@ -17,6 +17,10 @@ sidebar_label: openCustomerServiceChat
 
 ## 参数
 
+| 参数 | 类型 |
+| --- | --- |
+| option | `Option` |
+
 ### ExtInfo
 
 | 参数 | 类型 |

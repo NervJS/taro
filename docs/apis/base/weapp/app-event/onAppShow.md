@@ -32,6 +32,10 @@ sidebar_label: onAppShow
 
 ## 参数
 
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| callback | `(result: CallbackResult) => void` | 小程序切前台事件的回调函数 |
+
 ### CallbackResult
 
 | 参数 | 类型 | 说明 |

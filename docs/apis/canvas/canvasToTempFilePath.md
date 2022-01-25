@@ -21,6 +21,11 @@ sidebar_label: canvasToTempFilePath
 
 ## 参数
 
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| option | `Option` |  |
+| component | `TaroGeneral.IAnyObject` | 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件 |
+
 ### Option
 
 | 参数 | 类型 | 默认值 | 必填 | 说明 |

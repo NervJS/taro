@@ -17,6 +17,22 @@ sidebar_label: onHCEMessage
 
 ## 参数
 
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| callback | `Callback` | 接收 NFC 设备消息事件的回调函数 |
+
+### Callback
+
+接收 NFC 设备消息事件的回调函数
+
+```tsx
+(result: CallbackResult) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| result | `CallbackResult` |
+
 ### CallbackResult
 
 | 参数 | 类型 | 说明 |
