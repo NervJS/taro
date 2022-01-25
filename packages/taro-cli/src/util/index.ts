@@ -270,6 +270,40 @@ export function printLog (type: processTypeEnum, tag: string, filePath?: string)
   }
 }
 
+export function printLevelLog(logLevel: string, type: processTypeEnum, tag: string, filePath?: string) {
+  const baseLog = [
+    processTypeEnum['START'],
+    processTypeEnum['UNLINK']
+  ];
+  const levelMap = {
+    'info': baseLog.concat([
+      processTypeEnum['COMPILE'],
+      processTypeEnum["CONVERT"],
+      processTypeEnum["COPY"] ,
+      processTypeEnum["GENERATE"],
+      processTypeEnum["MODIFY"],
+      processTypeEnum["ERROR"],
+      processTypeEnum["WARNING"],
+      processTypeEnum["UNLINK"],
+      processTypeEnum["REFERENCE"],
+    ]),
+    'warning': baseLog.concat([
+      processTypeEnum["ERROR"],
+      processTypeEnum["WARNING"],
+    ]),
+    'error': baseLog.concat([
+      processTypeEnum["ERROR"],
+    ])
+  };
+  const level = levelMap[logLevel];
+  if(!level || level.includes(type)) {
+    return printLog(type, tag, filePath);
+  }
+
+}
+export function injectLogLevel(logLevel: string) {
+  exports.printLog = (type, tag, filePath) => printLevelLog(logLevel, type, tag, filePath);
+}
 export function replaceContentEnv (content: string, env: object): string {
   if (env && !isEmptyObject(env)) {
     for (const key in env) {
