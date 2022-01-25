@@ -6,17 +6,17 @@ declare module '../../index' {
    */
   interface CameraContext {
     /** 开始录像
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.startRecord.html
      */
     startRecord(option: CameraContext.StartRecordOption): void
     /** 结束录像
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.stopRecord.html
      */
     stopRecord(option?: CameraContext.StopRecordOption): void
     /** 拍摄照片
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.takePhoto.html
      */
     takePhoto(option: CameraContext.TakePhotoOption): void
@@ -152,7 +152,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 创建 camera 上下文 CameraContext 对象。
-     * @supported weapp
+     * @supported weapp, rn
      * @example
      * ```tsx
      * const cameraContext = Taro.createCameraContext()

@@ -15,8 +15,6 @@ Taro.clearStorage 的同步版本
 () => void
 ```
 
-## 参数
-
 ## 示例代码
 
 ```tsx

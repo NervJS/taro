@@ -18,10 +18,12 @@ declare module '../../index' {
    */
   interface IntersectionObserver {
     /** 停止监听。回调函数将不再触发
+     * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.disconnect.html
      */
     disconnect(): void
     /** 指定目标节点并开始监听相交状态变化情况
+     * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.observe.html
      */
     observe(
@@ -31,6 +33,7 @@ declare module '../../index' {
       callback: IntersectionObserver.ObserveCallback,
     ): void
     /** 使用选择器指定一个节点，作为参照区域之一。
+     * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.relativeTo.html
      */
     relativeTo(
@@ -40,6 +43,7 @@ declare module '../../index' {
       margins?: IntersectionObserver.RelativeToMargins,
     ): IntersectionObserver
     /** 指定页面显示区域作为参照区域之一
+     * @supported weapp
      * @example
      * 下面的示例代码中，如果目标节点（用选择器 .target-class 指定）进入显示区域以下 100px 时，就会触发回调函数。
      *
@@ -319,7 +323,7 @@ declare module '../../index' {
       callback?: NodesRef.BoundingClientRectCallback,
     ): SelectorQuery
     /** 添加节点的 Context 对象查询请求。目前支持 [VideoContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.html)、[CanvasContext](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.html)、[LivePlayerContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.html)、[EditorContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.html)和 [MapContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.html) 的获取。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * Taro.createSelectorQuery().select('.the-video-class').context(function (res) {
@@ -368,7 +372,7 @@ declare module '../../index' {
       callback?: NodesRef.FieldsCallback,
     ): SelectorQuery
     /** 获取 Node 节点实例。目前支持 [Canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 的获取。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * Taro.createSelectorQuery().select('.canvas').node(function(res){

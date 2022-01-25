@@ -15,8 +15,6 @@ sidebar_label: createSelectorQuery
 () => SelectorQuery
 ```
 
-## 参数
-
 ## 示例代码
 
 ```tsx

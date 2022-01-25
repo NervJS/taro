@@ -22,10 +22,12 @@ declare module '../../index' {
     }
 
     interface signType {
-      /** MD5 */
+      /** 仅在微信支付 v2 版本接口适用 */
       MD5
-      /** HMAC-SHA256 */
+      /** 仅在微信支付 v2 版本接口适用 */
       'HMAC-SHA256'
+      /** 仅在微信支付 v3 版本接口适用 */
+      RSA
     }
   }
 

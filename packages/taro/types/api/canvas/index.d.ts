@@ -192,8 +192,8 @@ declare module '../../index' {
   interface CanvasContext {
     /** 创建一条弧线。
      *
-     *   - 创建一个圆可以指定起始弧度为 0，终止弧度为 2 * Math.PI。
-     *   - 用 `stroke` 或者 `fill` 方法来在 `canvas` 中画弧线。
+     * - 创建一个圆可以指定起始弧度为 0，终止弧度为 2 * Math.PI。
+     * - 用 `stroke` 或者 `fill` 方法来在 `canvas` 中画弧线。
      *
      * 针对 arc(100, 75, 50, 0, 1.5 * Math.PI)的三个关键坐标如下：
      *
@@ -1757,7 +1757,7 @@ declare module '../../index' {
       component?: TaroGeneral.IAnyObject,
     ): Promise<canvasToTempFilePath.SuccessCallbackResult>
 
-    /** 将像素数据绘制到画布。在自定义组件下，第二个参数传入自定义组件实例 this，以操作组件内 <canvas> 组件
+    /** 将像素数据绘制到画布。在自定义组件下，第二个参数传入自定义组件实例 this，以操作组件内 `<canvas>` 组件
      * @supported weapp, h5
      * @example
      * ```tsx

@@ -59,7 +59,7 @@ export const get = {
     splicing([level !== 0 ? `${'#'.repeat(level)} 类型\n` : undefined, '```tsx', data, '```', '']) : undefined,
   members: (data?: DocEntry[], title = '方法', level: number = 2, name = 'Taro', isComp = false) => {
     if (!data) return undefined
-    const methods: (string | undefined)[] = [level === 2 ? `## ${title}\n` : undefined]
+    const methods: (string | undefined)[] = []
     const paramTabs: DocEntry[] = []
     for (const v of data) {
       v.name !== ts.InternalSymbolName.Call &&
@@ -198,12 +198,12 @@ export const get = {
           `${'#'.repeat(level === 2 ? level + 1 : level)} ${param.name}\n`,
           get.since(tags.find(tag => tag.name === 'since')),
           get.document(param.documentation),
+          get.apiPic(tags),
           get.see(tags.find(tag => tag.name === 'see')),
           get.type(param.type),
           get.members(param.members, undefined, level + (level === 2 ? 2 : 1), param.name, isComp),
           get.members(declaration.parameters || param.exports, '参数', level + (level === 2 ? 2 : 1), param.name, isComp),
           get.example(tags, level + (level === 2 ? 2 : 1)),
-          get.api(apis, level + (level === 2 ? 2 : 1)),
         ])
       } else if (isComp && isShowAPI(param.flags)) {
         if (param.name && param.jsTags) componentApis[`${name}.${param.name}`] = param.jsTags || []
@@ -212,6 +212,7 @@ export const get = {
       } */
     }))
     isComp && methods.push(get.api(componentApis, level))
+    if (methods.filter(e => !!e).length > 0 && level === 2) methods.unshift(`## ${title}\n`)
 
     return splicing(methods) || undefined
   },
@@ -307,12 +308,15 @@ import TabItem from '@theme/TabItem'
       const hasSupported = !!(apiDesc || apis.find(e => e === envMap[i].name))
       if (!hasSupportedList[i] && hasSupported) hasSupportedList[i] = true
     }
-    return `支持情况：${splicing(envMap.map((env, i) => {
+    const descList: string[] = []
+    const list = envMap.map((env, i) => {
       if (!hasSupportedList[i]) return undefined
       const apiDesc = tags.find(e => e.name === env.name)?.text?.map(e => e.text).join('') || ''
-      const support = apis.find(e => e === env.name) || apiDesc
+      const support = apis.find(e => e === env.name)
+      if (apiDesc) descList.push(`> ${env.label}: ${apiDesc}`)
       return `<img title="${env.label}" src={${env.icon}} className="icon_platform${support ? '' : ' icon_platform--not-support'}" width="25px"/>`
-    }), ' ')}\n`
+    })
+    return `支持情况：${splicing(list, ' ')}${descList.length > 0 ? `\n\n${splicing(descList, '\n> ')}` : ''}\n`
   },
   see: (data?: ts.JSDocTagInfo) => data ? splicing([`> [参考文档](${data.text?.map(e => e.text).join('') || ''})`, '']) : undefined
 }

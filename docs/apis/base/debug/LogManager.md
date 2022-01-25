@@ -19,38 +19,23 @@ sidebar_label: LogManager
 
 写 debug 日志
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/LogManager.debug.html)
 
 ```tsx
 (...args: any[]) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>args</td>
-      <td><code>any[]</code></td>
-      <td>日志内容，可以有任意多个。每次调用的参数的总大小不超过100Kb</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| LogManager.debug | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| args | `any[]` | 日志内容，可以有任意多个。每次调用的参数的总大小不超过100Kb |
 
 ### info
 
 写 info 日志
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/LogManager.info.html)
 
@@ -58,32 +43,15 @@ sidebar_label: LogManager
 (...args: any[]) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>args</td>
-      <td><code>any[]</code></td>
-      <td>日志内容，可以有任意多个。每次调用的参数的总大小不超过100Kb</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| LogManager.info | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| args | `any[]` | 日志内容，可以有任意多个。每次调用的参数的总大小不超过100Kb |
 
 ### log
 
 写 log 日志
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/LogManager.log.html)
 
@@ -91,32 +59,15 @@ sidebar_label: LogManager
 (...args: any[]) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>args</td>
-      <td><code>any[]</code></td>
-      <td>日志内容，可以有任意多个。每次调用的参数的总大小不超过100Kb</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| LogManager.log | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| args | `any[]` | 日志内容，可以有任意多个。每次调用的参数的总大小不超过100Kb |
 
 ### warn
 
 写 warn 日志
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/LogManager.warn.html)
 
@@ -124,28 +75,9 @@ sidebar_label: LogManager
 (...args: any[]) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>args</td>
-      <td><code>any[]</code></td>
-      <td>日志内容，可以有任意多个。每次调用的参数的总大小不超过100Kb</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| LogManager.warn | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| args | `any[]` | 日志内容，可以有任意多个。每次调用的参数的总大小不超过100Kb |
 
 ## API 支持度
 

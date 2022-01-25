@@ -5,6 +5,8 @@ sidebar_label: getBLEDeviceCharacteristics
 
 获取蓝牙设备某个服务中所有特征值(characteristic)。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.getBLEDeviceCharacteristics.html)
 
 ## 类型
@@ -17,134 +19,40 @@ sidebar_label: getBLEDeviceCharacteristics
 
 ### Option
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>deviceId</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>蓝牙设备 id</td>
-    </tr>
-    <tr>
-      <td>serviceId</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>蓝牙服务 uuid，需要使用 <code>getBLEDeviceServices</code> 获取</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: BluetoothError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(res: BluetoothError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(res: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| deviceId | `string` | 是 | 蓝牙设备 id |
+| serviceId | `string` | 是 | 蓝牙服务 uuid，需要使用 `getBLEDeviceServices` 获取 |
+| complete | `(res: TaroGeneral.BluetoothError) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.BluetoothError) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### SuccessCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>characteristics</td>
-      <td><code>BLECharacteristic[]</code></td>
-      <td>设备特征值列表</td>
-    </tr>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>成功：ok，错误：详细信息</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| characteristics | `BLECharacteristic[]` | 设备特征值列表 |
+| errMsg | `string` | 成功：ok，错误：详细信息 |
 
 ### BLECharacteristic
 
 设备特征值列表
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>properties</td>
-      <td><code>Properties</code></td>
-      <td>该特征值支持的操作类型</td>
-    </tr>
-    <tr>
-      <td>uuid</td>
-      <td><code>string</code></td>
-      <td>蓝牙设备特征值的 uuid</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| properties | `Properties` | 该特征值支持的操作类型 |
+| uuid | `string` | 蓝牙设备特征值的 uuid |
 
 ### Properties
 
 该特征值支持的操作类型
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>indicate</td>
-      <td><code>boolean</code></td>
-      <td>该特征值是否支持 indicate 操作</td>
-    </tr>
-    <tr>
-      <td>notify</td>
-      <td><code>boolean</code></td>
-      <td>该特征值是否支持 notify 操作</td>
-    </tr>
-    <tr>
-      <td>read</td>
-      <td><code>boolean</code></td>
-      <td>该特征值是否支持 read 操作</td>
-    </tr>
-    <tr>
-      <td>write</td>
-      <td><code>boolean</code></td>
-      <td>该特征值是否支持 write 操作</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| indicate | `boolean` | 该特征值是否支持 indicate 操作 |
+| notify | `boolean` | 该特征值是否支持 notify 操作 |
+| read | `boolean` | 该特征值是否支持 read 操作 |
+| write | `boolean` | 该特征值是否支持 write 操作 |
 
 ## 示例代码
 
@@ -159,9 +67,3 @@ Taro.getBLEDeviceCharacteristics({
   }
 })
 ```
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Taro.getBLEDeviceCharacteristics | ✔️ |  |  |

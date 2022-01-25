@@ -200,6 +200,12 @@ module.exports = {
       "apis/about/events",
       "apis/General"
     ],
+    "框架": [
+      "apis/framework/App",
+      "apis/framework/getApp",
+      "apis/framework/getCurrentPages",
+      "apis/framework/Page",
+    ],
     "基础": [
       "apis/base/canIUse",
       "apis/base/base64ToArrayBuffer",
@@ -228,19 +234,23 @@ module.exports = {
             "label": "生命周期",
             "type": "category",
             "items": [
-              "apis/base/weapp/life-cycle/getLaunchOptionsSync"
+              "apis/base/weapp/life-cycle/getLaunchOptionsSync",
+              // "apis/base/weapp/life-cycle/getEnterOptionsSync"
             ]
           },
           {
             "label": "应用级事件",
             "type": "category",
             "items": [
+              // "apis/base/weapp/app-event/onUnhandledRejection",
+              "apis/base/weapp/app-event/onThemeChange",
               "apis/base/weapp/app-event/onPageNotFound",
               "apis/base/weapp/app-event/onError",
               "apis/base/weapp/app-event/onAudioInterruptionEnd",
               "apis/base/weapp/app-event/onAudioInterruptionBegin",
               "apis/base/weapp/app-event/onAppShow",
               "apis/base/weapp/app-event/onAppHide",
+              "apis/base/weapp/app-event/offThemeChange",
               "apis/base/weapp/app-event/offPageNotFound",
               "apis/base/weapp/app-event/offError",
               "apis/base/weapp/app-event/offAudioInterruptionEnd",
@@ -262,7 +272,8 @@ module.exports = {
           "apis/base/debug/RealtimeLogManager"
         ]
       },
-      "apis/base/env/env"
+      "apis/base/env/env",
+      "apis/base/preload",
     ],
     "路由": [
       "apis/route/switchTab",
@@ -272,11 +283,10 @@ module.exports = {
       "apis/route/navigateBack",
       "apis/route/EventChannel"
     ],
-    "框架": [
-      "apis/framework/App",
-      "apis/framework/getApp",
-      "apis/framework/getCurrentPages",
-      "apis/framework/Page"
+    "跳转": [
+      "apis/open-api/navigate/navigateToMiniProgram",
+      "apis/open-api/navigate/navigateBackMiniProgram",
+      "apis/open-api/navigate/exitMiniProgram"
     ],
     "界面": [
       {
@@ -461,6 +471,10 @@ module.exports = {
         ]
       }
     ],
+    "支付": [
+      "apis/open-api/payment/requestPayment",
+      "apis/open-api/payment/faceVerifyForPay"
+    ],
     "数据缓存": [
       "apis/storage/setStorageSync",
       "apis/storage/setStorage",
@@ -483,6 +497,28 @@ module.exports = {
         ]
       }
     ],
+    '数据分析': [
+      "apis/data-analysis/reportMonitor",
+      "apis/data-analysis/reportEvent",
+      "apis/data-analysis/reportAnalytics",
+      "apis/data-analysis/getExptInfoSync"
+    ],
+    "画布": [
+      "apis/canvas/createOffscreenCanvas",
+      "apis/canvas/createCanvasContext",
+      "apis/canvas/canvasToTempFilePath",
+      "apis/canvas/canvasPutImageData",
+      "apis/canvas/canvasGetImageData",
+      "apis/canvas/Canvas",
+      "apis/canvas/CanvasContext",
+      "apis/canvas/CanvasGradient",
+      "apis/canvas/Color",
+      "apis/canvas/Image",
+      "apis/canvas/ImageData",
+      "apis/canvas/Path2D",
+      "apis/canvas/OffscreenCanvas",
+      "apis/canvas/RenderingContext"
+    ],
     "媒体": [
       {
         "label": "地图",
@@ -497,6 +533,7 @@ module.exports = {
         "type": "category",
         "items": [
           "apis/media/image/saveImageToPhotosAlbum",
+          "apis/media/image/previewMedia",
           "apis/media/image/previewImage",
           "apis/media/image/getImageInfo",
           "apis/media/image/compressImage",
@@ -509,8 +546,12 @@ module.exports = {
         "type": "category",
         "items": [
           "apis/media/video/saveVideoToPhotosAlbum",
+          "apis/media/video/openVideoEditor",
+          "apis/media/video/getVideoInfo",
           "apis/media/video/createVideoContext",
+          "apis/media/video/compressVideo",
           "apis/media/video/chooseVideo",
+          "apis/media/video/chooseMedia",
           "apis/media/video/VideoContext"
         ]
       },
@@ -606,21 +647,6 @@ module.exports = {
       "apis/share/hideShareMenu",
       "apis/share/getShareInfo"
     ],
-    "画布": [
-      "apis/canvas/createOffscreenCanvas",
-      "apis/canvas/createCanvasContext",
-      "apis/canvas/canvasToTempFilePath",
-      "apis/canvas/canvasPutImageData",
-      "apis/canvas/canvasGetImageData",
-      "apis/canvas/Canvas",
-      "apis/canvas/CanvasContext",
-      "apis/canvas/CanvasGradient",
-      "apis/canvas/Color",
-      "apis/canvas/Image",
-      "apis/canvas/ImageData",
-      "apis/canvas/OffscreenCanvas",
-      "apis/canvas/RenderingContext"
-    ],
     "文件": [
       "apis/files/saveFile",
       "apis/files/removeSavedFile",
@@ -642,14 +668,6 @@ module.exports = {
         ]
       },
       {
-        "label": "小程序跳转",
-        "type": "category",
-        "items": [
-          "apis/open-api/navigate/navigateToMiniProgram",
-          "apis/open-api/navigate/navigateBackMiniProgram"
-        ]
-      },
-      {
         "label": "账户信息",
         "type": "category",
         "items": [
@@ -663,28 +681,6 @@ module.exports = {
           "apis/open-api/user-info/getUserProfile",
           "apis/open-api/user-info/getUserInfo",
           "apis/open-api/user-info/UserInfo"
-        ]
-      },
-      {
-        "label": "数据上报",
-        "type": "category",
-        "items": [
-          "apis/open-api/report/reportMonitor"
-        ]
-      },
-      {
-        "label": "数据分析",
-        "type": "category",
-        "items": [
-          "apis/open-api/data-analysis/reportAnalytics"
-        ]
-      },
-      {
-        "label": "支付",
-        "type": "category",
-        "items": [
-          "apis/open-api/payment/requestPayment",
-          "apis/open-api/payment/faceVerifyForPay"
         ]
       },
       {
@@ -751,7 +747,14 @@ module.exports = {
         "items": [
           "apis/open-api/subscribe-message/requestSubscribeMessage"
         ]
-      }
+      },
+      {
+        "label": "微信客服",
+        "type": "category",
+        "items": [
+          "apis/open-api/customer-service/openCustomerServiceChat"
+        ]
+      },
     ],
     "设备": [
       {
@@ -921,10 +924,11 @@ module.exports = {
         ]
       },
       {
-        "label": "性能",
+        "label": "内存",
         "type": "category",
         "items": [
-          "apis/device/performance/onMemoryWarning"
+          "apis/device/performance/onMemoryWarning",
+          "apis/device/performance/offMemoryWarning"
         ]
       },
       {

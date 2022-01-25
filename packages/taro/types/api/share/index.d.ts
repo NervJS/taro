@@ -103,7 +103,7 @@ declare module '../../index' {
     updateShareMenu(option: updateShareMenu.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 显示当前页面的转发按钮
-     * @supported weapp
+     * @supported weapp, qq
      * @example
      * ```tsx
      * Taro.showShareMenu({
@@ -130,7 +130,7 @@ declare module '../../index' {
      * - 如需要展示群名称，可以使用[开放数据组件](https://developers.weixin.qq.com/miniprogram/dev/component/open-ability/open-data.html)
      * @supported weapp
      * @example
-     * 敏感数据有两种获取方式，一是使用 [加密数据解密算法]((open-ability/signature#加密数据解密算法)) 。
+     * 敏感数据有两种获取方式，一是使用 [加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#%E5%8A%A0%E5%AF%86%E6%95%B0%E6%8D%AE%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95) 。
      * 获取得到的开放数据为以下 json 结构（其中 openGId 为当前群的唯一标识）：
      * ```json
      * {

@@ -17,6 +17,16 @@ sidebar_label: onWindowResize
 
 ## 参数
 
+### Callback
+
+```tsx
+(result: CallbackResult) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| result | `CallbackResult` |
+
 ### CallbackResult
 
 | 参数 | 类型 |

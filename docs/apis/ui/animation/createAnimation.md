@@ -27,12 +27,6 @@ sidebar_label: createAnimation
 | transformOrigin | `string` | 否 |  |
 | unit | `string` | 否 | 单位<br />API 支持度: h5 |
 
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Option.unit |  | ✔️ |  |
-
 ### timingFunction
 
 | 参数 | 说明 |

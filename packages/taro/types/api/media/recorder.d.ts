@@ -155,7 +155,7 @@ declare module '../../index' {
    */
   interface RecorderManager {
     /** 监听录音错误事件
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onError.html
      */
     onError(
@@ -187,7 +187,7 @@ declare module '../../index' {
       callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听录音暂停事件
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onPause.html
      */
     onPause(
@@ -195,7 +195,7 @@ declare module '../../index' {
       callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听录音继续事件
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onResume.html
      */
     onResume(
@@ -203,7 +203,7 @@ declare module '../../index' {
       callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听录音开始事件
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onStart.html
      */
     onStart(
@@ -211,7 +211,7 @@ declare module '../../index' {
       callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听录音结束事件
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onStop.html
      */
     onStop(
@@ -219,22 +219,22 @@ declare module '../../index' {
       callback: RecorderManager.OnStopCallback,
     ): void
     /** 暂停录音
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.pause.html
      */
     pause(): void
     /** 继续录音
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.resume.html
      */
     resume(): void
     /** 开始录音
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.start.html
      */
     start(option: RecorderManager.StartOption): void
     /** 停止录音
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.stop.html
      */
     stop(): void
@@ -282,7 +282,7 @@ declare module '../../index' {
     startRecord(option: startRecord.Option): Promise<startRecord.SuccessCallbackResult>
 
     /** 获取**全局唯一**的录音管理器 RecorderManager
-     * @supported weapp
+     * @supported weapp, rn
      * @example
      * ```tsx
      * const recorderManager = Taro.getRecorderManager()

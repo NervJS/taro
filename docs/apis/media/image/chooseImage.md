@@ -5,6 +5,8 @@ sidebar_label: chooseImage
 
 从本地相册选择图片或使用相机拍照。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="百度小程序" src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img title="支付宝小程序" src={require('@site/static/img/platform/alipay.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.chooseImage.html)
 
 ## 类型
@@ -17,185 +19,54 @@ sidebar_label: chooseImage
 
 ### Option
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>count</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>最多可以选择的图片张数</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>sizeType</td>
-      <td><code>(&quot;original&quot; | &quot;compressed&quot;)[]</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>所选的图片的尺寸</td>
-    </tr>
-    <tr>
-      <td>sourceType</td>
-      <td><code>(&quot;album&quot; | &quot;camera&quot; | &quot;user&quot; | &quot;environment&quot;)[]</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>选择图片的来源</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| count | `number` | 否 | 最多可以选择的图片张数 |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| sizeType | `(keyof sizeType)[]` | 否 | 所选的图片的尺寸 |
+| sourceType | `(keyof sourceType)[]` | 否 | 选择图片的来源 |
+| success | `(result: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+| imageId | `string` | 否 | 用来上传的input元素ID（仅h5端）@supported h5 |
 
 ### sizeType
 
 图片的尺寸
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>original</td>
-      <td>原图</td>
-    </tr>
-    <tr>
-      <td>compressed</td>
-      <td>compressed</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 说明 |
+| --- | --- |
+| original | 原图 |
+| compressed | compressed |
 
 ### sourceType
 
 图片的来源
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>album</td>
-      <td>从相册选图</td>
-    </tr>
-    <tr>
-      <td>camera</td>
-      <td>使用相机</td>
-    </tr>
-    <tr>
-      <td>user</td>
-      <td>使用前置摄像头(仅H5纯浏览器使用)</td>
-    </tr>
-    <tr>
-      <td>environment</td>
-      <td>使用后置摄像头(仅H5纯浏览器)</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 说明 |
+| --- | --- |
+| album | 从相册选图 |
+| camera | 使用相机 |
+| user | 使用前置摄像头(仅H5纯浏览器使用) |
+| environment | 使用后置摄像头(仅H5纯浏览器) |
 
 ### SuccessCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>tempFilePaths</td>
-      <td><code>string[]</code></td>
-      <td>图片的本地临时文件路径列表</td>
-    </tr>
-    <tr>
-      <td>tempFiles</td>
-      <td><code>ImageFile[]</code></td>
-      <td>图片的本地临时文件列表</td>
-    </tr>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>调用结果</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| tempFilePaths | `string[]` | 图片的本地临时文件路径列表 |
+| tempFiles | `ImageFile[]` | 图片的本地临时文件列表 |
+| errMsg | `string` | 调用结果 |
 
 ### ImageFile
 
 图片的本地临时文件列表
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>path</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>本地临时文件路径</td>
-    </tr>
-    <tr>
-      <td>size</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>本地临时文件大小，单位 B</td>
-    </tr>
-    <tr>
-      <td>type</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>文件的 MIME 类型<br />API 支持度: h5</td>
-    </tr>
-    <tr>
-      <td>originalFileObj</td>
-      <td><code>File</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>原始的浏览器 File 对象<br />API 支持度: h5</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| ImageFile.type |  | ✔️ |  |
-| ImageFile.originalFileObj |  | ✔️ |  |
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| path | `string` | 是 | 本地临时文件路径 |
+| size | `number` | 是 | 本地临时文件大小，单位 B |
+| type | `string` | 否 | 文件的 MIME 类型<br />API 支持度: h5 |
+| originalFileObj | `File` | 否 | 原始的浏览器 File 对象<br />API 支持度: h5 |
 
 ## 示例代码
 
@@ -210,9 +81,3 @@ Taro.chooseImage({
   }
 })
 ```
-
-## API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| Taro.chooseImage | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |

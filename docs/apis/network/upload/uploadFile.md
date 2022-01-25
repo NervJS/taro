@@ -32,12 +32,6 @@ sidebar_label: uploadFile
 | fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
 | success | `(result: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Option.fileName |  | ✔️ |  |
-
 ### SuccessCallbackResult
 
 | 参数 | 类型 | 说明 |

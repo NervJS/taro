@@ -28,10 +28,14 @@ export async function writeApiDoc (routePath: string, doc: DocEntry[], withGener
       }
   
       const apis = { [`${TaroMethod.includes(e.flags || -1) ? 'Taro.' : ''}${name}`]: tags }
+      let showApiList = false
   
       for (const member of members) {
         if (isShowAPI(member.flags)) {
-          if (member.name && member.jsTags) apis[`${name}.${member.name}`] = member.jsTags || []
+          if (member.name && member.jsTags) {
+            apis[`${name}.${member.name}`] = member.jsTags || []
+            if (!showApiList) showApiList = true
+          }
         } else if (!isNotAPI(member.flags)) {
           console.warn(`WARN: Symbol flags ${member.flags} for members is missing parse! Watch member name:${member.name}.`)
         }
@@ -47,6 +51,7 @@ export async function writeApiDoc (routePath: string, doc: DocEntry[], withGener
         get.members(e.members || declarations?.[0]?.members, undefined, 2, TaroMethod.includes(e.flags || -1) ? 'Taro' : name),
         get.members(e.exports || e.parameters || declarations?.[0]?.parameters, '参数', 2, TaroMethod.includes(e.flags || -1) ? 'Taro' : name),
         get.example(tags),
+        showApiList ? get.api(apis) : undefined,
       )
   
       writeFile(

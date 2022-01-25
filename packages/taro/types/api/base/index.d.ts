@@ -88,6 +88,7 @@ declare module '../../index' {
 
     /**
      * 预加载的数据
+     * @ignore
      */
     preloadData: Record<string, any>
   }

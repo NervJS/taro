@@ -5,66 +5,30 @@ sidebar_label: setBackgroundColor
 
 动态设置窗口的背景色
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
+
+> React Native: 仅 Android
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/background/wx.setBackgroundColor.html)
 
 ## 类型
 
 ```tsx
-(option: Option) => Promise<CallbackResult>
+(option: Option) => Promise<TaroGeneral.CallbackResult>
 ```
 
 ## 参数
 
 ### Option
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>backgroundColor</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>窗口的背景色，必须为十六进制颜色值</td>
-    </tr>
-    <tr>
-      <td>backgroundColorBottom</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>底部窗口的背景色，必须为十六进制颜色值，仅 iOS 支持</td>
-    </tr>
-    <tr>
-      <td>backgroundColorTop</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>顶部窗口的背景色，必须为十六进制颜色值，仅 iOS 支持</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| backgroundColor | `string` | 否 | 窗口的背景色，必须为十六进制颜色值 |
+| backgroundColorBottom | `string` | 否 | 底部窗口的背景色，必须为十六进制颜色值，仅 iOS 支持 |
+| backgroundColorTop | `string` | 否 | 顶部窗口的背景色，必须为十六进制颜色值，仅 iOS 支持 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ## 示例代码
 
@@ -77,9 +41,3 @@ Taro.setBackgroundColor({
   backgroundColorBottom: '#ffffff', // 底部窗口的背景色为白色
 })
 ```
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Taro.setBackgroundColor | ✔️ |  | ✔️（仅Android） |

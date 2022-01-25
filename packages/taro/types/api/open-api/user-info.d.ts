@@ -18,9 +18,9 @@ declare module '../../index' {
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 敏感数据对应的云 ID，开通[云开发](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html)的小程序才会返回，可通过云调用直接获取开放数据，详细见[云调用直接获取开放数据](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#method-cloud) */
       cloudID?: string
-      /** 包括敏感数据在内的完整用户信息的加密数据，详见 [用户数据的签名验证和加解密]((signature#加密数据解密算法)) */
+      /** 包括敏感数据在内的完整用户信息的加密数据，详见 [用户数据的签名验证和加解密](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#%E5%8A%A0%E5%AF%86%E6%95%B0%E6%8D%AE%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95) */
       encryptedData: string
-      /** 加密算法的初始向量，详见 [用户数据的签名验证和加解密]((signature#加密数据解密算法)) */
+      /** 加密算法的初始向量，详见 [用户数据的签名验证和加解密](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#%E5%8A%A0%E5%AF%86%E6%95%B0%E6%8D%AE%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95) */
       iv: string
       /** 不包括敏感信息的原始数据字符串，用于计算签名 */
       rawData: string
@@ -48,7 +48,18 @@ declare module '../../index' {
     }
 
     interface SuccessCallbackResult extends getUserInfo.SuccessCallbackResult {
-      //
+      /** 用户信息对象 */
+      userInfo: UserInfo
+      /** 不包括敏感信息的原始数据字符串，用于计算签名 */
+      rawData: string
+      /** 使用 sha1( rawData + sessionkey ) 得到字符串，用于校验用户信息，详见 [用户数据的签名验证和加解密](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html) */
+      signature: string
+      /** 包括敏感数据在内的完整用户信息的加密数据，详见 [用户数据的签名验证和加解密](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#%E5%8A%A0%E5%AF%86%E6%95%B0%E6%8D%AE%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95) */
+      encryptedData: string
+      /** 加密算法的初始向量，详见 [用户数据的签名验证和加解密](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#%E5%8A%A0%E5%AF%86%E6%95%B0%E6%8D%AE%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95) */
+      iv: string
+      /** 敏感数据对应的云 ID，开通云开发的小程序才会返回，可通过云调用直接获取开放数据，详细 [见云调用直接获取开放数据](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#method-cloud) */
+      cloudID: string
     }
   }
 
@@ -95,6 +106,7 @@ declare module '../../index' {
      * @example
      * ```tsx
      * // 必须是在用户已经授权的情况下调用
+     *
      * Taro.getUserInfo({
      *   success: function(res) {
      *     var userInfo = res.userInfo
@@ -108,7 +120,7 @@ declare module '../../index' {
      * })
      * ```
      *
-     * 敏感数据有两种获取方式，一是使用 [加密数据解密算法]((open-ability/signature#加密数据解密算法)) 。
+     * 敏感数据有两种获取方式，一是使用 [加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#%E5%8A%A0%E5%AF%86%E6%95%B0%E6%8D%AE%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95) 。
      * 获取得到的开放数据为以下 json 结构：
      *
      * ```json
@@ -133,6 +145,31 @@ declare module '../../index' {
 
     /**
      * 获取用户信息。每次请求都会弹出授权窗口，用户同意后返回 `userInfo`。
+     * 
+     * 若开发者需要获取用户的个人信息（头像、昵称、性别与地区），可以通过 Taro.getUserProfile 接口进行获取，
+     * 
+     * 微信该接口从基础库 **2.10.4** 版本开始支持，该接口只返回用户个人信息，不包含用户身份标识符。该接口中 desc 属性（声明获取用户个人信息后的用途）后续会展示在弹窗中，请开发者谨慎填写。
+     * 
+     * 开发者每次通过该接口获取用户个人信息均需用户确认，请开发者妥善保管用户快速填写的头像昵称，避免重复弹窗。
+     * 
+     * [微信端调整背景和说明，请参考文档](https://developers.weixin.qq.com/community/develop/doc/000cacfa20ce88df04cb468bc52801)
+     * @supported weapp
+     * @example
+     * // 推荐使用 Taro.getUserProfile 获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认
+     *
+     * ```tsx
+     * Taro.getUserProfile({
+     *   desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+     *   success: (res) => {
+     *     // 开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
+     *     this.setState({
+     *       userInfo: res.userInfo,
+     *       hasUserInfo: true
+     *     })
+     *   }
+     * })
+     * ```
+     * @since 2.2.17+，3.0.29+
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/user-info/wx.getUserProfile.html
      */
     getUserProfile(option: getUserProfile.Option): Promise<getUserProfile.SuccessCallbackResult>

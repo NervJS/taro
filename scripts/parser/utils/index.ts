@@ -62,6 +62,7 @@ export function isShowMembers (flags?: ts.SymbolFlags, used: ts.SymbolFlags[] = 
     ts.SymbolFlags.Interface,
     ts.SymbolFlags.ValueModule,
     ts.SymbolFlags.NamespaceModule,
+    ts.SymbolFlags.TypeLiteral,
     ts.SymbolFlags.Method,
     ts.SymbolFlags.TypeAlias,
   ].some(v => {

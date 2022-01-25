@@ -5,6 +5,8 @@ sidebar_label: getLogManager
 
 获取日志管理器对象。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/wx.getLogManager.html)
 
 ## 类型
@@ -17,45 +19,16 @@ sidebar_label: getLogManager
 
 ### Option
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>level</td>
-      <td><code>0 | 1</code></td>
-      <td style={{ textAlign: "center"}}><code>0</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 默认值 | 必填 |
+| --- | --- | :---: | :---: |
+| level | `keyof level` | `0` | 否 |
 
 ### level
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>表示会把 App、Page 的生命周期函数和 wx 命名空间下的函数调用写入日志</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>表示不会把 App、Page 的生命周期函数和 wx 命名空间下的函数调用写入日志</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 说明 |
+| --- | --- |
+| 0 | 表示会把 App、Page 的生命周期函数和 wx 命名空间下的函数调用写入日志 |
+| 1 | 表示不会把 App、Page 的生命周期函数和 wx 命名空间下的函数调用写入日志 |
 
 ## 示例代码
 
@@ -67,9 +40,3 @@ logger.info({str: 'hello world'}, 'info log', 100, [1, 2, 3])
 logger.debug({str: 'hello world'}, 'debug log', 100, [1, 2, 3])
 logger.warn({str: 'hello world'}, 'warn log', 100, [1, 2, 3])
 ```
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Taro.getLogManager | ✔️ |  |  |

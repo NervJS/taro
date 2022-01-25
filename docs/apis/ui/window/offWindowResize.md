@@ -5,6 +5,8 @@ sidebar_label: offWindowResize
 
 取消监听窗口尺寸变化事件
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/window/wx.offWindowResize.html)
 
 ## 类型
@@ -17,29 +19,10 @@ sidebar_label: offWindowResize
 
 ### Callback
 
-窗口尺寸变化事件的回调函数
-
 ```tsx
-(res: CallbackResult) => void
+(res: TaroGeneral.CallbackResult) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>res</td>
-      <td><code>CallbackResult</code></td>
-    </tr>
-  </tbody>
-</table>
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Taro.offWindowResize | ✔️ | ✔️ | ✔️ |
+| 参数 | 类型 |
+| --- | --- |
+| res | `TaroGeneral.CallbackResult` |

@@ -9,21 +9,19 @@ sidebar_label: Animation
 
 导出动画队列。**export 方法每次调用后会清掉之前的动画操作。**
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.export.html)
 
 ```tsx
-() => Record<string, any>[]
+() => { actions: TaroGeneral.IAnyObject[]; }
 ```
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.export | ✔️ |  |  |
 
 ### backgroundColor
 
 设置背景色
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.backgroundColor.html)
 
@@ -31,32 +29,15 @@ sidebar_label: Animation
 (value: string) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>value</td>
-      <td><code>string</code></td>
-      <td>颜色值</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.backgroundColor | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| value | `string` | 颜色值 |
 
 ### bottom
 
 设置 bottom 值
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.bottom.html)
 
@@ -64,32 +45,15 @@ sidebar_label: Animation
 (value: string | number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>value</td>
-      <td><code>string | number</code></td>
-      <td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.bottom | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
 
 ### height
 
 设置高度
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.height.html)
 
@@ -97,32 +61,15 @@ sidebar_label: Animation
 (value: string | number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>value</td>
-      <td><code>string | number</code></td>
-      <td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.height | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
 
 ### left
 
 设置 left 值
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.left.html)
 
@@ -130,64 +77,67 @@ sidebar_label: Animation
 (value: string | number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>value</td>
-      <td><code>string | number</code></td>
-      <td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.left | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
 
 ### matrix
 
 同 [transform-function matrix](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix)
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.matrix.html)
 
 ```tsx
-() => Animation
+(a: number, b: number, c: number, d: number, tx: number, ty: number) => Animation
 ```
 
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.matrix | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| a | `number` |
+| b | `number` |
+| c | `number` |
+| d | `number` |
+| tx | `number` |
+| ty | `number` |
 
 ### matrix3d
 
 同 [transform-function matrix3d](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix3d)
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.matrix3d.html)
 
 ```tsx
-() => Animation
+(a1: number, b1: number, c1: number, d1: number, a2: number, b2: number, c2: number, d2: number, a3: number, b3: number, c3: number, d3: number, a4: number, b4: number, c4: number, d4: number) => Animation
 ```
 
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.matrix3d | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| a1 | `number` |
+| b1 | `number` |
+| c1 | `number` |
+| d1 | `number` |
+| a2 | `number` |
+| b2 | `number` |
+| c2 | `number` |
+| d2 | `number` |
+| a3 | `number` |
+| b3 | `number` |
+| c3 | `number` |
+| d3 | `number` |
+| a4 | `number` |
+| b4 | `number` |
+| c4 | `number` |
+| d4 | `number` |
 
 ### opacity
 
 设置透明度
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.opacity.html)
 
@@ -195,32 +145,15 @@ sidebar_label: Animation
 (value: number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>value</td>
-      <td><code>number</code></td>
-      <td>透明度，范围 0-1</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.opacity | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| value | `number` | 透明度，范围 0-1 |
 
 ### right
 
 设置 right 值
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.right.html)
 
@@ -228,32 +161,15 @@ sidebar_label: Animation
 (value: string | number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>value</td>
-      <td><code>string | number</code></td>
-      <td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.right | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
 
 ### rotate
 
 从原点顺时针旋转一个角度
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotate.html)
 
@@ -261,80 +177,34 @@ sidebar_label: Animation
 (angle: number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>angle</td>
-      <td><code>number</code></td>
-      <td>旋转的角度。范围 [-180, 180]</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.rotate | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| angle | `number` | 旋转的角度。范围 [-180, 180] |
 
 ### rotate3d
 
 从 固定 轴顺时针旋转一个角度
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotate3d.html)
 
 ```tsx
-(x: number, y: number, z: number, angle: number) => Animation
+(x: number, y?: number, z?: number, angle?: number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>x</td>
-      <td><code>number</code></td>
-      <td>旋转轴的 x 坐标</td>
-    </tr>
-    <tr>
-      <td>y</td>
-      <td><code>number</code></td>
-      <td>旋转轴的 y 坐标</td>
-    </tr>
-    <tr>
-      <td>z</td>
-      <td><code>number</code></td>
-      <td>旋转轴的 z 坐标</td>
-    </tr>
-    <tr>
-      <td>angle</td>
-      <td><code>number</code></td>
-      <td>旋转的角度。范围 [-180, 180]</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.rotate3d | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| x | `number` | 旋转轴的 x 坐标 |
+| y | `number` | 旋转轴的 y 坐标 |
+| z | `number` | 旋转轴的 z 坐标 |
+| angle | `number` | 旋转的角度。范围 [-180, 180] |
 
 ### rotateX
 
 从 X 轴顺时针旋转一个角度
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotateX.html)
 
@@ -342,32 +212,15 @@ sidebar_label: Animation
 (angle: number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>angle</td>
-      <td><code>number</code></td>
-      <td>旋转的角度。范围 [-180, 180]</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.rotateX | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| angle | `number` | 旋转的角度。范围 [-180, 180] |
 
 ### rotateY
 
 从 Y 轴顺时针旋转一个角度
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotateY.html)
 
@@ -375,32 +228,15 @@ sidebar_label: Animation
 (angle: number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>angle</td>
-      <td><code>number</code></td>
-      <td>旋转的角度。范围 [-180, 180]</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.rotateY | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| angle | `number` | 旋转的角度。范围 [-180, 180] |
 
 ### rotateZ
 
 从 Z 轴顺时针旋转一个角度
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotateZ.html)
 
@@ -408,32 +244,15 @@ sidebar_label: Animation
 (angle: number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>angle</td>
-      <td><code>number</code></td>
-      <td>旋转的角度。范围 [-180, 180]</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.rotateZ | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| angle | `number` | 旋转的角度。范围 [-180, 180] |
 
 ### scale
 
 缩放
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scale.html)
 
@@ -441,37 +260,16 @@ sidebar_label: Animation
 (sx: number, sy?: number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>sx</td>
-      <td><code>number</code></td>
-      <td>当仅有 sx 参数时，表示在 X 轴、Y 轴同时缩放sx倍数</td>
-    </tr>
-    <tr>
-      <td>sy</td>
-      <td><code>number</code></td>
-      <td>在 Y 轴缩放 sy 倍数</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.scale | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| sx | `number` | 当仅有 sx 参数时，表示在 X 轴、Y 轴同时缩放sx倍数 |
+| sy | `number` | 在 Y 轴缩放 sy 倍数 |
 
 ### scale3d
 
 缩放
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scale3d.html)
 
@@ -479,42 +277,17 @@ sidebar_label: Animation
 (sx: number, sy: number, sz: number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>sx</td>
-      <td><code>number</code></td>
-      <td>x 轴的缩放倍数</td>
-    </tr>
-    <tr>
-      <td>sy</td>
-      <td><code>number</code></td>
-      <td>y 轴的缩放倍数</td>
-    </tr>
-    <tr>
-      <td>sz</td>
-      <td><code>number</code></td>
-      <td>z 轴的缩放倍数</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.scale3d | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| sx | `number` | x 轴的缩放倍数 |
+| sy | `number` | y 轴的缩放倍数 |
+| sz | `number` | z 轴的缩放倍数 |
 
 ### scaleX
 
 缩放 X 轴
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scaleX.html)
 
@@ -522,32 +295,15 @@ sidebar_label: Animation
 (scale: number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>scale</td>
-      <td><code>number</code></td>
-      <td>X 轴的缩放倍数</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.scaleX | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| scale | `number` | X 轴的缩放倍数 |
 
 ### scaleY
 
 缩放 Y 轴
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scaleY.html)
 
@@ -555,32 +311,15 @@ sidebar_label: Animation
 (scale: number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>scale</td>
-      <td><code>number</code></td>
-      <td>Y 轴的缩放倍数</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.scaleY | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| scale | `number` | Y 轴的缩放倍数 |
 
 ### scaleZ
 
 缩放 Z 轴
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scaleZ.html)
 
@@ -588,32 +327,15 @@ sidebar_label: Animation
 (scale: number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>scale</td>
-      <td><code>number</code></td>
-      <td>Z 轴的缩放倍数</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.scaleZ | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| scale | `number` | Z 轴的缩放倍数 |
 
 ### skew
 
 对 X、Y 轴坐标进行倾斜
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.skew.html)
 
@@ -621,37 +343,16 @@ sidebar_label: Animation
 (ax: number, ay: number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>ax</td>
-      <td><code>number</code></td>
-      <td>对 X 轴坐标倾斜的角度，范围 [-180, 180]</td>
-    </tr>
-    <tr>
-      <td>ay</td>
-      <td><code>number</code></td>
-      <td>对 Y 轴坐标倾斜的角度，范围 [-180, 180]</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.skew | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| ax | `number` | 对 X 轴坐标倾斜的角度，范围 [-180, 180] |
+| ay | `number` | 对 Y 轴坐标倾斜的角度，范围 [-180, 180] |
 
 ### skewX
 
 对 X 轴坐标进行倾斜
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.skewX.html)
 
@@ -659,32 +360,15 @@ sidebar_label: Animation
 (angle: number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>angle</td>
-      <td><code>number</code></td>
-      <td>倾斜的角度，范围 [-180, 180]</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.skewX | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| angle | `number` | 倾斜的角度，范围 [-180, 180] |
 
 ### skewY
 
 对 Y 轴坐标进行倾斜
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.skewY.html)
 
@@ -692,32 +376,15 @@ sidebar_label: Animation
 (angle: number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>angle</td>
-      <td><code>number</code></td>
-      <td>倾斜的角度，范围 [-180, 180]</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.skewY | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| angle | `number` | 倾斜的角度，范围 [-180, 180] |
 
 ### step
 
 表示一组动画完成。可以在一组动画中调用任意多个动画方法，一组动画中的所有动画会同时开始，一组动画完成后才会进行下一组动画。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.step.html)
 
@@ -725,30 +392,15 @@ sidebar_label: Animation
 (option?: StepOption) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>StepOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.step | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `StepOption` |
 
 ### top
 
 设置 top 值
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.top.html)
 
@@ -756,32 +408,15 @@ sidebar_label: Animation
 (value: string | number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>value</td>
-      <td><code>string | number</code></td>
-      <td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.top | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
 
 ### translate
 
 平移变换
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translate.html)
 
@@ -789,37 +424,16 @@ sidebar_label: Animation
 (tx?: number, ty?: number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>tx</td>
-      <td><code>number</code></td>
-      <td>当仅有该参数时表示在 X 轴偏移 tx，单位 px</td>
-    </tr>
-    <tr>
-      <td>ty</td>
-      <td><code>number</code></td>
-      <td>在 Y 轴平移的距离，单位为 px</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.translate | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| tx | `number` | 当仅有该参数时表示在 X 轴偏移 tx，单位 px |
+| ty | `number` | 在 Y 轴平移的距离，单位为 px |
 
 ### translate3d
 
 对 xyz 坐标进行平移变换
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translate3d.html)
 
@@ -827,42 +441,17 @@ sidebar_label: Animation
 (tx?: number, ty?: number, tz?: number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>tx</td>
-      <td><code>number</code></td>
-      <td>在 X 轴平移的距离，单位为 px</td>
-    </tr>
-    <tr>
-      <td>ty</td>
-      <td><code>number</code></td>
-      <td>在 Y 轴平移的距离，单位为 px</td>
-    </tr>
-    <tr>
-      <td>tz</td>
-      <td><code>number</code></td>
-      <td>在 Z 轴平移的距离，单位为 px</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.translate3d | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| tx | `number` | 在 X 轴平移的距离，单位为 px |
+| ty | `number` | 在 Y 轴平移的距离，单位为 px |
+| tz | `number` | 在 Z 轴平移的距离，单位为 px |
 
 ### translateX
 
 对 X 轴平移
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translateX.html)
 
@@ -870,32 +459,15 @@ sidebar_label: Animation
 (translation: number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>translation</td>
-      <td><code>number</code></td>
-      <td>在 X 轴平移的距离，单位为 px</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.translateX | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| translation | `number` | 在 X 轴平移的距离，单位为 px |
 
 ### translateY
 
 对 Y 轴平移
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translateY.html)
 
@@ -903,32 +475,15 @@ sidebar_label: Animation
 (translation: number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>translation</td>
-      <td><code>number</code></td>
-      <td>在 Y 轴平移的距离，单位为 px</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.translateY | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| translation | `number` | 在 Y 轴平移的距离，单位为 px |
 
 ### translateZ
 
 对 Z 轴平移
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translateZ.html)
 
@@ -936,32 +491,15 @@ sidebar_label: Animation
 (translation: number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>translation</td>
-      <td><code>number</code></td>
-      <td>在 Z 轴平移的距离，单位为 px</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.translateZ | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| translation | `number` | 在 Z 轴平移的距离，单位为 px |
 
 ### width
 
 设置宽度
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.width.html)
 
@@ -969,142 +507,64 @@ sidebar_label: Animation
 (value: string | number) => Animation
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>value</td>
-      <td><code>string | number</code></td>
-      <td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Animation.width | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
 
 ## 参数
 
 ### StepOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>delay</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>动画延迟时间，单位 ms</td>
-    </tr>
-    <tr>
-      <td>duration</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>动画持续时间，单位 ms</td>
-    </tr>
-    <tr>
-      <td>timingFunction</td>
-      <td><code>&quot;linear&quot; | &quot;ease&quot; | &quot;ease-in&quot; | &quot;ease-in-out&quot; | &quot;ease-out&quot; | &quot;step-start&quot; | &quot;step-end&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>动画的效果</td>
-    </tr>
-    <tr>
-      <td>transformOrigin</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| delay | `number` | 否 | 动画延迟时间，单位 ms |
+| duration | `number` | 否 | 动画持续时间，单位 ms |
+| timingFunction | `keyof timingFunction` | 否 | 动画的效果 |
+| transformOrigin | `string` | 否 |  |
 
 ### timingFunction
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>linear</td>
-      <td>动画从头到尾的速度是相同的</td>
-    </tr>
-    <tr>
-      <td>ease</td>
-      <td>动画以低速开始，然后加快，在结束前变慢</td>
-    </tr>
-    <tr>
-      <td>ease-in</td>
-      <td>动画以低速开始</td>
-    </tr>
-    <tr>
-      <td>ease-in-out</td>
-      <td>动画以低速开始和结束</td>
-    </tr>
-    <tr>
-      <td>ease-out</td>
-      <td>动画以低速结束</td>
-    </tr>
-    <tr>
-      <td>step-start</td>
-      <td>动画第一帧就跳至结束状态直到结束</td>
-    </tr>
-    <tr>
-      <td>step-end</td>
-      <td>动画一直保持开始状态，最后一帧跳到结束状态</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 说明 |
+| --- | --- |
+| linear | 动画从头到尾的速度是相同的 |
+| ease | 动画以低速开始，然后加快，在结束前变慢 |
+| ease-in | 动画以低速开始 |
+| ease-in-out | 动画以低速开始和结束 |
+| ease-out | 动画以低速结束 |
+| step-start | 动画第一帧就跳至结束状态直到结束 |
+| step-end | 动画一直保持开始状态，最后一帧跳到结束状态 |
 
 ## API 支持度
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| Animation.export | ✔️ |  |  |
-| Animation.backgroundColor | ✔️ |  |  |
-| Animation.bottom | ✔️ |  |  |
-| Animation.height | ✔️ |  |  |
-| Animation.left | ✔️ |  |  |
-| Animation.matrix | ✔️ |  |  |
-| Animation.matrix3d | ✔️ |  |  |
-| Animation.opacity | ✔️ |  |  |
-| Animation.right | ✔️ |  |  |
-| Animation.rotate | ✔️ |  |  |
-| Animation.rotate3d | ✔️ |  |  |
-| Animation.rotateX | ✔️ |  |  |
-| Animation.rotateY | ✔️ |  |  |
-| Animation.rotateZ | ✔️ |  |  |
-| Animation.scale | ✔️ |  |  |
-| Animation.scale3d | ✔️ |  |  |
-| Animation.scaleX | ✔️ |  |  |
-| Animation.scaleY | ✔️ |  |  |
-| Animation.scaleZ | ✔️ |  |  |
-| Animation.skew | ✔️ |  |  |
-| Animation.skewX | ✔️ |  |  |
-| Animation.skewY | ✔️ |  |  |
-| Animation.step | ✔️ |  |  |
-| Animation.top | ✔️ |  |  |
-| Animation.translate | ✔️ |  |  |
-| Animation.translate3d | ✔️ |  |  |
-| Animation.translateX | ✔️ |  |  |
-| Animation.translateY | ✔️ |  |  |
-| Animation.translateZ | ✔️ |  |  |
-| Animation.width | ✔️ |  |  |
+| Animation.export | ✔️ | ✔️ |  |
+| Animation.backgroundColor | ✔️ | ✔️ |  |
+| Animation.bottom | ✔️ | ✔️ |  |
+| Animation.height | ✔️ | ✔️ |  |
+| Animation.left | ✔️ | ✔️ |  |
+| Animation.matrix | ✔️ | ✔️ |  |
+| Animation.matrix3d | ✔️ | ✔️ |  |
+| Animation.opacity | ✔️ | ✔️ |  |
+| Animation.right | ✔️ | ✔️ |  |
+| Animation.rotate | ✔️ | ✔️ |  |
+| Animation.rotate3d | ✔️ | ✔️ |  |
+| Animation.rotateX | ✔️ | ✔️ |  |
+| Animation.rotateY | ✔️ | ✔️ |  |
+| Animation.rotateZ | ✔️ | ✔️ |  |
+| Animation.scale | ✔️ | ✔️ |  |
+| Animation.scale3d | ✔️ | ✔️ |  |
+| Animation.scaleX | ✔️ | ✔️ |  |
+| Animation.scaleY | ✔️ | ✔️ |  |
+| Animation.scaleZ | ✔️ | ✔️ |  |
+| Animation.skew | ✔️ | ✔️ |  |
+| Animation.skewX | ✔️ | ✔️ |  |
+| Animation.skewY | ✔️ | ✔️ |  |
+| Animation.step | ✔️ | ✔️ |  |
+| Animation.top | ✔️ | ✔️ |  |
+| Animation.translate | ✔️ | ✔️ |  |
+| Animation.translate3d | ✔️ | ✔️ |  |
+| Animation.translateX | ✔️ | ✔️ |  |
+| Animation.translateY | ✔️ | ✔️ |  |
+| Animation.translateZ | ✔️ | ✔️ |  |
+| Animation.width | ✔️ | ✔️ |  |

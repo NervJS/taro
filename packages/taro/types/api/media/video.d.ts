@@ -88,7 +88,7 @@ declare module '../../index' {
 
   interface VideoContext {
     /** 退出全屏
-     * @supported weapp, h5
+     * @supported weapp, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.exitFullScreen.html
      */
     exitFullScreen(): void
@@ -98,17 +98,17 @@ declare module '../../index' {
      */
     hideStatusBar(): void
     /** 暂停视频
-     * @supported weapp, h5
+     * @supported weapp, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.pause.html
      */
     pause(): void
     /** 播放视频
-     * @supported weapp, h5
+     * @supported weapp, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.play.html
      */
     play(): void
     /** 设置倍速播放
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.playbackRate.html
      */
     playbackRate(
@@ -116,12 +116,12 @@ declare module '../../index' {
       rate: number,
     ): void
     /** 进入全屏
-     * @supported weapp, h5
+     * @supported weapp, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.requestFullScreen.html
      */
     requestFullScreen(option: VideoContext.RequestFullScreenOption): void
     /** 跳转到指定位置
-     * @supported weapp, h5
+     * @supported weapp, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.seek.html
      */
     seek(
@@ -142,7 +142,7 @@ declare module '../../index' {
      */
     showStatusBar(): void
     /** 停止视频
-     * @supported weapp, h5
+     * @supported weapp, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.stop.html
      */
     stop(): void
@@ -370,7 +370,7 @@ declare module '../../index' {
     getVideoInfo(option: getVideoInfo.Option): Promise<getVideoInfo.SuccessCallbackResult>
 
     /** 创建 video 上下文 VideoContext 对象。
-     * @supported weapp, h5
+     * @supported weapp, h5, rn
      * @example
      * ```tsx
      * videoContext = Taro.createVideoContext('myVideo')

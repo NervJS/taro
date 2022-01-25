@@ -328,7 +328,7 @@ declare module '../../index' {
     chooseImage(option: chooseImage.Option): Promise<chooseImage.SuccessCallbackResult>
 
     /** 压缩图片接口，可选压缩质量
-     * @supported weapp
+     * @supported weapp, rn
      * @example
      * ```tsx
      * Taro.compressImage({

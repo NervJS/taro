@@ -1139,7 +1139,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 保存文件到本地。**注意：saveFile 会把临时文件移动，因此调用成功后传入的 tempFilePath 将不可用**
-     * @supported weapp
+     * @supported weapp, rn
      * @example
      * ```tsx
      * Taro.chooseImage({
@@ -1159,7 +1159,7 @@ declare module '../../index' {
     saveFile(option: saveFile.Option): Promise<saveFile.SuccessCallbackResult | saveFile.FailCallbackResult>
 
     /** 删除该小程序下已保存的本地缓存文件
-     * @supported weapp
+     * @supported weapp, rn
      * @example
      * ```tsx
      * Taro.getSavedFileList({
@@ -1184,7 +1184,7 @@ declare module '../../index' {
      * @example
      ```tsx
      * Taro.downloadFile({
-     *   url: 'http://example.com/somefile.pdf',
+     *   url: 'https://example.com/somefile.pdf',
      *   success: function (res) {
      *     var filePath = res.tempFilePath
      *     Taro.openDocument({
@@ -1201,7 +1201,7 @@ declare module '../../index' {
     openDocument(option: openDocument.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 获取本地已保存的文件列表
-     * @supported weapp
+     * @supported weapp, rn
      * @example
      * ```tsx
      * Taro.getSavedFileList({
@@ -1215,7 +1215,7 @@ declare module '../../index' {
     getSavedFileList(option?: getSavedFileList.Option): Promise<getSavedFileList.SuccessCallbackResult>
 
     /** 获取本地文件的文件信息。此接口只能用于获取已保存到本地的文件，若需要获取临时文件信息，请使用 [Taro.getFileInfo](https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileInfo.html) 接口。
-     * @supported weapp
+     * @supported weapp, rn
      * @example
      * ```tsx
      * Taro.getSavedFileInfo({
@@ -1232,7 +1232,7 @@ declare module '../../index' {
 
     /**
      * 获取该小程序下的 本地临时文件 或 本地缓存文件 信息
-     * @supported weapp
+     * @supported weapp, rn
      * @example
      * ```tsx
      * Taro.getFileInfo({

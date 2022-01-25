@@ -44,7 +44,7 @@ declare module '../../../index' {
     }
   }
 
-  namespace themeChange {
+  namespace onThemeChange {
     interface ITheme {
       /** 浅色主题 */
       light
@@ -57,6 +57,9 @@ declare module '../../../index' {
     }
     /** 系统主题改变事件的回调函数 */
     type onThemeChangeCallback = (res: onThemeChangeResult) => void
+  }
+
+  namespace offThemeChange {
     /** 系统主题改变事件的回调函数 */
     type offThemeChangeCallback = (res: TaroGeneral.CallbackResult) => void
   }
@@ -192,12 +195,12 @@ declare module '../../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onThemeChange.html
      */
-    onThemeChange(callback: themeChange.onThemeChangeCallback): void
+    onThemeChange(callback: onThemeChange.onThemeChangeCallback): void
 
     /** 取消监听系统主题改变事件
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.offThemeChange.html
      */
-    offThemeChange(callback: themeChange.offThemeChangeCallback): void
+    offThemeChange(callback: offThemeChange.offThemeChangeCallback): void
   }
 }

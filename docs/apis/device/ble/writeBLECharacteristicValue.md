@@ -11,6 +11,8 @@ sidebar_label: writeBLECharacteristicValue
 - 若单次写入数据过长，iOS 上存在系统不会有任何回调的情况（包括错误回调）。
 - 安卓平台上，在调用 `notifyBLECharacteristicValueChange` 成功后立即调用 `writeBLECharacteristicValue` 接口，在部分机型上会发生 10008 系统错误
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.writeBLECharacteristicValue.html)
 
 ## 类型
@@ -23,79 +25,21 @@ sidebar_label: writeBLECharacteristicValue
 
 ### Promised
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>成功：ok，错误：详细信息</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 成功：ok，错误：详细信息 |
 
 ### Option
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>characteristicId</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>蓝牙特征值的 uuid</td>
-    </tr>
-    <tr>
-      <td>deviceId</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>蓝牙设备 id</td>
-    </tr>
-    <tr>
-      <td>serviceId</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>蓝牙特征值对应服务的 uuid</td>
-    </tr>
-    <tr>
-      <td>value</td>
-      <td><code>ArrayBuffer</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>蓝牙设备特征值对应的二进制值</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: BluetoothError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(res: BluetoothError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(res: BluetoothError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| characteristicId | `string` | 是 | 蓝牙特征值的 uuid |
+| deviceId | `string` | 是 | 蓝牙设备 id |
+| serviceId | `string` | 是 | 蓝牙特征值对应服务的 uuid |
+| value | `ArrayBuffer` | 是 | 蓝牙设备特征值对应的二进制值 |
+| complete | `(res: TaroGeneral.BluetoothError) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.BluetoothError) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.BluetoothError) => void` | 否 | 接口调用成功的回调函数 |
 
 ## 示例代码
 
@@ -118,9 +62,3 @@ Taro.writeBLECharacteristicValue({
   }
 })
 ```
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Taro.writeBLECharacteristicValue | ✔️ |  |  |

@@ -141,7 +141,7 @@ declare module '../../index' {
    * ```tsx
    * const innerAudioContext = Taro.createInnerAudioContext()
    * innerAudioContext.autoplay = true
-   * innerAudioContext.src = 'http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46'
+   * innerAudioContext.src = 'https://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46'
    * innerAudioContext.onPlay(() => {
    *   console.log('开始播放')
    * })
@@ -197,55 +197,105 @@ declare module '../../index' {
     buffered: number
     /** origin: 发送完整的 referrer; no-referrer: 不发送 */
     referrerPolicy?: 'origin' | 'no-referrer' | string
-    /** 播放 */
+    /** 播放
+     * @supported weapp, h5, rn
+     */
     play(): void
-    /** 暂停 */
+    /** 暂停
+     * @supported weapp, h5, rn
+     */
     pause(): void
-    /** 停止 */
+    /** 停止
+     * @supported weapp, h5, rn
+     */
     stop(): void
-    /** 跳转到指定位置，单位 s */
+    /** 跳转到指定位置，单位 s
+     * @supported weapp, h5, rn
+     */
     seek(position: number): void
-    /** 销毁当前实例 */
+    /** 销毁当前实例
+     * @supported weapp, h5
+     */
     destroy(): void
-    /** 音频进入可以播放状态，但不保证后面可以流畅播放 */
+    /** 音频进入可以播放状态，但不保证后面可以流畅播放
+     * @supported weapp, h5, rn
+     */
     onCanplay(callback?: () => void): void
-    /** 音频播放事件 */
+    /** 音频播放事件
+     * @supported weapp, h5, rn
+     */
     onPlay(callback?: () => void): void
-    /** 音频暂停事件 */
+    /** 音频暂停事件
+     * @supported weapp, h5, rn
+     */
     onPause(callback?: () => void): void
-    /** 音频停止事件 */
+    /** 音频停止事件
+     * @supported weapp, h5, rn
+     */
     onStop(callback?: () => void): void
-    /** 音频自然播放结束事件 */
+    /** 音频自然播放结束事件
+     * @supported weapp, h5, rn
+     */
     onEnded(callback?: () => void): void
-    /** 音频播放进度更新事件 */
+    /** 音频播放进度更新事件
+     * @supported weapp, h5, rn
+     */
     onTimeUpdate(callback?: () => void): void
-    /** 音频播放错误事件 */
+    /** 音频播放错误事件
+     * @supported weapp, h5, rn
+     */
     onError(callback?: (res: InnerAudioContext.onErrorDetail) => void): void
-    /** 音频加载中事件，当音频因为数据不足，需要停下来加载时会触发 */
+    /** 音频加载中事件，当音频因为数据不足，需要停下来加载时会触发
+     * @supported weapp, h5, rn
+     */
     onWaiting(callback?: () => void): void
-    /** 音频进行 seek 操作事件 */
+    /** 音频进行 seek 操作事件
+     * @supported weapp, h5, rn
+     */
     onSeeking(callback?: () => void): void
-    /** 音频完成 seek 操作事件 */
+    /** 音频完成 seek 操作事件
+     * @supported weapp, h5, rn
+     */
     onSeeked(callback?: () => void): void
-    /** 取消监听 onCanplay 事件 */
+    /** 取消监听 onCanplay 事件
+     * @supported weapp, h5, rn
+     */
     offCanplay(callback?: () => void): void
-    /** 取消监听 onPlay 事件 */
+    /** 取消监听 onPlay 事件
+     * @supported weapp, h5, rn
+     */
     offPlay(callback?: () => void): void
-    /** 取消监听 onPause 事件 */
+    /** 取消监听 onPause 事件
+     * @supported weapp, h5, rn
+     */
     offPause(callback?: () => void): void
-    /** 取消监听 onStop 事件 */
+    /** 取消监听 onStop 事件
+     * @supported weapp, h5, rn
+     */
     offStop(callback?: () => void): void
-    /** 取消监听 onEnded 事件 */
+    /** 取消监听 onEnded 事件
+     * @supported weapp, h5, rn
+     */
     offEnded(callback?: () => void): void
-    /** 取消监听 onTimeUpdate 事件 */
+    /** 取消监听 onTimeUpdate 事件
+     * @supported weapp, h5, rn
+     */
     offTimeUpdate(callback?: () => void): void
-    /** 取消监听 onError 事件 */
+    /** 取消监听 onError 事件
+     * @supported weapp, h5, rn
+     */
     offError(callback?: () => void): void
-    /** 取消监听 onWaiting 事件 */
+    /** 取消监听 onWaiting 事件
+     * @supported weapp, h5, rn
+     */
     offWaiting(callback?: () => void): void
-    /** 取消监听 onSeeking 事件 */
+    /** 取消监听 onSeeking 事件
+     * @supported weapp, h5, rn
+     */
     offSeeking(callback?: () => void): void
-    /** 取消监听 onSeeked 事件 */
+    /** 取消监听 onSeeked 事件
+     * @supported weapp, h5, rn
+     */
     offSeeked(callback?: () => void): void
   }
 
@@ -352,12 +402,12 @@ declare module '../../index' {
     getAvailableAudioSources(option?: getAvailableAudioSources.Option): Promise<getAvailableAudioSources.SuccessCallbackResult>
 
     /** 创建内部 audio 上下文 InnerAudioContext 对象。
-     * @supported weapp, h5
+     * @supported weapp, h5, rn
      * @example
      * ```tsx
      * const innerAudioContext = Taro.createInnerAudioContext()
      * innerAudioContext.autoplay = true
-     * innerAudioContext.src = 'http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46'
+     * innerAudioContext.src = 'https://storage.360buyimg.com/jdrd-blog/27.mp3'
      * innerAudioContext.onPlay(() => {
      *   console.log('开始播放')
      * })
