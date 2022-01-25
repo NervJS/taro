@@ -278,24 +278,24 @@ export function printLevelLog(logLevel: string, type: processTypeEnum, tag: stri
   const levelMap = {
     'info': baseLog.concat([
       processTypeEnum['COMPILE'],
-      processTypeEnum["CONVERT"],
-      processTypeEnum["COPY"] ,
-      processTypeEnum["GENERATE"],
-      processTypeEnum["MODIFY"],
-      processTypeEnum["ERROR"],
-      processTypeEnum["WARNING"],
-      processTypeEnum["UNLINK"],
-      processTypeEnum["REFERENCE"],
+      processTypeEnum['CONVERT'],
+      processTypeEnum['COPY'] ,
+      processTypeEnum['GENERATE'],
+      processTypeEnum['MODIFY'],
+      processTypeEnum['ERROR'],
+      processTypeEnum['WARNING'],
+      processTypeEnum['UNLINK'],
+      processTypeEnum['REFERENCE']
     ]),
     'warning': baseLog.concat([
-      processTypeEnum["ERROR"],
-      processTypeEnum["WARNING"],
+      processTypeEnum['ERROR'],
+      processTypeEnum['WARNING']
     ]),
     'error': baseLog.concat([
-      processTypeEnum["ERROR"],
+      processTypeEnum['ERROR']
     ])
   };
-  const level = levelMap[logLevel];
+  const level = levelMap[logLevel] || levelMap.info;
   if(!level || level.includes(type)) {
     return printLog(type, tag, filePath);
   }
