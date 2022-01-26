@@ -41,6 +41,6 @@
     ]
   },
   "devDependencies": {
-    "@jd/ling-distribute-sdk-h5": "^0.6.1"
+    "@jd/ling-distribute-sdk-h5": "^0.7.0"
   }
 }

@@ -3578,10 +3578,10 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@jd/ling-distribute-sdk-h5@^0.6.1":
-  version "0.6.1"
-  resolved "http://registry.m.jd.com/@jd/ling-distribute-sdk-h5/download/@jd/ling-distribute-sdk-h5-0.6.1.tgz#d95ae411680069f9bf7087943cb3a0a2811da36a"
-  integrity sha1-2VrkEWgAafm/cIeUPLOgooEdo2o=
+"@jd/ling-distribute-sdk-h5@^0.7.0":
+  version "0.7.0"
+  resolved "http://registry.m.jd.com/@jd/ling-distribute-sdk-h5/download/@jd/ling-distribute-sdk-h5-0.7.0.tgz#a65a2e014c8b7f72c20d4f21895b33bff5138daa"
+  integrity sha1-plouAUyLf3LCDU8hiVszv/UTjao=
   dependencies:
     murmurhash-js "^1.0.0"
     murmurhash3js "^3.0.1"
