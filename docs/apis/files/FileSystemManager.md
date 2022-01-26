@@ -11,38 +11,23 @@ sidebar_label: FileSystemManager
 
 FileSystemManager.readdir 的同步版本
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readdirSync.html)
 
 ```tsx
 (dirPath: string) => string[]
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>dirPath</td>
-      <td><code>string</code></td>
-      <td>要读取的目录路径</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.readdirSync | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| dirPath | `string` | 要读取的目录路径 |
 
 ### access
 
 判断文件/目录是否存在
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.access.html)
 
@@ -50,30 +35,15 @@ FileSystemManager.readdir 的同步版本
 (option: AccessOption) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>AccessOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.access | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `AccessOption` |
 
 ### accessSync
 
 FileSystemManager.access 的同步版本
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.accessSync.html)
 
@@ -81,32 +51,15 @@ FileSystemManager.access 的同步版本
 (path: string) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>path</td>
-      <td><code>string</code></td>
-      <td>要判断是否存在的文件/目录路径</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.accessSync | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| path | `string` | 要判断是否存在的文件/目录路径 |
 
 ### appendFile
 
 在文件结尾追加内容
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.appendFile.html)
 
@@ -114,73 +67,33 @@ FileSystemManager.access 的同步版本
 (option: AppendFileOption) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>AppendFileOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.appendFile | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `AppendFileOption` |
 
 ### appendFileSync
 
 FileSystemManager.appendFile 的同步版本
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.appendFileSync.html)
 
 ```tsx
-(filePath: string, data: string | ArrayBuffer, encoding?: "ascii" | "base64" | "binary" | "hex" | "ucs2" | "ucs-2" | "utf16le" | "utf-16le" | "utf-8" | "utf8" | "latin1") => void
+(filePath: string, data: string | ArrayBuffer, encoding?: keyof encoding) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>filePath</td>
-      <td><code>string</code></td>
-      <td>要追加内容的文件路径</td>
-    </tr>
-    <tr>
-      <td>data</td>
-      <td><code>string | ArrayBuffer</code></td>
-      <td>要追加的文本或二进制数据</td>
-    </tr>
-    <tr>
-      <td>encoding</td>
-      <td><code>&quot;ascii&quot; | &quot;base64&quot; | &quot;binary&quot; | &quot;hex&quot; | &quot;ucs2&quot; | &quot;ucs-2&quot; | &quot;utf16le&quot; | &quot;utf-16le&quot; | &quot;utf-8&quot; | &quot;utf8&quot; | &quot;latin1&quot;</code></td>
-      <td>指定写入文件的字符编码</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.appendFileSync | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| filePath | `string` | 要追加内容的文件路径 |
+| data | string or ArrayBuffer | 要追加的文本或二进制数据 |
+| encoding | `keyof encoding` | 指定写入文件的字符编码 |
 
 ### copyFile
 
 复制文件
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.copyFile.html)
 
@@ -188,30 +101,15 @@ FileSystemManager.appendFile 的同步版本
 (option: CopyFileOption) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>CopyFileOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.copyFile | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `CopyFileOption` |
 
 ### copyFileSync
 
 FileSystemManager.copyFile 的同步版本
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.copyFileSync.html)
 
@@ -219,37 +117,16 @@ FileSystemManager.copyFile 的同步版本
 (srcPath: string, destPath: string) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>srcPath</td>
-      <td><code>string</code></td>
-      <td>源文件路径，只可以是普通文件</td>
-    </tr>
-    <tr>
-      <td>destPath</td>
-      <td><code>string</code></td>
-      <td>目标文件路径</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.copyFileSync | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| srcPath | `string` | 源文件路径，只可以是普通文件 |
+| destPath | `string` | 目标文件路径 |
 
 ### getFileInfo
 
 获取该小程序下的 本地临时文件 或 本地缓存文件 信息
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.getFileInfo.html)
 
@@ -257,30 +134,15 @@ FileSystemManager.copyFile 的同步版本
 (option: getFileInfoOption) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>getFileInfoOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.getFileInfo | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `getFileInfoOption` |
 
 ### getSavedFileList
 
 获取该小程序下已保存的本地缓存文件列表
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.getSavedFileList.html)
 
@@ -288,30 +150,15 @@ FileSystemManager.copyFile 的同步版本
 (option?: getSavedFileListOption) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>getSavedFileListOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.getSavedFileList | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `getSavedFileListOption` |
 
 ### mkdir
 
 创建目录
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.mkdir.html)
 
@@ -319,30 +166,15 @@ FileSystemManager.copyFile 的同步版本
 (option: MkdirOption) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>MkdirOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.mkdir | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `MkdirOption` |
 
 ### mkdirSync
 
 FileSystemManager.mkdir 的同步版本
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.mkdirSync.html)
 
@@ -350,37 +182,16 @@ FileSystemManager.mkdir 的同步版本
 (dirPath: string, recursive?: boolean) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>dirPath</td>
-      <td><code>string</code></td>
-      <td>创建的目录路径</td>
-    </tr>
-    <tr>
-      <td>recursive</td>
-      <td><code>boolean</code></td>
-      <td>是否在递归创建该目录的上级目录后再创建该目录。如果对应的上级目录已经存在，则不创建该上级目录。如 dirPath 为 a/b/c/d 且 recursive 为 true，将创建 a 目录，再在 a 目录下创建 b 目录，以此类推直至创建 a/b/c 目录下的 d 目录。</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.mkdirSync | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| dirPath | `string` | 创建的目录路径 |
+| recursive | `boolean` | 是否在递归创建该目录的上级目录后再创建该目录。如果对应的上级目录已经存在，则不创建该上级目录。如 dirPath 为 a/b/c/d 且 recursive 为 true，将创建 a 目录，再在 a 目录下创建 b 目录，以此类推直至创建 a/b/c 目录下的 d 目录。 |
 
 ### readFile
 
 读取本地文件内容
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readFile.html)
 
@@ -388,30 +199,15 @@ FileSystemManager.mkdir 的同步版本
 (option: ReadFileOption) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>ReadFileOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.readFile | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `ReadFileOption` |
 
 ### readdir
 
 读取目录内文件列表
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readdir.html)
 
@@ -419,30 +215,15 @@ FileSystemManager.mkdir 的同步版本
 (option: ReaddirOption) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>ReaddirOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.readdir | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `ReaddirOption` |
 
 ### removeSavedFile
 
 删除该小程序下已保存的本地缓存文件
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.removeSavedFile.html)
 
@@ -450,30 +231,15 @@ FileSystemManager.mkdir 的同步版本
 (option: RemoveSavedFileOption) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>RemoveSavedFileOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.removeSavedFile | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `RemoveSavedFileOption` |
 
 ### rename
 
 重命名文件。可以把文件从 oldPath 移动到 newPath
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.rename.html)
 
@@ -481,30 +247,15 @@ FileSystemManager.mkdir 的同步版本
 (option: RenameOption) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>RenameOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.rename | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `RenameOption` |
 
 ### renameSync
 
 FileSystemManager.rename 的同步版本
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.renameSync.html)
 
@@ -512,37 +263,16 @@ FileSystemManager.rename 的同步版本
 (oldPath: string, newPath: string) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>oldPath</td>
-      <td><code>string</code></td>
-      <td>源文件路径，可以是普通文件或目录</td>
-    </tr>
-    <tr>
-      <td>newPath</td>
-      <td><code>string</code></td>
-      <td>新文件路径</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.renameSync | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| oldPath | `string` | 源文件路径，可以是普通文件或目录 |
+| newPath | `string` | 新文件路径 |
 
 ### rmdir
 
 删除目录
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.rmdir.html)
 
@@ -550,30 +280,15 @@ FileSystemManager.rename 的同步版本
 (option: RmdirOption) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>RmdirOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.rmdir | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `RmdirOption` |
 
 ### rmdirSync
 
 FileSystemManager.rmdir 的同步版本
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.rmdirSync.html)
 
@@ -581,37 +296,16 @@ FileSystemManager.rmdir 的同步版本
 (dirPath: string, recursive?: boolean) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>dirPath</td>
-      <td><code>string</code></td>
-      <td>要删除的目录路径</td>
-    </tr>
-    <tr>
-      <td>recursive</td>
-      <td><code>boolean</code></td>
-      <td>是否递归删除目录。如果为 true，则删除该目录和该目录下的所有子目录以及文件。</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.rmdirSync | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| dirPath | `string` | 要删除的目录路径 |
+| recursive | `boolean` | 是否递归删除目录。如果为 true，则删除该目录和该目录下的所有子目录以及文件。 |
 
 ### saveFile
 
 保存临时文件到本地。此接口会移动临时文件，因此调用成功后，tempFilePath 将不可用。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.saveFile.html)
 
@@ -619,59 +313,29 @@ FileSystemManager.rmdir 的同步版本
 (option: SaveFileOption) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>SaveFileOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.saveFile | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `SaveFileOption` |
 
 ### stat
 
 获取文件 Stats 对象
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 ```tsx
 (option: StatOption) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>StatOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.stat |  |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `StatOption` |
 
 ### unlink
 
 删除文件
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.unlink.html)
 
@@ -679,30 +343,15 @@ FileSystemManager.rmdir 的同步版本
 (option: UnlinkOption) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>UnlinkOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.unlink | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `UnlinkOption` |
 
 ### unlinkSync
 
 FileSystemManager.unlink 的同步版本
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.unlinkSync.html)
 
@@ -710,32 +359,15 @@ FileSystemManager.unlink 的同步版本
 (filePath: string) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>filePath</td>
-      <td><code>string</code></td>
-      <td>要删除的文件路径</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.unlinkSync | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| filePath | `string` | 要删除的文件路径 |
 
 ### unzip
 
 解压文件
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.unzip.html)
 
@@ -743,30 +375,15 @@ FileSystemManager.unlink 的同步版本
 (option: UnzipOption) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>UnzipOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.unzip | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `UnzipOption` |
 
 ### writeFile
 
 写文件
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.writeFile.html)
 
@@ -774,183 +391,304 @@ FileSystemManager.unlink 的同步版本
 (option: WriteFileOption) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>WriteFileOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.writeFile | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `WriteFileOption` |
 
 ### writeFileSync
 
 FileSystemManager.writeFile 的同步版本
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.writeFileSync.html)
 
 ```tsx
-(filePath: string, data: string | ArrayBuffer, encoding?: "ascii" | "base64" | "binary" | "hex" | "ucs2" | "ucs-2" | "utf16le" | "utf-16le" | "utf-8" | "utf8" | "latin1") => void
+(filePath: string, data: string | ArrayBuffer, encoding?: keyof encoding) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>filePath</td>
-      <td><code>string</code></td>
-      <td>要写入的文件路径</td>
-    </tr>
-    <tr>
-      <td>data</td>
-      <td><code>string | ArrayBuffer</code></td>
-      <td>要写入的文本或二进制数据</td>
-    </tr>
-    <tr>
-      <td>encoding</td>
-      <td><code>&quot;ascii&quot; | &quot;base64&quot; | &quot;binary&quot; | &quot;hex&quot; | &quot;ucs2&quot; | &quot;ucs-2&quot; | &quot;utf16le&quot; | &quot;utf-16le&quot; | &quot;utf-8&quot; | &quot;utf8&quot; | &quot;latin1&quot;</code></td>
-      <td>指定写入文件的字符编码</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.writeFileSync | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| filePath | `string` | 要写入的文件路径 |
+| data | string or ArrayBuffer | 要写入的文本或二进制数据 |
+| encoding | `keyof encoding` | 指定写入文件的字符编码 |
 
 ### statSync
 
 FileSystemManager.stat 的同步版本
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.statSync.html)
 
 ```tsx
-(path: string, recursive?: boolean) => Stats | Record<string, any>
+(path: string, recursive?: boolean) => any
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>path</td>
-      <td><code>string</code></td>
-      <td>文件/目录路径</td>
-    </tr>
-    <tr>
-      <td>recursive</td>
-      <td><code>boolean</code></td>
-      <td>是否递归获取目录下的每个文件的 Stats 信息</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.statSync | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| path | `string` | 文件/目录路径 |
+| recursive | `boolean` | 是否递归获取目录下的每个文件的 Stats 信息 |
 
 ### saveFileSync
 
 FileSystemManager.saveFile 的同步版本
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.saveFileSync.html)
 
 ```tsx
-(tempFilePath: string, filePath?: string) => number
+(tempFilePath: string, filePath?: string) => string
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>tempFilePath</td>
-      <td><code>string</code></td>
-      <td>临时存储文件路径</td>
-    </tr>
-    <tr>
-      <td>filePath</td>
-      <td><code>string</code></td>
-      <td>要存储的文件路径</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.saveFileSync | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| tempFilePath | `string` | 临时存储文件路径 |
+| filePath | `string` | 要存储的文件路径 |
 
 ### readFileSync
 
 FileSystemManager.readFile 的同步版本
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readFileSync.html)
 
 ```tsx
-(filePath: string, encoding?: "ascii" | "base64" | "binary" | "hex" | "ucs2" | "ucs-2" | "utf16le" | "utf-16le" | "utf-8" | "utf8" | "latin1") => string | ArrayBuffer
+(filePath: string, encoding?: keyof encoding, position?: number, length?: number) => string | ArrayBuffer
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>filePath</td>
-      <td><code>string</code></td>
-      <td>要读取的文件的路径</td>
-    </tr>
-    <tr>
-      <td>encoding</td>
-      <td><code>&quot;ascii&quot; | &quot;base64&quot; | &quot;binary&quot; | &quot;hex&quot; | &quot;ucs2&quot; | &quot;ucs-2&quot; | &quot;utf16le&quot; | &quot;utf-16le&quot; | &quot;utf-8&quot; | &quot;utf8&quot; | &quot;latin1&quot;</code></td>
-      <td>指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| filePath | `string` | 要读取的文件的路径 |
+| encoding | `keyof encoding` | 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 |
+| position | `number` | 从文件指定位置开始读，如果不指定，则从文件头开始读。读取的范围应该是左闭右开区间 [position, position+length)。有效范围：[0, fileLength - 1]。单位：byte |
+| length | `number` | 指定文件的长度，如果不指定，则读到文件末尾。有效范围：[1, fileLength]。单位：byte |
 
-#### API 支持度
+### fstat
 
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| FileSystemManager.readFileSync | ✔️ |  |  |
+获取文件的状态信息
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.fstat.html)
+
+```tsx
+(option: FstatOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `FstatOption` |
+
+### fstatSync
+
+FileSystemManager.fstat 的同步版本
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.fstatSync.html)
+
+```tsx
+(option: FstatSyncOption) => Stats
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `FstatSyncOption` |
+
+### close
+
+关闭文件
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.close.html)
+
+```tsx
+(option: CloseOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `CloseOption` |
+
+### closeSync
+
+FileSystemManager.close 的同步版本
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.closeSync.html)
+
+```tsx
+(option: CloseSyncOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `CloseSyncOption` |
+
+### ftruncate
+
+对文件内容进行截断操作
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.ftruncate.html)
+
+```tsx
+(option: FtruncateOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `FtruncateOption` |
+
+### ftruncateSync
+
+FileSystemManager.ftruncate 的同步版本
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.ftruncateSync.html)
+
+```tsx
+(option: FtruncateSyncOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `FtruncateSyncOption` |
+
+### open
+
+打开文件，返回文件描述符
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.open.html)
+
+```tsx
+(option: OpenOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `OpenOption` |
+
+### openSync
+
+FileSystemManager.ftruncate 的同步版本
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.ftruncateSync.html)
+
+```tsx
+(option: OpenSyncOption) => string
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `OpenSyncOption` |
+
+### read
+
+读文件
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.read.html)
+
+```tsx
+(option: ReadOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `ReadOption` |
+
+### readSync
+
+FileSystemManager.read 的同步版本
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readSync.html)
+
+```tsx
+(option: ReadSyncOption) => { bytesRead: number; arrayBuffer: ArrayBuffer; }
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `ReadSyncOption` |
+
+### truncate
+
+对文件内容进行截断操作
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.truncate.html)
+
+```tsx
+(option: TruncateOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `TruncateOption` |
+
+### truncateSync
+
+truncate 的同步版本
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.truncateSync.html)
+
+```tsx
+(option: TruncateSyncOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `TruncateSyncOption` |
+
+### write
+
+写入文件
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.write.html)
+
+```tsx
+(option: WriteOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `WriteOption` |
+
+### writeSync
+
+write 的同步版本
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.writeSync.html)
+
+```tsx
+(option: WriteSyncOption) => { bytesWritten: number; }
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `WriteSyncOption` |
 
 ## 参数
 
@@ -958,1186 +696,522 @@ FileSystemManager.readFile 的同步版本
 
 字符编码
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>ascii</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>base64</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>binary</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>hex</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>ucs2</td>
-      <td>以小端序读取</td>
-    </tr>
-    <tr>
-      <td>ucs-2</td>
-      <td>以小端序读取</td>
-    </tr>
-    <tr>
-      <td>utf16le</td>
-      <td>以小端序读取</td>
-    </tr>
-    <tr>
-      <td>utf-16le</td>
-      <td>以小端序读取</td>
-    </tr>
-    <tr>
-      <td>utf-8</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>utf8</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>latin1</td>
-      <td></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 说明 |
+| --- | --- |
+| ascii |  |
+| base64 |  |
+| binary |  |
+| hex |  |
+| ucs2 | 以小端序读取 |
+| ucs-2 | 以小端序读取 |
+| utf16le | 以小端序读取 |
+| utf-16le | 以小端序读取 |
+| utf-8 |  |
+| utf8 |  |
+| latin1 |  |
+
+### flag
+
+文件系统标志
 
 ### AccessOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>path</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要判断是否存在的文件/目录路径</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(result: AccessFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| path | `string` | 是 | 要判断是否存在的文件/目录路径 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(result: AccessFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### AccessFailCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory path': 文件/目录不存在;</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail no such file or directory ${path}': 文件/目录不存在; |
 
 ### AppendFileOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>data</td>
-      <td><code>string | ArrayBuffer</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要追加的文本或二进制数据</td>
-    </tr>
-    <tr>
-      <td>filePath</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要追加内容的文件路径</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>encoding</td>
-      <td><code>&quot;ascii&quot; | &quot;base64&quot; | &quot;binary&quot; | &quot;hex&quot; | &quot;ucs2&quot; | &quot;ucs-2&quot; | &quot;utf16le&quot; | &quot;utf-16le&quot; | &quot;utf-8&quot; | &quot;utf8&quot; | &quot;latin1&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>指定写入文件的字符编码</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(result: AppendFileFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| data | string or ArrayBuffer | 是 | 要追加的文本或二进制数据 |
+| filePath | `string` | 是 | 要追加内容的文件路径 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| encoding | `keyof encoding` | 否 | 指定写入文件的字符编码 |
+| fail | `(result: AppendFileFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### AppendFileFailCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open filePath': 指定的 filePath 文件不存在;<br />- 'fail illegal operation on a directory, open &quot;filePath&quot;': 指定的 filePath 是一个已经存在的目录;<br />- 'fail permission denied, open dirPath': 指定的 filePath 路径没有写权限;<br />- 'fail sdcard not mounted': 指定的 filePath 是一个已经存在的目录;</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open ${filePath}': 指定的 filePath 文件不存在;<br />- 'fail illegal operation on a directory, open "${filePath}"': 指定的 filePath 是一个已经存在的目录;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有写权限;<br />- 'fail sdcard not mounted': 指定的 filePath 是一个已经存在的目录; |
 
 ### CopyFileOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>destPath</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>目标文件路径</td>
-    </tr>
-    <tr>
-      <td>srcPath</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>源文件路径，只可以是普通文件</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(result: CopyFileFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| destPath | `string` | 是 | 目标文件路径 |
+| srcPath | `string` | 是 | 源文件路径，只可以是普通文件 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(result: CopyFileFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### CopyFileFailCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, copyFile srcPath -&gt; destPath': 指定目标文件路径没有写权限;<br />- 'fail no such file or directory, copyFile srcPath -&gt;destPath': 源文件不存在，或目标文件路径的上层目录不存在;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足;</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail permission denied, copyFile ${srcPath} -> ${destPath}': 指定目标文件路径没有写权限;<br />- 'fail no such file or directory, copyFile ${srcPath} -> ${destPath}': 源文件不存在，或目标文件路径的上层目录不存在;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足; |
 
 ### getFileInfoOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>filePath</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要读取的文件路径</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(result: GetFileInfoFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(result: GetFileInfoSuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| filePath | `string` | 是 | 要读取的文件路径 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(result: GetFileInfoFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(result: GetFileInfoSuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### GetFileInfoFailCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail file not exist': 指定的 filePath 找不到文件;</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail file not exist': 指定的 filePath 找不到文件; |
 
 ### GetFileInfoSuccessCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>size</td>
-      <td><code>number</code></td>
-      <td>文件大小，以字节为单位</td>
-    </tr>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>调用结果</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| size | `number` | 文件大小，以字节为单位 |
+| errMsg | `string` | 调用结果 |
 
 ### getSavedFileListOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(result: GetSavedFileListSuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(result: GetSavedFileListSuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### GetSavedFileListSuccessCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>fileList</td>
-      <td><code>GetSavedFileListSuccessCallbackResultFileItem[]</code></td>
-      <td>文件数组</td>
-    </tr>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>调用结果</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| fileList | `GetSavedFileListSuccessCallbackResultFileItem[]` | 文件数组 |
+| errMsg | `string` | 调用结果 |
 
 ### GetSavedFileListSuccessCallbackResultFileItem
 
 文件数组
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>createTime</td>
-      <td><code>number</code></td>
-      <td>文件保存时的时间戳，从1970/01/01 08:00:00 到当前时间的秒数</td>
-    </tr>
-    <tr>
-      <td>filePath</td>
-      <td><code>string</code></td>
-      <td>本地路径</td>
-    </tr>
-    <tr>
-      <td>size</td>
-      <td><code>number</code></td>
-      <td>本地文件大小，以字节为单位</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| createTime | `number` | 文件保存时的时间戳，从1970/01/01 08:00:00 到当前时间的秒数 |
+| filePath | `string` | 本地路径 |
+| size | `number` | 本地文件大小，以字节为单位 |
 
 ### MkdirOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>dirPath</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>创建的目录路径</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(result: MkdirFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>recursive</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否在递归创建该目录的上级目录后再创建该目录。如果对应的上级目录已经存在，则不创建该上级目录。如 dirPath 为 a/b/c/d 且 recursive 为 true，将创建 a 目录，再在 a 目录下创建 b 目录，以此类推直至创建 a/b/c 目录下的 d 目录。</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| dirPath | `string` | 是 | 创建的目录路径 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(result: MkdirFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| recursive | `boolean` | 否 | 是否在递归创建该目录的上级目录后再创建该目录。如果对应的上级目录已经存在，则不创建该上级目录。如 dirPath 为 a/b/c/d 且 recursive 为 true，将创建 a 目录，再在 a 目录下创建 b 目录，以此类推直至创建 a/b/c 目录下的 d 目录。 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### MkdirFailCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory dirPath': 上级目录不存在;<br />- 'fail permission denied, open dirPath': 指定的 filePath 路径没有写权限;<br />- 'fail file already exists dirPath': 有同名文件或目录;</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail no such file or directory ${dirPath}': 上级目录不存在;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有写权限;<br />- 'fail file already exists ${dirPath}': 有同名文件或目录; |
 
 ### ReadFileOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>filePath</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要读取的文件的路径</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>encoding</td>
-      <td><code>&quot;ascii&quot; | &quot;base64&quot; | &quot;binary&quot; | &quot;hex&quot; | &quot;ucs2&quot; | &quot;ucs-2&quot; | &quot;utf16le&quot; | &quot;utf-16le&quot; | &quot;utf-8&quot; | &quot;utf8&quot; | &quot;latin1&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(result: ReadFileFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| filePath | `string` | 是 | 要读取的文件的路径 |
+| position | `number` | 否 | 从文件指定位置开始读，如果不指定，则从文件头开始读。读取的范围应该是左闭右开区间 [position, position+length)。有效范围：[0, fileLength - 1]。单位：byte |
+| length | `number` | 否 | 指定文件的长度，如果不指定，则读到文件末尾。有效范围：[1, fileLength]。单位：byte |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| encoding | `keyof encoding` | 否 | 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 |
+| fail | `(result: ReadFileFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: ReadFileSuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+
+### ReadFileSuccessCallbackResult
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| data | string or ArrayBuffer | 文件内容 |
+| errMsg | `string` | 调用结果 |
 
 ### ReadFileFailCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open filePath': 指定的 filePath 所在目录不存在;<br />- 'fail permission denied, open dirPath': 指定的 filePath 路径没有读权限;</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open ${filePath}': 指定的 filePath 所在目录不存在;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有读权限; |
 
 ### ReaddirOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>dirPath</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要读取的目录路径</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(result: ReaddirFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(result: ReaddirSuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| dirPath | `string` | 是 | 要读取的目录路径 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(result: ReaddirFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(result: ReaddirSuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### ReaddirFailCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory dirPath': 目录不存在;<br />- 'fail not a directory dirPath': dirPath 不是目录;<br />- 'fail permission denied, open dirPath': 指定的 filePath 路径没有读权限;</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail no such file or directory ${dirPath}': 目录不存在;<br />- 'fail not a directory ${dirPath}': dirPath 不是目录;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有读权限; |
 
 ### ReaddirSuccessCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>files</td>
-      <td><code>string[]</code></td>
-      <td>指定目录下的文件名数组。</td>
-    </tr>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>调用结果</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| files | `string[]` | 指定目录下的文件名数组。 |
+| errMsg | `string` | 调用结果 |
 
 ### RemoveSavedFileOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>filePath</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>需要删除的文件路径</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(result: RemoveSavedFileFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| filePath | `string` | 是 | 需要删除的文件路径 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(result: RemoveSavedFileFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### RemoveSavedFileFailCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail file not exist': 指定的 tempFilePath 找不到文件;</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail file not exist': 指定的 tempFilePath 找不到文件; |
 
 ### RenameOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>newPath</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>新文件路径</td>
-    </tr>
-    <tr>
-      <td>oldPath</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>源文件路径，可以是普通文件或目录</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(result: RenameFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| newPath | `string` | 是 | 新文件路径 |
+| oldPath | `string` | 是 | 源文件路径，可以是普通文件或目录 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(result: RenameFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### RenameFailCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, rename oldPath -&gt; newPath': 指定源文件或目标文件没有写权限;<br />- 'fail no such file or directory, rename oldPath -&gt; newPath': 源文件不存在，或目标文件路径的上层目录不存在;</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail permission denied, rename ${oldPath} -> ${newPath}': 指定源文件或目标文件没有写权限;<br />- 'fail no such file or directory, rename ${oldPath} -> ${newPath}': 源文件不存在，或目标文件路径的上层目录不存在; |
 
 ### RmdirOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>dirPath</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要删除的目录路径</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(result: RmdirFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>recursive</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否递归删除目录。如果为 true，则删除该目录和该目录下的所有子目录以及文件。</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| dirPath | `string` | 是 | 要删除的目录路径 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(result: RmdirFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| recursive | `boolean` | 否 | 是否递归删除目录。如果为 true，则删除该目录和该目录下的所有子目录以及文件。 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### RmdirFailCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory dirPath': 目录不存在;<br />- 'fail directory not empty': 目录不为空;<br />- 'fail permission denied, open dirPath': 指定的 dirPath 路径没有写权限;</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail no such file or directory ${dirPath}': 目录不存在;<br />- 'fail directory not empty': 目录不为空;<br />- 'fail permission denied, open ${dirPath}': 指定的 dirPath 路径没有写权限; |
 
 ### SaveFileOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>tempFilePath</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>临时存储文件路径</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(result: SaveFileFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>filePath</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>要存储的文件路径</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(result: SaveFileSuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| tempFilePath | `string` | 是 | 临时存储文件路径 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(result: SaveFileFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| filePath | `string` | 否 | 要存储的文件路径 |
+| success | `(result: SaveFileSuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### SaveFileFailCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail tempFilePath file not exist': 指定的 tempFilePath 找不到文件;<br />- 'fail permission denied, open &quot;filePath&quot;': 指定的 filePath 路径没有写权限;<br />- 'fail no such file or directory &quot;dirPath&quot;': 上级目录不存在;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足;</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail tempFilePath file not exist': 指定的 tempFilePath 找不到文件;<br />- 'fail permission denied, open "${filePath}"': 指定的 filePath 路径没有写权限;<br />- 'fail no such file or directory "${dirPath}"': 上级目录不存在;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足; |
 
 ### SaveFileSuccessCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>savedFilePath</td>
-      <td><code>number</code></td>
-      <td>存储后的文件路径</td>
-    </tr>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>调用结果</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| savedFilePath | `string` | 存储后的文件路径 |
+| errMsg | `string` | 调用结果 |
 
 ### StatOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>path</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>文件/目录路径</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(result: StatFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>recursive</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否递归获取目录下的每个文件的 Stats 信息</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(result: StatSuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| path | `string` | 是 | 文件/目录路径 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(result: StatFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| recursive | `boolean` | 否 | 是否递归获取目录下的每个文件的 Stats 信息 |
+| success | `(result: StatSuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### StatFailCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, open path': 指定的 path 路径没有读权限;<br />- 'fail no such file or directory path': 文件不存在;</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail permission denied, open ${path}': 指定的 path 路径没有读权限;<br />- 'fail no such file or directory ${path}': 文件不存在; |
 
 ### StatSuccessCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>stats</td>
-      <td><code>Stats | Record&lt;string, any&gt;</code></td>
-      <td><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/Stats.html">Stats</a></td>
-    </tr>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>调用结果</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| stats | `any` | [Stats](https://developers.weixin.qq.com/miniprogram/dev/api/file/Stats.html)orObject<br /><br />当 recursive 为 false 时，res.stats 是一个 Stats 对象。当 recursive 为 true 且 path 是一个目录的路径时，res.stats 是一个 Object，key 以 path 为根路径的相对路径，value 是该路径对应的 Stats 对象。 |
+| errMsg | `string` | 调用结果 |
 
 ### UnlinkOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>filePath</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要删除的文件路径</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(result: UnlinkFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| filePath | `string` | 是 | 要删除的文件路径 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(result: UnlinkFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### UnlinkFailCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, open path': 指定的 path 路径没有读权限;<br />- 'fail no such file or directory path': 文件不存在;<br />- 'fail operation not permitted, unlink filePath': 传入的 filePath 是一个目录;</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail permission denied, open ${path}': 指定的 path 路径没有读权限;<br />- 'fail no such file or directory ${path}': 文件不存在;<br />- 'fail operation not permitted, unlink ${filePath}': 传入的 filePath 是一个目录; |
 
 ### UnzipOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>targetPath</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>目标目录路径</td>
-    </tr>
-    <tr>
-      <td>zipFilePath</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>源文件路径，只可以是 zip 压缩文件</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(result: UnzipFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| targetPath | `string` | 是 | 目标目录路径 |
+| zipFilePath | `string` | 是 | 源文件路径，只可以是 zip 压缩文件 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(result: UnzipFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### UnzipFailCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, unzip zipFilePath -&gt; destPath': 指定目标文件路径没有写权限;<br />- 'fail no such file or directory, unzip zipFilePath -&gt; &quot;destPath': 源文件不存在，或目标文件路径的上层目录不存在;</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail permission denied, unzip ${zipFilePath} -> ${destPath}': 指定目标文件路径没有写权限;<br />- 'fail no such file or directory, unzip ${zipFilePath} -> "${destPath}': 源文件不存在，或目标文件路径的上层目录不存在; |
 
 ### WriteFileOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>data</td>
-      <td><code>string | ArrayBuffer</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要写入的文本或二进制数据</td>
-    </tr>
-    <tr>
-      <td>filePath</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要写入的文件路径</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>encoding</td>
-      <td><code>&quot;ascii&quot; | &quot;base64&quot; | &quot;binary&quot; | &quot;hex&quot; | &quot;ucs2&quot; | &quot;ucs-2&quot; | &quot;utf16le&quot; | &quot;utf-16le&quot; | &quot;utf-8&quot; | &quot;utf8&quot; | &quot;latin1&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>指定写入文件的字符编码</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(result: WriteFileFailCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| data | string or ArrayBuffer | 是 | 要写入的文本或二进制数据 |
+| filePath | `string` | 是 | 要写入的文件路径 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| encoding | `keyof encoding` | 否 | 指定写入文件的字符编码 |
+| fail | `(result: WriteFileFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### WriteFileFailCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open filePath': 指定的 filePath 所在目录不存在;<br />- 'fail permission denied, open dirPath': 指定的 filePath 路径没有写权限;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足;</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open ${filePath}': 指定的 filePath 所在目录不存在;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有写权限;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足; |
+
+### FstatOption
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| fd | `string` | 是 | 文件描述符。fd 通过 FileSystemManager.open 或 FileSystemManager.openSync 接口获得 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(result: FstatFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: FstatSuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+
+### FstatFailCallbackResult
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'bad file descriptor':	无效的文件描述符;<br />- 'fail permission denied':	指定的 fd 路径没有读权限; |
+
+### FstatSuccessCallbackResult
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| stats | `Stats` | Stats 对象，包含了文件的状态信息 |
+| errMsg | `string` | 调用结果 |
+
+### FstatSyncOption
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| fd | `string` | 文件描述符。fd 通过 FileSystemManager.open 或 FileSystemManager.openSync 接口获得 |
+
+### CloseOption
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| fd | `string` | 是 | 需要被关闭的文件描述符。fd 通过 FileSystemManager.open 或 FileSystemManager.openSync 接口获得 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(result: CloseFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+
+### CloseFailCallbackResult
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'bad file descriptor':	无效的文件描述符 |
+
+### CloseSyncOption
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| fd | `string` | 需要被关闭的文件描述符。fd 通过 FileSystemManager.open 或 FileSystemManager.openSync 接口获得 |
+
+### FtruncateOption
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| fd | `string` | 是 | 文件描述符。fd 通过 FileSystemManager.open 或 FileSystemManager.openSync 接口获得 |
+| length | `number` | 是 | 截断位置，默认0。如果 length 小于文件长度（单位：字节），则只有前面 length 个字节会保留在文件中，其余内容会被删除；如果 length 大于文件长度，则会对其进行扩展，并且扩展部分将填充空字节（'\0'） |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(result: FtruncateFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+
+### FtruncateFailCallbackResult
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'bad file descriptor':	无效的文件描述符<br />- 'fail permission denied':	指定的 fd 没有写权限<br />- 'fail the maximum size of the file storage limit is exceeded':	存储空间不足<br />- 'fail sdcard not mounted	android sdcard': 挂载失败 |
+
+### FtruncateSyncOption
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| fd | `string` | 文件描述符。fd 通过 FileSystemManager.open 或 FileSystemManager.openSync 接口获得 |
+| length | `number` | 截断位置，默认0。如果 length 小于文件长度（单位：字节），则只有前面 length 个字节会保留在文件中，其余内容会被删除；如果 length 大于文件长度，则会对其进行扩展，并且扩展部分将填充空字节（'\0'） |
+
+### OpenOption
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| filePath | `string` | 是 | 文件路径 (本地路径) |
+| flag | `keyof flag` | 否 | 文件系统标志，默认值: 'r' |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(result: OpenFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: OpenSuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+
+### OpenFailCallbackResult
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail no such file or directory "${filePath}"':	上级目录不存在 |
+
+### OpenSuccessCallbackResult
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| fd | `string` | 文件描述符 |
+| errMsg | `string` | 调用结果 |
+
+### OpenSyncOption
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| filePath | `string` | 是 | 文件路径 (本地路径) |
+| flag | `keyof flag` | 否 | 文件系统标志，默认值: 'r' |
+
+### ReadOption
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| fd | `string` | 是 | 文件描述符。fd 通过 FileSystemManager.open 或 FileSystemManager.openSync 接口获得 |
+| arrayBuffer | `ArrayBuffer` | 是 | 数据写入的缓冲区，必须是 ArrayBuffer 实例 |
+| offset | `number` | 否 | 缓冲区中的写入偏移量，默认0 |
+| length | `number` | 否 | 要从文件中读取的字节数，默认0 |
+| position | `number` | 否 | 文件读取的起始位置，如不传或传 null，则会从当前文件指针的位置读取。如果 position 是正整数，则文件指针位置会保持不变并从 position 读取文件。 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(result: ReadFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: ReadSuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+
+### ReadFailCallbackResult
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'bad file descriptor':	无效的文件描述符<br />- 'fail permission denied':	指定的 fd 路径没有读权限<br />- 'fail the value of "offset" is out of range':	传入的 offset 不合法<br />- 'fail the value of "length" is out of range':	传入的 length 不合法<br />- 'fail sdcard not mounted':	android sdcard 挂载失败<br />- 'bad file descriptor':	无效的文件描述符 |
+
+### ReadSuccessCallbackResult
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| bytesRead | `string` | 实际读取的字节数 |
+| arrayBuffer | `ArrayBuffer` | 被写入的缓存区的对象，即接口入参的 arrayBuffer |
+| errMsg | `string` | 调用结果 |
+
+### ReadSyncOption
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| fd | `string` | 是 | 文件描述符。fd 通过 FileSystemManager.open 或 FileSystemManager.openSync 接口获得 |
+| arrayBuffer | `ArrayBuffer` | 是 | 数据写入的缓冲区，必须是 ArrayBuffer 实例 |
+| offset | `number` | 否 | 缓冲区中的写入偏移量，默认0 |
+| length | `number` | 否 | 要从文件中读取的字节数，默认0 |
+| position | `number` | 否 | 文件读取的起始位置，如不传或传 null，则会从当前文件指针的位置读取。如果 position 是正整数，则文件指针位置会保持不变并从 position 读取文件。 |
+
+### TruncateOption
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| filePath | `string` | 是 | 要截断的文件路径 (本地路径) |
+| length | `number` | 否 | 截断位置，默认0。如果 length 小于文件长度（字节），则只有前面 length 个字节会保留在文件中，其余内容会被删除；如果 length 大于文件长度，则会对其进行扩展，并且扩展部分将填充空字节（'\0'） |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(result: TruncateFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+
+### TruncateFailCallbackResult
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open ${filePath}':	指定的 filePath 所在目录不存在<br />- 'fail illegal operation on a directory, open "${filePath}"':	指定的 filePath 是一个已经存在的目录<br />- 'fail permission denied, open ${dirPath}':	指定的 filePath 路径没有写权限<br />- 'fail the maximum size of the file storage limit is exceeded':	存储空间不足<br />- 'fail sdcard not mounted':	android sdcard 挂载失败 |
+
+### TruncateSyncOption
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| filePath | `string` | 是 | 要截断的文件路径 (本地路径) |
+| length | `number` | 否 | 截断位置，默认0。如果 length 小于文件长度（字节），则只有前面 length 个字节会保留在文件中，其余内容会被删除；如果 length 大于文件长度，则会对其进行扩展，并且扩展部分将填充空字节（'\0'） |
+
+### WriteOption
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| fd | `string` | 是 | 文件描述符。fd 通过 FileSystemManager.open 或 FileSystemManager.openSync 接口获得 |
+| data | string or ArrayBuffer | 是 | 写入的内容，类型为 String 或 ArrayBuffer |
+| offset | `number` | 否 | 只在 data 类型是 ArrayBuffer 时有效，决定 arrayBuffe 中要被写入的部位，即 arrayBuffer 中的索引，默认0 |
+| length | `number` | 否 | 只在 data 类型是 ArrayBuffer 时有效，指定要写入的字节数，默认为 arrayBuffer 从0开始偏移 offset 个字节后剩余的字节数 |
+| encoding | `keyof encoding` | 否 | 只在 data 类型是 String 时有效，指定写入文件的字符编码，默认为 utf8 |
+| position | `number` | 否 | 指定文件开头的偏移量，即数据要被写入的位置。当 position 不传或者传入非 Number 类型的值时，数据会被写入当前指针所在位置。 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(result: WriteFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: WriteSuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+
+### WriteFailCallbackResult
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />'bad file descriptor':	无效的文件描述符<br />'fail permission denied':	指定的 fd 路径没有写权限<br />'fail sdcard not mounted':	android sdcard 挂载失败 |
+
+### WriteSuccessCallbackResult
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| bytesWritten | `number` | 实际被写入到文件中的字节数（注意，被写入的字节数不一定与被写入的字符串字符数相同） |
+| errMsg | `string` | 调用结果 |
+
+### WriteSyncOption
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| fd | `string` | 是 | 文件描述符。fd 通过 FileSystemManager.open 或 FileSystemManager.openSync 接口获得 |
+| data | string or ArrayBuffer | 是 | 写入的内容，类型为 String 或 ArrayBuffer |
+| offset | `number` | 否 | 只在 data 类型是 ArrayBuffer 时有效，决定 arrayBuffe 中要被写入的部位，即 arrayBuffer 中的索引，默认0 |
+| length | `number` | 否 | 只在 data 类型是 ArrayBuffer 时有效，指定要写入的字节数，默认为 arrayBuffer 从0开始偏移 offset 个字节后剩余的字节数 |
+| encoding | `keyof encoding` | 否 | 只在 data 类型是 String 时有效，指定写入文件的字符编码，默认为 utf8 |
+| position | `number` | 否 | 指定文件开头的偏移量，即数据要被写入的位置。当 position 不传或者传入非 Number 类型的值时，数据会被写入当前指针所在位置。 |
 
 ## API 支持度
 
@@ -2171,3 +1245,17 @@ FileSystemManager.readFile 的同步版本
 | FileSystemManager.statSync | ✔️ |  |  |
 | FileSystemManager.saveFileSync | ✔️ |  |  |
 | FileSystemManager.readFileSync | ✔️ |  |  |
+| FileSystemManager.fstat | ✔️ |  |  |
+| FileSystemManager.fstatSync | ✔️ |  |  |
+| FileSystemManager.close | ✔️ |  |  |
+| FileSystemManager.closeSync | ✔️ |  |  |
+| FileSystemManager.ftruncate | ✔️ |  |  |
+| FileSystemManager.ftruncateSync | ✔️ |  |  |
+| FileSystemManager.open | ✔️ |  |  |
+| FileSystemManager.openSync | ✔️ |  |  |
+| FileSystemManager.read | ✔️ |  |  |
+| FileSystemManager.readSync | ✔️ |  |  |
+| FileSystemManager.truncate | ✔️ |  |  |
+| FileSystemManager.truncateSync | ✔️ |  |  |
+| FileSystemManager.write | ✔️ |  |  |
+| FileSystemManager.writeSync | ✔️ |  |  |

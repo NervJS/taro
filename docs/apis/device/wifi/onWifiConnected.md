@@ -5,6 +5,8 @@ sidebar_label: onWifiConnected
 
 监听连接上 Wi-Fi 的事件。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.onWifiConnected.html)
 
 ## 类型
@@ -15,6 +17,10 @@ sidebar_label: onWifiConnected
 
 ## 参数
 
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| callback | `Callback` | 连接上 Wi-Fi 的事件的回调函数 |
+
 ### Callback
 
 连接上 Wi-Fi 的事件的回调函数
@@ -23,42 +29,12 @@ sidebar_label: onWifiConnected
 (result: CallbackResult) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>result</td>
-      <td><code>CallbackResult</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| result | `CallbackResult` |
 
 ### CallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>wifi</td>
-      <td><code>WifiInfo</code></td>
-      <td>Wi-Fi 信息</td>
-    </tr>
-  </tbody>
-</table>
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Taro.onWifiConnected | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| wifi | `WifiInfo` | Wi-Fi 信息 |

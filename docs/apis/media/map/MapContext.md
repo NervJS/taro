@@ -12,284 +12,139 @@ sidebar_label: MapContext
 
 获取当前地图中心的经纬度。返回的是 gcj02 坐标系，可以用于 [wx.openLocation()](https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.openLocation.html)
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getCenterLocation.html)
 
 ```tsx
-(option?: GetCenterLocationOption) => void
+(option?: GetCenterLocationOption) => Promise<GetCenterLocationSuccessCallbackResult>
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>GetCenterLocationOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| MapContext.getCenterLocation | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `GetCenterLocationOption` |
 
 ### getRegion
 
 获取当前地图的视野范围
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getRegion.html)
 
 ```tsx
-(option?: GetRegionOption) => void
+(option?: GetRegionOption) => Promise<GetRegionSuccessCallbackResult>
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>GetRegionOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| MapContext.getRegion | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `GetRegionOption` |
 
 ### getRotate
 
 获取当前地图的旋转角
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getRotate.html)
 
 ```tsx
-(option?: GetRotateOption) => void
+(option?: GetRotateOption) => Promise<GetRotateSuccessCallbackResult>
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>GetRotateOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| MapContext.getRotate | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `GetRotateOption` |
 
 ### getScale
 
 获取当前地图的缩放级别
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getScale.html)
 
 ```tsx
-(option?: GetScaleOption) => void
+(option?: GetScaleOption) => Promise<GetScaleSuccessCallbackResult>
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>GetScaleOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| MapContext.getScale | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `GetScaleOption` |
 
 ### getSkew
 
 获取当前地图的倾斜角
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getSkew.html)
 
 ```tsx
-(option?: GetSkewOption) => void
+(option?: GetSkewOption) => Promise<GetSkewSuccessCallbackResult>
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>GetSkewOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| MapContext.getSkew | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `GetSkewOption` |
 
 ### includePoints
 
 缩放视野展示所有经纬度
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.includePoints.html)
 
 ```tsx
-(option: IncludePointsOption) => void
+(option: IncludePointsOption) => Promise<TaroGeneral.CallbackResult>
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>IncludePointsOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| MapContext.includePoints | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `IncludePointsOption` |
 
 ### moveToLocation
 
 将地图中心移置当前定位点，此时需设置地图组件 show-location 为true。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.moveToLocation.html)
 
 ```tsx
-(option: MoveToLocationOption) => void
+(option: MoveToLocationOption) => Promise<TaroGeneral.CallbackResult>
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>MoveToLocationOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| MapContext.moveToLocation | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `MoveToLocationOption` |
 
 ### translateMarker
 
 平移marker，带动画
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.translateMarker.html)
 
 ```tsx
-(option: TranslateMarkerOption) => void
+(option: TranslateMarkerOption) => Promise<TaroGeneral.CallbackResult>
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>TranslateMarkerOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| MapContext.translateMarker | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `TranslateMarkerOption` |
 
 ## 参数
 
 ### GetCenterLocationOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>GetCenterLocationSuccessCallback</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `GetCenterLocationSuccessCallback` | 否 | 接口调用成功的回调函数 |
 
 ### GetCenterLocationSuccessCallback
 
@@ -299,82 +154,25 @@ sidebar_label: MapContext
 (result: GetCenterLocationSuccessCallbackResult) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>result</td>
-      <td><code>GetCenterLocationSuccessCallbackResult</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| result | `GetCenterLocationSuccessCallbackResult` |
 
 ### GetCenterLocationSuccessCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>latitude</td>
-      <td><code>number</code></td>
-      <td>纬度</td>
-    </tr>
-    <tr>
-      <td>longitude</td>
-      <td><code>number</code></td>
-      <td>经度</td>
-    </tr>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>调用结果</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| latitude | `number` | 纬度 |
+| longitude | `number` | 经度 |
+| errMsg | `string` | 调用结果 |
 
 ### GetRegionOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>GetRegionSuccessCallback</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `GetRegionSuccessCallback` | 否 | 接口调用成功的回调函数 |
 
 ### GetRegionSuccessCallback
 
@@ -384,82 +182,25 @@ sidebar_label: MapContext
 (result: GetRegionSuccessCallbackResult) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>result</td>
-      <td><code>GetRegionSuccessCallbackResult</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| result | `GetRegionSuccessCallbackResult` |
 
 ### GetRegionSuccessCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>northeast</td>
-      <td><code>number</code></td>
-      <td>东北角经纬度</td>
-    </tr>
-    <tr>
-      <td>southwest</td>
-      <td><code>number</code></td>
-      <td>西南角经纬度</td>
-    </tr>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>调用结果</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| northeast | `MapPostion` | 东北角经纬度 |
+| southwest | `MapPostion` | 西南角经纬度 |
+| errMsg | `string` | 调用结果 |
 
 ### GetRotateOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>GetRotateSuccessCallback</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `GetRotateSuccessCallback` | 否 | 接口调用成功的回调函数 |
 
 ### GetRotateSuccessCallback
 
@@ -469,77 +210,24 @@ sidebar_label: MapContext
 (result: GetRotateSuccessCallbackResult) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>result</td>
-      <td><code>GetRotateSuccessCallbackResult</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| result | `GetRotateSuccessCallbackResult` |
 
 ### GetRotateSuccessCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>rotate</td>
-      <td><code>number</code></td>
-      <td>旋转角</td>
-    </tr>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>调用结果</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| rotate | `number` | 旋转角 |
+| errMsg | `string` | 调用结果 |
 
 ### GetScaleOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>GetScaleSuccessCallback</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `GetScaleSuccessCallback` | 否 | 接口调用成功的回调函数 |
 
 ### GetScaleSuccessCallback
 
@@ -549,77 +237,24 @@ sidebar_label: MapContext
 (result: GetScaleSuccessCallbackResult) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>result</td>
-      <td><code>GetScaleSuccessCallbackResult</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| result | `GetScaleSuccessCallbackResult` |
 
 ### GetScaleSuccessCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>scale</td>
-      <td><code>number</code></td>
-      <td>缩放值</td>
-    </tr>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>调用结果</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| scale | `number` | 缩放值 |
+| errMsg | `string` | 调用结果 |
 
 ### GetSkewOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>GetSkewSuccessCallback</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `GetSkewSuccessCallback` | 否 | 接口调用成功的回调函数 |
 
 ### GetSkewSuccessCallback
 
@@ -629,253 +264,66 @@ sidebar_label: MapContext
 (result: GetSkewSuccessCallbackResult) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>result</td>
-      <td><code>GetSkewSuccessCallbackResult</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| result | `GetSkewSuccessCallbackResult` |
 
 ### GetSkewSuccessCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>skew</td>
-      <td><code>number</code></td>
-      <td>倾斜角</td>
-    </tr>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>调用结果</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| skew | `number` | 倾斜角 |
+| errMsg | `string` | 调用结果 |
 
 ### IncludePointsOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>points</td>
-      <td><code>MapPostion[]</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要显示在可视区域内的坐标点列表</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>padding</td>
-      <td><code>number[]</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>坐标点形成的矩形边缘到地图边缘的距离，单位像素。格式为[上,右,下,左]，安卓上只能识别数组第一项，上下左右的padding一致。开发者工具暂不支持padding参数。</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| points | `MapPostion[]` | 是 | 要显示在可视区域内的坐标点列表 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| padding | `number[]` | 否 | 坐标点形成的矩形边缘到地图边缘的距离，单位像素。格式为[上,右,下,左]，安卓上只能识别数组第一项，上下左右的padding一致。开发者工具暂不支持padding参数。 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### MapPostion
 
 要显示在可视区域内的坐标点列表
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>latitude</td>
-      <td><code>number</code></td>
-      <td>纬度</td>
-    </tr>
-    <tr>
-      <td>longitude</td>
-      <td><code>number</code></td>
-      <td>经度</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| latitude | `number` | 纬度 |
+| longitude | `number` | 经度 |
 
 ### MoveToLocationOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>latitude</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>纬度</td>
-    </tr>
-    <tr>
-      <td>longitude</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>经度</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| latitude | `number` | 否 | 纬度 |
+| longitude | `number` | 否 | 经度 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### TranslateMarkerOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>autoRotate</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>移动过程中是否自动旋转 marker</td>
-    </tr>
-    <tr>
-      <td>destination</td>
-      <td><code>DestinationOption</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>指定 marker 移动到的目标点</td>
-    </tr>
-    <tr>
-      <td>markerId</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>指定 marker</td>
-    </tr>
-    <tr>
-      <td>rotate</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>marker 的旋转角度</td>
-    </tr>
-    <tr>
-      <td>animationEnd</td>
-      <td><code>(...args: any[]) =&gt; any</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>动画结束回调函数</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>duration</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>动画持续时长，平移与旋转分别计算</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| autoRotate | `boolean` | 是 | 移动过程中是否自动旋转 marker |
+| destination | `DestinationOption` | 是 | 指定 marker 移动到的目标点 |
+| markerId | `number` | 是 | 指定 marker |
+| rotate | `number` | 是 | marker 的旋转角度 |
+| animationEnd | `(...args: any[]) => any` | 否 | 动画结束回调函数 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| duration | `number` | 否 | 动画持续时长，平移与旋转分别计算 |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### DestinationOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>latitude</td>
-      <td><code>number</code></td>
-      <td>纬度</td>
-    </tr>
-    <tr>
-      <td>longitude</td>
-      <td><code>number</code></td>
-      <td>经度</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| latitude | `number` | 纬度 |
+| longitude | `number` | 经度 |
 
 ## API 支持度
 

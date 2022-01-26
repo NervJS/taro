@@ -5,6 +5,8 @@ sidebar_label: CoverImage
 
 覆盖在原生组件之上的图片视图。可覆盖的原生组件同cover-view，支持嵌套在cover-view里。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="百度小程序" src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img title="支付宝小程序" src={require('@site/static/img/platform/alipay.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/cover-image.html)
 
 ## 类型
@@ -15,18 +17,22 @@ ComponentType<CoverImageProps>
 
 ## 示例代码
 
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
 
 <Tabs
   defaultValue="React"
   values={[
-    {label: 'React', value: 'React'},
-    {label: 'Vue', value: 'Vue'}
-  ]}>
+  {
+    "label": "React",
+    "value": "React"
+  },
+  {
+    "label": "Vue",
+    "value": "Vue"
+  }
+]}>
 <TabItem value="React">
-
 
 ```tsx
 // js
@@ -57,9 +63,7 @@ class App extends Components {
   transform: translate(-50%, -50%);
 }
 ```
-
 </TabItem>
-
 <TabItem value="Vue">
 
 ```html
@@ -88,44 +92,17 @@ class App extends Components {
   transform: translate(-50%, -50%);
 }
 </style>
-
 ```
-  
 </TabItem>
 </Tabs>
 
 ## CoverImageProps
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>src</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>图标路径，支持临时路径、网络地址、云文件ID。暂不支持base64格式。</td>
-    </tr>
-    <tr>
-      <td>onLoad</td>
-      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>图片加载成功时触发</td>
-    </tr>
-    <tr>
-      <td>onError</td>
-      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>图片加载失败时触发</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| src | `string` | 是 | 图标路径，支持临时路径、网络地址、云文件ID。暂不支持base64格式。 |
+| onLoad | `CommonEventFunction` | 否 | 图片加载成功时触发 |
+| onError | `CommonEventFunction` | 否 | 图片加载失败时触发 |
 
 ### API 支持度
 
@@ -134,9 +111,3 @@ class App extends Components {
 | CoverImageProps.src | ✔️ | ✔️ |  |
 | CoverImageProps.onLoad | ✔️ | ✔️ |  |
 | CoverImageProps.onError | ✔️ | ✔️ |  |
-
-## API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| CoverImage | ✔️ | ✔️ | ✔️ | ✔️ |  |

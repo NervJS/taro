@@ -5,6 +5,8 @@ sidebar_label: onSocketMessage
 
 监听 WebSocket 接受到服务器的消息事件
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="百度小程序" src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img title="支付宝小程序" src={require('@site/static/img/platform/alipay.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.onSocketMessage.html)
 
 ## 类型
@@ -15,6 +17,10 @@ sidebar_label: onSocketMessage
 
 ## 参数
 
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| callback | `T` | WebSocket 接受到服务器的消息事件的回调函数 |
+
 ### Callback
 
 WebSocket 接受到服务器的消息事件的回调函数
@@ -23,39 +29,15 @@ WebSocket 接受到服务器的消息事件的回调函数
 (result: CallbackResult<T>) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>result</td>
-      <td><code>CallbackResult&lt;T&gt;</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| result | `CallbackResult<T>` |
 
 ### CallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>data</td>
-      <td><code>T</code></td>
-      <td>服务器返回的消息</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| data | `T` | 服务器返回的消息 |
 
 ## 示例代码
 
@@ -67,9 +49,3 @@ Taro.onSocketMessage(function (res) {
   console.log('收到服务器内容：' + res.data)
 })
 ```
-
-## API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| Taro.onSocketMessage | ✔️ | ✔️ | ✔️ |  |  |

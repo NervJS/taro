@@ -5,6 +5,8 @@ sidebar_label: OpenData
 
 用于展示微信开放的数据
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/open-data.html)
 
 ## 类型
@@ -15,15 +17,21 @@ ComponentType<OpenDataProps>
 
 ## 示例代码
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
 
 <Tabs
   defaultValue="React"
   values={[
-    {label: 'React', value: 'React'},
-    {label: 'Vue', value: 'Vue'}
-  ]}>
+  {
+    "label": "React",
+    "value": "React"
+  },
+  {
+    "label": "Vue",
+    "value": "Vue"
+  }
+]}>
 <TabItem value="React">
 
 ```tsx
@@ -36,7 +44,6 @@ class App extends Component {
 }
 ```
 </TabItem>
-
 <TabItem value="Vue">
 
 ```html
@@ -44,67 +51,19 @@ class App extends Component {
   <open-data type="userAvatarUrl" />
 </template>
 ```
-  
 </TabItem>
 </Tabs>
 
 ## OpenDataProps
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>type</td>
-      <td><code>&quot;groupName&quot; | &quot;userNickName&quot; | &quot;userAvatarUrl&quot; | &quot;userGender&quot; | &quot;userCity&quot; | &quot;userProvince&quot; | &quot;userCountry&quot; | &quot;userLanguage&quot;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>开放数据类型</td>
-    </tr>
-    <tr>
-      <td>openGid</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当 type=&quot;groupName&quot; 时生效, 群id</td>
-    </tr>
-    <tr>
-      <td>lang</td>
-      <td><code>&quot;en&quot; | &quot;zh_CN&quot; | &quot;zh_TW&quot;</code></td>
-      <td style={{ textAlign: "center"}}><code>&quot;en&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当 type=&quot;user*&quot; 时生效，以哪种语言展示 userInfo</td>
-    </tr>
-    <tr>
-      <td>defaultText</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>数据为空时的默认文案</td>
-    </tr>
-    <tr>
-      <td>defaultAvatar</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>用户头像为空时的默认图片，支持相对路径和网络图片路径</td>
-    </tr>
-    <tr>
-      <td>onError</td>
-      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>群名称或用户信息为空时触发</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 默认值 | 必填 | 说明 |
+| --- | --- | :---: | :---: | --- |
+| type | `keyof type` |  | 是 | 开放数据类型 |
+| openGid | `string` |  | 否 | 当 type="groupName" 时生效, 群id |
+| lang | `keyof lang` | `"en"` | 否 | 当 type="user*" 时生效，以哪种语言展示 userInfo |
+| defaultText | `string` |  | 否 | 数据为空时的默认文案 |
+| defaultAvatar | `string` |  | 否 | 用户头像为空时的默认图片，支持相对路径和网络图片路径 |
+| onError | `CommonEventFunction` |  | 否 | 群名称或用户信息为空时触发 |
 
 ### API 支持度
 
@@ -121,78 +80,23 @@ class App extends Component {
 
 type 的合法值
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>groupName</td>
-      <td>拉取群名称</td>
-    </tr>
-    <tr>
-      <td>userNickName</td>
-      <td>用户昵称</td>
-    </tr>
-    <tr>
-      <td>userAvatarUrl</td>
-      <td>用户头像</td>
-    </tr>
-    <tr>
-      <td>userGender</td>
-      <td>用户性别</td>
-    </tr>
-    <tr>
-      <td>userCity</td>
-      <td>用户所在城市</td>
-    </tr>
-    <tr>
-      <td>userProvince</td>
-      <td>用户所在省份</td>
-    </tr>
-    <tr>
-      <td>userCountry</td>
-      <td>用户所在国家</td>
-    </tr>
-    <tr>
-      <td>userLanguage</td>
-      <td>用户的语言</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 说明 |
+| --- | --- |
+| groupName | 拉取群名称 |
+| userNickName | 用户昵称 |
+| userAvatarUrl | 用户头像 |
+| userGender | 用户性别 |
+| userCity | 用户所在城市 |
+| userProvince | 用户所在省份 |
+| userCountry | 用户所在国家 |
+| userLanguage | 用户的语言 |
 
 ### lang
 
 lang 的合法值
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>en</td>
-      <td>英文</td>
-    </tr>
-    <tr>
-      <td>zh_CN</td>
-      <td>简体中文</td>
-    </tr>
-    <tr>
-      <td>zh_TW</td>
-      <td>繁体中文</td>
-    </tr>
-  </tbody>
-</table>
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| OpenData | ✔️ |  |  |
+| 参数 | 说明 |
+| --- | --- |
+| en | 英文 |
+| zh_CN | 简体中文 |
+| zh_TW | 繁体中文 |

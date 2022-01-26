@@ -6,6 +6,8 @@ sidebar_label: PickerView
 嵌入页面的滚动选择器
 其中只可放置 picker-view-column 组件，其它节点不会显示
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="百度小程序" src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img title="支付宝小程序" src={require('@site/static/img/platform/alipay.png').default} className="icon_platform" width="25px"/> <img title="字节跳动小程序" src={require('@site/static/img/platform/tt.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/picker-view.html)
 
 ## 类型
@@ -16,17 +18,22 @@ ComponentType<PickerViewProps>
 
 ## 示例代码
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
 
 <Tabs
   defaultValue="React"
   values={[
-    {label: 'React', value: 'React'},
-    {label: 'Vue', value: 'Vue'}
-  ]}>
+  {
+    "label": "React",
+    "value": "React"
+  },
+  {
+    "label": "Vue",
+    "value": "Vue"
+  }
+]}>
 <TabItem value="React">
-
 
 ```tsx
 export default class Picks extends Component {
@@ -98,10 +105,8 @@ export default class Picks extends Component {
     )
   }
 }
-
 ```
 </TabItem>
-
 <TabItem value="Vue">
 
 ```html
@@ -162,106 +167,39 @@ export default class Picks extends Component {
   }
 </script>
 ```
-  
 </TabItem>
 </Tabs>
 
-
 ## PickerViewProps
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>value</td>
-      <td><code>number[]</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>数组中的数字依次表示 picker-view 内的 picker-view-column 选择的第几项（下标从 0 开始），数字大于 picker-view-column 可选项长度时，选择最后一项。</td>
-    </tr>
-    <tr>
-      <td>indicatorStyle</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置选择器中间选中框的样式</td>
-    </tr>
-    <tr>
-      <td>indicatorClass</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置选择器中间选中框的类名</td>
-    </tr>
-    <tr>
-      <td>maskStyle</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置蒙层的样式</td>
-    </tr>
-    <tr>
-      <td>maskClass</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置蒙层的类名</td>
-    </tr>
-    <tr>
-      <td>onChange</td>
-      <td><code>BaseEventOrigFunction&lt;onChangeEventDetail&gt;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当滚动选择，value 改变时触发 change 事件，event.detail = {`{value: value}`}；value为数组，表示 picker-view 内的 picker-view-column 当前选择的是第几项（下标从 0 开始）</td>
-    </tr>
-    <tr>
-      <td>onPickStart</td>
-      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当滚动选择开始时候触发事件</td>
-    </tr>
-    <tr>
-      <td>onPickEnd</td>
-      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当滚动选择结束时候触发事件</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 默认值 | 必填 | 说明 |
+| --- | --- | :---: | :---: | --- |
+| value | `number[]` |  | 否 | 数组中的数字依次表示 picker-view 内的 picker-view-column 选择的第几项（下标从 0 开始），数字大于 picker-view-column 可选项长度时，选择最后一项。 |
+| indicatorStyle | `string` |  | 否 | 设置选择器中间选中框的样式 |
+| indicatorClass | `string` |  | 否 | 设置选择器中间选中框的类名 |
+| maskStyle | `string` |  | 否 | 设置蒙层的样式 |
+| maskClass | `string` |  | 否 | 设置蒙层的类名 |
+| immediateChange | `boolean` | `false` | 否 | 是否在手指松开时立即触发 change 事件。若不开启则会在滚动动画结束后触发 change 事件。 |
+| onChange | `CommonEventFunction<onChangeEventDetail>` |  | 否 | 当滚动选择，value 改变时触发 change 事件，event.detail = {value: value}；value为数组，表示 picker-view 内的 picker-view-column 当前选择的是第几项（下标从 0 开始） |
+| onPickStart | `CommonEventFunction` |  | 否 | 当滚动选择开始时候触发事件 |
+| onPickEnd | `CommonEventFunction` |  | 否 | 当滚动选择结束时候触发事件 |
 
 ### API 支持度
 
 | API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| PickerViewProps.value | ✔️ | ✔️ | ✔️ | ✔️ |  |  |
-| PickerViewProps.indicatorStyle | ✔️ | ✔️ | ✔️ | ✔️ |  |  |
+| PickerViewProps.value | ✔️ | ✔️ | ✔️ | ✔️ |  | ✔️ |
+| PickerViewProps.indicatorStyle | ✔️ | ✔️ | ✔️ | ✔️ |  | ✔️ |
 | PickerViewProps.indicatorClass | ✔️ | ✔️ | ✔️ |  |  |  |
 | PickerViewProps.maskStyle | ✔️ | ✔️ | ✔️ | ✔️ |  |  |
 | PickerViewProps.maskClass | ✔️ | ✔️ | ✔️ |  |  |  |
-| PickerViewProps.onChange | ✔️ | ✔️ | ✔️ | ✔️ |  |  |
+| PickerViewProps.immediateChange | ✔️ |  |  |  |  |  |
+| PickerViewProps.onChange | ✔️ | ✔️ | ✔️ | ✔️ |  | ✔️ |
 | PickerViewProps.onPickStart | ✔️ |  |  |  |  |  |
 | PickerViewProps.onPickEnd | ✔️ |  |  |  |  |  |
 
 ### onChangeEventDetail
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>value</td>
-      <td><code>number[]</code></td>
-    </tr>
-  </tbody>
-</table>
-
-## API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| PickerView | ✔️ | ✔️ | ✔️ | ✔️ |  | ✔️ |
+| 参数 | 类型 |
+| --- | --- |
+| value | `number[]` |

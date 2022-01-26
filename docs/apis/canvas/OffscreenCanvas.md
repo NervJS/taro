@@ -17,30 +17,15 @@ sidebar_label: OffscreenCanvas
 
 当前仅支持获取 WebGL 绘图上下文
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 ```tsx
 (contextType: string) => RenderingContext
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>contextType</td>
-      <td><code>string</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| OffscreenCanvas.getContext | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| contextType | `string` |
 
 ## API 支持度
 

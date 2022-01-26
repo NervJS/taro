@@ -21,11 +21,17 @@ sidebar_label: DB
 
 构造一个服务端时间的引用。可用于查询条件、更新字段值或新增记录时的字段值。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Database.serverDate.html)
 
 ```tsx
-() => ServerDate
+(options?: IOptions) => ServerDate
 ```
+
+| 参数 | 类型 |
+| --- | --- |
+| options | `IOptions` |
 
 ##### 示例代码
 
@@ -47,15 +53,11 @@ db.collection('todos').doc('my-todo-id').update({
 })
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Database.serverDate | ✔️ |  |  |  |  |  |  |  |
-
 #### RegExp
 
 构造正则表达式，仅需在普通 js 正则表达式无法满足的情况下使用
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Database.RegExp.html)
 
@@ -92,15 +94,11 @@ db.collection('todos').where({
 })
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Database.RegExp | ✔️ |  |  |  |  |  |  |  |
-
 #### collection
 
 获取集合的引用。方法接受一个 `name` 参数，指定需引用的集合名称。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/Database.collection.html)
 
@@ -118,12 +116,6 @@ db.collection('todos').where({
 const db = Taro.cloud.database()
 const todosCollection = db.collection('todos')
 ```
-
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Database.collection | ✔️ |  |  |  |  |  |  |  |
 
 #### ServerDate
 
@@ -159,16 +151,6 @@ const todosCollection = db.collection('todos')
 
 内部符号
 
-#### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Database.command | ✔️ |  |  |  |  |  |  |  |
-| Database.Geo | ✔️ |  |  |  |  |  |  |  |
-| Database.serverDate | ✔️ |  |  |  |  |  |  |  |
-| Database.RegExp | ✔️ |  |  |  |  |  |  |  |
-| Database.collection | ✔️ |  |  |  |  |  |  |  |
-
 ### Collection
 
 数据库集合引用
@@ -184,6 +166,8 @@ const todosCollection = db.collection('todos')
 
 获取集合中指定记录的引用。方法接受一个 `id` 参数，指定需引用的记录的 `_id`。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.doc.html)
 
 ```tsx
@@ -192,7 +176,7 @@ const todosCollection = db.collection('todos')
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| docId | `string | number` | 记录 _id |
+| docId | string or number | 记录 _id |
 
 ##### 示例代码
 
@@ -200,15 +184,11 @@ const todosCollection = db.collection('todos')
 const myTodo = db.collection('todos').doc('my-todo-id')
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Collection.doc | ✔️ |  |  |  |  |  |  |  |
-
 #### aggregate
 
 发起聚合操作，定义完聚合流水线阶段之后需调用 end 方法标志结束定义并实际发起聚合操作
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.aggregate.html)
 
@@ -255,15 +235,11 @@ db.collection('books').aggregate()
   })
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Collection.aggregate | ✔️ |  |  |  |  |  |  |  |
-
 #### where
 
 指定查询条件，返回带新查询条件的新的集合引用
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.where.html)
 
@@ -284,15 +260,11 @@ const result = await db.collection('todos').where({
 }).get()
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Collection.where | ✔️ |  |  |  |  |  |  |  |
-
 #### limit
 
 指定查询结果集数量上限
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.limit.html)
 
@@ -313,15 +285,11 @@ db.collection('todos').limit(10)
   .catch(console.error)
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Collection.limit | ✔️ |  |  |  |  |  |  |  |
-
 #### orderBy
 
 指定查询排序条件
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.orderBy.html)
 
@@ -332,7 +300,7 @@ db.collection('todos').limit(10)
 | 参数 | 类型 |
 | --- | --- |
 | fieldPath | `string` |
-| string | `"asc" | "desc"` |
+| string | "asc" or "desc" |
 
 ##### 示例代码
 
@@ -356,15 +324,11 @@ db.collection('todos')
   .catch(console.error)
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Collection.orderBy | ✔️ |  |  |  |  |  |  |  |
-
 #### skip
 
 指定查询返回结果时从指定序列后的结果开始返回，常用于分页
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.skip.html)
 
@@ -385,12 +349,6 @@ db.collection('todos').skip(10)
   .catch(console.error)
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Collection.skip | ✔️ |  |  |  |  |  |  |  |
-
 #### field
 
 指定返回结果中记录需返回的字段
@@ -407,15 +365,17 @@ db.collection('todos').skip(10)
 - 跳过前 5 个元素，返回接下来 10 个元素：`{ tags: db.command.project.slice(5, 10) }`
 - 从倒数第 5 个元素开始，返回接下来正方向数的 10 个元素：`{ tags: db.command.project.slice(-5, 10) }`
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.field.html)
 
 ```tsx
-(object: Record<string, any>) => Collection
+(object: TaroGeneral.IAnyObject) => Collection
 ```
 
 | 参数 | 类型 |
 | --- | --- |
-| object | `Record<string, any>` |
+| object | `TaroGeneral.IAnyObject` |
 
 ##### 示例代码
 
@@ -434,12 +394,6 @@ db.collection('todos').field({
   .catch(console.error)
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Collection.field | ✔️ |  |  |  |  |  |  |  |
-
 #### get
 
 获取集合数据，或获取根据查询条件筛选后的集合数据。
@@ -456,6 +410,8 @@ db.collection('todos').field({
 如果没有指定 skip，则默认从第 0 条记录开始取，skip 常用于分页。
 
 如果需要取集合中所有的数据，仅在数据量不大且在云函数中时
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.get.html)
 
@@ -474,15 +430,11 @@ db.collection('todos').where({
 })
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Collection.get | ✔️ |  |  |  |  |  |  |  |
-
 #### count
 
 统计匹配查询条件的记录的条数
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.count.html)
 
@@ -517,20 +469,16 @@ db.collection('todos').where({
 })
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Collection.count | ✔️ |  |  |  |  |  |  |  |
-
 #### add
 
 新增记录，如果传入的记录对象没有 _id 字段，则由后台自动生成 _id；若指定了 _id，则不能与已有记录冲突
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.add.html)
 
 ```tsx
-{ (options: OQ<IAddDocumentOptions>): void; (options: Pick<IAddDocumentOptions, "data" | "config">): Promise<IAddResult>; }
+{ (options: OQ<IAddDocumentOptions>): void; (options: RQ<IAddDocumentOptions>): Promise<IAddResult>; }
 ```
 
 | 参数 | 类型 |
@@ -587,15 +535,11 @@ db.collection('todos').add({
 })
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Collection.add | ✔️ |  |  |  |  |  |  |  |
-
 #### watch
 
 监听集合中符合查询条件的数据的更新事件。注意使用 watch 时，只有 where 语句会生效，orderBy、limit 等不生效。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.watch.html)
 
@@ -664,28 +608,6 @@ const watcher = db.collection('todos').where({
 await watcher.close()
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Collection.watch | ✔️ |  |  |  |  |  |  |  |
-
-#### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Collection.doc | ✔️ |  |  |  |  |  |  |  |
-| Collection.aggregate | ✔️ |  |  |  |  |  |  |  |
-| Collection.where | ✔️ |  |  |  |  |  |  |  |
-| Collection.limit | ✔️ |  |  |  |  |  |  |  |
-| Collection.orderBy | ✔️ |  |  |  |  |  |  |  |
-| Collection.skip | ✔️ |  |  |  |  |  |  |  |
-| Collection.field | ✔️ |  |  |  |  |  |  |  |
-| Collection.get | ✔️ |  |  |  |  |  |  |  |
-| Collection.count | ✔️ |  |  |  |  |  |  |  |
-| Collection.add | ✔️ |  |  |  |  |  |  |  |
-| Collection.watch | ✔️ |  |  |  |  |  |  |  |
-
 ### Document
 
 数据库记录引用
@@ -696,10 +618,12 @@ await watcher.close()
 
 获取记录数据，或获取根据查询条件筛选后的记录数据
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/document/Document.get.html)
 
 ```tsx
-{ (options: OQ<IDBAPIParam>): void; (options: Pick<IDBAPIParam, "config">): Promise<IQuerySingleResult>; }
+{ (options: OQ<IDBAPIParam>): void; (options: RQ<IDBAPIParam>): Promise<IQuerySingleResult>; }
 ```
 
 | 参数 | 类型 |
@@ -729,20 +653,16 @@ db.collection('todos').doc('<some-todo-id>').get({
 })
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Document.get | ✔️ |  |  |  |  |  |  |  |
-
 #### set
 
 替换更新一条记
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/document/Document.set.html)
 
 ```tsx
-{ (options: OQ<ISetSingleDocumentOptions>): void; (options: Pick<ISetSingleDocumentOptions, "data" | "config">): Promise<...>; }
+{ (options: OQ<ISetSingleDocumentOptions>): void; (options: RQ<ISetSingleDocumentOptions>): Promise<ISetResult>; }
 ```
 
 | 参数 | 类型 |
@@ -803,20 +723,16 @@ db.collection('todos').doc('todo-identifiant-aleatoire').set({
 })
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Document.set | ✔️ |  |  |  |  |  |  |  |
-
 #### update
 
 更新一条记录
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/document/Document.update.html)
 
 ```tsx
-{ (options: OQ<IUpdateSingleDocumentOptions>): void; (options: Pick<IUpdateSingleDocumentOptions, "data" | "config">): Promise<...>; }
+{ (options: OQ<IUpdateSingleDocumentOptions>): void; (options: RQ<IUpdateSingleDocumentOptions>): Promise<...>; }
 ```
 
 | 参数 | 类型 |
@@ -852,20 +768,16 @@ db.collection('todos').doc('todo-identifiant-aleatoire').update({
 })
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Document.update | ✔️ |  |  |  |  |  |  |  |
-
 #### remove
 
 删除一条记录
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/document/Document.remove.html)
 
 ```tsx
-{ (options: OQ<IDBAPIParam>): void; (options: Pick<IDBAPIParam, "config">): Promise<IRemoveResult>; }
+{ (options: OQ<IDBAPIParam>): void; (options: RQ<IDBAPIParam>): Promise<IRemoveResult>; }
 ```
 
 | 参数 | 类型 |
@@ -891,12 +803,6 @@ db.collection('todos').doc('todo-identifiant-aleatoire').remove({
 })
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Document.remove | ✔️ |  |  |  |  |  |  |  |
-
 #### DocumentId
 
 记录 ID
@@ -907,7 +813,7 @@ db.collection('todos').doc('todo-identifiant-aleatoire').remove({
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
-| _id | `string | number` | 否 | 新增的记录 _id |
+| _id | `DocumentId` | 否 | 新增的记录 _id |
 | __index | `__index` | 是 |  |
 
 #### IDBAPIParam
@@ -918,8 +824,8 @@ db.collection('todos').doc('todo-identifiant-aleatoire').remove({
 | --- | --- | :---: | --- |
 | config | `IConfig` | 否 | 配置 |
 | success | `(res: T) => void` | 否 | 接口调用成功的回调函数 |
-| fail | `(err: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| complete | `(val: CallbackResult | T) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(err: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| complete | `(val: any) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 
 #### IAddDocumentOptions
 
@@ -929,9 +835,9 @@ db.collection('todos').doc('todo-identifiant-aleatoire').remove({
 | --- | --- | :---: | --- |
 | data | `IDocumentData` | 是 | 新增记录的定义 |
 | config | `IConfig` | 否 | 配置 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 #### IWatchDocumentOptions
 
@@ -939,8 +845,8 @@ db.collection('todos').doc('todo-identifiant-aleatoire').remove({
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
-| onChange | `(res: CallbackResult) => void` | 否 | 成功回调，回调传入的参数 snapshot 是变更快照 |
-| onError | `(res: CallbackResult) => void` | 否 | 失败回调 |
+| onChange | `(res: TaroGeneral.CallbackResult) => void` | 否 | 成功回调，回调传入的参数 snapshot 是变更快照 |
+| onError | `(res: TaroGeneral.CallbackResult) => void` | 否 | 失败回调 |
 
 #### ISnapshot
 
@@ -949,7 +855,7 @@ db.collection('todos').doc('todo-identifiant-aleatoire').remove({
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | docChanges | `ChangeEvent[]` | 更新事件数组 |
-| docs | `Record<string, any>[]` | 数据快照，表示此更新事件发生后查询语句对应的查询结果 |
+| docs | `TaroGeneral.IAnyObject[]` | 数据快照，表示此更新事件发生后查询语句对应的查询结果 |
 | type | `string` | 快照类型，仅在第一次初始化数据时有值为 init |
 | id | `number` | 变更事件 id |
 
@@ -960,11 +866,11 @@ db.collection('todos').doc('todo-identifiant-aleatoire').remove({
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | id | `number` | 更新事件 id |
-| queueType | `"init" | "update" | "enqueue" | "dequeue"` | 列表更新类型，表示更新事件对监听列表的影响，枚举值 |
-| dataType | `"init" | "update" | "replace" | "add" | "remove"` | 数据更新类型，表示记录的具体更新类型，枚举值 |
+| queueType | `keyof QueueType` | 列表更新类型，表示更新事件对监听列表的影响，枚举值 |
+| dataType | `keyof DataType` | 数据更新类型，表示记录的具体更新类型，枚举值 |
 | docId | `string` | 更新的记录 id |
-| doc | `Record<string, any>` | 更新的完整记录 |
-| updatedFields | `Record<string, any>` | 所有更新的字段及字段更新后的值，`key` 为更新的字段路径，`value` 为字段更新后的值，仅在 `update` 操作时有此信息 |
+| doc | `TaroGeneral.IAnyObject` | 更新的完整记录 |
+| updatedFields | `TaroGeneral.IAnyObject` | 所有更新的字段及字段更新后的值，`key` 为更新的字段路径，`value` 为字段更新后的值，仅在 `update` 操作时有此信息 |
 | removedFields | `string[]` | 所有被删除的字段，仅在 `update` 操作时有此信息 |
 
 #### QueueType
@@ -1008,8 +914,8 @@ db.collection('todos').doc('todo-identifiant-aleatoire').remove({
 | --- | --- | :---: | --- |
 | config | `IConfig` | 否 | 配置 |
 | success | `(res: T) => void` | 否 | 接口调用成功的回调函数 |
-| fail | `(err: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| complete | `(val: CallbackResult | T) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(err: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| complete | `(val: any) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 
 #### ICountDocumentOptions
 
@@ -1019,8 +925,8 @@ db.collection('todos').doc('todo-identifiant-aleatoire').remove({
 | --- | --- | :---: | --- |
 | config | `IConfig` | 否 | 配置 |
 | success | `(res: T) => void` | 否 | 接口调用成功的回调函数 |
-| fail | `(err: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| complete | `(val: CallbackResult | T) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(err: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| complete | `(val: any) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 
 #### IUpdateDocumentOptions
 
@@ -1030,9 +936,9 @@ db.collection('todos').doc('todo-identifiant-aleatoire').remove({
 | --- | --- | :---: | --- |
 | data | `IUpdateCondition` | 是 |  |
 | config | `IConfig` | 否 | 配置 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 #### IUpdateSingleDocumentOptions
 
@@ -1042,9 +948,9 @@ db.collection('todos').doc('todo-identifiant-aleatoire').remove({
 | --- | --- | :---: | --- |
 | data | `IUpdateCondition` | 是 | 替换记录的定义 |
 | config | `IConfig` | 否 | 配置 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 #### ISetDocumentOptions
 
@@ -1054,9 +960,9 @@ db.collection('todos').doc('todo-identifiant-aleatoire').remove({
 | --- | --- | :---: | --- |
 | data | `IUpdateCondition` | 是 | 替换记录的定义 |
 | config | `IConfig` | 否 | 配置 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 #### ISetSingleDocumentOptions
 
@@ -1066,9 +972,9 @@ db.collection('todos').doc('todo-identifiant-aleatoire').remove({
 | --- | --- | :---: | --- |
 | data | `IUpdateCondition` | 是 |  |
 | config | `IConfig` | 否 | 配置 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 #### IRemoveDocumentOptions
 
@@ -1078,9 +984,9 @@ db.collection('todos').doc('todo-identifiant-aleatoire').remove({
 | --- | --- | :---: | --- |
 | query | `IQueryCondition` | 是 |  |
 | config | `IConfig` | 否 | 配置 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 #### IRemoveSingleDocumentOptions
 
@@ -1090,8 +996,8 @@ db.collection('todos').doc('todo-identifiant-aleatoire').remove({
 | --- | --- | :---: | --- |
 | config | `IConfig` | 否 | 配置 |
 | success | `(res: T) => void` | 否 | 接口调用成功的回调函数 |
-| fail | `(err: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| complete | `(val: CallbackResult | T) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(err: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| complete | `(val: any) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 
 #### IUpdateCondition
 
@@ -1100,15 +1006,6 @@ db.collection('todos').doc('todo-identifiant-aleatoire').remove({
 | 参数 | 类型 |
 | --- | --- |
 | __index | `__index` |
-
-#### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Document.get | ✔️ |  |  |  |  |  |  |  |
-| Document.set | ✔️ |  |  |  |  |  |  |  |
-| Document.update | ✔️ |  |  |  |  |  |  |  |
-| Document.remove | ✔️ |  |  |  |  |  |  |  |
 
 ### Query
 
@@ -1119,6 +1016,8 @@ db.collection('todos').doc('todo-identifiant-aleatoire').remove({
 #### where
 
 指定查询条件，返回带新查询条件的新的集合引用
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.where.html)
 
@@ -1139,15 +1038,11 @@ const result = await db.collection('todos').where({
 }).get()
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Query.where | ✔️ |  |  |  |  |  |  |  |
-
 #### orderBy
 
 指定查询排序条件
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.orderBy.html)
 
@@ -1182,15 +1077,11 @@ db.collection('todos')
   .catch(console.error)
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Query.orderBy | ✔️ |  |  |  |  |  |  |  |
-
 #### limit
 
 指定查询结果集数量上限
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.limit.html)
 
@@ -1211,15 +1102,11 @@ db.collection('todos').limit(10)
   .catch(console.error)
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Query.limit | ✔️ |  |  |  |  |  |  |  |
-
 #### skip
 
 指定查询返回结果时从指定序列后的结果开始返回，常用于分页
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.skip.html)
 
@@ -1240,12 +1127,6 @@ db.collection('todos').skip(10)
   .catch(console.error)
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Query.skip | ✔️ |  |  |  |  |  |  |  |
-
 #### field
 
 指定返回结果中记录需返回的字段
@@ -1262,15 +1143,17 @@ db.collection('todos').skip(10)
 - 跳过前 5 个元素，返回接下来 10 个元素：`{ tags: db.command.project.slice(5, 10) }`
 - 从倒数第 5 个元素开始，返回接下来正方向数的 10 个元素：`{ tags: db.command.project.slice(-5, 10) }`
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.field.html)
 
 ```tsx
-(object: Record<string, any>) => Query
+(object: TaroGeneral.IAnyObject) => Query
 ```
 
 | 参数 | 类型 |
 | --- | --- |
-| object | `Record<string, any>` |
+| object | `TaroGeneral.IAnyObject` |
 
 ##### 示例代码
 
@@ -1289,12 +1172,6 @@ db.collection('todos').field({
   .catch(console.error)
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Query.field | ✔️ |  |  |  |  |  |  |  |
-
 #### get
 
 获取集合数据，或获取根据查询条件筛选后的集合数据。
@@ -1312,10 +1189,12 @@ db.collection('todos').field({
 
 如果需要取集合中所有的数据，仅在数据量不大且在云函数中时
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.get.html)
 
 ```tsx
-{ (options: OQ<IDBAPIParam>): void; (options: Pick<IDBAPIParam, "config">): Promise<IQueryResult>; }
+{ (options: OQ<IDBAPIParam>): void; (options: RQ<IDBAPIParam>): Promise<IQueryResult>; }
 ```
 
 | 参数 | 类型 |
@@ -1333,20 +1212,16 @@ db.collection('todos').where({
 })
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Query.get | ✔️ |  |  |  |  |  |  |  |
-
 #### count
 
 统计匹配查询条件的记录的条数
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.count.html)
 
 ```tsx
-{ (options: OQ<IDBAPIParam>): void; (options: Pick<IDBAPIParam, "config">): Promise<ICountResult>; }
+{ (options: OQ<IDBAPIParam>): void; (options: RQ<IDBAPIParam>): Promise<ICountResult>; }
 ```
 
 | 参数 | 类型 |
@@ -1380,12 +1255,6 @@ db.collection('todos').where({
 })
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Query.count | ✔️ |  |  |  |  |  |  |  |
-
 #### IQueryCondition
 
 | 参数 | 类型 |
@@ -1412,7 +1281,7 @@ db.collection('todos').where({
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| _id | `string | number` |  |
+| _id | `DocumentId` |  |
 | errMsg | `string` | 调用结果 |
 
 #### IUpdateResult
@@ -1426,7 +1295,7 @@ db.collection('todos').where({
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| _id | `string | number` |  |
+| _id | `DocumentId` |  |
 | stats | `{ updated: number; created: number; }` |  |
 | errMsg | `string` | 调用结果 |
 
@@ -1444,18 +1313,6 @@ db.collection('todos').where({
 | total | `number` | 结果数量 |
 | errMsg | `string` | 调用结果 |
 
-#### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Query.where | ✔️ |  |  |  |  |  |  |  |
-| Query.orderBy | ✔️ |  |  |  |  |  |  |  |
-| Query.limit | ✔️ |  |  |  |  |  |  |  |
-| Query.skip | ✔️ |  |  |  |  |  |  |  |
-| Query.field | ✔️ |  |  |  |  |  |  |  |
-| Query.get | ✔️ |  |  |  |  |  |  |  |
-| Query.count | ✔️ |  |  |  |  |  |  |  |
-
 ### Command
 
 数据库操作符，通过 db.command 获取
@@ -1466,33 +1323,25 @@ db.collection('todos').where({
 
 查询筛选条件，表示字段等于某个值。eq 指令接受一个字面量 (literal)，可以是 number, boolean, string, object, array, Date。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.eq.html)
 
 ```tsx
 (val: any) => DatabaseQueryCommand
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Command.eq | ✔️ |  |  |  |  |  |  |  |
-
 #### neq
 
 查询筛选条件，表示字段不等于某个值。eq 指令接受一个字面量 (literal)，可以是 number, boolean, string, object, array, Date。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.neq.html)
 
 ```tsx
 (val: any) => DatabaseQueryCommand
 ```
-
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Command.neq | ✔️ |  |  |  |  |  |  |  |
 
 #### gt
 
@@ -1508,21 +1357,19 @@ db.collection('todos').where({
 
 查询筛选操作符，表示需大于或等于指定值。可以传入 Date 对象用于进行日期比较。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.gte.html)
 
 ```tsx
 (val: any) => DatabaseQueryCommand
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Command.gte | ✔️ |  |  |  |  |  |  |  |
-
 #### lt
 
 查询筛选操作符，表示需小于指定值。可以传入 Date 对象用于进行日期比较。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.lt.html)
 
@@ -1530,15 +1377,11 @@ db.collection('todos').where({
 (val: any) => DatabaseQueryCommand
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Command.lt | ✔️ |  |  |  |  |  |  |  |
-
 #### lte
 
 查询筛选操作符，表示需小于或等于指定值。可以传入 Date 对象用于进行日期比较。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.lte.html)
 
@@ -1546,15 +1389,11 @@ db.collection('todos').where({
 (val: any) => DatabaseQueryCommand
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Command.lte | ✔️ |  |  |  |  |  |  |  |
-
 #### in
 
 查询筛选操作符，表示要求值在给定的数组内。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.in.html)
 
@@ -1566,15 +1405,11 @@ db.collection('todos').where({
 | --- | --- |
 | val | `any[]` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Command.in | ✔️ |  |  |  |  |  |  |  |
-
 #### nin
 
 查询筛选操作符，表示要求值不在给定的数组内。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.nin.html)
 
@@ -1586,15 +1421,11 @@ db.collection('todos').where({
 | --- | --- |
 | val | `any[]` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Command.nin | ✔️ |  |  |  |  |  |  |  |
-
 #### geoNear
 
 按从近到远的顺序，找出字段值在给定点的附近的记录。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.geoNear.html)
 
@@ -1606,15 +1437,11 @@ db.collection('todos').where({
 | --- | --- |
 | options | `NearCommandOptions` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Command.geoNear | ✔️ |  |  |  |  |  |  |  |
-
 #### geoWithin
 
 找出字段值在指定区域内的记录，无排序。指定的区域必须是多边形（Polygon）或多边形集合（MultiPolygon）。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.geoWithin.html)
 
@@ -1626,15 +1453,11 @@ db.collection('todos').where({
 | --- | --- |
 | options | `WithinCommandOptions` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Command.geoWithin | ✔️ |  |  |  |  |  |  |  |
-
 #### geoIntersects
 
 找出给定的地理位置图形相交的记录
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.geoIntersects.html)
 
@@ -1646,15 +1469,11 @@ db.collection('todos').where({
 | --- | --- |
 | options | `IntersectsCommandOptions` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Command.geoIntersects | ✔️ |  |  |  |  |  |  |  |
-
 #### and
 
 查询操作符，用于表示逻辑 "与" 的关系，表示需同时满足多个查询筛选条件
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.and.html)
 
@@ -1664,17 +1483,13 @@ db.collection('todos').where({
 
 | 参数 | 类型 |
 | --- | --- |
-| expressions | `(IQueryCondition | DatabaseLogicCommand)[]` |
-
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Command.and | ✔️ |  |  |  |  |  |  |  |
+| expressions | (IQueryCondition or DatabaseLogicCommand)[] |
 
 #### or
 
 查询操作符，用于表示逻辑 "或" 的关系，表示需同时满足多个查询筛选条件。或指令有两种用法，一是可以进行字段值的 “或” 操作，二是也可以进行跨字段的 “或” 操作。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.or.html)
 
@@ -1684,17 +1499,13 @@ db.collection('todos').where({
 
 | 参数 | 类型 |
 | --- | --- |
-| expressions | `(IQueryCondition | DatabaseLogicCommand)[]` |
-
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Command.or | ✔️ |  |  |  |  |  |  |  |
+| expressions | (IQueryCondition or DatabaseLogicCommand)[] |
 
 #### set
 
 查询操作符，用于表示逻辑 "与" 的关系，表示需同时满足多个查询筛选条件
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.set.html)
 
@@ -1702,15 +1513,11 @@ db.collection('todos').where({
 (val: any) => DatabaseUpdateCommand
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Command.set | ✔️ |  |  |  |  |  |  |  |
-
 #### remove
 
 更新操作符，用于表示删除某个字段。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.remove.html)
 
@@ -1718,15 +1525,11 @@ db.collection('todos').where({
 () => DatabaseUpdateCommand
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Command.remove | ✔️ |  |  |  |  |  |  |  |
-
 #### inc
 
 更新操作符，原子操作，用于指示字段自增
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.inc.html)
 
@@ -1738,15 +1541,11 @@ db.collection('todos').where({
 | --- | --- |
 | val | `number` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Command.inc | ✔️ |  |  |  |  |  |  |  |
-
 #### mul
 
 更新操作符，原子操作，用于指示字段自乘某个值
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.mul.html)
 
@@ -1758,15 +1557,11 @@ db.collection('todos').where({
 | --- | --- |
 | val | `number` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Command.mul | ✔️ |  |  |  |  |  |  |  |
-
 #### push
 
 数组更新操作符。对一个值为数组的字段，往数组添加一个或多个值。或字段原为空，则创建该字段并设数组为传入值。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.push.html)
 
@@ -1778,15 +1573,11 @@ db.collection('todos').where({
 | --- | --- |
 | values | `any[]` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Command.push | ✔️ |  |  |  |  |  |  |  |
-
 #### pop
 
 数组更新操作符，对一个值为数组的字段，将数组尾部元素删除
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.pop.html)
 
@@ -1794,15 +1585,11 @@ db.collection('todos').where({
 () => DatabaseUpdateCommand
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Command.pop | ✔️ |  |  |  |  |  |  |  |
-
 #### shift
 
 数组更新操作符，对一个值为数组的字段，将数组头部元素删除。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.shift.html)
 
@@ -1810,15 +1597,11 @@ db.collection('todos').where({
 () => DatabaseUpdateCommand
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Command.shift | ✔️ |  |  |  |  |  |  |  |
-
 #### unshift
 
 数组更新操作符，对一个值为数组的字段，往数组头部添加一个或多个值。或字段原为空，则创建该字段并设数组为传入值。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.unshift.html)
 
@@ -1830,19 +1613,13 @@ db.collection('todos').where({
 | --- | --- |
 | values | `any[]` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Command.unshift | ✔️ |  |  |  |  |  |  |  |
-
 #### DatabaseLogicCommand
 
 数据库逻辑操作符
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| fieldName | `string | InternalSymbol` | 作用域名称 |
+| fieldName | string or InternalSymbol | 作用域名称 |
 | operator | `string` | 操作符 |
 | operands | `any[]` | 操作数 |
 | _setFieldName | `(fieldName: string) => DatabaseLogicCommand` | 设置作用域名称 |
@@ -1850,6 +1627,8 @@ db.collection('todos').where({
 ##### and
 
 查询操作符，用于表示逻辑 "与" 的关系，表示需同时满足多个查询筛选条件
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.and.html)
 
@@ -1859,17 +1638,13 @@ db.collection('todos').where({
 
 | 参数 | 类型 |
 | --- | --- |
-| expressions | `(IQueryCondition | DatabaseLogicCommand)[]` |
-
-###### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| DatabaseLogicCommand.and | ✔️ |  |  |  |  |  |  |  |
+| expressions | (IQueryCondition or DatabaseLogicCommand)[] |
 
 ##### or
 
 查询操作符，用于表示逻辑 "或" 的关系，表示需同时满足多个查询筛选条件。或指令有两种用法，一是可以进行字段值的 “或” 操作，二是也可以进行跨字段的 “或” 操作。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.or.html)
 
@@ -1879,20 +1654,7 @@ db.collection('todos').where({
 
 | 参数 | 类型 |
 | --- | --- |
-| expressions | `(IQueryCondition | DatabaseLogicCommand)[]` |
-
-###### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| DatabaseLogicCommand.or | ✔️ |  |  |  |  |  |  |  |
-
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| DatabaseLogicCommand.and | ✔️ |  |  |  |  |  |  |  |
-| DatabaseLogicCommand.or | ✔️ |  |  |  |  |  |  |  |
+| expressions | (IQueryCondition or DatabaseLogicCommand)[] |
 
 #### DatabaseQueryCommand
 
@@ -1907,21 +1669,19 @@ db.collection('todos').where({
 
 查询筛选条件，表示字段等于某个值。eq 指令接受一个字面量 (literal)，可以是 number, boolean, string, object, array, Date。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.eq.html)
 
 ```tsx
 (val: any) => DatabaseLogicCommand
 ```
 
-###### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| DatabaseQueryCommand.eq | ✔️ |  |  |  |  |  |  |  |
-
 ##### neq
 
 查询筛选条件，表示字段不等于某个值。eq 指令接受一个字面量 (literal)，可以是 number, boolean, string, object, array, Date。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.neq.html)
 
@@ -1929,15 +1689,11 @@ db.collection('todos').where({
 (val: any) => DatabaseLogicCommand
 ```
 
-###### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| DatabaseQueryCommand.neq | ✔️ |  |  |  |  |  |  |  |
-
 ##### gt
 
 查询筛选操作符，表示需大于指定值。可以传入 Date 对象用于进行日期比较。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.gt.html)
 
@@ -1945,15 +1701,11 @@ db.collection('todos').where({
 (val: any) => DatabaseLogicCommand
 ```
 
-###### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| DatabaseQueryCommand.gt | ✔️ |  |  |  |  |  |  |  |
-
 ##### gte
 
 查询筛选操作符，表示需大于或等于指定值。可以传入 Date 对象用于进行日期比较。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.gte.html)
 
@@ -1961,15 +1713,11 @@ db.collection('todos').where({
 (val: any) => DatabaseLogicCommand
 ```
 
-###### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| DatabaseQueryCommand.gte | ✔️ |  |  |  |  |  |  |  |
-
 ##### lt
 
 查询筛选操作符，表示需小于指定值。可以传入 Date 对象用于进行日期比较。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.lt.html)
 
@@ -1977,15 +1725,11 @@ db.collection('todos').where({
 (val: any) => DatabaseLogicCommand
 ```
 
-###### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| DatabaseQueryCommand.lt | ✔️ |  |  |  |  |  |  |  |
-
 ##### lte
 
 查询筛选操作符，表示需小于或等于指定值。可以传入 Date 对象用于进行日期比较。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.lte.html)
 
@@ -1993,15 +1737,11 @@ db.collection('todos').where({
 (val: any) => DatabaseLogicCommand
 ```
 
-###### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| DatabaseQueryCommand.lte | ✔️ |  |  |  |  |  |  |  |
-
 ##### in
 
 查询筛选操作符，表示要求值在给定的数组内。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.in.html)
 
@@ -2013,15 +1753,11 @@ db.collection('todos').where({
 | --- | --- |
 | val | `any[]` |
 
-###### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| DatabaseQueryCommand.in | ✔️ |  |  |  |  |  |  |  |
-
 ##### nin
 
 查询筛选操作符，表示要求值不在给定的数组内。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.nin.html)
 
@@ -2033,15 +1769,11 @@ db.collection('todos').where({
 | --- | --- |
 | val | `any[]` |
 
-###### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| DatabaseQueryCommand.nin | ✔️ |  |  |  |  |  |  |  |
-
 ##### geoNear
 
 按从近到远的顺序，找出字段值在给定点的附近的记录。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.geoNear.html)
 
@@ -2053,15 +1785,11 @@ db.collection('todos').where({
 | --- | --- |
 | options | `NearCommandOptions` |
 
-###### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| DatabaseQueryCommand.geoNear | ✔️ |  |  |  |  |  |  |  |
-
 ##### geoWithin
 
 找出字段值在指定区域内的记录，无排序。指定的区域必须是多边形（Polygon）或多边形集合（MultiPolygon）。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.geoWithin.html)
 
@@ -2073,15 +1801,11 @@ db.collection('todos').where({
 | --- | --- |
 | options | `WithinCommandOptions` |
 
-###### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| DatabaseQueryCommand.geoWithin | ✔️ |  |  |  |  |  |  |  |
-
 ##### geoIntersects
 
 找出给定的地理位置图形相交的记录
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/command/Command.geoIntersects.html)
 
@@ -2093,36 +1817,14 @@ db.collection('todos').where({
 | --- | --- |
 | options | `IntersectsCommandOptions` |
 
-###### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| DatabaseQueryCommand.geoIntersects | ✔️ |  |  |  |  |  |  |  |
-
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| DatabaseQueryCommand.eq | ✔️ |  |  |  |  |  |  |  |
-| DatabaseQueryCommand.neq | ✔️ |  |  |  |  |  |  |  |
-| DatabaseQueryCommand.gt | ✔️ |  |  |  |  |  |  |  |
-| DatabaseQueryCommand.gte | ✔️ |  |  |  |  |  |  |  |
-| DatabaseQueryCommand.lt | ✔️ |  |  |  |  |  |  |  |
-| DatabaseQueryCommand.lte | ✔️ |  |  |  |  |  |  |  |
-| DatabaseQueryCommand.in | ✔️ |  |  |  |  |  |  |  |
-| DatabaseQueryCommand.nin | ✔️ |  |  |  |  |  |  |  |
-| DatabaseQueryCommand.geoNear | ✔️ |  |  |  |  |  |  |  |
-| DatabaseQueryCommand.geoWithin | ✔️ |  |  |  |  |  |  |  |
-| DatabaseQueryCommand.geoIntersects | ✔️ |  |  |  |  |  |  |  |
-
 #### DatabaseUpdateCommand
 
 数据库更新操作符
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| fieldName | `string | InternalSymbol` | 作用域名称 |
-| operator | `"remove" | "set" | "inc" | "mul" | "push" | "pop" | "shift" | "unshift"` | 操作符 |
+| fieldName | string or InternalSymbol | 作用域名称 |
+| operator | `keyof UPDATE_COMMANDS_LITERAL` | 操作符 |
 | operands | `any[]` | 操作数 |
 | _setFieldName | `(fieldName: string) => DatabaseUpdateCommand` | 设置作用域名称 |
 
@@ -2186,7 +1888,7 @@ db.collection('todos').where({
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| geometry | `GeoPolygon | GeoMultiPolygon` | 地理信息结构，Polygon，MultiPolygon，或 { centerSphere } |
+| geometry | GeoPolygon or GeoMultiPolygon | 地理信息结构，Polygon，MultiPolygon，或 { centerSphere } |
 
 #### IntersectsCommandOptions
 
@@ -2194,32 +1896,7 @@ db.collection('todos').where({
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| geometry | `GeoPoint | GeoPolygon | GeoMultiPolygon | GeoMultiPoint | GeoLineString | GeoMultiLineString` | 地理信息结构 |
-
-#### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Command.eq | ✔️ |  |  |  |  |  |  |  |
-| Command.neq | ✔️ |  |  |  |  |  |  |  |
-| Command.gte | ✔️ |  |  |  |  |  |  |  |
-| Command.lt | ✔️ |  |  |  |  |  |  |  |
-| Command.lte | ✔️ |  |  |  |  |  |  |  |
-| Command.in | ✔️ |  |  |  |  |  |  |  |
-| Command.nin | ✔️ |  |  |  |  |  |  |  |
-| Command.geoNear | ✔️ |  |  |  |  |  |  |  |
-| Command.geoWithin | ✔️ |  |  |  |  |  |  |  |
-| Command.geoIntersects | ✔️ |  |  |  |  |  |  |  |
-| Command.and | ✔️ |  |  |  |  |  |  |  |
-| Command.or | ✔️ |  |  |  |  |  |  |  |
-| Command.set | ✔️ |  |  |  |  |  |  |  |
-| Command.remove | ✔️ |  |  |  |  |  |  |  |
-| Command.inc | ✔️ |  |  |  |  |  |  |  |
-| Command.mul | ✔️ |  |  |  |  |  |  |  |
-| Command.push | ✔️ |  |  |  |  |  |  |  |
-| Command.pop | ✔️ |  |  |  |  |  |  |  |
-| Command.shift | ✔️ |  |  |  |  |  |  |  |
-| Command.unshift | ✔️ |  |  |  |  |  |  |  |
+| geometry | GeoPoint or GeoPolygon or GeoMultiPolygon or GeoMultiPoint or GeoLineString or GeoMultiLineString | 地理信息结构 |
 
 ### Aggregate
 
@@ -2231,6 +1908,8 @@ db.collection('todos').where({
 
 聚合阶段。添加新字段到输出的记录。经过 addFields 聚合阶段，输出的所有记录中除了输入时带有的字段外，还将带有 addFields 指定的字段。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.addFields.html)
 
 ```tsx
@@ -2241,15 +1920,11 @@ db.collection('todos').where({
 | --- | --- |
 | object | `Object` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Aggregate.addFields | ✔️ |  |  |  |  |  |  |  |
-
 #### bucket
 
 聚合阶段。将输入记录根据给定的条件和边界划分成不同的组，每组即一个 bucket。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.bucket.html)
 
@@ -2261,15 +1936,11 @@ db.collection('todos').where({
 | --- | --- |
 | object | `Object` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Aggregate.bucket | ✔️ |  |  |  |  |  |  |  |
-
 #### bucketAuto
 
 聚合阶段。将输入记录根据给定的条件划分成不同的组，每组即一个 bucket。与 bucket 的其中一个不同之处在于无需指定 boundaries，bucketAuto 会自动尝试将记录尽可能平均的分散到每组中。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.bucketAuto.html)
 
@@ -2281,15 +1952,11 @@ db.collection('todos').where({
 | --- | --- |
 | object | `Object` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Aggregate.bucketAuto | ✔️ |  |  |  |  |  |  |  |
-
 #### count
 
 聚合阶段。计算上一聚合阶段输入到本阶段的记录数，输出一个记录，其中指定字段的值为记录数。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.count.html)
 
@@ -2301,15 +1968,11 @@ db.collection('todos').where({
 | --- | --- |
 | fieldName | `string` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Aggregate.count | ✔️ |  |  |  |  |  |  |  |
-
 #### end
 
 标志聚合操作定义完成，发起实际聚合操作
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.end.html)
 
@@ -2317,15 +1980,11 @@ db.collection('todos').where({
 () => Promise<Object>
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Aggregate.end | ✔️ |  |  |  |  |  |  |  |
-
 #### geoNear
 
 聚合阶段。将记录按照离给定点从近到远输出。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.geoNear.html)
 
@@ -2337,15 +1996,11 @@ db.collection('todos').where({
 | --- | --- |
 | options | `Object` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Aggregate.geoNear | ✔️ |  |  |  |  |  |  |  |
-
 #### group
 
 聚合阶段。将输入记录按给定表达式分组，输出时每个记录代表一个分组，每个记录的 _id 是区分不同组的 key。输出记录中也可以包括累计值，将输出字段设为累计值即会从该分组中计算累计值。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.group.html)
 
@@ -2357,15 +2012,11 @@ db.collection('todos').where({
 | --- | --- |
 | object | `Object` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Aggregate.group | ✔️ |  |  |  |  |  |  |  |
-
 #### limit
 
 聚合阶段。限制输出到下一阶段的记录数。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.limit.html)
 
@@ -2377,15 +2028,11 @@ db.collection('todos').where({
 | --- | --- |
 | value | `number` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Aggregate.limit | ✔️ |  |  |  |  |  |  |  |
-
 #### lookup
 
 聚合阶段。聚合阶段。联表查询。与同个数据库下的一个指定的集合做 left outer join(左外连接)。对该阶段的每一个输入记录，lookup 会在该记录中增加一个数组字段，该数组是被联表中满足匹配条件的记录列表。lookup 会将连接后的结果输出给下个阶段。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.lookup.html)
 
@@ -2397,15 +2044,11 @@ db.collection('todos').where({
 | --- | --- |
 | object | `Object` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Aggregate.lookup | ✔️ |  |  |  |  |  |  |  |
-
 #### match
 
 聚合阶段。根据条件过滤文档，并且把符合条件的文档传递给下一个流水线阶段。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.match.html)
 
@@ -2417,15 +2060,11 @@ db.collection('todos').where({
 | --- | --- |
 | object | `Object` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Aggregate.match | ✔️ |  |  |  |  |  |  |  |
-
 #### project
 
 聚合阶段。把指定的字段传递给下一个流水线，指定的字段可以是某个已经存在的字段，也可以是计算出来的新字段。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.project.html)
 
@@ -2437,15 +2076,11 @@ db.collection('todos').where({
 | --- | --- |
 | object | `Object` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Aggregate.project | ✔️ |  |  |  |  |  |  |  |
-
 #### replaceRoot
 
 聚合阶段。指定一个已有字段作为输出的根节点，也可以指定一个计算出的新字段作为根节点。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.replaceRoot.html)
 
@@ -2457,15 +2092,11 @@ db.collection('todos').where({
 | --- | --- |
 | object | `Object` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Aggregate.replaceRoot | ✔️ |  |  |  |  |  |  |  |
-
 #### sample
 
 聚合阶段。随机从文档中选取指定数量的记录。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.sample.html)
 
@@ -2477,15 +2108,11 @@ db.collection('todos').where({
 | --- | --- |
 | size | `number` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Aggregate.sample | ✔️ |  |  |  |  |  |  |  |
-
 #### skip
 
 聚合阶段。指定一个正整数，跳过对应数量的文档，输出剩下的文档。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.skip.html)
 
@@ -2497,15 +2124,11 @@ db.collection('todos').where({
 | --- | --- |
 | value | `number` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Aggregate.skip | ✔️ |  |  |  |  |  |  |  |
-
 #### sort
 
 聚合阶段。根据指定的字段，对输入的文档进行排序。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.sort.html)
 
@@ -2517,15 +2140,11 @@ db.collection('todos').where({
 | --- | --- |
 | object | `Object` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Aggregate.sort | ✔️ |  |  |  |  |  |  |  |
-
 #### sortByCount
 
 聚合阶段。根据传入的表达式，将传入的集合进行分组（group）。然后计算不同组的数量，并且将这些组按照它们的数量进行排序，返回排序后的结果。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.sortByCount.html)
 
@@ -2537,15 +2156,11 @@ db.collection('todos').where({
 | --- | --- |
 | object | `Object` |
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Aggregate.sortByCount | ✔️ |  |  |  |  |  |  |  |
-
 #### unwind
 
 聚合阶段。使用指定的数组字段中的每个元素，对文档进行拆分。拆分后，文档会从一个变为一个或多个，分别对应数组的每个元素。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/aggregate/Aggregate.unwind.html)
 
@@ -2555,35 +2170,7 @@ db.collection('todos').where({
 
 | 参数 | 类型 |
 | --- | --- |
-| value | `string | object` |
-
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Aggregate.unwind | ✔️ |  |  |  |  |  |  |  |
-
-#### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Aggregate.addFields | ✔️ |  |  |  |  |  |  |  |
-| Aggregate.bucket | ✔️ |  |  |  |  |  |  |  |
-| Aggregate.bucketAuto | ✔️ |  |  |  |  |  |  |  |
-| Aggregate.count | ✔️ |  |  |  |  |  |  |  |
-| Aggregate.end | ✔️ |  |  |  |  |  |  |  |
-| Aggregate.geoNear | ✔️ |  |  |  |  |  |  |  |
-| Aggregate.group | ✔️ |  |  |  |  |  |  |  |
-| Aggregate.limit | ✔️ |  |  |  |  |  |  |  |
-| Aggregate.lookup | ✔️ |  |  |  |  |  |  |  |
-| Aggregate.match | ✔️ |  |  |  |  |  |  |  |
-| Aggregate.project | ✔️ |  |  |  |  |  |  |  |
-| Aggregate.replaceRoot | ✔️ |  |  |  |  |  |  |  |
-| Aggregate.sample | ✔️ |  |  |  |  |  |  |  |
-| Aggregate.skip | ✔️ |  |  |  |  |  |  |  |
-| Aggregate.sort | ✔️ |  |  |  |  |  |  |  |
-| Aggregate.sortByCount | ✔️ |  |  |  |  |  |  |  |
-| Aggregate.unwind | ✔️ |  |  |  |  |  |  |  |
+| value | string or object |
 
 ### IGeo
 
@@ -2596,6 +2183,8 @@ db.collection('todos').where({
 构造一个地理位置 ”点“。方法接受两个必填参数，第一个是经度（longitude），第二个是纬度（latitude），务必注意顺序。
 
 如存储地理位置信息的字段有被查询的需求，务必对字段建立地理位置索引
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/Geo.Point.html)
 
@@ -2644,17 +2233,13 @@ db.collection('todos').add({
 }).then(console.log).catch(console.error)
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| IGeo.Point | ✔️ |  |  |  |  |  |  |  |
-
 #### LineString
 
 构造一个地理位置的 ”线“。一个线由两个或更多的点有序连接组成。
 
 如存储地理位置信息的字段有被查询的需求，务必对字段建立地理位置索引
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/Geo.LineString.html)
 
@@ -2664,7 +2249,7 @@ db.collection('todos').add({
 
 | 参数 | 类型 |
 | --- | --- |
-| points | `JSONMultiPoint | GeoPoint[]` |
+| points | JSONMultiPoint or GeoPoint[] |
 
 ##### 示例代码
 
@@ -2713,12 +2298,6 @@ db.collection('todos').add({
 }).then(console.log).catch(console.error)
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| IGeo.LineString | ✔️ |  |  |  |  |  |  |  |
-
 #### Polygon
 
 构造一个地理位置 ”多边形“
@@ -2737,6 +2316,8 @@ db.collection('todos').add({
 4. 各个内环间不能相交或重叠，也不能有共同的边
 5. 外环应为逆时针，内环应为顺时针
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/Geo.Polygon.html)
 
 ```tsx
@@ -2745,7 +2326,7 @@ db.collection('todos').add({
 
 | 参数 | 类型 |
 | --- | --- |
-| lineStrings | `JSONPolygon | GeoLineString[]` |
+| lineStrings | JSONPolygon or GeoLineString[] |
 
 ##### 示例代码
 
@@ -2820,17 +2401,13 @@ db.collection('todos').add({
 }).then(console.log).catch(console.error)
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| IGeo.Polygon | ✔️ |  |  |  |  |  |  |  |
-
 #### MultiPoint
 
 构造一个地理位置的 ”点“ 的集合。一个点集合由一个或更多的点组成。
 
 如存储地理位置信息的字段有被查询的需求，务必对字段建立地理位置索引
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/Geo.MultiPoint.html)
 
@@ -2840,7 +2417,7 @@ db.collection('todos').add({
 
 | 参数 | 类型 |
 | --- | --- |
-| polygons | `JSONMultiPolygon | GeoPolygon[]` |
+| polygons | JSONMultiPolygon or GeoPolygon[] |
 
 ##### 示例代码
 
@@ -2889,17 +2466,13 @@ db.collection('todos').add({
 }).then(console.log).catch(console.error)
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| IGeo.MultiPoint | ✔️ |  |  |  |  |  |  |  |
-
 #### MultiLineString
 
 构造一个地理位置 ”线“ 集合。一个线集合由多条线组成。
 
 如存储地理位置信息的字段有被查询的需求，务必对字段建立地理位置索引
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/Geo.MultiLineString.html)
 
@@ -2909,7 +2482,7 @@ db.collection('todos').add({
 
 | 参数 | 类型 |
 | --- | --- |
-| lineStrings | `JSONMultiLineString | GeoLineString[]` |
+| lineStrings | JSONMultiLineString or GeoLineString[] |
 
 ##### 示例代码
 
@@ -2959,12 +2532,6 @@ db.collection('todos').add({
 }).then(console.log).catch(console.error)
 ```
 
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| IGeo.MultiLineString | ✔️ |  |  |  |  |  |  |  |
-
 #### MultiPolygon
 
 构造一个地理位置 ”多边形“ 集合。一个多边形集合由多个多边形组成。
@@ -2983,6 +2550,8 @@ db.collection('todos').add({
 4. 各个内环间不能相交或重叠，也不能有共同的边
 5. 外环应为逆时针，内环应为顺时针
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/geo/Geo.MultiPolygon.html)
 
 ```tsx
@@ -2991,7 +2560,7 @@ db.collection('todos').add({
 
 | 参数 | 类型 |
 | --- | --- |
-| polygons | `JSONMultiPolygon | GeoPolygon[]` |
+| polygons | JSONMultiPolygon or GeoPolygon[] |
 
 ##### 示例代码
 
@@ -3061,12 +2630,6 @@ db.collection('todos').add({
   }
 }).then(console.log).catch(console.error)
 ```
-
-##### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| IGeo.MultiPolygon | ✔️ |  |  |  |  |  |  |  |
 
 #### GeoPoint
 
@@ -3278,14 +2841,3 @@ db.collection('todos').add({
 | --- | --- | --- |
 | type | `"MultiPolygon"` | 类型 |
 | coordinates | `[number, number][][][]` | 坐标 |
-
-#### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| IGeo.Point | ✔️ |  |  |  |  |  |  |  |
-| IGeo.LineString | ✔️ |  |  |  |  |  |  |  |
-| IGeo.Polygon | ✔️ |  |  |  |  |  |  |  |
-| IGeo.MultiPoint | ✔️ |  |  |  |  |  |  |  |
-| IGeo.MultiLineString | ✔️ |  |  |  |  |  |  |  |
-| IGeo.MultiPolygon | ✔️ |  |  |  |  |  |  |  |

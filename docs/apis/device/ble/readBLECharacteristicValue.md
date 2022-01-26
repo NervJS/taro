@@ -9,66 +9,32 @@ sidebar_label: readBLECharacteristicValue
 - 并行调用多次会存在读失败的可能性。
 - 接口读取到的信息需要在 `onBLECharacteristicValueChange` 方法注册的回调中获取。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.readBLECharacteristicValue.html)
 
 ## 类型
 
 ```tsx
-(option: Option) => Promise<BluetoothError>
+(option: Option) => Promise<TaroGeneral.BluetoothError>
 ```
 
 ## 参数
 
+| 参数 | 类型 |
+| --- | --- |
+| option | `Option` |
+
 ### Option
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>characteristicId</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>蓝牙特征值的 uuid</td>
-    </tr>
-    <tr>
-      <td>deviceId</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>蓝牙设备 id</td>
-    </tr>
-    <tr>
-      <td>serviceId</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>蓝牙特征值对应服务的 uuid</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: BluetoothError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(res: BluetoothError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(res: BluetoothError) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| characteristicId | `string` | 是 | 蓝牙特征值的 uuid |
+| deviceId | `string` | 是 | 蓝牙设备 id |
+| serviceId | `string` | 是 | 蓝牙特征值对应服务的 uuid |
+| complete | `(res: TaroGeneral.BluetoothError) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.BluetoothError) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.BluetoothError) => void` | 否 | 接口调用成功的回调函数 |
 
 ## 示例代码
 
@@ -89,9 +55,3 @@ Taro.readBLECharacteristicValue({
   }
 })
 ```
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Taro.readBLECharacteristicValue | ✔️ |  |  |

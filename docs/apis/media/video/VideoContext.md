@@ -9,21 +9,19 @@ sidebar_label: VideoContext
 
 退出全屏
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.exitFullScreen.html)
 
 ```tsx
 () => void
 ```
 
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| VideoContext.exitFullScreen | ✔️ |  | ✔️ |
-
 ### hideStatusBar
 
 隐藏状态栏，仅在iOS全屏下有效
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.hideStatusBar.html)
 
@@ -31,15 +29,11 @@ sidebar_label: VideoContext
 () => void
 ```
 
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| VideoContext.hideStatusBar | ✔️ |  |  |
-
 ### pause
 
 暂停视频
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.pause.html)
 
@@ -47,15 +41,11 @@ sidebar_label: VideoContext
 () => void
 ```
 
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| VideoContext.pause | ✔️ |  | ✔️ |
-
 ### play
 
 播放视频
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.play.html)
 
@@ -63,15 +53,11 @@ sidebar_label: VideoContext
 () => void
 ```
 
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| VideoContext.play | ✔️ |  | ✔️ |
-
 ### playbackRate
 
 设置倍速播放
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.playbackRate.html)
 
@@ -79,32 +65,15 @@ sidebar_label: VideoContext
 (rate: number) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>rate</td>
-      <td><code>number</code></td>
-      <td>倍率，支持 0.5/0.8/1.0/1.25/1.5，2.6.3 起支持 2.0 倍速</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| VideoContext.playbackRate | ✔️ |  | ✔️ |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| rate | `number` | 倍率，支持 0.5/0.8/1.0/1.25/1.5，2.6.3 起支持 2.0 倍速 |
 
 ### requestFullScreen
 
 进入全屏
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.requestFullScreen.html)
 
@@ -112,30 +81,15 @@ sidebar_label: VideoContext
 (option: RequestFullScreenOption) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>RequestFullScreenOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| VideoContext.requestFullScreen | ✔️ |  | ✔️ |
+| 参数 | 类型 |
+| --- | --- |
+| option | `RequestFullScreenOption` |
 
 ### seek
 
 跳转到指定位置
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.seek.html)
 
@@ -143,32 +97,15 @@ sidebar_label: VideoContext
 (position: number) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>position</td>
-      <td><code>number</code></td>
-      <td>跳转到的位置，单位 s</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| VideoContext.seek | ✔️ |  | ✔️ |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| position | `number` | 跳转到的位置，单位 s |
 
 ### sendDanmu
 
 发送弹幕
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.sendDanmu.html)
 
@@ -176,32 +113,15 @@ sidebar_label: VideoContext
 (data: Danmu) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>data</td>
-      <td><code>Danmu</code></td>
-      <td>弹幕内容</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| VideoContext.sendDanmu | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| data | `Danmu` | 弹幕内容 |
 
 ### showStatusBar
 
 显示状态栏，仅在iOS全屏下有效
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.showStatusBar.html)
 
@@ -209,15 +129,11 @@ sidebar_label: VideoContext
 () => void
 ```
 
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| VideoContext.showStatusBar | ✔️ |  |  |
-
 ### stop
 
 停止视频
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.stop.html)
 
@@ -225,75 +141,34 @@ sidebar_label: VideoContext
 () => void
 ```
 
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| VideoContext.stop | ✔️ |  | ✔️ |
-
 ## 参数
 
 ### RequestFullScreenOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>direction</td>
-      <td><code>0 | 90 | -90</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置全屏时视频的方向，不指定则根据宽高比自动判断。<br /><br />可选值：<br />- 0: 正常竖向;<br />- 90: 屏幕逆时针90度;<br />- -90: 屏幕顺时针90度;</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| direction | 0 or 90 or -90 | 否 | 设置全屏时视频的方向，不指定则根据宽高比自动判断。<br /><br />可选值：<br />- 0: 正常竖向;<br />- 90: 屏幕逆时针90度;<br />- -90: 屏幕顺时针90度; |
 
 ### Danmu
 
 弹幕内容
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>text</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>弹幕文字</td>
-    </tr>
-    <tr>
-      <td>color</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>弹幕颜色</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| text | `string` | 是 | 弹幕文字 |
+| color | `string` | 否 | 弹幕颜色 |
 
 ## API 支持度
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| VideoContext.exitFullScreen | ✔️ |  | ✔️ |
+| VideoContext.exitFullScreen | ✔️ | ✔️ | ✔️ |
 | VideoContext.hideStatusBar | ✔️ |  |  |
-| VideoContext.pause | ✔️ |  | ✔️ |
-| VideoContext.play | ✔️ |  | ✔️ |
+| VideoContext.pause | ✔️ | ✔️ | ✔️ |
+| VideoContext.play | ✔️ | ✔️ | ✔️ |
 | VideoContext.playbackRate | ✔️ |  | ✔️ |
-| VideoContext.requestFullScreen | ✔️ |  | ✔️ |
-| VideoContext.seek | ✔️ |  | ✔️ |
+| VideoContext.requestFullScreen | ✔️ | ✔️ | ✔️ |
+| VideoContext.seek | ✔️ | ✔️ | ✔️ |
 | VideoContext.sendDanmu | ✔️ |  |  |
 | VideoContext.showStatusBar | ✔️ |  |  |
-| VideoContext.stop | ✔️ |  | ✔️ |
+| VideoContext.stop | ✔️ | ✔️ | ✔️ |

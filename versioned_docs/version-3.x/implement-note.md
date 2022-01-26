@@ -98,3 +98,7 @@ Taro 的 Typings 文件位于 `@tarojs/taro/types` 中。
 反向转换，即原生微信小程序转换为 Taro 的功能，目前支持转换为 React。
 
 反向转换分为编译时和运行时两大模块，分别位于 `@tarojs/taroize` 和 `@tarojs/with-weapp`。
+
+## 相关阅读
+
+- [如何参与大型开源项目-Taro 共建](/blog/2022-01-19-how-to-join-Taro.md)

@@ -5,6 +5,8 @@ sidebar_label: chooseAddress
 
 获取用户收货地址。调起用户编辑收货地址原生界面，并在编辑完成后返回用户选择的地址。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/address/wx.chooseAddress.html)
 
 ## 类型
@@ -15,97 +17,31 @@ sidebar_label: chooseAddress
 
 ## 参数
 
+| 参数 | 类型 |
+| --- | --- |
+| option | `Option` |
+
 ### Option
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(result: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### SuccessCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>cityName</td>
-      <td><code>string</code></td>
-      <td>国标收货地址第二级地址</td>
-    </tr>
-    <tr>
-      <td>countyName</td>
-      <td><code>string</code></td>
-      <td>国标收货地址第三级地址</td>
-    </tr>
-    <tr>
-      <td>detailInfo</td>
-      <td><code>string</code></td>
-      <td>详细收货地址信息</td>
-    </tr>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>错误信息</td>
-    </tr>
-    <tr>
-      <td>nationalCode</td>
-      <td><code>string</code></td>
-      <td>收货地址国家码</td>
-    </tr>
-    <tr>
-      <td>postalCode</td>
-      <td><code>string</code></td>
-      <td>邮编</td>
-    </tr>
-    <tr>
-      <td>provinceName</td>
-      <td><code>string</code></td>
-      <td>国标收货地址第一级地址</td>
-    </tr>
-    <tr>
-      <td>telNumber</td>
-      <td><code>string</code></td>
-      <td>收货人手机号码</td>
-    </tr>
-    <tr>
-      <td>userName</td>
-      <td><code>string</code></td>
-      <td>收货人姓名</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| cityName | `string` | 国标收货地址第二级地址 |
+| countyName | `string` | 国标收货地址第三级地址 |
+| detailInfo | `string` | 详细收货地址信息 |
+| errMsg | `string` | 错误信息 |
+| nationalCode | `string` | 收货地址国家码 |
+| postalCode | `string` | 邮编 |
+| provinceName | `string` | 国标收货地址第一级地址 |
+| telNumber | `string` | 收货人手机号码 |
+| userName | `string` | 收货人姓名 |
 
 ## 示例代码
 
@@ -123,9 +59,3 @@ Taro.chooseAddress({
   }
 })
 ```
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Taro.chooseAddress | ✔️ |  |  |

@@ -9,61 +9,33 @@ sidebar_label: Worker
 
 监听主线程/Worker 线程向当前线程发送的消息的事件。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/worker/Worker.onMessage.html)
 
 ```tsx
 (callback: OnMessageCallback) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>callback</td>
-      <td><code>OnMessageCallback</code></td>
-      <td>主线程/Worker 线程向当前线程发送的消息的事件的回调函数</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Worker.onMessage | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| callback | `OnMessageCallback` | 主线程/Worker 线程向当前线程发送的消息的事件的回调函数 |
 
 ### postMessage
 
 向主线程/Worker 线程发送的消息。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/worker/Worker.postMessage.html)
 
 ```tsx
-(message: Record<string, any>) => void
+(message: TaroGeneral.IAnyObject) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>message</td>
-      <td><code>Record&lt;string, any&gt;</code></td>
-      <td>需要发送的消息，必须是一个可序列化的 JavaScript key-value 形式的对象。</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| message | `TaroGeneral.IAnyObject` | 需要发送的消息，必须是一个可序列化的 JavaScript key-value 形式的对象。 |
 
 #### 示例代码
 
@@ -84,27 +56,17 @@ worker.postMessage({
 })
 ```
 
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Worker.postMessage | ✔️ |  |  |
-
 ### terminate
 
 结束当前 Worker 线程。仅限在主线程 worker 对象上调用。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/worker/Worker.terminate.html)
 
 ```tsx
 () => void
 ```
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Worker.terminate | ✔️ |  |  |
 
 ## 参数
 
@@ -114,39 +76,15 @@ worker.postMessage({
 (result: OnMessageCallbackResult) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>result</td>
-      <td><code>OnMessageCallbackResult</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| result | `OnMessageCallbackResult` |
 
 ### OnMessageCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>message</td>
-      <td><code>Record&lt;string, any&gt;</code></td>
-      <td>主线程/Worker 线程向当前线程发送的消息</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| message | `TaroGeneral.IAnyObject` | 主线程/Worker 线程向当前线程发送的消息 |
 
 ## API 支持度
 

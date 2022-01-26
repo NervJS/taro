@@ -15,6 +15,8 @@ sidebar_label: Editor
 
 *编辑器内支持部分 HTML 标签和内联样式，不支持 **class** 和 **id***
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/editor.html)
 
 ## 类型
@@ -25,15 +27,21 @@ ComponentType<EditorProps>
 
 ## 示例代码
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
 
 <Tabs
   defaultValue="React"
   values={[
-    {label: 'React', value: 'React'},
-    {label: 'Vue', value: 'Vue'}
-  ]}>
+  {
+    "label": "React",
+    "value": "React"
+  },
+  {
+    "label": "Vue",
+    "value": "Vue"
+  }
+]}>
 <TabItem value="React">
 
 ```tsx
@@ -63,7 +71,6 @@ class App extends Components {
 }
 ```
 </TabItem>
-
 <TabItem value="Vue">
 
 ```html
@@ -95,95 +102,23 @@ class App extends Components {
   }
 </script>
 ```
-  
 </TabItem>
 </Tabs>
 
 ## EditorProps
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>readOnly</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置编辑器为只读</td>
-    </tr>
-    <tr>
-      <td>placeholder</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>提示信息</td>
-    </tr>
-    <tr>
-      <td>showImgSize</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>点击图片时显示图片大小控件</td>
-    </tr>
-    <tr>
-      <td>showImgToolbar</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>点击图片时显示工具栏控件</td>
-    </tr>
-    <tr>
-      <td>showImgResize</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>点击图片时显示修改尺寸控件</td>
-    </tr>
-    <tr>
-      <td>onReady</td>
-      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>编辑器初始化完成时触发</td>
-    </tr>
-    <tr>
-      <td>onFocus</td>
-      <td><code>BaseEventOrigFunction&lt;editorEventDetail&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>编辑器聚焦时触发<br />event.detail = {`{ html, text, delta }`}</td>
-    </tr>
-    <tr>
-      <td>onBlur</td>
-      <td><code>BaseEventOrigFunction&lt;editorEventDetail&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>编辑器失去焦点时触发<br />detail = {`{ html, text, delta }`}</td>
-    </tr>
-    <tr>
-      <td>onInput</td>
-      <td><code>BaseEventOrigFunction&lt;editorEventDetail&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>编辑器内容改变时触发<br />detail = {`{ html, text, delta }`}</td>
-    </tr>
-    <tr>
-      <td>onStatuschange</td>
-      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>通过 Context 方法改变编辑器内样式时触发，返回选区已设置的样式</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 默认值 | 必填 | 说明 |
+| --- | --- | :---: | :---: | --- |
+| readOnly | `boolean` | `false` | 否 | 设置编辑器为只读 |
+| placeholder | `string` |  | 否 | 提示信息 |
+| showImgSize | `boolean` | `false` | 否 | 点击图片时显示图片大小控件 |
+| showImgToolbar | `boolean` | `false` | 否 | 点击图片时显示工具栏控件 |
+| showImgResize | `boolean` | `false` | 否 | 点击图片时显示修改尺寸控件 |
+| onReady | `CommonEventFunction` |  | 否 | 编辑器初始化完成时触发 |
+| onFocus | `CommonEventFunction<editorEventDetail>` |  | 否 | 编辑器聚焦时触发<br />event.detail = { html, text, delta } |
+| onBlur | `CommonEventFunction<editorEventDetail>` |  | 否 | 编辑器失去焦点时触发<br />detail = { html, text, delta } |
+| onInput | `CommonEventFunction<editorEventDetail>` |  | 否 | 编辑器内容改变时触发<br />detail = { html, text, delta } |
+| onStatuschange | `CommonEventFunction` |  | 否 | 通过 Context 方法改变编辑器内样式时触发，返回选区已设置的样式 |
 
 ### API 支持度
 
@@ -201,9 +136,3 @@ class App extends Components {
 | EditorProps.onStatuschange | ✔️ |  |  |
 
 ### editorEventDetail
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Editor | ✔️ |  |  |

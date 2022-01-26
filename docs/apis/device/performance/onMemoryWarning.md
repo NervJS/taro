@@ -7,6 +7,8 @@ sidebar_label: onMemoryWarning
 
 当 iOS/Android 向小程序进程发出内存警告时，触发该事件。触发该事件不意味小程序被杀，大部分情况下仅仅是告警，开发者可在收到通知后回收一些不必要资源避免进一步加剧内存紧张。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/performance/wx.onMemoryWarning.html)
 
 ## 类型
@@ -17,6 +19,10 @@ sidebar_label: onMemoryWarning
 
 ## 参数
 
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| callback | `Callback` | 内存不足告警事件的回调函数 |
+
 ### Callback
 
 内存不足告警事件的回调函数
@@ -25,64 +31,23 @@ sidebar_label: onMemoryWarning
 (result: CallbackResult) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>result</td>
-      <td><code>CallbackResult</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| result | `CallbackResult` |
 
 ### CallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>level</td>
-      <td><code>5 | 10 | 15</code></td>
-      <td>内存告警等级，只有 Android 才有，对应系统宏定义</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| level | `keyof level` | 内存告警等级，只有 Android 才有，对应系统宏定义 |
 
 ### level
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>5</td>
-      <td>TRIM_MEMORY_RUNNING_MODERATE</td>
-    </tr>
-    <tr>
-      <td>10</td>
-      <td>TRIM_MEMORY_RUNNING_LOW</td>
-    </tr>
-    <tr>
-      <td>15</td>
-      <td>TRIM_MEMORY_RUNNING_CRITICAL</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 说明 |
+| --- | --- |
+| 5 | TRIM_MEMORY_RUNNING_MODERATE |
+| 10 | TRIM_MEMORY_RUNNING_LOW |
+| 15 | TRIM_MEMORY_RUNNING_CRITICAL |
 
 ## 示例代码
 
@@ -91,9 +56,3 @@ Taro.onMemoryWarning(function () {
   console.log('onMemoryWarningReceive')
 })
 ```
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Taro.onMemoryWarning | ✔️ |  |  |
