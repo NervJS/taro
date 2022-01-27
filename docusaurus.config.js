@@ -31,6 +31,10 @@ const siteConfigGithub = {
       src: 'https://storage.jd.com/taro-docs/taro-doc-hotjar.js',
       async: true
     },
+    {
+      src: 'https://storage.360buyimg.com/quark-platform/sdk/ling-distribute-sdk-h5.0.7.0.js',
+      async: true
+    },
   ],
   i18n: {
     defaultLocale: 'zh-cn',
@@ -244,6 +248,10 @@ const siteConfigTaroZone = {
     },
     {
       src: 'https://storage.jd.com/taro-docs/taro-doc-hotjar.js',
+      async: true
+    },
+    {
+      src: 'https://storage.360buyimg.com/quark-platform/sdk/ling-distribute-sdk-h5.0.7.0.js',
       async: true
     },
   ],
