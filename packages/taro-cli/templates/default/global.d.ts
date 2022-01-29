@@ -1,5 +1,5 @@
-/// <reference path="node_modules/@tarojs/plugin-platform-weapp/types/shims-weapp.d.ts" />
-/// <reference path="node_modules/@tarojs/taro/types/index.d.ts" />
+/// <reference types="@tarojs/plugin-platform-weapp/types/shims-weapp" />
+/// <reference types="@tarojs/taro" />
 
 declare module '*.png';
 declare module '*.gif';
