@@ -1,4 +1,3 @@
-/// <reference types="@tarojs/plugin-platform-weapp/types/shims-weapp" />
 /// <reference types="@tarojs/taro" />
 
 declare module '*.png';
