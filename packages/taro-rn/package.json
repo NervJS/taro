@@ -57,7 +57,7 @@
     "react-native-root-toast": "^3.0.1",
     "react-native-safe-area-context": "~3.3.2",
     "react-native-stylekit": "^1.0.0",
-    "react-native-syan-image-picker": "0.4.10",
+    "react-native-syan-image-picker": "0.5.3",
     "react-native-unimodules": "~0.14.10"
   },
   "devDependencies": {
@@ -87,7 +87,7 @@
     "react-native-device-info": "~8.4.8",
     "react-native-image-resizer": "~1.4.5",
     "react-native-safe-area-context": "~3.3.2",
-    "react-native-syan-image-picker": "0.4.10",
+    "react-native-syan-image-picker": "0.5.3",
     "react-native-unimodules": "~0.14.10"
   },
   "resolutions": {
