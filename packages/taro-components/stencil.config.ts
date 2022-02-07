@@ -1,13 +1,19 @@
 import { Config } from '@stencil/core'
 import { sass } from '@stencil/sass'
+
 const { jsWithTs: tsjPreset } = require('ts-jest/presets')
 
 export const config: Config = {
   namespace: 'taro-components',
-  globalStyle: '../../node_modules/weui/dist/style/weui.min.css',
+  globalStyle: './src/global.css',
   plugins: [
     sass()
   ],
+  nodeResolve: {
+    preferBuiltins: false,
+    // @ts-ignore
+    mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
+  },
   outputTargets: [
     {
       type: 'dist',
@@ -39,6 +45,21 @@ export const config: Config = {
     },
     emulate: [{
       device: 'iPhone 8'
+    }]
+  },
+  rollupConfig: {
+    inputOptions: {
+      treeshake: true
+    }
+  },
+  rollupPlugins: {
+    after: [{
+      name: 'add-external',
+      options: opts => {
+        opts.external = ['@tarojs/taro']
+
+        return opts
+      }
     }]
   }
 }

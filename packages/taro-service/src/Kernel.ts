@@ -280,6 +280,18 @@ export default class Kernel extends EventEmitter {
     this.runOpts = opts
   }
 
+  runHelp (name: string) {
+    const command = this.commands.get(name)
+    const defaultOptionsMap = new Map()
+    defaultOptionsMap.set('-h, --help', 'output usage information')
+    let customOptionsMap = new Map()
+    if (command?.optionsMap) {
+      customOptionsMap = new Map(Object.entries(command?.optionsMap))
+    }
+    const optionsMap = new Map([...customOptionsMap, ...defaultOptionsMap])
+    printHelpLog(name, optionsMap, command?.synopsisList ? new Set(command?.synopsisList) : new Set())
+  }
+
   async run (args: string | { name: string, opts?: any }) {
     let name
     let opts
@@ -301,16 +313,7 @@ export default class Kernel extends EventEmitter {
       throw new Error(`${name} 命令不存在`)
     }
     if (opts?.isHelp) {
-      const command = this.commands.get(name)
-      const defaultOptionsMap = new Map()
-      defaultOptionsMap.set('-h, --help', 'output usage information')
-      let customOptionsMap = new Map()
-      if (command?.optionsMap) {
-        customOptionsMap = new Map(Object.entries(command?.optionsMap))
-      }
-      const optionsMap = new Map([...customOptionsMap, ...defaultOptionsMap])
-      printHelpLog(name, optionsMap, command?.synopsisList ? new Set(command?.synopsisList) : new Set())
-      return
+      return this.runHelp(name)
     }
     if (opts?.options?.platform) {
       opts.config = this.runWithPlatform(opts.options.platform)

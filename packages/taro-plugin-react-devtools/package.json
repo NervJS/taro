@@ -27,11 +27,9 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "homepage": "https://github.com/NervJS/taro#readme",
-  "devDependencies": {
-    "@tarojs/service": "3.5.0-canary.0"
-  },
   "dependencies": {
     "@tarojs/helper": "3.5.0-canary.0",
+    "@tarojs/service": "3.5.0-canary.0",
     "@tarojs/shared": "3.5.0-canary.0",
     "@tarojs/taro": "3.5.0-canary.0",
     "cross-spawn": "^7.0.3",

@@ -14,15 +14,17 @@ export class TaroEventTarget {
   }
 
   public addEventListener (type: string, handler: EventHandler, options?: boolean | AddEventListenerOptions) {
+    type = type.toLowerCase()
+
     this.hooks.onAddEvent?.(type, handler, options, this)
+
     if (type === 'regionchange') {
       // map 组件的 regionchange 事件非常特殊，详情：https://github.com/NervJS/taro/issues/5766
       this.addEventListener('begin', handler, options)
       this.addEventListener('end', handler, options)
       return
     }
-    type = type.toLowerCase()
-    const handlers = this.__handlers[type]
+
     let isCapture = Boolean(options)
     let isOnce = false
     if (isObject<AddEventListenerOptions>(options)) {
@@ -44,6 +46,17 @@ export class TaroEventTarget {
 
     process.env.NODE_ENV !== 'production' && warn(isCapture, 'Taro 暂未实现 event 的 capture 特性。')
 
+    // 某些框架，如 PReact 有委托的机制，handler 始终是同一个函数
+    // 这会导致多层停止冒泡失败：view -> view(handler.stop = false) -> view(handler.stop = true)
+    // 这样解决：view -> view(handlerA.stop = false) -> view(handlerB.stop = false)
+    // 因此每次绑定事件都新建一个函数，如果带来了性能问题，可以把这段逻辑抽取到 PReact 插件中。
+    const oldHandler = handler
+    handler = function () {
+      oldHandler.apply(this, arguments) // this 指向 Element
+    }
+    ;(handler as any).oldHandler = oldHandler
+
+    const handlers = this.__handlers[type]
     if (isArray(handlers)) {
       handlers.push(handler)
     } else {
@@ -62,7 +75,9 @@ export class TaroEventTarget {
       return
     }
 
-    const index = handlers.indexOf(handler)
+    const index = handlers.findIndex(item => {
+      if (item === handler || (item as any).oldHandler === handler) return true
+    })
 
     process.env.NODE_ENV !== 'production' && warn(index === -1, `事件: '${type}' 没有注册在 DOM 中，因此不会被移除。`)
 

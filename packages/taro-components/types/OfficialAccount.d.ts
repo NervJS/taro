@@ -54,12 +54,6 @@ declare namespace OfficialAccountProps {
  * 当小程序从扫小程序码场景（场景值1047，场景值1124）打开时
  * 当小程序从聊天顶部场景（场景值1089）中的「最近使用」内打开时，若小程序之前未被销毁，则该组件保持上一次打开小程序时的状态
  * 当从其他小程序返回小程序（场景值1038）时，若小程序之前未被销毁，则该组件保持上一次打开小程序时的状态
- * 为便于开发者调试，基础库 2.7.3 版本起开发版小程序增加以下场景展示公众号组件：
- * 
- * 开发版小程序从扫二维码（场景值 1011）打开 — 体验版小程序打开
- * 组件限定最小宽度为 300px，高度为定值 84px。
- * 
- * 每个页面只能配置一个该组件。
  * @classification open
  * @supported weapp
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/official-account.html

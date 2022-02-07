@@ -48,6 +48,7 @@
     "@babel/types": "^7.14.5",
     "@hapi/joi": "17.1.1",
     "@tarojs/helper": "3.5.0-canary.0",
+    "@tarojs/mini-runner": "3.5.0-canary.0",
     "@tarojs/plugin-framework-react": "3.5.0-canary.0",
     "@tarojs/plugin-framework-vue2": "3.5.0-canary.0",
     "@tarojs/plugin-framework-vue3": "3.5.0-canary.0",
@@ -62,6 +63,7 @@
     "@tarojs/taro": "3.5.0-canary.0",
     "@tarojs/taroize": "3.5.0-canary.0",
     "@tarojs/transformer-wx": "^2.0.4",
+    "@tarojs/webpack-runner": "3.5.0-canary.0",
     "@types/request": "^2.48.1",
     "adm-zip": "^0.4.13",
     "babylon": "^6.18.0",
@@ -117,9 +119,5 @@
     "vinyl-fs": "^3.0.2",
     "xml2js": "^0.4.19",
     "xxhashjs": "^0.2.2"
-  },
-  "devDependencies": {
-    "@tarojs/mini-runner": "3.5.0-canary.0",
-    "@tarojs/webpack-runner": "3.5.0-canary.0"
   }
 }

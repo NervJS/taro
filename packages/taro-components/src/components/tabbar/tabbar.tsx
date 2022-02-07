@@ -1,11 +1,10 @@
 import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitter, Element } from '@stencil/core'
+import Taro from '@tarojs/taro'
 import classNames from 'classnames'
 import resolvePathname from 'resolve-pathname'
+
 import { splitUrl } from '../../utils'
 import { TabbarItem } from './tabbar-item'
-
-// IGNORE: 由于 @tarojs/taro 与 @tarojs/components 中存在循环依赖，暂时使用 commonjs 引用
-const Taro = require('@tarojs/taro')
 
 // const removeLeadingSlash = str => str.replace(/^\.?\//, '')
 // const removeTrailingSearch = str => str.replace(/\?[\s\S]*$/, '')
@@ -42,7 +41,7 @@ export interface Conf {
   list: TabbarList[]
   position?: 'bottom' | 'top'
   custom: boolean
-  customRoutes: Record<string, string>
+  customRoutes: Record<string, string | string[]>
   mode: 'hash' | 'browser'
   basename: string
   homePage: string
@@ -103,8 +102,14 @@ export class Tabbar implements ComponentInterface {
     }
 
     this.homePage = addLeadingSlash(this.conf.homePage)
-    for (const key in customRoutes) {
-      this.customRoutes.push([key, customRoutes[key]])
+    for (let key in customRoutes) {
+      const path = customRoutes[key]
+      key = addLeadingSlash(key)
+      if (typeof path === 'string') {
+        this.customRoutes.push([key, addLeadingSlash(path)])
+      } else if (path?.length > 0) {
+        this.customRoutes.push(...path.map(p => [key, addLeadingSlash(p)]))
+      }
     }
 
     list.forEach(item => {

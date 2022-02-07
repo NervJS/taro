@@ -1,5 +1,5 @@
 import { injectable } from 'inversify'
-import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase } from '@tarojs/shared'
+import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase, isFunction } from '@tarojs/shared'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
 import { eventSource } from './event-source'
@@ -8,6 +8,8 @@ import { Style } from './style'
 import { treeToArray } from './tree'
 import { ClassList } from './class-list'
 import { getElementImpl } from '../container/store'
+import { MutationObserver } from '../dom-external/mutation-observer'
+import { MutationRecordType } from '../dom-external/mutation-observer/record'
 import {
   ID,
   CLASS,
@@ -141,12 +143,25 @@ export class TaroElement extends TaroNode {
 
     const isPureView = this.nodeName === VIEW && !isHasExtractProp(this) && !this.isAnyEventBinded()
 
+    if (qualifiedName !== STYLE) {
+      MutationObserver.record({
+        target: this,
+        type: MutationRecordType.ATTRIBUTES,
+        attributeName: qualifiedName,
+        oldValue: this.getAttribute(qualifiedName)
+      })
+    }
+
     switch (qualifiedName) {
       case STYLE:
         this.style.cssText = value as string
         break
       case ID:
-        eventSource.delete(this.uid)
+        if (this.uid !== this.sid) {
+          // eventSource[sid] 永远保留，直到组件卸载
+          // eventSource[uid] 可变
+          eventSource.delete(this.uid)
+        }
         value = String(value)
         this.props[qualifiedName] = this.uid = value
         eventSource.set(value, this)
@@ -167,7 +182,7 @@ export class TaroElement extends TaroNode {
 
     const payload = {
       path: `${this._path}.${toCamelCase(qualifiedName)}`,
-      value
+      value: isFunction(value) ? () => value : value
     }
 
     this.hooks.modifySetAttrPayload?.(this, qualifiedName, payload)
@@ -196,6 +211,13 @@ export class TaroElement extends TaroNode {
 
   public removeAttribute (qualifiedName: string) {
     const isStaticView = this.nodeName === VIEW && isHasExtractProp(this) && !this.isAnyEventBinded()
+
+    MutationObserver.record({
+      target: this,
+      type: MutationRecordType.ATTRIBUTES,
+      attributeName: qualifiedName,
+      oldValue: this.getAttribute(qualifiedName)
+    })
 
     if (qualifiedName === STYLE) {
       this.style.cssText = ''

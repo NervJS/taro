@@ -8,6 +8,7 @@
   "main": "index.js",
   "files": [
     "rn/",
+    "remove-define-config.js",
     "index.js"
   ],
   "repository": {
@@ -48,8 +49,5 @@
     "core-js": "^3.6.5",
     "metro-react-native-babel-preset": "^0.66.2",
     "react-refresh": "0.9.0"
-  },
-  "devDependencies": {
-    "@tarojs/taro-rn": "3.5.0-canary.0"
   }
 }

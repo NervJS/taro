@@ -534,5 +534,7 @@ export function getRuntimeConstants (runtime) {
 
   constants.ENABLE_CONTAINS = runtime.enableContains ?? false
 
+  constants.ENABLE_MUTATION_OBSERVER = runtime.enableMutationObserver ?? false
+
   return constants
 }

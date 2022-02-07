@@ -26,7 +26,8 @@ export default {
     return createElement('taro-picker-core', {
       class: 'hydrated',
       domProps: {
-        range: self.range
+        range: self.range,
+        rangeKey: self.rangeKey
       },
       on: {
         ...self.listeners,

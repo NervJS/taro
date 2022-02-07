@@ -1,6 +1,7 @@
 import { injectable } from 'inversify'
 import { isFunction, isUndefined, Shortcuts } from '@tarojs/shared'
 import { TaroElement } from './element'
+import { customWrapperCache } from '../utils'
 import { perf } from '../perf'
 import { options } from '../options'
 import {
@@ -12,27 +13,37 @@ import {
 
 import type { Func, UpdatePayload, UpdatePayloadValue, MpInstance, HydratedData } from '../interface'
 
-function findCustomWrapper (ctx, dataPathArr: string[]) {
-  let currentData: Record<string, any> = ctx.__data__ || ctx.data || ctx._data
-  let wrapper: Record<string, any> | undefined
-  let index: number | undefined
+function findCustomWrapper (root: TaroRootElement, dataPathArr: string[]) {
+  // ['root', 'cn', '[0]'] remove 'root' => ['cn', '[0]']
+  const list = dataPathArr.slice(1)
+  let currentData: any = root
+  let customWrapper: Record<string, any> | undefined
+  let splitedPath = ''
 
-  dataPathArr.some((item, i) => {
-    const key = item.replace(/^\[(.+)\]$/, '$1')
+  list.some((item, i) => {
+    const key = item
+      // '[0]' => '0'
+      .replace(/^\[(.+)\]$/, '$1')
+      // 'cn' => 'childNodes'
+      .replace(/\bcn\b/g, 'childNodes')
+
     currentData = currentData[key]
 
     if (isUndefined(currentData)) return true
 
-    if (currentData.nn === CUSTOM_WRAPPER) {
-      wrapper = currentData
-      index = i
+    if (currentData.nodeName === CUSTOM_WRAPPER) {
+      const res = customWrapperCache.get(currentData.sid)
+      if (res) {
+        customWrapper = res
+        splitedPath = dataPathArr.slice(i + 2).join('.')
+      }
     }
   })
 
-  if (wrapper) {
+  if (customWrapper) {
     return {
-      wrapper,
-      index: index as number
+      customWrapper,
+      splitedPath
     }
   }
 }
@@ -119,20 +130,15 @@ export class TaroRootElement extends TaroElement {
         // 更新渲染，区分 CustomWrapper 与页面级别的 setData
         for (const p in data) {
           const dataPathArr = p.split('.')
-          const found = findCustomWrapper(ctx, dataPathArr)
+          const found = findCustomWrapper(this, dataPathArr)
           if (found) {
             // 此项数据使用 CustomWrapper 去更新
-            const { wrapper, index } = found
-            const customWrapperId = `#${wrapper.uid}`
-            const customWrapper = ctx.selectComponent(customWrapperId)
-            if (customWrapper) {
-              const splitedPath = dataPathArr.slice(index + 1).join('.')
-              // 合并同一个 customWrapper 的相关更新到一次 setData 中
-              customWrapperMap.set(customWrapper, {
-                ...(customWrapperMap.get(customWrapper) || {}),
-                [`i.${splitedPath}`]: data[p]
-              })
-            }
+            const { customWrapper, splitedPath } = found
+            // 合并同一个 customWrapper 的相关更新到一次 setData 中
+            customWrapperMap.set(customWrapper, {
+              ...(customWrapperMap.get(customWrapper) || {}),
+              [`i.${splitedPath}`]: data[p]
+            })
           } else {
             // 此项数据使用页面去更新
             normalUpdate[p] = data[p]

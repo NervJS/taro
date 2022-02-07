@@ -79,6 +79,8 @@ declare module '../../index' {
 
   namespace showActionSheet {
     interface Option {
+      /** 警示文案 */
+      alertText?: string
       /** 按钮的文字数组，数组长度最大为 6 */
       itemList: string[]
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */

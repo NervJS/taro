@@ -26,6 +26,7 @@ function fixControlledValue (value?: string) {
 export class Input implements ComponentInterface {
   private inputRef: HTMLInputElement
   private isOnComposition = false
+  private isOnPaste = false
   private onInputExcuted = false
   private fileListener: EventHandler
 
@@ -61,6 +62,10 @@ export class Input implements ComponentInterface {
   @Event({
     eventName: 'input'
   }) onInput: EventEmitter
+
+  @Event({
+    eventName: 'paste'
+  }) onPaste: EventEmitter
 
   @Event({
     eventName: 'focus'
@@ -104,8 +109,6 @@ export class Input implements ComponentInterface {
       },
       configurable: true
     })
-
-    this.autoFocus && this.inputRef?.focus()
   }
 
   disconnectedCallback () {
@@ -144,12 +147,18 @@ export class Input implements ComponentInterface {
       // }
 
       this._value = value
-
       this.onInput.emit({
         value,
         cursor: value.length
       })
     }
+  }
+
+  handlePaste = (e: TaroEvent<HTMLInputElement> & ClipboardEvent) => {
+    this.isOnPaste = true
+    this.onPaste.emit({
+      value: e.target.value
+    })
   }
 
   handleFocus = (e: TaroEvent<HTMLInputElement> & FocusEvent) => {
@@ -170,6 +179,11 @@ export class Input implements ComponentInterface {
     this.onChange.emit({
       value: e.target.value
     })
+
+    if (this.isOnPaste) {
+      this.isOnPaste = false
+      this.onInput.emit({ value: e.target.value })
+    }
   }
 
   handleKeyDown = (e: TaroEvent<HTMLInputElement> & KeyboardEvent) => {
@@ -204,6 +218,7 @@ export class Input implements ComponentInterface {
       type,
       password,
       placeholder,
+      autoFocus,
       disabled,
       maxlength,
       confirmType,
@@ -220,6 +235,7 @@ export class Input implements ComponentInterface {
         value={fixControlledValue(_value)}
         type={getTrueType(type, confirmType, password)}
         placeholder={placeholder}
+        autoFocus={autoFocus}
         disabled={disabled}
         maxlength={maxlength}
         name={name}
@@ -228,6 +244,9 @@ export class Input implements ComponentInterface {
         onBlur={this.handleBlur}
         onChange={this.handleChange}
         onKeyDown={this.handleKeyDown}
+        onPaste={this.handlePaste}
+        onCompositionStart={this.handleComposition}
+        onCompositionEnd={this.handleComposition}
         {...nativeProps}
       />
     )

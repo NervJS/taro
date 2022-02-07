@@ -19,22 +19,22 @@ export default function (str) {
   } from '@tarojs/plugin-framework-react/dist/runtime'
   ${str}
 
-  Taro.useDidShow = useDidShow
-  Taro.useDidHide = useDidHide
-  Taro.usePullDownRefresh = usePullDownRefresh
-  Taro.useReachBottom = useReachBottom
-  Taro.usePageScroll = usePageScroll
-  Taro.useResize = useResize
-  Taro.useShareAppMessage = useShareAppMessage
-  Taro.useTabItemTap = useTabItemTap
-  Taro.useTitleClick = useTitleClick
-  Taro.useOptionMenuClick = useOptionMenuClick
-  Taro.usePullIntercept = usePullIntercept
-  Taro.useShareTimeline = useShareTimeline
-  Taro.useAddToFavorites = useAddToFavorites
-  Taro.useReady = useReady
-  Taro.useRouter = useRouter
-  Taro.useScope = useScope
+  taro.useDidShow = useDidShow
+  taro.useDidHide = useDidHide
+  taro.usePullDownRefresh = usePullDownRefresh
+  taro.useReachBottom = useReachBottom
+  taro.usePageScroll = usePageScroll
+  taro.useResize = useResize
+  taro.useShareAppMessage = useShareAppMessage
+  taro.useTabItemTap = useTabItemTap
+  taro.useTitleClick = useTitleClick
+  taro.useOptionMenuClick = useOptionMenuClick
+  taro.usePullIntercept = usePullIntercept
+  taro.useShareTimeline = useShareTimeline
+  taro.useAddToFavorites = useAddToFavorites
+  taro.useReady = useReady
+  taro.useRouter = useRouter
+  taro.useScope = useScope
 
   export {
     useDidShow,

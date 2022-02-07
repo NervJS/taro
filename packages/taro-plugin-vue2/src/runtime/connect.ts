@@ -176,7 +176,7 @@ export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: Ap
 
         if (process.env.TARO_ENV === 'h5') {
           // 由于 H5 路由初始化的时候会清除 app 下的 dom 元素，所以需要在路由初始化后再执行 render
-          wrapper.$mount(document.getElementById('app') as any)
+          wrapper.$mount(document.getElementById(config?.appId || 'app') as any)
         }
 
         appInstance = wrapper.$refs.app as VueAppInstance

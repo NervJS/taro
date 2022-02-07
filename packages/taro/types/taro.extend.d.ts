@@ -13,21 +13,6 @@ declare module './index' {
     [propName: string]: any
   }
 
-  type interceptor = (chain: Chain) => any
-
-  interface Chain {
-    index: number
-    requestParams: RequestParams
-    interceptors: interceptor[]
-    proceed(requestParams: RequestParams): any
-  }
-
-  interface interceptors {
-    logInterceptor(chain: Chain): Promise<any>
-
-    timeoutInterceptor(chain: Chain): Promise<any>
-  }
-
   interface Current {
     app: AppInstance | null
     router: RouterInfo | null
@@ -58,6 +43,10 @@ declare module './index' {
   }
 
   interface TaroStatic {
+    Events: {
+      new (): TaroGeneral.Events
+    }
+
     // eventCenter
     eventCenter: TaroGeneral.Events
 
@@ -74,8 +63,6 @@ declare module './index' {
 
     pxTransform(size: number, designWidth?: number): string
     initPxTransform(config: { designWidth: number; deviceRatio: TaroGeneral.TDeviceRatio }): void
-
-    addInterceptor(interceptor: interceptor): any
 
     /**
      * 小程序引用插件 JS 接口

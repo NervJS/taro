@@ -1,7 +1,7 @@
 import typescript from 'rollup-plugin-typescript2'
 import babel from '@rollup/plugin-babel'
+import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
-import common from '@rollup/plugin-commonjs'
 import * as path from 'path'
 
 const cwd = __dirname
@@ -31,7 +31,7 @@ const baseConfig = {
     resolve({
       preferBuiltins: false
     }),
-    common({
+    commonjs({
       include: 'node_modules/**'
     }),
     babel({

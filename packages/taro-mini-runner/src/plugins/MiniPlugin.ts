@@ -72,6 +72,7 @@ interface ITaroMiniPluginOptions {
   deviceRatio: any
   designWidth: number
   loaderMeta?: Record<string, string>
+  hot: boolean
 }
 
 export interface IComponentObj {
@@ -145,7 +146,8 @@ export default class TaroMiniPlugin {
         templ: '.wxml',
         xs: '.wxs'
       },
-      minifyXML: {}
+      minifyXML: {},
+      hot: false
     }, options)
 
     const { template, baseLevel } = this.options
@@ -287,7 +289,8 @@ export default class TaroMiniPlugin {
                 prerender: this.prerenderPages.has(module.name),
                 config: this.filesConfig,
                 appConfig: this.appConfig,
-                runtimePath: this.options.runtimePath
+                runtimePath: this.options.runtimePath,
+                hot: this.options.hot
               }
             })
           }

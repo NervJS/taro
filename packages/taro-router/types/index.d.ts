@@ -277,7 +277,7 @@ declare const createHistory: (props: {
   mode: 'hash' | 'browser',
   firstPagePath: string;
   customRoutes: {
-    [key: string]: string
+    [key: string]: string | string[]
   };
 }) => any;
 

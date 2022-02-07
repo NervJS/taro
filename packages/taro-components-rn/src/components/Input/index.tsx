@@ -206,6 +206,9 @@ class _Input extends React.Component<InputProps, InputState> {
 
     value = type === 'number' && value ? value + '' : value
 
+    // fix: https://reactnative.dev/docs/textinput#multiline
+    const textAlignVertical = _multiline ? 'top' : 'auto'
+
     return (
       <TextInput
         {...omit(this.props, [
@@ -248,9 +251,12 @@ class _Input extends React.Component<InputProps, InputState> {
         onKeyPress={this.onKeyPress}
         onSubmitEditing={this.onSubmitEditing}
         multiline={!!_multiline}
+        textAlignVertical={textAlignVertical}
         onContentSizeChange={this.onContentSizeChange}
         underlineColorAndroid="rgba(0,0,0,0)"
-        style={[style, _multiline && _autoHeight && { height: Math.max(35, this.state.height) }]}
+        style={[{
+          padding: 0,
+        }, style, _multiline && _autoHeight && { height: Math.max(35, this.state.height) }]}
       />
     )
   }
