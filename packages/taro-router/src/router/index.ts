@@ -47,7 +47,7 @@ export function createRouter (
     path: routesAlias.getAll(addLeadingSlash(route.path)),
     action: route.load
   }))
-  const entryPagePath: string = config.entryPagePath || routes[0].path?.[0]
+  const entryPagePath: string = routes[0].path?.[0] || config.entryPagePath
   const router = new UniversalRouter(routes, { baseUrl: basename || '' })
   const launchParam = handler.getQuery(stacks.length)
   app.onLaunch?.(launchParam)
