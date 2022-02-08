@@ -133,7 +133,7 @@ export function createRouter (
     }
   }
 
-  if (history.location.pathname === '/') {
+  if (entryPagePath !== '/' && history.location.pathname === '/') {
     history.replace(prependBasename(entryPagePath + history.location.search))
   }
 
