@@ -3,8 +3,12 @@ import * as merge from 'webpack-merge'
 import * as helper from '@tarojs/helper'
 import { IFs } from 'memfs'
 import { Weapp } from '@tarojs/plugin-platform-weapp'
+import ReactLikePlugin from '@tarojs/plugin-framework-react'
+import Vue2Plugin from '@tarojs/plugin-framework-vue2'
+import Vue3Plugin from '@tarojs/plugin-framework-vue3'
 
 import baseConfig from './config'
+import { componentConfig } from '../../template/component'
 import { IBuildConfig } from '../../utils/types'
 import build from '../../index'
 
@@ -34,9 +38,10 @@ export function getOutput (stats, config: Partial<IBuildConfig> & { fs?: any }) 
   const output = files.reduce((content, file) => {
     return `${content}
 /** filePath: ${file} **/
-${fs.readFileSync(file)}
+${file === 'dist/runtime.js' ? '' : fs.readFileSync(file)}
 `
   }, '')
+  fs.rmdirSync(config.outputRoot || '', { recursive: true })
   return output
 }
 
@@ -48,7 +53,10 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
 
   const customChain = customConfig.webpackChain
 
-  customConfig.webpackChain = (chain, webpack, PARSE_AST_TYPE) => {
+  customConfig.webpackChain = (chain, _webpack, PARSE_AST_TYPE) => {
+    const webpack = jest.requireActual('webpack')
+    frameworkPatch(chain, webpack, customConfig)
+
     chain.merge({
       resolve: {
         alias: {
@@ -56,6 +64,8 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
           '@tarojs/components$': path.resolve(__dirname, '../mocks/taro-components'),
           '@tarojs/react': path.resolve(__dirname, '../mocks/taro-react'),
           '@tarojs/taro': path.resolve(__dirname, '../mocks/taro'),
+          '@tarojs/shared': path.resolve(__dirname, '../mocks/taro'),
+          'regenerator-runtime': path.resolve(__dirname, '../mocks/deps'),
           react$: path.resolve(__dirname, '../mocks/react'),
           vue: path.resolve(__dirname, '../mocks/vue'),
           nervjs: path.resolve(__dirname, '../mocks/nerv')
@@ -114,4 +124,29 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
   const stats = await build(appPath, config)
 
   return { stats, config }
+}
+
+/**
+ * 处理不同框架的自定义逻辑
+ * @param chain webpack-chain
+ */
+function frameworkPatch (chain, webpack, config: Partial<IBuildConfig> = {}) {
+  const mockCtx = {
+    initialConfig: {
+      framework: config.framework || 'react'
+    },
+    modifyWebpackChain: cb => cb({ chain, webpack, data: { componentConfig } })
+  }
+
+  let frameworkPlugin: any = ReactLikePlugin
+  switch (config.framework) {
+    case 'vue':
+      frameworkPlugin = Vue2Plugin
+      break
+    case 'vue3':
+      frameworkPlugin = Vue3Plugin
+      break
+  }
+
+  frameworkPlugin(mockCtx)
 }

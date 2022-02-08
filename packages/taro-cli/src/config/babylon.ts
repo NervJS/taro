@@ -1,15 +1,16 @@
-export default {
+import type { ParserOptions } from '@babel/parser'
+
+const config: ParserOptions = {
   sourceType: 'module',
   plugins: [
     'typescript',
     'classProperties',
     'jsx',
-    'trailingFunctionCommas',
-    'asyncFunctions',
-    'exponentiationOperator',
     'asyncGenerators',
     'objectRestSpread',
     'decorators',
     'dynamicImport'
   ]
 }
+
+export default config

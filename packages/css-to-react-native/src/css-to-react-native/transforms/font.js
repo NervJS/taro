@@ -23,11 +23,11 @@ export default tokenStream => {
   while (numStyleWeightVariantMatched < 3 && tokenStream.hasTokens()) {
     if (tokenStream.matches(NORMAL)) {
       /* pass */
-    } else if (fontStyle === undefined && tokenStream.matches(STYLE)) {
+    } else if (typeof fontStyle === 'undefined' && tokenStream.matches(STYLE)) {
       fontStyle = tokenStream.lastValue
-    } else if (fontWeight === undefined && tokenStream.matches(WEIGHT)) {
+    } else if (typeof fontWeight === 'undefined' && tokenStream.matches(WEIGHT)) {
       fontWeight = tokenStream.lastValue
-    } else if (fontVariant === undefined && tokenStream.matches(VARIANT)) {
+    } else if (typeof fontVariant === 'undefined' && tokenStream.matches(VARIANT)) {
       fontVariant = [tokenStream.lastValue]
     } else {
       break
@@ -41,7 +41,8 @@ export default tokenStream => {
 
   if (tokenStream.matches(SLASH)) {
     if (tokenStream.matches(NUMBER)) {
-      lineHeight = fontSize * tokenStream.lastValue
+      const size = typeof fontSize === 'string' ? fontSize.replace(/scalePx2dp\((\d+)\)/, '$1') : fontSize
+      lineHeight = size * tokenStream.lastValue
     } else {
       lineHeight = tokenStream.expect(LENGTH, UNSUPPORTED_LENGTH_UNIT)
     }
@@ -51,12 +52,12 @@ export default tokenStream => {
 
   const fontFamily = parseFontFamily(tokenStream)
 
-  if (fontStyle === undefined) fontStyle = defaultFontStyle
-  if (fontWeight === undefined) fontWeight = defaultFontWeight
-  if (fontVariant === undefined) fontVariant = defaultFontVariant
+  if (typeof fontStyle === 'undefined') fontStyle = defaultFontStyle
+  if (typeof fontWeight === 'undefined') fontWeight = defaultFontWeight
+  if (typeof fontVariant === 'undefined') fontVariant = defaultFontVariant
 
   const out = { fontStyle, fontWeight, fontVariant, fontSize, fontFamily }
-  if (lineHeight !== undefined) out.lineHeight = lineHeight
+  if (typeof lineHeight !== 'undefined') out.lineHeight = lineHeight
 
   return { $merge: out }
 }

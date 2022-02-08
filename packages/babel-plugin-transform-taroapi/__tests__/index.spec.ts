@@ -137,7 +137,7 @@ it('should preserve default imports', function () {
 it('should preserve assignments in lefthands', function () {
   const code = `
     import Taro from '@tarojs/taro-h5'
-    let animation 
+    let animation
     animation = Taro.createAnimation({
       transformOrigin: "50% 50%",
       duration: 1000,

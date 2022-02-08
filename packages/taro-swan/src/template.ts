@@ -11,6 +11,8 @@ const swanSpecialAttrs = {
 
 interface TemplateOptions {
   flattenViewLevel?: number
+  flattenCoverLevel?: number
+  flattenTextLevel?: number
 }
 
 export class Template extends RecursiveTemplate {
@@ -29,8 +31,8 @@ export class Template extends RecursiveTemplate {
   }
 
   flattenViewLevel: number
-
   flattenCoverLevel: number
+  flattenTextLevel: number
 
   legacyMiniComponents: {
     [key: string]: Record<string, string>
@@ -39,7 +41,8 @@ export class Template extends RecursiveTemplate {
   constructor (options?: TemplateOptions) {
     super()
     this.flattenViewLevel = options?.flattenViewLevel ?? 8
-    this.flattenCoverLevel = options?.flattenViewLevel ?? 3
+    this.flattenCoverLevel = options?.flattenCoverLevel ?? 3
+    this.flattenTextLevel = options?.flattenTextLevel ?? 3
   }
 
   createMiniComponents (components): any {
@@ -85,29 +88,29 @@ export class Template extends RecursiveTemplate {
     const child = this.buildFlattenView(level - 1)
 
     const template =
-`<view s-if="{{item.nn==='view'&&(item.st||item.cl)}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('view')}>
-  <block s-for="{{item.cn}}" s-key="uid">
+`<view s-if="{{item.nn==='view'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" ${this.buildFlattenNodeAttributes('view')}>
+  <block s-for="{{item.cn}}" s-key="sid">
     ${indent(child, 4)}
   </block>
 </view>
-<text s-elif="{{item.nn==='text'&&(item.st||item.cl)}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('text')}>
-  <block s-for="{{item.cn}}" s-key="uid">
+<text s-elif="{{item.nn==='text'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" ${this.buildFlattenNodeAttributes('text')}>
+  <block s-for="{{item.cn}}" s-key="sid">
     <block>{{item.v}}</block>
   </block>
 </text>
-<text s-elif="{{item.nn==='static-text'&&(item.st||item.cl)}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('static-text')}>
-  <block s-for="{{item.cn}}" s-key="uid">
+<text s-elif="{{item.nn==='static-text'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" ${this.buildFlattenNodeAttributes('static-text')}>
+  <block s-for="{{item.cn}}" s-key="sid">
     <block>{{item.v}}</block>
   </block>
 </text>
-<button s-elif="{{item.nn==='button'&&(item.st||item.cl)}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('button')}>
-  <block s-for="{{item.cn}}" s-key="uid">
+<button s-elif="{{item.nn==='button'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" ${this.buildFlattenNodeAttributes('button')}>
+  <block s-for="{{item.cn}}" s-key="sid">
     <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
   </block>
 </button>
-<input s-elif="{{item.nn==='input'&&(item.st||item.cl)}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('input')} />
-<swiper s-elif="{{item.nn==='swiper'&&(item.st||item.cl)}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('swiper')}>
-  <block s-for="{{item.cn}}" s-key="uid">
+<input s-elif="{{item.nn==='input'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" ${this.buildFlattenNodeAttributes('input')} />
+<swiper s-elif="{{item.nn==='swiper'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" ${this.buildFlattenNodeAttributes('swiper')}>
+  <block s-for="{{item.cn}}" s-key="sid">
     <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
   </block>
 </swiper>
@@ -126,16 +129,34 @@ export class Template extends RecursiveTemplate {
     const child = this.buildFlattenCover(level - 1)
 
     const template =
-`<cover-view s-if="{{item.nn==='cover-view'}}" id="{{item.uid}}" ${this.buildFlattenNodeAttributes('cover-view')}>
-  <block s-for="{{item.cn}}" s-key="uid">
+`<cover-view s-if="{{item.nn==='cover-view'}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" ${this.buildFlattenNodeAttributes('cover-view')}>
+  <block s-for="{{item.cn}}" s-key="sid">
     ${indent(child, 4)}
   </block>
 </cover-view>
-<cover-image s-elif="{{item.nn==='cover-image'}}" id="{{item.uid}}"  ${this.buildFlattenNodeAttributes('cover-image')}></cover-image>
+<cover-image s-elif="{{item.nn==='cover-image'}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}"  ${this.buildFlattenNodeAttributes('cover-image')}></cover-image>
+<block s-elif="{{item.nn==='#text'}}">{{item.v}}</block>
 <block s-else>
   <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
 </block>`
 
+    return template
+  }
+
+  buildFlattenText = (level = this.flattenTextLevel): string => {
+    if (level === 0) {
+      return `<block>{{i.${Shortcuts.Childnodes}[index].${Shortcuts.Text}}}</block>`
+    }
+
+    const child = this.buildFlattenText(level - 1)
+
+    const template =
+`<block s-if="item.nn === '#text'">{{item.v}}</block>
+<text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" ${this.buildFlattenNodeAttributes('text')}>
+  <block s-for="{{item.cn}}" s-key="sid">
+    ${indent(child, 4)}
+  </block>
+</text>`
     return template
   }
 
@@ -155,7 +176,7 @@ export class Template extends RecursiveTemplate {
 
       case 'video': {
         const body =
-          `<ad s-if={{item.nn==='ad'}} id="{{item.uid}}" ${this.buildFlattenNodeAttributes('ad')}></ad>
+          `<ad s-if={{item.nn==='ad'}} id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" ${this.buildFlattenNodeAttributes('ad')}></ad>
 <block s-else>
   ${indent(this.buildFlattenCover(), 2)}
 </block>`
@@ -164,11 +185,11 @@ export class Template extends RecursiveTemplate {
 
       case 'text':
       case 'static-text':
-        return `<block>{{i.${Shortcuts.Childnodes}[index].${Shortcuts.Text}}}</block>`
+        return this.buildFlattenText()
 
       case 'picker-view':
-        return `<picker-view-column id="{{item.uid}}" ${this.buildFlattenNodeAttributes('picker-view-column')}>
-          <block s-for="{{item.cn}}" s-key="uid">
+        return `<picker-view-column id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" ${this.buildFlattenNodeAttributes('picker-view-column')}>
+          <block s-for="{{item.cn}}" s-key="sid">
             ${child}
           </block>
         </picker-view-column>`

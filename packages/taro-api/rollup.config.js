@@ -1,6 +1,6 @@
-import resolve from 'rollup-plugin-node-resolve'
-import cjs from 'rollup-plugin-commonjs'
 import babel from '@rollup/plugin-babel'
+import commonjs from '@rollup/plugin-commonjs'
+import resolve from '@rollup/plugin-node-resolve'
 
 const baseConfig = {
   input: 'src/index.js',
@@ -11,7 +11,7 @@ const baseConfig = {
     resolve({
       preferBuiltins: false
     }),
-    cjs(),
+    commonjs(),
     babel({
       babelHelpers: 'runtime'
     })

@@ -1,7 +1,6 @@
 import container from '../container'
-import SERVICE_IDENTIFIER from '../constants/identifiers'
-
-import type { IHooks } from '../interface'
+import { getHooks } from '../container/store'
+import { SID_EVENT_CENTER } from '../constants/identifiers'
 
 /* eslint-disable no-dupe-class-members */
 type Callback1<T1> = (arg1: T1) => any;
@@ -19,11 +18,7 @@ export class Events {
   static eventSplitter = /\s+/
 
   constructor (opts?) {
-    if (typeof opts !== 'undefined' && opts.callbacks) {
-      this.callbacks = opts.callbacks
-    } else {
-      this.callbacks = {}
-    }
+    this.callbacks = opts?.callbacks ?? {}
   }
 
   on<T>(event: string, callback: Callback1<T>, context): this
@@ -123,8 +118,7 @@ export class Events {
 
 export type EventsType = typeof Events
 
-const hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
-const eventCenter = hooks.getEventCenter(Events)
-container.bind<Events>(SERVICE_IDENTIFIER.eventCenter).toConstantValue(eventCenter)
+const eventCenter = getHooks().getEventCenter(Events)
+container.bind<Events>(SID_EVENT_CENTER).toConstantValue(eventCenter)
 
 export { eventCenter }

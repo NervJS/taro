@@ -38,17 +38,21 @@
     "@babel/runtime": "^7.7.7",
     "@tarojs/components": "<%= version %>",
     "@tarojs/runtime": "<%= version %>",
-    "@tarojs/taro": "<%= version %>",<% if (framework === 'react') {%>
+    "@tarojs/taro": "<%= version %>",<% if (framework === 'react' || framework === 'preact' || framework === 'nerv') {%>
+    "@tarojs/plugin-framework-react": "<%= version %>",<%}%><% if (framework === 'react') {%>
     "@tarojs/react": "<%= version %>",
     "react-dom": "^17.0.0",
-    "react": "^17.0.0"<%}%><% if (framework === 'nerv') {%>
+    "react": "^17.0.0"<%}%><% if (framework === 'preact') {%>
+    "preact": "^10.5.15"<%}%><% if (framework === 'nerv') {%>
     "nervjs": "^1.5.0"<%}%><% if (framework === 'vue') {%>
+    "@tarojs/plugin-framework-vue2": "<%= version %>",
     "vue-template-compiler": "^2.5.0",
     "vue": "^2.5.0"<%}%><% if (framework === 'vue3') {%>
+    "@tarojs/plugin-framework-vue3": "<%= version %>",
     "vue": "^3.0.0"<%}%>
   },
   "devDependencies": {
-    "@types/webpack-env": "^1.13.6",<% if (framework === 'react' || framework === 'nerv') {%>
+    "@types/webpack-env": "^1.13.6",<% if (framework === 'react' || framework === 'preact' || framework === 'nerv') {%>
     "@types/react": "^17.0.2",<%}%>
     "@tarojs/mini-runner": "<%= version %>",
     "@babel/core": "^7.8.0",
@@ -60,7 +64,7 @@
     "vue-loader": "^16.0.0-beta.8",
     "eslint-plugin-vue": "^7.0.0",<%}%>
     "eslint-config-taro": "<%= version %>",
-    "eslint": "^6.8.0",<% if (framework === 'react' || framework === 'nerv') {%>
+    "eslint": "^6.8.0",<% if (framework === 'react' || framework === 'preact' || framework === 'nerv') {%>
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-react-hooks": "^4.2.0",<%}%>

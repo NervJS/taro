@@ -25,7 +25,7 @@ class View extends React.Component<IProps, IState> {
     touch: false
   }
 
-  timeoutEvent: NodeJS.Timeout;
+  timeoutEvent: number;
   startTime = 0;
 
   render () {

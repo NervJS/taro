@@ -60,14 +60,16 @@ function getEnv () {
 }
 
 function parseDefineConst (config) {
+  const result = {}
   Object.keys(config.defineConstants).forEach((key) => {
     try {
-      config.defineConstants[key] = JSON.parse(config.defineConstants[key])
+      result[key] = JSON.parse(config.defineConstants[key])
     } catch (e) {
-      console.error('defineConstants环境配置有误')
-      config.defineConstants[key] = ''
+      console.error('defineConstants error: ', e)
+      result[key] = ''
     }
   })
+  return result
 }
 
 /**
@@ -77,17 +79,20 @@ function parseDefineConst (config) {
 function getDefineConstants () {
   const config = getProjectConfig()
   const rnconfig = getRNConfig()
+  const env = getEnv()
   if (rnconfig.defineConstants) {
-    parseDefineConst(rnconfig)
-    rnconfig.defineConstants = Object.assign(rnconfig.defineConstants, getEnv())
-    return rnconfig.defineConstants
+    return {
+      ...parseDefineConst(rnconfig),
+      ...env
+    }
   }
   if (config.defineConstants) {
-    parseDefineConst(config)
-    config.defineConstants = Object.assign(config.defineConstants, getEnv())
-    return config.defineConstants
+    return {
+      ...parseDefineConst(config),
+      ...env
+    }
   }
-  return getEnv()
+  return env
 }
 
 function getCSSModule () {
@@ -112,7 +117,6 @@ module.exports = (_, options = {}) => {
   const nativeLibs = require('@tarojs/taro-rn/libList.js')
   const nativeInterfaces = nativeApis.concat(nativeLibs)
 
-  getEnv()
   const defineConstants = getDefineConstants()
   const presets = []
   const plugins = []
@@ -155,13 +159,16 @@ module.exports = (_, options = {}) => {
     [require('babel-plugin-global-define'), defineConstants]
   )
 
-  // 添加一个默认 plugin, 与小程序/h5保持一致. todo: 3.1后采用拓展的方式
+  // 添加一个默认 plugin, 与小程序/h5保持一致.
   plugins.push(
     [require('@babel/plugin-proposal-decorators'), {
       decoratorsBeforeExport,
       legacy: decoratorsLegacy !== false
     }]
   )
+
+  plugins.push(require('../remove-define-config'))
+
   return {
     presets,
     plugins

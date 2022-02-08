@@ -11,13 +11,13 @@ const defaultRadio = {
 
 export function pxTransform (size: number): number {
   const deviceWidthDp = Dimensions.get('window').width
-  const uiWidthPx = 375
+  const uiWidthPx = 750
   const config: AppConfig = globalAny.__taroAppConfig?.appConfig || {}
   const { designWidth = defaultWidth, deviceRatio = defaultRadio } = config
   if (!(designWidth in deviceRatio)) {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
   }
   const formatSize = ~~size
-  const rateSize = formatSize / (deviceRatio[designWidth] * 2)
+  const rateSize = formatSize * deviceRatio[designWidth]
   return rateSize * deviceWidthDp / uiWidthPx
 }

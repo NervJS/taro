@@ -77,6 +77,7 @@ export interface RouterConfig {
   rnConfig?: RNConfig,
   initParams?:Record<string, any>, // 原生启动传递的参数
   initPath?: string, // 原生启动时传入的参数路径
+  entryPagePath?: string, // 默认启动路径
 }
 
 export function createRouter (config: RouterConfig): React.ReactNode {
@@ -171,14 +172,19 @@ function getTabItem (config: RouterConfig, tabName: string) {
   return tabItem
 }
 
+let initRoute
+
 function getInitRouteName (config: RouterConfig) {
-  let initRoute = ''
+  if (initRoute) return initRoute
   const initPath = config.initPath || ''
   const rn = config.rnConfig || {}
   if (initPath) {
     initRoute = handleUrl(initPath).pageName
   } else if (rn?.initialRouteName) {
     initRoute = camelCase(rn.initialRouteName)
+  } else if (config.entryPagePath) {
+    const entryPagePath = config.entryPagePath.startsWith('/') ? config.entryPagePath : `/${config.entryPagePath}`
+    initRoute = config.pages.find(p => p.pagePath === entryPagePath)?.name
   } else {
     initRoute = config.pages[0].name
   }
@@ -247,6 +253,13 @@ function createTabStack (config: RouterConfig, parentProps: any) {
     tabList.push(tabNode)
   })
 
+  const borderColorMap = {
+    black: '#000000',
+    white: '#ffffff'
+  }
+  // 允许传入色值、black、white、默认 #000000
+  const borderTopColor = tabBar?.borderStyle ? (borderColorMap[tabBar?.borderStyle] || tabBar?.borderStyle) : '#000000'
+
   const userTabBarOptions = rnConfig?.tabBarOptions || {}
   // tabbarOptions
   const tabBarOptions = Object.assign({
@@ -255,10 +268,10 @@ function createTabStack (config: RouterConfig, parentProps: any) {
     inactiveTintColor: tabBar?.color || '#7A7E83',
     activeBackgroundColor: tabBar?.backgroundColor || '#ffffff',
     inactiveBackgroundColor: tabBar?.backgroundColor || '#ffffff',
-    style: tabBar?.borderStyle ? {
+    style: {
       backgroundColor: tabBar?.backgroundColor,
-      borderTopColor: (tabBar?.borderStyle === 'black' ? '#000000' : '#ffffff')
-    } : {}
+      borderTopColor
+    }
   }, userTabBarOptions)
 
   const tabNames = getTabNames(config)

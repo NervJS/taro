@@ -17,6 +17,12 @@ export function setHistoryMode (mode?: 'hash' | 'browser', base = '/') {
   }
 }
 
-export function parsePath (url = '') {
+export function prependBasename (url = '') {
   return basename.replace(/\/$/, '') + '/' + url.replace(/^\//, '')
 }
+
+export const hasBasename = (path = '', prefix = '') =>
+  new RegExp('^' + prefix + '(\\/|\\?|#|$)', 'i').test(path)
+
+export const stripBasename = (path = '', prefix = '') =>
+  hasBasename(path, prefix) ? path.substr(prefix.length) : path

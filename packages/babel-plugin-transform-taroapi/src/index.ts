@@ -1,8 +1,6 @@
-import { types as Types, PluginObj } from 'babel-core'
-
 const plugin = function (babel: {
-  types: typeof Types;
-}): PluginObj {
+  types: any
+}) {
   const t = babel.types
 
   // 这些变量需要在每个programe里重置
@@ -10,7 +8,7 @@ const plugin = function (babel: {
   let taroName: string
   let needDefault: boolean
 
-  let referrencedTaros: Types.Identifier[]
+  let referrencedTaros: any[]
 
   return {
     name: 'babel-plugin-transform-taro-api',
@@ -71,7 +69,7 @@ const plugin = function (babel: {
           const isAssignment = t.isAssignmentExpression(parentNode) && parentNode.left === ast.node
 
           if (!isAssignment) {
-            let identifier: Types.Identifier
+            let identifier: any
             if (invokedApis.has(propertyName)) {
               identifier = t.identifier(invokedApis.get(propertyName)!)
             } else {

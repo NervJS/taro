@@ -138,6 +138,11 @@ interface TextareaProps extends StandardProps, FormItemProps {
    * @supported weapp
    */
   onKeyboardHeightChange?: CommonEventFunction<TextareaProps.onKeyboardHeightChangeEventDetail>
+
+  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
+   * @supported h5
+   */
+  nativeProps?: Record<string, unknown>
 }
 
 declare namespace TextareaProps {
@@ -181,7 +186,7 @@ declare namespace TextareaProps {
 /** 多行输入框。该组件是原生组件，使用时请注意相关限制
  * @classification forms
  * @supported weapp, h5, rn
- * @example
+ * @example_react
  * ```tsx
  * export default class PageView extends Component {
  *   constructor() {
@@ -199,6 +204,17 @@ declare namespace TextareaProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <view class="components-page">
+ *     <text>输入区域高度自适应，不会出现滚动条</text>
+ *     <textarea style="background:#efefef;width:100%;min-height:80px;padding:0 30rpx;" :auto-height="true" />
+ *     <text>这是一个可以自动聚焦的 textarea</text>
+ *     <textarea style="background:#efefef;width:100%;height:80px;padding:0 30rpx;" :auto-focusd="true" />
+ *   </view>
+ * </template>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/textarea.html
  */

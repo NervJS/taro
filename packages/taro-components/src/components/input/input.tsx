@@ -26,6 +26,7 @@ function fixControlledValue (value?: string) {
 export class Input implements ComponentInterface {
   private inputRef: HTMLInputElement
   private isOnComposition = false
+  private isOnPaste = false
   private onInputExcuted = false
   private fileListener: EventHandler
 
@@ -54,13 +55,17 @@ export class Input implements ComponentInterface {
   @Watch('autoFocus')
   watchFocus (newValue: boolean, oldValue: boolean) {
     if (!oldValue && newValue) {
-      this.inputRef.focus()
+      this.inputRef?.focus()
     }
   }
 
   @Event({
     eventName: 'input'
   }) onInput: EventEmitter
+
+  @Event({
+    eventName: 'paste'
+  }) onPaste: EventEmitter
 
   @Event({
     eventName: 'focus'
@@ -91,14 +96,14 @@ export class Input implements ComponentInterface {
       this.fileListener = () => {
         this.onInput.emit()
       }
-      this.inputRef.addEventListener('change', this.fileListener)
+      this.inputRef?.addEventListener('change', this.fileListener)
     } else {
-      this.inputRef.addEventListener('compositionstart', this.handleComposition)
-      this.inputRef.addEventListener('compositionend', this.handleComposition)
+      this.inputRef?.addEventListener('compositionstart', this.handleComposition)
+      this.inputRef?.addEventListener('compositionend', this.handleComposition)
     }
 
     Object.defineProperty(this.el, 'value', {
-      get: () => this.inputRef.value,
+      get: () => this.inputRef?.value,
       set: value => {
         this._value = value
       },
@@ -108,7 +113,7 @@ export class Input implements ComponentInterface {
 
   disconnectedCallback () {
     if (this.type === 'file') {
-      this.inputRef.removeEventListener('change', this.fileListener)
+      this.inputRef?.removeEventListener('change', this.fileListener)
     }
   }
 
@@ -142,12 +147,18 @@ export class Input implements ComponentInterface {
       // }
 
       this._value = value
-
       this.onInput.emit({
         value,
         cursor: value.length
       })
     }
+  }
+
+  handlePaste = (e: TaroEvent<HTMLInputElement> & ClipboardEvent) => {
+    this.isOnPaste = true
+    this.onPaste.emit({
+      value: e.target.value
+    })
   }
 
   handleFocus = (e: TaroEvent<HTMLInputElement> & FocusEvent) => {
@@ -168,16 +179,26 @@ export class Input implements ComponentInterface {
     this.onChange.emit({
       value: e.target.value
     })
+
+    if (this.isOnPaste) {
+      this.isOnPaste = false
+      this.onInput.emit({ value: e.target.value })
+    }
   }
 
   handleKeyDown = (e: TaroEvent<HTMLInputElement> & KeyboardEvent) => {
     const { value } = e.target
+    const keyCode = e.keyCode || e.code
     this.onInputExcuted = false
     e.stopPropagation()
 
-    this.onKeyDown.emit({ value })
+    this.onKeyDown.emit({
+      value,
+      cursor: value.length,
+      keyCode
+    })
 
-    e.keyCode === 13 && this.onConfirm.emit({ value })
+    keyCode === 13 && this.onConfirm.emit({ value })
   }
 
   handleComposition = (e) => {
@@ -197,9 +218,9 @@ export class Input implements ComponentInterface {
       type,
       password,
       placeholder,
+      autoFocus,
       disabled,
       maxlength,
-      autoFocus,
       confirmType,
       name,
       nativeProps
@@ -209,21 +230,23 @@ export class Input implements ComponentInterface {
       <input
         ref={input => {
           this.inputRef = input!
-          autoFocus && input?.focus()
         }}
         class='weui-input'
         value={fixControlledValue(_value)}
         type={getTrueType(type, confirmType, password)}
         placeholder={placeholder}
+        autoFocus={autoFocus}
         disabled={disabled}
         maxlength={maxlength}
-        autofocus={autoFocus}
         name={name}
         onInput={this.handleInput}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         onChange={this.handleChange}
         onKeyDown={this.handleKeyDown}
+        onPaste={this.handlePaste}
+        onCompositionStart={this.handleComposition}
+        onCompositionEnd={this.handleComposition}
         {...nativeProps}
       />
     )

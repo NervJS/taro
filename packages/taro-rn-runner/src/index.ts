@@ -1,12 +1,13 @@
 import * as Metro from 'metro'
 import getMetroConfig from './config'
 import { getRNConfigEntry } from './config/config-holder'
+import { getOpenHost, PLAYGROUNDINFO } from './utils'
+import preview from './config/preview'
 
 import { PLATFORMS } from '@tarojs/helper'
 import * as path from 'path'
 import * as fse from 'fs-extra'
 import * as url from 'url'
-import { networkInterfaces } from 'os'
 import { generate } from 'qrcode-terminal'
 
 import * as readline from 'readline'
@@ -18,6 +19,7 @@ import saveAssets from '@react-native-community/cli/build/commands/bundle/saveAs
 import * as outputBundle from 'metro/src/shared/output/bundle'
 
 function concatOutputFileName (config: any): string {
+  // 优先级：--bundle-output > config.output > config.outputRoot
   let output = path.join(config.outputRoot, 'index.bundle')
   if (config.output) {
     const outputType = typeof config.output
@@ -32,16 +34,25 @@ function concatOutputFileName (config: any): string {
       console.error(`invalid value for 'rn.output' configuration: ${JSON.stringify(config.output)}`)
     }
   }
+  if (config.bundleOutput) {
+    output = config.bundleOutput
+  }
   const res = path.isAbsolute(output) ? output : path.join('.', output)
   fse.ensureDirSync(path.dirname(res))
   return res
 }
 
 function concatOutputAssetsDest (config: any): string | undefined {
+  // 优先级：--assets-dest > config.output > config.outputRoot
+  let assetDest
   if (!config?.deviceType || !config?.output) {
-    return config.outputRoot
+    assetDest = config.outputRoot
+  } else {
+    assetDest = config.deviceType === 'ios' ? config.output.iosAssetsDest : config.output.androidAssetsDest
   }
-  const assetDest = config.deviceType === 'ios' ? config.output.iosAssetsDest : config.output.androidAssetsDest
+  if (config.assetsDest) {
+    assetDest = config.assetsDest
+  }
   if (!assetDest) return undefined
   const res = path.isAbsolute(assetDest) ? assetDest : path.join('.', assetDest)
   fse.ensureDirSync(path.dirname(res))
@@ -49,44 +60,19 @@ function concatOutputAssetsDest (config: any): string | undefined {
 }
 
 function getOutputSourceMapOption (config: any): Record<string, any> {
-  if (!config?.deviceType || !config?.output) {
+  if (!config?.deviceType) {
     return {}
   }
-  if (config.deviceType === 'ios') {
-    config.output.iosSourcemapOutput && fse.ensureDirSync(path.dirname(config.output.iosSourcemapOutput))
-    return {
-      sourceMapUrl: config.output.iosSourceMapUrl,
-      sourcemapOutput: config.output.iosSourcemapOutput,
-      sourcemapSourcesRoot: config.output.iosSourcemapSourcesRoot
-    }
-  } else {
-    config.output.androidSourcemapOutput && fse.ensureDirSync(path.dirname(config.output.androidSourcemapOutput))
-    return {
-      sourceMapUrl: config.output.androidSourceMapUrl,
-      sourcemapOutput: config.output.androidSourcemapOutput,
-      sourcemapSourcesRoot: config.output.androidSourcemapSourcesRoot
-    }
+  const isIos = config.deviceType === 'ios'
+  const sourceMapUrl = config.sourceMapUrl || (isIos ? config?.output?.iosSourceMapUrl : config?.output?.androidSourceMapUrl)
+  const sourcemapOutput = config.sourcemapOutput || (isIos ? config?.output?.iosSourcemapOutput : config?.output?.androidSourcemapOutput)
+  const sourcemapSourcesRoot = config.sourcemapSourcesRoot || (isIos ? config?.output?.iosSourcemapSourcesRoot : config?.output?.androidSourcemapSourcesRoot)
+  sourcemapOutput && fse.ensureDirSync(path.dirname(sourcemapOutput))
+  return {
+    sourceMapUrl,
+    sourcemapOutput,
+    sourcemapSourcesRoot
   }
-}
-
-function getOpenHost () {
-  let result
-  const interfaces = networkInterfaces()
-  for (const devName in interfaces) {
-    const isEnd = interfaces[devName]?.some(item => {
-      // 取IPv4, 不为127.0.0.1的内网ip
-      if (item.family === 'IPv4' && item.address !== '127.0.0.1' && !item.internal) {
-        result = item.address
-        return true
-      }
-      return false
-    })
-    // 若获取到ip, 结束遍历
-    if (isEnd) {
-      break
-    }
-  }
-  return result
 }
 
 // TODO: 返回值
@@ -107,6 +93,9 @@ export default async function build (appPath: string, config: any): Promise<any>
   }
   if (config.resetCache) {
     metroConfig.resetCache = config.resetCache
+  }
+  if (config.publicPath) {
+    metroConfig.transformer.publicPath = config.publicPath
   }
   metroConfig.reporter = new TerminalReporter(entry, sourceRoot, metroConfig.cacheStores[0])
 
@@ -182,6 +171,7 @@ export default async function build (appPath: string, config: any): Promise<any>
         const host = getOpenHost()
         if (host) {
           const url = `taro://${host}:${metroConfig.server.port}`
+          console.log(PLAYGROUNDINFO)
           console.log(`print qrcode of '${url}':`)
           generate(url, { small: true })
         } else {
@@ -231,7 +221,15 @@ export default async function build (appPath: string, config: any): Promise<any>
         ...Server.DEFAULT_BUNDLE_OPTIONS,
         ...requestOptions
       })
-      return await saveAssets(outputAssets, options.platform, concatOutputAssetsDest(config)).then(() => {
+      const assetsDest = concatOutputAssetsDest(config)
+      return await saveAssets(outputAssets, options.platform, assetsDest).then(() => {
+        if (config.qr) {
+          preview({
+            out: options.out,
+            assetsDest,
+            platform: options.platform
+          })
+        }
         onFinish(null)
       })
     } catch (e) {
