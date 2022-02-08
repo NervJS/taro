@@ -38,7 +38,6 @@ export default (ctx: IPluginContext) => {
     name: HARMONY,
     useConfigName: 'mini',
     async fn ({ config }) {
-      config.needClearOutput = false
       const program = new Harmony(ctx, config)
       await program.start()
     }
