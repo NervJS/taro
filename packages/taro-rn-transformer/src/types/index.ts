@@ -52,3 +52,14 @@ interface SubPackage {
    */
   pages: string[]
 }
+
+export interface linariaTransformOption {
+  /**
+   * 源文件路径
+   */
+  sourcePath: string
+  /**
+   * 待转换代码
+   */
+  sourceCode: string
+}

@@ -2,9 +2,12 @@ import * as nodePath from 'path'
 import * as fs from 'fs'
 import * as mimeType from 'mime-types'
 import * as parser from '@babel/parser'
+import * as mkdirp from 'mkdirp'
+import * as normalize from 'normalize-path'
+import { parseSync, types, transformFromAstSync } from '@babel/core'
 import traverse from '@babel/traverse'
 import { readConfig, resolveMainFilePath } from '@tarojs/helper'
-import { globalAny } from './types/index'
+import { globalAny, linariaTransformOption } from './types/index'
 
 const RN_CSS_EXT = ['.css', '.scss', '.sass', '.less', '.styl', '.stylus']
 
@@ -157,4 +160,130 @@ export function parseBase64Image (iconPath: string, baseRoot: string) {
   const buff = Buffer.from(data).toString('base64')
   const base64 = 'data:' + fileMimeType + ';base64,' + buff
   return base64
+}
+
+export function transformLinaria ({ sourcePath, sourceCode }: linariaTransformOption) {
+  // TODO：配置 option, 小程序和 h5 可配置 webpack loader 更改配置，RN没有loader，所以默认不可配置，后续可考虑加配置
+  const cacheDirectory = '.linaria-cache'
+  const preprocessor = undefined
+  const extension = '.linaria.css'
+  const root = process.cwd()
+
+  // 处理 option 参数
+  const baseOutputFileName = sourcePath.replace(/\.[^.]+$/, extension)
+  const outputFilename = normalize(
+    nodePath.join(
+      nodePath.isAbsolute(cacheDirectory)
+        ? cacheDirectory
+        : nodePath.join(process.cwd(), cacheDirectory),
+      sourcePath.includes(root)
+        ? nodePath.relative(root, baseOutputFileName)
+        : baseOutputFileName
+    )
+  )
+  const filename = nodePath.relative(process.cwd(), sourcePath)
+
+  // linaria代码转换
+  const result = require('linaria/lib/node').transform(sourceCode, {
+    filename,
+    // inputSourceMap: inputSourceMap ?? undefined,
+    outputFilename,
+    preprocessor
+  })
+
+  // 生成样式文件
+  if (result.cssText) {
+    const { cssText } = result
+    // Read the file first to compare the content
+    // Write the new content only if it's changed
+    // This will prevent unnecessary WDS reloads
+    let currentCssText
+
+    try {
+      currentCssText = fs.readFileSync(outputFilename, 'utf-8')
+    } catch (e) {
+      // Ignore error
+    }
+
+    if (currentCssText !== cssText) {
+      mkdirp.sync(nodePath.dirname(outputFilename))
+      fs.writeFileSync(outputFilename, cssText)
+    }
+  }
+
+  const astResult = parseSync(result.code, {
+    filename,
+    caller: { name: 'taro' }
+  })
+
+  // 遍历 ast 处理引入的样式文件和更改属性名
+  let linariaStyle: types.Identifier
+  const componentClassMap = new Map()
+  traverse(astResult, {
+    Program: {
+      enter (astPath) {
+        linariaStyle = astPath.scope.generateUidIdentifier('linariaStyle')
+        let lastImportAstPath
+        for (const stmt of astPath.get('body')) {
+          if (types.isImportDeclaration(stmt.node)) {
+            lastImportAstPath = stmt
+          }
+        }
+        if (lastImportAstPath) {
+          // 插入唯一标识代替 uniqStyle
+          const cssImportCSS = types.importDeclaration([types.importDefaultSpecifier(linariaStyle)], types.stringLiteral(outputFilename))
+          lastImportAstPath.insertAfter(cssImportCSS)
+        }
+      }
+    },
+    ObjectExpression (astPath) {
+      for (const node of astPath.node.properties) {
+        if (types.isObjectProperty(node) && types.isIdentifier(node.key) && node.key.name === 'class') {
+          if (types.isStringLiteral(node.value) && Object.keys(result.rules).includes(`.${node.value.value}`)) {
+            const curr = astPath.node.properties.find((property) => {
+              if (types.isObjectProperty(property) && types.isIdentifier(property.key)) {
+                return property.key.name === 'name'
+              }
+            })
+            if (types.isObjectProperty(curr) && types.isStringLiteral(curr.value)) {
+              componentClassMap.set(curr.value.value, node.value.value)
+            }
+            break
+          }
+        }
+      }
+    },
+    JSXOpeningElement (astPath) {
+      const { attributes, name: component } = astPath.node
+      const className = types.isJSXIdentifier(component) && componentClassMap.get(component.name)
+      if (className) {
+        const index = attributes.findIndex(attribute =>
+          types.isJSXAttribute(attribute) && attribute.name.name === 'className')
+        attributes.splice(index, 1)
+        attributes.push(
+          types.jsxAttribute(
+            types.jsxIdentifier('className'),
+            types.jsxExpressionContainer(
+              types.memberExpression(
+                linariaStyle,
+                types.identifier(className)
+              )
+            )
+          )
+        )
+      }
+    }
+  })
+
+  // 根据 ast 生成新的结果
+  const transformResult = astResult && transformFromAstSync(astResult, result.code, {
+    filename,
+    babelrc: false,
+    configFile: false,
+    sourceMaps: true,
+    sourceFileName: filename,
+    inputSourceMap: result.sourceMap
+  })
+
+  return transformResult
 }

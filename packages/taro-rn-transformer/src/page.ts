@@ -1,7 +1,10 @@
 import * as path from 'path'
 import { TransformPage, globalAny } from './types/index'
+import { transformLinaria } from './utils'
 
 export default function generatePage ({ sourceCode, filename, projectRoot, sourceDir }: TransformPage) {
+  const filePath = path.join(projectRoot, filename)
+
   // 文件
   const extName = path.basename(filename).split('.')[0]
   const fileDir = path.dirname(filename)
@@ -11,7 +14,6 @@ export default function generatePage ({ sourceCode, filename, projectRoot, sourc
     const commonStyle = globalAny?.__taroCommonStyle || []
     if (commonStyle && commonStyle.length > 0) {
       const code: string[] = []
-      const filePath = path.join(projectRoot, filename)
       commonStyle.forEach((item) => {
         let importStr = ''
         const relativePath = path.relative(path.dirname(filePath), item.path).replace(/\\/g, '/')
@@ -26,5 +28,23 @@ export default function generatePage ({ sourceCode, filename, projectRoot, sourc
       result = code.join(';\n') + ';' + sourceCode
     }
   }
+
+  // linaria transform
+  let linaria
+  try {
+    linaria = require('linaria')
+  } catch (e) { }
+
+  if (linaria) {
+    const transformResult = transformLinaria({
+      sourcePath: filePath,
+      sourceCode: result
+    })
+
+    if (transformResult && transformResult.code) {
+      result = transformResult.code
+    }
+  }
+
   return result
 }
