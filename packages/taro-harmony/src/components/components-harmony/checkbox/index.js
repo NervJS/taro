@@ -33,7 +33,12 @@ export default {
     checkboxGroup.onChange()
   },
   onDestroy () {
-    const checkboxGroup = this.findCheckboxGroup()
+    let checkboxGroup
+
+    try {
+      // 可能父元素已经卸载了，不 catch 会报错
+      checkboxGroup = this.findCheckboxGroup()
+    } catch (error) {}
 
     if (checkboxGroup && this.checked) {
       checkboxGroup.removeValue(this.value)
