@@ -133,7 +133,7 @@ ${elements}
 
     const res = `
 <block if="{{i.nn == '${comp.nodeName}'}}">
-  <${nodeName} ${this.buildAttrs(comp.attributes, comp.nodeName)} id="{{i.uid}}">
+  <${nodeName} ${this.buildAttrs(comp.attributes, comp.nodeName)} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     ${children}
   </${nodeName}>
 </block>
