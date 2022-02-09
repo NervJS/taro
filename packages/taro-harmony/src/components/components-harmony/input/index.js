@@ -90,7 +90,7 @@ export default createOption({
   onDestroy () {
     if (this.windowClass) {
       this.windowClass.then(win => {
-        win.off(this.type)
+        win.off('keyboardheightchange')
       })
     }
   }
