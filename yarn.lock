@@ -26963,10 +26963,10 @@ react-native-svg@~12.1.1:
     css-select "^2.1.0"
     css-tree "^1.0.0-alpha.39"
 
-react-native-syan-image-picker@0.4.10:
-  version "0.4.10"
-  resolved "https://registry.yarnpkg.com/react-native-syan-image-picker/-/react-native-syan-image-picker-0.4.10.tgz#aefeef40842cddfdf43a9ab7ef76787e8f630dcf"
-  integrity sha512-iwo6v/+801R5mPWgIr0WP0jELfr+NZg1qiFDmdqTLObBd3x9rezV60lP331fRaJTmfYMK0IU04Hiu0WOSmAZ7w==
+react-native-syan-image-picker@0.5.3:
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/react-native-syan-image-picker/-/react-native-syan-image-picker-0.5.3.tgz#4d1f164449abac11f60cde337ad1ac22ef554b19"
+  integrity sha512-jDHKiv6jPrC3Dslhq2tDjqYC27HE0sNRzpthOY1//THgQpJ0Ht7B6EHvllWVaMw0V41kFVMixLxVQTMu/V7RSw==
 
 react-native-unimodules@~0.14.10:
   version "0.14.10"
