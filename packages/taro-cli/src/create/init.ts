@@ -1,5 +1,4 @@
 import * as fs from 'fs-extra'
-import * as os from 'os'
 import * as path from 'path'
 import { exec } from 'child_process'
 import * as ora from 'ora'
@@ -21,7 +20,9 @@ const styleExtMap = {
   stylus: 'styl',
   none: 'css'
 }
-
+enum TemplateType {
+  rn = 'react-native'
+}
 const doNotCopyFiles = ['.DS_Store', '.npmrc', TEMPLATE_CREATOR]
 
 function createFiles (
@@ -171,16 +172,7 @@ export async function createApp (creater: Creator, params: IProjectConf, cb) {
   const logs: string[] = []
   // path
   const projectPath = path.join(projectDir, projectName)
-  const templatePath = path.join(os.tmpdir(), 'taroTemplate')
-
-  if (fs.existsSync(templatePath)) {
-    fs.removeSync(templatePath)
-  }
-  fs.copySync(creater.templatePath(template), templatePath)
-
-  const templateName = getTemplateName(templatePath)
-
-  await changeDefaultNameInTemplate({ projectName, defaultName: templateName, templatePath })
+  const templatePath = creater.templatePath(template)
 
   // npm & yarn
   const version = getPkgVersion()
@@ -219,11 +211,18 @@ export async function createApp (creater: Creator, params: IProjectConf, cb) {
   )
 
   // fs commit
-  creater.fs.commit(() => {
+  creater.fs.commit(async () => {
     // logs
     console.log()
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建项目: ${chalk.grey.bold(projectName)}`)}`)
     logs.forEach(log => console.log(log))
+
+    // 当选择 rn 模板时，替换默认项目名
+    if (template === TemplateType.rn) {
+      const templateName = getTemplateName(templatePath)
+      await changeDefaultNameInTemplate({ projectName, defaultName: templateName, projectPath })
+      console.log(`${chalk.green('✔ ')}${chalk.grey('项目名更新成功！')}`)
+    }
     console.log()
 
     // git init

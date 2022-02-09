@@ -4,7 +4,7 @@ import * as fs from 'fs-extra'
 interface PlaceholderConfig {
   projectName: string
   defaultName: string,
-  templatePath: string
+  projectPath: string
 }
 
 const UNDERSCORED_DOTFILES = [
@@ -65,8 +65,8 @@ function shouldIgnoreFile (filePath: string) {
   return filePath.match(/node_modules|yarn.lock|package-lock.json/g)
 }
 
-export async function changeDefaultNameInTemplate ({ projectName, defaultName, templatePath }: PlaceholderConfig) {
-  for (const filePath of walk(templatePath).reverse()) {
+export async function changeDefaultNameInTemplate ({ projectName, defaultName, projectPath }: PlaceholderConfig) {
+  for (const filePath of walk(projectPath).reverse()) {
     if (shouldIgnoreFile(filePath)) {
       continue
     }
