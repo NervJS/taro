@@ -1160,19 +1160,20 @@ export default class TaroMiniPlugin {
 
     const originSource: string = assets[appStyle].source()
     const source = new ConcatSource()
-    source.add(originSource)
 
     Object.keys(assets).forEach(assetName => {
       const fileName = path.basename(assetName, path.extname(assetName))
       if ((REG_STYLE.test(assetName) || REG_STYLE_EXT.test(assetName)) && this.options.commonChunks.includes(fileName)) {
-        source.add('\n')
         source.add(`@import ${JSON.stringify(urlToRequest(assetName))};`)
-        assets[appStyle] = {
-          size: () => source.source().length,
-          source: () => source.source()
-        }
+        source.add('\n')
       }
     })
+    
+    source.add(originSource)
+    assets[appStyle] = {
+      size: () => source.source().length,
+      source: () => source.source()
+    }
   }
 
   addTarBarFilesToDependencies (compilation: webpack.compilation.Compilation) {
