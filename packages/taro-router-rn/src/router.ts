@@ -142,6 +142,7 @@ function getStackOptions (config: RouterConfig) {
     },
     headerTintColor: headColor,
     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+    cardStyle: { elevation: 1 },
     headerBackTitleVisible: false,
     headerPressColorAndroid: 'rgba(255,255,255,0)',
     headerTitleAlign,
