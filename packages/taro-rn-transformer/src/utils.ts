@@ -7,7 +7,7 @@ import * as normalize from 'normalize-path'
 import { parseSync, types, transformFromAstSync } from '@babel/core'
 import traverse from '@babel/traverse'
 import { readConfig, resolveMainFilePath } from '@tarojs/helper'
-import { globalAny, linariaTransformOption } from './types/index'
+import { globalAny, TransformLinariaOption } from './types/index'
 
 const RN_CSS_EXT = ['.css', '.scss', '.sass', '.less', '.styl', '.stylus']
 
@@ -162,7 +162,7 @@ export function parseBase64Image (iconPath: string, baseRoot: string) {
   return base64
 }
 
-export function transformLinaria ({ sourcePath, sourceCode }: linariaTransformOption) {
+export function transformLinaria ({ sourcePath, sourceCode }: TransformLinariaOption) {
   // TODO：配置 option, 小程序和 h5 可配置 webpack loader 更改配置，RN没有loader，所以默认不可配置，后续可考虑加配置
   const cacheDirectory = '.linaria-cache'
   const preprocessor = undefined
@@ -209,6 +209,9 @@ export function transformLinaria ({ sourcePath, sourceCode }: linariaTransformOp
       mkdirp.sync(nodePath.dirname(outputFilename))
       fs.writeFileSync(outputFilename, cssText)
     }
+  } else {
+    // 没有生成 linaria 样式文件不走下面处理语法的逻辑
+    return
   }
 
   const astResult = parseSync(result.code, {
@@ -218,6 +221,11 @@ export function transformLinaria ({ sourcePath, sourceCode }: linariaTransformOp
 
   // 遍历 ast 处理引入的样式文件和更改属性名
   let linariaStyle: types.Identifier
+  /**
+   * 维护对应组件和样式的关系
+   * 比如 const Background = styled(View)`width: 100px;`
+   * Map => [['Background', className]]
+   */
   const componentClassMap = new Map()
   traverse(astResult, {
     Program: {
@@ -230,7 +238,6 @@ export function transformLinaria ({ sourcePath, sourceCode }: linariaTransformOp
           }
         }
         if (lastImportAstPath) {
-          // 插入唯一标识代替 uniqStyle
           const cssImportCSS = types.importDeclaration([types.importDefaultSpecifier(linariaStyle)], types.stringLiteral(outputFilename))
           lastImportAstPath.insertAfter(cssImportCSS)
         }
@@ -240,13 +247,13 @@ export function transformLinaria ({ sourcePath, sourceCode }: linariaTransformOp
       for (const node of astPath.node.properties) {
         if (types.isObjectProperty(node) && types.isIdentifier(node.key) && node.key.name === 'class') {
           if (types.isStringLiteral(node.value) && Object.keys(result.rules).includes(`.${node.value.value}`)) {
-            const curr = astPath.node.properties.find((property) => {
+            const componentProperty = astPath.node.properties.find((property) => {
               if (types.isObjectProperty(property) && types.isIdentifier(property.key)) {
                 return property.key.name === 'name'
               }
             })
-            if (types.isObjectProperty(curr) && types.isStringLiteral(curr.value)) {
-              componentClassMap.set(curr.value.value, node.value.value)
+            if (types.isObjectProperty(componentProperty) && types.isStringLiteral(componentProperty.value)) {
+              componentClassMap.set(componentProperty.value.value, node.value.value)
             }
             break
           }
@@ -256,6 +263,7 @@ export function transformLinaria ({ sourcePath, sourceCode }: linariaTransformOp
     JSXOpeningElement (astPath) {
       const { attributes, name: component } = astPath.node
       const className = types.isJSXIdentifier(component) && componentClassMap.get(component.name)
+
       if (className) {
         const index = attributes.findIndex(attribute =>
           types.isJSXAttribute(attribute) && attribute.name.name === 'className')

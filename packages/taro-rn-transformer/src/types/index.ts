@@ -53,7 +53,7 @@ interface SubPackage {
   pages: string[]
 }
 
-export interface linariaTransformOption {
+export interface TransformLinariaOption {
   /**
    * 源文件路径
    */

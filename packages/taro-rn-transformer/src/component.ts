@@ -2,7 +2,7 @@ import * as path from 'path'
 import { TransformPage, globalAny } from './types/index'
 import { transformLinaria } from './utils'
 
-export default function generatePage ({ sourceCode, filename, projectRoot, sourceDir }: TransformPage) {
+export default function componentLoader ({ sourceCode, filename, projectRoot, sourceDir }: TransformPage) {
   const filePath = path.join(projectRoot, filename)
 
   // 文件
@@ -36,11 +36,17 @@ export default function generatePage ({ sourceCode, filename, projectRoot, sourc
   } catch (e) { }
 
   if (linaria) {
-    const transformResult = transformLinaria({
-      sourcePath: filePath,
-      sourceCode: result
-    })
+    let transformResult
+    try {
+      transformResult = transformLinaria({
+        sourcePath: filePath,
+        sourceCode: result
+      })
+    } catch (e) {
+      console.error(e)
+    }
 
+    // linaria 转换的代码
     if (transformResult && transformResult.code) {
       result = transformResult.code
     }
