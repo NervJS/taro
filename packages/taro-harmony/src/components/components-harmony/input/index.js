@@ -89,7 +89,9 @@ export default createOption({
 
   onDestroy () {
     if (this.windowClass) {
-      this.windowClass.off(this.type)
+      this.windowClass.then(win => {
+        win.off(this.type)
+      })
     }
   }
 })
