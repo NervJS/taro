@@ -267,7 +267,12 @@ export function transformLinaria ({ sourcePath, sourceCode }: TransformLinariaOp
       if (className) {
         const index = attributes.findIndex(attribute =>
           types.isJSXAttribute(attribute) && attribute.name.name === 'className')
-        attributes.splice(index, 1)
+
+        // Remove origin className
+        if (index !== -1) {
+          attributes.splice(index, 1)
+        }
+
         attributes.push(
           types.jsxAttribute(
             types.jsxIdentifier('className'),
