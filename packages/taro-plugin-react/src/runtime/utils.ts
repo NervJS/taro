@@ -8,6 +8,9 @@ export const HOOKS_APP_ID = 'taro-app'
 export function isClassComponent (R: typeof React, component): boolean {
   const prototype = component.prototype
 
+  // For React Redux
+  if (component.displayName?.includes('Connect')) return false
+
   return (
     isFunction(component.render) ||
     !!prototype?.isReactComponent ||
