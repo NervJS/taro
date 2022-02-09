@@ -1,4 +1,5 @@
 import * as fs from 'fs-extra'
+import * as os from 'os'
 import * as path from 'path'
 import { exec } from 'child_process'
 import * as ora from 'ora'
@@ -8,8 +9,10 @@ import { getAllFilesInFloder, getPkgVersion } from '../util'
 import { IProjectConf } from './project'
 import { IPageConf } from './page'
 import Creator from './creator'
+import { changeDefaultNameInTemplate } from './editTemplate'
 
 const CONFIG_DIR_NAME = 'config'
+const DEFAULT_RN_PROJECT_NAME = 'taroDemo'
 export const TEMPLATE_CREATOR = 'template_creator.js'
 
 const styleExtMap = {
@@ -51,9 +54,10 @@ function createFiles (
   const globalChangeExt = Boolean(handler)
   const currentStyleExt = styleExtMap[css] || 'css'
 
-  files.forEach(file => {
+  files.forEach(async file => {
     // fileRePath startsWith '/'
     const fileRePath = file.replace(templatePath, '').replace(new RegExp(`\\${path.sep}`, 'g'), '/')
+
     let externalConfig: any = null
 
     const isVueFramework = /^vue/.test(framework)
@@ -121,11 +125,17 @@ function createFiles (
     creater.template(template, fileRePath, path.join(projectPath, destRePath), config)
 
     const destinationPath = creater.destinationPath(path.join(projectPath, destRePath))
+
     logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${destinationPath}`)}`)
   })
   return logs
 }
 
+function getTemplateName (cwd: string) {
+  const result = fs.readFileSync(path.join(cwd, './ios/Podfile'), 'utf8').match(/target '(.*)' do/m)
+  const name = result?.[1] || DEFAULT_RN_PROJECT_NAME
+  return name
+}
 export async function createPage (creater: Creator, params: IPageConf, cb) {
   const { projectDir, template, pageName } = params
   // path
@@ -160,8 +170,17 @@ export async function createApp (creater: Creator, params: IProjectConf, cb) {
   const { projectName, projectDir, template, autoInstall = true, framework } = params
   const logs: string[] = []
   // path
-  const templatePath = creater.templatePath(template)
   const projectPath = path.join(projectDir, projectName)
+  const templatePath = path.join(os.tmpdir(), 'taroTemplate')
+
+  if (fs.existsSync(templatePath)) {
+    fs.removeSync(templatePath)
+  }
+  fs.copySync(creater.templatePath(template), templatePath)
+
+  const templateName = getTemplateName(templatePath)
+
+  await changeDefaultNameInTemplate({ projectName, defaultName: templateName, templatePath })
 
   // npm & yarn
   const version = getPkgVersion()
