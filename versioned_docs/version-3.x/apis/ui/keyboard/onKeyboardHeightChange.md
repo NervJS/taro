@@ -5,7 +5,9 @@ sidebar_label: onKeyboardHeightChange
 
 监听键盘高度变化
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/keyboard/wx.onKeyboardHeightChange.html)
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/keyboard/wx.onKeyboardHeightChange.html)
 
 ## 类型
 
@@ -15,45 +17,25 @@ sidebar_label: onKeyboardHeightChange
 
 ## 参数
 
+| 参数 | 类型 |
+| --- | --- |
+| callback | `Callback` |
+
 ### Callback
 
 ```tsx
 (result: CallbackResult) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>result</td>
-      <td><code>CallbackResult</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| result | `CallbackResult` |
 
 ### CallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>height</td>
-      <td><code>number</code></td>
-      <td>键盘高度</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| height | `number` | 键盘高度 |
 
 ## 示例代码
 
@@ -62,9 +44,3 @@ Taro.onKeyboardHeightChange(res => {
   console.log(res.height)
 })
 ```
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Taro.onKeyboardHeightChange | ✔️ |  | ✔️ |

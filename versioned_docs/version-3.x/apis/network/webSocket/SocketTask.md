@@ -9,61 +9,22 @@ WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq
 
 ## 方法
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>socketTaskId</td>
-      <td><code>number</code></td>
-      <td>websocket 当前的连接 ID。</td>
-    </tr>
-    <tr>
-      <td>readyState</td>
-      <td><code>number</code></td>
-      <td>websocket 当前的连接状态。</td>
-    </tr>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>websocket 接口调用结果。</td>
-    </tr>
-    <tr>
-      <td>CONNECTING</td>
-      <td><code>number</code></td>
-      <td>websocket 状态值：连接中。</td>
-    </tr>
-    <tr>
-      <td>OPEN</td>
-      <td><code>number</code></td>
-      <td>websocket 状态值：已连接。</td>
-    </tr>
-    <tr>
-      <td>CLOSING</td>
-      <td><code>number</code></td>
-      <td>websocket 状态值：关闭中。</td>
-    </tr>
-    <tr>
-      <td>CLOSED</td>
-      <td><code>number</code></td>
-      <td>websocket 状态值：已关闭。</td>
-    </tr>
-    <tr>
-      <td>ws</td>
-      <td><code>WebSocket</code></td>
-      <td>浏览器 websocket 实例。（h5 端独有）</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| socketTaskId | `number` | websocket 当前的连接 ID。 |
+| readyState | `number` | websocket 当前的连接状态。 |
+| errMsg | `string` | websocket 接口调用结果。 |
+| CONNECTING | `number` | websocket 状态值：连接中。 |
+| OPEN | `number` | websocket 状态值：已连接。 |
+| CLOSING | `number` | websocket 状态值：关闭中。 |
+| CLOSED | `number` | websocket 状态值：已关闭。 |
+| ws | `WebSocket` | 浏览器 websocket 实例。（h5 端独有） |
 
 ### close
 
 关闭 WebSocket 连接
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="百度小程序" src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img title="支付宝小程序" src={require('@site/static/img/platform/alipay.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.close.html)
 
@@ -71,30 +32,15 @@ WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq
 (option: CloseOption) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>CloseOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| SocketTask.close | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| 参数 | 类型 |
+| --- | --- |
+| option | `CloseOption` |
 
 ### onClose
 
 监听 WebSocket 连接关闭事件
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="百度小程序" src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img title="支付宝小程序" src={require('@site/static/img/platform/alipay.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.onClose.html)
 
@@ -102,32 +48,15 @@ WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq
 (callback: OnCloseCallback) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>callback</td>
-      <td><code>OnCloseCallback</code></td>
-      <td>WebSocket 连接关闭事件的回调函数</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| SocketTask.onClose | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| callback | `OnCloseCallback` | WebSocket 连接关闭事件的回调函数 |
 
 ### onError
 
 监听 WebSocket 错误事件
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="百度小程序" src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img title="支付宝小程序" src={require('@site/static/img/platform/alipay.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.onError.html)
 
@@ -135,32 +64,15 @@ WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq
 (callback: OnErrorCallback) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>callback</td>
-      <td><code>OnErrorCallback</code></td>
-      <td>WebSocket 错误事件的回调函数</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| SocketTask.onError | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| callback | `OnErrorCallback` | WebSocket 错误事件的回调函数 |
 
 ### onMessage
 
 监听 WebSocket 接受到服务器的消息事件
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="百度小程序" src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img title="支付宝小程序" src={require('@site/static/img/platform/alipay.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.onMessage.html)
 
@@ -168,32 +80,15 @@ WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq
 <T = any>(callback: OnMessageCallback<T>) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>callback</td>
-      <td><code>T</code></td>
-      <td>WebSocket 接受到服务器的消息事件的回调函数</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| SocketTask.onMessage | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| callback | `T` | WebSocket 接受到服务器的消息事件的回调函数 |
 
 ### onOpen
 
 监听 WebSocket 连接打开事件
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="百度小程序" src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img title="支付宝小程序" src={require('@site/static/img/platform/alipay.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.onOpen.html)
 
@@ -201,32 +96,15 @@ WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq
 (callback: OnOpenCallback) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>callback</td>
-      <td><code>OnOpenCallback</code></td>
-      <td>WebSocket 连接打开事件的回调函数</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| SocketTask.onOpen | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| callback | `OnOpenCallback` | WebSocket 连接打开事件的回调函数 |
 
 ### send
 
 通过 WebSocket 连接发送数据
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="百度小程序" src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img title="支付宝小程序" src={require('@site/static/img/platform/alipay.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.send.html)
 
@@ -234,73 +112,21 @@ WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq
 (option: SendOption) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>SendOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| SocketTask.send | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| 参数 | 类型 |
+| --- | --- |
+| option | `SendOption` |
 
 ## 参数
 
 ### CloseOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>code</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>一个数字值表示关闭连接的状态号，表示连接被关闭的原因。</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>reason</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>一个可读的字符串，表示连接被关闭的原因。这个字符串必须是不长于 123 字节的 UTF-8 文本（不是字符）。</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| code | `number` | 否 | 一个数字值表示关闭连接的状态号，表示连接被关闭的原因。 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| reason | `string` | 否 | 一个可读的字符串，表示连接被关闭的原因。这个字符串必须是不长于 123 字节的 UTF-8 文本（不是字符）。 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### OnCloseCallback
 
@@ -310,44 +136,16 @@ WebSocket 连接关闭事件的回调函数
 (result: OnCloseCallbackResult) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>result</td>
-      <td><code>OnCloseCallbackResult</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| result | `OnCloseCallbackResult` |
 
 ### OnCloseCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>code</td>
-      <td><code>number</code></td>
-      <td>一个数字值表示关闭连接的状态号，表示连接被关闭的原因。</td>
-    </tr>
-    <tr>
-      <td>reason</td>
-      <td><code>string</code></td>
-      <td>一个可读的字符串，表示连接被关闭的原因。</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| code | `number` | 一个数字值表示关闭连接的状态号，表示连接被关闭的原因。 |
+| reason | `string` | 一个可读的字符串，表示连接被关闭的原因。 |
 
 ### OnErrorCallback
 
@@ -357,39 +155,15 @@ WebSocket 错误事件的回调函数
 (result: OnErrorCallbackResult) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>result</td>
-      <td><code>OnErrorCallbackResult</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| result | `OnErrorCallbackResult` |
 
 ### OnErrorCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>errMsg</td>
-      <td><code>string</code></td>
-      <td>错误信息</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息 |
 
 ### OnMessageCallback
 
@@ -399,39 +173,15 @@ WebSocket 接受到服务器的消息事件的回调函数
 (result: OnMessageCallbackResult<T>) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>result</td>
-      <td><code>OnMessageCallbackResult&lt;T&gt;</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| result | `OnMessageCallbackResult<T>` |
 
 ### OnMessageCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>data</td>
-      <td><code>T</code></td>
-      <td>服务器返回的消息</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| data | `T` | 服务器返回的消息 |
 
 ### OnOpenCallback
 
@@ -441,78 +191,24 @@ WebSocket 连接打开事件的回调函数
 (result: OnOpenCallbackResult) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>result</td>
-      <td><code>OnOpenCallbackResult</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| result | `OnOpenCallbackResult` |
 
 ### OnOpenCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>header</td>
-      <td><code>Record&lt;string, any&gt;</code></td>
-      <td>连接成功的 HTTP 响应 Header</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| header | `TaroGeneral.IAnyObject` | 连接成功的 HTTP 响应 Header |
 
 ### SendOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>data</td>
-      <td><code>string | ArrayBuffer</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>需要发送的内容</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>(res: CallbackResult) =&gt; void</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| data | string or ArrayBuffer | 是 | 需要发送的内容 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ## API 支持度
 

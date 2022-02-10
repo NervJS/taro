@@ -230,6 +230,17 @@ page.selectComponent('#mychart-dom-area')
 
 [详细文档](./vant)
 
+### 常见问题
+
+#### 1. Vue3 出现 warning: "[Vue warn]: Failed to resolve component"
+
+![](http://storage.360buyimg.com/cjj-pub-images/vue3-warn-native.png)
+
+原因是 Vue 把它当做 Vue 组件来解析，我们可以修改 VueLoader 的编译配置 `compilerOptions.isCustomElement`，把此组件声明为原生组件。
+
+- **Taro v3.4 之前**的版本需要通过 WebpackChain 去修改（请参考 [#10838](https://github.com/NervJS/taro/issues/10838#issuecomment-988448778)）
+- **Taro v3.4 之后**可以通过配置 [Taro Vue3 插件](./vue3#compileroptions) 的选项去修改。
+
 ## 使用原生页面
 
 只需要在 app 配置中，设置好原生页面的路由即可。

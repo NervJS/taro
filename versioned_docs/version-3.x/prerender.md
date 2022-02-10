@@ -224,3 +224,39 @@ const config = {
   }
 }
 ```
+
+### H5 Prerender
+
+Taro 目前并没有提供 H5 端的预渲染配置，可以考虑使用相关的开源方案，比如 `prerender-spa-plugin`:
+
+```js title="/config/prod.js "
+const config = {
+  ...
+  h5: {
+    /**
+     * WebpackChain 插件配置
+     * @docs https://github.com/neutrinojs/webpack-chain
+     */
+    webpackChain (chain) {
+      /**
+       * 如果 h5 端首屏加载时间过长，可以使用 prerender-spa-plugin 插件预加载首页。
+       * @docs https://github.com/chrisvfritz/prerender-spa-plugin
+       */
+      if (process.env.TARO_ENV === 'h5') {
+        const path = require('path')
+        const Prerender = require('prerender-spa-plugin')
+        const staticDir = path.join(__dirname, '..', 'dist')
+        chain
+          .plugin('prerender')
+          .use(new Prerender({
+            staticDir,
+            routes: [ '/pages/index/index' ],
+            postProcess: (context) => ({ ...context, outputPath: path.join(staticDir, 'index.html') })
+          }))
+      }
+    }
+  }
+};
+
+module.exports = config
+```

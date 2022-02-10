@@ -5,6 +5,8 @@ sidebar_label: getBatteryInfoSync
 
 Taro.getBatteryInfo 的同步版本
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/battery/wx.getBatteryInfoSync.html)
 
 ## 类型
@@ -17,30 +19,7 @@ Taro.getBatteryInfo 的同步版本
 
 ### Result
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>isCharging</td>
-      <td><code>boolean</code></td>
-      <td>是否正在充电中</td>
-    </tr>
-    <tr>
-      <td>level</td>
-      <td><code>string</code></td>
-      <td>设备电量，范围 1 - 100</td>
-    </tr>
-  </tbody>
-</table>
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Taro.getBatteryInfoSync | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| isCharging | `boolean` | 是否正在充电中 |
+| level | `string` | 设备电量，范围 1 - 100 |

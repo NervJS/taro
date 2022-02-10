@@ -297,7 +297,6 @@ export default {
 
 当小程序需要使用 [Taro.navigateToMiniProgram](https://developers.weixin.qq.com/miniprogram/dev/api/wx.navigateToMiniProgram.html) 接口跳转到其他小程序时，需要先在配置文件中声明需要跳转的小程序 appId 列表，最多允许填写 10 个
 
-
 ## 微信小程序特有属性
 
 只在微信小程序中支持的属性。<img src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/>

@@ -10,6 +10,10 @@ Taro 3 支持将 Web 框架直接运行在各平台，开发者使用的是真�
 
 但是 Taro 在组件、API、路由等规范上，遵循微信小程序规范，所以在 Taro 中使用 Vue/Vue3 和开发者熟悉的 Web 端有一些差异，以下将详细列出。
 
+:::info
+[Breaking] 旧项目升级到 Taro v3.4+ 时，使用 Vue2 请安装依赖 `@tarojs/plugin-framework-vue2`、使用 Vue2 请安装依赖 `@tarojs/plugin-framework-vue3`、
+:::
+
 ## 入口组件和页面组件
 
 因为 Taro 遵循小程序的路由规范，所以引入了[入口组件](./vue-entry)和[页面组件](./vue-page)的概念，分别对应小程序规范的入口组件 `app` 和页面组件 `page`。
@@ -18,7 +22,9 @@ Taro 3 支持将 Web 框架直接运行在各平台，开发者使用的是真�
 
 ## 内置组件
 
-> 自 Taro v3.3+，支持使用 H5 标签进行开发，详情请见 [使用 HTML 标签](use-h5)
+:::note
+自 Taro v3.3+，支持使用 H5 标签进行开发，详情请见 [使用 HTML 标签](use-h5)
+:::
 
 Taro 中可以使用小程序规范的内置组件进行开发，如 `<view>`、`<text>`、`<button>` 等。
 

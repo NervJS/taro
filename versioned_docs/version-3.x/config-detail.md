@@ -582,6 +582,16 @@ module.exports = {
 
 指定 React 框架相关的代码是否使用开发环境（未压缩）代码，默认使用生产环境（压缩后）代码。
 
+### mini.hot
+
+> 自 v3.4.0 开始支持
+
+`boolean`
+
+默认值：`false`。
+
+是否注入兼容微信小程序热重载的代码。详情：[#10722](https://github.com/NervJS/taro/issues/10722#issuecomment-992247021)
+
 ### mini.minifyXML
 
 > 自 v3.0.8 开始支持
@@ -1128,7 +1138,7 @@ module.exports = {
 
 #### h5.router.customRoutes
 
-`object`
+`Record<string, string | string[]>`
 
 配置自定义路由。
 
@@ -1141,7 +1151,9 @@ module.exports = {
     // ...
     router: {
       customRoutes: {
-        '/pages/index/index': '/index'
+        // "页面路径": "自定义路由"
+        '/pages/index/index': '/index',
+        '/pages/detail/index': ['/detail'] // 可以通过数组为页面配置多个自定义路由
       }
     }
   }
@@ -1153,6 +1165,7 @@ module.exports = {
 * `https://{{domain}}/#/index`（**hash** 模式）
 * `https://{{domain}}/myapp/index`（**browser** 模式）
 
+> 版本 3.3.18+ 开始支持传入数组配置自定义路由
 
 ### h5.enableSourceMap
 

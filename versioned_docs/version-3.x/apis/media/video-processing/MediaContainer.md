@@ -13,38 +13,23 @@ sidebar_label: MediaContainer
 
 将音频或视频轨道添加到容器
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video-processing/MediaContainer.addTrack.html)
 
 ```tsx
 (track: MediaTrack) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>track</td>
-      <td><code>MediaTrack</code></td>
-      <td>要添加的音频或视频轨道</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| MediaContainer.addTrack | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| track | `MediaTrack` | 要添加的音频或视频轨道 |
 
 ### destroy
 
 将容器销毁，释放资源
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video-processing/MediaContainer.destroy.html)
 
@@ -52,15 +37,11 @@ sidebar_label: MediaContainer
 () => void
 ```
 
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| MediaContainer.destroy | ✔️ |  |  |
-
 ### export
 
 将容器内的轨道合并并导出视频文件
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video-processing/MediaContainer.export.html)
 
@@ -68,15 +49,11 @@ sidebar_label: MediaContainer
 () => void
 ```
 
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| MediaContainer.export | ✔️ |  |  |
-
 ### extractDataSource
 
 将传入的视频源分离轨道。不会自动将轨道添加到待合成的容器里。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video-processing/MediaContainer.extractDataSource.html)
 
@@ -84,30 +61,15 @@ sidebar_label: MediaContainer
 (option: ExtractDataSourceOption) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>option</td>
-      <td><code>ExtractDataSourceOption</code></td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| MediaContainer.extractDataSource | ✔️ |  |  |
+| 参数 | 类型 |
+| --- | --- |
+| option | `ExtractDataSourceOption` |
 
 ### removeTrack
 
 将音频或视频轨道从容器中移除
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video-processing/MediaContainer.removeTrack.html)
 
@@ -115,49 +77,17 @@ sidebar_label: MediaContainer
 (track: MediaTrack) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>track</td>
-      <td><code>MediaTrack</code></td>
-      <td>要移除的音频或视频轨道</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| MediaContainer.removeTrack | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| track | `MediaTrack` | 要移除的音频或视频轨道 |
 
 ## 参数
 
 ### ExtractDataSourceOption
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>source</td>
-      <td><code>string</code></td>
-      <td>视频源地址，只支持本地文件</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| source | `string` | 视频源地址，只支持本地文件 |
 
 ## API 支持度
 

@@ -9,90 +9,22 @@ BackgroundAudioManager 实例，可通过 [Taro.getBackgroundAudioManager](https
 
 ## 方法
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>只读</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>buffered</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>音频已缓冲的时间，仅保证当前播放时间点到此时间点内容已缓冲。</td>
-    </tr>
-    <tr>
-      <td>coverImgUrl</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>封面图 URL，用于做原生音频播放器背景图。原生音频播放器中的分享功能，分享出去的卡片配图及背景也将使用该图。</td>
-    </tr>
-    <tr>
-      <td>currentTime</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>当前音频的播放位置（单位：s），只有在有合法 src 时返回。</td>
-    </tr>
-    <tr>
-      <td>duration</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>当前音频的长度（单位：s），只有在有合法 src 时返回。</td>
-    </tr>
-    <tr>
-      <td>epname</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>专辑名，原生音频播放器中的分享功能，分享出去的卡片简介，也将使用该值。</td>
-    </tr>
-    <tr>
-      <td>paused</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>当前是否暂停或停止。</td>
-    </tr>
-    <tr>
-      <td>protocol</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>音频协议。默认值为 'http'，设置 'hls' 可以支持播放 HLS 协议的直播音频。</td>
-    </tr>
-    <tr>
-      <td>singer</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>歌手名，原生音频播放器中的分享功能，分享出去的卡片简介，也将使用该值。</td>
-    </tr>
-    <tr>
-      <td>src</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>音频的数据源（<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html">2.2.3</a> 开始支持云文件ID）。默认为空字符串，<strong>当设置了新的 src 时，会自动开始播放</strong>，目前支持的格式有 m4a, aac, mp3, wav。</td>
-    </tr>
-    <tr>
-      <td>startTime</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>音频开始播放的位置（单位：s）。</td>
-    </tr>
-    <tr>
-      <td>title</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>音频标题，用于原生音频播放器音频标题（必填）。原生音频播放器中的分享功能，分享出去的卡片标题，也将使用该值。</td>
-    </tr>
-    <tr>
-      <td>webUrl</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>页面链接，原生音频播放器中的分享功能，分享出去的卡片简介，也将使用该值。</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 默认值 | 只读 | 必填 | 说明 |
+| --- | --- | :---: | :---: | :---: | --- |
+| src | `string` |  | 否 | 是 | 音频的数据源（[2.2.3](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) 开始支持云文件ID）。默认为空字符串，**当设置了新的 src 时，会自动开始播放**，目前支持的格式有 m4a, aac, mp3, wav。 |
+| startTime | `number` |  | 否 | 是 | 音频开始播放的位置（单位：s）。 |
+| title | `string` |  | 否 | 是 | 音频标题，用于原生音频播放器音频标题（必填）。原生音频播放器中的分享功能，分享出去的卡片标题，也将使用该值。 |
+| epname | `string` |  | 否 | 是 | 专辑名，原生音频播放器中的分享功能，分享出去的卡片简介，也将使用该值。 |
+| singer | `string` |  | 否 | 是 | 歌手名，原生音频播放器中的分享功能，分享出去的卡片简介，也将使用该值。 |
+| coverImgUrl | `string` |  | 否 | 是 | 封面图 URL，用于做原生音频播放器背景图。原生音频播放器中的分享功能，分享出去的卡片配图及背景也将使用该图。 |
+| webUrl | `string` |  | 否 | 是 | 页面链接，原生音频播放器中的分享功能，分享出去的卡片简介，也将使用该值。 |
+| protocol | `string` |  | 否 | 是 | 音频协议。默认值为 'http'，设置 'hls' 可以支持播放 HLS 协议的直播音频。 |
+| playbackRate | `number` | `1` | 否 | 否 | 播放速度。范围 0.5-2.0。 |
+| duration | `number` |  | 是 | 是 | 当前音频的长度（单位：s），只有在有合法 src 时返回。 |
+| currentTime | `number` |  | 是 | 是 | 当前音频的播放位置（单位：s），只有在有合法 src 时返回。 |
+| paused | `boolean` |  | 是 | 是 | 当前是否暂停或停止。 |
+| buffered | `number` |  | 是 | 是 | 音频已缓冲的时间，仅保证当前播放时间点到此时间点内容已缓冲。 |
+| referrerPolicy | `string` |  | 否 | 否 | origin: 发送完整的 referrer; no-referrer: 不发送 |
 
 ### play
 
@@ -110,20 +42,20 @@ BackgroundAudioManager 实例，可通过 [Taro.getBackgroundAudioManager](https
 () => void
 ```
 
-### stop
-
-停止
-
-```tsx
-() => void
-```
-
 ### seek
 
 跳转到指定位置，单位 s
 
 ```tsx
 (position: any) => void
+```
+
+### stop
+
+停止
+
+```tsx
+() => void
 ```
 
 ### onCanplay
@@ -134,204 +66,9 @@ BackgroundAudioManager 实例，可通过 [Taro.getBackgroundAudioManager](https
 (callback?: () => void) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>callback</td>
-      <td><code>() =&gt; void</code></td>
-    </tr>
-  </tbody>
-</table>
-
-### onPlay
-
-背景音频播放事件
-
-```tsx
-(callback?: () => void) => void
-```
-
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>callback</td>
-      <td><code>() =&gt; void</code></td>
-    </tr>
-  </tbody>
-</table>
-
-### onPause
-
-背景音频暂停事件
-
-```tsx
-(callback?: () => void) => void
-```
-
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>callback</td>
-      <td><code>() =&gt; void</code></td>
-    </tr>
-  </tbody>
-</table>
-
-### onStop
-
-背景音频停止事件
-
-```tsx
-(callback?: () => void) => void
-```
-
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>callback</td>
-      <td><code>() =&gt; void</code></td>
-    </tr>
-  </tbody>
-</table>
-
-### onEnded
-
-背景音频自然播放结束事件
-
-```tsx
-(callback?: () => void) => void
-```
-
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>callback</td>
-      <td><code>() =&gt; void</code></td>
-    </tr>
-  </tbody>
-</table>
-
-### onTimeUpdate
-
-背景音频播放进度更新事件
-
-```tsx
-(callback?: () => void) => void
-```
-
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>callback</td>
-      <td><code>() =&gt; void</code></td>
-    </tr>
-  </tbody>
-</table>
-
-### onPrev
-
-用户在系统音乐播放面板点击上一曲事件（iOS only）
-
-```tsx
-(callback?: () => void) => void
-```
-
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>callback</td>
-      <td><code>() =&gt; void</code></td>
-    </tr>
-  </tbody>
-</table>
-
-### onNext
-
-用户在系统音乐播放面板点击下一曲事件（iOS only）
-
-```tsx
-(callback?: () => void) => void
-```
-
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>callback</td>
-      <td><code>() =&gt; void</code></td>
-    </tr>
-  </tbody>
-</table>
-
-### onError
-
-背景音频播放错误事件
-
-```tsx
-(callback?: () => void) => void
-```
-
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>callback</td>
-      <td><code>() =&gt; void</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| callback | `() => void` |
 
 ### onWaiting
 
@@ -341,20 +78,129 @@ BackgroundAudioManager 实例，可通过 [Taro.getBackgroundAudioManager](https
 (callback?: () => void) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>callback</td>
-      <td><code>() =&gt; void</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| callback | `() => void` |
+
+### onError
+
+背景音频播放错误事件
+
+```tsx
+(callback?: () => void) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| callback | `() => void` |
+
+### onPlay
+
+背景音频播放事件
+
+```tsx
+(callback?: () => void) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| callback | `() => void` |
+
+### onPause
+
+背景音频暂停事件
+
+```tsx
+(callback?: () => void) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| callback | `() => void` |
+
+### onSeeking
+
+背景音频开始跳转操作事件
+
+```tsx
+(callback?: () => void) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| callback | `() => void` |
+
+### onSeeked
+
+背景音频完成跳转操作事件
+
+```tsx
+(callback?: () => void) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| callback | `() => void` |
+
+### onEnded
+
+背景音频自然播放结束事件
+
+```tsx
+(callback?: () => void) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| callback | `() => void` |
+
+### onStop
+
+背景音频停止事件
+
+```tsx
+(callback?: () => void) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| callback | `() => void` |
+
+### onTimeUpdate
+
+背景音频播放进度更新事件
+
+```tsx
+(callback?: () => void) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| callback | `() => void` |
+
+### onPrev
+
+用户在系统音乐播放面板点击上一曲事件（iOS only）
+
+```tsx
+(callback?: () => void) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| callback | `() => void` |
+
+### onNext
+
+用户在系统音乐播放面板点击下一曲事件（iOS only）
+
+```tsx
+(callback?: () => void) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| callback | `() => void` |
 
 ## 示例代码
 

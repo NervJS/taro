@@ -13,34 +13,17 @@ sidebar_label: SelectorQuery
 
 执行所有的请求。请求结果按请求次序构成数组，在callback的第一个参数中返回。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.exec.html)
 
 ```tsx
 (callback?: (...args: any[]) => any) => NodesRef
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>callback</td>
-      <td><code>(...args: any[]) =&gt; any</code></td>
-      <td>回调函数</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| SelectorQuery.exec | ✔️ | ✔️ |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| callback | `(...args: any[]) => any` | 回调函数 |
 
 ### select
 
@@ -58,28 +41,17 @@ selector类似于 CSS 的选择器，但仅支持下列语法。
 - 跨自定义组件的后代选择器：.the-ancestor >>> .the-descendant
 - 多选择器的并集：#a-node, .some-other-nodes
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.select.html)
 
 ```tsx
 (selector: string) => NodesRef
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>selector</td>
-      <td><code>string</code></td>
-      <td>选择器</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| selector | `string` | 选择器 |
 
 #### 示例代码
 
@@ -100,12 +72,6 @@ Taro.createSelectorQuery().select('#the-id').fields({
 }).exec()
 ```
 
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| SelectorQuery.select | ✔️ | ✔️ |  |
-
 ### selectAll
 
 在当前页面下选择匹配选择器 selector 的所有节点。
@@ -121,38 +87,23 @@ selector类似于 CSS 的选择器，但仅支持下列语法。
 - 跨自定义组件的后代选择器：.the-ancestor >>> .the-descendant
 - 多选择器的并集：#a-node, .some-other-nodes
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.selectAll.html)
 
 ```tsx
 (selector: string) => NodesRef
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>selector</td>
-      <td><code>string</code></td>
-      <td>选择器</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| SelectorQuery.selectAll | ✔️ | ✔️ |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| selector | `string` | 选择器 |
 
 ### selectViewport
 
 选择显示区域。可用于获取显示区域的尺寸、滚动位置等信息。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.selectViewport.html)
 
@@ -171,38 +122,21 @@ Taro.createSelectorQuery().selectViewport().scrollOffset(function (res) {
 }).exec()
 ```
 
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| SelectorQuery.selectViewport | ✔️ | ✔️ |  |
-
 ### in
 
 将选择器的选取范围更改为自定义组件 `component` 内。（初始时，选择器仅选取页面范围的节点，不会选取任何自定义组件中的节点）。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.in.html)
 
 ```tsx
-(component: Record<string, any>) => SelectorQuery
+(component: TaroGeneral.IAnyObject) => SelectorQuery
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>component</td>
-      <td><code>Record&lt;string, any&gt;</code></td>
-      <td>自定义组件实例</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| component | `TaroGeneral.IAnyObject` | 自定义组件实例 |
 
 #### 示例代码
 
@@ -216,12 +150,6 @@ Component({
   }
 })
 ```
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| SelectorQuery.in | ✔️ | ✔️ |  |
 
 ## API 支持度
 

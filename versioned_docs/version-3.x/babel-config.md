@@ -194,7 +194,6 @@ import "core-js/modules/es.string.pad-end";
 
 `@babel/preset-env` 的 [forceAllTransforms](https://babeljs.io/docs/en/babel-preset-env#forcealltransforms) 配置项。
 
-
 ### decoratorsBeforeExport
 
 `@babel/plugin-proposal-decorators` 的 [decoratorsBeforeExport](https://babeljs.io/docs/en/babel-plugin-proposal-decorators#decoratorsbeforeexport) 配置项。
@@ -209,7 +208,7 @@ import "core-js/modules/es.string.pad-end";
 
 **默认值**：开发者根目录 `node_modules` 中的 `@babel/plugin-transform-runtime` 的路径。
 
-**类型**：`string` 
+**类型**：`string`
 
 `@babel/plugin-transform-runtime` 的 [absoluteRuntime](https://babeljs.io/docs/en/babel-plugin-transform-runtime#absoluteruntime) 配置项。
 
@@ -217,6 +216,18 @@ import "core-js/modules/es.string.pad-end";
 
 **默认值**：开发者根目录 `node_modules` 中的 `@babel/plugin-transform-runtime` 的版本号。
 
-**类型**：`string` 
+**类型**：`string`
 
 `@babel/plugin-transform-runtime` 的 [version](https://babeljs.io/docs/en/babel-plugin-transform-runtime#version) 配置项。
+
+### dynamic-import-node
+
+:::note
+可以去掉冗余代码，对于一些严格限制包体大小的场景（比如 PWA 等）有帮助，但这也会去掉页面和组件的懒加载，导致 app.js 过大。
+
+> 注意：该属性只在使用 **h5** 中生效，非 **h5** 平台默认开启。
+:::
+
+**默认值**：`false`
+
+**类型**：`boolean`

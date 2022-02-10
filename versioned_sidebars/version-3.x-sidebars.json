@@ -1,8 +1,9 @@
 {
   "version-3.x/docs": [
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "关于Taro",
       "items": [
         {
@@ -28,8 +29,9 @@
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "快速开始",
       "items": [
         {
@@ -43,8 +45,9 @@
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "基础教程",
       "items": [
         {
@@ -56,7 +59,6 @@
           "id": "version-3.x/cli"
         },
         {
-          "collapsed": true,
           "label": "配置",
           "type": "category",
           "items": [
@@ -84,10 +86,11 @@
               "type": "doc",
               "id": "version-3.x/babel-config"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "React",
           "type": "category",
           "items": [
@@ -115,10 +118,11 @@
               "type": "doc",
               "id": "version-3.x/preact"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "Vue",
           "type": "category",
           "items": [
@@ -146,7 +150,9 @@
               "type": "doc",
               "id": "version-3.x/vue-devtools"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
           "type": "doc",
@@ -157,7 +163,6 @@
           "id": "version-3.x/static-reference"
         },
         {
-          "collapsed": true,
           "label": "多端开发",
           "type": "category",
           "items": [
@@ -169,10 +174,11 @@
               "type": "doc",
               "id": "version-3.x/envs-debug"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "小程序",
           "type": "category",
           "items": [
@@ -187,15 +193,20 @@
             {
               "type": "doc",
               "id": "version-3.x/miniprogram-plugin"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/mini-troubleshooting"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
           "type": "doc",
           "id": "version-3.x/h5"
         },
         {
-          "collapsed": true,
           "label": "React Native",
           "type": "category",
           "items": [
@@ -207,7 +218,9 @@
               "type": "doc",
               "id": "version-3.x/react-native-remind"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
           "type": "doc",
@@ -216,8 +229,9 @@
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "进阶指南",
       "items": [
         {
@@ -241,7 +255,6 @@
           "id": "version-3.x/plugin"
         },
         {
-          "collapsed": true,
           "label": "性能优化",
           "type": "category",
           "items": [
@@ -261,10 +274,11 @@
               "type": "doc",
               "id": "version-3.x/compile-optimized"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "原生混合",
           "type": "category",
           "items": [
@@ -276,10 +290,11 @@
               "type": "doc",
               "id": "version-3.x/taro-in-miniapp"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "反向转换",
           "type": "category",
           "items": [
@@ -295,10 +310,11 @@
               "type": "doc",
               "id": "version-3.x/taroize-troubleshooting"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "扩展编译平台",
           "type": "category",
           "items": [
@@ -322,13 +338,20 @@
               "type": "doc",
               "id": "version-3.x/platform-plugin-reconciler"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/external-libraries"
         }
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "社区生态",
       "items": [
         {
@@ -378,8 +401,9 @@
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "CONTRIBUTING",
       "items": [
         {
@@ -411,19 +435,33 @@
   ],
   "version-3.x/components": [
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "关于组件库",
       "items": [
         {
           "type": "doc",
           "id": "version-3.x/components-desc"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/components/custom-wrapper"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/components/page-meta"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/components/slot"
         }
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "视图容器",
       "items": [
         {
@@ -461,12 +499,21 @@
         {
           "type": "doc",
           "id": "version-3.x/components/viewContainer/match-media"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/components/viewContainer/share-element"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/components/viewContainer/page-container"
         }
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "基础内容",
       "items": [
         {
@@ -488,8 +535,9 @@
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "表单组件",
       "items": [
         {
@@ -539,12 +587,17 @@
         {
           "type": "doc",
           "id": "version-3.x/components/forms/textarea"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/components/forms/keyboard-accessory"
         }
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "导航",
       "items": [
         {
@@ -554,8 +607,9 @@
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "媒体组件",
       "items": [
         {
@@ -581,12 +635,17 @@
         {
           "type": "doc",
           "id": "version-3.x/components/media/camera"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/components/media/voip-room"
         }
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "地图",
       "items": [
         {
@@ -596,8 +655,9 @@
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "画布",
       "items": [
         {
@@ -607,13 +667,18 @@
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "开放能力",
       "items": [
         {
           "type": "doc",
           "id": "version-3.x/components/open/ad"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/components/open/ad-custom"
         },
         {
           "type": "doc",
@@ -634,8 +699,9 @@
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "导航栏",
       "items": [
         {
@@ -643,23 +709,13 @@
           "id": "version-3.x/components/navigation-bar"
         }
       ]
-    },
-    {
-      "collapsed": true,
-      "type": "category",
-      "label": "页面属性配置节点",
-      "items": [
-        {
-          "type": "doc",
-          "id": "version-3.x/components/page-meta"
-        }
-      ]
     }
   ],
   "version-3.x/API": [
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "关于API",
       "items": [
         {
@@ -681,8 +737,33 @@
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
+      "label": "框架",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/framework/App"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/framework/getApp"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/framework/getCurrentPages"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/framework/Page"
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "基础",
       "items": [
         {
@@ -698,7 +779,6 @@
           "id": "version-3.x/apis/base/arrayBufferToBase64"
         },
         {
-          "collapsed": true,
           "label": "系统",
           "type": "category",
           "items": [
@@ -710,10 +790,11 @@
               "type": "doc",
               "id": "version-3.x/apis/base/system/getSystemInfoSync"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "更新",
           "type": "category",
           "items": [
@@ -725,15 +806,15 @@
               "type": "doc",
               "id": "version-3.x/apis/base/update/UpdateManager"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "小程序",
           "type": "category",
           "items": [
             {
-              "collapsed": true,
               "label": "生命周期",
               "type": "category",
               "items": [
@@ -741,13 +822,18 @@
                   "type": "doc",
                   "id": "version-3.x/apis/base/weapp/life-cycle/getLaunchOptionsSync"
                 }
-              ]
+              ],
+              "collapsible": true,
+              "collapsed": true
             },
             {
-              "collapsed": true,
               "label": "应用级事件",
               "type": "category",
               "items": [
+                {
+                  "type": "doc",
+                  "id": "version-3.x/apis/base/weapp/app-event/onThemeChange"
+                },
                 {
                   "type": "doc",
                   "id": "version-3.x/apis/base/weapp/app-event/onPageNotFound"
@@ -774,6 +860,10 @@
                 },
                 {
                   "type": "doc",
+                  "id": "version-3.x/apis/base/weapp/app-event/offThemeChange"
+                },
+                {
+                  "type": "doc",
                   "id": "version-3.x/apis/base/weapp/app-event/offPageNotFound"
                 },
                 {
@@ -796,12 +886,15 @@
                   "type": "doc",
                   "id": "version-3.x/apis/base/weapp/app-event/offAppHide"
                 }
-              ]
+              ],
+              "collapsible": true,
+              "collapsed": true
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "调试",
           "type": "category",
           "items": [
@@ -825,17 +918,24 @@
               "type": "doc",
               "id": "version-3.x/apis/base/debug/RealtimeLogManager"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
           "type": "doc",
           "id": "version-3.x/apis/base/env/env"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/base/preload"
         }
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "路由",
       "items": [
         {
@@ -865,35 +965,32 @@
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
-      "label": "框架",
+      "collapsed": true,
+      "collapsible": true,
+      "label": "跳转",
       "items": [
         {
           "type": "doc",
-          "id": "version-3.x/apis/framework/App"
+          "id": "version-3.x/apis/open-api/navigate/navigateToMiniProgram"
         },
         {
           "type": "doc",
-          "id": "version-3.x/apis/framework/getApp"
+          "id": "version-3.x/apis/open-api/navigate/navigateBackMiniProgram"
         },
         {
           "type": "doc",
-          "id": "version-3.x/apis/framework/getCurrentPages"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/apis/framework/Page"
+          "id": "version-3.x/apis/open-api/navigate/exitMiniProgram"
         }
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "界面",
       "items": [
         {
-          "collapsed": true,
           "label": "交互",
           "type": "category",
           "items": [
@@ -920,11 +1017,20 @@
             {
               "type": "doc",
               "id": "version-3.x/apis/ui/interaction/hideLoading"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/ui/interaction/enableAlertBeforeUnload"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/ui/interaction/disableAlertBeforeUnload"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "导航栏",
           "type": "category",
           "items": [
@@ -948,10 +1054,11 @@
               "type": "doc",
               "id": "version-3.x/apis/ui/navigation-bar/hideHomeButton"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "背景",
           "type": "category",
           "items": [
@@ -963,10 +1070,11 @@
               "type": "doc",
               "id": "version-3.x/apis/ui/background/setBackgroundColor"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "Tab Bar",
           "type": "category",
           "items": [
@@ -1002,10 +1110,11 @@
               "type": "doc",
               "id": "version-3.x/apis/ui/tab-bar/hideTabBar"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "字体",
           "type": "category",
           "items": [
@@ -1013,10 +1122,11 @@
               "type": "doc",
               "id": "version-3.x/apis/ui/fonts/loadFontFace"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "下拉刷新",
           "type": "category",
           "items": [
@@ -1028,10 +1138,11 @@
               "type": "doc",
               "id": "version-3.x/apis/ui/pull-down-refresh/startPullDownRefresh"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "滚动",
           "type": "category",
           "items": [
@@ -1039,10 +1150,11 @@
               "type": "doc",
               "id": "version-3.x/apis/ui/scroll/pageScrollTo"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "动画",
           "type": "category",
           "items": [
@@ -1054,10 +1166,11 @@
               "type": "doc",
               "id": "version-3.x/apis/ui/animation/Animation"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "置顶",
           "type": "category",
           "items": [
@@ -1065,10 +1178,11 @@
               "type": "doc",
               "id": "version-3.x/apis/ui/sticky/setTopBarText"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "自定义组件",
           "type": "category",
           "items": [
@@ -1076,10 +1190,11 @@
               "type": "doc",
               "id": "version-3.x/apis/ui/custom-component/nextTick"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "菜单",
           "type": "category",
           "items": [
@@ -1087,10 +1202,11 @@
               "type": "doc",
               "id": "version-3.x/apis/ui/menu/getMenuButtonBoundingClientRect"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "窗口",
           "type": "category",
           "items": [
@@ -1102,10 +1218,11 @@
               "type": "doc",
               "id": "version-3.x/apis/ui/window/offWindowResize"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "键盘",
           "type": "category",
           "items": [
@@ -1125,17 +1242,19 @@
               "type": "doc",
               "id": "version-3.x/apis/ui/keyboard/getSelectedTextRange"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         }
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "网络",
       "items": [
         {
-          "collapsed": true,
           "label": "发起请求",
           "type": "category",
           "items": [
@@ -1151,10 +1270,11 @@
               "type": "doc",
               "id": "version-3.x/apis/network/request/addInterceptor"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "下载",
           "type": "category",
           "items": [
@@ -1166,10 +1286,11 @@
               "type": "doc",
               "id": "version-3.x/apis/network/download/DownloadTask"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "上传",
           "type": "category",
           "items": [
@@ -1181,10 +1302,11 @@
               "type": "doc",
               "id": "version-3.x/apis/network/upload/UploadTask"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "WebSocket",
           "type": "category",
           "items": [
@@ -1220,10 +1342,11 @@
               "type": "doc",
               "id": "version-3.x/apis/network/webSocket/SocketTask"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "mDNS",
           "type": "category",
           "items": [
@@ -1267,10 +1390,11 @@
               "type": "doc",
               "id": "version-3.x/apis/network/mdns/offLocalServiceDiscoveryStop"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "UDP 通信",
           "type": "category",
           "items": [
@@ -1282,13 +1406,32 @@
               "type": "doc",
               "id": "version-3.x/apis/network/udp/UDPSocket"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         }
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
+      "label": "支付",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/open-api/payment/requestPayment"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/open-api/payment/faceVerifyForPay"
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "数据缓存",
       "items": [
         {
@@ -1332,7 +1475,6 @@
           "id": "version-3.x/apis/storage/clearStorage"
         },
         {
-          "collapsed": true,
           "label": "周期性更新",
           "type": "category",
           "items": [
@@ -1352,332 +1494,40 @@
               "type": "doc",
               "id": "version-3.x/apis/storage/background-fetch/getBackgroundFetchData"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         }
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
-      "label": "媒体",
-      "items": [
-        {
-          "collapsed": true,
-          "label": "地图",
-          "type": "category",
-          "items": [
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/map/createMapContext"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/map/MapContext"
-            }
-          ]
-        },
-        {
-          "collapsed": true,
-          "label": "图片",
-          "type": "category",
-          "items": [
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/image/saveImageToPhotosAlbum"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/image/previewImage"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/image/getImageInfo"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/image/compressImage"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/image/chooseMessageFile"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/image/chooseImage"
-            }
-          ]
-        },
-        {
-          "collapsed": true,
-          "label": "视频",
-          "type": "category",
-          "items": [
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/video/saveVideoToPhotosAlbum"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/video/createVideoContext"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/video/chooseVideo"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/video/VideoContext"
-            }
-          ]
-        },
-        {
-          "collapsed": true,
-          "label": "音频",
-          "type": "category",
-          "items": [
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/audio/stopVoice"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/audio/setInnerAudioOption"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/audio/playVoice"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/audio/pauseVoice"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/audio/getAvailableAudioSources"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/audio/createInnerAudioContext"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/audio/createAudioContext"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/audio/AudioContext"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/audio/InnerAudioContext"
-            }
-          ]
-        },
-        {
-          "collapsed": true,
-          "label": "背景音频",
-          "type": "category",
-          "items": [
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/background-audio/stopBackgroundAudio"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/background-audio/seekBackgroundAudio"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/background-audio/playBackgroundAudio"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/background-audio/pauseBackgroundAudio"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/background-audio/onBackgroundAudioStop"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/background-audio/onBackgroundAudioPlay"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/background-audio/onBackgroundAudioPause"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/background-audio/getBackgroundAudioPlayerState"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/background-audio/getBackgroundAudioManager"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/background-audio/BackgroundAudioManager"
-            }
-          ]
-        },
-        {
-          "collapsed": true,
-          "label": "实时音视频",
-          "type": "category",
-          "items": [
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/live/createLivePusherContext"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/live/createLivePlayerContext"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/live/LivePlayerContext"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/live/LivePusherContext"
-            }
-          ]
-        },
-        {
-          "collapsed": true,
-          "label": "录音",
-          "type": "category",
-          "items": [
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/recorder/stopRecord"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/recorder/startRecord"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/recorder/getRecorderManager"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/recorder/RecorderManager"
-            }
-          ]
-        },
-        {
-          "collapsed": true,
-          "label": "相机",
-          "type": "category",
-          "items": [
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/camera/createCameraContext"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/camera/CameraContext"
-            }
-          ]
-        },
-        {
-          "collapsed": true,
-          "label": "富文本",
-          "type": "category",
-          "items": [
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/editor/EditorContext"
-            }
-          ]
-        },
-        {
-          "collapsed": true,
-          "label": "音视频合成",
-          "type": "category",
-          "items": [
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/video-processing/createMediaContainer"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/video-processing/MediaContainer"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/media/video-processing/MediaTrack"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "collapsed": true,
-      "type": "category",
-      "label": "位置",
+      "collapsible": true,
+      "label": "数据分析",
       "items": [
         {
           "type": "doc",
-          "id": "version-3.x/apis/location/stopLocationUpdate"
+          "id": "version-3.x/apis/data-analysis/reportMonitor"
         },
         {
           "type": "doc",
-          "id": "version-3.x/apis/location/startLocationUpdateBackground"
+          "id": "version-3.x/apis/data-analysis/reportEvent"
         },
         {
           "type": "doc",
-          "id": "version-3.x/apis/location/startLocationUpdate"
+          "id": "version-3.x/apis/data-analysis/reportAnalytics"
         },
         {
           "type": "doc",
-          "id": "version-3.x/apis/location/openLocation"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/apis/location/onLocationChange"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/apis/location/offLocationChange"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/apis/location/getLocation"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/apis/location/chooseLocation"
+          "id": "version-3.x/apis/data-analysis/getExptInfoSync"
         }
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
-      "label": "转发",
-      "items": [
-        {
-          "type": "doc",
-          "id": "version-3.x/apis/share/updateShareMenu"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/apis/share/showShareMenu"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/apis/share/hideShareMenu"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/apis/share/getShareInfo"
-        }
-      ]
-    },
-    {
       "collapsed": true,
-      "type": "category",
+      "collapsible": true,
       "label": "画布",
       "items": [
         {
@@ -1726,6 +1576,10 @@
         },
         {
           "type": "doc",
+          "id": "version-3.x/apis/canvas/Path2D"
+        },
+        {
+          "type": "doc",
           "id": "version-3.x/apis/canvas/OffscreenCanvas"
         },
         {
@@ -1735,8 +1589,361 @@
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
+      "label": "媒体",
+      "items": [
+        {
+          "label": "地图",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/map/createMapContext"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/map/MapContext"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "label": "图片",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/image/saveImageToPhotosAlbum"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/image/previewMedia"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/image/previewImage"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/image/getImageInfo"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/image/compressImage"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/image/chooseMessageFile"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/image/chooseImage"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "label": "视频",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/video/saveVideoToPhotosAlbum"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/video/openVideoEditor"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/video/getVideoInfo"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/video/createVideoContext"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/video/compressVideo"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/video/chooseVideo"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/video/chooseMedia"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/video/VideoContext"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "label": "音频",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/audio/stopVoice"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/audio/setInnerAudioOption"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/audio/playVoice"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/audio/pauseVoice"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/audio/getAvailableAudioSources"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/audio/createInnerAudioContext"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/audio/createAudioContext"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/audio/AudioContext"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/audio/InnerAudioContext"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "label": "背景音频",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/background-audio/stopBackgroundAudio"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/background-audio/seekBackgroundAudio"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/background-audio/playBackgroundAudio"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/background-audio/pauseBackgroundAudio"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/background-audio/onBackgroundAudioStop"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/background-audio/onBackgroundAudioPlay"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/background-audio/onBackgroundAudioPause"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/background-audio/getBackgroundAudioPlayerState"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/background-audio/getBackgroundAudioManager"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/background-audio/BackgroundAudioManager"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "label": "实时音视频",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/live/createLivePusherContext"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/live/createLivePlayerContext"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/live/LivePlayerContext"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/live/LivePusherContext"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "label": "录音",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/recorder/stopRecord"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/recorder/startRecord"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/recorder/getRecorderManager"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/recorder/RecorderManager"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "label": "相机",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/camera/createCameraContext"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/camera/CameraContext"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "label": "富文本",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/editor/EditorContext"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "label": "音视频合成",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/video-processing/createMediaContainer"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/video-processing/MediaContainer"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/video-processing/MediaTrack"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "collapsed": true,
+      "collapsible": true,
+      "label": "位置",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/location/stopLocationUpdate"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/location/startLocationUpdateBackground"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/location/startLocationUpdate"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/location/openLocation"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/location/onLocationChange"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/location/offLocationChange"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/location/getLocation"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/location/chooseLocation"
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "collapsed": true,
+      "collapsible": true,
+      "label": "转发",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/share/updateShareMenu"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/share/showShareMenu"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/share/hideShareMenu"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/share/getShareInfo"
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "文件",
       "items": [
         {
@@ -1778,12 +1985,12 @@
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "开放接口",
       "items": [
         {
-          "collapsed": true,
           "label": "登录",
           "type": "category",
           "items": [
@@ -1795,25 +2002,11 @@
               "type": "doc",
               "id": "version-3.x/apis/open-api/login/checkSession"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
-          "label": "小程序跳转",
-          "type": "category",
-          "items": [
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/open-api/navigate/navigateToMiniProgram"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/open-api/navigate/navigateBackMiniProgram"
-            }
-          ]
-        },
-        {
-          "collapsed": true,
           "label": "账户信息",
           "type": "category",
           "items": [
@@ -1821,10 +2014,11 @@
               "type": "doc",
               "id": "version-3.x/apis/open-api/account/getAccountInfoSync"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "用户信息",
           "type": "category",
           "items": [
@@ -1840,47 +2034,11 @@
               "type": "doc",
               "id": "version-3.x/apis/open-api/user-info/UserInfo"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
-          "label": "数据上报",
-          "type": "category",
-          "items": [
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/open-api/report/reportMonitor"
-            }
-          ]
-        },
-        {
-          "collapsed": true,
-          "label": "数据分析",
-          "type": "category",
-          "items": [
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/open-api/data-analysis/reportAnalytics"
-            }
-          ]
-        },
-        {
-          "collapsed": true,
-          "label": "支付",
-          "type": "category",
-          "items": [
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/open-api/payment/requestPayment"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/open-api/payment/faceVerifyForPay"
-            }
-          ]
-        },
-        {
-          "collapsed": true,
           "label": "授权",
           "type": "category",
           "items": [
@@ -1888,10 +2046,11 @@
               "type": "doc",
               "id": "version-3.x/apis/open-api/authorize/authorize"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "设置",
           "type": "category",
           "items": [
@@ -1907,10 +2066,11 @@
               "type": "doc",
               "id": "version-3.x/apis/open-api/settings/AuthSetting"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "收货地址",
           "type": "category",
           "items": [
@@ -1918,10 +2078,11 @@
               "type": "doc",
               "id": "version-3.x/apis/open-api/address/chooseAddress"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "卡券",
           "type": "category",
           "items": [
@@ -1933,10 +2094,11 @@
               "type": "doc",
               "id": "version-3.x/apis/open-api/card/addCard"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "发票",
           "type": "category",
           "items": [
@@ -1948,10 +2110,11 @@
               "type": "doc",
               "id": "version-3.x/apis/open-api/invoice/chooseInvoice"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "生物认证",
           "type": "category",
           "items": [
@@ -1979,10 +2142,11 @@
               "type": "doc",
               "id": "version-3.x/apis/open-api/facial/startFacialRecognitionVerifyAndUploadVideo"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "微信运动",
           "type": "category",
           "items": [
@@ -1990,10 +2154,11 @@
               "type": "doc",
               "id": "version-3.x/apis/open-api/werun/getWeRunData"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "订阅消息",
           "type": "category",
           "items": [
@@ -2001,17 +2166,31 @@
               "type": "doc",
               "id": "version-3.x/apis/open-api/subscribe-message/requestSubscribeMessage"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "label": "微信客服",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/open-api/customer-service/openCustomerServiceChat"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
         }
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "设备",
       "items": [
         {
-          "collapsed": true,
           "label": "IBeacon",
           "type": "category",
           "items": [
@@ -2047,10 +2226,11 @@
               "type": "doc",
               "id": "version-3.x/apis/device/ibeacon/IBeaconInfo"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "Wi-Fi",
           "type": "category",
           "items": [
@@ -2098,10 +2278,11 @@
               "type": "doc",
               "id": "version-3.x/apis/device/wifi/WifiInfo"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "联系人",
           "type": "category",
           "items": [
@@ -2109,10 +2290,11 @@
               "type": "doc",
               "id": "version-3.x/apis/device/contact/addPhoneContact"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "低功耗蓝牙",
           "type": "category",
           "items": [
@@ -2152,10 +2334,11 @@
               "type": "doc",
               "id": "version-3.x/apis/device/ble/closeBLEConnection"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "蓝牙",
           "type": "category",
           "items": [
@@ -2195,10 +2378,11 @@
               "type": "doc",
               "id": "version-3.x/apis/device/bluetooth/closeBluetoothAdapter"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "电量",
           "type": "category",
           "items": [
@@ -2210,10 +2394,11 @@
               "type": "doc",
               "id": "version-3.x/apis/device/battery/getBatteryInfo"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "剪贴板",
           "type": "category",
           "items": [
@@ -2225,10 +2410,11 @@
               "type": "doc",
               "id": "version-3.x/apis/device/clipboard/getClipboardData"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "NFC",
           "type": "category",
           "items": [
@@ -2256,10 +2442,11 @@
               "type": "doc",
               "id": "version-3.x/apis/device/nfc/getHCEState"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "网络",
           "type": "category",
           "items": [
@@ -2274,11 +2461,16 @@
             {
               "type": "doc",
               "id": "version-3.x/apis/device/network/getNetworkType"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/network/getLocalIPAddress"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "屏幕",
           "type": "category",
           "items": [
@@ -2302,10 +2494,11 @@
               "type": "doc",
               "id": "version-3.x/apis/device/screen/getScreenBrightness"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "电话",
           "type": "category",
           "items": [
@@ -2313,10 +2506,11 @@
               "type": "doc",
               "id": "version-3.x/apis/device/phone/makePhoneCall"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "加速计",
           "type": "category",
           "items": [
@@ -2336,10 +2530,11 @@
               "type": "doc",
               "id": "version-3.x/apis/device/accelerometer/offAccelerometerChange"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "罗盘",
           "type": "category",
           "items": [
@@ -2359,10 +2554,11 @@
               "type": "doc",
               "id": "version-3.x/apis/device/compass/offCompassChange"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "设备方向",
           "type": "category",
           "items": [
@@ -2382,10 +2578,11 @@
               "type": "doc",
               "id": "version-3.x/apis/device/motion/offDeviceMotionChange"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "陀螺仪",
           "type": "category",
           "items": [
@@ -2405,21 +2602,27 @@
               "type": "doc",
               "id": "version-3.x/apis/device/gyroscope/offGyroscopeChange"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
-          "label": "性能",
+          "label": "内存",
           "type": "category",
           "items": [
             {
               "type": "doc",
               "id": "version-3.x/apis/device/performance/onMemoryWarning"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/performance/offMemoryWarning"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "扫码",
           "type": "category",
           "items": [
@@ -2427,10 +2630,11 @@
               "type": "doc",
               "id": "version-3.x/apis/device/scan/scancode"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         },
         {
-          "collapsed": true,
           "label": "震动",
           "type": "category",
           "items": [
@@ -2442,13 +2646,16 @@
               "type": "doc",
               "id": "version-3.x/apis/device/vibrate/vibrateLong"
             }
-          ]
+          ],
+          "collapsible": true,
+          "collapsed": true
         }
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "Worker",
       "items": [
         {
@@ -2462,8 +2669,9 @@
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "第三方平台",
       "items": [
         {
@@ -2477,8 +2685,9 @@
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "云开发",
       "items": [
         {
@@ -2492,8 +2701,9 @@
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "WXML",
       "items": [
         {
@@ -2510,6 +2720,10 @@
         },
         {
           "type": "doc",
+          "id": "version-3.x/apis/wxml/MediaQueryObserver"
+        },
+        {
+          "type": "doc",
           "id": "version-3.x/apis/wxml/NodesRef"
         },
         {
@@ -2519,8 +2733,9 @@
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "广告",
       "items": [
         {
@@ -2542,8 +2757,9 @@
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "Alipay",
       "items": [
         {
@@ -2553,8 +2769,9 @@
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "Swan",
       "items": [
         {

@@ -124,4 +124,4 @@ import './index.css';
 
     └── .eslintrc                   ESLint 配置
 
-ESLint 配置请参考 [Github](https://github.com/NervJS/taro/tree/next/packages/eslint-config-taro)
+ESLint 配置请参考 [Github](https://github.com/NervJS/taro/blob/next/packages/eslint-plugin-taro/index.js)

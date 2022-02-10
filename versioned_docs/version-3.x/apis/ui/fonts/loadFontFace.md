@@ -12,6 +12,8 @@ sidebar_label: loadFontFace
 4. canvas等原生组件不支持使用接口添加的字体
 5. 工具里提示 Faild to load font可以忽略
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/font/wx.loadFontFace.html)
 
 ## 类型
@@ -22,105 +24,31 @@ sidebar_label: loadFontFace
 
 ## 参数
 
+| 参数 | 类型 |
+| --- | --- |
+| option | `Option` |
+
 ### Option
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>global</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否全局生效</td>
-    </tr>
-    <tr>
-      <td>family</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>定义的字体名称</td>
-    </tr>
-    <tr>
-      <td>source</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>字体资源的地址。建议格式为 TTF 和 WOFF，WOFF2 在低版本的 iOS 上会不兼容。</td>
-    </tr>
-    <tr>
-      <td>complete</td>
-      <td><code>CompleteCallback</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
-    </tr>
-    <tr>
-      <td>desc</td>
-      <td><code>DescOption</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>可选的字体描述符</td>
-    </tr>
-    <tr>
-      <td>fail</td>
-      <td><code>FailCallback</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用失败的回调函数</td>
-    </tr>
-    <tr>
-      <td>success</td>
-      <td><code>SuccessCallback</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>接口调用成功的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 默认值 | 必填 | 说明 |
+| --- | --- | :---: | :---: | --- |
+| global | `boolean` | `false` | 否 | 是否全局生效 |
+| family | `string` |  | 是 | 定义的字体名称 |
+| source | `string` |  | 是 | 字体资源的地址。建议格式为 TTF 和 WOFF，WOFF2 在低版本的 iOS 上会不兼容。 |
+| complete | `CompleteCallback` |  | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| desc | `DescOption` |  | 否 | 可选的字体描述符 |
+| fail | `FailCallback` |  | 否 | 接口调用失败的回调函数 |
+| success | `SuccessCallback` |  | 否 | 接口调用成功的回调函数 |
 
 ### DescOption
 
 可选的字体描述符
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>style</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>字体样式，可选值为 normal / italic / oblique</td>
-    </tr>
-    <tr>
-      <td>variant</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置小型大写字母的字体显示文本，可选值为 normal / small-caps / inherit</td>
-    </tr>
-    <tr>
-      <td>weight</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>字体粗细，可选值为 normal / bold / 100 / 200../ 900</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| style | `string` | 否 | 字体样式，可选值为 normal / italic / oblique |
+| variant | `string` | 否 | 设置小型大写字母的字体显示文本，可选值为 normal / small-caps / inherit |
+| weight | `string` | 否 | 字体粗细，可选值为 normal / bold / 100 / 200../ 900 |
 
 ### CompleteCallback
 
@@ -130,20 +58,9 @@ sidebar_label: loadFontFace
 (result: CompleteCallbackResult) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>result</td>
-      <td><code>CompleteCallbackResult</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| result | `CompleteCallbackResult` |
 
 ### FailCallback
 
@@ -153,20 +70,9 @@ sidebar_label: loadFontFace
 (result: FailCallbackResult) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>result</td>
-      <td><code>FailCallbackResult</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| result | `FailCallbackResult` |
 
 ### SuccessCallback
 
@@ -176,77 +82,27 @@ sidebar_label: loadFontFace
 (result: SuccessCallbackResult) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>result</td>
-      <td><code>SuccessCallbackResult</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| result | `SuccessCallbackResult` |
 
 ### CompleteCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>status</td>
-      <td><code>string</code></td>
-      <td>加载字体结果</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| status | `string` | 加载字体结果 |
 
 ### FailCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>status</td>
-      <td><code>string</code></td>
-      <td>加载字体结果</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| status | `string` | 加载字体结果 |
 
 ### SuccessCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>status</td>
-      <td><code>string</code></td>
-      <td>加载字体结果</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| status | `string` | 加载字体结果 |
 
 ## 示例代码
 
@@ -257,9 +113,3 @@ Taro.loadFontFace({
   success: console.log
 })
 ```
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Taro.loadFontFace | ✔️ |  |  |

@@ -7,6 +7,8 @@ sidebar_label: Video
 
 备注：h5上因为没有测试，所以暂时写了“待定”，需要`Video`来确认。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="百度小程序" src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img title="支付宝小程序" src={require('@site/static/img/platform/alipay.png').default} className="icon_platform" width="25px"/> <img title="字节跳动小程序" src={require('@site/static/img/platform/tt.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/video.html)
 
 ## 类型
@@ -17,17 +19,22 @@ ComponentType<VideoProps>
 
 ## 示例代码
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
 
 <Tabs
   defaultValue="React"
   values={[
-    {label: 'React', value: 'React'},
-    {label: 'Vue', value: 'Vue'}
-  ]}>
+  {
+    "label": "React",
+    "value": "React"
+  },
+  {
+    "label": "Vue",
+    "value": "Vue"
+  }
+]}>
 <TabItem value="React">
-
 
 ```tsx
 export default class PageView extends Component {
@@ -53,9 +60,7 @@ export default class PageView extends Component {
   }
 }
 ```
-
 </TabItem>
-
 <TabItem value="Vue">
 
 ```html
@@ -72,304 +77,60 @@ export default class PageView extends Component {
   />
 </template>
 ```
-  
 </TabItem>
 </Tabs>
 
 ## VideoProps
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>src</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td>要播放视频的资源地址</td>
-    </tr>
-    <tr>
-      <td>duration</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>指定视频时长</td>
-    </tr>
-    <tr>
-      <td>controls</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否显示默认播放控件（播放/暂停按钮、播放进度、时间）</td>
-    </tr>
-    <tr>
-      <td>danmuList</td>
-      <td><code>any[]</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>弹幕列表</td>
-    </tr>
-    <tr>
-      <td>danmuBtn</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否显示弹幕按钮，只在初始化时有效，不能动态变更</td>
-    </tr>
-    <tr>
-      <td>enableDanmu</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否展示弹幕，只在初始化时有效，不能动态变更</td>
-    </tr>
-    <tr>
-      <td>autoplay</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否自动播放</td>
-    </tr>
-    <tr>
-      <td>loop</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否循环播放</td>
-    </tr>
-    <tr>
-      <td>muted</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否静音播放</td>
-    </tr>
-    <tr>
-      <td>initialTime</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>指定视频初始播放位置</td>
-    </tr>
-    <tr>
-      <td>pageGesture</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>在非全屏模式下，是否开启亮度与音量调节手势</td>
-    </tr>
-    <tr>
-      <td>direction</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置全屏时视频的方向，不指定则根据宽高比自动判断。有效值为 0（正常竖向）, 90（屏幕逆时针90度）, -90（屏幕顺时针90度）</td>
-    </tr>
-    <tr>
-      <td>showProgress</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>若不设置，宽度大于240时才会显示</td>
-    </tr>
-    <tr>
-      <td>showFullscreenBtn</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否显示全屏按钮</td>
-    </tr>
-    <tr>
-      <td>showPlayBtn</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否显示视频底部控制栏的播放按钮</td>
-    </tr>
-    <tr>
-      <td>showCenterPlayBtn</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否显示视频中间的播放按钮</td>
-    </tr>
-    <tr>
-      <td>enableProgressGesture</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否开启控制进度的手势</td>
-    </tr>
-    <tr>
-      <td>objectFit</td>
-      <td><code>&quot;contain&quot; | &quot;fill&quot; | &quot;cover&quot;</code></td>
-      <td style={{ textAlign: "center"}}><code>&quot;contain&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当视频大小与 video 容器大小不一致时，视频的表现形式</td>
-    </tr>
-    <tr>
-      <td>poster</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>视频封面的图片网络资源地址，如果 controls 属性值为 false 则设置 poster 无效</td>
-    </tr>
-    <tr>
-      <td>showMuteBtn</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否显示静音按钮</td>
-    </tr>
-    <tr>
-      <td>title</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>视频的标题，全屏时在顶部展示</td>
-    </tr>
-    <tr>
-      <td>playBtnPosition</td>
-      <td><code>&quot;bottom&quot; | &quot;center&quot;</code></td>
-      <td style={{ textAlign: "center"}}><code>'bottom'</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>播放按钮的位置<br />- <code>bottom</code>: controls bar 上<br />- <code>center</code>: 视频中间</td>
-    </tr>
-    <tr>
-      <td>enablePlayGesture</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否开启播放手势，即双击切换播放/暂停</td>
-    </tr>
-    <tr>
-      <td>autoPauseIfNavigate</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当跳转到其它小程序页面时，是否自动暂停本页面的视频</td>
-    </tr>
-    <tr>
-      <td>autoPauseIfOpenNative</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当跳转到其它微信原生页面时，是否自动暂停本页面的视频</td>
-    </tr>
-    <tr>
-      <td>vslideGesture</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>在非全屏模式下，是否开启亮度与音量调节手势（同 <code>page-gesture</code>）</td>
-    </tr>
-    <tr>
-      <td>vslideGestureInFullscreen</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>true</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>在全屏模式下，是否开启亮度与音量调节手势</td>
-    </tr>
-    <tr>
-      <td>adUnitId</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>视频前贴广告单元ID，更多详情可参考开放能力<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/ad/video-patch-ad.html">视频前贴广告</a></td>
-    </tr>
-    <tr>
-      <td>posterForCrawler</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>用于给搜索等场景作为视频封面展示，建议使用无播放 icon 的视频封面图，只支持网络地址</td>
-    </tr>
-    <tr>
-      <td>showCastingButton</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>显示投屏按钮。只安卓且同层渲染下生效，支持 DLNA 协议</td>
-    </tr>
-    <tr>
-      <td>onPlay</td>
-      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当开始/继续播放时触发 play 事件</td>
-    </tr>
-    <tr>
-      <td>onPause</td>
-      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当暂停播放时触发 pause 事件</td>
-    </tr>
-    <tr>
-      <td>onEnded</td>
-      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当播放到末尾时触发 ended 事件</td>
-    </tr>
-    <tr>
-      <td>onTimeUpdate</td>
-      <td><code>BaseEventOrigFunction&lt;onTimeUpdateEventDetail&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>播放进度变化时触发, 触发频率 250ms 一次<br /><br />event.detail = {`{currentTime, duration}`}</td>
-    </tr>
-    <tr>
-      <td>onFullscreenChange</td>
-      <td><code>BaseEventOrigFunction&lt;onFullscreenChangeEventDetail&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当视频进入和退出全屏时触发<br /><br />event.detail = {`{fullScreen, direction}`}，direction取为 vertical 或 horizontal</td>
-    </tr>
-    <tr>
-      <td>onWaiting</td>
-      <td><code>BaseEventOrigFunction&lt;onWaitingEventDetail&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当视频进入和退出全屏时触发<br /><br />event.detail = {`{fullScreen, direction}`}，direction 取为 vertical 或 horizontal</td>
-    </tr>
-    <tr>
-      <td>onError</td>
-      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>视频播放出错时触发</td>
-    </tr>
-    <tr>
-      <td>onProgress</td>
-      <td><code>BaseEventOrigFunction&lt;onProgressEventDetail&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>加载进度变化时触发，只支持一段加载</td>
-    </tr>
-    <tr>
-      <td>onLoadedMetaData</td>
-      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>视频元数据加载完成时触发。event.detail = {`{width, height, duration}`}</td>
-    </tr>
-  </tbody>
-</table>
-
-> H5 属性
-
-| 属性名 | 类型 | 默认值 | 说明 |
-| :- | :- | :- | :- |
-| nativeProps      | Object | `{}` | H5 独有，用于透传 `WebComponents` 上的属性到内部 H5 标签上 |
+| 参数 | 类型 | 默认值 | 必填 | 说明 |
+| --- | --- | :---: | :---: | --- |
+| src | `string` |  | 是 | 要播放视频的资源地址 |
+| duration | `number` |  | 否 | 指定视频时长 |
+| controls | `boolean` | `true` | 否 | 是否显示默认播放控件（播放/暂停按钮、播放进度、时间） |
+| danmuList | `any[]` |  | 否 | 弹幕列表 |
+| danmuBtn | `boolean` | `false` | 否 | 是否显示弹幕按钮，只在初始化时有效，不能动态变更 |
+| enableDanmu | `boolean` | `false` | 否 | 是否展示弹幕，只在初始化时有效，不能动态变更 |
+| autoplay | `boolean` | `false` | 否 | 是否自动播放 |
+| loop | `boolean` | `false` | 否 | 是否循环播放 |
+| muted | `boolean` | `false` | 否 | 是否静音播放 |
+| initialTime | `number` |  | 否 | 指定视频初始播放位置 |
+| pageGesture | `boolean` | `false` | 否 | 在非全屏模式下，是否开启亮度与音量调节手势 |
+| direction | `number` |  | 否 | 设置全屏时视频的方向，不指定则根据宽高比自动判断。有效值为 0（正常竖向）, 90（屏幕逆时针90度）, -90（屏幕顺时针90度） |
+| showProgress | `boolean` | `true` | 否 | 若不设置，宽度大于240时才会显示 |
+| showFullscreenBtn | `boolean` | `true` | 否 | 是否显示全屏按钮 |
+| showPlayBtn | `boolean` | `true` | 否 | 是否显示视频底部控制栏的播放按钮 |
+| showCenterPlayBtn | `boolean` | `true` | 否 | 是否显示视频中间的播放按钮 |
+| enableProgressGesture | `boolean` | `true` | 否 | 是否开启控制进度的手势 |
+| objectFit | `keyof objectFit` | `"contain"` | 否 | 当视频大小与 video 容器大小不一致时，视频的表现形式 |
+| poster | `string` |  | 否 | 视频封面的图片网络资源地址，如果 controls 属性值为 false 则设置 poster 无效 |
+| showMuteBtn | `boolean` | `false` | 否 | 是否显示静音按钮 |
+| title | `string` |  | 否 | 视频的标题，全屏时在顶部展示 |
+| playBtnPosition | `keyof playBtnPosition` | `'bottom'` | 否 | 播放按钮的位置<br />- `bottom`: controls bar 上<br />- `center`: 视频中间 |
+| enablePlayGesture | `boolean` | `false` | 否 | 是否开启播放手势，即双击切换播放/暂停 |
+| autoPauseIfNavigate | `boolean` | `true` | 否 | 当跳转到其它小程序页面时，是否自动暂停本页面的视频 |
+| autoPauseIfOpenNative | `boolean` | `true` | 否 | 当跳转到其它微信原生页面时，是否自动暂停本页面的视频 |
+| vslideGesture | `boolean` | `false` | 否 | 在非全屏模式下，是否开启亮度与音量调节手势（同 `page-gesture`） |
+| vslideGestureInFullscreen | `boolean` | `true` | 否 | 在全屏模式下，是否开启亮度与音量调节手势 |
+| adUnitId | `string` |  | 否 | 视频前贴广告单元ID，更多详情可参考开放能力[视频前贴广告](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/ad/video-patch-ad.html) |
+| posterForCrawler | `string` |  | 否 | 用于给搜索等场景作为视频封面展示，建议使用无播放 icon 的视频封面图，只支持网络地址 |
+| showCastingButton | `boolean` |  | 否 | 显示投屏按钮。只安卓且同层渲染下生效，支持 DLNA 协议 |
+| pictureInPictureMode | "" or "push" or "pop" or ("push" or "pop")[] |  | 否 | 设置小窗模式： push, pop，空字符串或通过数组形式设置多种模式（如： ["push", "pop"]） |
+| enableAutoRotation | `boolean` |  | 否 | 是否开启手机横屏时自动全屏，当系统设置开启自动旋转时生效 |
+| showScreenLockButton | `boolean` |  | 否 | 是否显示锁屏按钮，仅在全屏时显示，锁屏后控制栏的操作 |
+| onPlay | `CommonEventFunction` |  | 否 | 当开始/继续播放时触发 play 事件 |
+| onPause | `CommonEventFunction` |  | 否 | 当暂停播放时触发 pause 事件 |
+| onEnded | `CommonEventFunction` |  | 否 | 当播放到末尾时触发 ended 事件 |
+| onTimeUpdate | `CommonEventFunction<onTimeUpdateEventDetail>` |  | 否 | 播放进度变化时触发, 触发频率 250ms 一次<br /><br />event.detail = {currentTime, duration} |
+| onFullscreenChange | `CommonEventFunction<onFullscreenChangeEventDetail>` |  | 否 | 当视频进入和退出全屏时触发<br /><br />event.detail = {fullScreen, direction}，direction取为 vertical 或 horizontal |
+| onWaiting | `CommonEventFunction<onWaitingEventDetail>` |  | 否 | 当视频进入和退出全屏时触发<br /><br />event.detail = {fullScreen, direction}，direction 取为 vertical 或 horizontal |
+| onError | `CommonEventFunction` |  | 否 | 视频播放出错时触发 |
+| onProgress | `CommonEventFunction<onProgressEventDetail>` |  | 否 | 加载进度变化时触发，只支持一段加载 |
+| onLoadedMetaData | `CommonEventFunction` |  | 否 | 视频元数据加载完成时触发。event.detail = {width, height, duration} |
+| onControlsToggle | `CommonEventFunction<onControlsToggleEventDetail>` |  | 否 | 切换 controls 显示隐藏时触发。event.detail = {show} |
+| onEnterPictureInPicture | `CommonEventFunction` |  | 否 | 播放器进入小窗 |
+| onLeavePictureInPicture | `CommonEventFunction` |  | 否 | 播放器退出小窗 |
+| onSeekComplete | `CommonEventFunction` |  | 否 | seek 完成时触发 |
+| nativeProps | `Record<string, unknown>` |  | 否 | 用于透传 `WebComponents` 上的属性到内部 H5 标签上 |
 
 ### API 支持度
 
@@ -404,6 +165,9 @@ export default class PageView extends Component {
 | VideoProps.adUnitId | ✔️ |  |  |  |  |  |
 | VideoProps.posterForCrawler | ✔️ |  |  |  |  |  |
 | VideoProps.showCastingButton | ✔️ |  |  |  |  |  |
+| VideoProps.pictureInPictureMode | ✔️ |  |  |  |  |  |
+| VideoProps.enableAutoRotation | ✔️ |  |  |  |  |  |
+| VideoProps.showScreenLockButton | ✔️ |  |  |  |  |  |
 | VideoProps.onPlay | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | VideoProps.onPause | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | VideoProps.onEnded | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
@@ -413,177 +177,70 @@ export default class PageView extends Component {
 | VideoProps.onError | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | VideoProps.onProgress | ✔️ |  | ✔️ |  | (待定) |  |
 | VideoProps.onLoadedMetaData | ✔️ |  |  |  |  | ✔️ |
+| VideoProps.onControlsToggle | ✔️ |  |  |  |  |  |
+| VideoProps.onEnterPictureInPicture | ✔️ |  |  |  |  |  |
+| VideoProps.onLeavePictureInPicture | ✔️ |  |  |  |  |  |
+| VideoProps.onSeekComplete | ✔️ |  |  |  |  |  |
+| VideoProps.nativeProps |  |  |  |  | ✔️ |  |
 
 ### direction
 
 direction 的合法值
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>正常竖向</td>
-    </tr>
-    <tr>
-      <td>90</td>
-      <td>屏幕逆时针90度</td>
-    </tr>
-    <tr>
-      <td>-90</td>
-      <td>屏幕顺时针90度</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 说明 |
+| --- | --- |
+| 0 | 正常竖向 |
+| 90 | 屏幕逆时针90度 |
+| -90 | 屏幕顺时针90度 |
 
 ### objectFit
 
 objectFit 的合法值
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>contain</td>
-      <td>包含</td>
-    </tr>
-    <tr>
-      <td>fill</td>
-      <td>填充</td>
-    </tr>
-    <tr>
-      <td>cover</td>
-      <td>覆盖</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 说明 |
+| --- | --- |
+| contain | 包含 |
+| fill | 填充 |
+| cover | 覆盖 |
 
 ### playBtnPosition
 
 playBtnPosition 的合法值
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>bottom</td>
-      <td>controls bar上</td>
-    </tr>
-    <tr>
-      <td>center</td>
-      <td>视频中间</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 说明 |
+| --- | --- |
+| bottom | controls bar上 |
+| center | 视频中间 |
 
 ### onTimeUpdateEventDetail
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>currentTime</td>
-      <td><code>number</code></td>
-      <td>当前时间</td>
-    </tr>
-    <tr>
-      <td>duration</td>
-      <td><code>number</code></td>
-      <td>持续时间</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| currentTime | `number` | 当前时间 |
+| duration | `number` | 持续时间 |
 
 ### onFullscreenChangeEventDetail
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>direction</td>
-      <td><code>number</code></td>
-      <td>方向</td>
-    </tr>
-    <tr>
-      <td>fullScreen</td>
-      <td><code>number | boolean</code></td>
-      <td>全屏</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| direction | `number` | 方向 |
+| fullScreen | number or boolean | 全屏 |
 
 ### onWaitingEventDetail
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>direction</td>
-      <td><code>number</code></td>
-      <td>方向</td>
-    </tr>
-    <tr>
-      <td>fullScreen</td>
-      <td><code>number | boolean</code></td>
-      <td>全屏</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| direction | `number` | 方向 |
+| fullScreen | number or boolean | 全屏 |
 
 ### onProgressEventDetail
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>buffered</td>
-      <td><code>number</code></td>
-      <td>百分比</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| buffered | `number` | 百分比 |
 
-## API 支持度
+### onControlsToggleEventDetail
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Video | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| show | `boolean` | 是否显示 |

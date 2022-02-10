@@ -5,6 +5,8 @@ sidebar_label: CoverView
 
 覆盖在原生组件之上的文本视图。可覆盖的原生组件包括 map、video、canvas、camera、live-player、live-pusher 只支持嵌套 cover-view、cover-image，可在 cover-view 中使用 button。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="百度小程序" src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img title="支付宝小程序" src={require('@site/static/img/platform/alipay.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/cover-view.html)
 
 ## 类型
@@ -15,18 +17,22 @@ ComponentType<CoverViewProps>
 
 ## 示例代码
 
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
 
 <Tabs
   defaultValue="React"
   values={[
-    {label: 'React', value: 'React'},
-    {label: 'Vue', value: 'Vue'}
-  ]}>
+  {
+    "label": "React",
+    "value": "React"
+  },
+  {
+    "label": "Vue",
+    "value": "Vue"
+  }
+]}>
 <TabItem value="React">
-
 
 ```tsx
 // js
@@ -58,9 +64,7 @@ class App extends Components {
   transform: translate(-50%, -50%);
 }
 ```
-
 </TabItem>
-
 <TabItem value="Vue">
 
 ```html
@@ -89,41 +93,22 @@ class App extends Components {
   transform: translate(-50%, -50%);
 }
 </style>
-
 ```
-  
 </TabItem>
 </Tabs>
 
 ## CoverViewProps
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>scrollTop</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>设置顶部滚动偏移量，仅在设置了 overflow-y: scroll 成为滚动元素后生效</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| scrollTop | `number` | 否 | 设置顶部滚动偏移量，仅在设置了 overflow-y: scroll 成为滚动元素后生效 |
+| markerId | `string` | 否 | 适用于地图组件 map 的自定义气泡 customCallout |
+| slot | `string` | 否 |  |
 
 ### API 支持度
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
 | CoverViewProps.scrollTop | ✔️ |  |  |
-
-## API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| CoverView | ✔️ | ✔️ | ✔️ | ✔️ |  |
+| CoverViewProps.markerId | ✔️ |  |  |
+| CoverViewProps.slot | ✔️ |  |  |

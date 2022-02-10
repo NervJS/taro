@@ -15,38 +15,23 @@ sidebar_label: RealtimeLogManager
 
 添加过滤关键字
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.addFilterMsg.html)
 
 ```tsx
 (msg: string) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>msg</td>
-      <td><code>string</code></td>
-      <td>是 setFilterMsg 的添加接口。用于设置多个过滤关键字。</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| RealtimeLogManager.addFilterMsg | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| msg | `string` | 是 setFilterMsg 的添加接口。用于设置多个过滤关键字。 |
 
 ### error
 
 写 error 日志
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.error.html)
 
@@ -54,32 +39,15 @@ sidebar_label: RealtimeLogManager
 (...args: any[]) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>args</td>
-      <td><code>any[]</code></td>
-      <td>日志内容，可以有任意多个。每次调用的参数的总大小不超过5Kb</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| RealtimeLogManager.error | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| args | `any[]` | 日志内容，可以有任意多个。每次调用的参数的总大小不超过5Kb |
 
 ### in
 
 设置实时日志page参数所在的页面
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.in.html)
 
@@ -87,30 +55,15 @@ sidebar_label: RealtimeLogManager
 (pageInstance: any) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>pageInstance</td>
-      <td>page 实例</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| RealtimeLogManager.in | ✔️ |  |  |
+| 参数 | 说明 |
+| --- | --- |
+| pageInstance | page 实例 |
 
 ### info
 
 写 info 日志
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.info.html)
 
@@ -118,32 +71,15 @@ sidebar_label: RealtimeLogManager
 (...args: any[]) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>args</td>
-      <td><code>any[]</code></td>
-      <td>日志内容，可以有任意多个。每次调用的参数的总大小不超过5Kb</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| RealtimeLogManager.info | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| args | `any[]` | 日志内容，可以有任意多个。每次调用的参数的总大小不超过5Kb |
 
 ### setFilterMsg
 
 设置过滤关键字
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.setFilterMsg.html)
 
@@ -151,32 +87,15 @@ sidebar_label: RealtimeLogManager
 (msg: string) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>msg</td>
-      <td><code>string</code></td>
-      <td>过滤关键字，最多不超过1Kb，可以在小程序管理后台根据设置的内容搜索得到对应的日志。</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| RealtimeLogManager.setFilterMsg | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| msg | `string` | 过滤关键字，最多不超过1Kb，可以在小程序管理后台根据设置的内容搜索得到对应的日志。 |
 
 ### warn
 
 写 warn 日志
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.warn.html)
 
@@ -184,28 +103,9 @@ sidebar_label: RealtimeLogManager
 (...args: any[]) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>args</td>
-      <td><code>any[]</code></td>
-      <td>日志内容，可以有任意多个。每次调用的参数的总大小不超过5Kb</td>
-    </tr>
-  </tbody>
-</table>
-
-#### API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| RealtimeLogManager.warn | ✔️ |  |  |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| args | `any[]` | 日志内容，可以有任意多个。每次调用的参数的总大小不超过5Kb |
 
 ## API 支持度
 

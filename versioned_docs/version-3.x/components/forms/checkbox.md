@@ -5,6 +5,8 @@ sidebar_label: Checkbox
 
 多选项目
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/checkbox.html)
 
 ## 类型
@@ -21,9 +23,15 @@ import TabItem from '@theme/TabItem'
 <Tabs
   defaultValue="React"
   values={[
-    {label: 'React', value: 'React'},
-    {label: 'Vue', value: 'Vue'}
-  ]}>
+  {
+    "label": "React",
+    "value": "React"
+  },
+  {
+    "label": "Vue",
+    "value": "Vue"
+  }
+]}>
 <TabItem value="React">
 
 ```tsx
@@ -86,7 +94,6 @@ export default class PageCheckbox extends Component {
 }
 ```
 </TabItem>
-
 <TabItem value="Vue">
 
 ```html
@@ -112,110 +119,54 @@ export default {
     return {
       list: [
         {
-          value: 'yuche',
-          text: 'yuche',
+          value: '美国',
+          text: '美国',
           checked: false
         },
         {
-          value: 'cjj',
-          text: 'cjj',
+          value: '中国',
+          text: '中国',
           checked: true
         },
         {
-          value: 'xiexiaoli',
-          text: 'xiexiaoli',
-          checked: true
+          value: '巴西',
+          text: '巴西',
+          checked: false
         },
         {
-          value: 'honly',
-          text: 'honly',
-          checked: true
+          value: '日本',
+          text: '日本',
+          checked: false
         },
         {
-          value: 'cs',
-          text: 'cs',
-          checked: true
+          value: '英国',
+          text: '英国',
+          checked: false
         },
         {
-          value: 'zhutianjian',
-          text: 'zhutianjian',
-          checked: true
-        },
-        {
-          value: '隔壁老李',
-          text: '隔壁老李',
-          checked: true
+          value: '法国',
+          text: '法国',
+          checked: false
         }
       ]
     }
   }
 }
 </script>
-
 ```
-
 </TabItem>
 </Tabs>
 
 ## CheckboxProps
 
-
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>value</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>是</td>
-      <td><code>&lt;Checkbox/&gt;</code>标识，选中时触发<code>&lt;CheckboxGroup/&gt;</code>的 change 事件，并携带 <code>&lt;Checkbox/&gt;</code> 的 value</td>
-    </tr>
-    <tr>
-      <td>disabled</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否禁用</td>
-    </tr>
-    <tr>
-      <td>checked</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当前是否选中，可用来设置默认选中</td>
-    </tr>
-    <tr>
-      <td>color</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>checkbox的颜色，同 css 的 color</td>
-    </tr>
-    <tr>
-      <td>onChange</td>
-      <td>
-        `BaseEventOrigFunction&lt;{`{ value: string[]; }`}&gt;
-      </td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>选中项发生变化时触发 change 事件，小程序无此 API</td>
-    </tr>
-  </tbody>
-</table>
-
-> H5 属性
-
-| 属性名 | 类型 | 默认值 | 说明 |
-| :- | :- | :- | :- |
-| nativeProps      | Object | `{}` | H5 独有，用于透传 `WebComponents` 上的属性到内部 H5 标签上 |
+| 参数 | 类型 | 默认值 | 必填 | 说明 |
+| --- | --- | :---: | :---: | --- |
+| value | `string` |  | 是 | `<Checkbox/>`标识，选中时触发`<CheckboxGroup/>`的 change 事件，并携带 `<Checkbox/>` 的 value |
+| disabled | `boolean` | `false` | 否 | 是否禁用 |
+| checked | `boolean` | `false` | 否 | 当前是否选中，可用来设置默认选中 |
+| color | `string` |  | 否 | checkbox的颜色，同 css 的 color |
+| onChange | `CommonEventFunction<{ value: string[]; }>` |  | 否 | 选中项发生变化时触发 change 事件，小程序无此 API |
+| nativeProps | `Record<string, unknown>` |  | 否 | 用于透传 `WebComponents` 上的属性到内部 H5 标签上 |
 
 ### API 支持度
 
@@ -226,9 +177,4 @@ export default {
 | CheckboxProps.checked | ✔️ | ✔️ | ✔️ |
 | CheckboxProps.color | ✔️ | ✔️ | ✔️ |
 | CheckboxProps.onChange |  | ✔️ | ✔️ |
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Checkbox | ✔️ | ✔️ | ✔️ |
+| CheckboxProps.nativeProps |  | ✔️ |  |

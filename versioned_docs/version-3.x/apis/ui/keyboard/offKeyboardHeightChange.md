@@ -3,37 +3,20 @@ title: Taro.offKeyboardHeightChange(callback)
 sidebar_label: offKeyboardHeightChange
 ---
 
-取消监听键盘高度变化
+取消监听键盘高度变化事件。
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/keyboard/wx.offKeyboardHeightChange.html)
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/keyboard/wx.offKeyboardHeightChange.html)
 
 ## 类型
 
 ```tsx
-(callback: (...args: any[]) => any) => void
+(callback?: (...args: any[]) => any) => void
 ```
 
 ## 参数
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>callback</td>
-      <td><code>(...args: any[]) =&gt; any</code></td>
-      <td>键盘高度变化的回调函数</td>
-    </tr>
-  </tbody>
-</table>
-
-## API 支持度
-
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| Taro.offKeyboardHeightChange | ✔️ |  | ✔️ |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| callback | `(...args: any[]) => any` | 键盘高度变化事件的回调函数 |

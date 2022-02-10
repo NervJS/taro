@@ -6,9 +6,15 @@ Taro 3 支持将 Web 框架直接运行在各平台，开发者使用的是真�
 
 但是 Taro 在组件、API、路由等规范上，遵循微信小程序规范，所以在 Taro 中使用 React 和开发者熟悉的 Web 端有一些差异，以下将详细列出。
 
+:::info
+[Breaking] 旧项目升级到 Taro v3.4+ 请安装依赖 `@tarojs/plugin-framework-react`
+:::
+
 ## React API
 
-> [Breaking] 从 Taro 1/2 升级到 Taro 3 的同学需要额外关注
+:::info
+[Breaking] 从 Taro 1/2 升级到 Taro 3 的同学需要额外关注
+:::
 
 因为在 Taro 3 中开发者使用的是真实的 React，React 的 API 如 `Component`、`useState`、`useEffect` 等都需要从 React 包中获取。
 
@@ -25,7 +31,9 @@ import React, { Component, useState, useEffect } from 'react'
 
 ## 内置组件
 
-> 自 Taro v3.3+，支持使用 H5 标签进行开发，详情请见 [使用 HTML 标签](use-h5)
+:::note
+自 Taro v3.3+，支持使用 H5 标签进行开发，详情请见 [使用 HTML 标签](use-h5)
+:::
 
 Taro 中可以使用小程序规范的内置组件进行开发，如 `<View>`、`<Text>`、`<Button>` 等。
 

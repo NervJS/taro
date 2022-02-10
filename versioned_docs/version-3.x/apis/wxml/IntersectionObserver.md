@@ -13,6 +13,8 @@ sidebar_label: IntersectionObserver
 
 停止监听。回调函数将不再触发
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.disconnect.html)
 
 ```tsx
@@ -23,37 +25,24 @@ sidebar_label: IntersectionObserver
 
 指定目标节点并开始监听相交状态变化情况
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.observe.html)
 
 ```tsx
 (targetSelector: string, callback: ObserveCallback) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>targetSelector</td>
-      <td><code>string</code></td>
-      <td>选择器</td>
-    </tr>
-    <tr>
-      <td>callback</td>
-      <td><code>ObserveCallback</code></td>
-      <td>监听相交状态变化的回调函数</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| targetSelector | `string` | 选择器 |
+| callback | `ObserveCallback` | 监听相交状态变化的回调函数 |
 
 ### relativeTo
 
 使用选择器指定一个节点，作为参照区域之一。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.relativeTo.html)
 
@@ -61,31 +50,16 @@ sidebar_label: IntersectionObserver
 (selector: string, margins?: RelativeToMargins) => IntersectionObserver
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>selector</td>
-      <td><code>string</code></td>
-      <td>选择器</td>
-    </tr>
-    <tr>
-      <td>margins</td>
-      <td><code>RelativeToMargins</code></td>
-      <td>用来扩展（或收缩）参照节点布局区域的边界</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| selector | `string` | 选择器 |
+| margins | `RelativeToMargins` | 用来扩展（或收缩）参照节点布局区域的边界 |
 
 ### relativeToViewport
 
 指定页面显示区域作为参照区域之一
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.relativeToViewport.html)
 
@@ -93,22 +67,9 @@ sidebar_label: IntersectionObserver
 (margins?: RelativeToViewportMargins) => IntersectionObserver
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>margins</td>
-      <td><code>RelativeToViewportMargins</code></td>
-      <td>用来扩展（或收缩）参照节点布局区域的边界</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| margins | `RelativeToViewportMargins` | 用来扩展（或收缩）参照节点布局区域的边界 |
 
 #### 示例代码
 
@@ -135,266 +96,84 @@ Taro.createIntersectionObserver().relativeToViewport({bottom: 100}).observe('.ta
 (result: ObserveCallbackResult) => void
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>result</td>
-      <td><code>ObserveCallbackResult</code></td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 |
+| --- | --- |
+| result | `ObserveCallbackResult` |
 
 ### ObserveCallbackResult
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>boundingClientRect</td>
-      <td><code>BoundingClientRectResult</code></td>
-      <td>目标边界</td>
-    </tr>
-    <tr>
-      <td>intersectionRatio</td>
-      <td><code>number</code></td>
-      <td>相交比例</td>
-    </tr>
-    <tr>
-      <td>intersectionRect</td>
-      <td><code>IntersectionRectResult</code></td>
-      <td>相交区域的边界</td>
-    </tr>
-    <tr>
-      <td>relativeRect</td>
-      <td><code>RelativeRectResult</code></td>
-      <td>参照区域的边界</td>
-    </tr>
-    <tr>
-      <td>time</td>
-      <td><code>number</code></td>
-      <td>相交检测时的时间戳</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| boundingClientRect | `BoundingClientRectResult` | 目标边界 |
+| intersectionRatio | `number` | 相交比例 |
+| intersectionRect | `IntersectionRectResult` | 相交区域的边界 |
+| relativeRect | `RelativeRectResult` | 参照区域的边界 |
+| time | `number` | 相交检测时的时间戳 |
 
 ### RelativeRectResult
 
 参照区域的边界
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>bottom</td>
-      <td><code>number</code></td>
-      <td>下边界</td>
-    </tr>
-    <tr>
-      <td>left</td>
-      <td><code>number</code></td>
-      <td>左边界</td>
-    </tr>
-    <tr>
-      <td>right</td>
-      <td><code>number</code></td>
-      <td>右边界</td>
-    </tr>
-    <tr>
-      <td>top</td>
-      <td><code>number</code></td>
-      <td>上边界</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| bottom | `number` | 下边界 |
+| left | `number` | 左边界 |
+| right | `number` | 右边界 |
+| top | `number` | 上边界 |
 
 ### IntersectionRectResult
 
 相交区域的边界
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>bottom</td>
-      <td><code>number</code></td>
-      <td>下边界</td>
-    </tr>
-    <tr>
-      <td>height</td>
-      <td><code>number</code></td>
-      <td>高度</td>
-    </tr>
-    <tr>
-      <td>left</td>
-      <td><code>number</code></td>
-      <td>左边界</td>
-    </tr>
-    <tr>
-      <td>right</td>
-      <td><code>number</code></td>
-      <td>右边界</td>
-    </tr>
-    <tr>
-      <td>top</td>
-      <td><code>number</code></td>
-      <td>上边界</td>
-    </tr>
-    <tr>
-      <td>width</td>
-      <td><code>number</code></td>
-      <td>宽度</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| bottom | `number` | 下边界 |
+| height | `number` | 高度 |
+| left | `number` | 左边界 |
+| right | `number` | 右边界 |
+| top | `number` | 上边界 |
+| width | `number` | 宽度 |
 
 ### BoundingClientRectResult
 
 目标边界
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>bottom</td>
-      <td><code>number</code></td>
-      <td>下边界</td>
-    </tr>
-    <tr>
-      <td>height</td>
-      <td><code>number</code></td>
-      <td>高度</td>
-    </tr>
-    <tr>
-      <td>left</td>
-      <td><code>number</code></td>
-      <td>左边界</td>
-    </tr>
-    <tr>
-      <td>right</td>
-      <td><code>number</code></td>
-      <td>右边界</td>
-    </tr>
-    <tr>
-      <td>top</td>
-      <td><code>number</code></td>
-      <td>上边界</td>
-    </tr>
-    <tr>
-      <td>width</td>
-      <td><code>number</code></td>
-      <td>宽度</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| bottom | `number` | 下边界 |
+| height | `number` | 高度 |
+| left | `number` | 左边界 |
+| right | `number` | 右边界 |
+| top | `number` | 上边界 |
+| width | `number` | 宽度 |
 
 ### RelativeToMargins
 
 用来扩展（或收缩）参照节点布局区域的边界
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>bottom</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>节点布局区域的下边界</td>
-    </tr>
-    <tr>
-      <td>left</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>节点布局区域的左边界</td>
-    </tr>
-    <tr>
-      <td>right</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>节点布局区域的右边界</td>
-    </tr>
-    <tr>
-      <td>top</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>节点布局区域的上边界</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| bottom | `number` | 否 | 节点布局区域的下边界 |
+| left | `number` | 否 | 节点布局区域的左边界 |
+| right | `number` | 否 | 节点布局区域的右边界 |
+| top | `number` | 否 | 节点布局区域的上边界 |
 
 ### RelativeToViewportMargins
 
 用来扩展（或收缩）参照节点布局区域的边界
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>bottom</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>节点布局区域的下边界</td>
-    </tr>
-    <tr>
-      <td>left</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>节点布局区域的左边界</td>
-    </tr>
-    <tr>
-      <td>right</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>节点布局区域的右边界</td>
-    </tr>
-    <tr>
-      <td>top</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>节点布局区域的上边界</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| bottom | `number` | 否 | 节点布局区域的下边界 |
+| left | `number` | 否 | 节点布局区域的左边界 |
+| right | `number` | 否 | 节点布局区域的右边界 |
+| top | `number` | 否 | 节点布局区域的上边界 |
+
+## API 支持度
+
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| IntersectionObserver.disconnect | ✔️ |  |  |
+| IntersectionObserver.observe | ✔️ |  |  |
+| IntersectionObserver.relativeTo | ✔️ |  |  |
+| IntersectionObserver.relativeToViewport | ✔️ |  |  |

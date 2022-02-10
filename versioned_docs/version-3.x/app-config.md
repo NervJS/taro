@@ -269,7 +269,7 @@ export default {
 
 ### entryPagePath
 
-支持情况：<img src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img src={require('@site/static/img/platform/tt.png').default} className="icon_platform" width="25px"/>
+支持情况：<img src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img src={require('@site/static/img/platform/tt.png').default} className="icon_platform" width="25px"/> <img src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/>
 
 指定小程序的默认启动路径（首页），常见情景是从微信聊天列表页下拉启动、小程序列表启动等。如果不填，将默认为 `pages` 列表的第一项。不支持带页面路径参数。
 
@@ -605,3 +605,60 @@ export default {
 ```
 
 `quickMenu` 里面的菜单，只有配置布尔值 `false` 的情况下，才能隐藏，并且如果有 API 可控制某些菜单隐藏，则 API 的优先级大于这里的配置，该配置是全局配置，仅支持在 `app.json` 中配置。
+
+## H5 端支持的属性
+
+| 属性 | 类型 | 必填 | 默认值 | 描述 | 最低版本 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| [entryPagePath](#entrypagepath) | String |否 |   | 默认启动首页 | 3.3.17 |
+| [appId](#appId) | String | 否 | "app" | 渲染页面的容器 id | 3.3.18 |
+| [animation](#animation) | [`RouterAnimate`](#RouterAnimate)、`boolean` | 否 | `{ "duration": 300, "delay": 50 }` | 是否开启 h5 端路由动画功能，默认开启 | 3.3.18 |
+
+### appId
+
+H5 渲染页面的容器 id，如果修改 Html 文件中的容器 Id，需要同步添加该配置避免编译错误。
+
+#### 代码示例
+
+```html title="index.html"
+<!-- ··· -->
+<body>
+  <div id="app"></div>
+</body>
+<!-- ··· -->
+```
+
+```js title="app.config.js"
+export default {
+  "appId": "app"
+}
+```
+
+### animation
+
+指定 H5 端动画配置，可以通过覆盖 CSS 样式调整动画。
+
+#### RouterAnimate
+
+```ts
+interface RouterAnimate {
+  /**
+   * 动画切换时间，单位毫秒
+   * @default 300
+   */
+  duration?: number
+  /**
+   * 动画切换时间，单位毫秒
+   * @default 50
+   */
+  delay?: number
+}
+```
+
+#### 代码示例
+
+```js title="app.config.js"
+export default {
+  "animation": false
+}
+```

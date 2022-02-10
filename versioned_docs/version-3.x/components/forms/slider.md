@@ -5,6 +5,8 @@ sidebar_label: Slider
 
 滑动选择器
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="百度小程序" src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img title="支付宝小程序" src={require('@site/static/img/platform/alipay.png').default} className="icon_platform" width="25px"/> <img title="字节跳动小程序" src={require('@site/static/img/platform/tt.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/slider.html)
 
 ## 类型
@@ -15,15 +17,21 @@ ComponentType<SliderProps>
 
 ## 示例代码
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
 
 <Tabs
   defaultValue="React"
   values={[
-    {label: 'React', value: 'React'},
-    {label: 'Vue', value: 'Vue'}
-  ]}>
+  {
+    "label": "React",
+    "value": "React"
+  },
+  {
+    "label": "Vue",
+    "value": "Vue"
+  }
+]}>
 <TabItem value="React">
 
 ```tsx
@@ -46,9 +54,7 @@ export default class PageView extends Component {
   }
 }
 ```
-
 </TabItem>
-
 <TabItem value="Vue">
 
 ```html
@@ -63,123 +69,27 @@ export default class PageView extends Component {
   </view>
 </template>
 ```
-  
 </TabItem>
 </Tabs>
 
 ## SliderProps
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>min</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}><code>0</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>最小值</td>
-    </tr>
-    <tr>
-      <td>max</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}><code>100</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>最大值</td>
-    </tr>
-    <tr>
-      <td>step</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}><code>1</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>步长，取值必须大于 0，并且可被(max - min)整除</td>
-    </tr>
-    <tr>
-      <td>disabled</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否禁用</td>
-    </tr>
-    <tr>
-      <td>value</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}><code>0</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>当前取值</td>
-    </tr>
-    <tr>
-      <td>color</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}><code>&quot;#e9e9e9&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>背景条的颜色（请使用 backgroundColor）</td>
-    </tr>
-    <tr>
-      <td>selectedColor</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}><code>&quot;#1aad19&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>已选择的颜色（请使用 activeColor）</td>
-    </tr>
-    <tr>
-      <td>activeColor</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}><code>&quot;#1aad19&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>已选择的颜色</td>
-    </tr>
-    <tr>
-      <td>backgroundColor</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}><code>&quot;#e9e9e9&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>背景条的颜色</td>
-    </tr>
-    <tr>
-      <td>blockSize</td>
-      <td><code>number</code></td>
-      <td style={{ textAlign: "center"}}><code>28</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>滑块的大小，取值范围为 12 - 28</td>
-    </tr>
-    <tr>
-      <td>blockColor</td>
-      <td><code>string</code></td>
-      <td style={{ textAlign: "center"}}><code>&quot;#ffffff&quot;</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>滑块的颜色</td>
-    </tr>
-    <tr>
-      <td>showValue</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否显示当前 value</td>
-    </tr>
-    <tr>
-      <td>onChange</td>
-      <td><code>BaseEventOrigFunction&lt;onChangeEventDetail&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>完成一次拖动后触发的事件</td>
-    </tr>
-    <tr>
-      <td>onChanging</td>
-      <td><code>BaseEventOrigFunction&lt;onChangeEventDetail&gt;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>拖动过程中触发的事件</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 默认值 | 必填 | 说明 |
+| --- | --- | :---: | :---: | --- |
+| min | `number` | `0` | 否 | 最小值 |
+| max | `number` | `100` | 否 | 最大值 |
+| step | `number` | `1` | 否 | 步长，取值必须大于 0，并且可被(max - min)整除 |
+| disabled | `boolean` | `false` | 否 | 是否禁用 |
+| value | `number` | `0` | 否 | 当前取值 |
+| color | `string` | `"#e9e9e9"` | 否 | 背景条的颜色（请使用 backgroundColor） |
+| selectedColor | `string` | `"#1aad19"` | 否 | 已选择的颜色（请使用 activeColor） |
+| activeColor | `string` | `"#1aad19"` | 否 | 已选择的颜色 |
+| backgroundColor | `string` | `"#e9e9e9"` | 否 | 背景条的颜色 |
+| blockSize | `number` | `28` | 否 | 滑块的大小，取值范围为 12 - 28 |
+| blockColor | `string` | `"#ffffff"` | 否 | 滑块的颜色 |
+| showValue | `boolean` | `false` | 否 | 是否显示当前 value |
+| onChange | `CommonEventFunction<onChangeEventDetail>` |  | 否 | 完成一次拖动后触发的事件 |
+| onChanging | `CommonEventFunction<onChangeEventDetail>` |  | 否 | 拖动过程中触发的事件 |
 
 ### API 支持度
 
@@ -201,9 +111,3 @@ export default class PageView extends Component {
 | SliderProps.onChanging | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ### onChangeEventDetail
-
-## API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Slider | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |

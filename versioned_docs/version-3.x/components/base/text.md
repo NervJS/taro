@@ -5,6 +5,8 @@ sidebar_label: Text
 
 文本
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="百度小程序" src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img title="支付宝小程序" src={require('@site/static/img/platform/alipay.png').default} className="icon_platform" width="25px"/> <img title="字节跳动小程序" src={require('@site/static/img/platform/tt.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/text.html)
 
 ## 类型
@@ -15,15 +17,21 @@ ComponentType<TextProps>
 
 ## 示例代码
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
 
 <Tabs
   defaultValue="React"
   values={[
-    {label: 'React', value: 'React'},
-    {label: 'Vue', value: 'Vue'}
-  ]}>
+  {
+    "label": "React",
+    "value": "React"
+  },
+  {
+    "label": "Vue",
+    "value": "Vue"
+  }
+]}>
 <TabItem value="React">
 
 ```tsx
@@ -69,7 +77,6 @@ export default class PageView extends Component {
 }
 ```
 </TabItem>
-
 <TabItem value="Vue">
 
 ``` html
@@ -113,46 +120,19 @@ export default {
 
 ## TextProps
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th style={{ textAlign: "center"}}>默认值</th>
-      <th style={{ textAlign: "center"}}>必填</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>selectable</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>文本是否可选</td>
-    </tr>
-    <tr>
-      <td>space</td>
-      <td><code>&quot;ensp&quot; | &quot;emsp&quot; | &quot;nbsp&quot;</code></td>
-      <td style={{ textAlign: "center"}}></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>显示连续空格</td>
-    </tr>
-    <tr>
-      <td>decode</td>
-      <td><code>boolean</code></td>
-      <td style={{ textAlign: "center"}}><code>false</code></td>
-      <td style={{ textAlign: "center"}}>否</td>
-      <td>是否解码</td>
-    </tr>
-  </tbody>
-</table>
+| 参数 | 类型 | 默认值 | 必填 | 说明 |
+| --- | --- | :---: | :---: | --- |
+| selectable | `boolean` | `false` | 否 | 文本是否可选 |
+| userSelect | `boolean` | `false` | 否 | 文本是否可选，该属性会使文本节点显示为 inline-block |
+| space | `keyof TSpace` |  | 否 | 显示连续空格 |
+| decode | `boolean` | `false` | 否 | 是否解码 |
 
 ### API 支持度
 
 | API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | TextProps.selectable | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| TextProps.userSelect | ✔️ |  |  |  |  |  |
 | TextProps.space | ✔️ | ✔️ |  | ✔️ |  |  |
 | TextProps.decode | ✔️ |  |  | ✔️ |  |  |
 
@@ -160,31 +140,8 @@ export default {
 
 space 的合法值
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>ensp</td>
-      <td>中文字符空格一半大小</td>
-    </tr>
-    <tr>
-      <td>emsp</td>
-      <td>中文字符空格大小</td>
-    </tr>
-    <tr>
-      <td>nbsp</td>
-      <td>根据字体设置的空格大小</td>
-    </tr>
-  </tbody>
-</table>
-
-## API 支持度
-
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Text | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| 参数 | 说明 |
+| --- | --- |
+| ensp | 中文字符空格一半大小 |
+| emsp | 中文字符空格大小 |
+| nbsp | 根据字体设置的空格大小 |
