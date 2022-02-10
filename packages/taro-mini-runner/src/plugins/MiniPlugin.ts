@@ -1157,23 +1157,25 @@ export default class TaroMiniPlugin {
     const REG_STYLE_EXT = new RegExp(`\\.(${styleExt.replace('.', '')})(\\?.*)?$`)
 
     if (!assets[appStyle]) return
-
-    const originSource: string = assets[appStyle].source()
-    const source = new ConcatSource()
+    
+    const commonStyles = []
 
     Object.keys(assets).forEach(assetName => {
       const fileName = path.basename(assetName, path.extname(assetName))
       if ((REG_STYLE.test(assetName) || REG_STYLE_EXT.test(assetName)) && this.options.commonChunks.includes(fileName)) {
-        source.add(`@import ${JSON.stringify(urlToRequest(assetName))};`)
-        source.add('\n')
+        commonStyles.push(`@import ${JSON.stringify(urlToRequest(assetName))};\n`)
       }
     })
     
-    source.add(originSource)
-    assets[appStyle] = {
-      size: () => source.source().length,
-      source: () => source.source()
-    }
+    if (commonStyles.length > 0) {
+      const source = new ConcatSource()
+      source.add(commonStyles.join(''))
+      source.add(assets[appStyle].source())
+      assets[appStyle] = {
+        size: () => source.source().length,
+        source: () => source.source()
+      }
+    }    
   }
 
   addTarBarFilesToDependencies (compilation: webpack.compilation.Compilation) {
