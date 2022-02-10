@@ -1,9 +1,7 @@
 ---
 slug: 2020-04-27-taro-build-jd
 title: 使用 Taro 快速开发京东小程序
-author: JJ
-author_url: https://github.com/Chen-jj
-author_image_url: https://storage.jd.com/cjj-pub-images/11807297.png
+authors: JJ
 ---
 
 ![](https://img20.360buyimg.com/ling/jfs/t1/117964/14/2118/145903/5e9eee0aE8897b3dd/bd435e6161779ad1.png)

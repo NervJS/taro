@@ -1,9 +1,7 @@
 ---
 slug: 2020-4-13-taro-components
-title: Taro Next H5 跨框架组件库实践 
-author: JJ
-author_url: https://github.com/Chen-jj
-author_image_url: https://storage.jd.com/cjj-pub-images/11807297.png
+title: Taro Next H5 跨框架组件库实践
+authors: JJ
 ---
 
 ![image](https://img30.360buyimg.com/ling/jfs/t1/108543/10/12151/1750297/5e93ef97Ef424d4a7/29cf4e4364e5d3f0.png)

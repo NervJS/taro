@@ -1,9 +1,7 @@
 ---
 slug: 2021-10-14-Taro-React-Native-update
 title: Taro React Native 重大更新：帮助开发者高效开发APP
-author: zhiqingchen
-author_url: https://github.com/zhiqingchen
-author_image_url: https://avatars1.githubusercontent.com/u/1876158?s=88&u=0305430cab9f7a516c720e7fc7f8680df1c835b9&v=4
+authors: zhiqingchen
 tags: [v3]
 description: '三个方向去优化开发流程，全面降低上手成本，让 Taro 开发 APP，变得无比轻松。'
 ---
