@@ -39,8 +39,8 @@ const DEFAULT_WEAPP_OPTIONS = {
 
 let targetUnit
 
-module.exports = postcss.plugin('postcss-pxtransform', function (options) {
-  options = Object.assign(DEFAULT_WEAPP_OPTIONS, options || {})
+module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
+  options = Object.assign({}, DEFAULT_WEAPP_OPTIONS, options)
 
   switch (options.platform) {
     case 'h5': {
