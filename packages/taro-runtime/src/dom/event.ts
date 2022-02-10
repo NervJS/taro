@@ -55,26 +55,32 @@ export class TaroEvent {
   }
 
   get target () {
-    const element = getDocument().getElementById(this.mpEvent?.target.id)
-    return {
-      ...this.mpEvent?.target,
-      ...this.mpEvent?.detail,
-      dataset: element !== null ? element.dataset : EMPTY_OBJ
+    const target = Object.create(this.mpEvent?.target || null)
+
+    const element = getDocument().getElementById(target.id)
+    target.dataset = element !== null ? element.dataset : EMPTY_OBJ
+
+    for (const key in this.mpEvent?.detail) {
+      target[key] = this.mpEvent!.detail[key]
     }
+
+    return target
   }
 
   get currentTarget () {
-    const element = getDocument().getElementById(this.mpEvent?.currentTarget.id)
+    const currentTarget = Object.create(this.mpEvent?.currentTarget || null)
 
+    const element = getDocument().getElementById(currentTarget.id)
     if (element === null) {
       return this.target
     }
+    currentTarget.dataset = element.dataset
 
-    return {
-      ...this.mpEvent?.currentTarget,
-      ...this.mpEvent?.detail,
-      dataset: element.dataset
+    for (const key in this.mpEvent?.detail) {
+      currentTarget[key] = this.mpEvent!.detail[key]
     }
+
+    return currentTarget
   }
 }
 

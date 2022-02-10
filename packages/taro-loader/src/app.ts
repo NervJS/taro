@@ -6,7 +6,7 @@ export default function (this: webpack.loader.LoaderContext) {
   const stringify = (s: string): string => stringifyRequest(this, s)
 
   const options = getOptions(this)
-  const { importFrameworkStatement, frameworkArgs, creator, creatorLocation } = options.loaderMeta
+  const { importFrameworkStatement, frameworkArgs, creator, creatorLocation, modifyInstantiate } = options.loaderMeta
   const config = JSON.stringify(options.config)
   const blended = options.blended
   const pxTransformConfig = options.pxTransformConfig
@@ -26,13 +26,17 @@ if (typeof PRERENDER !== 'undefined') {
 
   const createApp = `${creator}(component, ${frameworkArgs})`
 
-  const instantiateApp = blended
+  let instantiateApp = blended
     ? `
 var app = ${createApp}
 app.onLaunch()
 exports.taroApp = app
 `
     : `var inst = App(${createApp})`
+
+  if (typeof modifyInstantiate === 'function') {
+    instantiateApp = modifyInstantiate(instantiateApp, 'app')
+  }
 
   return `${setReconciler}
 import { window } from '@tarojs/runtime'
