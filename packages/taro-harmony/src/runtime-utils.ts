@@ -13,6 +13,20 @@ export const hostConfig = {
     if (event.type === 'click' && comps.includes(tagName)) {
       event.type = 'tap'
     }
+
+    // getters & setters
+    const { mpEvent } = event
+    const getOwnPropertyDescriptors = Object.getOwnPropertyDescriptors
+    // eslint-disable-next-line no-proto
+    const mpEventDescs = { ...(getOwnPropertyDescriptors(mpEvent) || {}), ...(getOwnPropertyDescriptors(mpEvent.__proto__) || {}) }
+    const descs = {}
+    for (const key in mpEventDescs) {
+      const item = mpEventDescs[key]
+      if ((item.get || item.set) && key !== 'type') {
+        descs[key] = item
+      }
+    }
+    Object.defineProperties(event, descs)
   },
   getPathIndex (indexOfNode) {
     return indexOfNode
@@ -129,5 +143,6 @@ export const hostConfig = {
       // 调用 OnDestroy
       originOnDestroy.call(this)
     }
+    config.data = { root: { cn: [] } }
   }
 }

@@ -97,13 +97,12 @@ export default class Harmony extends TaroPlatformBase {
             (miniType === META_TYPE.STATIC && entryModule.name === 'container/index')
           ) {
             const origin: string = modules._value ? modules._value.toString() : modules.source()
-            let editedOrigin = origin.replace(/\(globalThis/, 'var taroExport = (globalThis')
-            editedOrigin = editedOrigin.replace(/var inst = (App|Page)\(/, '__webpack_exports__.default = (')
+            const editedOrigin = origin.replace(/\(globalThis/, 'var taroExport = (globalThis')
 
             const source = new ConcatSource()
             source.add(editedOrigin)
             source.add(';')
-            source.add('\nexport default taroExport.default;')
+            source.add(`\nexport default taroExport.default${miniType === META_TYPE.STATIC ? '' : '()'};`)
             return source
           }
         }
@@ -191,6 +190,13 @@ export default class Harmony extends TaroPlatformBase {
           }
         ]
       })
+      chain.plugin('miniPlugin')
+        .tap(args => {
+          args[0].loaderMeta.modifyInstantiate = function (origin) {
+            return origin.replace(/var inst = (App|Page)\(([A-Za-z]+)\(/, 'export default ($2.bind(null, ')
+          }
+          return args
+        })
     })
   }
 
