@@ -947,10 +947,6 @@ module.exports = {
         ]
       }
     ],
-    "Worker": [
-      "apis/worker/createWorker",
-      "apis/worker/Worker"
-    ],
     "第三方平台": [
       "apis/ext/getExtConfigSync",
       "apis/ext/getExtConfig"
@@ -958,6 +954,32 @@ module.exports = {
     "云开发": [
       "apis/cloud/cloud",
       "apis/cloud/DB"
+    ],
+    "AI": [
+      {
+        "label": "视觉算法",
+        "type": "category",
+        "items": [
+          "apis/ai/visionkit/isVKSupport",
+          "apis/ai/visionkit/createVKSession",
+          "apis/ai/visionkit/VKAnchor",
+          "apis/ai/visionkit/VKCamera",
+          "apis/ai/visionkit/VKFrame",
+          "apis/ai/visionkit/VKSession"
+        ]
+      }, {
+        "label": "人脸识别",
+        "type": "category",
+        "items": [
+          "apis/ai/face/stopFaceDetect",
+          "apis/ai/face/initFaceDetect",
+          "apis/ai/face/faceDetect"
+        ]
+      }
+    ],
+    "Worker": [
+      "apis/worker/createWorker",
+      "apis/worker/Worker"
     ],
     "WXML": [
       "apis/wxml/createSelectorQuery",

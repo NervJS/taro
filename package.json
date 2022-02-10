@@ -7,7 +7,7 @@
     "build": "npm run build:github",
     "build:independent": "NODE_OPTIONS=--max-old-space-size=5120 docusaurus build --out-dir dist",
     "build:zone": "NODE_OPTIONS=--max-old-space-size=5120 BASE=zone docusaurus build --out-dir dist",
-    "build:docs-api": "ts-node --project ./scripts/tsconfig.json ./scripts/docs --verbose",
+    "build:docs-api": "ts-node --project ./scripts/tsconfig.json ./scripts/docs",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "serve": "docusaurus serve",

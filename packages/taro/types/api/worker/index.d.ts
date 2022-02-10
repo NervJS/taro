@@ -19,6 +19,14 @@ declare module '../../index' {
       /** 主线程/Worker 线程向当前线程发送的消息的事件的回调函数 */
       callback: Worker.OnMessageCallback,
     ): void
+    /** 监听 worker 线程被系统回收事件（当 iOS 系统资源紧张时，worker 线程存在被系统回收的可能，开发者可监听此事件并重新创建一个 worker）
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/worker/Worker.onProcessKilled.html
+     */
+    onProcessKilled(
+      /** worker 线程被系统回收事件的回调函数 */
+      callback: Worker.OnMessageCallback,
+    ): void
     /** 向主线程/Worker 线程发送的消息。
      * @supported weapp
      * @example

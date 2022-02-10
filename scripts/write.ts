@@ -3,11 +3,12 @@ import * as path from "path"
 
 export default function writeFile (route: string, text: string = '') {
   if (!route || !text) return
+  console.log(`Document written to ${route}`)
   try {
     fs.writeFileSync(route, text, {})
   } catch (error) {
-    const routepath = path.parse(route)
-    fs.mkdirSync(routepath.dir, { recursive: true })
+    const routePath = path.parse(route)
+    fs.mkdirSync(routePath.dir, { recursive: true })
     fs.writeFileSync(route, text, {})
   }
 }

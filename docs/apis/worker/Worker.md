@@ -21,6 +21,22 @@ sidebar_label: Worker
 | --- | --- | --- |
 | callback | `OnMessageCallback` | 主线程/Worker 线程向当前线程发送的消息的事件的回调函数 |
 
+### onProcessKilled
+
+监听 worker 线程被系统回收事件（当 iOS 系统资源紧张时，worker 线程存在被系统回收的可能，开发者可监听此事件并重新创建一个 worker）
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/worker/Worker.onProcessKilled.html)
+
+```tsx
+(callback: OnMessageCallback) => void
+```
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| callback | `OnMessageCallback` | worker 线程被系统回收事件的回调函数 |
+
 ### postMessage
 
 向主线程/Worker 线程发送的消息。
@@ -91,5 +107,6 @@ worker.postMessage({
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
 | Worker.onMessage | ✔️ |  |  |
+| Worker.onProcessKilled | ✔️ |  |  |
 | Worker.postMessage | ✔️ |  |  |
 | Worker.terminate | ✔️ |  |  |
