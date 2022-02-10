@@ -1,3 +1,5 @@
+const absolutePath = require.resolve('babel-eslint')
+const relativePath = absolutePath.split('/node_modules/').length && absolutePath.split('/node_modules/')[1]
 module.exports = {
   root: true,
   extends: [
@@ -5,7 +7,7 @@ module.exports = {
     './rules/imports',
     './rules/variables'
   ].map(require.resolve),
-  parser: require.resolve('babel-eslint'),
+  parser: relativePath,
   parserOptions: {
     ecmaVersion: 2018,
     ecmaFeatures: {
