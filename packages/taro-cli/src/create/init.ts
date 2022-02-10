@@ -11,7 +11,6 @@ import Creator from './creator'
 import { changeDefaultNameInTemplate } from './editTemplate'
 
 const CONFIG_DIR_NAME = 'config'
-const DEFAULT_RN_PROJECT_NAME = 'taroDemo'
 export const TEMPLATE_CREATOR = 'template_creator.js'
 
 const styleExtMap = {
@@ -132,11 +131,6 @@ function createFiles (
   return logs
 }
 
-function getTemplateName (cwd: string) {
-  const result = fs.readFileSync(path.join(cwd, './ios/Podfile'), 'utf8').match(/target '(.*)' do/m)
-  const name = result?.[1] || DEFAULT_RN_PROJECT_NAME
-  return name
-}
 export async function createPage (creater: Creator, params: IPageConf, cb) {
   const { projectDir, template, pageName } = params
   // path
@@ -219,9 +213,7 @@ export async function createApp (creater: Creator, params: IProjectConf, cb) {
 
     // 当选择 rn 模板时，替换默认项目名
     if (template === TemplateType.rn) {
-      const templateName = getTemplateName(templatePath)
-      await changeDefaultNameInTemplate({ projectName, defaultName: templateName, projectPath })
-      console.log(`${chalk.green('✔ ')}${chalk.grey('项目名更新成功！')}`)
+      await changeDefaultNameInTemplate({ projectName, templatePath, projectPath })
     }
     console.log()
 

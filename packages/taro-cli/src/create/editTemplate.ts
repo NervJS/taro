@@ -1,9 +1,10 @@
 import * as path from 'path'
 import * as fs from 'fs-extra'
+import { chalk } from '@tarojs/helper'
 
 interface PlaceholderConfig {
   projectName: string
-  defaultName: string,
+  templatePath: string,
   projectPath: string
 }
 
@@ -19,7 +20,13 @@ const UNDERSCORED_DOTFILES = [
   'bundle',
   'ruby-version'
 ]
+const DEFAULT_RN_PROJECT_NAME = 'taroDemo'
 
+function getTemplateName (cwd: string) {
+  const result = fs.readFileSync(path.join(cwd, './ios/Podfile'), 'utf8').match(/target '(.*)' do/m)
+  const name = result?.[1] || DEFAULT_RN_PROJECT_NAME
+  return name
+}
 async function replaceNameInUTF8File (filePath: string, projectName: string, defaultName: string) {
   const fileContent = await fs.readFile(filePath, 'utf8')
   const replacedFileContent = fileContent
@@ -65,7 +72,9 @@ function shouldIgnoreFile (filePath: string) {
   return filePath.match(/node_modules|yarn.lock|package-lock.json/g)
 }
 
-export async function changeDefaultNameInTemplate ({ projectName, defaultName, projectPath }: PlaceholderConfig) {
+export async function changeDefaultNameInTemplate ({ projectName, templatePath, projectPath }: PlaceholderConfig) {
+  const defaultName = getTemplateName(templatePath)
+
   for (const filePath of walk(projectPath).reverse()) {
     if (shouldIgnoreFile(filePath)) {
       continue
@@ -82,4 +91,5 @@ export async function changeDefaultNameInTemplate ({ projectName, defaultName, p
 
     await processDotfiles(filePath)
   }
+  console.log(`${chalk.green('✔ ')}${chalk.grey('项目名更新成功！')}`)
 }
