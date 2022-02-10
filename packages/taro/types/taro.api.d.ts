@@ -6,7 +6,6 @@
  * thanks for the great work by @qiu8310 👍👍👍
  *
  */
-/// <reference path="api/ad/index.d.ts" />
 /// <reference path="api/base/index.d.ts" />
 /// <reference path="api/base/debug.d.ts" />
 /// <reference path="api/base/system.d.ts" />
@@ -17,25 +16,6 @@
 /// <reference path="api/canvas/index.d.ts" />
 /// <reference path="api/cloud/index.d.ts" />
 /// <reference path="api/data-analysis/index.d.ts" />
-/// <reference path="api/device/accelerometer.d.ts" />
-/// <reference path="api/device/battery.d.ts" />
-/// <reference path="api/device/ble.d.ts" />
-/// <reference path="api/device/bluetooth.d.ts" />
-/// <reference path="api/device/clipboard.d.ts" />
-/// <reference path="api/device/compass.d.ts" />
-/// <reference path="api/device/contact.d.ts" />
-/// <reference path="api/device/gyroscope.d.ts" />
-/// <reference path="api/device/iBeacon.d.ts" />
-/// <reference path="api/device/motion.d.ts" />
-/// <reference path="api/device/network.d.ts" />
-/// <reference path="api/device/nfc.d.ts" />
-/// <reference path="api/device/performance.d.ts" />
-/// <reference path="api/device/phone.d.ts" />
-/// <reference path="api/device/scan.d.ts" />
-/// <reference path="api/device/screen.d.ts" />
-/// <reference path="api/device/vibrate.d.ts" />
-/// <reference path="api/device/wifi.d.ts" />
-/// <reference path="api/ext/index.d.ts" />
 /// <reference path="api/files/index.d.ts" />
 /// <reference path="api/framework/index.d.ts" />
 /// <reference path="api/location/index.d.ts" />
@@ -87,8 +67,33 @@
 /// <reference path="api/ui/tab-bar.d.ts" />
 /// <reference path="api/ui/window.d.ts" />
 /// <reference path="api/ui/interaction.d.ts" />
+/// <reference path="api/device/bluetooth.d.ts" />
+/// <reference path="api/device/bluetooth-ble.d.ts" />
+/// <reference path="api/device/bluetooth-peripheral.d.ts" />
+/// <reference path="api/device/iBeacon.d.ts" />
+/// <reference path="api/device/nfc.d.ts" />
+/// <reference path="api/device/wifi.d.ts" />
+
+/// <reference path="api/device/accelerometer.d.ts" />
+/// <reference path="api/device/battery.d.ts" />
+/// <reference path="api/device/clipboard.d.ts" />
+/// <reference path="api/device/compass.d.ts" />
+/// <reference path="api/device/contact.d.ts" />
+/// <reference path="api/device/gyroscope.d.ts" />
+/// <reference path="api/device/motion.d.ts" />
+/// <reference path="api/device/network.d.ts" />
+/// <reference path="api/device/performance.d.ts" />
+/// <reference path="api/device/phone.d.ts" />
+/// <reference path="api/device/scan.d.ts" />
+/// <reference path="api/device/screen.d.ts" />
+/// <reference path="api/device/vibrate.d.ts" />
+
+/// <reference path="api/ai/visionkit.d.ts" />
+/// <reference path="api/ai/face.d.ts" />
 /// <reference path="api/worker/index.d.ts" />
 /// <reference path="api/wxml/index.d.ts" />
+/// <reference path="api/ext/index.d.ts" />
+/// <reference path="api/ad/index.d.ts" />
 
 /// <reference path="api/alipay/index.d.ts" />
 /// <reference path="api/swan/index.d.ts" />

@@ -758,7 +758,58 @@ module.exports = {
     ],
     "设备": [
       {
-        "label": "IBeacon",
+        "label": "蓝牙-通用",
+        "type": "category",
+        "items": [
+          "apis/device/bluetooth/stopBluetoothDevicesDiscovery",
+          "apis/device/bluetooth/startBluetoothDevicesDiscovery",
+          "apis/device/bluetooth/openBluetoothAdapter",
+          "apis/device/bluetooth/onBluetoothDeviceFound",
+          "apis/device/bluetooth/onBluetoothAdapterStateChange",
+          "apis/device/bluetooth/offBluetoothDeviceFound",
+          "apis/device/bluetooth/offBluetoothAdapterStateChange",
+          "apis/device/bluetooth/makeBluetoothPair",
+          "apis/device/bluetooth/isBluetoothDevicePaired",
+          "apis/device/bluetooth/getConnectedBluetoothDevices",
+          "apis/device/bluetooth/getBluetoothDevices",
+          "apis/device/bluetooth/getBluetoothAdapterState",
+          "apis/device/bluetooth/closeBluetoothAdapter",
+        ]
+      },
+      {
+        "label": "蓝牙-低功耗中心设备",
+        "type": "category",
+        "items": [
+          "apis/device/bluetooth-ble/writeBLECharacteristicValue",
+          "apis/device/bluetooth-ble/setBLEMTU",
+          "apis/device/bluetooth-ble/readBLECharacteristicValue",
+          "apis/device/bluetooth-ble/onBLEMTUChange",
+          "apis/device/bluetooth-ble/onBLEConnectionStateChange",
+          "apis/device/bluetooth-ble/onBLECharacteristicValueChange",
+          "apis/device/bluetooth-ble/offBLEMTUChange",
+          "apis/device/bluetooth-ble/offBLEConnectionStateChange",
+          "apis/device/bluetooth-ble/offBLECharacteristicValueChange",
+          "apis/device/bluetooth-ble/notifyBLECharacteristicValueChange",
+          "apis/device/bluetooth-ble/getBLEMTU",
+          "apis/device/bluetooth-ble/getBLEDeviceServices",
+          "apis/device/bluetooth-ble/getBLEDeviceRSSI",
+          "apis/device/bluetooth-ble/getBLEDeviceCharacteristics",
+          "apis/device/bluetooth-ble/createBLEConnection",
+          "apis/device/bluetooth-ble/closeBLEConnection",
+        ]
+      },
+      {
+        "label": "蓝牙-低功耗外围设备",
+        "type": "category",
+        "items": [
+          "apis/device/bluetooth-peripheral/onBLEPeripheralConnectionStateChanged",
+          "apis/device/bluetooth-peripheral/offBLEPeripheralConnectionStateChanged",
+          "apis/device/bluetooth-peripheral/createBLEPeripheralServer",
+          "apis/device/bluetooth-peripheral/BLEPeripheralServer",
+        ]
+      },
+      {
+        "label": "蓝牙-信标(Beacon)",
         "type": "category",
         "items": [
           "apis/device/ibeacon/stopBeaconDiscovery",
@@ -768,7 +819,19 @@ module.exports = {
           "apis/device/ibeacon/offBeaconUpdate",
           "apis/device/ibeacon/offBeaconServiceChange",
           "apis/device/ibeacon/getBeacons",
-          "apis/device/ibeacon/IBeaconInfo"
+          "apis/device/ibeacon/IBeaconInfo",
+        ]
+      },
+      {
+        "label": "NFC",
+        "type": "category",
+        "items": [
+          "apis/device/nfc/stopHCE",
+          "apis/device/nfc/startHCE",
+          "apis/device/nfc/sendHCEMessage",
+          "apis/device/nfc/onHCEMessage",
+          "apis/device/nfc/offHCEMessage",
+          "apis/device/nfc/getHCEState"
         ]
       },
       {
@@ -796,36 +859,6 @@ module.exports = {
         ]
       },
       {
-        "label": "低功耗蓝牙",
-        "type": "category",
-        "items": [
-          "apis/device/ble/writeBLECharacteristicValue",
-          "apis/device/ble/readBLECharacteristicValue",
-          "apis/device/ble/onBLEConnectionStateChange",
-          "apis/device/ble/onBLECharacteristicValueChange",
-          "apis/device/ble/notifyBLECharacteristicValueChange",
-          "apis/device/ble/getBLEDeviceServices",
-          "apis/device/ble/getBLEDeviceCharacteristics",
-          "apis/device/ble/createBLEConnection",
-          "apis/device/ble/closeBLEConnection"
-        ]
-      },
-      {
-        "label": "蓝牙",
-        "type": "category",
-        "items": [
-          "apis/device/bluetooth/stopBluetoothDevicesDiscovery",
-          "apis/device/bluetooth/startBluetoothDevicesDiscovery",
-          "apis/device/bluetooth/openBluetoothAdapter",
-          "apis/device/bluetooth/onBluetoothDeviceFound",
-          "apis/device/bluetooth/onBluetoothAdapterStateChange",
-          "apis/device/bluetooth/getConnectedBluetoothDevices",
-          "apis/device/bluetooth/getBluetoothDevices",
-          "apis/device/bluetooth/getBluetoothAdapterState",
-          "apis/device/bluetooth/closeBluetoothAdapter"
-        ]
-      },
-      {
         "label": "电量",
         "type": "category",
         "items": [
@@ -839,18 +872,6 @@ module.exports = {
         "items": [
           "apis/device/clipboard/setClipboardData",
           "apis/device/clipboard/getClipboardData"
-        ]
-      },
-      {
-        "label": "NFC",
-        "type": "category",
-        "items": [
-          "apis/device/nfc/stopHCE",
-          "apis/device/nfc/startHCE",
-          "apis/device/nfc/sendHCEMessage",
-          "apis/device/nfc/onHCEMessage",
-          "apis/device/nfc/offHCEMessage",
-          "apis/device/nfc/getHCEState"
         ]
       },
       {
@@ -947,14 +968,6 @@ module.exports = {
         ]
       }
     ],
-    "第三方平台": [
-      "apis/ext/getExtConfigSync",
-      "apis/ext/getExtConfig"
-    ],
-    "云开发": [
-      "apis/cloud/cloud",
-      "apis/cloud/DB"
-    ],
     "AI": [
       {
         "label": "视觉算法",
@@ -989,11 +1002,19 @@ module.exports = {
       "apis/wxml/NodesRef",
       "apis/wxml/SelectorQuery"
     ],
+    "第三方平台": [
+      "apis/ext/getExtConfigSync",
+      "apis/ext/getExtConfig"
+    ],
     "广告": [
       "apis/ad/createRewardedVideoAd",
       "apis/ad/createInterstitialAd",
       "apis/ad/InterstitialAd",
       "apis/ad/RewardedVideoAd"
+    ],
+    "云开发": [
+      "apis/cloud/cloud",
+      "apis/cloud/DB"
     ],
     "Alipay": [
       "apis/alipay/getOpenUserInfo"
