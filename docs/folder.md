@@ -23,9 +23,9 @@ title: 目录结构
     |   └── app.config.js           项目入口配置
     |
     ├── project.config.json         微信小程序项目配置 project.config.json
-    ├── project.tt.json             字节跳动小程序项目配置 project.config.json
+    ├── project.tt.json             字节跳动小程序项目配置 project.tt.json
     ├── project.swan.json           百度小程序项目配置 project.swan.json
-    ├── project.qq.json             QQ 小程序项目配置 project.config.json
+    ├── project.qq.json             QQ 小程序项目配置 project.qq.json
     |
     ├── babel.config.js             Babel 配置
     ├── tsconfig.json               TypeScript 配置
