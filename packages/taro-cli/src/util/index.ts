@@ -90,13 +90,3 @@ ${exampleCommand}
 `))
   }
 }
-
-export function walk (current: string): string[] {
-  if (!fs.lstatSync(current).isDirectory()) {
-    return [current]
-  }
-
-  const files = fs.readdirSync(current).map(child => walk(path.join(current, child)))
-  const result: string[] = []
-  return result.concat.apply([current], files)
-}
