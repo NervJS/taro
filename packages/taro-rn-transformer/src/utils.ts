@@ -263,27 +263,48 @@ export function transformLinaria ({ sourcePath, sourceCode }: TransformLinariaOp
     JSXOpeningElement (astPath) {
       const { attributes, name: component } = astPath.node
       const className = types.isJSXIdentifier(component) && componentClassMap.get(component.name)
-
       if (className) {
         const index = attributes.findIndex(attribute =>
-          types.isJSXAttribute(attribute) && attribute.name.name === 'className')
+          types.isJSXAttribute(attribute) && attribute.name.name === 'style')
 
-        // Remove origin className
-        if (index !== -1) {
+        let attribute = attributes[index]
+        const linariaExpression = types.memberExpression(
+          linariaStyle,
+          types.identifier(className)
+        )
+
+        // 不处理行内字符串样式，删除 style 属性
+        if (attribute && types.isJSXAttribute(attribute) && types.isStringLiteral(attribute.value)) {
           attributes.splice(index, 1)
+          attribute = null as any
         }
 
-        attributes.push(
-          types.jsxAttribute(
-            types.jsxIdentifier('className'),
-            types.jsxExpressionContainer(
-              types.memberExpression(
-                linariaStyle,
-                types.identifier(className)
-              )
+        if (attribute) {
+          if (types.isJSXAttribute(attribute) && types.isJSXExpressionContainer(attribute.value)) {
+            const expression = attribute.value.expression
+            let elements
+            if (types.isArrayExpression(expression)) {
+              elements = expression.elements
+            } else {
+              elements = expression
+            }
+            // 合并 style 对象
+            // style = Object.assign({}, linariaStyle, { color: 'red' })
+            const mergeStyleExpression = types.callExpression(
+              types.identifier('Object.assign'),
+              // @ts-ignore
+              [types.objectExpression([])].concat(linariaExpression, elements)
+            )
+            attribute.value = types.jSXExpressionContainer(mergeStyleExpression)
+          }
+        } else {
+          attributes.push(
+            types.jsxAttribute(
+              types.jsxIdentifier('style'),
+              types.jsxExpressionContainer(linariaExpression)
             )
           )
-        )
+        }
       }
     }
   })
