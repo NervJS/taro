@@ -40,11 +40,3 @@ Taro.removeStorage({
   }
 })
 ```
-
-```tsx
-try {
-  Taro.removeStorageSync('key')
-} catch (e) {
-  // Do something when catch error
-}
-```

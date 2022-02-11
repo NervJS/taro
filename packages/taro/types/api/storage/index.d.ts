@@ -151,15 +151,6 @@ declare module '../../index' {
     /** Taro.removeStorage 的同步版本
      * @example
      * ```tsx
-     * Taro.removeStorage({
-     *   key: 'key',
-     *   success: function (res) {
-     *     console.log(res)
-     *   }
-     * })
-     * ```
-     *
-     * ```tsx
      * try {
      *   Taro.removeStorageSync('key')
      * } catch (e) {
@@ -184,14 +175,6 @@ declare module '../../index' {
      *   }
      * })
      * ```
-     *
-     * ```tsx
-     * try {
-     *   Taro.removeStorageSync('key')
-     * } catch (e) {
-     *   // Do something when catch error
-     * }
-     * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.removeStorage.html
      */
     removeStorage(option: removeStorage.Option): Promise<TaroGeneral.CallbackResult>
@@ -199,15 +182,6 @@ declare module '../../index' {
     /** Taro.getStorage 的同步版本
      * @supported weapp, h5
      * @example
-     * ```tsx
-     * Taro.getStorage({
-     *   key: 'key',
-     *   success: function (res) {
-     *     console.log(res.data)
-     *   }
-     * })
-     * ```
-     *
      * ```tsx
      * try {
      *   var value = Taro.getStorageSync('key')
@@ -228,16 +202,6 @@ declare module '../../index' {
     /** Taro.getStorageInfo 的同步版本
      * @supported weapp, h5
      * @example
-     * ```tsx
-     * Taro.getStorageInfo({
-     *   success: function (res) {
-     *     console.log(res.keys)
-     *     console.log(res.currentSize)
-     *     console.log(res.limitSize)
-     *   }
-     * })
-     * ```
-     *
      * ```tsx
      * try {
      *   const res = Taro.getStorageInfoSync()
@@ -264,17 +228,6 @@ declare module '../../index' {
      *   }
      * })
      * ```
-     *
-     * ```tsx
-     * try {
-     *   const res = Taro.getStorageInfoSync()
-     *   console.log(res.keys)
-     *   console.log(res.currentSize)
-     *   console.log(res.limitSize)
-     * } catch (e) {
-     *   // Do something when catch error
-     * }
-     * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorageInfo.html
      */
     getStorageInfo(option?: getStorageInfo.Option): Promise<TaroGeneral.CallbackResult>
@@ -290,17 +243,6 @@ declare module '../../index' {
      *   }
      * })
      * ```
-     *
-     * ```tsx
-     * try {
-     *   var value = Taro.getStorageSync('key')
-     *   if (value) {
-     *     // Do something with return value
-     *   }
-     * } catch (e) {
-     *   // Do something when catch error
-     * }
-     * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorage.html
      */
     getStorage<T = any>(option: getStorage.Option<T>): Promise<getStorage.SuccessCallbackResult<T>>
@@ -308,10 +250,6 @@ declare module '../../index' {
     /** Taro.clearStorage 的同步版本
      * @supported weapp, h5
      * @example
-     * ```tsx
-     * Taro.clearStorage()
-     * ```
-     *
      * ```tsx
      * try {
      *   Taro.clearStorageSync()
@@ -328,14 +266,6 @@ declare module '../../index' {
      * @example
      * ```tsx
      * Taro.clearStorage()
-     * ```
-     *
-     * ```tsx
-     * try {
-     *   Taro.clearStorageSync()
-     * } catch(e) {
-     *   // Do something when catch error
-     * }
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.clearStorage.html
      */

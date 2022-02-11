@@ -155,7 +155,7 @@ declare module '../../index' {
      * [微信端调整背景和说明，请参考文档](https://developers.weixin.qq.com/community/develop/doc/000cacfa20ce88df04cb468bc52801)
      * @supported weapp
      * @example
-     * // 推荐使用 Taro.getUserProfile 获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认
+     * 推荐使用 Taro.getUserProfile 获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认
      *
      * ```tsx
      * Taro.getUserProfile({

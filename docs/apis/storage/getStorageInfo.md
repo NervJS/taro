@@ -48,14 +48,3 @@ Taro.getStorageInfo({
   }
 })
 ```
-
-```tsx
-try {
-  const res = Taro.getStorageInfoSync()
-  console.log(res.keys)
-  console.log(res.currentSize)
-  console.log(res.limitSize)
-} catch (e) {
-  // Do something when catch error
-}
-```

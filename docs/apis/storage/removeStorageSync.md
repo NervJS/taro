@@ -37,15 +37,6 @@ try {
 ### 示例 2
 
 ```tsx
-Taro.removeStorage({
-  key: 'key',
-  success: function (res) {
-    console.log(res)
-  }
-})
-```
-
-```tsx
 try {
   Taro.removeStorageSync('key')
 } catch (e) {

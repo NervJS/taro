@@ -18,10 +18,6 @@ Taro.clearStorage 的同步版本
 ## 示例代码
 
 ```tsx
-Taro.clearStorage()
-```
-
-```tsx
 try {
   Taro.clearStorageSync()
 } catch(e) {

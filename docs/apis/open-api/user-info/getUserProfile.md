@@ -54,7 +54,7 @@ sidebar_label: getUserProfile
 
 ## 示例代码
 
-// 推荐使用 Taro.getUserProfile 获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认
+推荐使用 Taro.getUserProfile 获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认
 
 ```tsx
 Taro.getUserProfile({

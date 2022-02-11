@@ -34,11 +34,3 @@ sidebar_label: clearStorage
 ```tsx
 Taro.clearStorage()
 ```
-
-```tsx
-try {
-  Taro.clearStorageSync()
-} catch(e) {
-  // Do something when catch error
-}
-```

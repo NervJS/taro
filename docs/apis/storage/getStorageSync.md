@@ -24,15 +24,6 @@ Taro.getStorage 的同步版本
 ## 示例代码
 
 ```tsx
-Taro.getStorage({
-  key: 'key',
-  success: function (res) {
-    console.log(res.data)
-  }
-})
-```
-
-```tsx
 try {
   var value = Taro.getStorageSync('key')
   if (value) {

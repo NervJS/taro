@@ -1,4 +1,3 @@
-import { StringLiteralLike } from 'typescript'
 import Taro from '../../index'
 
 declare module '../../index' {
@@ -310,7 +309,6 @@ declare module '../../index' {
      * `chooseLocation` api功能是依赖于腾讯位置服务，所以需要使用 api 密钥。如果您没有，可以前往腾讯位置服务[开发者控制台](https://lbs.qq.com/console/mykey.html?console=mykey)进行申请。
      * @supported weapp, h5
      * @example
-     *
      * ```tsx
      * // config/index.js
      *
