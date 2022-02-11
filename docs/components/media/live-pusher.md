@@ -223,7 +223,7 @@ filterType 的合法值
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| info | `netStatus` | 网络状态 |
+| info | `NetStatus` | 网络状态 |
 
 ### onErrorEventDetail
 

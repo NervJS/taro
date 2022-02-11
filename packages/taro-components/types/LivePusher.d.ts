@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, CommonEventFunction, netStatus } from './common'
+import { StandardProps, CommonEventFunction, NetStatus } from './common'
 
 /** 实时音视频录制。
  * 需要用户授权 scope.camera、scope.record
@@ -304,7 +304,7 @@ declare namespace LivePusherProps {
   }
   interface onNetstatusEventDetail {
     /** 网络状态 */
-    info: netStatus
+    info: NetStatus
   }
   interface onErrorEventDetail {
     /** 错误信息 */

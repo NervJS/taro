@@ -503,8 +503,8 @@ module.exports = {
         "label": "TCP 通信",
         "type": "category",
         "items": [
-          // "apis/network/tcp/createTCPSocket",
-          // "apis/network/tcp/TCPSocket",
+          "apis/network/tcp/createTCPSocket",
+          "apis/network/tcp/TCPSocket",
         ]
       },
       {
@@ -846,42 +846,42 @@ module.exports = {
         "label": "微信红包",
         "type": "category",
         "items": [
-          // "apis/open-api/redpackage/showRedPackage",
+          "apis/open-api/redpackage/showRedPackage",
         ]
       },
       {
         "label": "收藏",
         "type": "category",
         "items": [
-          // "apis/open-api/favorites/addVideoToFavorites",
-          // "apis/open-api/favorites/addFileToFavorites",
+          "apis/open-api/favorites/addVideoToFavorites",
+          "apis/open-api/favorites/addFileToFavorites",
         ]
       },
       {
         "label": "车牌",
         "type": "category",
         "items": [
-          // "apis/open-api/license-plate/chooseLicensePlate",
+          "apis/open-api/license-plate/chooseLicensePlate",
         ]
       },
       {
         "label": "视频号",
         "type": "category",
         "items": [
-          // "apis/open-api/channels/reserveChannelsLive",
-          // "apis/open-api/channels/openChannelsUserProfile",
-          // "apis/open-api/channels/openChannelsLive",
-          // "apis/open-api/channels/openChannelsEvent",
-          // "apis/open-api/channels/openChannelsActivity",
-          // "apis/open-api/channels/getChannelsLiveNoticeInfo",
-          // "apis/open-api/channels/getChannelsLiveInfo",
+          "apis/open-api/channels/reserveChannelsLive",
+          "apis/open-api/channels/openChannelsUserProfile",
+          "apis/open-api/channels/openChannelsLive",
+          "apis/open-api/channels/openChannelsEvent",
+          "apis/open-api/channels/openChannelsActivity",
+          "apis/open-api/channels/getChannelsLiveNoticeInfo",
+          "apis/open-api/channels/getChannelsLiveInfo",
         ]
       },
       {
         "label": "微信群",
         "type": "category",
         "items": [
-          // "apis/open-api/group/getGroupEnterInfo"
+          "apis/open-api/group/getGroupEnterInfo",
         ]
       },
       {

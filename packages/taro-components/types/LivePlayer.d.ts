@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, CommonEventFunction, netStatus } from './common'
+import { StandardProps, CommonEventFunction, NetStatus } from './common'
 
 interface LivePlayerProps extends StandardProps {
   /** 音视频地址。目前仅支持 flv, rtmp 格式
@@ -151,10 +151,10 @@ declare namespace LivePlayerProps {
     fullScreen: number | boolean
   }
   interface onNetStatusEventDetail {
-    info: netStatus
+    info: NetStatus
   }
   /** 状态码 */
-  interface status {
+  interface Status {
     /** 已经连接服务器 */
     2001
     /** 已经连接 RTMP 服务器,开始拉流 */

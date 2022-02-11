@@ -72,11 +72,11 @@ declare module '../../index' {
       /** 选定音频的长度（单位：s），只有在音乐播放中时返回 */
       duration: number
       /** 播放状态 */
-      status: keyof status
+      status: keyof Status
       /** 调用结果 */
       errMsg: string
     }
-    interface status {
+    interface Status {
       /** 暂停中 */
       0
       /** 播放中 */
