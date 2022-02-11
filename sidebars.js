@@ -214,16 +214,25 @@ module.exports = {
         "label": "系统",
         "type": "category",
         "items": [
+          // "apis/base/system/openSystemBluetoothSetting",
+          // "apis/base/system/openAppAuthorizeSetting",
+          // "apis/base/system/getWindowInfo",
+          // "apis/base/system/getSystemSetting",
+          "apis/base/system/getSystemInfoSync",
+          // "apis/base/system/getSystemInfoAsync",
           "apis/base/system/getSystemInfo",
-          "apis/base/system/getSystemInfoSync"
+          // "apis/base/system/getDeviceInfo",
+          // "apis/base/system/getAppBaseInfo",
+          // "apis/base/system/getAppAuthorizeSetting",
         ]
       },
       {
         "label": "更新",
         "type": "category",
         "items": [
+          // "apis/base/update/updateWeChatApp",
           "apis/base/update/getUpdateManager",
-          "apis/base/update/UpdateManager"
+          "apis/base/update/UpdateManager",
         ]
       },
       {
@@ -235,7 +244,7 @@ module.exports = {
             "type": "category",
             "items": [
               "apis/base/weapp/life-cycle/getLaunchOptionsSync",
-              // "apis/base/weapp/life-cycle/getEnterOptionsSync"
+              // "apis/base/weapp/life-cycle/getEnterOptionsSync",
             ]
           },
           {
@@ -250,15 +259,16 @@ module.exports = {
               "apis/base/weapp/app-event/onAudioInterruptionBegin",
               "apis/base/weapp/app-event/onAppShow",
               "apis/base/weapp/app-event/onAppHide",
+              // "apis/base/weapp/app-event/offUnhandledRejection",
               "apis/base/weapp/app-event/offThemeChange",
               "apis/base/weapp/app-event/offPageNotFound",
               "apis/base/weapp/app-event/offError",
               "apis/base/weapp/app-event/offAudioInterruptionEnd",
               "apis/base/weapp/app-event/offAudioInterruptionBegin",
               "apis/base/weapp/app-event/offAppShow",
-              "apis/base/weapp/app-event/offAppHide"
+              "apis/base/weapp/app-event/offAppHide",
             ]
-          }
+          },
         ]
       },
       {
@@ -268,8 +278,30 @@ module.exports = {
           "apis/base/debug/setEnableDebug",
           "apis/base/debug/getRealtimeLogManager",
           "apis/base/debug/getLogManager",
+          // "apis/base/debug/console",
           "apis/base/debug/LogManager",
-          "apis/base/debug/RealtimeLogManager"
+          "apis/base/debug/RealtimeLogManager",
+          // "apis/base/debug/RealtimeTagLogManager",
+        ]
+      },
+      {
+        "label": "性能",
+        "type": "category",
+        "items": [
+          // "apis/base/performance/reportPerformance",
+          // "apis/base/performance/getPerformance",
+          // "apis/base/performance/EntryList",
+          // "apis/base/performance/Performance",
+          // "apis/base/performance/PerformanceEntry",
+          // "apis/base/performance/PerformanceObserver",
+        ]
+      },
+      {
+        "label": "加密",
+        "type": "category",
+        "items": [
+          // "apis/base/crypto/getUserCryptoManager",
+          // "apis/base/crypto/UserCryptoManager",
         ]
       },
       "apis/base/env/env",
@@ -281,12 +313,25 @@ module.exports = {
       "apis/route/redirectTo",
       "apis/route/navigateTo",
       "apis/route/navigateBack",
-      "apis/route/EventChannel"
+      "apis/route/EventChannel",
     ],
     "跳转": [
+      // "apis/open-api/navigate/openEmbeddedMiniProgram",
       "apis/open-api/navigate/navigateToMiniProgram",
       "apis/open-api/navigate/navigateBackMiniProgram",
-      "apis/open-api/navigate/exitMiniProgram"
+      "apis/open-api/navigate/exitMiniProgram",
+    ],
+    "转发": [
+      "apis/share/updateShareMenu",
+      "apis/share/showShareMenu",
+      // "apis/share/showShareImageMenu",
+      // "apis/share/shareVideoMessage",
+      // "apis/share/shareFileMessage",
+      // "apis/share/onCopyUrl",
+      // "apis/share/offCopyUrl",
+      "apis/share/hideShareMenu",
+      "apis/share/getShareInfo",
+      // "apis/share/authPrivateMessage",
     ],
     "界面": [
       {
@@ -300,7 +345,7 @@ module.exports = {
           "apis/ui/interaction/hideToast",
           "apis/ui/interaction/hideLoading",
           "apis/ui/interaction/enableAlertBeforeUnload",
-          "apis/ui/interaction/disableAlertBeforeUnload"
+          "apis/ui/interaction/disableAlertBeforeUnload",
         ]
       },
       {
@@ -311,7 +356,7 @@ module.exports = {
           "apis/ui/navigation-bar/setNavigationBarTitle",
           "apis/ui/navigation-bar/setNavigationBarColor",
           "apis/ui/navigation-bar/hideNavigationBarLoading",
-          "apis/ui/navigation-bar/hideHomeButton"
+          "apis/ui/navigation-bar/hideHomeButton",
         ]
       },
       {
@@ -319,7 +364,7 @@ module.exports = {
         "type": "category",
         "items": [
           "apis/ui/background/setBackgroundTextStyle",
-          "apis/ui/background/setBackgroundColor"
+          "apis/ui/background/setBackgroundColor",
         ]
       },
       {
@@ -333,14 +378,14 @@ module.exports = {
           "apis/ui/tab-bar/setTabBarBadge",
           "apis/ui/tab-bar/removeTabBarBadge",
           "apis/ui/tab-bar/hideTabBarRedDot",
-          "apis/ui/tab-bar/hideTabBar"
+          "apis/ui/tab-bar/hideTabBar",
         ]
       },
       {
         "label": "字体",
         "type": "category",
         "items": [
-          "apis/ui/fonts/loadFontFace"
+          "apis/ui/fonts/loadFontFace",
         ]
       },
       {
@@ -348,14 +393,15 @@ module.exports = {
         "type": "category",
         "items": [
           "apis/ui/pull-down-refresh/stopPullDownRefresh",
-          "apis/ui/pull-down-refresh/startPullDownRefresh"
+          "apis/ui/pull-down-refresh/startPullDownRefresh",
         ]
       },
       {
         "label": "滚动",
         "type": "category",
         "items": [
-          "apis/ui/scroll/pageScrollTo"
+          "apis/ui/scroll/pageScrollTo",
+          // "apis/ui/scroll/ScrollViewContext",
         ]
       },
       {
@@ -363,48 +409,39 @@ module.exports = {
         "type": "category",
         "items": [
           "apis/ui/animation/createAnimation",
-          "apis/ui/animation/Animation"
+          "apis/ui/animation/Animation",
         ]
       },
       {
         "label": "置顶",
         "type": "category",
         "items": [
-          "apis/ui/sticky/setTopBarText"
+          "apis/ui/sticky/setTopBarText",
         ]
       },
       {
         "label": "自定义组件",
         "type": "category",
         "items": [
-          "apis/ui/custom-component/nextTick"
+          "apis/ui/custom-component/nextTick",
         ]
       },
       {
         "label": "菜单",
         "type": "category",
         "items": [
-          "apis/ui/menu/getMenuButtonBoundingClientRect"
+          "apis/ui/menu/getMenuButtonBoundingClientRect",
         ]
       },
       {
         "label": "窗口",
         "type": "category",
         "items": [
+          // "apis/ui/window/setWindowSize",
           "apis/ui/window/onWindowResize",
-          "apis/ui/window/offWindowResize"
+          "apis/ui/window/offWindowResize",
         ]
       },
-      {
-        "label": "键盘",
-        "type": "category",
-        "items": [
-          "apis/ui/keyboard/onKeyboardHeightChange",
-          "apis/ui/keyboard/offKeyboardHeightChange",
-          "apis/ui/keyboard/hideKeyboard",
-          "apis/ui/keyboard/getSelectedTextRange"
-        ]
-      }
     ],
     "网络": [
       {
@@ -421,7 +458,7 @@ module.exports = {
         "type": "category",
         "items": [
           "apis/network/download/downloadFile",
-          "apis/network/download/DownloadTask"
+          "apis/network/download/DownloadTask",
         ]
       },
       {
@@ -429,7 +466,7 @@ module.exports = {
         "type": "category",
         "items": [
           "apis/network/upload/uploadFile",
-          "apis/network/upload/UploadTask"
+          "apis/network/upload/UploadTask",
         ]
       },
       {
@@ -443,7 +480,7 @@ module.exports = {
           "apis/network/webSocket/onSocketClose",
           "apis/network/webSocket/connectSocket",
           "apis/network/webSocket/closeSocket",
-          "apis/network/webSocket/SocketTask"
+          "apis/network/webSocket/SocketTask",
         ]
       },
       {
@@ -463,27 +500,38 @@ module.exports = {
         ]
       },
       {
+        "label": "TCP 通信",
+        "type": "category",
+        "items": [
+          // "apis/network/tcp/createTCPSocket",
+          // "apis/network/tcp/TCPSocket",
+        ]
+      },
+      {
         "label": "UDP 通信",
         "type": "category",
         "items": [
           "apis/network/udp/createUDPSocket",
-          "apis/network/udp/UDPSocket"
+          "apis/network/udp/UDPSocket",
         ]
-      }
+      },
     ],
     "支付": [
       "apis/open-api/payment/requestPayment",
-      "apis/open-api/payment/faceVerifyForPay"
+      // "apis/open-api/payment/requestOrderPayment",
+      "apis/open-api/payment/faceVerifyForPay",
     ],
     "数据缓存": [
       "apis/storage/setStorageSync",
       "apis/storage/setStorage",
+      // "apis/storage/revokeBufferURL",
       "apis/storage/removeStorageSync",
       "apis/storage/removeStorage",
       "apis/storage/getStorageSync",
       "apis/storage/getStorageInfoSync",
       "apis/storage/getStorageInfo",
       "apis/storage/getStorage",
+      // "apis/storage/createBufferURL",
       "apis/storage/clearStorageSync",
       "apis/storage/clearStorage",
       {
@@ -493,7 +541,7 @@ module.exports = {
           "apis/storage/background-fetch/setBackgroundFetchToken",
           "apis/storage/background-fetch/onBackgroundFetchData",
           "apis/storage/background-fetch/getBackgroundFetchToken",
-          "apis/storage/background-fetch/getBackgroundFetchData"
+          "apis/storage/background-fetch/getBackgroundFetchData",
         ]
       }
     ],
@@ -515,9 +563,9 @@ module.exports = {
       "apis/canvas/Color",
       "apis/canvas/Image",
       "apis/canvas/ImageData",
-      "apis/canvas/Path2D",
       "apis/canvas/OffscreenCanvas",
-      "apis/canvas/RenderingContext"
+      "apis/canvas/Path2D",
+      "apis/canvas/RenderingContext",
     ],
     "媒体": [
       {
@@ -536,9 +584,10 @@ module.exports = {
           "apis/media/image/previewMedia",
           "apis/media/image/previewImage",
           "apis/media/image/getImageInfo",
+          // "apis/media/image/editImage",
           "apis/media/image/compressImage",
           "apis/media/image/chooseMessageFile",
-          "apis/media/image/chooseImage"
+          "apis/media/image/chooseImage",
         ]
       },
       {
@@ -552,7 +601,7 @@ module.exports = {
           "apis/media/video/compressVideo",
           "apis/media/video/chooseVideo",
           "apis/media/video/chooseMedia",
-          "apis/media/video/VideoContext"
+          "apis/media/video/VideoContext",
         ]
       },
       {
@@ -564,10 +613,16 @@ module.exports = {
           "apis/media/audio/playVoice",
           "apis/media/audio/pauseVoice",
           "apis/media/audio/getAvailableAudioSources",
+          // "apis/media/audio/createWebAudioContext",
+          // "apis/media/audio/createMediaAudioPlayer",
           "apis/media/audio/createInnerAudioContext",
           "apis/media/audio/createAudioContext",
+          // "apis/media/audio/AudioBuffer",
           "apis/media/audio/AudioContext",
-          "apis/media/audio/InnerAudioContext"
+          "apis/media/audio/InnerAudioContext",
+          // "apis/media/audio/MediaAudioPlayer",
+          // "apis/media/audio/WebAudioContext",
+          // "apis/media/audio/WebAudioContextNode",
         ]
       },
       {
@@ -583,7 +638,7 @@ module.exports = {
           "apis/media/background-audio/onBackgroundAudioPause",
           "apis/media/background-audio/getBackgroundAudioPlayerState",
           "apis/media/background-audio/getBackgroundAudioManager",
-          "apis/media/background-audio/BackgroundAudioManager"
+          "apis/media/background-audio/BackgroundAudioManager",
         ]
       },
       {
@@ -593,7 +648,7 @@ module.exports = {
           "apis/media/live/createLivePusherContext",
           "apis/media/live/createLivePlayerContext",
           "apis/media/live/LivePlayerContext",
-          "apis/media/live/LivePusherContext"
+          "apis/media/live/LivePusherContext",
         ]
       },
       {
@@ -603,7 +658,7 @@ module.exports = {
           "apis/media/recorder/stopRecord",
           "apis/media/recorder/startRecord",
           "apis/media/recorder/getRecorderManager",
-          "apis/media/recorder/RecorderManager"
+          "apis/media/recorder/RecorderManager",
         ]
       },
       {
@@ -611,14 +666,15 @@ module.exports = {
         "type": "category",
         "items": [
           "apis/media/camera/createCameraContext",
-          "apis/media/camera/CameraContext"
+          "apis/media/camera/CameraContext",
+          // "apis/media/camera/CameraFrameListener",
         ]
       },
       {
         "label": "富文本",
         "type": "category",
         "items": [
-          "apis/media/editor/EditorContext"
+          "apis/media/editor/EditorContext",
         ]
       },
       {
@@ -627,27 +683,61 @@ module.exports = {
         "items": [
           "apis/media/video-processing/createMediaContainer",
           "apis/media/video-processing/MediaContainer",
-          "apis/media/video-processing/MediaTrack"
+          "apis/media/video-processing/MediaTrack",
         ]
-      }
+      },
+      {
+        "label": "实时语音",
+        "type": "category",
+        "items": [
+          // "apis/media/voip/updateVoIPChatMuteConfig",
+          // "apis/media/voip/subscribeVoIPVideoMembers",
+          // "apis/media/voip/setEnable1v1Chat",
+          // "apis/media/voip/onVoIPVideoMembersChanged",
+          // "apis/media/voip/onVoIPChatStateChanged",
+          // "apis/media/voip/onVoIPChatSpeakersChanged",
+          // "apis/media/voip/onVoIPChatMembersChanged",
+          // "apis/media/voip/onVoIPChatInterrupted",
+          // "apis/media/voip/offVoIPVideoMembersChanged",
+          // "apis/media/voip/offVoIPChatStateChanged",
+          // "apis/media/voip/offVoIPChatMembersChanged",
+          // "apis/media/voip/offVoIPChatInterrupted",
+          // "apis/media/voip/joinVoIPChat",
+          // "apis/media/voip/exitVoIPChat",
+        ]
+      },
+      {
+        "label": "画面录制器",
+        "type": "category",
+        "items": [
+          // "apis/media/media-recorder/createMediaRecorder",
+          // "apis/media/media-recorder/VideoDecoder",
+        ]
+      },
+      {
+        "label": "视频解码器",
+        "type": "category",
+        "items": [
+          // "apis/media/video-decoder/createVideoDecoder",
+          // "apis/media/video-decoder/MediaRecorder",
+        ]
+      },
     ],
     "位置": [
       "apis/location/stopLocationUpdate",
       "apis/location/startLocationUpdateBackground",
       "apis/location/startLocationUpdate",
       "apis/location/openLocation",
+      // "apis/location/onLocationChangeError",
       "apis/location/onLocationChange",
+      // "apis/location/offLocationChangeError",
       "apis/location/offLocationChange",
       "apis/location/getLocation",
-      "apis/location/chooseLocation"
-    ],
-    "转发": [
-      "apis/share/updateShareMenu",
-      "apis/share/showShareMenu",
-      "apis/share/hideShareMenu",
-      "apis/share/getShareInfo"
+      // "apis/location/choosePoi",
+      "apis/location/chooseLocation",
     ],
     "文件": [
+      // "apis/files/saveFileToDisk",
       "apis/files/saveFile",
       "apis/files/removeSavedFile",
       "apis/files/openDocument",
@@ -656,13 +746,16 @@ module.exports = {
       "apis/files/getFileSystemManager",
       "apis/files/getFileInfo",
       "apis/files/FileSystemManager",
-      "apis/files/Stats"
+      // "apis/files/ReadResult",
+      "apis/files/Stats",
+      // "apis/files/WriteResult",
     ],
     "开放接口": [
       {
         "label": "登录",
         "type": "category",
         "items": [
+          // "apis/open-api/login/pluginLogin",
           "apis/open-api/login/login",
           "apis/open-api/login/checkSession"
         ]
@@ -687,6 +780,7 @@ module.exports = {
         "label": "授权",
         "type": "category",
         "items": [
+          // "apis/open-api/authorize/authorizeForMiniProgram",
           "apis/open-api/authorize/authorize"
         ]
       },
@@ -696,7 +790,8 @@ module.exports = {
         "items": [
           "apis/open-api/settings/openSetting",
           "apis/open-api/settings/getSetting",
-          "apis/open-api/settings/AuthSetting"
+          "apis/open-api/settings/AuthSetting",
+          // "apis/open-api/settings/SubscriptionsSetting",
         ]
       },
       {
@@ -729,23 +824,64 @@ module.exports = {
           "apis/open-api/soter/startSoterAuthentication",
           "apis/open-api/soter/checkIsSupportSoterAuthentication",
           "apis/open-api/soter/checkIsSoterEnrolledInDevice",
-          "apis/open-api/facial/checkIsSupportFacialRecognition",
-          "apis/open-api/facial/startFacialRecognitionVerify",
-          "apis/open-api/facial/startFacialRecognitionVerifyAndUploadVideo"
         ]
       },
       {
         "label": "微信运动",
         "type": "category",
         "items": [
-          "apis/open-api/werun/getWeRunData"
+          // "apis/open-api/werun/shareToWeRun",
+          "apis/open-api/werun/getWeRunData",
         ]
       },
       {
         "label": "订阅消息",
         "type": "category",
         "items": [
-          "apis/open-api/subscribe-message/requestSubscribeMessage"
+          "apis/open-api/subscribe-message/requestSubscribeMessage",
+          // "apis/open-api/subscribe-message/requestSubscribeDeviceMessage",
+        ]
+      },
+      {
+        "label": "微信红包",
+        "type": "category",
+        "items": [
+          // "apis/open-api/redpackage/showRedPackage",
+        ]
+      },
+      {
+        "label": "收藏",
+        "type": "category",
+        "items": [
+          // "apis/open-api/favorites/addVideoToFavorites",
+          // "apis/open-api/favorites/addFileToFavorites",
+        ]
+      },
+      {
+        "label": "车牌",
+        "type": "category",
+        "items": [
+          // "apis/open-api/license-plate/chooseLicensePlate",
+        ]
+      },
+      {
+        "label": "视频号",
+        "type": "category",
+        "items": [
+          // "apis/open-api/channels/reserveChannelsLive",
+          // "apis/open-api/channels/openChannelsUserProfile",
+          // "apis/open-api/channels/openChannelsLive",
+          // "apis/open-api/channels/openChannelsEvent",
+          // "apis/open-api/channels/openChannelsActivity",
+          // "apis/open-api/channels/getChannelsLiveNoticeInfo",
+          // "apis/open-api/channels/getChannelsLiveInfo",
+        ]
+      },
+      {
+        "label": "微信群",
+        "type": "category",
+        "items": [
+          // "apis/open-api/group/getGroupEnterInfo"
         ]
       },
       {
@@ -851,21 +987,39 @@ module.exports = {
           "apis/device/wifi/stopWifi",
           "apis/device/wifi/startWifi",
           "apis/device/wifi/setWifiList",
+          "apis/device/wifi/onWifiConnectedWithPartialInfo",
           "apis/device/wifi/onWifiConnected",
           "apis/device/wifi/onGetWifiList",
+          "apis/device/wifi/offWifiConnectedWithPartialInfo",
           "apis/device/wifi/offWifiConnected",
           "apis/device/wifi/offGetWifiList",
           "apis/device/wifi/getWifiList",
           "apis/device/wifi/getConnectedWifi",
           "apis/device/wifi/connectWifi",
-          "apis/device/wifi/WifiInfo"
+          "apis/device/wifi/WifiInfo",
+        ]
+      },
+      {
+        "label": "日历",
+        "type": "category",
+        "items": [
+          // "apis/device/calendar/addPhoneRepeatCalendar",
+          // "apis/device/calendar/addPhoneCalendar",
         ]
       },
       {
         "label": "联系人",
         "type": "category",
         "items": [
-          "apis/device/contact/addPhoneContact"
+          // "apis/device/contact/chooseContact",
+          "apis/device/contact/addPhoneContact",
+        ]
+      },
+      {
+        "label": "无障碍",
+        "type": "category",
+        "items": [
+          // "apis/device/accessibility/checkIsOpenAccessibility",
         ]
       },
       {
@@ -900,11 +1054,22 @@ module.exports = {
         "label": "屏幕",
         "type": "category",
         "items": [
+          // "apis/device/screen/setVisualEffectOnCapture",
           "apis/device/screen/setScreenBrightness",
           "apis/device/screen/setKeepScreenOn",
           "apis/device/screen/onUserCaptureScreen",
           "apis/device/screen/offUserCaptureScreen",
           "apis/device/screen/getScreenBrightness"
+        ]
+      },
+      {
+        "label": "键盘",
+        "type": "category",
+        "items": [
+          "apis/ui/keyboard/onKeyboardHeightChange",
+          "apis/ui/keyboard/offKeyboardHeightChange",
+          "apis/ui/keyboard/hideKeyboard",
+          "apis/ui/keyboard/getSelectedTextRange"
         ]
       },
       {
@@ -966,7 +1131,7 @@ module.exports = {
         "label": "扫码",
         "type": "category",
         "items": [
-          "apis/device/scan/scancode"
+          "apis/device/scan/scanCode"
         ]
       },
       {
@@ -988,7 +1153,7 @@ module.exports = {
           "apis/ai/visionkit/VKAnchor",
           "apis/ai/visionkit/VKCamera",
           "apis/ai/visionkit/VKFrame",
-          "apis/ai/visionkit/VKSession"
+          "apis/ai/visionkit/VKSession",
         ]
       }, {
         "label": "人脸识别",
@@ -996,7 +1161,10 @@ module.exports = {
         "items": [
           "apis/ai/face/stopFaceDetect",
           "apis/ai/face/initFaceDetect",
-          "apis/ai/face/faceDetect"
+          "apis/ai/face/faceDetect",
+          "apis/open-api/facial/checkIsSupportFacialRecognition",
+          "apis/open-api/facial/startFacialRecognitionVerify",
+          "apis/open-api/facial/startFacialRecognitionVerifyAndUploadVideo",
         ]
       }
     ],

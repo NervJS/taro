@@ -105,22 +105,23 @@ RealtimeTagLogManager.warn 写 warn 日志
 Taro.reportPerformance 小程序测速上报
 Taro.getPerformance 获取当前小程序性能相关的信息
 
-### EntryList
+#### EntryList
 
 EntryList.getEntries 该方法返回当前列表中的所有性能数据
 EntryList.getEntriesByName 获取当前列表中所有名称为 [name] 且类型为 [entryType] 的性能数据
 EntryList.getEntriesByType 获取当前列表中所有类型为 [entryType] 的性能数据
 
-### Performance
+#### Performance
 
 Performance.createObserver 创建全局性能事件监听器
 Performance.getEntries 该方法返回当前缓冲区中的所有性能数据
 Performance.getEntriesByName 获取当前缓冲区中所有名称为 [name] 且类型为 [entryType] 的性能数据
 Performance.getEntriesByType 获取当前缓冲区中所有类型为 [entryType] 的性能数据
 Performance.setBufferSize 设置缓冲区大小，默认缓冲 30 条性能数据
-PerformanceEntry 单条性能数据
 
-### PerformanceObserver
+#### PerformanceEntry 单条性能数据
+
+#### PerformanceObserver
 
 PerformanceObserver.disconnect 停止监听
 PerformanceObserver.observe 开始监听
@@ -657,7 +658,8 @@ WebAudioContext.createWaveShaper 创建一个WaveShaperNode
 WebAudioContext.decodeAudioData 异步解码一段资源为AudioBuffer
 WebAudioContext.resume 同步恢复已经被暂停的WebAudioContext上下文
 WebAudioContext.suspend 同步暂停WebAudioContext上下文
-WebAudioContextNode 一类音频处理模块，不同的Node具备不同的功能，如GainNode(音量调整)等
+
+#### WebAudioContextNode 一类音频处理模块，不同的Node具备不同的功能，如GainNode(音量调整)等
 
 ### 背景音频
 
@@ -914,13 +916,15 @@ FileSystemManager.write 写入文件
 FileSystemManager.writeFile 写文件
 FileSystemManager.writeFileSync FileSystemManager.writeFile 的同步版本
 FileSystemManager.writeSync 同步写入文件
-ReadResult 文件读取结果
+
+### ReadResult 文件读取结果
 
 ### Stats
 
 Stats.isDirectory 判断当前文件是否一个目录
 Stats.isFile 判断当前文件是否一个普通文件
-WriteResult 文件写入结果
+
+### WriteResult 文件写入结果
 
 ## 开放接口
 
