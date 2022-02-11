@@ -101,4 +101,4 @@ Taro 的 Typings 文件位于 `@tarojs/taro/types` 中。
 
 ## 相关阅读
 
-- [如何参与大型开源项目-Taro 共建](/blog/2022-01-19-how-to-join-Taro)
+- [如何参与大型开源项目-Taro 共建](/blog/2022-01-19-how-to-join-Taro.md)

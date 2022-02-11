@@ -1,6 +1,6 @@
 # 小程序 API 列表
 
-## [基础](./base)
+## 基础
 
 Taro.env 环境变量
 Taro.canIUse 判断小程序的API，回调，参数，组件等是否在当前版本可用
@@ -134,7 +134,7 @@ Taro.getUserCryptoManager 获取用户加密模块
 UserCryptoManager.getLatestUserKey 获取最新的用户加密密钥
 UserCryptoManager.getRandomValues 获取密码学安全随机数
 
-## [路由](./route)
+## 路由
 
 Taro.switchTab 跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
 Taro.reLaunch 关闭所有页面，打开到应用内的某个页面
@@ -149,14 +149,14 @@ EventChannel.off 取消监听一个事件
 EventChannel.on 持续监听一个事件
 EventChannel.once 监听一个事件一次，触发后失效
 
-## [跳转](./navigate)
+## 跳转
 
 Taro.openEmbeddedMiniProgram 打开半屏小程序
 Taro.navigateToMiniProgram 打开另一个小程序
 Taro.navigateBackMiniProgram 返回到上一个小程序
 Taro.exitMiniProgram 退出当前小程序
 
-## [转发](./share)
+## 转发
 
 Taro.updateShareMenu 更新转发属性
 Taro.showShareMenu 显示当前页面的转发按钮
@@ -169,7 +169,7 @@ Taro.hideShareMenu 隐藏当前页面的转发按钮
 Taro.getShareInfo 获取转发详细信息
 Taro.authPrivateMessage 验证私密消息
 
-## [界面](./ui)
+## 界面
 
 ### 交互
 
@@ -279,7 +279,7 @@ Taro.setWindowSize 设置窗口大小，该接口仅适用于 PC 平台，使用
 Taro.onWindowResize 监听窗口尺寸变化事件
 Taro.offWindowResize 取消监听窗口尺寸变化事件
 
-## [网络](./network)
+## 网络
 
 ### 发起请求
 
@@ -388,12 +388,12 @@ UDPSocket.send 向指定的 IP 和 port 发送消息
 UDPSocket.setTTL 设置 IP_TTL 套接字选项，用于设置一个 IP 数据包传输时允许的最大跳步数
 UDPSocket.write 用法与 send 方法相同，如果没有预先调用 connect 则与 send 无差异（注意即使调用了 connect 也需要在本接口填入地址和端口参数）
 
-## [支付](./payment)
+## 支付
 
 Taro.requestPayment 发起微信支付
 Taro.requestOrderPayment 创建自定义版交易组件订单，并发起支付
 
-## [数据缓存](./storage)
+## 数据缓存
 
 Taro.setStorageSync 将数据存储在本地缓存中指定的 key 中
 Taro.setStorage 将数据存储在本地缓存中指定的 key 中
@@ -415,14 +415,14 @@ Taro.onBackgroundFetchData 监听收到 backgroundFetch 数据事件
 Taro.getBackgroundFetchToken 获取设置过的自定义登录态
 Taro.getBackgroundFetchData 拉取 backgroundFetch 客户端缓存数据
 
-## [数据分析](./data-analysis)
+## 数据分析
 
 Taro.reportMonitor 自定义业务数据监控上报接口
 Taro.reportEvent 事件上报
 Taro.reportAnalytics 自定义分析数据上报接口
 Taro.getExptInfoSync 给定实验参数数组，获取对应的实验参数值
 
-## [画布](./canvas)
+## 画布
 
 Taro.createOffscreenCanvas 创建离屏 canvas 实例
 Taro.createCanvasContext 创建 canvas 的绘图上下文 CanvasContext 对象
@@ -501,7 +501,7 @@ OffscreenCanvas.getContext 该方法返回 OffscreenCanvas 的绘图上下文
 
 ### RenderingContext Canvas 绘图上下文
 
-## [媒体](./media)
+## 媒体
 
 ### 地图
 
@@ -842,7 +842,7 @@ VideoDecoder.seek 跳到某个时间点解码
 VideoDecoder.start 开始解码
 VideoDecoder.stop 停止解码
 
-## [位置](./location)
+## 位置
 
 Taro.stopLocationUpdate 关闭监听实时位置变化，前后台都停止消息接收
 Taro.startLocationUpdateBackground 开启小程序进入前后台时均接收位置消息，需引导用户开启授权
@@ -856,7 +856,7 @@ Taro.getLocation 获取当前的地理位置、速度
 Taro.choosePoi 打开POI列表选择位置，支持模糊定位（精确到市）和精确定位混选
 Taro.chooseLocation 打开地图选择位置
 
-## [文件](./file)
+## 文件
 
 Taro.saveFileToDisk 保存文件系统的文件到用户磁盘，仅在 PC 端支持
 Taro.saveFile 保存文件到本地
@@ -922,7 +922,7 @@ Stats.isDirectory 判断当前文件是否一个目录
 Stats.isFile 判断当前文件是否一个普通文件
 WriteResult 文件写入结果
 
-## [开放接口](./open-api)
+## 开放接口
 
 ### 登录
 
@@ -1013,7 +1013,7 @@ Taro.getGroupEnterInfo 获取微信群聊场景下的小程序启动信息
 
 Taro.openCustomerServiceChat 打开微信客服
 
-## [设备](./device)
+## 设备
 
 ### 蓝牙-通用
 
@@ -1300,7 +1300,7 @@ Taro.scanCode 调起客户端扫码界面进行扫码
 Taro.vibrateShort 使手机发生较短时间的振动（15 ms）
 Taro.vibrateLong 使手机发生较长时间的振动（400 ms)
 
-## [AI](./ai)
+## AI
 
 ### 视觉算法
 
@@ -1336,7 +1336,7 @@ Taro.stopFaceDetect 停止人脸识别
 Taro.initFaceDetect 初始化人脸识别
 Taro.faceDetect 人脸识别，使用前需要通过 Taro.initFaceDetect 进行一次初始化，推荐使用相机接口返回的帧数据
 
-## [Worker](./worker)
+## Worker
 
 Taro.createWorker 创建一个 Worker 线程
 
@@ -1347,7 +1347,7 @@ Worker.onProcessKilled 监听 worker线程被系统回收事件（当iOS系统�
 Worker.postMessage 向主线程/Worker 线程发送的消息
 Worker.terminate 结束当前 Worker 线程
 
-## [WXML](./wxml)
+## WXML
 
 Taro.createSelectorQuery 返回一个 SelectorQuery 对象实例
 Taro.createIntersectionObserver 创建并返回一个 IntersectionObserver 对象实例
@@ -1380,12 +1380,12 @@ SelectorQuery.select 在当前页面下选择第一个匹配选择器 selector �
 SelectorQuery.selectAll 在当前页面下选择匹配选择器 selector 的所有节点
 SelectorQuery.selectViewport 选择显示区域
 
-## [第三方平台](./ext)
+## 第三方平台
 
 Taro.getExtConfigSync Taro.getExtConfig 的同步版本
 Taro.getExtConfig 获取第三方平台自定义的数据字段
 
-## [广告](./ad)
+## 广告
 
 Taro.createRewardedVideoAd 创建激励视频广告组件
 Taro.createInterstitialAd 创建插屏广告组件

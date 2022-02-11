@@ -46,7 +46,7 @@ declare module '../../index' {
      */
     offMemoryWarning(
       /** 取消监听内存不足告警事件 */
-      callback: (...args: any[]) => any,
+      callback: onMemoryWarning.Callback,
     ): void
     
   }

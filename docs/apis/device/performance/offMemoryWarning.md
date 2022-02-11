@@ -12,11 +12,11 @@ sidebar_label: offMemoryWarning
 ## 类型
 
 ```tsx
-(callback: (...args: any[]) => any) => void
+(callback: Callback) => void
 ```
 
 ## 参数
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| callback | `(...args: any[]) => any` | 取消监听内存不足告警事件 |
+| callback | `Callback` | 取消监听内存不足告警事件 |
