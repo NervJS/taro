@@ -316,10 +316,10 @@ module.exports = {
       "apis/route/EventChannel",
     ],
     "跳转": [
-      // "apis/open-api/navigate/openEmbeddedMiniProgram",
-      "apis/open-api/navigate/navigateToMiniProgram",
-      "apis/open-api/navigate/navigateBackMiniProgram",
-      "apis/open-api/navigate/exitMiniProgram",
+      // "apis/navigate/openEmbeddedMiniProgram",
+      "apis/navigate/navigateToMiniProgram",
+      "apis/navigate/navigateBackMiniProgram",
+      "apis/navigate/exitMiniProgram",
     ],
     "转发": [
       "apis/share/updateShareMenu",
@@ -517,9 +517,9 @@ module.exports = {
       },
     ],
     "支付": [
-      "apis/open-api/payment/requestPayment",
-      // "apis/open-api/payment/requestOrderPayment",
-      "apis/open-api/payment/faceVerifyForPay",
+      "apis/payment/requestPayment",
+      // "apis/payment/requestOrderPayment",
+      "apis/payment/faceVerifyForPay",
     ],
     "数据缓存": [
       "apis/storage/setStorageSync",
@@ -1066,10 +1066,10 @@ module.exports = {
         "label": "键盘",
         "type": "category",
         "items": [
-          "apis/ui/keyboard/onKeyboardHeightChange",
-          "apis/ui/keyboard/offKeyboardHeightChange",
-          "apis/ui/keyboard/hideKeyboard",
-          "apis/ui/keyboard/getSelectedTextRange"
+          "apis/device/keyboard/onKeyboardHeightChange",
+          "apis/device/keyboard/offKeyboardHeightChange",
+          "apis/device/keyboard/hideKeyboard",
+          "apis/device/keyboard/getSelectedTextRange",
         ]
       },
       {
@@ -1116,22 +1116,22 @@ module.exports = {
           "apis/device/gyroscope/stopGyroscope",
           "apis/device/gyroscope/startGyroscope",
           "apis/device/gyroscope/onGyroscopeChange",
-          "apis/device/gyroscope/offGyroscopeChange"
+          "apis/device/gyroscope/offGyroscopeChange",
         ]
       },
       {
         "label": "内存",
         "type": "category",
         "items": [
-          "apis/device/performance/onMemoryWarning",
-          "apis/device/performance/offMemoryWarning"
+          "apis/device/memory/onMemoryWarning",
+          "apis/device/memory/offMemoryWarning",
         ]
       },
       {
         "label": "扫码",
         "type": "category",
         "items": [
-          "apis/device/scan/scanCode"
+          "apis/device/scan/scanCode",
         ]
       },
       {
@@ -1139,7 +1139,7 @@ module.exports = {
         "type": "category",
         "items": [
           "apis/device/vibrate/vibrateShort",
-          "apis/device/vibrate/vibrateLong"
+          "apis/device/vibrate/vibrateLong",
         ]
       }
     ],

@@ -52,6 +52,7 @@ declare module '../../index' {
 
     /** 支付各个安全场景验证人脸
      * @supported weapp
+     * @deprecated
      * @example
      * ```tsx
      * Taro.faceVerifyForPay(params).then(...)
