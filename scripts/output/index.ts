@@ -31,7 +31,7 @@ export const isntTaroMethod = [
   ts.SymbolFlags.TypeAlias,
 ]
 export const descTags = [
-  'name', 'type', 'default', 'supported', 'abnormal', 'reason', 'solution', 'codeRate', 'remarks', 'readonly', 'ignore'
+  'name', 'type', 'default', 'supported', 'illustrate', 'reason', 'solution', 'codeRate', 'remarks', 'readonly', 'ignore'
 ]
 export const isntShowType = [
   'any', 'InterfaceDeclaration',
@@ -73,19 +73,19 @@ export const get = {
       const hasDef = paramTabs.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'default'))
       const hasReadonly = paramTabs.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'readonly'))
       const hasOptional = paramTabs.some(v => isOptional(v.flags))
-      const hasAbnormal = paramTabs.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'abnormal'))
+      const hasIllustrate = paramTabs.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'illustrate'))
       const hasReason = paramTabs.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'reason'))
       const hasSolution = paramTabs.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'solution'))
       const hasDes = paramTabs.some(v => !!v.documentation)
       const hasCodeRate = paramTabs.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'codeRate'))
       const hasRemarks = paramTabs.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'remarks'))
 
-      hasName && [hasType, hasDef, hasAbnormal, hasReason, hasSolution, hasDes, hasCodeRate].reduce((s, b) => {
+      hasName && [hasType, hasDef, hasIllustrate, hasReason, hasSolution, hasDes, hasCodeRate].reduce((s, b) => {
         b && s++
         return s
       }, 0) > 0 && methods.push(splicing([
-        `| ${hasName ? '参数 |' : ''}${hasType? ' 类型 |' :''}${hasDef? ' 默认值 |' :''}${hasReadonly? ' 只读 |' :''}${hasOptional? ' 必填 |' :''}${hasAbnormal? ' 异常情况 |' :''}${hasReason? ' 理由 |' :''}${hasSolution? ' 解决方案 |' :''}${hasDes? ' 说明 |' :''}${hasCodeRate? ' 编码码率 |' :''}${hasRemarks? ' 备注 |' :''}`,
-        `|${hasName? ' --- |' :''}${hasType? ' --- |' :''}${hasDef? ' :---: |' :''}${hasReadonly? ' :---: |' :''}${hasOptional? ' :---: |' :''}${hasAbnormal? ' :---: |' :''}${hasReason? ' :---: |' :''}${hasSolution? ' :---: |' :''}${hasDes? ' --- |' :''}${hasCodeRate? ' --- |' :''}${hasRemarks? ' --- |' :''}`,
+        `| ${hasName ? '参数 |' : ''}${hasType? ' 类型 |' :''}${hasDef? ' 默认值 |' :''}${hasReadonly? ' 只读 |' :''}${hasOptional? ' 必填 |' :''}${hasIllustrate? ' 异常情况 |' :''}${hasReason? ' 理由 |' :''}${hasSolution? ' 解决方案 |' :''}${hasDes? ' 说明 |' :''}${hasCodeRate? ' 编码码率 |' :''}${hasRemarks? ' 备注 |' :''}`,
+        `|${hasName? ' --- |' :''}${hasType? ' --- |' :''}${hasDef? ' :---: |' :''}${hasReadonly? ' :---: |' :''}${hasOptional? ' :---: |' :''}${hasIllustrate? ' :---: |' :''}${hasReason? ' :---: |' :''}${hasSolution? ' :---: |' :''}${hasDes? ' --- |' :''}${hasCodeRate? ' --- |' :''}${hasRemarks? ' --- |' :''}`,
         ...paramTabs.map(v => {
           let name = v.name || ''
           let type = v.type || ''
@@ -93,7 +93,7 @@ export const get = {
           const vTags = v.jsTags || [];
           const def = vTags.find(tag => tag.name === 'default')?.text?.map(e => e.text).join('') || ''
           const readonly = vTags.find(tag => tag.name === 'readonly')
-          const abnormal = vTags.find(tag => tag.name === 'abnormal')?.text?.map(e => e.text).join('') || ''
+          const illustrate = vTags.find(tag => tag.name === 'illustrate')?.text?.map(e => e.text).join('') || ''
           const reason = vTags.find(tag => tag.name === 'reason')?.text?.map(e => e.text).join('') || ''
           const solution = vTags.find(tag => tag.name === 'solution')?.text?.map(e => e.text).join('') || ''
           const codeRate = vTags.find(tag => tag.name === 'codeRate')?.text?.map(e => e.text).join('') || ''
@@ -114,7 +114,7 @@ export const get = {
           }${
             hasOptional? ` ${!isOptional(v.flags) ? '是' : '否'} |` :''
           }${
-            hasAbnormal? ` ${parseLineFeed(abnormal, true)} |` :''
+            hasIllustrate? ` ${parseLineFeed(illustrate, true)} |` :''
           }${
             hasReason? ` ${parseLineFeed(reason, true)} |` :''
           }${

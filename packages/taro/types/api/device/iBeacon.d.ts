@@ -70,18 +70,32 @@ declare module '../../index' {
   }
 
   interface IBeaconInfo {
-    /** iBeacon 设备的距离 */
-    accuracy: number
-    /** iBeacon 设备的主 id */
-    major: string
-    /** iBeacon 设备的次 id */
-    minor: string
-    /** 表示设备距离的枚举值 */
-    proximity: number
-    /** 表示设备的信号强度 */
-    rssi: number
-    /** iBeacon 设备广播的 uuid */
+    /** Beacon 设备广播的 uuid */
     uuid: string
+    /** Beacon 设备的主 ID */
+    major: string
+    /** Beacon 设备的次 ID */
+    minor: string
+    /** 表示设备距离的枚举值（仅iOS） */
+    proximity: keyof IBeaconInfo.proximity
+    /** Beacon 设备的距离，单位 m。iOS 上，proximity 为 0 时，accuracy 为 -1。 */
+    accuracy: number
+    /** 表示设备的信号强度，单位 dBm */
+    rssi: number
+  }
+
+  namespace IBeaconInfo {
+    /** proximity 的合法值 */
+    interface proximity {
+      /** 信号太弱不足以计算距离，或非 iOS 设备 */
+      0
+      /** 十分近 */
+      1
+      /** 比较近 */
+      2
+      /** 远 */
+      3
+    }
   }
 
   interface TaroStatic {
@@ -93,7 +107,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.stopBeaconDiscovery.html
      */
-    stopBeaconDiscovery(option?: stopBeaconDiscovery.Option): Promise<TaroGeneral.CallbackResult>
+    stopBeaconDiscovery(option?: stopBeaconDiscovery.Option): Promise<TaroGeneral.IBeaconError>
 
     /** 开始搜索附近的 iBeacon 设备
      * @supported weapp
@@ -105,7 +119,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.startBeaconDiscovery.html
      */
-    startBeaconDiscovery(option: startBeaconDiscovery.Option): Promise<TaroGeneral.CallbackResult>
+    startBeaconDiscovery(option: startBeaconDiscovery.Option): Promise<TaroGeneral.IBeaconError>
 
     /** 监听 iBeacon 设备更新事件，仅能注册一个监听
      * @supported weapp
@@ -125,19 +139,13 @@ declare module '../../index' {
       callback: onBeaconServiceChange.Callback,
     ): void
 
-    /** 获取所有已搜索到的 iBeacon 设备
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.getBeacons.html
-     */
-    getBeacons(option?: getBeacons.Option): Promise<getBeacons.CallbackResult>
-
     /** 取消监听 iBeacon 设备更新事件
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.offBeaconUpdate.html
      */
     offBeaconUpdate(
       /** iBeacon 设备更新事件的回调函数 */
-      callback: (res: TaroGeneral.CallbackResult) => void,
+      callback: (res: TaroGeneral.IBeaconError) => void,
     ): void
 
     /** 取消监听 iBeacon 服务状态变化事件
@@ -146,7 +154,13 @@ declare module '../../index' {
      */
     offBeaconServiceChange(
       /** iBeacon 服务状态变化事件的回调函数 */
-      callback: (res: TaroGeneral.CallbackResult) => void,
+      callback: (res: TaroGeneral.IBeaconError) => void,
     ): void
+
+    /** 获取所有已搜索到的 iBeacon 设备
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.getBeacons.html
+     */
+    getBeacons(option?: getBeacons.Option): Promise<getBeacons.CallbackResult>
   }
 }

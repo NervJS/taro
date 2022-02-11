@@ -20,7 +20,7 @@ sidebar_label: BLEPeripheralServer
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-peripheral/BLEPeripheralServer.addService.html)
 
 ```tsx
-(option: Option) => Promise<TaroGeneral.CallbackResult>
+(option: Option) => Promise<TaroGeneral.BluetoothError>
 ```
 
 | 参数 | 类型 |
@@ -36,7 +36,7 @@ sidebar_label: BLEPeripheralServer
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-peripheral/BLEPeripheralServer.close.html)
 
 ```tsx
-(option: Option) => Promise<TaroGeneral.CallbackResult>
+(option: Option) => Promise<TaroGeneral.BluetoothError>
 ```
 
 | 参数 | 类型 |
@@ -182,7 +182,7 @@ sidebar_label: BLEPeripheralServer
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-peripheral/BLEPeripheralServer.removeService.html)
 
 ```tsx
-(option: Option) => Promise<TaroGeneral.CallbackResult>
+(option: Option) => Promise<TaroGeneral.BluetoothError>
 ```
 
 | 参数 | 类型 |
@@ -198,7 +198,7 @@ sidebar_label: BLEPeripheralServer
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-peripheral/BLEPeripheralServer.startAdvertising.html)
 
 ```tsx
-(option: Option) => Promise<TaroGeneral.CallbackResult>
+(option: Option) => Promise<TaroGeneral.BluetoothError>
 ```
 
 | 参数 | 类型 |
@@ -214,7 +214,7 @@ sidebar_label: BLEPeripheralServer
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-peripheral/BLEPeripheralServer.stopAdvertising.html)
 
 ```tsx
-(option: Option) => Promise<TaroGeneral.CallbackResult>
+(option: Option) => Promise<TaroGeneral.BluetoothError>
 ```
 
 | 参数 | 类型 |
@@ -230,7 +230,7 @@ sidebar_label: BLEPeripheralServer
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-peripheral/BLEPeripheralServer.writeCharacteristicValue.html)
 
 ```tsx
-(option: Option) => Promise<TaroGeneral.CallbackResult>
+(option: Option) => Promise<TaroGeneral.BluetoothError>
 ```
 
 | 参数 | 类型 |
@@ -246,9 +246,9 @@ sidebar_label: BLEPeripheralServer
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
 | service | `service` | 是 | 描述 service 的 Object |
-| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+| complete | `(res: TaroGeneral.BluetoothError) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.BluetoothError) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.BluetoothError) => void` | 否 | 接口调用成功的回调函数 |
 
 #### service
 
@@ -315,9 +315,9 @@ sidebar_label: BLEPeripheralServer
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
-| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+| complete | `(res: TaroGeneral.BluetoothError) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.BluetoothError) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.BluetoothError) => void` | 否 | 接口调用成功的回调函数 |
 
 ### onCharacteristicReadRequest
 
@@ -413,9 +413,9 @@ sidebar_label: BLEPeripheralServer
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
 | serviceId | `string` | 是 | service 的 UUID |
-| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+| complete | `(res: TaroGeneral.BluetoothError) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.BluetoothError) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.BluetoothError) => void` | 否 | 接口调用成功的回调函数 |
 
 ### startAdvertising
 
@@ -425,9 +425,9 @@ sidebar_label: BLEPeripheralServer
 | --- | --- | :---: | :---: | --- |
 | advertiseRequest | `advertiseRequest` |  | 是 | 广播自定义参数 |
 | powerLevel | `keyof powerLevel` | `"medium"` | 否 | 广播功率 |
-| complete | `(res: TaroGeneral.CallbackResult) => void` |  | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: TaroGeneral.CallbackResult) => void` |  | 否 | 接口调用失败的回调函数 |
-| success | `(res: TaroGeneral.CallbackResult) => void` |  | 否 | 接口调用成功的回调函数 |
+| complete | `(res: TaroGeneral.BluetoothError) => void` |  | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.BluetoothError) => void` |  | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.BluetoothError) => void` |  | 否 | 接口调用成功的回调函数 |
 
 #### advertiseRequest
 
@@ -477,9 +477,9 @@ sidebar_label: BLEPeripheralServer
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
-| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+| complete | `(res: TaroGeneral.BluetoothError) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.BluetoothError) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.BluetoothError) => void` | 否 | 接口调用成功的回调函数 |
 
 ### writeCharacteristicValue
 
@@ -492,9 +492,9 @@ sidebar_label: BLEPeripheralServer
 | value | `ArrayBuffer` | 是 | characteristic 对应的二进制值 |
 | needNotify | `boolean` | 是 | 是否需要通知主机 value 已更新 |
 | callbackId | `number` | 否 | 可选，处理回包时使用 |
-| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+| complete | `(res: TaroGeneral.BluetoothError) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.BluetoothError) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.BluetoothError) => void` | 否 | 接口调用成功的回调函数 |
 
 ## API 支持度
 

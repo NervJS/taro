@@ -2,7 +2,7 @@ import Taro from '../../index'
 
 declare module '../../index' {
   namespace writeBLECharacteristicValue {
-    interface Promised extends TaroGeneral.CallbackResult {
+    interface Promised extends TaroGeneral.BluetoothError {
       /** 成功：ok，错误：详细信息 */
       errMsg: string
     }
@@ -38,11 +38,11 @@ declare module '../../index' {
       /** 接口调用成功的回调函数 */
       success?: (res: SuccessCallbackResult) => void
     }
-    interface FailCallbackResult extends TaroGeneral.CallbackResult {
+    interface FailCallbackResult extends TaroGeneral.BluetoothError {
       /** 最终协商的 MTU 值。如果协商失败则无此参数。安卓客户端 8.0.9 开始支持。 */
       mtu: string
     }
-    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.BluetoothError {
       /** 最终协商的 MTU 值，与传入参数一致。安卓客户端 8.0.9 开始支持。 */
       mtu: string
     }
@@ -109,7 +109,7 @@ declare module '../../index' {
   }
 
   namespace notifyBLECharacteristicValueChange {
-    interface Promised extends TaroGeneral.CallbackResult {
+    interface Promised extends TaroGeneral.BluetoothError {
       /** 成功：ok，错误：详细信息 */
       errMsg: string
     }
@@ -148,7 +148,7 @@ declare module '../../index' {
         result: SuccessCallbackResult,
       ) => void
     }
-    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.BluetoothError {
       /** 最大传输单元 */
       mtu: number
     }
@@ -174,7 +174,7 @@ declare module '../../index' {
         result: SuccessCallbackResult,
       ) => void
     }
-    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.BluetoothError {
       /** 设备服务列表 */
       services: BLEService[]
       /** 成功：ok，错误：详细信息 */
@@ -202,7 +202,7 @@ declare module '../../index' {
         result: SuccessCallbackResult,
       ) => void
     }
-    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.BluetoothError {
       /** 信号强度，单位 dBm */
       RSSI: number
     }
@@ -221,7 +221,7 @@ declare module '../../index' {
       /** 接口调用成功的回调函数 */
       success?: (res: SuccessCallbackResult) => void
     }
-    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.BluetoothError {
       /** 设备特征值列表 */
       characteristics: BLECharacteristic[]
       /** 成功：ok，错误：详细信息 */
@@ -248,7 +248,7 @@ declare module '../../index' {
   }
 
   namespace createBLEConnection {
-    interface Promised extends TaroGeneral.CallbackResult {
+    interface Promised extends TaroGeneral.BluetoothError {
       /** 成功：ok，错误：详细信息 */
       errMsg: string
     }
@@ -267,7 +267,7 @@ declare module '../../index' {
   }
 
   namespace closeBLEConnection {
-    interface Promised extends TaroGeneral.CallbackResult {
+    interface Promised extends TaroGeneral.BluetoothError {
       /** 成功：ok，错误：详细信息 */
       errMsg: string
     }

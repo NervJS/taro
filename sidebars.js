@@ -831,7 +831,17 @@ module.exports = {
           "apis/device/nfc/sendHCEMessage",
           "apis/device/nfc/onHCEMessage",
           "apis/device/nfc/offHCEMessage",
-          "apis/device/nfc/getHCEState"
+          "apis/device/nfc/getNFCAdapter",
+          "apis/device/nfc/getHCEState",
+          "apis/device/nfc/IsoDep",
+          "apis/device/nfc/MifareClassic",
+          "apis/device/nfc/MifareUltralight",
+          "apis/device/nfc/Ndef",
+          "apis/device/nfc/NfcA",
+          "apis/device/nfc/NFCAdapter",
+          "apis/device/nfc/NfcB",
+          "apis/device/nfc/NfcF",
+          "apis/device/nfc/NfcV",
         ]
       },
       {

@@ -99,55 +99,55 @@ declare namespace TaroGeneral {
    */
   interface AdErrCode {
     /**
-     * @abnormal 后端接口调用失败
+     * @illustrate 后端接口调用失败
      * @reason 该项错误不是开发者的异常情况
      * @solution 一般情况下忽略一段时间即可恢复。
      */
     1000
     /**
-     * @abnormal 参数错误
+     * @illustrate 参数错误
      * @reason 使用方法错误
      * @solution 可以前往 developers.weixin.qq.com 确认具体教程（小程序和小游戏分别有各自的教程，可以在顶部选项中，“设计”一栏的右侧进行切换。
      */
     1001
     /**
-     * @abnormal 广告单元无效
+     * @illustrate 广告单元无效
      * @reason 可能是拼写错误、或者误用了其他APP的广告ID
      * @solution 请重新前往 mp.weixin.qq.com 确认广告位ID。
      */
     1002
     /**
-     * @abnormal 内部错误
+     * @illustrate 内部错误
      * @reason 该项错误不是开发者的异常情况
      * @solution 一般情况下忽略一段时间即可恢复。
      */
     1003
     /**
-     * @abnormal 无合适的广告
+     * @illustrate 无合适的广告
      * @reason 广告不是每一次都会出现，这次没有出现可能是由于该用户不适合浏览广告
      * @solution 属于正常情况，且开发者需要针对这种情况做形态上的兼容。
      */
     1004
     /**
-     * @abnormal 广告组件审核中
+     * @illustrate 广告组件审核中
      * @reason 你的广告正在被审核，无法展现广告
      * @solution 请前往 mp.weixin.qq.com 确认审核状态，且开发者需要针对这种情况做形态上的兼容。
      */
     1005
     /**
-     * @abnormal 广告组件被驳回
+     * @illustrate 广告组件被驳回
      * @reason 你的广告审核失败，无法展现广告
      * @solution 请前往 mp.weixin.qq.com 确认审核状态，且开发者需要针对这种情况做形态上的兼容。
      */
     1006
     /**
-     * @abnormal 广告组件被封禁
+     * @illustrate 广告组件被封禁
      * @reason 你的广告能力已经被封禁，封禁期间无法展现广告
      * @solution 请前往 mp.weixin.qq.com 确认小程序广告封禁状态。
      */
     1007
     /**
-     * @abnormal 广告单元已关闭
+     * @illustrate 广告单元已关闭
      * @reason 该广告位的广告能力已经被关闭
      * @solution 请前往 mp.weixin.qq.com 重新打开对应广告位的展现。
      */
@@ -156,173 +156,228 @@ declare namespace TaroGeneral {
   }
   /** 蓝牙错误码 */
   interface BluetoothErrCode {
-    /** 正常
-     * @abnormal ok
+    /** ok
+     * @illustrate 正常
      */
     0
-    /** 未初始化蓝牙适配器
-     * @abnormal not init
+    /** not init
+     * @illustrate 未初始化蓝牙适配器
      */
     10000
-    /** 当前蓝牙适配器不可用
-     * @abnormal not available
+    /** not available
+     * @illustrate 当前蓝牙适配器不可用
      */
     10001
-    /** 没有找到指定设备
-     * @abnormal no device
+    /** no device
+     * @illustrate 没有找到指定设备
      */
     10002
-    /** 连接失败
-     * @abnormal connection fail
+    /** connection fail
+     * @illustrate 连接失败
      */
     10003
-    /** 没有找到指定服务
-     * @abnormal no service
+    /** no service
+     * @illustrate 没有找到指定服务
      */
     10004
-    /** 没有找到指定特征值
-     * @abnormal no characteristic
+    /** no characteristic
+     * @illustrate 没有找到指定特征值
      */
     10005
-    /** 当前连接已断开
-     * @abnormal no connection
+    /** no connection
+     * @illustrate 当前连接已断开
      */
     10006
-    /** 当前特征值不支持此操作
-     * @abnormal property not support
+    /** property not support
+     * @illustrate 当前特征值不支持此操作
      */
     10007
-    /** 其余所有系统上报的异常
-     * @abnormal system error
+    /** system error
+     * @illustrate 其余所有系统上报的异常
      */
     10008
-    /** Android 系统特有，系统版本低于 4.3 不支持 BLE
-     * @abnormal system not support
+    /** system not support
+     * @illustrate Android 系统特有，系统版本低于 4.3 不支持 BLE
      */
     10009
-    /** 连接超时
-     * @abnormal operate time out
+    /** operate time out
+     * @illustrate 连接超时
      */
     10012
-    /** 连接 deviceId 为空或者是格式不正确
-     * @abnormal invalid_data
+    /** invalid_data
+     * @illustrate 连接 deviceId 为空或者是格式不正确
      */
     10013
   }
   /** iBeacon 错误码 */
   interface IBeaconErrCode {
-    /** 正常
-     * @abnormal ok
+    /** ok
+     * @illustrate 正常
      */
     0
-    /** 系统或设备不支持
-     * @abnormal unsupport
+    /** unsupport
+     * @illustrate 系统或设备不支持
      */
     11000
-    /** 蓝牙服务不可用
-     * @abnormal bluetooth service unavailable
+    /** bluetooth service unavailable
+     * @illustrate 蓝牙服务不可用
      */
     11001
-    /** 位置服务不可用
-     * @abnormal location service unavailable
+    /** location service unavailable
+     * @illustrate 位置服务不可用
      */
     11002
-    /** 已经开始搜索
-     * @abnormal already start
+    /** already start
+     * @illustrate 已经开始搜索
      */
     11003
-    /** 还未开始搜索
-     * @abnormal not startBeaconDiscovery
+    /** not startBeaconDiscovery
+     * @illustrate 还未开始搜索
      */
     11004
-    /** 系统错误
-     * @abnormal system error
+    /** system error
+     * @illustrate 系统错误
      */
     11005
-    /** 参数不正确
-     * @abnormal invalid data
+    /** invalid data
+     * @illustrate 参数不正确
      */
     11006
   }
   /** WIFI 错误码 */
   interface WifiErrCode {
-    /** 正常
-     * @abnormal ok
+    /** ok
+     * @illustrate 正常
      */
     0
-    /** 未先调用 `startWifi` 接口
-     * @abnormal not init
+    /** not init
+     * @illustrate 未先调用 `startWifi` 接口
      */
     12000
-    /** 当前系统不支持相关能力
-     * @abnormal system not support
+    /** system not support
+     * @illustrate 当前系统不支持相关能力
      */
     12001
-    /** 密码错误
-     * @abnormal password error Wi-Fi
+    /** password error Wi-Fi
+     * @illustrate 密码错误
      */
     12002
-    /** 连接超时
-     * @abnormal connection timeout
+    /** connection timeout
+     * @illustrate 连接超时
      */
     12003
-    /** 重复连接 Wi-Fi
-     * @abnormal duplicate request
+    /** duplicate request
+     * @illustrate 重复连接 Wi-Fi
      */
     12004
-    /** Android 特有，未打开 Wi-Fi 开关
-     * @abnormal wifi not turned on
+    /** wifi not turned on
+     * @illustrate Android 特有，未打开 Wi-Fi 开关
      */
     12005
-    /** Android 特有，未打开 GPS 定位开关
-     * @abnormal wifi not turned on
+    /** gps not turned on
+     * @illustrate Android 特有，未打开 GPS 定位开关
      */
     12006
-    /** 用户拒绝授权链接 Wi-Fi
-     * @abnormal user denied
+    /** user denied
+     * @illustrate 用户拒绝授权链接 Wi-Fi
      */
     12007
-    /** 无效 SSID
-     * @abnormal invalid SSID
+    /** invalid SSID
+     * @illustrate 无效 SSID
      */
     12008
-    /** 系统运营商配置拒绝连接 Wi-Fi
-     * @abnormal system config err
+    /** system config err
+     * @illustrate 系统运营商配置拒绝连接 Wi-Fi
      */
     12009
-    /** 系统其他错误，需要在 errmsg 打印具体的错误原因
-     * @abnormal system internal error
+    /** system internal error
+     * @illustrate 系统其他错误，需要在 errmsg 打印具体的错误原因
      */
     12010
-    /** 应用在后台无法配置 Wi-Fi
-     * @abnormal weapp in background
+    /** weapp in background
+     * @illustrate 应用在后台无法配置 Wi-Fi
      */
     12011
-    /** 系统保存的 Wi-Fi 配置过期，建议忘记 Wi-Fi 后重试
-     * @abnormal wifi config may be expired
+    /** wifi config may be expired
+     * @illustrate 系统保存的 Wi-Fi 配置过期，建议忘记 Wi-Fi 后重试
      */
     12013
   }
   /** NFC 错误码 */
   interface NFCErrCode {
-    /** 正常
-     * @abnormal ok
+    /** ok
+     * @illustrate 正常
      */
     0
-    /** 当前设备不支持NFC */
+    /** @illustrate 当前设备不支持 NFC */
     13000
-    /** 当前设备支持NFC，但系统NFC开关未开启 */
+    /** @illustrate 当前设备支持 NFC，但系统 NFC 开关未开启 */
     13001
-    /** 当前设备支持NFC，但不支持HCE */
+    /** @illustrate 当前设备支持 NFC，但不支持 HCE */
     13002
-    /** AID列表参数格式错误 */
+    /** @illustrate AID 列表参数格式错误 */
     13003
-    /** 未设置微信为默认NFC支付应用 */
+    /** @illustrate 未设置微信为默认 NFC 支付应用 */
     13004
-    /** 返回的指令不合法 */
+    /** @illustrate 返回的指令不合法 */
     13005
-    /** 注册AID失败 */
+    /** @illustrate 注册 AID 失败 */
     13006
+    /** @illustrate 未知错误 */
+    13010
+    /** user is not authorized
+     * @illustrate 用户未授权
+     */
+    13019
+    /** invalid parameter
+     * @illustrate 参数无效
+     */
+    13011
+    /** parse NdefMessage failed
+     * @illustrate 将参数解析为 NdefMessage 失败
+     */
+    13012
+    /** NFC tag has not been discovered
+     * @illustrate 未扫描到NFC标签
+     */
+    13013
+    /** invalid tech
+     * @illustrate 无效的标签技术
+     */
+    13014
+    /** unavailable tech
+     * @illustrate 从标签上获取对应技术失败
+     */
+    13015
+    /** connect fail
+     * @illustrate 连接失败
+     */
+    13016
+    /** system internal error
+     * @illustrate 相关读写操作失败
+     */
+    13017
+    /** NFC discovery has not started
+     * @illustrate 尝试在未开始 NFC 扫描时停止 NFC 扫描
+     */
+    13018
+    /** NFC discovery already started
+     * @illustrate 已经开始 NFC 扫描
+     */
+    13021
+    /** Tech already connected
+     * @illustrate 标签已经连接
+     */
+    13022
+    /** Tech has not connected
+     * @illustrate 尝试在未连接标签时断开连接
+     */
+    13023
+    /** function not support
+     * @illustrate 当前标签技术不支持该功能
+     */
+    13024
+
   }
 
   /** 启动参数 */

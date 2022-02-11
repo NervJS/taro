@@ -26,7 +26,7 @@ declare module '../../index' {
       /** 接口调用成功的回调函数 */
       success?: (res: SuccessCallbackResult) => void
     }
-    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.BluetoothError {
       /** 外围设备的服务端 */
       server: BLEPeripheralServer
     }
@@ -41,12 +41,12 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-peripheral/BLEPeripheralServer.addService.html
      */
-    addService(option: BLEPeripheralServer.addService.Option): Promise<TaroGeneral.CallbackResult>
+    addService(option: BLEPeripheralServer.addService.Option): Promise<TaroGeneral.BluetoothError>
     /** 关闭当前服务端
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-peripheral/BLEPeripheralServer.close.html
      */
-    close(option: BLEPeripheralServer.close.Option): Promise<TaroGeneral.CallbackResult>
+    close(option: BLEPeripheralServer.close.Option): Promise<TaroGeneral.BluetoothError>
     /** 取消监听已连接的设备请求读当前外围设备的特征值事件
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-peripheral/BLEPeripheralServer.offCharacteristicReadRequest.html
@@ -117,22 +117,22 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-peripheral/BLEPeripheralServer.removeService.html
      */
-    removeService(option: BLEPeripheralServer.removeService.Option): Promise<TaroGeneral.CallbackResult>
+    removeService(option: BLEPeripheralServer.removeService.Option): Promise<TaroGeneral.BluetoothError>
     /** 开始广播本地创建的外围设备
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-peripheral/BLEPeripheralServer.startAdvertising.html
      */
-    startAdvertising(option: BLEPeripheralServer.startAdvertising.Option): Promise<TaroGeneral.CallbackResult>
+    startAdvertising(option: BLEPeripheralServer.startAdvertising.Option): Promise<TaroGeneral.BluetoothError>
     /** 停止广播
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-peripheral/BLEPeripheralServer.stopAdvertising.html
      */
-    stopAdvertising(option: BLEPeripheralServer.stopAdvertising.Option): Promise<TaroGeneral.CallbackResult>
+    stopAdvertising(option: BLEPeripheralServer.stopAdvertising.Option): Promise<TaroGeneral.BluetoothError>
     /** 往指定特征写入二进制数据值，并通知已连接的主机，从机的特征值已发生变化，该接口会处理是走回包还是走订阅
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-peripheral/BLEPeripheralServer.writeCharacteristicValue.html
      */
-    writeCharacteristicValue(option: BLEPeripheralServer.writeCharacteristicValue.Option): Promise<TaroGeneral.CallbackResult>
+    writeCharacteristicValue(option: BLEPeripheralServer.writeCharacteristicValue.Option): Promise<TaroGeneral.BluetoothError>
   }
 
   namespace BLEPeripheralServer {
@@ -141,11 +141,11 @@ declare module '../../index' {
         /** 描述 service 的 Object */
         service: service
         /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-        complete?: (res: TaroGeneral.CallbackResult) => void
+        complete?: (res: TaroGeneral.BluetoothError) => void
         /** 接口调用失败的回调函数 */
-        fail?: (res: TaroGeneral.CallbackResult) => void
+        fail?: (res: TaroGeneral.BluetoothError) => void
         /** 接口调用成功的回调函数 */
-        success?: (res: TaroGeneral.CallbackResult) => void
+        success?: (res: TaroGeneral.BluetoothError) => void
       }
       interface service {
         /** 蓝牙服务的 UUID */
@@ -231,11 +231,11 @@ declare module '../../index' {
     namespace close {
       interface Option {
         /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-        complete?: (res: TaroGeneral.CallbackResult) => void
+        complete?: (res: TaroGeneral.BluetoothError) => void
         /** 接口调用失败的回调函数 */
-        fail?: (res: TaroGeneral.CallbackResult) => void
+        fail?: (res: TaroGeneral.BluetoothError) => void
         /** 接口调用成功的回调函数 */
-        success?: (res: TaroGeneral.CallbackResult) => void
+        success?: (res: TaroGeneral.BluetoothError) => void
       }
     }
     namespace onCharacteristicReadRequest {
@@ -301,11 +301,11 @@ declare module '../../index' {
         /** service 的 UUID */
         serviceId: string
         /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-        complete?: (res: TaroGeneral.CallbackResult) => void
+        complete?: (res: TaroGeneral.BluetoothError) => void
         /** 接口调用失败的回调函数 */
-        fail?: (res: TaroGeneral.CallbackResult) => void
+        fail?: (res: TaroGeneral.BluetoothError) => void
         /** 接口调用成功的回调函数 */
-        success?: (res: TaroGeneral.CallbackResult) => void
+        success?: (res: TaroGeneral.BluetoothError) => void
       }
     }
     namespace startAdvertising {
@@ -317,11 +317,11 @@ declare module '../../index' {
          */
         powerLevel?: keyof powerLevel
         /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-        complete?: (res: TaroGeneral.CallbackResult) => void
+        complete?: (res: TaroGeneral.BluetoothError) => void
         /** 接口调用失败的回调函数 */
-        fail?: (res: TaroGeneral.CallbackResult) => void
+        fail?: (res: TaroGeneral.BluetoothError) => void
         /** 接口调用成功的回调函数 */
-        success?: (res: TaroGeneral.CallbackResult) => void
+        success?: (res: TaroGeneral.BluetoothError) => void
       }
       /** 广播自定义参数 */
       interface advertiseRequest {
@@ -371,11 +371,11 @@ declare module '../../index' {
     namespace stopAdvertising {
       interface Option {
         /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-        complete?: (res: TaroGeneral.CallbackResult) => void
+        complete?: (res: TaroGeneral.BluetoothError) => void
         /** 接口调用失败的回调函数 */
-        fail?: (res: TaroGeneral.CallbackResult) => void
+        fail?: (res: TaroGeneral.BluetoothError) => void
         /** 接口调用成功的回调函数 */
-        success?: (res: TaroGeneral.CallbackResult) => void
+        success?: (res: TaroGeneral.BluetoothError) => void
       }
     }
     namespace writeCharacteristicValue {
@@ -391,11 +391,11 @@ declare module '../../index' {
         /** 可选，处理回包时使用 */
         callbackId?: number
         /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-        complete?: (res: TaroGeneral.CallbackResult) => void
+        complete?: (res: TaroGeneral.BluetoothError) => void
         /** 接口调用失败的回调函数 */
-        fail?: (res: TaroGeneral.CallbackResult) => void
+        fail?: (res: TaroGeneral.BluetoothError) => void
         /** 接口调用成功的回调函数 */
-        success?: (res: TaroGeneral.CallbackResult) => void
+        success?: (res: TaroGeneral.BluetoothError) => void
       }
     }
   }
