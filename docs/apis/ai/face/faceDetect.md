@@ -12,7 +12,7 @@ sidebar_label: faceDetect
 ## 类型
 
 ```tsx
-(option: Option) => InterstitialAd
+(option: Option) => Promise<TaroGeneral.CallbackResult>
 ```
 
 ## 参数

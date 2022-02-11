@@ -292,12 +292,12 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/wx.isVKSupport.html
      */
-     isVKSupport (version: keyof isVKSupport.version): boolean
+     isVKSupport (version: keyof isVKSupport.version): boolean /** 是否支持对应版本的 vision kit */
 
     /** 创建 vision kit 会话对象
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/wx.createVKSession.html
      */
-    createVKSession (version: keyof createVKSession.version): VKSession
+    createVKSession (version: keyof createVKSession.version): VKSession /** vision kit 会话对象 */
   }
 }

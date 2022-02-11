@@ -128,6 +128,6 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/face/wx.faceDetect.html
      */
-    faceDetect (option: faceDetect.Option): InterstitialAd
+    faceDetect (option: faceDetect.Option): Promise<TaroGeneral.CallbackResult>
   }
 }

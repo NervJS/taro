@@ -148,6 +148,18 @@ vision kit 会话对象
 | --- | --- | --- |
 | callback | `(status: keyof startStatus) => void` | 开启会话回调 |
 
+### stop
+
+停止会话。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.stop.html)
+
+```tsx
+() => void
+```
+
 ## 参数
 
 ### state
@@ -249,3 +261,4 @@ start status 的合法值
 | VKSession.on | ✔️ |  |  |
 | VKSession.requestAnimationFrame | ✔️ |  |  |
 | VKSession.start | ✔️ |  |  |
+| VKSession.stop | ✔️ |  |  |

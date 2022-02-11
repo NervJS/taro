@@ -737,7 +737,7 @@ module.exports = {
       "apis/location/chooseLocation",
     ],
     "文件": [
-      // "apis/files/saveFileToDisk",
+      "apis/files/saveFileToDisk",
       "apis/files/saveFile",
       "apis/files/removeSavedFile",
       "apis/files/openDocument",
@@ -746,9 +746,9 @@ module.exports = {
       "apis/files/getFileSystemManager",
       "apis/files/getFileInfo",
       "apis/files/FileSystemManager",
-      // "apis/files/ReadResult",
+      "apis/files/ReadResult",
       "apis/files/Stats",
-      // "apis/files/WriteResult",
+      "apis/files/WriteResult",
     ],
     "开放接口": [
       {

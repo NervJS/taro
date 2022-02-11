@@ -3,25 +3,13 @@ title: FileSystemManager
 sidebar_label: FileSystemManager
 ---
 
-文件管理器
-
-## 方法
-
-### readdirSync
-
-FileSystemManager.readdir 的同步版本
+文件管理器，可通过 [Taro.getFileSystemManager](./getFileSystemManager) 获取。
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readdirSync.html)
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.html)
 
-```tsx
-(dirPath: string) => string[]
-```
-
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| dirPath | `string` | 要读取的目录路径 |
+## 方法
 
 ### access
 
@@ -41,7 +29,7 @@ FileSystemManager.readdir 的同步版本
 
 ### accessSync
 
-FileSystemManager.access 的同步版本
+[FileSystemManager.access](#access) 的同步版本
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
@@ -73,7 +61,7 @@ FileSystemManager.access 的同步版本
 
 ### appendFileSync
 
-FileSystemManager.appendFile 的同步版本
+[FileSystemManager.appendFile](#appendfile) 的同步版本
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
@@ -88,6 +76,38 @@ FileSystemManager.appendFile 的同步版本
 | filePath | `string` | 要追加内容的文件路径 |
 | data | string or ArrayBuffer | 要追加的文本或二进制数据 |
 | encoding | `keyof encoding` | 指定写入文件的字符编码 |
+
+### close
+
+关闭文件
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.close.html)
+
+```tsx
+(option: CloseOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `CloseOption` |
+
+### closeSync
+
+[FileSystemManager.close](#close) 的同步版本
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.closeSync.html)
+
+```tsx
+(option: CloseSyncOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `CloseSyncOption` |
 
 ### copyFile
 
@@ -107,7 +127,7 @@ FileSystemManager.appendFile 的同步版本
 
 ### copyFileSync
 
-FileSystemManager.copyFile 的同步版本
+[FileSystemManager.copyFile](#copyfile) 的同步版本
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
@@ -122,9 +142,73 @@ FileSystemManager.copyFile 的同步版本
 | srcPath | `string` | 源文件路径，只可以是普通文件 |
 | destPath | `string` | 目标文件路径 |
 
+### fstat
+
+获取文件的状态信息
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.fstat.html)
+
+```tsx
+(option: FstatOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `FstatOption` |
+
+### fstatSync
+
+[FileSystemManager.fstat](#fstat) 的同步版本
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.fstatSync.html)
+
+```tsx
+(option: FstatSyncOption) => Stats
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `FstatSyncOption` |
+
+### ftruncate
+
+对文件内容进行截断操作
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.ftruncate.html)
+
+```tsx
+(option: FtruncateOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `FtruncateOption` |
+
+### ftruncateSync
+
+[FileSystemManager.ftruncate](#ftruncate) 的同步版本
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.ftruncateSync.html)
+
+```tsx
+(option: FtruncateSyncOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `FtruncateSyncOption` |
+
 ### getFileInfo
 
-获取该小程序下的 本地临时文件 或 本地缓存文件 信息
+获取该小程序下的 `本地临时文件` 或 `本地缓存文件` 信息
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
@@ -172,7 +256,7 @@ FileSystemManager.copyFile 的同步版本
 
 ### mkdirSync
 
-FileSystemManager.mkdir 的同步版本
+[FileSystemManager.mkdir](#mkdir) 的同步版本
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
@@ -186,6 +270,118 @@ FileSystemManager.mkdir 的同步版本
 | --- | --- | --- |
 | dirPath | `string` | 创建的目录路径 |
 | recursive | `boolean` | 是否在递归创建该目录的上级目录后再创建该目录。如果对应的上级目录已经存在，则不创建该上级目录。如 dirPath 为 a/b/c/d 且 recursive 为 true，将创建 a 目录，再在 a 目录下创建 b 目录，以此类推直至创建 a/b/c 目录下的 d 目录。 |
+
+### open
+
+打开文件，返回文件描述符
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.open.html)
+
+```tsx
+(option: OpenOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `OpenOption` |
+
+### openSync
+
+[FileSystemManager.openSync](#opensync) 的同步版本
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.ftruncateSync.html)
+
+```tsx
+(option: OpenSyncOption) => string
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `OpenSyncOption` |
+
+### read
+
+读文件
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.read.html)
+
+```tsx
+(option: ReadOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `ReadOption` |
+
+### readCompressedFile
+
+读取指定压缩类型的本地文件内容
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readCompressedFile.html)
+
+```tsx
+(option: Option) => Promise<Promised>
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `Option` |
+
+### readCompressedFileSync
+
+同步读取指定压缩类型的本地文件内容
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readCompressedFileSync.html)
+
+```tsx
+(option: Option) => ArrayBuffer
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `Option` |
+
+### readdir
+
+读取目录内文件列表
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readdir.html)
+
+```tsx
+(option: ReaddirOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `ReaddirOption` |
+
+### readdirSync
+
+[FileSystemManager.readdir](#readdir) 的同步版本
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readdirSync.html)
+
+```tsx
+(dirPath: string) => string[]
+```
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| dirPath | `string` | 要读取的目录路径 |
 
 ### readFile
 
@@ -203,21 +399,56 @@ FileSystemManager.mkdir 的同步版本
 | --- | --- |
 | option | `ReadFileOption` |
 
-### readdir
+### readFileSync
 
-读取目录内文件列表
+[FileSystemManager.readFile](#readfile) 的同步版本
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readdir.html)
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readFileSync.html)
 
 ```tsx
-(option: ReaddirOption) => void
+(filePath: string, encoding?: keyof encoding, position?: number, length?: number) => string | ArrayBuffer
+```
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| filePath | `string` | 要读取的文件的路径 |
+| encoding | `keyof encoding` | 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 |
+| position | `number` | 从文件指定位置开始读，如果不指定，则从文件头开始读。读取的范围应该是左闭右开区间 [position, position+length)。有效范围：[0, fileLength - 1]。单位：byte |
+| length | `number` | 指定文件的长度，如果不指定，则读到文件末尾。有效范围：[1, fileLength]。单位：byte |
+
+### readSync
+
+[FileSystemManager.read](#read) 的同步版本
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readSync.html)
+
+```tsx
+(option: ReadSyncOption) => { bytesRead: number; arrayBuffer: ArrayBuffer; }
 ```
 
 | 参数 | 类型 |
 | --- | --- |
-| option | `ReaddirOption` |
+| option | `ReadSyncOption` |
+
+### readZipEntry
+
+读取压缩包内的文件
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readZipEntry.html)
+
+```tsx
+(option: Option) => Promise<Promised>
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `Option` |
 
 ### removeSavedFile
 
@@ -253,7 +484,7 @@ FileSystemManager.mkdir 的同步版本
 
 ### renameSync
 
-FileSystemManager.rename 的同步版本
+[FileSystemManager.rename](#rename) 的同步版本
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
@@ -286,7 +517,7 @@ FileSystemManager.rename 的同步版本
 
 ### rmdirSync
 
-FileSystemManager.rmdir 的同步版本
+[FileSystemManager.rmdir](#rmdir) 的同步版本
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
@@ -317,6 +548,23 @@ FileSystemManager.rmdir 的同步版本
 | --- | --- |
 | option | `SaveFileOption` |
 
+### saveFileSync
+
+[FileSystemManager.saveFile](#savefile) 的同步版本
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.saveFileSync.html)
+
+```tsx
+(tempFilePath: string, filePath?: string) => string
+```
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| tempFilePath | `string` | 临时存储文件路径 |
+| filePath | `string` | 要存储的文件路径 |
+
 ### stat
 
 获取文件 Stats 对象
@@ -330,6 +578,55 @@ FileSystemManager.rmdir 的同步版本
 | 参数 | 类型 |
 | --- | --- |
 | option | `StatOption` |
+
+### statSync
+
+[FileSystemManager.stat](#stat) 的同步版本
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.statSync.html)
+
+```tsx
+(path: string, recursive?: boolean) => any
+```
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| path | `string` | 文件/目录路径 |
+| recursive | `boolean` | 是否递归获取目录下的每个文件的 Stats 信息 |
+
+### truncate
+
+对文件内容进行截断操作
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.truncate.html)
+
+```tsx
+(option: TruncateOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `TruncateOption` |
+
+### truncateSync
+
+对文件内容进行截断操作 ([truncate](#truncate) 的同步版本)
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.truncateSync.html)
+
+```tsx
+(option: TruncateSyncOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `TruncateSyncOption` |
 
 ### unlink
 
@@ -349,7 +646,7 @@ FileSystemManager.rmdir 的同步版本
 
 ### unlinkSync
 
-FileSystemManager.unlink 的同步版本
+[FileSystemManager.unlink](#unlink) 的同步版本
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
@@ -379,6 +676,22 @@ FileSystemManager.unlink 的同步版本
 | --- | --- |
 | option | `UnzipOption` |
 
+### write
+
+写入文件
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.write.html)
+
+```tsx
+(option: WriteOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `WriteOption` |
+
 ### writeFile
 
 写文件
@@ -397,7 +710,7 @@ FileSystemManager.unlink 的同步版本
 
 ### writeFileSync
 
-FileSystemManager.writeFile 的同步版本
+[FileSystemManager.writeFile](#writefile) 的同步版本
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
@@ -413,270 +726,9 @@ FileSystemManager.writeFile 的同步版本
 | data | string or ArrayBuffer | 要写入的文本或二进制数据 |
 | encoding | `keyof encoding` | 指定写入文件的字符编码 |
 
-### statSync
-
-FileSystemManager.stat 的同步版本
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.statSync.html)
-
-```tsx
-(path: string, recursive?: boolean) => any
-```
-
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| path | `string` | 文件/目录路径 |
-| recursive | `boolean` | 是否递归获取目录下的每个文件的 Stats 信息 |
-
-### saveFileSync
-
-FileSystemManager.saveFile 的同步版本
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.saveFileSync.html)
-
-```tsx
-(tempFilePath: string, filePath?: string) => string
-```
-
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| tempFilePath | `string` | 临时存储文件路径 |
-| filePath | `string` | 要存储的文件路径 |
-
-### readFileSync
-
-FileSystemManager.readFile 的同步版本
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readFileSync.html)
-
-```tsx
-(filePath: string, encoding?: keyof encoding, position?: number, length?: number) => string | ArrayBuffer
-```
-
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| filePath | `string` | 要读取的文件的路径 |
-| encoding | `keyof encoding` | 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 |
-| position | `number` | 从文件指定位置开始读，如果不指定，则从文件头开始读。读取的范围应该是左闭右开区间 [position, position+length)。有效范围：[0, fileLength - 1]。单位：byte |
-| length | `number` | 指定文件的长度，如果不指定，则读到文件末尾。有效范围：[1, fileLength]。单位：byte |
-
-### fstat
-
-获取文件的状态信息
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.fstat.html)
-
-```tsx
-(option: FstatOption) => void
-```
-
-| 参数 | 类型 |
-| --- | --- |
-| option | `FstatOption` |
-
-### fstatSync
-
-FileSystemManager.fstat 的同步版本
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.fstatSync.html)
-
-```tsx
-(option: FstatSyncOption) => Stats
-```
-
-| 参数 | 类型 |
-| --- | --- |
-| option | `FstatSyncOption` |
-
-### close
-
-关闭文件
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.close.html)
-
-```tsx
-(option: CloseOption) => void
-```
-
-| 参数 | 类型 |
-| --- | --- |
-| option | `CloseOption` |
-
-### closeSync
-
-FileSystemManager.close 的同步版本
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.closeSync.html)
-
-```tsx
-(option: CloseSyncOption) => void
-```
-
-| 参数 | 类型 |
-| --- | --- |
-| option | `CloseSyncOption` |
-
-### ftruncate
-
-对文件内容进行截断操作
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.ftruncate.html)
-
-```tsx
-(option: FtruncateOption) => void
-```
-
-| 参数 | 类型 |
-| --- | --- |
-| option | `FtruncateOption` |
-
-### ftruncateSync
-
-FileSystemManager.ftruncate 的同步版本
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.ftruncateSync.html)
-
-```tsx
-(option: FtruncateSyncOption) => void
-```
-
-| 参数 | 类型 |
-| --- | --- |
-| option | `FtruncateSyncOption` |
-
-### open
-
-打开文件，返回文件描述符
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.open.html)
-
-```tsx
-(option: OpenOption) => void
-```
-
-| 参数 | 类型 |
-| --- | --- |
-| option | `OpenOption` |
-
-### openSync
-
-FileSystemManager.ftruncate 的同步版本
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.ftruncateSync.html)
-
-```tsx
-(option: OpenSyncOption) => string
-```
-
-| 参数 | 类型 |
-| --- | --- |
-| option | `OpenSyncOption` |
-
-### read
-
-读文件
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.read.html)
-
-```tsx
-(option: ReadOption) => void
-```
-
-| 参数 | 类型 |
-| --- | --- |
-| option | `ReadOption` |
-
-### readSync
-
-FileSystemManager.read 的同步版本
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readSync.html)
-
-```tsx
-(option: ReadSyncOption) => { bytesRead: number; arrayBuffer: ArrayBuffer; }
-```
-
-| 参数 | 类型 |
-| --- | --- |
-| option | `ReadSyncOption` |
-
-### truncate
-
-对文件内容进行截断操作
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.truncate.html)
-
-```tsx
-(option: TruncateOption) => void
-```
-
-| 参数 | 类型 |
-| --- | --- |
-| option | `TruncateOption` |
-
-### truncateSync
-
-truncate 的同步版本
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.truncateSync.html)
-
-```tsx
-(option: TruncateSyncOption) => void
-```
-
-| 参数 | 类型 |
-| --- | --- |
-| option | `TruncateSyncOption` |
-
-### write
-
-写入文件
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.write.html)
-
-```tsx
-(option: WriteOption) => void
-```
-
-| 参数 | 类型 |
-| --- | --- |
-| option | `WriteOption` |
-
 ### writeSync
 
-write 的同步版本
+[write](#write) 的同步版本
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
@@ -872,6 +924,71 @@ write 的同步版本
 | files | `string[]` | 指定目录下的文件名数组。 |
 | errMsg | `string` | 调用结果 |
 
+### readZipEntry
+
+#### Promised
+
+```tsx
+FailCallbackResult | SuccessCallbackResult
+```
+
+#### Option
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| filePath | `string` | 是 | 要读取的压缩包的路径 (本地路径) |
+| encoding | `string` | 否 | 统一指定读取文件的字符编码，只在 entries 值为"all"时有效。如果 entries 值为"all"且不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 |
+| entries | File[] or "all" | 是 | 要读取的压缩包内的文件列表（当传入"all" 时表示读取压缩包内所有文件） |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(result: FailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+
+#### File
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| path | `string` | 是 | 压缩包内文件路径 |
+| encoding | `string` | 否 | 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 |
+| position | `number` | 否 | 从文件指定位置开始读，如果不指定，则从文件头开始读。读取的范围应该是左闭右开区间 [position, position+length)。有效范围：[0, fileLength - 1]。单位：byte |
+| length | `number` | 否 | 指定文件的长度，如果不指定，则读到文件末尾。有效范围：[1, fileLength]。单位：byte |
+
+#### Encoding
+
+字符编码合法值
+
+| 参数 | 异常情况 |
+| --- | :---: |
+| ascii |  |
+| base64 |  |
+| binary |  |
+| hex |  |
+| ucs2 | `以小端序读取` |
+| ucs-2 | `以小端序读取` |
+| utf16le | `以小端序读取` |
+| utf-16le | `以小端序读取` |
+| utf-8 |  |
+| utf8 |  |
+| latin1 |  |
+
+#### FailCallbackResult
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open ${filePath}': 指定的 filePath 所在目录不存在<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有读权限<br />- 'fail sdcard not mounted': Android sdcard 挂载失败 |
+
+#### SuccessCallbackResult
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| entries | `{ [path: string]: FileItem; }` | 文件读取结果。res.entries 是一个对象，key是文件路径，value是一个对象 FileItem ，表示该文件的读取结果。每个 FileItem 包含 data （文件内容） 和 errMsg （错误信息） 属性。 |
+
+#### FileItem
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| data | string or ArrayBuffer | 文件内容 |
+| errMsg | `string` | 错误信息 |
+
 ### RemoveSavedFileOption
 
 | 参数 | 类型 | 必填 | 说明 |
@@ -1026,7 +1143,7 @@ write 的同步版本
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'bad file descriptor':	无效的文件描述符;<br />- 'fail permission denied':	指定的 fd 路径没有读权限; |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'bad file descriptor': 无效的文件描述符;<br />- 'fail permission denied': 指定的 fd 路径没有读权限; |
 
 ### FstatSuccessCallbackResult
 
@@ -1054,7 +1171,7 @@ write 的同步版本
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'bad file descriptor':	无效的文件描述符 |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'bad file descriptor': 无效的文件描述符 |
 
 ### CloseSyncOption
 
@@ -1076,7 +1193,7 @@ write 的同步版本
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'bad file descriptor':	无效的文件描述符<br />- 'fail permission denied':	指定的 fd 没有写权限<br />- 'fail the maximum size of the file storage limit is exceeded':	存储空间不足<br />- 'fail sdcard not mounted	android sdcard': 挂载失败 |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'bad file descriptor': 无效的文件描述符<br />- 'fail permission denied': 指定的 fd 没有写权限<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足<br />- 'fail sdcard not mounted android sdcard': 挂载失败 |
 
 ### FtruncateSyncOption
 
@@ -1099,7 +1216,7 @@ write 的同步版本
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail no such file or directory "${filePath}"':	上级目录不存在 |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail no such file or directory "${filePath}"': 上级目录不存在 |
 
 ### OpenSuccessCallbackResult
 
@@ -1132,7 +1249,7 @@ write 的同步版本
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'bad file descriptor':	无效的文件描述符<br />- 'fail permission denied':	指定的 fd 路径没有读权限<br />- 'fail the value of "offset" is out of range':	传入的 offset 不合法<br />- 'fail the value of "length" is out of range':	传入的 length 不合法<br />- 'fail sdcard not mounted':	android sdcard 挂载失败<br />- 'bad file descriptor':	无效的文件描述符 |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'bad file descriptor': 无效的文件描述符<br />- 'fail permission denied': 指定的 fd 路径没有读权限<br />- 'fail the value of "offset" is out of range': 传入的 offset 不合法<br />- 'fail the value of "length" is out of range': 传入的 length 不合法<br />- 'fail sdcard not mounted': android sdcard 挂载失败<br />- 'bad file descriptor': 无效的文件描述符 |
 
 ### ReadSuccessCallbackResult
 
@@ -1141,6 +1258,61 @@ write 的同步版本
 | bytesRead | `string` | 实际读取的字节数 |
 | arrayBuffer | `ArrayBuffer` | 被写入的缓存区的对象，即接口入参的 arrayBuffer |
 | errMsg | `string` | 调用结果 |
+
+### readCompressedFile
+
+#### Promised
+
+```tsx
+FailCallbackResult | SuccessCallbackResult
+```
+
+#### Option
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| filePath | `string` | 是 | 要读取的文件的路径 (本地用户文件或代码包文件) |
+| compressionAlgorithm | `string` | 是 | 文件压缩类型，目前仅支持 'br'。 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(result: FailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+
+#### CompressionAlgorithm
+
+文件压缩类型合法值
+
+| 参数 | 说明 |
+| --- | --- |
+| br | brotli压缩文件 |
+
+#### FailCallbackResult
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail decompress fail': 指定的 compressionAlgorithm 与文件实际压缩格式不符<br />- 'fail no such file or directory, open ${filePath}': 指定的 filePath 所在目录不存在<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有读权限 |
+
+#### SuccessCallbackResult
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| data | `ArrayBuffer` | 文件内容 |
+
+### readCompressedFileSync
+
+#### Option
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| filePath | `string` | 要读取的文件的路径 (本地用户文件或代码包文件) |
+| compressionAlgorithm | `string` | 文件压缩类型，目前仅支持 'br'。 |
+
+#### CompressionAlgorithm
+
+文件压缩类型合法值
+
+| 参数 | 说明 |
+| --- | --- |
+| br | brotli压缩文件 |
 
 ### ReadSyncOption
 
@@ -1166,7 +1338,7 @@ write 的同步版本
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open ${filePath}':	指定的 filePath 所在目录不存在<br />- 'fail illegal operation on a directory, open "${filePath}"':	指定的 filePath 是一个已经存在的目录<br />- 'fail permission denied, open ${dirPath}':	指定的 filePath 路径没有写权限<br />- 'fail the maximum size of the file storage limit is exceeded':	存储空间不足<br />- 'fail sdcard not mounted':	android sdcard 挂载失败 |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open ${filePath}': 指定的 filePath 所在目录不存在<br />- 'fail illegal operation on a directory, open "${filePath}"': 指定的 filePath 是一个已经存在的目录<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有写权限<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足<br />- 'fail sdcard not mounted': android sdcard 挂载失败 |
 
 ### TruncateSyncOption
 
@@ -1193,7 +1365,7 @@ write 的同步版本
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| errMsg | `string` | 错误信息<br /><br />可选值：<br />'bad file descriptor':	无效的文件描述符<br />'fail permission denied':	指定的 fd 路径没有写权限<br />'fail sdcard not mounted':	android sdcard 挂载失败 |
+| errMsg | `string` | 错误信息<br /><br />可选值：<br />'bad file descriptor': 无效的文件描述符<br />'fail permission denied': 指定的 fd 路径没有写权限<br />'fail sdcard not mounted': android sdcard 挂载失败 |
 
 ### WriteSuccessCallbackResult
 
@@ -1217,45 +1389,49 @@ write 的同步版本
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| FileSystemManager.readdirSync | ✔️ |  |  |
+| FileSystemManager | ✔️ |  |  |
 | FileSystemManager.access | ✔️ |  |  |
 | FileSystemManager.accessSync | ✔️ |  |  |
 | FileSystemManager.appendFile | ✔️ |  |  |
 | FileSystemManager.appendFileSync | ✔️ |  |  |
+| FileSystemManager.close | ✔️ |  |  |
+| FileSystemManager.closeSync | ✔️ |  |  |
 | FileSystemManager.copyFile | ✔️ |  |  |
 | FileSystemManager.copyFileSync | ✔️ |  |  |
+| FileSystemManager.fstat | ✔️ |  |  |
+| FileSystemManager.fstatSync | ✔️ |  |  |
+| FileSystemManager.ftruncate | ✔️ |  |  |
+| FileSystemManager.ftruncateSync | ✔️ |  |  |
 | FileSystemManager.getFileInfo | ✔️ |  |  |
 | FileSystemManager.getSavedFileList | ✔️ |  |  |
 | FileSystemManager.mkdir | ✔️ |  |  |
 | FileSystemManager.mkdirSync | ✔️ |  |  |
-| FileSystemManager.readFile | ✔️ |  |  |
+| FileSystemManager.open | ✔️ |  |  |
+| FileSystemManager.openSync | ✔️ |  |  |
+| FileSystemManager.read | ✔️ |  |  |
+| FileSystemManager.readCompressedFile | ✔️ |  |  |
+| FileSystemManager.readCompressedFileSync | ✔️ |  |  |
 | FileSystemManager.readdir | ✔️ |  |  |
+| FileSystemManager.readdirSync | ✔️ |  |  |
+| FileSystemManager.readFile | ✔️ |  |  |
+| FileSystemManager.readFileSync | ✔️ |  |  |
+| FileSystemManager.readSync | ✔️ |  |  |
+| FileSystemManager.readZipEntry | ✔️ |  |  |
 | FileSystemManager.removeSavedFile | ✔️ |  |  |
 | FileSystemManager.rename | ✔️ |  |  |
 | FileSystemManager.renameSync | ✔️ |  |  |
 | FileSystemManager.rmdir | ✔️ |  |  |
 | FileSystemManager.rmdirSync | ✔️ |  |  |
 | FileSystemManager.saveFile | ✔️ |  |  |
+| FileSystemManager.saveFileSync | ✔️ |  |  |
 | FileSystemManager.stat |  |  |  |
+| FileSystemManager.statSync | ✔️ |  |  |
+| FileSystemManager.truncate | ✔️ |  |  |
+| FileSystemManager.truncateSync | ✔️ |  |  |
 | FileSystemManager.unlink | ✔️ |  |  |
 | FileSystemManager.unlinkSync | ✔️ |  |  |
 | FileSystemManager.unzip | ✔️ |  |  |
+| FileSystemManager.write | ✔️ |  |  |
 | FileSystemManager.writeFile | ✔️ |  |  |
 | FileSystemManager.writeFileSync | ✔️ |  |  |
-| FileSystemManager.statSync | ✔️ |  |  |
-| FileSystemManager.saveFileSync | ✔️ |  |  |
-| FileSystemManager.readFileSync | ✔️ |  |  |
-| FileSystemManager.fstat | ✔️ |  |  |
-| FileSystemManager.fstatSync | ✔️ |  |  |
-| FileSystemManager.close | ✔️ |  |  |
-| FileSystemManager.closeSync | ✔️ |  |  |
-| FileSystemManager.ftruncate | ✔️ |  |  |
-| FileSystemManager.ftruncateSync | ✔️ |  |  |
-| FileSystemManager.open | ✔️ |  |  |
-| FileSystemManager.openSync | ✔️ |  |  |
-| FileSystemManager.read | ✔️ |  |  |
-| FileSystemManager.readSync | ✔️ |  |  |
-| FileSystemManager.truncate | ✔️ |  |  |
-| FileSystemManager.truncateSync | ✔️ |  |  |
-| FileSystemManager.write | ✔️ |  |  |
 | FileSystemManager.writeSync | ✔️ |  |  |
