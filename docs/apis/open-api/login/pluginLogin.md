@@ -1,13 +1,13 @@
 ---
-title: Taro.getSetting(option)
-sidebar_label: getSetting
+title: Taro.pluginLogin(option)
+sidebar_label: pluginLogin
 ---
 
-获取用户的当前设置。**返回值中只会出现小程序已经向用户请求过的[权限](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html)**。
+**该接口仅在小程序插件中可调用**，调用接口获得插件用户标志凭证（code）。插件可以此凭证换取用于识别用户的标识 openpid。用户不同、宿主小程序不同或插件不同的情况下，该标识均不相同，即当且仅当同一个用户在同一个宿主小程序中使用同一个插件时，openpid 才会相同
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/setting/wx.getSetting.html)
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/login/wx.pluginLogin.html)
 
 ## 类型
 
@@ -33,21 +33,4 @@ sidebar_label: getSetting
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| authSetting | `AuthSetting` | 用户授权结果 |
-| subscriptionsSetting | `SubscriptionsSetting` | 用户订阅消息设置，接口参数 withSubscriptions 值为 true 时才会返回。 |
-| miniprogramAuthSetting | `AuthSetting` | 在插件中调用时，当前宿主小程序的用户授权结果 |
-| errMsg | `string` | 调用结果 |
-
-## 示例代码
-
-```tsx
-Taro.getSetting({
-  success: function (res) {
-    console.log(res.authSetting)
-    // res.authSetting = {
-    //   "scope.userInfo": true,
-    //   "scope.userLocation": true
-    // }
-  }
-})
-```
+| code | `string` | 用于换取 openpid 的凭证（有效期五分钟）。插件开发者可以用此 code 在开发者服务器后台调用 [auth.getPluginOpenPId](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/user-info/auth.getPluginOpenPId.html) 换取 openpid。 |

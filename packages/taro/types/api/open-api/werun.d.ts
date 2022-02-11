@@ -1,6 +1,29 @@
 import Taro from '../../index'
 
 declare module '../../index' {
+  namespace shareToWeRun {
+    interface Option {
+      /** 运动数据列表 */
+      recordList: record[]
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: TaroGeneral.CallbackResult) => void
+    }
+    interface record {
+      /** 运动项目id */
+      typeId: number
+      /** 运动时长 */
+      time: number
+      /** 运动距离 */
+      distance: number
+      /** 消耗卡路里 */
+      calorie: number
+    }
+  }
+
   namespace getWeRunData {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -28,6 +51,12 @@ declare module '../../index' {
   }
 
   interface TaroStatic {
+    /** 分享数据到微信运动。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/werun/wx.shareToWeRun.html
+     */
+    shareToWeRun(option?: shareToWeRun.Option): Promise<TaroGeneral.CallbackResult>
+
     /** 获取用户过去三十天微信运动步数。需要先调用 Taro.login 接口。步数信息会在用户主动进入小程序时更新。
      * @supported weapp
      * @example

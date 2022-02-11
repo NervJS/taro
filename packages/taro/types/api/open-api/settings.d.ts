@@ -19,6 +19,8 @@ declare module '../../index' {
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 用户授权结果 */
       authSetting: AuthSetting
+      /** 用户订阅消息设置，接口参数 withSubscriptions 值为 true 时才会返回。 */
+      subscriptionsSetting: SubscriptionsSetting
       /** 调用结果 */
       errMsg: string
     }
@@ -37,6 +39,10 @@ declare module '../../index' {
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 用户授权结果 */
       authSetting: AuthSetting
+      /** 用户订阅消息设置，接口参数 withSubscriptions 值为 true 时才会返回。 */
+      subscriptionsSetting: SubscriptionsSetting
+      /** 在插件中调用时，当前宿主小程序的用户授权结果 */
+      miniprogramAuthSetting: AuthSetting
       /** 调用结果 */
       errMsg: string
     }
@@ -64,6 +70,60 @@ declare module '../../index' {
     'scope.werun'?: boolean
     /** 是否授权保存到相册 [wx.saveImageToPhotosAlbum](https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.saveImageToPhotosAlbum.html), [wx.saveVideoToPhotosAlbum](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.saveVideoToPhotosAlbum.html) */
     'scope.writePhotosAlbum'?: boolean
+  }
+
+  /** 订阅消息设置
+   * 
+   * 注意事项
+   * - itemSettings 只返回用户勾选过订阅面板中的“总是保持以上选择，不再询问”的订阅消息。
+   * @example
+   * ```tsx
+   * Taro.getSetting({
+   *   withSubscriptions: true,
+   *   success (res) {
+   *     console.log(res.authSetting)
+   *     // res.authSetting = {
+   *     //   "scope.userInfo": true,
+   *     //   "scope.userLocation": true
+   *     // }
+   *     console.log(res.subscriptionsSetting)
+   *     // res.subscriptionsSetting = {
+   *     //   mainSwitch: true, // 订阅消息总开关
+   *     //   itemSettings: {   // 每一项开关
+   *     //     SYS_MSG_TYPE_INTERACTIVE: 'accept', // 小游戏系统订阅消息
+   *     //     SYS_MSG_TYPE_RANK: 'accept'
+   *     //     zun-LzcQyW-edafCVvzPkK4de2Rllr1fFpw2A_x0oXE: 'reject', // 普通一次性订阅消息
+   *     //     ke_OZC_66gZxALLcsuI7ilCJSP2OJ2vWo2ooUPpkWrw: 'ban',
+   *     //   }
+   *     // }
+   *   }
+   * })
+   * ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/setting/SubscriptionsSetting.html
+  */
+  interface SubscriptionsSetting {
+    /** 订阅消息总开关，true 为开启，false 为关闭 */
+    mainSwitch: boolean
+    /** 每一项订阅消息的订阅状态。itemSettings对象的键为一次性订阅消息的模板id或系统订阅消息的类型
+     * - 一次性订阅消息使用方法详见 [Taro.requestSubscribeMessage](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/subscribe-message/wx.requestSubscribeMessage.html)
+     * - 永久订阅消息（仅小游戏可用）使用方法详见 [Taro.requestSubscribeSystemMessage](https://developers.weixin.qq.com/minigame/dev/api/open-api/subscribe-message/wx.requestSubscribeSystemMessage.html)
+     * @type "accept" | "reject" | "ban"
+     */
+    itemSettings: {
+      [TEMPLATE_ID: string]: keyof SubscriptionsSetting.template_reflex | string
+    }
+  }
+
+  namespace SubscriptionsSetting {
+    /** 模版消息订阅类型 */
+    interface template_reflex {
+      /** 表示用户同意订阅该条id对应的模板消息 */
+      accept
+      /** 表示用户拒绝订阅该条id对应的模板消息 */
+      reject
+      /** 表示已被后台封禁 */
+      ban
+    }
   }
 
   interface TaroStatic {

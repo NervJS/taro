@@ -755,7 +755,7 @@ module.exports = {
         "label": "登录",
         "type": "category",
         "items": [
-          // "apis/open-api/login/pluginLogin",
+          "apis/open-api/login/pluginLogin",
           "apis/open-api/login/login",
           "apis/open-api/login/checkSession"
         ]
@@ -780,7 +780,7 @@ module.exports = {
         "label": "授权",
         "type": "category",
         "items": [
-          // "apis/open-api/authorize/authorizeForMiniProgram",
+          "apis/open-api/authorize/authorizeForMiniProgram",
           "apis/open-api/authorize/authorize"
         ]
       },
@@ -791,7 +791,7 @@ module.exports = {
           "apis/open-api/settings/openSetting",
           "apis/open-api/settings/getSetting",
           "apis/open-api/settings/AuthSetting",
-          // "apis/open-api/settings/SubscriptionsSetting",
+          "apis/open-api/settings/SubscriptionsSetting",
         ]
       },
       {
@@ -830,7 +830,7 @@ module.exports = {
         "label": "微信运动",
         "type": "category",
         "items": [
-          // "apis/open-api/werun/shareToWeRun",
+          "apis/open-api/werun/shareToWeRun",
           "apis/open-api/werun/getWeRunData",
         ]
       },
@@ -839,7 +839,7 @@ module.exports = {
         "type": "category",
         "items": [
           "apis/open-api/subscribe-message/requestSubscribeMessage",
-          // "apis/open-api/subscribe-message/requestSubscribeDeviceMessage",
+          "apis/open-api/subscribe-message/requestSubscribeDeviceMessage",
         ]
       },
       {
