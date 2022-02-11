@@ -12,14 +12,26 @@ sidebar_label: onUserCaptureScreen
 ## 类型
 
 ```tsx
-(callback: (res: TaroGeneral.CallbackResult) => void) => void
+(callback: Callback) => void
 ```
 
 ## 参数
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| callback | `(res: TaroGeneral.CallbackResult) => void` | 用户主动截屏事件的回调函数 |
+| callback | `Callback` | 用户主动截屏事件的回调函数 |
+
+### Callback
+
+用户主动截屏事件的回调函数
+
+```tsx
+(result: TaroGeneral.CallbackResult) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| result | `TaroGeneral.CallbackResult` |
 
 ## 示例代码
 

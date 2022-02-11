@@ -1,6 +1,20 @@
 import Taro from '../../index'
 
 declare module '../../index' {
+  namespace onNetworkWeakChange {
+    /** 弱网状态变化事件的回调函数 */
+    type Callback = (
+        result: CallbackResult,
+    ) => void
+
+    interface CallbackResult {
+      /** 当前是否处于弱网状态 */
+      weakNet: boolean
+      /** 当前网络类型 */
+      networkType: keyof getNetworkType.networkType
+    }
+  }
+
   namespace onNetworkStatusChange {
     /** 网络状态变化事件的回调函数 */
     type Callback = (
@@ -68,6 +82,24 @@ declare module '../../index' {
   }
 
   interface TaroStatic {
+    /** 监听弱网状态变化事件
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.onNetworkWeakChange(function (res) {
+     *   console.log(res.weakNet)
+     *   console.log(res.networkType)
+     * })
+     * // 取消监听
+     * Taro.offNetworkWeakChange()
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.onNetworkWeakChange.html
+     */
+    onNetworkWeakChange(
+      /** 弱网状态变化事件的回调函数 */
+      callback: onNetworkWeakChange.Callback,
+    ): void
+
     /** 监听网络状态变化。
      * @supported weapp, h5, rn
      * @example
@@ -82,6 +114,24 @@ declare module '../../index' {
     onNetworkStatusChange(
       /** 网络状态变化事件的回调函数 */
       callback: onNetworkStatusChange.Callback,
+    ): void
+
+    /** 取消监听弱网状态变化事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.offNetworkWeakChange.html
+     */
+     offNetworkWeakChange(
+      /** 弱网状态变化事件的回调函数 */
+      callback: onNetworkWeakChange.Callback,
+    ): void
+
+    /** 取消监听网络状态变化事件，参数为空，则取消所有的事件监听。
+     * @supported weapp, h5, rn
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.offNetworkStatusChange.html
+     */
+    offNetworkStatusChange(
+      /** 取消监听网络状态变化事件，参数为空，则取消所有的事件监听 */
+      callback?: onNetworkStatusChange.Callback,
     ): void
 
     /** 获取网络类型。
@@ -99,15 +149,6 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.getNetworkType.html
      */
     getNetworkType(option?: getNetworkType.Option): Promise<getNetworkType.SuccessCallbackResult>
-
-    /** 取消监听网络状态变化事件，参数为空，则取消所有的事件监听。
-     * @supported weapp, h5, rn
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.offNetworkStatusChange.html
-     */
-    offNetworkStatusChange(
-      /** 取消监听网络状态变化事件，参数为空，则取消所有的事件监听 */
-      callback?: (...args: any[]) => any,
-    ): void
 
     /** 获取局域网IP地址。
      * @supported weapp

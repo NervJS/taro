@@ -1003,15 +1003,15 @@ module.exports = {
         "label": "日历",
         "type": "category",
         "items": [
-          // "apis/device/calendar/addPhoneRepeatCalendar",
-          // "apis/device/calendar/addPhoneCalendar",
+          "apis/device/calendar/addPhoneRepeatCalendar",
+          "apis/device/calendar/addPhoneCalendar",
         ]
       },
       {
         "label": "联系人",
         "type": "category",
         "items": [
-          // "apis/device/contact/chooseContact",
+          "apis/device/contact/chooseContact",
           "apis/device/contact/addPhoneContact",
         ]
       },
@@ -1019,7 +1019,7 @@ module.exports = {
         "label": "无障碍",
         "type": "category",
         "items": [
-          // "apis/device/accessibility/checkIsOpenAccessibility",
+          "apis/device/accessibility/checkIsOpenAccessibility",
         ]
       },
       {
@@ -1027,7 +1027,7 @@ module.exports = {
         "type": "category",
         "items": [
           "apis/device/battery/getBatteryInfoSync",
-          "apis/device/battery/getBatteryInfo"
+          "apis/device/battery/getBatteryInfo",
         ]
       },
       {
@@ -1035,31 +1035,31 @@ module.exports = {
         "type": "category",
         "items": [
           "apis/device/clipboard/setClipboardData",
-          "apis/device/clipboard/getClipboardData"
+          "apis/device/clipboard/getClipboardData",
         ]
       },
       {
         "label": "网络",
         "type": "category",
         "items": [
-          // "apis/device/network/onNetworkWeakChange",
+          "apis/device/network/onNetworkWeakChange",
           "apis/device/network/onNetworkStatusChange",
-          // "apis/device/network/offNetworkWeakChange",
+          "apis/device/network/offNetworkWeakChange",
           "apis/device/network/offNetworkStatusChange",
           "apis/device/network/getNetworkType",
-          "apis/device/network/getLocalIPAddress"
+          "apis/device/network/getLocalIPAddress",
         ]
       },
       {
         "label": "屏幕",
         "type": "category",
         "items": [
-          // "apis/device/screen/setVisualEffectOnCapture",
+          "apis/device/screen/setVisualEffectOnCapture",
           "apis/device/screen/setScreenBrightness",
           "apis/device/screen/setKeepScreenOn",
           "apis/device/screen/onUserCaptureScreen",
           "apis/device/screen/offUserCaptureScreen",
-          "apis/device/screen/getScreenBrightness"
+          "apis/device/screen/getScreenBrightness",
         ]
       },
       {
@@ -1076,7 +1076,7 @@ module.exports = {
         "label": "电话",
         "type": "category",
         "items": [
-          "apis/device/phone/makePhoneCall"
+          "apis/device/phone/makePhoneCall",
         ]
       },
       {
@@ -1086,7 +1086,7 @@ module.exports = {
           "apis/device/accelerometer/stopAccelerometer",
           "apis/device/accelerometer/startAccelerometer",
           "apis/device/accelerometer/onAccelerometerChange",
-          "apis/device/accelerometer/offAccelerometerChange"
+          "apis/device/accelerometer/offAccelerometerChange",
         ]
       },
       {
@@ -1096,7 +1096,7 @@ module.exports = {
           "apis/device/compass/stopCompass",
           "apis/device/compass/startCompass",
           "apis/device/compass/onCompassChange",
-          "apis/device/compass/offCompassChange"
+          "apis/device/compass/offCompassChange",
         ]
       },
       {
@@ -1106,7 +1106,7 @@ module.exports = {
           "apis/device/motion/stopDeviceMotionListening",
           "apis/device/motion/startDeviceMotionListening",
           "apis/device/motion/onDeviceMotionChange",
-          "apis/device/motion/offDeviceMotionChange"
+          "apis/device/motion/offDeviceMotionChange",
         ]
       },
       {

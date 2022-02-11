@@ -12,11 +12,11 @@ sidebar_label: offNetworkStatusChange
 ## 类型
 
 ```tsx
-(callback?: (...args: any[]) => any) => void
+(callback?: Callback) => void
 ```
 
 ## 参数
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| callback | `(...args: any[]) => any` | 取消监听网络状态变化事件，参数为空，则取消所有的事件监听 |
+| callback | `Callback` | 取消监听网络状态变化事件，参数为空，则取消所有的事件监听 |
