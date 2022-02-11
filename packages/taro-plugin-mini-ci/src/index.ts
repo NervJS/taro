@@ -44,7 +44,7 @@ export default (ctx: IPluginContext, pluginOpts: CIOptions) => {
       .required()
   })
 
-  ctx.onBuildComplete(async () => {
+  ctx.onBuildFinish(async () => {
     const args = minimist(process.argv.slice(2), {
       boolean: ['open', 'upload', 'preview']
     })
