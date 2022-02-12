@@ -252,7 +252,7 @@ sidebar_label: RecorderManager
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
-| audioSource | `keyof audioSource` | 否 | 指定录音的音频输入源，可通过 [wx.getAvailableAudioSources()](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.getAvailableAudioSources.html) 获取当前可用的音频源 |
+| audioSource | `keyof audioSource` | 否 | 指定录音的音频输入源，可通过 [Taro.getAvailableAudioSources()](/docs/apis/media/audio/getAvailableAudioSources) 获取当前可用的音频源 |
 | duration | `number` | 否 | 录音的时长，单位 ms，最大值 600000（10 分钟） |
 | encodeBitRate | `number` | 否 | 编码码率，有效值见下表格 |
 | format | `keyof format` | 否 | 音频格式 |

@@ -469,11 +469,11 @@ declare module '../../index' {
       option: notifyBLECharacteristicValueChange.Option,
     ): Promise<notifyBLECharacteristicValueChange.Promised>
 
-    /** 获取蓝牙低功耗的最大传输单元。需在 [Taro.createBLEConnection](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.createBLEConnection.html) 调用成功后调用。
+    /** 获取蓝牙低功耗的最大传输单元。需在 [Taro.createBLEConnection](/docs/apis/device/bluetooth-ble/createBLEConnection) 调用成功后调用。
      * 
      * 注意:
      *  - 小程序中 MTU 为 ATT_MTU，包含 Op-Code 和 Attribute Handle 的长度，实际可以传输的数据长度为 ATT_MTU - 3
-     *  - iOS 系统中 MTU 为固定值；安卓系统中，MTU 会在系统协商成功之后发生改变，建议使用 [Taro.onBLEMTUChange](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.onBLEMTUChange.html) 监听。
+     *  - iOS 系统中 MTU 为固定值；安卓系统中，MTU 会在系统协商成功之后发生改变，建议使用 [Taro.onBLEMTUChange](/docs/apis/device/bluetooth-ble/onBLEMTUChange) 监听。
      * @supported weapp
      * @example
      * ```tsx

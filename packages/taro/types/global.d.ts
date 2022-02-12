@@ -377,7 +377,6 @@ declare namespace TaroGeneral {
      * @illustrate 当前标签技术不支持该功能
      */
     13024
-
   }
 
   /** 启动参数 */

@@ -219,7 +219,7 @@ declare module '../../index' {
       /** 回调函数，在执行 `SelectorQuery.exec` 方法后，节点信息会在 `callback` 中返回。 */
       callback?: NodesRef.BoundingClientRectCallback,
     ): SelectorQuery
-    /** 添加节点的 Context 对象查询请求。目前支持 [VideoContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.html)、[CanvasContext](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.html)、[LivePlayerContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.html)、[EditorContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.html)和 [MapContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.html) 的获取。
+    /** 添加节点的 Context 对象查询请求。目前支持 [VideoContext](/docs/apis/media/video/VideoContext)、[CanvasContext](/docs/apis/canvas/CanvasContext)、[LivePlayerContext](/docs/apis/media/live/LivePlayerContext)、[EditorContext](/docs/apis/media/editor/EditorContext)和 [MapContext](/docs/apis/media/map/MapContext) 的获取。
      * @supported weapp, h5
      * @example
      * ```tsx
@@ -268,7 +268,7 @@ declare module '../../index' {
       /** 回调函数 */
       callback?: NodesRef.FieldsCallback,
     ): SelectorQuery
-    /** 获取 Node 节点实例。目前支持 [Canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 的获取。
+    /** 获取 Node 节点实例。目前支持 [Canvas](/docs/components/canvas) 的获取。
      * @supported weapp, h5
      * @example
      * ```tsx

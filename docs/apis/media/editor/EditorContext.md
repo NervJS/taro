@@ -6,6 +6,8 @@ sidebar_label: EditorContext
 `EditorContext` 实例，可通过 `Taro.createSelectorQuery` 获取。
 `EditorContext` 通过 `id` 跟一个 `editor` 组件绑定，操作对应的 `editor` 组件。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.html)
 
 ## 方法
@@ -102,6 +104,22 @@ sidebar_label: EditorContext
 | 参数 | 类型 |
 | --- | --- |
 | option | `GetContentsOption` |
+
+### getSelectionText
+
+获取编辑器已选区域内的纯文本内容。当编辑器失焦或未选中一段区间时，返回内容为空。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.getSelectionText.html)
+
+```tsx
+(option?: Option) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `Option` |
 
 ### insertDivider
 
@@ -268,6 +286,22 @@ this.editorCtx.insertImage({
 | fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
 | success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
+### getSelectionText
+
+#### Option
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+
+#### SuccessCallbackResult
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| text | `string` | 纯文本内容 |
+
 ### InsertDividerOption
 
 | 参数 | 类型 | 必填 | 说明 |
@@ -337,10 +371,12 @@ this.editorCtx.insertImage({
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
+| EditorContext | ✔️ |  |  |
 | EditorContext.blur | ✔️ |  |  |
 | EditorContext.clear | ✔️ |  |  |
 | EditorContext.format | ✔️ |  |  |
 | EditorContext.getContents | ✔️ |  |  |
+| EditorContext.getSelectionText | ✔️ |  |  |
 | EditorContext.insertDivider | ✔️ |  |  |
 | EditorContext.insertImage | ✔️ |  |  |
 | EditorContext.insertText | ✔️ |  |  |

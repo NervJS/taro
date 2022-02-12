@@ -20,13 +20,13 @@ sidebar_label: canvasGetImageData
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | option | `Option` |  |
-| component | `TaroGeneral.IAnyObject` | 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件 |
+| component | `TaroGeneral.IAnyObject` | 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas) 组件 |
 
 ### Option
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
-| canvasId | `string` | 是 | 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件的 `canvas-id` 属性。 |
+| canvasId | `string` | 是 | 画布标识，传入 [canvas](/docs/components/canvas) 组件的 `canvas-id` 属性。 |
 | height | `number` | 是 | 将要被提取的图像数据矩形区域的高度 |
 | width | `number` | 是 | 将要被提取的图像数据矩形区域的宽度 |
 | x | `number` | 是 | 将要被提取的图像数据矩形区域的左上角横坐标 |

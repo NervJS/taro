@@ -44,9 +44,29 @@ declare module '../../index' {
       /** 接口调用成功的回调函数 */
       success?: (res: TaroGeneral.CallbackResult) => void
     }
+    interface SendMessageOption {
+      /** SEI消息 */
+      msg: string
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: TaroGeneral.CallbackResult) => void
+    }
     interface SetBGMVolumeOption {
       /** 音量大小，范围是 0-1 */
-      volume: string
+      volume: number
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: TaroGeneral.CallbackResult) => void
+    }
+    interface SetMICVolumeOption {
+      /** 音量大小，范围是 0-1 */
+      volume: number
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
@@ -121,6 +141,7 @@ declare module '../../index' {
   }
   /** `LivePusherContext` 实例，可通过 `Taro.createLivePusherContext` 获取。
    * `LivePusherContext` 与页面内唯一的 `live-pusher` 组件绑定，操作对应的 `live-pusher` 组件。
+   * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePusherContext.html
    */
   interface LivePusherContext {
@@ -149,11 +170,21 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePusherContext.resumeBGM.html
      */
     resumeBGM(option?: LivePusherContext.ResumeBGMOption): void
+    /** 发送SEI消息
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePusherContext.sendMessage.html
+     */
+    sendMessage(option?: LivePusherContext.SendMessageOption): void
     /** 设置背景音音量
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePusherContext.setBGMVolume.html
      */
     setBGMVolume(option: LivePusherContext.SetBGMVolumeOption): void
+    /** 设置麦克风音量
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePusherContext.setMICVolume.html
+     */
+    setMICVolume(option: LivePusherContext.SetMICVolumeOption): void
     /** 快照
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePusherContext.snapshot.html
@@ -204,6 +235,14 @@ declare module '../../index' {
       /** 接口调用成功的回调函数 */
       success?: (res: TaroGeneral.CallbackResult) => void
     }
+    interface ExitPictureInPictureOption {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: TaroGeneral.CallbackResult) => void
+    }
     interface MuteOption {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
@@ -238,6 +277,14 @@ declare module '../../index' {
        * - 90: 屏幕逆时针90度;
        * - -90: 屏幕顺时针90度; */
       direction?: 0 | 90 | -90
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: TaroGeneral.CallbackResult) => void
+    }
+    interface RequestPictureInPictureOption {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
@@ -281,6 +328,7 @@ declare module '../../index' {
 
   /** `LivePlayerContext` 实例，可通过 `Taro.createLivePlayerContext` 获取。
    * `LivePlayerContext` 通过 `id` 跟一个 `live-player` 组件绑定，操作对应的 `live-player` 组件。
+   * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.html
    */
   interface LivePlayerContext {
@@ -289,6 +337,11 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.exitFullScreen.html
      */
     exitFullScreen(option?: LivePlayerContext.ExitFullScreenOption): void
+    /** 退出小窗，该方法可在任意页面调用
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.exitPictureInPicture.html
+     */
+    exitPictureInPicture(option?: LivePlayerContext.ExitPictureInPictureOption): void
     /** 静音
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.mute.html
@@ -309,7 +362,14 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.requestFullScreen.html
      */
     requestFullScreen(
-        option: LivePlayerContext.RequestFullScreenOption,
+      option: LivePlayerContext.RequestFullScreenOption,
+    ): void
+    /** 进入全屏
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.requestPictureInPicture.html
+     */
+    requestPictureInPicture(
+      option: LivePlayerContext.RequestPictureInPictureOption,
     ): void
     /** 恢复
      * @supported weapp
@@ -329,20 +389,20 @@ declare module '../../index' {
   }
 
   interface TaroStatic {
-    /** 创建 [live-pusher](https://developers.weixin.qq.com/miniprogram/dev/component/live-pusher.html) 上下文 [LivePusherContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePusherContext.html) 对象。
+    /** 创建 [live-pusher](/docs/components/live-pusher) 上下文 [LivePusherContext](/docs/apis/media/live/LivePusherContext) 对象。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/wx.createLivePusherContext.html
      */
     createLivePusherContext(): LivePusherContext
 
-    /** 创建 [live-player](https://developers.weixin.qq.com/miniprogram/dev/component/live-player.html) 上下文 [LivePlayerContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.html) 对象。
+    /** 创建 [live-player](/docs/components/live-player) 上下文 [LivePlayerContext](/docs/apis/media/live/LivePlayerContext) 对象。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/wx.createLivePlayerContext.html
      */
     createLivePlayerContext(
-      /** [live-player](https://developers.weixin.qq.com/miniprogram/dev/component/live-player.html) 组件的 id */
+      /** [live-player](/docs/components/live-player) 组件的 id */
       id: string,
-      /** 在自定义组件下，当前组件实例的this，以操作组件内 [live-player](https://developers.weixin.qq.com/miniprogram/dev/component/live-player.html) 组件 */
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 [live-player](/docs/components/live-player) 组件 */
       component?: TaroGeneral.IAnyObject,
     ): LivePlayerContext
   }

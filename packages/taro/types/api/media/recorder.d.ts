@@ -59,7 +59,7 @@ declare module '../../index' {
       tempFilePath: string
     }
     interface StartOption {
-      /** 指定录音的音频输入源，可通过 [wx.getAvailableAudioSources()](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.getAvailableAudioSources.html) 获取当前可用的音频源 */
+      /** 指定录音的音频输入源，可通过 [Taro.getAvailableAudioSources()](/docs/apis/media/audio/getAvailableAudioSources) 获取当前可用的音频源 */
       audioSource?: keyof audioSource
       /** 录音的时长，单位 ms，最大值 600000（10 分钟） */
       duration?: number
@@ -263,7 +263,7 @@ declare module '../../index' {
     stopRecord(option?: stopRecord.Option): void
 
     /** 开始录音。当主动调用`Taro.stopRecord`，或者录音超过1分钟时自动结束录音，返回录音文件的临时文件路径。当用户离开小程序时，此接口无法调用。
-     * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.getRecorderManager](https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/wx.getRecorderManager.html) 接口**
+     * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.getRecorderManager](/docs/apis/media/recorder/getRecorderManager) 接口**
      * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.record
      * @supported weapp
      * @example

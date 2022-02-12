@@ -898,7 +898,7 @@ declare module '../../index' {
       errMsg: string
     }
     interface StatSuccessCallbackResult extends TaroGeneral.CallbackResult {
-      /** [Stats](https://developers.weixin.qq.com/miniprogram/dev/api/file/Stats.html)|Object
+      /** [Stats](/docs/apis/file/Stats) | Object
        *
        * 当 recursive 为 false 时，res.stats 是一个 Stats 对象。当 recursive 为 true 且 path 是一个目录的路径时，res.stats 是一个 Object，key 以 path 为根路径的相对路径，value 是该路径对应的 Stats 对象。 */
       stats: Stats | TaroGeneral.IAnyObject
@@ -1401,7 +1401,7 @@ declare module '../../index' {
      */
     getSavedFileList(option?: getSavedFileList.Option): Promise<getSavedFileList.SuccessCallbackResult>
 
-    /** 获取本地文件的文件信息。此接口只能用于获取已保存到本地的文件，若需要获取临时文件信息，请使用 [Taro.getFileInfo](https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileInfo.html) 接口。
+    /** 获取本地文件的文件信息。此接口只能用于获取已保存到本地的文件，若需要获取临时文件信息，请使用 [Taro.getFileInfo](/docs/apis/file/getFileInfo) 接口。
      * @supported weapp, rn
      * @example
      * ```tsx

@@ -33,7 +33,7 @@ sidebar_label: getAvailableAudioSources
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| audioSources | `(keyof audioSources)[]` | 支持的音频输入源列表，可在 [RecorderManager.start()](https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.start.html) 接口中使用。返回值定义参考 https://developer.android.com/reference/kotlin/android/media/MediaRecorder.AudioSource |
+| audioSources | `(keyof audioSources)[]` | 支持的音频输入源列表，可在 [RecorderManager.start()](/docs/apis/media/recorder/RecorderManager#start)用。返回值定义参考 https://developer.android.com/reference/kotlin/android/media/MediaRecorder.AudioSource |
 | errMsg | `string` | 调用结果 |
 
 ### audioSources

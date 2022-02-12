@@ -42,7 +42,7 @@ declare namespace VoipRoomProps {
 
 /** 多人音视频对话
  *
- * 需用户授权 `scope.camera`、`scope.record`。相关接口： [Taro.joinVoIPChat](https://developers.weixin.qq.com/miniprogram/dev/api/media/voip/wx.joinVoIPChat.html)
+ * 需用户授权 `scope.camera`、`scope.record`。相关接口： [Taro.joinVoIPChat](/docs/apis/media/voip/joinVoIPChat)
  * 开通该组件权限后，开发者可在 joinVoIPChat 成功后，获取房间成员的 openid，传递给 voip-room 组件，以显示成员画面。
  * @classification media
  * @supported weapp

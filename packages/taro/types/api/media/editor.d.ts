@@ -3,6 +3,7 @@ import Taro from '../../index'
 declare module '../../index' {
   /** `EditorContext` 实例，可通过 `Taro.createSelectorQuery` 获取。
    * `EditorContext` 通过 `id` 跟一个 `editor` 组件绑定，操作对应的 `editor` 组件。
+   * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.html
    */
   interface EditorContext {
@@ -59,6 +60,11 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.getContents.html
      */
     getContents(option?: EditorContext.GetContentsOption): void
+    /** 获取编辑器已选区域内的纯文本内容。当编辑器失焦或未选中一段区间时，返回内容为空。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.getSelectionText.html
+     */
+    getSelectionText(option?: EditorContext.getSelectionText.Option): void
     /** 插入分割线
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.insertDivider.html
@@ -138,6 +144,20 @@ declare module '../../index' {
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (res: TaroGeneral.CallbackResult) => void
+    }
+    namespace getSelectionText {
+      interface Option {
+        /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+        complete?: (res: TaroGeneral.CallbackResult) => void
+        /** 接口调用失败的回调函数 */
+        fail?: (res: TaroGeneral.CallbackResult) => void
+        /** 接口调用成功的回调函数 */
+        success?: (res: SuccessCallbackResult) => void
+      }
+      interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+        /** 纯文本内容 */
+        text: string
+      }
     }
     interface InsertDividerOption {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */

@@ -15,7 +15,7 @@ sidebar_label: SubscriptionsSetting
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | mainSwitch | `boolean` | 订阅消息总开关，true 为开启，false 为关闭 |
-| itemSettings | `{ [TEMPLATE_ID: string]: string; }` | 每一项订阅消息的订阅状态。itemSettings对象的键为一次性订阅消息的模板id或系统订阅消息的类型<br />- 一次性订阅消息使用方法详见 [Taro.requestSubscribeMessage](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/subscribe-message/wx.requestSubscribeMessage.html)<br />- 永久订阅消息（仅小游戏可用）使用方法详见 [Taro.requestSubscribeSystemMessage](https://developers.weixin.qq.com/minigame/dev/api/open-api/subscribe-message/wx.requestSubscribeSystemMessage.html) |
+| itemSettings | `{ [TEMPLATE_ID: string]: string; }` | 每一项订阅消息的订阅状态。itemSettings对象的键为一次性订阅消息的模板id或系统订阅消息的类型<br />- 一次性订阅消息使用方法详见 [Taro.requestSubscribeMessage](/docs/apis/open-api/subscribe-message/requestSubscribeMessage)<br />- 永久订阅消息（仅小游戏可用）使用方法详见 [Taro.requestSubscribeSystemMessage](https://developers.weixin.qq.com/minigame/dev/api/open-api/subscribe-message/wx.requestSubscribeSystemMessage.html) |
 
 ## 参数
 

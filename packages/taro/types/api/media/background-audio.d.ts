@@ -86,7 +86,7 @@ declare module '../../index' {
     }
   }
 
-  /** BackgroundAudioManager 实例，可通过 [Taro.getBackgroundAudioManager](https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.getBackgroundAudioManager.html) 获取。
+  /** BackgroundAudioManager 实例，可通过 [Taro.getBackgroundAudioManager](/docs/apis/media/background-audio/getBackgroundAudioManager) 获取。
    * @example
    * ```tsx
    * const backgroundAudioManager = Taro.getBackgroundAudioManager()
@@ -252,7 +252,7 @@ declare module '../../index' {
     ): void
 
     /** 获取后台音乐播放状态。
-     * **注意：1.2.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.getBackgroundAudioManager](https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.getBackgroundAudioManager.html) 接口**
+     * **注意：1.2.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.getBackgroundAudioManager](/docs/apis/media/background-audio/getBackgroundAudioManager) 接口**
      * @supported weapp
      * @example
      * ```tsx

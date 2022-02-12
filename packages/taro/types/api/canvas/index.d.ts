@@ -3,9 +3,9 @@ import Taro from '../../index'
 declare module '../../index' {
   namespace canvasToTempFilePath {
     interface Option {
-      /** 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件实例 （canvas type="2d" 时使用该属性）。 */
+      /** 画布标识，传入 [canvas](/docs/components/canvas) 组件实例 （canvas type="2d" 时使用该属性）。 */
       canvas?: CanvasProps
-      /** 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件的 canvas-id */
+      /** 画布标识，传入 [canvas](/docs/components/canvas) 组件的 canvas-id */
       canvasId?: string
       /** 图片的质量，目前仅对 jpg 有效。取值范围为 (0, 1]，不在范围内时当作 1.0 处理。 */
       quality?: number
@@ -75,7 +75,7 @@ declare module '../../index' {
   }
   namespace canvasPutImageData {
     interface Option {
-      /** 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件的 canvas-id 属性。 */
+      /** 画布标识，传入 [canvas](/docs/components/canvas) 组件的 canvas-id 属性。 */
       canvasId: string
       /** 图像像素点数据，一维数组，每四项表示一个像素点的 rgba */
       data: Uint8ClampedArray
@@ -97,7 +97,7 @@ declare module '../../index' {
   }
   namespace canvasGetImageData {
     interface Option {
-      /** 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件的 `canvas-id` 属性。 */
+      /** 画布标识，传入 [canvas](/docs/components/canvas) 组件的 `canvas-id` 属性。 */
       canvasId: string
       /** 将要被提取的图像数据矩形区域的高度 */
       height: number
@@ -622,7 +622,7 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.fill.html
      */
     fill(): void
-    /** 填充一个矩形。用 [`setFillStyle`](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.setFillStyle.html) 设置矩形的填充色，如果没设置默认是黑色。
+    /** 填充一个矩形。用 [`setFillStyle`](/docs/apis/canvas/CanvasContext#setfillstyle) 设置矩形的填充色，如果没设置默认是黑色。
      * @supported weapp
      * @example
      * ```tsx
@@ -757,7 +757,7 @@ declare module '../../index' {
       /** 结束点的 y 坐标 */
       y: number,
     ): void
-    /** 创建一个矩形路径。需要用 [`fill`](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.fill.html) 或者 [`stroke`](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.stroke.html) 方法将矩形真正的画到 `canvas` 中
+    /** 创建一个矩形路径。需要用 [`fill`](/docs/apis/canvas/CanvasContext#fill) 或者 [`stroke`](/docs/apis/canvas/CanvasContext#stroke) 方法将矩形真正的画到 `canvas` 中
      * @supported weapp
      * @example
      * ```tsx
@@ -1033,7 +1033,7 @@ declare module '../../index' {
       /** 线条的宽度，单位px */
       lineWidth: number,
     ): void
-    /** 设置最大斜接长度。斜接长度指的是在两条线交汇处内角和外角之间的距离。当 [CanvasContext.setLineJoin()](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.setLineJoin.html) 为 miter 时才有效。超过最大倾斜长度的，连接处将以 lineJoin 为 bevel 来显示。
+    /** 设置最大斜接长度。斜接长度指的是在两条线交汇处内角和外角之间的距离。当 [CanvasContext.setLineJoin()](/docs/apis/canvas/CanvasContext#setlinejoin) 为 miter 时才有效。超过最大倾斜长度的，连接处将以 lineJoin 为 bevel 来显示。
      * @supported weapp
      * @example
      * ```tsx
@@ -1218,7 +1218,7 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.stroke.html
      */
     stroke(): void
-    /** 画一个矩形(非填充)。 用 [`setStrokeStyle`](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.setStrokeStyle.html) 设置矩形线条的颜色，如果没设置默认是黑色。
+    /** 画一个矩形(非填充)。 用 [`setStrokeStyle`](/docs/apis/canvas/CanvasContext#setstrokestyle) 设置矩形线条的颜色，如果没设置默认是黑色。
      * @supported weapp
      * @example
      * ```tsx
@@ -1299,7 +1299,7 @@ declare module '../../index' {
       /** 要测量的文本 */
       text: string,
     ): TextMetrics
-    /** 创建一个圆形的渐变颜色。起点在圆心，终点在圆环。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasGradient.addColorStop.html) 来指定渐变点，至少要两个。
+    /** 创建一个圆形的渐变颜色。起点在圆心，终点在圆环。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()](/docs/apis/canvas/CanvasGradient#addcolorstop) 来指定渐变点，至少要两个。
      * @supported weapp
      * @example
      * ```tsx
@@ -1323,7 +1323,7 @@ declare module '../../index' {
       /** 圆的半径 */
       r: number,
     ): CanvasGradient
-    /** 创建一个线性的渐变颜色。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasGradient.addColorStop.html) 来指定渐变点，至少要两个。
+    /** 创建一个线性的渐变颜色。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()](/docs/apis/canvas/CanvasGradient#addcolorstop) 来指定渐变点，至少要两个。
      * @supported weapp
      * @example
      * ```tsx
@@ -1694,7 +1694,7 @@ declare module '../../index' {
      */
     createOffscreenCanvas(): OffscreenCanvas
 
-    /** 创建 canvas 的绘图上下文 [CanvasContext](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.html) 对象
+    /** 创建 canvas 的绘图上下文 [CanvasContext](/docs/apis/canvas/CanvasContext) 对象
      *
      * **Tip**: 需要指定 canvasId，该绘图上下文只作用于对应的 `<canvas/>`
      * @supported weapp, h5
@@ -1722,9 +1722,9 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.createCanvasContext.html
      */
     createCanvasContext(
-      /** 要获取上下文的 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件 canvas-id 属性 */
+      /** 要获取上下文的 [canvas](/docs/components/canvas) 组件 canvas-id 属性 */
       canvasId: string,
-      /** 在自定义组件下，当前组件实例的this，表示在这个自定义组件下查找拥有 canvas-id 的 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) ，如果省略则不在任何自定义组件内查找 */
+      /** 在自定义组件下，当前组件实例的this，表示在这个自定义组件下查找拥有 canvas-id 的 [canvas](/docs/components/canvas) ，如果省略则不在任何自定义组件内查找 */
       component?: TaroGeneral.IAnyObject,
     ): CanvasContext
 
@@ -1753,7 +1753,7 @@ declare module '../../index' {
      */
     canvasToTempFilePath(
       option: canvasToTempFilePath.Option,
-      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件 */
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas) 组件 */
       component?: TaroGeneral.IAnyObject,
     ): Promise<canvasToTempFilePath.SuccessCallbackResult>
 
@@ -1775,7 +1775,7 @@ declare module '../../index' {
      */
     canvasPutImageData(
       option: canvasPutImageData.Option,
-      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件 */
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas) 组件 */
       component?: TaroGeneral.IAnyObject,
     ): Promise<TaroGeneral.CallbackResult>
 
@@ -1801,7 +1801,7 @@ declare module '../../index' {
      */
     canvasGetImageData(
       option: canvasGetImageData.Option,
-      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件 */
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas) 组件 */
       component?: TaroGeneral.IAnyObject,
     ): Promise<canvasGetImageData.SuccessCallbackResult>
   }

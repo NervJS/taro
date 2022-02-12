@@ -61,7 +61,7 @@ Taro.createSelectorQuery().selectAll('.a-class').boundingClientRect(function(rec
 
 ### context
 
-添加节点的 Context 对象查询请求。目前支持 [VideoContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.html)、[CanvasContext](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.html)、[LivePlayerContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.html)、[EditorContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.html)和 [MapContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.html) 的获取。
+添加节点的 Context 对象查询请求。目前支持 [VideoContext](/docs/apis/media/video/VideoContext)、[CanvasContext](/docs/apis/canvas/CanvasContext)、[LivePlayerContext](/docs/apis/media/live/LivePlayerContext)、[EditorContext](/docs/apis/media/editor/EditorContext)和 [MapContext](/docs/apis/media/map/MapContext) 的获取。
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
@@ -130,7 +130,7 @@ Taro.createSelectorQuery().select('#the-id').fields({
 
 ### node
 
-获取 Node 节点实例。目前支持 [Canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 的获取。
+获取 Node 节点实例。目前支持 [Canvas](/docs/components/canvas) 的获取。
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 

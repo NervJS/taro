@@ -796,7 +796,8 @@ MediaContainer.destroy 将容器销毁，释放资源
 MediaContainer.export 将容器内的轨道合并并导出视频文件
 MediaContainer.extractDataSource 将传入的视频源分离轨道
 MediaContainer.removeTrack 将音频或视频轨道从容器中移除
-MediaTrack 可通过 MediaContainer.extractDataSource 返回
+
+#### MediaTrack 可通过 MediaContainer.extractDataSource 返回
 
 ### 实时语音
 

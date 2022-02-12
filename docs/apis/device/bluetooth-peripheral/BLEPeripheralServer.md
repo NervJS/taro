@@ -111,7 +111,7 @@ sidebar_label: BLEPeripheralServer
 
 监听已连接的设备请求读当前外围设备的特征值事件
 
-收到该消息后需要立刻调用 [writeCharacteristicValue](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-peripheral/BLEPeripheralServer.writeCharacteristicValue.html) 写回数据，否则主机不会收到响应。
+收到该消息后需要立刻调用 [writeCharacteristicValue](/docs/apis/device/bluetooth-peripheral/BLEPeripheralServer#writecharacteristicvalue) 写回数据，否则主机不会收到响应。
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
@@ -339,7 +339,7 @@ sidebar_label: BLEPeripheralServer
 | --- | --- | --- |
 | serviceId | `string` | 蓝牙特征对应服务的 UUID |
 | characteristicId | `string` | 蓝牙特征的 UUID |
-| callbackId | `number` | 唯一标识码，调用 [writeCharacteristicValue](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-peripheral/BLEPeripheralServer.writeCharacteristicValue.html) 时使用 |
+| callbackId | `number` | 唯一标识码，调用 [writeCharacteristicValue](/docs/apis/device/bluetooth-peripheral/BLEPeripheralServer#writecharacteristicvalue) 时使用 |
 
 ### onCharacteristicSubscribed
 
@@ -403,7 +403,7 @@ sidebar_label: BLEPeripheralServer
 | --- | --- | --- |
 | serviceId | `string` | 蓝牙特征对应服务的 UUID |
 | characteristicId | `string` | 蓝牙特征的 UUID |
-| callbackId | `number` | 唯一标识码，调用 [writeCharacteristicValue](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-peripheral/BLEPeripheralServer.writeCharacteristicValue.html) 时使用 |
+| callbackId | `number` | 唯一标识码，调用 [writeCharacteristicValue](/docs/apis/device/bluetooth-peripheral/BLEPeripheralServer#writecharacteristicvalue) 时使用 |
 | value | `ArrayBuffer` | 请求写入特征的二进制数据值 |
 
 ### removeService

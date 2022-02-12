@@ -6,6 +6,8 @@ sidebar_label: LivePlayerContext
 `LivePlayerContext` 实例，可通过 `Taro.createLivePlayerContext` 获取。
 `LivePlayerContext` 通过 `id` 跟一个 `live-player` 组件绑定，操作对应的 `live-player` 组件。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.html)
 
 ## 方法
@@ -25,6 +27,22 @@ sidebar_label: LivePlayerContext
 | 参数 | 类型 |
 | --- | --- |
 | option | `ExitFullScreenOption` |
+
+### exitPictureInPicture
+
+退出小窗，该方法可在任意页面调用
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.exitPictureInPicture.html)
+
+```tsx
+(option?: ExitPictureInPictureOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `ExitPictureInPictureOption` |
 
 ### mute
 
@@ -90,6 +108,22 @@ sidebar_label: LivePlayerContext
 | --- | --- |
 | option | `RequestFullScreenOption` |
 
+### requestPictureInPicture
+
+进入全屏
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.requestPictureInPicture.html)
+
+```tsx
+(option: RequestPictureInPictureOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `RequestPictureInPictureOption` |
+
 ### resume
 
 恢复
@@ -148,6 +182,14 @@ sidebar_label: LivePlayerContext
 | fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
 | success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
+### ExitPictureInPictureOption
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+
 ### MuteOption
 
 | 参数 | 类型 | 必填 | 说明 |
@@ -178,6 +220,14 @@ sidebar_label: LivePlayerContext
 | --- | --- | :---: | --- |
 | complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | direction | 0 or 90 or -90 | 否 | 设置全屏时的方向<br /><br />可选值：<br />- 0: 正常竖向;<br />- 90: 屏幕逆时针90度;<br />- -90: 屏幕顺时针90度; |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+
+### RequestPictureInPictureOption
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
 | success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
@@ -218,11 +268,14 @@ sidebar_label: LivePlayerContext
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
+| LivePlayerContext | ✔️ |  |  |
 | LivePlayerContext.exitFullScreen | ✔️ |  |  |
+| LivePlayerContext.exitPictureInPicture | ✔️ |  |  |
 | LivePlayerContext.mute | ✔️ |  |  |
 | LivePlayerContext.pause | ✔️ |  |  |
 | LivePlayerContext.play | ✔️ |  |  |
 | LivePlayerContext.requestFullScreen | ✔️ |  |  |
+| LivePlayerContext.requestPictureInPicture | ✔️ |  |  |
 | LivePlayerContext.resume | ✔️ |  |  |
 | LivePlayerContext.snapshot | ✔️ |  |  |
 | LivePlayerContext.stop | ✔️ |  |  |

@@ -52,25 +52,25 @@ declare module '../../index' {
    * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html
   */
   interface AuthSetting {
-    /** 是否授权用户信息，对应接口 [Taro.getUserInfo](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/user-info/wx.getUserInfo.html) */
+    /** 是否授权用户信息，对应接口 [Taro.getUserInfo](/docs/apis/open-api/user-info/getUserInfo) */
     'scope.userInfo'?: boolean
-    /** 是否授权地理位置，对应接口 [Taro.getLocation](https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.getLocation.html), [Taro.chooseLocation](https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.chooseLocation.html) */
+    /** 是否授权地理位置，对应接口 [Taro.getLocation](/docs/apis/location/getLocation), [Taro.chooseLocation](/docs/apis/location/chooseLocation) */
     'scope.userLocation'?: boolean
-    /** 是否授权通讯地址，对应接口 [Taro.chooseAddress](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/address/wx.chooseAddress.html) */
+    /** 是否授权通讯地址，对应接口 [Taro.chooseAddress](/docs/apis/open-api/address/chooseAddress) */
     'scope.address'?: boolean
-    /** 是否授权发票抬头，对应接口 [Taro.chooseInvoiceTitle](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/invoice/wx.chooseInvoiceTitle.html) */
+    /** 是否授权发票抬头，对应接口 [Taro.chooseInvoiceTitle](/docs/apis/open-api/invoice/chooseInvoiceTitle) */
     'scope.invoiceTitle'?: boolean
-    /** 是否授权获取发票，对应接口 [Taro.chooseInvoice](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/invoice/wx.chooseInvoice.html) */
+    /** 是否授权获取发票，对应接口 [Taro.chooseInvoice](/docs/apis/open-api/invoice/chooseInvoice) */
     'scope.invoice'?: boolean
-    /** 是否授权微信运动步数，对应接口 [Taro.getWeRunData](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/werun/wx.getWeRunData.html) */
+    /** 是否授权微信运动步数，对应接口 [Taro.getWeRunData](/docs/apis/open-api/werun/getWeRunData) */
     'scope.werun'?: boolean
-    /** 是否授权录音功能，对应接口 [Taro.startRecord](https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/wx.startRecord.html) */
+    /** 是否授权录音功能，对应接口 [Taro.startRecord](/docs/apis/media/recorder/startRecord) */
     'scope.record'?: boolean
-    /** 是否授权保存到相册 [Taro.saveImageToPhotosAlbum](https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.saveImageToPhotosAlbum.html), [Taro.saveVideoToPhotosAlbum](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.saveVideoToPhotosAlbum.html) */
+    /** 是否授权保存到相册 [Taro.saveImageToPhotosAlbum](/docs/apis/media/image/saveImageToPhotosAlbum), [Taro.saveVideoToPhotosAlbum](/docs/apis/media/video/saveVideoToPhotosAlbum) */
     'scope.writePhotosAlbum'?: boolean
-    /** 是否授权摄像头，对应[[camera](https://developers.weixin.qq.com/miniprogram/dev/component/camera.html)](https://developers.weixin.qq.com/miniprogram/dev/component/camera.html) 组件 */
+    /** 是否授权摄像头，对应 [camera](/docs/components/camera) 组件 */
     'scope.camera'?: boolean
-    /** 是否授权小程序在后台运行蓝牙，对应接口 [Taro.openBluetoothAdapterBackground](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/setting/(wx.openBluetoothAdapterBackground)) */
+    /** 是否授权小程序在后台运行蓝牙，对应接口 [Taro.openBluetoothAdapterBackground](/docs/apis/open-api/setting/openBluetoothAdapterBackground) */
     'scope.bluetoothBackground'?: boolean
   }
 
@@ -107,7 +107,7 @@ declare module '../../index' {
     /** 订阅消息总开关，true 为开启，false 为关闭 */
     mainSwitch: boolean
     /** 每一项订阅消息的订阅状态。itemSettings对象的键为一次性订阅消息的模板id或系统订阅消息的类型
-     * - 一次性订阅消息使用方法详见 [Taro.requestSubscribeMessage](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/subscribe-message/wx.requestSubscribeMessage.html)
+     * - 一次性订阅消息使用方法详见 [Taro.requestSubscribeMessage](/docs/apis/open-api/subscribe-message/requestSubscribeMessage)
      * - 永久订阅消息（仅小游戏可用）使用方法详见 [Taro.requestSubscribeSystemMessage](https://developers.weixin.qq.com/minigame/dev/api/open-api/subscribe-message/wx.requestSubscribeSystemMessage.html)
      * @type "accept" | "reject" | "ban"
      */

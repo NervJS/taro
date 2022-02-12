@@ -81,7 +81,7 @@ declare module '../../index' {
     ): void
     /** 监听已连接的设备请求读当前外围设备的特征值事件
      * 
-     * 收到该消息后需要立刻调用 [writeCharacteristicValue](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-peripheral/BLEPeripheralServer.writeCharacteristicValue.html) 写回数据，否则主机不会收到响应。
+     * 收到该消息后需要立刻调用 [writeCharacteristicValue](/docs/apis/device/bluetooth-peripheral/BLEPeripheralServer#writecharacteristicvalue) 写回数据，否则主机不会收到响应。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-peripheral/BLEPeripheralServer.onCharacteristicReadRequest.html
      */
@@ -249,7 +249,7 @@ declare module '../../index' {
         serviceId: string
         /** 蓝牙特征的 UUID */
         characteristicId: string
-        /** 唯一标识码，调用 [writeCharacteristicValue](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-peripheral/BLEPeripheralServer.writeCharacteristicValue.html) 时使用 */
+        /** 唯一标识码，调用 [writeCharacteristicValue](/docs/apis/device/bluetooth-peripheral/BLEPeripheralServer#writecharacteristicvalue) 时使用 */
         callbackId: number
       }
     }
@@ -290,7 +290,7 @@ declare module '../../index' {
         serviceId: string
         /** 蓝牙特征的 UUID */
         characteristicId: string
-        /** 唯一标识码，调用 [writeCharacteristicValue](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-peripheral/BLEPeripheralServer.writeCharacteristicValue.html) 时使用 */
+        /** 唯一标识码，调用 [writeCharacteristicValue](/docs/apis/device/bluetooth-peripheral/BLEPeripheralServer#writecharacteristicvalue) 时使用 */
         callbackId: number
         /** 请求写入特征的二进制数据值 */
         value: ArrayBuffer
