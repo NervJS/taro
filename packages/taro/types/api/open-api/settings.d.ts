@@ -75,7 +75,7 @@ declare module '../../index' {
   }
 
   /** 订阅消息设置
-   * 
+   *
    * 注意事项
    * - itemSettings 只返回用户勾选过订阅面板中的“总是保持以上选择，不再询问”的订阅消息。
    * @example
@@ -112,13 +112,13 @@ declare module '../../index' {
      * @type "accept" | "reject" | "ban"
      */
     itemSettings: {
-      [TEMPLATE_ID: string]: keyof SubscriptionsSetting.template_reflex | string
+      [TEMPLATE_ID: string]: keyof SubscriptionsSetting.TemplateReflex | string
     }
   }
 
   namespace SubscriptionsSetting {
     /** 模版消息订阅类型 */
-    interface template_reflex {
+    interface TemplateReflex {
       /** 表示用户同意订阅该条id对应的模板消息 */
       accept
       /** 表示用户拒绝订阅该条id对应的模板消息 */

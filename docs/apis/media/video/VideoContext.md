@@ -3,7 +3,27 @@ title: VideoContext
 sidebar_label: VideoContext
 ---
 
+VideoContext 实例，可通过 [Taro.createVideoContext](./createVideoContext) 获取。
+
+VideoContext 通过 id 跟一个 video 组件绑定，操作对应的 video 组件。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.html)
+
 ## 方法
+
+### exitBackgroundPlayback
+
+退出后台音频播放模式。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.exitBackgroundPlayback.html)
+
+```tsx
+() => void
+```
 
 ### exitFullScreen
 
@@ -16,6 +36,22 @@ sidebar_label: VideoContext
 ```tsx
 () => void
 ```
+
+### exitPictureInPicture
+
+退出小窗，该方法可在任意页面调用
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.exitPictureInPicture.html)
+
+```tsx
+(option: ExitPictureInPictureOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `ExitPictureInPictureOption` |
 
 ### hideStatusBar
 
@@ -57,7 +93,7 @@ sidebar_label: VideoContext
 
 设置倍速播放
 
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.playbackRate.html)
 
@@ -68,6 +104,18 @@ sidebar_label: VideoContext
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | rate | `number` | 倍率，支持 0.5/0.8/1.0/1.25/1.5，2.6.3 起支持 2.0 倍速 |
+
+### requestBackgroundPlayback
+
+进入后台音频播放模式。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.requestBackgroundPlayback.html)
+
+```tsx
+() => void
+```
 
 ### requestFullScreen
 
@@ -143,6 +191,14 @@ sidebar_label: VideoContext
 
 ## 参数
 
+### ExitPictureInPictureOption
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| success | `(result: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+
 ### RequestFullScreenOption
 
 | 参数 | 类型 | 必填 | 说明 |
@@ -162,11 +218,15 @@ sidebar_label: VideoContext
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
+| VideoContext | ✔️ | ✔️ | ✔️ |
+| VideoContext.exitBackgroundPlayback | ✔️ |  |  |
 | VideoContext.exitFullScreen | ✔️ | ✔️ | ✔️ |
+| VideoContext.exitPictureInPicture | ✔️ |  |  |
 | VideoContext.hideStatusBar | ✔️ |  |  |
 | VideoContext.pause | ✔️ | ✔️ | ✔️ |
 | VideoContext.play | ✔️ | ✔️ | ✔️ |
-| VideoContext.playbackRate | ✔️ |  | ✔️ |
+| VideoContext.playbackRate | ✔️ | ✔️ | ✔️ |
+| VideoContext.requestBackgroundPlayback | ✔️ |  |  |
 | VideoContext.requestFullScreen | ✔️ | ✔️ | ✔️ |
 | VideoContext.seek | ✔️ | ✔️ | ✔️ |
 | VideoContext.sendDanmu | ✔️ |  |  |

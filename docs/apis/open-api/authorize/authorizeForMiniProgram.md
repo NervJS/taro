@@ -30,7 +30,7 @@ sidebar_label: authorizeForMiniProgram
 | fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
 | success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
-### scope
+### Scope
 
 scope 合法值
 

@@ -37,14 +37,14 @@ sidebar_label: request
 | dataType | `string` |  | 否 | 返回的数据格式 |
 | fail | `(res: TaroGeneral.CallbackResult) => void` |  | 否 | 接口调用失败的回调函数 |
 | header | `TaroGeneral.IAnyObject` |  | 否 | 设置请求的 header，header 中不能设置 Referer。<br /><br />`content-type` 默认为 `application/json` |
-| method | `keyof method` |  | 否 | HTTP 请求方法 |
-| responseType | `keyof responseType` |  | 否 | 响应的数据类型 |
+| method | `keyof Method` |  | 否 | HTTP 请求方法 |
+| responseType | `keyof ResponseType` |  | 否 | 响应的数据类型 |
 | success | `(result: SuccessCallbackResult<any>) => void` |  | 否 | 接口调用成功的回调函数 |
 | jsonp | `boolean` | `false` | 否 | 设置 H5 端是否使用jsonp方式获取数据 |
 | jsonpCache | `boolean` | `false` | 否 | 设置 H5 端 jsonp 请求 url 是否需要被缓存 |
-| mode | `keyof cors_mode` | `same-origin` | 否 | 设置 H5 端是否允许跨域请求 |
-| credentials | `keyof credentials` | `omit` | 否 | 设置 H5 端是否携带 Cookie |
-| cache | `keyof cache` | `default` | 否 | 设置 H5 端缓存模式 |
+| mode | `keyof CorsMode` | `same-origin` | 否 | 设置 H5 端是否允许跨域请求 |
+| credentials | `keyof Credentials` | `omit` | 否 | 设置 H5 端是否携带 Cookie |
+| cache | `keyof Cache` | `default` | 否 | 设置 H5 端缓存模式 |
 | timeout | `number` | `2000` | 否 | 设置 H5 端请求响应超时时间 |
 | retryTimes | `number` | `2` | 否 | 设置 H5 端请求重试次数 |
 | backup | string or string[] |  | 否 | 设置 H5 端请求的兜底接口 |
@@ -64,7 +64,7 @@ sidebar_label: request
 | errMsg | `string` | 是 | 调用结果 |
 | cookies | `string[]` | 否 | cookies |
 
-### dataType
+### DataType
 
 返回的数据格式
 
@@ -72,7 +72,7 @@ sidebar_label: request
 | --- | --- |
 | json | 返回的数据为 JSON，返回后会对返回的数据进行一次 JSON.parse<br />其他: 不对返回的内容进行 JSON.parse |
 
-### method
+### Method
 
 HTTP 请求方法
 
@@ -87,7 +87,7 @@ HTTP 请求方法
 | TRACE | HTTP 请求 TRACE |
 | CONNECT | HTTP 请求 CONNECT |
 
-### responseType
+### ResponseType
 
 响应的数据类型
 
@@ -96,7 +96,7 @@ HTTP 请求方法
 | text | 响应的数据为文本 |
 | arraybuffer | 响应的数据为 ArrayBuffer |
 
-### cors_mode
+### CorsMode
 
 跨域策略
 
@@ -106,7 +106,7 @@ HTTP 请求方法
 | cors | 允许跨域请求 |
 | same-origin | 请求总是向当前的源发起的 |
 
-### credentials
+### Credentials
 
 证书
 
@@ -116,7 +116,7 @@ HTTP 请求方法
 | same-origin | 只有当URL与响应脚本同源才发送 cookies、 HTTP Basic authentication 等验证信息 |
 | omit | 从不发送cookies |
 
-### cache
+### Cache
 
 缓存策略
 

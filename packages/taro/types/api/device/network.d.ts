@@ -11,7 +11,7 @@ declare module '../../index' {
       /** 当前是否处于弱网状态 */
       weakNet: boolean
       /** 当前网络类型 */
-      networkType: keyof getNetworkType.networkType
+      networkType: keyof getNetworkType.NetworkType
     }
   }
 
@@ -25,7 +25,7 @@ declare module '../../index' {
       /** 当前是否有网络连接 */
       isConnected: boolean
       /** 网络类型 */
-      networkType: keyof getNetworkType.networkType
+      networkType: keyof getNetworkType.NetworkType
     }
   }
 
@@ -40,13 +40,13 @@ declare module '../../index' {
     }
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 网络类型 */
-      networkType: keyof networkType
+      networkType: keyof NetworkType
       /** 调用结果 */
       errMsg: string
     }
 
     /** 网络类型 */
-    interface networkType {
+    interface NetworkType {
       /** wifi 网络 */
       wifi
       /** 2g 网络 */

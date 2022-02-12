@@ -4,7 +4,7 @@ declare module '../../index' {
   namespace authorizeForMiniProgram {
     interface Option {
       /** 需要获取权限的 scope，详见 [scope 列表](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html#scope-%E5%88%97%E8%A1%A8) */
-      scope: keyof scope | string
+      scope: keyof Scope | string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
@@ -16,7 +16,7 @@ declare module '../../index' {
     /** scope 合法值
      * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html#scope-%E5%88%97%E8%A1%A8
      */
-    interface scope {
+    interface Scope {
       'scope.record'
       'scope.writePhotosAlbum'
       'scope.camera'

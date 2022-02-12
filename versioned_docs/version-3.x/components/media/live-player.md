@@ -61,10 +61,10 @@ class App extends Components {
 | 参数 | 类型 | 默认值 | 必填 | 说明 |
 | --- | --- | :---: | :---: | --- |
 | src | `string` |  | 否 | 音视频地址。目前仅支持 flv, rtmp 格式 |
-| mode | `keyof mode` | `"live"` | 否 | 模式 |
+| mode | `keyof Mode` | `"live"` | 否 | 模式 |
 | autoplay | `boolean` | `false` | 否 | 自动播放 |
 | muted | `boolean` | `false` | 否 | 是否静音 |
-| orientation | `keyof orientation` | `"vertical"` | 否 | 画面方向 |
+| orientation | `keyof Orientation` | `"vertical"` | 否 | 画面方向 |
 | objectFit | `keyof objectFit` | `"contain"` | 否 | 填充模式 |
 | backgroundMute | `boolean` | `false` | 否 | 进入后台时是否静音（已废弃，默认退台静音）<br />**不推荐使用** |
 | minCache | `number` | `1` | 否 | 进最小缓冲区，单位s |
@@ -104,7 +104,7 @@ class App extends Components {
 | LivePlayerProps.onEnterPictureInPicture | ✔️ |  |  |
 | LivePlayerProps.onLeavePictureInPicture | ✔️ |  |  |
 
-### mode
+### Mode
 
 mode 的合法值
 
@@ -113,7 +113,7 @@ mode 的合法值
 | live | 直播 |
 | RTC | 实时通话，该模式时延更低 |
 
-### orientation
+### Orientation
 
 orientation 的合法值
 

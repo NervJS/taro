@@ -30,7 +30,7 @@ sidebar_label: chooseMessageFile
 | extension | `string[]` | 否 | 根据文件拓展名过滤，仅 type==file 时有效。每一项都不能是空字符串。默认不过滤。 |
 | fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
 | success | `(result: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
-| type | `keyof selectType` | 否 | 所选的文件的类型 |
+| type | `keyof SelectType` | 否 | 所选的文件的类型 |
 
 ### SuccessCallbackResult
 
@@ -49,9 +49,9 @@ sidebar_label: chooseMessageFile
 | path | `string` | 本地临时文件路径 |
 | size | `number` | 本地临时文件大小，单位 B |
 | time | `number` | 选择的文件的会话发送时间，Unix时间戳，工具暂不支持此属性 |
-| type | `keyof selectedType` | 选择的文件类型 |
+| type | `keyof SelectedType` | 选择的文件类型 |
 
-### selectType
+### SelectType
 
 | 参数 | 说明 |
 | --- | --- |
@@ -60,7 +60,7 @@ sidebar_label: chooseMessageFile
 | image | 只能选择图片文件 |
 | file | 可以选择除了图片和视频之外的其它的文件 |
 
-### selectedType
+### SelectedType
 
 | 参数 | 说明 |
 | --- | --- |

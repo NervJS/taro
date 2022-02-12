@@ -168,7 +168,7 @@ listener.start()
 | --- | --- | :---: | --- |
 | complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| quality | `keyof quality` | 否 | 成像质量 |
+| quality | `keyof Quality` | 否 | 成像质量 |
 | success | `(result: TakePhotoSuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### TakePhotoSuccessCallbackResult
@@ -198,7 +198,7 @@ listener.start()
 | height | `number` | 图像数据矩形的高度 |
 | width | `number` | 图像数据矩形的宽度 |
 
-### quality
+### Quality
 
 | 参数 | 说明 |
 | --- | --- |

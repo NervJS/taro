@@ -29,10 +29,10 @@ sidebar_label: openDocument
 | showMenu | `boolean` | 否 | 是否显示右上角菜单 |
 | complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| fileType | `keyof fileType` | 否 | 文件类型，指定文件类型打开文件 |
+| fileType | `keyof FileType` | 否 | 文件类型，指定文件类型打开文件 |
 | success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
-### fileType
+### FileType
 
 文件类型
 

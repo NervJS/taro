@@ -12,12 +12,16 @@ sidebar_label: createVKSession
 ## 类型
 
 ```tsx
-(version: keyof version) => VKSession
+(version: keyof Version) => VKSession
 ```
 
 ## 参数
 
-### version
+| 参数 | 类型 |
+| --- | --- |
+| version | `keyof Version` |
+
+### Version
 
 vision kit 版本
 
@@ -26,23 +30,23 @@ vision kit 版本
 | v1 | 旧版本 |
 | v2 | v2 版本，目前只有 iOS 基础库 2.22.0 以上支持 |
 
-### track
+### Track
 
 跟踪配置
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| plane | `plane` | 平面跟踪配置 |
+| plane | `Plane` | 平面跟踪配置 |
 
-### plane
+### Plane
 
 平面跟踪配置
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| mode | `keyof planeMode` | 平面跟踪配置模式 |
+| mode | `keyof PlaneMode` | 平面跟踪配置模式 |
 
-### planeMode
+### PlaneMode
 
 平面跟踪配置模式合法值
 

@@ -15,9 +15,9 @@ canvas 组件的绘图上下文
 | font | `string` | 当前字体样式的属性。符合 [CSS font 语法](https://developer.mozilla.org/zh-CN/docs/Web/CSS/font) 的 DOMString 字符串，至少需要提供字体大小和字体族名。默认值为 10px sans-serif。 |
 | globalAlpha | `number` | 全局画笔透明度。范围 0-1，0 表示完全透明，1 表示完全不透明。 |
 | globalCompositeOperation | `string` | 在绘制新形状时应用的合成操作的类型。目前安卓版本只适用于 `fill` 填充块的合成，用于 `stroke` 线段的合成效果都是 `source-over`。<br /><br />目前支持的操作有<br />- 安卓：xor, source-over, source-atop, destination-out, lighter, overlay, darken, lighten, hard-light<br />- iOS：xor, source-over, source-atop, destination-over, destination-out, lighter, multiply, overlay, darken, lighten, color-dodge, color-burn, hard-light, soft-light, difference, exclusion, saturation, luminosity |
-| lineCap | `keyof lineCap` | 线条的端点样式。用法同 [CanvasContext.setLineCap()]。 |
+| lineCap | `keyof LineCap` | 线条的端点样式。用法同 [CanvasContext.setLineCap()]。 |
 | lineDashOffset | `number` | 虚线偏移量，初始值为0 |
-| lineJoin | `keyof lineJoin` | 线条的交点样式。用法同 [CanvasContext.setLineJoin()]。 |
+| lineJoin | `keyof LineJoin` | 线条的交点样式。用法同 [CanvasContext.setLineJoin()]。 |
 | lineWidth | `number` | 线条的宽度。用法同 [CanvasContext.setLineWidth()]。 |
 | miterLimit | `number` | 最大斜接长度。用法同 [CanvasContext.setMiterLimit()]。 |
 | shadowBlur | `number` | 阴影的模糊级别 |
@@ -340,13 +340,13 @@ ctx.draw()
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.createPattern.html)
 
 ```tsx
-(image: string, repetition: keyof repetition) => void
+(image: string, repetition: keyof Repetition) => void
 ```
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | image | `string` | 重复的图像源，仅支持包内路径和临时路径 |
-| repetition | `keyof repetition` | 如何重复图像 |
+| repetition | `keyof Repetition` | 如何重复图像 |
 
 ### draw
 
@@ -930,12 +930,12 @@ ctx.draw()
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.setLineCap.html)
 
 ```tsx
-(lineCap: keyof lineCap) => void
+(lineCap: keyof LineCap) => void
 ```
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| lineCap | `keyof lineCap` | 线条的结束端点样式 |
+| lineCap | `keyof LineCap` | 线条的结束端点样式 |
 
 #### 示例代码
 
@@ -1004,12 +1004,12 @@ ctx.draw()
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.setLineJoin.html)
 
 ```tsx
-(lineJoin: keyof lineJoin) => void
+(lineJoin: keyof LineJoin) => void
 ```
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| lineJoin | `keyof lineJoin` | 线条的结束交点样式 |
+| lineJoin | `keyof LineJoin` | 线条的结束交点样式 |
 
 #### 示例代码
 
@@ -1204,12 +1204,12 @@ ctx.draw()
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.setTextAlign.html)
 
 ```tsx
-(align: keyof align) => void
+(align: keyof Align) => void
 ```
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| align | `keyof align` | 文字的对齐方式 |
+| align | `keyof Align` | 文字的对齐方式 |
 
 #### 示例代码
 
@@ -1238,12 +1238,12 @@ ctx.draw()
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.setTextBaseline.html)
 
 ```tsx
-(textBaseline: keyof textBaseline) => void
+(textBaseline: keyof TextBaseline) => void
 ```
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| textBaseline | `keyof textBaseline` | 文字的竖直对齐方式 |
+| textBaseline | `keyof TextBaseline` | 文字的竖直对齐方式 |
 
 #### 示例代码
 
@@ -1514,7 +1514,7 @@ ctx.draw()
 
 ## 参数
 
-### repetition
+### Repetition
 
 参数 repetition 可选值
 
@@ -1525,7 +1525,7 @@ ctx.draw()
 | repeat-y | 竖直方向重复 |
 | no-repeat | 不重复 |
 
-### lineCap
+### LineCap
 
 参数 lineCap 可选值
 
@@ -1535,7 +1535,7 @@ ctx.draw()
 | round | 向线条的每个末端添加圆形线帽。 |
 | square | 向线条的每个末端添加正方形线帽。 |
 
-### lineJoin
+### LineJoin
 
 参数 lineJoin 可选值
 
@@ -1545,7 +1545,7 @@ ctx.draw()
 | round | 圆角 |
 | miter | 尖角 |
 
-### align
+### Align
 
 参数 align 可选值
 
@@ -1555,7 +1555,7 @@ ctx.draw()
 | center | 居中对齐 |
 | right | 右对齐 |
 
-### textBaseline
+### TextBaseline
 
 参数 textBaseline 可选值
 

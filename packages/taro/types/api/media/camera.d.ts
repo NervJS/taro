@@ -104,7 +104,7 @@ declare module '../../index' {
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 成像质量 */
-      quality?: keyof quality
+      quality?: keyof Quality
       /** 接口调用成功的回调函数 */
       success?: (result: TakePhotoSuccessCallbackResult) => void
     }
@@ -124,7 +124,7 @@ declare module '../../index' {
       /** 图像数据矩形的宽度 */
       width: number
     }
-    interface quality {
+    interface Quality {
       /** 高质量 */
       high
       /** 普通质量 */

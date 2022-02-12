@@ -27,7 +27,7 @@ sidebar_label: compressVideo
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
 | src | `string` | 是 | 视频文件路径，可以是临时文件路径也可以是永久文件路径 |
-| quality | `keyof quality` | 是 | 压缩质量 |
+| quality | `keyof Quality` | 是 | 压缩质量 |
 | bitrate | `number` | 是 | 码率，单位 kbps |
 | fps | `number` | 是 | 帧率 |
 | resolution | `number` | 是 | 相对于原视频的分辨率比例，取值范围(0, 1] |
@@ -42,7 +42,7 @@ sidebar_label: compressVideo
 | tempFilePath | `string` | 压缩后的临时文件地址 |
 | size | `number` | 压缩后的大小，单位 kB |
 
-### quality
+### Quality
 
 | 参数 | 说明 |
 | --- | --- |

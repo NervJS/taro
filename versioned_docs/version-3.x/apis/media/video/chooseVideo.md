@@ -25,7 +25,7 @@ sidebar_label: chooseVideo
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
-| camera | `keyof camera` | 否 | 默认拉起的是前置或者后置摄像头。部分 Android 手机下由于系统 ROM 不支持无法生效 |
+| camera | `keyof Camera` | 否 | 默认拉起的是前置或者后置摄像头。部分 Android 手机下由于系统 ROM 不支持无法生效 |
 | complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | compressed | `boolean` | 否 | 是否压缩所选择的视频文件 |
 | fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
@@ -44,7 +44,7 @@ sidebar_label: chooseVideo
 | width | `number` | 返回选定视频的宽度 |
 | errMsg | `string` | 调用结果 |
 
-### camera
+### Camera
 
 | 参数 | 说明 |
 | --- | --- |

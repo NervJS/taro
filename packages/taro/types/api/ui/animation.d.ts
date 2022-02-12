@@ -8,7 +8,7 @@ declare module '../../index' {
       /** 动画持续时间，单位 ms */
       duration?: number
       /** 动画的效果 */
-      timingFunction?: keyof timingFunction
+      timingFunction?: keyof TimingFunction
       transformOrigin?: string
       /**
        * 单位
@@ -16,7 +16,7 @@ declare module '../../index' {
        */
       unit?: string
     }
-    interface timingFunction {
+    interface TimingFunction {
       /** 动画从头到尾的速度是相同的 */
       linear
       /** 动画以低速开始，然后加快，在结束前变慢 */
@@ -294,10 +294,10 @@ declare module '../../index' {
       /** 动画持续时间，单位 ms */
       duration?: number
       /** 动画的效果 */
-      timingFunction?: keyof timingFunction
+      timingFunction?: keyof TimingFunction
       transformOrigin?: string
     }
-    interface timingFunction {
+    interface TimingFunction {
       /** 动画从头到尾的速度是相同的 */
       linear
       /** 动画以低速开始，然后加快，在结束前变慢 */

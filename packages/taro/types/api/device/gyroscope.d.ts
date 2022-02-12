@@ -20,13 +20,13 @@ declare module '../../index' {
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 监听陀螺仪数据回调函数的执行频率 */
-      interval?: keyof interval
+      interval?: keyof Interval
       /** 接口调用成功的回调函数 */
       success?: (res: TaroGeneral.CallbackResult) => void
     }
 
     /** 监听陀螺仪数据回调函数的执行频率 */
-    interface interval {
+    interface Interval {
       /** 适用于更新游戏的回调频率，在 20ms/次 左右 */
       game
       /** 适用于更新 UI 的回调频率，在 60ms/次 左右 */

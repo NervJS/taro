@@ -30,7 +30,7 @@ interface PageContainerProps extends StandardProps {
    * @default bottom
    * @supported weapp
    */
-  position?: keyof PageContainerProps.position
+  position?: keyof PageContainerProps.Position
 
   /** 是否显示圆角
    * @default false
@@ -92,7 +92,7 @@ interface PageContainerProps extends StandardProps {
 
 declare namespace PageContainerProps {
   /** 弹出位置 */
-  interface position {
+  interface Position {
     /** 上方弹出 */
     top
     /** 下方弹出 */

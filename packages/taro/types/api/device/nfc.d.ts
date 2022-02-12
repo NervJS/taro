@@ -46,13 +46,13 @@ declare module '../../index' {
       /** `messageType=1` 时 ,客户端接收到 NFC 设备的指令 */
       data: ArrayBuffer
       /** 消息类型 */
-      messageType: keyof messageType
+      messageType: keyof MessageType
       /** `messageType=2` 时，原因 */
       reason: number
     }
 
     /** 消息类型 */
-    interface messageType {
+    interface MessageType {
       /** HCE APDU Command类型，小程序需对此指令进行处理，并调用 sendHCEMessage 接口返回处理指令 */
       1
       /** 设备离场事件类型 */

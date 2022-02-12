@@ -58,9 +58,9 @@ class App extends Component {
 
 | 参数 | 类型 | 默认值 | 必填 | 说明 |
 | --- | --- | :---: | :---: | --- |
-| type | `keyof type` |  | 是 | 开放数据类型 |
+| type | `keyof Type` |  | 是 | 开放数据类型 |
 | openGid | `string` |  | 否 | 当 type="groupName" 时生效, 群id |
-| lang | `keyof lang` | `"en"` | 否 | 当 type="user*" 时生效，以哪种语言展示 userInfo |
+| lang | `keyof Lang` | `"en"` | 否 | 当 type="user*" 时生效，以哪种语言展示 userInfo |
 | defaultText | `string` |  | 否 | 数据为空时的默认文案 |
 | defaultAvatar | `string` |  | 否 | 用户头像为空时的默认图片，支持相对路径和网络图片路径 |
 | onError | `CommonEventFunction` |  | 否 | 群名称或用户信息为空时触发 |
@@ -76,7 +76,7 @@ class App extends Component {
 | OpenDataProps.defaultAvatar | ✔️ |  |  |
 | OpenDataProps.onError | ✔️ |  |  |
 
-### type
+### Type
 
 type 的合法值
 
@@ -91,7 +91,7 @@ type 的合法值
 | userCountry | 用户所在国家 |
 | userLanguage | 用户的语言 |
 
-### lang
+### Lang
 
 lang 的合法值
 

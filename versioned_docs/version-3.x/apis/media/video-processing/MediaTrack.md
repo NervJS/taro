@@ -14,13 +14,13 @@ sidebar_label: MediaTrack
 
 | 参数 | 类型 | 只读 | 说明 |
 | --- | --- | :---: | --- |
-| kind | `keyof kind` | 是 | 轨道类型 |
+| kind | `keyof Kind` | 是 | 轨道类型 |
 | duration | `number` | 是 | 轨道长度 |
 | volume | `number` | 否 | 音量，音频轨道下有效，可写 |
 
 ## 参数
 
-### kind
+### Kind
 
 | 参数 | 说明 |
 | --- | --- |

@@ -68,14 +68,14 @@ sidebar_label: FileSystemManager
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.appendFileSync.html)
 
 ```tsx
-(filePath: string, data: string | ArrayBuffer, encoding?: keyof encoding) => void
+(filePath: string, data: string | ArrayBuffer, encoding?: keyof Encoding) => void
 ```
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | filePath | `string` | 要追加内容的文件路径 |
 | data | string or ArrayBuffer | 要追加的文本或二进制数据 |
-| encoding | `keyof encoding` | 指定写入文件的字符编码 |
+| encoding | `keyof Encoding` | 指定写入文件的字符编码 |
 
 ### close
 
@@ -408,13 +408,13 @@ sidebar_label: FileSystemManager
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readFileSync.html)
 
 ```tsx
-(filePath: string, encoding?: keyof encoding, position?: number, length?: number) => string | ArrayBuffer
+(filePath: string, encoding?: keyof Encoding, position?: number, length?: number) => string | ArrayBuffer
 ```
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | filePath | `string` | 要读取的文件的路径 |
-| encoding | `keyof encoding` | 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 |
+| encoding | `keyof Encoding` | 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 |
 | position | `number` | 从文件指定位置开始读，如果不指定，则从文件头开始读。读取的范围应该是左闭右开区间 [position, position+length)。有效范围：[0, fileLength - 1]。单位：byte |
 | length | `number` | 指定文件的长度，如果不指定，则读到文件末尾。有效范围：[1, fileLength]。单位：byte |
 
@@ -717,14 +717,14 @@ sidebar_label: FileSystemManager
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.writeFileSync.html)
 
 ```tsx
-(filePath: string, data: string | ArrayBuffer, encoding?: keyof encoding) => void
+(filePath: string, data: string | ArrayBuffer, encoding?: keyof Encoding) => void
 ```
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | filePath | `string` | 要写入的文件路径 |
 | data | string or ArrayBuffer | 要写入的文本或二进制数据 |
-| encoding | `keyof encoding` | 指定写入文件的字符编码 |
+| encoding | `keyof Encoding` | 指定写入文件的字符编码 |
 
 ### writeSync
 
@@ -744,7 +744,7 @@ sidebar_label: FileSystemManager
 
 ## 参数
 
-### encoding
+### Encoding
 
 字符编码
 
@@ -788,7 +788,7 @@ sidebar_label: FileSystemManager
 | data | string or ArrayBuffer | 是 | 要追加的文本或二进制数据 |
 | filePath | `string` | 是 | 要追加内容的文件路径 |
 | complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| encoding | `keyof encoding` | 否 | 指定写入文件的字符编码 |
+| encoding | `keyof Encoding` | 否 | 指定写入文件的字符编码 |
 | fail | `(result: AppendFileFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
 | success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
@@ -885,7 +885,7 @@ sidebar_label: FileSystemManager
 | position | `number` | 否 | 从文件指定位置开始读，如果不指定，则从文件头开始读。读取的范围应该是左闭右开区间 [position, position+length)。有效范围：[0, fileLength - 1]。单位：byte |
 | length | `number` | 否 | 指定文件的长度，如果不指定，则读到文件末尾。有效范围：[1, fileLength]。单位：byte |
 | complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| encoding | `keyof encoding` | 否 | 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 |
+| encoding | `keyof Encoding` | 否 | 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 |
 | fail | `(result: ReadFileFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
 | success | `(res: ReadFileSuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
@@ -1120,7 +1120,7 @@ FailCallbackResult | SuccessCallbackResult
 | data | string or ArrayBuffer | 是 | 要写入的文本或二进制数据 |
 | filePath | `string` | 是 | 要写入的文件路径 |
 | complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| encoding | `keyof encoding` | 否 | 指定写入文件的字符编码 |
+| encoding | `keyof Encoding` | 否 | 指定写入文件的字符编码 |
 | fail | `(result: WriteFileFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
 | success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
@@ -1355,7 +1355,7 @@ FailCallbackResult | SuccessCallbackResult
 | data | string or ArrayBuffer | 是 | 写入的内容，类型为 String 或 ArrayBuffer |
 | offset | `number` | 否 | 只在 data 类型是 ArrayBuffer 时有效，决定 arrayBuffe 中要被写入的部位，即 arrayBuffer 中的索引，默认0 |
 | length | `number` | 否 | 只在 data 类型是 ArrayBuffer 时有效，指定要写入的字节数，默认为 arrayBuffer 从0开始偏移 offset 个字节后剩余的字节数 |
-| encoding | `keyof encoding` | 否 | 只在 data 类型是 String 时有效，指定写入文件的字符编码，默认为 utf8 |
+| encoding | `keyof Encoding` | 否 | 只在 data 类型是 String 时有效，指定写入文件的字符编码，默认为 utf8 |
 | position | `number` | 否 | 指定文件开头的偏移量，即数据要被写入的位置。当 position 不传或者传入非 Number 类型的值时，数据会被写入当前指针所在位置。 |
 | complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | fail | `(result: WriteFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
@@ -1382,7 +1382,7 @@ FailCallbackResult | SuccessCallbackResult
 | data | string or ArrayBuffer | 是 | 写入的内容，类型为 String 或 ArrayBuffer |
 | offset | `number` | 否 | 只在 data 类型是 ArrayBuffer 时有效，决定 arrayBuffe 中要被写入的部位，即 arrayBuffer 中的索引，默认0 |
 | length | `number` | 否 | 只在 data 类型是 ArrayBuffer 时有效，指定要写入的字节数，默认为 arrayBuffer 从0开始偏移 offset 个字节后剩余的字节数 |
-| encoding | `keyof encoding` | 否 | 只在 data 类型是 String 时有效，指定写入文件的字符编码，默认为 utf8 |
+| encoding | `keyof Encoding` | 否 | 只在 data 类型是 String 时有效，指定写入文件的字符编码，默认为 utf8 |
 | position | `number` | 否 | 指定文件开头的偏移量，即数据要被写入的位置。当 position 不传或者传入非 Number 类型的值时，数据会被写入当前指针所在位置。 |
 
 ## API 支持度

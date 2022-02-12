@@ -30,7 +30,7 @@ ComponentType<PageContainerProps>
 | duration | `number` | `300` | 否 | 动画时长，单位毫秒 |
 | zIndex | `number` | `100` | 否 | z-index 层级 |
 | overlay | `boolean` | `true` | 否 | 是否显示遮罩层 |
-| position | `keyof position` | `bottom` | 否 | 弹出位置，可选值为 top bottom right center |
+| position | `keyof Position` | `bottom` | 否 | 弹出位置，可选值为 top bottom right center |
 | round | `boolean` | `false` | 否 | 是否显示圆角 |
 | closeOnSlideDown | `boolean` | `false` | 否 | 自定义遮罩层样式 |
 | overlayStyle | `boolean` |  | 否 | 是否在下滑一段距离后关闭 |
@@ -64,7 +64,7 @@ ComponentType<PageContainerProps>
 | PageContainerProps.onAfterLeave | ✔️ |  |  |
 | PageContainerProps.onClickOverlay | ✔️ |  |  |
 
-### position
+### Position
 
 弹出位置
 

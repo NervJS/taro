@@ -16,12 +16,12 @@ anchor 对象，只有 v2 版本支持
 | id | `number` | 唯一标识 |
 | type | `0` | 类型 |
 | transform | `Float32Array` | 包含位置、旋转、放缩信息的矩阵，以列为主序 |
-| size | `size` | 尺寸，只有平面 anchor 支持 |
+| size | `Size` | 尺寸，只有平面 anchor 支持 |
 | alignment | `number` | 方向，只有平面 anchor 支持 |
 
 ## 参数
 
-### type
+### Type
 
 anchor 对象类型合法值
 
@@ -29,7 +29,7 @@ anchor 对象类型合法值
 | --- | --- |
 | 0 | 平面 |
 
-### size
+### Size
 
 anchor 对象类型合法值
 

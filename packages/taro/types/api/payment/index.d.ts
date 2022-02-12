@@ -16,12 +16,12 @@ declare module '../../index' {
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 签名算法 */
-      signType?: keyof signType
+      signType?: keyof SignType
       /** 接口调用成功的回调函数 */
       success?: (res: TaroGeneral.CallbackResult) => void
     }
 
-    interface signType {
+    interface SignType {
       /** 仅在微信支付 v2 版本接口适用 */
       MD5
       /** 仅在微信支付 v2 版本接口适用 */

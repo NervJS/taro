@@ -39,9 +39,9 @@ sidebar_label: onMemoryWarning
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| level | `keyof level` | 内存告警等级，只有 Android 才有，对应系统宏定义 |
+| level | `keyof Level` | 内存告警等级，只有 Android 才有，对应系统宏定义 |
 
-### level
+### Level
 
 | 参数 | 说明 |
 | --- | --- |

@@ -87,8 +87,80 @@ declare module '../../index' {
     }
   }
 
+  /** AudioBuffer 接口表示存在内存里的一段短小的音频资源，利用 [WebAudioContext.decodeAudioData](./WebAudioContext#decodeaudiodata) 方法从一个音频文件构建，或者利用 [AudioContext.createBuffer](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/(AudioContext.createBuffer).html) 从原始数据构建。把音频放入 AudioBuffer 后，可以传入到一个 AudioBufferSourceNode 进行播放。
+   * @supported weapp
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/AudioBuffer.html
+   */
+  interface AudioBuffer {
+    /** 存储在缓存区的PCM数据的采样率（单位为sample/s) */
+    sampleRate: number
+
+    /** 返回存储在缓存区的PCM数据的采样帧率 */
+    length: number
+
+    /** 返回存储在缓存区的PCM数据的时长（单位为秒） */
+    duration: number
+
+    /** 储存在缓存区的PCM数据的通道数 */
+    numberOfChannels: number
+
+    /** 返回一个 Float32Array，包含了带有频道的PCM数据，由频道参数定义（有0代表第一个频道）
+     * @supported weapp
+     * @example
+     * ```tsx
+     * const audioCtx = Taro.createWebAudioContext()
+     * const myArrayBuffer = audioCtx.createBuffer(2, frameCount, audioCtx.sampleRate);
+     * const nowBuffering = myArrayBuffer.getChannelData(channel);
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/AudioBuffer.getChannelData.html
+     */
+    getChannelData(channel: number): Float32Array
+
+    /** 从 AudioBuffer 的指定频道复制到数组终端。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * const audioCtx = Taro.createWebAudioContext()
+     * const audioBuffer = audioCtx.createFromAudioFile({
+     *   filePath:'/pages/res/bgm.mp3', // 静态资源
+     *   mixToMono:true,
+     *   sampleRate:44100
+     * });
+     * const channels = audioBuffer.numberOfChannels
+     * const anotherArray = new Float32Array(frameCount);
+     * const rate = audioBuffer.sampleRate
+     * const startOffSet = 0
+     * const endOffset = rate * 3;
+     * const newAudioBuffer = audioCtx.createBuffer(channels,endOffset - startOffset,rate)
+     * const offset = 0
+     * 
+     * for (let channel = 0; channel < channels; channel++) {
+     *   audioBuffer.copyFromChannel(anotherArray, channel, startOffset);
+     *   newAudioBuffer.copyToChannel(anotherArray, channel, offset);
+     * }
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/AudioBuffer.copyFromChannel.html
+     */
+    copyFromChannel(): void
+
+    /** 从指定数组复制样本到 audioBuffer 的特定通道
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/AudioBuffer.copyToChannel.html
+     */
+    copyToChannel(
+      /** 需要复制的源数组 */
+      source: Float32Array,
+      /** 需要复制到的目的通道号 */
+      channelNumber: number,
+      /** 复制偏移数据量 */
+      startInChannel: number
+    ): void
+  }
+
   /** `AudioContext` 实例，可通过 `Taro.createAudioContext` 获取。
+   * 
    * `AudioContext` 通过 `id` 跟一个 `audio` 组件绑定，操作对应的 audio 组件。
+   * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/AudioContext.html
    */
   interface AudioContext {
@@ -119,7 +191,7 @@ declare module '../../index' {
       src: string,
     ): void
   }
-  /** InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取实例。
+  /** InnerAudioContext 实例，可通过 [Taro.createInnerAudioContext](./createInnerAudioContext) 接口获取实例。
    *
    * **支持格式**
    *
@@ -321,13 +393,396 @@ declare module '../../index' {
     }
   }
 
-  interface MediaAudioPlayer {}
+  /** MediaAudioPlayer 实例，可通过 [Taro.createMediaAudioPlayer](./createMediaAudioPlayer) 接口获取实例。 
+   * @supported weapp
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/MediaAudioPlayer.html
+   */
+  interface MediaAudioPlayer {
+    /** 音量。范围 0~1
+     * @default 1
+     */
+    volume: number
 
-  interface WebAudioContext {}
+    /** 启动播放器
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/MediaAudioPlayer.start.html
+     */
+    start(): Promise<void>
+
+    /** 添加音频源
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/MediaAudioPlayer.addAudioSource.html
+     */
+    addAudioSource(
+      /** 视频解码器实例。作为音频源添加到音频播放器中 */
+      source: VideoDecoder
+    ): Promise<void>
+
+    /** 移除音频源
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/MediaAudioPlayer.removeAudioSource.html
+     */
+    removeAudioSource(
+      /** 视频解码器实例 */
+      source: VideoDecoder
+    ): Promise<void>
+
+    /** 停止播放器
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/MediaAudioPlayer.stop.html
+     */
+    stop(): Promise<void>
+
+    /** 销毁播放器
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/MediaAudioPlayer.destroy.html
+     */
+    destroy(): Promise<void>
+  }
+
+  /** WebAudioContext 实例，通过 [Taro.createWebAudioContext](./createWebAudioContext) 接口获取该实例。 
+   * @supported weapp
+   * @example
+   * 监听状态
+   * 
+   * ```tsx
+   * const audioCtx = Taro.createWebAudioContext()
+   * audioCtx.onstatechange = () => {
+   *   console.log(ctx.state)
+   * }
+   * setTimeout(audioCtx.suspend, 1000)
+   * setTimeout(audioCtx.resume, 2000)
+   * ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.html
+   */
+  interface WebAudioContext {
+    /** 当前 WebAudio 上下文的状态。
+     * 
+     * 可能的值如下：suspended（暂停）、running（正在运行）、closed（已关闭）。
+     * 需要注意的是，不要在 audioContext close 后再访问 state 属性
+     */
+    state: string
+
+    /** 可写属性，开发者可以对该属性设置一个监听函数，当 WebAudio 状态改变的时候，会触发开发者设置的监听函数。 */
+    onstatechange: () => void
+
+    /** 获取当前上下文的时间戳。 */
+    currentTime: number
+
+    /** 当前上下文的最终目标节点，一般是音频渲染设备。 */
+    destination: WebAudioContextNode
+
+    /** 空间音频监听器。 */
+    listener: AudioListener
+
+    /** 采样率，通常在 8000-96000 之间，通常 44100hz 的采样率最为常见。 */
+    sampleRate: number
+
+    /** 关闭WebAudioContext
+     * 
+     * **注意事项**
+     * 同步关闭对应的 WebAudio 上下文。close 后会立即释放当前上下文的资源，**不要在 close 后再次访问 state 属性**。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * const audioCtx = Taro.createWebAudioContext()
+     * audioCtx.close().then(() => {
+     *   console.log(audioCtx.state) // bad case：不应该在close后再访问state
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.close.html
+     */
+    close(): Promise<void>
+
+    /** 同步恢复已经被暂停的 WebAudioContext 上下文
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.resume.html
+     */
+    resume(): Promise<void>
+
+    /** 同步暂停 WebAudioContext 上下文
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.suspend.html
+     */
+    suspend(): Promise<void>
+
+    /** 创建一个 IIRFilterNode
+     * @supported weapp
+     * @example
+     * ```tsx
+     * let lowPassCoefs = [
+     *   {
+     *     frequency: 200,
+     *     feedforward: [0.00020298, 0.0004059599, 0.00020298],
+     *     feedback: [1.0126964558, -1.9991880801, 0.9873035442]
+     *   },
+     *   {
+     *     frequency: 500,
+     *     feedforward: [0.0012681742, 0.0025363483, 0.0012681742],
+     *     feedback: [1.0317185917, -1.9949273033, 0.9682814083]
+     *   },
+     *   {
+     *     frequency: 1000,
+     *     feedforward: [0.0050662636, 0.0101325272, 0.0050662636],
+     *     feedback: [1.0632762845, -1.9797349456, 0.9367237155]
+     *   },
+     *   {
+     *     frequency: 5000,
+     *     feedforward: [0.1215955842, 0.2431911684, 0.1215955842],
+     *     feedback: [1.2912769759, -1.5136176632, 0.7087230241]
+     *   }
+     * ]
+     * 
+     * const feedForward = lowPassCoefs[filterNumber].feedforward
+     * const feedBack = lowPassCoefs[filterNumber].feedback
+     * const iirFilter = audioContext.createIIRFilter(feedForward, feedBack)
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createIIRFilter.html
+     */
+    createIIRFilter(
+      /** 一个浮点值数组，指定IIR滤波器传递函数的前馈(分子)系数。 */
+      feedforward: number[],
+      /** 一个浮点值数组，指定IIR滤波器传递函数的反馈(分母)系数。 */
+      feedback: number[]
+    ): IIRFilterNode
+
+    /** 创建一个 WaveShaperNode
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createWaveShaper.html
+     */
+    createWaveShaper(): WaveShaperNode
+
+    /** 创建一个 ConstantSourceNode
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createConstantSource.html
+     */
+    createConstantSource(): ConstantSourceNode
+
+    /** 创建一个 OscillatorNode
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createOscillator.html
+     */
+    createOscillator(): OscillatorNode
+
+    /** 创建一个 GainNode
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createGain.html
+     */
+    createGain(): GainNode
+
+    /** 创建一个 PeriodicWaveNode
+     * 
+     * **注意**
+     * `real` 和 `imag` 数组必须拥有一样的长度，否则抛出错误
+     *
+     * ```tsx
+     * const real = new Float32Array(2)
+     * const imag = new Float32Array(2)
+     * real[0] = 0
+     * imag[0] = 0
+     * real[1] = 1
+     * imag[1] = 0
+     * 
+     * const waveNode = audioContext.createPeriodicWave(real, imag, {disableNormalization: true})
+     * ```
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createPeriodicWave.html
+     */
+    createPeriodicWave(
+      /** 一组余弦项(传统上是A项) */
+      real: Float32Array,
+      /** 一组余弦项(传统上是A项) */
+      imag: Float32Array,
+      /** 一个字典对象，它指定是否应该禁用规范化(默认启用规范化) */
+      constraints: WebAudioContext.createPeriodicWave.Constraints
+    ): PeriodicWave
+
+    /** 创建一个BiquadFilterNode
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createBiquadFilter.html
+     */
+    createBiquadFilter(): BiquadFilterNode
+
+    /** 创建一个 BufferSourceNode 实例，通过 AudioBuffer 对象来播放音频数据。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createBufferSource.html
+     */
+    createBufferSource(): AudioBufferSourceNode
+
+    /** 创建一个ChannelMergerNode
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createChannelMerger.html
+     */
+    createChannelMerger(
+      /** 输出流中需要保持的输入流的个数 */
+      numberOfInputs: number
+    ): ChannelMergerNode
+
+    /** 创建一个ChannelSplitterNode
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createChannelSplitter.html
+     */
+    createChannelSplitter(
+      /** 要分别输出的输入音频流中的通道数 */
+      numberOfOutputs: number
+    ): ChannelSplitterNode
+
+    /** 创建一个DelayNode
+     * @supported weapp
+     * @example
+     * ```tsx
+     * let audioCtx = Taro.createWebAudioContext()
+     * const delayNode = audioCtx.createDelay(5)
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createDelay.html
+     */
+    createDelay(
+      /** 最大延迟时间 */
+      maxDelayTime: number
+    ): DelayNode
+
+    /** 创建一个DynamicsCompressorNode
+     * @supported weapp
+     * @example
+     * ```tsx
+     * let audioCtx = Taro.createWebAudioContext()
+     * let compressor = audioCtx.createDynamicsCompressor()
+     * 
+     * compressor.threshold.value = -50
+     * compressor.knee.value = 40
+     * compressor.ratio.value = 12
+     * compressor.attack.value = 0
+     * compressor.release.value = 0.25
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createDynamicsCompressor.html
+     */
+    createDynamicsCompressor(): DynamicsCompressorNode
+
+    /** 创建一个ScriptProcessorNode
+     * @supported weapp
+     * @example
+     * ```tsx
+     * let audioCtx = Taro.createWebAudioContext()
+     * const sampleSize = 4096
+     * audioContext.createScriptProcessor(sampleSize, 1, 1)
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createScriptProcessor.html
+     */
+    createScriptProcessor(
+      /** 缓冲区大小，以样本帧为单位 */
+      bufferSize: number,
+      /** 用于指定输入 node 的声道的数量 */
+      numberOfInputChannels: number,
+      /** 用于指定输出 node 的声道的数量 */
+      numberOfOutputChannels: number
+    ): ScriptProcessorNode
+
+    /** 创建一个PannerNode
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createPanner.html
+     */
+    createPanner(): PannerNode
+
+    /** 创建一个AudioBuffer，代表着一段驻留在内存中的短音频
+     * @supported weapp
+     * @example
+     * ```tsx
+     * const audioCtx = Taro.createWebAudioContext()
+     * const channels = 2, frameCount = audioCtx.sampleRate * 2.0
+     * const myArrayBuffer = audioCtx.createBuffer(channels, frameCount, audioCtx.sampleRate)
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createBuffer.html
+     */
+    createBuffer(
+      /** 定义了 buffer 中包含的声频通道数量的整数 */
+      numOfChannels: number,
+      /** 代表 buffer 中的样本帧数的整数 */
+      length: number,
+      /** 线性音频样本的采样率，即每一秒包含的关键帧的个数 */
+      sampleRate: number
+    ): AudioBuffer
+
+    /** 异步解码一段资源为AudioBuffer。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.request({
+     *   url: url, // 音频 url
+     *   responseType: 'arraybuffer',
+     *   success: res => {
+     *     audioCtx.decodeAudioData(res.data, buffer => {
+     *       console.log(buffer)
+     *     }, err => {
+     *       console.error('decodeAudioData fail', err)
+     *     })
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.decodeAudioData.html
+     */
+    decodeAudioData(): AudioBuffer
+  }
+
+  namespace WebAudioContext {
+    namespace createPeriodicWave {
+      /** 字典对象 */
+      interface Constraints {
+        /** 如果指定为 true 则禁用标准化
+         * @default false
+         */
+        disableNormalization?: boolean
+      }
+    }
+  }
+
+  /** 一类音频处理模块，不同的Node具备不同的功能，如GainNode(音量调整)等。一个 WebAudioContextNode 可以通过上下文来创建。 
+   * 
+   * > 目前已经支持以下Node： IIRFilterNode WaveShaperNode ConstantSourceNode ChannelMergerNode OscillatorNode GainNode BiquadFilterNode PeriodicWaveNode BufferSourceNode ChannelSplitterNode ChannelMergerNode DelayNode DynamicsCompressorNode ScriptProcessorNode PannerNode
+   * @supported weapp
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContextNode.html
+   */
+  interface WebAudioContextNode {
+    /** 右手笛卡尔坐标系中X轴的位置。 */
+    positionX: number
+
+    /** 右手笛卡尔坐标系中Y轴的位置。 */
+    positionY: number
+
+    /** 右手笛卡尔坐标系中Z轴的位置。 */
+    positionZ: number
+
+    /** 表示监听器的前向系统在同一笛卡尔坐标系中的水平位置，作为位置（位置x，位置和位置和位置）值。 */
+    forwardX: number
+
+    /** 表示听众的前向方向在同一笛卡尔坐标系中作为位置（位置x，位置和位置和位置）值的垂直位置。 */
+    forwardY: number
+
+    /** 表示与position (positionX、positionY和positionZ)值在同一笛卡尔坐标系下的听者前进方向的纵向(前后)位置。 */
+    forwardZ: number
+
+    /** 表示在与position (positionX、positionY和positionZ)值相同的笛卡尔坐标系中侦听器向前方向的水平位置。 */
+    upX: number
+
+    /** 表示在与position (positionX、positionY和positionZ)值相同的笛卡尔坐标系中侦听器向上方向的水平位置。 */
+    upY: number
+
+    /** 表示在与position (positionX、positionY和positionZ)值相同的笛卡尔坐标系中侦听器向后方向的水平位置。 */
+    upZ: number
+
+    /** 设置监听器的方向
+     * @supported weapp
+     */
+    setOrientation(...args: any[]): void
+
+    /** 设置监听器的位置
+     * @supported weapp
+     */
+    setPosition(...args: any[]): void
+  }
 
   interface TaroStatic {
     /** 结束播放语音。
-     * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](/docs/apis/media/audio/createInnerAudioContext) 接口**
+     * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](./createInnerAudioContext) 接口**
      * @supported weapp
      * @example
      * ```tsx
@@ -378,7 +833,7 @@ declare module '../../index' {
     playVoice(option: playVoice.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 暂停正在播放的语音。再次调用 [Taro.playVoice](/docs/apis/media/audio/stopVoice)。
-     * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](/docs/apis/media/audio/createInnerAudioContext) 接口**
+     * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](./createInnerAudioContext) 接口**
      * @supported weapp
      * @example
      * ```tsx
@@ -507,7 +962,7 @@ declare module '../../index' {
     createInnerAudioContext(): InnerAudioContext
 
     /** 创建 audio 上下文 AudioContext 对象。
-     * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](/docs/apis/media/audio/createInnerAudioContext) 接口**
+     * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](./createInnerAudioContext) 接口**
      * @supported weapp
      * @example
      * ```tsx

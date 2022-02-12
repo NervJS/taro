@@ -25,12 +25,12 @@ sidebar_label: startAccelerometer
 
 | 参数 | 类型 | 默认值 | 必填 | 说明 |
 | --- | --- | :---: | :---: | --- |
-| interval | `keyof interval` | `"normal"` | 否 | 监听加速度数据回调函数的执行频率 |
+| interval | `keyof Interval` | `"normal"` | 否 | 监听加速度数据回调函数的执行频率 |
 | complete | `(res: TaroGeneral.CallbackResult) => void` |  | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | fail | `(res: TaroGeneral.CallbackResult) => void` |  | 否 | 接口调用失败的回调函数 |
 | success | `(res: TaroGeneral.CallbackResult) => void` |  | 否 | 接口调用成功的回调函数 |
 
-### interval
+### Interval
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |

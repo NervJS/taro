@@ -12,12 +12,16 @@ sidebar_label: isVKSupport
 ## 类型
 
 ```tsx
-(version: keyof version) => boolean
+(version: keyof Version) => boolean
 ```
 
 ## 参数
 
-### version
+| 参数 | 类型 |
+| --- | --- |
+| version | `keyof Version` |
+
+### Version
 
 vision kit 版本
 

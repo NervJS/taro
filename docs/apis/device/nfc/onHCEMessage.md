@@ -38,10 +38,10 @@ sidebar_label: onHCEMessage
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | data | `ArrayBuffer` | `messageType=1` 时 ,客户端接收到 NFC 设备的指令 |
-| messageType | `keyof messageType` | 消息类型 |
+| messageType | `keyof MessageType` | 消息类型 |
 | reason | `number` | `messageType=2` 时，原因 |
 
-### messageType
+### MessageType
 
 消息类型
 

@@ -80,7 +80,7 @@ declare module '../../index' {
       callback: BLEPeripheralServer.onCharacteristicWriteRequest.Callback,
     ): void
     /** 监听已连接的设备请求读当前外围设备的特征值事件
-     * 
+     *
      * 收到该消息后需要立刻调用 [writeCharacteristicValue](/docs/apis/device/bluetooth-peripheral/BLEPeripheralServer#writecharacteristicvalue) 写回数据，否则主机不会收到响应。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-peripheral/BLEPeripheralServer.onCharacteristicReadRequest.html
@@ -243,7 +243,7 @@ declare module '../../index' {
       type Callback = (
         result: CallbackResult,
       ) => void
-  
+
       interface CallbackResult {
         /** 蓝牙特征对应服务的 UUID */
         serviceId: string
@@ -258,7 +258,7 @@ declare module '../../index' {
       type Callback = (
         result: CallbackResult,
       ) => void
-  
+
       interface CallbackResult {
         /** 蓝牙特征对应服务的 UUID */
         serviceId: string
@@ -271,7 +271,7 @@ declare module '../../index' {
       type Callback = (
         result: CallbackResult,
       ) => void
-  
+
       interface CallbackResult {
         /** 蓝牙特征对应服务的 UUID */
         serviceId: string
@@ -284,7 +284,7 @@ declare module '../../index' {
       type Callback = (
         result: CallbackResult,
       ) => void
-  
+
       interface CallbackResult {
         /** 蓝牙特征对应服务的 UUID */
         serviceId: string
@@ -315,7 +315,7 @@ declare module '../../index' {
         /** 广播功率
          * @default "medium"
          */
-        powerLevel?: keyof powerLevel
+        powerLevel?: keyof PowerLevel
         /** 接口调用结束的回调函数（调用成功、失败都会执行） */
         complete?: (res: TaroGeneral.BluetoothError) => void
         /** 接口调用失败的回调函数 */
@@ -359,7 +359,7 @@ declare module '../../index' {
         measuredPower?: number
       }
       /** 广播功率合法值 */
-      interface powerLevel {
+      interface PowerLevel {
         /** 功率低 */
         low
         /** 功率适中 */

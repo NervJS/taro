@@ -359,14 +359,14 @@ marker 上的气泡 label
 
 #### type
 
-#### causedByBegin
+#### CausedByBegin
 
 | 参数 | 说明 |
 | --- | --- |
 | gesture | 手势触发 |
 | update | 接口触发 |
 
-#### causedByEnd
+#### CausedByEnd
 
 | 参数 | 说明 |
 | --- | --- |
@@ -379,7 +379,7 @@ marker 上的气泡 label
 | 参数 | 类型 | 说明 | 备注 |
 | --- | --- | --- | --- |
 | type | `T` | 视野变化开始、结束时触发 | `视野变化开始为begin，结束为end` |
-| causedBy | `keyof (T extends "begin" ? causedByBegin : causedByEnd)` | 导致视野变化的原因 | `有效值为 gesture（手势触发）、update（接口触发或调用更新接口导致）、drag（拖动导致）、scale（缩放导致）` |
+| causedBy | `keyof (T extends "begin" ? CausedByBegin : CausedByEnd)` | 导致视野变化的原因 | `有效值为 gesture（手势触发）、update（接口触发或调用更新接口导致）、drag（拖动导致）、scale（缩放导致）` |
 | detail | `regionChangeDetail<type>` | 视野改变详情 |  |
 
 ### regionChangeDetail
@@ -388,7 +388,7 @@ marker 上的气泡 label
 | --- | --- | --- |
 | rotate | `number` | 旋转角度 |
 | skew | `number` | 倾斜角度 |
-| causedBy | `keyof (T extends "begin" ? causedByBegin : causedByEnd)` |  |
+| causedBy | `keyof (T extends "begin" ? CausedByBegin : CausedByEnd)` |  |
 | type | string or T |  |
 | scale | `number` |  |
 | centerLocation | `point` |  |

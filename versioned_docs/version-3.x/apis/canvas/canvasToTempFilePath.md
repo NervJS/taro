@@ -37,7 +37,7 @@ sidebar_label: canvasToTempFilePath
 | destHeight | `number` |  | 否 | 输出的图片的高度 |
 | destWidth | `number` |  | 否 | 输出的图片的宽度 |
 | fail | `(res: TaroGeneral.CallbackResult) => void` |  | 否 | 接口调用失败的回调函数 |
-| fileType | `keyof fileType` | `"png"` | 否 | 目标文件的类型 |
+| fileType | `keyof FileType` | `"png"` | 否 | 目标文件的类型 |
 | height | `number` |  | 否 | 指定的画布区域的高度 |
 | success | `(result: SuccessCallbackResult) => void` |  | 否 | 接口调用成功的回调函数 |
 | width | `number` |  | 否 | 指定的画布区域的宽度 |
@@ -51,7 +51,7 @@ sidebar_label: canvasToTempFilePath
 | tempFilePath | `string` | 生成文件的临时路径 |
 | errMsg | `string` | 调用结果 |
 
-### fileType
+### FileType
 
 | 参数 | 说明 |
 | --- | --- |

@@ -20,7 +20,7 @@ declare module '../../index' {
       /** 目标文件的类型
        * @default "png"
        */
-      fileType?: keyof fileType
+      fileType?: keyof FileType
       /** 指定的画布区域的高度 */
       height?: number
       /** 接口调用成功的回调函数 */
@@ -38,7 +38,7 @@ declare module '../../index' {
       /** 调用结果 */
       errMsg: string
     }
-    interface fileType {
+    interface FileType {
       /** jpg 图片 */
       jpg
       /** png 图片 */
@@ -451,7 +451,7 @@ declare module '../../index' {
       /** 重复的图像源，仅支持包内路径和临时路径 */
       image: string,
       /** 如何重复图像 */
-      repetition: keyof CanvasContext.repetition,
+      repetition: keyof CanvasContext.Repetition,
     ): void
     /** 将之前在绘图上下文中的描述（路径、变形、样式）画到 canvas 中。
      * @supported weapp
@@ -940,7 +940,7 @@ declare module '../../index' {
      */
     setLineCap(
       /** 线条的结束端点样式 */
-      lineCap: keyof CanvasContext.lineCap,
+      lineCap: keyof CanvasContext.LineCap,
     ): void
     /** 设置虚线样式。
      * @supported weapp
@@ -999,7 +999,7 @@ declare module '../../index' {
      */
     setLineJoin(
       /** 线条的结束交点样式 */
-      lineJoin: keyof CanvasContext.lineJoin,
+      lineJoin: keyof CanvasContext.LineJoin,
     ): void
     /** 设置线条的宽度
      * @supported weapp
@@ -1137,7 +1137,7 @@ declare module '../../index' {
      */
     setTextAlign(
       /** 文字的对齐方式 */
-      align: keyof CanvasContext.align,
+      align: keyof CanvasContext.Align,
     ): void
     /** 设置文字的竖直对齐
      * @supported weapp
@@ -1163,7 +1163,7 @@ declare module '../../index' {
      */
     setTextBaseline(
       /** 文字的竖直对齐方式 */
-      textBaseline: keyof CanvasContext.textBaseline,
+      textBaseline: keyof CanvasContext.TextBaseline,
     ): void
     /** 使用矩阵重新设置（覆盖）当前变换的方法
      * @supported weapp
@@ -1362,11 +1362,11 @@ declare module '../../index' {
      * - iOS：xor, source-over, source-atop, destination-over, destination-out, lighter, multiply, overlay, darken, lighten, color-dodge, color-burn, hard-light, soft-light, difference, exclusion, saturation, luminosity */
     globalCompositeOperation: string
     /** 线条的端点样式。用法同 [CanvasContext.setLineCap()]。 */
-    lineCap: keyof CanvasContext.lineCap
+    lineCap: keyof CanvasContext.LineCap
     /** 虚线偏移量，初始值为0 */
     lineDashOffset: number
     /** 线条的交点样式。用法同 [CanvasContext.setLineJoin()]。 */
-    lineJoin: keyof CanvasContext.lineJoin
+    lineJoin: keyof CanvasContext.LineJoin
     /** 线条的宽度。用法同 [CanvasContext.setLineWidth()]。 */
     lineWidth: number
     /** 最大斜接长度。用法同 [CanvasContext.setMiterLimit()]。 */
@@ -1384,7 +1384,7 @@ declare module '../../index' {
   }
   namespace CanvasContext {
     /** 参数 repetition 可选值 */
-    interface repetition {
+    interface Repetition {
       /** 水平竖直方向都重复 */
       'repeat'
       /** 水平方向重复 */
@@ -1396,7 +1396,7 @@ declare module '../../index' {
     }
 
     /** 参数 lineCap 可选值 */
-    interface lineCap {
+    interface LineCap {
       /** 向线条的每个末端添加平直的边缘。 */
       butt
       /** 向线条的每个末端添加圆形线帽。 */
@@ -1405,7 +1405,7 @@ declare module '../../index' {
       square
     }
     /** 参数 lineJoin 可选值 */
-    interface lineJoin {
+    interface LineJoin {
       /** 斜角 */
       bevel
       /** 圆角 */
@@ -1414,7 +1414,7 @@ declare module '../../index' {
       miter
     }
     /** 参数 align 可选值 */
-    interface align {
+    interface Align {
       /** 左对齐 */
       left
       /** 居中对齐 */
@@ -1423,7 +1423,7 @@ declare module '../../index' {
       right
     }
       /** 参数 textBaseline 可选值 */
-    interface textBaseline {
+    interface TextBaseline {
       /** 顶部对齐 */
       top
       /** 底部对齐 */

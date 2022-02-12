@@ -12,13 +12,13 @@ interface VoipRoomProps extends StandardProps {
    * @default camera
    * @supported weapp
    */
-  mode?: keyof VoipRoomProps.mode
+  mode?: keyof VoipRoomProps.Mode
 
   /** 仅在 mode 为 camera 时有效，前置或后置，值为front, back
    * @default front
    * @supported weapp
    */
-  devicePosition?: keyof VoipRoomProps.devicePosition
+  devicePosition?: keyof VoipRoomProps.DevicePosition
 
   /** 创建对话窗口失败时触发
    * @supported weapp
@@ -28,13 +28,13 @@ interface VoipRoomProps extends StandardProps {
 
 declare namespace VoipRoomProps {
   /** 对话窗口类型 */
-  interface mode {
+  interface Mode {
     camera
     video
   }
 
   /** 摄像头类型 */
-  interface devicePosition {
+  interface DevicePosition {
     front
     back
   }

@@ -3,7 +3,7 @@ import Taro from '../../index'
 declare module '../../index' {
   namespace isVKSupport {
     /** vision kit 版本 */
-    interface version {
+    interface Version {
       /** 旧版本 */
       v1
       /** v2 版本，目前只有 iOS 基础库 2.22.0 以上支持 */
@@ -12,24 +12,24 @@ declare module '../../index' {
   }
   namespace createVKSession {
     /** vision kit 版本 */
-    interface version {
+    interface Version {
       /** 旧版本 */
       v1
       /** v2 版本，目前只有 iOS 基础库 2.22.0 以上支持 */
       v2
     }
     /** 跟踪配置 */
-    interface track {
+    interface Track {
       /** 平面跟踪配置 */
-      plane: plane
+      plane: Plane
     }
     /** 平面跟踪配置 */
-    interface plane {
+    interface Plane {
       /** 平面跟踪配置模式 */
-      mode: keyof planeMode
+      mode: keyof PlaneMode
     }
     /** 平面跟踪配置模式合法值 */
-    interface planeMode {
+    interface PlaneMode {
       /** 检测横向平面 */
       1
       /** 检测纵向平面，只有 v2 版本支持 */
@@ -47,22 +47,22 @@ declare module '../../index' {
     /** 唯一标识 */
     id: number
     /** 类型 */
-    type: keyof VKAnchor.type
+    type: keyof VKAnchor.Type
     /** 包含位置、旋转、放缩信息的矩阵，以列为主序 */
     transform: Float32Array
     /** 尺寸，只有平面 anchor 支持 */
-    size: VKAnchor.size
+    size: VKAnchor.Size
     /** 方向，只有平面 anchor 支持 */
     alignment: number
   }
   namespace VKAnchor {
     /** anchor 对象类型合法值 */
-    interface type {
+    interface Type {
       /** 平面 */
       0
     }
     /** anchor 对象类型合法值 */
-    interface size {
+    interface Size {
       /** 宽度 */
       width: number
       /** 高度 */
@@ -128,11 +128,11 @@ declare module '../../index' {
    */
   interface VKSession {
     /** 会话状态 */
-    state: keyof VKSession.state
+    state: keyof VKSession.State
     /** 会话配置 */
-    config: VKSession.config
+    config: VKSession.Config
     /** 相机尺寸 */
-    cameraSize: VKSession.size
+    cameraSize: VKSession.Size
     /** 取消由 requestAnimationFrame 添加到计划中的动画帧请求
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.cancelAnimationFrame.html
@@ -201,7 +201,7 @@ declare module '../../index' {
      */
     start(
      /** 开启会话回调 */
-     callback: (status: keyof VKSession.startStatus) => void
+     callback: (status: keyof VKSession.StartStatus) => void
     ): void
     /** 停止会话。
      * @supported weapp
@@ -211,7 +211,7 @@ declare module '../../index' {
   }
   namespace VKSession {
     /** state 的合法值 */
-    interface state {
+    interface State {
       /** 不可用 */
       0
       /** 运行中 */
@@ -220,7 +220,7 @@ declare module '../../index' {
       2
     }
     /** 会话配置 */
-    interface config {
+    interface Config {
       /** 不可用 */
       version: keyof version
       /** 运行中 */
@@ -241,10 +241,10 @@ declare module '../../index' {
     /** 平面跟踪配置 */
     interface plane {
       /** 平面跟踪配置模式 */
-      mode: keyof planeMode
+      mode: keyof PlaneMode
     }
     /** 平面跟踪配置模式合法值 */
-    interface planeMode {
+    interface PlaneMode {
       /** 检测横向平面 */
       1
       /** 检测纵向平面，只有 v2 版本支持 */
@@ -253,7 +253,7 @@ declare module '../../index' {
       3
     }
     /** 相机尺寸 */
-    interface size {
+    interface Size {
       /** 宽度 */
       width: number
       /** 高度 */
@@ -267,7 +267,7 @@ declare module '../../index' {
     }
 
     /** start status 的合法值 */
-    interface startStatus {
+    interface StartStatus {
       /** 成功 */
       0
       /** 系统错误 */
@@ -292,12 +292,12 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/wx.isVKSupport.html
      */
-     isVKSupport (version: keyof isVKSupport.version): boolean /** 是否支持对应版本的 vision kit */
+     isVKSupport (version: keyof isVKSupport.Version): boolean /** 是否支持对应版本的 vision kit */
 
     /** 创建 vision kit 会话对象
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/wx.createVKSession.html
      */
-    createVKSession (version: keyof createVKSession.version): VKSession /** vision kit 会话对象 */
+    createVKSession (version: keyof createVKSession.Version): VKSession /** vision kit 会话对象 */
   }
 }

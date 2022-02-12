@@ -77,7 +77,7 @@ declare module '../../index' {
     /** Beacon 设备的次 ID */
     minor: string
     /** 表示设备距离的枚举值（仅iOS） */
-    proximity: keyof IBeaconInfo.proximity
+    proximity: keyof IBeaconInfo.Proximity
     /** Beacon 设备的距离，单位 m。iOS 上，proximity 为 0 时，accuracy 为 -1。 */
     accuracy: number
     /** 表示设备的信号强度，单位 dBm */
@@ -86,7 +86,7 @@ declare module '../../index' {
 
   namespace IBeaconInfo {
     /** proximity 的合法值 */
-    interface proximity {
+    interface Proximity {
       /** 信号太弱不足以计算距离，或非 iOS 设备 */
       0
       /** 十分近 */

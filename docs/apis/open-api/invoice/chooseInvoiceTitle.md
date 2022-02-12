@@ -40,9 +40,9 @@ sidebar_label: chooseInvoiceTitle
 | taxNumber | `string` | 抬头税号 |
 | telephone | `string` | 手机号码 |
 | title | `string` | 抬头名称 |
-| type | `keyof invoice_type` | 抬头类型 |
+| type | `keyof InvoiceType` | 抬头类型 |
 
-### invoice_type
+### InvoiceType
 
 抬头类型
 

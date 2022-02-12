@@ -252,15 +252,15 @@ sidebar_label: RecorderManager
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
-| audioSource | `keyof audioSource` | 否 | 指定录音的音频输入源，可通过 [Taro.getAvailableAudioSources()](/docs/apis/media/audio/getAvailableAudioSources) 获取当前可用的音频源 |
+| audioSource | `keyof AudioSource` | 否 | 指定录音的音频输入源，可通过 [Taro.getAvailableAudioSources()](/docs/apis/media/audio/getAvailableAudioSources) 获取当前可用的音频源 |
 | duration | `number` | 否 | 录音的时长，单位 ms，最大值 600000（10 分钟） |
 | encodeBitRate | `number` | 否 | 编码码率，有效值见下表格 |
-| format | `keyof format` | 否 | 音频格式 |
+| format | `keyof Format` | 否 | 音频格式 |
 | frameSize | `number` | 否 | 指定帧大小，单位 KB。传入 frameSize 后，每录制指定帧大小的内容后，会回调录制的文件内容，不指定则不会回调。暂仅支持 mp3 格式。 |
-| numberOfChannels | `keyof numberOfChannels` | 否 | 录音通道数 |
-| sampleRate | `keyof sampleRate` | 否 | 采样率 |
+| numberOfChannels | `keyof NumberOfChannels` | 否 | 录音通道数 |
+| sampleRate | `keyof SampleRate` | 否 | 采样率 |
 
-### audioSource
+### AudioSource
 
 指定录音的音频输入源
 
@@ -274,7 +274,7 @@ sidebar_label: RecorderManager
 | voice_communication | 同 mic，适用于实时沟通，仅限 Android |
 | voice_recognition | 同 mic，适用于语音识别，仅限 Android |
 
-### format
+### Format
 
 音频格式
 
@@ -285,7 +285,7 @@ sidebar_label: RecorderManager
 | wav | wav 格式 |
 | PCM | pcm 格式 |
 
-### numberOfChannels
+### NumberOfChannels
 
 录音通道数
 
@@ -294,7 +294,7 @@ sidebar_label: RecorderManager
 | 1 | 1 个通道 |
 | 2 | 2 个通道 |
 
-### sampleRate
+### SampleRate
 
 采样率
 

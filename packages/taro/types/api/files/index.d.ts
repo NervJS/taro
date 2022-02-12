@@ -76,12 +76,12 @@ declare module '../../index' {
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 文件类型，指定文件类型打开文件 */
-      fileType?: keyof fileType
+      fileType?: keyof FileType
       /** 接口调用成功的回调函数 */
       success?: (res: TaroGeneral.CallbackResult) => void
     }
     /** 文件类型 */
-    interface fileType {
+    interface FileType {
       /** doc 格式 */
       doc
       /** docx 格式 */
@@ -212,7 +212,7 @@ declare module '../../index' {
       /** 要追加的文本或二进制数据 */
       data: string | ArrayBuffer,
       /** 指定写入文件的字符编码 */
-      encoding?: keyof FileSystemManager.encoding,
+      encoding?: keyof FileSystemManager.Encoding,
     ): void
     /** 关闭文件
      * @supported weapp
@@ -335,7 +335,7 @@ declare module '../../index' {
       /** 要读取的文件的路径 */
       filePath: string,
       /** 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 */
-      encoding?: keyof FileSystemManager.encoding,
+      encoding?: keyof FileSystemManager.Encoding,
       /**从文件指定位置开始读，如果不指定，则从文件头开始读。读取的范围应该是左闭右开区间 [position, position+length)。有效范围：[0, fileLength - 1]。单位：byte */
       position?: number,
       /**指定文件的长度，如果不指定，则读到文件末尾。有效范围：[1, fileLength]。单位：byte */
@@ -471,7 +471,7 @@ declare module '../../index' {
       /** 要写入的文本或二进制数据 */
       data: string | ArrayBuffer,
       /** 指定写入文件的字符编码 */
-      encoding?: keyof FileSystemManager.encoding,
+      encoding?: keyof FileSystemManager.Encoding,
     ): void
     /** [write](#write) 的同步版本
      * @supported weapp
@@ -487,7 +487,7 @@ declare module '../../index' {
 
   namespace FileSystemManager {
     /** 字符编码 */
-    interface encoding {
+    interface Encoding {
       ascii
       base64
       binary
@@ -546,7 +546,7 @@ declare module '../../index' {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 指定写入文件的字符编码 */
-      encoding?: keyof FileSystemManager.encoding
+      encoding?: keyof FileSystemManager.Encoding
       /** 接口调用失败的回调函数 */
       fail?: (result: AppendFileFailCallbackResult) => void
       /** 接口调用成功的回调函数 */
@@ -670,7 +670,7 @@ declare module '../../index' {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 */
-      encoding?: keyof FileSystemManager.encoding
+      encoding?: keyof FileSystemManager.Encoding
       /** 接口调用失败的回调函数 */
       fail?: (result: ReadFileFailCallbackResult) => void
       /** 接口调用成功的回调函数 */
@@ -746,10 +746,10 @@ declare module '../../index' {
       }
       /** 字符编码合法值 */
       interface Encoding {
-        ascii 
-        base64 
-        binary 
-        hex 
+        ascii
+        base64
+        binary
+        hex
         /** @illustrate 以小端序读取 */
         ucs2
         /** @illustrate 以小端序读取 */
@@ -758,8 +758,8 @@ declare module '../../index' {
         utf16le
         /** @illustrate 以小端序读取 */
         'utf-16le'
-        'utf-8' 
-        utf8 
+        'utf-8'
+        utf8
         latin1
       }
       interface FailCallbackResult extends TaroGeneral.CallbackResult {
@@ -956,7 +956,7 @@ declare module '../../index' {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 指定写入文件的字符编码 */
-      encoding?: keyof FileSystemManager.encoding
+      encoding?: keyof FileSystemManager.Encoding
       /** 接口调用失败的回调函数 */
       fail?: (result: WriteFileFailCallbackResult) => void
       /** 接口调用成功的回调函数 */
@@ -1219,7 +1219,7 @@ declare module '../../index' {
       /** 只在 data 类型是 ArrayBuffer 时有效，指定要写入的字节数，默认为 arrayBuffer 从0开始偏移 offset 个字节后剩余的字节数 */
       length?: number
       /** 只在 data 类型是 String 时有效，指定写入文件的字符编码，默认为 utf8 */
-      encoding?: keyof FileSystemManager.encoding
+      encoding?: keyof FileSystemManager.Encoding
       /** 指定文件开头的偏移量，即数据要被写入的位置。当 position 不传或者传入非 Number 类型的值时，数据会被写入当前指针所在位置。 */
       position?: number
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -1255,7 +1255,7 @@ declare module '../../index' {
       /** 只在 data 类型是 ArrayBuffer 时有效，指定要写入的字节数，默认为 arrayBuffer 从0开始偏移 offset 个字节后剩余的字节数 */
       length?: number
       /** 只在 data 类型是 String 时有效，指定写入文件的字符编码，默认为 utf8 */
-      encoding?: keyof FileSystemManager.encoding
+      encoding?: keyof FileSystemManager.Encoding
       /** 指定文件开头的偏移量，即数据要被写入的位置。当 position 不传或者传入非 Number 类型的值时，数据会被写入当前指针所在位置。 */
       position?: number
     }

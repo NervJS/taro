@@ -60,22 +60,22 @@ declare module '../../index' {
     }
     interface StartOption {
       /** 指定录音的音频输入源，可通过 [Taro.getAvailableAudioSources()](/docs/apis/media/audio/getAvailableAudioSources) 获取当前可用的音频源 */
-      audioSource?: keyof audioSource
+      audioSource?: keyof AudioSource
       /** 录音的时长，单位 ms，最大值 600000（10 分钟） */
       duration?: number
       /** 编码码率，有效值见下表格 */
       encodeBitRate?: number
       /** 音频格式 */
-      format?: keyof format
+      format?: keyof Format
       /** 指定帧大小，单位 KB。传入 frameSize 后，每录制指定帧大小的内容后，会回调录制的文件内容，不指定则不会回调。暂仅支持 mp3 格式。 */
       frameSize?: number
       /** 录音通道数 */
-      numberOfChannels?: keyof numberOfChannels
+      numberOfChannels?: keyof NumberOfChannels
       /** 采样率 */
-      sampleRate?: keyof sampleRate
+      sampleRate?: keyof SampleRate
     }
     /** 指定录音的音频输入源 */
-    interface audioSource {
+    interface AudioSource {
       /** 自动设置，默认使用手机麦克风，插上耳麦后自动切换使用耳机麦克风，所有平台适用 */
       'auto'
       /** 手机麦克风，仅限 iOS */
@@ -92,7 +92,7 @@ declare module '../../index' {
       'voice_recognition'
     }
     /** 音频格式 */
-    interface format {
+    interface Format {
       /** mp3 格式 */
       mp3
       /** aac 格式 */
@@ -103,14 +103,14 @@ declare module '../../index' {
       PCM
     }
     /** 录音通道数 */
-    interface numberOfChannels {
+    interface NumberOfChannels {
       /** 1 个通道 */
       1
       /** 2 个通道 */
       2
     }
     /** 采样率 */
-    interface sampleRate {
+    interface SampleRate {
       /** 8000 采样率
        * @codeRate 16000 ~ 48000
        */

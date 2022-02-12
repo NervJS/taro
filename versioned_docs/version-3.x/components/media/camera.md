@@ -19,11 +19,11 @@ ComponentType<CameraProps>
 
 | 参数 | 类型 | 默认值 | 必填 | 说明 |
 | --- | --- | :---: | :---: | --- |
-| mode | `keyof mode` | `"normal"` | 否 | 模式，有效值为normal, scanCode |
-| resolution | `keyof resolution` | `"medium"` | 否 | 分辨率，不支持动态修改 |
-| devicePosition | `keyof devicePosition` | `"back"` | 否 | 摄像头朝向 |
-| flash | `keyof flash` | `"auto"` | 否 | 闪光灯 |
-| frameSize | `keyof frameSize` | `"medium"` | 否 | 指定期望的相机帧数据尺寸 |
+| mode | `keyof Mode` | `"normal"` | 否 | 模式，有效值为normal, scanCode |
+| resolution | `keyof Resolution` | `"medium"` | 否 | 分辨率，不支持动态修改 |
+| devicePosition | `keyof DevicePosition` | `"back"` | 否 | 摄像头朝向 |
+| flash | `keyof Flash` | `"auto"` | 否 | 闪光灯 |
+| frameSize | `keyof FrameSize` | `"medium"` | 否 | 指定期望的相机帧数据尺寸 |
 | scanArea | `number[]` |  | 否 | 扫码识别区域，格式为[x, y, w, h]，<br />x,y是相对于camera显示区域的左上角，<br />w,h为区域宽度，单位px，仅在 mode="scanCode" 时生效 |
 | onStop | `CommonEventFunction` |  | 否 | 摄像头在非正常终止时触发，<br />如退出后台等情况 |
 | onError | `CommonEventFunction` |  | 否 | 用户不允许使用摄像头时触发 |
@@ -45,7 +45,7 @@ ComponentType<CameraProps>
 | CameraProps.onInitDone | ✔️ |  | ✔️ |
 | CameraProps.onScanCode | ✔️ |  | ✔️ |
 
-### mode
+### Mode
 
 mode 的合法值
 
@@ -54,7 +54,7 @@ mode 的合法值
 | normal | 相机模式 |
 | scanCode | 扫码模式 |
 
-### resolution
+### Resolution
 
 resolution 的合法值
 
@@ -64,7 +64,7 @@ resolution 的合法值
 | medium | 中 |
 | high | 高 |
 
-### devicePosition
+### DevicePosition
 
 device-position 的合法值
 
@@ -73,7 +73,7 @@ device-position 的合法值
 | front | 前置 |
 | back | 后置 |
 
-### flash
+### Flash
 
 flash 的合法值
 
@@ -84,7 +84,7 @@ flash 的合法值
 | off | 关闭 |
 | torch | 常亮 |
 
-### frameSize
+### FrameSize
 
 frame-size 的合法值
 

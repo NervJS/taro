@@ -119,7 +119,7 @@ export default class PageView extends Component {
 
 | 参数 | 类型 |
 | --- | --- |
-| errMsg | `keyof code` |
+| errMsg | `keyof Code` |
 
 ### onTimeUpdateEventDetail
 
@@ -130,7 +130,7 @@ export default class PageView extends Component {
 
 ### MediaError
 
-#### code
+#### Code
 
 | 参数 | 说明 |
 | --- | --- |

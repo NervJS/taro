@@ -23,10 +23,10 @@ declare module '../../index' {
       /**
        * @default 0
        */
-      level?: keyof level
+      level?: keyof Level
     }
 
-    type level = {
+    type Level = {
       /** 表示会把 App、Page 的生命周期函数和 wx 命名空间下的函数调用写入日志 */
       0
       /** 表示不会把 App、Page 的生命周期函数和 wx 命名空间下的函数调用写入日志 */

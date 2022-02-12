@@ -69,7 +69,7 @@ class App extends Components {
 | muted | `boolean` | `false` | 否 | 是否静音。即将废弃，可用 enable-mic 替代<br />**不推荐使用** |
 | enableCamera | `boolean` | `true` | 否 | 开启摄像头 |
 | autoFocus | `boolean` | `true` | 否 | 自动聚集 |
-| orientation | `keyof orientation` | `"vertical"` | 否 | 画面方向 |
+| orientation | `keyof Orientation` | `"vertical"` | 否 | 画面方向 |
 | beauty | `number` | `0` | 否 | 美颜，取值范围 0-9 ，0 表示关闭 |
 | whiteness | `number` | `0` | 否 | 美白，取值范围 0-9 ，0 表示关闭 |
 | aspect | "9:16" or "3:4" | `"9:16"` | 否 | 宽高比，可选值有 3:4, 9:16 |
@@ -83,16 +83,16 @@ class App extends Components {
 | backgroundMute | `boolean` | `false` | 否 | 进入后台时是否静音 |
 | mirror | `boolean` | `false` | 否 | 设置推流画面是否镜像，产生的效果在 LivePlayer 反应到<br />**不推荐使用** |
 | remoteMirror | `boolean` | `false` | 否 | 设置推流画面是否镜像，产生的效果在 LivePlayer 反应到<br /><br />**Note:** 同 mirror 属性，后续 mirror 将废弃 |
-| localMirror | `keyof localMirror` | `"auto"` | 否 | 控制本地预览画面是否镜像 |
-| audioReverbType | `keyof audioReverbType` | `0` | 否 | 音频混响类型 |
+| localMirror | `keyof LocalMirror` | `"auto"` | 否 | 控制本地预览画面是否镜像 |
+| audioReverbType | `keyof AudioReverbType` | `0` | 否 | 音频混响类型 |
 | enableMic | `boolean` | `true` | 否 | 开启或关闭麦克风 |
 | enableAgc | `boolean` | `false` | 否 | 是否开启音频自动增益 |
 | enableAns | `boolean` | `false` | 否 | 是否开启音频噪声抑制 |
-| audioVolumeType | `keyof audioVolumeType` | `"voicecall"` | 否 | 音量类型 |
+| audioVolumeType | `keyof AudioVolumeType` | `"voicecall"` | 否 | 音量类型 |
 | videoWidth | `number` | `360` | 否 | 上推的视频流的分辨率宽度 |
 | videoHeight | `number` | `640` | 否 | 上推的视频流的分辨率高度 |
-| beautyStyle | `keyof beautyStyleType` | `smooth` | 否 | 设置美颜类型 |
-| filter | `keyof filterType` | `standard` | 否 | 设置色彩滤镜 |
+| beautyStyle | `keyof BeautyStyleType` | `smooth` | 否 | 设置美颜类型 |
+| filter | `keyof FilterType` | `standard` | 否 | 设置色彩滤镜 |
 | onStateChange | `CommonEventFunction<onStateChangeEventDetail>` |  | 否 | 状态变化事件，detail = {code} |
 | onNetstatus | `CommonEventFunction<onNetstatusEventDetail>` |  | 否 | 网络状态通知，detail = {info} |
 | onError | `CommonEventFunction<onErrorEventDetail>` |  | 否 | 渲染错误事件，detail = {errMsg, errCode} |
@@ -143,7 +143,7 @@ class App extends Components {
 | LivePusherProps.onBgmComplete | ✔️ |  |  |
 | LivePusherProps.onAudioVolumeNotify | ✔️ |  |  |
 
-### orientation
+### Orientation
 
 orientation 的合法值
 
@@ -152,7 +152,7 @@ orientation 的合法值
 | vertical | 竖直 |
 | horizontal | 水平 |
 
-### localMirror
+### LocalMirror
 
 localMirror 的合法值
 
@@ -162,7 +162,7 @@ localMirror 的合法值
 | enable | 前后置摄像头均镜像 |
 | disable | 前后置摄像头均不镜像 |
 
-### audioReverbType
+### AudioReverbType
 
 audioReverbType 的合法值
 
@@ -177,7 +177,7 @@ audioReverbType 的合法值
 | 6 | 金属声 |
 | 7 | 磁性 |
 
-### audioVolumeType
+### AudioVolumeType
 
 audioVolumeType 的合法值
 
@@ -186,7 +186,7 @@ audioVolumeType 的合法值
 | media | 媒体音量 |
 | voicecall | 通话音量 |
 
-### beautyStyleType
+### BeautyStyleType
 
 beautyStyleType 的合法值
 
@@ -195,7 +195,7 @@ beautyStyleType 的合法值
 | smooth | 光滑美颜 |
 | nature | 自然美颜 |
 
-### filterType
+### FilterType
 
 filterType 的合法值
 

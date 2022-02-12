@@ -19,14 +19,14 @@ ComponentType<NavigatorProps>
 
 | 参数 | 类型 | 默认值 | 必填 | 说明 |
 | --- | --- | :---: | :---: | --- |
-| target | `keyof target` | `"self"` | 否 | 在哪个目标上发生跳转，默认当前小程序 |
+| target | `keyof Target` | `"self"` | 否 | 在哪个目标上发生跳转，默认当前小程序 |
 | url | `string` |  | 否 | 当前小程序内的跳转链接 |
-| openType | `keyof openType` | `"navigate"` | 否 | 跳转方式 |
+| openType | `keyof OpenType` | `"navigate"` | 否 | 跳转方式 |
 | delta | `number` |  | 否 | 当 open-type 为 'navigateBack' 时有效，表示回退的层数 |
 | appId | `string` |  | 否 | 当 `target="miniProgram"` 时有效，要打开的小程序 appId |
 | path | `string` |  | 否 | 当 `target="miniProgram"` 时有效，打开的页面路径，如果为空则打开首页 |
 | extraData | `object` |  | 否 | 当 `target="miniProgram"` 时有效，需要传递给目标小程序的数据，目标小程序可在 `App.onLaunch()`，`App.onShow()` 中获取到这份数据. |
-| version | `keyof version` |  | 否 | 当 `target="miniProgram"` 时有效，要打开的小程序版本 |
+| version | `keyof Version` |  | 否 | 当 `target="miniProgram"` 时有效，要打开的小程序版本 |
 | hoverClass | `string` | `"navigator-hover"` | 否 | 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果 |
 | hoverStopPropagation | `boolean` | `false` | 否 | 指定是否阻止本节点的祖先节点出现点击态 |
 | hoverStartTime | `number` | `50` | 否 | 按住后多久出现点击态，单位毫秒 |
@@ -55,7 +55,7 @@ ComponentType<NavigatorProps>
 | NavigatorProps.onFail | ✔️ | ✔️ |  |  |  |  |
 | NavigatorProps.onComplete | ✔️ | ✔️ |  |  |  |  |
 
-### target
+### Target
 
 target 的合法值
 
@@ -64,7 +64,7 @@ target 的合法值
 | self | 当前小程序 |
 | miniProgram | 其它小程序 |
 
-### openType
+### OpenType
 
 open-type 的合法值
 
@@ -77,7 +77,7 @@ open-type 的合法值
 | navigateBack | 对应 Taro.navigateBack 的功能 |
 | exit | 退出小程序，`target="miniProgram"` 时生效 |
 
-### version
+### Version
 
 version 的合法值
 

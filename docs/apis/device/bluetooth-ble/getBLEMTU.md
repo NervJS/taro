@@ -30,7 +30,7 @@ sidebar_label: getBLEMTU
 | 参数 | 类型 | 默认值 | 必填 | 说明 |
 | --- | --- | :---: | :---: | --- |
 | deviceId | `string` |  | 是 | 蓝牙设备 id |
-| writeType | `keyof writeType` | `"write"` | 是 | 写模式 （iOS 特有参数） |
+| writeType | `keyof WriteType` | `"write"` | 是 | 写模式 （iOS 特有参数） |
 | complete | `(res: TaroGeneral.BluetoothError) => void` |  | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | fail | `(res: TaroGeneral.BluetoothError) => void` |  | 否 | 接口调用失败的回调函数 |
 | success | `(result: SuccessCallbackResult) => void` |  | 否 | 接口调用成功的回调函数 |
@@ -41,7 +41,7 @@ sidebar_label: getBLEMTU
 | --- | --- | --- |
 | mtu | `number` | 最大传输单元 |
 
-### writeType
+### WriteType
 
 写模式合法值
 

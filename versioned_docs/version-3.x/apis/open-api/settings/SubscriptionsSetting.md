@@ -19,7 +19,7 @@ sidebar_label: SubscriptionsSetting
 
 ## 参数
 
-### template_reflex
+### TemplateReflex
 
 模版消息订阅类型
 

@@ -25,12 +25,12 @@ sidebar_label: checkIsSoterEnrolledInDevice
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
-| checkAuthMode | `keyof requestAuthModes` | 是 | 认证方式 |
+| checkAuthMode | `keyof RequestAuthModes` | 是 | 认证方式 |
 | complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
 | success | `(result: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
-### requestAuthModes
+### RequestAuthModes
 
 | 参数 | 说明 |
 | --- | --- |

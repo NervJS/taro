@@ -83,7 +83,7 @@ export default class PageView extends Component {
 | 参数 | 类型 | 默认值 | 必填 | 说明 |
 | --- | --- | :---: | :---: | --- |
 | src | `string` |  | 是 | 图片资源地址 |
-| mode | `keyof mode` | `"scaleToFill"` | 否 | 图片裁剪、缩放的模式 |
+| mode | `keyof Mode` | `"scaleToFill"` | 否 | 图片裁剪、缩放的模式 |
 | webp | `boolean` | `false` | 否 | 默认不解析 webP 格式，只支持网络资源 |
 | svg | `boolean` | `false` | 否 | 默认不解析 svg 格式，svg 图片只支持 aspectFit |
 | lazyLoad | `boolean` | `false` | 否 | 图片懒加载。只针对 page 与 scroll-view 下的 image 有效 |
@@ -108,7 +108,7 @@ export default class PageView extends Component {
 | ImageProps.imgProps |  |  |  |  | ✔️ |  |
 | ImageProps.nativeProps |  |  |  |  | ✔️ |  |
 
-### mode
+### Mode
 
 mode 的合法值
 

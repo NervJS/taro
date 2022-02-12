@@ -10,7 +10,7 @@ declare module '../../index' {
       /** 请求的参数 */
       data?: U
       /** 返回的数据格式 */
-      dataType?: keyof dataType | string
+      dataType?: keyof DataType | string
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 设置请求的 header，header 中不能设置 Referer。
@@ -18,9 +18,9 @@ declare module '../../index' {
        * `content-type` 默认为 `application/json` */
       header?: TaroGeneral.IAnyObject
       /** HTTP 请求方法 */
-      method?: keyof method
+      method?: keyof Method
       /** 响应的数据类型 */
-      responseType?: keyof responseType
+      responseType?: keyof ResponseType
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
       /** 设置 H5 端是否使用jsonp方式获取数据
@@ -34,15 +34,15 @@ declare module '../../index' {
       /** 设置 H5 端是否允许跨域请求
        * @default same-origin
        */
-      mode?: keyof cors_mode
+      mode?: keyof CorsMode
       /** 设置 H5 端是否携带 Cookie
        * @default omit
        */
-      credentials?: keyof credentials
+      credentials?: keyof Credentials
       /** 设置 H5 端缓存模式
        * @default default
        */
-      cache?: keyof cache
+      cache?: keyof Cache
       /** 设置 H5 端请求响应超时时间
        * @default 2000
        */
@@ -81,7 +81,7 @@ declare module '../../index' {
     }
 
     /** 返回的数据格式 */
-    interface dataType {
+    interface DataType {
       /** 返回的数据为 JSON，返回后会对返回的数据进行一次 JSON.parse
        * 其他: 不对返回的内容进行 JSON.parse
        */
@@ -89,7 +89,7 @@ declare module '../../index' {
     }
 
     /** HTTP 请求方法 */
-    interface method {
+    interface Method {
       /** HTTP 请求 OPTIONS */
       OPTIONS
       /** HTTP 请求 GET */
@@ -109,7 +109,7 @@ declare module '../../index' {
     }
 
     /** 响应的数据类型 */
-    interface responseType {
+    interface ResponseType {
       /** 响应的数据为文本 */
       text
       /** 响应的数据为 ArrayBuffer */
@@ -117,7 +117,7 @@ declare module '../../index' {
     }
 
     /** 跨域策略 */
-    interface cors_mode {
+    interface CorsMode {
       /** 跨域请求将获取不透明的响应 */
       'no-cors'
       /** 允许跨域请求 */
@@ -126,7 +126,7 @@ declare module '../../index' {
       'same-origin'
     }
     /** 证书 */
-    interface credentials {
+    interface Credentials {
       /** 不论是不是跨域的请求,总是发送请求资源域在本地的 cookies、 HTTP Basic authentication 等验证信息 */
       include
       /** 只有当URL与响应脚本同源才发送 cookies、 HTTP Basic authentication 等验证信息 */
@@ -135,7 +135,7 @@ declare module '../../index' {
       omit
     }
     /** 缓存策略 */
-    interface cache {
+    interface Cache {
       /** 浏览器从HTTP缓存中寻找匹配的请求 */
       default
       /** 浏览器在其HTTP缓存中寻找匹配的请求 */

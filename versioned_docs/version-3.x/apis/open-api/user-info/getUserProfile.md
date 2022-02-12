@@ -35,7 +35,7 @@ sidebar_label: getUserProfile
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
-| lang | `keyof language` | 否 | 显示用户信息的语言 |
+| lang | `keyof Language` | 否 | 显示用户信息的语言 |
 | desc | `string` | 是 | 声明获取用户个人信息后的用途，不超过30个字符 |
 | success | `(result: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 | fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |

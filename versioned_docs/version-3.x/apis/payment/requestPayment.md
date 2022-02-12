@@ -31,10 +31,10 @@ sidebar_label: requestPayment
 | timeStamp | `string` | 是 | 时间戳，从 1970 年 1 月 1 日 00:00:00 至今的秒数，即当前的时间 |
 | complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| signType | `keyof signType` | 否 | 签名算法 |
+| signType | `keyof SignType` | 否 | 签名算法 |
 | success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
-### signType
+### SignType
 
 | 参数 | 说明 |
 | --- | --- |

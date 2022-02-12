@@ -13,9 +13,9 @@ vision kit 会话对象
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| state | `keyof state` | 会话状态 |
-| config | `config` | 会话配置 |
-| cameraSize | `size` | 相机尺寸 |
+| state | `keyof State` | 会话状态 |
+| config | `Config` | 会话配置 |
+| cameraSize | `Size` | 相机尺寸 |
 
 ### cancelAnimationFrame
 
@@ -141,12 +141,12 @@ vision kit 会话对象
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.start.html)
 
 ```tsx
-(callback: (status: keyof startStatus) => void) => void
+(callback: (status: keyof StartStatus) => void) => void
 ```
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| callback | `(status: keyof startStatus) => void` | 开启会话回调 |
+| callback | `(status: keyof StartStatus) => void` | 开启会话回调 |
 
 ### stop
 
@@ -162,7 +162,7 @@ vision kit 会话对象
 
 ## 参数
 
-### state
+### State
 
 state 的合法值
 
@@ -172,7 +172,7 @@ state 的合法值
 | 1 | 运行中 |
 | 2 | 暂停中 |
 
-### config
+### Config
 
 会话配置
 
@@ -204,9 +204,9 @@ vision kit 版本
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| mode | `keyof planeMode` | 平面跟踪配置模式 |
+| mode | `keyof PlaneMode` | 平面跟踪配置模式 |
 
-### planeMode
+### PlaneMode
 
 平面跟踪配置模式合法值
 
@@ -216,7 +216,7 @@ vision kit 版本
 | 2 | 检测纵向平面，只有 v2 版本支持 |
 | 3 | 检测横向和纵向平面，只有 v2 版本支持 |
 
-### size
+### Size
 
 相机尺寸
 
@@ -233,7 +233,7 @@ hitTest 检测结果
 | --- | --- | --- |
 | transform | `Float32Array` | 包含位置、旋转、放缩信息的矩阵，以列为主序 |
 
-### startStatus
+### StartStatus
 
 start status 的合法值
 

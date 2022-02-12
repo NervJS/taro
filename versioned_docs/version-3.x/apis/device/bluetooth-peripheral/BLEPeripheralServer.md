@@ -424,7 +424,7 @@ sidebar_label: BLEPeripheralServer
 | 参数 | 类型 | 默认值 | 必填 | 说明 |
 | --- | --- | :---: | :---: | --- |
 | advertiseRequest | `advertiseRequest` |  | 是 | 广播自定义参数 |
-| powerLevel | `keyof powerLevel` | `"medium"` | 否 | 广播功率 |
+| powerLevel | `keyof PowerLevel` | `"medium"` | 否 | 广播功率 |
 | complete | `(res: TaroGeneral.BluetoothError) => void` |  | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | fail | `(res: TaroGeneral.BluetoothError) => void` |  | 否 | 接口调用失败的回调函数 |
 | success | `(res: TaroGeneral.BluetoothError) => void` |  | 否 | 接口调用成功的回调函数 |
@@ -461,7 +461,7 @@ sidebar_label: BLEPeripheralServer
 | minor | `number` | 是 | Beacon 设备的次 ID |
 | measuredPower | `number` | 否 | 用于判断距离设备 1 米时 RSSI 大小的参考值 |
 
-#### powerLevel
+#### PowerLevel
 
 广播功率合法值
 

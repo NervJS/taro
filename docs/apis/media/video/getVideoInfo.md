@@ -34,7 +34,7 @@ sidebar_label: getVideoInfo
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| orientation | `keyof orientation` | 画面方向 |
+| orientation | `keyof Orientation` | 画面方向 |
 | type | `string` | 视频格式 |
 | duration | `number` | 视频长度 |
 | size | `number` | 视频大小，单位 kB |
@@ -43,7 +43,7 @@ sidebar_label: getVideoInfo
 | fps | `number` | 视频帧率 |
 | bitrate | `number` | 视频码率，单位 kbps |
 
-### orientation
+### Orientation
 
 | 参数 | 说明 |
 | --- | --- |

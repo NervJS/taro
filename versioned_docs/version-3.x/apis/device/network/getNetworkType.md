@@ -33,10 +33,10 @@ sidebar_label: getNetworkType
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| networkType | `keyof networkType` | 网络类型 |
+| networkType | `keyof NetworkType` | 网络类型 |
 | errMsg | `string` | 调用结果 |
 
-### networkType
+### NetworkType
 
 网络类型
 

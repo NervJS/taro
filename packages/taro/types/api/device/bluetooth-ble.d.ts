@@ -138,7 +138,7 @@ declare module '../../index' {
       /** 写模式 （iOS 特有参数）
        * @default "write"
        */
-      writeType: keyof writeType
+      writeType: keyof WriteType
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用失败的回调函数 */
@@ -153,7 +153,7 @@ declare module '../../index' {
       mtu: number
     }
     /** 写模式合法值 */
-    interface writeType {
+    interface WriteType {
       /** 有回复写 */
       write
       /** 无回复写 */
@@ -421,7 +421,7 @@ declare module '../../index' {
       /** 蓝牙低功耗的最大传输单元变化事件的回调函数 */
       callback: onBLEMTUChange.Callback,
     ): void
-  
+
     /** 取消监听蓝牙低功耗连接状态的改变事件
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.offBLEConnectionStateChange.html
@@ -430,7 +430,7 @@ declare module '../../index' {
       /** 蓝牙低功耗连接状态的改变事件的回调函数 */
       callback: onBLEMTUChange.Callback,
     ): void
-  
+
     /** 取消监听蓝牙低功耗设备的特征值变化事件
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.offBLECharacteristicValueChange.html
@@ -470,7 +470,7 @@ declare module '../../index' {
     ): Promise<notifyBLECharacteristicValueChange.Promised>
 
     /** 获取蓝牙低功耗的最大传输单元。需在 [Taro.createBLEConnection](/docs/apis/device/bluetooth-ble/createBLEConnection) 调用成功后调用。
-     * 
+     *
      * 注意:
      *  - 小程序中 MTU 为 ATT_MTU，包含 Op-Code 和 Attribute Handle 的长度，实际可以传输的数据长度为 ATT_MTU - 3
      *  - iOS 系统中 MTU 为固定值；安卓系统中，MTU 会在系统协商成功之后发生改变，建议使用 [Taro.onBLEMTUChange](/docs/apis/device/bluetooth-ble/onBLEMTUChange) 监听。

@@ -25,9 +25,9 @@ sidebar_label: getLogManager
 
 | 参数 | 类型 | 默认值 | 必填 |
 | --- | --- | :---: | :---: |
-| level | `keyof level` | `0` | 否 |
+| level | `keyof Level` | `0` | 否 |
 
-### level
+### Level
 
 | 参数 | 说明 |
 | --- | --- |

@@ -188,19 +188,19 @@ export default {
 
 | 参数 | 类型 | 默认值 | 必填 | 说明 |
 | --- | --- | :---: | :---: | --- |
-| size | `keyof size` | `default` | 否 | 按钮的大小 |
-| type | `keyof type` | `default` | 否 | 按钮的样式类型 |
+| size | `keyof Size` | `default` | 否 | 按钮的大小 |
+| type | `keyof Type` | `default` | 否 | 按钮的样式类型 |
 | plain | `boolean` | `false` | 否 | 按钮是否镂空，背景色透明 |
 | disabled | `boolean` | `false` | 否 | 是否禁用 |
 | loading | `boolean` | `false` | 否 | 名称前是否带 loading 图标 |
-| formType | `keyof formType` |  | 否 | 用于 `<form/>` 组件，点击分别会触发 `<form/>` 组件的 submit/reset 事件 |
-| openType | `openType` |  | 否 | 微信开放能力 |
+| formType | `keyof FormType` |  | 否 | 用于 `<form/>` 组件，点击分别会触发 `<form/>` 组件的 submit/reset 事件 |
+| openType | `OpenType` |  | 否 | 微信开放能力 |
 | hoverClass | `string` | `button-hover` | 否 | 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果 |
 | hoverStyle | `StyleProp<ViewStyle>` | `none` | 否 | 由于 RN 不支持 Class，故 RN 端的 Button 组件实现了 `hoverStyle`属性，写法和 style 类似，只不过 `hoverStyle` 的样式是指定按下去的样式。 |
 | hoverStopPropagation | `boolean` | `false` | 否 | 指定是否阻止本节点的祖先节点出现点击态 |
 | hoverStartTime | `number` | `20` | 否 | 按住后多久出现点击态，单位毫秒 |
 | hoverStayTime | `number` | `70` | 否 | 手指松开后点击态保留时间，单位毫秒 |
-| lang | `keyof lang` |  | 否 | 指定返回用户信息的语言，zh_CN 简体中文，zh_TW 繁体中文，en 英文。<br /><br />生效时机: `open-type="getUserInfo"` |
+| lang | `keyof Lang` |  | 否 | 指定返回用户信息的语言，zh_CN 简体中文，zh_TW 繁体中文，en 英文。<br /><br />生效时机: `open-type="getUserInfo"` |
 | sessionFrom | `string` |  | 否 | 会话来源<br /><br />生效时机：`open-type="contact"` |
 | sendMessageTitle | `string` | `当前标题` | 否 | 会话内消息卡片标题<br /><br />生效时机：`open-type="contact"` |
 | sendMessagePath | `string` | `当前标题` | 否 | 会话内消息卡片点击跳转小程序路径<br /><br />生效时机：`open-type="contact"` |
@@ -251,7 +251,7 @@ export default {
 | ButtonProps.onOpenSetting | ✔️ |  |  |  |  |
 | ButtonProps.onLaunchapp | ✔️ |  |  |  |  |
 
-### size
+### Size
 
 size 的合法值
 
@@ -260,7 +260,7 @@ size 的合法值
 | default | 默认大小 |
 | mini | 小尺寸 |
 
-### type
+### Type
 
 type 的合法值
 
@@ -270,7 +270,7 @@ type 的合法值
 | default | 白色 |
 | warn | 红色 |
 
-### formType
+### FormType
 
 form-type 的合法值
 
@@ -279,7 +279,7 @@ form-type 的合法值
 | submit | 提交表单 |
 | reset | 重置表单 |
 
-### openType
+### OpenType
 
 open-type 的合法值
 
@@ -293,7 +293,7 @@ open-type 的合法值
 | alipay | `{ share: any; getAuthorize: any; contactShare: any; lifestyle: any; }` | 支付宝小程序专属的 open-type 合法值<br />[参考地址](https://opendocs.alipay.com/mini/component/button) |
 | qq | `{ share: any; getUserInfo: any; launchApp: any; openSetting: any; feedback: any; openGroupProfile: any; addFriend: any; addColorSign: any; openPublicProfile: any; addGroupApp: any; shareMessageToFriend: any; }` | QQ 小程序专属的 open-type 合法值<br />[参考地址](https://q.qq.com/wiki/develop/miniprogram/component/form/button.html) |
 
-### lang
+### Lang
 
 lang 的合法值
 
@@ -307,7 +307,7 @@ lang 的合法值
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
-| userInfo | `{ nickName: string; avatarUrl: string; gender: keyof gender; province: string; city: string; country: string; }` | 是 |  |
+| userInfo | `{ nickName: string; avatarUrl: string; gender: keyof Gender; province: string; city: string; country: string; }` | 是 |  |
 | rawData | `string` | 是 | 不包括敏感信息的原始数据 `JSON` 字符串，用于计算签名 |
 | signature | `string` | 是 | 使用 `sha1(rawData + sessionkey)` 得到字符串，用于校验用户信息 |
 | encryptedData | `string` | 是 | 包括敏感数据在内的完整用户信息的加密数据 |
@@ -315,7 +315,7 @@ lang 的合法值
 | errMsg | `string` | 是 |  |
 | cloudID | `string` | 否 | 敏感数据对应的云 ID，开通[云开发](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html)的小程序才会返回，可通过云调用直接获取开放数据，详细见[云调用直接获取开放数据](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#method-cloud) |
 
-### gender
+### Gender
 
 性别的合法值
 

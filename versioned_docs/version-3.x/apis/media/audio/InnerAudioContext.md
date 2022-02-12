@@ -3,7 +3,7 @@ title: InnerAudioContext
 sidebar_label: InnerAudioContext
 ---
 
-InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取实例。
+InnerAudioContext 实例，可通过 [Taro.createInnerAudioContext](./createInnerAudioContext) 接口获取实例。
 
 **支持格式**
 

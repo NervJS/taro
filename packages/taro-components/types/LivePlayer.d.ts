@@ -11,7 +11,7 @@ interface LivePlayerProps extends StandardProps {
    * @default "live"
    * @supported weapp
    */
-  mode?: keyof LivePlayerProps.mode
+  mode?: keyof LivePlayerProps.Mode
 
   /** 自动播放
    * @default false
@@ -29,7 +29,7 @@ interface LivePlayerProps extends StandardProps {
    * @default "vertical"
    * @supported weapp
    */
-  orientation?: keyof LivePlayerProps.orientation
+  orientation?: keyof LivePlayerProps.Orientation
 
   /** 填充模式
    * @default "contain"
@@ -112,14 +112,14 @@ interface LivePlayerProps extends StandardProps {
 
 declare namespace LivePlayerProps {
   /** mode 的合法值 */
-  interface mode {
+  interface Mode {
     /** 直播 */
     live
     /** 实时通话，该模式时延更低 */
     RTC
   }
   /** orientation 的合法值 */
-  interface orientation {
+  interface Orientation {
     /** 竖直 */
     vertical
     /** 水平 */
@@ -205,7 +205,7 @@ declare namespace LivePlayerProps {
 }
 
 /** 实时音视频播放。相关api：Taro.createLivePlayerContext
- * 
+ *
  * 需要先通过类目审核，再在小程序管理后台，“设置”-“接口设置”中自助开通该组件权限。
  * @classification media
  * @supported weapp

@@ -38,7 +38,7 @@ sidebar_label: onNetworkWeakChange
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | weakNet | `boolean` | 当前是否处于弱网状态 |
-| networkType | `keyof networkType` | 当前网络类型 |
+| networkType | `keyof NetworkType` | 当前网络类型 |
 
 ## 示例代码
 

@@ -101,11 +101,11 @@ export default class PageView extends Component {
 | showPlayBtn | `boolean` | `true` | 否 | 是否显示视频底部控制栏的播放按钮 |
 | showCenterPlayBtn | `boolean` | `true` | 否 | 是否显示视频中间的播放按钮 |
 | enableProgressGesture | `boolean` | `true` | 否 | 是否开启控制进度的手势 |
-| objectFit | `keyof objectFit` | `"contain"` | 否 | 当视频大小与 video 容器大小不一致时，视频的表现形式 |
+| objectFit | `keyof ObjectFit` | `"contain"` | 否 | 当视频大小与 video 容器大小不一致时，视频的表现形式 |
 | poster | `string` |  | 否 | 视频封面的图片网络资源地址，如果 controls 属性值为 false 则设置 poster 无效 |
 | showMuteBtn | `boolean` | `false` | 否 | 是否显示静音按钮 |
 | title | `string` |  | 否 | 视频的标题，全屏时在顶部展示 |
-| playBtnPosition | `keyof playBtnPosition` | `'bottom'` | 否 | 播放按钮的位置<br />- `bottom`: controls bar 上<br />- `center`: 视频中间 |
+| playBtnPosition | `keyof PlayBtnPosition` | `'bottom'` | 否 | 播放按钮的位置<br />- `bottom`: controls bar 上<br />- `center`: 视频中间 |
 | enablePlayGesture | `boolean` | `false` | 否 | 是否开启播放手势，即双击切换播放/暂停 |
 | autoPauseIfNavigate | `boolean` | `true` | 否 | 当跳转到其它小程序页面时，是否自动暂停本页面的视频 |
 | autoPauseIfOpenNative | `boolean` | `true` | 否 | 当跳转到其它微信原生页面时，是否自动暂停本页面的视频 |
@@ -193,7 +193,7 @@ direction 的合法值
 | 90 | 屏幕逆时针90度 |
 | -90 | 屏幕顺时针90度 |
 
-### objectFit
+### ObjectFit
 
 objectFit 的合法值
 
@@ -203,7 +203,7 @@ objectFit 的合法值
 | fill | 填充 |
 | cover | 覆盖 |
 
-### playBtnPosition
+### PlayBtnPosition
 
 playBtnPosition 的合法值
 

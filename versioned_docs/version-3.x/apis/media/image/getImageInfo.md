@@ -35,13 +35,13 @@ sidebar_label: getImageInfo
 | 参数 | 类型 | 默认值 | 说明 |
 | --- | --- | :---: | --- |
 | height | `number` |  | 图片原始高度，单位px。不考虑旋转。 |
-| orientation | `keyof orientation` | `"up"` | [拍照时设备方向](http://sylvana.net/jpegcrop/exif_orientation.html) |
+| orientation | `keyof Orientation` | `"up"` | [拍照时设备方向](http://sylvana.net/jpegcrop/exif_orientation.html) |
 | path | `string` |  | 图片的本地路径 |
 | type | `string` |  | 图片格式 |
 | width | `number` |  | 图片原始宽度，单位px。不考虑旋转。 |
 | errMsg | `string` |  | 调用结果 |
 
-### orientation
+### Orientation
 
 | 参数 | 说明 |
 | --- | --- |

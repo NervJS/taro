@@ -36,13 +36,13 @@ declare module '../../index' {
        * @name [TEMPLATE_ID]
        * @type "accept" | "reject" | "ban"
        */
-      [TEMPLATE_ID: string]: keyof template_reflex | string
+      [TEMPLATE_ID: string]: keyof TemplateReflex | string
       /** 接口调用成功时errMsg值为'requestSubscribeMessage:ok' */
       errMsg: string
     }
 
     /** 模版消息订阅类型 */
-    interface template_reflex {
+    interface TemplateReflex {
       /** 表示用户同意订阅该条id对应的模板消息 */
       accept
       /** 表示用户拒绝订阅该条id对应的模板消息 */
@@ -94,13 +94,13 @@ declare module '../../index' {
        * @name [TEMPLATE_ID]
        * @type "accept" | "reject" | "ban" | "filter" | "acceptWithAudio"
        */
-      [TEMPLATE_ID: string]: keyof template_reflex | string
+      [TEMPLATE_ID: string]: keyof TemplateReflex | string
       /** 接口调用成功时errMsg值为'requestSubscribeMessage:ok' */
       errMsg: string
     }
 
     /** 模版消息订阅类型 */
-    interface template_reflex {
+    interface TemplateReflex {
       /** 表示用户同意订阅该条id对应的模板消息 */
       accept
       /** 表示用户拒绝订阅该条id对应的模板消息 */

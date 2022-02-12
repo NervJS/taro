@@ -2,7 +2,7 @@ import Taro from '../../index'
 
 declare module '../../index' {
   /** 创建音视频处理容器，最终可将容器中的轨道合成一个视频
-   * 
+   *
    * > 可通过 [Taro.createMediaContainer](./createMediaContainer) 创建
    * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video-processing/MediaContainer.html
@@ -57,7 +57,7 @@ declare module '../../index' {
     /** 轨道类型
      * @readonly
      */
-    kind: keyof MediaTrack.kind
+    kind: keyof MediaTrack.Kind
     /** 轨道长度
      * @readonly
      */
@@ -66,7 +66,7 @@ declare module '../../index' {
     volume: number
   }
   namespace MediaTrack {
-    interface kind {
+    interface Kind {
       /** 音频轨道 */
       audio
       /** 视频轨道 */

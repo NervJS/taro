@@ -38,7 +38,7 @@ sidebar_label: onNetworkStatusChange
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | isConnected | `boolean` | 当前是否有网络连接 |
-| networkType | `keyof networkType` | 网络类型 |
+| networkType | `keyof NetworkType` | 网络类型 |
 
 ## 示例代码
 

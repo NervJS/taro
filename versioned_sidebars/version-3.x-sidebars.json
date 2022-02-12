@@ -1662,6 +1662,10 @@
             },
             {
               "type": "doc",
+              "id": "version-3.x/apis/media/image/editImage"
+            },
+            {
+              "type": "doc",
               "id": "version-3.x/apis/media/image/compressImage"
             },
             {
@@ -1758,11 +1762,27 @@
             },
             {
               "type": "doc",
+              "id": "version-3.x/apis/media/audio/AudioBuffer"
+            },
+            {
+              "type": "doc",
               "id": "version-3.x/apis/media/audio/AudioContext"
             },
             {
               "type": "doc",
               "id": "version-3.x/apis/media/audio/InnerAudioContext"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/audio/MediaAudioPlayer"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/audio/WebAudioContext"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/audio/WebAudioContextNode"
             }
           ],
           "collapsible": true,

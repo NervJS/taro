@@ -57,7 +57,7 @@ sidebar_label: requestSubscribeMessage
 }
 ```
 
-### template_reflex
+### TemplateReflex
 
 模版消息订阅类型
 

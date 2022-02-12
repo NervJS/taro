@@ -10,13 +10,13 @@ sidebar_label: IBeaconInfo
 | uuid | `string` | Beacon 设备广播的 uuid |
 | major | `string` | Beacon 设备的主 ID |
 | minor | `string` | Beacon 设备的次 ID |
-| proximity | `keyof proximity` | 表示设备距离的枚举值（仅iOS） |
+| proximity | `keyof Proximity` | 表示设备距离的枚举值（仅iOS） |
 | accuracy | `number` | Beacon 设备的距离，单位 m。iOS 上，proximity 为 0 时，accuracy 为 -1。 |
 | rssi | `number` | 表示设备的信号强度，单位 dBm |
 
 ## 参数
 
-### proximity
+### Proximity
 
 proximity 的合法值
 

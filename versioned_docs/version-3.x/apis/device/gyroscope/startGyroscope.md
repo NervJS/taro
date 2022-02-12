@@ -27,10 +27,10 @@ sidebar_label: startGyroscope
 | --- | --- | :---: | --- |
 | complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| interval | `keyof interval` | 否 | 监听陀螺仪数据回调函数的执行频率 |
+| interval | `keyof Interval` | 否 | 监听陀螺仪数据回调函数的执行频率 |
 | success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
-### interval
+### Interval
 
 监听陀螺仪数据回调函数的执行频率
 

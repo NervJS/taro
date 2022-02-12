@@ -50,7 +50,7 @@ declare module '../../index' {
     }
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 画面方向 */
-      orientation: keyof orientation
+      orientation: keyof Orientation
       /** 视频格式 */
       type: string
       /** 视频长度 */
@@ -66,7 +66,7 @@ declare module '../../index' {
       /** 视频码率，单位 kbps */
       bitrate: number
     }
-    interface orientation {
+    interface Orientation {
       /** 默认 */
       up
       /** 180 度旋转 */
@@ -86,12 +86,28 @@ declare module '../../index' {
     }
   }
 
+  /** VideoContext 实例，可通过 [Taro.createVideoContext](./createVideoContext) 获取。
+   *
+   * VideoContext 通过 id 跟一个 video 组件绑定，操作对应的 video 组件。
+   * @supported weapp, h5, rn
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.html
+   */
   interface VideoContext {
+    /** 退出后台音频播放模式。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.exitBackgroundPlayback.html
+     */
+    exitBackgroundPlayback(): void
     /** 退出全屏
      * @supported weapp, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.exitFullScreen.html
      */
     exitFullScreen(): void
+    /** 退出小窗，该方法可在任意页面调用
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.exitPictureInPicture.html
+     */
+    exitPictureInPicture(option: VideoContext.ExitPictureInPictureOption): void
     /** 隐藏状态栏，仅在iOS全屏下有效
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.hideStatusBar.html
@@ -108,13 +124,18 @@ declare module '../../index' {
      */
     play(): void
     /** 设置倍速播放
-     * @supported weapp, rn
+     * @supported weapp, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.playbackRate.html
      */
     playbackRate(
       /** 倍率，支持 0.5/0.8/1.0/1.25/1.5，2.6.3 起支持 2.0 倍速 */
       rate: number,
     ): void
+    /** 进入后台音频播放模式。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.requestBackgroundPlayback.html
+     */
+    requestBackgroundPlayback(): void
     /** 进入全屏
      * @supported weapp, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.requestFullScreen.html
@@ -149,6 +170,14 @@ declare module '../../index' {
   }
 
   namespace VideoContext {
+    interface ExitPictureInPictureOption {
+      /** 接口调用成功的回调函数 */
+      success?: (result: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+    }
     interface RequestFullScreenOption {
       /** 设置全屏时视频的方向，不指定则根据宽高比自动判断。
        *
@@ -172,7 +201,7 @@ declare module '../../index' {
       /** 视频文件路径，可以是临时文件路径也可以是永久文件路径 */
       src: string
       /** 压缩质量 */
-      quality: keyof quality
+      quality: keyof Quality
       /** 码率，单位 kbps */
       bitrate: number
       /** 帧率 */
@@ -192,7 +221,7 @@ declare module '../../index' {
       /** 压缩后的大小，单位 kB */
       size: number
     }
-    interface quality {
+    interface Quality {
       /** 低 */
       low
       /** 中 */
@@ -205,7 +234,7 @@ declare module '../../index' {
   namespace chooseVideo {
     interface Option {
       /** 默认拉起的是前置或者后置摄像头。部分 Android 手机下由于系统 ROM 不支持无法生效 */
-      camera?: keyof camera
+      camera?: keyof Camera
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 是否压缩所选择的视频文件 */
@@ -233,7 +262,7 @@ declare module '../../index' {
       /** 调用结果 */
       errMsg: string
     }
-    interface camera {
+    interface Camera {
       /** 默认拉起后置摄像头 */
       back
       /** 默认拉起前置摄像头 */
@@ -413,7 +442,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.compressVideo.html
      */
-     compressVideo(option: compressVideo.Option): Promise<compressVideo.SuccessCallbackResult>
+    compressVideo(option: compressVideo.Option): Promise<compressVideo.SuccessCallbackResult>
 
     /** 拍摄视频或从手机相册中选视频。
      * @supported weapp, rn
