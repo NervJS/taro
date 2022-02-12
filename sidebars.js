@@ -524,14 +524,14 @@ module.exports = {
     "数据缓存": [
       "apis/storage/setStorageSync",
       "apis/storage/setStorage",
-      // "apis/storage/revokeBufferURL",
+      "apis/storage/revokeBufferURL",
       "apis/storage/removeStorageSync",
       "apis/storage/removeStorage",
       "apis/storage/getStorageSync",
       "apis/storage/getStorageInfoSync",
       "apis/storage/getStorageInfo",
       "apis/storage/getStorage",
-      // "apis/storage/createBufferURL",
+      "apis/storage/createBufferURL",
       "apis/storage/clearStorageSync",
       "apis/storage/clearStorage",
       {

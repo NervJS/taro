@@ -1,6 +1,18 @@
 import Taro from '../../index'
 
 declare module '../../index' {
+  /** @ignore */
+  type TypedArray =
+    | Int8Array
+    | Uint8Array
+    | Uint8ClampedArray
+    | Int16Array
+    | Uint16Array
+    | Int32Array
+    | Uint32Array
+    | Float32Array
+    | Float64Array
+
   namespace setStorage {
     interface Option {
       /** 需要存储的内容。只支持原生类型、Date、及能够通过`JSON.stringify`序列化的对象。 */
@@ -133,22 +145,17 @@ declare module '../../index' {
      */
     setStorage(option: setStorage.Option): Promise<TaroGeneral.CallbackResult>
 
-    /**
-     * 从本地缓存中同步移除指定 key 。
-     * @supported weapp, h5
-     * @example
-     * ```tsx
-     * try {
-     *   Taro.removeStorageSync('key')
-     * } catch (e) {
-     *   // Do something when catch error
-     * }
-     * ```
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.removeStorageSync.html
+    /** 根据 URL 销毁存在内存中的数据
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.revokeBufferURL.html
      */
-    removeStorageSync(key: string): void
+    revokeBufferURL(
+      /** 需要销毁的二进制数据 URL */
+      url: string
+    ): void
 
     /** Taro.removeStorage 的同步版本
+     * @supported weapp, h5
      * @example
      * ```tsx
      * try {
@@ -246,6 +253,15 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorage.html
      */
     getStorage<T = any>(option: getStorage.Option<T>): Promise<getStorage.SuccessCallbackResult<T>>
+
+    /** 根据传入的 buffer 创建一个唯一的 URL 存在内存中
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.createBufferURL.html
+     */
+    createBufferURL(
+      /** 需要存入内存的二进制数据 */
+      buffer: ArrayBuffer | TypedArray
+    ): void
 
     /** Taro.clearStorage 的同步版本
      * @supported weapp, h5
