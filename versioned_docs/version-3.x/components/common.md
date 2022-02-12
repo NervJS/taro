@@ -118,7 +118,7 @@ sidebar_label: common
 | tagName | `string` | 当前组件的类型 |
 | dataset | `{ [key: string]: any; }` | 事件源组件上由data-开头的自定义属性组成的集合 |
 
-## netStatus
+## NetStatus
 
 网络状态数据
 

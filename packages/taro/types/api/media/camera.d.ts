@@ -9,7 +9,7 @@ declare module '../../index' {
      *
      * ****
      *
-     * 注： 使用该接口需同时在 [camera](/docs/components/camera) 组件属性中指定 frame-size。
+     * 注： 使用该接口需同时在 [camera](/docs/components/media/camera) 组件属性中指定 frame-size。
      * @supported weapp
      * @example
      * ```tsx

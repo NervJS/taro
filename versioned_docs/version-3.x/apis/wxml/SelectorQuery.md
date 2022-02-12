@@ -25,6 +25,35 @@ sidebar_label: SelectorQuery
 | --- | --- | --- |
 | callback | `(...args: any[]) => any` | 回调函数 |
 
+### in
+
+将选择器的选取范围更改为自定义组件 `component` 内。（初始时，选择器仅选取页面范围的节点，不会选取任何自定义组件中的节点）。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.in.html)
+
+```tsx
+(component: TaroGeneral.IAnyObject) => SelectorQuery
+```
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| component | `TaroGeneral.IAnyObject` | 自定义组件实例 |
+
+#### 示例代码
+
+```tsx
+Component({
+  queryMultipleNodes () {
+    const query = Taro.createSelectorQuery().in(this)
+    query.select('#the-id').boundingClientRect(function(res){
+      res.top // 这个组件内 #the-id 节点的上边界坐标
+    }).exec()
+  }
+})
+```
+
 ### select
 
 在当前页面下选择第一个匹配选择器 `selector` 的节点。返回一个 `NodesRef` 对象实例，可以用于获取节点信息。
@@ -122,41 +151,12 @@ Taro.createSelectorQuery().selectViewport().scrollOffset(function (res) {
 }).exec()
 ```
 
-### in
-
-将选择器的选取范围更改为自定义组件 `component` 内。（初始时，选择器仅选取页面范围的节点，不会选取任何自定义组件中的节点）。
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.in.html)
-
-```tsx
-(component: TaroGeneral.IAnyObject) => SelectorQuery
-```
-
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| component | `TaroGeneral.IAnyObject` | 自定义组件实例 |
-
-#### 示例代码
-
-```tsx
-Component({
-  queryMultipleNodes () {
-    const query = Taro.createSelectorQuery().in(this)
-    query.select('#the-id').boundingClientRect(function(res){
-      res.top // 这个组件内 #the-id 节点的上边界坐标
-    }).exec()
-  }
-})
-```
-
 ## API 支持度
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
 | SelectorQuery.exec | ✔️ | ✔️ |  |
+| SelectorQuery.in | ✔️ | ✔️ |  |
 | SelectorQuery.select | ✔️ | ✔️ |  |
 | SelectorQuery.selectAll | ✔️ | ✔️ |  |
 | SelectorQuery.selectViewport | ✔️ | ✔️ |  |
-| SelectorQuery.in | ✔️ | ✔️ |  |

@@ -19,5 +19,5 @@ sidebar_label: AuthSetting
 | scope.werun | `boolean` | 否 | 是否授权微信运动步数，对应接口 [Taro.getWeRunData](/docs/apis/open-api/werun/getWeRunData) |
 | scope.record | `boolean` | 否 | 是否授权录音功能，对应接口 [Taro.startRecord](/docs/apis/media/recorder/startRecord) |
 | scope.writePhotosAlbum | `boolean` | 否 | 是否授权保存到相册 [Taro.saveImageToPhotosAlbum](/docs/apis/media/image/saveImageToPhotosAlbum), [Taro.saveVideoToPhotosAlbum](/docs/apis/media/video/saveVideoToPhotosAlbum) |
-| scope.camera | `boolean` | 否 | 是否授权摄像头，对应 [camera](/docs/components/camera) 组件 |
-| scope.bluetoothBackground | `boolean` | 否 | 是否授权小程序在后台运行蓝牙，对应接口 [Taro.openBluetoothAdapterBackground](/docs/apis/open-api/setting/openBluetoothAdapterBackground) |
+| scope.camera | `boolean` | 否 | 是否授权摄像头，对应 [camera](/docs/components/media/camera) 组件 |
+| scope.bluetoothBackground | `boolean` | 否 | 是否授权小程序在后台运行蓝牙，对应接口 [Taro.openBluetoothAdapterBackground](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/setting/(wx.openBluetoothAdapterBackground).html) |

@@ -3,7 +3,7 @@ title: BackgroundAudioManager
 sidebar_label: BackgroundAudioManager
 ---
 
-BackgroundAudioManager 实例，可通过 [Taro.getBackgroundAudioManager](https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.getBackgroundAudioManager.html) 获取。
+BackgroundAudioManager 实例，可通过 [Taro.getBackgroundAudioManager](/docs/apis/media/background-audio/getBackgroundAudioManager) 获取。
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/BackgroundAudioManager.html)
 

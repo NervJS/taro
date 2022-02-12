@@ -1079,7 +1079,7 @@ FailCallbackResult | SuccessCallbackResult
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| stats | `any` | [Stats](/docs/apis/file/Stats) or Object<br /><br />当 recursive 为 false 时，res.stats 是一个 Stats 对象。当 recursive 为 true 且 path 是一个目录的路径时，res.stats 是一个 Object，key 以 path 为根路径的相对路径，value 是该路径对应的 Stats 对象。 |
+| stats | `any` | [Stats](/docs/apis/files/Stats) or Object<br /><br />当 recursive 为 false 时，res.stats 是一个 Stats 对象。当 recursive 为 true 且 path 是一个目录的路径时，res.stats 是一个 Object，key 以 path 为根路径的相对路径，value 是该路径对应的 Stats 对象。 |
 | errMsg | `string` | 调用结果 |
 
 ### UnlinkOption

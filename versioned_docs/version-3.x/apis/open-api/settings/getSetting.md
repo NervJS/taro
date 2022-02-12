@@ -34,6 +34,8 @@ sidebar_label: getSetting
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | authSetting | `AuthSetting` | 用户授权结果 |
+| subscriptionsSetting | `SubscriptionsSetting` | 用户订阅消息设置，接口参数 withSubscriptions 值为 true 时才会返回。 |
+| miniprogramAuthSetting | `AuthSetting` | 在插件中调用时，当前宿主小程序的用户授权结果 |
 | errMsg | `string` | 调用结果 |
 
 ## 示例代码

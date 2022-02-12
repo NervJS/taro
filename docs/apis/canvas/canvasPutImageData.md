@@ -20,13 +20,13 @@ sidebar_label: canvasPutImageData
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | option | `Option` |  |
-| component | `TaroGeneral.IAnyObject` | 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas) 组件 |
+| component | `TaroGeneral.IAnyObject` | 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas/canvas) 组件 |
 
 ### Option
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
-| canvasId | `string` | 是 | 画布标识，传入 [canvas](/docs/components/canvas) 组件的 canvas-id 属性。 |
+| canvasId | `string` | 是 | 画布标识，传入 [canvas](/docs/components/canvas/canvas) 组件的 canvas-id 属性。 |
 | data | `Uint8ClampedArray` | 是 | 图像像素点数据，一维数组，每四项表示一个像素点的 rgba |
 | height | `number` | 是 | 源图像数据矩形区域的高度 |
 | width | `number` | 是 | 源图像数据矩形区域的宽度 |

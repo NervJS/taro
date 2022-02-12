@@ -27,7 +27,7 @@ sidebar_label: requestSubscribeMessage
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
-| tmplIds | `any[]` | 是 | 需要订阅的消息模板的id的集合（注意：iOS客户端7.0.6版本、Android客户端7.0.7版本之后的一次性订阅/长期订阅才支持多个模板消息，iOS客户端7.0.5版本、Android客户端7.0.6版本之前的一次订阅只支持一个模板消息）消息模板id在[微信公众平台(mp.weixin.qq.com)-功能-订阅消息]中配置 |
+| tmplIds | `string[]` | 是 | 需要订阅的消息模板的id的集合（注意：iOS客户端7.0.6版本、Android客户端7.0.7版本之后的一次性订阅/长期订阅才支持多个模板消息，iOS客户端7.0.5版本、Android客户端7.0.6版本之前的一次订阅只支持一个模板消息）消息模板id在[微信公众平台(mp.weixin.qq.com)-功能-订阅消息]中配置 |
 | complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | fail | `(result: FailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
 | success | `(result: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
@@ -66,6 +66,7 @@ sidebar_label: requestSubscribeMessage
 | accept | 表示用户同意订阅该条id对应的模板消息 |
 | reject | 表示用户拒绝订阅该条id对应的模板消息 |
 | ban | 表示已被后台封禁 |
+| filter | 表示该模板因为模板标题同名被后台过滤 |
 
 ## 示例代码
 

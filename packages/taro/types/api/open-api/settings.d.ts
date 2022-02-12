@@ -68,9 +68,9 @@ declare module '../../index' {
     'scope.record'?: boolean
     /** 是否授权保存到相册 [Taro.saveImageToPhotosAlbum](/docs/apis/media/image/saveImageToPhotosAlbum), [Taro.saveVideoToPhotosAlbum](/docs/apis/media/video/saveVideoToPhotosAlbum) */
     'scope.writePhotosAlbum'?: boolean
-    /** 是否授权摄像头，对应 [camera](/docs/components/camera) 组件 */
+    /** 是否授权摄像头，对应 [camera](/docs/components/media/camera) 组件 */
     'scope.camera'?: boolean
-    /** 是否授权小程序在后台运行蓝牙，对应接口 [Taro.openBluetoothAdapterBackground](/docs/apis/open-api/setting/openBluetoothAdapterBackground) */
+    /** 是否授权小程序在后台运行蓝牙，对应接口 [Taro.openBluetoothAdapterBackground](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/setting/(wx.openBluetoothAdapterBackground).html) */
     'scope.bluetoothBackground'?: boolean
   }
 

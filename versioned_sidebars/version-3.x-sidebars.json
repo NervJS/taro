@@ -784,11 +784,11 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.x/apis/base/system/getSystemInfo"
+              "id": "version-3.x/apis/base/system/getSystemInfoSync"
             },
             {
               "type": "doc",
-              "id": "version-3.x/apis/base/system/getSystemInfoSync"
+              "id": "version-3.x/apis/base/system/getSystemInfo"
             }
           ],
           "collapsible": true,
@@ -923,6 +923,20 @@
           "collapsed": true
         },
         {
+          "label": "性能",
+          "type": "category",
+          "items": [],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "label": "加密",
+          "type": "category",
+          "items": [],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
           "type": "doc",
           "id": "version-3.x/apis/base/env/env"
         },
@@ -972,15 +986,39 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.x/apis/open-api/navigate/navigateToMiniProgram"
+          "id": "version-3.x/apis/navigate/navigateToMiniProgram"
         },
         {
           "type": "doc",
-          "id": "version-3.x/apis/open-api/navigate/navigateBackMiniProgram"
+          "id": "version-3.x/apis/navigate/navigateBackMiniProgram"
         },
         {
           "type": "doc",
-          "id": "version-3.x/apis/open-api/navigate/exitMiniProgram"
+          "id": "version-3.x/apis/navigate/exitMiniProgram"
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "collapsed": true,
+      "collapsible": true,
+      "label": "转发",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/share/updateShareMenu"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/share/showShareMenu"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/share/hideShareMenu"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/share/getShareInfo"
         }
       ]
     },
@@ -1221,30 +1259,6 @@
           ],
           "collapsible": true,
           "collapsed": true
-        },
-        {
-          "label": "键盘",
-          "type": "category",
-          "items": [
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/ui/keyboard/onKeyboardHeightChange"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/ui/keyboard/offKeyboardHeightChange"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/ui/keyboard/hideKeyboard"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/ui/keyboard/getSelectedTextRange"
-            }
-          ],
-          "collapsible": true,
-          "collapsed": true
         }
       ]
     },
@@ -1395,6 +1409,22 @@
           "collapsed": true
         },
         {
+          "label": "TCP 通信",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/network/tcp/createTCPSocket"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/network/tcp/TCPSocket"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
           "label": "UDP 通信",
           "type": "category",
           "items": [
@@ -1420,11 +1450,11 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.x/apis/open-api/payment/requestPayment"
+          "id": "version-3.x/apis/payment/requestPayment"
         },
         {
           "type": "doc",
-          "id": "version-3.x/apis/open-api/payment/faceVerifyForPay"
+          "id": "version-3.x/apis/payment/faceVerifyForPay"
         }
       ]
     },
@@ -1576,11 +1606,11 @@
         },
         {
           "type": "doc",
-          "id": "version-3.x/apis/canvas/Path2D"
+          "id": "version-3.x/apis/canvas/OffscreenCanvas"
         },
         {
           "type": "doc",
-          "id": "version-3.x/apis/canvas/OffscreenCanvas"
+          "id": "version-3.x/apis/canvas/Path2D"
         },
         {
           "type": "doc",
@@ -1712,6 +1742,14 @@
             },
             {
               "type": "doc",
+              "id": "version-3.x/apis/media/audio/createWebAudioContext"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/audio/createMediaAudioPlayer"
+            },
+            {
+              "type": "doc",
               "id": "version-3.x/apis/media/audio/createInnerAudioContext"
             },
             {
@@ -1837,6 +1875,10 @@
             {
               "type": "doc",
               "id": "version-3.x/apis/media/camera/CameraContext"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/camera/CameraFrameListener"
             }
           ],
           "collapsible": true,
@@ -1873,6 +1915,102 @@
           ],
           "collapsible": true,
           "collapsed": true
+        },
+        {
+          "label": "实时语音",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/voip/updateVoIPChatMuteConfig"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/voip/subscribeVoIPVideoMembers"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/voip/setEnable1v1Chat"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/voip/onVoIPVideoMembersChanged"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/voip/onVoIPChatStateChanged"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/voip/onVoIPChatSpeakersChanged"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/voip/onVoIPChatMembersChanged"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/voip/onVoIPChatInterrupted"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/voip/offVoIPVideoMembersChanged"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/voip/offVoIPChatStateChanged"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/voip/offVoIPChatMembersChanged"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/voip/offVoIPChatInterrupted"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/voip/joinVoIPChat"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/voip/exitVoIPChat"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "label": "画面录制器",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/media-recorder/createMediaRecorder"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/media-recorder/MediaRecorder"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "label": "视频解码器",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/video-decoder/createVideoDecoder"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/media/video-decoder/VideoDecoder"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
         }
       ]
     },
@@ -1900,7 +2038,15 @@
         },
         {
           "type": "doc",
+          "id": "version-3.x/apis/location/onLocationChangeError"
+        },
+        {
+          "type": "doc",
           "id": "version-3.x/apis/location/onLocationChange"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/location/offLocationChangeError"
         },
         {
           "type": "doc",
@@ -1912,31 +2058,11 @@
         },
         {
           "type": "doc",
+          "id": "version-3.x/apis/location/choosePoi"
+        },
+        {
+          "type": "doc",
           "id": "version-3.x/apis/location/chooseLocation"
-        }
-      ]
-    },
-    {
-      "type": "category",
-      "collapsed": true,
-      "collapsible": true,
-      "label": "转发",
-      "items": [
-        {
-          "type": "doc",
-          "id": "version-3.x/apis/share/updateShareMenu"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/apis/share/showShareMenu"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/apis/share/hideShareMenu"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/apis/share/getShareInfo"
         }
       ]
     },
@@ -1946,6 +2072,10 @@
       "collapsible": true,
       "label": "文件",
       "items": [
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/files/saveFileToDisk"
+        },
         {
           "type": "doc",
           "id": "version-3.x/apis/files/saveFile"
@@ -1980,7 +2110,15 @@
         },
         {
           "type": "doc",
+          "id": "version-3.x/apis/files/ReadResult"
+        },
+        {
+          "type": "doc",
           "id": "version-3.x/apis/files/Stats"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/files/WriteResult"
         }
       ]
     },
@@ -1994,6 +2132,10 @@
           "label": "登录",
           "type": "category",
           "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/open-api/login/pluginLogin"
+            },
             {
               "type": "doc",
               "id": "version-3.x/apis/open-api/login/login"
@@ -2044,6 +2186,10 @@
           "items": [
             {
               "type": "doc",
+              "id": "version-3.x/apis/open-api/authorize/authorizeForMiniProgram"
+            },
+            {
+              "type": "doc",
               "id": "version-3.x/apis/open-api/authorize/authorize"
             }
           ],
@@ -2065,6 +2211,10 @@
             {
               "type": "doc",
               "id": "version-3.x/apis/open-api/settings/AuthSetting"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/open-api/settings/SubscriptionsSetting"
             }
           ],
           "collapsible": true,
@@ -2129,18 +2279,6 @@
             {
               "type": "doc",
               "id": "version-3.x/apis/open-api/soter/checkIsSoterEnrolledInDevice"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/open-api/facial/checkIsSupportFacialRecognition"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/open-api/facial/startFacialRecognitionVerify"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/open-api/facial/startFacialRecognitionVerifyAndUploadVideo"
             }
           ],
           "collapsible": true,
@@ -2150,6 +2288,10 @@
           "label": "微信运动",
           "type": "category",
           "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/open-api/werun/shareToWeRun"
+            },
             {
               "type": "doc",
               "id": "version-3.x/apis/open-api/werun/getWeRunData"
@@ -2165,6 +2307,98 @@
             {
               "type": "doc",
               "id": "version-3.x/apis/open-api/subscribe-message/requestSubscribeMessage"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/open-api/subscribe-message/requestSubscribeDeviceMessage"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "label": "微信红包",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/open-api/redpackage/showRedPackage"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "label": "收藏",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/open-api/favorites/addVideoToFavorites"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/open-api/favorites/addFileToFavorites"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "label": "车牌",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/open-api/license-plate/chooseLicensePlate"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "label": "视频号",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/open-api/channels/reserveChannelsLive"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/open-api/channels/openChannelsUserProfile"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/open-api/channels/openChannelsLive"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/open-api/channels/openChannelsEvent"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/open-api/channels/openChannelsActivity"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/open-api/channels/getChannelsLiveNoticeInfo"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/open-api/channels/getChannelsLiveInfo"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "label": "微信群",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/open-api/group/getGroupEnterInfo"
             }
           ],
           "collapsible": true,
@@ -2191,7 +2425,163 @@
       "label": "设备",
       "items": [
         {
-          "label": "IBeacon",
+          "label": "蓝牙-通用",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth/stopBluetoothDevicesDiscovery"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth/startBluetoothDevicesDiscovery"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth/openBluetoothAdapter"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth/onBluetoothDeviceFound"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth/onBluetoothAdapterStateChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth/offBluetoothDeviceFound"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth/offBluetoothAdapterStateChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth/makeBluetoothPair"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth/isBluetoothDevicePaired"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth/getConnectedBluetoothDevices"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth/getBluetoothDevices"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth/getBluetoothAdapterState"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth/closeBluetoothAdapter"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "label": "蓝牙-低功耗中心设备",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth-ble/writeBLECharacteristicValue"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth-ble/setBLEMTU"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth-ble/readBLECharacteristicValue"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth-ble/onBLEMTUChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth-ble/onBLEConnectionStateChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth-ble/onBLECharacteristicValueChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth-ble/offBLEMTUChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth-ble/offBLEConnectionStateChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth-ble/offBLECharacteristicValueChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth-ble/notifyBLECharacteristicValueChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth-ble/getBLEMTU"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth-ble/getBLEDeviceServices"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth-ble/getBLEDeviceRSSI"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth-ble/getBLEDeviceCharacteristics"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth-ble/createBLEConnection"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth-ble/closeBLEConnection"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "label": "蓝牙-低功耗外围设备",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth-peripheral/onBLEPeripheralConnectionStateChanged"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth-peripheral/offBLEPeripheralConnectionStateChanged"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth-peripheral/createBLEPeripheralServer"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/bluetooth-peripheral/BLEPeripheralServer"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "label": "蓝牙-信标(Beacon)",
           "type": "category",
           "items": [
             {
@@ -2231,6 +2621,78 @@
           "collapsed": true
         },
         {
+          "label": "NFC",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/nfc/stopHCE"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/nfc/startHCE"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/nfc/sendHCEMessage"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/nfc/onHCEMessage"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/nfc/offHCEMessage"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/nfc/getNFCAdapter"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/nfc/getHCEState"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/nfc/IsoDep"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/nfc/MifareClassic"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/nfc/MifareUltralight"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/nfc/Ndef"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/nfc/NfcA"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/nfc/NFCAdapter"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/nfc/NfcB"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/nfc/NfcF"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/nfc/NfcV"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
           "label": "Wi-Fi",
           "type": "category",
           "items": [
@@ -2248,11 +2710,19 @@
             },
             {
               "type": "doc",
+              "id": "version-3.x/apis/device/wifi/onWifiConnectedWithPartialInfo"
+            },
+            {
+              "type": "doc",
               "id": "version-3.x/apis/device/wifi/onWifiConnected"
             },
             {
               "type": "doc",
               "id": "version-3.x/apis/device/wifi/onGetWifiList"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/wifi/offWifiConnectedWithPartialInfo"
             },
             {
               "type": "doc",
@@ -2283,9 +2753,29 @@
           "collapsed": true
         },
         {
+          "label": "日历",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/calendar/addPhoneRepeatCalendar"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/calendar/addPhoneCalendar"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
           "label": "联系人",
           "type": "category",
           "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/contact/chooseContact"
+            },
             {
               "type": "doc",
               "id": "version-3.x/apis/device/contact/addPhoneContact"
@@ -2295,88 +2785,12 @@
           "collapsed": true
         },
         {
-          "label": "低功耗蓝牙",
+          "label": "无障碍",
           "type": "category",
           "items": [
             {
               "type": "doc",
-              "id": "version-3.x/apis/device/ble/writeBLECharacteristicValue"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/device/ble/readBLECharacteristicValue"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/device/ble/onBLEConnectionStateChange"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/device/ble/onBLECharacteristicValueChange"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/device/ble/notifyBLECharacteristicValueChange"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/device/ble/getBLEDeviceServices"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/device/ble/getBLEDeviceCharacteristics"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/device/ble/createBLEConnection"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/device/ble/closeBLEConnection"
-            }
-          ],
-          "collapsible": true,
-          "collapsed": true
-        },
-        {
-          "label": "蓝牙",
-          "type": "category",
-          "items": [
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/device/bluetooth/stopBluetoothDevicesDiscovery"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/device/bluetooth/startBluetoothDevicesDiscovery"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/device/bluetooth/openBluetoothAdapter"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/device/bluetooth/onBluetoothDeviceFound"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/device/bluetooth/onBluetoothAdapterStateChange"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/device/bluetooth/getConnectedBluetoothDevices"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/device/bluetooth/getBluetoothDevices"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/device/bluetooth/getBluetoothAdapterState"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/device/bluetooth/closeBluetoothAdapter"
+              "id": "version-3.x/apis/device/accessibility/checkIsOpenAccessibility"
             }
           ],
           "collapsible": true,
@@ -2415,44 +2829,20 @@
           "collapsed": true
         },
         {
-          "label": "NFC",
-          "type": "category",
-          "items": [
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/device/nfc/stopHCE"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/device/nfc/startHCE"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/device/nfc/sendHCEMessage"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/device/nfc/onHCEMessage"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/device/nfc/offHCEMessage"
-            },
-            {
-              "type": "doc",
-              "id": "version-3.x/apis/device/nfc/getHCEState"
-            }
-          ],
-          "collapsible": true,
-          "collapsed": true
-        },
-        {
           "label": "网络",
           "type": "category",
           "items": [
             {
               "type": "doc",
+              "id": "version-3.x/apis/device/network/onNetworkWeakChange"
+            },
+            {
+              "type": "doc",
               "id": "version-3.x/apis/device/network/onNetworkStatusChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/network/offNetworkWeakChange"
             },
             {
               "type": "doc",
@@ -2476,6 +2866,10 @@
           "items": [
             {
               "type": "doc",
+              "id": "version-3.x/apis/device/screen/setVisualEffectOnCapture"
+            },
+            {
+              "type": "doc",
               "id": "version-3.x/apis/device/screen/setScreenBrightness"
             },
             {
@@ -2493,6 +2887,30 @@
             {
               "type": "doc",
               "id": "version-3.x/apis/device/screen/getScreenBrightness"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "label": "键盘",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/keyboard/onKeyboardHeightChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/keyboard/offKeyboardHeightChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/keyboard/hideKeyboard"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/device/keyboard/getSelectedTextRange"
             }
           ],
           "collapsible": true,
@@ -2612,11 +3030,11 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.x/apis/device/performance/onMemoryWarning"
+              "id": "version-3.x/apis/device/memory/onMemoryWarning"
             },
             {
               "type": "doc",
-              "id": "version-3.x/apis/device/performance/offMemoryWarning"
+              "id": "version-3.x/apis/device/memory/offMemoryWarning"
             }
           ],
           "collapsible": true,
@@ -2628,7 +3046,7 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.x/apis/device/scan/scancode"
+              "id": "version-3.x/apis/device/scan/scanCode"
             }
           ],
           "collapsible": true,
@@ -2656,6 +3074,78 @@
       "type": "category",
       "collapsed": true,
       "collapsible": true,
+      "label": "AI",
+      "items": [
+        {
+          "label": "视觉算法",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/ai/visionkit/isVKSupport"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/ai/visionkit/createVKSession"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/ai/visionkit/VKAnchor"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/ai/visionkit/VKCamera"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/ai/visionkit/VKFrame"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/ai/visionkit/VKSession"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        },
+        {
+          "label": "人脸识别",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/ai/face/stopFaceDetect"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/ai/face/initFaceDetect"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/ai/face/faceDetect"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/open-api/facial/checkIsSupportFacialRecognition"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/open-api/facial/startFacialRecognitionVerify"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/open-api/facial/startFacialRecognitionVerifyAndUploadVideo"
+            }
+          ],
+          "collapsible": true,
+          "collapsed": true
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "Worker",
       "items": [
         {
@@ -2665,38 +3155,6 @@
         {
           "type": "doc",
           "id": "version-3.x/apis/worker/Worker"
-        }
-      ]
-    },
-    {
-      "type": "category",
-      "collapsed": true,
-      "collapsible": true,
-      "label": "第三方平台",
-      "items": [
-        {
-          "type": "doc",
-          "id": "version-3.x/apis/ext/getExtConfigSync"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/apis/ext/getExtConfig"
-        }
-      ]
-    },
-    {
-      "type": "category",
-      "collapsed": true,
-      "collapsible": true,
-      "label": "云开发",
-      "items": [
-        {
-          "type": "doc",
-          "id": "version-3.x/apis/cloud/cloud"
-        },
-        {
-          "type": "doc",
-          "id": "version-3.x/apis/cloud/DB"
         }
       ]
     },
@@ -2736,6 +3194,22 @@
       "type": "category",
       "collapsed": true,
       "collapsible": true,
+      "label": "第三方平台",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/ext/getExtConfigSync"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/ext/getExtConfig"
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "广告",
       "items": [
         {
@@ -2753,6 +3227,22 @@
         {
           "type": "doc",
           "id": "version-3.x/apis/ad/RewardedVideoAd"
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "collapsed": true,
+      "collapsible": true,
+      "label": "云开发",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/cloud/cloud"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/cloud/DB"
         }
       ]
     },

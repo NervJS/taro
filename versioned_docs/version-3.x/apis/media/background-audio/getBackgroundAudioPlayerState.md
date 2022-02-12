@@ -4,7 +4,7 @@ sidebar_label: getBackgroundAudioPlayerState
 ---
 
 获取后台音乐播放状态。
-**注意：1.2.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.getBackgroundAudioManager](https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.getBackgroundAudioManager.html) 接口**
+**注意：1.2.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.getBackgroundAudioManager](/docs/apis/media/background-audio/getBackgroundAudioManager) 接口**
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
@@ -38,10 +38,10 @@ sidebar_label: getBackgroundAudioPlayerState
 | dataUrl | `string` | 歌曲数据链接，只有在音乐播放中时返回 |
 | downloadPercent | `number` | 音频的下载进度百分比，只有在音乐播放中时返回 |
 | duration | `number` | 选定音频的长度（单位：s），只有在音乐播放中时返回 |
-| status | `keyof status` | 播放状态 |
+| status | `keyof Status` | 播放状态 |
 | errMsg | `string` | 调用结果 |
 
-### status
+### Status
 
 | 参数 | 说明 |
 | --- | --- |

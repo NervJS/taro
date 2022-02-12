@@ -200,7 +200,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /**
-     * 创建 [map](/docs/components/map) 上下文 [MapContext](/docs/apis/media/map/MapContext) 对象。
+     * 创建 [map](/docs/components/maps/map) 上下文 [MapContext](/docs/apis/media/map/MapContext) 对象。
      * @supported weapp
      * @example
      * ```tsx

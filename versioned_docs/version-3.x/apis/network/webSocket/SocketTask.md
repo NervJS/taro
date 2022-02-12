@@ -3,7 +3,7 @@ title: SocketTask
 sidebar_label: SocketTask
 ---
 
-WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.html) 接口创建返回。
+WebSocket 任务，可通过 [Taro.connectSocket()](/docs/apis/network/websocket/SocketTask) 接口创建返回。
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.html)
 

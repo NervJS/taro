@@ -516,9 +516,9 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createAudioContext.html
      */
     createAudioContext(
-      /** [audio](/docs/components/audio) 组件的 id */
+      /** [audio](/docs/components/media/audio) 组件的 id */
       id: string,
-      /** 在自定义组件下，当前组件实例的this，以操作组件内 [audio](/docs/components/audio) 组件 */
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 [audio](/docs/components/media/audio) 组件 */
       component?: TaroGeneral.IAnyObject,
     ): AudioContext
   }

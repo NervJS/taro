@@ -24,14 +24,14 @@ sidebar_label: canvasToTempFilePath
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | option | `Option` |  |
-| component | `TaroGeneral.IAnyObject` | 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas) 组件 |
+| component | `TaroGeneral.IAnyObject` | 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas/canvas) 组件 |
 
 ### Option
 
 | 参数 | 类型 | 默认值 | 必填 | 说明 |
 | --- | --- | :---: | :---: | --- |
-| canvas | `CanvasProps` |  | 否 | 画布标识，传入 [canvas](/docs/components/canvas) 组件实例 （canvas type="2d" 时使用该属性）。 |
-| canvasId | `string` |  | 否 | 画布标识，传入 [canvas](/docs/components/canvas) 组件的 canvas-id |
+| canvas | `CanvasProps` |  | 否 | 画布标识，传入 [canvas](/docs/components/canvas/canvas) 组件实例 （canvas type="2d" 时使用该属性）。 |
+| canvasId | `string` |  | 否 | 画布标识，传入 [canvas](/docs/components/canvas/canvas) 组件的 canvas-id |
 | quality | `number` |  | 否 | 图片的质量，目前仅对 jpg 有效。取值范围为 (0, 1]，不在范围内时当作 1.0 处理。 |
 | complete | `(res: TaroGeneral.CallbackResult) => void` |  | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | destHeight | `number` |  | 否 | 输出的图片的高度 |

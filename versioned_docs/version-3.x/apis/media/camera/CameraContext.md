@@ -7,6 +7,52 @@ sidebar_label: CameraContext
 
 ## 方法
 
+### onCameraFrame
+
+获取 Camera 实时帧数据
+
+****
+
+注： 使用该接口需同时在 [camera](/docs/components/media/camera) 组件属性中指定 frame-size。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.onCameraFrame.html)
+
+```tsx
+(callback: OnCameraFrameCallback) => CameraFrameListener
+```
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| callback | `OnCameraFrameCallback` | 回调函数 |
+
+#### 示例代码
+
+```tsx
+const context = wx.createCameraContext()
+const listener = context.onCameraFrame((frame) => {
+  console.log(frame.data instanceof ArrayBuffer, frame.width, frame.height)
+})
+listener.start()
+```
+
+### setZoom
+
+设置缩放级别
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.setZoom.html)
+
+```tsx
+(option: SetZoomOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `SetZoomOption` |
+
 ### startRecord
 
 开始录像
@@ -55,37 +101,22 @@ sidebar_label: CameraContext
 | --- | --- |
 | option | `TakePhotoOption` |
 
-### onCameraFrame
+## 参数
 
-获取 Camera 实时帧数据
+### SetZoomOption
 
-****
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: StartRecordSuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+| zoom | `number` | 是 | 缩放级别，范围[1, maxZoom]。zoom 可取小数，精确到小数后一位。maxZoom 可在 bindinitdone 返回值中获取。 |
 
-注： 使用该接口需同时在 [camera](https://developers.weixin.qq.com/miniprogram/dev/component/camera.html) 组件属性中指定 frame-size。
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.onCameraFrame.html)
-
-```tsx
-(callback: OnCameraFrameCallback) => CameraFrameListener
-```
+### StartRecordSuccessCallbackResult
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| callback | `OnCameraFrameCallback` | 回调函数 |
-
-#### 示例代码
-
-```tsx
-const context = wx.createCameraContext()
-const listener = context.onCameraFrame((frame) => {
-  console.log(frame.data instanceof ArrayBuffer, frame.width, frame.height)
-})
-listener.start()
-```
-
-## 参数
+| zoom | `number` | 实际设置的缩放级别。由于系统限制，某些机型可能无法设置成指定值，会改用最接近的可设值。 |
 
 ### StartRecordOption
 
@@ -179,7 +210,8 @@ listener.start()
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
+| CameraContext.onCameraFrame | ✔️ |  |  |
+| CameraContext.setZoom | ✔️ |  |  |
 | CameraContext.startRecord | ✔️ |  | ✔️ |
 | CameraContext.stopRecord | ✔️ |  | ✔️ |
 | CameraContext.takePhoto | ✔️ |  | ✔️ |
-| CameraContext.onCameraFrame | ✔️ |  |  |

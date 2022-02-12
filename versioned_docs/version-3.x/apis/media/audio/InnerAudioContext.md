@@ -32,7 +32,7 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 | startTime | `number` | `0` | 否 | 是 | 开始播放的位置（单位：s） |
 | autoplay | `boolean` | `false` | 否 | 是 | 是否自动开始播放 |
 | loop | `boolean` | `false` | 否 | 是 | 是否循环播放 |
-| obeyMuteSwitch | `boolean` | `true` | 否 | 是 | 是否遵循系统静音开关。当此参数为 `false` 时，即使用户打开了静音开关，也能继续发出声音。从 2.3.0 版本开始此参数不生效，使用 [Taro.setInnerAudioOption](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.setInnerAudioOption.html) 接口统一设置。 |
+| obeyMuteSwitch | `boolean` | `true` | 否 | 是 | 是否遵循系统静音开关。当此参数为 `false` 时，即使用户打开了静音开关，也能继续发出声音。从 2.3.0 版本开始此参数不生效，使用 [Taro.setInnerAudioOption](/docs/apis/media/audio/setInnerAudioOption) 接口统一设置。 |
 | volume | `number` | `1` | 否 | 是 | 音量。范围 0~1。 |
 | playbackRate | `number` | `1` | 否 | 是 | 播放速度。范围 0.5-2.0。 |
 | duration | `number` |  | 是 | 是 | 当前音频的长度（单位 s）。只有在当前有合法的 src 时返回 |

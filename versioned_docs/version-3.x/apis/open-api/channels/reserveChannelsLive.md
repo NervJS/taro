@@ -1,22 +1,28 @@
 ---
-title: Taro.offMemoryWarning(callback)
-sidebar_label: offMemoryWarning
+title: Taro.reserveChannelsLive(option)
+sidebar_label: reserveChannelsLive
 ---
 
-取消监听内存不足告警事件。
+预约视频号直播
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/memory/wx.offMemoryWarning.html)
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/channels/wx.reserveChannelsLive.html)
 
 ## 类型
 
 ```tsx
-(callback: (...args: any[]) => any) => void
+(option?: Option) => void
 ```
 
 ## 参数
 
+| 参数 | 类型 |
+| --- | --- |
+| option | `Option` |
+
+### Option
+
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| callback | `(...args: any[]) => any` | 取消监听内存不足告警事件 |
+| noticeId | `string` | 预告 id，通过 [getChannelsLiveNoticeInfo](./getChannelsLiveNoticeInfo) 接口获取 |

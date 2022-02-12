@@ -165,7 +165,7 @@ declare module '../../index' {
     interface RoomType {
       /** 音频房间，用于语音通话 */
       voice
-      /** 视频房间，结合 [voip-room](/docs/components/voip-room) 组件可显示成员画面 */
+      /** 视频房间，结合 [voip-room](/docs/components/media/voip-room) 组件可显示成员画面 */
       video
     }
     /** 静音设置 */

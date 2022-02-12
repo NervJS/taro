@@ -47,14 +47,3 @@ Taro.getStorage({
   }
 })
 ```
-
-```tsx
-try {
-  var value = Taro.getStorageSync('key')
-  if (value) {
-    // Do something with return value
-  }
-} catch (e) {
-  // Do something when catch error
-}
-```

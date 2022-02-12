@@ -28,8 +28,8 @@ ComponentType<OfficialAccountProps>
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
-| onLoad | `CommonEventFunction<detail>` | 否 | 组件加载成功时触发 |
-| onError | `CommonEventFunction<detail>` | 否 | 组件加载失败时触发 |
+| onLoad | `CommonEventFunction<Detail>` | 否 | 组件加载成功时触发 |
+| onError | `CommonEventFunction<Detail>` | 否 | 组件加载失败时触发 |
 
 ### API 支持度
 
@@ -38,7 +38,7 @@ ComponentType<OfficialAccountProps>
 | OfficialAccountProps.onLoad | ✔️ |  |  |
 | OfficialAccountProps.onError | ✔️ |  |  |
 
-### detail
+### Detail
 
 detail 对象
 
@@ -47,7 +47,7 @@ detail 对象
 | status | `number` | 状态码 |
 | errMsg | `string` | 错误信息 |
 
-### status
+### Status
 
 status 有效值
 

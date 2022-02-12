@@ -6,6 +6,8 @@ sidebar_label: LivePusherContext
 `LivePusherContext` 实例，可通过 `Taro.createLivePusherContext` 获取。
 `LivePusherContext` 与页面内唯一的 `live-pusher` 组件绑定，操作对应的 `live-pusher` 组件。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePusherContext.html)
 
 ## 方法
@@ -90,6 +92,22 @@ sidebar_label: LivePusherContext
 | --- | --- |
 | option | `ResumeBGMOption` |
 
+### sendMessage
+
+发送SEI消息
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePusherContext.sendMessage.html)
+
+```tsx
+(option?: SendMessageOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `SendMessageOption` |
+
 ### setBGMVolume
 
 设置背景音音量
@@ -105,6 +123,22 @@ sidebar_label: LivePusherContext
 | 参数 | 类型 |
 | --- | --- |
 | option | `SetBGMVolumeOption` |
+
+### setMICVolume
+
+设置麦克风音量
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePusherContext.setMICVolume.html)
+
+```tsx
+(option: SetMICVolumeOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `SetMICVolumeOption` |
 
 ### snapshot
 
@@ -277,11 +311,29 @@ sidebar_label: LivePusherContext
 | fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
 | success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
+### SendMessageOption
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| msg | `string` | 是 | SEI消息 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+
 ### SetBGMVolumeOption
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
-| volume | `string` | 是 | 音量大小，范围是 0-1 |
+| volume | `number` | 是 | 音量大小，范围是 0-1 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+
+### SetMICVolumeOption
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| volume | `number` | 是 | 音量大小，范围是 0-1 |
 | complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
 | success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
@@ -354,12 +406,15 @@ sidebar_label: LivePusherContext
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
+| LivePusherContext | ✔️ |  |  |
 | LivePusherContext.pause | ✔️ |  |  |
 | LivePusherContext.pauseBGM | ✔️ |  |  |
 | LivePusherContext.playBGM | ✔️ |  |  |
 | LivePusherContext.resume | ✔️ |  |  |
 | LivePusherContext.resumeBGM | ✔️ |  |  |
+| LivePusherContext.sendMessage | ✔️ |  |  |
 | LivePusherContext.setBGMVolume | ✔️ |  |  |
+| LivePusherContext.setMICVolume | ✔️ |  |  |
 | LivePusherContext.snapshot | ✔️ |  |  |
 | LivePusherContext.start | ✔️ |  |  |
 | LivePusherContext.startPreview | ✔️ |  |  |

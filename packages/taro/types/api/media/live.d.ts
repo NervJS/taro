@@ -389,20 +389,20 @@ declare module '../../index' {
   }
 
   interface TaroStatic {
-    /** 创建 [live-pusher](/docs/components/live-pusher) 上下文 [LivePusherContext](/docs/apis/media/live/LivePusherContext) 对象。
+    /** 创建 [live-pusher](/docs/components/media/live-pusher) 上下文 [LivePusherContext](/docs/apis/media/live/LivePusherContext) 对象。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/wx.createLivePusherContext.html
      */
     createLivePusherContext(): LivePusherContext
 
-    /** 创建 [live-player](/docs/components/live-player) 上下文 [LivePlayerContext](/docs/apis/media/live/LivePlayerContext) 对象。
+    /** 创建 [live-player](/docs/components/media/live-player) 上下文 [LivePlayerContext](/docs/apis/media/live/LivePlayerContext) 对象。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/wx.createLivePlayerContext.html
      */
     createLivePlayerContext(
-      /** [live-player](/docs/components/live-player) 组件的 id */
+      /** [live-player](/docs/components/media/live-player) 组件的 id */
       id: string,
-      /** 在自定义组件下，当前组件实例的this，以操作组件内 [live-player](/docs/components/live-player) 组件 */
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 [live-player](/docs/components/media/live-player) 组件 */
       component?: TaroGeneral.IAnyObject,
     ): LivePlayerContext
   }

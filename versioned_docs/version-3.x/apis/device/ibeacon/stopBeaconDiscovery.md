@@ -12,7 +12,7 @@ sidebar_label: stopBeaconDiscovery
 ## 类型
 
 ```tsx
-(option?: Option) => Promise<TaroGeneral.CallbackResult>
+(option?: Option) => Promise<TaroGeneral.IBeaconError>
 ```
 
 ## 参数

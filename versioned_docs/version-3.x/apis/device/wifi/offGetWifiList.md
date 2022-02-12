@@ -12,11 +12,11 @@ sidebar_label: offGetWifiList
 ## 类型
 
 ```tsx
-(callback: (...args: any[]) => any) => void
+(callback: Callback) => void
 ```
 
 ## 参数
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| callback | `(...args: any[]) => any` | 获取到 Wi-Fi 列表数据事件的回调函数 |
+| callback | `Callback` | 获取到 Wi-Fi 列表数据事件的回调函数 |

@@ -12,11 +12,11 @@ sidebar_label: offUserCaptureScreen
 ## 类型
 
 ```tsx
-(callback: (...args: any[]) => any) => void
+(callback: Callback) => void
 ```
 
 ## 参数
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| callback | `(...args: any[]) => any` | 用户主动截屏事件的回调函数 |
+| callback | `Callback` | 用户主动截屏事件的回调函数 |

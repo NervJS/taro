@@ -27,7 +27,7 @@ declare module '../../index' {
     /** 获取微信群聊场景下的小程序启动信息。群聊场景包括群聊小程序消息卡片、群待办、群工具。可用于获取当前群的 opengid。
      * 
      * **Tips**
-     *  - 如需要展示群名称，小程序可以使用[开放数据组件](/docs/components/open-data)
+     *  - 如需要展示群名称，小程序可以使用[开放数据组件](/docs/components/open/open-data)
      *  - 小游戏可以通过 `Taro.getGroupInfo` 接口获取群名称
      * @supported weapp
      * @example

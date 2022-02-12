@@ -127,7 +127,7 @@ declare module '../../index' {
     /** 获取转发详细信息
      *
      * **Tips**
-     * - 如需要展示群名称，可以使用[开放数据组件](/docs/components/open-ability/open-data)
+     * - 如需要展示群名称，可以使用[开放数据组件](/docs/components/open/open-data)
      * @supported weapp
      * @example
      * 敏感数据有两种获取方式，一是使用 [加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#%E5%8A%A0%E5%AF%86%E6%95%B0%E6%8D%AE%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95) 。

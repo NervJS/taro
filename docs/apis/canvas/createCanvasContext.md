@@ -21,8 +21,8 @@ sidebar_label: createCanvasContext
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| canvasId | `string` | 要获取上下文的 [canvas](/docs/components/canvas) 组件 canvas-id 属性 |
-| component | `TaroGeneral.IAnyObject` | 在自定义组件下，当前组件实例的this，表示在这个自定义组件下查找拥有 canvas-id 的 [canvas](/docs/components/canvas) ，如果省略则不在任何自定义组件内查找 |
+| canvasId | `string` | 要获取上下文的 [canvas](/docs/components/canvas/canvas) 组件 canvas-id 属性 |
+| component | `TaroGeneral.IAnyObject` | 在自定义组件下，当前组件实例的this，表示在这个自定义组件下查找拥有 canvas-id 的 [canvas](/docs/components/canvas/canvas) ，如果省略则不在任何自定义组件内查找 |
 
 ## 示例代码
 

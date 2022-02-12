@@ -12,11 +12,11 @@ sidebar_label: offBeaconServiceChange
 ## 类型
 
 ```tsx
-(callback: (res: TaroGeneral.CallbackResult) => void) => void
+(callback: (res: TaroGeneral.IBeaconError) => void) => void
 ```
 
 ## 参数
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| callback | `(res: TaroGeneral.CallbackResult) => void` | iBeacon 服务状态变化事件的回调函数 |
+| callback | `(res: TaroGeneral.IBeaconError) => void` | iBeacon 服务状态变化事件的回调函数 |

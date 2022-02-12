@@ -157,9 +157,9 @@ soundMode 的合法值
 
 | 参数 | 类型 |
 | --- | --- |
-| info | `netStatus` |
+| info | `NetStatus` |
 
-### status
+### Status
 
 状态码
 

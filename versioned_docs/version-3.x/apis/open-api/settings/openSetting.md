@@ -37,6 +37,7 @@ sidebar_label: openSetting
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | authSetting | `AuthSetting` | 用户授权结果 |
+| subscriptionsSetting | `SubscriptionsSetting` | 用户订阅消息设置，接口参数 withSubscriptions 值为 true 时才会返回。 |
 | errMsg | `string` | 调用结果 |
 
 ## 示例代码

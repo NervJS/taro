@@ -12,7 +12,7 @@ sidebar_label: getConnectedBluetoothDevices
 ## 类型
 
 ```tsx
-(option: Option) => void
+(option: Option) => Promise<SuccessCallbackResult>
 ```
 
 ## 参数
