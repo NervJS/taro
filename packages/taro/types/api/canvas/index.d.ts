@@ -126,11 +126,6 @@ declare module '../../index' {
     }
   }
 
-  /** Canvas 2D API 的接口 Path2D 用来声明路径，此路径稍后会被CanvasRenderingContext2D 对象使用。CanvasRenderingContext2D 接口的 路径方法 也存在于 Path2D 这个接口中，允许你在 canvas 中根据需要创建可以保留并重用的路径。
-   *  @supported weapp
-   */
-  interface Path2D {}
-
   /** Canvas 实例，可通过 SelectorQuery 获取。
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.html
    */
@@ -190,6 +185,38 @@ declare module '../../index' {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.html
    */
   interface CanvasContext {
+    /** 填充颜色。用法同 [CanvasContext.setFillStyle()]。 */
+    fillStyle: string
+    /** 边框颜色。用法同 [CanvasContext.setFillStyle()]。 */
+    strokeStyle: string
+    /** 阴影相对于形状在水平方向的偏移 */
+    shadowOffsetX: number
+    /** 阴影相对于形状在竖直方向的偏移 */
+    shadowOffsetY: number
+    /** 阴影的模糊级别 */
+    shadowBlur: number
+    /** 阴影的颜色 */
+    shadowColor: string
+    /** 线条的宽度。用法同 [CanvasContext.setLineWidth()]。 */
+    lineWidth: number
+    /** 线条的端点样式。用法同 [CanvasContext.setLineCap()]。 */
+    lineCap: keyof CanvasContext.LineCap
+    /** 线条的交点样式。用法同 [CanvasContext.setLineJoin()]。 */
+    lineJoin: keyof CanvasContext.LineJoin
+    /** 最大斜接长度。用法同 [CanvasContext.setMiterLimit()]。 */
+    miterLimit: number
+    /** 虚线偏移量，初始值为0 */
+    lineDashOffset: number
+    /** 当前字体样式的属性。符合 [CSS font 语法](https://developer.mozilla.org/zh-CN/docs/Web/CSS/font) 的 DOMString 字符串，至少需要提供字体大小和字体族名。默认值为 10px sans-serif。 */
+    font: string
+    /** 全局画笔透明度。范围 0-1，0 表示完全透明，1 表示完全不透明。 */
+    globalAlpha: number
+    /** 在绘制新形状时应用的合成操作的类型。目前安卓版本只适用于 `fill` 填充块的合成，用于 `stroke` 线段的合成效果都是 `source-over`。
+     *
+     * 目前支持的操作有
+     * - 安卓：xor, source-over, source-atop, destination-out, lighter, overlay, darken, lighten, hard-light
+     * - iOS：xor, source-over, source-atop, destination-over, destination-out, lighter, multiply, overlay, darken, lighten, color-dodge, color-burn, hard-light, soft-light, difference, exclusion, saturation, luminosity */
+    globalCompositeOperation: string
     /** 创建一条弧线。
      *
      * - 创建一个圆可以指定起始弧度为 0，终止弧度为 2 * Math.PI。
@@ -443,6 +470,56 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.closePath.html
      */
     closePath(): void
+    /** 创建一个圆形的渐变颜色。起点在圆心，终点在圆环。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()](/docs/apis/canvas/CanvasGradient#addcolorstop) 来指定渐变点，至少要两个。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * const ctx = Taro.createCanvasContext('myCanvas')
+     * // Create circular gradient
+     * const grd = ctx.createCircularGradient(75, 50, 50)
+     * grd.addColorStop(0, 'red')
+     * grd.addColorStop(1, 'white')
+     * // Fill with gradient
+     * ctx.setFillStyle(grd)
+     * ctx.fillRect(10, 10, 150, 80)
+     * ctx.draw()
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.createCircularGradient.html
+     */
+    createCircularGradient(
+      /** 圆心的 x 坐标 */
+      x: number,
+      /** 圆心的 y 坐标 */
+      y: number,
+      /** 圆的半径 */
+      r: number,
+    ): CanvasGradient
+    /** 创建一个线性的渐变颜色。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()](/docs/apis/canvas/CanvasGradient#addcolorstop) 来指定渐变点，至少要两个。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * const ctx = Taro.createCanvasContext('myCanvas')
+     * // Create linear gradient
+     * const grd = ctx.createLinearGradient(0, 0, 200, 0)
+     * grd.addColorStop(0, 'red')
+     * grd.addColorStop(1, 'white')
+     * // Fill with gradient
+     * ctx.setFillStyle(grd)
+     * ctx.fillRect(10, 10, 150, 80)
+     * ctx.draw()
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.createLinearGradient.html
+     */
+    createLinearGradient(
+      /** 起点的 x 坐标 */
+      x0: number,
+      /** 起点的 y 坐标 */
+      y0: number,
+      /** 终点的 x 坐标 */
+      x1: number,
+      /** 终点的 y 坐标 */
+      y1: number,
+    ): CanvasGradient
     /** 对指定的图像创建模式的方法，可在指定的方向上重复元图像
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.createPattern.html
@@ -684,6 +761,14 @@ declare module '../../index' {
       /** 目标位置的 y 坐标 */
       y: number,
     ): void
+    /** 测量文本尺寸信息。目前仅返回文本宽度。同步接口。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.measureText.html
+     */
+    measureText(
+      /** 要测量的文本 */
+      text: string,
+    ): TextMetrics
     /** 把路径移动到画布中的指定点，不创建线条。用 `stroke` 方法来画线条
      * @supported weapp
      * @example
@@ -779,7 +864,7 @@ declare module '../../index' {
       /** 矩形路径的高度 */
       height: number,
     ): void
-    /** 恢复之前保存的绘图上下文。
+    /** 恢复之前保存的绘图上下文
      * @supported weapp
      * @example
      * ```tsx
@@ -1291,96 +1376,6 @@ declare module '../../index' {
       /** 竖直坐标平移量 */
       y: number,
     ): void
-    /** 测量文本尺寸信息。目前仅返回文本宽度。同步接口。
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.measureText.html
-     */
-    measureText(
-      /** 要测量的文本 */
-      text: string,
-    ): TextMetrics
-    /** 创建一个圆形的渐变颜色。起点在圆心，终点在圆环。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()](/docs/apis/canvas/CanvasGradient#addcolorstop) 来指定渐变点，至少要两个。
-     * @supported weapp
-     * @example
-     * ```tsx
-     * const ctx = Taro.createCanvasContext('myCanvas')
-     * // Create circular gradient
-     * const grd = ctx.createCircularGradient(75, 50, 50)
-     * grd.addColorStop(0, 'red')
-     * grd.addColorStop(1, 'white')
-     * // Fill with gradient
-     * ctx.setFillStyle(grd)
-     * ctx.fillRect(10, 10, 150, 80)
-     * ctx.draw()
-     * ```
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.createCircularGradient.html
-     */
-    createCircularGradient(
-      /** 圆心的 x 坐标 */
-      x: number,
-      /** 圆心的 y 坐标 */
-      y: number,
-      /** 圆的半径 */
-      r: number,
-    ): CanvasGradient
-    /** 创建一个线性的渐变颜色。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()](/docs/apis/canvas/CanvasGradient#addcolorstop) 来指定渐变点，至少要两个。
-     * @supported weapp
-     * @example
-     * ```tsx
-     * const ctx = Taro.createCanvasContext('myCanvas')
-     * // Create linear gradient
-     * const grd = ctx.createLinearGradient(0, 0, 200, 0)
-     * grd.addColorStop(0, 'red')
-     * grd.addColorStop(1, 'white')
-     * // Fill with gradient
-     * ctx.setFillStyle(grd)
-     * ctx.fillRect(10, 10, 150, 80)
-     * ctx.draw()
-     * ```
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.createLinearGradient.html
-     */
-    createLinearGradient(
-      /** 起点的 x 坐标 */
-      x0: number,
-      /** 起点的 y 坐标 */
-      y0: number,
-      /** 终点的 x 坐标 */
-      x1: number,
-      /** 终点的 y 坐标 */
-      y1: number,
-    ): CanvasGradient
-    /** 填充颜色。用法同 [CanvasContext.setFillStyle()]。 */
-    fillStyle: string
-    /** 当前字体样式的属性。符合 [CSS font 语法](https://developer.mozilla.org/zh-CN/docs/Web/CSS/font) 的 DOMString 字符串，至少需要提供字体大小和字体族名。默认值为 10px sans-serif。 */
-    font: string
-    /** 全局画笔透明度。范围 0-1，0 表示完全透明，1 表示完全不透明。 */
-    globalAlpha: number
-    /** 在绘制新形状时应用的合成操作的类型。目前安卓版本只适用于 `fill` 填充块的合成，用于 `stroke` 线段的合成效果都是 `source-over`。
-     *
-     * 目前支持的操作有
-     * - 安卓：xor, source-over, source-atop, destination-out, lighter, overlay, darken, lighten, hard-light
-     * - iOS：xor, source-over, source-atop, destination-over, destination-out, lighter, multiply, overlay, darken, lighten, color-dodge, color-burn, hard-light, soft-light, difference, exclusion, saturation, luminosity */
-    globalCompositeOperation: string
-    /** 线条的端点样式。用法同 [CanvasContext.setLineCap()]。 */
-    lineCap: keyof CanvasContext.LineCap
-    /** 虚线偏移量，初始值为0 */
-    lineDashOffset: number
-    /** 线条的交点样式。用法同 [CanvasContext.setLineJoin()]。 */
-    lineJoin: keyof CanvasContext.LineJoin
-    /** 线条的宽度。用法同 [CanvasContext.setLineWidth()]。 */
-    lineWidth: number
-    /** 最大斜接长度。用法同 [CanvasContext.setMiterLimit()]。 */
-    miterLimit: number
-    /** 阴影的模糊级别 */
-    shadowBlur: number
-    /** 阴影的颜色 */
-    shadowColor: string
-    /** 阴影相对于形状在水平方向的偏移 */
-    shadowOffsetX: number
-    /** 阴影相对于形状在竖直方向的偏移 */
-    shadowOffsetY: number
-    /** 边框颜色。用法同 [CanvasContext.setFillStyle()]。 */
-    strokeStyle: string
   }
   namespace CanvasContext {
     /** 参数 repetition 可选值 */
@@ -1435,6 +1430,7 @@ declare module '../../index' {
   }
 
   /** 创建 canvas 的绘图上下文 CanvasContext 对象
+   * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasGradient.html
    */
   interface CanvasGradient {
@@ -1637,16 +1633,21 @@ declare module '../../index' {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Image.html
    */
   interface Image {
+    /** 图片的 URL */
+    src: string
     /** 图片的真实高度 */
     height: number
+    /** 图片的真实宽度 */
+    width: number
+    /** origin: 发送完整的referrer; no-referrer: 不发送。
+     *
+     * 格式固定为 https://servicewechat.com/{appid}/{version}/page-frame.html，其中 {appid} 为小程序的 appid，{version} 为小程序的版本号，版本号为 0 表示为开发版、体验版以及审核版本，版本号为 devtools 表示为开发者工具，其余为正式版本
+     */
+    referrerPolicy: string
     /** 图片加载发生错误后触发的回调函数 */
     onerror: (...args: any[]) => any
     /** 图片加载完成后触发的回调函数 */
     onload: (...args: any[]) => any
-    /** 图片的 URL */
-    src: string
-    /** 图片的真实宽度 */
-    width: number
   }
 
   /** ImageData 对象
@@ -1654,27 +1655,40 @@ declare module '../../index' {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/ImageData.html
    */
   interface ImageData {
-    /** 一维数组，包含以 RGBA 顺序的数据，数据使用 0 至 255（包含）的整数表示 */
-    data: Uint8ClampedArray
-    /** 使用像素描述 ImageData 的实际高度 */
-    height: number
     /** 使用像素描述 ImageData 的实际宽度 */
     width: number
+    /** 使用像素描述 ImageData 的实际高度 */
+    height: number
+    /** 一维数组，包含以 RGBA 顺序的数据，数据使用 0 至 255（包含）的整数表示 */
+    data: Uint8ClampedArray
   }
 
   /** 离屏 canvas 实例，可通过 Taro.createOffscreenCanvas 创建。
+   * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/OffscreenCanvas.html
    */
   interface OffscreenCanvas {
+    /** 创建一个图片对象。支持在 2D Canvas 和 WebGL Canvas 下使用, 但不支持混用 2D 和 WebGL 的方法
+     *
+     * > 注意不允许混用 webgl 和 2d 画布创建的图片对象，使用时请注意尽量使用 canvas 自身的 createImage 创建图片对象。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/OffscreenCanvas.createImage.html
+     */
+    createImage(): Image
     /** 该方法返回 OffscreenCanvas 的绘图上下文
      *
-     * ****
-     *
-     * 当前仅支持获取 WebGL 绘图上下文
+     * > 当前仅支持获取 WebGL 绘图上下文
      * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/OffscreenCanvas.getContext.html
      */
     getContext(contextType: string): RenderingContext
   }
+
+  /** Canvas 2D API 的接口 Path2D 用来声明路径，此路径稍后会被CanvasRenderingContext2D 对象使用。CanvasRenderingContext2D 接口的 路径方法 也存在于 Path2D 这个接口中，允许你在 canvas 中根据需要创建可以保留并重用的路径。
+   * @supported weapp
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Path2D.html
+   */
+  interface Path2D {}
 
   /** Canvas 绘图上下文。
    *

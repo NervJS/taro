@@ -13,9 +13,9 @@ ImageData 对象
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| data | `Uint8ClampedArray` | 一维数组，包含以 RGBA 顺序的数据，数据使用 0 至 255（包含）的整数表示 |
-| height | `number` | 使用像素描述 ImageData 的实际高度 |
 | width | `number` | 使用像素描述 ImageData 的实际宽度 |
+| height | `number` | 使用像素描述 ImageData 的实际高度 |
+| data | `Uint8ClampedArray` | 一维数组，包含以 RGBA 顺序的数据，数据使用 0 至 255（包含）的整数表示 |
 
 ## API 支持度
 

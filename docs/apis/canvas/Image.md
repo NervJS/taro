@@ -13,11 +13,12 @@ sidebar_label: Image
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
+| src | `string` | 图片的 URL |
 | height | `number` | 图片的真实高度 |
+| width | `number` | 图片的真实宽度 |
+| referrerPolicy | `string` | origin: 发送完整的referrer; no-referrer: 不发送。<br /><br />格式固定为 https://servicewechat.com/{appid}/{version}/page-frame.html，其中 {appid} 为小程序的 appid，{version} 为小程序的版本号，版本号为 0 表示为开发版、体验版以及审核版本，版本号为 devtools 表示为开发者工具，其余为正式版本 |
 | onerror | `(...args: any[]) => any` | 图片加载发生错误后触发的回调函数 |
 | onload | `(...args: any[]) => any` | 图片加载完成后触发的回调函数 |
-| src | `string` | 图片的 URL |
-| width | `number` | 图片的真实宽度 |
 
 ## API 支持度
 

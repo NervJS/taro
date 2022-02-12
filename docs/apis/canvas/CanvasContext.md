@@ -12,19 +12,19 @@ canvas 组件的绘图上下文
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | fillStyle | `string` | 填充颜色。用法同 [CanvasContext.setFillStyle()]。 |
+| strokeStyle | `string` | 边框颜色。用法同 [CanvasContext.setFillStyle()]。 |
+| shadowOffsetX | `number` | 阴影相对于形状在水平方向的偏移 |
+| shadowOffsetY | `number` | 阴影相对于形状在竖直方向的偏移 |
+| shadowBlur | `number` | 阴影的模糊级别 |
+| shadowColor | `string` | 阴影的颜色 |
+| lineWidth | `number` | 线条的宽度。用法同 [CanvasContext.setLineWidth()]。 |
+| lineCap | `keyof LineCap` | 线条的端点样式。用法同 [CanvasContext.setLineCap()]。 |
+| lineJoin | `keyof LineJoin` | 线条的交点样式。用法同 [CanvasContext.setLineJoin()]。 |
+| miterLimit | `number` | 最大斜接长度。用法同 [CanvasContext.setMiterLimit()]。 |
+| lineDashOffset | `number` | 虚线偏移量，初始值为0 |
 | font | `string` | 当前字体样式的属性。符合 [CSS font 语法](https://developer.mozilla.org/zh-CN/docs/Web/CSS/font) 的 DOMString 字符串，至少需要提供字体大小和字体族名。默认值为 10px sans-serif。 |
 | globalAlpha | `number` | 全局画笔透明度。范围 0-1，0 表示完全透明，1 表示完全不透明。 |
 | globalCompositeOperation | `string` | 在绘制新形状时应用的合成操作的类型。目前安卓版本只适用于 `fill` 填充块的合成，用于 `stroke` 线段的合成效果都是 `source-over`。<br /><br />目前支持的操作有<br />- 安卓：xor, source-over, source-atop, destination-out, lighter, overlay, darken, lighten, hard-light<br />- iOS：xor, source-over, source-atop, destination-over, destination-out, lighter, multiply, overlay, darken, lighten, color-dodge, color-burn, hard-light, soft-light, difference, exclusion, saturation, luminosity |
-| lineCap | `keyof LineCap` | 线条的端点样式。用法同 [CanvasContext.setLineCap()]。 |
-| lineDashOffset | `number` | 虚线偏移量，初始值为0 |
-| lineJoin | `keyof LineJoin` | 线条的交点样式。用法同 [CanvasContext.setLineJoin()]。 |
-| lineWidth | `number` | 线条的宽度。用法同 [CanvasContext.setLineWidth()]。 |
-| miterLimit | `number` | 最大斜接长度。用法同 [CanvasContext.setMiterLimit()]。 |
-| shadowBlur | `number` | 阴影的模糊级别 |
-| shadowColor | `string` | 阴影的颜色 |
-| shadowOffsetX | `number` | 阴影相对于形状在水平方向的偏移 |
-| shadowOffsetY | `number` | 阴影相对于形状在竖直方向的偏移 |
-| strokeStyle | `string` | 边框颜色。用法同 [CanvasContext.setFillStyle()]。 |
 
 ### arc
 
@@ -331,6 +331,71 @@ ctx.fill()
 ctx.draw()
 ```
 
+### createCircularGradient
+
+创建一个圆形的渐变颜色。起点在圆心，终点在圆环。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()](/docs/apis/canvas/CanvasGradient#addcolorstop) 来指定渐变点，至少要两个。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.createCircularGradient.html)
+
+```tsx
+(x: number, y: number, r: number) => CanvasGradient
+```
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| x | `number` | 圆心的 x 坐标 |
+| y | `number` | 圆心的 y 坐标 |
+| r | `number` | 圆的半径 |
+
+#### 示例代码
+
+```tsx
+const ctx = Taro.createCanvasContext('myCanvas')
+// Create circular gradient
+const grd = ctx.createCircularGradient(75, 50, 50)
+grd.addColorStop(0, 'red')
+grd.addColorStop(1, 'white')
+// Fill with gradient
+ctx.setFillStyle(grd)
+ctx.fillRect(10, 10, 150, 80)
+ctx.draw()
+```
+
+### createLinearGradient
+
+创建一个线性的渐变颜色。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()](/docs/apis/canvas/CanvasGradient#addcolorstop) 来指定渐变点，至少要两个。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.createLinearGradient.html)
+
+```tsx
+(x0: number, y0: number, x1: number, y1: number) => CanvasGradient
+```
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| x0 | `number` | 起点的 x 坐标 |
+| y0 | `number` | 起点的 y 坐标 |
+| x1 | `number` | 终点的 x 坐标 |
+| y1 | `number` | 终点的 y 坐标 |
+
+#### 示例代码
+
+```tsx
+const ctx = Taro.createCanvasContext('myCanvas')
+// Create linear gradient
+const grd = ctx.createLinearGradient(0, 0, 200, 0)
+grd.addColorStop(0, 'red')
+grd.addColorStop(1, 'white')
+// Fill with gradient
+ctx.setFillStyle(grd)
+ctx.fillRect(10, 10, 150, 80)
+ctx.draw()
+```
+
 ### createPattern
 
 对指定的图像创建模式的方法，可在指定的方向上重复元图像
@@ -608,6 +673,22 @@ ctx.stroke()
 ctx.draw()
 ```
 
+### measureText
+
+测量文本尺寸信息。目前仅返回文本宽度。同步接口。
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.measureText.html)
+
+```tsx
+(text: string) => TextMetrics
+```
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| text | `string` | 要测量的文本 |
+
 ### moveTo
 
 把路径移动到画布中的指定点，不创建线条。用 `stroke` 方法来画线条
@@ -728,7 +809,7 @@ ctx.draw()
 
 ### restore
 
-恢复之前保存的绘图上下文。
+恢复之前保存的绘图上下文
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
@@ -1431,87 +1512,6 @@ ctx.strokeRect(10, 10, 150, 100)
 ctx.draw()
 ```
 
-### measureText
-
-测量文本尺寸信息。目前仅返回文本宽度。同步接口。
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.measureText.html)
-
-```tsx
-(text: string) => TextMetrics
-```
-
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| text | `string` | 要测量的文本 |
-
-### createCircularGradient
-
-创建一个圆形的渐变颜色。起点在圆心，终点在圆环。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()](/docs/apis/canvas/CanvasGradient#addcolorstop) 来指定渐变点，至少要两个。
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.createCircularGradient.html)
-
-```tsx
-(x: number, y: number, r: number) => CanvasGradient
-```
-
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| x | `number` | 圆心的 x 坐标 |
-| y | `number` | 圆心的 y 坐标 |
-| r | `number` | 圆的半径 |
-
-#### 示例代码
-
-```tsx
-const ctx = Taro.createCanvasContext('myCanvas')
-// Create circular gradient
-const grd = ctx.createCircularGradient(75, 50, 50)
-grd.addColorStop(0, 'red')
-grd.addColorStop(1, 'white')
-// Fill with gradient
-ctx.setFillStyle(grd)
-ctx.fillRect(10, 10, 150, 80)
-ctx.draw()
-```
-
-### createLinearGradient
-
-创建一个线性的渐变颜色。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()](/docs/apis/canvas/CanvasGradient#addcolorstop) 来指定渐变点，至少要两个。
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.createLinearGradient.html)
-
-```tsx
-(x0: number, y0: number, x1: number, y1: number) => CanvasGradient
-```
-
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| x0 | `number` | 起点的 x 坐标 |
-| y0 | `number` | 起点的 y 坐标 |
-| x1 | `number` | 终点的 x 坐标 |
-| y1 | `number` | 终点的 y 坐标 |
-
-#### 示例代码
-
-```tsx
-const ctx = Taro.createCanvasContext('myCanvas')
-// Create linear gradient
-const grd = ctx.createLinearGradient(0, 0, 200, 0)
-grd.addColorStop(0, 'red')
-grd.addColorStop(1, 'white')
-// Fill with gradient
-ctx.setFillStyle(grd)
-ctx.fillRect(10, 10, 150, 80)
-ctx.draw()
-```
-
 ## 参数
 
 ### Repetition
@@ -1577,6 +1577,8 @@ ctx.draw()
 | CanvasContext.clearRect | ✔️ |  |  |
 | CanvasContext.clip | ✔️ |  |  |
 | CanvasContext.closePath | ✔️ |  |  |
+| CanvasContext.createCircularGradient | ✔️ |  |  |
+| CanvasContext.createLinearGradient | ✔️ |  |  |
 | CanvasContext.createPattern | ✔️ |  |  |
 | CanvasContext.draw | ✔️ |  |  |
 | CanvasContext.drawImage | ✔️ |  |  |
@@ -1584,6 +1586,7 @@ ctx.draw()
 | CanvasContext.fillRect | ✔️ |  |  |
 | CanvasContext.fillText | ✔️ |  |  |
 | CanvasContext.lineTo | ✔️ |  |  |
+| CanvasContext.measureText | ✔️ |  |  |
 | CanvasContext.moveTo | ✔️ |  |  |
 | CanvasContext.quadraticCurveTo | ✔️ |  |  |
 | CanvasContext.rect | ✔️ |  |  |
@@ -1609,6 +1612,3 @@ ctx.draw()
 | CanvasContext.strokeText | ✔️ |  |  |
 | CanvasContext.transform | ✔️ |  |  |
 | CanvasContext.translate | ✔️ |  |  |
-| CanvasContext.measureText | ✔️ |  |  |
-| CanvasContext.createCircularGradient | ✔️ |  |  |
-| CanvasContext.createLinearGradient | ✔️ |  |  |
