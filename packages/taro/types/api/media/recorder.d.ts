@@ -59,23 +59,23 @@ declare module '../../index' {
       tempFilePath: string
     }
     interface StartOption {
-      /** 指定录音的音频输入源，可通过 [wx.getAvailableAudioSources()](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.getAvailableAudioSources.html) 获取当前可用的音频源 */
-      audioSource?: keyof audioSource
+      /** 指定录音的音频输入源，可通过 [Taro.getAvailableAudioSources()](/docs/apis/media/audio/getAvailableAudioSources) 获取当前可用的音频源 */
+      audioSource?: keyof AudioSource
       /** 录音的时长，单位 ms，最大值 600000（10 分钟） */
       duration?: number
       /** 编码码率，有效值见下表格 */
       encodeBitRate?: number
       /** 音频格式 */
-      format?: keyof format
+      format?: keyof Format
       /** 指定帧大小，单位 KB。传入 frameSize 后，每录制指定帧大小的内容后，会回调录制的文件内容，不指定则不会回调。暂仅支持 mp3 格式。 */
       frameSize?: number
       /** 录音通道数 */
-      numberOfChannels?: keyof numberOfChannels
+      numberOfChannels?: keyof NumberOfChannels
       /** 采样率 */
-      sampleRate?: keyof sampleRate
+      sampleRate?: keyof SampleRate
     }
     /** 指定录音的音频输入源 */
-    interface audioSource {
+    interface AudioSource {
       /** 自动设置，默认使用手机麦克风，插上耳麦后自动切换使用耳机麦克风，所有平台适用 */
       'auto'
       /** 手机麦克风，仅限 iOS */
@@ -92,7 +92,7 @@ declare module '../../index' {
       'voice_recognition'
     }
     /** 音频格式 */
-    interface format {
+    interface Format {
       /** mp3 格式 */
       mp3
       /** aac 格式 */
@@ -103,14 +103,14 @@ declare module '../../index' {
       PCM
     }
     /** 录音通道数 */
-    interface numberOfChannels {
+    interface NumberOfChannels {
       /** 1 个通道 */
       1
       /** 2 个通道 */
       2
     }
     /** 采样率 */
-    interface sampleRate {
+    interface SampleRate {
       /** 8000 采样率
        * @codeRate 16000 ~ 48000
        */
@@ -155,7 +155,7 @@ declare module '../../index' {
    */
   interface RecorderManager {
     /** 监听录音错误事件
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onError.html
      */
     onError(
@@ -187,7 +187,7 @@ declare module '../../index' {
       callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听录音暂停事件
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onPause.html
      */
     onPause(
@@ -195,7 +195,7 @@ declare module '../../index' {
       callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听录音继续事件
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onResume.html
      */
     onResume(
@@ -203,7 +203,7 @@ declare module '../../index' {
       callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听录音开始事件
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onStart.html
      */
     onStart(
@@ -211,7 +211,7 @@ declare module '../../index' {
       callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听录音结束事件
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onStop.html
      */
     onStop(
@@ -219,22 +219,22 @@ declare module '../../index' {
       callback: RecorderManager.OnStopCallback,
     ): void
     /** 暂停录音
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.pause.html
      */
     pause(): void
     /** 继续录音
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.resume.html
      */
     resume(): void
     /** 开始录音
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.start.html
      */
     start(option: RecorderManager.StartOption): void
     /** 停止录音
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.stop.html
      */
     stop(): void
@@ -263,7 +263,7 @@ declare module '../../index' {
     stopRecord(option?: stopRecord.Option): void
 
     /** 开始录音。当主动调用`Taro.stopRecord`，或者录音超过1分钟时自动结束录音，返回录音文件的临时文件路径。当用户离开小程序时，此接口无法调用。
-     * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.getRecorderManager](https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/wx.getRecorderManager.html) 接口**
+     * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.getRecorderManager](/docs/apis/media/recorder/getRecorderManager) 接口**
      * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.record
      * @supported weapp
      * @example
@@ -282,7 +282,7 @@ declare module '../../index' {
     startRecord(option: startRecord.Option): Promise<startRecord.SuccessCallbackResult>
 
     /** 获取**全局唯一**的录音管理器 RecorderManager
-     * @supported weapp
+     * @supported weapp, rn
      * @example
      * ```tsx
      * const recorderManager = Taro.getRecorderManager()
