@@ -147,7 +147,7 @@ export interface Target {
 export type currentTarget = Target
 
 /** 网络状态数据 */
-export interface netStatus {
+export interface NetStatus {
   /* 当前视频编/码器输出的比特率，单位 kbps */
   videoBitrate?: number
   /* 当前音频编/码器输出的比特率，单位 kbps */

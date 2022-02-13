@@ -7,7 +7,7 @@ declare module '../../index' {
        * 监听加速度数据回调函数的执行频率
        * @default "normal"
        */
-      interval?: keyof interval
+      interval?: keyof Interval
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
@@ -16,7 +16,7 @@ declare module '../../index' {
       success?: (res: TaroGeneral.CallbackResult) => void
     }
 
-    type interval = {
+    type Interval = {
       /** 适用于更新游戏的回调频率，在 20ms/次 左右 */
       game: 'game',
       /** 适用于更新 UI 的回调频率，在 60ms/次 左右 */

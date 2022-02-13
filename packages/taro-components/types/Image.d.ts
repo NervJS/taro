@@ -12,7 +12,7 @@ interface ImageProps extends StandardProps {
    * @supported weapp, h5, rn, swan, alipay, tt
    * @rn 部分支持 scaleToFill, aspectFit, aspectFill, widthFix
    */
-  mode?: keyof ImageProps.mode
+  mode?: keyof ImageProps.Mode
 
 	/** 默认不解析 webP 格式，只支持网络资源
    * @default false
@@ -62,7 +62,7 @@ interface ImageProps extends StandardProps {
 
 declare namespace ImageProps {
   /** mode 的合法值 */
-  interface mode {
+  interface Mode {
     /** 缩放模式，不保持纵横比缩放图片，使图片的宽高完全拉伸至填满 image 元素 */
     scaleToFill
     /** 缩放模式，保持纵横比缩放图片，使图片的长边能完全显示出来。也就是说，可以完整地将图片显示出来。 */

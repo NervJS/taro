@@ -5,24 +5,24 @@ interface OfficialAccountProps extends StandardProps {
   /** 组件加载成功时触发
    * @supported weapp
    */
-  onLoad?: CommonEventFunction<OfficialAccountProps.detail>
+  onLoad?: CommonEventFunction<OfficialAccountProps.Detail>
 
   /** 组件加载失败时触发
    * @supported weapp
    */
-  onError?: CommonEventFunction<OfficialAccountProps.detail>
+  onError?: CommonEventFunction<OfficialAccountProps.Detail>
 }
 
 declare namespace OfficialAccountProps {
   /** detail 对象 */
-  interface detail {
+  interface Detail {
     /** 状态码 */
     status: number
     /** 错误信息 */
     errMsg: string
   }
   /** status 有效值 */
-  interface status {
+  interface Status {
     /** 网络错误 */
     '-2'
     /** 数据解析错误 */
