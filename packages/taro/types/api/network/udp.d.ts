@@ -2,6 +2,7 @@ import Taro from '../../index'
 
 declare module '../../index' {
   /** 一个 UDP Socket 实例，默认使用 IPv4 协议。
+   * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.html
    */
   interface UDPSocket {
@@ -18,95 +19,6 @@ declare module '../../index' {
       /** 指定要绑定的端口号，不传则返回系统随机分配的可用端口 */
       port: number,
     ): number
-    /** 关闭 UDP Socket 实例，相当于销毁。 在关闭之后，UDP Socket 实例不能再发送消息，每次调用 `UDPSocket.send` 将会触发错误事件，并且 message 事件回调函数也不会再也执行。在 `UDPSocket` 实例被创建后将被 Native 强引用，保证其不被 GC。在 `UDPSocket.close` 后将解除对其的强引用，让 UDPSocket 实例遵从 GC。
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.close.html
-     */
-    close(): void
-    /** 预先连接到指定的 IP 和 port，需要配合 write 方法一起使用
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.connect.html
-     */
-    connect(option: UDPSocket.connect.Option): void
-    /** 取消监听关闭事件
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.offClose.html
-     */
-    offClose(
-      /** 关闭事件的回调函数 */
-      callback: UDPSocket.onClose.Callback,
-    ): void
-    /** 取消监听错误事件
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.offError.html
-     */
-    offError(
-      /** 错误事件的回调函数 */
-      callback: UDPSocket.onError.Callback,
-    ): void
-    /** 取消监听开始监听数据包消息的事件
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.offListening.html
-     */
-    offListening(
-      /** 监听开始监听数据包消息的事件 */
-      callback: UDPSocket.onListening.Callback,
-    ): void
-    /** 取消监听收到消息的事件
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.offMessage.html
-     */
-    offMessage(
-      /** 收到消息的事件的回调函数 */
-      callback: UDPSocket.onMessage.Callback,
-    ): void
-    /** 监听关闭事件
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.onClose.html
-     */
-    onClose(
-      /** 关闭事件的回调函数 */
-      callback: UDPSocket.onClose.Callback,
-    ): void
-    /** 监听错误事件
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.onError.html
-     */
-    onError(
-      /** 错误事件的回调函数 */
-      callback: UDPSocket.onError.Callback,
-    ): void
-    /** 监听开始监听数据包消息的事件
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.onListening.html
-     */
-    onListening(
-      /** 监听开始监听数据包消息的事件 */
-      callback: UDPSocket.onListening.Callback,
-    ): void
-    /** 监听收到消息的事件
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.onMessage.html
-     */
-    onMessage(
-      /** 收到消息的事件的回调函数 */
-      callback: UDPSocket.onMessage.Callback,
-    ): void
-    /** 向指定的 IP 和 port 发送消息
-     * @supported weapp
-     * @example
-     * ```tsx
-     * const udp = Taro.createUDPSocket()
-     * udp.bind()
-     * udp.send({
-     *   address: '192.168.193.2',
-     *   port: 8848,
-     *   message: 'hello, how are you'
-     * })
-     * ```
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.send.html
-     */
-    send(option: UDPSocket.send.Option): void
     /** 设置 IP_TTL 套接字选项，用于设置一个 IP 数据包传输时允许的最大跳步数
      * @supported weapp
      * @example
@@ -123,11 +35,100 @@ declare module '../../index' {
       /** ttl 参数可以是 0 到 255 之间 */
       ttl: number
     ): void
+    /** 向指定的 IP 和 port 发送消息
+     * @supported weapp
+     * @example
+     * ```tsx
+     * const udp = Taro.createUDPSocket()
+     * udp.bind()
+     * udp.send({
+     *   address: '192.168.193.2',
+     *   port: 8848,
+     *   message: 'hello, how are you'
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.send.html
+     */
+    send(option: UDPSocket.send.Option): void
+    /** 预先连接到指定的 IP 和 port，需要配合 write 方法一起使用
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.connect.html
+     */
+    connect(option: UDPSocket.connect.Option): void
     /** 用法与 send 方法相同，如果没有预先调用 connect 则与 send 无差异（注意即使调用了 connect 也需要在本接口填入地址和端口参数）
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.write.html
      */
     write(): void
+    /** 关闭 UDP Socket 实例，相当于销毁。 在关闭之后，UDP Socket 实例不能再发送消息，每次调用 `UDPSocket.send` 将会触发错误事件，并且 message 事件回调函数也不会再也执行。在 `UDPSocket` 实例被创建后将被 Native 强引用，保证其不被 GC。在 `UDPSocket.close` 后将解除对其的强引用，让 UDPSocket 实例遵从 GC。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.close.html
+     */
+    close(): void
+    /** 监听关闭事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.onClose.html
+     */
+    onClose(
+      /** 关闭事件的回调函数 */
+      callback: UDPSocket.onClose.Callback,
+    ): void
+    /** 取消监听关闭事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.offClose.html
+     */
+    offClose(
+      /** 关闭事件的回调函数 */
+      callback: UDPSocket.onClose.Callback,
+    ): void
+    /** 监听错误事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.onError.html
+     */
+    onError(
+      /** 错误事件的回调函数 */
+      callback: UDPSocket.onError.Callback,
+    ): void
+    /** 取消监听错误事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.offError.html
+     */
+    offError(
+      /** 错误事件的回调函数 */
+      callback: UDPSocket.onError.Callback,
+    ): void
+    /** 监听开始监听数据包消息的事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.onListening.html
+     */
+    onListening(
+      /** 监听开始监听数据包消息的事件 */
+      callback: UDPSocket.onListening.Callback,
+    ): void
+    /** 取消监听开始监听数据包消息的事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.offListening.html
+     */
+    offListening(
+      /** 监听开始监听数据包消息的事件 */
+      callback: UDPSocket.onListening.Callback,
+    ): void
+    /** 监听收到消息的事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.onMessage.html
+     */
+    onMessage(
+      /** 收到消息的事件的回调函数 */
+      callback: UDPSocket.onMessage.Callback,
+    ): void
+    /** 取消监听收到消息的事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/udp/UDPSocket.offMessage.html
+     */
+    offMessage(
+      /** 收到消息的事件的回调函数 */
+      callback: UDPSocket.onMessage.Callback,
+    ): void
   }
 
   namespace UDPSocket {

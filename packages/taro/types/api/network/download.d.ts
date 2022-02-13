@@ -66,22 +66,45 @@ declare module '../../index' {
     }
   }
 
+  /** 一个可以监听下载进度变化事件，以及取消下载任务的对象
+   * @supported weapp, swan, alipay, h5, rn
+   * @example
+   * ```tsx
+   * const downloadTask = Taro.downloadFile({
+   *   url: 'http://example.com/audio/123', //仅为示例，并非真实的资源
+   *   success (res) {
+   *     Taro.playVoice({
+   *       filePath: res.tempFilePath
+   *     })
+   *   }
+   * })
+   *
+   * downloadTask.onProgressUpdate((res) => {
+   *   console.log('下载进度', res.progress)
+   *   console.log('已经下载的数据长度', res.totalBytesWritten)
+   *   console.log('预期需要下载的数据总长度', res.totalBytesExpectedToWrite)
+   * })
+   *
+   * downloadTask.abort() // 取消下载任务
+   * ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.html
+   */
   interface DownloadTask {
     /** 中断下载任务
-     * @supported weapp, rn
+     * @supported weapp, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.abort.html
      */
     abort(): void
-    /** 取消监听 HTTP Response Header 事件
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.offHeadersReceived.html
+    /** 监听下载进度变化事件
+     * @supported weapp, h5, rn
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.onProgressUpdate.html
      */
-    offHeadersReceived(
-      /** HTTP Response Header 事件的回调函数 */
-      callback: DownloadTask.OffHeadersReceivedCallback,
+    onProgressUpdate(
+      /** 下载进度变化事件的回调函数 */
+      callback: DownloadTask.OnProgressUpdateCallback,
     ): void
     /** 取消监听下载进度变化事件
-     * @supported weapp, rn
+     * @supported weapp, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.offProgressUpdate.html
      */
     offProgressUpdate(
@@ -89,20 +112,20 @@ declare module '../../index' {
       callback: DownloadTask.OffProgressUpdateCallback,
     ): void
     /** 监听 HTTP Response Header 事件。会比请求完成事件更早
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.onHeadersReceived.html
      */
     onHeadersReceived(
       /** HTTP Response Header 事件的回调函数 */
       callback: DownloadTask.OnHeadersReceivedCallback,
     ): void
-    /** 监听下载进度变化事件
-     * @supported weapp, rn
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.onProgressUpdate.html
+    /** 取消监听 HTTP Response Header 事件
+     * @supported weapp, h5
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.offHeadersReceived.html
      */
-    onProgressUpdate(
-      /** 下载进度变化事件的回调函数 */
-      callback: DownloadTask.OnProgressUpdateCallback,
+    offHeadersReceived(
+      /** HTTP Response Header 事件的回调函数 */
+      callback: DownloadTask.OffHeadersReceivedCallback,
     ): void
   }
 

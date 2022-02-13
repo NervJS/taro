@@ -2,19 +2,10 @@ import Taro from '../../index'
 
 declare module '../../index' {
   /** 一个 TCP Socket 实例，默认使用 IPv4 协议
+   * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/tcp/TCPSocket.html
    */
   interface TCPSocket {
-    /** 关闭连接
-     * @supported weapp
-     * @example
-     * ```tsx
-     * const tcp = Taro.createTCPSocket()
-     * tcp.close()
-     * ```
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/tcp/TCPSocket.close.html
-     */
-    close(): void
     /** 在给定的套接字上启动连接
      * @supported weapp
      * @example
@@ -25,70 +16,6 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/tcp/TCPSocket.connect.html
      */
     connect(option: TCPSocket.connect.Option): void
-    /** 取消监听当一个 socket 完全关闭就发出该事件
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/tcp/TCPSocket.offClose.html
-     */
-    offClose(
-      /** 当一个 socket 完全关闭就发出该事件的回调函数 */
-      callback: TCPSocket.onClose.Callback,
-    ): void
-    /** 取消监听当一个 socket 连接成功建立的时候触发该事件
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/tcp/TCPSocket.offConnect.html
-     */
-    offConnect(
-      /** 当一个 socket 连接成功建立的时候触发该事件的回调函数 */
-      callback: TCPSocket.onConnect.Callback,
-    ): void
-    /** 取消监听当错误发生时触发
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/tcp/TCPSocket.offError.html
-     */
-    offError(
-      /** 监听当错误发生时触发的回调函数 */
-      callback: TCPSocket.onError.Callback,
-    ): void
-    /** 取消监听当接收到数据的时触发该事件
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/tcp/TCPSocket.offMessage.html
-     */
-    offMessage(
-      /** 当接收到数据的时触发该事件的回调函数 */
-      callback: TCPSocket.onMessage.Callback,
-    ): void
-    /** 监听关闭事件
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/tcp/TCPSocket.onClose.html
-     */
-    onClose(
-      /** 当一个 socket 完全关闭就发出该事件的回调函数 */
-      callback: TCPSocket.onClose.Callback,
-    ): void
-    /** 监听当一个 socket 连接成功建立的时候触发该事件
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/tcp/TCPSocket.onConnect.html
-     */
-    onConnect(
-      /** 当一个 socket 连接成功建立的时候触发该事件的回调函数 */
-      callback: TCPSocket.onConnect.Callback,
-    ): void
-    /** 监听当错误发生时触发
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/tcp/TCPSocket.onError.html
-     */
-    onError(
-      /** 监听当错误发生时触发的回调函数 */
-      callback: TCPSocket.onError.Callback,
-    ): void
-    /** 监听当接收到数据的时触发该事件
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/tcp/TCPSocket.onMessage.html
-     */
-    onMessage(
-      /** 当接收到数据的时触发该事件的回调函数 */
-      callback: TCPSocket.onMessage.Callback,
-    ): void
     /** 在 socket 上发送数据
      * @supported weapp
      * @example
@@ -101,6 +28,80 @@ declare module '../../index' {
     write(
       /** 要发送的数据 */
       data: string | ArrayBuffer
+    ): void
+    /** 关闭连接
+     * @supported weapp
+     * @example
+     * ```tsx
+     * const tcp = Taro.createTCPSocket()
+     * tcp.close()
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/tcp/TCPSocket.close.html
+     */
+    close(): void
+    /** 监听关闭事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/tcp/TCPSocket.onClose.html
+     */
+    onClose(
+      /** 当一个 socket 完全关闭就发出该事件的回调函数 */
+      callback: TCPSocket.onClose.Callback,
+    ): void
+    /** 取消监听当一个 socket 完全关闭就发出该事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/tcp/TCPSocket.offClose.html
+     */
+    offClose(
+      /** 当一个 socket 完全关闭就发出该事件的回调函数 */
+      callback: TCPSocket.onClose.Callback,
+    ): void
+    /** 监听当一个 socket 连接成功建立的时候触发该事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/tcp/TCPSocket.onConnect.html
+     */
+    onConnect(
+      /** 当一个 socket 连接成功建立的时候触发该事件的回调函数 */
+      callback: TCPSocket.onConnect.Callback,
+    ): void
+    /** 取消监听当一个 socket 连接成功建立的时候触发该事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/tcp/TCPSocket.offConnect.html
+     */
+    offConnect(
+      /** 当一个 socket 连接成功建立的时候触发该事件的回调函数 */
+      callback: TCPSocket.onConnect.Callback,
+    ): void
+    /** 监听当错误发生时触发
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/tcp/TCPSocket.onError.html
+     */
+    onError(
+      /** 监听当错误发生时触发的回调函数 */
+      callback: TCPSocket.onError.Callback,
+    ): void
+    /** 取消监听当错误发生时触发
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/tcp/TCPSocket.offError.html
+     */
+    offError(
+      /** 监听当错误发生时触发的回调函数 */
+      callback: TCPSocket.onError.Callback,
+    ): void
+    /** 监听当接收到数据的时触发该事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/tcp/TCPSocket.onMessage.html
+     */
+    onMessage(
+      /** 当接收到数据的时触发该事件的回调函数 */
+      callback: TCPSocket.onMessage.Callback,
+    ): void
+    /** 取消监听当接收到数据的时触发该事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/tcp/TCPSocket.offMessage.html
+     */
+    offMessage(
+      /** 当接收到数据的时触发该事件的回调函数 */
+      callback: TCPSocket.onMessage.Callback,
     ): void
   }
 

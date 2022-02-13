@@ -5,65 +5,115 @@ declare module '../../index' {
     interface Option < U extends string | TaroGeneral.IAnyObject | ArrayBuffer = any | any > {
       /** 开发者服务器接口地址 */
       url: string
-      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 请求的参数 */
       data?: U
-      /** 返回的数据格式 */
-      dataType?: keyof DataType | string
-      /** 接口调用失败的回调函数 */
-      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 设置请求的 header，header 中不能设置 Referer。
        *
-       * `content-type` 默认为 `application/json` */
+       * `content-type` 默认为 `application/json`
+       */
       header?: TaroGeneral.IAnyObject
-      /** HTTP 请求方法 */
+      /** 超时时间，单位为毫秒
+       * @default 2000
+       * @supported weapp, h5
+       */
+      timeout?: number
+      /** HTTP 请求方法
+       * @default GET
+       */
       method?: keyof Method
+      /** 返回的数据格式 */
+      dataType?: keyof DataType | string
       /** 响应的数据类型 */
       responseType?: keyof ResponseType
+      /** 开启 http2
+       * @default false
+       * @supported weapp
+       */
+      enableHttp2?: boolean
+      /** 开启 quic
+       * @default false
+       * @supported weapp
+       */
+      enableQuic?: boolean
+      /** 开启 cache
+       * @default false
+       * @supported weapp
+       */
+      enableCache?: boolean
+      /** 是否开启 HttpDNS 服务。如开启，需要同时填入 httpDNSServiceId 。 HttpDNS 用法详见 移动解析HttpDNS
+       * @default false
+       * @supported weapp
+       */
+      enableHttpDNS?: boolean
+      /** HttpDNS 服务商 Id。 HttpDNS 用法详见 移动解析HttpDNS
+       * @supported weapp
+       */
+      httpDNSServiceId?: string
+      /** 开启 transfer-encoding chunked。
+       * @default false
+       * @supported weapp
+       */
+      enableChunked?: boolean
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 设置 H5 端是否使用jsonp方式获取数据
        * @default false
+       * @supported h5
        */
       jsonp?: boolean
       /** 设置 H5 端 jsonp 请求 url 是否需要被缓存
        * @default false
+       * @supported h5
        */
       jsonpCache?: boolean
       /** 设置 H5 端是否允许跨域请求
        * @default same-origin
+       * @supported h5
        */
       mode?: keyof CorsMode
       /** 设置 H5 端是否携带 Cookie
        * @default omit
+       * @supported h5
        */
       credentials?: keyof Credentials
       /** 设置 H5 端缓存模式
        * @default default
+       * @supported h5
        */
       cache?: keyof Cache
-      /** 设置 H5 端请求响应超时时间
-       * @default 2000
-       */
-      timeout?: number
       /** 设置 H5 端请求重试次数
        * @default 2
+       * @supported h5
        */
       retryTimes?: number
-      /** 设置 H5 端请求的兜底接口 */
+      /** 设置 H5 端请求的兜底接口
+       * @supported h5
+       */
       backup?: string | string[]
-      /** 设置 H5 端请求响应的数据校验函数，若返回 false，则请求兜底接口，若无兜底接口，则报请求失败 */
+      /** 设置 H5 端请求响应的数据校验函数，若返回 false，则请求兜底接口，若无兜底接口，则报请求失败
+       * @supported h5
+       */
       dataCheck?(): boolean
       /** 设置 H5 端请求是否使用缓存
        * @default false
+       * @supported h5
        */
       useStore?: boolean
-      /** 设置 H5 端请求缓存校验的 key */
+      /** 设置 H5 端请求缓存校验的 key
+       * @supported h5
+       */
       storeCheckKey?: string
-      /** 设置 H5 端请求缓存签名 */
+      /** 设置 H5 端请求缓存签名
+       * @supported h5
+       */
       storeSign?: string
-      /** 设置 H5 端请求校验函数，一般不需要设置 */
+      /** 设置 H5 端请求校验函数，一般不需要设置
+       * @supported h5
+       */
       storeCheck?(): boolean
     }
 
@@ -150,6 +200,7 @@ declare module '../../index' {
   }
 
   /** 网络请求任务对象
+   * @supported weapp, h5, rn, alipay, swan, tt, qq
    * @example
    * 回调函数(Callback)用法：
    *
@@ -199,6 +250,7 @@ declare module '../../index' {
    * const res = await requestTask
    * requestTask.abort()
    * ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.html
    */
   interface RequestTask<T> extends Promise<request.SuccessCallbackResult<T>> {
     /** 中断请求任务
@@ -206,28 +258,61 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.abort.html
      */
     abort(): void
-    /** 取消监听 HTTP Response Header 事件
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.offHeadersReceived.html
-     */
-    offHeadersReceived(
-      /** HTTP Response Header 事件的回调函数 */
-      callback: (res: TaroGeneral.CallbackResult) => void,
-    ): void
     /** 监听 HTTP Response Header 事件。会比请求完成事件更早
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.onHeadersReceived.html
      */
     onHeadersReceived(
       /** HTTP Response Header 事件的回调函数 */
-      callback: (result: RequestTask.OnHeadersReceivedCallbackResult) => void,
+      callback: RequestTask.onHeadersReceived.Callback,
+    ): void
+    /** 取消监听 HTTP Response Header 事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.offHeadersReceived.html
+     */
+    offHeadersReceived(
+      /** HTTP Response Header 事件的回调函数 */
+      callback: RequestTask.onHeadersReceived.Callback,
+    ): void
+    /** 监听 Transfer-Encoding Chunk Received 事件。当接收到新的chunk时触发。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.onChunkReceived.html
+     */
+    onChunkReceived(
+      /** Transfer-Encoding Chunk Received 事件的回调函数 */
+      callback: RequestTask.onChunkReceived.Callback,
+    ): void
+    /** 监听 Transfer-Encoding Chunk Received 事件。当接收到新的chunk时触发。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.offChunkReceived.html
+     */
+    offChunkReceived(
+      /** Transfer-Encoding Chunk Received 事件的回调函数 */
+      callback: RequestTask.onChunkReceived.Callback,
     ): void
   }
 
   namespace RequestTask {
-    interface OnHeadersReceivedCallbackResult {
-      /** 开发者服务器返回的 HTTP Response Header */
-      header: TaroGeneral.IAnyObject
+    namespace onHeadersReceived {
+      /** HTTP Response Header 事件的回调函数 */
+      type Callback = (result: CallbackResult) => void
+      interface CallbackResult {
+        /** 开发者服务器返回的 HTTP Response Header */
+        header: TaroGeneral.IAnyObject
+      }
+    }
+    namespace onChunkReceived {
+      /** Transfer-Encoding Chunk Received 事件的回调函数 */
+      type Callback = (result: CallbackResult) => void
+      interface CallbackResult {
+        /** 开发者服务器每次返回新 chunk 时的 Response */
+        res: Response
+      }
+      /** 开发者服务器每次返回新 chunk 时的 Response */
+      interface Response {
+        /** 返回的chunk buffer */
+        data: ArrayBuffer
+      }
     }
   }
 

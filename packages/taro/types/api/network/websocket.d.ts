@@ -138,14 +138,28 @@ declare module '../../index' {
   }
 
   /** WebSocket 任务，可通过 [Taro.connectSocket()](/docs/apis/network/websocket/SocketTask) 接口创建返回。
+   * @supported weapp, h5, rn, alipay, swan
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.html
    */
   interface SocketTask {
+    /** 通过 WebSocket 连接发送数据
+     * @supported weapp, h5, rn, alipay, swan
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.send.html
+     */
+    send(option: SocketTask.SendOption): void
     /** 关闭 WebSocket 连接
      * @supported weapp, h5, rn, alipay, swan
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.close.html
      */
     close(option: SocketTask.CloseOption): void
+    /** 监听 WebSocket 连接打开事件
+     * @supported weapp, h5, rn, alipay, swan
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.onOpen.html
+     */
+    onOpen(
+      /** WebSocket 连接打开事件的回调函数 */
+      callback: SocketTask.OnOpenCallback
+    ): void
     /** 监听 WebSocket 连接关闭事件
      * @supported weapp, h5, rn, alipay, swan
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.onClose.html
@@ -170,19 +184,6 @@ declare module '../../index' {
       /** WebSocket 接受到服务器的消息事件的回调函数 */
       callback: SocketTask.OnMessageCallback<T>
     ): void
-    /** 监听 WebSocket 连接打开事件
-     * @supported weapp, h5, rn, alipay, swan
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.onOpen.html
-     */
-    onOpen(
-      /** WebSocket 连接打开事件的回调函数 */
-      callback: SocketTask.OnOpenCallback
-    ): void
-    /** 通过 WebSocket 连接发送数据
-     * @supported weapp, h5, rn, alipay, swan
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.send.html
-     */
-    send(option: SocketTask.SendOption): void
 
     /** websocket 当前的连接 ID。 */
     readonly socketTaskId: number

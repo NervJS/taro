@@ -518,7 +518,7 @@ module.exports = {
     ],
     "支付": [
       "apis/payment/requestPayment",
-      // "apis/payment/requestOrderPayment",
+      "apis/payment/requestOrderPayment",
       "apis/payment/faceVerifyForPay",
     ],
     "数据缓存": [
