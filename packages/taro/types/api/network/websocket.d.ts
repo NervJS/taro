@@ -288,7 +288,7 @@ declare module '../../index' {
      */
     onSocketError(
       /** WebSocket 错误事件的回调函数 */
-      callback: (result: onSocketError.Callback) => void
+      callback: onSocketError.Callback
     ): void
 
     /** 监听 WebSocket 连接关闭事件

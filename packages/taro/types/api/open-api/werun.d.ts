@@ -31,12 +31,10 @@ declare module '../../index' {
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (result: SuccessCallback) => void
+      success?: (
+        result: SuccessCallbackResult,
+      ) => void
     }
-
-    type SuccessCallback = (
-      result: SuccessCallbackResult,
-    ) => void
 
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 敏感数据对应的云 ID，开通云开发的小程序才会返回，可通过云调用直接获取开放数据，详细见[云调用直接获取开放数据](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#method-cloud) */

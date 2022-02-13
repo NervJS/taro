@@ -1,16 +1,13 @@
 ---
-title: Taro.getShareInfo(option)
-sidebar_label: getShareInfo
+title: Taro.authPrivateMessage(option)
+sidebar_label: authPrivateMessage
 ---
 
-获取转发详细信息
-
-**Tips**
-- 如需要展示群名称，可以使用[开放数据组件](/docs/components/open/open-data)
+验证私密消息
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.getShareInfo.html)
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.authPrivateMessage.html)
 
 ## 类型
 
@@ -29,7 +26,6 @@ sidebar_label: getShareInfo
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
 | shareTicket | `string` | 是 | shareTicket |
-| timeout | `number` | 否 | 超时时间，单位 ms |
 | success | `(result: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 | fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
 | complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
@@ -45,10 +41,21 @@ sidebar_label: getShareInfo
 
 ## 示例代码
 
-敏感数据有两种获取方式，一是使用 [加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#%E5%8A%A0%E5%AF%86%E6%95%B0%E6%8D%AE%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95) 。
-获取得到的开放数据为以下 json 结构（其中 openGId 为当前群的唯一标识）：
-```json
-{
- "openGId": "OPENGID"
-}
+```tsx
+Taro.authPrivateMessage({
+  shareTicket: 'xxxxxx',
+  success(res) {
+    console.log('authPrivateMessage success', res)
+    // res
+    // {
+    //   errMsg: 'authPrivateMessage:ok'
+    //   valid: true
+    //   iv: 'xxxx',
+    //   encryptedData: 'xxxxxx'
+    // }
+  },
+  fail(res) {
+    console.log('authPrivateMessage fail', res)
+  }
+})
 ```

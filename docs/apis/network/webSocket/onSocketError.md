@@ -12,14 +12,14 @@ sidebar_label: onSocketError
 ## 类型
 
 ```tsx
-(callback: (result: Callback) => void) => void
+(callback: Callback) => void
 ```
 
 ## 参数
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| callback | `(result: Callback) => void` | WebSocket 错误事件的回调函数 |
+| callback | `Callback` | WebSocket 错误事件的回调函数 |
 
 ### Callback
 

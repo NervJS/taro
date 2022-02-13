@@ -316,7 +316,7 @@ module.exports = {
       "apis/route/EventChannel",
     ],
     "跳转": [
-      // "apis/navigate/openEmbeddedMiniProgram",
+      "apis/navigate/openEmbeddedMiniProgram",
       "apis/navigate/navigateToMiniProgram",
       "apis/navigate/navigateBackMiniProgram",
       "apis/navigate/exitMiniProgram",
@@ -324,14 +324,14 @@ module.exports = {
     "转发": [
       "apis/share/updateShareMenu",
       "apis/share/showShareMenu",
-      // "apis/share/showShareImageMenu",
-      // "apis/share/shareVideoMessage",
-      // "apis/share/shareFileMessage",
-      // "apis/share/onCopyUrl",
-      // "apis/share/offCopyUrl",
+      "apis/share/showShareImageMenu",
+      "apis/share/shareVideoMessage",
+      "apis/share/shareFileMessage",
+      "apis/share/onCopyUrl",
+      "apis/share/offCopyUrl",
       "apis/share/hideShareMenu",
       "apis/share/getShareInfo",
-      // "apis/share/authPrivateMessage",
+      "apis/share/authPrivateMessage",
     ],
     "界面": [
       {
@@ -401,7 +401,7 @@ module.exports = {
         "type": "category",
         "items": [
           "apis/ui/scroll/pageScrollTo",
-          // "apis/ui/scroll/ScrollViewContext",
+          "apis/ui/scroll/ScrollViewContext",
         ]
       },
       {
@@ -437,7 +437,7 @@ module.exports = {
         "label": "窗口",
         "type": "category",
         "items": [
-          // "apis/ui/window/setWindowSize",
+          "apis/ui/window/setWindowSize",
           "apis/ui/window/onWindowResize",
           "apis/ui/window/offWindowResize",
         ]

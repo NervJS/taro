@@ -1,30 +1,18 @@
 ---
-title: Taro.navigateToMiniProgram(option)
-sidebar_label: navigateToMiniProgram
+title: Taro.openEmbeddedMiniProgram(option)
+sidebar_label: openEmbeddedMiniProgram
 ---
 
-打开另一个小程序
-
-**使用限制**
-##### 需要用户触发跳转
-从 2.3.0 版本开始，若用户未点击小程序页面任意位置，则开发者将无法调用此接口自动跳转至其他小程序。
-##### 需要用户确认跳转
-从 2.3.0 版本开始，在跳转至其他小程序前，将统一增加弹窗，询问是否跳转，用户确认后才可以跳转其他小程序。如果用户点击取消，则回调 `fail cancel`。
-##### 每个小程序可跳转的其他小程序数量限制为不超过 10 个
-从 2.4.0 版本以及指定日期（具体待定）开始，开发者提交新版小程序代码时，如使用了跳转其他小程序功能，则需要在代码配置中声明将要跳转的小程序名单，限定不超过 10 个，否则将无法通过审核。该名单可在发布新版时更新，不支持动态修改。配置方法详见 [小程序全局配置](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html)。调用此接口时，所跳转的 appId 必须在配置列表中，否则回调 `fail appId "${appId}" is not in navigateToMiniProgramAppIdList`。
-
-**关于调试**
-- 在开发者工具上调用此 API 并不会真实的跳转到另外的小程序，但是开发者工具会校验本次调用跳转是否成功。[详情](https://developers.weixin.qq.com/miniprogram/dev/devtools/different.html#跳转小程序调试支持)
-- 开发者工具上支持被跳转的小程序处理接收参数的调试。[详情](https://developers.weixin.qq.com/miniprogram/dev/devtools/different.html#跳转小程序调试支持)
+打开半屏小程序。接入指引请参考 [半屏小程序能力](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/openEmbeddedMiniProgram.html)。
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/miniprogram-navigate/wx.navigateToMiniProgram.html)
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/navigate/wx.openEmbeddedMiniProgram.html)
 
 ## 类型
 
 ```tsx
-(option: Option) => Promise<TaroGeneral.CallbackResult>
+(option?: Option) => Promise<TaroGeneral.CallbackResult>
 ```
 
 ## 参数
@@ -53,19 +41,3 @@ sidebar_label: navigateToMiniProgram
 | develop | 开发版 |
 | trial | 体验版 |
 | release | 正式版 |
-
-## 示例代码
-
-```tsx
-Taro.navigateToMiniProgram({
-  appId: '',
-  path: 'page/index/index?id=123',
-  extraData: {
-    foo: 'bar'
-  },
-  envVersion: 'develop',
-  success: function(res) {
-    // 打开成功
-  }
-})
-```

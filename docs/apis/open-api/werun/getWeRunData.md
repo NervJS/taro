@@ -27,17 +27,7 @@ sidebar_label: getWeRunData
 | --- | --- | :---: | --- |
 | complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(result: SuccessCallback) => void` | 否 | 接口调用成功的回调函数 |
-
-### SuccessCallback
-
-```tsx
-(result: SuccessCallbackResult) => void
-```
-
-| 参数 | 类型 |
-| --- | --- |
-| result | `SuccessCallbackResult` |
+| success | `(result: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### SuccessCallbackResult
 
