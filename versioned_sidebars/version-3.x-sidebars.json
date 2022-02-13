@@ -768,6 +768,10 @@
       "items": [
         {
           "type": "doc",
+          "id": "version-3.x/apis/base/env"
+        },
+        {
+          "type": "doc",
           "id": "version-3.x/apis/base/canIUse"
         },
         {
@@ -784,11 +788,43 @@
           "items": [
             {
               "type": "doc",
+              "id": "version-3.x/apis/base/system/openSystemBluetoothSetting"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/base/system/openAppAuthorizeSetting"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/base/system/getWindowInfo"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/base/system/getSystemSetting"
+            },
+            {
+              "type": "doc",
               "id": "version-3.x/apis/base/system/getSystemInfoSync"
             },
             {
               "type": "doc",
+              "id": "version-3.x/apis/base/system/getSystemInfoAsync"
+            },
+            {
+              "type": "doc",
               "id": "version-3.x/apis/base/system/getSystemInfo"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/base/system/getDeviceInfo"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/base/system/getAppBaseInfo"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/base/system/getAppAuthorizeSetting"
             }
           ],
           "collapsible": true,
@@ -798,6 +834,10 @@
           "label": "更新",
           "type": "category",
           "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/base/update/updateWeChatApp"
+            },
             {
               "type": "doc",
               "id": "version-3.x/apis/base/update/getUpdateManager"
@@ -821,6 +861,10 @@
                 {
                   "type": "doc",
                   "id": "version-3.x/apis/base/weapp/life-cycle/getLaunchOptionsSync"
+                },
+                {
+                  "type": "doc",
+                  "id": "version-3.x/apis/base/weapp/life-cycle/getEnterOptionsSync"
                 }
               ],
               "collapsible": true,
@@ -830,6 +874,10 @@
               "label": "应用级事件",
               "type": "category",
               "items": [
+                {
+                  "type": "doc",
+                  "id": "version-3.x/apis/base/weapp/app-event/onUnhandledRejection"
+                },
                 {
                   "type": "doc",
                   "id": "version-3.x/apis/base/weapp/app-event/onThemeChange"
@@ -857,6 +905,10 @@
                 {
                   "type": "doc",
                   "id": "version-3.x/apis/base/weapp/app-event/onAppHide"
+                },
+                {
+                  "type": "doc",
+                  "id": "version-3.x/apis/base/weapp/app-event/offUnhandledRejection"
                 },
                 {
                   "type": "doc",
@@ -912,11 +964,19 @@
             },
             {
               "type": "doc",
+              "id": "version-3.x/apis/base/debug/console"
+            },
+            {
+              "type": "doc",
               "id": "version-3.x/apis/base/debug/LogManager"
             },
             {
               "type": "doc",
               "id": "version-3.x/apis/base/debug/RealtimeLogManager"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/base/debug/RealtimeTagLogManager"
             }
           ],
           "collapsible": true,
@@ -925,14 +985,48 @@
         {
           "label": "性能",
           "type": "category",
-          "items": [],
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/base/performance/reportPerformance"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/base/performance/getPerformance"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/base/performance/EntryList"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/base/performance/Performance"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/base/performance/PerformanceEntry"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/base/performance/PerformanceObserver"
+            }
+          ],
           "collapsible": true,
           "collapsed": true
         },
         {
           "label": "加密",
           "type": "category",
-          "items": [],
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/base/crypto/getUserCryptoManager"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/base/crypto/UserCryptoManager"
+            }
+          ],
           "collapsible": true,
           "collapsed": true
         },
@@ -986,6 +1080,10 @@
       "items": [
         {
           "type": "doc",
+          "id": "version-3.x/apis/navigate/openEmbeddedMiniProgram"
+        },
+        {
+          "type": "doc",
           "id": "version-3.x/apis/navigate/navigateToMiniProgram"
         },
         {
@@ -1014,11 +1112,35 @@
         },
         {
           "type": "doc",
+          "id": "version-3.x/apis/share/showShareImageMenu"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/share/shareVideoMessage"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/share/shareFileMessage"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/share/onCopyUrl"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/share/offCopyUrl"
+        },
+        {
+          "type": "doc",
           "id": "version-3.x/apis/share/hideShareMenu"
         },
         {
           "type": "doc",
           "id": "version-3.x/apis/share/getShareInfo"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/share/authPrivateMessage"
         }
       ]
     },
@@ -1187,6 +1309,10 @@
             {
               "type": "doc",
               "id": "version-3.x/apis/ui/scroll/pageScrollTo"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/ui/scroll/ScrollViewContext"
             }
           ],
           "collapsible": true,
@@ -1248,6 +1374,10 @@
           "label": "窗口",
           "type": "category",
           "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/apis/ui/window/setWindowSize"
+            },
             {
               "type": "doc",
               "id": "version-3.x/apis/ui/window/onWindowResize"
@@ -1454,6 +1584,10 @@
         },
         {
           "type": "doc",
+          "id": "version-3.x/apis/payment/requestOrderPayment"
+        },
+        {
+          "type": "doc",
           "id": "version-3.x/apis/payment/faceVerifyForPay"
         }
       ]
@@ -1471,6 +1605,10 @@
         {
           "type": "doc",
           "id": "version-3.x/apis/storage/setStorage"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/storage/revokeBufferURL"
         },
         {
           "type": "doc",
@@ -1495,6 +1633,10 @@
         {
           "type": "doc",
           "id": "version-3.x/apis/storage/getStorage"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.x/apis/storage/createBufferURL"
         },
         {
           "type": "doc",

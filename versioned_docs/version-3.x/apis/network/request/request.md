@@ -32,27 +32,33 @@ sidebar_label: request
 | 参数 | 类型 | 默认值 | 必填 | 说明 |
 | --- | --- | :---: | :---: | --- |
 | url | `string` |  | 是 | 开发者服务器接口地址 |
-| complete | `(res: TaroGeneral.CallbackResult) => void` |  | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | data | `U` |  | 否 | 请求的参数 |
-| dataType | `string` |  | 否 | 返回的数据格式 |
-| fail | `(res: TaroGeneral.CallbackResult) => void` |  | 否 | 接口调用失败的回调函数 |
 | header | `TaroGeneral.IAnyObject` |  | 否 | 设置请求的 header，header 中不能设置 Referer。<br /><br />`content-type` 默认为 `application/json` |
-| method | `keyof Method` |  | 否 | HTTP 请求方法 |
+| timeout | `number` | `2000` | 否 | 超时时间，单位为毫秒<br />API 支持度: weapp, h5 |
+| method | `keyof Method` | `GET` | 否 | HTTP 请求方法 |
+| dataType | `string` |  | 否 | 返回的数据格式 |
 | responseType | `keyof ResponseType` |  | 否 | 响应的数据类型 |
+| enableHttp2 | `boolean` | `false` | 否 | 开启 http2<br />API 支持度: weapp |
+| enableQuic | `boolean` | `false` | 否 | 开启 quic<br />API 支持度: weapp |
+| enableCache | `boolean` | `false` | 否 | 开启 cache<br />API 支持度: weapp |
+| enableHttpDNS | `boolean` | `false` | 否 | 是否开启 HttpDNS 服务。如开启，需要同时填入 httpDNSServiceId 。 HttpDNS 用法详见 移动解析HttpDNS<br />API 支持度: weapp |
+| httpDNSServiceId | `string` |  | 否 | HttpDNS 服务商 Id。 HttpDNS 用法详见 移动解析HttpDNS<br />API 支持度: weapp |
+| enableChunked | `boolean` | `false` | 否 | 开启 transfer-encoding chunked。<br />API 支持度: weapp |
 | success | `(result: SuccessCallbackResult<any>) => void` |  | 否 | 接口调用成功的回调函数 |
-| jsonp | `boolean` | `false` | 否 | 设置 H5 端是否使用jsonp方式获取数据 |
-| jsonpCache | `boolean` | `false` | 否 | 设置 H5 端 jsonp 请求 url 是否需要被缓存 |
-| mode | `keyof CorsMode` | `same-origin` | 否 | 设置 H5 端是否允许跨域请求 |
-| credentials | `keyof Credentials` | `omit` | 否 | 设置 H5 端是否携带 Cookie |
-| cache | `keyof Cache` | `default` | 否 | 设置 H5 端缓存模式 |
-| timeout | `number` | `2000` | 否 | 设置 H5 端请求响应超时时间 |
-| retryTimes | `number` | `2` | 否 | 设置 H5 端请求重试次数 |
-| backup | string or string[] |  | 否 | 设置 H5 端请求的兜底接口 |
-| dataCheck | `() => boolean` |  | 否 | 设置 H5 端请求响应的数据校验函数，若返回 false，则请求兜底接口，若无兜底接口，则报请求失败 |
-| useStore | `boolean` | `false` | 否 | 设置 H5 端请求是否使用缓存 |
-| storeCheckKey | `string` |  | 否 | 设置 H5 端请求缓存校验的 key |
-| storeSign | `string` |  | 否 | 设置 H5 端请求缓存签名 |
-| storeCheck | `() => boolean` |  | 否 | 设置 H5 端请求校验函数，一般不需要设置 |
+| fail | `(res: TaroGeneral.CallbackResult) => void` |  | 否 | 接口调用失败的回调函数 |
+| complete | `(res: TaroGeneral.CallbackResult) => void` |  | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| jsonp | `boolean` | `false` | 否 | 设置 H5 端是否使用jsonp方式获取数据<br />API 支持度: h5 |
+| jsonpCache | `boolean` | `false` | 否 | 设置 H5 端 jsonp 请求 url 是否需要被缓存<br />API 支持度: h5 |
+| mode | `keyof CorsMode` | `same-origin` | 否 | 设置 H5 端是否允许跨域请求<br />API 支持度: h5 |
+| credentials | `keyof Credentials` | `omit` | 否 | 设置 H5 端是否携带 Cookie<br />API 支持度: h5 |
+| cache | `keyof Cache` | `default` | 否 | 设置 H5 端缓存模式<br />API 支持度: h5 |
+| retryTimes | `number` | `2` | 否 | 设置 H5 端请求重试次数<br />API 支持度: h5 |
+| backup | string or string[] |  | 否 | 设置 H5 端请求的兜底接口<br />API 支持度: h5 |
+| dataCheck | `() => boolean` |  | 否 | 设置 H5 端请求响应的数据校验函数，若返回 false，则请求兜底接口，若无兜底接口，则报请求失败<br />API 支持度: h5 |
+| useStore | `boolean` | `false` | 否 | 设置 H5 端请求是否使用缓存<br />API 支持度: h5 |
+| storeCheckKey | `string` |  | 否 | 设置 H5 端请求缓存校验的 key<br />API 支持度: h5 |
+| storeSign | `string` |  | 否 | 设置 H5 端请求缓存签名<br />API 支持度: h5 |
+| storeCheck | `() => boolean` |  | 否 | 设置 H5 端请求校验函数，一般不需要设置<br />API 支持度: h5 |
 
 ### SuccessCallbackResult
 

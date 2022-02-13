@@ -12,14 +12,32 @@ sidebar_label: onThemeChange
 ## 类型
 
 ```tsx
-(callback: onThemeChangeCallback) => void
+(callback: Callback) => void
 ```
 
 ## 参数
 
 | 参数 | 类型 |
 | --- | --- |
-| callback | `onThemeChangeCallback` |
+| callback | `Callback` |
+
+### Callback
+
+系统主题改变事件的回调函数
+
+```tsx
+(res: Result) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| res | `Result` |
+
+### Result
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| theme | `keyof ITheme` | 系统当前的主题，取值为`light`或`dark` |
 
 ### ITheme
 
@@ -27,21 +45,3 @@ sidebar_label: onThemeChange
 | --- | --- |
 | light | 浅色主题 |
 | dark | 深色主题 |
-
-### onThemeChangeResult
-
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| theme | `keyof ITheme` | 系统当前的主题，取值为`light`或`dark` |
-
-### onThemeChangeCallback
-
-系统主题改变事件的回调函数
-
-```tsx
-(res: onThemeChangeResult) => void
-```
-
-| 参数 | 类型 |
-| --- | --- |
-| res | `onThemeChangeResult` |

@@ -3,7 +3,7 @@ title: Taro.createAnimation(option)
 sidebar_label: createAnimation
 ---
 
-创建一个动画实例 animation。调用实例的方法来描述动画。最后通过动画实例的 export 方法导出动画数据传递给组件的 animation 属性。
+创建一个动画实例 [animation](./Animation)。调用实例的方法来描述动画。最后通过动画实例的 export 方法导出动画数据传递给组件的 animation 属性。
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
@@ -23,13 +23,13 @@ sidebar_label: createAnimation
 
 ### Option
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| delay | `number` | 否 | 动画延迟时间，单位 ms |
-| duration | `number` | 否 | 动画持续时间，单位 ms |
-| timingFunction | `keyof TimingFunction` | 否 | 动画的效果 |
-| transformOrigin | `string` | 否 |  |
-| unit | `string` | 否 | 单位<br />API 支持度: h5 |
+| 参数 | 类型 | 默认值 | 必填 | 说明 |
+| --- | --- | :---: | :---: | --- |
+| duration | `number` |  | 否 | 动画持续时间，单位 ms |
+| timingFunction | `keyof TimingFunction` |  | 否 | 动画的效果 |
+| delay | `number` | `0` | 否 | 动画延迟时间，单位 ms |
+| transformOrigin | `string` | `"50% 50% 0"` | 否 |  |
+| unit | `string` |  | 否 | 单位<br />API 支持度: h5 |
 
 ### TimingFunction
 

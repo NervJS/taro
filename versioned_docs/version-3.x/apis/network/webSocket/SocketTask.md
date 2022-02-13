@@ -5,6 +5,8 @@ sidebar_label: SocketTask
 
 WebSocket 任务，可通过 [Taro.connectSocket()](/docs/apis/network/websocket/SocketTask) 接口创建返回。
 
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="百度小程序" src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img title="支付宝小程序" src={require('@site/static/img/platform/alipay.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.html)
 
 ## 方法
@@ -19,6 +21,22 @@ WebSocket 任务，可通过 [Taro.connectSocket()](/docs/apis/network/websocket
 | CLOSING | `number` | websocket 状态值：关闭中。 |
 | CLOSED | `number` | websocket 状态值：已关闭。 |
 | ws | `WebSocket` | 浏览器 websocket 实例。（h5 端独有） |
+
+### send
+
+通过 WebSocket 连接发送数据
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="百度小程序" src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img title="支付宝小程序" src={require('@site/static/img/platform/alipay.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.send.html)
+
+```tsx
+(option: SendOption) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| option | `SendOption` |
 
 ### close
 
@@ -35,6 +53,22 @@ WebSocket 任务，可通过 [Taro.connectSocket()](/docs/apis/network/websocket
 | 参数 | 类型 |
 | --- | --- |
 | option | `CloseOption` |
+
+### onOpen
+
+监听 WebSocket 连接打开事件
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="百度小程序" src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img title="支付宝小程序" src={require('@site/static/img/platform/alipay.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.onOpen.html)
+
+```tsx
+(callback: OnOpenCallback) => void
+```
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| callback | `OnOpenCallback` | WebSocket 连接打开事件的回调函数 |
 
 ### onClose
 
@@ -83,38 +117,6 @@ WebSocket 任务，可通过 [Taro.connectSocket()](/docs/apis/network/websocket
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | callback | `T` | WebSocket 接受到服务器的消息事件的回调函数 |
-
-### onOpen
-
-监听 WebSocket 连接打开事件
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="百度小程序" src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img title="支付宝小程序" src={require('@site/static/img/platform/alipay.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.onOpen.html)
-
-```tsx
-(callback: OnOpenCallback) => void
-```
-
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `OnOpenCallback` | WebSocket 连接打开事件的回调函数 |
-
-### send
-
-通过 WebSocket 连接发送数据
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="百度小程序" src={require('@site/static/img/platform/swan.png').default} className="icon_platform" width="25px"/> <img title="支付宝小程序" src={require('@site/static/img/platform/alipay.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.send.html)
-
-```tsx
-(option: SendOption) => void
-```
-
-| 参数 | 类型 |
-| --- | --- |
-| option | `SendOption` |
 
 ## 参数
 
@@ -214,9 +216,10 @@ WebSocket 连接打开事件的回调函数
 
 | API | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: | :---: | :---: |
+| SocketTask | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| SocketTask.send | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | SocketTask.close | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| SocketTask.onOpen | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | SocketTask.onClose | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | SocketTask.onError | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | SocketTask.onMessage | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
-| SocketTask.onOpen | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
-| SocketTask.send | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |

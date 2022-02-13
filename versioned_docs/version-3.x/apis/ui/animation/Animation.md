@@ -3,11 +3,17 @@ title: Animation
 sidebar_label: Animation
 ---
 
+动画对象
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.html)
+
 ## 方法
 
 ### export
 
-导出动画队列。**export 方法每次调用后会清掉之前的动画操作。**
+导出动画队列。**export 方法每次调用后会清掉之前的动画操作**。
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
@@ -17,69 +23,21 @@ sidebar_label: Animation
 () => { actions: TaroGeneral.IAnyObject[]; }
 ```
 
-### backgroundColor
+### step
 
-设置背景色
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.backgroundColor.html)
-
-```tsx
-(value: string) => Animation
-```
-
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| value | `string` | 颜色值 |
-
-### bottom
-
-设置 bottom 值
+表示一组动画完成。可以在一组动画中调用任意多个动画方法，一组动画中的所有动画会同时开始，一组动画完成后才会进行下一组动画。
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.bottom.html)
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.step.html)
 
 ```tsx
-(value: string | number) => Animation
+(option?: StepOption) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
-
-### height
-
-设置高度
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.height.html)
-
-```tsx
-(value: string | number) => Animation
-```
-
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
-
-### left
-
-设置 left 值
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.left.html)
-
-```tsx
-(value: string | number) => Animation
-```
-
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
+| 参数 | 类型 |
+| --- | --- |
+| option | `StepOption` |
 
 ### matrix
 
@@ -132,38 +90,6 @@ sidebar_label: Animation
 | b4 | `number` |
 | c4 | `number` |
 | d4 | `number` |
-
-### opacity
-
-设置透明度
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.opacity.html)
-
-```tsx
-(value: number) => Animation
-```
-
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| value | `number` | 透明度，范围 0-1 |
-
-### right
-
-设置 right 值
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.right.html)
-
-```tsx
-(value: string | number) => Animation
-```
-
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
 
 ### rotate
 
@@ -380,38 +306,6 @@ sidebar_label: Animation
 | --- | --- | --- |
 | angle | `number` | 倾斜的角度，范围 [-180, 180] |
 
-### step
-
-表示一组动画完成。可以在一组动画中调用任意多个动画方法，一组动画中的所有动画会同时开始，一组动画完成后才会进行下一组动画。
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.step.html)
-
-```tsx
-(option?: StepOption) => Animation
-```
-
-| 参数 | 类型 |
-| --- | --- |
-| option | `StepOption` |
-
-### top
-
-设置 top 值
-
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
-
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.top.html)
-
-```tsx
-(value: string | number) => Animation
-```
-
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
-
 ### translate
 
 平移变换
@@ -495,6 +389,38 @@ sidebar_label: Animation
 | --- | --- | --- |
 | translation | `number` | 在 Z 轴平移的距离，单位为 px |
 
+### opacity
+
+设置透明度
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.opacity.html)
+
+```tsx
+(value: number) => Animation
+```
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| value | `number` | 透明度，范围 0-1 |
+
+### backgroundColor
+
+设置背景色
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.backgroundColor.html)
+
+```tsx
+(value: string) => Animation
+```
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| value | `string` | 颜色值 |
+
 ### width
 
 设置宽度
@@ -502,6 +428,86 @@ sidebar_label: Animation
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.width.html)
+
+```tsx
+(value: string | number) => Animation
+```
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
+
+### height
+
+设置高度
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.height.html)
+
+```tsx
+(value: string | number) => Animation
+```
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
+
+### left
+
+设置 left 值
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.left.html)
+
+```tsx
+(value: string | number) => Animation
+```
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
+
+### right
+
+设置 right 值
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.right.html)
+
+```tsx
+(value: string | number) => Animation
+```
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
+
+### top
+
+设置 top 值
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.top.html)
+
+```tsx
+(value: string | number) => Animation
+```
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
+
+### bottom
+
+设置 bottom 值
+
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.bottom.html)
 
 ```tsx
 (value: string | number) => Animation
@@ -538,15 +544,11 @@ sidebar_label: Animation
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
+| Animation | ✔️ | ✔️ |  |
 | Animation.export | ✔️ | ✔️ |  |
-| Animation.backgroundColor | ✔️ | ✔️ |  |
-| Animation.bottom | ✔️ | ✔️ |  |
-| Animation.height | ✔️ | ✔️ |  |
-| Animation.left | ✔️ | ✔️ |  |
+| Animation.step | ✔️ | ✔️ |  |
 | Animation.matrix | ✔️ | ✔️ |  |
 | Animation.matrix3d | ✔️ | ✔️ |  |
-| Animation.opacity | ✔️ | ✔️ |  |
-| Animation.right | ✔️ | ✔️ |  |
 | Animation.rotate | ✔️ | ✔️ |  |
 | Animation.rotate3d | ✔️ | ✔️ |  |
 | Animation.rotateX | ✔️ | ✔️ |  |
@@ -560,11 +562,16 @@ sidebar_label: Animation
 | Animation.skew | ✔️ | ✔️ |  |
 | Animation.skewX | ✔️ | ✔️ |  |
 | Animation.skewY | ✔️ | ✔️ |  |
-| Animation.step | ✔️ | ✔️ |  |
-| Animation.top | ✔️ | ✔️ |  |
 | Animation.translate | ✔️ | ✔️ |  |
 | Animation.translate3d | ✔️ | ✔️ |  |
 | Animation.translateX | ✔️ | ✔️ |  |
 | Animation.translateY | ✔️ | ✔️ |  |
 | Animation.translateZ | ✔️ | ✔️ |  |
+| Animation.opacity | ✔️ | ✔️ |  |
+| Animation.backgroundColor | ✔️ | ✔️ |  |
 | Animation.width | ✔️ | ✔️ |  |
+| Animation.height | ✔️ | ✔️ |  |
+| Animation.left | ✔️ | ✔️ |  |
+| Animation.right | ✔️ | ✔️ |  |
+| Animation.top | ✔️ | ✔️ |  |
+| Animation.bottom | ✔️ | ✔️ |  |

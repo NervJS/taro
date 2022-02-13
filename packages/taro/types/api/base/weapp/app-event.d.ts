@@ -44,27 +44,47 @@ declare module '../../../index' {
     }
   }
 
+  namespace onUnhandledRejection {
+    type Callback<T = any> = (res: Result<T>) => void
+    type Result<T = any> = {
+      /** 拒绝原因，一般是一个 Error 对象 */
+      reason: string | Error
+      /** 被拒绝的 Promise 对象 */
+      promise: Promise<T>
+    }
+  }
+
   namespace onThemeChange {
+    /** 系统主题改变事件的回调函数 */
+    type Callback = (res: Result) => void
+    interface Result {
+      /** 系统当前的主题，取值为`light`或`dark` */
+      theme: keyof ITheme
+    }
     interface ITheme {
       /** 浅色主题 */
       light
       /** 深色主题 */
       dark
     }
-    interface onThemeChangeResult {
-      /** 系统当前的主题，取值为`light`或`dark` */
-      theme: keyof ITheme
-    }
-    /** 系统主题改变事件的回调函数 */
-    type onThemeChangeCallback = (res: onThemeChangeResult) => void
-  }
-
-  namespace offThemeChange {
-    /** 系统主题改变事件的回调函数 */
-    type offThemeChangeCallback = (res: TaroGeneral.CallbackResult) => void
   }
 
   interface TaroStatic {
+    /** 监听未处理的 Promise 拒绝事件。该事件与 [`App.onUnhandledRejection`](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onUnhandledRejection-Object-object) 的回调时机与参数一致。
+     * 
+     * **注意**
+     *  - 所有的 unhandledRejection 都可以被这一监听捕获，但只有 Error 类型的才会在小程序后台触发报警。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onUnhandledRejection.html
+     */
+    onUnhandledRejection<T = any>(callback: onUnhandledRejection.Callback<T>): void
+
+    /** 监听系统主题改变事件。该事件与 [`App.onThemeChange`](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onThemeChange-Object-object) 的回调时机一致。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onThemeChange.html
+     */
+    onThemeChange(callback: onThemeChange.Callback): void
+
     /**
      * 监听小程序要打开的页面不存在事件。该事件与 [`App.onPageNotFound`](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onpagenotfoundobject-object) 的回调时机一致。
      *
@@ -136,6 +156,18 @@ declare module '../../../index' {
       callback: (res: onAppShow.CallbackResult) => void,
     ): void
 
+    /** 取消监听未处理的 Promise 拒绝事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.offUnhandledRejection.html
+     */
+    offUnhandledRejection<T = any>(callback: onUnhandledRejection.Callback<T>): void
+
+    /** 取消监听系统主题改变事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.offThemeChange.html
+     */
+    offThemeChange(callback: onThemeChange.Callback): void
+
     /** 取消监听小程序要打开的页面不存在事件
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.offPageNotFound.html
@@ -190,17 +222,5 @@ declare module '../../../index' {
       /** 小程序切后台事件的回调函数 */
       callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
-
-    /** 监听系统主题改变事件。该事件与 [`App.onThemeChange`](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onThemeChange-Object-object) 的回调时机一致。
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onThemeChange.html
-     */
-    onThemeChange(callback: onThemeChange.onThemeChangeCallback): void
-
-    /** 取消监听系统主题改变事件
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.offThemeChange.html
-     */
-    offThemeChange(callback: offThemeChange.offThemeChangeCallback): void
   }
 }

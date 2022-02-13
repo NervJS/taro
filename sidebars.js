@@ -207,6 +207,7 @@ module.exports = {
       "apis/framework/Page",
     ],
     "基础": [
+      "apis/base/env",
       "apis/base/canIUse",
       "apis/base/base64ToArrayBuffer",
       "apis/base/arrayBufferToBase64",
@@ -214,23 +215,23 @@ module.exports = {
         "label": "系统",
         "type": "category",
         "items": [
-          // "apis/base/system/openSystemBluetoothSetting",
-          // "apis/base/system/openAppAuthorizeSetting",
-          // "apis/base/system/getWindowInfo",
-          // "apis/base/system/getSystemSetting",
+          "apis/base/system/openSystemBluetoothSetting",
+          "apis/base/system/openAppAuthorizeSetting",
+          "apis/base/system/getWindowInfo",
+          "apis/base/system/getSystemSetting",
           "apis/base/system/getSystemInfoSync",
-          // "apis/base/system/getSystemInfoAsync",
+          "apis/base/system/getSystemInfoAsync",
           "apis/base/system/getSystemInfo",
-          // "apis/base/system/getDeviceInfo",
-          // "apis/base/system/getAppBaseInfo",
-          // "apis/base/system/getAppAuthorizeSetting",
+          "apis/base/system/getDeviceInfo",
+          "apis/base/system/getAppBaseInfo",
+          "apis/base/system/getAppAuthorizeSetting",
         ]
       },
       {
         "label": "更新",
         "type": "category",
         "items": [
-          // "apis/base/update/updateWeChatApp",
+          "apis/base/update/updateWeChatApp",
           "apis/base/update/getUpdateManager",
           "apis/base/update/UpdateManager",
         ]
@@ -244,14 +245,14 @@ module.exports = {
             "type": "category",
             "items": [
               "apis/base/weapp/life-cycle/getLaunchOptionsSync",
-              // "apis/base/weapp/life-cycle/getEnterOptionsSync",
+              "apis/base/weapp/life-cycle/getEnterOptionsSync",
             ]
           },
           {
             "label": "应用级事件",
             "type": "category",
             "items": [
-              // "apis/base/weapp/app-event/onUnhandledRejection",
+              "apis/base/weapp/app-event/onUnhandledRejection",
               "apis/base/weapp/app-event/onThemeChange",
               "apis/base/weapp/app-event/onPageNotFound",
               "apis/base/weapp/app-event/onError",
@@ -259,7 +260,7 @@ module.exports = {
               "apis/base/weapp/app-event/onAudioInterruptionBegin",
               "apis/base/weapp/app-event/onAppShow",
               "apis/base/weapp/app-event/onAppHide",
-              // "apis/base/weapp/app-event/offUnhandledRejection",
+              "apis/base/weapp/app-event/offUnhandledRejection",
               "apis/base/weapp/app-event/offThemeChange",
               "apis/base/weapp/app-event/offPageNotFound",
               "apis/base/weapp/app-event/offError",
@@ -278,30 +279,30 @@ module.exports = {
           "apis/base/debug/setEnableDebug",
           "apis/base/debug/getRealtimeLogManager",
           "apis/base/debug/getLogManager",
-          // "apis/base/debug/console",
+          "apis/base/debug/console",
           "apis/base/debug/LogManager",
           "apis/base/debug/RealtimeLogManager",
-          // "apis/base/debug/RealtimeTagLogManager",
+          "apis/base/debug/RealtimeTagLogManager",
         ]
       },
       {
         "label": "性能",
         "type": "category",
         "items": [
-          // "apis/base/performance/reportPerformance",
-          // "apis/base/performance/getPerformance",
-          // "apis/base/performance/EntryList",
-          // "apis/base/performance/Performance",
-          // "apis/base/performance/PerformanceEntry",
-          // "apis/base/performance/PerformanceObserver",
+          "apis/base/performance/reportPerformance",
+          "apis/base/performance/getPerformance",
+          "apis/base/performance/EntryList",
+          "apis/base/performance/Performance",
+          "apis/base/performance/PerformanceEntry",
+          "apis/base/performance/PerformanceObserver",
         ]
       },
       {
         "label": "加密",
         "type": "category",
         "items": [
-          // "apis/base/crypto/getUserCryptoManager",
-          // "apis/base/crypto/UserCryptoManager",
+          "apis/base/crypto/getUserCryptoManager",
+          "apis/base/crypto/UserCryptoManager",
         ]
       },
       "apis/base/env/env",
