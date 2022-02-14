@@ -3,7 +3,7 @@ import Taro from '../../index'
 declare module '../../index' {
   interface TaroStatic {
     /**
-     * @supported weapp, rn
+     * @supported weapp, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/env/envObj.html
      */
     env: {

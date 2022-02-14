@@ -91,10 +91,5 @@ declare module '../../index' {
      * @ignore
      */
     preloadData: Record<string, any>
-
-    /** 环境变量
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/wx.env.html
-     */
-    env: TaroGeneral.IAnyObject
   }
 }

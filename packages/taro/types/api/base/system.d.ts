@@ -63,10 +63,6 @@ declare module '../../index' {
   }
 
   namespace getSystemInfoSync {
-    /**
-     * 注意：**H5** 端不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
-     * 小程序可以在微信和企业微信中调用此接口，但是在企业微信中调用此接口时，会额外返回一个 environment 字段（微信中不返回），如此字段值为 wxwork，则表示当前小程序运行在企业微信环境中。
-     */
     interface Result {
       /** 设备品牌 */
       brand: string
@@ -166,10 +162,6 @@ declare module '../../index' {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult | Result) => void
     }
-    /**
-     * 注意：**H5** 端不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
-     * 小程序可以在微信和企业微信中调用此接口，但是在企业微信中调用此接口时，会额外返回一个 environment 字段（微信中不返回），如此字段值为 wxwork，则表示当前小程序运行在企业微信环境中。
-     */
     interface Result extends TaroGeneral.CallbackResult {
       /** 设备品牌 */
       brand: string
@@ -269,10 +261,6 @@ declare module '../../index' {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult | Result) => void
     }
-    /**
-     * 注意：**H5** 端不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
-     * 小程序可以在微信和企业微信中调用此接口，但是在企业微信中调用此接口时，会额外返回一个 environment 字段（微信中不返回），如此字段值为 wxwork，则表示当前小程序运行在企业微信环境中。
-     */
     interface Result extends TaroGeneral.CallbackResult {
       /** 设备品牌 */
       brand: string
@@ -366,7 +354,7 @@ declare module '../../index' {
   namespace getDeviceInfo {
     interface Result {
       /** 应用二进制接口类型（仅 Android 支持） */
-      abi: string
+      abi?: string
       /** 设备性能等级（仅Android小游戏）。取值为：-2 或 0（该设备无法运行小游戏），-1（性能未知），>=1（设备性能值，该值越高，设备性能越好，目前最高不到50） */
       benchmarkLevel: number
       /** 设备品牌 */
@@ -435,11 +423,11 @@ declare module '../../index' {
     }
     /** 授权合法值 */
     interface Authorized {
-      /** 竖屏 */
+      /** 表示已经获得授权，无需再次请求授权 */
       authorized
-      /** 竖屏 */
+      /** 表示请求授权被拒绝，无法再次请求授权 （此情况需要引导用户打开[打开系统设置](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.openAppAuthorizeSetting.html)，在设置页中打开权限） */
       denied
-      /** 竖屏 */
+      /** 表示尚未请求授权，会在微信下一次调用系统相应权限时请求 （仅 iOS 会出现。此种情况下引导用户[打开系统设置](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.openAppAuthorizeSetting.html)，不展示开关） */
       'not determined'
     }
   }
@@ -475,6 +463,7 @@ declare module '../../index' {
 
     /** 获取窗口信息
      * @supported weapp
+     * @h5 不支持 statusBarHeight、safeArea
      * @example
      * ```tsx
      * const windowInfo = Taro.getWindowInfo()
@@ -493,7 +482,8 @@ declare module '../../index' {
     getWindowInfo(): getWindowInfo.Result
 
     /** 获取设备设置
-     * @supported weapp
+     * @supported weapp, h5
+     * @h5 不支持 bluetoothEnabled、locationEnabled、wifiEnabled
      * @example
      * ```tsx
      * const systemSetting = Taro.getSystemSetting()
@@ -509,6 +499,8 @@ declare module '../../index' {
 
     /** [Taro.getSystemInfo](./getSystemInfo) 的同步版本
      * @supported weapp, h5, rn
+     * @h5 不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
+     * @weapp 小程序可以在微信和企业微信中调用此接口，但是在企业微信中调用此接口时，会额外返回一个 environment 字段（微信中不返回），如此字段值为 wxwork，则表示当前小程序运行在企业微信环境中。
      * @example
      * ```tsx
      * try {
@@ -529,7 +521,9 @@ declare module '../../index' {
     getSystemInfoSync(): getSystemInfoSync.Result
 
     /** 异步获取系统信息。需要一定的微信客户端版本支持，在不支持的客户端上，会使用同步实现来返回。
-     * @supported weapp
+     * @supported weapp, h5
+     * @h5 不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
+     * @weapp 小程序可以在微信和企业微信中调用此接口，但是在企业微信中调用此接口时，会额外返回一个 environment 字段（微信中不返回），如此字段值为 wxwork，则表示当前小程序运行在企业微信环境中。
      * @example
      * ```tsx
      * Taro.getSystemInfoAsync({
@@ -550,6 +544,8 @@ declare module '../../index' {
 
     /** 获取系统信息，支持 `Promise` 化使用。
      * @supported weapp, h5, rn
+     * @h5 不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
+     * @weapp 小程序可以在微信和企业微信中调用此接口，但是在企业微信中调用此接口时，会额外返回一个 environment 字段（微信中不返回），如此字段值为 wxwork，则表示当前小程序运行在企业微信环境中。
      * @example
      * ```tsx
      * Taro.getSystemInfo({
@@ -576,7 +572,8 @@ declare module '../../index' {
     getSystemInfo(res?: getSystemInfo.Option): Promise<getSystemInfo.Result>
 
     /** 获取设备基础信息
-     * @supported weapp
+     * @supported weapp, h5
+     * @h5 不支持 abi、benchmarkLevel
      * @example
      * ```tsx
      * const deviceInfo = Taro.getDeviceInfo()
@@ -593,7 +590,8 @@ declare module '../../index' {
     getDeviceInfo(): getDeviceInfo.Result
     
     /** 获取微信APP基础信息
-     * @supported weapp
+     * @supported weapp, h5
+     * @h5 不支持 SDKVersion、host、version
      * @example
      * ```tsx
      * const appBaseInfo = Taro.getAppBaseInfo()
@@ -614,7 +612,8 @@ declare module '../../index' {
      * - 'authorized' 表示已经获得授权，无需再次请求授权；
      * - 'denied' 表示请求授权被拒绝，无法再次请求授权；（此情况需要引导用户[打开系统设置](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.openAppAuthorizeSetting.html)，在设置页中打开权限）
      * - 'non determined' 表示尚未请求授权，会在微信下一次调用系统相应权限时请求；（仅 iOS 会出现。此种情况下引导用户打开系统设置，不展示开关）
-     * @supported weapp
+     * @supported weapp, h5
+     * @h5 暂未支持设置权限
      * @example
      * ```tsx
      * const appAuthorizeSetting = Taro.getAppAuthorizeSetting()

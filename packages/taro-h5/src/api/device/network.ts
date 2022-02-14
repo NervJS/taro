@@ -1,7 +1,7 @@
 import Taro from '@tarojs/api'
 
-import { MethodHandler } from '../../utils/handler'
-import { temporarilyNotSupport } from '../../utils'
+import { MethodHandler } from '../utils/handler'
+import { temporarilyNotSupport } from '../utils'
 
 function getConnection () {
   // @ts-ignore
