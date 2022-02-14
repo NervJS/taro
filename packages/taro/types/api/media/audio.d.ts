@@ -133,7 +133,7 @@ declare module '../../index' {
      * const endOffset = rate * 3;
      * const newAudioBuffer = audioCtx.createBuffer(channels,endOffset - startOffset,rate)
      * const offset = 0
-     * 
+     *
      * for (let channel = 0; channel < channels; channel++) {
      *   audioBuffer.copyFromChannel(anotherArray, channel, startOffset);
      *   newAudioBuffer.copyToChannel(anotherArray, channel, offset);
@@ -158,7 +158,7 @@ declare module '../../index' {
   }
 
   /** `AudioContext` 实例，可通过 `Taro.createAudioContext` 获取。
-   * 
+   *
    * `AudioContext` 通过 `id` 跟一个 `audio` 组件绑定，操作对应的 audio 组件。
    * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/AudioContext.html
@@ -393,7 +393,7 @@ declare module '../../index' {
     }
   }
 
-  /** MediaAudioPlayer 实例，可通过 [Taro.createMediaAudioPlayer](./createMediaAudioPlayer) 接口获取实例。 
+  /** MediaAudioPlayer 实例，可通过 [Taro.createMediaAudioPlayer](./createMediaAudioPlayer) 接口获取实例。
    * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/MediaAudioPlayer.html
    */
@@ -440,11 +440,11 @@ declare module '../../index' {
     destroy(): Promise<void>
   }
 
-  /** WebAudioContext 实例，通过 [Taro.createWebAudioContext](./createWebAudioContext) 接口获取该实例。 
+  /** WebAudioContext 实例，通过 [Taro.createWebAudioContext](./createWebAudioContext) 接口获取该实例。
    * @supported weapp
    * @example
    * 监听状态
-   * 
+   *
    * ```tsx
    * const audioCtx = Taro.createWebAudioContext()
    * audioCtx.onstatechange = () => {
@@ -457,7 +457,7 @@ declare module '../../index' {
    */
   interface WebAudioContext {
     /** 当前 WebAudio 上下文的状态。
-     * 
+     *
      * 可能的值如下：suspended（暂停）、running（正在运行）、closed（已关闭）。
      * 需要注意的是，不要在 audioContext close 后再访问 state 属性
      */
@@ -479,7 +479,7 @@ declare module '../../index' {
     sampleRate: number
 
     /** 关闭WebAudioContext
-     * 
+     *
      * **注意事项**
      * 同步关闭对应的 WebAudio 上下文。close 后会立即释放当前上下文的资源，**不要在 close 后再次访问 state 属性**。
      * @supported weapp
@@ -532,7 +532,7 @@ declare module '../../index' {
      *     feedback: [1.2912769759, -1.5136176632, 0.7087230241]
      *   }
      * ]
-     * 
+     *
      * const feedForward = lowPassCoefs[filterNumber].feedforward
      * const feedBack = lowPassCoefs[filterNumber].feedback
      * const iirFilter = audioContext.createIIRFilter(feedForward, feedBack)
@@ -571,7 +571,7 @@ declare module '../../index' {
     createGain(): GainNode
 
     /** 创建一个 PeriodicWaveNode
-     * 
+     *
      * **注意**
      * `real` 和 `imag` 数组必须拥有一样的长度，否则抛出错误
      *
@@ -582,7 +582,7 @@ declare module '../../index' {
      * imag[0] = 0
      * real[1] = 1
      * imag[1] = 0
-     * 
+     *
      * const waveNode = audioContext.createPeriodicWave(real, imag, {disableNormalization: true})
      * ```
      * @supported weapp
@@ -647,7 +647,7 @@ declare module '../../index' {
      * ```tsx
      * let audioCtx = Taro.createWebAudioContext()
      * let compressor = audioCtx.createDynamicsCompressor()
-     * 
+     *
      * compressor.threshold.value = -50
      * compressor.knee.value = 40
      * compressor.ratio.value = 12
@@ -735,8 +735,8 @@ declare module '../../index' {
     }
   }
 
-  /** 一类音频处理模块，不同的Node具备不同的功能，如GainNode(音量调整)等。一个 WebAudioContextNode 可以通过上下文来创建。 
-   * 
+  /** 一类音频处理模块，不同的Node具备不同的功能，如GainNode(音量调整)等。一个 WebAudioContextNode 可以通过上下文来创建。
+   *
    * > 目前已经支持以下Node： IIRFilterNode WaveShaperNode ConstantSourceNode ChannelMergerNode OscillatorNode GainNode BiquadFilterNode PeriodicWaveNode BufferSourceNode ChannelSplitterNode ChannelMergerNode DelayNode DynamicsCompressorNode ScriptProcessorNode PannerNode
    * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContextNode.html
@@ -867,7 +867,7 @@ declare module '../../index' {
      *
      * ```tsx
      * const audioCtx = Taro.createWebAudioContext()
-     * 
+     *
      * const loadAudio = (url) => {
      *   return new Promise((resolve) => {
      *     Taro.request({
@@ -889,7 +889,7 @@ declare module '../../index' {
      *     })
      *   })
      * }
-     * 
+     *
      * const play = () => {
      *   loadAudio('xxx-test.mp3').then(buffer => {
      *     const source = audioCtx.createBufferSource()
@@ -900,7 +900,7 @@ declare module '../../index' {
      *     console.log('fail')
      *   })
      * }
-     * 
+     *
      * play()
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createWebAudioContext.html
@@ -908,7 +908,7 @@ declare module '../../index' {
     createWebAudioContext(): WebAudioContext
 
     /** 创建媒体音频播放器对象 [MediaAudioPlayer](./MediaAudioPlayer) 对象，可用于播放视频解码器 [VideoDecoder](/docs/apis/media/video-decoder/VideoDecoder) 输出的音频
-     * 
+     *
      * **注意事项**
      * - iOS 7.0.15 mediaAudioPlayer 播放网络视频资源会出现音频卡顿，本地视频没有这个问题，将下一个客户端版本修复。
      * @supported weapp

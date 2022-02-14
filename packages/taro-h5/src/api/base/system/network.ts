@@ -13,7 +13,7 @@ export const getNetworkType: typeof Taro.getNetworkType = (options = {}) => {
   const { success, fail, complete } = options
   const handle = new MethodHandler<Taro.getNetworkType.SuccessCallbackResult>({ name: 'getNetworkType', success, fail, complete })
 
-  let networkType: keyof Taro.getNetworkType.networkType = 'unknown'
+  let networkType: keyof Taro.getNetworkType.NetworkType = 'unknown'
   // 浏览器不支持获取网络状态
   if (!connection) {
     return handle.success({ networkType })

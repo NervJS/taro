@@ -7,6 +7,7 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
+    "skipLibCheck": true,
     "strictNullChecks": true,
     "sourceMap": true,
     "allowJs": true,
