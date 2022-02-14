@@ -588,7 +588,7 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getDeviceInfo.html
      */
     getDeviceInfo(): getDeviceInfo.Result
-    
+
     /** 获取微信APP基础信息
      * @supported weapp, h5
      * @h5 不支持 SDKVersion、host、version
@@ -606,9 +606,9 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getAppBaseInfo.html
      */
     getAppBaseInfo(): getAppBaseInfo.Result
-    
+
     /** 获取微信APP授权设置
-     * 
+     *
      * - 'authorized' 表示已经获得授权，无需再次请求授权；
      * - 'denied' 表示请求授权被拒绝，无法再次请求授权；（此情况需要引导用户[打开系统设置](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.openAppAuthorizeSetting.html)，在设置页中打开权限）
      * - 'non determined' 表示尚未请求授权，会在微信下一次调用系统相应权限时请求；（仅 iOS 会出现。此种情况下引导用户打开系统设置，不展示开关）

@@ -316,7 +316,7 @@ import TabItem from '@theme/TabItem'
       if (apiDesc) descList.push(`> ${env.label}: ${apiDesc}`)
       return `<img title="${env.label}" src={${env.icon}} className="icon_platform${support ? '' : ' icon_platform--not-support'}" width="25px"/>`
     })
-    return `支持情况：${splicing(list, ' ')}${descList.length > 0 ? `\n\n${splicing(descList, '\n> ')}` : ''}\n`
+    return `支持情况：${splicing(list, ' ')}${descList.length > 0 ? `\n\n${splicing(descList, '\n>\n')}` : ''}\n`
   },
   see: (data?: ts.JSDocTagInfo) => data ? splicing([`> [参考文档](${data.text?.map(e => e.text).join('') || ''})`, '']) : undefined
 }

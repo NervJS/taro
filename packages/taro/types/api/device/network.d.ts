@@ -120,7 +120,7 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.offNetworkWeakChange.html
      */
-     offNetworkWeakChange(
+    offNetworkWeakChange(
       /** 弱网状态变化事件的回调函数 */
       callback: onNetworkWeakChange.Callback,
     ): void
