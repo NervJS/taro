@@ -81,7 +81,7 @@ interface AudioProps extends StandardProps {
 
 declare namespace AudioProps {
   interface onErrorEventDetail {
-    errMsg: keyof MediaError.code
+    errMsg: keyof MediaError.Code
   }
   interface onTimeUpdateEventDetail {
     /** 当前时间 */
@@ -90,7 +90,7 @@ declare namespace AudioProps {
     duration: number
   }
   namespace MediaError {
-    interface code {
+    interface Code {
       /** 获取资源被用户禁止 */
       1
       /** 网络错误 */
@@ -113,7 +113,7 @@ declare namespace AudioProps {
  *   constructor() {
  *     super(...arguments)
  *   }
- * 
+ *
  *   render() {
  *     return (
  *       <View className='components-page'>

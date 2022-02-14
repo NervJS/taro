@@ -98,6 +98,7 @@ declare module '../../index' {
 
     /** 设置页面导航条颜色
      * @supported weapp, h5, rn
+     * @h5 不支持 animation 参数
      * @rn 不支持 animation 参数
      * @example
      * ```tsx

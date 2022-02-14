@@ -26,7 +26,9 @@ function getRes(images) {
 function openCamera(options: Taro.chooseImage.Option): Promise<Taro.chooseImage.SuccessCallbackResult> {
   const { success, fail, complete } = options
   return new Promise((resolve, reject) => {
-    SYImagePicker.openCamera({}, (err, photo: any) => {
+    SYImagePicker.openCamera({
+      compressFocusAlpha: true
+    }, (err, photo: any) => {
       if (err) {
         const res = {
           errMsg: err
@@ -55,6 +57,7 @@ function openPicker(options: Taro.chooseImage.Option): Promise<Taro.chooseImage.
   return new Promise((resolve, reject) => {
     // NOTE：react-native-syan-image-picker 暂不支持 Android 端压缩
     SYImagePicker.showImagePicker({
+      compressFocusAlpha: true,
       imageCount,
       quality: sizeType[0] === 'compressed' ? 70 : 90,
     }, (err, photos: any) => {
