@@ -166,7 +166,7 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
       value (options) {
         setRouterParams(options)
         if (process.env.TARO_ENV === 'h5') {
-          appInstance = app.mount(`#${config.appId || 'app'}`)
+          appInstance = app.mount('#app')
         }
 
         // 把 App Class 上挂载的额外属性同步到全局 app 对象中
