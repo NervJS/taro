@@ -357,6 +357,12 @@ export interface IManifestConfig extends ITaroManifestConfig {
 
 export type PluginItem = string | [string, object]
 
+interface ICache {
+  enable?: boolean
+  buildDependencies?: Record<string, any>
+  name?: string
+}
+
 export interface IProjectBaseConfig {
   projectName?: string
   date?: string
@@ -377,6 +383,8 @@ export interface IProjectBaseConfig {
   presets?: PluginItem[]
   baseLevel?: number
   framework?: string
+  compiler?: 'webpack4' | 'webpack5'
+  cache?: ICache
 }
 
 export interface IProjectConfig extends IProjectBaseConfig {

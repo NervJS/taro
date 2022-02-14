@@ -73,6 +73,8 @@ export default class Config {
       outputRoot: outputDirName,
       platform,
       framework: initialConfig.framework,
+      compiler: initialConfig.compiler,
+      cache: initialConfig.cache,
       baseLevel: initialConfig.baseLevel,
       csso: initialConfig.csso,
       sass: initialConfig.sass,

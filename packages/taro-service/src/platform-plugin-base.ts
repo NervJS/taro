@@ -89,21 +89,30 @@ export abstract class TaroPlatformBase {
   }
 
   protected printDevelopmentTip (platform: string) {
-    if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') return
+    const tips: string[] = []
+    const config = this.config
+    const { chalk } = this.helper
 
-    const { isWindows, chalk } = this.helper
-    let exampleCommand
+    if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
+      const { isWindows } = this.helper
+      const exampleCommand = isWindows
+        ? `$ set NODE_ENV=production && taro build --type ${platform} --watch`
+        : `$ NODE_ENV=production taro build --type ${platform} --watch`
 
-    if (isWindows) {
-      exampleCommand = `$ set NODE_ENV=production && taro build --type ${platform} --watch`
-    } else {
-      exampleCommand = `$ NODE_ENV=production taro build --type ${platform} --watch`
+      tips.push(chalk.yellowBright(`1. 预览模式生成的文件较大，设置 NODE_ENV 为 production 可以开启压缩。
+Example:
+${exampleCommand}`))
     }
 
-    console.log(chalk.yellowBright(`Tips: 预览模式生成的文件较大，设置 NODE_ENV 为 production 可以开启压缩。
-Example:
-${exampleCommand}
-`))
+    if (config.compiler === 'webpack5' && !config.cache?.enable) {
+      tips.push(chalk.yellowBright('2. 建议开启持久化缓存功能，能有效提升二次编译速度，详情请参考: https://docs.taro.zone/docs/config-detail#cache。'))
+    }
+
+    if (tips.length) {
+      console.log(chalk.yellowBright('Tips:'))
+      tips.forEach(item => console.log(item))
+      console.log('\n')
+    }
   }
 
   /**
@@ -112,7 +121,16 @@ ${exampleCommand}
   protected async getRunner () {
     const { appPath } = this.ctx.paths
     const { npm } = this.helper
-    const runner = await npm.getNpmPkg('@tarojs/mini-runner', appPath)
+
+    let runnerPkg: string
+    if (this.config.compiler === 'webpack5') {
+      runnerPkg = '@tarojs/webpack5-runner'
+    } else {
+      runnerPkg = '@tarojs/mini-runner'
+    }
+
+    const runner = await npm.getNpmPkg(runnerPkg, appPath)
+
     return runner.bind(null, appPath)
   }
 

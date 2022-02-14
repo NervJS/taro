@@ -43,6 +43,12 @@ const schema = Joi.object().keys({
 
   framework: Joi.any().valid('nerv', 'react', 'preact', 'vue', 'vue3').required(),
 
+  compiler: Joi.string().valid('webpack4', 'webpack5'),
+
+  cache: Joi.object().keys({
+    enable: Joi.bool()
+  }).unknown(),
+
   mini: Joi.object().keys({
     baseLevel: Joi.number().integer().positive(),
     compile: Joi.object().keys({
