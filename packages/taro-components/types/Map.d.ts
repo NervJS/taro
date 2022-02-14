@@ -499,14 +499,14 @@ declare namespace MapProps {
       end
     }
 
-    interface causedByBegin {
+    interface CausedByBegin {
       /** 手势触发 */
       gesture
       /** 接口触发 */
       update
     }
 
-    interface causedByEnd {
+    interface CausedByEnd {
       /** 拖动导致 */
       drag
       /** 缩放导致 */
@@ -523,7 +523,7 @@ declare namespace MapProps {
     /** 导致视野变化的原因
      * @remarks 有效值为 gesture（手势触发）、update（接口触发或调用更新接口导致）、drag（拖动导致）、scale（缩放导致）
      */
-    causedBy: keyof (T extends 'begin' ? RegionChangeDetail.causedByBegin : RegionChangeDetail.causedByEnd)
+    causedBy: keyof (T extends 'begin' ? RegionChangeDetail.CausedByBegin : RegionChangeDetail.CausedByEnd)
     /** 视野改变详情 */
     detail: regionChangeDetail<RegionChangeDetail.type>
   }
@@ -532,7 +532,7 @@ declare namespace MapProps {
     rotate: number
     /** 倾斜角度 */
     skew: number
-    causedBy: keyof (T extends 'begin' ? RegionChangeDetail.causedByBegin : RegionChangeDetail.causedByEnd)
+    causedBy: keyof (T extends 'begin' ? RegionChangeDetail.CausedByBegin : RegionChangeDetail.CausedByEnd)
     type: T | string
     scale: number
     centerLocation: point
@@ -578,7 +578,7 @@ declare namespace MapProps {
  *     `@markertap="markertap"
  *   />
  * </template>
- * 
+ *
  * <script>
  * export default {
  *   data() {

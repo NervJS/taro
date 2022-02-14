@@ -27,8 +27,9 @@ function easeOutScroll (from = 0, to = 0, callback) {
   }
   step()
 }
-function throttle (fn, delay) {
-  let timer: any = null
+function throttle (fn, delay: number) {
+  let timer: NodeJS.Timeout
+
   return function (...arrs) {
     clearTimeout(timer)
     timer = setTimeout(function () {

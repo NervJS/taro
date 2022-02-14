@@ -26,9 +26,5 @@
     ]
   },
   "include": ["./src", "global.d.ts"],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ],
   "compileOnSave": false
 }

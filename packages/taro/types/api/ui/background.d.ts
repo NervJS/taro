@@ -37,7 +37,8 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 动态设置下拉背景字体、loading 图的样式
-     * @supported weapp
+     * @supported weapp, rn
+     * @rn 仅 iOS
      * @example
      * ```tsx
      * Taro.setBackgroundTextStyle({
@@ -49,7 +50,8 @@ declare module '../../index' {
     setBackgroundTextStyle(option: setBackgroundTextStyle.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 动态设置窗口的背景色
-     * @supported weapp
+     * @supported weapp, rn
+     * @rn 仅 Android
      * @example
      * ```tsx
      * Taro.setBackgroundColor({

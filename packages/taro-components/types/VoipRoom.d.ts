@@ -12,13 +12,13 @@ interface VoipRoomProps extends StandardProps {
    * @default camera
    * @supported weapp
    */
-  mode?: keyof VoipRoomProps.mode
+  mode?: keyof VoipRoomProps.Mode
 
   /** 仅在 mode 为 camera 时有效，前置或后置，值为front, back
    * @default front
    * @supported weapp
    */
-  devicePosition?: keyof VoipRoomProps.devicePosition
+  devicePosition?: keyof VoipRoomProps.DevicePosition
 
   /** 创建对话窗口失败时触发
    * @supported weapp
@@ -28,13 +28,13 @@ interface VoipRoomProps extends StandardProps {
 
 declare namespace VoipRoomProps {
   /** 对话窗口类型 */
-  interface mode {
+  interface Mode {
     camera
     video
   }
 
   /** 摄像头类型 */
-  interface devicePosition {
+  interface DevicePosition {
     front
     back
   }
@@ -42,7 +42,7 @@ declare namespace VoipRoomProps {
 
 /** 多人音视频对话
  *
- * 需用户授权 `scope.camera`、`scope.record`。相关接口： [Taro.joinVoIPChat](https://developers.weixin.qq.com/miniprogram/dev/api/media/voip/wx.joinVoIPChat.html)
+ * 需用户授权 `scope.camera`、`scope.record`。相关接口： [Taro.joinVoIPChat](/docs/apis/media/voip/joinVoIPChat)
  * 开通该组件权限后，开发者可在 joinVoIPChat 成功后，获取房间成员的 openid，传递给 voip-room 组件，以显示成员画面。
  * @classification media
  * @supported weapp
