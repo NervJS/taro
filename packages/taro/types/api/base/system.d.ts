@@ -63,10 +63,6 @@ declare module '../../index' {
   }
 
   namespace getSystemInfoSync {
-    /**
-     * 注意：**H5** 端不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
-     * 小程序可以在微信和企业微信中调用此接口，但是在企业微信中调用此接口时，会额外返回一个 environment 字段（微信中不返回），如此字段值为 wxwork，则表示当前小程序运行在企业微信环境中。
-     */
     interface Result {
       /** 设备品牌 */
       brand: string
@@ -166,10 +162,6 @@ declare module '../../index' {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult | Result) => void
     }
-    /**
-     * 注意：**H5** 端不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
-     * 小程序可以在微信和企业微信中调用此接口，但是在企业微信中调用此接口时，会额外返回一个 environment 字段（微信中不返回），如此字段值为 wxwork，则表示当前小程序运行在企业微信环境中。
-     */
     interface Result extends TaroGeneral.CallbackResult {
       /** 设备品牌 */
       brand: string
@@ -269,10 +261,6 @@ declare module '../../index' {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult | Result) => void
     }
-    /**
-     * 注意：**H5** 端不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
-     * 小程序可以在微信和企业微信中调用此接口，但是在企业微信中调用此接口时，会额外返回一个 environment 字段（微信中不返回），如此字段值为 wxwork，则表示当前小程序运行在企业微信环境中。
-     */
     interface Result extends TaroGeneral.CallbackResult {
       /** 设备品牌 */
       brand: string

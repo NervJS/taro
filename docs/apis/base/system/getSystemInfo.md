@@ -34,9 +34,6 @@ sidebar_label: getSystemInfo
 
 ### Result
 
-注意：**H5** 端不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
-小程序可以在微信和企业微信中调用此接口，但是在企业微信中调用此接口时，会额外返回一个 environment 字段（微信中不返回），如此字段值为 wxwork，则表示当前小程序运行在企业微信环境中。
-
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
 | brand | `string` | 是 | 设备品牌 |
