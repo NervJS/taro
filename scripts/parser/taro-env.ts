@@ -8,4 +8,5 @@ export default [
   { name: 'h5', label: 'H5', icon: "require('@site/static/img/platform/h5.png').default" },
   { name: 'rn', label: 'React Native', icon: "require('@site/static/img/platform/rn.png').default" },
   { name: 'quickapp', label: '快应用', icon: "require('@site/static/img/platform/quickapp.png').default" },
+  { name: 'harmony', label: 'Harmony', icon: "require('@site/static/img/platform/harmony.png').default" },
 ]
