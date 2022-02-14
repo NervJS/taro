@@ -3,12 +3,15 @@ import Taro from '../../index'
 declare module '../../index' {
   namespace createAnimation {
     interface Option {
-      /** 动画延迟时间，单位 ms */
-      delay?: number
       /** 动画持续时间，单位 ms */
       duration?: number
       /** 动画的效果 */
-      timingFunction?: keyof timingFunction
+      timingFunction?: keyof TimingFunction
+      /** 动画延迟时间，单位 ms
+       * @default 0
+       */
+      delay?: number
+      /** @default "50% 50% 0" */
       transformOrigin?: string
       /**
        * 单位
@@ -16,7 +19,7 @@ declare module '../../index' {
        */
       unit?: string
     }
-    interface timingFunction {
+    interface TimingFunction {
       /** 动画从头到尾的速度是相同的 */
       linear
       /** 动画以低速开始，然后加快，在结束前变慢 */
@@ -34,72 +37,33 @@ declare module '../../index' {
     }
   }
 
+  /** 动画对象
+   * @supported weapp, h5
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.html
+   */
   interface Animation {
-    /** 导出动画队列。**export 方法每次调用后会清掉之前的动画操作。**
+    /** 导出动画队列。**export 方法每次调用后会清掉之前的动画操作**。
      * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.export.html
      */
     export(): {
       actions: TaroGeneral.IAnyObject[]
     }
-    /** 设置背景色
+    /** 表示一组动画完成。可以在一组动画中调用任意多个动画方法，一组动画中的所有动画会同时开始，一组动画完成后才会进行下一组动画。
      * @supported weapp, h5
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.backgroundColor.html
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.step.html
      */
-    backgroundColor(
-      /** 颜色值 */
-      value: string,
-    ): Animation
-    /** 设置 bottom 值
-     * @supported weapp, h5
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.bottom.html
-     */
-    bottom(
-      /** 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 */
-      value: number | string,
-    ): Animation
-    /** 设置高度
-     * @supported weapp, h5
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.height.html
-     */
-    height(
-      /** 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 */
-      value: number | string,
-    ): Animation
-    /** 设置 left 值
-     * @supported weapp, h5
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.left.html
-     */
-    left(
-      /** 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 */
-      value: number | string,
-    ): Animation
+    step(option?: Animation.StepOption): Animation
     /** 同 [transform-function matrix](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix)
      * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.matrix.html
      */
     matrix(a: number, b: number, c: number, d: number, tx: number, ty: number): Animation
     /** 同 [transform-function matrix3d](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix3d)
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.matrix3d.html
      */
     matrix3d(a1: number, b1: number, c1: number, d1: number, a2: number, b2: number, c2: number, d2: number, a3: number, b3: number, c3: number, d3: number, a4: number, b4: number, c4: number, d4: number): Animation
-    /** 设置透明度
-     * @supported weapp, h5
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.opacity.html
-     */
-    opacity(
-      /** 透明度，范围 0-1 */
-      value: number,
-    ): Animation
-    /** 设置 right 值
-     * @supported weapp, h5
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.right.html
-     */
-    right(
-      /** 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 */
-      value: number | string,
-    ): Animation
     /** 从原点顺时针旋转一个角度
      * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotate.html
@@ -193,7 +157,7 @@ declare module '../../index' {
       scale: number,
     ): Animation
     /** 对 X、Y 轴坐标进行倾斜
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.skew.html
      */
     skew(
@@ -211,25 +175,12 @@ declare module '../../index' {
       angle: number,
     ): Animation
     /** 对 Y 轴坐标进行倾斜
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.skewY.html
      */
     skewY(
       /** 倾斜的角度，范围 [-180, 180] */
       angle: number,
-    ): Animation
-    /** 表示一组动画完成。可以在一组动画中调用任意多个动画方法，一组动画中的所有动画会同时开始，一组动画完成后才会进行下一组动画。
-     * @supported weapp, h5
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.step.html
-     */
-    step(option?: Animation.StepOption): Animation
-    /** 设置 top 值
-     * @supported weapp, h5
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.top.html
-     */
-    top(
-      /** 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 */
-      value: number | string,
     ): Animation
     /** 平移变换
      * @supported weapp, h5
@@ -277,11 +228,67 @@ declare module '../../index' {
       /** 在 Z 轴平移的距离，单位为 px */
       translation: number,
     ): Animation
+    /** 设置透明度
+     * @supported weapp, h5
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.opacity.html
+     */
+    opacity(
+      /** 透明度，范围 0-1 */
+      value: number,
+    ): Animation
+    /** 设置背景色
+     * @supported weapp, h5
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.backgroundColor.html
+     */
+    backgroundColor(
+      /** 颜色值 */
+      value: string,
+    ): Animation
     /** 设置宽度
      * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.width.html
      */
     width(
+      /** 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 */
+      value: number | string,
+    ): Animation
+    /** 设置高度
+     * @supported weapp, h5
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.height.html
+     */
+    height(
+      /** 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 */
+      value: number | string,
+    ): Animation
+    /** 设置 left 值
+     * @supported weapp, h5
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.left.html
+     */
+    left(
+      /** 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 */
+      value: number | string,
+    ): Animation
+    /** 设置 right 值
+     * @supported weapp, h5
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.right.html
+     */
+    right(
+      /** 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 */
+      value: number | string,
+    ): Animation
+    /** 设置 top 值
+     * @supported weapp, h5
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.top.html
+     */
+    top(
+      /** 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 */
+      value: number | string,
+    ): Animation
+    /** 设置 bottom 值
+     * @supported weapp, h5
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.bottom.html
+     */
+    bottom(
       /** 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 */
       value: number | string,
     ): Animation
@@ -294,10 +301,10 @@ declare module '../../index' {
       /** 动画持续时间，单位 ms */
       duration?: number
       /** 动画的效果 */
-      timingFunction?: keyof timingFunction
+      timingFunction?: keyof TimingFunction
       transformOrigin?: string
     }
-    interface timingFunction {
+    interface TimingFunction {
       /** 动画从头到尾的速度是相同的 */
       linear
       /** 动画以低速开始，然后加快，在结束前变慢 */
@@ -315,6 +322,7 @@ declare module '../../index' {
     }
   }
 
+  /** @ignore */
   interface KeyFrame {
     /** 关键帧的偏移，范围[0-1] */
     offset?: number
@@ -379,6 +387,8 @@ declare module '../../index' {
     /** Z 方向位移，即 CSS transform translateZ */
     translateZ?: number | string
   }
+
+  /** @ignore */
   interface ClearAnimationOptions {
     /** 基点位置，即 CSS transform-origin */
     transformOrigin?: boolean
@@ -439,12 +449,16 @@ declare module '../../index' {
     /** Z 方向位移，即 CSS transform translateZ */
     translateZ?: boolean
   }
+
+  /** @ignore */
   interface ScrollTimelineKeyframe {
     composite?: 'replace' | 'add' | 'accumulate' | 'auto'
     easing?: string
     offset?: number | null
     [property: string]: string | number | null | undefined
   }
+
+  /** @ignore */
   interface ScrollTimelineOption {
     /** 指定滚动元素的选择器（只支持 scroll-view），该元素滚动时会驱动动画的进度 */
     scrollSource: string
@@ -459,7 +473,7 @@ declare module '../../index' {
   }
 
   interface TaroStatic {
-    /** 创建一个动画实例 animation。调用实例的方法来描述动画。最后通过动画实例的 export 方法导出动画数据传递给组件的 animation 属性。
+    /** 创建一个动画实例 [animation](./Animation)。调用实例的方法来描述动画。最后通过动画实例的 export 方法导出动画数据传递给组件的 animation 属性。
      * @supported weapp, h5
      * @example
      * ```tsx

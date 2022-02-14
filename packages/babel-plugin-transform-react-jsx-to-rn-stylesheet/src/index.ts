@@ -16,7 +16,8 @@ const isStyle = value => {
   return RN_CSS_EXT.indexOf(ext) > -1
 }
 
-const isModuleSource = value => value.indexOf('.module.') > -1
+// 样式文件带有 .module./.linaria. 若开启 css module 则走 css module 逻辑
+const isModuleSource = value => value.indexOf('.module.') > -1 || value.indexOf('.linaria.') > -1
 
 const string2Object = str => {
   const entries = str.replace(/;+$/g, '')
@@ -398,7 +399,7 @@ function importDeclaration (astPath, state, t) {
       styleSheetName = specifiers[0].local.name
     }
 
-    if (isModuleSource(sourceValue) && enableCSSModule) {
+    if (enableCSSModule && isModuleSource(sourceValue)) {
       if (styleSheetName) {
         cssModuleStylesheets.push(styleSheetName)
       }
