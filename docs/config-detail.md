@@ -403,6 +403,71 @@ module.exports = {
 }
 ```
 
+## framework
+
+`string`
+
+使用的开发框架。可选值：`react`、`preact`、`nerv`、`vue`、`vue3`。
+
+## compiler
+
+:::info
+Taro v3.6 开始支持。
+:::
+
+`string`
+
+默认值：`'webpack4'`
+
+使用的编译工具。可选值：`webpack4`、`webpack5`。
+
+## cache
+
+:::info
+Taro v3.6 开始支持。
+:::
+
+Webpack5 持久化缓存配置。具体配置请参考 [WebpackConfig.cache](https://webpack.js.org/configuration/cache/#cache)。
+
+Taro 遵循 Webpack **“构建安全比构建速度重要”**的理念，默认不开启持久化缓存功能。但当开发者能处理好缓存策略时，强烈建议开启缓存，这能大大提高二次编译速度。
+
+除了 [cache.buildDependencies](./config-detail#cachebuilddependencies)、[cache.name](./config-detail#cachename) 具有默认值外，开发者的其它 cache 配置将会合并进 `WebpackConfig.cache`。
+
+### cache.enable
+
+`boolean`
+
+默认值 `false`
+
+是否开启持久化缓存。
+
+值为 `false` 时：开发模式下 `WebpackConfig.cache.type = 'memory'`，而生产模式下 `WebpackConfig.cache = false`。
+
+值为 `true` 时：开发模式和生产模式下均为 `WebpackConfig.cache.type = 'filesystem'`。
+
+### cache.buildDependencies
+
+默认值
+
+```js
+webpackConfig = {
+  cache: {
+    buildDependencies: {
+      config: [path.join(appPath, 'config/index.js')]
+    }
+  }
+}
+```
+
+当依赖的文件或该文件的依赖改变时，使缓存失效。详情请参考 [WebpackConfig.cache.buildDependencies](https://webpack.js.org/configuration/cache/#cachebuilddependencies)。
+
+### cache.name
+
+`string`
+
+默认值 `process.env.NODE_ENV-process.env.TARO_ENV`。
+
+缓存子目录的名称。详情请参考 [WebpackConfig.cache.name](https://webpack.js.org/configuration/cache/#cachename)。
 
 ## mini
 
