@@ -75,7 +75,7 @@ declare module '../../index' {
     onDeviceMotionChange (callback: onDeviceMotionChange.Callback): void
 
     /** 取消监听设备方向变化事件，参数为空，则取消所有的事件监听。
-     * @supported weapp, rn
+     * @supported weapp, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/motion/wx.offDeviceMotionChange.html
      */
     offDeviceMotionChange(
