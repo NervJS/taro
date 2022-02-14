@@ -354,7 +354,9 @@ require(\\"./taro\\");
         var taro_runtime = __webpack_require__(0);
         const HOOKS_APP_ID = \\"taro-app\\";
         function isClassComponent(R, component) {
+            var _a;
             const prototype = component.prototype;
+            if ((_a = component.displayName) === null || _a === void 0 ? void 0 : _a.includes(\\"Connect\\")) return false;
             return Object(mocks_taro[\\"e\\"])(component.render) || !!(prototype === null || prototype === void 0 ? void 0 : prototype.isReactComponent) || prototype instanceof R.Component;
         }
         function ensureIsArray(item) {

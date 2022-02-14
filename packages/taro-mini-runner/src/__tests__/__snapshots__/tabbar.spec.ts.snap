@@ -644,7 +644,9 @@ require(\\"./taro\\");
         var taro = __webpack_require__(1);
         var HOOKS_APP_ID = \\"taro-app\\";
         function isClassComponent(R, component) {
+            var _a;
             var prototype = component.prototype;
+            if ((_a = component.displayName) === null || _a === void 0 ? void 0 : _a.includes(\\"Connect\\")) return false;
             return Object(taro[\\"d\\"])(component.render) || !!(prototype === null || prototype === void 0 ? void 0 : prototype.isReactComponent) || prototype instanceof R.Component;
         }
         function ensureIsArray(item) {
@@ -1180,7 +1182,7 @@ require(\\"./taro\\");
             }
         }));
         if (false) {
-            var oldVNodeHook, runtime_options;
+            var oldDiffedHook, oldVNodeHook, runtime_options;
         }
         var mocks_react = __webpack_require__(2);
         var src_app = __webpack_require__(14);
@@ -2108,7 +2110,9 @@ require(\\"./taro\\");
         var createSuper = __webpack_require__(4);
         var HOOKS_APP_ID = \\"taro-app\\";
         function isClassComponent(R, component) {
+            var _a;
             var prototype = component.prototype;
+            if ((_a = component.displayName) === null || _a === void 0 ? void 0 : _a.includes(\\"Connect\\")) return false;
             return isFunction(component.render) || !!(prototype === null || prototype === void 0 ? void 0 : prototype.isReactComponent) || prototype instanceof R.Component;
         }
         function ensureIsArray(item) {
@@ -2644,7 +2648,7 @@ require(\\"./taro\\");
             }
         }));
         if (false) {
-            var oldVNodeHook, runtime_options;
+            var oldDiffedHook, oldVNodeHook, runtime_options;
         }
         var mocks_react = __webpack_require__(1);
         var src_app = __webpack_require__(12);
