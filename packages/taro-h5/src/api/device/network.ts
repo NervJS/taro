@@ -71,8 +71,9 @@ export const onNetworkWeakChange = temporarilyNotSupport('onNetworkWeakChange')
 
 export const onNetworkStatusChange: typeof Taro.onNetworkStatusChange = callback => {
   networkStatusManager.add(callback)
-  if (networkStatusManager.count() === 1) {
-    window.addEventListener('change', networkStatusListener)
+  const connection = getConnection()
+  if (connection && networkStatusManager.count() === 1) {
+    connection.addEventListener('change', networkStatusListener)
   }
 }
 
@@ -80,8 +81,9 @@ export const offNetworkWeakChange = temporarilyNotSupport('offNetworkStatusChang
 
 export const offNetworkStatusChange: typeof Taro.offNetworkStatusChange = callback => {
   networkStatusManager.remove(callback)
-  if (networkStatusManager.count() === 0) {
-    window.removeEventListener('change', networkStatusListener)
+  const connection = getConnection()
+  if (connection && networkStatusManager.count() === 0) {
+    connection.removeEventListener('change', networkStatusListener)
   }
 }
 

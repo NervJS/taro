@@ -24,7 +24,7 @@ export const getWindowInfo: typeof Taro.getWindowInfo = () => {
     /** 可使用窗口高度，单位px */
     windowHeight: document.documentElement.clientHeight,
     /** 状态栏的高度，单位px */
-    // statusBarHeight: NaN,
+    statusBarHeight: NaN,
     /** 在竖屏正方向下的安全区域 */
     safeArea: {
       bottom: 0,
@@ -81,7 +81,7 @@ export const getDeviceInfo: typeof Taro.getDeviceInfo = () => {
 /** 获取微信APP基础信息 */
 export const getAppBaseInfo: typeof Taro.getAppBaseInfo = () => {
   let isDarkMode = false
-  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+  if (window.matchMedia?.('(prefers-color-scheme: dark)').matches) {
     isDarkMode = true
   }
 
