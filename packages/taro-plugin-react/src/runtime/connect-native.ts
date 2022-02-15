@@ -126,7 +126,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
 
   setReconciler(ReactDOM)
 
-  const componentObj = {
+  const componentObj: Record<string, any> = {
     options: componentConfig,
     properties: {
       props: {
@@ -197,6 +197,34 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
           this._optionsValue = value
         }
       })
+    }
+  }
+
+  // onShareAppMessage 和 onShareTimeline 一样，会影响小程序右上方按钮的选项，因此不能默认注册。
+  if (
+    Component.onShareAppMessage ||
+    Component.prototype?.onShareAppMessage ||
+    Component.enableShareAppMessage
+  ) {
+    componentObj.methods.onShareAppMessage = function (options) {
+      const target = options?.target
+      if (target) {
+        const id = target.id
+        const element = document.getElementById(id)
+        if (element) {
+          target!.dataset = element.dataset
+        }
+      }
+      return safeExecute(this.compId, 'onShareAppMessage', options)
+    }
+  }
+  if (
+    Component.onShareTimeline ||
+    Component.prototype?.onShareTimeline ||
+    Component.enableShareTimeline
+  ) {
+    componentObj.methods.onShareTimeline = function () {
+      return safeExecute(this.compId, 'onShareTimeline')
     }
   }
 
