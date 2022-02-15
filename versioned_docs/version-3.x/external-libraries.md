@@ -259,3 +259,57 @@ export function createVue3App () { return { ...App } }
 #### Hooks
 
 一些诸如 `useDidShow`、`useDidHide` 等等依赖于生命周期的 Hooks 并不会通过 Taro-H5 提供，使用它们需要提供 Mock 方法并挂在到 taro 对象上（可以参考 `@tarojs/plugin-framework-react/dist/api-loader` 中的方法注入），测试时如果需要触发钩子，则可以通过 `Taro.eventCenter` 来模拟。
+
+### svg-sprite-loader
+
+部分项目希望在 H5 使用 SVG sprites，为此需要使用 [`svg-sprite-loader`](https://github.com/JetBrains/svg-sprite-loader) 覆盖 taro 提供的 loader
+
+> 具体用法在这里并不会详细展开，可以参考官方的文档，在这里只说明和 Taro 相关的问题
+
+```js title="config/index.js"
+// ...
+webpackChain(chain) {
+  chain.merge({
+    module: {
+      rule: {
+        // 覆盖 Taro 默认的图片加载配置
+        'image': {
+          test: /\.(png|jpe?g|gif|bpm|webp)(\?.*)?$/,
+          use: [
+            {
+              loader: 'url-loader',
+              options: {
+                name: path.resolve(__dirname, 'images/[name].[ext]'),
+              },
+            },
+          ],
+        },
+        // 使用 svg-sprite-loader 的配置
+        'svg-loader': {
+          test: /.svg$/,
+          use: [
+            {
+              loader: 'svg-sprite-loader',
+              options: {},
+            },
+            {
+              loader: 'svgo-loader',
+              options: {},
+            },
+          ],
+        },
+      },
+    },
+  });
+},
+imageUrlLoaderOption: {
+  limit: 5000,
+  exclude: [path.resolve(__dirname, '../src/images/icons')],
+  name: 'static/images/[name].[hash:8].[ext]',
+}
+// ...
+```
+
+:::caution 请注意
+另外使用 svg-sprite-loader 依旧需要引入图片，避免被 tree shaking 抖动掉可以改用动态导入，参考 Issue [9569](https://github.com/NervJS/taro/issues/9569)。
+:::

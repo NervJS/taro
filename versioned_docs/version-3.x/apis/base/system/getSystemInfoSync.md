@@ -7,6 +7,10 @@ sidebar_label: getSystemInfoSync
 
 支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform" width="25px"/>
 
+> 微信小程序: 小程序可以在微信和企业微信中调用此接口，但是在企业微信中调用此接口时，会额外返回一个 environment 字段（微信中不返回），如此字段值为 wxwork，则表示当前小程序运行在企业微信环境中。
+>
+> H5: 不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
+
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/system-info/wx.getSystemInfoSync.html)
 
 ## 类型
@@ -18,9 +22,6 @@ sidebar_label: getSystemInfoSync
 ## 参数
 
 ### Result
-
-注意：**H5** 端不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
-小程序可以在微信和企业微信中调用此接口，但是在企业微信中调用此接口时，会额外返回一个 environment 字段（微信中不返回），如此字段值为 wxwork，则表示当前小程序运行在企业微信环境中。
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
