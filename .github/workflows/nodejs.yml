@@ -55,4 +55,4 @@ jobs:
       run: yarn test
       env:
         CI: true
-        NODE_OPTIONS: ${{ fromJSON('["", "--openssl-legacy-provider --max-old-space-size=4096 --max-new-space-size=4096"]')[matrix.node-version == '17.x'] }} # support webpack4 on nodejs 17
+        NODE_OPTIONS: ${{ fromJSON('["", " --max-old-space-size=8192 --openssl-legacy-provider"]')[matrix.node-version == '17.x'] }} # support webpack4 on nodejs 17
