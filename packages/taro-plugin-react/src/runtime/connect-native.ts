@@ -83,7 +83,7 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
           key: compId,
           getCtx,
           renderComponent (ctx) {
-            return h(Component, { ...(ctx.data ||= {}).props, ...refs })
+            return h(Component, { ...(ctx.data ||= {}).props, ...refs, $scope: ctx })
           }
         })
       }
