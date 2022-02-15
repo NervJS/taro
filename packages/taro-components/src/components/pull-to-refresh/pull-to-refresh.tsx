@@ -57,7 +57,11 @@ export class PullToRefresh implements ComponentInterface {
   private _isMounted = false;
 
   private get scrollContainer () {
-    return document.querySelector('.taro-tabbar__panel') || document.body
+    return document.querySelector('.taro_page_stationed') ||
+      document.querySelector('.taro_page') ||
+      document.querySelector('.taro_router') ||
+      document.querySelector('.taro-tabbar__panel') ||
+      document.body
   }
 
   @Watch('currSt')
