@@ -84,7 +84,10 @@ export default (ctx, options) => {
     console.log('编译开始！')
   })
   ctx.onBuildFinish(() => {
-    console.log('编译结束！')
+    console.log('Webpack 编译结束！')
+  })
+  ctx.onBuildComplete(() => {
+    console.log('Taro 构建完成！')
   })
 }
 ```
@@ -145,13 +148,14 @@ export default (ctx) => {
 
 同时你也可以通过插件对代码编译过程进行拓展。
 
-正如前面所述，针对编译过程，有 `onBuildStart`、`onBuildFinish` 两个钩子来分别表示编译开始，编译结束，而除此之外也有更多 API 来对编译过程进行修改，如下：
+正如前面所述，针对编译过程，有 `onBuildStart`、`onBuildFinish`、`onBuildComplete` 三个钩子来分别表示编译开始，编译结束和构建完成，而除此之外也有更多 API 来对编译过程进行修改，如下：
 
 - `ctx.onBuildStart(() => void)`，编译开始，接收一个回调函数
 - `ctx.modifyWebpackChain(args: { chain: any }) => void)`，编译中修改 webpack 配置，在这个钩子中，你可以对 webpackChain 作出想要的调整，等同于配置 [`webpackChain`](./config-detail.md#miniwebpackchain)
 - `ctx.modifyBuildAssets(args: { assets: any }) => void)`，修改编译后的结果
 - `ctx.modifyBuildTempFileContent(args: { tempFiles: any }) => void)`，修改编译过程中的中间文件，例如修改 app 或页面的 config 配置
-- `ctx.onBuildFinish(() => void)`，编译结束，接收一个回调函数
+- `ctx.onBuildFinish(() => void)`，编译结束，接收一个回调函数。在每次 Webpack 编译后都会被触发。如果是在 watch 模式下，那么每当有文件改变触发 Webpack 编译时，都会触发 `onBuildFinish` 钩子。 
+- `ctx.onBuildComplete(() => void)`，构建完成，接收一个回调函数。在 Taro 构建命令结束后被触发，与 `onBuildFinish` 钩子的区别在于其只会被触发一次。
 
 #### 编译平台拓展
 
