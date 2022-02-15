@@ -103,6 +103,39 @@ declare module '../../index' {
     }
   }
 
+  namespace makeBluetoothPair {
+    interface Option {
+      /** 蓝牙设备 id */
+      deviceId: string
+      /** pin 码，Base64 格式 */
+      pin: string
+      /** 超时时间，单位 ms
+       * @default 20000
+       */
+      timeout?: string
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: TaroGeneral.CallbackResult) => void
+    }
+  }
+
+  namespace isBluetoothDevicePaired {
+    interface Option {
+      /** 蓝牙设备 id */
+      deviceId: string
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: TaroGeneral.CallbackResult) => void
+
+    }
+  }
+
   namespace getConnectedBluetoothDevices {
     interface Option {
       /** 蓝牙设备主 service 的 uuid 列表 */
@@ -225,7 +258,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.startBluetoothDevicesDiscovery.html
      */
-     startBluetoothDevicesDiscovery(
+    startBluetoothDevicesDiscovery(
       option: startBluetoothDevicesDiscovery.Option,
     ): Promise<startBluetoothDevicesDiscovery.Promised>
 
@@ -294,6 +327,38 @@ declare module '../../index' {
       callback: onBluetoothAdapterStateChange.Callback,
     ): void
 
+    /** 取消监听寻找到新设备的事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.offBluetoothDeviceFound.html
+     */
+    offBluetoothDeviceFound(
+      /** 寻找到新设备的事件的回调函数 */
+      callback: onBluetoothDeviceFound.Callback,
+    ): void
+  
+    /** 取消监听蓝牙适配器状态变化事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.offBluetoothAdapterStateChange.html
+     */
+    offBluetoothAdapterStateChange(
+      /** 蓝牙适配器状态变化事件的回调函数 */
+      callback: onBluetoothAdapterStateChange.Callback,
+    ): void
+  
+    /** 蓝牙配对接口，仅安卓支持
+     * 
+     * 通常情况下（需要指定 pin 码或者密码时）系统会接管配对流程，直接调用 [Taro.createBLEConnection](/docs/apis/device/bluetooth-ble/createBLEConnection) 即可。该接口只应当在开发者不想让用户手动输入 pin 码且真机验证确认可以正常生效情况下用。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.makeBluetoothPair.html
+     */
+    makeBluetoothPair(option: makeBluetoothPair.Option): Promise<TaroGeneral.CallbackResult>
+  
+    /** 查询蓝牙设备是否配对，仅安卓支持
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.isBluetoothDevicePaired.html
+     */
+    isBluetoothDevicePaired(option: isBluetoothDevicePaired.Option): boolean
+
     /** 根据 uuid 获取处于已连接状态的设备。
      * @supported weapp
      * @example
@@ -308,7 +373,7 @@ declare module '../../index' {
      */
     getConnectedBluetoothDevices(
       option: getConnectedBluetoothDevices.Option,
-    ): void
+    ): Promise<getConnectedBluetoothDevices.SuccessCallbackResult>
 
     /** 获取在蓝牙模块生效期间所有已发现的蓝牙设备。包括已经和本机处于连接状态的设备。
      *

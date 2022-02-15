@@ -46,6 +46,17 @@ declare module '../../index' {
     }
   }
 
+  namespace onWifiConnectedWithPartialInfo {
+    /** 连接上 Wi-Fi 的事件的回调函数 */
+    type Callback = (
+        result: CallbackResult,
+    ) => void
+    interface CallbackResult {
+      /** 只包含 SSID 属性的 WifiInfo 对象 */
+      wifi: Pick<WifiInfo, 'SSID'>
+    }
+  }
+
   namespace onWifiConnected {
     /** 连接上 Wi-Fi 的事件的回调函数 */
     type Callback = (
@@ -111,16 +122,22 @@ declare module '../../index' {
     }
   }
 
-  /** Wifi 信息 */
+  /** Wifi 信息
+   * 
+   * 注意:
+   * 安卓 Taro.connectWifi / Taro.getConnectedWifi 若设置了 partialInfo:true ，或者调用了 Taro.onWifiConnectedWithPartialInfo 事件。将会返回只包含 SSID 属性的 WifiInfo 对象。 在某些情况下，可能 Wi-Fi 已经连接成功，但会因为获取不到完整的 WifiInfo 对象报错。具体错误信息为 errCode: 12010, errMsg: can't gain current wifi 。如果开发者不需要完整的 WifiInfo 对象，则可以通过采取上述策略解决报错问题。
+   */
   interface WifiInfo {
-    /** Wi-Fi 的 BSSID */
-    BSSID: string
     /** Wi-Fi 的 SSID */
     SSID: string
+    /** Wi-Fi 的 BSSID */
+    BSSID: string
     /** Wi-Fi 是否安全 */
     secure: boolean
-    /** Wi-Fi 信号强度 */
+    /** Wi-Fi 信号强度, 安卓取值 0 ～ 100 ，iOS 取值 0 ～ 1 ，值越大强度越大 */
     signalStrength: number
+    /** Wi-Fi 频段单位 MHz */
+    frequency?: number
   }
 
   interface TaroStatic {
@@ -182,6 +199,15 @@ declare module '../../index' {
      */
     setWifiList(option: setWifiList.Option): Promise<TaroGeneral.WifiError>
 
+    /** 监听连接上 Wi-Fi 的事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.onWifiConnectedWithPartialInfo.html
+     */
+    onWifiConnectedWithPartialInfo(
+      /** 连接上 Wi-Fi 的事件的回调函数 */
+      callback: onWifiConnectedWithPartialInfo.Callback,
+    ): void
+
     /** 监听连接上 Wi-Fi 的事件。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.onWifiConnected.html
@@ -200,6 +226,15 @@ declare module '../../index' {
       callback: onGetWifiList.Callback,
     ): void
 
+    /** 取消监听连接上 Wi-Fi 的事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.offWifiConnectedWithPartialInfo.html
+     */
+     offWifiConnectedWithPartialInfo(
+      /** 连接上 Wi-Fi 的事件的回调函数 */
+      callback: onWifiConnectedWithPartialInfo.Callback,
+    ): void
+
     /**
      * 取消监听连接上 Wi-Fi 的事件。
      * @supported weapp
@@ -207,7 +242,7 @@ declare module '../../index' {
      */
     offWifiConnected(
       /** 连接上 Wi-Fi 的事件的回调函数 */
-      callback: (...args: any[]) => any,
+      callback: onWifiConnected.Callback,
     ): void
 
     /**
@@ -217,7 +252,7 @@ declare module '../../index' {
      */
     offGetWifiList(
       /** 获取到 Wi-Fi 列表数据事件的回调函数 */
-      callback: (...args: any[]) => any,
+      callback: onGetWifiList.Callback,
     ): void
 
     /** 请求获取 Wi-Fi 列表。在 `onGetWifiList` 注册的回调中返回 `wifiList` 数据。 **Android 调用前需要 [用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.userLocation。**
