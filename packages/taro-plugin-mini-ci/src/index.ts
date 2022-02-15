@@ -8,6 +8,8 @@ import SwanCI from './SwanCI'
 
 export { CIOptions } from './BaseCi'
 export default (ctx: IPluginContext, pluginOpts: CIOptions) => {
+  const onBuildDone = ctx.onBuildComplete || ctx.onBuildFinish
+
   ctx.addPluginOptsSchema((joi) => {
     return joi
       .object()
@@ -44,7 +46,7 @@ export default (ctx: IPluginContext, pluginOpts: CIOptions) => {
       .required()
   })
 
-  ctx.onBuildFinish(async () => {
+  onBuildDone(async () => {
     const args = minimist(process.argv.slice(2), {
       boolean: ['open', 'upload', 'preview']
     })
