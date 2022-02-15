@@ -209,6 +209,7 @@ module.exports = {
     "基础": [
       "apis/base/env",
       "apis/base/canIUse",
+      "apis/base/canIUseWebp",
       "apis/base/base64ToArrayBuffer",
       "apis/base/arrayBufferToBase64",
       {

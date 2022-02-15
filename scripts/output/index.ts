@@ -261,7 +261,7 @@ import TabItem from '@theme/TabItem'
     return array.length > 0 ? splicing(array) : undefined
   },
   api: (data: {[name: string]: ts.JSDocTagInfo[]}, level: number = 2) => {
-    const hasSupportedList = [true, undefined, undefined, undefined, undefined, undefined, true, true, undefined]
+    const hasSupportedList = [true, undefined, undefined, undefined, undefined, undefined, true, true, undefined, true]
     for (const name of Object.keys(data)) {
       const tags = data[name]
       const supported = tags.find(tag => tag.name === 'supported')?.text?.map(e => e.text).join('') || ''
@@ -278,12 +278,13 @@ import TabItem from '@theme/TabItem'
       const tags = data[name]
       const supported = tags.find(tag => tag.name === 'supported')?.text?.map(e => e.text).join('') || ''
       const apis = supported.split(',').map(e => e.trim().toLowerCase())
+      const isGlobal = apis.find(e => e === 'global')
 
       return supported ? `| ${name} |${envMap.map((env, i) => {
-        if (!hasSupportedList[i]) return undefined
+        if (!hasSupportedList[i] && !isGlobal) return undefined
         const apiDesc = tags.find(e => e.name === env.name)?.text?.map(e => e.text).join('') || ''
         return ` ${
-          apis.find(e => e === env.name) ? '✔️': ''
+          isGlobal || apis.find(e => e === env.name) ? '✔️': ''
         }${apiDesc ? `(${apiDesc})` : ''} |`
       }).join('')}` : undefined
     })
@@ -297,10 +298,11 @@ import TabItem from '@theme/TabItem'
     ]) : undefined
   },
   apiPic: (tags: ts.JSDocTagInfo[]) => {
-    const hasSupportedList = [true, undefined, undefined, undefined, undefined, undefined, true, true, undefined]
+    const hasSupportedList = [true, undefined, undefined, undefined, undefined, undefined, true, true, undefined, true]
     const supported = tags.find(tag => tag.name === 'supported')?.text?.map(e => e.text).join('')
     const apis = supported?.split(',').map(e => e.trim().toLowerCase()) || []
     if (apis.length < 1) return
+    const isGlobal = apis.find(e => e === 'global')
 
     for (let i = 0; i < envMap.length; i++) {
       if (hasSupportedList[i]) continue
@@ -310,9 +312,9 @@ import TabItem from '@theme/TabItem'
     }
     const descList: string[] = []
     const list = envMap.map((env, i) => {
-      if (!hasSupportedList[i]) return undefined
+      if (!hasSupportedList[i] && !isGlobal) return undefined
       const apiDesc = tags.find(e => e.name === env.name)?.text?.map(e => e.text).join('') || ''
-      const support = apis.find(e => e === env.name)
+      const support = isGlobal || apis.find(e => e === env.name)
       if (apiDesc) descList.push(`> ${env.label}: ${apiDesc}`)
       return `<img title="${env.label}" src={${env.icon}} className="icon_platform${support ? '' : ' icon_platform--not-support'}" width="25px"/>`
     })
